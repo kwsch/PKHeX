@@ -179,6 +179,12 @@ namespace PKHeX
                     validOT = Legal.TradeAO[pkm.Language];
                     index = Array.IndexOf(Legal.TradeGift_AO, EncounterMatch);
                 }
+                else if (pkm.SM)
+                {
+                    // TODO
+                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon un-implemented.", CheckIdentifier.EVs);
+                    return;
+                }
 
                 if (validOT.Length == 0)
                 {
@@ -206,7 +212,7 @@ namespace PKHeX
 
             if (pkm.IsEgg)
             {
-                if (!pkm.IsNicknamed)
+                if (!pkm.IsNicknamed && (pkm.Format != 7))
                     AddLine(Severity.Invalid, "Eggs must be nicknamed.", CheckIdentifier.EVs);
                 else if (PKX.SpeciesLang[pkm.Language][0] != pkm.Nickname)
                     AddLine(Severity.Invalid, "Egg name does not match language Egg name.", CheckIdentifier.EVs);
@@ -295,6 +301,29 @@ namespace PKHeX
             else if (pkm.SID == 0)
                 AddLine(Severity.Fishy, "SID is zero.", CheckIdentifier.Trainer);
         }
+
+        private void verifyHyperTraining()
+        {
+            if (pkm.Format < 7)
+                return; // No Hyper Training before Gen VII
+
+            var IVs = new[] { pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE };
+            var HTs = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
+
+            if (HTs.Any(ht => ht) && pkm.CurrentLevel != 100)
+                AddLine(Severity.Invalid, "Can't Hyper Train a pokemon that isn't level 100.", CheckIdentifier.IVs);
+
+            if (IVs.All(iv => iv == 31) && HTs.Any(ht => ht))
+                AddLine(Severity.Invalid, "Can't Hyper Train a pokemon with perfect IVs.", CheckIdentifier.IVs);
+            else
+            {
+                for (int i = 0; i < 6; i++) // Check individual IVs
+                {
+                    if ((IVs[i] == 31) && HTs[i])
+                        AddLine(Severity.Invalid, "Can't Hyper Train a perfect IV.", CheckIdentifier.IVs);
+                }
+            }
+        }
         private CheckResult verifyEncounter()
         {
             if (pkm.GenNumber < 6)
@@ -325,6 +354,19 @@ namespace PKHeX
                 return MatchedGift == null 
                     ? new CheckResult(Severity.Invalid, "Unable to match to a Mystery Gift in the database.", CheckIdentifier.Encounter) 
                     : new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID.ToString("0000")} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
+            }
+
+            EncounterMatch = Legal.getValidStaticEncounter(pkm);
+            if (EncounterMatch != null)
+            {
+                // Re-parse relearn moves
+                var s = (EncounterStatic)EncounterMatch;
+                for (int i = 0; i < 4; i++)
+                    vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
+                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch", CheckIdentifier.RelearnMove)
+                        : new CheckResult(CheckIdentifier.RelearnMove);
+
+                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
             }
 
             EncounterMatch = null; // Reset object
@@ -369,10 +411,6 @@ namespace PKHeX
                 }
                 return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
             }
-
-            EncounterMatch = Legal.getValidStaticEncounter(pkm);
-            if (EncounterMatch != null)
-                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
 
             if (Legal.getIsFossil(pkm))
             {
@@ -674,28 +712,6 @@ namespace PKHeX
 
                 return;
             }
-
-            if (pkm.Ball == 0x04) // Poké Ball
-            {
-                AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball);
-                return;
-            }
-
-            if (pkm.Ball == 26) // Beast Ball
-            {
-                if (pkm.Species >= 793 && pkm.Species <= 800) // UB
-                    AddLine(Severity.Valid, "Correct ball on UB.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Invalid, "Species cannot be obtained with Ball.", CheckIdentifier.Ball);
-                return;
-            }
-            if (pkm.Species >= 793 && pkm.Species <= 800) // UB
-            {
-                AddLine(Severity.Invalid, "Species cannot be obtained with Ball.", CheckIdentifier.Ball);
-                return;
-            }
-
-
             if (EncounterType == typeof(EncounterStatic))
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
@@ -740,107 +756,233 @@ namespace PKHeX
                 if (pkm.Ball == 0x10) // Cherish Ball
                 { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
 
-                if (pkm.Gender == 2) // Genderless
+                switch (pkm.GenNumber)
                 {
-                    if (pkm.Ball != 0x04) // Must be Pokéball as ball can only pass via mother (not Ditto!)
-                        AddLine(Severity.Invalid, "Non-Pokéball on genderless egg.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Pokéball on genderless egg.", CheckIdentifier.Ball);
-
-                    return;
-                }
-                if (Legal.BreedMaleOnly.Contains(pkm.Species))
-                {
-                    if (pkm.Ball != 0x04) // Must be Pokéball as ball can only pass via mother (not Ditto!)
-                        AddLine(Severity.Invalid, "Non-Pokéball on Male-Only egg.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Pokéball on Male-Only egg.", CheckIdentifier.Ball);
-
-                    return;
-                }
-
-                if (pkm.Ball == 0x05) // Safari Ball
-                {
-                    if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Safari.Contains(e)))
-                        AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
-                    else if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Safari Ball with Hidden Ability.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Safari Ball possible for species.", CheckIdentifier.Ball);
-
-                    return;
-                }
-                if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
-                {
-                    if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn.Contains(e)))
-                        AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
-                    if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-
-                    return;
-                }
-                if (pkm.Ball == 0x18) // Sport Ball
-                {
-                    if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Sport.Contains(e)))
-                        AddLine(Severity.Invalid, "Sport Ball not possible for species.", CheckIdentifier.Ball);
-                    else if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Sport Ball with Hidden Ability.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
-
-                    return;
-                }
-                if (pkm.Ball == 0x19) // Dream Ball
-                {
-                    if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Dream.Contains(e)))
-                        AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Dream Ball possible for species.", CheckIdentifier.Ball);
-
-                    return;
-                }
-                if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
-                {
-                    if (Legal.Ban_Gen4Ball.Contains(pkm.Species))
-                        AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-
-                    return;
-                }
-                if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
-                {
-                    if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
-                        AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-                    else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
-                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-
-                    return;
-                }
-
-                if (pkm.Format == 6 && pkm.Species > 650 && pkm.Species != 700) // Sylveon
-                {
-                    if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
-                        AddLine(Severity.Invalid, "Unobtainable ball for Kalos origin.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Obtainable ball for Kalos origin.", CheckIdentifier.Ball);
-                    return;
-                }
-                if (pkm.Format == 7 && pkm.Species > 721)
-                {
-                    if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
-                        AddLine(Severity.Invalid, "Unobtainable ball for Alola origin.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Obtainable ball for Alola origin.", CheckIdentifier.Ball);
-                    return;
+                    case 6: // Gen6 Inheritance Rules
+                        verifyEggBallGen6();
+                        return;
+                    case 7: // Gen7 Inheritance Rules
+                        verifyEggBallGen7();
+                        return;
                 }
             }
 
+            if (pkm.Ball == 0x04) // Poké Ball
+            {
+                AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball);
+                return;
+            }
+
             AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+        }
+        private void verifyEggBallGen6()
+        {
+            if (pkm.Gender == 2) // Genderless
+            {
+                if (pkm.Ball != 0x04) // Must be Pokéball as ball can only pass via mother (not Ditto!)
+                    AddLine(Severity.Invalid, "Non-Pokéball on genderless egg.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Pokéball on genderless egg.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (Legal.BreedMaleOnly.Contains(pkm.Species))
+            {
+                if (pkm.Ball != 0x04) // Must be Pokéball as ball can only pass via mother (not Ditto!)
+                    AddLine(Severity.Invalid, "Non-Pokéball on Male-Only egg.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Pokéball on Male-Only egg.", CheckIdentifier.Ball);
+
+                return;
+            }
+
+            if (pkm.Ball == 0x05) // Safari Ball
+            {
+                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Safari.Contains(e)))
+                    AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Safari Ball with Hidden Ability.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Safari Ball possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
+            {
+                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn.Contains(e)))
+                    AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
+                if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Ball == 0x18) // Sport Ball
+            {
+                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Sport.Contains(e)))
+                    AddLine(Severity.Invalid, "Sport Ball not possible for species.", CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Sport Ball with Hidden Ability.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Ball == 0x19) // Dream Ball
+            {
+                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Dream.Contains(e)))
+                    AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Dream Ball possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
+            {
+                if (Legal.Ban_Gen4Ball.Contains(pkm.Species))
+                    AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
+            {
+                if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
+                    AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
+                    AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+
+                return;
+            }
+
+            if (pkm.Species > 650 && pkm.Species != 700) // Sylveon
+            {
+                if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
+                    AddLine(Severity.Invalid, "Unobtainable ball for Kalos origin.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Obtainable ball for Kalos origin.", CheckIdentifier.Ball);
+                return;
+            }
+            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+        }
+
+        private void verifyEggBallGen7()
+        {
+            var Lineage = Legal.getLineage(pkm).ToArray();
+            if (pkm.Ball == 0x05) // Safari Ball
+            {
+                if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e)))
+                    AddLine(Severity.Valid, "Safari Ball possible from Female parent.", CheckIdentifier.Ball);
+                else if (Lineage.Any(e => Legal.Inherit_SafariMale.Contains(e)))
+                    AddLine(Severity.Valid, "Safari Ball possible from Male parent.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
+
+                if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Safari Ball with Hidden Ability.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
+            {
+                if (Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    return;
+                }
+                if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
+                }
+                if (Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
+                }
+                else
+                    AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Ball == 0x18) // Sport Ball
+            {
+                if (Lineage.All(e => !Legal.Inherit_Sport.Contains(e)))
+                    AddLine(Severity.Invalid, "Sport Ball not possible for species.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
+
+                if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Sport Ball with Hidden Ability.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Ball == 0x19) // Dream Ball
+            {
+                if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e)))
+                    AddLine(Severity.Valid, "Dream Ball inheritance possible from Female species.", CheckIdentifier.Ball);
+                else if (Lineage.Any(e => Legal.InheritDreamMale.Contains(e)))
+                {
+                    if (pkm.AbilityNumber != 4)
+                        AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+                }
+
+                else
+                    AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
+            {
+                if (Legal.Ban_Gen4Ball.Contains(pkm.Species))
+                {
+                    if (!Legal.Ban_Gen4Ball_AllowG7.Contains(pkm.Species))
+                        AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                    else if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                }
+                else
+                    AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
+            {
+                if (Legal.Ban_Gen3Ball_AllowG7.Contains(pkm.Species))
+                {
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
+                }
+                else if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
+                    AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
+                    AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
+
+                return;
+            }
+            if (pkm.Format == 7 && pkm.Species > 721)
+            {
+                if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
+                    AddLine(Severity.Invalid, "Unobtainable ball for Alola origin.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Obtainable ball for Alola origin.", CheckIdentifier.Ball);
+                return;
+            }
+            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal. -- This check is not well researched at this time. Do not report feedback.", CheckIdentifier.Ball);
         }
         private CheckResult verifyHistory()
         {
@@ -858,6 +1000,11 @@ namespace PKHeX
                     return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+            }
+            if (EncounterType == typeof (EncounterTrade) && pkm.Format == 7)
+            {
+                // TODO
+                return new CheckResult(Severity.Valid, "S/M History Block check skipped.", CheckIdentifier.History);
             }
             if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
             {
@@ -889,7 +1036,7 @@ namespace PKHeX
             }
             else // Is Traded
             {
-                if (pkm.HT_Memory == 0)
+                if (pkm.HT_Memory == 0 && pkm.Format == 6)
                     return new CheckResult(Severity.Invalid, "Memory -- missing Handling Trainer Memory.", CheckIdentifier.History);
             }
 
@@ -905,7 +1052,7 @@ namespace PKHeX
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
                     return new CheckResult(Severity.Invalid, "Memory -- missing Original Trainer Memory.", CheckIdentifier.History);
-                if (!pkm.Gen6 && pkm.OT_Affection != 0)
+                if (pkm.GenNumber < 6 && pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, "OT Affection should be zero.", CheckIdentifier.History);
             }
             // Unimplemented: Ingame Trade Memories

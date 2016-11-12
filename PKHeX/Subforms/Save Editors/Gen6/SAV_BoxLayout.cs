@@ -51,7 +51,7 @@ namespace PKHeX
                 CB_Unlocked.Items.Clear();
                 for (int i = 0; i < SAV.BoxCount; i++)
                     CB_Unlocked.Items.Add(i + 1);
-                CB_Unlocked.SelectedIndex = SAV.BoxesUnlocked;
+                CB_Unlocked.SelectedIndex = Math.Min(SAV.BoxCount - 1, SAV.BoxesUnlocked);
             }
             else
             {

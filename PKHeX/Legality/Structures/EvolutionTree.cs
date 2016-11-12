@@ -168,12 +168,12 @@ namespace PKHeX
                     if (pkm.CNT_Beauty > Argument)
                         return false;
                     goto default;
-                case 23: // Gender = Female
-                    if (pkm.Gender != 1)
+                case 23: // Gender = Male
+                    if (pkm.Gender != 0)
                         return false;
                     goto default;
-                case 24: // Gender = Male
-                    if (pkm.Gender != 0)
+                case 24: // Gender = Female
+                    if (pkm.Gender != 1)
                         return false;
                     goto default;
                 case 34: // Gender = Female, out Form1
@@ -206,12 +206,12 @@ namespace PKHeX
                         case 4:
                             if (pkm.Format > pkm.GenNumber) // Pal Park / PokeTransfer updates Met Level
                                 return true;
-                            return pkm.Met_Level < Level;
+                            return pkm.Met_Level < lvl;
 
                         case 5: // Bank keeps current level
                         case 6:
                         case 7:
-                            return lvl >= Level && (!pkm.IsNative || pkm.Met_Level < Level);
+                            return lvl >= Level && (!pkm.IsNative || pkm.Met_Level < lvl);
 
                     }
                     return false;
@@ -223,6 +223,17 @@ namespace PKHeX
             return new DexLevel
             {
                 Species = Species,
+                Level = lvl,
+                Form = Form,
+                Flag = Method,
+            };
+        }
+        public DexLevel GetDexLevel(int species, int lvl)
+        {
+
+            return new DexLevel
+            {
+                Species = species,
                 Level = lvl,
                 Form = Form,
                 Flag = Method,
@@ -274,7 +285,11 @@ namespace PKHeX
                     if (!evo.Valid(pkm, lvl))
                         continue;
 
-                    dl.Add(evo.GetDexLevel(lvl));
+                    if (evo.Species > 802) // Gen7 Personal Formes -- unmap the forme personal entry to the actual species ID since species are consecutive
+                        dl.Add(evo.GetDexLevel(pkm.Species - Chain.Count + i, lvl));
+                    else
+                        dl.Add(evo.GetDexLevel(lvl));
+
                     if (evo.RequiresLevelUp)
                         lvl--;
                     break;

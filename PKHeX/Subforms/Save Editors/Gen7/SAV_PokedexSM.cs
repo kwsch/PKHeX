@@ -191,14 +191,14 @@ namespace PKHeX
                 Array.Copy(data, offset, d, 0, length);
                 bool[] b = new bool[8*d.Length];
                 for (int i = 0; i < b.Length; i++)
-                    b[i] = d[i/8] >> (i&7) == 1;
+                    b[i] = (d[i/8] & 1 << (i&7)) != 0;
                 return b;
             }
             private static byte[] setBits(bool[] b)
             {
                 byte[] data = new byte[b.Length/8];
                 for (int i = 0; i < b.Length; i++)
-                    data[i/8] |= (byte)((b[i] ? 1 : 0) << (i/8));
+                    data[i/8] |= (byte)(b[i] ? 1 << (i&7) : 0);
                 return data;
             }
         }

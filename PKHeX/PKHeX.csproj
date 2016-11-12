@@ -193,9 +193,11 @@
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
     <Compile Include="Saves\SAV7.cs" />
+    <Compile Include="Saves\Substructures\BattleVideo.cs" />
     <Compile Include="Saves\Substructures\BlockInfo.cs" />
     <Compile Include="Saves\Substructures\BoxWallpaper.cs" />
     <Compile Include="Saves\Substructures\BV6.cs" />
+    <Compile Include="Saves\Substructures\BV7.cs" />
     <Compile Include="Saves\Substructures\Inventory.cs" />
     <Compile Include="Saves\SAV2.cs" />
     <Compile Include="Saves\SAV1.cs" />
@@ -3570,6 +3572,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\text\zh\text_Species_zh2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-1c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-2c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-3c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-4c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-5c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\Pokemon Sprites\25-6c.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

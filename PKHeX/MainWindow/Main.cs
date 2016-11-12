@@ -691,16 +691,17 @@ namespace PKHeX
             }
             #endregion
             #region Battle Video
-            else if (input.Length == BV6.SIZE && BV6.getIsValid(input))
+            else if (BattleVideo.getIsValid(input))
             {
-                if (SAV.Generation != 6)
-                { Util.Alert("Cannot load a Gen6 Battle Video to a past generation save file."); return; }
+                BattleVideo b = BattleVideo.getVariantBattleVideo(input);
+                if (SAV.Generation != b.Generation)
+                { Util.Alert($"Cannot load a Gen{b.Generation} Battle Video to a different generation save file."); return; }
 
                 if (Util.Prompt(MessageBoxButtons.YesNo, $"Load Battle Video Pokémon data to {CB_BoxSelect.Text}?", "The box will be overwritten.") != DialogResult.Yes)
                     return;
 
                 bool? noSetb = getPKMSetOverride();
-                PKM[] data = new BV6(input).BattlePKMs;
+                PKM[] data = b.BattlePKMs;
                 int offset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
                 for (int i = 0; i < 24; i++)
                     SAV.setStoredSlot(data[i], offset + i*SAV.SIZE_STORED, noSetb);
@@ -923,7 +924,7 @@ namespace PKHeX
                 B_OpenPokedex.Enabled = SAV.HasPokeDex;
                 B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
                 B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
-                B_JPEG.Enabled = SAV.HasJPEG;
+                B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Enabled = SAV.HasEvents;
                 B_OpenLinkInfo.Enabled = SAV.HasLink;
                 B_CGearSkin.Enabled = SAV.Generation == 5;
@@ -1307,7 +1308,7 @@ namespace PKHeX
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            var moves = GameInfo.MoveDataSource.Where(m => m.Value <= SAV.MaxMoveID).ToList();
+            var moves = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.MoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
@@ -1345,7 +1346,7 @@ namespace PKHeX
             try { getFieldsfromPKM(); }
             catch { fieldsInitialized = oldInit; throw; }
 
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4 && SAV.Generation < 7;
             fieldsInitialized = oldInit;
             updateIVs(null, null);
             updatePKRSInfected(null, null);
@@ -1406,7 +1407,10 @@ namespace PKHeX
             if (!hasForms)
                 return;
 
-            CB_Form.DataSource = PKX.getFormList(species, GameStrings.types, GameStrings.forms, gendersymbols, SAV.Generation).ToList();
+            var ds = PKX.getFormList(species, GameStrings.types, GameStrings.forms, gendersymbols, SAV.Generation).ToList();
+            if (ds.Count == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
+                CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
+            else CB_Form.DataSource = ds;
         }
         private void setAbilityList()
         {
@@ -1622,7 +1626,34 @@ namespace PKHeX
         private void clickIV(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
-                ((MaskedTextBox) sender).Text = SAV.MaxIV.ToString();
+                if (SAV.Generation < 7)
+                    ((MaskedTextBox) sender).Text = SAV.MaxIV.ToString();
+                else
+                {
+                    var index = Array.IndexOf(new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV}, sender);
+                    switch (index)
+                    {
+                        case 0:
+                            pkm.HT_HP ^= true;
+                            break;
+                        case 1:
+                            pkm.HT_ATK ^= true;
+                            break;
+                        case 2:
+                            pkm.HT_DEF ^= true;
+                            break;
+                        case 3:
+                            pkm.HT_SPA ^= true;
+                            break;
+                        case 4:
+                            pkm.HT_SPD ^= true;
+                            break;
+                        case 5:
+                            pkm.HT_SPE ^= true;
+                            break;
+                    }
+                    updateIVs(sender, e);
+                }
             else if (ModifierKeys == Keys.Alt)
                 ((MaskedTextBox) sender).Text = 0.ToString();
         }
@@ -1785,6 +1816,14 @@ namespace PKHeX
             pkm.IV_SPE = Util.ToInt32(TB_SPEIV.Text);
             pkm.IV_SPA = Util.ToInt32(TB_SPAIV.Text);
             pkm.IV_SPD = Util.ToInt32(TB_SPDIV.Text);
+
+            var IV_Boxes = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV};
+            var HT_Vals = new[] {pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE};
+            for (int i = 0; i < IV_Boxes.Length; i++)
+                if (HT_Vals[i])
+                    IV_Boxes[i].BackColor = Color.LightGreen;
+                else
+                    IV_Boxes[i].ResetBackColor();
 
             if (SAV.Generation < 3)
             {
@@ -2173,7 +2212,7 @@ namespace PKHeX
                 bool g4 = Version >= GameVersion.HG && Version <= GameVersion.Pt;
                 if ((int) Version == 9) // invalid
                     g4 = false;
-                CB_EncounterType.Visible = Label_EncounterType.Visible = g4;
+                CB_EncounterType.Visible = Label_EncounterType.Visible = g4 && SAV.Generation < 7;
                 if (!g4)
                     CB_EncounterType.SelectedValue = 0;
             }
@@ -3754,6 +3793,7 @@ namespace PKHeX
             
             clickSlot(sender, e);
         }
+
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

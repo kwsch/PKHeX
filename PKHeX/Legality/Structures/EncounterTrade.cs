@@ -15,5 +15,6 @@
         public int Form = 0;
         public bool Shiny = false;
         public int Gender = -1;
+        public int OTGender = -1;
     }
 }

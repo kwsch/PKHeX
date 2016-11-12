@@ -389,7 +389,13 @@ namespace PKHeX
         public override int Ball { get { return Data[0xDC]; } set { Data[0xDC] = (byte)value; } }
         public override int Met_Level { get { return Data[0xDD] & ~0x80; } set { Data[0xDD] = (byte)((Data[0xDD] & 0x80) | value); } }
         public override int OT_Gender { get { return Data[0xDD] >> 7; } set { Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); } }
-        public override int EncounterType { get { return Data[0xDE]; } set { Data[0xDE] = (byte)value; } }
+        public override int HyperTrainFlags { get { return Data[0xDE]; } set { Data[0xDE] = (byte)value; } }
+        public override bool HT_HP { get { return ((HyperTrainFlags >> 0) & 1) == 1; } set { HyperTrainFlags = (HyperTrainFlags & ~(1 << 0)) | ((value ? 1 : 0) << 0); } }
+        public override bool HT_ATK { get { return ((HyperTrainFlags >> 1) & 1) == 1; } set { HyperTrainFlags = (HyperTrainFlags & ~(1 << 1)) | ((value ? 1 : 0) << 1); } }
+        public override bool HT_DEF { get { return ((HyperTrainFlags >> 2) & 1) == 1; } set { HyperTrainFlags = (HyperTrainFlags & ~(1 << 2)) | ((value ? 1 : 0) << 2); } }
+        public override bool HT_SPA { get { return ((HyperTrainFlags >> 3) & 1) == 1; } set { HyperTrainFlags = (HyperTrainFlags & ~(1 << 3)) | ((value ? 1 : 0) << 3); } }
+        public override bool HT_SPD { get { return ((HyperTrainFlags >> 4) & 1) == 1; } set { HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); } }
+        public override bool HT_SPE { get { return ((HyperTrainFlags >> 5) & 1) == 1; } set { HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); } }
         public override int Version { get { return Data[0xDF]; } set { Data[0xDF] = (byte)value; } }
         public override int Country { get { return Data[0xE0]; } set { Data[0xE0] = (byte)value; } }
         public override int Region { get { return Data[0xE1]; } set { Data[0xE1] = (byte)value; } }
@@ -520,7 +526,7 @@ namespace PKHeX
             
             if (IsUntraded)
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
-            if (!Gen6)
+            if (GenNumber < 6)
                 OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
             Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;

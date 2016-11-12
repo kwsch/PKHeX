@@ -389,6 +389,8 @@ namespace PKHeX
         public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x28); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); } }
         public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); } }
         
+        public ulong AlolaTime { get { return BitConverter.ToUInt64(Data, AdventureInfo + 0x48); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo+0x48);} }
+
         // Inventory
         public override InventoryPouch[] Inventory
         {
@@ -650,15 +652,6 @@ namespace PKHeX
                 return -1;
             return Daycare + 6 + slot * (SIZE_STORED + 6);
         }
-        public override uint? getDaycareEXP(int loc, int slot)
-        {
-            if (loc != 0)
-                return null;
-            if (Daycare < 0)
-                return null;
-
-            return BitConverter.ToUInt32(Data, Daycare + (SIZE_STORED + 6) * slot + 2);
-        }
         public override bool? getDaycareOccupied(int loc, int slot)
         {
             if (loc != 0)
@@ -686,15 +679,6 @@ namespace PKHeX
                 return null;
 
             return Data[Daycare + 0x1E0] == 1;
-        }
-        public override void setDaycareEXP(int loc, int slot, uint EXP)
-        {
-            if (loc != 0)
-                return;
-            if (Daycare < 0)
-                return;
-
-            BitConverter.GetBytes(EXP).CopyTo(Data, Daycare + (SIZE_STORED + 6) * slot + 2);
         }
         public override void setDaycareOccupied(int loc, int slot, bool occupied)
         {

@@ -200,7 +200,17 @@ namespace PKHeX
                 metXY_30000[0] += " (NPC)";                // Anything from an NPC
                 metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
 
-                // Sun/Moon duplicates
+                // Sun/Moon duplicates -- elaborate!
+                var metSM_00000_good = (string[])metSM_00000.Clone();
+                for (int i = 0; i < metSM_00000.Length; i += 2)
+                {
+                    var nextLoc = metSM_00000[i + 1];
+                    if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
+                        metSM_00000_good[i] += $" ({nextLoc})";
+                    if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
+                        metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
+                }
+                metSM_00000_good.CopyTo(metSM_00000, 0);
 
                 // Set the first entry of a met location to "" (nothing)
                 // Fix (None) tags
@@ -242,6 +252,7 @@ namespace PKHeX
 
         // DataSource providing
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
+        public static List<ComboItem> HaXMoveDataSource;
         private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6, metGen7;
         public static void InitializeDataSources(GameStrings s)
         {
@@ -253,7 +264,8 @@ namespace PKHeX
             AbilityDataSource = Util.getCBList(s.abilitylist, null);
             VersionDataSource = Util.getCBList(s.gamelist, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
 
-            MoveDataSource = Util.getCBList(s.movelist, null);
+            HaXMoveDataSource = Util.getCBList(s.movelist, null);
+            MoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
             #region Met Locations
             // Gen 2
             {

@@ -43,8 +43,16 @@ namespace PKHeX
                     new { Text = "ITA", Value = 4 },
                     new { Text = "GER", Value = 5 },
                     new { Text = "SPA", Value = 7 },
-                    new { Text = "KOR", Value = 8 }
+                    new { Text = "KOR", Value = 8 },
+                    new { Text = "CHS", Value = 9 },
+                    new { Text = "CHT", Value = 10},
                 };
+
+            var alolatime_list = new[] { new { Text = "Sun Time", Value = 0 } };
+            Array.Resize(ref alolatime_list, 24);
+            for (int i = 1; i < 24; i++)
+                alolatime_list[i] = new {Text = $"+{i.ToString("00")} Hours", Value = i*60*60};
+            alolatime_list[12] = new {Text = "Moon Time", Value = 12 * 60 * 60};
 
             CB_3DSReg.DisplayMember = "Text";
             CB_3DSReg.ValueMember = "Value";
@@ -52,6 +60,9 @@ namespace PKHeX
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
             CB_Language.DataSource = language_list;
+            CB_AlolaTime.DisplayMember = "Text";
+            CB_AlolaTime.ValueMember = "Value";
+            CB_AlolaTime.DataSource = alolatime_list;
 
             CB_Country.DisplayMember = "Text";
             CB_Country.ValueMember = "Value";
@@ -78,6 +89,7 @@ namespace PKHeX
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
+            CB_AlolaTime.SelectedValue = (int)SAV.AlolaTime;
             
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
@@ -113,6 +125,7 @@ namespace PKHeX
             SAV.Country = Util.getIndex(CB_Country);
             SAV.ConsoleRegion = Util.getIndex(CB_3DSReg);
             SAV.Language = Util.getIndex(CB_Language);
+            SAV.AlolaTime = (ulong)Util.getIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
 

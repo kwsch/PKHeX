@@ -165,7 +165,7 @@ namespace PKHeX
                     int itemcnt;
                     int.TryParse(dgv.Rows[i].Cells[1].Value.ToString(), out itemcnt);
 
-                    if (Main.HaX) 
+                    if (Main.HaX && SAV.Generation != 7) // Gen7 has true cap at 1023, keep 999 cap.
                     {
                         // Cap at absolute maximum
                         if (SAV.Generation <= 2 && itemcnt > byte.MaxValue)
@@ -176,7 +176,7 @@ namespace PKHeX
                     else if (itemcnt > t.MaxCount)
                         itemcnt = t.MaxCount; // Cap at pouch maximum
                     else if (itemcnt <= 0)
-                        itemcnt = 1;
+                        continue; // ignore item
 
                     t.Items[ctr++] = new InventoryItem {Index = itemindex, Count = itemcnt};
                 }

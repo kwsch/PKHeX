@@ -507,7 +507,7 @@ namespace PKHeX
         {
             if (species == 0)
                 return (Image)Resources.ResourceManager.GetObject("_0");
-            if (new[] { 664, 665, 414, 493 }.Contains(species)) // Species who show their default sprite regardless of Form
+            if (new[] { 778, 664, 665, 414, 493 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
             string file = "_" + species;
@@ -1069,6 +1069,13 @@ namespace PKHeX
                     {
                         t[000],
                         f[810] // Alolan
+                    };
+
+                case 801: // Magearna
+                    return new[]
+                    {
+                        t[000],
+                        f[1062], // Original
                     };
             }
             return new[] {""};
