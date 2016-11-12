@@ -88,9 +88,9 @@ namespace PKHeX
         public override int Stat_HPMax { get { return BigEndian.ToUInt16(Data, 0x8C); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x8C); } }
         public override int Stat_ATK { get { return BigEndian.ToUInt16(Data, 0x8E); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x8E); } }
         public override int Stat_DEF { get { return BigEndian.ToUInt16(Data, 0x90); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x90); } }
-        public override int Stat_SPE { get { return BigEndian.ToUInt16(Data, 0x92); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x92); } }
-        public override int Stat_SPA { get { return BigEndian.ToUInt16(Data, 0x94); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x94); } }
-        public override int Stat_SPD { get { return BigEndian.ToUInt16(Data, 0x96); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x96); } }
+        public override int Stat_SPA { get { return BigEndian.ToUInt16(Data, 0x92); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x92); } }
+        public override int Stat_SPD { get { return BigEndian.ToUInt16(Data, 0x94); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x94); } }
+        public override int Stat_SPE { get { return BigEndian.ToUInt16(Data, 0x96); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x96); } }
         
         // EVs
         public override int EV_HP { 
