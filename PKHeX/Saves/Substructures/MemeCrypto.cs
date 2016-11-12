@@ -239,41 +239,54 @@ namespace PKHeX
             if (sav7 == null || sav7.Length != 0x6BE00)
                 return null;            
 
-            byte[] outSav = (byte[])sav7.Clone();
-
-            using (var sha1 = Util.GetSHA1Provider())
+            try
             {
-                using (var sha256 = Util.GetSHA256Provider())
+                byte[] outSav = (byte[])sav7.Clone();
+
+                using (var sha1 = Util.GetSHA1Provider())
                 {
-                    byte[] CurSig = new byte[0x80];
-                    Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
+                    using (var sha256 = Util.GetSHA256Provider())
+                    {
+                        byte[] CurSig = new byte[0x80];
+                        Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
 
-                    byte[] ChecksumTable = new byte[0x140];
-                    Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
-                    byte[] Hash = sha256.ComputeHash(ChecksumTable);
+                        byte[] ChecksumTable = new byte[0x140];
+                        Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
+                        byte[] Hash = sha256.ComputeHash(ChecksumTable);
 
-                    byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
+                        byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
 
-                    byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
-                    Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
-                    Array.Copy(Hash, 0, keybuf, PubKeyDer.Length, 0x20);
-                    byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
+                        byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
+                        Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
+                        Array.Copy(Hash, 0, keybuf, PubKeyDer.Length, 0x20);
+                        byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
 
-                    byte[] secret = ReverseCrypt(CurSig) ?? new byte[0x60];
-                    byte[] secretWorkBuf = new byte[0x78];
-                    Hash.CopyTo(secretWorkBuf, 0);
-                    Array.Copy(secret, 0, secretWorkBuf, 0x20, 0x58);
-                    Array.Copy(sha1.ComputeHash(secretWorkBuf), 0, secret, 0x58, 8);
+                        byte[] secret = ReverseCrypt(CurSig) ?? new byte[0x60];
+                        byte[] secretWorkBuf = new byte[0x78];
+                        Hash.CopyTo(secretWorkBuf, 0);
+                        Array.Copy(secret, 0, secretWorkBuf, 0x20, 0x58);
+                        Array.Copy(sha1.ComputeHash(secretWorkBuf), 0, secret, 0x58, 8);
 
-                    Hash.CopyTo(outSav, 0x6BB00);
-                    byte[] MemeCrypted = MemeCryptoAESEncrypt(key, secret);
-                    MemeCrypted[0] &= 0x7F;
-                    var RSA = RSADecrypt(MemeCrypted);
-                    Array.Copy(RSA, 0, outSav, 0x6BB20, 0x60);
+                        Hash.CopyTo(outSav, 0x6BB00);
+                        byte[] MemeCrypted = MemeCryptoAESEncrypt(key, secret);
+                        MemeCrypted[0] &= 0x7F;
+                        var RSA = RSADecrypt(MemeCrypted);
+                        Array.Copy(RSA, 0, outSav, 0x6BB20, 0x60);
+                    }
+                }
+                return outSav;
+            }           
+            catch (InvalidOperationException)
+            {
+                if (throwIfUnsupported)
+                {
+                    throw;
+                }
+                else
+                {
+                    return (byte[])sav7.Clone();
                 }                
             }            
-
-            return outSav;
         }
 
         public static bool CanUseMemeCrypto()
