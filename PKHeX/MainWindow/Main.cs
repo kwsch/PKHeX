@@ -793,6 +793,15 @@ namespace PKHeX
             if (sav == null || sav.Version == GameVersion.Invalid)
             { Util.Error("Invalid save file loaded. Aborting.", path); return; }
 
+            if (!string.IsNullOrEmpty(path)) // If path is null, this is the default save
+            {
+                if (sav.RequiresMemeCrypto && !MemeCrypto.CanUseMemeCrypto())
+                {
+                    Util.Error("Your platform does not support the required cryptography components.", "In order to be able to save your changes, you must either upgrade to a newer version of Windows or disable FIPS compliance mode.");
+                    // Don't abort loading; user can still view save and fix checksum on another platform.
+                }
+            }            
+
             // Finish setting up the save file.
             if (sav.IndeterminateGame && sav.Generation == 3)
             {

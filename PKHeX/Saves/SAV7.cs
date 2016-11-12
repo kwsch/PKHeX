@@ -819,29 +819,48 @@ namespace PKHeX
         // Writeback Validity
         public override string MiscSaveChecks()
         {
-            string r = "";
+            var r = new StringBuilder();
+
+            // MemeCrypto check
+            if (RequiresMemeCrypto && !MemeCrypto.CanUseMemeCrypto())
+            {
+                r.AppendLine("Platform does not support required cryptography providers.");
+                r.AppendLine("Checksum will be broken until the file is saved using an OS without FIPS compliance enabled or a newer OS.");
+                r.AppendLine();
+            }
+
+            // FFFF checks
             byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
-                r = $"0x200 chunk @ 0x{(i*0x200).ToString("X5")} is FF'd."
-                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
+                r.AppendLine($"0x200 chunk @ 0x{(i * 0x200).ToString("X5")} is FF'd.");
+                r.AppendLine("Cyber will screw up (as of August 31st 2014).");
+                r.AppendLine();
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
                 {
-                    r += "Problem lies in the Pokedex. ";
+                    r.Append("Problem lies in the Pokedex. ");
                     if (i * 0x200 == PokeDex + 0x400)
-                        r += "Remove a language flag for a species < 585, ie Petilil";
+                        r.Append("Remove a language flag for a species < 585, ie Petilil");
                 }
                 break;
             }
-            return r;
+            return r.ToString();
         }
         public override string MiscSaveInfo()
         {
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
+        }
+
+        public override bool RequiresMemeCrypto
+        {
+            get
+            {
+                return true;
+            }
         }
     }
 }
