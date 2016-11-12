@@ -227,7 +227,14 @@ namespace PKHeX
             return null;
         }
 
-        public static byte[] Resign(byte[] sav7)
+        /// <summary>
+        /// Resigns save data.
+        /// </summary>
+        /// <param name="sav7">The save data to resign.</param>
+        /// <param name="throwIfUnsupported">If true, throw an <see cref="InvalidOperationException"/> if MemeCrypto is unsupported.  If false, calling this function will have no effect.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the current platform has FIPS mode enabled on a platform that does not support the required crypto service providers.</exception>
+        /// <returns>The resigned save data.</returns>
+        public static byte[] Resign(byte[] sav7, bool throwIfUnsupported = true)
         {
             if (sav7 == null || sav7.Length != 0x6BE00)
                 return null;            
@@ -267,6 +274,19 @@ namespace PKHeX
             }            
 
             return outSav;
+        }
+
+        public static bool CanUseMemeCrypto()
+        {
+            try
+            {
+                Util.GetSHA256Provider();
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 

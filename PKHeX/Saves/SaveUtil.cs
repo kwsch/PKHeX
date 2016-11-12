@@ -586,7 +586,7 @@ namespace PKHeX
         }
         public static byte[] Resign7(byte[] sav7)
         {
-            return MemeCrypto.Resign(sav7);
+            return MemeCrypto.Resign(sav7, false);
         }
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
