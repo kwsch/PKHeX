@@ -168,12 +168,12 @@ namespace PKHeX
                     if (pkm.CNT_Beauty > Argument)
                         return false;
                     goto default;
-                case 23: // Gender = Female
-                    if (pkm.Gender != 1)
+                case 23: // Gender = Male
+                    if (pkm.Gender != 0)
                         return false;
                     goto default;
-                case 24: // Gender = Male
-                    if (pkm.Gender != 0)
+                case 24: // Gender = Female
+                    if (pkm.Gender != 1)
                         return false;
                     goto default;
                 case 34: // Gender = Female, out Form1
