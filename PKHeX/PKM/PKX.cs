@@ -1070,6 +1070,13 @@ namespace PKHeX
                         t[000],
                         f[810] // Alolan
                     };
+
+                case 801: // Magearna
+                    return new[]
+                    {
+                        t[000],
+                        f[1062], // Original
+                    };
             }
             return new[] {""};
         }
