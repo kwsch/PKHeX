@@ -867,7 +867,10 @@ namespace PKHeX
                     AddLine(Severity.Valid, "Obtainable ball for Kalos origin.", CheckIdentifier.Ball);
                 return;
             }
-            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+
+            AddLine(Severity.Invalid, pkm.Ball >= 26
+                    ? "Ball unobtainable in origin generation."
+                    : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
         }
 
         private void verifyEggBallGen7()
@@ -974,7 +977,25 @@ namespace PKHeX
 
                 return;
             }
-            if (pkm.Format == 7 && pkm.Species > 721)
+
+            if (pkm.Ball == 26)
+            {
+                if (Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Beast Ball possible for species.", CheckIdentifier.Ball);
+                    return;
+                }
+                if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Scanned Beast Ball possible for species.", CheckIdentifier.Ball);
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Scanned Beast Ball with Hidden Ability.", CheckIdentifier.Ball);
+                    return;
+                }
+                // next statement catches all new alolans
+            }
+
+            if (pkm.Species > 721)
             {
                 if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
                     AddLine(Severity.Invalid, "Unobtainable ball for Alola origin.", CheckIdentifier.Ball);
@@ -982,7 +1003,10 @@ namespace PKHeX
                     AddLine(Severity.Valid, "Obtainable ball for Alola origin.", CheckIdentifier.Ball);
                 return;
             }
-            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal. -- This check is not well researched at this time. Do not report feedback.", CheckIdentifier.Ball);
+
+            AddLine(Severity.Invalid, pkm.Ball > 26
+                    ? "Ball unobtainable in origin generation."
+                    : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
         }
         private CheckResult verifyHistory()
         {
