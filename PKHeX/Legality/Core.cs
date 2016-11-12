@@ -160,7 +160,14 @@ namespace PKHeX
             List<int> r = new List<int> { 0 };
             int species = getBaseSpecies(pkm, skipOption);
             r.AddRange(getLVLMoves(pkm, species, 1, pkm.AltForm));
-            r.AddRange(getEggMoves(pkm, species, pkm.Species == 678 ? pkm.AltForm : 0));
+
+            int form = pkm.AltForm;
+            if (pkm.Format < 6)
+                form = 0;
+            if (pkm.Format == 6 && pkm.Species != 678)
+                form = 0;
+
+            r.AddRange(getEggMoves(pkm, species, form));
             r.AddRange(getLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
@@ -190,8 +197,9 @@ namespace PKHeX
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
+                    int index = PersonalTable.SM.getFormeIndex(pkm.Species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
-                        return LevelUpSM[species].getMoves(1);
+                        return LevelUpSM[index].getMoves(1);
                     break;
             }
             return null;
