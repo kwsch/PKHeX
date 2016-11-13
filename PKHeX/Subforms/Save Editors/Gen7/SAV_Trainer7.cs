@@ -48,7 +48,7 @@ namespace PKHeX
                     new { Text = "CHT", Value = 10},
                 };
 
-            var alolatime_list = new[] { new { Text = "Sun Time", Value = 0 } };
+            var alolatime_list = new[] { new { Text = "Sun Time", Value = 24*60*60 } };
             Array.Resize(ref alolatime_list, 24);
             for (int i = 1; i < 24; i++)
                 alolatime_list[i] = new {Text = $"+{i.ToString("00")} Hours", Value = i*60*60};
@@ -89,6 +89,10 @@ namespace PKHeX
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
+            if (SAV.AlolaTime == 0)
+            {
+                SAV.AlolaTime = 24 * 60 * 60; // Patch up any bad times from previous program versions.
+            }
             CB_AlolaTime.SelectedValue = (int)SAV.AlolaTime;
             
             NUD_M.Value = SAV.M;
