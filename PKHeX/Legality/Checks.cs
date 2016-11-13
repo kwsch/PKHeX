@@ -772,6 +772,8 @@ namespace PKHeX
                 { AddLine(Severity.Invalid, "Master Ball on egg origin.", CheckIdentifier.Ball); return; }
                 if (pkm.Ball == 0x10) // Cherish Ball
                 { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
+                if (pkm.Ball == 0x04) // Poké Ball
+                { AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball); return; }
 
                 switch (pkm.GenNumber)
                 {
