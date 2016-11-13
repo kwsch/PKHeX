@@ -2289,6 +2289,22 @@ namespace PKHeX
             { clickShowdownImportPKM(sender, e); return; }
             if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
             { clickShowdownExportPKM(sender, e); return; }
+
+            if (sender == CB_Language)
+            {
+                int lang = Util.getIndex(CB_Language);
+                switch (lang)
+                {
+                    case 9:
+                    case 10:
+                        TB_Nickname.Visible = CHK_Nicknamed.Checked;
+                        break;
+                    default:
+                        TB_Nickname.Visible = true;
+                        break;
+                }
+            }
+
             if (!fieldsInitialized || CHK_Nicknamed.Checked)
                 return;
 
