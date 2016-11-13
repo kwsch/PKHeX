@@ -135,13 +135,14 @@ namespace PKHeX
             // Load User Settings
             {
                 unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
+                updateUnicode();
                 SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Properties.Settings.Default.SetUpdateDex;
                 SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Properties.Settings.Default.SetUpdatePKM;
 
                 // Select Language
                 string l = Properties.Settings.Default.Language;
-                if (l.Length != 2) l = "en";
                 int lang = Array.IndexOf(GameInfo.lang_val, l);
+                if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
                 CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
 
                 // Version Check
