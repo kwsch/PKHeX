@@ -22,6 +22,8 @@ namespace PKHeX
                 Month = (uint)now.Month;
                 Day = (uint)now.Day;
             }
+            if (Year < 2000)
+                Data = new byte[Data.Length]; // Invalidate
         }
         
         // General Card Properties

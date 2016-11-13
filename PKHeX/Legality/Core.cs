@@ -428,7 +428,7 @@ namespace PKHeX
                 if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species))) continue;
                 if (wc.MetLocation != pkm.Met_Location) continue;
                 if (wc.EggLocation != pkm.Egg_Location) continue;
-                if (wc.Level != pkm.Met_Level) continue;
+                if (wc.MetLevel != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
                 if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) continue;

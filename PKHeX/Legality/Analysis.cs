@@ -49,6 +49,7 @@ namespace PKHeX
             }
             catch { Valid = false; }
             Parsed = true;
+            getLegalityReport();
 
             if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
                 AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
@@ -71,7 +72,6 @@ namespace PKHeX
             updateRelearnLegality();
             updateMoveLegality();
             updateChecks();
-            getLegalityReport();
         }
         private void parsePK7(PKM pk)
         {
@@ -82,7 +82,6 @@ namespace PKHeX
             updateRelearnLegality();
             updateMoveLegality();
             updateChecks();
-            getLegalityReport();
         }
 
         private void updateRelearnLegality()

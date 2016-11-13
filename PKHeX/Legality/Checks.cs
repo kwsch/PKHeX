@@ -476,8 +476,11 @@ namespace PKHeX
             MysteryGift MatchedGift = EncounterMatch as MysteryGift;
             if (MatchedGift != null && MatchedGift.Level != pkm.Met_Level)
             {
-                AddLine(new CheckResult(Severity.Invalid, "Met Level does not match Wonder Card level.", CheckIdentifier.Level));
-                return;
+                if (!(MatchedGift is WC7) || ((WC7) MatchedGift).MetLevel != pkm.Met_Level)
+                {
+                    AddLine(new CheckResult(Severity.Invalid, "Met Level does not match Wonder Card level.", CheckIdentifier.Level));
+                    return;
+                }
             }
 
             int lvl = pkm.CurrentLevel;

@@ -154,6 +154,7 @@ namespace PKHeX
         public int MetLocation  {
             get { return BitConverter.ToUInt16(Data, 0xA6); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA6); } }
+        public int MetLevel { get { return Data[0xA8]; } set { Data[0xA8] = (byte)value; } }
 
         public int CNT_Cool { get { return Data[0xA9]; } set { Data[0xA9] = (byte)value; } }
         public int CNT_Beauty { get { return Data[0xAA]; } set { Data[0xAA] = (byte)value; } }
@@ -240,13 +241,14 @@ namespace PKHeX
                 return null;
 
             int currentLevel = Level > 0 ? Level : (int)(Util.rnd32()%100 + 1);
-            PK6 pk = new PK6
+            int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
+            PK7 pk = new PK7
             {
                 Species = Species,
                 HeldItem = HeldItem,
                 TID = TID,
                 SID = SID,
-                Met_Level = currentLevel,
+                Met_Level = metLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
                 Gender = PersonalTable.AO[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PersonalTable.AO[Species].RandomGender),
                 AltForm = Form,
@@ -275,7 +277,7 @@ namespace PKHeX
                 HT_Gender = OT.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT.Length > 0 ? 1 : 0,
                 
-                EXP = PKX.getEXP(Level, Species),
+                EXP = PKX.getEXP(currentLevel, Species),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -376,7 +378,7 @@ namespace PKHeX
                     av = (int)(Util.rnd32()%(AbilityType - 1));
                     break;
             }
-            pk.Ability = PersonalTable.AO.getAbilities(Species, pk.AltForm)[av];
+            pk.Ability = PersonalTable.SM.getAbilities(Species, pk.AltForm)[av];
             pk.AbilityNumber = 1 << av;
 
             switch (PIDType)
