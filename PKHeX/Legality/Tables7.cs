@@ -120,7 +120,7 @@ namespace PKHeX
             new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
             new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = 40000, Shiny = false, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
+            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
             new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, IV3 = true, Version = GameVersion.SN}, // Cosmog                00 FF
             new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, IV3 = true, Version = GameVersion.MN}, // Cosmog                00 FF
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = -1, }, // Aerodactyl
