@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace PKHeX
 {
@@ -24,16 +25,28 @@ namespace PKHeX
         /// <remarks>This overload differs from <see cref="getMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
         public static MysteryGift getMysteryGift(byte[] data, string ext)
         {
+            // Generation 7
+            if (data.Length == WC7.SizeFull && ext == ".wc7full")
+                return new WC7(data);
+            if (data.Length == WC7.Size && ext == ".wc7")
+                return new WC7(data);
+
+            // Generation 6
             if (data.Length == WC6.SizeFull && ext == ".wc6full")
                 return new WC6(data);
             if (data.Length == WC6.Size && ext == ".wc6")
                 return new WC6(data);
+
+            // Generation 5
             if (data.Length == PGF.Size && ext == ".pgf")
                 return new PGF(data);
+
+            // Generation 4
             if (data.Length == PGT.Size && ext == ".pgt")
                 return new PGT(data);
             if (data.Length == PCD.Size && ext == ".pcd")
                 return new PCD(data);
+
             return null;
         }
 
@@ -47,7 +60,14 @@ namespace PKHeX
             switch (data.Length)
             {
                 case WC6.SizeFull:
+                    // Check year for WC7 size collision
+                    if (BitConverter.ToUInt32(data, data.Length - 0xBC) / 10000 < 2000)
+                        return new WC7(data);
+                    return new WC6(data);
                 case WC6.Size:
+                    // Check year for WC7 size collision
+                    if (BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000)
+                        return new WC7(data);
                     return new WC6(data);
                 case PGF.Size:
                     return new PGF(data);

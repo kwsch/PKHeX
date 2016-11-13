@@ -23409,7 +23409,7 @@ namespace PKHeX.Properties {
         ///ç¢Žå²© (HGSS)
         ///é«˜è‰ä¸›
         ///
-        ///å¸ç‰™å¢å¡/å¸•è·¯å¥‡çŠ½
+        ///å¸ç‰™å¢å¡/å¸•è·¯å¥‡äºš
         ///æ´žç©´/åˆå§‹ä¹‹é—´
         ///
         ///å†²æµª/é’“é±¼
@@ -33751,7 +33751,7 @@ namespace PKHeX.Properties {
         ///可達鴨
         ///哥達鴨
         ///猴怪
-        ///火暴猴
+        ///火爆猴
         ///卡蒂狗
         ///風速狗
         ///蚊香蝌蚪
@@ -37300,6 +37300,26 @@ namespace PKHeX.Properties {
         internal static byte[] wc6full {
             get {
                 object obj = ResourceManager.GetObject("wc6full", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] wc7 {
+            get {
+                object obj = ResourceManager.GetObject("wc7", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] wc7full {
+            get {
+                object obj = ResourceManager.GetObject("wc7full", resourceCulture);
                 return ((byte[])(obj));
             }
         }

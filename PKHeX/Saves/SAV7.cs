@@ -758,7 +758,7 @@ namespace PKHeX
                     return null;
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
-                    cards[i] = getWC6(i);
+                    cards[i] = getWC7(i);
 
                 return cards;
             }
@@ -770,9 +770,9 @@ namespace PKHeX
                     Array.Resize(ref value, GiftCountMax);
                 
                 for (int i = 0; i < value.Length; i++)
-                    setWC6(value[i], i);
+                    setWC7(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)
-                    setWC6(new WC6(), i);
+                    setWC7(new WC7(), i);
             }
         }
 
@@ -794,28 +794,28 @@ namespace PKHeX
             }
         }
 
-        private WC6 getWC6(int index)
+        private WC7 getWC7(int index)
         {
             if (WondercardData < 0)
                 return null;
             if (index < 0 || index > GiftCountMax)
                 return null;
 
-            return new WC6(Data.Skip(WondercardData + index * WC6.Size).Take(WC6.Size).ToArray());
+            return new WC7(Data.Skip(WondercardData + index * WC7.Size).Take(WC7.Size).ToArray());
         }
-        private void setWC6(MysteryGift wc6, int index)
+        private void setWC7(MysteryGift wc7, int index)
         {
             if (WondercardData < 0)
                 return;
             if (index < 0 || index > GiftCountMax)
                 return;
 
-            wc6.Data.CopyTo(Data, WondercardData + index * WC6.Size);
+            wc7.Data.CopyTo(Data, WondercardData + index * WC7.Size);
 
             for (int i = 0; i < GiftCountMax; i++)
-                if (BitConverter.ToUInt16(Data, WondercardData + i * WC6.Size) == 0)
+                if (BitConverter.ToUInt16(Data, WondercardData + i * WC7.Size) == 0)
                     for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
-                        Array.Copy(Data, WondercardData + j * WC6.Size, Data, WondercardData + (j - 1) * WC6.Size, WC6.Size);
+                        Array.Copy(Data, WondercardData + j * WC7.Size, Data, WondercardData + (j - 1) * WC7.Size, WC7.Size);
 
             Edited = true;
         }

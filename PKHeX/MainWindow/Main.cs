@@ -124,6 +124,8 @@ namespace PKHeX
 
             // Load WC6 folder to legality
             refreshWC6DB();
+            // Load WC7 folder to legality
+            refreshWC7DB();
 
             #endregion
             #region Localize & Populate Fields
@@ -237,8 +239,8 @@ namespace PKHeX
         #region Path Variables
 
         public static string WorkingDirectory => Util.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
-        public static string DatabasePath => Path.Combine(WorkingDirectory, "db");
-        public static string WC6DatabasePath => Path.Combine(WorkingDirectory, "wc6");
+        public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
+        public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string ThreadPath => @"https://projectpokemon.org/forums/showthread.php?36986";
         private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
@@ -1201,7 +1203,7 @@ namespace PKHeX
         }
         private static void refreshWC6DB()
         {
-            List<WC6> wc6db = new List<WC6>();
+            List<MysteryGift> wc6db = new List<MysteryGift>();
             byte[] wc6bin = Properties.Resources.wc6;
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
             {
@@ -1217,13 +1219,39 @@ namespace PKHeX
                 wc6db.Add(new WC6(data));
             }
 
-            if (Directory.Exists(WC6DatabasePath))
-                wc6db.AddRange(from file in Directory.GetFiles(WC6DatabasePath, "*", SearchOption.AllDirectories)
+            if (Directory.Exists(MGDatabasePath))
+                wc6db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
                     let fi = new FileInfo(file)
                     where new[] {".wc6full", ".wc6"}.Contains(fi.Extension) && new[] {WC6.Size, WC6.SizeFull}.Contains((int)fi.Length)
                     select new WC6(File.ReadAllBytes(file)));
 
             Legal.MGDB_G6 = wc6db.Distinct().ToArray();
+        }
+        private static void refreshWC7DB()
+        {
+            List<MysteryGift> wc7db = new List<MysteryGift>();
+            byte[] wc7bin = Properties.Resources.wc7;
+            for (int i = 0; i < wc7bin.Length; i += WC7.Size)
+            {
+                byte[] data = new byte[WC7.Size];
+                Array.Copy(wc7bin, i, data, 0, WC7.Size);
+                wc7db.Add(new WC7(data));
+            }
+            byte[] wc7full = Properties.Resources.wc7full;
+            for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
+            {
+                byte[] data = new byte[WC7.SizeFull];
+                Array.Copy(wc7full, i, data, 0, WC7.SizeFull);
+                wc7db.Add(new WC7(data));
+            }
+
+            if (Directory.Exists(MGDatabasePath))
+                wc7db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
+                               let fi = new FileInfo(file)
+                               where new[] { ".wc7full", ".wc7" }.Contains(fi.Extension) && new[] { WC7.Size, WC7.SizeFull }.Contains((int)fi.Length)
+                               select new WC7(File.ReadAllBytes(file)));
+
+            Legal.MGDB_G7 = wc7db.Distinct().ToArray();
         }
 
         // Language Translation

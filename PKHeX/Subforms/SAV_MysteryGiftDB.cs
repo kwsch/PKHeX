@@ -103,7 +103,7 @@ namespace PKHeX
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
-        private readonly string DatabasePath = Main.WC6DatabasePath;
+        private readonly string DatabasePath = Main.MGDatabasePath;
         private List<MysteryGift> Results;
         private readonly List<MysteryGift> RawDB;
         private int slotSelected = -1; // = null;
