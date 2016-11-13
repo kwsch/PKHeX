@@ -2331,7 +2331,7 @@ namespace PKHeX
             if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
             { clickShowdownExportPKM(sender, e); return; }
 
-            if (sender == CB_Language)
+            if (sender == CB_Language || sender == CHK_Nicknamed)
             {
                 int lang = Util.getIndex(CB_Language);
                 switch (lang)
