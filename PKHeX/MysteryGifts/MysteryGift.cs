@@ -60,8 +60,8 @@ namespace PKHeX
             switch (data.Length)
             {
                 case WC6.SizeFull:
-                    // Check year for WC7 size collision
-                    if (BitConverter.ToUInt32(data, data.Length - 0xBC) / 10000 < 2000)
+                    // Check WC7 size collision
+                    if (data[0x205] == 0) // 3 * 0x46 for gen6, now only 2.
                         return new WC7(data);
                     return new WC6(data);
                 case WC6.Size:
