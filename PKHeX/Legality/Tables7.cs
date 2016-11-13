@@ -70,7 +70,7 @@ namespace PKHeX
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
         
         internal static readonly ushort[] Pouch_Key_SM = {
-            216, 465, 466, 628, 629, 632, 633, 638, 696,
+            216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
