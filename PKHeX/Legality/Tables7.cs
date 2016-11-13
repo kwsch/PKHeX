@@ -119,16 +119,17 @@ namespace PKHeX
             new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = -1, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
-            new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = -1, IV3 = true, }, // Type: Null
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -1, Shiny = false, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
-            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = -1, Shiny = false, IV3 = true, }, // Cosmog                00 FF
+            new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
+            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = 40000, Shiny = false, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, IV3 = true, Version = GameVersion.SN}, // Cosmog                00 FF
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, IV3 = true, Version = GameVersion.MN}, // Cosmog                00 FF
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = -1, }, // Aerodactyl
             
             // Static Encounters - 1.bin
             new EncounterStatic { Species = 731, Form = 0, Level = 03, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Pikipek
             // new EncounterStatic { Species = 793, Form = 0, Level = 27, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, IVs = new[] {31, 01, 31, 01, 31, 31}, Location = -1, IV3 = true, }, // Nihilego
-            new EncounterStatic { Species = 791, Form = 0, Level = 55, Relearn = new[]{713, 322, 242, 428}, Shiny = false, Ability = 1, Location = 176, IV3 = true, }, // Solgaleo
-            new EncounterStatic { Species = 792, Form = 0, Level = 55, Relearn = new[]{714, 322, 539, 247}, Shiny = false, Ability = 1, Location = 178, IV3 = true, }, // Lunala
+            new EncounterStatic { Species = 791, Form = 0, Level = 55, Relearn = new[]{713, 322, 242, 428}, Shiny = false, Ability = 1, Location = 176, IV3 = true, Version = GameVersion.SN}, // Solgaleo
+            new EncounterStatic { Species = 792, Form = 0, Level = 55, Relearn = new[]{714, 322, 539, 247}, Shiny = false, Ability = 1, Location = 178, IV3 = true, Version = GameVersion.MN}, // Lunala
             new EncounterStatic { Species = 735, Form = 1, Level = 12, Relearn = new[]{162, 044, 043, 184}, Shiny = false, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, Gender = 0, HeldItem = 151, }, // Gumshoos-1
             new EncounterStatic { Species = 734, Form = 0, Level = 11, Relearn = new[]{028, 033, 158, 043}, Shiny = false, Ability = 2, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Yungoos
             new EncounterStatic { Species = 735, Form = 0, Level = 11, Relearn = new[]{028, 044, 162, 043}, Shiny = false, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Gumshoos
@@ -254,13 +255,13 @@ namespace PKHeX
             new EncounterStatic { Species = 497, Form = 0, Level = 43, Relearn = new[]{137, 489, 348, 021}, Location = -1, }, // Serperior
             new EncounterStatic { Species = 503, Form = 0, Level = 43, Relearn = new[]{362, 227, 453, 279}, Location = -1, }, // Samurott
             new EncounterStatic { Species = 500, Form = 0, Level = 43, Relearn = new[]{276, 053, 372, 535}, Location = -1, }, // Emboar
-            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Koko
-            new EncounterStatic { Species = 786, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Lele
-            new EncounterStatic { Species = 787, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Bulu
-            new EncounterStatic { Species = 788, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Fini
+            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, IV3 = true, }, // Tapu Koko
+            new EncounterStatic { Species = 786, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 092, IV3 = true, }, // Tapu Lele
+            new EncounterStatic { Species = 787, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 140, IV3 = true, }, // Tapu Bulu
+            new EncounterStatic { Species = 788, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 180, IV3 = true, }, // Tapu Fini
             new EncounterStatic { Species = 296, Form = 0, Level = 09, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = -1, }, // Makuhita
             new EncounterStatic { Species = 103, Form = 1, Level = 40, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = -1, }, // Exeggutor-1
-            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Tapu Koko
+            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, }, // Tapu Koko
             new EncounterStatic { Species = 542, Form = 0, Level = 57, Relearn = new[]{382, 437, 014, 494}, Location = -1, }, // Leavanny
 
 
