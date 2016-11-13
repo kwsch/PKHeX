@@ -1223,7 +1223,7 @@ namespace PKHeX
                     where new[] {".wc6full", ".wc6"}.Contains(fi.Extension) && new[] {WC6.Size, WC6.SizeFull}.Contains((int)fi.Length)
                     select new WC6(File.ReadAllBytes(file)));
 
-            Legal.WC6DB = wc6db.Distinct().ToArray();
+            Legal.MGDB_G6 = wc6db.Distinct().ToArray();
         }
 
         // Language Translation

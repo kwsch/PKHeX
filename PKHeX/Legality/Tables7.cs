@@ -102,7 +102,7 @@ namespace PKHeX
         #region Encounters
         private static readonly EncounterStatic[] Encounter_SM = // @ a\1\5\5
         {
-            // Gfits - 0.bin
+            // Gifts - 0.bin
             new EncounterStatic { Gift = true, Species = 722, Level = 5,  Location = 24, }, // Rowlet
             new EncounterStatic { Gift = true, Species = 725, Level = 5,  Location = 24, }, // Litten
             new EncounterStatic { Gift = true, Species = 728, Level = 5,  Location = 24, }, // Popplio
@@ -120,11 +120,16 @@ namespace PKHeX
             new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
             new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
             new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, IV3 = true, Version = GameVersion.SN}, // Cosmog                00 FF
             new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, IV3 = true, Version = GameVersion.MN}, // Cosmog                00 FF
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = -1, }, // Aerodactyl
             
+            new EncounterStatic // Magearna (Bottle Cap) 00 FF
+            {
+                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true,
+                Fateful = true, RibbonWishing = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
+            },
+
             // Static Encounters - 1.bin
             new EncounterStatic { Species = 731, Form = 0, Level = 03, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Pikipek
             // new EncounterStatic { Species = 793, Form = 0, Level = 27, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, IVs = new[] {31, 01, 31, 01, 31, 31}, Location = -1, IV3 = true, }, // Nihilego

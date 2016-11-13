@@ -445,7 +445,7 @@ namespace PKHeX
             new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = false, IV3 = true }, // Kyogre
             new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = false, IV3 = true }, // Groudon
             new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = false, IV3 = true }, // Rayquaza
-            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = false, IV3 = true }, // Deoxys
+            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = false, IV3 = true, Fateful = true }, // Deoxys
 
             new EncounterStatic { Species = 377, Level = 40, Location = 278, IV3 = true }, // Regirock
             new EncounterStatic { Species = 378, Level = 40, Location = 306, IV3 = true }, // Regice

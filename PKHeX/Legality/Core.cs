@@ -6,7 +6,7 @@ namespace PKHeX
     public static partial class Legal
     {
         // Event Database(s)
-        internal static WC6[] WC6DB;
+        internal static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
@@ -349,17 +349,19 @@ namespace PKHeX
             switch (pkm.GenNumber)
             {
                 case 6:
-                    return getMatchingWC6(pkm);
+                    return getMatchingWC6(pkm, MGDB_G6);
 
                 default:
-                    return null;
+                    return getMatchingWC6(pkm, MGDB_G7);
             }
         }
-        private static IEnumerable<MysteryGift> getMatchingWC6(PKM pkm)
+        private static IEnumerable<MysteryGift> getMatchingWC6(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             List<MysteryGift> validWC6 = new List<MysteryGift>();
+            if (DB == null)
+                return validWC6;
             var vs = getValidPreEvolutions(pkm).ToArray();
-            foreach (WC6 wc in WC6DB.Where(wc => vs.Any(dl => dl.Species == wc.Species)))
+            foreach (WC6 wc in DB.OfType<WC6>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
