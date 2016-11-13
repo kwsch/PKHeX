@@ -1395,6 +1395,7 @@ namespace PKHeX
 
             // Set the Preview Box
             dragout.Image = pk.Sprite;
+            setMarkings();
             updateLegality();
         }
 
@@ -2239,10 +2240,10 @@ namespace PKHeX
                     CB_EncounterType.SelectedValue = 0;
             }
 
-            setMarkings(); // Set/Remove KB marking
             if (!fieldsLoaded)
                 return;
             pkm.Version = (int)Version;
+            setMarkings(); // Set/Remove KB marking
             updateLegality();
         }
         private void updateExtraByteValue(object sender, EventArgs e)
