@@ -307,12 +307,12 @@ namespace PKHeX
                 int species = Util.getIndex(CB_Species);
                 if (species == 0 || species > 721)
                     TB_Nickname.Text = "";
-                else
+                else try
                 {
                     // get language
-                    string l = Main.curlanguage;
-                    TB_Nickname.Text = Util.getSpeciesList(l)[species];
-                }
+                    TB_Nickname.Text = PKX.getSpeciesName(species, SAV.Language);
+                } 
+                catch { }
             }
             TB_Nickname.ReadOnly = !CHK_Nicknamed.Checked;
 

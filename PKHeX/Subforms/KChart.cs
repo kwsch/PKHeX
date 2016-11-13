@@ -9,8 +9,8 @@ namespace PKHeX
 {
     public partial class KChart : Form
     {
-        private readonly string[] species = Util.getSpeciesList(Main.curlanguage);
-        private readonly string[] abilities = Util.getAbilitiesList(Main.curlanguage);
+        private readonly string[] species = Main.GameStrings.specieslist;
+        private readonly string[] abilities = Main.GameStrings.abilitylist;
 
         private readonly bool alolanOnly = Main.SAV.Generation == 7 && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Alolan Dex only?");
         private static int[] baseForm;
