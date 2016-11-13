@@ -670,6 +670,13 @@ namespace PKHeX
                             AddLine(Severity.Invalid, "Hidden Ability mismatch for ingame trade.", CheckIdentifier.Ability);
                             return;
                         }
+                    if (EncounterType == typeof(EncounterLink))
+                        if (pkm.AbilityNumber != ((EncounterLink)EncounterMatch).Ability)
+                        {
+                            AddLine(Severity.Invalid, "Ability mismatch for Link Gift.", CheckIdentifier.Ability);
+                            return;
+                        }
+
                 }
                 if (pkm.GenNumber == 6)
                 {
