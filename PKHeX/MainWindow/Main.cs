@@ -2076,10 +2076,23 @@ namespace PKHeX
         }
         private void updatePP(object sender, EventArgs e)
         {
-            TB_PP1.Text = pkm.getMovePP(Util.getIndex(CB_Move1), CB_PPu1.SelectedIndex).ToString();
-            TB_PP2.Text = pkm.getMovePP(Util.getIndex(CB_Move2), CB_PPu2.SelectedIndex).ToString();
-            TB_PP3.Text = pkm.getMovePP(Util.getIndex(CB_Move3), CB_PPu3.SelectedIndex).ToString();
-            TB_PP4.Text = pkm.getMovePP(Util.getIndex(CB_Move4), CB_PPu4.SelectedIndex).ToString();
+            ComboBox[] cbs = {CB_Move1, CB_Move2, CB_Move3, CB_Move4};
+            ComboBox[] pps = {CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4};
+            MaskedTextBox[] tbs = {TB_PP1, TB_PP2, TB_PP3, TB_PP4};
+            int index = Array.IndexOf(cbs, sender);
+            if (index < 0)
+                index = Array.IndexOf(pps, sender);
+            if (index < 0)
+                return;
+
+            int move = Util.getIndex(cbs[index]);
+            int pp = pps[index].SelectedIndex;
+            if (move == 0 && pp != 0)
+            {
+                pps[index].SelectedIndex = 0;
+                return; // recursively triggers
+            }
+            tbs[index].Text = pkm.getMovePP(move, pp).ToString();
         }
         private void updatePKRSstrain(object sender, EventArgs e)
         {
