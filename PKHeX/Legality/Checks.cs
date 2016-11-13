@@ -340,6 +340,8 @@ namespace PKHeX
                     return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in XY.", CheckIdentifier.Encounter);
                 if (pkm.AO && !enc.ORAS)
                     return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in ORAS.", CheckIdentifier.Encounter);
+                if (pkm.SM && !enc.SM)
+                    return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in SM.", CheckIdentifier.Encounter);
                 
                 if (enc.Shiny != null && (bool)enc.Shiny ^ pkm.IsShiny)
                     return new CheckResult(Severity.Invalid, "Shiny Link gift mismatch.", CheckIdentifier.Encounter);

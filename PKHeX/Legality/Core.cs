@@ -213,7 +213,7 @@ namespace PKHeX
                 case 6:
                     return LinkGifts6.FirstOrDefault(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
-                    return null;
+                    return LinkGifts7.FirstOrDefault(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
             }
         }
         internal static EncounterSlot[] getValidWildEncounters(PKM pkm)
