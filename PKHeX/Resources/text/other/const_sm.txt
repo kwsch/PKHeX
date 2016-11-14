@@ -1,1 +1,2 @@
-0	Test1
+404	Tapu Fini	03:Battleable,04:Defeated,05:Captured
+433	Tapu Lele	01:Battleable,02:Defeated,03:Captured

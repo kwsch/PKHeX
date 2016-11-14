@@ -36,7 +36,10 @@ namespace PKHeX
             TLP_Const.ResumeLayout();
 
             Util.TranslateInterface(this, Main.curlanguage);
-            
+
+            Text = $"Event Flag Editor ({gamePrefix.ToUpper()})";
+
+
             CB_Stats.SelectedIndex = 0;
             nud.Maximum = flags.Length - 1;
             nud.Text = "0";
@@ -47,6 +50,7 @@ namespace PKHeX
         private readonly ushort[] Constants;
         private const string flagTag = "bool_";
         private const string constTag = "const_";
+        private const string constCBTag = "cbconst_";
         private const string flagLabelTag = "flag_";
         private const string constLabelTag = "L_";
         private bool editing;
@@ -168,8 +172,9 @@ namespace PKHeX
             // Get list
             List<int> num = new List<int>();
             List<string> desc = new List<string>();
+            List<string> enums = new List<string>();
 
-            foreach (string[] split in list.Select(s => s.Split('\t')).Where(split => split.Length == 2))
+            foreach (string[] split in list.Select(s => s.Split('\t')).Where(split => split.Length == 2 || split.Length == 3))
             {
                 try
                 {
@@ -178,6 +183,10 @@ namespace PKHeX
                         continue;
                     num.Add(n);
                     desc.Add(split[1]);
+                    if (split.Length == 3)
+                        enums.Add(split[2]);
+                    else
+                        enums.Add("");
                 } catch { }
             }
             if (num.Count == 0)
@@ -202,11 +211,40 @@ namespace PKHeX
                     Value = Constants[num[i]],
                     Name = constTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
-                    Width = 55,
+                    Width = 50,
                 };
+
+                var map = new[] { new { Text = "Custom", Value = -1 } }.ToList();
+
+                if (!string.IsNullOrWhiteSpace(enums[i]))
+                {
+                    foreach (var entry in enums[i].Split(','))
+                    {
+                        var spl = entry.Split(':');
+                        map.Add(new { Text = spl[1], Value = (int)Convert.ToInt32(spl[0])});
+                    }
+                }
+                var cb = new ComboBox()
+                {
+                    ValueMember = "Value",
+                    DisplayMember = "Text",
+                    Margin = Padding.Empty,
+                    Width = 80,
+                    Name = constCBTag + num[i].ToString("0000"),
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    BindingContext = this.BindingContext,
+                    DataSource = map
+                };
+                cb.SelectedIndex = 0;
+                cb.SelectedValueChanged += toggleConst;
                 mtb.TextChanged += toggleConst;
-                TLP_Const.Controls.Add(mtb, 0, i);
-                TLP_Const.Controls.Add(lbl, 1, i);
+                TLP_Const.Controls.Add(lbl, 0, i);
+                TLP_Const.Controls.Add(cb, 1, i);
+                TLP_Const.Controls.Add(mtb, 2, i);
+                if (map.Any(val => val.Value == (int)Constants[num[i]]))
+                {
+                    cb.SelectedValue = (int)Constants[num[i]];
+                }
             }
         }
 
@@ -291,12 +329,26 @@ namespace PKHeX
             if (editing)
                 return;
 
-            editing = true;
-            int constnum = getControlNum((NumericUpDown)sender);
-            Constants[constnum] = (ushort)(Util.ToUInt32(((NumericUpDown)sender).Text) & 0xFFFF);
-            if (constnum == CB_Stats.SelectedIndex)
-                MT_Stat.Text = Constants[constnum].ToString();
-            editing = false;
+            int constnum = getControlNum((Control)sender);
+            if (sender is ComboBox)
+            {
+                var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow((Control)sender));
+                var sel_val = (int)((ComboBox)sender).SelectedValue;
+                editing = true;
+                nud.Enabled = sel_val == -1;
+                if (sel_val != -1)
+                    nud.Value = (ushort)sel_val;
+                Constants[constnum] = (ushort)(Util.ToUInt32(nud.Text) & 0xFFFF);
+                editing = false;
+            }
+            else if (sender is NumericUpDown)
+            {
+                editing = true;
+                Constants[constnum] = (ushort)(Util.ToUInt32(((NumericUpDown)sender).Text) & 0xFFFF);
+                if (constnum == CB_Stats.SelectedIndex)
+                    MT_Stat.Text = Constants[constnum].ToString();
+                editing = false;
+            }
         }
 
         private void changeSAV(object sender, EventArgs e)
