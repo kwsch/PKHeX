@@ -2637,7 +2637,7 @@ namespace PKHeX
         private void showLegality(PKM pk, bool tabs, bool verbose)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
-            if (!la.Native)
+            if (!la.Parsed)
             {
                 Util.Alert($"Checking legality of PK{pk.Format} files that originated from Gen{pk.GenNumber} is not supported.");
                 return;
@@ -2651,7 +2651,7 @@ namespace PKHeX
             if (!fieldsLoaded)
                 return;
             Legality = la ?? new LegalityAnalysis(pkm);
-            if (!Legality.Parsed || !Legality.Native || HaX)
+            if (!Legality.Parsed || HaX)
             {
                 PB_Legal.Visible = false;
                 return;
