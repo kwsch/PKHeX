@@ -48,7 +48,7 @@ namespace PKHeX
                     Valid = false;
             }
             catch { Valid = false; }
-            Parsed = true;
+            Parsed = Parse.Any();
             getLegalityReport();
 
             if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
