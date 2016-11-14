@@ -2663,15 +2663,9 @@ namespace PKHeX
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
                 movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
-
-            int[] suggested = Legality.getSuggestedRelearn();
+            
             for (int i = 0; i < 4; i++)
-            {
-                if (pkm.RelearnMoves[i] == 0 && suggested[i] != 0)
-                    relearnPB[i].Visible = !HaX;
-                else
-                    relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
-            }
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
         }
         private void updateStats()
         {
