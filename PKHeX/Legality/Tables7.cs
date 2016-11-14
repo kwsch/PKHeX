@@ -183,7 +183,7 @@ namespace PKHeX
             new EncounterStatic { Species = 212, Form = 0, Level = 32, Relearn = new[]{232, 228, 043, 210}, Shiny = false, Ability = 2, IVs = new[] {15, 15, 15, 15, 15, 15}, Location = -1, }, // Scizor
             new EncounterStatic { Species = 793, Form = 0, Level = 55, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 082, IV3 = true, }, // Nihilego @ Wela Volcano Park
             new EncounterStatic { Species = 793, Form = 0, Level = 55, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 100, IV3 = true, }, // Nihilego @ Diglett’s Tunnel
-            new EncounterStatic { Species = 794, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Buzzwole
+            new EncounterStatic { Species = 794, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 040, IV3 = true, }, // Buzzwole @ Melemele Meadow
             new EncounterStatic { Species = 794, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Buzzwole
             new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 046, IV3 = true, }, // Pheromosa @ Verdant Cavern (Trial Site)
             new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 046, IV3 = true, }, // Pheromosa @ Verdant Cavern (Trial Site)
@@ -199,7 +199,7 @@ namespace PKHeX
             new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
             new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
             new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 134, IV3 = true, }, // Kartana @ Malie Garden
             new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
             new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
             new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
