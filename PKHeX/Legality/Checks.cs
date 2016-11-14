@@ -1293,7 +1293,7 @@ namespace PKHeX
 
             switch (pkm.Species)
             {
-                case 25:
+                case 25: // Pikachu
                     if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
                     {
                         if (EncounterType == typeof(EncounterStatic))
@@ -1305,7 +1305,7 @@ namespace PKHeX
                     }
                     if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterIsMysteryGift)
                     {
-                        var gift = EncounterMatch as WC6;
+                        var gift = EncounterMatch as WC7;
                         if (gift != null && gift.Form != pkm.AltForm)
                         {
                             AddLine(Severity.Invalid, "Event Pikachu cannot have the default form.", CheckIdentifier.Form);
@@ -1313,22 +1313,22 @@ namespace PKHeX
                         }
                     }
                     break;
-                case 658:
+                case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
                         return;
                     }
                     break;
-                case 664:
-                case 665:
+                case 664: // Scatterbug
+                case 665: // Spewpa
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         AddLine(Severity.Invalid, "Event Vivillon pattern on pre-evolution.", CheckIdentifier.Form);
                         return;
                     }
                     break;
-                case 666:
+                case 666: // Vivillon
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         if (!EncounterIsMysteryGift)
@@ -1339,7 +1339,7 @@ namespace PKHeX
                         return;
                     }
                     break;
-                case 670:
+                case 670: // Floette
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
                         if (!EncounterIsMysteryGift)
@@ -1350,15 +1350,15 @@ namespace PKHeX
                         return;
                     }
                     break;
-                case 718:
+                case 718: // Zygarde
                     if (pkm.AltForm >= 4)
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
                         return;
                     }
                     break;
-                case 774:
-                    if (pkm.AltForm >= 7)
+                case 774: // Minior
+                    if (pkm.AltForm < 7)
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
                         return;
