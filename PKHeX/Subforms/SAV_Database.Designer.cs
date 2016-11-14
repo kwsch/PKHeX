@@ -1573,6 +1573,7 @@
             this.CB_Generation.FormattingEnabled = true;
             this.CB_Generation.Items.AddRange(new object[] {
             "Any",
+            "Gen 7 (Sun/Moon)",
             "Gen 6 (XY/ORAS)",
             "Gen 5 (BW/B2W2)",
             "Gen 4 (DPPt/HGSS)",
@@ -1765,6 +1766,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
+            ".pk7",
             ".pk6",
             ".pk5",
             ".pk4",

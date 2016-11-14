@@ -36,7 +36,10 @@ namespace PKHeX
             TLP_Const.ResumeLayout();
 
             Util.TranslateInterface(this, Main.curlanguage);
-            
+
+            Text = $"Event Flag Editor ({gamePrefix.ToUpper()})";
+
+
             CB_Stats.SelectedIndex = 0;
             nud.Maximum = flags.Length - 1;
             nud.Text = "0";
@@ -47,10 +50,14 @@ namespace PKHeX
         private readonly ushort[] Constants;
         private const string flagTag = "bool_";
         private const string constTag = "const_";
+        private const string constCBTag = "cbconst_";
         private const string flagLabelTag = "flag_";
         private const string constLabelTag = "L_";
         private bool editing;
         private int constEntry = -1;
+        private string gamePrefix = "unk";
+
+        private const ulong MagearnaConst = 0xCBE05F18356504AC;
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -63,6 +70,8 @@ namespace PKHeX
                 flags[getControlNum(flag)] = flag.Checked;
             SAV.EventFlags = flags;
 
+            HandleSpecialFlags();
+
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             SAV.EventConsts = Constants;
@@ -70,14 +79,35 @@ namespace PKHeX
             Close();
         }
 
+        private void HandleSpecialFlags()
+        {
+            if (SAV.SM) // Ensure magearna event flag has magic constant
+            {
+                BitConverter.GetBytes((ulong)(flags[3100] ? MagearnaConst : 0)).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
+            }
+
+        }
+
         private string[] getStringList(string type)
         {
-            string[] text = null;
-            if (SAV.ORAS)
-                text = Util.getStringList($"{type}_oras");
-            else if (SAV.XY)
-                text = Util.getStringList($"{type}_xy");
-            return text;
+            switch (SAV.Version)
+            {
+                case GameVersion.X:
+                case GameVersion.Y:
+                    gamePrefix = "xy";
+                    break;
+                case GameVersion.OR:
+                case GameVersion.AS:
+                    gamePrefix = "oras";
+                    break;
+                case GameVersion.SN:
+                case GameVersion.MN:
+                    gamePrefix = "sm";
+                    break;
+                default:
+                    return null;
+            }
+            return Util.getStringList($"{type}_{gamePrefix}");
         }
         private void addFlagList(string[] list)
         {
@@ -113,7 +143,7 @@ namespace PKHeX
                 var lbl = new Label
                 {
                     Text = desc[i],
-                    Name = flagLabelTag + num[i].ToString("0000"),
+                    Name = gamePrefix + flagLabelTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
                     AutoSize = true
                 };
@@ -142,8 +172,9 @@ namespace PKHeX
             // Get list
             List<int> num = new List<int>();
             List<string> desc = new List<string>();
+            List<string> enums = new List<string>();
 
-            foreach (string[] split in list.Select(s => s.Split('\t')).Where(split => split.Length == 2))
+            foreach (string[] split in list.Select(s => s.Split('\t')).Where(split => split.Length == 2 || split.Length == 3))
             {
                 try
                 {
@@ -152,6 +183,10 @@ namespace PKHeX
                         continue;
                     num.Add(n);
                     desc.Add(split[1]);
+                    if (split.Length == 3)
+                        enums.Add(split[2]);
+                    else
+                        enums.Add("");
                 } catch { }
             }
             if (num.Count == 0)
@@ -165,7 +200,7 @@ namespace PKHeX
                 var lbl = new Label
                 {
                     Text = desc[i],
-                    Name = constLabelTag + num[i].ToString("0000"),
+                    Name = gamePrefix + constLabelTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
                     AutoSize = true
                 };
@@ -176,20 +211,49 @@ namespace PKHeX
                     Value = Constants[num[i]],
                     Name = constTag + num[i].ToString("0000"),
                     Margin = Padding.Empty,
-                    Width = 55,
+                    Width = 50,
                 };
+
+                var map = new[] { new { Text = "Custom", Value = -1 } }.ToList();
+
+                if (!string.IsNullOrWhiteSpace(enums[i]))
+                {
+                    foreach (var entry in enums[i].Split(','))
+                    {
+                        var spl = entry.Split(':');
+                        map.Add(new { Text = spl[1], Value = (int)Convert.ToInt32(spl[0])});
+                    }
+                }
+                var cb = new ComboBox()
+                {
+                    ValueMember = "Value",
+                    DisplayMember = "Text",
+                    Margin = Padding.Empty,
+                    Width = 80,
+                    Name = constCBTag + num[i].ToString("0000"),
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    BindingContext = this.BindingContext,
+                    DataSource = map
+                };
+                cb.SelectedIndex = 0;
+                cb.SelectedValueChanged += toggleConst;
                 mtb.TextChanged += toggleConst;
-                TLP_Const.Controls.Add(mtb, 0, i);
-                TLP_Const.Controls.Add(lbl, 1, i);
+                TLP_Const.Controls.Add(lbl, 0, i);
+                TLP_Const.Controls.Add(cb, 1, i);
+                TLP_Const.Controls.Add(mtb, 2, i);
+                if (map.Any(val => val.Value == (int)Constants[num[i]]))
+                {
+                    cb.SelectedValue = (int)Constants[num[i]];
+                }
             }
         }
 
-        private int getControlNum(Control chk)
+        private int getControlNum(Control c)
         {
             try
             {
-                string source = chk.Name;
-                return Convert.ToInt32(source.Substring(Math.Max(0, source.Length - 4)));
+                string source = c.Name.Split('_')[1];
+                return Convert.ToInt32(source);
             }
             catch { return 0; }
         }
@@ -265,12 +329,26 @@ namespace PKHeX
             if (editing)
                 return;
 
-            editing = true;
-            int constnum = getControlNum((NumericUpDown)sender);
-            Constants[constnum] = (ushort)(Util.ToUInt32(((NumericUpDown)sender).Text) & 0xFFFF);
-            if (constnum == CB_Stats.SelectedIndex)
-                MT_Stat.Text = Constants[constnum].ToString();
-            editing = false;
+            int constnum = getControlNum((Control)sender);
+            if (sender is ComboBox)
+            {
+                var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow((Control)sender));
+                var sel_val = (int)((ComboBox)sender).SelectedValue;
+                editing = true;
+                nud.Enabled = sel_val == -1;
+                if (sel_val != -1)
+                    nud.Value = (ushort)sel_val;
+                Constants[constnum] = (ushort)(Util.ToUInt32(nud.Text) & 0xFFFF);
+                editing = false;
+            }
+            else if (sender is NumericUpDown)
+            {
+                editing = true;
+                Constants[constnum] = (ushort)(Util.ToUInt32(((NumericUpDown)sender).Text) & 0xFFFF);
+                if (constnum == CB_Stats.SelectedIndex)
+                    MT_Stat.Text = Constants[constnum].ToString();
+                editing = false;
+            }
         }
 
         private void changeSAV(object sender, EventArgs e)

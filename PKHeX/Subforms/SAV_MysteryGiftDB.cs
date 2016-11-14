@@ -74,7 +74,8 @@ namespace PKHeX
 
             // Load Data
             RawDB = new List<MysteryGift>();
-            RawDB.AddRange(Legal.WC6DB);
+            RawDB.AddRange(Legal.MGDB_G6);
+            RawDB.AddRange(Legal.MGDB_G7);
 
             if (Directory.Exists(DatabasePath))
             foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
@@ -102,7 +103,7 @@ namespace PKHeX
         }
         private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
-        private readonly string DatabasePath = Main.WC6DatabasePath;
+        private readonly string DatabasePath = Main.MGDatabasePath;
         private List<MysteryGift> Results;
         private readonly List<MysteryGift> RawDB;
         private int slotSelected = -1; // = null;

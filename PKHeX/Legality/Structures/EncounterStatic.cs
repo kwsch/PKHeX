@@ -20,5 +20,8 @@
         public bool IV3;
         public int[] Contest = { 0, 0, 0, 0, 0, 0 };
         public int HeldItem { get; set; }
+
+        public bool Fateful = false;
+        public bool RibbonWishing = false;
     }
 }

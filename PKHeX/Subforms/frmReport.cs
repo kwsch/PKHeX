@@ -36,9 +36,9 @@ namespace PKHeX
             public string OT => pkm.OT_Name;
             public string Version => Main.GameStrings.gamelist[pkm.Version];
             public string OTLang => Main.GameStrings.gamelanguages[pkm.Language] ?? $"UNK {pkm.Language}";
-            public string CountryID => pkm.Format > 5 ? ((PK6) pkm).Country.ToString() : "N/A";
-            public string RegionID => pkm.Format > 5 ? ((PK6) pkm).Region.ToString() : "N/A";
-            public string DSRegionID => pkm.Format > 5 ? ((PK6) pkm).ConsoleRegion.ToString() : "N/A";
+            public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
+            public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
+            public string DSRegionID => pkm.Format > 5 ? pkm.ConsoleRegion.ToString() : "N/A";
 
             #region Extraneous
             public string EC => pkm.EncryptionConstant.ToString("X8");
@@ -65,9 +65,9 @@ namespace PKHeX
             public int Sheen => pkm.CNT_Sheen;
             public int Markings => pkm.MarkValue;
 
-            public string NotOT => pkm.Format > 5 ? ((PK6) pkm).HT_Name : "N/A";
+            public string NotOT => pkm.Format > 5 ? pkm.HT_Name : "N/A";
 
-            public int AbilityNum => pkm.Format > 5 ? ((PK6) pkm).AbilityNumber : -1;
+            public int AbilityNum => pkm.Format > 5 ? pkm.AbilityNumber : -1;
             public int GenderFlag => pkm.Gender;
             public int AltForms => pkm.AltForm;
             public int PKRS_Strain => pkm.PKRS_Strain;

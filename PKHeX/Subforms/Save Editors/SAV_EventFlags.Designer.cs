@@ -314,9 +314,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TLP_Const.AutoScroll = true;
-            this.TLP_Const.ColumnCount = 2;
+            this.TLP_Const.ColumnCount = 3;
             this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.TLP_Const.Location = new System.Drawing.Point(6, 19);
             this.TLP_Const.Name = "TLP_Const";
             this.TLP_Const.RowCount = 1;

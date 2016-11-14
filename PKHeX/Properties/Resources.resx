@@ -7207,4 +7207,76 @@
   <data name="_25_6c" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Pokemon Sprites\25-6c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="type_icon_00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_01.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_02" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_02.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_04.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_05" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_05.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_07" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_07.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_08" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_08.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_09" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_09.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_icon_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\type_icon_17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="const_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\const_sm.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="flags_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_sm.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="text_species_zh2_alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\zh\text_Species_zh2_alt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_species_zh_alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\zh\text_Species_zh_alt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="wc7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\wc7.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="wc7full" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\wc7full.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -107,7 +107,10 @@ namespace PKHeX
                 case 5:
                     return new PK5(data, ident);
                 case 6:
-                    return new PK6(data, ident);
+                    PKM pkx = new PK6(data, ident);
+                    if (pkx.SM)
+                        pkx = new PK7(data, ident);
+                    return pkx;
                 default:
                     return null;
             }

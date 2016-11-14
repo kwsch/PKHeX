@@ -6,7 +6,7 @@ namespace PKHeX
     public static partial class Legal
     {
         // Event Database(s)
-        internal static WC6[] WC6DB;
+        internal static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
@@ -160,7 +160,14 @@ namespace PKHeX
             List<int> r = new List<int> { 0 };
             int species = getBaseSpecies(pkm, skipOption);
             r.AddRange(getLVLMoves(pkm, species, 1, pkm.AltForm));
-            r.AddRange(getEggMoves(pkm, species, pkm.Species == 678 ? pkm.AltForm : 0));
+
+            int form = pkm.AltForm;
+            if (pkm.Format < 6)
+                form = 0;
+            if (pkm.Format == 6 && pkm.Species != 678)
+                form = 0;
+
+            r.AddRange(getEggMoves(pkm, species, form));
             r.AddRange(getLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
@@ -190,8 +197,9 @@ namespace PKHeX
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
+                    int index = PersonalTable.SM.getFormeIndex(species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
-                        return LevelUpSM[species].getMoves(1);
+                        return LevelUpSM[index].getMoves(1);
                     break;
             }
             return null;
@@ -205,7 +213,7 @@ namespace PKHeX
                 case 6:
                     return LinkGifts6.FirstOrDefault(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
-                    return null;
+                    return LinkGifts7.FirstOrDefault(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
             }
         }
         internal static EncounterSlot[] getValidWildEncounters(PKM pkm)
@@ -341,17 +349,20 @@ namespace PKHeX
             switch (pkm.GenNumber)
             {
                 case 6:
-                    return getMatchingWC6(pkm);
-
+                    return getMatchingWC6(pkm, MGDB_G6);
+                case 7:
+                    return getMatchingWC7(pkm, MGDB_G7);
                 default:
-                    return null;
+                    return new List<MysteryGift>();
             }
         }
-        private static IEnumerable<MysteryGift> getMatchingWC6(PKM pkm)
+        private static IEnumerable<MysteryGift> getMatchingWC6(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             List<MysteryGift> validWC6 = new List<MysteryGift>();
+            if (DB == null)
+                return validWC6;
             var vs = getValidPreEvolutions(pkm).ToArray();
-            foreach (WC6 wc in WC6DB.Where(wc => vs.Any(dl => dl.Species == wc.Species)))
+            foreach (WC6 wc in DB.OfType<WC6>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
@@ -392,6 +403,54 @@ namespace PKHeX
                 validWC6.Add(wc);
             }
             return validWC6;
+        }
+        private static IEnumerable<MysteryGift> getMatchingWC7(PKM pkm, IEnumerable<MysteryGift> DB)
+        {
+            List<MysteryGift> validWC7 = new List<MysteryGift>();
+            if (DB == null)
+                return validWC7;
+            var vs = getValidPreEvolutions(pkm).ToArray();
+            foreach (WC7 wc in DB.OfType<WC7>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
+            {
+                if (pkm.Egg_Location == 0) // Not Egg
+                {
+                    if (wc.SID != pkm.SID) continue;
+                    if (wc.TID != pkm.TID) continue;
+                    if (wc.OT != pkm.OT_Name) continue;
+                    if (wc.OTGender != pkm.OT_Gender) continue;
+                    if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
+                    if (wc.PIDType == 2 && !pkm.IsShiny) continue;
+                    if (wc.PIDType == 3 && pkm.IsShiny) continue;
+                    if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) continue;
+                    if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) continue;
+                    if (wc.Language != 0 && wc.Language != pkm.Language) continue;
+                }
+                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species))) continue;
+                if (wc.MetLocation != pkm.Met_Location) continue;
+                if (wc.EggLocation != pkm.Egg_Location) continue;
+                if (wc.MetLevel != pkm.Met_Level) continue;
+                if (wc.Ball != pkm.Ball) continue;
+                if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
+                if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) continue;
+                if (wc.Gender != 3 && wc.Gender != pkm.Gender) continue;
+
+                if (wc.CNT_Cool > pkm.CNT_Cool) continue;
+                if (wc.CNT_Beauty > pkm.CNT_Beauty) continue;
+                if (wc.CNT_Cute > pkm.CNT_Cute) continue;
+                if (wc.CNT_Smart > pkm.CNT_Smart) continue;
+                if (wc.CNT_Tough > pkm.CNT_Tough) continue;
+                if (wc.CNT_Sheen > pkm.CNT_Sheen) continue;
+
+                // Some checks are best performed separately as they are caused by users screwing up valid data.
+                // if (!wc.RelearnMoves.SequenceEqual(pkm.RelearnMoves)) continue; // Defer to relearn legality
+                // if (wc.OT.Length > 0 && pkm.CurrentHandler != 1) continue; // Defer to ownership legality
+                // if (wc.OT.Length > 0 && pkm.OT_Friendship != PKX.getBaseFriendship(pkm.Species)) continue; // Friendship
+                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
+                // RIBBONS: Defer to ribbon legality
+
+                validWC7.Add(wc);
+            }
+            return validWC7;
         }
         internal static IEnumerable<int> getLineage(PKM pkm)
         {
@@ -711,12 +770,8 @@ namespace PKHeX
             int species = pkm.Species;
             int lvl = pkm.CurrentLevel;
 
-            // Special (non Type) Tutor Availability
-            bool moveTutor = Version == GameVersion.Any || pkm.Format != pkm.GenNumber;
-            // Add extra cases where tutors
-            moveTutor |= pkm.AO;
-            moveTutor |= pkm.XY && !pkm.IsUntraded;
-            moveTutor |= pkm.Format < 6;
+            // Special Type Tutors Availability
+            const bool moveTutor = true;
             
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
@@ -742,14 +797,14 @@ namespace PKHeX
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool Tutor, bool Machine)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine)
         {
             List<int> r = new List<int> { 0 };
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
-               r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, Tutor, Machine, gen));
+               r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen));
             return r.Distinct();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool Tutor, bool Machine, int Generation)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, int Generation)
         {
             List<int> r = new List<int>();
 
@@ -766,7 +821,7 @@ namespace PKHeX
                             PersonalInfo pi = PersonalTable.XY.getFormeEntry(species, form);
 
                             if (LVL) r.AddRange(LevelUpXY[index].getMoves(lvl));
-                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, Tutor));
+                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
                             if (Machine) r.AddRange(TMHM_XY.Where((t, m) => pi.TMHM[m]));
 
                             if (ver == GameVersion.Any) // Fall Through
@@ -780,7 +835,7 @@ namespace PKHeX
                             PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
 
                             if (LVL) r.AddRange(LevelUpAO[index].getMoves(lvl));
-                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, Tutor));
+                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
                             if (Machine) r.AddRange(TMHM_AO.Where((t, m) => pi.TMHM[m]));
                             break;
                         }
@@ -796,7 +851,7 @@ namespace PKHeX
                             PersonalInfo pi = PersonalTable.SM.getFormeEntry(species, form);
 
                             if (LVL) r.AddRange(LevelUpSM[index].getMoves(lvl));
-                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, Tutor));
+                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
                             if (Machine) r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
                             break;
                         }
@@ -827,10 +882,10 @@ namespace PKHeX
                     return new List<int>();
             }
         }
-        private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool Tutors)
+        private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors)
         {
             PersonalInfo info = pkm.PersonalInfo;
-            // Type Tutor
+            // Type Tutors
             List<int> moves = TypeTutor.Where((t, i) => info.TypeTutors[i]).ToList();
 
             // Varied Tutors
@@ -842,7 +897,7 @@ namespace PKHeX
             //    //        if (pi.SpecialTutors[i][b])
             //    //            moves.Add(Tutors_B2W2[i][b]);
             //}
-            if (pkm.InhabitedGeneration(6) && Tutors)
+            if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
             {
                 PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
                 for (int i = 0; i < Tutors_AO.Length; i++)

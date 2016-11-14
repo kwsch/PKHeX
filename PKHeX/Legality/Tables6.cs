@@ -445,7 +445,7 @@ namespace PKHeX
             new EncounterStatic { Species = 382, Level = 45, Location = 296, Version = GameVersion.AS, Shiny = false, IV3 = true }, // Kyogre
             new EncounterStatic { Species = 383, Level = 45, Location = 296, Version = GameVersion.OR, Shiny = false, IV3 = true }, // Groudon
             new EncounterStatic { Species = 384, Level = 70, Location = 316, Shiny = false, IV3 = true }, // Rayquaza
-            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = false, IV3 = true }, // Deoxys
+            new EncounterStatic { Species = 386, Level = 80, Location = 316, Shiny = false, IV3 = true, Fateful = true }, // Deoxys
 
             new EncounterStatic { Species = 377, Level = 40, Location = 278, IV3 = true }, // Regirock
             new EncounterStatic { Species = 378, Level = 40, Location = 306, IV3 = true }, // Regice
@@ -533,18 +533,18 @@ namespace PKHeX
 
         private static readonly EncounterLink[] LinkGifts6 =
         {
-            new EncounterLink { Species = 154, Level = 50, Ability = 4 }, // Meganium
-            new EncounterLink { Species = 157, Level = 50, Ability = 4 }, // Typhlosion
-            new EncounterLink { Species = 160, Level = 50, Ability = 4 }, // Feraligatr
+            new EncounterLink { Species = 154, Level = 50, Ability = 4, XY = true, ORAS = true }, // Meganium
+            new EncounterLink { Species = 157, Level = 50, Ability = 4, XY = true, ORAS = true }, // Typhlosion
+            new EncounterLink { Species = 160, Level = 50, Ability = 4, XY = true, ORAS = true }, // Feraligatr
 
-            new EncounterLink {Species = 251, Level = 10, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, ORAS = false }, // Celebi
+            new EncounterLink { Species = 251, Level = 10, Ability = 1, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, XY = true }, // Celebi
 
-            new EncounterLink { Species = 377, Level = 50, RelearnMoves = new[] {153, 8, 444, 359 }, Ability = 4 }, // Regirock
-            new EncounterLink { Species = 378, Level = 50, RelearnMoves = new[] {85, 133, 58, 258 }, Ability = 4 }, // Regice
-            new EncounterLink { Species = 379, Level = 50, RelearnMoves = new[] {442, 157, 356, 334 }, Ability = 4 }, // Registeel
+            new EncounterLink { Species = 377, Level = 50, Ability = 4, RelearnMoves = new[] {153, 8, 444, 359}, XY = true, ORAS = true }, // Regirock
+            new EncounterLink { Species = 378, Level = 50, Ability = 4, RelearnMoves = new[] {85, 133, 58, 258}, XY = true, ORAS = true }, // Regice
+            new EncounterLink { Species = 379, Level = 50, Ability = 4, RelearnMoves = new[] {442, 157, 356, 334}, XY = true, ORAS = true }, // Registeel
 
-            new EncounterLink { Species = 208, Level = 40, Classic = false, Ability = 1, XY = false, OT = false }, // Steelix
-            new EncounterLink { Species = 362, Level = 40, Classic = false, Ability = 1, XY = false, OT = false }, // Glalie
+            new EncounterLink { Species = 208, Level = 40, Ability = 1, Classic = false, ORAS = true, OT = false }, // Steelix
+            new EncounterLink { Species = 362, Level = 40, Ability = 1, Classic = false, ORAS = true, OT = false }, // Glalie
         };
 
         #endregion
