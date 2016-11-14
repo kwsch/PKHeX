@@ -268,8 +268,6 @@ namespace PKHeX
             new EncounterStatic { Species = 103, Form = 1, Level = 40, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = -1, }, // Exeggutor-1
             new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, }, // Tapu Koko
             new EncounterStatic { Species = 542, Form = 0, Level = 57, Relearn = new[]{382, 437, 014, 494}, Location = -1, }, // Leavanny
-
-
         };
         private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
@@ -292,6 +290,26 @@ namespace PKHeX
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
             0x1A, // Beast
+        };
+        internal static readonly int[] AlolanOriginForms =
+        {
+            019, // Rattata
+            020, // Raticate
+            025, // Pikachu (Cosplay not transferrable)
+            026, // Raichu
+            027, // Sandshrew
+            028, // Sandslash
+            037, // Vulpix
+            038, // Ninetails
+            050, // Diglett
+            051, // Dugtrio
+            052, // Meowth
+            053, // Persian
+            074, // Geodude
+            075, // Graveler
+            076, // Golem
+            088, // Grimer
+            089, // Muk
         };
         internal static readonly int[] PastGenAlolanNatives =
         {
