@@ -654,7 +654,7 @@ namespace PKHeX
                 return -1;
             if (Daycare < 0)
                 return -1;
-            return Daycare + 6 + slot * (SIZE_STORED + 6);
+            return Daycare + 1 + slot * (SIZE_STORED + 1);
         }
         public override bool? getDaycareOccupied(int loc, int slot)
         {
@@ -663,7 +663,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return Data[Daycare + (SIZE_STORED + 6) * slot] != 0;
+            return Data[Daycare + (SIZE_STORED + 1) * slot] != 0;
         }
         public override string getDaycareRNGSeed(int loc)
         {
@@ -682,7 +682,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return Data[Daycare + 0x1E0] == 1;
+            return Data[Daycare + 0x1D8] == 1;
         }
         public override void setDaycareOccupied(int loc, int slot, bool occupied)
         {
@@ -690,9 +690,8 @@ namespace PKHeX
                 return;
             if (Daycare < 0)
                 return;
-
-            // Are they using species instead of a flag?
-            Data[Daycare + (SIZE_STORED + 6) * slot] = (byte)(occupied ? 1 : 0);
+            
+            Data[Daycare + (SIZE_STORED + 1) * slot] = (byte)(occupied ? 1 : 0);
         }
         public override void setDaycareRNGSeed(int loc, string seed)
         {
@@ -718,7 +717,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return;
 
-            Data[Daycare + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+            Data[Daycare + 0x1D8] = (byte)(hasEgg ? 1 : 0);
         }
 
         // Mystery Gift
