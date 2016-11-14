@@ -923,7 +923,7 @@ namespace PKHeX
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if (Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
                 {
                     AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
                     return;
@@ -1011,7 +1011,7 @@ namespace PKHeX
 
             if (pkm.Ball == 26)
             {
-                if (Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
                 {
                     AddLine(Severity.Valid, "Beast Ball possible for species.", CheckIdentifier.Ball);
                     return;
