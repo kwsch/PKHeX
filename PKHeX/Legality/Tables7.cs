@@ -106,17 +106,17 @@ namespace PKHeX
             new EncounterStatic { Gift = true, Species = 722, Level = 5,  Location = 24, }, // Rowlet
             new EncounterStatic { Gift = true, Species = 725, Level = 5,  Location = 24, }, // Litten
             new EncounterStatic { Gift = true, Species = 728, Level = 5,  Location = 24, }, // Popplio
-            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = -1, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = -1, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = -1, }, // Aerodactyl
-            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = -1, }, // Lileep
-            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = -1, }, // Anorith
-            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = -1, }, // Cranidos
-            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = -1, }, // Shieldon
-            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = -1, }, // Tirtouga
-            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = -1, }, // Archen
-            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = -1, }, // Tyrunt
-            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = -1, }, // Amaura
+            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = 58, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = 58, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = 58, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
             new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
