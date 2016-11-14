@@ -896,7 +896,7 @@ namespace PKHeX
                         f[966], // Garden
                         f[967], // Elegant
                         f[968], // Meadow
-                        f[979], // Modern 
+                        f[969], // Modern 
                         f[970], // Marine
                         f[971], // Archipelago
                         f[972], // High-Plains
