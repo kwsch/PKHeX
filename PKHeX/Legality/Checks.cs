@@ -1287,8 +1287,23 @@ namespace PKHeX
 
             if (pkm.AltForm > pkm.PersonalInfo.FormeCount)
             {
-                AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form);
-                return;
+                bool valid = false;
+                int species = pkm.Species;
+                if (species == 201) // Unown
+                {
+                    if (pkm.GenNumber == 2 && pkm.AltForm < 26) // A-Z
+                        valid = true;
+                    else if (pkm.GenNumber >= 3 && pkm.AltForm >= 28) // A-Z?!
+                        valid = true;
+                }
+                if (species == 414 && pkm.AltForm < 3) // Wormadam base form kept
+                        valid = true;
+
+                if ((species == 664 || species == 665) && pkm.AltForm < 18) // Vivillon Pre-evolutions
+                    valid = true;
+
+                if (!valid) // ignore list
+                { AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form); return; }
             }
 
             switch (pkm.Species)
