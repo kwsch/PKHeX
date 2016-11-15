@@ -7,7 +7,16 @@ namespace PKHeX
     public partial class Util
     {
 
-        #region String Lists        
+        #region String Lists   
+
+        public const string SpeciesListName = "species";
+        public const string MovesListName = "moves";
+        public const string AbilitiesListName = "abilities";
+        public const string NaturesListName = "natures";
+        public const string FormsListName = "forms";
+        public const string TypesListName = "types";
+        public const string CharacteristicListName = "character";
+        public const string ItemsListName = "items";
 
         /// <summary>
         /// Gets a list of all Pokémon species names.
@@ -16,7 +25,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon species name.</returns>
         public static string[] getSpeciesList(string language)
         {
-            return getStringList("species", language);
+            return getStringList(SpeciesListName, language);
         }
 
         /// <summary>
@@ -26,7 +35,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each move name.</returns>
         public static string[] getMovesList(string language)
         {
-            return getStringList("moves", language);
+            return getStringList(MovesListName, language);
         }
 
         /// <summary>
@@ -36,7 +45,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon ability name.</returns>
         public static string[] getAbilitiesList(string language)
         {
-            return getStringList("abilities", language);
+            return getStringList(AbilitiesListName, language);
         }
 
         /// <summary>
@@ -46,7 +55,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon nature name.</returns>
         public static string[] getNaturesList(string language)
         {
-            return getStringList("natures", language);
+            return getStringList(NaturesListName, language);
         }
 
         /// <summary>
@@ -66,7 +75,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon type name.</returns>
         public static string[] getTypesList(string language)
         {
-            return getStringList("types", language);
+            return getStringList(TypesListName, language);
         }
 
         /// <summary>
@@ -76,7 +85,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon characteristic.</returns>
         public static string[] getCharacteristicsList(string language)
         {
-            return getStringList("character", language);
+            return getStringList(CharacteristicListName, language);
         }
 
         /// <summary>
@@ -86,7 +95,7 @@ namespace PKHeX
         /// <returns>An array of strings whose indexes correspond to the IDs of each item.</returns>
         public static string[] getItemsList(string language)
         {
-            return getStringList("items", language);
+            return getStringList(ItemsListName, language);
         }
 
         #endregion
