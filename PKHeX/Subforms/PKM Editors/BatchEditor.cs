@@ -82,6 +82,8 @@ namespace PKHeX
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
             b = new BackgroundWorker {WorkerReportsProgress = true};
+            screenStrings(Filters);
+            screenStrings(Instructions);
 
             b.DoWork += (sender, e) => {
                 if (RB_SAV.Checked)
@@ -224,6 +226,22 @@ namespace PKHeX
                 b.ReportProgress(i);
             }
         }
+        private static void screenStrings(IEnumerable<StringInstruction> il)
+        {
+            foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
+            {
+                switch (i.PropertyName)
+                {
+                    case "Species": i.setScreenedValue(Main.GameStrings.specieslist); continue;
+                    case "HeldItem": i.setScreenedValue(Main.GameStrings.itemlist); continue;
+                    case "Move1": case "Move2": case "Move3": case "Move4": i.setScreenedValue(Main.GameStrings.movelist); continue;
+                    case "RelearnMove1": case "RelearnMove2": case "RelearnMove3": case "RelearnMove4": i.setScreenedValue(Main.GameStrings.movelist); continue;
+                    case "Ability": i.setScreenedValue(Main.GameStrings.abilitylist); continue;
+                    case "Nature": i.setScreenedValue(Main.GameStrings.natures); continue;
+                    case "Ball": i.setScreenedValue(Main.GameStrings.balllist); continue;
+                }
+            }
+        }
         
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -246,6 +264,11 @@ namespace PKHeX
             public string PropertyName;
             public string PropertyValue;
             public bool Evaluator;
+            public void setScreenedValue(string[] arr)
+            {
+                int index = Array.IndexOf(arr, PropertyValue);
+                PropertyValue = index > -1 ? index.ToString() : PropertyValue;
+            }
         }
         private enum ModifyResult
         {
