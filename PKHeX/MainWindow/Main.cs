@@ -98,6 +98,7 @@ namespace PKHeX
             GB_OT.Click += clickGT;
             GB_nOT.Click += clickGT;
             GB_Daycare.Click += switchDaycare;
+            GB_CurrentMoves.Click += clickMoves;
             GB_RelearnMoves.Click += clickMoves;
 
             TB_Nickname.Font = PKX.getPKXFont(11);
@@ -1779,15 +1780,37 @@ namespace PKHeX
         private void clickMoves(object sender, EventArgs e)
         {
             updateLegality();
-            int[] m = Legality.getSuggestedRelearn();
-            string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
-            if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
-                return;
+            if (sender == GB_CurrentMoves)
+            {
+                bool random = ModifierKeys == Keys.Control;
+                int[] m = Legality.getSuggestedMoves(tm: random, tutor: random);
+                if (random)
+                    Util.Shuffle(m);
+                if (m.Length > 4)
+                    m = m.Skip(m.Length - 4).ToArray();
 
-            CB_RelearnMove1.SelectedValue = m[0];
-            CB_RelearnMove2.SelectedValue = m[1];
-            CB_RelearnMove3.SelectedValue = m[2];
-            CB_RelearnMove4.SelectedValue = m[3];
+                string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
+                    return;
+
+                CB_Move1.SelectedValue = m[0];
+                CB_Move2.SelectedValue = m[1];
+                CB_Move3.SelectedValue = m[2];
+                CB_Move4.SelectedValue = m[3];
+            }
+            else if (sender == GB_RelearnMoves)
+            {
+                int[] m = Legality.getSuggestedRelearn();
+                string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
+                    return;
+
+                CB_RelearnMove1.SelectedValue = m[0];
+                CB_RelearnMove2.SelectedValue = m[1];
+                CB_RelearnMove3.SelectedValue = m[2];
+                CB_RelearnMove4.SelectedValue = m[3];
+            }
+
             updateLegality();
         }
         // Prompted Updates of PKX Functions // 

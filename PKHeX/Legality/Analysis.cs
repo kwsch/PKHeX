@@ -208,5 +208,11 @@ namespace PKHeX
                 window.AddRange(new int[4 - window.Count]);
             return window.Skip(window.Count - 4).Take(4).ToArray();
         }
+        public int[] getSuggestedMoves(bool tm, bool tutor)
+        {
+            if (pkm.GenNumber < 6)
+                return null;
+            return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm).Skip(1).ToArray(); // skip move 0
+        }
     }
 }

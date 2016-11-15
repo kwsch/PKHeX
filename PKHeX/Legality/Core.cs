@@ -152,12 +152,12 @@ namespace PKHeX
         }
 
         // Moves
-        internal static IEnumerable<int> getValidMoves(PKM pkm)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, bool Tutor = true, bool Machine = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: true, Machine: true); 
+            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
