@@ -226,7 +226,7 @@ namespace PKHeX
                 b.ReportProgress(i);
             }
         }
-        private static void screenStrings(IEnumerable<StringInstruction> il)
+        public static void screenStrings(IEnumerable<StringInstruction> il)
         {
             foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
             {
