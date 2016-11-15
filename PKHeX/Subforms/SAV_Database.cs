@@ -490,6 +490,7 @@ namespace PKHeX
                 if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
                 { Util.Error("Empty Filter Value detected."); return; }
 
+                BatchEditor.screenStrings(filters);
                 res = res.Where(pkm => // Compare across all filters
                 {
                     foreach (var cmd in filters)

@@ -29,10 +29,15 @@ namespace PKHeX
         public CheckResult[] vRelearn = new CheckResult[4];
         public string Report => getLegalityReport();
         public string VerboseReport => getVerboseLegalityReport();
-        public bool Native => pkm.GenNumber == pkm.Format;
 
         public LegalityAnalysis(PKM pk)
         {
+            for (int i = 0; i < 4; i++) 
+            {
+                vMoves[i] = new CheckResult(CheckIdentifier.Move);
+                vRelearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
+            }
+
             try
             {
                 switch (pk.GenNumber)
@@ -41,18 +46,23 @@ namespace PKHeX
                     case 7: parsePK7(pk); break;
                     default: return;
                 }
-                Valid = Parse.Any() && Parse.All(chk => chk.Valid);
-                if (vMoves.Any(m => m.Valid != true))
-                    Valid = false;
-                else if (vRelearn.Any(m => m.Valid != true))
-                    Valid = false;
+
+                Valid = Parsed = Parse.Any();
+                if (Parsed)
+                {
+                    if (Parse.Any(chk => !chk.Valid))
+                        Valid = false;
+                    if (vMoves.Any(m => m.Valid != true))
+                        Valid = false;
+                    else if (vRelearn.Any(m => m.Valid != true))
+                        Valid = false;
+
+                    if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
+                        AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
+                }
             }
             catch { Valid = false; }
-            Parsed = Parse.Any();
             getLegalityReport();
-
-            if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
-                AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
         }
 
         private void AddLine(Severity s, string c, CheckIdentifier i)
@@ -65,9 +75,9 @@ namespace PKHeX
         }
         private void parsePK6(PKM pk)
         {
-            if (!(pk is PK6))
-                return;
             pkm = pk;
+            if (pkm.Species > 721)
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateMoveLegality();
@@ -75,9 +85,9 @@ namespace PKHeX
         }
         private void parsePK7(PKM pk)
         {
-            if (!(pk is PK7))
-                return;
             pkm = pk;
+            if (pkm.Species > 802)
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateMoveLegality();

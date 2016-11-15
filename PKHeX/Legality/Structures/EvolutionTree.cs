@@ -8,11 +8,15 @@ namespace PKHeX
     {
         private List<EvolutionSet> Entries { get; } = new List<EvolutionSet>();
         private EvolutionLineage[] Lineage { get; }
+        private readonly GameVersion Game;
         private readonly PersonalTable Personal;
+        private readonly int MaxSpecies;
 
-        public EvolutionTree(byte[][] data, GameVersion game, PersonalTable personal)
+        public EvolutionTree(byte[][] data, GameVersion game, PersonalTable personal, int maxSpecies)
         {
+            Game = game;
             Personal = personal;
+            MaxSpecies = maxSpecies;
             switch (game)
             {
                 case GameVersion.SM:
@@ -59,6 +63,50 @@ namespace PKHeX
                     }
                 }
             }
+            fixEvoTreeManually();
+        }
+
+        // There's always oddballs.
+        private void fixEvoTreeManually()
+        {
+            switch (Game)
+            {
+                case GameVersion.SM:
+                    fixEvoTreeSM();
+                    break;
+                case GameVersion.ORAS:
+                    fixEvoTreeORAS();
+                    break;
+            }
+        }
+        private void fixEvoTreeSM()
+        {
+            // Shellos -- Move Shellos-1 evo from Gastrodon-0 to Gastrodon-1
+            Lineage[Personal.getFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
+            Lineage[422+1].Chain.RemoveAt(0);
+
+            // Flabébé -- Doesn't contain evo info for forms 1-4, copy.
+            var fbb = Lineage[669+1].Chain[0];
+            for (int i = 1; i <= 4; i++) // NOT AZ
+            {
+                Lineage[Personal.getFormeIndex(669+1, i)].Chain.Insert(0, fbb);
+                Lineage[Personal.getFormeIndex(669+2, i)].Chain.Insert(0, fbb);
+            }
+
+            // Scatterbug/Spewpa
+            for (int i = 1; i < 18; i++)
+                Lineage[Personal.getFormeIndex(666, i)].Chain.InsertRange(0, Lineage[665].Chain);
+
+            // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
+            for (int i = 1; i <= 3; i++)
+            {
+                Lineage[Personal.getFormeIndex(711, i)].Chain.Clear();
+                Lineage[Personal.getFormeIndex(711, i)].Chain.Add(Lineage[711].Chain[3-i]);
+            }
+            Lineage[711].Chain.RemoveRange(0, 3);
+        }
+        private void fixEvoTreeORAS()
+        {
         }
 
         private int getIndex(PKM pkm)
@@ -86,7 +134,7 @@ namespace PKHeX
         public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl)
         {
             int index = getIndex(pkm);
-            return Lineage[index].getExplicitLineage(pkm, lvl);
+            return Lineage[index].getExplicitLineage(pkm, lvl, MaxSpecies);
         }
     }
 
@@ -275,7 +323,7 @@ namespace PKHeX
             Chain.Insert(0, evo);
         }
 
-        public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl)
+        public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl, int maxSpecies)
         {
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count-1; i >= 0; i--) // reverse evolution!
@@ -285,7 +333,7 @@ namespace PKHeX
                     if (!evo.Valid(pkm, lvl))
                         continue;
 
-                    if (evo.Species > 802) // Gen7 Personal Formes -- unmap the forme personal entry to the actual species ID since species are consecutive
+                    if (evo.Species > maxSpecies) // Gen7 Personal Formes -- unmap the forme personal entry to the actual species ID since species are consecutive
                         dl.Add(evo.GetDexLevel(pkm.Species - Chain.Count + i, lvl));
                     else
                         dl.Add(evo.GetDexLevel(lvl));
