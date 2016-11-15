@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.Reflection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -21,6 +22,7 @@ namespace PKHeX
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
+        private int ctr, len, err, badInput;
         private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).OrderBy(i=>i).ToArray();
@@ -104,6 +106,8 @@ namespace PKHeX
                 string result = $"Modified {ctr}/{len} files.";
                 if (err > 0)
                     result += Environment.NewLine + $"{err} files ignored due to an internal error.";
+                if (badInput > 0)
+                    result += Environment.NewLine + $"{badInput} files ignored due to bad user input.  Please ensure spelling is correct.";
                 Util.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 setupProgressBar(0);
@@ -127,8 +131,7 @@ namespace PKHeX
             else { PB_Show.Value = i; }
         }
         
-        // Mass Editing
-        private int ctr, len, err;
+        // Mass Editing        
         private IEnumerable<StringInstruction> getFilters()
         {
             var raw =
@@ -170,9 +173,12 @@ namespace PKHeX
                 ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
                 if (r != ModifyResult.Invalid)
                     len++;
+
                 if (r == ModifyResult.Error)
                     err++;
-                if (r == ModifyResult.Modified)
+                else if (r == ModifyResult.BadInput)
+                    badInput++;
+                else if (r == ModifyResult.Modified)
                 {
                     if (pkm.Species != 0)
                         pkm.RefreshChecksum();
@@ -252,6 +258,7 @@ namespace PKHeX
             Error,
             Filtered,
             Modified,
+            BadInput,
         }
         private static ModifyResult ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
         {
@@ -299,6 +306,11 @@ namespace PKHeX
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
                     result = ModifyResult.Modified;
+                }
+                catch (EnumItemNotInListException ex)
+                {
+                    Console.WriteLine($"Bad user input: {ex.MissingItem}");
+                    result = ModifyResult.BadInput;
                 }
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }

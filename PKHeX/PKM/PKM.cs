@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.Reflection;
+using System;
 using System.Drawing;
 using System.Linq;
 
@@ -47,11 +48,15 @@ namespace PKHeX
         }
 
         // Surface Properties
+        [StringListEnum(Util.SpeciesListName)]
         public abstract int Species { get; set; }
         public abstract string Nickname { get; set; }
+        [StringListEnum(Util.ItemsListName)]
         public abstract int HeldItem { get; set; }
         public abstract int Gender { get; set; }
+        [StringListEnum(Util.NaturesListName)]
         public abstract int Nature { get; set; }
+        [StringListEnum(Util.AbilitiesListName)]
         public abstract int Ability { get; set; }
         public abstract int CurrentFriendship { get; set; }
         public abstract int AltForm { get; set; }
@@ -61,13 +66,18 @@ namespace PKHeX
         public abstract int TID { get; set; }
         public abstract string OT_Name { get; set; }
         public abstract int OT_Gender { get; set; }
+        [StringListEnum(Util.ItemsListName)]
         public abstract int Ball { get; set; }
         public abstract int Met_Level { get; set; }
 
         // Battle
+        [StringListEnum(Util.MovesListName)]
         public abstract int Move1 { get; set; }
+        [StringListEnum(Util.MovesListName)]
         public abstract int Move2 { get; set; }
+        [StringListEnum(Util.MovesListName)]
         public abstract int Move3 { get; set; }
+        [StringListEnum(Util.MovesListName)]
         public abstract int Move4 { get; set; }
         public abstract int Move1_PP { get; set; }
         public abstract int Move2_PP { get; set; }
@@ -245,9 +255,13 @@ namespace PKHeX
         }
 
         public virtual int OT_Affection { get { return 0; } set { } }
+        [StringListEnum(Util.MovesListName)]
         public virtual int RelearnMove1 { get { return 0; } set { } }
+        [StringListEnum(Util.MovesListName)]
         public virtual int RelearnMove2 { get { return 0; } set { } }
+        [StringListEnum(Util.MovesListName)]
         public virtual int RelearnMove3 { get { return 0; } set { } }
+        [StringListEnum(Util.MovesListName)]
         public virtual int RelearnMove4 { get { return 0; } set { } }
         public virtual int EncounterType { get { return 0; } set { } }
 

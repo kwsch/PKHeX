@@ -98,6 +98,7 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Reflection\BatchEditAttribute.cs" />
     <Compile Include="Game\GameUtil.cs" />
     <Compile Include="Game\GameVersion.cs" />
     <Compile Include="Legality\Analysis.cs" />
@@ -193,6 +194,8 @@
     <Compile Include="Misc\QR.Designer.cs">
       <DependentUpon>QR.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reflection\EnumItemNotInListException.cs" />
+    <Compile Include="Reflection\StringListEnumAttribute.cs" />
     <Compile Include="Saves\SAV7.cs" />
     <Compile Include="Saves\Substructures\BattleVideo.cs" />
     <Compile Include="Saves\Substructures\BlockInfo.cs" />
@@ -436,7 +439,7 @@
     <Compile Include="Util\NetUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />
     <Compile Include="Util\RandUtil.cs" />
-    <Compile Include="Util\ReflectUtil.cs" />
+    <Compile Include="Reflection\ReflectUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <EmbeddedResource Include="Misc\ErrorWindow.resx">
       <DependentUpon>ErrorWindow.cs</DependentUpon>
