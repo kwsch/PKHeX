@@ -939,6 +939,7 @@ namespace PKHeX
                 GB_GTS.Visible = SAV.HasGTS;
                 B_OpenSecretBase.Enabled = SAV.HasSecretBase;
                 B_OpenPokepuffs.Enabled = SAV.HasPuff;
+                B_OpenPokeBeans.Enabled = SAV.Generation == 7;
                 B_OUTPasserby.Enabled = SAV.HasPSS;
                 B_OpenBoxLayout.Enabled = SAV.HasBoxWallpapers;
                 B_OpenWondercards.Enabled = SAV.HasWondercards;
@@ -3715,6 +3716,10 @@ namespace PKHeX
         private void B_OpenPokepuffs_Click(object sender, EventArgs e)
         {
             new SAV_Pokepuff().ShowDialog();
+        }
+        private void B_OpenPokeBeans_Click(object sender, EventArgs e)
+        {
+            new SAV_Pokebean().ShowDialog();
         }
         private void B_OpenItemPouch_Click(object sender, EventArgs e)
         {

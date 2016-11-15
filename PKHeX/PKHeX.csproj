@@ -297,6 +297,12 @@
     <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.Designer.cs">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.Designer.cs">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -482,6 +488,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.resx">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Pokebean.resx">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>

@@ -420,6 +420,25 @@ namespace PKHeX
             }
         }
 
+        // Resort Save
+        public int GetPokebeanCount(int bean_id)
+        {
+            if (bean_id < 0 || bean_id > 14)
+                throw new ArgumentException("Invalid bean id!");
+            return Data[Resort + 0x564C + bean_id];
+        }
+
+        public void SetPokebeanCount(int bean_id, int count)
+        {
+            if (bean_id < 0 || bean_id > 14)
+                throw new ArgumentException("Invalid bean id!");
+            if (count < 0)
+                count = 0;
+            if (count > 255)
+                count = 255;
+            Data[Resort + 0x564C + bean_id] = (byte) count;
+        }
+
         // Storage
         public override int CurrentBox { get { return Data[LastViewedBox]; } set { Data[LastViewedBox] = (byte)value; } }
         public override int getPartyOffset(int slot)
