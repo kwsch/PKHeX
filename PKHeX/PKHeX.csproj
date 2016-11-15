@@ -159,6 +159,7 @@
     </Compile>
     <Compile Include="MysteryGifts\MysteryGift.cs" />
     <Compile Include="MysteryGifts\PL6.cs" />
+    <Compile Include="MysteryGifts\WC7.cs" />
     <Compile Include="PersonalInfo\PersonalInfo.cs" />
     <Compile Include="PersonalInfo\PersonalInfoB2W2.cs" />
     <Compile Include="PersonalInfo\PersonalInfoBW.cs" />
@@ -215,6 +216,12 @@
     <Compile Include="Saves\Substructures\ShadowInfo.cs" />
     <Compile Include="Saves\Substructures\StrategyMemo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Subforms\KChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\KChart.Designer.cs">
+      <DependentUpon>KChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\PKM Editors\BatchEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +296,12 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.Designer.cs">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.Designer.cs">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.cs">
       <SubType>Form</SubType>
@@ -420,6 +433,7 @@
     </Compile>
     <Compile Include="Game\ComboItem.cs" />
     <Compile Include="Util\BigEndian.cs" />
+    <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\DeployUtil.cs" />
@@ -436,6 +450,9 @@
     <EmbeddedResource Include="Misc\QR.resx">
       <DependentUpon>QR.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\KChart.resx">
+      <DependentUpon>KChart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\BatchEditor.resx">
       <DependentUpon>BatchEditor.cs</DependentUpon>
@@ -471,6 +488,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.resx">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Pokebean.resx">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>
@@ -557,6 +577,8 @@
     <None Include="Resources\byte\evos_sm.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
     <None Include="Resources\byte\personal_sm" />
+    <None Include="Resources\byte\wc7.pkl" />
+    <None Include="Resources\byte\wc7full.pkl" />
     <None Include="Resources\text\gen3\text_gsc_00000_es.txt" />
     <None Include="Resources\text\gen3\text_ItemsG1_es.txt" />
     <None Include="Resources\text\gen3\text_ItemsG2_es.txt" />
@@ -3590,6 +3612,72 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\Pokemon Sprites\25-6c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_06.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_07.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_08.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_09.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_00.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_04.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\types\type_icon_05.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\other\const_sm.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\other\flags_sm.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\zh\text_Species_zh_alt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\text\zh\text_Species_zh2_alt.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

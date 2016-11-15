@@ -32,7 +32,7 @@
         public abstract int [] Abilities { get; set; }
         public abstract int EscapeRate { get; set; }
         public virtual int FormeCount { get; set; }
-        protected virtual int FormStatsIndex { get; set; }
+        protected internal virtual int FormStatsIndex { get; set; }
         public virtual int FormeSprite { get; set; }
         public abstract int BaseEXP { get; set; }
         public abstract int Color { get; set; }

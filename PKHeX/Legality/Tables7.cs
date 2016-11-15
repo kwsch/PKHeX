@@ -41,9 +41,23 @@ namespace PKHeX
 
         #endregion
 
-        internal static readonly ushort[] Pouch_Regular_SM = { // 00
-            68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 116, 117, 118, 119, 135, 136, 137, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 499, 534, 535, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 570, 571, 572, 573, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 590, 639, 640, 644, 645, 646, 647, 648, 649, 650, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 699, 704, 710, 711, 715, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 767, 768, 769, 770,
-            795, 796, 844, 849, 853, 854, 855, 856, 879, 880, 881, 882, 883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920,
+        internal static readonly ushort[] Pouch_Regular_SM = // 00
+        {
+            068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087,
+            088, 089, 090, 091, 092, 093, 094, 099, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
+            112, 116, 117, 118, 119, 135, 136, 137, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225,
+            226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245,
+            246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265,
+            266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285,
+            286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305,
+            306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325,
+            326, 327, 499, 534, 535, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551,
+            552, 553, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 571, 572, 573, 580, 581, 582, 583,
+            584, 585, 586, 587, 588, 589, 590, 639, 640, 644, 645, 646, 647, 648, 649, 650, 656, 657, 658, 659,
+            660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679,
+            680, 681, 682, 683, 684, 685, 699, 704, 710, 711, 715, 752, 753, 754, 755, 756, 757, 758, 759, 760,
+            761, 762, 763, 764, 767, 768, 769, 770, 795, 796, 844, 849, 853, 854, 855, 856, 879, 880, 881, 882,
+            883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920,
         };
         internal static readonly ushort[] Pouch_Ball_SM = { // 08
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 492, 493, 494, 495, 496, 497, 498, 576,
@@ -56,7 +70,7 @@ namespace PKHeX
         internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
         
         internal static readonly ushort[] Pouch_Key_SM = {
-            216, 465, 466, 628, 629, 632, 633, 638, 696,
+            216, 465, 466, 628, 629, 631, 632, 633, 638, 696,
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
@@ -69,11 +83,13 @@ namespace PKHeX
             418, 419, 618, 619, 620, 690, 691, 692, 693, 694,
         };
         internal static readonly ushort[] Pouch_Medicine_SM = { // 32
-            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 65, 66, 67, 134, 504, 591, 708, 709,
+            17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 65, 66, 67, 134,
+            504, 565, 566, 567, 568, 569, 570, 591, 708, 709,
             852,
         };
         internal static readonly ushort[] Pouch_Berries_SM = {
-            149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212
+            149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
+            686, 687, 688,
         };
         internal static readonly ushort[] Pouch_ZCrystal_SM = { // Bead
             807, 808, 809, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835,
@@ -86,33 +102,39 @@ namespace PKHeX
         #region Encounters
         private static readonly EncounterStatic[] Encounter_SM = // @ a\1\5\5
         {
-            // Gfits - 0.bin
+            // Gifts - 0.bin
             new EncounterStatic { Gift = true, Species = 722, Level = 5,  Location = 24, }, // Rowlet
             new EncounterStatic { Gift = true, Species = 725, Level = 5,  Location = 24, }, // Litten
             new EncounterStatic { Gift = true, Species = 728, Level = 5,  Location = 24, }, // Popplio
-            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = -1, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = -1, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = -1, }, // Aerodactyl
-            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = -1, }, // Lileep
-            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = -1, }, // Anorith
-            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = -1, }, // Cranidos
-            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = -1, }, // Shieldon
-            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = -1, }, // Tirtouga
-            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = -1, }, // Archen
-            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = -1, }, // Tyrunt
-            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = -1, }, // Amaura
-            new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee
+            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = 58, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = 58, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = 58, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
+            new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
-            new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = -1, IV3 = true, }, // Type: Null
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -1, Shiny = false, IV3 = true, }, // Magearna (Bottle Cap) 00 FF
-            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = -1, Shiny = false, IV3 = true, }, // Cosmog                00 FF
-            new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = -1, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, IV3 = true, Version = GameVersion.SN}, // Cosmog                00 FF
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, IV3 = true, Version = GameVersion.MN}, // Cosmog                00 FF
+            new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
             
+            new EncounterStatic // Magearna (Bottle Cap) 00 FF
+            {
+                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true,
+                Fateful = true, RibbonWishing = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
+            },
+
             // Static Encounters - 1.bin
             new EncounterStatic { Species = 731, Form = 0, Level = 03, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Pikipek
             // new EncounterStatic { Species = 793, Form = 0, Level = 27, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, IVs = new[] {31, 01, 31, 01, 31, 31}, Location = -1, IV3 = true, }, // Nihilego
-            new EncounterStatic { Species = 791, Form = 0, Level = 55, Relearn = new[]{713, 322, 242, 428}, Shiny = false, Ability = 1, Location = 176, IV3 = true, }, // Solgaleo
-            new EncounterStatic { Species = 792, Form = 0, Level = 55, Relearn = new[]{714, 322, 539, 247}, Shiny = false, Ability = 1, Location = 178, IV3 = true, }, // Lunala
+            new EncounterStatic { Species = 791, Form = 0, Level = 55, Relearn = new[]{713, 322, 242, 428}, Shiny = false, Ability = 1, Location = 176, IV3 = true, Version = GameVersion.SN}, // Solgaleo
+            new EncounterStatic { Species = 792, Form = 0, Level = 55, Relearn = new[]{714, 322, 539, 247}, Shiny = false, Ability = 1, Location = 178, IV3 = true, Version = GameVersion.MN}, // Lunala
             new EncounterStatic { Species = 735, Form = 1, Level = 12, Relearn = new[]{162, 044, 043, 184}, Shiny = false, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, Gender = 0, HeldItem = 151, }, // Gumshoos-1
             new EncounterStatic { Species = 734, Form = 0, Level = 11, Relearn = new[]{028, 033, 158, 043}, Shiny = false, Ability = 2, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Yungoos
             new EncounterStatic { Species = 735, Form = 0, Level = 11, Relearn = new[]{028, 044, 162, 043}, Shiny = false, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Gumshoos
@@ -124,10 +146,10 @@ namespace PKHeX
             new EncounterStatic { Species = 019, Form = 1, Level = 11, Relearn = new[]{033, 039, 098, 162}, Shiny = false, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Rattata-1
             new EncounterStatic { Species = 019, Form = 1, Level = 10, Relearn = new[]{033, 039, 098, 116}, Shiny = false, Ability = 2, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Rattata-1
             new EncounterStatic { Species = 746, Form = 1, Level = 20, Relearn = new[]{055, 045, 240, 487}, Shiny = false, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, Gender = 0, HeldItem = 158, }, // Wishiwashi-1
-            new EncounterStatic { Species = 746, Form = 0, Level = 17, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Wishiwashi
-            new EncounterStatic { Species = 746, Form = 0, Level = 18, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Wishiwashi
+            new EncounterStatic { Species = 746, Form = 0, Level = 17, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 86, }, // Wishiwashi
+            new EncounterStatic { Species = 746, Form = 0, Level = 18, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 86, }, // Wishiwashi
             new EncounterStatic { Species = 594, Form = 0, Level = 18, Relearn = new[]{270, 003, 505, 055}, Shiny = false, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Location = -1, }, // Alomomola
-            new EncounterStatic { Species = 746, Form = 0, Level = 18, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Wishiwashi
+            new EncounterStatic { Species = 746, Form = 0, Level = 18, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 86, }, // Wishiwashi
             new EncounterStatic { Species = 758, Form = 1, Level = 22, Relearn = new[]{259, 599, 092, 481}, Shiny = false, Ability = 1, IVs = new[] {31, 01, 15, 01, 15, 01}, Location = -1, Gender = 1, HeldItem = 204, }, // Salazzle-1
             new EncounterStatic { Species = 105, Form = 1, Level = 18, Relearn = new[]{172, 125, 039, 045}, Shiny = false, Ability = 1, Location = -1, }, // Marowak-1
             new EncounterStatic { Species = 105, Form = 1, Level = 18, Relearn = new[]{172, 125, 039, 045}, Shiny = false, Ability = 1, Location = -1, }, // Marowak-1
@@ -159,56 +181,18 @@ namespace PKHeX
             new EncounterStatic { Species = 783, Form = 0, Level = 40, Relearn = new[]{029, 475, 526, 327}, Shiny = false, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31}, Location = -1, }, // Hakamo-o
             new EncounterStatic { Species = 783, Form = 0, Level = 32, Relearn = new[]{327, 475, 526, 117}, Shiny = false, Ability = 1, IVs = new[] {15, 15, 15, 15, 15, 15}, Location = -1, }, // Hakamo-o
             new EncounterStatic { Species = 212, Form = 0, Level = 32, Relearn = new[]{232, 228, 043, 210}, Shiny = false, Ability = 2, IVs = new[] {15, 15, 15, 15, 15, 15}, Location = -1, }, // Scizor
-            new EncounterStatic { Species = 793, Form = 0, Level = 55, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Nihilego
-            new EncounterStatic { Species = 793, Form = 0, Level = 55, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Nihilego
-            new EncounterStatic { Species = 794, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Buzzwole
-            new EncounterStatic { Species = 794, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Buzzwole
-            new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Pheromosa
-            new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Pheromosa
-            new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Pheromosa
-            new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Pheromosa
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Xurkitree
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Kartana
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Celesteela
-            new EncounterStatic { Species = 799, Form = 0, Level = 70, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Guzzlord
-            new EncounterStatic { Species = 800, Form = 0, Level = 75, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Necrozma
+            new EncounterStatic { Species = 793, Form = 0, Level = 55, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 082, IV3 = true, }, // Nihilego @ Wela Volcano Park
+            new EncounterStatic { Species = 793, Form = 0, Level = 55, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 100, IV3 = true, }, // Nihilego @ Diglett’s Tunnel
+            new EncounterStatic { Species = 794, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 040, IV3 = true, Version = GameVersion.SN }, // Buzzwole @ Melemele Meadow
+            new EncounterStatic { Species = 795, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 046, IV3 = true, Version = GameVersion.MN }, // Pheromosa @ Verdant Cavern (Trial Site)
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 090, IV3 = true, }, // Xurkitree @ Lush Jungle
+            new EncounterStatic { Species = 796, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 076, IV3 = true, }, // Xurkitree @ Memorial Hill
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 134, IV3 = true, Version = GameVersion.SN }, // Kartana @ Malie Garden
+            new EncounterStatic { Species = 798, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 120, IV3 = true, Version = GameVersion.SN }, // Kartana @ Route 17
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 124, IV3 = true, Version = GameVersion.MN }, // Celesteela @ Haina Desert
+            new EncounterStatic { Species = 797, Form = 0, Level = 65, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 134, IV3 = true, Version = GameVersion.MN }, // Celesteela @ Malie Garden
+            new EncounterStatic { Species = 799, Form = 0, Level = 70, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 182, IV3 = true, }, // Guzzlord @ Resolution Cave
+            new EncounterStatic { Species = 800, Form = 0, Level = 75, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 036, IV3 = true, }, // Necrozma @ Ten Carat Hill (Farthest Hollow)
             new EncounterStatic { Species = 155, Form = 0, Level = 12, Relearn = new[]{024, 052, 108, 043}, Location = -1, }, // Cyndaquil
             new EncounterStatic { Species = 158, Form = 0, Level = 12, Relearn = new[]{232, 099, 055, 043}, Location = -1, }, // Totodile
             new EncounterStatic { Species = 633, Form = 0, Level = 13, Relearn = new[]{372, 029, 044, 116}, Location = -1, }, // Deino
@@ -238,16 +222,14 @@ namespace PKHeX
             new EncounterStatic { Species = 497, Form = 0, Level = 43, Relearn = new[]{137, 489, 348, 021}, Location = -1, }, // Serperior
             new EncounterStatic { Species = 503, Form = 0, Level = 43, Relearn = new[]{362, 227, 453, 279}, Location = -1, }, // Samurott
             new EncounterStatic { Species = 500, Form = 0, Level = 43, Relearn = new[]{276, 053, 372, 535}, Location = -1, }, // Emboar
-            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Koko
-            new EncounterStatic { Species = 786, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Lele
-            new EncounterStatic { Species = 787, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Bulu
-            new EncounterStatic { Species = 788, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, IV3 = true, }, // Tapu Fini
+            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, IV3 = true, }, // Tapu Koko
+            new EncounterStatic { Species = 786, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 092, IV3 = true, }, // Tapu Lele
+            new EncounterStatic { Species = 787, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 140, IV3 = true, }, // Tapu Bulu
+            new EncounterStatic { Species = 788, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 180, IV3 = true, }, // Tapu Fini
             new EncounterStatic { Species = 296, Form = 0, Level = 09, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = -1, }, // Makuhita
-            new EncounterStatic { Species = 103, Form = 1, Level = 40, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = -1, }, // Exeggutor-1
-            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = -1, }, // Tapu Koko
+            new EncounterStatic { Species = 103, Form = 1, Level = 40, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = 184, }, // Exeggutor-1 @ Exeggutor Island
+            new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, }, // Tapu Koko
             new EncounterStatic { Species = 542, Form = 0, Level = 57, Relearn = new[]{382, 437, 014, 494}, Location = -1, }, // Leavanny
-
-
         };
         private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
@@ -261,11 +243,35 @@ namespace PKHeX
             new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
         };
         #endregion
+        private static readonly EncounterLink[] LinkGifts7 =
+        {
+
+        };
 
         private static readonly int[] WildPokeballs7 = {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
             0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, // Johto Balls
             0x1A, // Beast
+        };
+        internal static readonly int[] AlolanOriginForms =
+        {
+            019, // Rattata
+            020, // Raticate
+            025, // Pikachu (Cosplay not transferrable)
+            026, // Raichu
+            027, // Sandshrew
+            028, // Sandslash
+            037, // Vulpix
+            038, // Ninetails
+            050, // Diglett
+            051, // Dugtrio
+            052, // Meowth
+            053, // Persian
+            074, // Geodude
+            075, // Graveler
+            076, // Golem
+            088, // Grimer
+            089, // Muk
         };
         internal static readonly int[] PastGenAlolanNatives =
         {

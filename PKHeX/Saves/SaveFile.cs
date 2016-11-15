@@ -550,5 +550,7 @@ namespace PKHeX
             input.CopyTo(Data, Offset);
             Edited = true;
         }
+
+        public virtual bool RequiresMemeCrypto { get { return false; } }
     }
 }

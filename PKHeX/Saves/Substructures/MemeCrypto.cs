@@ -14,7 +14,7 @@ namespace PKHeX
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var aes = new AesCryptoServiceProvider())
+                using (var aes = Util.GetAesProvider())
                 {
                     aes.Mode = CipherMode.ECB;
                     aes.Padding = PaddingMode.None;
@@ -34,7 +34,7 @@ namespace PKHeX
         {
             using (MemoryStream ms = new MemoryStream())
             {
-                using (var aes = new AesCryptoServiceProvider())
+                using (var aes = Util.GetAesProvider())
                 {
                     aes.Mode = CipherMode.ECB;
                     aes.Padding = PaddingMode.None;
@@ -204,64 +204,102 @@ namespace PKHeX
             if (input.Length != 0x80)
                 throw new ArgumentException("Invalid Memecrypto decryption byte[]!");
 
-            var sha1 = new SHA1CryptoServiceProvider();
+            using (var sha1 = Util.GetSHA1Provider())
+            {
+                byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
+                byte[] enc = new byte[0x60];
+                Array.Copy(input, 0x20, enc, 0, 0x60);
 
-            byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
-            byte[] enc = new byte[0x60];
-            Array.Copy(input, 0x20, enc, 0, 0x60);
+                byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
+                Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
+                Array.Copy(input, 0, keybuf, PubKeyDer.Length, 0x20);
+                byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
 
-            byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
-            Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
-            Array.Copy(input, 0, keybuf, PubKeyDer.Length, 0x20);
-            byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
-
-            byte[] RSA = RSAEncrypt(enc);
-            var dec = MemeCryptoAESDecrypt(key, RSA);
-            if (sha1.ComputeHash(dec).Take(0x8).SequenceEqual(dec.Skip(0x58)))
-                return dec;
-            RSA[0] |= 0x80;
-            dec = MemeCryptoAESDecrypt(key, RSA);
-            if (sha1.ComputeHash(dec).Take(0x8).SequenceEqual(dec.Skip(0x58)))
-                return dec;
+                byte[] RSA = RSAEncrypt(enc);
+                var dec = MemeCryptoAESDecrypt(key, RSA);
+                if (sha1.ComputeHash(dec).Take(0x8).SequenceEqual(dec.Skip(0x58)))
+                    return dec;
+                RSA[0] |= 0x80;
+                dec = MemeCryptoAESDecrypt(key, RSA);
+                if (sha1.ComputeHash(dec).Take(0x8).SequenceEqual(dec.Skip(0x58)))
+                    return dec;
+            }            
             return null;
         }
 
-        public static byte[] Resign(byte[] sav7)
+        /// <summary>
+        /// Resigns save data.
+        /// </summary>
+        /// <param name="sav7">The save data to resign.</param>
+        /// <param name="throwIfUnsupported">If true, throw an <see cref="InvalidOperationException"/> if MemeCrypto is unsupported.  If false, calling this function will have no effect.</param>
+        /// <exception cref="InvalidOperationException">Thrown if the current platform has FIPS mode enabled on a platform that does not support the required crypto service providers.</exception>
+        /// <returns>The resigned save data.</returns>
+        public static byte[] Resign(byte[] sav7, bool throwIfUnsupported = true)
         {
             if (sav7 == null || sav7.Length != 0x6BE00)
-                return null;
+                return null;            
 
-            var sha1 = new SHA1CryptoServiceProvider();
+            try
+            {
+                byte[] outSav = (byte[])sav7.Clone();
 
-            byte[] outSav = (byte[])sav7.Clone();
+                using (var sha1 = Util.GetSHA1Provider())
+                {
+                    using (var sha256 = Util.GetSHA256Provider())
+                    {
+                        byte[] CurSig = new byte[0x80];
+                        Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
 
-            byte[] CurSig = new byte[0x80];
-            Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
+                        byte[] ChecksumTable = new byte[0x140];
+                        Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
+                        byte[] Hash = sha256.ComputeHash(ChecksumTable);
 
-            byte[] ChecksumTable = new byte[0x140];
-            Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
-            byte[] Hash = new SHA256CryptoServiceProvider().ComputeHash(ChecksumTable);
+                        byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
 
-            byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
+                        byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
+                        Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
+                        Array.Copy(Hash, 0, keybuf, PubKeyDer.Length, 0x20);
+                        byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
 
-            byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
-            Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
-            Array.Copy(Hash, 0, keybuf, PubKeyDer.Length, 0x20);
-            byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
+                        byte[] secret = ReverseCrypt(CurSig) ?? new byte[0x60];
+                        byte[] secretWorkBuf = new byte[0x78];
+                        Hash.CopyTo(secretWorkBuf, 0);
+                        Array.Copy(secret, 0, secretWorkBuf, 0x20, 0x58);
+                        Array.Copy(sha1.ComputeHash(secretWorkBuf), 0, secret, 0x58, 8);
 
-            byte[] secret = ReverseCrypt(CurSig) ?? new byte[0x60];
-            byte[] secretWorkBuf = new byte[0x78];
-            Hash.CopyTo(secretWorkBuf, 0);
-            Array.Copy(secret, 0, secretWorkBuf, 0x20, 0x58);
-            Array.Copy(sha1.ComputeHash(secretWorkBuf), 0, secret, 0x58, 8);
+                        Hash.CopyTo(outSav, 0x6BB00);
+                        byte[] MemeCrypted = MemeCryptoAESEncrypt(key, secret);
+                        MemeCrypted[0] &= 0x7F;
+                        var RSA = RSADecrypt(MemeCrypted);
+                        Array.Copy(RSA, 0, outSav, 0x6BB20, 0x60);
+                    }
+                }
+                return outSav;
+            }           
+            catch (InvalidOperationException)
+            {
+                if (throwIfUnsupported)
+                {
+                    throw;
+                }
+                else
+                {
+                    return (byte[])sav7.Clone();
+                }                
+            }            
+        }
 
-            Hash.CopyTo(outSav, 0x6BB00);
-            byte[] MemeCrypted = MemeCryptoAESEncrypt(key, secret);
-            MemeCrypted[0] &= 0x7F;
-            var RSA = RSADecrypt(MemeCrypted);
-            Array.Copy(RSA, 0, outSav, 0x6BB20, 0x60);
-
-            return outSav;
+        public static bool CanUseMemeCrypto()
+        {
+            try
+            {
+                Util.GetSHA256Provider();
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 

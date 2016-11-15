@@ -144,6 +144,7 @@ Tab_PartyBattle = Party-Battle Box
 Tab_Other = Other
 Tab_SAV = SAV
 B_OpenPokePuffs = ‎Poké Puffs
+B_OpenPokeBeans = Poké Beans
 B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainer Info
 B_OUTPasserby = Passerby

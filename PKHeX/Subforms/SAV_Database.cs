@@ -114,7 +114,7 @@ namespace PKHeX
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
-        private const int MAXFORMAT = 6;
+        private const int MAXFORMAT = 7;
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -366,10 +366,11 @@ namespace PKHeX
             switch (CB_Generation.SelectedIndex)
             {
                 case 0: /* Do nothing */                break;
-                case 1: res = res.Where(pk => pk.Gen6); break;
-                case 2: res = res.Where(pk => pk.Gen5); break;
-                case 3: res = res.Where(pk => pk.Gen4); break;
-                case 4: res = res.Where(pk => pk.Gen3); break;
+                case 1: res = res.Where(pk => pk.Gen7); break;
+                case 2: res = res.Where(pk => pk.Gen6); break;
+                case 3: res = res.Where(pk => pk.Gen5); break;
+                case 4: res = res.Where(pk => pk.Gen4); break;
+                case 5: res = res.Where(pk => pk.Gen3); break;
             }
 
             // Primary Searchables
@@ -469,9 +470,9 @@ namespace PKHeX
             slotSelected = -1; // reset the slot last viewed
             
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked) // Legal Only
-                res = res.Where(pk => pk.Gen6 && pk is PK6 && new LegalityAnalysis((PK6) pk).Valid);
+                res = res.Where(pk => pk.GenNumber >= 6 && new LegalityAnalysis(pk).Valid);
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
-                res = res.Where(pk => pk.Gen6 && pk is PK6 && !new LegalityAnalysis((PK6) pk).Valid);
+                res = res.Where(pk => pk.GenNumber >= 6 && !new LegalityAnalysis(pk).Valid);
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
@@ -489,6 +490,7 @@ namespace PKHeX
                 if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
                 { Util.Error("Empty Filter Value detected."); return; }
 
+                BatchEditor.screenStrings(filters);
                 res = res.Where(pkm => // Compare across all filters
                 {
                     foreach (var cmd in filters)

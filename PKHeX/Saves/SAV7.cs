@@ -45,7 +45,7 @@ namespace PKHeX
         public override int Generation => 7;
         protected override int GiftCountMax => 48;
         protected override int GiftFlagMax => 0x100 * 8;
-        protected override int EventFlagMax => -1;
+        protected override int EventFlagMax => 3968;
         protected override int EventConstMax => (EventFlag - EventConst) / 2;
         public override int OTLength => 12;
         public override int NickLength => 12;
@@ -56,6 +56,8 @@ namespace PKHeX
         public override int MaxAbilityID => 232;
         public override int MaxBallID => 0x1A; // 26
         public override int MaxGameID => 31; // MN
+
+        public int QRSaveData;
 
         // Feature Overrides
         public override bool HasGeolocation => true;
@@ -166,7 +168,7 @@ namespace PKHeX
                 /* 02 */            //  = 0x01000;  // [014]    RandomGroup
                 /* 03 */ TrainerCard    = 0x01200;  // [0C0]    MyStatus
                 /* 04 */ Party          = 0x01400;  // [61C]    PokePartySave
-                /* 05 */ EventFlag      = 0x01C00;  // [E00]    EventWork
+                /* 05 */ EventConst     = 0x01C00;  // [E00]    EventWork
                 /* 06 */ PokeDex        = 0x02A00;  // [F78]    ZukanData
                 /* 07 */ GTS            = 0x03A00;  // [228]    GtsData
                 /* 08 */ Fused          = 0x03E00;  // [104]    UnionPokemon 
@@ -196,8 +198,10 @@ namespace PKHeX
                 /* 32 */            //  = 0x6B200;  // [1FC]    BattleInstSave
                 /* 33 */ Daycare        = 0x6B400;  // [200]    Sodateya
                 /* 34 */            //  = 0x6B600;  // [120]    WeatherSave
-                /* 35 */            //  = 0x6B800;  // [1C8]    QRReaderSaveData
+                /* 35 */ QRSaveData     = 0x6B800;  // [1C8]    QRReaderSaveData
                 /* 36 */            //  = 0x6BA00;  // [200]    TurtleSalmonSave
+
+                EventFlag = EventConst + 0x7D0;
 
                 OFS_PouchHeldItem =     Item + 0; // 430 (Case 0)
                 OFS_PouchKeyItem =      Item + 0x6B8; // 184 (Case 4)
@@ -414,6 +418,25 @@ namespace PKHeX
                 foreach (var p in value)
                     p.setPouch7(ref Data);
             }
+        }
+
+        // Resort Save
+        public int GetPokebeanCount(int bean_id)
+        {
+            if (bean_id < 0 || bean_id > 14)
+                throw new ArgumentException("Invalid bean id!");
+            return Data[Resort + 0x564C + bean_id];
+        }
+
+        public void SetPokebeanCount(int bean_id, int count)
+        {
+            if (bean_id < 0 || bean_id > 14)
+                throw new ArgumentException("Invalid bean id!");
+            if (count < 0)
+                count = 0;
+            if (count > 255)
+                count = 255;
+            Data[Resort + 0x564C + bean_id] = (byte) count;
         }
 
         // Storage
@@ -650,7 +673,7 @@ namespace PKHeX
                 return -1;
             if (Daycare < 0)
                 return -1;
-            return Daycare + 6 + slot * (SIZE_STORED + 6);
+            return Daycare + 1 + slot * (SIZE_STORED + 1);
         }
         public override bool? getDaycareOccupied(int loc, int slot)
         {
@@ -659,7 +682,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return Data[Daycare + (SIZE_STORED + 6) * slot] != 0;
+            return Data[Daycare + (SIZE_STORED + 1) * slot] != 0;
         }
         public override string getDaycareRNGSeed(int loc)
         {
@@ -678,7 +701,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return null;
 
-            return Data[Daycare + 0x1E0] == 1;
+            return Data[Daycare + 0x1D8] == 1;
         }
         public override void setDaycareOccupied(int loc, int slot, bool occupied)
         {
@@ -686,9 +709,8 @@ namespace PKHeX
                 return;
             if (Daycare < 0)
                 return;
-
-            // Are they using species instead of a flag?
-            Data[Daycare + (SIZE_STORED + 6) * slot] = (byte)(occupied ? 1 : 0);
+            
+            Data[Daycare + (SIZE_STORED + 1) * slot] = (byte)(occupied ? 1 : 0);
         }
         public override void setDaycareRNGSeed(int loc, string seed)
         {
@@ -714,7 +736,7 @@ namespace PKHeX
             if (Daycare < 0)
                 return;
 
-            Data[Daycare + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+            Data[Daycare + 0x1D8] = (byte)(hasEgg ? 1 : 0);
         }
 
         // Mystery Gift
@@ -754,7 +776,7 @@ namespace PKHeX
                     return null;
                 MysteryGift[] cards = new MysteryGift[GiftCountMax];
                 for (int i = 0; i < cards.Length; i++)
-                    cards[i] = getWC6(i);
+                    cards[i] = getWC7(i);
 
                 return cards;
             }
@@ -766,9 +788,9 @@ namespace PKHeX
                     Array.Resize(ref value, GiftCountMax);
                 
                 for (int i = 0; i < value.Length; i++)
-                    setWC6(value[i], i);
+                    setWC7(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)
-                    setWC6(new WC6(), i);
+                    setWC7(new WC7(), i);
             }
         }
 
@@ -790,28 +812,28 @@ namespace PKHeX
             }
         }
 
-        private WC6 getWC6(int index)
+        private WC7 getWC7(int index)
         {
             if (WondercardData < 0)
                 return null;
             if (index < 0 || index > GiftCountMax)
                 return null;
 
-            return new WC6(Data.Skip(WondercardData + index * WC6.Size).Take(WC6.Size).ToArray());
+            return new WC7(Data.Skip(WondercardData + index * WC7.Size).Take(WC7.Size).ToArray());
         }
-        private void setWC6(MysteryGift wc6, int index)
+        private void setWC7(MysteryGift wc7, int index)
         {
             if (WondercardData < 0)
                 return;
             if (index < 0 || index > GiftCountMax)
                 return;
 
-            wc6.Data.CopyTo(Data, WondercardData + index * WC6.Size);
+            wc7.Data.CopyTo(Data, WondercardData + index * WC7.Size);
 
             for (int i = 0; i < GiftCountMax; i++)
-                if (BitConverter.ToUInt16(Data, WondercardData + i * WC6.Size) == 0)
+                if (BitConverter.ToUInt16(Data, WondercardData + i * WC7.Size) == 0)
                     for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
-                        Array.Copy(Data, WondercardData + j * WC6.Size, Data, WondercardData + (j - 1) * WC6.Size, WC6.Size);
+                        Array.Copy(Data, WondercardData + j * WC7.Size, Data, WondercardData + (j - 1) * WC7.Size, WC7.Size);
 
             Edited = true;
         }
@@ -819,29 +841,48 @@ namespace PKHeX
         // Writeback Validity
         public override string MiscSaveChecks()
         {
-            string r = "";
+            var r = new StringBuilder();
+
+            // MemeCrypto check
+            if (RequiresMemeCrypto && !MemeCrypto.CanUseMemeCrypto())
+            {
+                r.AppendLine("Platform does not support required cryptography providers.");
+                r.AppendLine("Checksum will be broken until the file is saved using an OS without FIPS compliance enabled or a newer OS.");
+                r.AppendLine();
+            }
+
+            // FFFF checks
             byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
-                r = $"0x200 chunk @ 0x{(i*0x200).ToString("X5")} is FF'd."
-                    + Environment.NewLine + "Cyber will screw up (as of August 31st 2014)." + Environment.NewLine + Environment.NewLine;
+                r.AppendLine($"0x200 chunk @ 0x{(i * 0x200).ToString("X5")} is FF'd.");
+                r.AppendLine("Cyber will screw up (as of August 31st 2014).");
+                r.AppendLine();
 
                 // Check to see if it is in the Pokedex
                 if (i * 0x200 > PokeDex && i * 0x200 < PokeDex + 0x900)
                 {
-                    r += "Problem lies in the Pokedex. ";
+                    r.Append("Problem lies in the Pokedex. ");
                     if (i * 0x200 == PokeDex + 0x400)
-                        r += "Remove a language flag for a species < 585, ie Petilil";
+                        r.Append("Remove a language flag for a species < 585, ie Petilil");
                 }
                 break;
             }
-            return r;
+            return r.ToString();
         }
         public override string MiscSaveInfo()
         {
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
+        }
+
+        public override bool RequiresMemeCrypto
+        {
+            get
+            {
+                return true;
+            }
         }
     }
 }

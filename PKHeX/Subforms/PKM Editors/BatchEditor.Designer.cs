@@ -134,6 +134,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "All",
+            "pk7",
             "pk6",
             "pk5",
             "pk4",

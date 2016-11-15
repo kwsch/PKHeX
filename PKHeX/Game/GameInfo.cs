@@ -6,7 +6,7 @@ namespace PKHeX
 {
     public static class GameInfo
     {
-        private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "ポケシフター" };
+        private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送", "ポケシフター" };
         public static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2", "pt" };
         private const string DefaultLanguage = "en";
         private static readonly GameStrings[] Languages = new GameStrings[lang_val.Length];
@@ -221,6 +221,12 @@ namespace PKHeX
                 string[] data = Util.getStringList(ident, Language);
                 if (data == null || data.Length == 0)
                     data = Util.getStringList(ident, DefaultLanguage);
+
+                // Use alternate (Fan Translated) species names since GameFreak decided to use non-Unicode characters which are now game-font dependent.
+                // PKX still fetches nickname with the actual string
+                if (ident == "species" && new[] {"zh", "zh2"}.Contains(Language))
+                    return Util.getSpeciesList(Language + "_alt");
+
                 return data;
             }
 

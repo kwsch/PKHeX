@@ -16,12 +16,16 @@ namespace PKHeX
             Data = (byte[])(data?.Clone() ?? new byte[Size]);
             if (Data.Length == SizeFull)
             {
+                if (Data[0x205] == 0)
+                    Data = new byte[Data.Length]; // Invalidate
                 Data = Data.Skip(SizeFull - Size).ToArray();
                 DateTime now = DateTime.Now;
                 Year = (uint)now.Year;
                 Month = (uint)now.Month;
                 Day = (uint)now.Day;
             }
+            if (Year < 2000)
+                Data = new byte[Data.Length]; // Invalidate
         }
         
         // General Card Properties

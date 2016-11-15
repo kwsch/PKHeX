@@ -340,6 +340,8 @@ namespace PKHeX
                     return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in XY.", CheckIdentifier.Encounter);
                 if (pkm.AO && !enc.ORAS)
                     return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in ORAS.", CheckIdentifier.Encounter);
+                if (pkm.SM && !enc.SM)
+                    return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in SM.", CheckIdentifier.Encounter);
                 
                 if (enc.Shiny != null && (bool)enc.Shiny ^ pkm.IsShiny)
                     return new CheckResult(Severity.Invalid, "Shiny Link gift mismatch.", CheckIdentifier.Encounter);
@@ -348,12 +350,12 @@ namespace PKHeX
                     ? new CheckResult(Severity.Invalid, "Invalid Link Gift: should not be Fateful Encounter.", CheckIdentifier.Encounter) 
                     : new CheckResult(Severity.Valid, "Valid Link gift.", CheckIdentifier.Encounter);
             }
+
             if (pkm.WasEvent || pkm.WasEventEgg)
             {
                 MysteryGift MatchedGift = EncounterMatch as MysteryGift;
-                return MatchedGift == null 
-                    ? new CheckResult(Severity.Invalid, "Unable to match to a Mystery Gift in the database.", CheckIdentifier.Encounter) 
-                    : new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID.ToString("0000")} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
+                if (MatchedGift != null)
+                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID.ToString("0000")} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
             }
 
             EncounterMatch = Legal.getValidStaticEncounter(pkm);
@@ -463,9 +465,10 @@ namespace PKHeX
             }
             EncounterMatch = Legal.getValidIngameTrade(pkm);
             if (EncounterMatch != null)
-            {
                 return new CheckResult(Severity.Valid, "Valid ingame trade.", CheckIdentifier.Encounter);
-            }
+
+            if (pkm.WasEvent || pkm.WasEventEgg)
+                return new CheckResult(Severity.Invalid, "Unable to match to a Mystery Gift in the database.", CheckIdentifier.Encounter);
             return new CheckResult(Severity.Invalid, "Not a valid encounter.", CheckIdentifier.Encounter);
         }
         private void verifyLevel()
@@ -473,8 +476,11 @@ namespace PKHeX
             MysteryGift MatchedGift = EncounterMatch as MysteryGift;
             if (MatchedGift != null && MatchedGift.Level != pkm.Met_Level)
             {
-                AddLine(new CheckResult(Severity.Invalid, "Met Level does not match Wonder Card level.", CheckIdentifier.Level));
-                return;
+                if (!(MatchedGift is WC7) || ((WC7) MatchedGift).MetLevel != pkm.Met_Level)
+                {
+                    AddLine(new CheckResult(Severity.Invalid, "Met Level does not match Wonder Card level.", CheckIdentifier.Level));
+                    return;
+                }
             }
 
             int lvl = pkm.CurrentLevel;
@@ -578,6 +584,22 @@ namespace PKHeX
                 if (classic ^ ((EncounterLink)EncounterMatch).Classic)
                     (classic ? invalidRibbons : missingRibbons).Add(EventRibName[4]);
             }
+            else if (EncounterType == typeof(EncounterStatic))
+            {
+                // No Event Ribbons except Wishing (which is only for Magearna)
+                for (int i = 0; i < EventRib.Length; i++)
+                {
+                    if (i == 10)
+                        continue;
+
+                    if (ReflectUtil.getBooleanState(pkm, EventRib[i]) == true)
+                        invalidRibbons.Add(EventRibName[i]);
+                }
+
+                bool wishing = ReflectUtil.getBooleanState(pkm, EventRib[10]) == true;
+                if (wishing ^ ((EncounterStatic)EncounterMatch).RibbonWishing)
+                    (wishing ? invalidRibbons : missingRibbons).Add(EventRibName[10]);
+            }
             else // No ribbons
             {
                 for (int i = 0; i < EventRib.Length; i++)
@@ -651,6 +673,13 @@ namespace PKHeX
                             AddLine(Severity.Invalid, "Hidden Ability mismatch for ingame trade.", CheckIdentifier.Ability);
                             return;
                         }
+                    if (EncounterType == typeof(EncounterLink))
+                        if (pkm.AbilityNumber != ((EncounterLink)EncounterMatch).Ability)
+                        {
+                            AddLine(Severity.Invalid, "Ability mismatch for Link Gift.", CheckIdentifier.Ability);
+                            return;
+                        }
+
                 }
                 if (pkm.GenNumber == 6)
                 {
@@ -755,6 +784,8 @@ namespace PKHeX
                 { AddLine(Severity.Invalid, "Master Ball on egg origin.", CheckIdentifier.Ball); return; }
                 if (pkm.Ball == 0x10) // Cherish Ball
                 { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
+                if (pkm.Ball == 0x04) // Poké Ball
+                { AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball); return; }
 
                 switch (pkm.GenNumber)
                 {
@@ -867,7 +898,10 @@ namespace PKHeX
                     AddLine(Severity.Valid, "Obtainable ball for Kalos origin.", CheckIdentifier.Ball);
                 return;
             }
-            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+
+            AddLine(Severity.Invalid, pkm.Ball >= 26
+                    ? "Ball unobtainable in origin generation."
+                    : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
         }
 
         private void verifyEggBallGen7()
@@ -889,7 +923,7 @@ namespace PKHeX
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if (Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
                 {
                     AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
                     return;
@@ -974,7 +1008,25 @@ namespace PKHeX
 
                 return;
             }
-            if (pkm.Format == 7 && pkm.Species > 721)
+
+            if (pkm.Ball == 26)
+            {
+                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Beast Ball possible for species.", CheckIdentifier.Ball);
+                    return;
+                }
+                if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
+                {
+                    AddLine(Severity.Valid, "Scanned Beast Ball possible for species.", CheckIdentifier.Ball);
+                    if (pkm.AbilityNumber == 4)
+                        AddLine(Severity.Invalid, "Scanned Beast Ball with Hidden Ability.", CheckIdentifier.Ball);
+                    return;
+                }
+                // next statement catches all new alolans
+            }
+
+            if (pkm.Species > 721)
             {
                 if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
                     AddLine(Severity.Invalid, "Unobtainable ball for Alola origin.", CheckIdentifier.Ball);
@@ -982,7 +1034,10 @@ namespace PKHeX
                     AddLine(Severity.Valid, "Obtainable ball for Alola origin.", CheckIdentifier.Ball);
                 return;
             }
-            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal. -- This check is not well researched at this time. Do not report feedback.", CheckIdentifier.Ball);
+
+            AddLine(Severity.Invalid, pkm.Ball > 26
+                    ? "Ball unobtainable in origin generation."
+                    : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
         }
         private CheckResult verifyHistory()
         {
@@ -1232,13 +1287,28 @@ namespace PKHeX
 
             if (pkm.AltForm > pkm.PersonalInfo.FormeCount)
             {
-                AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form);
-                return;
+                bool valid = false;
+                int species = pkm.Species;
+                if (species == 201) // Unown
+                {
+                    if (pkm.GenNumber == 2 && pkm.AltForm < 26) // A-Z
+                        valid = true;
+                    else if (pkm.GenNumber >= 3 && pkm.AltForm >= 28) // A-Z?!
+                        valid = true;
+                }
+                if (species == 414 && pkm.AltForm < 3) // Wormadam base form kept
+                        valid = true;
+
+                if ((species == 664 || species == 665) && pkm.AltForm < 18) // Vivillon Pre-evolutions
+                    valid = true;
+
+                if (!valid) // ignore list
+                { AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form); return; }
             }
 
             switch (pkm.Species)
             {
-                case 25:
+                case 25: // Pikachu
                     if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
                     {
                         if (EncounterType == typeof(EncounterStatic))
@@ -1250,7 +1320,7 @@ namespace PKHeX
                     }
                     if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterIsMysteryGift)
                     {
-                        var gift = EncounterMatch as WC6;
+                        var gift = EncounterMatch as WC7;
                         if (gift != null && gift.Form != pkm.AltForm)
                         {
                             AddLine(Severity.Invalid, "Event Pikachu cannot have the default form.", CheckIdentifier.Form);
@@ -1258,22 +1328,22 @@ namespace PKHeX
                         }
                     }
                     break;
-                case 658:
+                case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
                         return;
                     }
                     break;
-                case 664:
-                case 665:
+                case 664: // Scatterbug
+                case 665: // Spewpa
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         AddLine(Severity.Invalid, "Event Vivillon pattern on pre-evolution.", CheckIdentifier.Form);
                         return;
                     }
                     break;
-                case 666:
+                case 666: // Vivillon
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         if (!EncounterIsMysteryGift)
@@ -1284,7 +1354,7 @@ namespace PKHeX
                         return;
                     }
                     break;
-                case 670:
+                case 670: // Floette
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
                         if (!EncounterIsMysteryGift)
@@ -1295,21 +1365,24 @@ namespace PKHeX
                         return;
                     }
                     break;
-                case 718:
+                case 718: // Zygarde
                     if (pkm.AltForm >= 4)
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
                         return;
                     }
                     break;
-                case 774:
-                    if (pkm.AltForm >= 7)
+                case 774: // Minior
+                    if (pkm.AltForm < 7)
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
                         return;
                     }
                     break;
             }
+
+            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0 && Legal.AlolanOriginForms.Contains(pkm.Species))
+            { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
             { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
 
@@ -1327,13 +1400,17 @@ namespace PKHeX
 
             if (Encounter.Valid && EncounterIsMysteryGift ^ pkm.FatefulEncounter)
             {
-                if (pkm.AO && EncounterType == typeof(EncounterStatic) && pkm.Species == 386) // Deoxys Matched @ Sky Pillar
-                { AddLine(Severity.Valid, "Sky Pillar Deoxys matched Fateful Encounter.", CheckIdentifier.Fateful); return; }
-                else
-                { AddLine(Severity.Invalid, "Fateful Encounter should " + (pkm.FatefulEncounter ? "not " : "") + "be checked.", CheckIdentifier.Fateful); return; }
+                if (EncounterType == typeof (EncounterStatic))
+                {
+                    var enc = EncounterMatch as EncounterStatic;
+                    if (enc.Fateful)
+                        AddLine(Severity.Valid, "Special ingame Fateful Encounter.", CheckIdentifier.Fateful);
+                    return;
+                }
+                AddLine(Severity.Invalid, "Fateful Encounter should " + (pkm.FatefulEncounter ? "not " : "") + "be checked.", CheckIdentifier.Fateful);
+                return;
             }
-            else
-            { AddLine(Severity.Valid, "Fateful Encounter is Valid.", CheckIdentifier.Fateful); return; }
+            AddLine(Severity.Valid, "Fateful Encounter is Valid.", CheckIdentifier.Fateful);
         }
         private CheckResult[] verifyMoves()
         {
@@ -1464,16 +1541,13 @@ namespace PKHeX
 
             if (pkm.WasEgg && !Legal.NoHatchFromEgg.Contains(pkm.Species))
             {
-                int games = 1;
                 GameVersion[] Games = { GameVersion.XY };
                 switch (pkm.GenNumber)
                 {
                     case 6:
-                        games = 2;
                         Games = new[] {GameVersion.XY, GameVersion.ORAS};
                         break;
                     case 7:
-                        games = 1;
                         Games = new[] {GameVersion.SM};
                         break;
                 }
@@ -1481,7 +1555,7 @@ namespace PKHeX
                 bool checkAllGames = pkm.WasTradedEgg;
                 bool splitBreed = Legal.SplitBreed.Contains(pkm.Species);
 
-                int iterate = (checkAllGames ? games : 1) * (splitBreed ? 2 : 1);
+                int iterate = (checkAllGames ? Games.Length : 1) * (splitBreed ? 2 : 1);
                 for (int i = 0; i < iterate; i++)
                 {
                     int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);

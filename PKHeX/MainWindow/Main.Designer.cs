@@ -432,6 +432,7 @@
             this.B_OpenHallofFame = new System.Windows.Forms.Button();
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_CGearSkin = new System.Windows.Forms.Button();
+            this.B_OpenPokeBeans = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -5405,6 +5406,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenHallofFame);
             this.FLP_SAVtools.Controls.Add(this.B_OUTPasserby);
             this.FLP_SAVtools.Controls.Add(this.B_CGearSkin);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -5572,6 +5574,16 @@
             this.B_CGearSkin.Text = "C-Gear Skin";
             this.B_CGearSkin.UseVisualStyleBackColor = true;
             this.B_CGearSkin.Click += new System.EventHandler(this.B_CGearSkin_Click);
+            // 
+            // B_OpenPokeBeans
+            // 
+            this.B_OpenPokeBeans.Location = new System.Drawing.Point(96, 148);
+            this.B_OpenPokeBeans.Name = "B_OpenPokeBeans";
+            this.B_OpenPokeBeans.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenPokeBeans.TabIndex = 25;
+            this.B_OpenPokeBeans.Text = "‎Poké Beans";
+            this.B_OpenPokeBeans.UseVisualStyleBackColor = true;
+            this.B_OpenPokeBeans.Click += new System.EventHandler(this.B_OpenPokeBeans_Click);
             // 
             // dragout
             // 
@@ -6281,6 +6293,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Undo;
         private System.Windows.Forms.ToolStripMenuItem Menu_Redo;
         private System.Windows.Forms.PictureBox PB_MarkAlola;
+        private System.Windows.Forms.Button B_OpenPokeBeans;
     }
 }
 

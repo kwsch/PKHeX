@@ -21,12 +21,13 @@ namespace PKHeX
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
+        private static readonly string[] pk7 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i => i).ToArray();
         private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk3 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK3)).OrderBy(i=>i).ToArray();
-        private static readonly string[] all = pk6.Intersect(pk5).Intersect(pk4).Intersect(pk3).OrderBy(i => i).ToArray();
-        private static readonly string[] any = pk6.Union(pk5).Union(pk4).Union(pk3).Distinct().OrderBy(i => i).ToArray();
+        private static readonly string[] all = pk7.Intersect(pk6).Intersect(pk5).Intersect(pk4).Intersect(pk3).OrderBy(i => i).ToArray();
+        private static readonly string[] any = pk7.Union(pk6).Union(pk5).Union(pk4).Union(pk3).Distinct().OrderBy(i => i).ToArray();
 
         // GUI Methods
         private void B_Open_Click(object sender, EventArgs e)
@@ -81,6 +82,8 @@ namespace PKHeX
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
             b = new BackgroundWorker {WorkerReportsProgress = true};
+            screenStrings(Filters);
+            screenStrings(Instructions);
 
             b.DoWork += (sender, e) => {
                 if (RB_SAV.Checked)
@@ -223,6 +226,22 @@ namespace PKHeX
                 b.ReportProgress(i);
             }
         }
+        public static void screenStrings(IEnumerable<StringInstruction> il)
+        {
+            foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
+            {
+                switch (i.PropertyName)
+                {
+                    case "Species": i.setScreenedValue(Main.GameStrings.specieslist); continue;
+                    case "HeldItem": i.setScreenedValue(Main.GameStrings.itemlist); continue;
+                    case "Move1": case "Move2": case "Move3": case "Move4": i.setScreenedValue(Main.GameStrings.movelist); continue;
+                    case "RelearnMove1": case "RelearnMove2": case "RelearnMove3": case "RelearnMove4": i.setScreenedValue(Main.GameStrings.movelist); continue;
+                    case "Ability": i.setScreenedValue(Main.GameStrings.abilitylist); continue;
+                    case "Nature": i.setScreenedValue(Main.GameStrings.natures); continue;
+                    case "Ball": i.setScreenedValue(Main.GameStrings.balllist); continue;
+                }
+            }
+        }
         
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -245,6 +264,11 @@ namespace PKHeX
             public string PropertyName;
             public string PropertyValue;
             public bool Evaluator;
+            public void setScreenedValue(string[] arr)
+            {
+                int index = Array.IndexOf(arr, PropertyValue);
+                PropertyValue = index > -1 ? index.ToString() : PropertyValue;
+            }
         }
         private enum ModifyResult
         {
