@@ -51,6 +51,7 @@ namespace PKHeX
         [StringListEnum(Util.SpeciesListName)]
         public abstract int Species { get; set; }
         public abstract string Nickname { get; set; }
+        [StringListEnum(Util.ItemsListName)]
         public abstract int HeldItem { get; set; }
         public abstract int Gender { get; set; }
         [StringListEnum(Util.NaturesListName)]
