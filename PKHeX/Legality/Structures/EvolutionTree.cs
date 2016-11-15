@@ -104,6 +104,15 @@ namespace PKHeX
                 Lineage[Personal.getFormeIndex(711, i)].Chain.Add(Lineage[711].Chain[3-i]);
             }
             Lineage[711].Chain.RemoveRange(0, 3);
+
+            // Add past gen evolutions for other Marowak and Exeggutor
+            var exegg = Lineage[Personal.getFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy(103);
+            exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 4; // No night required (doesn't matter)
+            Lineage[103].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { exegg } });
+
+            var marowak = Lineage[Personal.getFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy(105);
+            marowak.Form = -1; marowak.Banlist = new[] {GameVersion.SN, GameVersion.MN};
+            Lineage[105].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { marowak } });
         }
         private void fixEvoTreeORAS()
         {
@@ -193,6 +202,7 @@ namespace PKHeX
 
         public bool RequiresLevelUp;
         public static readonly int[] TradeMethods = {5, 6, 7};
+        public GameVersion[] Banlist = new GameVersion[0];
 
         public bool Valid(PKM pkm, int lvl)
         {
@@ -200,6 +210,9 @@ namespace PKHeX
             if (Form > -1)
                 if (pkm.AltForm != Form)
                     return false;
+
+            if (Banlist.Contains((GameVersion)pkm.Version))
+                return false;
 
             switch (Method)
             {
