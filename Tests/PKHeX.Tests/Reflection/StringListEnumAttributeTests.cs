@@ -22,6 +22,9 @@ namespace PKHeX.Tests.Reflection
 
             [StringListEnum(PKHeX.Util.ItemsListName)]
             public int Item { get; set; }
+
+            [StringListEnum(PKHeX.Util.ItemsListName)]
+            public StringListEnumAttributeTests InvalidProperty { get; set; }
         }
 
         CultureInfo PreviousCulture;
@@ -63,6 +66,26 @@ namespace PKHeX.Tests.Reflection
 
             Assert.AreEqual(2, testClass.Move, "Failed to update property.");
             Assert.AreEqual(2, testClass.Item, "Failed to update property.");
+        }
+
+        [TestMethod]
+        [TestCategory(BatchEditCategory)]
+        public void TestStringListEnumAttributeSetValueInvalidValue()
+        {
+            var testClass = new TestUsage();
+            testClass.Move = 1;
+            testClass.Item = 1;
+
+            try
+            {
+                ReflectUtil.SetValue(testClass, nameof(TestUsage.Move), "Not a real move");
+            }
+            catch (EnumItemNotInListException)
+            {
+                // Pass
+                return;
+            }
+            Assert.Fail("Exception not thrown.");
         }
 
         [TestMethod]
@@ -143,6 +166,23 @@ namespace PKHeX.Tests.Reflection
             Assert.IsFalse(ReflectUtil.GetValueEquals(testClass, nameof(TestUsage.Item), 2), "False positive comparing integer");
         }
 
+        [TestMethod]
+        [TestCategory(BatchEditCategory)]
+        public void TestStringListEnumAttributeInvalidProperty()
+        {
+            var testClass = new TestUsage();
+            
+            try
+            {
+                ReflectUtil.SetValue(testClass, nameof(testClass.InvalidProperty), new StringListEnumAttributeTests());
+            }
+            catch (InvalidCastException)
+            {
+                //Pass
+                return;
+            }
+            Assert.Fail("Exception not thrown.");
+        }
 
     }
 }
