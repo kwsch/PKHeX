@@ -1784,6 +1784,9 @@ namespace PKHeX
             {
                 bool random = ModifierKeys == Keys.Control;
                 int[] m = Legality.getSuggestedMoves(tm: random, tutor: random);
+                if (m == null)
+                { Util.Alert("Suggestions are not enabled for this PKM format."); return; }
+
                 if (random)
                     Util.Shuffle(m);
                 if (m.Length > 4)

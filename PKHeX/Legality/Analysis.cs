@@ -210,7 +210,7 @@ namespace PKHeX
         }
         public int[] getSuggestedMoves(bool tm, bool tutor)
         {
-            if (pkm.GenNumber < 6)
+            if (pkm.Format < 6)
                 return null;
             return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm).Skip(1).ToArray(); // skip move 0
         }
