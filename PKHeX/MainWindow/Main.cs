@@ -1791,7 +1791,7 @@ namespace PKHeX
                     Util.Shuffle(m);
                 if (m.Length > 4)
                     m = m.Skip(m.Length - 4).ToArray();
-
+                Array.Resize(ref m, 4);
                 string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
                     return;
