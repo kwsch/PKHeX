@@ -26,6 +26,7 @@ namespace PKHeX
         private readonly InventoryPouch[] Pouches;
         private const string TabPrefix = "TAB_";
         private const string DGVPrefix = "DGV_";
+        private ToolStripMenuItem lastSortMethod;
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -246,6 +247,46 @@ namespace PKHeX
                 dgv.Rows[i].Cells[1].Value = c;
             }
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void Menu_Sort_Click(object sender, EventArgs e)
+        {
+            // Get Current Pouch
+            int pouch = tabControl1.SelectedIndex;
+            if (pouch < 0)
+                return;
+
+            // Determine sort order
+            // Will be ascending, unless this is the second time in a row the current menu item has been clicked.
+            bool descending;
+            if (lastSortMethod == sender)
+            {
+                descending = true;
+                lastSortMethod = null; // Reset sort method to make next time ascending
+            }
+            else
+            {
+                descending = false;
+                lastSortMethod = (ToolStripMenuItem)sender;
+            }
+
+            // Do the sort
+            switch (((ToolStripMenuItem)sender).Name)
+            {
+                case nameof(Menu_SortName):
+                    Pouches[tabControl1.SelectedIndex].sortByName(Main.GameStrings.itemlist, descending);
+                    break;
+                case nameof(Menu_SortCount):
+                    Pouches[tabControl1.SelectedIndex].sortByCount(descending);
+                    break;
+                default:
+                    Util.Error("Invalid event handler.  Unable to sort.");
+                    break;
+            }
+
+            // Refresh the pouch         
+            DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+            spillBag(dgv, pouch);
         }
     }
 }
