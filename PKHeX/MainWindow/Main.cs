@@ -10,6 +10,7 @@ using System.Media;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using PKHeX.Saves.Substructures;
 
 namespace PKHeX
 {
@@ -1570,7 +1571,18 @@ namespace PKHeX
                 PKM pkx = preparePKM();
                 byte[] ekx = pkx.EncryptedBoxData;
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
-                Image qr = QR.getQRImage(ekx, pkx.Format == 6 ? server : "null/#"); // pls no use QR on non gen6 -- bad user!
+                Image qr;
+                switch (pkx.Format)
+                {
+                    case 6:
+                        qr = QR.getQRImage(ekx, server);
+                        break;
+                    case 7:
+                        qr = QR7.GenerateQRCode7((PK7) pkx);
+                        break;
+                    default:
+                        return;
+                }
 
                 if (qr == null) return;
 

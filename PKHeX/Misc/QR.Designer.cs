@@ -42,7 +42,7 @@
             this.PB_QR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.PB_QR.Location = new System.Drawing.Point(2, 1);
             this.PB_QR.Name = "PB_QR";
-            this.PB_QR.Size = new System.Drawing.Size(365, 365);
+            this.PB_QR.Size = new System.Drawing.Size(405, 405);
             this.PB_QR.TabIndex = 0;
             this.PB_QR.TabStop = false;
             this.PB_QR.Click += new System.EventHandler(this.PB_QR_Click);
@@ -50,7 +50,7 @@
             // FontLabel
             // 
             this.FontLabel.AutoSize = true;
-            this.FontLabel.Location = new System.Drawing.Point(348, 353);
+            this.FontLabel.Location = new System.Drawing.Point(388, 393);
             this.FontLabel.Name = "FontLabel";
             this.FontLabel.Size = new System.Drawing.Size(19, 13);
             this.FontLabel.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 367);
+            this.ClientSize = new System.Drawing.Size(409, 407);
             this.Controls.Add(this.FontLabel);
             this.Controls.Add(this.PB_QR);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
