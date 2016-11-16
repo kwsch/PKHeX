@@ -2638,14 +2638,30 @@ namespace PKHeX
 
             if (new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 }.Contains(sender)) // Move
                 updatePP(sender, e);
-            
-            if (pkm.Format < 6)
-                return;
 
             // Legality
-            pkm.Moves = new[] { Util.getIndex(CB_Move1), Util.getIndex(CB_Move2), Util.getIndex(CB_Move3), Util.getIndex(CB_Move4) };
-            pkm.RelearnMoves = new[] { Util.getIndex(CB_RelearnMove1), Util.getIndex(CB_RelearnMove2), Util.getIndex(CB_RelearnMove3), Util.getIndex(CB_RelearnMove4) };
-            updateLegality();
+            pkm.Moves = new[] {CB_Move1, CB_Move2, CB_Move3, CB_Move4}.Select(Util.getIndex).ToArray();
+            pkm.RelearnMoves = new[] {CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4}.Select(Util.getIndex).ToArray();
+            updateLegality(skipMoveRepop:true);
+        }
+        private void validateMovePaint(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+
+            var i = (ComboItem)(sender as ComboBox).Items[e.Index];
+            var moves = Legality.AllSuggestedMovesAndRelearn;
+            bool vm = moves != null && moves.Contains(i.Value) && !HaX;
+
+            bool current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+            Brush tBrush = current ? SystemBrushes.HighlightText : new SolidBrush(e.ForeColor);
+            Brush brush = current ? SystemBrushes.Highlight : vm ? Brushes.PaleGreen : new SolidBrush(e.BackColor);
+
+            e.Graphics.FillRectangle(brush, e.Bounds);
+            e.Graphics.DrawString(i.Text, e.Font, tBrush, e.Bounds, StringFormat.GenericDefault);
+            if (current) return;
+            tBrush.Dispose();
+            if (!vm)
+                brush.Dispose();
         }
         private void validateLocation(object sender, EventArgs e)
         {
@@ -2673,7 +2689,7 @@ namespace PKHeX
                 updateLegality(la);
             Util.Alert(verbose ? la.VerboseReport : la.Report);
         }
-        private void updateLegality(LegalityAnalysis la = null)
+        private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
             if (!fieldsLoaded)
                 return;
@@ -2693,6 +2709,22 @@ namespace PKHeX
             
             for (int i = 0; i < 4; i++)
                 relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
+
+            if (skipMoveRepop)
+                return;
+            // Resort moves
+            bool tmp = fieldsLoaded;
+            fieldsLoaded = false;
+            var cb = new[] {CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
+            var moves = Legality.AllSuggestedMovesAndRelearn;
+            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            foreach (ComboBox c in cb)
+            {
+                var index = c.SelectedValue;
+                c.DataSource = new BindingSource(moveList, null);
+                c.SelectedValue = index;
+            }
+            fieldsLoaded |= tmp;
         }
         private void updateStats()
         {
@@ -3898,7 +3930,6 @@ namespace PKHeX
             
             clickSlot(sender, e);
         }
-
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
