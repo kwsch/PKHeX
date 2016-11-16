@@ -6,6 +6,19 @@ using QRCoder;
 
 namespace PKHeX.Saves.Substructures
 {
+    // anatomy of a QR7:
+    // u32 magic; // POKE
+    // u32 _0xFF;
+    // u32 box;
+    // u32 slot;
+    // u32 num_copies;
+    // u8  reserved[0x1C];
+    // u8  ek7[0x104];
+    // u8  dex_data[0x60];
+    // u16 crc16
+    // sizeof(QR7) == 0x1A2
+
+
     public class QR7
     {
         private static bool hasGenderDifferences(int species)
@@ -49,7 +62,7 @@ namespace PKHeX.Saves.Substructures
             }
             return basedata;
         }
-        private static byte[] GenerateQRData(PK7 pk7, int box = 0, int slot = 0)
+        private static byte[] GenerateQRData(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
         {
             if (box > 31)
                 box = 31;
@@ -59,12 +72,15 @@ namespace PKHeX.Saves.Substructures
                 box = 0;
             if (slot < 0)
                 slot = 0;
+            if (num_copies < 0)
+                num_copies = 1;
 
             byte[] data = new byte[0x1A2];
             BitConverter.GetBytes(0x454B4F50).CopyTo(data, 0); // POKE magic
             data[0x5] = 0xFF; // QR Type
             BitConverter.GetBytes(box).CopyTo(data, 0x8);
             BitConverter.GetBytes(slot).CopyTo(data, 0xC);
+            BitConverter.GetBytes(num_copies).CopyTo(data, 0x10); // No need to check max num_copies, payload parser handles it on-console.
 
             pk7.EncryptedPartyData.CopyTo(data, 0x30); // Copy in pokemon data
             GetRawQR(pk7.Species, pk7.AltForm, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
@@ -72,9 +88,9 @@ namespace PKHeX.Saves.Substructures
             return data;
         }
 
-        public static Bitmap GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0)
+        public static Bitmap GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
         {
-            byte[] data = GenerateQRData(pk7, box, slot);
+            byte[] data = GenerateQRData(pk7, box, slot, num_copies);
             using (var generator = new QRCodeGenerator())
             using (var qr_data = generator.CreateQRCode(data))
             using (var qr_code = new QRCode(qr_data))
