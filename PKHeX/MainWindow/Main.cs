@@ -1088,6 +1088,9 @@ namespace PKHeX
             // Recenter PKM SubEditors
             FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width) / 2, FLP_PKMEditors.Location.Y);
 
+            bool init = fieldsInitialized;
+            fieldsInitialized = fieldsLoaded = false;
+
             switch (SAV.Generation)
             {
                 case 1:
@@ -1156,8 +1159,6 @@ namespace PKHeX
                     TB_Secure2.Text = SAV.Secure2?.ToString("X16");
                     break;
             }
-            bool init = fieldsInitialized;
-            fieldsInitialized = fieldsLoaded = false;
             pkm = pkm.GetType() != SAV.PKMType ? SAV.BlankPKM : pk;
             if (pkm.Format < 3)
                 pkm = SAV.BlankPKM;
@@ -3362,6 +3363,9 @@ namespace PKHeX
         }
         private void updateU64(object sender, EventArgs e)
         {
+            if (!fieldsLoaded)
+                return;
+
             TextBox tb = sender as TextBox;
             if (tb?.Text.Length == 0)
             {
