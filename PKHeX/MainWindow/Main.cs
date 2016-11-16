@@ -660,12 +660,17 @@ namespace PKHeX
                     return;
                 int savshift = sdr == DialogResult.Yes ? 0 : 0x7F000;
                 byte[] psdata = input.Skip(0x5400 + savshift).Take(SaveUtil.SIZE_G6ORAS).ToArray();
-                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SaveUtil.BEEF)
-                    Array.Resize(ref psdata, SaveUtil.SIZE_G6XY);
-                if (BitConverter.ToUInt32(psdata, psdata.Length - 0x1F0) != SaveUtil.BEEF)
+
+                if (BitConverter.ToUInt32(psdata, SaveUtil.SIZE_G6ORAS - 0x1F0) == SaveUtil.BEEF)
+                    Array.Resize(ref psdata, SaveUtil.SIZE_G6ORAS); // set to ORAS size
+                else if (BitConverter.ToUInt32(psdata, SaveUtil.SIZE_G6XY - 0x1F0) == SaveUtil.BEEF)
+                    Array.Resize(ref psdata, SaveUtil.SIZE_G6XY); // set to X/Y size
+                else if (BitConverter.ToUInt32(psdata, SaveUtil.SIZE_G7SM - 0x1F0) == SaveUtil.BEEF)
+                    Array.Resize(ref psdata, SaveUtil.SIZE_G7SM); // set to S/M size
+                else
                 { Util.Error("The data file is not a valid save file", path); return; }
 
-                openSAV(new SAV6(psdata), path);
+                openSAV(SaveUtil.getVariantSAV(psdata), path);
             }
             #endregion
             #region SAV/PKM
