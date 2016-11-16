@@ -686,6 +686,9 @@ B_Close = Save
 B_GiveAll = Give All
 B_Save = Save
 B_Cancel = Cancel
+B_Sort = Sort
+Menu_SortName = Name
+Menu_SortCount = Count
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.

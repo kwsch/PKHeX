@@ -365,6 +365,18 @@ L_Arguments = Onglet désactivé ; Toujours avec ; DO ; Génération précédent
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
+! SAV_Inventory = Éditeur d'Objets
+- Change stuff below this line, not above.
+-------------------------------------------------------
+B_GiveAll = Donner Tous
+B_Save = Enregistrer
+B_Cancel = Annuler
+B_Sort = Trier
+Menu_SortName = Nom
+Menu_SortCount = Quantité
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
 ! ErrorWindow = Erreur
 - Change stuff below this line, not above.
 -------------------------------------------------------
