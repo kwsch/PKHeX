@@ -1557,10 +1557,10 @@ namespace PKHeX
 
                 if (ekx == null) return;
                 
-                if (ekx.Length != SAV.SIZE_STORED) { Util.Alert($"Decoded data not {SAV.SIZE_STORED} bytes.", $"QR Data Size: {SAV.SIZE_STORED}"); }
+                PKM pk = PKMConverter.getPKMfromBytes(ekx);
+                if (pk == null) { Util.Alert("Decoded data not a valid PKM.", $"QR Data Size: {ekx.Length}"); }
                 else
                 {
-                    PKM pk = PKMConverter.getPKMfromBytes(ekx);
                     if (!pk.Valid || pk.Species <= 0)
                     { Util.Alert("Invalid data detected."); return; }
 

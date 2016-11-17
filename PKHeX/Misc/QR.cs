@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows.Forms;
 
@@ -59,13 +62,31 @@ namespace PKHeX
                 if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return null; }
                 if (data.Contains("filetype not supported")) { Util.Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
                 // Quickly convert the json response to a data string
-                string pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim intro
-                pkstr = pkstr.Substring(0, pkstr.IndexOf("\",\"error\":null}]}]", StringComparison.Ordinal)); // Trim outro
-                if (pkstr.Contains("nQR-Code:")) pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal)); //  Remove multiple QR codes in same image
-                pkstr = pkstr.Replace("\\", ""); // Rectify response
+                const string cap = ",\"error\":null}]}]";
+                const string intro = "[{\"type\":\"qrcode\",\"symbol\":[{\"seq\":0,\"data\":\"";
+                if (!data.StartsWith(intro))
+                    throw new Exception();
 
-                try { return Convert.FromBase64String(pkstr); }
-                catch { Util.Alert("QR string to Data failed.", pkstr); return null; }
+                string pkstr = data.Substring(intro.Length);
+                if (pkstr.Contains("nQR-Code:")) // Remove multiple QR codes in same image
+                    pkstr = pkstr.Substring(0, pkstr.IndexOf("nQR-Code:", StringComparison.Ordinal));
+                pkstr = pkstr.Substring(0, pkstr.IndexOf(cap, StringComparison.Ordinal)); // Trim outro
+                try
+                {
+                    if (!pkstr.StartsWith("http")) // G7
+                    {
+                        string fstr = Regex.Unescape(pkstr);
+                        byte[] raw = Encoding.Unicode.GetBytes(fstr);
+                        // Remove 00 interstitials and retrieve from offset 0x30, take PK7 Stored Size (always)
+                        return raw.ToList().Where((c, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
+                    } 
+                    // All except G7
+                    pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
+                    pkstr = pkstr.Replace("\\", ""); // Rectify response
+
+                    return Convert.FromBase64String(pkstr);
+                }
+                catch { Util.Alert("QR string to Data failed."); return null; }
             }
             catch { Util.Alert("Unable to connect to the internet to decode QR code."); return null; }
         }
