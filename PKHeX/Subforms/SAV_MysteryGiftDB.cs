@@ -112,7 +112,7 @@ namespace PKHeX
         private const int RES_MIN = 6;
         private readonly string Counter;
         private readonly string Viewed;
-        private const int MAXFORMAT = 6;
+        private const int MAXFORMAT = 7;
 
         // Important Events
         private void clickView(object sender, EventArgs e)

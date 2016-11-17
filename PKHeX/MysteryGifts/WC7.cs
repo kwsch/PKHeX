@@ -38,10 +38,10 @@ namespace PKHeX
             set { RawDate = (value-2000)*10000 + RawDate%10000; } }
         private uint Month {
             get { return RawDate%10000/100; }
-            set { RawDate = Year*10000 + value*100 + RawDate%100; } }
+            set { RawDate = (Year-2000)*10000 + value*100 + RawDate%100; } }
         private uint Day {
             get { return RawDate%100; }
-            set { RawDate = Year*10000 + Month*100 + value; } }
+            set { RawDate = (Year-2000)*10000 + Month*100 + value; } }
 
         /// <summary>
         /// Gets or sets the date of the card.
@@ -310,32 +310,14 @@ namespace PKHeX
             pk.Move3_PP = pk.getMovePP(Move3, 0);
             pk.Move4_PP = pk.getMovePP(Move4, 0);
 
-            if (Date.HasValue)
+            if (OTGender == 3)
             {
-                pk.MetDate = Date.Value;
-            }
-            else
-            {
-                // No datetime set, typical for wc6full
-                // Set it to now, instead of zeroing it out.
-                pk.MetDate = DateTime.Now;
+                pk.TID = SAV.TID;
+                pk.SID = SAV.SID;
             }
 
-            if (pk.CurrentHandler == 0) // OT
-            {
-                pk.OT_Memory = 3;
-                pk.OT_TextVar = 9;
-                pk.OT_Intensity = 1;
-                pk.OT_Feeling = Util.rand.Next(0, 9);
-            }
-            else
-            {
-                pk.HT_Memory = 3;
-                pk.HT_TextVar = 9;
-                pk.HT_Intensity = 1;
-                pk.HT_Feeling = Util.rand.Next(0, 9);
-                pk.HT_Friendship = pk.OT_Friendship;
-            }
+            pk.MetDate = Date ?? DateTime.Now;
+            
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
 

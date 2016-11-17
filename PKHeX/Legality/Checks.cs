@@ -363,12 +363,14 @@ namespace PKHeX
             {
                 // Re-parse relearn moves
                 var s = (EncounterStatic)EncounterMatch;
-                for (int i = 0; i < 4; i++)
-                    vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
-                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch", CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-
-                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+                if (s.EggLocation != 60002 || vRelearn.Any(rl => !rl.Valid))
+                {
+                    for (int i = 0; i < 4; i++)
+                        vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
+                            ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch.", CheckIdentifier.RelearnMove)
+                            : new CheckResult(CheckIdentifier.RelearnMove);
+                    return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+                }
             }
 
             EncounterMatch = null; // Reset object
@@ -469,7 +471,7 @@ namespace PKHeX
 
             if (pkm.WasEvent || pkm.WasEventEgg)
                 return new CheckResult(Severity.Invalid, "Unable to match to a Mystery Gift in the database.", CheckIdentifier.Encounter);
-            return new CheckResult(Severity.Invalid, "Not a valid encounter.", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
         }
         private void verifyLevel()
         {
@@ -1056,7 +1058,7 @@ namespace PKHeX
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
             }
-            if (EncounterType == typeof (EncounterTrade) && pkm.Format == 7)
+            if (pkm.Format == 7)
             {
                 // TODO
                 return new CheckResult(Severity.Valid, "S/M History Block check skipped.", CheckIdentifier.History);

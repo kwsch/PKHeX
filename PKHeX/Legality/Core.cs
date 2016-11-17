@@ -420,8 +420,8 @@ namespace PKHeX
                 {
                     if (wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
-                    if (wc.OT != pkm.OT_Name) continue;
-                    if (wc.OTGender != pkm.OT_Gender) continue;
+                    if (!string.IsNullOrEmpty(wc.OT) && wc.OT != pkm.OT_Name) continue;
+                    if (wc.OTGender != 3 && wc.OTGender != pkm.OT_Gender) continue;
                     if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
                     if (wc.PIDType == 2 && !pkm.IsShiny) continue;
                     if (wc.PIDType == 3 && pkm.IsShiny) continue;

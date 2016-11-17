@@ -180,7 +180,7 @@ namespace PKHeX
                 /* 14 */ Box            = 0x04E00;  // [36600]  BoxPokemon
                 /* 15 */ Resort         = 0x3B400;  // [572C]   ResortSave
                 /* 16 */ PlayTime       = 0x40C00;  // [008]    PlayTime
-                /* 17 */ //Overworld//  = 0x40E00;  // [1080]   FieldMoveModelSave
+                /* 17 */ Overworld      = 0x40E00;  // [1080]   FieldMoveModelSave
                 /* 18 */            //  = 0x42000;  // [1A08]   Fashion
                 /* 19 */            //  = 0x43C00;  // [6408]   JoinFestaPersonalSave
                 /* 20 */            //  = 0x4A200;  // [6408]   JoinFestaPersonalSave
@@ -232,9 +232,8 @@ namespace PKHeX
         private int LastViewedBox { get; set; } = int.MinValue;
         private int WondercardFlags { get; set; } = int.MinValue;
         private int PlayTime { get; set; } = int.MinValue;
-        private int JPEG { get; set; } = int.MinValue;
         private int ItemInfo { get; set; } = int.MinValue;
-        private int LinkInfo { get; set; } = int.MinValue;
+        private int Overworld { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
@@ -342,18 +341,38 @@ namespace PKHeX
         public float X
         {
             get { return BitConverter.ToSingle(Data, Trainer1 + 0x08); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x08); }
+            set
+            {
+                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x08);
+                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x08);
+            }
         }
-        // 0xC probably rotation
         public float Z
         {
             get { return BitConverter.ToSingle(Data, Trainer1 + 0x10); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x10); }
+            set
+            {
+                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x10);
+                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x10);
+            }
         }
         public float Y
         {
+            get { return (int)BitConverter.ToSingle(Data, Trainer1 + 0x18); }
+            set
+            {
+                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x18);
+                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x18);
+            }
+        }
+        public float R
+        {
             get { return (int)BitConverter.ToSingle(Data, Trainer1 + 0x20); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20); }
+            set
+            {
+                BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20);
+                BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x20);
+            }
         }
 
         public override uint Money
@@ -791,24 +810,6 @@ namespace PKHeX
                     setWC7(value[i], i);
                 for (int i = value.Length; i < GiftCountMax; i++)
                     setWC7(new WC7(), i);
-            }
-        }
-
-        public byte[] LinkBlock
-        {
-            get
-            {
-                if (LinkInfo < 0)
-                    return null;
-                return Data.Skip(LinkInfo).Take(0xC48).ToArray();
-            }
-            set
-            {
-                if (LinkInfo < 0)
-                    return;
-                if (value.Length != 0xC48)
-                    return;
-                value.CopyTo(Data, LinkInfo);
             }
         }
 

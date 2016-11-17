@@ -32,7 +32,6 @@
             this.B_Close = new System.Windows.Forms.Button();
             this.RTB = new System.Windows.Forms.RichTextBox();
             this.L_Thanks = new System.Windows.Forms.Label();
-            this.L_Codr = new System.Windows.Forms.Label();
             this.B_Shortcuts = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -70,17 +69,6 @@
             this.L_Thanks.TabIndex = 2;
             this.L_Thanks.Text = "Thanks to all the researchers!";
             // 
-            // L_Codr
-            // 
-            this.L_Codr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Codr.AutoSize = true;
-            this.L_Codr.Location = new System.Drawing.Point(163, 345);
-            this.L_Codr.Name = "L_Codr";
-            this.L_Codr.Size = new System.Drawing.Size(155, 13);
-            this.L_Codr.TabIndex = 3;
-            this.L_Codr.Text = "UI Inspired by Codr\'s PokeGen.";
-            // 
             // B_Shortcuts
             // 
             this.B_Shortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -98,7 +86,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 372);
             this.Controls.Add(this.B_Shortcuts);
-            this.Controls.Add(this.L_Codr);
             this.Controls.Add(this.L_Thanks);
             this.Controls.Add(this.RTB);
             this.Controls.Add(this.B_Close);
@@ -120,7 +107,6 @@
         private System.Windows.Forms.Button B_Close;
         private System.Windows.Forms.RichTextBox RTB;
         private System.Windows.Forms.Label L_Thanks;
-        private System.Windows.Forms.Label L_Codr;
         private System.Windows.Forms.Button B_Shortcuts;
     }
 }

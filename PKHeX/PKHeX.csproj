@@ -213,6 +213,7 @@
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
     <Compile Include="Saves\Substructures\MemeCrypto.cs" />
+    <Compile Include="Saves\Substructures\QR7.cs" />
     <Compile Include="Saves\Substructures\ShadowInfo.cs" />
     <Compile Include="Saves\Substructures\StrategyMemo.cs" />
     <Compile Include="Settings.cs" />
@@ -441,6 +442,10 @@
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\NetUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />
+    <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCodeData.cs" />
+    <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\RandUtil.cs" />
     <Compile Include="Util\ReflectUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />

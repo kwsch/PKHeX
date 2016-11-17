@@ -102,6 +102,7 @@ namespace PKHeX
                 NUD_X.Value = (decimal)SAV.X;
                 NUD_Z.Value = (decimal)SAV.Z;
                 NUD_Y.Value = (decimal)SAV.Y;
+                NUD_R.Value = (decimal)SAV.R;
             }
             catch { GB_Map.Enabled = false; }
 
@@ -140,6 +141,7 @@ namespace PKHeX
                 SAV.X = (float)NUD_X.Value;
                 SAV.Z = (float)NUD_Z.Value;
                 SAV.Y = (float)NUD_Y.Value;
+                SAV.R = (float)NUD_R.Value;
             }
             
             // Save PlayTime

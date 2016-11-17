@@ -7,7 +7,7 @@ namespace PKHeX
     public class EvolutionTree
     {
         private List<EvolutionSet> Entries { get; } = new List<EvolutionSet>();
-        private EvolutionLineage[] Lineage { get; }
+        private readonly EvolutionLineage[] Lineage;
         private readonly GameVersion Game;
         private readonly PersonalTable Personal;
         private readonly int MaxSpecies;
@@ -31,6 +31,8 @@ namespace PKHeX
             Lineage = new EvolutionLineage[Entries.Count];
             for (int i = 0; i < Entries.Count; i++)
                 Lineage[i] = new EvolutionLineage();
+            if (Game == GameVersion.ORAS)
+                Array.Resize(ref Lineage, maxSpecies);
 
             // Populate Lineages
             for (int i = 1; i < Lineage.Length; i++)
@@ -157,6 +159,7 @@ namespace PKHeX
         public EvolutionSet6(byte[] data)
         {
             if (data.Length < SIZE || data.Length % SIZE != 0) return;
+            int[] argEvos = {6, 8, 16, 17, 18, 19, 20, 21, 22, 29, 30, 31, 32, 33, 34};
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
@@ -169,6 +172,10 @@ namespace PKHeX
                     // Copy
                     Level = BitConverter.ToUInt16(data, i + 2),
                 };
+
+                // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
+                if (argEvos.Contains(PossibleEvolutions[i/SIZE].Method))
+                    PossibleEvolutions[i/SIZE].Level = 0;
             }
         }
     }
