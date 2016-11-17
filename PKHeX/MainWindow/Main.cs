@@ -1811,26 +1811,48 @@ namespace PKHeX
                 if (m.Length > 4)
                     m = m.Skip(m.Length - 4).ToArray();
                 Array.Resize(ref m, 4);
-                string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
-                    return;
 
-                CB_Move1.SelectedValue = m[0];
-                CB_Move2.SelectedValue = m[1];
-                CB_Move3.SelectedValue = m[2];
-                CB_Move4.SelectedValue = m[3];
+                // Determine if application needs to be made
+                var alreadyEqual = (int)CB_Move1.SelectedValue == m[0] &&
+                                   (int)CB_Move2.SelectedValue == m[1] &&
+                                   (int)CB_Move3.SelectedValue == m[2] &&
+                                   (int)CB_Move4.SelectedValue == m[3];
+
+                if (!alreadyEqual)
+                {
+                    string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
+                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
+                        return;
+
+                    CB_Move1.SelectedValue = m[0];
+                    CB_Move2.SelectedValue = m[1];
+                    CB_Move3.SelectedValue = m[2];
+                    CB_Move4.SelectedValue = m[3];
+                }                     
             }
             else if (sender == GB_RelearnMoves)
             {
                 int[] m = Legality.getSuggestedRelearn();
-                string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
-                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
-                    return;
 
-                CB_RelearnMove1.SelectedValue = m[0];
-                CB_RelearnMove2.SelectedValue = m[1];
-                CB_RelearnMove3.SelectedValue = m[2];
-                CB_RelearnMove4.SelectedValue = m[3];
+                // Determine if application needs to be made
+                var alreadyEqual = (int)CB_RelearnMove1.SelectedValue == m[0] &&
+                                   (int)CB_RelearnMove2.SelectedValue == m[1] &&
+                                   (int)CB_RelearnMove3.SelectedValue == m[2] &&
+                                   (int)CB_RelearnMove4.SelectedValue == m[3];
+                
+                // Only prompt if there would be a change
+                if (!alreadyEqual)
+                {
+                    string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
+                    if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
+                        return;
+
+                    CB_RelearnMove1.SelectedValue = m[0];
+                    CB_RelearnMove2.SelectedValue = m[1];
+                    CB_RelearnMove3.SelectedValue = m[2];
+                    CB_RelearnMove4.SelectedValue = m[3];
+                } 
+
             }
 
             updateLegality();
