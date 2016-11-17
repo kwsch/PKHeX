@@ -77,7 +77,7 @@ namespace PKHeX.Saves.Substructures
 
             byte[] data = new byte[0x1A2];
             BitConverter.GetBytes(0x454B4F50).CopyTo(data, 0); // POKE magic
-            data[0x5] = 0xFF; // QR Type
+            data[0x4] = 0xFF; // QR Type
             BitConverter.GetBytes(box).CopyTo(data, 0x8);
             BitConverter.GetBytes(slot).CopyTo(data, 0xC);
             BitConverter.GetBytes(num_copies).CopyTo(data, 0x10); // No need to check max num_copies, payload parser handles it on-console.
