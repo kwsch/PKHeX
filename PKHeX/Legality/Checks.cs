@@ -471,7 +471,7 @@ namespace PKHeX
 
             if (pkm.WasEvent || pkm.WasEventEgg)
                 return new CheckResult(Severity.Invalid, "Unable to match to a Mystery Gift in the database.", CheckIdentifier.Encounter);
-            return new CheckResult(Severity.Invalid, "Not a valid encounter.", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
         }
         private void verifyLevel()
         {

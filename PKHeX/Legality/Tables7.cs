@@ -230,6 +230,8 @@ namespace PKHeX
             new EncounterStatic { Species = 103, Form = 1, Level = 40, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = 184, }, // Exeggutor-1 @ Exeggutor Island
             new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, }, // Tapu Koko
             new EncounterStatic { Species = 542, Form = 0, Level = 57, Relearn = new[]{382, 437, 014, 494}, Location = -1, }, // Leavanny
+            
+            new EncounterStatic { Species = 718, Form = 0, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
         };
         private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
