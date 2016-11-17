@@ -1576,6 +1576,7 @@ namespace PKHeX
                 if (!verifiedPKM()) return;
                 PKM pkx = preparePKM();
                 byte[] ekx = pkx.EncryptedBoxData;
+
                 const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
                 Image qr;
                 switch (pkx.Format)
@@ -1594,7 +1595,7 @@ namespace PKHeX
 
                 string[] r = pkx.QRText;
                 const string refURL = "PKHeX @ ProjectPokemon.org";
-                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})").ShowDialog();
+                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})", pkx).ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
