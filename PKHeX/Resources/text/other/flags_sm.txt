@@ -1,3 +1,4 @@
 3100	Is Alolan Champion + Magearna Event Active
 3487	Received Magearna Gift
 1216	Received Gift Cosmog
+0499	Received Gift Type:Null

@@ -338,7 +338,7 @@ namespace PKHeX
         public static void setItemDataSource(bool HaX, int MaxItemID, IEnumerable<ushort> allowed, int generation, GameVersion game, GameStrings s)
         {
             string[] items = s.getItemStrings(generation, game);
-            ItemDataSource = Util.getCBList(items, (HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int) i)).ToArray());
+            ItemDataSource = Util.getCBList(items, (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int) i)).ToArray());
         }
         public static List<ComboItem> getLocationList(GameVersion Version, int SaveFormat, bool egg)
         {

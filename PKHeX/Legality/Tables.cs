@@ -169,7 +169,6 @@
             681, // Aegislash
             719, // Xerneas
             746, // Wishiwashi
-            774, // Minior
             778, // Mimikyu
         };
         internal static readonly int[] BattleMegas =

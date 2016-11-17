@@ -29,6 +29,9 @@ namespace PKHeX
         public CheckResult[] vRelearn = new CheckResult[4];
         public string Report => getLegalityReport();
         public string VerboseReport => getVerboseLegalityReport();
+        public readonly int[] AllSuggestedMoves;
+        public readonly int[] AllSuggestedRelearnMoves;
+        public readonly int[] AllSuggestedMovesAndRelearn;
 
         public LegalityAnalysis(PKM pk)
         {
@@ -63,6 +66,9 @@ namespace PKHeX
             }
             catch { Valid = false; }
             getLegalityReport();
+            AllSuggestedMoves = getSuggestedMoves(true, true);
+            AllSuggestedRelearnMoves = Legal.getValidRelearn(pkm, -1).ToArray();
+            AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
         }
 
         private void AddLine(Severity s, string c, CheckIdentifier i)
@@ -210,7 +216,7 @@ namespace PKHeX
         }
         public int[] getSuggestedMoves(bool tm, bool tutor)
         {
-            if (pkm.Format < 6)
+            if (pkm == null || pkm.Format < 6)
                 return null;
             return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm).Skip(1).ToArray(); // skip move 0
         }

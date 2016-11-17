@@ -39,6 +39,7 @@ namespace PKHeX
                 return registryValue;
             }
             string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "3DSSaveBank");
+            if (Directory.Exists(GetRegistryBase()))
             Directory.CreateDirectory(path);
             return path;
         }

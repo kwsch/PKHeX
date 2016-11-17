@@ -3142,11 +3142,13 @@
             // 
             this.CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Move4.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.CB_Move4.FormattingEnabled = true;
             this.CB_Move4.Location = new System.Drawing.Point(9, 92);
             this.CB_Move4.Name = "CB_Move4";
             this.CB_Move4.Size = new System.Drawing.Size(121, 21);
             this.CB_Move4.TabIndex = 10;
+            this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
             this.CB_Move4.SelectedIndexChanged += new System.EventHandler(this.validateMove);
             this.CB_Move4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_Move4.Leave += new System.EventHandler(this.validateComboBox2);
@@ -3171,11 +3173,13 @@
             // 
             this.CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Move3.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.CB_Move3.FormattingEnabled = true;
             this.CB_Move3.Location = new System.Drawing.Point(9, 70);
             this.CB_Move3.Name = "CB_Move3";
             this.CB_Move3.Size = new System.Drawing.Size(121, 21);
             this.CB_Move3.TabIndex = 7;
+            this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
             this.CB_Move3.SelectedIndexChanged += new System.EventHandler(this.validateMove);
             this.CB_Move3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_Move3.Leave += new System.EventHandler(this.validateComboBox2);
@@ -3185,11 +3189,13 @@
             // 
             this.CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Move2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.CB_Move2.FormattingEnabled = true;
             this.CB_Move2.Location = new System.Drawing.Point(9, 48);
             this.CB_Move2.Name = "CB_Move2";
             this.CB_Move2.Size = new System.Drawing.Size(121, 21);
             this.CB_Move2.TabIndex = 4;
+            this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
             this.CB_Move2.SelectedIndexChanged += new System.EventHandler(this.validateMove);
             this.CB_Move2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_Move2.Leave += new System.EventHandler(this.validateComboBox2);
@@ -3199,11 +3205,13 @@
             // 
             this.CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Move1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.CB_Move1.FormattingEnabled = true;
             this.CB_Move1.Location = new System.Drawing.Point(9, 26);
             this.CB_Move1.Name = "CB_Move1";
             this.CB_Move1.Size = new System.Drawing.Size(121, 21);
             this.CB_Move1.TabIndex = 1;
+            this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
             this.CB_Move1.SelectedIndexChanged += new System.EventHandler(this.validateMove);
             this.CB_Move1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_Move1.Leave += new System.EventHandler(this.validateComboBox2);
