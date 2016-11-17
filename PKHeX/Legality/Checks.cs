@@ -363,12 +363,14 @@ namespace PKHeX
             {
                 // Re-parse relearn moves
                 var s = (EncounterStatic)EncounterMatch;
-                for (int i = 0; i < 4; i++)
-                    vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
-                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch", CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-
-                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+                if (s.EggLocation != 60002 || vRelearn.Any(rl => !rl.Valid))
+                {
+                    for (int i = 0; i < 4; i++)
+                        vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
+                            ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch.", CheckIdentifier.RelearnMove)
+                            : new CheckResult(CheckIdentifier.RelearnMove);
+                    return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+                }
             }
 
             EncounterMatch = null; // Reset object
