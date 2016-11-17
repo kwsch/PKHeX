@@ -1581,14 +1581,12 @@ namespace PKHeX
                 Image qr;
                 switch (pkx.Format)
                 {
-                    case 6:
-                        qr = QR.getQRImage(ekx, server);
-                        break;
                     case 7:
                         qr = QR7.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
-                        return;
+                        qr = QR.getQRImage(ekx, pkx.Format == 6 ? server : "null/#");
+                        break;
                 }
 
                 if (qr == null) return;
@@ -2704,7 +2702,7 @@ namespace PKHeX
         {
             ((ComboBox)sender).DroppedDown = false;
         }
-        private void showLegality(PKM pk, bool tabs, bool verbose)
+        private void showLegality(PKM pk, bool tabs, bool verbose, bool skipMoveRepop = false)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             if (!la.Parsed)
@@ -2713,7 +2711,7 @@ namespace PKHeX
                 return;
             }
             if (tabs)
-                updateLegality(la);
+                updateLegality(la, skipMoveRepop);
             Util.Alert(verbose ? la.VerboseReport : la.Report);
         }
         private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
