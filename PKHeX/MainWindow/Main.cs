@@ -1811,6 +1811,10 @@ namespace PKHeX
                 if (m.Length > 4)
                     m = m.Skip(m.Length - 4).ToArray();
                 Array.Resize(ref m, 4);
+
+                if (pkm.Moves.SequenceEqual(m))
+                    return;
+
                 string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
                     return;
@@ -1823,6 +1827,10 @@ namespace PKHeX
             else if (sender == GB_RelearnMoves)
             {
                 int[] m = Legality.getSuggestedRelearn();
+
+                if (pkm.RelearnMoves.SequenceEqual(m))
+                    return;
+
                 string r = string.Join(Environment.NewLine, m.Select(v => v >= GameStrings.movelist.Length ? "ERROR" : GameStrings.movelist[v]));
                 if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
                     return;
