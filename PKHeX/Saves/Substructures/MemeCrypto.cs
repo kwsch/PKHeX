@@ -227,6 +227,25 @@ namespace PKHeX
             return null;
         }
 
+        public static byte[] SignMemeData(byte[] input)
+        {
+            if (input.Length < 0x60)
+                throw new ArgumentException("Bad Meme input!");
+            byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
+            using (var sha1 = Util.GetSHA1Provider())
+            {
+                byte[] key = sha1.ComputeHash(PubKeyDer.Concat(input.Take(input.Length - 0x60)).ToArray()).Take(0x10).ToArray();
+
+                byte[] output = (byte[])input.Clone();
+                Array.Copy(sha1.ComputeHash(input, 0, input.Length - 8), 0, output, output.Length - 8, 8);
+                byte[] MemeCrypted = MemeCryptoAESEncrypt(key, output.Skip(output.Length - 0x60).ToArray());
+                MemeCrypted[0] &= 0x7F;
+                var RSA = RSADecrypt(MemeCrypted);
+                RSA.CopyTo(output, output.Length - 0x60);
+                return output;
+            }
+        }
+
         /// <summary>
         /// Resigns save data.
         /// </summary>
@@ -243,36 +262,15 @@ namespace PKHeX
             {
                 byte[] outSav = (byte[])sav7.Clone();
 
-                using (var sha1 = Util.GetSHA1Provider())
+                using (var sha256 = Util.GetSHA256Provider())
                 {
-                    using (var sha256 = Util.GetSHA256Provider())
-                    {
-                        byte[] CurSig = new byte[0x80];
-                        Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
+                    byte[] CurSig = new byte[0x80];
+                    Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
 
-                        byte[] ChecksumTable = new byte[0x140];
-                        Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
-                        byte[] Hash = sha256.ComputeHash(ChecksumTable);
+                    byte[] ChecksumTable = new byte[0x140];
+                    Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
 
-                        byte[] PubKeyDer = "307C300D06092A864886F70D0101010500036B003068026100B61E192091F90A8F76A6EAAA9A3CE58C863F39AE253F037816F5975854E07A9A456601E7C94C29759FE155C064EDDFA111443F81EF1A428CF6CD32F9DAC9D48E94CFB3F690120E8E6B9111ADDAF11E7C96208C37C0143FF2BF3D7E831141A9730203010001".ToByteArray();
-
-                        byte[] keybuf = new byte[PubKeyDer.Length + 0x20];
-                        Array.Copy(PubKeyDer, keybuf, PubKeyDer.Length);
-                        Array.Copy(Hash, 0, keybuf, PubKeyDer.Length, 0x20);
-                        byte[] key = sha1.ComputeHash(keybuf).Take(0x10).ToArray();
-
-                        byte[] secret = ReverseCrypt(CurSig) ?? new byte[0x60];
-                        byte[] secretWorkBuf = new byte[0x78];
-                        Hash.CopyTo(secretWorkBuf, 0);
-                        Array.Copy(secret, 0, secretWorkBuf, 0x20, 0x58);
-                        Array.Copy(sha1.ComputeHash(secretWorkBuf), 0, secret, 0x58, 8);
-
-                        Hash.CopyTo(outSav, 0x6BB00);
-                        byte[] MemeCrypted = MemeCryptoAESEncrypt(key, secret);
-                        MemeCrypted[0] &= 0x7F;
-                        var RSA = RSADecrypt(MemeCrypted);
-                        Array.Copy(RSA, 0, outSav, 0x6BB20, 0x60);
-                    }
+                    SignMemeData(sha256.ComputeHash(ChecksumTable).Concat((ReverseCrypt(CurSig) ?? new byte[0x60])).ToArray()).CopyTo(outSav, 0x6BB00);
                 }
                 return outSav;
             }           
