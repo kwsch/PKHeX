@@ -562,6 +562,8 @@ namespace PKHeX
         }
 
         // Font Related
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
         private static readonly PrivateFontCollection s_FontCollection = new PrivateFontCollection();
         private static FontFamily[] FontFamilies
         {
@@ -579,10 +581,12 @@ namespace PKHeX
         {
             try
             {
-				byte[] fontData = Resources.pgldings_normalregular;
-				GCHandle fontHandle = GCHandle.Alloc(fontData, GCHandleType.Pinned);
-				s_FontCollection.AddMemoryFont(fontHandle.AddrOfPinnedObject(), fontData.Length);
-				fontHandle.Free();
+                byte[] fontData = Resources.pgldings_normalregular;
+                IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+                Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+                s_FontCollection.AddMemoryFont(fontPtr, Resources.pgldings_normalregular.Length); uint dummy = 0;
+                AddFontMemResourceEx(fontPtr, (uint)Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
+                Marshal.FreeCoTaskMem(fontPtr);
             }
             catch (Exception ex) { Util.Error("Unable to add ingame font.", ex); }
         }

@@ -29,11 +29,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <EnvironmentVariables>
-      <EnvironmentVariables>
-        <Variable name="MONO_WINFORMS_XIM_STYLE" value="disabled" />
-      </EnvironmentVariables>
-    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -96,7 +91,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'ClickOnce-Debug|ClickOnce-Release'">
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Debug|x86'">
+    <Reference Include="System.Deployment" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Release|x86'">
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
