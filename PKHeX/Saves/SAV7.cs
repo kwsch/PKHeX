@@ -214,7 +214,7 @@ namespace PKHeX
                 WondercardData = WondercardFlags + 0x100;
 
                 PCBackgrounds =         PCLayout + 0x5C0;
-                LastViewedBox =         PCLayout + 0x5E0;
+                LastViewedBox =         PCLayout + 0x5E3;
                 PCFlags =               PCLayout + 0x5E0;
             }
             else // Empty input
