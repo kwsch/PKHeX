@@ -116,6 +116,8 @@ namespace PKHeX
             this.CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             this.Tab_BadgeMap = new System.Windows.Forms.TabPage();
             this.GB_Map = new System.Windows.Forms.GroupBox();
+            this.NUD_R = new System.Windows.Forms.NumericUpDown();
+            this.L_R = new System.Windows.Forms.Label();
             this.NUD_Z = new System.Windows.Forms.NumericUpDown();
             this.NUD_M = new System.Windows.Forms.NumericUpDown();
             this.NUD_Y = new System.Windows.Forms.NumericUpDown();
@@ -124,18 +126,16 @@ namespace PKHeX
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
-            this.NUD_R = new System.Windows.Forms.NumericUpDown();
-            this.L_R = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Adventure.SuspendLayout();
             this.Tab_BadgeMap.SuspendLayout();
             this.GB_Map.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_R)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_R)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -916,27 +916,61 @@ namespace PKHeX
             this.GB_Map.Controls.Add(this.L_X);
             this.GB_Map.Location = new System.Drawing.Point(115, 64);
             this.GB_Map.Name = "GB_Map";
-            this.GB_Map.Size = new System.Drawing.Size(157, 156);
+            this.GB_Map.Size = new System.Drawing.Size(203, 156);
             this.GB_Map.TabIndex = 58;
             this.GB_Map.TabStop = false;
             this.GB_Map.Text = "Map Position";
             // 
+            // NUD_R
+            // 
+            this.NUD_R.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_R.DecimalPlaces = 5;
+            this.NUD_R.Location = new System.Drawing.Point(93, 120);
+            this.NUD_R.Maximum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.NUD_R.Minimum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            -2147483648});
+            this.NUD_R.Name = "NUD_R";
+            this.NUD_R.Size = new System.Drawing.Size(96, 20);
+            this.NUD_R.TabIndex = 55;
+            this.NUD_R.ValueChanged += new System.EventHandler(this.changeMapValue);
+            // 
+            // L_R
+            // 
+            this.L_R.Location = new System.Drawing.Point(6, 120);
+            this.L_R.Name = "L_R";
+            this.L_R.Size = new System.Drawing.Size(80, 20);
+            this.L_R.TabIndex = 54;
+            this.L_R.Text = "Rotation:";
+            this.L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // NUD_Z
             // 
+            this.NUD_Z.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Z.DecimalPlaces = 5;
             this.NUD_Z.Location = new System.Drawing.Point(93, 68);
             this.NUD_Z.Maximum = new decimal(new int[] {
-            65535,
+            99999999,
             0,
             0,
             0});
             this.NUD_Z.Minimum = new decimal(new int[] {
-            65535,
+            99999999,
             0,
             0,
             -2147483648});
             this.NUD_Z.Name = "NUD_Z";
-            this.NUD_Z.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Z.Size = new System.Drawing.Size(96, 20);
             this.NUD_Z.TabIndex = 53;
+            this.NUD_Z.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // NUD_M
             // 
@@ -949,32 +983,49 @@ namespace PKHeX
             this.NUD_M.Name = "NUD_M";
             this.NUD_M.Size = new System.Drawing.Size(50, 20);
             this.NUD_M.TabIndex = 52;
+            this.NUD_M.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // NUD_Y
             // 
-            this.NUD_Y.DecimalPlaces = 1;
+            this.NUD_Y.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Y.DecimalPlaces = 5;
             this.NUD_Y.Location = new System.Drawing.Point(93, 94);
             this.NUD_Y.Maximum = new decimal(new int[] {
-            65535,
+            99999999,
             0,
             0,
             0});
+            this.NUD_Y.Minimum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            -2147483648});
             this.NUD_Y.Name = "NUD_Y";
-            this.NUD_Y.Size = new System.Drawing.Size(50, 20);
+            this.NUD_Y.Size = new System.Drawing.Size(96, 20);
             this.NUD_Y.TabIndex = 51;
+            this.NUD_Y.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // NUD_X
             // 
-            this.NUD_X.DecimalPlaces = 1;
+            this.NUD_X.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_X.DecimalPlaces = 5;
             this.NUD_X.Location = new System.Drawing.Point(93, 42);
             this.NUD_X.Maximum = new decimal(new int[] {
-            65535,
+            99999999,
             0,
             0,
             0});
+            this.NUD_X.Minimum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            -2147483648});
             this.NUD_X.Name = "NUD_X";
-            this.NUD_X.Size = new System.Drawing.Size(50, 20);
+            this.NUD_X.Size = new System.Drawing.Size(96, 20);
             this.NUD_X.TabIndex = 50;
+            this.NUD_X.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // L_Y
             // 
@@ -1012,28 +1063,6 @@ namespace PKHeX
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_R
-            // 
-            this.NUD_R.DecimalPlaces = 1;
-            this.NUD_R.Location = new System.Drawing.Point(93, 120);
-            this.NUD_R.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_R.Name = "NUD_R";
-            this.NUD_R.Size = new System.Drawing.Size(50, 20);
-            this.NUD_R.TabIndex = 55;
-            // 
-            // L_R
-            // 
-            this.L_R.Location = new System.Drawing.Point(6, 120);
-            this.L_R.Name = "L_R";
-            this.L_R.Size = new System.Drawing.Size(80, 20);
-            this.L_R.TabIndex = 54;
-            this.L_R.Text = "Rotation:";
-            this.L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1056,11 +1085,11 @@ namespace PKHeX
             this.GB_Adventure.PerformLayout();
             this.Tab_BadgeMap.ResumeLayout(false);
             this.GB_Map.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_R)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_R)).EndInit();
             this.ResumeLayout(false);
 
         }

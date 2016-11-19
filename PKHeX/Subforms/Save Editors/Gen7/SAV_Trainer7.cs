@@ -9,6 +9,7 @@ namespace PKHeX
         private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
         public SAV_Trainer7()
         {
+            Loading = true;
             InitializeComponent();
             if (!Main.unicode)
             try { TB_OTName.Font = PKX.getPKXFont(11); }
@@ -22,8 +23,11 @@ namespace PKHeX
             
             getComboBoxes();
             getTextBoxes();
+            Loading = false;
         }
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
+        private readonly bool Loading;
+        private bool MapUpdated;
 
         private void getComboBoxes()
         {
@@ -135,7 +139,7 @@ namespace PKHeX
             SAV.OT = TB_OTName.Text;
 
             // Copy Position
-            if (GB_Map.Enabled)
+            if (GB_Map.Enabled && MapUpdated)
             {
                 SAV.M = (int)NUD_M.Value;
                 SAV.X = (float)NUD_X.Value;
@@ -180,11 +184,14 @@ namespace PKHeX
         }
         private void showTSV(object sender, EventArgs e)
         {
-            uint TID = Util.ToUInt32(MT_TID.Text);
-            uint SID = Util.ToUInt32(MT_SID.Text);
-            uint tsv = (TID ^ SID) >> 4;
-            Tip1.SetToolTip(MT_TID, "TSV: " + tsv.ToString("0000"));
-            Tip2.SetToolTip(MT_SID, "TSV: " + tsv.ToString("0000"));
+            SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
+            SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
+            int tsv = (SAV.TID ^ SAV.SID) >> 4;
+            string IDstr = "TSV: " + tsv.ToString("0000");
+            if (SAV.Generation > 6) // always true for G7
+                IDstr += Environment.NewLine + "G7TID: " + SAV.TrainerID7.ToString("000000");
+            Tip1.SetToolTip(MT_TID, "TSV: " + IDstr);
+            Tip2.SetToolTip(MT_SID, "TSV: " + IDstr);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -210,7 +217,11 @@ namespace PKHeX
             if (box?.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
-
+        private void changeMapValue(object sender, EventArgs e)
+        {
+            if (!Loading)
+                MapUpdated = true;
+        }
         private void updateCountry(object sender, EventArgs e)
         {
             if (Util.getIndex(sender as ComboBox) > 0)
