@@ -48,7 +48,7 @@ namespace PKHeX
         public override int EV_DEF { get { return EVYield >> 4 & 0x3; } set { EVYield = (EVYield & (0x3 << 4)) | (value & 0x3); } }
         public override int EV_SPE { get { return EVYield >> 6 & 0x3; } set { EVYield = (EVYield & (0x3 << 6)) | (value & 0x3); } }
         public override int EV_SPA { get { return EVYield >> 8 & 0x3; } set { EVYield = (EVYield & (0x3 << 8)) | (value & 0x3); } }
-        public override int EV_SPD { get { return EVYield >> 16 & 0x3; } set { EVYield = (EVYield & (0x3 << 10)) | (value & 0x3); } }
+        public override int EV_SPD { get { return EVYield >> 10 & 0x3; } set { EVYield = (EVYield & (0x3 << 10)) | (value & 0x3); } }
         public override int[] Items
         {
             get { return new int[] { BitConverter.ToInt16(Data, 0xC), BitConverter.ToInt16(Data, 0xE), BitConverter.ToInt16(Data, 0x10) }; }
