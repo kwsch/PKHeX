@@ -88,8 +88,8 @@ namespace PKHeX
             get { return BitConverter.ToUInt16(Data, 0x68); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); } }
         public override int Quantity {
-            get { return BitConverter.ToUInt16(Data, 0x70); }
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); } }
+            get { return BitConverter.ToUInt16(Data, 0x6A); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); } }
         
         // Pokémon Properties
         public override bool IsPokémon { get { return CardType == 0; } set { if (value) CardType = 0; } }
@@ -176,6 +176,7 @@ namespace PKHeX
             set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6); } }
         public override int Level { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
         public override bool IsEgg { get { return Data[0xD1] == 1; } set { Data[0xD1] = (byte)(value ? 1 : 0); } }
+        public ushort AdditionalItem { get { return BitConverter.ToUInt16(Data, 0xD2); } set { BitConverter.GetBytes(value).CopyTo(Data, 0xD2); } }
         public uint PID {
             get { return BitConverter.ToUInt32(Data, 0xD4); }
             set { BitConverter.GetBytes(value).CopyTo(Data, 0xD4); } }
