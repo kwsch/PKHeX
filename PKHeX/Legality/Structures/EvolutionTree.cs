@@ -32,7 +32,7 @@ namespace PKHeX
             for (int i = 0; i < Entries.Count; i++)
                 Lineage[i] = new EvolutionLineage();
             if (Game == GameVersion.ORAS)
-                Array.Resize(ref Lineage, maxSpecies);
+                Array.Resize(ref Lineage, maxSpecies + 1);
 
             // Populate Lineages
             for (int i = 1; i < Lineage.Length; i++)

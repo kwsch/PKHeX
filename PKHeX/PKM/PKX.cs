@@ -829,10 +829,10 @@ namespace PKHeX
                 case 586:
                     return new[]
                     {
-                        f[948], // Spring
-                        f[949], // Summer
-                        f[950], // Autumn
-                        f[951], // Winter
+                        f[585], // Spring
+                        f[947], // Summer
+                        f[948], // Autumn
+                        f[949], // Winter
                     };
 
                 case 641:
@@ -915,7 +915,7 @@ namespace PKHeX
                 case 671:
                     return new[]
                     {
-                        f[985], // Red
+                        f[669], // Red
                         f[986], // Yellow
                         f[987], // Orange
                         f[988], // Blue
@@ -925,7 +925,7 @@ namespace PKHeX
                 case 670:
                     return new[]
                     {
-                        f[985], // Red
+                        f[669], // Red
                         f[986], // Yellow
                         f[987], // Orange
                         f[988], // Blue
