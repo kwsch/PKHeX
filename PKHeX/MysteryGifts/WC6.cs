@@ -313,15 +313,11 @@ namespace PKHeX
             pk.Move3_PP = pk.getMovePP(Move3, 0);
             pk.Move4_PP = pk.getMovePP(Move4, 0);
 
-            if (Date.HasValue)
+            pk.MetDate = Date ?? DateTime.Now;
+
+            if (SAV.Generation > 6) // Gen7
             {
-                pk.MetDate = Date.Value;
-            }
-            else
-            {
-                // No datetime set, typical for wc6full
-                // Set it to now, instead of zeroing it out.
-                pk.MetDate = DateTime.Now;
+                pk.Version = (int)GameVersion.OR;
             }
 
             if (pk.CurrentHandler == 0) // OT

@@ -1058,7 +1058,7 @@ namespace PKHeX
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
             }
-            if (EncounterType == typeof (EncounterTrade) && pkm.Format == 7)
+            if (pkm.Format == 7)
             {
                 // TODO
                 return new CheckResult(Severity.Valid, "S/M History Block check skipped.", CheckIdentifier.History);

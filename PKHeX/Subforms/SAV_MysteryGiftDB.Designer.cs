@@ -1415,6 +1415,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
+            ".wc7",
             ".wc6",
             ".pgf",
             ".pcd/pgt"});
