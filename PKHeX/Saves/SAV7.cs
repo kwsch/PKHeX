@@ -184,7 +184,7 @@ namespace PKHeX
                 /* 18 */            //  = 0x42000;  // [1A08]   Fashion
                 /* 19 */            //  = 0x43C00;  // [6408]   JoinFestaPersonalSave
                 /* 20 */            //  = 0x4A200;  // [6408]   JoinFestaPersonalSave
-                /* 21 */            //  = 0x50800;  // [3998]   JoinFestaDataSave
+                /* 21 */ JoinFestaData  = 0x50800;  // [3998]   JoinFestaDataSave
                 /* 22 */            //  = 0x54200;  // [100]    BerrySpot
                 /* 23 */            //  = 0x54400;  // [100]    FishingSpot
                 /* 24 */            //  = 0x54600;  // [10528]  LiveMatchData
@@ -234,6 +234,7 @@ namespace PKHeX
         private int PlayTime { get; set; } = int.MinValue;
         private int ItemInfo { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
+        private int JoinFestaData { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
@@ -378,8 +379,40 @@ namespace PKHeX
         public override uint Money
         {
             get { return BitConverter.ToUInt32(Data, Misc + 0x4); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x4); }
+            set
+            {
+                if (value > 9999999) value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x4);
+            }
         }
+        public uint BP
+        {
+            get { return BitConverter.ToUInt32(Data, Misc + 0x11C); }
+            set
+            {
+                if (value > 9999) value = 9999;
+                BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x11C);
+            }
+        }
+        public uint FestaCoins
+        {
+            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x50C); }
+            set
+            {
+                if (value > 9999999) value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x50C);
+            }
+        }
+        public uint TotalFestaCoins
+        {
+            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x510); }
+            set
+            {
+                if (value > 9999999) value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x510);
+            }
+        }
+
         public override int PlayedHours
         { 
             get { return BitConverter.ToUInt16(Data, PlayTime); } 
