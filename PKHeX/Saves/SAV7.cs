@@ -401,9 +401,12 @@ namespace PKHeX
             {
                 if (value > 9999999) value = 9999999;
                 BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x50C);
+
+                if (TotalFestaCoins < value)
+                    TotalFestaCoins = value;
             }
         }
-        public uint TotalFestaCoins
+        private uint TotalFestaCoins
         {
             get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x510); }
             set
