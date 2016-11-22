@@ -352,6 +352,15 @@ namespace PKHeX
             497, 500, 503, //3
         };
 
+        internal static readonly int[] ZygardeMoves =
+        {
+            245, // Extreme Speed
+            349, // Dragon Dance
+            614, // Thousand Arrows
+            615, // Thousand Waves
+            687, // Core Enforcer
+        };
+
         internal static readonly int[] ValidMet_SM =
         {
             006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,

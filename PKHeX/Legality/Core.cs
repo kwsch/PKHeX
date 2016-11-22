@@ -798,8 +798,11 @@ namespace PKHeX
             if (species == 479) // Rotom
                 r.Add(RotomMoves[pkm.AltForm]);
 
-            if (species == 25 && pkm.Format == 6) // Pikachu
+            if (species == 25 && pkm.Format == 6 && pkm.GenNumber == 6) // Pikachu
                 r.Add(PikachuMoves[pkm.AltForm]);
+
+            if (species == 718 && pkm.GenNumber == 7) // Zygarde
+                r.AddRange(ZygardeMoves);
 
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
