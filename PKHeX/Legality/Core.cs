@@ -912,8 +912,13 @@ namespace PKHeX
         private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors)
         {
             PersonalInfo info = pkm.PersonalInfo;
-            // Type Tutors
-            List<int> moves = TypeTutor.Where((t, i) => info.TypeTutors[i]).ToList();
+            List<int> moves = new List<int>();
+
+            // Type Tutors -- Pledge moves and High BP moves switched places in G7+
+            if (pkm.Format <= 6)
+                moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+            else if (pkm.Format >= 7)
+                moves.AddRange(TypeTutor7.Where((t, i) => info.TypeTutors[i]));
 
             // Varied Tutors
             //if (pkm.InhabitedGeneration(5) && Tutors)
