@@ -776,6 +776,8 @@ namespace PKHeX
             List<int> r = new List<int> { 0 };
             int species = pkm.Species;
             int lvl = pkm.CurrentLevel;
+            if (pkm.Format >= 7)
+                lvl = 100; // Move reminder can teach any level in movepool now!
 
             // Special Type Tutors Availability
             const bool moveTutor = true;
@@ -798,8 +800,11 @@ namespace PKHeX
             if (species == 479) // Rotom
                 r.Add(RotomMoves[pkm.AltForm]);
 
-            if (species == 25 && pkm.Format == 6) // Pikachu
+            if (species == 25 && pkm.Format == 6 && pkm.GenNumber == 6) // Pikachu
                 r.Add(PikachuMoves[pkm.AltForm]);
+
+            if (species == 718 && pkm.GenNumber == 7) // Zygarde
+                r.AddRange(ZygardeMoves);
 
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();

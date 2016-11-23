@@ -121,6 +121,9 @@ namespace PKHeX
             CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
+
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            NUD_FC.Value = Math.Min(NUD_BP.Maximum, SAV.FestaCoins);
         }
         private void save()
         {
@@ -168,6 +171,9 @@ namespace PKHeX
             SAV.LastSavedDay = CAL_LastSavedDate.Value.Day;
             SAV.LastSavedHour = CAL_LastSavedTime.Value.Hour;
             SAV.LastSavedMinute = CAL_LastSavedTime.Value.Minute;
+
+            SAV.BP = (uint)NUD_BP.Value;
+            SAV.FestaCoins = (uint)NUD_FC.Value;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

@@ -126,6 +126,15 @@ namespace PKHeX
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
+            this.GB_Stats = new System.Windows.Forms.GroupBox();
+            this.L_FC = new System.Windows.Forms.Label();
+            this.L_Offset = new System.Windows.Forms.Label();
+            this.L_BP = new System.Windows.Forms.Label();
+            this.L_Value = new System.Windows.Forms.Label();
+            this.MT_Stat = new System.Windows.Forms.MaskedTextBox();
+            this.CB_Stats = new System.Windows.Forms.ComboBox();
+            this.NUD_BP = new System.Windows.Forms.NumericUpDown();
+            this.NUD_FC = new System.Windows.Forms.NumericUpDown();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Adventure.SuspendLayout();
@@ -136,6 +145,9 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
+            this.GB_Stats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FC)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -741,6 +753,7 @@ namespace PKHeX
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.GB_Stats);
             this.Tab_Overview.Controls.Add(this.CB_AlolaTime);
             this.Tab_Overview.Controls.Add(this.L_AlolaTime);
             this.Tab_Overview.Controls.Add(this.GB_Adventure);
@@ -1063,6 +1076,120 @@ namespace PKHeX
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // GB_Stats
+            // 
+            this.GB_Stats.Controls.Add(this.NUD_FC);
+            this.GB_Stats.Controls.Add(this.NUD_BP);
+            this.GB_Stats.Controls.Add(this.L_FC);
+            this.GB_Stats.Controls.Add(this.L_Offset);
+            this.GB_Stats.Controls.Add(this.L_BP);
+            this.GB_Stats.Controls.Add(this.L_Value);
+            this.GB_Stats.Controls.Add(this.MT_Stat);
+            this.GB_Stats.Controls.Add(this.CB_Stats);
+            this.GB_Stats.Location = new System.Drawing.Point(212, 113);
+            this.GB_Stats.Name = "GB_Stats";
+            this.GB_Stats.Size = new System.Drawing.Size(171, 137);
+            this.GB_Stats.TabIndex = 60;
+            this.GB_Stats.TabStop = false;
+            this.GB_Stats.Text = "Stats";
+            // 
+            // L_FC
+            // 
+            this.L_FC.Location = new System.Drawing.Point(6, 37);
+            this.L_FC.Name = "L_FC";
+            this.L_FC.Size = new System.Drawing.Size(84, 20);
+            this.L_FC.TabIndex = 0;
+            this.L_FC.Text = "Festa Coins:";
+            this.L_FC.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Offset
+            // 
+            this.L_Offset.AutoSize = true;
+            this.L_Offset.Location = new System.Drawing.Point(19, 116);
+            this.L_Offset.Name = "L_Offset";
+            this.L_Offset.Size = new System.Drawing.Size(39, 13);
+            this.L_Offset.TabIndex = 28;
+            this.L_Offset.Text = "(offset)";
+            this.L_Offset.Visible = false;
+            // 
+            // L_BP
+            // 
+            this.L_BP.Location = new System.Drawing.Point(9, 16);
+            this.L_BP.Name = "L_BP";
+            this.L_BP.Size = new System.Drawing.Size(81, 20);
+            this.L_BP.TabIndex = 1;
+            this.L_BP.Text = "BP:";
+            this.L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Value
+            // 
+            this.L_Value.AutoSize = true;
+            this.L_Value.Location = new System.Drawing.Point(19, 100);
+            this.L_Value.Name = "L_Value";
+            this.L_Value.Size = new System.Drawing.Size(34, 13);
+            this.L_Value.TabIndex = 22;
+            this.L_Value.Text = "Value";
+            this.L_Value.Visible = false;
+            // 
+            // MT_Stat
+            // 
+            this.MT_Stat.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MT_Stat.Location = new System.Drawing.Point(66, 97);
+            this.MT_Stat.Mask = "0000000000";
+            this.MT_Stat.Name = "MT_Stat";
+            this.MT_Stat.Size = new System.Drawing.Size(77, 20);
+            this.MT_Stat.TabIndex = 21;
+            this.MT_Stat.Text = "1231231234";
+            this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.MT_Stat.Visible = false;
+            // 
+            // CB_Stats
+            // 
+            this.CB_Stats.DropDownHeight = 156;
+            this.CB_Stats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Stats.DropDownWidth = 180;
+            this.CB_Stats.FormattingEnabled = true;
+            this.CB_Stats.IntegralHeight = false;
+            this.CB_Stats.Location = new System.Drawing.Point(22, 76);
+            this.CB_Stats.Name = "CB_Stats";
+            this.CB_Stats.Size = new System.Drawing.Size(121, 21);
+            this.CB_Stats.TabIndex = 23;
+            this.CB_Stats.Visible = false;
+            // 
+            // NUD_BP
+            // 
+            this.NUD_BP.Location = new System.Drawing.Point(96, 18);
+            this.NUD_BP.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_BP.Name = "NUD_BP";
+            this.NUD_BP.Size = new System.Drawing.Size(47, 20);
+            this.NUD_BP.TabIndex = 29;
+            this.NUD_BP.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
+            // NUD_FC
+            // 
+            this.NUD_FC.Location = new System.Drawing.Point(96, 39);
+            this.NUD_FC.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_FC.Name = "NUD_FC";
+            this.NUD_FC.Size = new System.Drawing.Size(66, 20);
+            this.NUD_FC.TabIndex = 30;
+            this.NUD_FC.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1090,6 +1217,10 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
+            this.GB_Stats.ResumeLayout(false);
+            this.GB_Stats.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FC)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1193,5 +1324,14 @@ namespace PKHeX
         private System.Windows.Forms.GroupBox GB_Map;
         private System.Windows.Forms.NumericUpDown NUD_R;
         private System.Windows.Forms.Label L_R;
+        private System.Windows.Forms.GroupBox GB_Stats;
+        private System.Windows.Forms.Label L_FC;
+        private System.Windows.Forms.Label L_Offset;
+        private System.Windows.Forms.Label L_BP;
+        private System.Windows.Forms.Label L_Value;
+        private System.Windows.Forms.MaskedTextBox MT_Stat;
+        private System.Windows.Forms.ComboBox CB_Stats;
+        private System.Windows.Forms.NumericUpDown NUD_FC;
+        private System.Windows.Forms.NumericUpDown NUD_BP;
     }
 }
