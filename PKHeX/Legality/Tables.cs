@@ -53,7 +53,6 @@
             647, // Keldeo
             649, // Genesect
             676, // Furfrou
-            718, // Zygarde
             720, // Hoopa
         };
         internal static readonly int[] FormChangeMoves =
