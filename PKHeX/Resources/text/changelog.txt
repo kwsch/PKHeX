@@ -2,7 +2,17 @@
 http://projectpokemon.org/
 http://projectpokemon.org/forums/showthread.php?36986
 
-09/18/16 - New Update:
+11/18/16 - New Update:
+ - Added: Sun/Moon Support
+ - - Initial legality checking. Postgame encounters (Scan/Poke Pelago/etc) unsupported at this time.
+ - - QR Exporting for use with custom firmware patched code.
+ - - Trainer Editor and limited Pokedex editor
+ - Added: KChart, a personal info (base stats) viewer. Hold Shift when opening the PKM Database from the Tools drop-down.
+ - Added: Legal move suggestion (click Move groupbox), as well as indicating basic legal moves in the Move drop-downs.
+ - Legality: Extensively updated to support Generation 6 and 7 games. Please report issues on the forum.
+ - Fixed: Many bugs/issues with existing/new features. Too many people to thank :)
+
+09/18/16 - New Update: (82100)
  - Added: Gen 1 & 2 support. Thanks SciresM, and all those who tested!
  - Added: Gen 1<->2 conversion. Thanks SciresM!
  - Added: Super Secret Training Completed flag. Thanks SciresM!

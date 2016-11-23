@@ -7279,4 +7279,16 @@
   <data name="wc7full" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\wc7full.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="encounter_mn_sos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_mn_sos.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encounter_sn_sos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_sn_sos.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fashion_f_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\fashion_f_sm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fashion_m_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\fashion_m_sm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

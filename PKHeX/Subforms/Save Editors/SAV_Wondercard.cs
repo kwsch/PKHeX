@@ -494,6 +494,12 @@ namespace PKHeX
                     s += $"{Main.GameStrings.specieslist[pk.Species]} @ {Main.GameStrings.itemlist[pk.HeldItem]}  --- ";
                     s += (pk.IsEgg ? Main.GameStrings.eggname : $"{pk.OT_Name} - {pk.TID.ToString("00000")}/{pk.SID.ToString("00000")}") + Environment.NewLine;
                     s += $"{Main.GameStrings.movelist[pk.Move1]} / {Main.GameStrings.movelist[pk.Move2]} / {Main.GameStrings.movelist[pk.Move3]} / {Main.GameStrings.movelist[pk.Move4]}" + Environment.NewLine;
+                    if (gift is WC7)
+                    {
+                        var addItem = ((WC7) gift).AdditionalItem;
+                        if (addItem != 0)
+                            s += $"+ {Main.GameStrings.itemlist[addItem]}";
+                    }
                 }
                 catch { s += "Unable to create gift description."; }
                 return s;

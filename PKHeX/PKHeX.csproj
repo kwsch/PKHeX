@@ -213,6 +213,7 @@
     <Compile Include="Saves\SaveFile.cs" />
     <Compile Include="MysteryGifts\WC6.cs" />
     <Compile Include="Saves\Substructures\MemeCrypto.cs" />
+    <Compile Include="Saves\Substructures\QR7.cs" />
     <Compile Include="Saves\Substructures\ShadowInfo.cs" />
     <Compile Include="Saves\Substructures\StrategyMemo.cs" />
     <Compile Include="Settings.cs" />
@@ -296,6 +297,12 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.Designer.cs">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.Designer.cs">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.cs">
       <SubType>Form</SubType>
@@ -435,6 +442,10 @@
     <Compile Include="Util\ImageUtil.cs" />
     <Compile Include="Util\NetUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />
+    <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCodeData.cs" />
+    <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\RandUtil.cs" />
     <Compile Include="Util\ReflectUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />
@@ -482,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.resx">
       <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Pokebean.resx">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>
@@ -564,8 +578,12 @@
     </Compile>
     <None Include="Resources\byte\eggmove_sm.pkl" />
     <None Include="Resources\byte\encounter_mn.pkl" />
+    <None Include="Resources\byte\encounter_mn_sos.pkl" />
     <None Include="Resources\byte\encounter_sn.pkl" />
+    <None Include="Resources\byte\encounter_sn_sos.pkl" />
     <None Include="Resources\byte\evos_sm.pkl" />
+    <None Include="Resources\byte\fashion_f_sm" />
+    <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
     <None Include="Resources\byte\personal_sm" />
     <None Include="Resources\byte\wc7.pkl" />

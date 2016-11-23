@@ -12045,12 +12045,13 @@ namespace PKHeX.Properties {
         ///http://projectpokemon.org/
         ///http://projectpokemon.org/forums/showthread.php?36986
         ///
-        ///09/18/16 - New Update:
-        /// - Added: Gen 1 &amp; 2 support. Thanks SciresM, and all those who tested!
-        /// - Added: Gen 1&lt;-&gt;2 conversion. Thanks SciresM!
-        /// - Added: Super Secret Training Completed flag. Thanks SciresM!
-        /// - Added: Program will now check for updates when the program starts. If an update is available, a URL label will appear.
-        /// - Added: Mystery Gift event database browser. Currently only views wc6, [rest of string was truncated]&quot;;.
+        ///11/18/16 - New Update:
+        /// - Added: Sun/Moon Support
+        /// - - Initial legality checking. Postgame encounters (Scan/Poke Pelago/etc) unsupported at this time.
+        /// - - QR Exporting for use with custom firmware patched code.
+        /// - - Trainer Editor and limited Pokedex editor
+        /// - Added: KChart, a personal info (base stats) viewer. Hold Shift when opening the PKM Database from the Tools drop-down.
+        /// - Added: Legal mo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -12071,7 +12072,10 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0	Test1.
+        ///   Looks up a localized string similar to 432	Tapu Koku	03:Battleable,04:Defeated,05:Captured
+        ///433	Tapu Lele	01:Battleable,02:Defeated,03:Captured
+        ///434	Tapu Bulu	01:Battleable,02:Defeated,03:Captured
+        ///404	Tapu Fini	03:Battleable,04:Defeated,05:Captured.
         /// </summary>
         internal static string const_sm {
             get {
@@ -12199,6 +12203,16 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] encounter_mn_sos {
+            get {
+                object obj = ResourceManager.GetObject("encounter_mn_sos", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] encounter_o {
             get {
                 object obj = ResourceManager.GetObject("encounter_o", resourceCulture);
@@ -12212,6 +12226,16 @@ namespace PKHeX.Properties {
         internal static byte[] encounter_sn {
             get {
                 object obj = ResourceManager.GetObject("encounter_sn", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] encounter_sn_sos {
+            get {
+                object obj = ResourceManager.GetObject("encounter_sn_sos", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -12277,6 +12301,26 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_f_sm {
+            get {
+                object obj = ResourceManager.GetObject("fashion_f_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_m_sm {
+            get {
+                object obj = ResourceManager.GetObject("fashion_m_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0648	(OR) Groudon Defeated
         ///2839	(OR) Groudon Captured
         ///0647	(AS) Kyogre Defeated
@@ -12304,8 +12348,10 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3100	Magearna Event Active
-        ///3487	Received Magearna Gift.
+        ///   Looks up a localized string similar to 3100	Is Alolan Champion + Magearna Event Active
+        ///3487	Received Magearna Gift
+        ///1216	Received Gift Cosmog
+        ///0499	Received Gift Type:Null.
         /// </summary>
         internal static string flags_sm {
             get {
@@ -17646,7 +17692,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20160918.
+        ///   Looks up a localized string similar to 20161118.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -22134,22 +22180,22 @@ namespace PKHeX.Properties {
         ///宝可梦联盟
         ///N的城堡
         ///皇家合众号
-        ///齿轮车站
+        ///齿轮站
         ///对战地下铁
-        ///音乐剧大厅
+        ///音乐剧会馆
         ///黑色城市
         ///白色森林
         ///联合塔
-        ///地下水脉之洞
+        ///地下水脉之穴
         ///吹寄洞穴
         ///思索之原
         ///天堂之塔
-        ///雪花湿原
+        ///雪花湿地
         ///购物中心R9
         ///修行岩屋
         ///传送工厂
         ///巨人洞窟
-        ///自由花园岛
+        ///自由庭园岛
         ///P2实验室
         ///天之箭桥
         ///帆巴吊桥
@@ -22159,12 +22205,13 @@ namespace PKHeX.Properties {
         ///潜入连接
         ///丰饶之社
         ///小波湾
-        ///迷路森林
+        ///迷幻森林
         ///试炼之室
         ///引导之间
         ///潜入连接
         ///雷文市
-        ///帆巴市        /// [rest of string was truncated]&quot;;.
+        ///帆巴市
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_bw2_00000_zh {
             get {
@@ -23405,21 +23452,19 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to æ— 
-        ///ç¢Žå²© (HGSS)
-        ///é«˜è‰ä¸›
+        ///   Looks up a localized string similar to 无
+        ///碎岩 (HGSS)
+        ///高草丛
         ///
-        ///å¸ç‰™å¢å¡/å¸•è·¯å¥‡äºš
-        ///æ´žç©´/åˆå§‹ä¹‹é—´
+        ///帝牙卢卡/帕路奇亚
+        ///洞穴/初始之间
         ///
-        ///å†²æµª/é’“é±¼
+        ///冲浪/钓鱼
         ///
-        ///åšç‰©é¦†/ç¥žç§˜æ°´æ™¶
-        ///å¤§æ¹¿åœ°/ç‹©çŒŽ
+        ///博物馆/神秘水晶
+        ///大湿地/狩猎
         ///
-        ///å¾¡ä¸‰å®¶/åŒ–çŸ³/ç¤¼ç‰© (DP)
-        ///
-        ///
+        ///御三家/化石/礼物 (DP)
         ///
         ///
         ///
@@ -23428,8 +23473,10 @@ namespace PKHeX.Properties {
         ///
         ///
         ///
-        ///ç ´æ ¼çš„ä¸–ç•Œ(Pt)
-        ///å¾¡ä¸‰å®¶/åŒ–çŸ³/ç¤¼ç‰© (Pt/DP Trio).
+        ///
+        ///
+        ///毁坏的世界(Pt)
+        ///御三家/化石/礼物 (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_zh {
             get {
@@ -27709,7 +27756,7 @@ namespace PKHeX.Properties {
         ///229号道路
         ///230号道路
         ///钢铁炭坑
-        ///山谷间的发电场
+        ///山谷发电厂
         ///百代森林
         ///多多罗铁工厂
         ///天冠山
@@ -27717,7 +27764,7 @@ namespace PKHeX.Properties {
         ///大湿地
         ///随意遗迹
         ///冠军之路
-        ///朋友公园
+        ///伙伴公园
         ///沟通广场
         ///荒芜小道
         ///苑之花田
@@ -27730,16 +27777,16 @@ namespace PKHeX.Properties {
         ///迷幻洞窟
         ///遗迹狂之穴
         ///遗迹狂隧道
-        ///自豪的后院
+        ///最自豪的后院
         ///钢铁岛
         ///森之洋馆
-        ///银河队总部
+        ///银河队本部
         ///心齐湖畔
         ///立志湖畔
         ///睿智湖畔
         ///隐泉之路
         ///心齐湖
-        ///立志湖 [rest of string was truncated]&quot;;.
+        ///立志湖        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_hgss_00000_zh {
             get {
@@ -31561,7 +31608,7 @@ namespace PKHeX.Properties {
         ///水下(128号道路)
         ///水下(琉璃市)
         ///石之洞窟
-        ///烟突山
+        ///烟囱山
         ///野生原野区 (红蓝绿宝石)
         ///对战塔 (红蓝宝石) / 对战开拓区 (绿宝石)
         ///橙华森林
@@ -33725,7 +33772,7 @@ namespace PKHeX.Properties {
         ///穿山王
         ///尼多蘭
         ///尼多娜
-        ///尼多後
+        ///尼多后
         ///尼多朗
         ///尼多力諾
         ///尼多王
@@ -33770,13 +33817,13 @@ namespace PKHeX.Properties {
         ///毒刺水母
         ///小拳石
         ///隆隆石
-        ///隆隆巖
+        ///隆隆岩
         ///小火馬
         ///烈焰馬
         ///呆呆獸
         ///呆殼獸
         ///小磁怪
-        ///三合壹磁怪
+        ///三合一磁怪
         ///大蔥鴨
         ///都都
         ///都都利
@@ -33789,7 +33836,7 @@ namespace PKHeX.Properties {
         ///鬼斯
         ///鬼斯通
         ///耿鬼
-        ///大巖蛇
+        ///大岩蛇
         ///催眠貘
         ///引夢貘人
         ///大鉗蟹
@@ -34797,7 +34844,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 正常
+        ///   Looks up a localized string similar to 一般
         ///格斗
         ///飞行
         ///毒
@@ -34806,7 +34853,7 @@ namespace PKHeX.Properties {
         ///虫
         ///幽灵
         ///钢
-        ///炎
+        ///火
         ///水
         ///草
         ///电

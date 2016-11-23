@@ -208,7 +208,7 @@ namespace PKHeX
             15, 19, 57, 70, 127,
         };
 
-        internal static readonly int[] TypeTutor = {338, 307, 308, 520, 519, 518, 434, 620};
+        internal static readonly int[] TypeTutor6 = {338, 307, 308, 520, 519, 518, 434, 620};
 
         internal static readonly int[][] Tutors_AO =
         {

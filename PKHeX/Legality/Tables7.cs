@@ -118,7 +118,7 @@ namespace PKHeX
             new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee @ Nursery helpers
-            new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -1, }, // Porygon
+            new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = 116, }, // Porygon @ Route 15
             new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
             new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, IV3 = true, Version = GameVersion.SN}, // Cosmog                00 FF
             new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, IV3 = true, Version = GameVersion.MN}, // Cosmog                00 FF
@@ -230,6 +230,16 @@ namespace PKHeX
             new EncounterStatic { Species = 103, Form = 1, Level = 40, Relearn = new[]{000, 000, 000, 000}, Ability = 1, Location = 184, }, // Exeggutor-1 @ Exeggutor Island
             new EncounterStatic { Species = 785, Form = 0, Level = 60, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 030, }, // Tapu Koko
             new EncounterStatic { Species = 542, Form = 0, Level = 57, Relearn = new[]{382, 437, 014, 494}, Location = -1, }, // Leavanny
+            
+            new EncounterStatic { Species = 718, Form = 0, Level = 30, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            new EncounterStatic { Species = 718, Form = 1, Level = 30, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            new EncounterStatic { Species = 718, Form = 2, Level = 30, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            new EncounterStatic { Species = 718, Form = 3, Level = 30, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            
+            new EncounterStatic { Species = 718, Form = 0, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            new EncounterStatic { Species = 718, Form = 1, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            new EncounterStatic { Species = 718, Form = 2, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+            new EncounterStatic { Species = 718, Form = 3, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
         };
         private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
@@ -350,12 +360,23 @@ namespace PKHeX
             497, 500, 503, //3
         };
 
+        internal static readonly int[] ZygardeMoves =
+        {
+            245, // Extreme Speed
+            349, // Dragon Dance
+            614, // Thousand Arrows
+            615, // Thousand Waves
+            687, // Core Enforcer
+        };
+
         internal static readonly int[] ValidMet_SM =
         {
             006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
             050, 052, 054, 056, 058, 060, 062, 064, 066, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
             100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
-            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192
+            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
+
+            30016 // Poké Pelago
         };
 
         private static readonly int[] TMHM_SM =
@@ -373,6 +394,8 @@ namespace PKHeX
 
             // No HMs
         };
+
+        internal static readonly int[] TypeTutor7 = {520, 519, 518, 338, 307, 308, 434, 620};
 
         internal static readonly int[] MovePP_SM =
         {

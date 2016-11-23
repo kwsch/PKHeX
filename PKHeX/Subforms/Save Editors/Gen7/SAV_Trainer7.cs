@@ -9,6 +9,7 @@ namespace PKHeX
         private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
         public SAV_Trainer7()
         {
+            Loading = true;
             InitializeComponent();
             if (!Main.unicode)
             try { TB_OTName.Font = PKX.getPKXFont(11); }
@@ -22,8 +23,11 @@ namespace PKHeX
             
             getComboBoxes();
             getTextBoxes();
+            Loading = false;
         }
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
+        private readonly bool Loading;
+        private bool MapUpdated;
 
         private void getComboBoxes()
         {
@@ -102,6 +106,7 @@ namespace PKHeX
                 NUD_X.Value = (decimal)SAV.X;
                 NUD_Z.Value = (decimal)SAV.Z;
                 NUD_Y.Value = (decimal)SAV.Y;
+                NUD_R.Value = (decimal)SAV.R;
             }
             catch { GB_Map.Enabled = false; }
 
@@ -116,6 +121,9 @@ namespace PKHeX
             CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
+
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            NUD_FC.Value = Math.Min(NUD_BP.Maximum, SAV.FestaCoins);
         }
         private void save()
         {
@@ -134,12 +142,13 @@ namespace PKHeX
             SAV.OT = TB_OTName.Text;
 
             // Copy Position
-            if (GB_Map.Enabled)
+            if (GB_Map.Enabled && MapUpdated)
             {
                 SAV.M = (int)NUD_M.Value;
                 SAV.X = (float)NUD_X.Value;
                 SAV.Z = (float)NUD_Z.Value;
                 SAV.Y = (float)NUD_Y.Value;
+                SAV.R = (float)NUD_R.Value;
             }
             
             // Save PlayTime
@@ -162,6 +171,9 @@ namespace PKHeX
             SAV.LastSavedDay = CAL_LastSavedDate.Value.Day;
             SAV.LastSavedHour = CAL_LastSavedTime.Value.Hour;
             SAV.LastSavedMinute = CAL_LastSavedTime.Value.Minute;
+
+            SAV.BP = (uint)NUD_BP.Value;
+            SAV.FestaCoins = (uint)NUD_FC.Value;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -178,11 +190,14 @@ namespace PKHeX
         }
         private void showTSV(object sender, EventArgs e)
         {
-            uint TID = Util.ToUInt32(MT_TID.Text);
-            uint SID = Util.ToUInt32(MT_SID.Text);
-            uint tsv = (TID ^ SID) >> 4;
-            Tip1.SetToolTip(MT_TID, "TSV: " + tsv.ToString("0000"));
-            Tip2.SetToolTip(MT_SID, "TSV: " + tsv.ToString("0000"));
+            SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
+            SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
+            int tsv = (SAV.TID ^ SAV.SID) >> 4;
+            string IDstr = "TSV: " + tsv.ToString("0000");
+            if (SAV.Generation > 6) // always true for G7
+                IDstr += Environment.NewLine + "G7TID: " + SAV.TrainerID7.ToString("000000");
+            Tip1.SetToolTip(MT_TID, "TSV: " + IDstr);
+            Tip2.SetToolTip(MT_SID, "TSV: " + IDstr);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -208,11 +223,27 @@ namespace PKHeX
             if (box?.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
-
+        private void changeMapValue(object sender, EventArgs e)
+        {
+            if (!Loading)
+                MapUpdated = true;
+        }
         private void updateCountry(object sender, EventArgs e)
         {
             if (Util.getIndex(sender as ComboBox) > 0)
                 Main.setCountrySubRegion(CB_Region, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
+        }
+        private void B_Fashion_Click(object sender, EventArgs e)
+        {
+            var prompt = Util.Prompt(MessageBoxButtons.YesNo, "Giving all Fashion Items will clear existing data", "Continue?");
+            if (DialogResult.Yes != prompt)
+                return;
+
+            // Clear Block
+            new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
+            // Write Payload
+            byte[] data = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
+            data.CopyTo(SAV.Data, SAV.Fashion);
         }
     }
 }

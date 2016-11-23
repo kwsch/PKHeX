@@ -53,7 +53,6 @@
             647, // Keldeo
             649, // Genesect
             676, // Furfrou
-            718, // Zygarde
             720, // Hoopa
         };
         internal static readonly int[] FormChangeMoves =
@@ -169,7 +168,6 @@
             681, // Aegislash
             719, // Xerneas
             746, // Wishiwashi
-            774, // Minior
             778, // Mimikyu
         };
         internal static readonly int[] BattleMegas =

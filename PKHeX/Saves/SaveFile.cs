@@ -310,6 +310,7 @@ namespace PKHeX
         public virtual int Game { get { return -1; } set { } }
         public virtual ushort TID { get; set; }
         public virtual ushort SID { get; set; }
+        public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public virtual string OT { get; set; }
         public virtual int PlayedHours { get; set; }
         public virtual int PlayedMinutes { get; set; }

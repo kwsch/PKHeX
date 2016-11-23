@@ -38,10 +38,10 @@ namespace PKHeX
             set { RawDate = (value-2000)*10000 + RawDate%10000; } }
         private uint Month {
             get { return RawDate%10000/100; }
-            set { RawDate = Year*10000 + value*100 + RawDate%100; } }
+            set { RawDate = (Year-2000)*10000 + value*100 + RawDate%100; } }
         private uint Day {
             get { return RawDate%100; }
-            set { RawDate = Year*10000 + Month*100 + value; } }
+            set { RawDate = (Year-2000)*10000 + Month*100 + value; } }
 
         /// <summary>
         /// Gets or sets the date of the card.
@@ -88,8 +88,8 @@ namespace PKHeX
             get { return BitConverter.ToUInt16(Data, 0x68); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); } }
         public override int Quantity {
-            get { return BitConverter.ToUInt16(Data, 0x70); }
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); } }
+            get { return BitConverter.ToUInt16(Data, 0x6A); }
+            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); } }
         
         // Pokémon Properties
         public override bool IsPokémon { get { return CardType == 0; } set { if (value) CardType = 0; } }
@@ -176,6 +176,7 @@ namespace PKHeX
             set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6); } }
         public override int Level { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
         public override bool IsEgg { get { return Data[0xD1] == 1; } set { Data[0xD1] = (byte)(value ? 1 : 0); } }
+        public ushort AdditionalItem { get { return BitConverter.ToUInt16(Data, 0xD2); } set { BitConverter.GetBytes(value).CopyTo(Data, 0xD2); } }
         public uint PID {
             get { return BitConverter.ToUInt32(Data, 0xD4); }
             set { BitConverter.GetBytes(value).CopyTo(Data, 0xD4); } }
@@ -310,32 +311,14 @@ namespace PKHeX
             pk.Move3_PP = pk.getMovePP(Move3, 0);
             pk.Move4_PP = pk.getMovePP(Move4, 0);
 
-            if (Date.HasValue)
+            if (OTGender == 3)
             {
-                pk.MetDate = Date.Value;
-            }
-            else
-            {
-                // No datetime set, typical for wc6full
-                // Set it to now, instead of zeroing it out.
-                pk.MetDate = DateTime.Now;
+                pk.TID = SAV.TID;
+                pk.SID = SAV.SID;
             }
 
-            if (pk.CurrentHandler == 0) // OT
-            {
-                pk.OT_Memory = 3;
-                pk.OT_TextVar = 9;
-                pk.OT_Intensity = 1;
-                pk.OT_Feeling = Util.rand.Next(0, 9);
-            }
-            else
-            {
-                pk.HT_Memory = 3;
-                pk.HT_TextVar = 9;
-                pk.HT_Intensity = 1;
-                pk.HT_Feeling = Util.rand.Next(0, 9);
-                pk.HT_Friendship = pk.OT_Friendship;
-            }
+            pk.MetDate = Date ?? DateTime.Now;
+            
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
 

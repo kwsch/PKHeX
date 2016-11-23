@@ -29,10 +29,18 @@ namespace PKHeX
         public CheckResult[] vRelearn = new CheckResult[4];
         public string Report => getLegalityReport();
         public string VerboseReport => getVerboseLegalityReport();
-        public bool Native => pkm.GenNumber == pkm.Format;
+        public readonly int[] AllSuggestedMoves;
+        public readonly int[] AllSuggestedRelearnMoves;
+        public readonly int[] AllSuggestedMovesAndRelearn;
 
         public LegalityAnalysis(PKM pk)
         {
+            for (int i = 0; i < 4; i++) 
+            {
+                vMoves[i] = new CheckResult(CheckIdentifier.Move);
+                vRelearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
+            }
+
             try
             {
                 switch (pk.GenNumber)
@@ -41,18 +49,26 @@ namespace PKHeX
                     case 7: parsePK7(pk); break;
                     default: return;
                 }
-                Valid = Parse.Any() && Parse.All(chk => chk.Valid);
-                if (vMoves.Any(m => m.Valid != true))
-                    Valid = false;
-                else if (vRelearn.Any(m => m.Valid != true))
-                    Valid = false;
+
+                Valid = Parsed = Parse.Any();
+                if (Parsed)
+                {
+                    if (Parse.Any(chk => !chk.Valid))
+                        Valid = false;
+                    if (vMoves.Any(m => m.Valid != true))
+                        Valid = false;
+                    else if (vRelearn.Any(m => m.Valid != true))
+                        Valid = false;
+
+                    if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
+                        AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
+                }
             }
             catch { Valid = false; }
-            Parsed = true;
             getLegalityReport();
-
-            if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
-                AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
+            AllSuggestedMoves = !isOriginValid(pkm) ? new int[4] : getSuggestedMoves(true, true);
+            AllSuggestedRelearnMoves = !isOriginValid(pkm) ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
+            AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
         }
 
         private void AddLine(Severity s, string c, CheckIdentifier i)
@@ -65,9 +81,9 @@ namespace PKHeX
         }
         private void parsePK6(PKM pk)
         {
-            if (!(pk is PK6))
-                return;
             pkm = pk;
+            if (!isOriginValid(pkm))
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateMoveLegality();
@@ -75,13 +91,27 @@ namespace PKHeX
         }
         private void parsePK7(PKM pk)
         {
-            if (!(pk is PK7))
-                return;
             pkm = pk;
+            if (!isOriginValid(pkm))
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateMoveLegality();
             updateChecks();
+        }
+        private bool isOriginValid(PKM pk)
+        {
+            switch (pkm.GenNumber)
+            {
+                case 1: return pkm.Species <= 151;
+                case 2: return pkm.Species <= 251;
+                case 3: return pkm.Species <= 386;
+                case 4: return pkm.Species <= 493;
+                case 5: return pkm.Species <= 649;
+                case 6: return pkm.Species <= 721;
+                case 7: return pkm.Species <= 802;
+                default: return false;
+            }
         }
 
         private void updateRelearnLegality()
@@ -180,9 +210,7 @@ namespace PKHeX
 
         public int[] getSuggestedRelearn()
         {
-            if (RelearnBase == null)
-                return new int[4];
-            if (pkm.GenNumber < 6)
+            if (RelearnBase == null || pkm.GenNumber < 6 || !isOriginValid(pkm))
                 return new int[4];
 
             if (!pkm.WasEgg)
@@ -197,6 +225,12 @@ namespace PKHeX
             if (window.Count < 4)
                 window.AddRange(new int[4 - window.Count]);
             return window.Skip(window.Count - 4).Take(4).ToArray();
+        }
+        public int[] getSuggestedMoves(bool tm, bool tutor)
+        {
+            if (pkm == null || pkm.GenNumber < 6 || !isOriginValid(pkm))
+                return null;
+            return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm).Skip(1).ToArray(); // skip move 0
         }
     }
 }

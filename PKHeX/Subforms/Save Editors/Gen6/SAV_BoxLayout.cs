@@ -15,11 +15,21 @@ namespace PKHeX
             // Repopulate Wallpaper names
             CB_BG.Items.Clear();
 
-            if (SAV.Generation == 6)
-                CB_BG.Items.AddRange(Main.GameStrings.wallpapernames);
-            else if (SAV.Generation == 7)
-                CB_BG.Items.AddRange(Main.GameStrings.wallpapernames.Take(16).ToArray());
-            
+            switch (SAV.Generation)
+            {
+                case 4:
+                case 5:
+                case 6:
+                    CB_BG.Items.AddRange(Main.GameStrings.wallpapernames);
+                    break;
+                case 7:
+                    CB_BG.Items.AddRange(Main.GameStrings.wallpapernames.Take(16).ToArray());
+                    break;
+                default:
+                    Util.Error("Box layout is not supported for this game.");
+                    return;
+            }
+
             // Go
             LB_BoxSelect.Items.Clear();
             for (int i = 0; i < SAV.BoxCount; i++)
@@ -52,9 +62,9 @@ namespace PKHeX
             if (SAV.BoxesUnlocked > 0)
             {
                 CB_Unlocked.Items.Clear();
-                for (int i = 0; i < SAV.BoxCount; i++)
-                    CB_Unlocked.Items.Add(i + 1);
-                CB_Unlocked.SelectedIndex = Math.Min(SAV.BoxCount - 1, SAV.BoxesUnlocked);
+                for (int i = 0; i <= SAV.BoxCount; i++)
+                    CB_Unlocked.Items.Add(i);
+                CB_Unlocked.SelectedIndex = Math.Min(SAV.BoxCount, SAV.BoxesUnlocked);
             }
             else
             {

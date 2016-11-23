@@ -13,14 +13,14 @@ namespace PKHeX
         private static readonly Learnset[] LevelUpXY = Learnset6.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
         private static readonly EggMoves[] EggMovesAO = EggMoves6.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));
         private static readonly Learnset[] LevelUpAO = Learnset6.getArray(Data.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
-        private static readonly EvolutionTree Evolves6 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_ao, "ao"), GameVersion.ORAS, null);
+        private static readonly EvolutionTree Evolves6;
         private static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
         private static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
 
         // Gen 7
         private static readonly EggMoves[] EggMovesSM = EggMoves7.getArray(Data.unpackMini(Properties.Resources.eggmove_sm, "sm"));
         private static readonly Learnset[] LevelUpSM = Learnset7.getArray(Data.unpackMini(Properties.Resources.lvlmove_sm, "sm"));
-        private static readonly EvolutionTree Evolves7 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM);
+        private static readonly EvolutionTree Evolves7;
         private static readonly EncounterArea[] SlotsSN, SlotsMN;
         private static readonly EncounterStatic[] StaticSN, StaticMN;
 
@@ -81,9 +81,13 @@ namespace PKHeX
             if (ident == null)
                 return null;
 
-            return EncounterArea.getArray(Data.unpackMini(tables, ident));
+            return getEncounterTables(tables, ident);
         }
-        private static EncounterArea[] addXYAltTiles(EncounterArea[] GameSlots, EncounterArea[] SpecialSlots)
+        private static EncounterArea[] getEncounterTables(byte[] mini, string ident)
+        {
+            return EncounterArea.getArray(Data.unpackMini(mini, ident));
+        }
+        private static EncounterArea[] addExtraTableSlots(EncounterArea[] GameSlots, EncounterArea[] SpecialSlots)
         {
             foreach (EncounterArea g in GameSlots)
             {
@@ -116,6 +120,11 @@ namespace PKHeX
                     area.Slots[i].AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
             }
         }
+        private static void MarkG7SMSlots(ref EncounterArea[] Areas)
+        {
+            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
+                s.Type = SlotType.SOS;
+        }
 
         static Legal() // Setup
         {
@@ -130,30 +139,40 @@ namespace PKHeX
                 var YSlots = getEncounterTables(GameVersion.Y);
                 MarkG6XYSlots(ref XSlots);
                 MarkG6XYSlots(ref YSlots);
-                SlotsX = addXYAltTiles(XSlots, SlotsXYAlt);
-                SlotsY = addXYAltTiles(YSlots, SlotsXYAlt);
+                SlotsX = addExtraTableSlots(XSlots, SlotsXYAlt);
+                SlotsY = addExtraTableSlots(YSlots, SlotsXYAlt);
 
                 SlotsA = getEncounterTables(GameVersion.AS);
                 SlotsO = getEncounterTables(GameVersion.OR);
                 MarkG6AOSlots(ref SlotsA);
                 MarkG6AOSlots(ref SlotsO);
+
+                Evolves6 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_ao, "ao"), GameVersion.ORAS, PersonalTable.AO, 721);
             }
             // Gen 7
             {
                 StaticSN = getStaticEncounters(GameVersion.SN);
                 StaticMN = getStaticEncounters(GameVersion.MN);
-                SlotsSN = getEncounterTables(GameVersion.SN);
-                SlotsMN = getEncounterTables(GameVersion.MN);
+                var REG_SN = getEncounterTables(GameVersion.SN);
+                var REG_MN = getEncounterTables(GameVersion.MN);
+                var SOS_SN = getEncounterTables(Properties.Resources.encounter_sn_sos, "sm");
+                var SOS_MN = getEncounterTables(Properties.Resources.encounter_mn_sos, "sm");
+                MarkG7SMSlots(ref SOS_SN);
+                MarkG7SMSlots(ref SOS_MN);
+                SlotsSN = addExtraTableSlots(REG_SN, SOS_SN);
+                SlotsMN = addExtraTableSlots(REG_MN, SOS_MN);
+
+                Evolves7 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, 802);
             }
         }
 
         // Moves
-        internal static IEnumerable<int> getValidMoves(PKM pkm)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, bool Tutor = true, bool Machine = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: true, Machine: true); 
+            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
@@ -414,10 +433,13 @@ namespace PKHeX
             {
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
-                    if (wc.SID != pkm.SID) continue;
-                    if (wc.TID != pkm.TID) continue;
-                    if (wc.OT != pkm.OT_Name) continue;
-                    if (wc.OTGender != pkm.OT_Gender) continue;
+                    if (wc.OTGender != 3)
+                    {
+                        if (wc.SID != pkm.SID) continue;
+                        if (wc.TID != pkm.TID) continue;
+                        if (wc.OTGender != pkm.OT_Gender) continue;
+                    }
+                    if (!string.IsNullOrEmpty(wc.OT) && wc.OT != pkm.OT_Name) continue;
                     if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
                     if (wc.PIDType == 2 && !pkm.IsShiny) continue;
                     if (wc.PIDType == 3 && pkm.IsShiny) continue;
@@ -769,6 +791,8 @@ namespace PKHeX
             List<int> r = new List<int> { 0 };
             int species = pkm.Species;
             int lvl = pkm.CurrentLevel;
+            if (pkm.Format >= 7)
+                lvl = 100; // Move reminder can teach any level in movepool now!
 
             // Special Type Tutors Availability
             const bool moveTutor = true;
@@ -791,8 +815,11 @@ namespace PKHeX
             if (species == 479) // Rotom
                 r.Add(RotomMoves[pkm.AltForm]);
 
-            if (species == 25 && pkm.Format == 6) // Pikachu
+            if (species == 25 && pkm.Format == 6 && pkm.GenNumber == 6) // Pikachu
                 r.Add(PikachuMoves[pkm.AltForm]);
+
+            if (species == 718 && pkm.GenNumber == 7) // Zygarde
+                r.AddRange(ZygardeMoves);
 
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
@@ -885,8 +912,13 @@ namespace PKHeX
         private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors)
         {
             PersonalInfo info = pkm.PersonalInfo;
-            // Type Tutors
-            List<int> moves = TypeTutor.Where((t, i) => info.TypeTutors[i]).ToList();
+            List<int> moves = new List<int>();
+
+            // Type Tutors -- Pledge moves and High BP moves switched places in G7+
+            if (pkm.Format <= 6)
+                moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+            else if (pkm.Format >= 7)
+                moves.AddRange(TypeTutor7.Where((t, i) => info.TypeTutors[i]));
 
             // Varied Tutors
             //if (pkm.InhabitedGeneration(5) && Tutors)
