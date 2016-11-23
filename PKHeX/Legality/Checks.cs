@@ -699,6 +699,20 @@ namespace PKHeX
                         }
                     }
                 }
+                if (pkm.GenNumber == 7)
+                {
+                    if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
+                    {
+                        var slots = (EncounterSlot[])EncounterMatch;
+                        bool valid = slots.Any(slot => slot.Type == SlotType.SOS);
+
+                        if (!valid)
+                        {
+                            AddLine(Severity.Invalid, "Hidden Ability on non-SOS wild encounter.", CheckIdentifier.Ability);
+                            return;
+                        }
+                    }
+                }
             }
 
             if (pkm.GenNumber >= 6 && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
