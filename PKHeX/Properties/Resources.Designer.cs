@@ -12301,6 +12301,26 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_f_sm {
+            get {
+                object obj = ResourceManager.GetObject("fashion_f_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_m_sm {
+            get {
+                object obj = ResourceManager.GetObject("fashion_m_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0648	(OR) Groudon Defeated
         ///2839	(OR) Groudon Captured
         ///0647	(AS) Kyogre Defeated

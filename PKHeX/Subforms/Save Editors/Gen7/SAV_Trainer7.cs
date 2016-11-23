@@ -233,5 +233,17 @@ namespace PKHeX
             if (Util.getIndex(sender as ComboBox) > 0)
                 Main.setCountrySubRegion(CB_Region, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
         }
+        private void B_Fashion_Click(object sender, EventArgs e)
+        {
+            var prompt = Util.Prompt(MessageBoxButtons.YesNo, "Giving all Fashion Items will clear existing data", "Continue?");
+            if (DialogResult.Yes != prompt)
+                return;
+
+            // Clear Block
+            new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
+            // Write Payload
+            byte[] data = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
+            data.CopyTo(SAV.Data, SAV.Fashion);
+        }
     }
 }
