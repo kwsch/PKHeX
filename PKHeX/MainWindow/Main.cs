@@ -3929,6 +3929,8 @@ namespace PKHeX
         }
         private void B_CGearSkin_Click(object sender, EventArgs e)
         {
+            if (SAV.Generation != 5)
+                return; // can never be too safe
             new SAV_CGearSkin().ShowDialog();
         }
         private void B_JPEG_Click(object sender, EventArgs e)
