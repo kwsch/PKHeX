@@ -123,7 +123,7 @@ namespace PKHeX
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
 
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
-            NUD_FC.Value = Math.Min(NUD_BP.Maximum, SAV.FestaCoins);
+            NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
         }
         private void save()
         {
