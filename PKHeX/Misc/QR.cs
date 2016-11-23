@@ -96,7 +96,7 @@ namespace PKHeX
                 if (data.Contains("could not find")) { Util.Alert("Reader could not find QR data in the image."); return null; }
                 if (data.Contains("filetype not supported")) { Util.Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
                 // Quickly convert the json response to a data string
-                const string cap = ",\"error\":null}]}]";
+                const string cap = "\",\"error\":null}]}]";
                 const string intro = "[{\"type\":\"qrcode\",\"symbol\":[{\"seq\":0,\"data\":\"";
                 if (!data.StartsWith(intro))
                     throw new Exception();
@@ -115,7 +115,7 @@ namespace PKHeX
                         return raw.ToList().Where((c, i) => i % 2 == 0).Skip(0x30).Take(0xE8).ToArray();
                     } 
                     // All except G7
-                    pkstr = data.Substring(data.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
+                    pkstr = pkstr.Substring(pkstr.IndexOf("#", StringComparison.Ordinal) + 1); // Trim URL
                     pkstr = pkstr.Replace("\\", ""); // Rectify response
 
                     return Convert.FromBase64String(pkstr);
