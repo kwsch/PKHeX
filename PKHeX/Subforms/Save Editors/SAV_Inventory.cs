@@ -270,11 +270,9 @@ namespace PKHeX
             var p = Pouches[pouch];
             setBag(dgv, p);
             if (sender == mnuSortName)
-                p.Items = p.Items.Where(item => item.Index != 0).OrderBy(item => itemlist[item.Index])
-                        .Concat(p.Items.Where(item => item.Index == 0)).ToArray();
+                p.sortName(itemlist, reverse:false);
             if (sender == mnuSortNameReverse)
-                p.Items = p.Items.Where(item => item.Index != 0).OrderByDescending(item => itemlist[item.Index])
-                        .Concat(p.Items.Where(item => item.Index == 0)).ToArray();
+                p.sortName(itemlist, reverse:true);
             getBag(dgv, p);
         }
         private void sortByCount(object sender, EventArgs e)
@@ -284,11 +282,9 @@ namespace PKHeX
             var p = Pouches[pouch];
             setBag(dgv, p);
             if (sender == mnuSortCount)
-                p.Items = p.Items.Where(item => item.Index != 0).OrderByDescending(item => item.Count)
-                        .Concat(p.Items.Where(item => item.Index == 0)).ToArray();
+                p.sortCount(reverse:false);
             if (sender == mnuSortCountReverse)
-                p.Items = p.Items.Where(item => item.Index != 0).OrderBy(item => item.Count)
-                        .Concat(p.Items.Where(item => item.Index == 0)).ToArray();
+                p.sortCount(reverse:true);
             getBag(dgv, p);
         }
     }

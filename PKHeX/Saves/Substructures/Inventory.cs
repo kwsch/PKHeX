@@ -110,7 +110,6 @@ namespace PKHeX
             }
         }
 
-
         public void getPouchBigEndian(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
@@ -224,6 +223,25 @@ namespace PKHeX
                 Data[Offset] = (byte)Count;
                 Data[Offset + 1 + 2 * Count] = 0xFF;
             }
+        }
+
+        public void sortCount(bool reverse = false)
+        {
+            if (reverse)
+                Items = Items.Where(item => item.Index != 0).OrderBy(item => item.Count)
+                        .Concat(Items.Where(item => item.Index == 0)).ToArray();
+            else
+                Items = Items.Where(item => item.Index != 0).OrderByDescending(item => item.Count)
+                        .Concat(Items.Where(item => item.Index == 0)).ToArray();
+        }
+        public void sortName(string[] names, bool reverse = false)
+        {
+            if (reverse)
+                Items = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderByDescending(item => names[item.Index])
+                        .Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
+            else
+                Items = Items.Where(item => item.Index != 0).OrderBy(item => names[item.Index])
+                        .Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
         }
     }
 }
