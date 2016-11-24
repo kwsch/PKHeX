@@ -157,6 +157,9 @@
     <Compile Include="Misc\ErrorWindow.Designer.cs">
       <DependentUpon>ErrorWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MysteryGifts\MysteryGift.cs" />
     <Compile Include="MysteryGifts\PL6.cs" />
     <Compile Include="MysteryGifts\WC7.cs" />

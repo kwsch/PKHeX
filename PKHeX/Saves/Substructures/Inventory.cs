@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -19,8 +20,10 @@ namespace PKHeX
     }
     public class InventoryItem
     {
-        public bool New;
-        public int Index, Count;
+        public bool New { get; set; }
+        public int Index { get; set; }
+        public int Count { get; set; }
+
         public InventoryItem Clone()
         {
             return new InventoryItem {Count = Count, Index = Index, New = New};
@@ -28,7 +31,8 @@ namespace PKHeX
     }
 
     public class InventoryPouch
-    {
+    {        
+
         public readonly InventoryType Type;
         public readonly ushort[] LegalItems;
         public readonly int MaxCount;
@@ -47,6 +51,50 @@ namespace PKHeX
             MaxCount = maxcount;
             Offset = offset;
             PouchDataSize = size > -1 ? size : legal.Length;
+        }
+
+        public void sortByCount(bool descending = false)
+        {
+            // Separate the (None) items from the real items
+            // Otherwise, we could end up with all the (None) items at the beginning
+            var noneItems = Items.Where(item => item.Index == 0);
+            var realItems = Items.Where(item => item.Index != 0);
+            var sortedItems = new List<InventoryItem>();
+
+            if (descending)
+            {
+                sortedItems.AddRange(realItems.OrderByDescending(item => item.Count));
+            }
+            else
+            {
+                sortedItems.AddRange(realItems.OrderBy(item => item.Count));
+            }
+
+            sortedItems.AddRange(noneItems);
+
+            Items = sortedItems.ToArray();
+        }
+
+        public void sortByName(IList<string> itemNames, bool descending = false)
+        {
+            // Separate the (None) items from the real items
+            // Otherwise, we could end up with all the (None) items at the beginning
+            var noneItems = Items.Where(item => item.Index == 0);
+            var realItems = Items.Where(item => item.Index != 0);
+            var sortedItems = new List<InventoryItem>();
+
+            if (descending)
+            {
+                sortedItems.AddRange(realItems.OrderByDescending(item => itemNames[item.Index]));
+            }
+            else
+            {
+                sortedItems.AddRange(realItems.OrderBy(item => itemNames[item.Index]));
+            }
+
+            sortedItems.AddRange(noneItems);
+
+            Items = sortedItems.ToArray();
         }
 
         public void getPouch(ref byte[] Data)
