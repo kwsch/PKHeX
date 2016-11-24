@@ -791,8 +791,6 @@ namespace PKHeX
             List<int> r = new List<int> { 0 };
             int species = pkm.Species;
             int lvl = pkm.CurrentLevel;
-            if (pkm.Format >= 7)
-                lvl = 100; // Move reminder can teach any level in movepool now!
 
             // Special Type Tutors Availability
             const bool moveTutor = true;
@@ -876,6 +874,7 @@ namespace PKHeX
                         {
                             int index = PersonalTable.SM.getFormeIndex(species, form);
                             PersonalInfo pi = PersonalTable.SM.getFormeEntry(species, form);
+                            lvl = 100; // Move reminder can teach any level in movepool now!
 
                             if (LVL) r.AddRange(LevelUpSM[index].getMoves(lvl));
                             if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
