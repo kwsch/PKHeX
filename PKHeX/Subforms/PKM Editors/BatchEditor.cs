@@ -319,6 +319,8 @@ namespace PKHeX
                         PKM.setShinyPID();
                     else if (cmd.PropertyName == "Species" && cmd.PropertyValue == "0")
                         PKM.Data = new byte[PKM.Data.Length];
+                    else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
+                        setRandomIVs(PKM, cmd);
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
@@ -327,6 +329,14 @@ namespace PKHeX
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return result;
+        }
+        private static void setRandomIVs(PKM PKM, StringInstruction cmd)
+        {
+            int MaxIVs = PKM.Format <= 2 ? 15 : 31;
+            if (cmd.PropertyName == "IVs")
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, new byte[6].Select(i => (int)Util.rnd32() & MaxIVs).ToArray());
+            else
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32() & MaxIVs);
         }
 
         private void B_Add_Click(object sender, EventArgs e)
