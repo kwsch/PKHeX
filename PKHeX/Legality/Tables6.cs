@@ -616,6 +616,16 @@ namespace PKHeX
 
             032, // Via Nidoran-F
             313, // Via Illumise
+
+            // Via Evolution
+            524, // Roggenrola
+            532, // Timburr
+            543, // Venipede
+            551, // Sandile
+            557, // Dwebble
+            577, // Solosis
+            582, // Vanillite
+            595, // Joltik
         };
         internal static readonly int[] Ban_Gen3Ball =
         {
