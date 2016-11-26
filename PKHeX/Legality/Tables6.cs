@@ -627,6 +627,17 @@ namespace PKHeX
             582, // Vanillite
             595, // Joltik
         };
+        internal static readonly int[] Ban_DreamHidden =
+        {
+            311, // Plusle
+            312, // Minun
+            352, // Kecleon
+            355, // Duskull
+
+            // Via Pre-Evolution
+            356, // Dusclops
+            477, // Dusknoir
+        };
         internal static readonly int[] Ban_Gen3Ball =
         {
             252, 255, 258, //1 - Treeko, Torchic, Mudkip

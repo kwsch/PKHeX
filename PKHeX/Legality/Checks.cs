@@ -883,6 +883,9 @@ namespace PKHeX
                 else
                     AddLine(Severity.Valid, "Dream Ball possible for species.", CheckIdentifier.Ball);
 
+                if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(pkm.Species))
+                    AddLine(Severity.Invalid, "Hidden Ability not obtainable from Dream World.", CheckIdentifier.Ball);
+
                 return;
             }
             if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
