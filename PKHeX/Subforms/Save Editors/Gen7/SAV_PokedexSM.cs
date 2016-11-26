@@ -322,6 +322,8 @@ namespace PKHeX
                 }
 
             setEntry();
+            // Turn off zh2 Petilil
+            Dex.LanguageFlags[548*9 + 8] = false;
             getEntry();
         }
     }
