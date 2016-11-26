@@ -1174,16 +1174,25 @@ namespace PKHeX
         }
         private void verifyOTMemory()
         {
-            if (!History.Valid)
-                return;
-            if (pkm.GenNumber < 6)
+            if (pkm.Format < 6)
                 return;
 
-            if (EncounterType == typeof(EncounterTrade))
+            if (!History.Valid)
+                return;
+
+            if (pkm.GenNumber < 6)
             {
-                AddLine(Severity.Valid, "OT Memory (Ingame Trade) is valid.", CheckIdentifier.Memory);
+                if (pkm.OT_Memory != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory.", CheckIdentifier.Memory);
+                if (pkm.OT_Intensity != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory Intensity value.", CheckIdentifier.Memory);
+                if (pkm.OT_TextVar != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory TextVar value.", CheckIdentifier.Memory);
+                if (pkm.OT_Feeling != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory Feeling value.", CheckIdentifier.Memory);
                 return;
             }
+
             if (EncounterType == typeof(WC6))
             {
                 WC6 MatchedWC6 = EncounterMatch as WC6;
@@ -1196,6 +1205,38 @@ namespace PKHeX
                 if (pkm.OT_Feeling != MatchedWC6.OT_Feeling)
                     AddLine(Severity.Invalid, "Event " + (MatchedWC6.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC6.OT_Feeling) + ".", CheckIdentifier.Memory);
             }
+            if (EncounterType == typeof(WC7))
+            {
+                WC7 MatchedWC7 = EncounterMatch as WC7;
+                if (pkm.OT_Memory != MatchedWC7.OT_Memory)
+                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC7.OT_Memory) + ".", CheckIdentifier.Memory);
+                if (pkm.OT_Intensity != MatchedWC7.OT_Intensity)
+                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Intensity == 0 ? "should not have an OT Memory Intensity value" : "OT Memory Intensity should be index " + MatchedWC7.OT_Intensity) + ".", CheckIdentifier.Memory);
+                if (pkm.OT_TextVar != MatchedWC7.OT_TextVar)
+                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_TextVar == 0 ? "should not have an OT Memory TextVar value" : "OT Memory TextVar should be index " + MatchedWC7.OT_TextVar) + ".", CheckIdentifier.Memory);
+                if (pkm.OT_Feeling != MatchedWC7.OT_Feeling)
+                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC7.OT_Feeling) + ".", CheckIdentifier.Memory);
+            }
+            if (EncounterType == typeof(EncounterTrade))
+            {
+                // Undocumented, uncommon, and insignificant -- don't bother.
+                AddLine(Severity.Valid, "OT Memory (Ingame Trade) is valid.", CheckIdentifier.Memory);
+                return;
+            }
+
+            if (pkm.GenNumber == 7)
+            {
+                if (pkm.OT_Memory != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory.", CheckIdentifier.Memory);
+                if (pkm.OT_Intensity != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory Intensity value.", CheckIdentifier.Memory);
+                if (pkm.OT_TextVar != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory TextVar value.", CheckIdentifier.Memory);
+                if (pkm.OT_Feeling != 0)
+                    AddLine(Severity.Invalid, "Should not have an OT Memory Feeling value.", CheckIdentifier.Memory);
+                return;
+            }
+
             switch (pkm.OT_Memory)
             {
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
@@ -1239,6 +1280,19 @@ namespace PKHeX
 
             if (!History.Valid)
                 return;
+
+            if (pkm.GenNumber == 7)
+            {
+                if (pkm.HT_Memory != 0)
+                    AddLine(Severity.Invalid, "Should not have a HT Memory", CheckIdentifier.Memory);
+                if (pkm.HT_Intensity != 0)
+                    AddLine(Severity.Invalid, "Should not have a HT Memory Intensity value", CheckIdentifier.Memory);
+                if (pkm.HT_TextVar != 0)
+                    AddLine(Severity.Invalid, "Should not have a HT Memory TextVar value.", CheckIdentifier.Memory);
+                if (pkm.HT_Feeling != 0)
+                    AddLine(Severity.Invalid, "Should not have a HT Memory Feeling value", CheckIdentifier.Memory);
+                return;
+            }
 
             switch (pkm.HT_Memory)
             {
