@@ -361,15 +361,47 @@ namespace PKHeX
         };
         internal static readonly int[] Inherit_SafariMale =
         {
-            081, 100, 128, 337, 338, 374, 436,
+            128, // Tauros
         };
-        internal static readonly int[] InheritDreamMale =
+        internal static readonly int[] Inherit_SafariDitto =
         {
-            001, 004, 007, 25, 81, 100, 236, 120, 128, 137,
-            172,
-            252, 255, 258, 337, 338, 343, 374,
-            387, 390, 393, 436, 479,
-            511, 513, 515, 538, 539, 574, 599, 622,
+            081, // Magnemite
+            100, // Voltorb
+            337, // Lunatone
+            338, // Solrock
+            374, // Beldum
+            436, // Bronzor
+        };
+        internal static readonly int[] Inherit_DreamMale =
+        {
+            // Starting with Gen7, Males pass Ball via breeding with Ditto.
+            001, 004, 007, // Gen1 Starters
+            025, // Pikachu
+            128, // Tauros
+            172, // Pichu
+            236, // Tyrogue (100% Male)
+            252, 255, 258, // Gen2 Starters
+            387, 390, 393, // Gen3 Starters
+            511, 513, 515, // Gen5 Monkeys
+            538, // Throh
+            539, // Sawk
+            574, // Gothita
+        };
+        internal static readonly int[] Inherit_DreamDitto =
+        {
+            // Not actually possible, but just store as documentation
+            081, // Magnemite
+            100, // Voltorb
+            120, // Staryu
+            137, // Porygon
+            337, // Lunatone
+            338, // Solrock
+            343, // Baltoy
+            374, // Beldum
+            436, // Bronzor
+            479, // Rotom
+            599, // Klink
+            622, // Golett
         };
         internal static readonly int[] Ban_Gen3Ball_AllowG7 =
         {

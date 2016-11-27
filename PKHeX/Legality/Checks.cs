@@ -942,22 +942,12 @@ namespace PKHeX
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                if ((pkm.Species > 731 && pkm.Species <= 785)
+                    || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e))
+                    || Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e))
+                    || Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e))) // past gen
                 {
                     AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-                    return;
-                }
-                if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
-                {
-                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-                    if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
-                }
-                if (Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e)))
-                {
-                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-                    if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
                 }
                 else
                     AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
@@ -971,16 +961,13 @@ namespace PKHeX
                 else
                     AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
 
-                if (pkm.AbilityNumber == 4)
-                    AddLine(Severity.Invalid, "Sport Ball with Hidden Ability.", CheckIdentifier.Ball);
-
                 return;
             }
             if (pkm.Ball == 0x19) // Dream Ball
             {
                 if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e)))
                     AddLine(Severity.Valid, "Dream Ball inheritance possible from Female species.", CheckIdentifier.Ball);
-                else if (Lineage.Any(e => Legal.InheritDreamMale.Contains(e)))
+                else if (Lineage.Any(e => Legal.Inherit_DreamMale.Contains(e)))
                 {
                     if (pkm.AbilityNumber != 4)
                         AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
@@ -999,8 +986,6 @@ namespace PKHeX
                 {
                     if (!Legal.Ban_Gen4Ball_AllowG7.Contains(pkm.Species))
                         AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-                    else if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
                     else
                         AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
                 }
@@ -1020,8 +1005,6 @@ namespace PKHeX
                 }
                 else if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
                     AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
-                else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
-                    AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
 
@@ -1038,8 +1021,6 @@ namespace PKHeX
                 if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
                 {
                     AddLine(Severity.Valid, "Scanned Beast Ball possible for species.", CheckIdentifier.Ball);
-                    if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Scanned Beast Ball with Hidden Ability.", CheckIdentifier.Ball);
                     return;
                 }
                 // next statement catches all new alolans
