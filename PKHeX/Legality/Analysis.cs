@@ -232,5 +232,56 @@ namespace PKHeX
                 return null;
             return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
+
+        public EncounterStatic getSuggestedMetInfo()
+        {
+            if (pkm.WasEgg)
+                return new EncounterStatic
+                {
+                    Location = getSuggestedEggMetLocation(pkm),
+                    Level = 1,
+                };
+
+            var capture = Legal.getCaptureLocation(pkm);
+            if (capture != null)
+                return new EncounterStatic
+                {
+                    Location = capture.Location,
+                    Level = capture.Slots.First().LevelMin,
+                };
+
+            var encounter = Legal.getStaticLocation(pkm);
+            return encounter;
+        }
+        private static int getSuggestedEggMetLocation(PKM pkm)
+        {
+            // Return one of legal hatch locations for game
+            switch ((GameVersion)pkm.Version)
+            {
+                case GameVersion.D:
+                case GameVersion.P:
+                case GameVersion.Pt:
+                    return pkm.Format > 4 ? 30001 /* Transporter */ : 4; // Solaceon Town
+                case GameVersion.HG:
+                case GameVersion.SS:
+                    return pkm.Format > 4 ? 30001 /* Transporter */ : 182; // Route 34
+
+                case GameVersion.B:
+                case GameVersion.W:
+                    return 16; // Route 3
+
+                case GameVersion.X:
+                case GameVersion.Y:
+                    return 38; // Route 7
+                case GameVersion.AS:
+                case GameVersion.OR:
+                    return 318; // Battle Resort
+
+                case GameVersion.SN:
+                case GameVersion.MN:
+                    break;
+            }
+            return -1;
+        }
     }
 }

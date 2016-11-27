@@ -1759,6 +1759,7 @@
             this.Label_MetLocation.TabIndex = 1;
             this.Label_MetLocation.Text = "Met Location:";
             this.Label_MetLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_MetLocation.Click += new System.EventHandler(this.clickMetLocation);
             // 
             // CB_MetLocation
             // 

@@ -1841,6 +1841,36 @@ namespace PKHeX
 
             updateLegality();
         }
+        private void clickMetLocation(object sender, EventArgs e)
+        {
+            if (HaX)
+                return;
+
+            var encounter = Legality.getSuggestedMetInfo();
+            if (encounter == null || encounter.Location < 0)
+            {
+                Util.Alert("Unable to provide a suggestion.");
+                return;
+            }
+
+            int level = encounter.Level;
+            int location = encounter.Location;
+
+            if (pkm.Met_Level == level && pkm.Met_Location == location)
+                return;
+
+            var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
+            var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
+            string suggestion = $"Set Met Location to {locstr} @ level {level}?";
+
+            if (Util.Prompt(MessageBoxButtons.YesNo, suggestion) != DialogResult.Yes)
+                return;
+
+            TB_MetLevel.Text = level.ToString();
+            if (pkm.CurrentLevel < level)
+                TB_Level.Text = level.ToString();
+            CB_MetLocation.SelectedValue = location;
+        }
         // Prompted Updates of PKX Functions // 
         private bool changingFields;
         private void updateBall(object sender, EventArgs e)

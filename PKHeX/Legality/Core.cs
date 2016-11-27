@@ -541,6 +541,20 @@ namespace PKHeX
             return curr.Count() >= poss.Count();
         }
 
+        internal static EncounterArea getCaptureLocation(PKM pkm)
+        {
+            return (from area in getEncounterSlots(pkm)
+                let slots = getValidEncounterSlots(pkm, area, pkm.AO).ToArray()
+                where slots.Any()
+                select new EncounterArea
+                {
+                    Location = area.Location, Slots = slots,
+                }).FirstOrDefault();
+        }
+        internal static EncounterStatic getStaticLocation(PKM pkm)
+        {
+            return getStaticEncounters(pkm).FirstOrDefault();
+        }
         internal static bool getCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
         {
             switch (gen)
