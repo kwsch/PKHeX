@@ -344,6 +344,11 @@ namespace PKHeX
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x38, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(13, '\0')).CopyTo(Data, TrainerCard + 0x38); }
         }
+        public int BallThrowType
+        {
+            get { return Data[0x7A]; }
+            set { Data[0x7A] = (byte)(value > 8 ? 0 : value); }
+        }
         public int M
         {
             get { return BitConverter.ToUInt16(Data, Trainer1 + 0x00); } // could be anywhere 0x0-0x7
