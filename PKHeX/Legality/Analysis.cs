@@ -235,6 +235,9 @@ namespace PKHeX
 
         public EncounterStatic getSuggestedMetInfo()
         {
+            if (pkm == null)
+                return null;
+
             if (pkm.WasEgg)
                 return new EncounterStatic
                 {
