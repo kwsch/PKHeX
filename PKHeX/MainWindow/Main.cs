@@ -2045,12 +2045,17 @@ namespace PKHeX
             }
             else
             {
-                TB_HPIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_ATKIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_DEFIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_SPAIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_SPDIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_SPEIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                bool IV3 = Legal.Legends.Contains(pkm.Species) || Legal.SubLegends.Contains(pkm.Species);
+                int[] IVs = new int[6];
+                do
+                {
+                    for (int i = 0; i < 6; i++)
+                        IVs[i] = (int)(Util.rnd32() & SAV.MaxIV);
+                } while (IV3 && IVs.Where(i => i == SAV.MaxIV).Count() < 3);
+
+                var IVBoxes = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV};
+                for (int i = 0; i < 6; i++)
+                    IVBoxes[i].Text = IVs[i].ToString();
             }
             changingFields = false;
             updateIVs(null, e);

@@ -332,11 +332,20 @@ namespace PKHeX
         }
         private static void setRandomIVs(PKM PKM, StringInstruction cmd)
         {
-            int MaxIVs = PKM.Format <= 2 ? 15 : 31;
+            int MaxIV = PKM.Format <= 2 ? 15 : 31;
             if (cmd.PropertyName == "IVs")
-                ReflectUtil.SetValue(PKM, cmd.PropertyName, new byte[6].Select(i => (int)Util.rnd32() & MaxIVs).ToArray());
+            {
+                bool IV3 = Legal.Legends.Contains(PKM.Species) || Legal.SubLegends.Contains(PKM.Species);
+                int[] IVs = new int[6];
+                do
+                {
+                    for (int i = 0; i < 6; i++)
+                        IVs[i] = (int)(Util.rnd32() & MaxIV);
+                } while (IV3 && IVs.Where(i => i == MaxIV).Count() < 3);
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, IVs);
+            }
             else
-                ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32() & MaxIVs);
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32() & MaxIV);
         }
 
         private void B_Add_Click(object sender, EventArgs e)
