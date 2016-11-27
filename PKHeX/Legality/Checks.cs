@@ -1268,13 +1268,13 @@ namespace PKHeX
             if (pkm.GenNumber == 7)
             {
                 if (pkm.HT_Memory != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, "Should not have a HT Memory.", CheckIdentifier.Memory);
                 if (pkm.HT_Intensity != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory Intensity value", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, "Should not have a HT Memory Intensity value.", CheckIdentifier.Memory);
                 if (pkm.HT_TextVar != 0)
                     AddLine(Severity.Invalid, "Should not have a HT Memory TextVar value.", CheckIdentifier.Memory);
                 if (pkm.HT_Feeling != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory Feeling value", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, "Should not have a HT Memory Feeling value.", CheckIdentifier.Memory);
                 return;
             }
 

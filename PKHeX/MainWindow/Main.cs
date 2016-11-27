@@ -1861,7 +1861,7 @@ namespace PKHeX
 
             var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
             var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
-            string suggestion = $"Set Met Location to {locstr} @ level {level}?";
+            string suggestion = $"Change Met Location to {locstr} @ level {level}?";
 
             if (Util.Prompt(MessageBoxButtons.YesNo, suggestion) != DialogResult.Yes)
                 return;
