@@ -167,12 +167,12 @@ namespace PKHeX
         }
 
         // Moves
-        internal static IEnumerable<int> getValidMoves(PKM pkm, bool Tutor = true, bool Machine = true)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine); 
+            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
@@ -786,29 +786,29 @@ namespace PKHeX
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
-        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false)
+        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
         {
             List<int> r = new List<int> { 0 };
             int species = pkm.Species;
             int lvl = pkm.CurrentLevel;
 
             // Special Type Tutors Availability
-            const bool moveTutor = true;
+            bool moveTutor = Tutor || MoveReminder; // Usually true, except when called for move suggestions (no tutored moves)
             
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
                 for (int i = 0; i < formcount; i++)
-                    r.AddRange(getMoves(pkm, species, lvl, i, moveTutor, Version, LVL, Tutor, Machine));
+                    r.AddRange(getMoves(pkm, species, lvl, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
                 return r.Distinct().ToArray();
             }
 
-            r.AddRange(getMoves(pkm, species, lvl, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine));
+            r.AddRange(getMoves(pkm, species, lvl, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm);
 
             foreach (DexLevel evo in vs)
-                r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine));
+                r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
 
             if (species == 479) // Rotom
                 r.Add(RotomMoves[pkm.AltForm]);
@@ -822,14 +822,14 @@ namespace PKHeX
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder)
         {
             List<int> r = new List<int> { 0 };
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
-               r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen));
+               r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen, MoveReminder));
             return r.Distinct();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, int Generation)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, int Generation, bool MoveReminder)
         {
             List<int> r = new List<int>();
 
@@ -874,7 +874,8 @@ namespace PKHeX
                         {
                             int index = PersonalTable.SM.getFormeIndex(species, form);
                             PersonalInfo pi = PersonalTable.SM.getFormeEntry(species, form);
-                            lvl = 100; // Move reminder can teach any level in movepool now!
+                            if (MoveReminder)
+                                lvl = 100; // Move reminder can teach any level in movepool now!
 
                             if (LVL) r.AddRange(LevelUpSM[index].getMoves(lvl));
                             if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));

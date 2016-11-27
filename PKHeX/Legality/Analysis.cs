@@ -66,7 +66,7 @@ namespace PKHeX
             }
             catch { Valid = false; }
             getLegalityReport();
-            AllSuggestedMoves = !isOriginValid(pkm) ? new int[4] : getSuggestedMoves(true, true);
+            AllSuggestedMoves = !isOriginValid(pkm) ? new int[4] : getSuggestedMoves(true, true, true);
             AllSuggestedRelearnMoves = !isOriginValid(pkm) ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
             AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
         }
@@ -226,11 +226,11 @@ namespace PKHeX
                 window.AddRange(new int[4 - window.Count]);
             return window.Skip(window.Count - 4).Take(4).ToArray();
         }
-        public int[] getSuggestedMoves(bool tm, bool tutor)
+        public int[] getSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
             if (pkm == null || pkm.GenNumber < 6 || !isOriginValid(pkm))
                 return null;
-            return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm).Skip(1).ToArray(); // skip move 0
+            return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
     }
 }

@@ -1800,7 +1800,7 @@ namespace PKHeX
             if (sender == GB_CurrentMoves)
             {
                 bool random = ModifierKeys == Keys.Control;
-                int[] m = Legality.getSuggestedMoves(tm: random, tutor: random);
+                int[] m = Legality.getSuggestedMoves(tm: random, tutor: random, reminder: random);
                 if (m == null)
                 { Util.Alert("Suggestions are not enabled for this PKM format."); return; }
 
