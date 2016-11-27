@@ -64,8 +64,15 @@ namespace PKHeX
             { Util.Error("Empty Filter Value detected."); return; }
 
             var Instructions = getInstructions().ToList();
-            if (Instructions.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-            { Util.Error("Empty Property Value detected."); return; }
+            var emptyVal = Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue)).ToArray();
+            if (emptyVal.Any())
+            {
+                string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
+                    $"Empty Property Value{(emptyVal.Length > 1 ? "s" : "")} detected:" + Environment.NewLine + props,
+                    "Continue?"))
+                    return;
+            }
 
             string destPath = "";
             if (RB_Path.Checked)
