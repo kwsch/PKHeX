@@ -115,7 +115,7 @@ namespace PKHeX
                         {
                             string naturestr = line.Split(' ')[0].Trim();
                             int nature = Array.IndexOf(natures, naturestr);
-                            if (Nature < 0)
+                            if (nature < 0)
                                 InvalidLines.Add($"Unknown Nature: {naturestr}");
                             else
                                 Nature = nature;
