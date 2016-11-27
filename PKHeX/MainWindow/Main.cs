@@ -1843,6 +1843,10 @@ namespace PKHeX
         }
         // Prompted Updates of PKX Functions // 
         private bool changingFields;
+        private void updateBall(object sender, EventArgs e)
+        {
+            PB_Ball.Image = PKX.getBallSprite(Util.getIndex(CB_Ball));
+        }
         private void updateEXPLevel(object sender, EventArgs e)
         {
             if (changingFields || !fieldsInitialized) return;

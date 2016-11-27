@@ -512,6 +512,10 @@ namespace PKHeX
         }
 
         // Data Requests
+        public static Image getBallSprite(int ball)
+        {
+            return (Image)Resources.ResourceManager.GetObject("_ball" + ball) ?? Resources._ball4; // Poké Ball (default)
+        }
         public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
         {
             if (species == 0)

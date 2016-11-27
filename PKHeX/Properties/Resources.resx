@@ -7291,4 +7291,82 @@
   <data name="fashion_m_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\fashion_m_sm;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_ball1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball11" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball12" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball12.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball13" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball13.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball14.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball15" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball15.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball17" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball18" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball18.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball19.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball21" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball21.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball22" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball22.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball23" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball23.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball25" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball25.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball26" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball26.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_ball9" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ball\_ball9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
