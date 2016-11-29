@@ -2046,12 +2046,14 @@ namespace PKHeX
             else
             {
                 bool IV3 = Legal.Legends.Contains(pkm.Species) || Legal.SubLegends.Contains(pkm.Species);
+
                 int[] IVs = new int[6];
-                do
-                {
-                    for (int i = 0; i < 6; i++)
-                        IVs[i] = (int)(Util.rnd32() & SAV.MaxIV);
-                } while (IV3 && IVs.Where(i => i == SAV.MaxIV).Count() < 3);
+                for (int i = 0; i < 6; i++)
+                    IVs[i] = (int)(Util.rnd32() & SAV.MaxIV);
+                if (IV3)
+                    for (int i = 0; i < 3; i++)
+                        IVs[i] = SAV.MaxIV;
+                Util.Shuffle(IVs); // Randomize IV order
 
                 var IVBoxes = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV};
                 for (int i = 0; i < 6; i++)
