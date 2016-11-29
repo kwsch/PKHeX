@@ -21,7 +21,7 @@ namespace PKHeX
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
-        private static readonly string[] pk7 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i => i).ToArray();
+        private static readonly string[] pk7 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK7)).OrderBy(i => i).ToArray();
         private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).OrderBy(i=>i).ToArray();

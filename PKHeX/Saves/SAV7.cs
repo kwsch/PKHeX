@@ -195,7 +195,7 @@ namespace PKHeX
                 /* 23 */            //  = 0x54400;  // [100]    FishingSpot
                 /* 24 */            //  = 0x54600;  // [10528]  LiveMatchData
                 /* 25 */            //  = 0x64C00;  // [204]    BattleSpotData
-                /* 26 */            //  = 0x65000;  // [B60]    PokeFinderSave
+                /* 26 */ PokeFinderSave = 0x65000;  // [B60]    PokeFinderSave
                 /* 27 */ WondercardFlags = 0x65C00; // [3F50]   MysteryGiftSave
                 /* 28 */            //  = 0x69C00;  // [358]    Record
                 /* 29 */            //  = 0x6A000;  // [728]    Data Block
@@ -243,6 +243,7 @@ namespace PKHeX
         private int ItemInfo { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
         private int JoinFestaData { get; set; } = int.MinValue;
+        private int PokeFinderSave { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
@@ -464,6 +465,55 @@ namespace PKHeX
         public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); } }
         
         public ulong AlolaTime { get { return BitConverter.ToUInt64(Data, AdventureInfo + 0x48); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo+0x48);} }
+
+
+        public ushort PokeFinderCameraVersion
+        {
+            get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x00); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x00); }
+        }
+        public bool PokeFinderGyroFlag
+        {
+            get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x02) == 1; }
+            set { BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, PokeFinderSave + 0x04); }
+        }
+        public uint PokeFinderSnapCount
+        {
+            get { return BitConverter.ToUInt32(Data, PokeFinderSave + 0x04); }
+            set
+            {
+                if (value > 9999999) // Top bound is unchecked, check anyway
+                    value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x04);
+            }
+        }
+        public uint PokeFinderThumbsTotalValue
+        {
+            get { return BitConverter.ToUInt32(Data, PokeFinderSave + 0x0C); }
+            set
+            {
+                BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x0C);
+
+            }
+        }
+        public uint PokeFinderThumbsHighValue
+        {
+            get { return BitConverter.ToUInt32(Data, PokeFinderSave + 0x10); }
+            set
+            {
+                if (value > 9999999) // 9mil;
+                    value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x10);
+
+                if (value > PokeFinderThumbsTotalValue)
+                    PokeFinderThumbsHighValue = value;
+            }
+        }
+        public ushort PokeFinderTutorialFlags
+        {
+            get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x14); }
+            set { BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x14); }
+        }
 
         // Inventory
         public override InventoryPouch[] Inventory

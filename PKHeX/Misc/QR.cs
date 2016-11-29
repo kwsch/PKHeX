@@ -11,16 +11,17 @@ namespace PKHeX
 {
     public partial class QR : Form
     {
-        public PKM pkm;
+        private readonly PKM pkm;
+        private readonly Image icon;
+        private Image qr;
 
-        public Image qr;
-        public Image icon;
-        public string top;
-        public string bottom;
-        public string left;
-        public string right;
+        private readonly string Line1;
+        private readonly string Line2;
+        private readonly string Line3;
+        private readonly string Line4;
+        private string extraText;
 
-        public QR(Image qr, Image icon, string top, string bottom, string left, string right, PKM pk = null)
+        public QR(Image qr, Image icon, string line1, string line2, string line3, string line4, PKM pk = null)
         {
             InitializeComponent();
             pkm = pk;
@@ -29,17 +30,15 @@ namespace PKHeX
             const int stretch = 50;
             Height += stretch;
 
-            if (pkm != null  && pkm.Format == 7)
-            {
+            if (pkm != null && pkm.Format == 7)
                 Height += 40;
-            }
 
             this.qr = qr;
             this.icon = icon;
-            this.top = top;
-            this.bottom = bottom;
-            this.left = left;
-            this.right = right;
+            Line1 = line1;
+            Line2 = line2;
+            Line3 = line3;
+            Line4 = line4;
 
             if (pkm != null && pkm.Format == 7)
                 updateBoxSlotCopies(null, null);
@@ -47,7 +46,7 @@ namespace PKHeX
                 RefreshImage();
         }
 
-        public void RefreshImage()
+        private void RefreshImage()
         {
             Font font = Main.unicode ? FontLabel.Font : PKX.getPKXFont((float)8.25);
             Image preview = new Bitmap(45, 45);
@@ -65,10 +64,10 @@ namespace PKHeX
                 g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
                 g.DrawImage(pic, 0, 0);
 
-                g.DrawString(top, font, Brushes.Black, new PointF(18, qr.Height - 5));
-                g.DrawString(bottom, font, Brushes.Black, new PointF(18, qr.Height + 8));
-                g.DrawString(left.Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
-                g.DrawString(right, font, Brushes.Black, new PointF(18, qr.Height + 32));
+                g.DrawString(Line1, font, Brushes.Black, new PointF(18, qr.Height - 5));
+                g.DrawString(Line2, font, Brushes.Black, new PointF(18, qr.Height + 8));
+                g.DrawString(Line3.Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font, Brushes.Black, new PointF(18, qr.Height + 20));
+                g.DrawString(Line4 + extraText, font, Brushes.Black, new PointF(18, qr.Height + 32));
             }
             PB_QR.BackgroundImage = newpic;
         }
@@ -153,12 +152,10 @@ namespace PKHeX
             var copies = (int) NUD_Copies.Value;
             var new_qr = QR7.GenerateQRCode7((PK7)pkm, box, slot, copies);
             qr = new_qr;
-            this.SuspendLayout();
-            var old_t = top;
-            top += $"     (Box {box+1}, Slot {slot+1}, {copies} cop{(copies > 1 ? "ies" : "y")})";
+            SuspendLayout();
+            extraText = $" (Box {box+1}, Slot {slot+1}, {copies} cop{(copies > 1 ? "ies" : "y")})";
             RefreshImage();
-            top = old_t;
-            this.ResumeLayout();
+            ResumeLayout();
         }
     }
 }
