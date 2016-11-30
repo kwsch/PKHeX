@@ -124,6 +124,14 @@ namespace PKHeX
 
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
+
+            // Poké Finder
+            NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
+            NUD_ThumbsTotal.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsTotalValue);
+            NUD_ThumbsRecord.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsHighValue);
+
+            CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
+            CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
         }
         private void save()
         {
@@ -174,6 +182,14 @@ namespace PKHeX
 
             SAV.BP = (uint)NUD_BP.Value;
             SAV.FestaCoins = (uint)NUD_FC.Value;
+
+            // Poké Finder
+            SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
+            SAV.PokeFinderThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
+            SAV.PokeFinderThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
+
+            SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
+            SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

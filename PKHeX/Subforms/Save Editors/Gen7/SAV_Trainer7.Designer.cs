@@ -136,7 +136,17 @@ namespace PKHeX
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.GB_PokeFinder = new System.Windows.Forms.GroupBox();
+            this.NUD_ThumbsRecord = new System.Windows.Forms.NumericUpDown();
+            this.L_ThumbsRecord = new System.Windows.Forms.Label();
+            this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
+            this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
+            this.NUD_SnapCount = new System.Windows.Forms.NumericUpDown();
+            this.L_SnapCount = new System.Windows.Forms.Label();
+            this.L_CameraVersion = new System.Windows.Forms.Label();
+            this.CB_CameraVersion = new System.Windows.Forms.ComboBox();
+            this.CHK_Gyro = new System.Windows.Forms.CheckBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -151,6 +161,10 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
             this.Tab_Misc.SuspendLayout();
+            this.GB_PokeFinder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -1196,6 +1210,7 @@ namespace PKHeX
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.GB_PokeFinder);
             this.Tab_Misc.Controls.Add(this.B_Fashion);
             this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
             this.Tab_Misc.Name = "Tab_Misc";
@@ -1205,15 +1220,146 @@ namespace PKHeX
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
             // 
+            // GB_PokeFinder
+            // 
+            this.GB_PokeFinder.Controls.Add(this.CHK_Gyro);
+            this.GB_PokeFinder.Controls.Add(this.CB_CameraVersion);
+            this.GB_PokeFinder.Controls.Add(this.L_CameraVersion);
+            this.GB_PokeFinder.Controls.Add(this.NUD_SnapCount);
+            this.GB_PokeFinder.Controls.Add(this.L_SnapCount);
+            this.GB_PokeFinder.Controls.Add(this.NUD_ThumbsRecord);
+            this.GB_PokeFinder.Controls.Add(this.L_ThumbsRecord);
+            this.GB_PokeFinder.Controls.Add(this.NUD_ThumbsTotal);
+            this.GB_PokeFinder.Controls.Add(this.L_ThumbsTotal);
+            this.GB_PokeFinder.Location = new System.Drawing.Point(3, 99);
+            this.GB_PokeFinder.Name = "GB_PokeFinder";
+            this.GB_PokeFinder.Size = new System.Drawing.Size(200, 151);
+            this.GB_PokeFinder.TabIndex = 57;
+            this.GB_PokeFinder.TabStop = false;
+            this.GB_PokeFinder.Text = "Poké Finder";
+            // 
+            // NUD_ThumbsRecord
+            // 
+            this.NUD_ThumbsRecord.Location = new System.Drawing.Point(129, 40);
+            this.NUD_ThumbsRecord.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_ThumbsRecord.Name = "NUD_ThumbsRecord";
+            this.NUD_ThumbsRecord.Size = new System.Drawing.Size(65, 20);
+            this.NUD_ThumbsRecord.TabIndex = 40;
+            this.NUD_ThumbsRecord.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_ThumbsRecord
+            // 
+            this.L_ThumbsRecord.Location = new System.Drawing.Point(6, 38);
+            this.L_ThumbsRecord.Name = "L_ThumbsRecord";
+            this.L_ThumbsRecord.Size = new System.Drawing.Size(117, 20);
+            this.L_ThumbsRecord.TabIndex = 39;
+            this.L_ThumbsRecord.Text = "Record Thumbs-Ups:";
+            this.L_ThumbsRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_ThumbsTotal
+            // 
+            this.NUD_ThumbsTotal.Location = new System.Drawing.Point(129, 18);
+            this.NUD_ThumbsTotal.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_ThumbsTotal.Name = "NUD_ThumbsTotal";
+            this.NUD_ThumbsTotal.Size = new System.Drawing.Size(65, 20);
+            this.NUD_ThumbsTotal.TabIndex = 38;
+            this.NUD_ThumbsTotal.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_ThumbsTotal
+            // 
+            this.L_ThumbsTotal.Location = new System.Drawing.Point(6, 16);
+            this.L_ThumbsTotal.Name = "L_ThumbsTotal";
+            this.L_ThumbsTotal.Size = new System.Drawing.Size(117, 20);
+            this.L_ThumbsTotal.TabIndex = 37;
+            this.L_ThumbsTotal.Text = "Total Thumbs-Ups:";
+            this.L_ThumbsTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // B_Fashion
             // 
-            this.B_Fashion.Location = new System.Drawing.Point(127, 92);
+            this.B_Fashion.Location = new System.Drawing.Point(6, 6);
             this.B_Fashion.Name = "B_Fashion";
             this.B_Fashion.Size = new System.Drawing.Size(132, 68);
             this.B_Fashion.TabIndex = 0;
             this.B_Fashion.Text = "Give all Fashion Items";
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
+            // 
+            // NUD_SnapCount
+            // 
+            this.NUD_SnapCount.Location = new System.Drawing.Point(129, 79);
+            this.NUD_SnapCount.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_SnapCount.Name = "NUD_SnapCount";
+            this.NUD_SnapCount.Size = new System.Drawing.Size(65, 20);
+            this.NUD_SnapCount.TabIndex = 42;
+            this.NUD_SnapCount.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_SnapCount
+            // 
+            this.L_SnapCount.Location = new System.Drawing.Point(6, 77);
+            this.L_SnapCount.Name = "L_SnapCount";
+            this.L_SnapCount.Size = new System.Drawing.Size(117, 20);
+            this.L_SnapCount.TabIndex = 41;
+            this.L_SnapCount.Text = "Snap Count:";
+            this.L_SnapCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_CameraVersion
+            // 
+            this.L_CameraVersion.Location = new System.Drawing.Point(6, 100);
+            this.L_CameraVersion.Name = "L_CameraVersion";
+            this.L_CameraVersion.Size = new System.Drawing.Size(117, 20);
+            this.L_CameraVersion.TabIndex = 43;
+            this.L_CameraVersion.Text = "Camera Version:";
+            this.L_CameraVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_CameraVersion
+            // 
+            this.CB_CameraVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_CameraVersion.Enabled = false;
+            this.CB_CameraVersion.FormattingEnabled = true;
+            this.CB_CameraVersion.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
+            this.CB_CameraVersion.Location = new System.Drawing.Point(129, 99);
+            this.CB_CameraVersion.Name = "CB_CameraVersion";
+            this.CB_CameraVersion.Size = new System.Drawing.Size(40, 21);
+            this.CB_CameraVersion.TabIndex = 44;
+            // 
+            // CHK_Gyro
+            // 
+            this.CHK_Gyro.AutoSize = true;
+            this.CHK_Gyro.Location = new System.Drawing.Point(129, 122);
+            this.CHK_Gyro.Name = "CHK_Gyro";
+            this.CHK_Gyro.Size = new System.Drawing.Size(48, 17);
+            this.CHK_Gyro.TabIndex = 46;
+            this.CHK_Gyro.Text = "Gyro";
+            this.CHK_Gyro.UseVisualStyleBackColor = true;
             // 
             // SAV_Trainer7
             // 
@@ -1247,6 +1393,11 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
             this.Tab_Misc.ResumeLayout(false);
+            this.GB_PokeFinder.ResumeLayout(false);
+            this.GB_PokeFinder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1361,5 +1512,15 @@ namespace PKHeX
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.TabPage Tab_Misc;
         private System.Windows.Forms.Button B_Fashion;
+        private System.Windows.Forms.GroupBox GB_PokeFinder;
+        private System.Windows.Forms.Label L_ThumbsTotal;
+        private System.Windows.Forms.NumericUpDown NUD_ThumbsTotal;
+        private System.Windows.Forms.NumericUpDown NUD_ThumbsRecord;
+        private System.Windows.Forms.Label L_ThumbsRecord;
+        private System.Windows.Forms.NumericUpDown NUD_SnapCount;
+        private System.Windows.Forms.Label L_SnapCount;
+        private System.Windows.Forms.Label L_CameraVersion;
+        private System.Windows.Forms.ComboBox CB_CameraVersion;
+        private System.Windows.Forms.CheckBox CHK_Gyro;
     }
 }
