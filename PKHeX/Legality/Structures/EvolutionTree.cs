@@ -225,6 +225,10 @@ namespace PKHeX
             {
                 case 8: // Use Item
                     return true;
+                case 17: // Male
+                    return pkm.Gender == 0;
+                case 18: // Female
+                    return pkm.Gender == 1;
 
                 case 5: // Trade Evolution
                 case 6: // Trade while Holding
