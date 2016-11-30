@@ -87,8 +87,8 @@ namespace PKHeX
                 {
                     Index = (int)(val & 0x3FF),
                     Count = (int)(val >> 10 & 0x3FF),
-                    New = (val & 0x40000000) == 1, // 30th bit is "NEW"
-                    FreeSpace = (val & 0x100000) == 1, // 22th bit is "FREE SPACE"
+                    New = (val & 0x40000000) != 0, // 30th bit is "NEW"
+                    FreeSpace = (val & 0x100000) != 0, // 22th bit is "FREE SPACE"
                 };
             }
             Items = items;
