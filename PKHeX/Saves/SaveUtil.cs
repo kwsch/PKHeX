@@ -562,25 +562,11 @@ namespace PKHeX
             if (blockID == 36)
                 new byte[0x80].CopyTo(data, 0x100);
 
-            int len = data.Length;
             ushort chk = (ushort)~initial;
-            if (len > 1)
+            for (int i = 0; i < data.Length; i++)
             {
-                int ofs = -1;
-                if (len % 2 == 0) // always true, always even length
-                {
-                    ofs = 0;
-                    chk = (ushort)(crc16[(data[0] ^ chk) & 0xFF] ^ chk >> 8);
-                }
-
-                for (int i = (len - 1) / 2; i != 0; i--, ofs += 2)
-                {
-                    ushort temp = crc16[(data[ofs + 1] ^ chk) & 0xFF];
-                    chk = (ushort)(crc16[(data[ofs + 2] ^ temp ^ chk >> 8) & 0xFF] ^ (temp ^ chk >> 8) >> 8);
-                }
+                chk = (ushort)(crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
             }
-            if (len > 0)
-                chk = (ushort)(crc16[(data[len - 1] ^ chk) & 0xFF] ^ chk >> 8);
 
             return (ushort)~chk;
         }
