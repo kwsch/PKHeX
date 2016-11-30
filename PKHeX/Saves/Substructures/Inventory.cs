@@ -20,6 +20,7 @@ namespace PKHeX
     public class InventoryItem
     {
         public bool New;
+        public bool FreeSpace;
         public int Index, Count;
         public InventoryItem Clone()
         {
@@ -86,7 +87,8 @@ namespace PKHeX
                 {
                     Index = (int)(val & 0x3FF),
                     Count = (int)(val >> 10 & 0x3FF),
-                    New = (val & 0x40000000) == 1, // 30th bit is "NEW"
+                    New = (val & 0x40000000) != 0, // 30th bit is "NEW"
+                    FreeSpace = (val & 0x100000) != 0, // 22th bit is "FREE SPACE"
                 };
             }
             Items = items;
@@ -106,6 +108,8 @@ namespace PKHeX
                 Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
                 if (Items[i].New)
                     val |= 0x40000000;
+                if (Items[i].FreeSpace)
+                    val |= 0x100000;
                 BitConverter.GetBytes(val).CopyTo(Data, Offset + i * 4);
             }
         }

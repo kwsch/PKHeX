@@ -54,7 +54,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(202, 378);
+            this.B_Cancel.Location = new System.Drawing.Point(232, 378);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(70, 23);
             this.B_Cancel.TabIndex = 14;
@@ -65,7 +65,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(202, 354);
+            this.B_Save.Location = new System.Drawing.Point(232, 354);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(70, 23);
             this.B_Save.TabIndex = 15;
@@ -82,7 +82,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(261, 336);
+            this.tabControl1.Size = new System.Drawing.Size(291, 336);
             this.tabControl1.TabIndex = 17;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.switchBag);
             // 
@@ -215,7 +215,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 411);
+            this.ClientSize = new System.Drawing.Size(314, 411);
             this.Controls.Add(this.NUD_Count);
             this.Controls.Add(this.L_Count);
             this.Controls.Add(this.B_Sort);
@@ -226,7 +226,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(300, 450);
+            this.MinimumSize = new System.Drawing.Size(330, 450);
             this.Name = "SAV_Inventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Inventory Editor";

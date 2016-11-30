@@ -18,6 +18,9 @@ namespace PKHeX
             for (int i = 0; i < itemlist.Length; i++)
                 if (itemlist[i] == "")
                     itemlist[i] = $"(Item #{i.ToString("000")})";
+
+            HasFreeSpace = SAV.Generation == 7;
+            HasNew = SAV.Generation == 7;
             Pouches = SAV.Inventory;
             initBags();
             getBags();
@@ -28,6 +31,8 @@ namespace PKHeX
         private readonly InventoryPouch[] Pouches;
         private const string TabPrefix = "TAB_";
         private const string DGVPrefix = "DGV_";
+        private readonly bool HasFreeSpace;
+        private readonly bool HasNew;
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -72,7 +77,7 @@ namespace PKHeX
                 AllowUserToResizeRows = false,
                 AllowUserToResizeColumns = false,
                 RowHeadersVisible = false,
-                ColumnHeadersVisible = false,
+                //ColumnHeadersVisible = false,
                 MultiSelect = false,
                 ShowEditingIcon = false,
 
@@ -83,23 +88,48 @@ namespace PKHeX
                 CellBorderStyle = DataGridViewCellBorderStyle.None,
             };
 
+            int c = 0;
             DataGridViewComboBoxColumn dgvItemVal = new DataGridViewComboBoxColumn
             {
+                HeaderText = "Item",
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
-                DisplayIndex = 0,
+                DisplayIndex = c++,
                 Width = 135,
                 FlatStyle = FlatStyle.Flat
             };
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
-                dgvIndex.HeaderText = "CNT";
-                dgvIndex.DisplayIndex = 1;
+                dgvIndex.HeaderText = "Count";
+                dgvIndex.DisplayIndex = c++;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
             dgv.Columns.Add(dgvItemVal);
             dgv.Columns.Add(dgvIndex);
+            
+            if (HasFreeSpace)
+            {
+                DataGridViewCheckBoxColumn dgvFree = new DataGridViewCheckBoxColumn
+                {
+                    HeaderText = "Free",
+                    DisplayIndex = c++,
+                    Width = 40,
+                    FlatStyle = FlatStyle.Flat
+                };
+                dgv.Columns.Add(dgvFree);
+            }
+            if (HasFreeSpace)
+            {
+                DataGridViewCheckBoxColumn dgvNew = new DataGridViewCheckBoxColumn
+                {
+                    HeaderText = "NEW",
+                    DisplayIndex = c++,
+                    Width = 40,
+                    FlatStyle = FlatStyle.Flat
+                };
+                dgv.Columns.Add(dgvNew);
+            }
 
             var itemcount = pouch.Items.Length;
             string[] itemarr = Main.HaX ? (string[])itemlist.Clone() : getItems(pouch.LegalItems);
@@ -150,8 +180,13 @@ namespace PKHeX
         {
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                dgv.Rows[i].Cells[0].Value = itemlist[pouch.Items[i].Index];
-                dgv.Rows[i].Cells[1].Value = pouch.Items[i].Count;
+                int c = 0;
+                dgv.Rows[i].Cells[c++].Value = itemlist[pouch.Items[i].Index];
+                dgv.Rows[i].Cells[c++].Value = pouch.Items[i].Count;
+                if (HasFreeSpace)
+                    dgv.Rows[i].Cells[c++].Value = pouch.Items[i].FreeSpace;
+                if (HasNew)
+                    dgv.Rows[i].Cells[c].Value = pouch.Items[i].New;
             }
         }
         private void setBag(DataGridView dgv, InventoryPouch pouch)
@@ -159,13 +194,14 @@ namespace PKHeX
             int ctr = 0;
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                string item = dgv.Rows[i].Cells[0].Value.ToString();
+                int c = 0;
+                string item = dgv.Rows[i].Cells[c++].Value.ToString();
                 int itemindex = Array.IndexOf(itemlist, item);
                 if (itemindex <= 0) // Compression of Empty Slots
                     continue;
 
                 int itemcnt;
-                int.TryParse(dgv.Rows[i].Cells[1].Value.ToString(), out itemcnt);
+                int.TryParse(dgv.Rows[i].Cells[c++].Value.ToString(), out itemcnt);
 
                 if (Main.HaX && SAV.Generation != 7) // Gen7 has true cap at 1023, keep 999 cap.
                 {
@@ -180,7 +216,12 @@ namespace PKHeX
                 else if (itemcnt <= 0)
                     continue; // ignore item
 
-                pouch.Items[ctr++] = new InventoryItem { Index = itemindex, Count = itemcnt };
+                pouch.Items[ctr] = new InventoryItem { Index = itemindex, Count = itemcnt };
+                if (HasFreeSpace)
+                    pouch.Items[ctr].FreeSpace = (bool)dgv.Rows[i].Cells[c++].Value;
+                if (HasNew)
+                    pouch.Items[ctr].New = (bool)dgv.Rows[i].Cells[c].Value;
+                ctr++;
             }
             for (int i = ctr; i < pouch.Items.Length; i++)
                 pouch.Items[i] = new InventoryItem(); // Empty Slots at the end
@@ -232,9 +273,11 @@ namespace PKHeX
             int pouch = CurrentPouch;
             if (pouch < 0)
                 return;
-            ushort[] legalitems = Pouches[pouch].LegalItems;
+            var p = Pouches[pouch];
+            ushort[] legalitems = p.LegalItems;
 
-            DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+            DataGridView dgv = Controls.Find(DGVPrefix + p.Type, true).FirstOrDefault() as DataGridView;
+            setBag(dgv, p);
 
             int Count = (int)NUD_Count.Value;
             for (int i = 0; i < legalitems.Length; i++)
@@ -258,8 +301,15 @@ namespace PKHeX
                     }
                 }
 
-                dgv.Rows[i].Cells[0].Value = itemname;
-                dgv.Rows[i].Cells[1].Value = c;
+                int l = 0;
+                dgv.Rows[i].Cells[l++].Value = itemname;
+                dgv.Rows[i].Cells[l++].Value = c;
+                var t = p.Items.FirstOrDefault(m => m.Index == item);
+
+                if (HasFreeSpace)
+                    dgv.Rows[i].Cells[l++].Value = t?.FreeSpace ?? false;
+                if (HasNew)
+                    dgv.Rows[i].Cells[l].Value = t?.New ?? false;
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
@@ -274,8 +324,13 @@ namespace PKHeX
             
             for (int i = 0; i < dgv.RowCount; i++)
             {
-                dgv.Rows[i].Cells[0].Value = itemlist[0];
-                dgv.Rows[i].Cells[1].Value = 0;
+                int c = 0;
+                dgv.Rows[i].Cells[c++].Value = itemlist[0];
+                dgv.Rows[i].Cells[c++].Value = 0;
+                if (HasFreeSpace)
+                    dgv.Rows[i].Cells[c++].Value = false;
+                if (HasNew)
+                    dgv.Rows[i].Cells[c].Value = false;
             }
             Util.Alert("Items cleared.");
         }
