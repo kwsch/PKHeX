@@ -84,6 +84,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(261, 336);
             this.tabControl1.TabIndex = 17;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.switchBag);
             // 
             // IL_Pouch
             // 

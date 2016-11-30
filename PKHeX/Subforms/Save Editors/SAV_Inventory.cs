@@ -21,6 +21,7 @@ namespace PKHeX
             Pouches = SAV.Inventory;
             initBags();
             getBags();
+            switchBag(null, null); // bag 0
         }
 
         private readonly SaveFile SAV = Main.SAV.Clone();
@@ -152,20 +153,6 @@ namespace PKHeX
                 dgv.Rows[i].Cells[0].Value = itemlist[pouch.Items[i].Index];
                 dgv.Rows[i].Cells[1].Value = pouch.Items[i].Count;
             }
-            if (Main.HaX)
-            {
-                // Cap at absolute maximum
-                if (SAV.Generation <= 2)
-                    NUD_Count.Maximum = byte.MaxValue;
-                else if (SAV.Generation >= 7)
-                    NUD_Count.Maximum = pouch.MaxCount;
-                else if (SAV.Generation >= 3)
-                    NUD_Count.Maximum = ushort.MaxValue;
-            }
-            else
-                NUD_Count.Maximum = pouch.MaxCount;
-
-            NUD_Count.Value = pouch.Type == InventoryType.KeyItems ? 1 : pouch.MaxCount;
         }
         private void setBag(DataGridView dgv, InventoryPouch pouch)
         {
@@ -197,6 +184,26 @@ namespace PKHeX
             }
             for (int i = ctr; i < pouch.Items.Length; i++)
                 pouch.Items[i] = new InventoryItem(); // Empty Slots at the end
+        }
+
+        private void switchBag(object sender, EventArgs e)
+        {
+            int index = tabControl1.SelectedIndex;
+            var pouch = Pouches[index];
+            if (Main.HaX)
+            {
+                // Cap at absolute maximum
+                if (SAV.Generation <= 2)
+                    NUD_Count.Maximum = byte.MaxValue;
+                else if (SAV.Generation >= 7)
+                    NUD_Count.Maximum = pouch.MaxCount;
+                else if (SAV.Generation >= 3)
+                    NUD_Count.Maximum = ushort.MaxValue;
+            }
+            else
+                NUD_Count.Maximum = pouch.MaxCount;
+
+            NUD_Count.Value = pouch.Type == InventoryType.KeyItems ? 1 : pouch.MaxCount;
         }
 
         // Initialize String Tables
