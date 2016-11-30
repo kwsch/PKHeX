@@ -475,7 +475,7 @@ namespace PKHeX
         public bool PokeFinderGyroFlag
         {
             get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x02) == 1; }
-            set { BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, PokeFinderSave + 0x04); }
+            set { BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, PokeFinderSave + 0x02); }
         }
         public uint PokeFinderSnapCount
         {
@@ -506,7 +506,7 @@ namespace PKHeX
                 BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x10);
 
                 if (value > PokeFinderThumbsTotalValue)
-                    PokeFinderThumbsHighValue = value;
+                    PokeFinderThumbsTotalValue = value;
             }
         }
         public ushort PokeFinderTutorialFlags
