@@ -152,6 +152,20 @@ namespace PKHeX
                 dgv.Rows[i].Cells[0].Value = itemlist[pouch.Items[i].Index];
                 dgv.Rows[i].Cells[1].Value = pouch.Items[i].Count;
             }
+            if (Main.HaX)
+            {
+                // Cap at absolute maximum
+                if (SAV.Generation <= 2)
+                    NUD_Count.Maximum = byte.MaxValue;
+                else if (SAV.Generation >= 7)
+                    NUD_Count.Maximum = pouch.MaxCount;
+                else if (SAV.Generation >= 3)
+                    NUD_Count.Maximum = ushort.MaxValue;
+            }
+            else
+                NUD_Count.Maximum = pouch.MaxCount;
+
+            NUD_Count.Value = pouch.Type == InventoryType.KeyItems ? 1 : pouch.MaxCount;
         }
         private void setBag(DataGridView dgv, InventoryPouch pouch)
         {
@@ -215,7 +229,7 @@ namespace PKHeX
 
             DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
 
-            int Count = Pouches[pouch].MaxCount;
+            int Count = (int)NUD_Count.Value;
             for (int i = 0; i < legalitems.Length; i++)
             {
                 int item = legalitems[i];

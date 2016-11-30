@@ -37,21 +37,24 @@
             this.B_GiveAll = new System.Windows.Forms.Button();
             this.B_Sort = new System.Windows.Forms.Button();
             this.sortMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuSortName = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSortNameReverse = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSortCount = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSortCountReverse = new System.Windows.Forms.ToolStripMenuItem();
             this.giveMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.giveNone = new System.Windows.Forms.ToolStripMenuItem();
             this.giveAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSortName = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSortCount = new System.Windows.Forms.ToolStripMenuItem();
+            this.giveNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.L_Count = new System.Windows.Forms.Label();
+            this.NUD_Count = new System.Windows.Forms.NumericUpDown();
             this.sortMenu.SuspendLayout();
             this.giveMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(177, 328);
+            this.B_Cancel.Location = new System.Drawing.Point(202, 378);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(70, 23);
             this.B_Cancel.TabIndex = 14;
@@ -62,7 +65,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(253, 328);
+            this.B_Save.Location = new System.Drawing.Point(202, 354);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(70, 23);
             this.B_Save.TabIndex = 15;
@@ -79,7 +82,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(311, 308);
+            this.tabControl1.Size = new System.Drawing.Size(261, 336);
             this.tabControl1.TabIndex = 17;
             // 
             // IL_Pouch
@@ -101,7 +104,7 @@
             // B_GiveAll
             // 
             this.B_GiveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_GiveAll.Location = new System.Drawing.Point(12, 328);
+            this.B_GiveAll.Location = new System.Drawing.Point(12, 378);
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(75, 23);
             this.B_GiveAll.TabIndex = 18;
@@ -113,7 +116,7 @@
             // 
             this.B_Sort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.B_Sort.ContextMenuStrip = this.sortMenu;
-            this.B_Sort.Location = new System.Drawing.Point(93, 328);
+            this.B_Sort.Location = new System.Drawing.Point(12, 354);
             this.B_Sort.Name = "B_Sort";
             this.B_Sort.Size = new System.Drawing.Size(75, 23);
             this.B_Sort.TabIndex = 19;
@@ -129,7 +132,14 @@
             this.mnuSortCount,
             this.mnuSortCountReverse});
             this.sortMenu.Name = "modifyMenu";
-            this.sortMenu.Size = new System.Drawing.Size(159, 114);
+            this.sortMenu.Size = new System.Drawing.Size(159, 92);
+            // 
+            // mnuSortName
+            // 
+            this.mnuSortName.Name = "mnuSortName";
+            this.mnuSortName.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortName.Text = "Name";
+            this.mnuSortName.Click += new System.EventHandler(this.sortByName);
             // 
             // mnuSortNameReverse
             // 
@@ -137,6 +147,13 @@
             this.mnuSortNameReverse.Size = new System.Drawing.Size(158, 22);
             this.mnuSortNameReverse.Text = "Name (Reverse)";
             this.mnuSortNameReverse.Click += new System.EventHandler(this.sortByName);
+            // 
+            // mnuSortCount
+            // 
+            this.mnuSortCount.Name = "mnuSortCount";
+            this.mnuSortCount.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortCount.Text = "Count";
+            this.mnuSortCount.Click += new System.EventHandler(this.sortByCount);
             // 
             // mnuSortCountReverse
             // 
@@ -153,6 +170,13 @@
             this.giveMenu.Name = "modifyMenu";
             this.giveMenu.Size = new System.Drawing.Size(104, 48);
             // 
+            // giveAll
+            // 
+            this.giveAll.Name = "giveAll";
+            this.giveAll.Size = new System.Drawing.Size(103, 22);
+            this.giveAll.Text = "All";
+            this.giveAll.Click += new System.EventHandler(this.giveAllItems);
+            // 
             // giveNone
             // 
             this.giveNone.Name = "giveNone";
@@ -160,32 +184,39 @@
             this.giveNone.Text = "None";
             this.giveNone.Click += new System.EventHandler(this.removeAllItems);
             // 
-            // giveAll
+            // L_Count
             // 
-            this.giveAll.Name = "giveAll";
-            this.giveAll.Size = new System.Drawing.Size(152, 22);
-            this.giveAll.Text = "All";
-            this.giveAll.Click += new System.EventHandler(this.giveAllItems);
+            this.L_Count.AutoSize = true;
+            this.L_Count.Location = new System.Drawing.Point(92, 367);
+            this.L_Count.Name = "L_Count";
+            this.L_Count.Size = new System.Drawing.Size(38, 13);
+            this.L_Count.TabIndex = 20;
+            this.L_Count.Text = "Count:";
             // 
-            // mnuSortName
+            // NUD_Count
             // 
-            this.mnuSortName.Name = "mnuSortName";
-            this.mnuSortName.Size = new System.Drawing.Size(158, 22);
-            this.mnuSortName.Text = "Name";
-            this.mnuSortName.Click += new System.EventHandler(this.sortByName);
-            // 
-            // mnuSortCount
-            // 
-            this.mnuSortCount.Name = "mnuSortCount";
-            this.mnuSortCount.Size = new System.Drawing.Size(158, 22);
-            this.mnuSortCount.Text = "Count";
-            this.mnuSortCount.Click += new System.EventHandler(this.sortByCount);
+            this.NUD_Count.Location = new System.Drawing.Point(93, 381);
+            this.NUD_Count.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_Count.Name = "NUD_Count";
+            this.NUD_Count.Size = new System.Drawing.Size(49, 20);
+            this.NUD_Count.TabIndex = 21;
+            this.NUD_Count.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // SAV_Inventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 361);
+            this.ClientSize = new System.Drawing.Size(284, 411);
+            this.Controls.Add(this.NUD_Count);
+            this.Controls.Add(this.L_Count);
             this.Controls.Add(this.B_Sort);
             this.Controls.Add(this.B_GiveAll);
             this.Controls.Add(this.tabControl1);
@@ -194,13 +225,15 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(350, 400);
+            this.MinimumSize = new System.Drawing.Size(300, 450);
             this.Name = "SAV_Inventory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Inventory Editor";
             this.sortMenu.ResumeLayout(false);
             this.giveMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -219,5 +252,7 @@
         private System.Windows.Forms.ToolStripMenuItem giveAll;
         private System.Windows.Forms.ToolStripMenuItem mnuSortName;
         private System.Windows.Forms.ToolStripMenuItem mnuSortCount;
+        private System.Windows.Forms.Label L_Count;
+        private System.Windows.Forms.NumericUpDown NUD_Count;
     }
 }
