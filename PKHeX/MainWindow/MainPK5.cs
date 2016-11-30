@@ -49,14 +49,7 @@ namespace PKHeX
             CB_EncounterType.SelectedValue = pk5.Gen4 ? pk5.EncounterType : 0;
             CB_Ball.SelectedValue = pk5.Ball;
 
-            if (pk5.MetDate.HasValue)
-            {
-                CAL_MetDate.Value = pk5.MetDate.Value;
-            }
-            else
-            {
-                CAL_MetDate.Value = new DateTime(2000, 1, 1);
-            }
+            CAL_MetDate.Value = pk5.MetDate ?? new DateTime(2000, 1, 1);
 
             if (pk5.Egg_Location != 0)
             {
@@ -65,14 +58,7 @@ namespace PKHeX
                 GB_EggConditions.Enabled = true;
 
                 CB_EggLocation.SelectedValue = pk5.Egg_Location;
-                if (pk5.EggMetDate.HasValue)
-                {
-                    CAL_EggDate.Value = pk5.EggMetDate.Value;
-                }
-                else
-                {
-                    CAL_EggDate.Value = new DateTime(2000, 1, 1);
-                }
+                CAL_EggDate.Value = pk5.EggMetDate ?? new DateTime(2000, 1, 1);
             }
             else { CAL_EggDate.Value = new DateTime(2000, 01, 01); CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 
