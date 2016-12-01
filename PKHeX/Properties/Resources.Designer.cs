@@ -18108,6 +18108,26 @@ namespace PKHeX.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ribbonbattletreegreat {
+            get {
+                object obj = ResourceManager.GetObject("ribbonbattletreegreat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ribbonbattletreemaster {
+            get {
+                object obj = ResourceManager.GetObject("ribbonbattletreemaster", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ribbonbestfriends {
             get {
                 object obj = ResourceManager.GetObject("ribbonbestfriends", resourceCulture);
@@ -18121,26 +18141,6 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap ribbonbirthday {
             get {
                 object obj = ResourceManager.GetObject("ribbonbirthday", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ribbonc0 {
-            get {
-                object obj = ResourceManager.GetObject("ribbonc0", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ribbonc1 {
-            get {
-                object obj = ResourceManager.GetObject("ribbonc1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

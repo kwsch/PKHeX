@@ -3766,6 +3766,12 @@
   <ItemGroup>
     <None Include="Resources\img\ball\_ball15.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ribbons\ribbonbattletreegreat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ribbons\ribbonbattletreemaster.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
