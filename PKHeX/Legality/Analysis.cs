@@ -284,7 +284,7 @@ namespace PKHeX
 
                 case GameVersion.SN:
                 case GameVersion.MN:
-                    break;
+                    return 50; // Route 4
             }
             return -1;
         }
