@@ -832,6 +832,8 @@ namespace PKHeX
 
             if (species == 718 && pkm.GenNumber == 7) // Zygarde
                 r.AddRange(ZygardeMoves);
+            if (species == 25 || species == 26 && pkm.Format == 7) // Pikachu/Raichu Tutor
+                r.Add(344); // Volt Tackle
 
             if (Relearn) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
