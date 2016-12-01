@@ -352,11 +352,13 @@ namespace PKHeX
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count-1; i >= 0; i--) // reverse evolution!
             {
+                bool oneValid = false;
                 foreach (var evo in Chain[i].StageEntryMethods)
                 {
                     if (!evo.Valid(pkm, lvl))
                         continue;
 
+                    oneValid = true;
                     if (evo.Species > maxSpecies) // Gen7 Personal Formes -- unmap the forme personal entry to the actual species ID since species are consecutive
                         dl.Add(evo.GetDexLevel(pkm.Species - Chain.Count + i, lvl));
                     else
@@ -366,6 +368,8 @@ namespace PKHeX
                         lvl--;
                     break;
                 }
+                if (!oneValid)
+                    break;
             }
             return dl;
         }
