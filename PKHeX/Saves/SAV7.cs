@@ -847,7 +847,7 @@ namespace PKHeX
                  .Where(x => x % 2 == 0)
                  .Reverse()
                  .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
-                 .Reverse().ToArray().CopyTo(Data, Daycare + 0x1DC);
+                 .ToArray().CopyTo(Data, Daycare + 0x1DC);
         }
         public override void setDaycareHasEgg(int loc, bool hasEgg)
         {
