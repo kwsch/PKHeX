@@ -543,8 +543,8 @@ namespace PKHeX
 
         internal static EncounterArea getCaptureLocation(PKM pkm)
         {
-            return (from area in getEncounterSlots(pkm)
-                let slots = getValidEncounterSlots(pkm, area, pkm.AO).ToArray()
+            return (from area in getEncounterSlots(pkm, 100)
+                let slots = getValidEncounterSlots(pkm, area, pkm.AO, ignoreLevel:true).ToArray()
                 where slots.Any()
                 select new EncounterArea
                 {
@@ -554,6 +554,19 @@ namespace PKHeX
         internal static EncounterStatic getStaticLocation(PKM pkm)
         {
             return getStaticEncounters(pkm).FirstOrDefault();
+        }
+        internal static int getLowestLevel(PKM pkm, int refSpecies = -1)
+        {
+            if (refSpecies == -1)
+                refSpecies = getBaseSpecies(pkm, lvl: 100);
+            for (int i = 0; i < 100; i++)
+            {
+                var table = getEvolutionTable(pkm);
+                var evos = table.getValidPreEvolutions(pkm, i).ToArray();
+                if (evos.Any(evo => evo.Species == refSpecies))
+                    return evos.OrderByDescending(evo => evo.Level).First().Level;
+            }
+            return 100;
         }
         internal static bool getCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
         {
@@ -627,7 +640,7 @@ namespace PKHeX
             return getValidMoves(pkm, Version: version, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
-        private static int getBaseSpecies(PKM pkm, int skipOption = 0)
+        internal static int getBaseSpecies(PKM pkm, int skipOption = 0, int lvl = -1)
         {
             if (pkm.Species == 292)
                 return 290;
@@ -635,7 +648,7 @@ namespace PKHeX
                 return 113;
 
             var table = getEvolutionTable(pkm);
-            var evos = table.getValidPreEvolutions(pkm, pkm.CurrentLevel).ToArray();
+            var evos = table.getValidPreEvolutions(pkm, lvl == -1 ? pkm.CurrentLevel : lvl).ToArray();
 
             switch (skipOption)
             {
@@ -673,41 +686,41 @@ namespace PKHeX
             }
             return moves;
         }
-        private static IEnumerable<EncounterArea> getEncounterSlots(PKM pkm)
+        private static IEnumerable<EncounterArea> getEncounterSlots(PKM pkm, int lvl = -1)
         {
             switch (pkm.Version)
             {
                 case (int)GameVersion.X:
-                    return getSlots(pkm, SlotsX);
+                    return getSlots(pkm, SlotsX, lvl);
                 case (int)GameVersion.Y:
-                    return getSlots(pkm, SlotsY);
+                    return getSlots(pkm, SlotsY, lvl);
                 case (int)GameVersion.AS:
-                    return getSlots(pkm, SlotsA);
+                    return getSlots(pkm, SlotsA, lvl);
                 case (int)GameVersion.OR:
-                    return getSlots(pkm, SlotsO);
+                    return getSlots(pkm, SlotsO, lvl);
                 case (int)GameVersion.SN:
-                    return getSlots(pkm, SlotsSN);
+                    return getSlots(pkm, SlotsSN, lvl);
                 case (int)GameVersion.MN:
-                    return getSlots(pkm, SlotsMN);
+                    return getSlots(pkm, SlotsMN, lvl);
                 default: return new List<EncounterArea>();
             }
         }
-        private static IEnumerable<EncounterStatic> getStaticEncounters(PKM pkm)
+        private static IEnumerable<EncounterStatic> getStaticEncounters(PKM pkm, int lvl = -1)
         {
             switch (pkm.Version)
             {
                 case (int)GameVersion.X:
-                    return getStatic(pkm, StaticX);
+                    return getStatic(pkm, StaticX, lvl);
                 case (int)GameVersion.Y:
-                    return getStatic(pkm, StaticY);
+                    return getStatic(pkm, StaticY, lvl);
                 case (int)GameVersion.AS:
-                    return getStatic(pkm, StaticA);
+                    return getStatic(pkm, StaticA, lvl);
                 case (int)GameVersion.OR:
-                    return getStatic(pkm, StaticO);
+                    return getStatic(pkm, StaticO, lvl);
                 case (int)GameVersion.SN:
-                    return getStatic(pkm, StaticSN);
+                    return getStatic(pkm, StaticSN, lvl);
                 case (int)GameVersion.MN:
-                    return getStatic(pkm, StaticMN);
+                    return getStatic(pkm, StaticMN, lvl);
                 default: return new List<EncounterStatic>();
             }
         }
@@ -715,7 +728,7 @@ namespace PKHeX
         {
             return getEncounterSlots(pkm).Where(l => l.Location == pkm.Met_Location);
         }
-        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav)
+        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false)
         {
             const int fluteBoost = 4;
             const int dexnavBoost = 30;
@@ -727,11 +740,11 @@ namespace PKHeX
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm);
             // Get slots where pokemon can exist
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin - df));
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin - df) || ignoreLevel);
 
             // Filter for Met Level
             int lvl = pkm.Met_Level;
-            var encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
+            var encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df) || ignoreLevel).ToList();
 
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
@@ -767,9 +780,9 @@ namespace PKHeX
             }
             return slotdata;
         }
-        private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables)
+        private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
         {
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm);
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, lvl);
             List<EncounterArea> slotLocations = new List<EncounterArea>();
             foreach (var loc in tables)
             {
@@ -795,9 +808,9 @@ namespace PKHeX
             var et = getEvolutionTable(pkm);
             return et.getValidPreEvolutions(pkm, lvl);
         }
-        private static IEnumerable<EncounterStatic> getStatic(PKM pkm, IEnumerable<EncounterStatic> table)
+        private static IEnumerable<EncounterStatic> getStatic(PKM pkm, IEnumerable<EncounterStatic> table, int lvl = -1)
         {
-            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm);
+            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, lvl);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
         private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
