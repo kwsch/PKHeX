@@ -38,7 +38,8 @@ namespace PKHeX
         Fateful,
         Ribbon,
         Training,
-        Ability
+        Ability,
+        Evolution
     }
     public class CheckResult
     {
@@ -1466,6 +1467,43 @@ namespace PKHeX
             }
             AddLine(Severity.Valid, "Fateful Encounter is Valid.", CheckIdentifier.Fateful);
         }
+        private void verifyVersionEvolution()
+        {
+            if (pkm.Format < 7)
+                return;
+
+            // No point using the evolution tree. Just handle certain species.
+            switch (pkm.Species)
+            {
+                case 745: // Lycanroc
+                    if (!pkm.WasEgg)
+                        break;
+
+                    if (pkm.AltForm == 0 && pkm.Version == 31 // Moon
+                        || pkm.AltForm == 1 && pkm.Version == 30) // Sun
+                        if (pkm.IsUntraded)
+                            AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                    break;
+
+                case 791: // Solgaleo
+                    if (pkm.Version == 31 && pkm.IsUntraded)
+                    {
+                        if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
+                            break;
+                        AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                    }
+                    break;
+                case 792: // Lunala
+                    if (pkm.Version == 30 && pkm.IsUntraded)
+                    {
+                        if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
+                            break;
+                        AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                    }
+                    break;
+            }
+        }
+
         private CheckResult[] verifyMoves()
         {
             int[] Moves = pkm.Moves;

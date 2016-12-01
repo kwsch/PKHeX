@@ -159,6 +159,8 @@ namespace PKHeX
             verifyForm();
             verifyMisc();
             verifyGender();
+
+            verifyVersionEvolution();
             // SecondaryChecked = true;
         }
         private string getLegalityReport()
