@@ -243,6 +243,7 @@ namespace PKHeX
             if (pkm.WasEgg)
                 return new EncounterStatic
                 {
+                    Species = Legal.getBaseSpecies(pkm, lvl:100),
                     Location = getSuggestedEggMetLocation(pkm),
                     Level = 1,
                 };
@@ -251,6 +252,7 @@ namespace PKHeX
             if (capture != null)
                 return new EncounterStatic
                 {
+                    Species = capture.Slots.First().Species,
                     Location = capture.Location,
                     Level = capture.Slots.First().LevelMin,
                 };
