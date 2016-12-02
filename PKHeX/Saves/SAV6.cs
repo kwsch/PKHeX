@@ -98,6 +98,8 @@ namespace PKHeX
             // Apply checksums
             for (int i = 0; i < Blocks.Length; i++)
             {
+                if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
+                { Console.WriteLine("Block {0} has invalid offset/length value.", i); return; }
                 byte[] array = new byte[Blocks[i].Length];
                 Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                 BitConverter.GetBytes(SaveUtil.ccitt16(array)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
@@ -109,6 +111,8 @@ namespace PKHeX
             {
                 for (int i = 0; i < Blocks.Length; i++)
                 {
+                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
+                        return false;
                     byte[] array = new byte[Blocks[i].Length];
                     Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                     if (SaveUtil.ccitt16(array) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
@@ -125,6 +129,8 @@ namespace PKHeX
                 string rv = "";
                 for (int i = 0; i < Blocks.Length; i++)
                 {
+                    if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
+                        return $"Block {i} Invalid Offset/Length.";
                     byte[] array = new byte[Blocks[i].Length];
                     Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                     if (SaveUtil.ccitt16(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))

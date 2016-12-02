@@ -127,7 +127,9 @@
             this.Label_MetLocation = new System.Windows.Forms.Label();
             this.CB_MetLocation = new System.Windows.Forms.ComboBox();
             this.FLP_Ball = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_BallLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Ball = new System.Windows.Forms.Label();
+            this.PB_Ball = new System.Windows.Forms.PictureBox();
             this.CB_Ball = new System.Windows.Forms.ComboBox();
             this.FLP_MetLevel = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_MetLevel = new System.Windows.Forms.Label();
@@ -479,6 +481,8 @@
             this.FLP_OriginGame.SuspendLayout();
             this.FLP_MetLocation.SuspendLayout();
             this.FLP_Ball.SuspendLayout();
+            this.FLP_BallLeft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Ball)).BeginInit();
             this.FLP_MetLevel.SuspendLayout();
             this.FLP_MetDate.SuspendLayout();
             this.FLP_Fateful.SuspendLayout();
@@ -1755,6 +1759,7 @@
             this.Label_MetLocation.TabIndex = 1;
             this.Label_MetLocation.Text = "Met Location:";
             this.Label_MetLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_MetLocation.Click += new System.EventHandler(this.clickMetLocation);
             // 
             // CB_MetLocation
             // 
@@ -1774,7 +1779,7 @@
             // FLP_Ball
             // 
             this.FLP_Ball.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Ball.Controls.Add(this.Label_Ball);
+            this.FLP_Ball.Controls.Add(this.FLP_BallLeft);
             this.FLP_Ball.Controls.Add(this.CB_Ball);
             this.FLP_Ball.Location = new System.Drawing.Point(0, 42);
             this.FLP_Ball.Margin = new System.Windows.Forms.Padding(0);
@@ -1782,15 +1787,39 @@
             this.FLP_Ball.Size = new System.Drawing.Size(272, 21);
             this.FLP_Ball.TabIndex = 114;
             // 
+            // FLP_BallLeft
+            // 
+            this.FLP_BallLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.FLP_BallLeft.Controls.Add(this.Label_Ball);
+            this.FLP_BallLeft.Controls.Add(this.PB_Ball);
+            this.FLP_BallLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.FLP_BallLeft.Location = new System.Drawing.Point(0, 0);
+            this.FLP_BallLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_BallLeft.Name = "FLP_BallLeft";
+            this.FLP_BallLeft.Size = new System.Drawing.Size(110, 21);
+            this.FLP_BallLeft.TabIndex = 4;
+            // 
             // Label_Ball
             // 
-            this.Label_Ball.Location = new System.Drawing.Point(0, 0);
+            this.Label_Ball.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.Label_Ball.AutoSize = true;
+            this.Label_Ball.Location = new System.Drawing.Point(83, 0);
             this.Label_Ball.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Ball.Name = "Label_Ball";
-            this.Label_Ball.Size = new System.Drawing.Size(110, 21);
+            this.Label_Ball.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.Label_Ball.Size = new System.Drawing.Size(27, 19);
             this.Label_Ball.TabIndex = 2;
             this.Label_Ball.Text = "Ball:";
             this.Label_Ball.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // PB_Ball
+            // 
+            this.PB_Ball.Location = new System.Drawing.Point(60, 0);
+            this.PB_Ball.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.PB_Ball.Name = "PB_Ball";
+            this.PB_Ball.Size = new System.Drawing.Size(20, 20);
+            this.PB_Ball.TabIndex = 3;
+            this.PB_Ball.TabStop = false;
             // 
             // CB_Ball
             // 
@@ -1803,6 +1832,7 @@
             this.CB_Ball.Size = new System.Drawing.Size(126, 21);
             this.CB_Ball.TabIndex = 3;
             this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
+            this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.updateBall);
             this.CB_Ball.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
             this.CB_Ball.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
             // 
@@ -5735,6 +5765,9 @@
             this.FLP_OriginGame.ResumeLayout(false);
             this.FLP_MetLocation.ResumeLayout(false);
             this.FLP_Ball.ResumeLayout(false);
+            this.FLP_BallLeft.ResumeLayout(false);
+            this.FLP_BallLeft.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Ball)).EndInit();
             this.FLP_MetLevel.ResumeLayout(false);
             this.FLP_MetLevel.PerformLayout();
             this.FLP_MetDate.ResumeLayout(false);
@@ -6302,6 +6335,8 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_Redo;
         private System.Windows.Forms.PictureBox PB_MarkAlola;
         private System.Windows.Forms.Button B_OpenPokeBeans;
+        private System.Windows.Forms.FlowLayoutPanel FLP_BallLeft;
+        private System.Windows.Forms.PictureBox PB_Ball;
     }
 }
 

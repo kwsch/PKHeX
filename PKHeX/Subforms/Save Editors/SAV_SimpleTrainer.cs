@@ -88,6 +88,15 @@ namespace PKHeX
                 CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
                 return;
             }
+            if (SAV is SAV3Colosseum || SAV is SAV3XD)
+            {
+                GB_Map.Visible = false;
+                GB_Badges.Visible = false;
+                L_Started.Visible = L_Fame.Visible = false;
+                CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
+                CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
+                return;
+            }
 
             if (SAV is SAV4)
             {

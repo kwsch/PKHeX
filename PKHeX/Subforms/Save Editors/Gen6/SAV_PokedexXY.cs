@@ -328,7 +328,7 @@ namespace PKHeX
             lang -= 1;
 
             if (sender == mnuSeenNone || sender == mnuSeenAll || sender == mnuComplete)
-                for (int i = 0; i < CB_Species.Items.Count; i++)
+                for (int i = 0; i < LB_Species.Items.Count; i++)
                 {
                     int gt = SAV.Personal[i + 1].Gender;
                     LB_Species.SelectedIndex = i;

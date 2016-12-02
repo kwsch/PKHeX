@@ -578,8 +578,12 @@
     </Compile>
     <None Include="Resources\byte\eggmove_sm.pkl" />
     <None Include="Resources\byte\encounter_mn.pkl" />
+    <None Include="Resources\byte\encounter_mn_sos.pkl" />
     <None Include="Resources\byte\encounter_sn.pkl" />
+    <None Include="Resources\byte\encounter_sn_sos.pkl" />
     <None Include="Resources\byte\evos_sm.pkl" />
+    <None Include="Resources\byte\fashion_f_sm" />
+    <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
     <None Include="Resources\byte\personal_sm" />
     <None Include="Resources\byte\wc7.pkl" />
@@ -3683,6 +3687,90 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\text\zh\text_Species_zh2_alt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ball\_ball15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ribbons\ribbonbattletreegreat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\img\ribbons\ribbonbattletreemaster.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

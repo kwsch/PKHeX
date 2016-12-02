@@ -16,5 +16,6 @@
         Horde,
         FriendSafari,
         Special,
+        SOS,
     }
 }

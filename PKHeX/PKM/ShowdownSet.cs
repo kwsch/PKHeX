@@ -16,7 +16,7 @@ namespace PKHeX
         private static readonly string[] moves = Util.getMovesList("en");
         private static readonly string[] abilities = Util.getAbilitiesList("en");
         private static readonly string[] hptypes = types.Skip(1).ToArray();
-        private const int MAX_SPECIES = 721;
+        private const int MAX_SPECIES = 802;
 
         // Default Set Data
         public string Nickname { get; set; }
@@ -115,7 +115,7 @@ namespace PKHeX
                         {
                             string naturestr = line.Split(' ')[0].Trim();
                             int nature = Array.IndexOf(natures, naturestr);
-                            if (Nature < 0)
+                            if (nature < 0)
                                 InvalidLines.Add($"Unknown Nature: {naturestr}");
                             else
                                 Nature = nature;

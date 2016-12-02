@@ -121,6 +121,17 @@ namespace PKHeX
             CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
+
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
+
+            // Poké Finder
+            NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
+            NUD_ThumbsTotal.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsTotalValue);
+            NUD_ThumbsRecord.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsHighValue);
+
+            CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
+            CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
         }
         private void save()
         {
@@ -168,6 +179,17 @@ namespace PKHeX
             SAV.LastSavedDay = CAL_LastSavedDate.Value.Day;
             SAV.LastSavedHour = CAL_LastSavedTime.Value.Hour;
             SAV.LastSavedMinute = CAL_LastSavedTime.Value.Minute;
+
+            SAV.BP = (uint)NUD_BP.Value;
+            SAV.FestaCoins = (uint)NUD_FC.Value;
+
+            // Poké Finder
+            SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
+            SAV.PokeFinderThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
+            SAV.PokeFinderThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
+
+            SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
+            SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -226,6 +248,18 @@ namespace PKHeX
         {
             if (Util.getIndex(sender as ComboBox) > 0)
                 Main.setCountrySubRegion(CB_Region, "sr_" + Util.getIndex(sender as ComboBox).ToString("000"));
+        }
+        private void B_Fashion_Click(object sender, EventArgs e)
+        {
+            var prompt = Util.Prompt(MessageBoxButtons.YesNo, "Giving all Fashion Items will clear existing data", "Continue?");
+            if (DialogResult.Yes != prompt)
+                return;
+
+            // Clear Block
+            new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
+            // Write Payload
+            byte[] data = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
+            data.CopyTo(SAV.Data, SAV.Fashion);
         }
     }
 }

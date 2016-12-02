@@ -21,7 +21,7 @@ namespace PKHeX
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
-        private static readonly string[] pk7 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i => i).ToArray();
+        private static readonly string[] pk7 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK7)).OrderBy(i => i).ToArray();
         private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
         private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).OrderBy(i=>i).ToArray();
@@ -64,8 +64,15 @@ namespace PKHeX
             { Util.Error("Empty Filter Value detected."); return; }
 
             var Instructions = getInstructions().ToList();
-            if (Instructions.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-            { Util.Error("Empty Property Value detected."); return; }
+            var emptyVal = Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue)).ToArray();
+            if (emptyVal.Any())
+            {
+                string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
+                if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo, 
+                    $"Empty Property Value{(emptyVal.Length > 1 ? "s" : "")} detected:" + Environment.NewLine + props,
+                    "Continue?"))
+                    return;
+            }
 
             string destPath = "";
             if (RB_Path.Checked)
@@ -319,6 +326,8 @@ namespace PKHeX
                         PKM.setShinyPID();
                     else if (cmd.PropertyName == "Species" && cmd.PropertyValue == "0")
                         PKM.Data = new byte[PKM.Data.Length];
+                    else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
+                        setRandomIVs(PKM, cmd);
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
@@ -327,6 +336,23 @@ namespace PKHeX
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return result;
+        }
+        private static void setRandomIVs(PKM PKM, StringInstruction cmd)
+        {
+            int MaxIV = PKM.Format <= 2 ? 15 : 31;
+            if (cmd.PropertyName == "IVs")
+            {
+                bool IV3 = Legal.Legends.Contains(PKM.Species) || Legal.SubLegends.Contains(PKM.Species);
+                int[] IVs = new int[6];
+                do
+                {
+                    for (int i = 0; i < 6; i++)
+                        IVs[i] = (int)(Util.rnd32() & MaxIV);
+                } while (IV3 && IVs.Where(i => i == MaxIV).Count() < 3);
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, IVs);
+            }
+            else
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32() & MaxIV);
         }
 
         private void B_Add_Click(object sender, EventArgs e)
@@ -351,11 +377,12 @@ namespace PKHeX
             switch (CB_Format.SelectedIndex)
             {
                 case 0: CB_Property.Items.AddRange(all.ToArray()); break; // All
-                case 1: CB_Property.Items.AddRange(pk6.ToArray()); break;
-                case 2: CB_Property.Items.AddRange(pk5.ToArray()); break;
-                case 3: CB_Property.Items.AddRange(pk4.ToArray()); break;
-                case 4: CB_Property.Items.AddRange(pk3.ToArray()); break;
-                case 5: CB_Property.Items.AddRange(any.ToArray()); break; // Any
+                case 1: CB_Property.Items.AddRange(pk7.ToArray()); break;
+                case 2: CB_Property.Items.AddRange(pk6.ToArray()); break;
+                case 3: CB_Property.Items.AddRange(pk5.ToArray()); break;
+                case 4: CB_Property.Items.AddRange(pk4.ToArray()); break;
+                case 5: CB_Property.Items.AddRange(pk3.ToArray()); break;
+                case 6: CB_Property.Items.AddRange(any.ToArray()); break; // Any
             }
             CB_Property.SelectedIndex = 0;
             currentFormat = CB_Format.SelectedIndex;

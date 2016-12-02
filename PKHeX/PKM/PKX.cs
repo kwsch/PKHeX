@@ -323,6 +323,8 @@ namespace PKHeX
 
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
 
+            if (pk.Format == 2)
+                return Main.GameStrings.metGSC_00000[locval];
             if (pk.Format == 3)
                 return Main.GameStrings.metRSEFRLG_00000[locval%0x100];
             if (pk.Gen4 && (eggmet || pk.Format == 4))
@@ -345,7 +347,14 @@ namespace PKHeX
                 if (locval < 60000) return Main.GameStrings.metXY_40000[locval % 10000 - 1];
                                     return Main.GameStrings.metXY_60000[locval % 10000 - 1];
             }
-            return null; // Shouldn't happen.
+            if (pk.Gen7 || pk.Format <= 7)
+            {
+                if (locval < 30000) return Main.GameStrings.metSM_00000[locval];
+                if (locval < 40000) return Main.GameStrings.metSM_30000[locval % 10000 - 1];
+                if (locval < 60000) return Main.GameStrings.metSM_40000[locval % 10000 - 1];
+                                    return Main.GameStrings.metSM_60000[locval % 10000 - 1];
+            }
+            return null; // Shouldn't happen for gen 3+
         }
         public static string[] getQRText(PKM pkm)
         {
@@ -503,11 +512,15 @@ namespace PKHeX
         }
 
         // Data Requests
+        public static Image getBallSprite(int ball)
+        {
+            return (Image)Resources.ResourceManager.GetObject("_ball" + ball) ?? Resources._ball4; // Poké Ball (default)
+        }
         public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
         {
             if (species == 0)
                 return (Image)Resources.ResourceManager.GetObject("_0");
-            if (new[] { 778, 664, 665, 414, 493 }.Contains(species)) // Species who show their default sprite regardless of Form
+            if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
             string file = "_" + species;

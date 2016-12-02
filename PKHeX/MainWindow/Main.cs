@@ -1800,7 +1800,7 @@ namespace PKHeX
             if (sender == GB_CurrentMoves)
             {
                 bool random = ModifierKeys == Keys.Control;
-                int[] m = Legality.getSuggestedMoves(tm: random, tutor: random);
+                int[] m = Legality.getSuggestedMoves(tm: random, tutor: random, reminder: random);
                 if (m == null)
                 { Util.Alert("Suggestions are not enabled for this PKM format."); return; }
 
@@ -1841,8 +1841,50 @@ namespace PKHeX
 
             updateLegality();
         }
+        private void clickMetLocation(object sender, EventArgs e)
+        {
+            if (HaX)
+                return;
+
+            pkm = preparePKM();
+            var encounter = Legality.getSuggestedMetInfo();
+            if (encounter == null || encounter.Location < 0)
+            {
+                Util.Alert("Unable to provide a suggestion.");
+                return;
+            }
+
+            int level = encounter.Level;
+            int location = encounter.Location;
+            int minlvl = Legal.getLowestLevel(pkm, encounter.Species);
+
+            if (pkm.Met_Level == level && pkm.Met_Location == location && pkm.CurrentLevel >= minlvl)
+                return;
+
+            var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
+            var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
+            string suggestion = $"Suggested:\nMet Location: {locstr}\nMet Level: {level}";
+            if (pkm.CurrentLevel < minlvl)
+                suggestion += $"\nCurrent Level {minlvl}";
+
+            if (Util.Prompt(MessageBoxButtons.YesNo, suggestion) != DialogResult.Yes)
+                return;
+
+            TB_MetLevel.Text = level.ToString();
+            CB_MetLocation.SelectedValue = location;
+
+            if (pkm.CurrentLevel < minlvl)
+                TB_Level.Text = minlvl.ToString();
+
+            pkm = preparePKM();
+            updateLegality();
+        }
         // Prompted Updates of PKX Functions // 
         private bool changingFields;
+        private void updateBall(object sender, EventArgs e)
+        {
+            PB_Ball.Image = PKX.getBallSprite(Util.getIndex(CB_Ball));
+        }
         private void updateEXPLevel(object sender, EventArgs e)
         {
             if (changingFields || !fieldsInitialized) return;
@@ -2011,12 +2053,19 @@ namespace PKHeX
             }
             else
             {
-                TB_HPIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_ATKIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_DEFIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_SPAIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_SPDIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
-                TB_SPEIV.Text = (Util.rnd32() % SAV.MaxIV).ToString();
+                bool IV3 = Legal.Legends.Contains(pkm.Species) || Legal.SubLegends.Contains(pkm.Species);
+
+                int[] IVs = new int[6];
+                for (int i = 0; i < 6; i++)
+                    IVs[i] = (int)(Util.rnd32() & SAV.MaxIV);
+                if (IV3)
+                    for (int i = 0; i < 3; i++)
+                        IVs[i] = SAV.MaxIV;
+                Util.Shuffle(IVs); // Randomize IV order
+
+                var IVBoxes = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV};
+                for (int i = 0; i < 6; i++)
+                    IVBoxes[i].Text = IVs[i].ToString();
             }
             changingFields = false;
             updateIVs(null, e);
@@ -3929,6 +3978,8 @@ namespace PKHeX
         }
         private void B_CGearSkin_Click(object sender, EventArgs e)
         {
+            if (SAV.Generation != 5)
+                return; // can never be too safe
             new SAV_CGearSkin().ShowDialog();
         }
         private void B_JPEG_Click(object sender, EventArgs e)
