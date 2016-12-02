@@ -319,6 +319,11 @@ namespace PKHeX
             088, // Grimer
             089, // Muk
         };
+        internal static readonly int[] EvolveToAlolanForms = new[]
+        {
+            103, // Exeggutor
+            105, // Marowak
+        }.Concat(AlolanOriginForms).ToArray();
         internal static readonly int[] PastGenAlolanNatives =
         {
             010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
@@ -484,5 +489,654 @@ namespace PKHeX
             01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01
         };
+
+        internal static readonly int[] Ban_NoHidden7 =
+        {
+            // Summon only other Pokemon
+            765, // Oranguru
+            766, // Passimian
+
+            // SOS slots have 0 call rate
+            767, // Wimpod
+            768, // Golisopod
+
+            // No Encounter
+            722, // Rowlet
+            723, // Dartrix
+            724, // Decidueye
+            725, // Litten
+            726, // Torracat
+            727, // Incineroar
+            728, // Popplio
+            729, // Brionne
+            730, // Primarina
+            774, // Minior
+        };
+        #region Pre-Bank Illegality
+        internal static readonly int[] Bank_NoHidden7 =
+        {
+            // Gifts
+            137, // Porygon
+            233, // Porygon2
+            474, // Porygon-Z
+            546, // Cottonee
+            547, // Whimsicott
+            627, // Rufflet
+            628, // Braviary
+            
+            // No SOS slots
+            142, // Aerodactyl
+            408, // Cranidos
+            409, // Rampardos
+            410, // Shieldon
+            411, // Bastiodon
+            564, // Tirtouga
+            565, // Carracosta
+            566, // Archen
+            567, // Archeops
+        };
+        internal static readonly int[] Bank_NotAvailable7 = // Unobtainable Species
+        {
+            001, // Bulbasaur
+            002, // Ivysaur
+            003, // Venusaur
+            004, // Charmander
+            005, // Charmeleon
+            006, // Charizard
+            007, // Squirtle
+            008, // Wartortle
+            009, // Blastoise
+            013, // Weedle
+            014, // Kakuna
+            015, // Beedrill
+            016, // Pidgey
+            017, // Pidgeotto
+            018, // Pidgeot
+            023, // Ekans
+            024, // Arbok
+            026, // Raichu
+            029, // Nidoran♀
+            030, // Nidorina
+            031, // Nidoqueen
+            032, // Nidoran♂
+            033, // Nidorino
+            034, // Nidoking
+            043, // Oddish
+            044, // Gloom
+            045, // Vileplume
+            048, // Venonat
+            049, // Venomoth
+            077, // Ponyta
+            078, // Rapidash
+            083, // Farfetch'd
+            084, // Doduo
+            085, // Dodrio
+            086, // Seel
+            087, // Dewgong
+            095, // Onix
+            098, // Krabby
+            099, // Kingler
+            100, // Voltorb
+            101, // Electrode
+            103, // Exeggutor
+            105, // Marowak
+            106, // Hitmonlee
+            107, // Hitmonchan
+            108, // Lickitung
+            109, // Koffing
+            110, // Weezing
+            114, // Tangela
+            122, // Mr. Mime
+            124, // Jynx
+            138, // Omanyte
+            139, // Omastar
+            140, // Kabuto
+            141, // Kabutops
+            144, // Articuno
+            145, // Zapdos
+            146, // Moltres
+            150, // Mewtwo
+            151, // Mew
+            161, // Sentret
+            162, // Furret
+            163, // Hoothoot
+            164, // Noctowl
+            177, // Natu
+            178, // Xatu
+            179, // Mareep
+            180, // Flaaffy
+            181, // Ampharos
+            182, // Bellossom
+            187, // Hoppip
+            188, // Skiploom
+            189, // Jumpluff
+            190, // Aipom
+            191, // Sunkern
+            192, // Sunflora
+            193, // Yanma
+            194, // Wooper
+            195, // Quagsire
+            201, // Unown
+            202, // Wobbuffet
+            203, // Girafarig
+            204, // Pineco
+            205, // Forretress
+            206, // Dunsparce
+            207, // Gligar
+            208, // Steelix
+            211, // Qwilfish
+            213, // Shuckle
+            214, // Heracross
+            216, // Teddiursa
+            217, // Ursaring
+            218, // Slugma
+            219, // Magcargo
+            223, // Remoraid
+            224, // Octillery
+            226, // Mantine
+            228, // Houndour
+            229, // Houndoom
+            231, // Phanpy
+            232, // Donphan
+            234, // Stantler
+            236, // Tyrogue
+            237, // Hitmontop
+            238, // Smoochum
+            243, // Raikou
+            244, // Entei
+            245, // Suicune
+            246, // Larvitar
+            247, // Pupitar
+            248, // Tyranitar
+            249, // Lugia
+            250, // Ho-Oh
+            251, // Celebi
+            252, // Treecko
+            253, // Grovyle
+            254, // Sceptile
+            255, // Torchic
+            256, // Combusken
+            257, // Blaziken
+            258, // Mudkip
+            259, // Marshtomp
+            260, // Swampert
+            261, // Poochyena
+            262, // Mightyena
+            263, // Zigzagoon
+            264, // Linoone
+            265, // Wurmple
+            266, // Silcoon
+            267, // Beautifly
+            268, // Cascoon
+            269, // Dustox
+            270, // Lotad
+            271, // Lombre
+            272, // Ludicolo
+            273, // Seedot
+            274, // Nuzleaf
+            275, // Shiftry
+            276, // Taillow
+            277, // Swellow
+            280, // Ralts
+            281, // Kirlia
+            282, // Gardevoir
+            285, // Shroomish
+            286, // Breloom
+            290, // Nincada
+            291, // Ninjask
+            292, // Shedinja
+            293, // Whismur
+            294, // Loudred
+            295, // Exploud
+            300, // Skitty
+            301, // Delcatty
+            303, // Mawile
+            304, // Aron
+            305, // Lairon
+            306, // Aggron
+            307, // Meditite
+            308, // Medicham
+            309, // Electrike
+            310, // Manectric
+            311, // Plusle
+            312, // Minun
+            313, // Volbeat
+            314, // Illumise
+            316, // Gulpin
+            317, // Swalot
+            322, // Numel
+            323, // Camerupt
+            325, // Spoink
+            326, // Grumpig
+            331, // Cacnea
+            332, // Cacturne
+            333, // Swablu
+            334, // Altaria
+            335, // Zangoose
+            336, // Seviper
+            337, // Lunatone
+            338, // Solrock
+            341, // Corphish
+            342, // Crawdaunt
+            343, // Baltoy
+            344, // Claydol
+            345, // Lileep
+            346, // Cradily
+            347, // Anorith
+            348, // Armaldo
+            352, // Kecleon
+            353, // Shuppet
+            354, // Banette
+            355, // Duskull
+            356, // Dusclops
+            357, // Tropius
+            358, // Chimecho
+            360, // Wynaut
+            366, // Clamperl
+            367, // Huntail
+            368, // Gorebyss
+            377, // Regirock
+            378, // Regice
+            379, // Registeel
+            380, // Latias
+            381, // Latios
+            382, // Kyogre
+            383, // Groudon
+            384, // Rayquaza
+            385, // Jirachi
+            386, // Deoxys
+            387, // Turtwig
+            388, // Grotle
+            389, // Torterra
+            390, // Chimchar
+            391, // Monferno
+            392, // Infernape
+            393, // Piplup
+            394, // Prinplup
+            395, // Empoleon
+            399, // Bidoof
+            400, // Bibarel
+            401, // Kricketot
+            402, // Kricketune
+            412, // Burmy
+            413, // Wormadam
+            414, // Mothim
+            415, // Combee
+            416, // Vespiquen
+            417, // Pachirisu
+            418, // Buizel
+            419, // Floatzel
+            420, // Cherubi
+            421, // Cherrim
+            424, // Ambipom
+            427, // Buneary
+            428, // Lopunny
+            431, // Glameow
+            432, // Purugly
+            433, // Chingling
+            434, // Stunky
+            435, // Skuntank
+            436, // Bronzor
+            437, // Bronzong
+            439, // Mime Jr.
+            441, // Chatot
+            442, // Spiritomb
+            449, // Hippopotas
+            450, // Hippowdon
+            451, // Skorupi
+            452, // Drapion
+            453, // Croagunk
+            454, // Toxicroak
+            455, // Carnivine
+            458, // Mantyke
+            459, // Snover
+            460, // Abomasnow
+            463, // Lickilicky
+            465, // Tangrowth
+            469, // Yanmega
+            472, // Gliscor
+            475, // Gallade
+            477, // Dusknoir
+            479, // Rotom
+            480, // Uxie
+            481, // Mesprit
+            482, // Azelf
+            483, // Dialga
+            484, // Palkia
+            485, // Heatran
+            486, // Regigigas
+            487, // Giratina
+            488, // Cresselia
+            489, // Phione
+            490, // Manaphy
+            491, // Darkrai
+            492, // Shaymin
+            493, // Arceus
+            494, // Victini
+            504, // Patrat
+            505, // Watchog
+            509, // Purrloin
+            510, // Liepard
+            511, // Pansage
+            512, // Simisage
+            513, // Pansear
+            514, // Simisear
+            515, // Panpour
+            516, // Simipour
+            517, // Munna
+            518, // Musharna
+            519, // Pidove
+            520, // Tranquill
+            521, // Unfezant
+            522, // Blitzle
+            523, // Zebstrika
+            527, // Woobat
+            528, // Swoobat
+            529, // Drilbur
+            530, // Excadrill
+            531, // Audino
+            535, // Tympole
+            536, // Palpitoad
+            537, // Seismitoad
+            538, // Throh
+            539, // Sawk
+            550, // Basculin
+            554, // Darumaka
+            555, // Darmanitan
+            556, // Maractus
+            557, // Dwebble
+            558, // Crustle
+            559, // Scraggy
+            560, // Scrafty
+            561, // Sigilyph
+            562, // Yamask
+            563, // Cofagrigus
+            570, // Zorua
+            571, // Zoroark
+            572, // Minccino
+            573, // Cinccino
+            580, // Ducklett
+            581, // Swanna
+            585, // Deerling
+            586, // Sawsbuck
+            588, // Karrablast
+            589, // Escavalier
+            590, // Foongus
+            591, // Amoonguss
+            592, // Frillish
+            593, // Jellicent
+            595, // Joltik
+            596, // Galvantula
+            597, // Ferroseed
+            598, // Ferrothorn
+            605, // Elgyem
+            606, // Beheeyem
+            613, // Cubchoo
+            614, // Beartic
+            615, // Cryogonal
+            616, // Shelmet
+            617, // Accelgor
+            618, // Stunfisk
+            619, // Mienfoo
+            620, // Mienshao
+            621, // Druddigon
+            622, // Golett
+            623, // Golurk
+            624, // Pawniard
+            625, // Bisharp
+            626, // Bouffalant
+            631, // Heatmor
+            632, // Durant
+            636, // Larvesta
+            637, // Volcarona
+            638, // Cobalion
+            639, // Terrakion
+            640, // Virizion
+            641, // Tornadus
+            642, // Thundurus
+            643, // Reshiram
+            644, // Zekrom
+            645, // Landorus
+            646, // Kyurem
+            647, // Keldeo
+            648, // Meloetta
+            649, // Genesect
+            650, // Chespin
+            651, // Quilladin
+            652, // Chesnaught
+            653, // Fennekin
+            654, // Braixen
+            655, // Delphox
+            656, // Froakie
+            657, // Frogadier
+            658, // Greninja
+            659, // Bunnelby
+            660, // Diggersby
+            664, // Scatterbug
+            665, // Spewpa
+            666, // Vivillon
+            667, // Litleo
+            668, // Pyroar
+            669, // Flabébé
+            670, // Floette
+            671, // Florges
+            672, // Skiddo
+            673, // Gogoat
+            676, // Furfrou
+            677, // Espurr
+            678, // Meowstic
+            682, // Spritzee
+            683, // Aromatisse
+            684, // Swirlix
+            685, // Slurpuff
+            686, // Inkay
+            687, // Malamar
+            688, // Binacle
+            689, // Barbaracle
+            690, // Skrelp
+            691, // Dragalge
+            692, // Clauncher
+            693, // Clawitzer
+            694, // Helioptile
+            695, // Heliolisk
+            696, // Tyrunt
+            697, // Tyrantrum
+            698, // Amaura
+            699, // Aurorus
+            701, // Hawlucha
+            702, // Dedenne
+            710, // Pumpkaboo
+            711, // Gourgeist
+            712, // Bergmite
+            713, // Avalugg
+            714, // Noibat
+            715, // Noivern
+            716, // Xerneas
+            717, // Yveltal
+            719, // Diancie
+            720, // Hoopa
+            721, // Volcanion
+        };
+        internal static readonly EncounterStatic[] Bank_Egg7 = // Unobtainable Egg Moves
+        {
+            // Regular
+
+            new EncounterStatic { Species = 722, Relearn = new[] {466,174}},                // Rowlet: Ominous Wind, Curse
+            new EncounterStatic { Species = 731, Relearn = new[] {586,253}},                // Pikipek: Boomburst, Uproar
+            new EncounterStatic { Species = 165, Relearn = new[] {227,282,264,409,146}},    // Ledyba: Encore, Knock Off, Focus Punch, Drain Punch, Dizzy Punch
+            new EncounterStatic { Species = 167, Relearn = new[] {50,324,527}},             // Spinarak: Disable, Signal Beam, Electroweb
+            new EncounterStatic { Species = 736, Relearn = new[] {527}},                    // Grubbin: Electroweb
+            new EncounterStatic { Species = 185, Relearn = new[] {328,174,203}},            // Sudowoodo: Sand Tomb, Curse, Endure
+            new EncounterStatic { Species = 440, Relearn = new[] {426,68,69}},              // Happiny: Mud Bomb, Counter, Seismic Toss
+            new EncounterStatic { Species = 143, Relearn = new[] {120,495,18,204,562}},     // Snorlax: Self-Destruct, After You, Whirlwind, Charm, Belch
+            new EncounterStatic { Species = 446, Relearn = new[] {120,495,18,204,562}},     // Munchlax: Self-Destruct, After You, Whirlwind, Charm, Belch
+            new EncounterStatic { Species = 079, Relearn = new[] {562}},                    // Slowpoke: Belch
+            new EncounterStatic { Species = 278, Relearn = new[] {282}},                    // Wingull: Knock Off
+            new EncounterStatic { Species = 063, Relearn = new[] {112,379,385,285,8,375}},  // Abra: Barrier, Power Trick, Guard Swap, Skill Swap, Ice Punch, Psycho Shift
+            new EncounterStatic { Species = 088, Relearn = new[] {184}},                    // Grimer: Scary Face
+            new EncounterStatic { Species = 088, Form = 1, Relearn = new[] {184,228,372}},  // Grimer1: Scary Face, Pursuit, Assurance
+            new EncounterStatic { Species = 096, Relearn = new[] {112,274,385,290,285,8}},  // Drowzee: Barrier, Assist, Guard Swap, Secret Power, Skill Swap, Ice Punch
+            new EncounterStatic { Species = 296, Relearn = new[] {270}},                    // Makuhita: Helping Hand
+            new EncounterStatic { Species = 739, Relearn = new[] {276}},                    // Crabrawler: Superpower
+            new EncounterStatic { Species = 092, Relearn = new[] {114,184,513,9,8,7}},      // Gastly: Haze, Scary Face, Reflect Type, Thunder Punch, Ice Punch, Fire Punch
+            new EncounterStatic { Species = 425, Relearn = new[] {366,432,114}},            // Drifloon: Tailwind, Defog, Haze
+            new EncounterStatic { Species = 200, Relearn = new[] {382,417}},                // Misdreavus: Me First, Nasty Plot
+            new EncounterStatic { Species = 041, Relearn = new[] {599,202,428,95,174}},     // Zubat: Venom Drench, Giga Drain, Zen Headbutt, Hypnosis, Curse
+            new EncounterStatic { Species = 021, Relearn = new[] {161}},                    // Spearow: Tri Attack
+            new EncounterStatic { Species = 629, Relearn = new[] {282,313}},                // Vullaby: Knock Off, Fake Tears
+            new EncounterStatic { Species = 742, Relearn = new[] {285}},                    // Cutiefly: Skill Swap
+            new EncounterStatic { Species = 548, Relearn = new[] {361,117}},                // Petilil: Healing Wish, Bide
+            new EncounterStatic { Species = 546, Relearn = new[] {262,251,415,445}},        // Cottonee: Memento, Beat Up, Switcheroo, Captivate
+            new EncounterStatic { Species = 054, Relearn = new[] {290}},                    // Psyduck: Secret Power
+            new EncounterStatic { Species = 066, Relearn = new[] {27,8,379}},                // Machop: Rolling Kick, Ice Punch, Power Trick
+            new EncounterStatic { Species = 524, Relearn = new[] {222,174}},                // Roggenrola: Magnitude, Curse
+            new EncounterStatic { Species = 302, Relearn = new[] {236,445,368,286}},        // Sableye: Moonlight, Captivate, Metal Burst, Imprison
+            new EncounterStatic { Species = 327, Relearn = new[] {274,375}},                // Spinda: Assist, Psycho Shift
+            new EncounterStatic { Species = 072, Relearn = new[] {229,114,282,367,330,321}},// Tentacool: Rapid Spin, Haze, Knock Off, Acupressure, Muddy Water, Tickle
+            new EncounterStatic { Species = 456, Relearn = new[] {62,60}},                  // Finneon: Aurora Beam, Psybeam
+            new EncounterStatic { Species = 370, Relearn = new[] {494}},                    // Luvdisc: Entrainment
+            new EncounterStatic { Species = 222, Relearn = new[] {275,267,293}},            // Corsola: Ingrain, Nature Power, Camoflage
+            new EncounterStatic { Species = 090, Relearn = new[] {41,341,229,36}},          // Shellder: Twineedle, Mud Shot, Rapid Spin, Take Down
+            new EncounterStatic { Species = 371, Relearn = new[] {111}},                    // Bagon: Defense Curl
+            new EncounterStatic { Species = 174, Relearn = new[] {445,386,581,505,343} },   // Igglybuff: Captivate, Punishment, Misty Terrain, Heal Pulse, Covet
+            new EncounterStatic { Species = 283, Relearn = new[] {471}},                    // Surskit: Power Split
+            new EncounterStatic { Species = 751, Relearn = new[] {471}},                    // Dewpider: Power Split
+            new EncounterStatic { Species = 753, Relearn = new[] {432}},                    // Fomantis: Defog
+            new EncounterStatic { Species = 755, Relearn = new[] {133}},                    // Morelull: Amnesia
+            new EncounterStatic { Species = 046, Relearn = new[] {563,68}},                 // Paras: Rototiller, Counter
+            new EncounterStatic { Species = 060, Relearn = new[] {283}},                    // Poliwag: Endeavor
+            new EncounterStatic { Species = 118, Relearn = new[] {114,60}},                 // Goldeen: Haze, Psybeam
+            new EncounterStatic { Species = 661, Relearn = new[] {289}},                    // Fletchling: Snatch
+            new EncounterStatic { Species = 757, Relearn = new[] {562,282,289,252}},        // Salandit: Belch, Knock Off, Snatch, Fake Out
+            new EncounterStatic { Species = 104, Relearn = new[] {24,197}},                 // Cubone: Double Kick, Detect
+            new EncounterStatic { Species = 115, Relearn = new[] {264,253,509}},            // Kangaskhan: Focus Punch, Uproar, Circle Throw
+            new EncounterStatic { Species = 126, Relearn = new[] {562,384,231,394,183,112,5}},// Magmar: Belch, Power Swap, Iron Tail, Flare Blitz, Mach Punch, Barrier, Mega Punch
+            new EncounterStatic { Species = 761, Relearn = new[] {364,367}},                // Bounsweet: Feint, Acupressure
+            new EncounterStatic { Species = 764, Relearn = new[] {495,381,133}},            // Comfey: After You, Lucky Chant, Amnesia
+            new EncounterStatic { Species = 127, Relearn = new[] {382}},                    // Pinsir: Me First
+            new EncounterStatic { Species = 704, Relearn = new[] {151,174,342,68}},         // Goomy: Acid Armor, Curse, Poison Tail, Counter
+            new EncounterStatic { Species = 351, Relearn = new[] {513,385}},                // Castform: Reflect Type, Guard Swap
+            new EncounterStatic { Species = 769, Relearn = new[] {246}},                    // Sandygast: Ancient Power
+            new EncounterStatic { Species = 408, Relearn = new[] {18,21}},                  // Cranidos: Whirlwind, Slam
+            new EncounterStatic { Species = 410, Relearn = new[] {469,446}},                // Shieldon: Wide Guard, Stealth Rock
+            new EncounterStatic { Species = 566, Relearn = new[] {282,415,502}},            // Archen: Knock Off, Switcheroo, Ally Switch
+            new EncounterStatic { Species = 564, Relearn = new[] {282,385}},                // Tirtouga: Knock Off, Guard Swap
+            new EncounterStatic { Species = 170, Relearn = new[] {60,351}},                 // Chinchou: Psybeam, Shock Wave
+            new EncounterStatic { Species = 568, Relearn = new[] {114,174}},                // Trubbish: Haze, Curse
+            new EncounterStatic { Species = 227, Relearn = new[] {203,446,385,174} },       // Skarmory: Endure, Stealth Rock, Guard Swap, Curse
+            new EncounterStatic { Species = 173, Relearn = new[] {505,581,343,150}},        // Cleffa: Heal Pulse, Misty Terrain, Covet, Splash
+            new EncounterStatic { Species = 776, Relearn = new[] {469,279,83}},             // Turtonator: Wide Guard, Revenge, Fire Spin
+            new EncounterStatic { Species = 239, Relearn = new[] {8,27,112}},               // Elekid: Ice Punch, Rolling Kick, Barrier
+            new EncounterStatic { Species = 074, Relearn = new[] {203,103,431,264,174}},    // Geodude: Endure, Screech, Rock Climb, Focus Punch, Curse
+            new EncounterStatic { Species = 444, Relearn = new[] {232}},                    // Gabite: Metal Claw
+            new EncounterStatic { Species = 707, Relearn = new[] {415}},                    // Klefki: Switcheroo
+            new EncounterStatic { Species = 780, Relearn = new[] {583,13}},                 // Drampa: Play Rough, Razor Wind
+            new EncounterStatic { Species = 361, Relearn = new[] {415,506}},                // Snorunt: Switcheroo, Hex
+            new EncounterStatic { Species = 215, Relearn = new[] {274}},                    // Sneasel: Assist
+            new EncounterStatic { Species = 037, Relearn = new[] {541,290}},                // Vulpix: Tail Slap, Secret Power
+            new EncounterStatic { Species = 582, Relearn = new[] {352,363}},                // Vanillite: Water Pulse, Natural Gift
+            new EncounterStatic { Species = 422, Relearn = new[] {124}},                    // Shellos: Sludge
+            new EncounterStatic { Species = 131, Relearn = new[] {419}},                    // Lapras: Avalanche
+            new EncounterStatic { Species = 102, Relearn = new[] {335,285,384,381,267,246}},// Exeggcute: Block, Skill Swap, Power Swap, Lucky Chant, Nature Power, Ancient Power
+            new EncounterStatic { Species = 123, Relearn = new[] {211,501,432,179,68}},	// Scyther: Steel Wing, Quick Guard, Defog, Reversal, Counter
+            new EncounterStatic { Species = 198, Relearn = new[] {375,260,195}},            // Murkrow: Psycho Shift, Flatter, Perish Song
+            new EncounterStatic { Species = 447, Relearn = new[] {299}},                    // Riolu: Blaze Kick
+            new EncounterStatic { Species = 147, Relearn = new[] {245}},                    // Dratini: Extreme Speed
+            new EncounterStatic { Species = 142, Relearn = new[] {174}},                    // Aerodactyl: Curse
+            
+            // Island Scan
+
+            new EncounterStatic {Species = 69, Relearn = new[] {562, 438, 499}},            // Bellsprout: Belch, Power Whip, Clear Smog
+            // Totodile: Fake Tears, Flatter
+            new EncounterStatic {Species = 158, Relearn = new[] {313, 260}},
+            // Marill: Camouflage, Copycat
+            new EncounterStatic {Species = 183, Relearn = new[] {293, 383}},
+            // Azurill: Camouflage, Copycat
+            new EncounterStatic {Species = 298, Relearn = new[] {293, 383}},
+            // Horsea: Razor Wind, Octazooka
+            new EncounterStatic {Species = 116, Relearn = new[] {13, 190}},
+            // Budew: Mind Reader 
+            new EncounterStatic {Species = 406, Relearn = new[] {170}},
+            // Roselia: Mind Reader 
+            new EncounterStatic {Species = 315, Relearn = new[] {170}},
+            // Starly: Revenge, Detect
+            new EncounterStatic {Species = 396, Relearn = new[] {279, 197}},
+            // Togepi: Psycho Shift, Morning Sun, Secret Power, Extrasensory
+            new EncounterStatic {Species = 175, Relearn = new[] {375, 234, 290, 326}},
+            // Solosis: Trick, Secret Power, Helping Hand
+            new EncounterStatic {Species = 577, Relearn = new[] {271, 290, 270}},
+            // Litwick: Heat Wave, Haze, Endure, Captivate, Power Split
+            new EncounterStatic {Species = 607, Relearn = new[] {257, 114, 203, 445, 471}},
+            // Venipede: Take Down 
+            new EncounterStatic {Species = 543, Relearn = new[] {36}},
+            // Timburr: Mach Punch 
+            new EncounterStatic {Species = 532, Relearn = new[] {183}},
+            // Gothita: Mirror Coat, Captivate
+            new EncounterStatic {Species = 574, Relearn = new[] {243, 445}},
+            // Sewaddle: Mind Reader, Camouflage
+            new EncounterStatic {Species = 540, Relearn = new[] {170, 293}},
+            // Deino: Astonish, Earth Power
+            new EncounterStatic {Species = 633, Relearn = new[] {310, 414}},
+        };
+        internal static readonly int[] Bank_Sketch7 = // Unobtainable Sketch Moves prior to Bank making moves available.
+        {
+            367, // Acupressure
+            177, // Aeroblast
+            274, // Assist
+            454, // Attack Order
+            299, // Blaze Kick
+            551, // Blue Flare
+            550, // Bolt Strike
+            464, // Dark Void
+            455, // Defend Order
+            591, // Diamond Storm
+            353, // Doom Desire
+            582, // Electrify
+            552, // Fiery Dance
+            560, // Flying Press
+            559, // Fusion Bolt
+            558, // Fusion Flare
+            601, // Geomancy
+            549, // Glaciate
+            543, // Head Charge
+            456, // Heal Order
+            607, // Hold Hands
+            593, // Hyperspace Hole
+            621, // Hyperspace Fury
+            617, // Light of Ruin
+            461, // Lunar Dance
+            295, // Luster Purge
+            463, // Magma Storm
+            296, // Mist Ball
+            302, // Needle Arm
+            613, // Oblivion Wing
+            190, // Octazooka
+            618, // Origin Pulse
+            570, // Parabolic Charge
+            600, // Powder
+            619, // Precipice Blades
+            354, // Psycho Boost
+            375, // Psycho Shift
+            540, // Psystrike
+            547, // Relic Song
+            459, // Roar of Time
+            027, // Rolling Kick
+            221, // Sacred Fire
+            545, // Searing Shot
+            290, // Secret Power
+            548, // Secret Sword
+            465, // Seed Flare
+            467, // Shadow Force
+            493, // Simple Beam
+            460, // Spacial Rend
+            592, // Steam Eruption
+            541, // Tail Slap
+            546, // Techno Blast
+            576, // Topsy-Turvy
+            567, // Trick-or-Treat
+            557, // V-create
+        };
+
+        #endregion
     }
 }

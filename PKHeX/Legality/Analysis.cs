@@ -50,6 +50,9 @@ namespace PKHeX
                     default: return;
                 }
 
+                if (pkm.Format == 7) // Temp G7 Bank Checks
+                    verifyG7PreBank();
+
                 Valid = Parsed = Parse.Any();
                 if (Parsed)
                 {

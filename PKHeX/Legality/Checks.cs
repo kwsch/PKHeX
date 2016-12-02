@@ -39,7 +39,8 @@ namespace PKHeX
         Ribbon,
         Training,
         Ability,
-        Evolution
+        Evolution,
+        Special
     }
     public class CheckResult
     {
@@ -713,6 +714,12 @@ namespace PKHeX
                             return;
                         }
                     }
+                    if (Legal.Ban_NoHidden7.Contains(pkm.Species))
+                    {
+                        AddLine(Severity.Invalid, "Hidden Ability not available.", CheckIdentifier.Ability);
+                        return;
+                    }
+
                 }
             }
 
@@ -927,6 +934,15 @@ namespace PKHeX
         private void verifyEggBallGen7()
         {
             var Lineage = Legal.getLineage(pkm).ToArray();
+            if (722 <= pkm.Species && pkm.Species <= 730) // G7 Starters
+            {
+                if (pkm.Ball == 4)
+                    AddLine(Severity.Valid, "Ball possible.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Only Poké Ball possible.", CheckIdentifier.Ball);
+                return;
+            }
+
             if (pkm.Ball == 0x05) // Safari Ball
             {
                 if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e)))
@@ -1502,6 +1518,49 @@ namespace PKHeX
                     }
                     break;
             }
+        }
+        private void verifyG7PreBank()
+        {
+            // Checks only performed before Bank is released
+
+            if (pkm.GenNumber < 7)
+            {
+                AddLine(Severity.Invalid, "No official transfer method is possible prior to Bank Release.", CheckIdentifier.Special);
+                return;
+            }
+
+            var Lineage = Legal.getLineage(pkm).ToArray();
+            if (Lineage.Any(e => Legal.Fossils.Contains(e))) // Only Poké Ball possible on Fossils
+            {
+                if (pkm.Ball == 4)
+                    AddLine(Severity.Valid, "Ball possible.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Only Poké Ball possible.", CheckIdentifier.Ball);
+            }
+
+            if (pkm.Species == 235) // Smeargle
+                if (pkm.Moves.Any(move => Legal.Bank_Sketch7.Contains(move)))
+                    AddLine(Severity.Invalid, "Sketched move not possible prior to Bank Release.", CheckIdentifier.Special);
+
+            int baseSpecies = Legal.getBaseSpecies(pkm, lvl: 100);
+            var info = Legal.Bank_Egg7.FirstOrDefault(entry => entry.Species == baseSpecies && entry.Form == 0 || entry.Form == pkm.AltForm); // Grimer form edge case
+            if (info != null)
+                if (pkm.RelearnMoves.Any(move => info.Relearn.Contains(move))) // not yet possible before bank
+                    AddLine(Severity.Invalid, "Egg move not possible prior to Bank Release.", CheckIdentifier.Special);
+
+            if (Legal.Bank_NotAvailable7.Contains(baseSpecies))
+                AddLine(Severity.Invalid, "Species not obtainable prior to Bank Release.", CheckIdentifier.Special);
+
+            if (Legal.EvolveToAlolanForms.Contains(pkm.Species))
+            {
+                if (pkm.AltForm != 1)
+                    AddLine(Severity.Invalid, "Form not obtainable prior to Bank Release.", CheckIdentifier.Special);
+                if (pkm.AbilityNumber == 4)
+                    AddLine(Severity.Invalid, "Ability not obtainable prior to Bank Release.", CheckIdentifier.Special);
+            }
+
+            if (Legal.Bank_NoHidden7.Contains(pkm.Species))
+                AddLine(Severity.Invalid, "Ability not obtainable prior to Bank Release.", CheckIdentifier.Special);
         }
 
         private CheckResult[] verifyMoves()
