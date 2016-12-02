@@ -1543,10 +1543,16 @@ namespace PKHeX
                     AddLine(Severity.Invalid, "Sketched move not possible prior to Bank Release.", CheckIdentifier.Special);
 
             int baseSpecies = Legal.getBaseSpecies(pkm, lvl: 100);
-            var info = Legal.Bank_Egg7.FirstOrDefault(entry => entry.Species == baseSpecies && entry.Form == 0 || entry.Form == pkm.AltForm); // Grimer form edge case
+            var info = Legal.Bank_Egg7.FirstOrDefault(entry => entry.Species == baseSpecies && (entry.Form == 0 || entry.Form == pkm.AltForm)); // Grimer form edge case
             if (info != null)
-                if (pkm.RelearnMoves.Any(move => info.Relearn.Contains(move))) // not yet possible before bank
-                    AddLine(Severity.Invalid, "Egg move not possible prior to Bank Release.", CheckIdentifier.Special);
+            {
+                int[] moves = pkm.RelearnMoves.Intersect(info.Relearn).ToArray();
+                if (moves.Any())
+                {
+                    foreach (int m in moves)
+                        vRelearn[Array.IndexOf(pkm.RelearnMoves, m)] = new CheckResult(Severity.Invalid, "Egg move not possible prior to Bank Release.", CheckIdentifier.RelearnMove);
+                }
+            }
 
             if (Legal.Bank_NotAvailable7.Contains(baseSpecies))
                 AddLine(Severity.Invalid, "Species not obtainable prior to Bank Release.", CheckIdentifier.Special);
@@ -1555,8 +1561,6 @@ namespace PKHeX
             {
                 if (pkm.AltForm != 1)
                     AddLine(Severity.Invalid, "Form not obtainable prior to Bank Release.", CheckIdentifier.Special);
-                if (pkm.AbilityNumber == 4)
-                    AddLine(Severity.Invalid, "Ability not obtainable prior to Bank Release.", CheckIdentifier.Special);
             }
 
             if (Legal.Bank_NoHidden7.Contains(pkm.Species) && pkm.AbilityNumber == 4)

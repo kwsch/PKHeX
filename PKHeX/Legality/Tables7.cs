@@ -973,8 +973,8 @@ namespace PKHeX
             new EncounterStatic { Species = 079, Relearn = new[] {562}},                    // Slowpoke: Belch
             new EncounterStatic { Species = 278, Relearn = new[] {282}},                    // Wingull: Knock Off
             new EncounterStatic { Species = 063, Relearn = new[] {112,379,385,285,8,375}},  // Abra: Barrier, Power Trick, Guard Swap, Skill Swap, Ice Punch, Psycho Shift
-            new EncounterStatic { Species = 088, Relearn = new[] {184}},                    // Grimer: Scary Face
             new EncounterStatic { Species = 088, Form = 1, Relearn = new[] {184,228,372}},  // Grimer1: Scary Face, Pursuit, Assurance
+            new EncounterStatic { Species = 088, Relearn = new[] {184}},                    // Grimer: Scary Face
             new EncounterStatic { Species = 096, Relearn = new[] {112,274,385,290,285,8}},  // Drowzee: Barrier, Assist, Guard Swap, Secret Power, Skill Swap, Ice Punch
             new EncounterStatic { Species = 296, Relearn = new[] {270}},                    // Makuhita: Helping Hand
             new EncounterStatic { Species = 739, Relearn = new[] {276}},                    // Crabrawler: Superpower
@@ -1046,37 +1046,22 @@ namespace PKHeX
             
             // Island Scan
 
-            new EncounterStatic {Species = 69, Relearn = new[] {562, 438, 499}},            // Bellsprout: Belch, Power Whip, Clear Smog
-            // Totodile: Fake Tears, Flatter
-            new EncounterStatic {Species = 158, Relearn = new[] {313, 260}},
-            // Marill: Camouflage, Copycat
-            new EncounterStatic {Species = 183, Relearn = new[] {293, 383}},
-            // Azurill: Camouflage, Copycat
-            new EncounterStatic {Species = 298, Relearn = new[] {293, 383}},
-            // Horsea: Razor Wind, Octazooka
-            new EncounterStatic {Species = 116, Relearn = new[] {13, 190}},
-            // Budew: Mind Reader 
-            new EncounterStatic {Species = 406, Relearn = new[] {170}},
-            // Roselia: Mind Reader 
-            new EncounterStatic {Species = 315, Relearn = new[] {170}},
-            // Starly: Revenge, Detect
-            new EncounterStatic {Species = 396, Relearn = new[] {279, 197}},
-            // Togepi: Psycho Shift, Morning Sun, Secret Power, Extrasensory
-            new EncounterStatic {Species = 175, Relearn = new[] {375, 234, 290, 326}},
-            // Solosis: Trick, Secret Power, Helping Hand
-            new EncounterStatic {Species = 577, Relearn = new[] {271, 290, 270}},
-            // Litwick: Heat Wave, Haze, Endure, Captivate, Power Split
-            new EncounterStatic {Species = 607, Relearn = new[] {257, 114, 203, 445, 471}},
-            // Venipede: Take Down 
-            new EncounterStatic {Species = 543, Relearn = new[] {36}},
-            // Timburr: Mach Punch 
-            new EncounterStatic {Species = 532, Relearn = new[] {183}},
-            // Gothita: Mirror Coat, Captivate
-            new EncounterStatic {Species = 574, Relearn = new[] {243, 445}},
-            // Sewaddle: Mind Reader, Camouflage
-            new EncounterStatic {Species = 540, Relearn = new[] {170, 293}},
-            // Deino: Astonish, Earth Power
-            new EncounterStatic {Species = 633, Relearn = new[] {310, 414}},
+            new EncounterStatic {Species = 069, Relearn = new[] {562, 438, 499}},            // Bellsprout: Belch, Power Whip, Clear Smog
+            new EncounterStatic {Species = 158, Relearn = new[] {313, 260}},                // Totodile: Fake Tears, Flatter
+            new EncounterStatic {Species = 183, Relearn = new[] {293, 383}},                // Marill: Camouflage, Copycat
+            new EncounterStatic {Species = 298, Relearn = new[] {293, 383}},                // Azurill: Camouflage, Copycat
+            new EncounterStatic {Species = 116, Relearn = new[] {13, 190}},                 // Horsea: Razor Wind, Octazooka
+            new EncounterStatic {Species = 406, Relearn = new[] {170}},                     // Budew: Mind Reader 
+            new EncounterStatic {Species = 315, Relearn = new[] {170}},                     // Roselia: Mind Reader 
+            new EncounterStatic {Species = 396, Relearn = new[] {279, 197}},                // Starly: Revenge, Detect
+            new EncounterStatic {Species = 175, Relearn = new[] {375, 234, 290, 326}},      // Togepi: Psycho Shift, Morning Sun, Secret Power, Extrasensory
+            new EncounterStatic {Species = 577, Relearn = new[] {271, 290, 270}},           // Solosis: Trick, Secret Power, Helping Hand
+            new EncounterStatic {Species = 607, Relearn = new[] {257, 114, 203, 445, 471}}, // Litwick: Heat Wave, Haze, Endure, Captivate, Power Split
+            new EncounterStatic {Species = 543, Relearn = new[] {36}},                      // Venipede: Take Down 
+            new EncounterStatic {Species = 532, Relearn = new[] {183}},                     // Timburr: Mach Punch 
+            new EncounterStatic {Species = 574, Relearn = new[] {243, 445}},                // Gothita: Mirror Coat, Captivate
+            new EncounterStatic {Species = 540, Relearn = new[] {170, 293}},                // Sewaddle: Mind Reader, Camouflage
+            new EncounterStatic {Species = 633, Relearn = new[] {310, 414}},                // Deino: Astonish, Earth Power
         };
         internal static readonly int[] Bank_Sketch7 = // Unobtainable Sketch Moves prior to Bank making moves available.
         {
