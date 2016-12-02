@@ -714,7 +714,7 @@ namespace PKHeX
                             return;
                         }
                     }
-                    if (Legal.Ban_NoHidden7.Contains(pkm.Species))
+                    if (Legal.Ban_NoHidden7.Contains(pkm.Species) && pkm.AbilityNumber == 4)
                     {
                         AddLine(Severity.Invalid, "Hidden Ability not available.", CheckIdentifier.Ability);
                         return;
@@ -1559,7 +1559,7 @@ namespace PKHeX
                     AddLine(Severity.Invalid, "Ability not obtainable prior to Bank Release.", CheckIdentifier.Special);
             }
 
-            if (Legal.Bank_NoHidden7.Contains(pkm.Species))
+            if (Legal.Bank_NoHidden7.Contains(pkm.Species) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, "Ability not obtainable prior to Bank Release.", CheckIdentifier.Special);
         }
 
