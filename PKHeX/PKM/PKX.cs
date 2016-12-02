@@ -520,7 +520,7 @@ namespace PKHeX
         {
             if (species == 0)
                 return (Image)Resources.ResourceManager.GetObject("_0");
-            if (new[] { 778, 664, 665, 414, 493 }.Contains(species)) // Species who show their default sprite regardless of Form
+            if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
             string file = "_" + species;
