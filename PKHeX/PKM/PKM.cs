@@ -284,7 +284,7 @@ namespace PKHeX
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
-        public int CurrentLevel => PKX.getLevel(Species, EXP);
+        public int CurrentLevel { get { return PKX.getLevel(Species, EXP); } private set { EXP = PKX.getEXP(value, Species); } }
         public bool MarkCircle      { get { return (MarkValue & (1 << 0)) == 1 << 0; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool MarkTriangle    { get { return (MarkValue & (1 << 1)) == 1 << 1; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public bool MarkSquare      { get { return (MarkValue & (1 << 2)) == 1 << 2; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
