@@ -246,7 +246,7 @@ namespace PKHeX
             if (pkm.WasEgg)
                 return new EncounterStatic
                 {
-                    Species = Legal.getBaseSpecies(pkm, lvl:100),
+                    Species = Legal.getBaseSpecies(pkm),
                     Location = getSuggestedEggMetLocation(pkm),
                     Level = 1,
                 };

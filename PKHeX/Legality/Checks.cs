@@ -1573,7 +1573,7 @@ namespace PKHeX
                 if (pkm.Moves.Any(move => Legal.Bank_Sketch7.Contains(move)))
                     AddLine(Severity.Invalid, "Sketched move not possible prior to Bank Release.", CheckIdentifier.Special);
 
-            int baseSpecies = Legal.getBaseSpecies(pkm, lvl: 100);
+            int baseSpecies = Legal.getBaseSpecies(pkm);
             var info = Legal.Bank_Egg7.FirstOrDefault(entry => entry.Species == baseSpecies && (entry.Form == 0 || entry.Form == pkm.AltForm)); // Grimer form edge case
             if (info != null)
             {

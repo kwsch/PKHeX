@@ -506,7 +506,7 @@ namespace PKHeX
         internal static bool getHasTradeEvolved(PKM pkm)
         {
             var table = getEvolutionTable(pkm);
-            var lineage = table.getValidPreEvolutions(pkm, pkm.CurrentLevel);
+            var lineage = table.getValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
         }
         internal static bool getIsFossil(PKM pkm)
@@ -558,11 +558,11 @@ namespace PKHeX
         internal static int getLowestLevel(PKM pkm, int refSpecies = -1)
         {
             if (refSpecies == -1)
-                refSpecies = getBaseSpecies(pkm, lvl: 100);
+                refSpecies = getBaseSpecies(pkm);
             for (int i = 0; i < 100; i++)
             {
                 var table = getEvolutionTable(pkm);
-                var evos = table.getValidPreEvolutions(pkm, i).ToArray();
+                var evos = table.getValidPreEvolutions(pkm, i, skipChecks:true).ToArray();
                 if (evos.Any(evo => evo.Species == refSpecies))
                     return evos.OrderByDescending(evo => evo.Level).First().Level;
             }
@@ -640,7 +640,7 @@ namespace PKHeX
             return getValidMoves(pkm, Version: version, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
-        internal static int getBaseSpecies(PKM pkm, int skipOption = 0, int lvl = -1)
+        internal static int getBaseSpecies(PKM pkm, int skipOption = 0)
         {
             if (pkm.Species == 292)
                 return 290;
@@ -648,7 +648,7 @@ namespace PKHeX
                 return 113;
 
             var table = getEvolutionTable(pkm);
-            var evos = table.getValidPreEvolutions(pkm, lvl == -1 ? pkm.CurrentLevel : lvl).ToArray();
+            var evos = table.getValidPreEvolutions(pkm, 100, skipChecks:true).ToArray();
 
             switch (skipOption)
             {
