@@ -1590,7 +1590,12 @@ namespace PKHeX
 
             if (Legal.EvolveToAlolanForms.Contains(pkm.Species))
             {
-                if (pkm.AltForm != 1)
+                if (pkm.Species == 25)
+                {
+                    if (pkm.AltForm != 0)
+                        AddLine(Severity.Invalid, "Form not obtainable.", CheckIdentifier.Special);
+                }
+                else if (pkm.AltForm != 1)
                     AddLine(Severity.Invalid, "Form not obtainable prior to Bank Release.", CheckIdentifier.Special);
             }
 
