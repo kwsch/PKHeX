@@ -923,12 +923,10 @@ namespace PKHeX
         {
             switch (pkm.GenNumber)
             {
-                case 6:
-                    int ind_XY = PersonalTable.XY.getFormeIndex(species, formnum);
-                    int ind_AO = PersonalTable.AO.getFormeIndex(species, formnum);
-                    return EggMovesAO[ind_AO].Moves.Concat(EggMovesXY[ind_XY].Moves);
+                case 6: // entries per species
+                    return EggMovesAO[species].Moves.Concat(EggMovesXY[species].Moves);
 
-                case 7:
+                case 7: // entries per form
                     var entry = EggMovesSM[species];
                     if (formnum > 0)
                         entry = EggMovesSM[entry.FormTableIndex + formnum - 1];
