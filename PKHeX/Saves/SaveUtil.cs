@@ -463,8 +463,18 @@ namespace PKHeX
         {
             if (!Directory.Exists(folderPath))
                 return null;
-            return Directory.GetFiles(folderPath, "*", deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
-                    .Where(f => SizeValidSAV((int)new FileInfo(f).Length));
+            string[] files = new string[0];
+            try
+            {
+                var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+                files = Directory.GetFiles(folderPath, "*", searchOption);
+            }
+            catch (ArgumentException)
+            {
+                Util.Error("Error encountered when detecting saves in the following folder:" + Environment.NewLine + folderPath,
+                    "Advise manually scanning to remove bad filenames from the folder." + Environment.NewLine + "Likely caused via Homebrew creating invalid filenames.");
+            }
+            return files.Where(f => SizeValidSAV((int)new FileInfo(f).Length));
         }
 
         /// <summary>
