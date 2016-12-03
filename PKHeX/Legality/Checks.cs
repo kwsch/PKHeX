@@ -1073,10 +1073,41 @@ namespace PKHeX
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
             }
-            if (pkm.Format == 7)
+            if (pkm.GenNumber >= 7)
             {
-                // TODO
-                return new CheckResult(Severity.Valid, "S/M History Block check skipped.", CheckIdentifier.History);
+                var geo = new[]
+                {
+                    pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
+                    pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
+                };
+                if (geo.Any(d => d != 0))
+                    return new CheckResult(Severity.Invalid, "Geolocation Memories should not be present.", CheckIdentifier.History);
+                
+                if (pkm.XY && pkm.CNTs.Any(stat => stat > 0))
+                    return new CheckResult(Severity.Invalid, "Untraded -- Contest stats on SM origin should be zero.", CheckIdentifier.History);
+                
+                if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
+                {
+                    if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
+                        return new CheckResult(Severity.Invalid, "Untraded -- Current handler should not be the Handling Trainer.", CheckIdentifier.History);
+                    if (pkm.HT_Friendship != 0)
+                        return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Friendship should be zero.", CheckIdentifier.History);
+                    if (pkm.HT_Affection != 0)
+                        return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Affection should be zero.", CheckIdentifier.History);
+
+                    // We know it is untraded (HT is empty), if it must be trade evolved flag it.
+                    if (Legal.getHasTradeEvolved(pkm) && (EncounterMatch as EncounterSlot[])?.Any(slot => slot.Species == pkm.Species) != true)
+                    {
+                        if (pkm.Species != 350) // Milotic
+                            return new CheckResult(Severity.Invalid, "Untraded -- requires a trade evolution.", CheckIdentifier.History);
+                        if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
+                            return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Levelup Evolution.", CheckIdentifier.History);
+                        if (pkm.CurrentLevel == 1)
+                            return new CheckResult(Severity.Invalid, "Untraded -- Beauty is high enough but still Level 1.", CheckIdentifier.History);
+                    }
+                }
+
+                return new CheckResult(Severity.Valid, "S/M History Block valid.", CheckIdentifier.History);
             }
             if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
             {
