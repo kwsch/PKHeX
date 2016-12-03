@@ -285,12 +285,6 @@ namespace PKHeX
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
         public int CurrentLevel { get { return PKX.getLevel(Species, EXP); } set { EXP = PKX.getEXP(value, Species); } }
-        public bool MarkCircle      { get { return (MarkValue & (1 << 0)) == 1 << 0; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkTriangle    { get { return (MarkValue & (1 << 1)) == 1 << 1; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkSquare      { get { return (MarkValue & (1 << 2)) == 1 << 2; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkHeart       { get { return (MarkValue & (1 << 3)) == 1 << 3; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkStar        { get { return (MarkValue & (1 << 4)) == 1 << 4; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
-        public bool MarkDiamond     { get { return (MarkValue & (1 << 5)) == 1 << 5; } set { MarkValue = (byte)(MarkValue & ~(1 << 0) | (value ? 1 << 0 : 0)); } }
         public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);

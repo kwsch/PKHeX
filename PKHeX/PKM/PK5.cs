@@ -345,12 +345,7 @@ namespace PKHeX
                 if (HiddenAbility) pk6.AbilityNumber = 4; // Hidden, else G5 or G3/4 correlation.
                 else pk6.AbilityNumber = Gen5 ? 1 << (int)(PID >> 16 & 1) : 1 << (int)(PID & 1);
             }
-            pk6.MarkCircle = MarkCircle;
-            pk6.MarkSquare = MarkSquare;
-            pk6.MarkTriangle = MarkTriangle;
-            pk6.MarkHeart = MarkHeart;
-            pk6.MarkStar = MarkStar;
-            pk6.MarkDiamond = MarkDiamond;
+            pk6.Markings = Markings;
             pk6.Language = Language;
 
             pk6.CNT_Cool = CNT_Cool;
