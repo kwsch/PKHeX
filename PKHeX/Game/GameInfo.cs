@@ -161,6 +161,7 @@ namespace PKHeX
                 itemlist[751] += " (2)"; // Meteorite
                 itemlist[771] += " (3)"; // Meteorite
                 itemlist[772] += " (4)"; // Meteorite
+                itemlist[842] += " (SM)"; // Fishing Rod
 
                 // Append Z-Crystal flagging
                 foreach (var i in Legal.Pouch_ZCrystal_SM)
