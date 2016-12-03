@@ -622,25 +622,26 @@ namespace PKHeX
         }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
-            // Allow the method to abort if the values are invalid
-            if (GeoCountry < 0 || GeoRegion < 0)
-                return;
-
-            // Trickle down
-            Geo5_Country = Geo4_Country;
-            Geo5_Region = Geo4_Region;
-
-            Geo4_Country = Geo3_Country;
-            Geo4_Region = Geo3_Region;
-
-            Geo3_Country = Geo2_Country;
-            Geo3_Region = Geo2_Region;
-
-            Geo2_Country = Geo1_Country;
-            Geo2_Region = Geo1_Region;
-
-            Geo1_Country = GeoCountry;
-            Geo1_Region = GeoRegion;
+            return; // No geolocations are set, ever!
+            //// Allow the method to abort if the values are invalid
+            //if (GeoCountry < 0 || GeoRegion < 0)
+            //    return;
+            //
+            //// Trickle down
+            //Geo5_Country = Geo4_Country;
+            //Geo5_Region = Geo4_Region;
+            //
+            //Geo4_Country = Geo3_Country;
+            //Geo4_Region = Geo3_Region;
+            //
+            //Geo3_Country = Geo2_Country;
+            //Geo3_Region = Geo2_Region;
+            //
+            //Geo2_Country = Geo1_Country;
+            //Geo2_Region = Geo1_Region;
+            //
+            //Geo1_Country = GeoCountry;
+            //Geo1_Region = GeoRegion;
         }
         public void TradeMemory(bool Bank)
         {
