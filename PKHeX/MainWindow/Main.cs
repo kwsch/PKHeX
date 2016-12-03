@@ -2970,7 +2970,8 @@ namespace PKHeX
             // Create Temp File to Drag
             PKM pkx = preparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
-            string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" + pkx.Format : "."+pkx.Extension) }";
+            string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+            string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
@@ -4055,7 +4056,8 @@ namespace PKHeX
                 byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
                 Array.Resize(ref dragdata, SAV.SIZE_STORED);
                 PKM pkx = SAV.getPKM(dragdata);
-                string filename = $"{Path.GetFileNameWithoutExtension(pkx.FileName)}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension) }";
+                string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+                string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
 
                 // Make File
                 string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
