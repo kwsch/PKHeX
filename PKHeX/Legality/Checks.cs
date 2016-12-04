@@ -1599,6 +1599,9 @@ namespace PKHeX
                     AddLine(Severity.Invalid, "Form not obtainable prior to Bank Release.", CheckIdentifier.Special);
             }
 
+            if (new[] {422,423}.Contains(pkm.Species) && pkm.AltForm != 1) // East Sea only
+                AddLine(Severity.Invalid, "Form not obtainable prior to Bank Release.", CheckIdentifier.Special);
+
             if (Legal.Bank_NoHidden7.Contains(pkm.Species) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, "Ability not obtainable prior to Bank Release.", CheckIdentifier.Special);
         }
