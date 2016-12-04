@@ -136,6 +136,7 @@ namespace PKHeX
             HaX = filename?.IndexOf("hax", StringComparison.Ordinal) >= 0;
 
             bool showChangelog = false;
+            bool BAKprompt = false;
             // Load User Settings
             {
                 unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
@@ -157,6 +158,11 @@ namespace PKHeX
 
                     showChangelog = lastrev < currrev;
                 }
+
+                // BAK Prompt
+                if (!Properties.Settings.Default.BAKPrompt)
+                    BAKprompt = Properties.Settings.Default.BAKPrompt = true;
+
                 Properties.Settings.Default.Version = Properties.Resources.ProgramVersion;
                 Properties.Settings.Default.Save();
             }
@@ -202,6 +208,10 @@ namespace PKHeX
             
             if (showChangelog)
                 new About().ShowDialog();
+
+            if (BAKprompt && !Directory.Exists(BackupPath))
+                promptBackup();
+
             #endregion
         }
 
@@ -3043,10 +3053,14 @@ namespace PKHeX
             File.WriteAllBytes(path, SAV.BAK);
             Util.Alert("Saved Backup of current SAV to:", path);
 
-            if (Directory.Exists(BackupPath)) return;
+            if (!Directory.Exists(BackupPath))
+                promptBackup();
+        }
+        private static void promptBackup()
+        {
             if (DialogResult.Yes != Util.Prompt(MessageBoxButtons.YesNo,
                 $"PKHeX can perform automatic backups if you create a folder with the name \"{BackupPath}\" in the same folder as PKHeX's executable.",
-                "Would you like to create the backup folder now and save backup of current save?")) return;
+                "Would you like to create the backup folder now?")) return;
 
             try { Directory.CreateDirectory(BackupPath); Util.Alert("Backup folder created!", 
                 $"If you wish to no longer automatically back up save files, delete the \"{BackupPath}\" folder."); }

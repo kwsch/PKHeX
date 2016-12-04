@@ -82,5 +82,17 @@ namespace PKHeX.Properties {
                 this["SetUpdatePKM"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BAKPrompt {
+            get {
+                return ((bool)(this["BAKPrompt"]));
+            }
+            set {
+                this["BAKPrompt"] = value;
+            }
+        }
     }
 }
