@@ -132,6 +132,21 @@ namespace PKHeX
 
             CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
             CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
+
+            // Battle Tree
+            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, SAV.getTreeStreak(0, super: false, max: false));
+            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, SAV.getTreeStreak(1, super: false, max: false));
+            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, SAV.getTreeStreak(2, super: false, max: false));
+            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, SAV.getTreeStreak(0, super: false, max: true));
+            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, SAV.getTreeStreak(1, super: false, max: true));
+            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, SAV.getTreeStreak(2, super: false, max: true));
+
+            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, SAV.getTreeStreak(0, super: true, max: false));
+            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, SAV.getTreeStreak(1, super: true, max: false));
+            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, SAV.getTreeStreak(2, super: true, max: false));
+            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, SAV.getTreeStreak(0, super: true, max: true));
+            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.getTreeStreak(1, super: true, max: true));
+            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.getTreeStreak(2, super: true, max: true));
         }
         private void save()
         {
@@ -190,6 +205,21 @@ namespace PKHeX
 
             SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
             SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
+
+            // Battle Tree
+            SAV.setTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
+            SAV.setTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
+            SAV.setTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
+            SAV.setTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
+            SAV.setTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
+            SAV.setTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
+
+            SAV.setTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
+            SAV.setTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
+            SAV.setTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
+            SAV.setTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
+            SAV.setTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
+            SAV.setTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
         }
 
         private void clickOT(object sender, MouseEventArgs e)

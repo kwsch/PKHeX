@@ -137,16 +137,37 @@ namespace PKHeX
             this.L_X = new System.Windows.Forms.Label();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
             this.GB_PokeFinder = new System.Windows.Forms.GroupBox();
+            this.CHK_Gyro = new System.Windows.Forms.CheckBox();
+            this.CB_CameraVersion = new System.Windows.Forms.ComboBox();
+            this.L_CameraVersion = new System.Windows.Forms.Label();
+            this.NUD_SnapCount = new System.Windows.Forms.NumericUpDown();
+            this.L_SnapCount = new System.Windows.Forms.Label();
             this.NUD_ThumbsRecord = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsRecord = new System.Windows.Forms.Label();
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
-            this.NUD_SnapCount = new System.Windows.Forms.NumericUpDown();
-            this.L_SnapCount = new System.Windows.Forms.Label();
-            this.L_CameraVersion = new System.Windows.Forms.Label();
-            this.CB_CameraVersion = new System.Windows.Forms.ComboBox();
-            this.CHK_Gyro = new System.Windows.Forms.CheckBox();
+            this.Tab_BattleTree = new System.Windows.Forms.TabPage();
+            this.NUD_SMStreak2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_SCStreak2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_SMStreak1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_SCStreak1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_SMStreak0 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_SCStreak0 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RMStreak2 = new System.Windows.Forms.NumericUpDown();
+            this.L_MStreak2 = new System.Windows.Forms.Label();
+            this.NUD_RCStreak2 = new System.Windows.Forms.NumericUpDown();
+            this.L_CStreak2 = new System.Windows.Forms.Label();
+            this.NUD_RMStreak1 = new System.Windows.Forms.NumericUpDown();
+            this.L_MStreak1 = new System.Windows.Forms.Label();
+            this.NUD_RCStreak1 = new System.Windows.Forms.NumericUpDown();
+            this.L_CStreak1 = new System.Windows.Forms.Label();
+            this.NUD_RMStreak0 = new System.Windows.Forms.NumericUpDown();
+            this.L_MStreak0 = new System.Windows.Forms.Label();
+            this.NUD_RCStreak0 = new System.Windows.Forms.NumericUpDown();
+            this.L_CStreak0 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -162,9 +183,22 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
             this.Tab_Misc.SuspendLayout();
             this.GB_PokeFinder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
+            this.Tab_BattleTree.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -762,6 +796,7 @@ namespace PKHeX
             // 
             this.TC_Editor.Controls.Add(this.Tab_Overview);
             this.TC_Editor.Controls.Add(this.Tab_BadgeMap);
+            this.TC_Editor.Controls.Add(this.Tab_BattleTree);
             this.TC_Editor.Controls.Add(this.Tab_Misc);
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
@@ -1238,6 +1273,67 @@ namespace PKHeX
             this.GB_PokeFinder.TabStop = false;
             this.GB_PokeFinder.Text = "Poké Finder";
             // 
+            // CHK_Gyro
+            // 
+            this.CHK_Gyro.AutoSize = true;
+            this.CHK_Gyro.Location = new System.Drawing.Point(129, 122);
+            this.CHK_Gyro.Name = "CHK_Gyro";
+            this.CHK_Gyro.Size = new System.Drawing.Size(48, 17);
+            this.CHK_Gyro.TabIndex = 46;
+            this.CHK_Gyro.Text = "Gyro";
+            this.CHK_Gyro.UseVisualStyleBackColor = true;
+            // 
+            // CB_CameraVersion
+            // 
+            this.CB_CameraVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_CameraVersion.Enabled = false;
+            this.CB_CameraVersion.FormattingEnabled = true;
+            this.CB_CameraVersion.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
+            this.CB_CameraVersion.Location = new System.Drawing.Point(129, 99);
+            this.CB_CameraVersion.Name = "CB_CameraVersion";
+            this.CB_CameraVersion.Size = new System.Drawing.Size(40, 21);
+            this.CB_CameraVersion.TabIndex = 44;
+            // 
+            // L_CameraVersion
+            // 
+            this.L_CameraVersion.Location = new System.Drawing.Point(6, 100);
+            this.L_CameraVersion.Name = "L_CameraVersion";
+            this.L_CameraVersion.Size = new System.Drawing.Size(117, 20);
+            this.L_CameraVersion.TabIndex = 43;
+            this.L_CameraVersion.Text = "Camera Version:";
+            this.L_CameraVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_SnapCount
+            // 
+            this.NUD_SnapCount.Location = new System.Drawing.Point(129, 79);
+            this.NUD_SnapCount.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_SnapCount.Name = "NUD_SnapCount";
+            this.NUD_SnapCount.Size = new System.Drawing.Size(65, 20);
+            this.NUD_SnapCount.TabIndex = 42;
+            this.NUD_SnapCount.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_SnapCount
+            // 
+            this.L_SnapCount.Location = new System.Drawing.Point(6, 77);
+            this.L_SnapCount.Name = "L_SnapCount";
+            this.L_SnapCount.Size = new System.Drawing.Size(117, 20);
+            this.L_SnapCount.TabIndex = 41;
+            this.L_SnapCount.Text = "Snap Count:";
+            this.L_SnapCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // NUD_ThumbsRecord
             // 
             this.NUD_ThumbsRecord.Location = new System.Drawing.Point(129, 40);
@@ -1300,66 +1396,311 @@ namespace PKHeX
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
-            // NUD_SnapCount
+            // Tab_BattleTree
             // 
-            this.NUD_SnapCount.Location = new System.Drawing.Point(129, 79);
-            this.NUD_SnapCount.Maximum = new decimal(new int[] {
-            9999999,
+            this.Tab_BattleTree.Controls.Add(this.label2);
+            this.Tab_BattleTree.Controls.Add(this.label1);
+            this.Tab_BattleTree.Controls.Add(this.NUD_SMStreak2);
+            this.Tab_BattleTree.Controls.Add(this.NUD_SCStreak2);
+            this.Tab_BattleTree.Controls.Add(this.NUD_SMStreak1);
+            this.Tab_BattleTree.Controls.Add(this.NUD_SCStreak1);
+            this.Tab_BattleTree.Controls.Add(this.NUD_SMStreak0);
+            this.Tab_BattleTree.Controls.Add(this.NUD_SCStreak0);
+            this.Tab_BattleTree.Controls.Add(this.NUD_RMStreak2);
+            this.Tab_BattleTree.Controls.Add(this.L_MStreak2);
+            this.Tab_BattleTree.Controls.Add(this.NUD_RCStreak2);
+            this.Tab_BattleTree.Controls.Add(this.L_CStreak2);
+            this.Tab_BattleTree.Controls.Add(this.NUD_RMStreak1);
+            this.Tab_BattleTree.Controls.Add(this.L_MStreak1);
+            this.Tab_BattleTree.Controls.Add(this.NUD_RCStreak1);
+            this.Tab_BattleTree.Controls.Add(this.L_CStreak1);
+            this.Tab_BattleTree.Controls.Add(this.NUD_RMStreak0);
+            this.Tab_BattleTree.Controls.Add(this.L_MStreak0);
+            this.Tab_BattleTree.Controls.Add(this.NUD_RCStreak0);
+            this.Tab_BattleTree.Controls.Add(this.L_CStreak0);
+            this.Tab_BattleTree.Location = new System.Drawing.Point(4, 22);
+            this.Tab_BattleTree.Name = "Tab_BattleTree";
+            this.Tab_BattleTree.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_BattleTree.Size = new System.Drawing.Size(386, 253);
+            this.Tab_BattleTree.TabIndex = 5;
+            this.Tab_BattleTree.Text = "Battle Tree";
+            this.Tab_BattleTree.UseVisualStyleBackColor = true;
+            // 
+            // NUD_SMStreak2
+            // 
+            this.NUD_SMStreak2.Location = new System.Drawing.Point(251, 195);
+            this.NUD_SMStreak2.Maximum = new decimal(new int[] {
+            65535,
             0,
             0,
             0});
-            this.NUD_SnapCount.Name = "NUD_SnapCount";
-            this.NUD_SnapCount.Size = new System.Drawing.Size(65, 20);
-            this.NUD_SnapCount.TabIndex = 42;
-            this.NUD_SnapCount.Value = new decimal(new int[] {
-            9999999,
+            this.NUD_SMStreak2.Name = "NUD_SMStreak2";
+            this.NUD_SMStreak2.Size = new System.Drawing.Size(60, 20);
+            this.NUD_SMStreak2.TabIndex = 92;
+            this.NUD_SMStreak2.Value = new decimal(new int[] {
+            65535,
             0,
             0,
             0});
             // 
-            // L_SnapCount
+            // NUD_SCStreak2
             // 
-            this.L_SnapCount.Location = new System.Drawing.Point(6, 77);
-            this.L_SnapCount.Name = "L_SnapCount";
-            this.L_SnapCount.Size = new System.Drawing.Size(117, 20);
-            this.L_SnapCount.TabIndex = 41;
-            this.L_SnapCount.Text = "Snap Count:";
-            this.L_SnapCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NUD_SCStreak2.Location = new System.Drawing.Point(251, 174);
+            this.NUD_SCStreak2.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_SCStreak2.Name = "NUD_SCStreak2";
+            this.NUD_SCStreak2.Size = new System.Drawing.Size(60, 20);
+            this.NUD_SCStreak2.TabIndex = 91;
+            this.NUD_SCStreak2.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             // 
-            // L_CameraVersion
+            // NUD_SMStreak1
             // 
-            this.L_CameraVersion.Location = new System.Drawing.Point(6, 100);
-            this.L_CameraVersion.Name = "L_CameraVersion";
-            this.L_CameraVersion.Size = new System.Drawing.Size(117, 20);
-            this.L_CameraVersion.TabIndex = 43;
-            this.L_CameraVersion.Text = "Camera Version:";
-            this.L_CameraVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.NUD_SMStreak1.Location = new System.Drawing.Point(251, 138);
+            this.NUD_SMStreak1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_SMStreak1.Name = "NUD_SMStreak1";
+            this.NUD_SMStreak1.Size = new System.Drawing.Size(60, 20);
+            this.NUD_SMStreak1.TabIndex = 90;
+            this.NUD_SMStreak1.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             // 
-            // CB_CameraVersion
+            // NUD_SCStreak1
             // 
-            this.CB_CameraVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_CameraVersion.Enabled = false;
-            this.CB_CameraVersion.FormattingEnabled = true;
-            this.CB_CameraVersion.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5"});
-            this.CB_CameraVersion.Location = new System.Drawing.Point(129, 99);
-            this.CB_CameraVersion.Name = "CB_CameraVersion";
-            this.CB_CameraVersion.Size = new System.Drawing.Size(40, 21);
-            this.CB_CameraVersion.TabIndex = 44;
+            this.NUD_SCStreak1.Location = new System.Drawing.Point(251, 117);
+            this.NUD_SCStreak1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_SCStreak1.Name = "NUD_SCStreak1";
+            this.NUD_SCStreak1.Size = new System.Drawing.Size(60, 20);
+            this.NUD_SCStreak1.TabIndex = 89;
+            this.NUD_SCStreak1.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             // 
-            // CHK_Gyro
+            // NUD_SMStreak0
             // 
-            this.CHK_Gyro.AutoSize = true;
-            this.CHK_Gyro.Location = new System.Drawing.Point(129, 122);
-            this.CHK_Gyro.Name = "CHK_Gyro";
-            this.CHK_Gyro.Size = new System.Drawing.Size(48, 17);
-            this.CHK_Gyro.TabIndex = 46;
-            this.CHK_Gyro.Text = "Gyro";
-            this.CHK_Gyro.UseVisualStyleBackColor = true;
+            this.NUD_SMStreak0.Location = new System.Drawing.Point(251, 81);
+            this.NUD_SMStreak0.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_SMStreak0.Name = "NUD_SMStreak0";
+            this.NUD_SMStreak0.Size = new System.Drawing.Size(60, 20);
+            this.NUD_SMStreak0.TabIndex = 88;
+            this.NUD_SMStreak0.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // NUD_SCStreak0
+            // 
+            this.NUD_SCStreak0.Location = new System.Drawing.Point(251, 60);
+            this.NUD_SCStreak0.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_SCStreak0.Name = "NUD_SCStreak0";
+            this.NUD_SCStreak0.Size = new System.Drawing.Size(60, 20);
+            this.NUD_SCStreak0.TabIndex = 87;
+            this.NUD_SCStreak0.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RMStreak2
+            // 
+            this.NUD_RMStreak2.Location = new System.Drawing.Point(185, 195);
+            this.NUD_RMStreak2.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_RMStreak2.Name = "NUD_RMStreak2";
+            this.NUD_RMStreak2.Size = new System.Drawing.Size(60, 20);
+            this.NUD_RMStreak2.TabIndex = 86;
+            this.NUD_RMStreak2.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_MStreak2
+            // 
+            this.L_MStreak2.Location = new System.Drawing.Point(51, 193);
+            this.L_MStreak2.Name = "L_MStreak2";
+            this.L_MStreak2.Size = new System.Drawing.Size(128, 20);
+            this.L_MStreak2.TabIndex = 85;
+            this.L_MStreak2.Text = "Max Streak Multi:";
+            this.L_MStreak2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_RCStreak2
+            // 
+            this.NUD_RCStreak2.Location = new System.Drawing.Point(185, 174);
+            this.NUD_RCStreak2.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_RCStreak2.Name = "NUD_RCStreak2";
+            this.NUD_RCStreak2.Size = new System.Drawing.Size(60, 20);
+            this.NUD_RCStreak2.TabIndex = 84;
+            this.NUD_RCStreak2.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_CStreak2
+            // 
+            this.L_CStreak2.Location = new System.Drawing.Point(51, 172);
+            this.L_CStreak2.Name = "L_CStreak2";
+            this.L_CStreak2.Size = new System.Drawing.Size(128, 20);
+            this.L_CStreak2.TabIndex = 83;
+            this.L_CStreak2.Text = "Current Streak Multi:";
+            this.L_CStreak2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_RMStreak1
+            // 
+            this.NUD_RMStreak1.Location = new System.Drawing.Point(185, 138);
+            this.NUD_RMStreak1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_RMStreak1.Name = "NUD_RMStreak1";
+            this.NUD_RMStreak1.Size = new System.Drawing.Size(60, 20);
+            this.NUD_RMStreak1.TabIndex = 82;
+            this.NUD_RMStreak1.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_MStreak1
+            // 
+            this.L_MStreak1.Location = new System.Drawing.Point(51, 136);
+            this.L_MStreak1.Name = "L_MStreak1";
+            this.L_MStreak1.Size = new System.Drawing.Size(128, 20);
+            this.L_MStreak1.TabIndex = 81;
+            this.L_MStreak1.Text = "Max Streak Doubles:";
+            this.L_MStreak1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_RCStreak1
+            // 
+            this.NUD_RCStreak1.Location = new System.Drawing.Point(185, 117);
+            this.NUD_RCStreak1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_RCStreak1.Name = "NUD_RCStreak1";
+            this.NUD_RCStreak1.Size = new System.Drawing.Size(60, 20);
+            this.NUD_RCStreak1.TabIndex = 80;
+            this.NUD_RCStreak1.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_CStreak1
+            // 
+            this.L_CStreak1.Location = new System.Drawing.Point(51, 115);
+            this.L_CStreak1.Name = "L_CStreak1";
+            this.L_CStreak1.Size = new System.Drawing.Size(128, 20);
+            this.L_CStreak1.TabIndex = 79;
+            this.L_CStreak1.Text = "Current Streak Doubles:";
+            this.L_CStreak1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_RMStreak0
+            // 
+            this.NUD_RMStreak0.Location = new System.Drawing.Point(185, 81);
+            this.NUD_RMStreak0.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_RMStreak0.Name = "NUD_RMStreak0";
+            this.NUD_RMStreak0.Size = new System.Drawing.Size(60, 20);
+            this.NUD_RMStreak0.TabIndex = 78;
+            this.NUD_RMStreak0.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_MStreak0
+            // 
+            this.L_MStreak0.Location = new System.Drawing.Point(51, 79);
+            this.L_MStreak0.Name = "L_MStreak0";
+            this.L_MStreak0.Size = new System.Drawing.Size(128, 20);
+            this.L_MStreak0.TabIndex = 77;
+            this.L_MStreak0.Text = "Max Streak Singles:";
+            this.L_MStreak0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_RCStreak0
+            // 
+            this.NUD_RCStreak0.Location = new System.Drawing.Point(185, 60);
+            this.NUD_RCStreak0.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_RCStreak0.Name = "NUD_RCStreak0";
+            this.NUD_RCStreak0.Size = new System.Drawing.Size(60, 20);
+            this.NUD_RCStreak0.TabIndex = 76;
+            this.NUD_RCStreak0.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_CStreak0
+            // 
+            this.L_CStreak0.Location = new System.Drawing.Point(51, 58);
+            this.L_CStreak0.Name = "L_CStreak0";
+            this.L_CStreak0.Size = new System.Drawing.Size(128, 20);
+            this.L_CStreak0.TabIndex = 75;
+            this.L_CStreak0.Text = "Current Streak Singles:";
+            this.L_CStreak0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(177, 37);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 20);
+            this.label1.TabIndex = 93;
+            this.label1.Text = "Regular";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(243, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 20);
+            this.label2.TabIndex = 94;
+            this.label2.Text = "Super";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SAV_Trainer7
             // 
@@ -1395,9 +1736,22 @@ namespace PKHeX
             this.Tab_Misc.ResumeLayout(false);
             this.GB_PokeFinder.ResumeLayout(false);
             this.GB_PokeFinder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
+            this.Tab_BattleTree.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1522,5 +1876,26 @@ namespace PKHeX
         private System.Windows.Forms.Label L_CameraVersion;
         private System.Windows.Forms.ComboBox CB_CameraVersion;
         private System.Windows.Forms.CheckBox CHK_Gyro;
+        private System.Windows.Forms.TabPage Tab_BattleTree;
+        private System.Windows.Forms.NumericUpDown NUD_SMStreak2;
+        private System.Windows.Forms.NumericUpDown NUD_SCStreak2;
+        private System.Windows.Forms.NumericUpDown NUD_SMStreak1;
+        private System.Windows.Forms.NumericUpDown NUD_SCStreak1;
+        private System.Windows.Forms.NumericUpDown NUD_SMStreak0;
+        private System.Windows.Forms.NumericUpDown NUD_SCStreak0;
+        private System.Windows.Forms.Label L_CStreak0;
+        private System.Windows.Forms.NumericUpDown NUD_RCStreak0;
+        private System.Windows.Forms.Label L_MStreak0;
+        private System.Windows.Forms.NumericUpDown NUD_RMStreak0;
+        private System.Windows.Forms.Label L_CStreak1;
+        private System.Windows.Forms.NumericUpDown NUD_RCStreak1;
+        private System.Windows.Forms.Label L_MStreak1;
+        private System.Windows.Forms.NumericUpDown NUD_RMStreak1;
+        private System.Windows.Forms.Label L_CStreak2;
+        private System.Windows.Forms.NumericUpDown NUD_RCStreak2;
+        private System.Windows.Forms.Label L_MStreak2;
+        private System.Windows.Forms.NumericUpDown NUD_RMStreak2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

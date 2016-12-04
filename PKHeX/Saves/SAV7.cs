@@ -201,7 +201,7 @@ namespace PKHeX
                 /* 29 */            //  = 0x6A000;  // [728]    Data Block
                 /* 30 */            //  = 0x6A800;  // [200]    GameSyncSave
                 /* 31 */            //  = 0x6AA00;  // [718]    PokeDiarySave
-                /* 32 */            //  = 0x6B200;  // [1FC]    BattleInstSave
+                /* 32 */ BattleTree     = 0x6B200;  // [1FC]    BattleInstSave
                 /* 33 */ Daycare        = 0x6B400;  // [200]    Sodateya
                 /* 34 */            //  = 0x6B600;  // [120]    WeatherSave
                 /* 35 */ QRSaveData     = 0x6B800;  // [1C8]    QRReaderSaveData
@@ -244,6 +244,7 @@ namespace PKHeX
         private int Overworld { get; set; } = int.MinValue;
         private int JoinFestaData { get; set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
+        private int BattleTree { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
@@ -540,6 +541,37 @@ namespace PKHeX
             }
         }
 
+        // Battle Tree
+        public int getTreeStreak(int battletype, bool super, bool max)
+        {
+            if (battletype > 3)
+                throw new ArgumentException();
+
+            int offset = 8*battletype;
+            if (super)
+                offset += 2;
+            if (max)
+                offset += 4;
+
+            return BitConverter.ToUInt16(Data, BattleTree + offset);
+        }
+        public void setTreeStreak(int value, int battletype, bool super, bool max)
+        {
+            if (battletype > 3)
+                throw new ArgumentException();
+
+            if (value > ushort.MaxValue)
+                value = ushort.MaxValue;
+
+            int offset = 8 * battletype;
+            if (super)
+                offset += 2;
+            if (max)
+                offset += 4;
+
+            BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleTree + offset);
+        }
+
         // Resort Save
         public int GetPokebeanCount(int bean_id)
         {
@@ -547,7 +579,6 @@ namespace PKHeX
                 throw new ArgumentException("Invalid bean id!");
             return Data[Resort + 0x564C + bean_id];
         }
-
         public void SetPokebeanCount(int bean_id, int count)
         {
             if (bean_id < 0 || bean_id > 14)
