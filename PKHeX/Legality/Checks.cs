@@ -1585,7 +1585,7 @@ namespace PKHeX
                 }
             }
 
-            if (Legal.Bank_NotAvailable7.Contains(baseSpecies))
+            if (Legal.Bank_NotAvailable7.Contains(baseSpecies) && EncounterType != typeof(MysteryGift))
                 AddLine(Severity.Invalid, "Species not obtainable prior to Bank Release.", CheckIdentifier.Special);
 
             if (Legal.EvolveToAlolanForms.Contains(pkm.Species))
