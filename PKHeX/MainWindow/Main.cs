@@ -957,6 +957,7 @@ namespace PKHeX
                 B_OpenSecretBase.Enabled = SAV.HasSecretBase;
                 B_OpenPokepuffs.Enabled = SAV.HasPuff;
                 B_OpenPokeBeans.Enabled = SAV.Generation == 7;
+                B_OpenZygardeCells.Enabled = SAV.Generation == 7;
                 B_OUTPasserby.Enabled = SAV.HasPSS;
                 B_OpenBoxLayout.Enabled = SAV.HasBoxWallpapers;
                 B_OpenWondercards.Enabled = SAV.HasWondercards;
@@ -3986,6 +3987,10 @@ namespace PKHeX
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
             new SAV_SecretBase().ShowDialog();
+        }
+        private void B_OpenZygardeCells_Click(object sender, EventArgs e)
+        {
+            new SAV_ZygardeCell().ShowDialog();
         }
         private void B_LinkInfo_Click(object sender, EventArgs e)
         {

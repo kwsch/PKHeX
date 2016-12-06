@@ -442,6 +442,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.B_OpenZygardeCells = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -5445,6 +5446,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OUTPasserby);
             this.FLP_SAVtools.Controls.Add(this.B_CGearSkin);
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenZygardeCells);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -5690,6 +5692,16 @@
             this.L_UpdateAvailable.Text = "New Update Available!";
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
+            // 
+            // B_OpenZygardeCells
+            // 
+            this.B_OpenZygardeCells.Location = new System.Drawing.Point(189, 148);
+            this.B_OpenZygardeCells.Name = "B_OpenZygardeCells";
+            this.B_OpenZygardeCells.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenZygardeCells.TabIndex = 26;
+            this.B_OpenZygardeCells.Text = "Zygarde Cells";
+            this.B_OpenZygardeCells.UseVisualStyleBackColor = true;
+            this.B_OpenZygardeCells.Click += new System.EventHandler(this.B_OpenZygardeCells_Click);
             // 
             // Main
             // 
@@ -6337,6 +6349,7 @@
         private System.Windows.Forms.Button B_OpenPokeBeans;
         private System.Windows.Forms.FlowLayoutPanel FLP_BallLeft;
         private System.Windows.Forms.PictureBox PB_Ball;
+        private System.Windows.Forms.Button B_OpenZygardeCells;
     }
 }
 
