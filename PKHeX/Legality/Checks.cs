@@ -1561,7 +1561,7 @@ namespace PKHeX
             }
 
             var Lineage = Legal.getLineage(pkm).ToArray();
-            if (Lineage.Any(e => Legal.Fossils.Contains(e))) // Only Poké Ball possible on Fossils
+            if (Lineage.Any(e => Legal.Fossils.Contains(e)) || new[] {137,233,474}.Contains(pkm.Species)) // Only Poké Ball possible (fossils/porygon)
             {
                 if (pkm.Ball == 4)
                     AddLine(Severity.Valid, "Ball possible.", CheckIdentifier.Ball);
@@ -1585,7 +1585,7 @@ namespace PKHeX
                 }
             }
 
-            if (Legal.Bank_NotAvailable7.Contains(baseSpecies) && EncounterType != typeof(MysteryGift))
+            if (Legal.Bank_NotAvailable7.Contains(baseSpecies) && !EncounterIsMysteryGift)
                 AddLine(Severity.Invalid, "Species not obtainable prior to Bank Release.", CheckIdentifier.Special);
 
             if (Legal.EvolveToAlolanForms.Contains(pkm.Species))
