@@ -986,9 +986,9 @@ namespace PKHeX
             new EncounterStatic { Species = 629, Relearn = new[] {282,313}},                // Vullaby: Knock Off, Fake Tears
             new EncounterStatic { Species = 742, Relearn = new[] {285}},                    // Cutiefly: Skill Swap
             new EncounterStatic { Species = 548, Relearn = new[] {361,117}},                // Petilil: Healing Wish, Bide
-            new EncounterStatic { Species = 546, Relearn = new[] {262,251,415,445}},        // Cottonee: Memento, Beat Up, Switcheroo, Captivate
+            new EncounterStatic { Species = 546, Relearn = new[] {262,251,415/*,445*/}},    // Cottonee: Memento, Beat Up, Switcheroo, [~Captivate]
             new EncounterStatic { Species = 054, Relearn = new[] {290}},                    // Psyduck: Secret Power
-            new EncounterStatic { Species = 066, Relearn = new[] {27,8,379}},                // Machop: Rolling Kick, Ice Punch, Power Trick
+            new EncounterStatic { Species = 066, Relearn = new[] {27,8,379}},               // Machop: Rolling Kick, Ice Punch, Power Trick
             new EncounterStatic { Species = 524, Relearn = new[] {222,174}},                // Roggenrola: Magnitude, Curse
             new EncounterStatic { Species = 302, Relearn = new[] {236,445,368,286}},        // Sableye: Moonlight, Captivate, Metal Burst, Imprison
             new EncounterStatic { Species = 327, Relearn = new[] {274,375}},                // Spinda: Assist, Psycho Shift
