@@ -48,7 +48,7 @@ namespace PKHeX
 
         private void RefreshImage()
         {
-            Font font = Main.unicode ? FontLabel.Font : PKX.getPKXFont((float)8.25);
+            Font font = !Main.unicode ? FontLabel.Font : PKX.getPKXFont((float)8.25);
             Image preview = new Bitmap(45, 45);
             using (Graphics gfx = Graphics.FromImage(preview))
             {

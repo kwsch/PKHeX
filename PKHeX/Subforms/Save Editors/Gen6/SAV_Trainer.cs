@@ -11,7 +11,7 @@ namespace PKHeX
         public SAV_Trainer()
         {
             InitializeComponent();
-            if (!Main.unicode)
+            if (Main.unicode)
             try { TB_OTName.Font = PKX.getPKXFont(11); }
             catch (Exception e) { Util.Alert("Font loading failed...", e.ToString()); }
 

@@ -2001,7 +2001,7 @@ namespace PKHeX
             changingFields = false;
 
             // Potential Reading
-            L_Potential.Text = (!unicode
+            L_Potential.Text = (unicode
                 ? new[] {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"}
                 : new[] {"+", "++", "+++", "++++"}
                 )[pkm.PotentialRating];
