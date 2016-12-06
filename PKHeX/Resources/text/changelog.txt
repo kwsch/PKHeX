@@ -2,6 +2,19 @@
 http://projectpokemon.org/
 http://projectpokemon.org/forums/showthread.php?36986
 
+16/12/06 - New Update:
+ - Legality: Updated MANY check cases for finer legality checking. Poke Pelago still unsupported.
+ - Added: Ball Sprite indication to Met tab for users who are afflicted by balltism.
+ - Added: Legal met location suggestion (click Met Location label) for Pokémon that can be legality checked.
+ - Added: New/Free space status tracking for Sun/Moon Inventory Editing.
+ - Added: Inventory GiveAll count can now be specified in the form.
+ - Added: Festival Coin, BP, Poké Finder and Battle Tree Streak editing All Clothing cheat to Trainer Info editor.
+ - Fixed: Editing items with a non-English program setting will no longer break your Fishing Rod.
+ - Fixed: Geolocation settings are no longer applied when setting a PKM to a Generation 7 save file.
+ - Fixed: Map Coordinates now are only saved if they are modified.
+ - Fixed: Many bugs/issues with existing/new features. Too many people to thank :)
+ - - Thanks to all the users who reported issues on GitHub while the forums were down!
+
 11/18/16 - New Update:
  - Added: Sun/Moon Support
  - - Initial legality checking. Postgame encounters (Scan/Poke Pelago/etc) unsupported at this time.
