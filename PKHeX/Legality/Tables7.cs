@@ -1003,7 +1003,7 @@ namespace PKHeX
             new EncounterStatic { Species = 751, Relearn = new[] {471}},                    // Dewpider: Power Split
             new EncounterStatic { Species = 753, Relearn = new[] {432}},                    // Fomantis: Defog
             new EncounterStatic { Species = 755, Relearn = new[] {133}},                    // Morelull: Amnesia
-            new EncounterStatic { Species = 046, Relearn = new[] {563,68}},                 // Paras: Rototiller, Counter
+            new EncounterStatic { Species = 046, Relearn = new[] {563/*,68*/}},             // Paras: Rototiller, [~Counter]
             new EncounterStatic { Species = 060, Relearn = new[] {283}},                    // Poliwag: Endeavor
             new EncounterStatic { Species = 118, Relearn = new[] {114,60}},                 // Goldeen: Haze, Psybeam
             new EncounterStatic { Species = 661, Relearn = new[] {289}},                    // Fletchling: Snatch
