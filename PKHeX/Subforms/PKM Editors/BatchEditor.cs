@@ -15,19 +15,38 @@ namespace PKHeX
             InitializeComponent();
             DragDrop += tabMain_DragDrop;
             DragEnter += tabMain_DragEnter;
+
+            CB_Format.Items.Clear();
+            CB_Format.Items.Add("All");
+            foreach (Type t in types) CB_Format.Items.Add(t.Name.ToLower());
+            CB_Format.Items.Add("Any");
+
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
+        }
+        private static string[][] getPropArray()
+        {
+            var p = new string[types.Length][];
+            for (int i = 0; i < p.Length; i++)
+                p[i] = ReflectUtil.getPropertiesCanWritePublic(types[i]).ToArray();
+
+            IEnumerable<string> all = p.SelectMany(prop => prop).Distinct();
+            IEnumerable<string> any = p[0];
+            for (int i = 1; i < p.Length; i++)
+                any = any.Union(p[i]);
+
+            var p1 = new string[types.Length + 2][];
+            Array.Copy(p, 0, p1, 1, p.Length);
+            p1[0] = all.ToArray();
+            p1[p1.Length-1] = any.ToArray();
+
+            return p1;
         }
 
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
-        private static readonly string[] pk7 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK7)).OrderBy(i => i).ToArray();
-        private static readonly string[] pk6 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK6)).OrderBy(i=>i).ToArray();
-        private static readonly string[] pk5 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK5)).OrderBy(i=>i).ToArray();
-        private static readonly string[] pk4 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK4)).OrderBy(i=>i).ToArray();
-        private static readonly string[] pk3 = ReflectUtil.getPropertiesCanWritePublic(typeof(PK3)).OrderBy(i=>i).ToArray();
-        private static readonly string[] all = pk7.Intersect(pk6).Intersect(pk5).Intersect(pk4).Intersect(pk3).OrderBy(i => i).ToArray();
-        private static readonly string[] any = pk7.Union(pk6).Union(pk5).Union(pk4).Union(pk3).Distinct().OrderBy(i => i).ToArray();
+        private static readonly Type[] types = {typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof (PK3)};
+        private static readonly string[][] properties = getPropArray();
 
         // GUI Methods
         private void B_Open_Click(object sender, EventArgs e)
@@ -264,6 +283,23 @@ namespace PKHeX
             RB_SAV.Checked = false;
             RB_Path.Checked = true;
         }
+        private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            L_PropType.Text = getPropertyType(CB_Property.Text);
+        }
+        private string getPropertyType(string propertyName)
+        {
+            int typeIndex = CB_Format.SelectedIndex;
+            
+            if (typeIndex == 0) // All
+                return types[0].GetProperty(propertyName).PropertyType.Name;
+
+            if (typeIndex == properties.Length - 1) // Any
+                foreach (var p in types.Select(t => t.GetProperty(propertyName)).Where(p => p != null))
+                    return p.PropertyType.Name;
+            
+            return types[typeIndex - 1].GetProperty(propertyName).PropertyType.Name;
+        }
 
         // Utility Methods
         public class StringInstruction
@@ -373,19 +409,11 @@ namespace PKHeX
             if (currentFormat == CB_Format.SelectedIndex)
                 return;
 
+            int format = CB_Format.SelectedIndex;
             CB_Property.Items.Clear();
-            switch (CB_Format.SelectedIndex)
-            {
-                case 0: CB_Property.Items.AddRange(all.ToArray()); break; // All
-                case 1: CB_Property.Items.AddRange(pk7.ToArray()); break;
-                case 2: CB_Property.Items.AddRange(pk6.ToArray()); break;
-                case 3: CB_Property.Items.AddRange(pk5.ToArray()); break;
-                case 4: CB_Property.Items.AddRange(pk4.ToArray()); break;
-                case 5: CB_Property.Items.AddRange(pk3.ToArray()); break;
-                case 6: CB_Property.Items.AddRange(any.ToArray()); break; // Any
-            }
+            CB_Property.Items.AddRange(properties[format]);
             CB_Property.SelectedIndex = 0;
-            currentFormat = CB_Format.SelectedIndex;
+            currentFormat = format;
         }
     }
 }
