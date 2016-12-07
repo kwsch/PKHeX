@@ -411,6 +411,18 @@ namespace PKHeX
                 BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x11C);
             }
         }
+        public uint FestaCoinsDisplayed
+        {
+            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x508); }
+            set
+            {
+                if (value > 9999999) value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x508);
+
+                if (TotalFestaCoins < value)
+                    TotalFestaCoins = value;
+            }
+        }
         public uint FestaCoins
         {
             get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x50C); }
@@ -421,6 +433,8 @@ namespace PKHeX
 
                 if (TotalFestaCoins < value)
                     TotalFestaCoins = value;
+
+                FestaCoinsDisplayed = value;
             }
         }
         private uint TotalFestaCoins
