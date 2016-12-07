@@ -994,8 +994,8 @@ namespace PKHeX
 
             PB_MarkPentagon.Visible = SAV.Generation >= 6;
             PB_MarkAlola.Visible = SAV.Generation >= 7;
-            TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
-            TB_GameSync.Visible = SAV.Exportable && SAV.Generation == 6;
+            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
+            TB_GameSync.Visible = L_GameSync.Visible = SAV.Exportable && SAV.Generation >= 6;
 
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = SAV.Generation == 5;
 
