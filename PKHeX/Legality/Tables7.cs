@@ -376,9 +376,7 @@ namespace PKHeX
         internal static readonly int[] Inherit_SafariMale =
         {
             128, // Tauros
-        };
-        internal static readonly int[] Inherit_SafariDitto =
-        {
+
             081, // Magnemite
             100, // Voltorb
             337, // Lunatone
@@ -400,10 +398,7 @@ namespace PKHeX
             538, // Throh
             539, // Sawk
             574, // Gothita
-        };
-        internal static readonly int[] Inherit_DreamDitto =
-        {
-            // Not actually possible, but just store as documentation
+
             081, // Magnemite
             100, // Voltorb
             120, // Staryu
