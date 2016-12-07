@@ -959,7 +959,7 @@ namespace PKHeX
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if ((pkm.Species > 731 && pkm.Species <= 785)
+                if ((pkm.Species >= 731 && pkm.Species <= 785)
                     || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e))
                     || Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e))
                     || Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e))) // past gen
