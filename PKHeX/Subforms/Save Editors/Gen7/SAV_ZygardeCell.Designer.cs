@@ -38,8 +38,11 @@
             this.NUD_Cells = new System.Windows.Forms.NumericUpDown();
             this.L_Cells = new System.Windows.Forms.Label();
             this.B_GiveAll = new System.Windows.Forms.Button();
+            this.L_Collected = new System.Windows.Forms.Label();
+            this.NUD_Collected = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Cells)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Collected)).BeginInit();
             this.SuspendLayout();
             // 
             // dgv
@@ -113,7 +116,7 @@
             // NUD_Cells
             // 
             this.NUD_Cells.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_Cells.Location = new System.Drawing.Point(90, 284);
+            this.NUD_Cells.Location = new System.Drawing.Point(90, 309);
             this.NUD_Cells.Maximum = new decimal(new int[] {
             65535,
             0,
@@ -126,17 +129,17 @@
             // L_Cells
             // 
             this.L_Cells.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Cells.Location = new System.Drawing.Point(12, 281);
+            this.L_Cells.Location = new System.Drawing.Point(12, 306);
             this.L_Cells.Name = "L_Cells";
             this.L_Cells.Size = new System.Drawing.Size(72, 23);
             this.L_Cells.TabIndex = 4;
-            this.L_Cells.Text = "Total:";
+            this.L_Cells.Text = "Stored:";
             this.L_Cells.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_GiveAll
             // 
             this.B_GiveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_GiveAll.Location = new System.Drawing.Point(81, 306);
+            this.B_GiveAll.Location = new System.Drawing.Point(162, 306);
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(75, 23);
             this.B_GiveAll.TabIndex = 5;
@@ -144,11 +147,36 @@
             this.B_GiveAll.UseVisualStyleBackColor = true;
             this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
             // 
+            // L_Collected
+            // 
+            this.L_Collected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_Collected.Location = new System.Drawing.Point(12, 281);
+            this.L_Collected.Name = "L_Collected";
+            this.L_Collected.Size = new System.Drawing.Size(72, 23);
+            this.L_Collected.TabIndex = 7;
+            this.L_Collected.Text = "Collected:";
+            this.L_Collected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Collected
+            // 
+            this.NUD_Collected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.NUD_Collected.Location = new System.Drawing.Point(90, 284);
+            this.NUD_Collected.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Collected.Name = "NUD_Collected";
+            this.NUD_Collected.Size = new System.Drawing.Size(66, 20);
+            this.NUD_Collected.TabIndex = 6;
+            // 
             // SAV_ZygardeCell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 341);
+            this.Controls.Add(this.L_Collected);
+            this.Controls.Add(this.NUD_Collected);
             this.Controls.Add(this.B_GiveAll);
             this.Controls.Add(this.L_Cells);
             this.Controls.Add(this.NUD_Cells);
@@ -163,6 +191,7 @@
             this.Text = "Zygarde Cells";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Cells)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Collected)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -178,5 +207,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn dgv_val;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_location;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgv_ref;
+        private System.Windows.Forms.Label L_Collected;
+        private System.Windows.Forms.NumericUpDown NUD_Collected;
     }
 }

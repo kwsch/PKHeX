@@ -18,9 +18,11 @@ namespace PKHeX
             ushort[] cells = constants.Skip(celloffset).Take(cellcount).ToArray();
 
             int receivedCount = cells.Count(cell => cell == 2);
-            int cellCount = constants[cellscollected];
+            int cellCount = constants[cellstotal];
+            int cellCollected = constants[cellscollected];
 
             NUD_Cells.Value = cellCount;
+            NUD_Collected.Value = cellCollected;
 
             var combo = dgv.Columns[2] as DataGridViewComboBoxColumn;
             foreach (string t in states)
@@ -39,7 +41,8 @@ namespace PKHeX
             }
         }
 
-        private const int cellscollected = 0x142/2;
+        private const int cellstotal = 0x142/2;
+        private const int cellscollected = 0x152/2;
         private const int celloffset = 198;
         private const int cellcount = 95;
         private readonly string[] states = {"None", "Available", "Received"};
@@ -57,7 +60,8 @@ namespace PKHeX
                 constants[celloffset + i] = (ushort)val;
             }
 
-            constants[cellscollected] = (ushort)NUD_Cells.Value;
+            constants[cellstotal] = (ushort)NUD_Cells.Value;
+            constants[cellscollected] = (ushort)NUD_Collected.Value;
 
             SAV.EventConsts = constants;
             Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
@@ -73,6 +77,8 @@ namespace PKHeX
         {
             for (int i = 0; i < dgv.RowCount; i++)
                 dgv.Rows[i].Cells[2].Value = states[2];
+
+            NUD_Collected.Value = cellcount;
 
             System.Media.SystemSounds.Asterisk.Play();
         }
