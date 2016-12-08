@@ -43,6 +43,7 @@
             this.dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             this.dgData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgData.Location = new System.Drawing.Point(0, 0);
             this.dgData.Name = "dgData";
