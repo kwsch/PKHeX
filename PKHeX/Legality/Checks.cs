@@ -1060,8 +1060,20 @@ namespace PKHeX
         {
             if (!Encounter.Valid)
                 return new CheckResult(Severity.Valid, "Skipped History check due to other check being invalid.", CheckIdentifier.History);
+
             if (pkm.GenNumber < 6)
-                return new CheckResult(Severity.Valid, "No History Block to check.", CheckIdentifier.History);
+            {
+                if (pkm.Format < 6)
+                    return new CheckResult(Severity.Valid, "No History Block to check.", CheckIdentifier.History);
+
+                if (pkm.OT_Affection > 0)
+                    return new CheckResult(Severity.Invalid, "OT Affection should be zero.", CheckIdentifier.History);
+                if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
+                    return new CheckResult(Severity.Invalid, "Should not have OT memories.", CheckIdentifier.History);
+            }
+            
+            if (pkm.HT_Gender > 1)
+                return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
 
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null

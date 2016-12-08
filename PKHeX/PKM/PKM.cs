@@ -131,6 +131,7 @@ namespace PKHeX
         protected virtual int Met_Month { get { return 0; } set { } }
         protected virtual int Met_Day { get { return 0; } set { } }
         public virtual string HT_Name { get; set; }
+        public virtual int HT_Gender { get; set; }
         public virtual int HT_Affection { get; set; }
         public virtual int HT_Friendship { get; set; }
         public virtual int HT_Memory { get; set; }
