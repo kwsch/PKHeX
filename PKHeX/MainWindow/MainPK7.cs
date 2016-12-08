@@ -251,7 +251,7 @@ namespace PKHeX
             pk7.HT_Name = TB_OTt2.Text;
 
             // 0x90-0xAF
-            pk7.HT_Gender = PKX.getGender(Label_CTGender.Text);
+            pk7.HT_Gender = PKX.getGender(Label_CTGender.Text) & 1;
             // Plus more, set by MemoryAmie (already in buff)
 
             // Block D
