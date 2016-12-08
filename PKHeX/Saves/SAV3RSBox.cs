@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public sealed class SAV3RSBox : SaveFile
     {
-        public override string BAKName => $"{FileName} [{Version} #{SaveCount.ToString("0000")}].bak";
+        public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
         public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
         public override string Extension => ".gci";
 
@@ -106,7 +106,7 @@ namespace PKHeX
             get
             {
                 return string.Join(Environment.NewLine, 
-                    Blocks.Where(b => !b.ChecksumsValid).Select(b => $"Block {b.BlockNumber.ToString("00")} invalid"));
+                    Blocks.Where(b => !b.ChecksumsValid).Select(b => $"Block {b.BlockNumber:00} invalid"));
             }
         }
 

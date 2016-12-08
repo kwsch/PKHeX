@@ -300,9 +300,9 @@ namespace PKHeX
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm.ToString("00")}" : "";
+                string form = AltForm > 0 ? $"-{AltForm:00)}" : "";
                 string star = IsShiny ? " ★" : "";
-                return $"{Species.ToString("000")}{form}{star} - {Nickname} - {Checksum.ToString("X4")}{EncryptionConstant.ToString("X8")}.{Extension}";
+                return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}.{Extension}";
             }
         }
         public int[] IVs

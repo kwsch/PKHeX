@@ -357,7 +357,7 @@ namespace PKHeX
             {
                 MysteryGift MatchedGift = EncounterMatch as MysteryGift;
                 if (MatchedGift != null)
-                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID.ToString("0000")} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID:0000)} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
             }
 
             EncounterMatch = Legal.getValidStaticEncounter(pkm);

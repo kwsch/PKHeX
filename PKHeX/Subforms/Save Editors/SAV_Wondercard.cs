@@ -326,7 +326,7 @@ namespace PKHeX
                 string giftType = gift.Type;
 
                 if (mga.Gifts.All(card => card.Data.Length != data.Length))
-                    Util.Alert("Decoded data not valid for loaded save file.", $"QR Data Size: 0x{data.Length.ToString("X")}");
+                    Util.Alert("Decoded data not valid for loaded save file.", $"QR Data Size: 0x{data.Length:X}");
                 else if (types.All(type => type != giftType))
                     Util.Alert("Gift type is not compatible with the save file.", $"QR Gift Type: {gift.Type}" + Environment.NewLine + $"Expected Types: {string.Join(", ", types)}");
                 else if (gift.Species > SAV.MaxSpeciesID || gift.Moves.Any(move => move > SAV.MaxMoveID) || gift.HeldItem > SAV.MaxItemID)
@@ -373,7 +373,7 @@ namespace PKHeX
 
             // Prepare Data
             MysteryGift card = mga.Gifts[index];
-            string filename = Util.CleanFileName($"{card.CardID.ToString("0000")} - {card.CardTitle}.wc6");
+            string filename = Util.CleanFileName($"{card.CardID:0000} - {card.CardTitle}.wc6");
 
             // Make File
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
@@ -492,7 +492,7 @@ namespace PKHeX
                 try
                 {
                     s += $"{Main.GameStrings.specieslist[pk.Species]} @ {Main.GameStrings.itemlist[pk.HeldItem]}  --- ";
-                    s += (pk.IsEgg ? Main.GameStrings.eggname : $"{pk.OT_Name} - {pk.TID.ToString("00000")}/{pk.SID.ToString("00000")}") + Environment.NewLine;
+                    s += (pk.IsEgg ? Main.GameStrings.eggname : $"{pk.OT_Name} - {pk.TID:00000}/{pk.SID:00000}") + Environment.NewLine;
                     s += $"{Main.GameStrings.movelist[pk.Move1]} / {Main.GameStrings.movelist[pk.Move2]} / {Main.GameStrings.movelist[pk.Move3]} / {Main.GameStrings.movelist[pk.Move4]}" + Environment.NewLine;
                     if (gift is WC7)
                     {

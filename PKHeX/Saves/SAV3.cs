@@ -218,7 +218,7 @@ namespace PKHeX
                     ushort chk = SaveUtil.check32(chunk);
                     ushort old = BitConverter.ToUInt16(Data, ABO + i*0x1000 + 0xFF6);
                     if (chk != old)
-                        r += $"Block {BlockOrder[i].ToString("00")} @ {(i*0x1000).ToString("X5")} invalid." + Environment.NewLine;
+                        r += $"Block {BlockOrder[i]:00} @ {i*0x1000:X5} invalid." + Environment.NewLine;
                 }
                 return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
             }

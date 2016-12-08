@@ -55,7 +55,7 @@ namespace PKHeX
             var alolatime_list = new[] { new { Text = "Sun Time", Value = 24*60*60 } };
             Array.Resize(ref alolatime_list, 24);
             for (int i = 1; i < 24; i++)
-                alolatime_list[i] = new {Text = $"+{i.ToString("00")} Hours", Value = i*60*60};
+                alolatime_list[i] = new {Text = $"+{i:00} Hours", Value = i*60*60};
             alolatime_list[12] = new {Text = "Moon Time", Value = 12 * 60 * 60};
 
             CB_3DSReg.DisplayMember = "Text";

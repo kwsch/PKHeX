@@ -24,7 +24,7 @@ namespace PKHeX
 
         public bool Japanese => otname.Length == STRLEN_J;
 
-        public override string FileName => $"{Species.ToString("000")} - {Nickname} - {SaveUtil.ccitt16(Encrypt()).ToString("X4")}.{Extension}";
+        public override string FileName => $"{Species:000} - {Nickname} - {SaveUtil.ccitt16(Encrypt()):X4}.{Extension}";
 
         public PK2(byte[] decryptedData = null, string ident = null, bool jp = false)
         {

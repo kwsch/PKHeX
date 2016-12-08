@@ -5,7 +5,7 @@ namespace PKHeX
 {
     public sealed class SAV3XD : SaveFile
     {
-        public override string BAKName => $"{FileName} [{OT} ({Version}) #{SaveCount.ToString("0000")}].bak";
+        public override string BAKName => $"{FileName} [{OT} ({Version}) #{SaveCount:0000}].bak";
         public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
         public override string Extension => ".gci";
 

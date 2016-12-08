@@ -38,7 +38,7 @@ namespace PKHeX
                     if (upd <= cur)
                         return;
                     
-                    string message = $"New Update Available! {upd.ToString("d")}";
+                    string message = $"New Update Available! {upd:d}";
                     if (InvokeRequired)
                         try { Invoke((MethodInvoker) delegate { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }); }
                         catch { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }
@@ -763,7 +763,7 @@ namespace PKHeX
             else
                 Util.Error("Attempted to load an unsupported file type/size.",
                     $"File Loaded:{Environment.NewLine}{path}",
-                    $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length.ToString("X4")})");
+                    $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
         }
         private bool openXOR(byte[] input, string path)
         {

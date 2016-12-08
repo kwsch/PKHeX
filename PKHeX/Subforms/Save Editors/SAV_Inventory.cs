@@ -17,7 +17,7 @@ namespace PKHeX
 
             for (int i = 0; i < itemlist.Length; i++)
                 if (itemlist[i] == "")
-                    itemlist[i] = $"(Item #{i.ToString("000")})";
+                    itemlist[i] = $"(Item #{i:000})";
 
             HasFreeSpace = SAV.Generation == 7;
             HasNew = SAV.Generation == 7;
