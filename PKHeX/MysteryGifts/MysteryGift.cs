@@ -105,7 +105,7 @@ namespace PKHeX
         public virtual int Quantity { get { return 1; } set { } }
         public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
 
-        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID.ToString("0000")}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
+        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         // Search Properties
         public virtual int Species { get { return -1; } set { } }

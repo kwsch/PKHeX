@@ -147,7 +147,7 @@ namespace PKHeX
                         continue;
 
                     invalid++;
-                    rv += $"Invalid: {i.ToString("X2")} @ Region {Blocks[i].Offset.ToString("X5") + Environment.NewLine}";
+                    rv += $"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}" + Environment.NewLine;
                 }
                 // Return Outputs
                 rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
@@ -411,25 +411,33 @@ namespace PKHeX
                 BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x11C);
             }
         }
+        public uint UsedFestaCoins
+        {
+            get { return BitConverter.ToUInt32(Data, 0x69C98); }
+            set
+            {
+                if (value > 9999999) value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, 0x69C98);
+            }
+        }
         public uint FestaCoins
+        {
+            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x508); }
+            set
+            {
+                if (value > 9999999) value = 9999999;
+                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x508);
+
+                TotalFestaCoins = UsedFestaCoins + value;
+            }
+        }
+        private uint TotalFestaCoins
         {
             get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x50C); }
             set
             {
                 if (value > 9999999) value = 9999999;
                 BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x50C);
-
-                if (TotalFestaCoins < value)
-                    TotalFestaCoins = value;
-            }
-        }
-        private uint TotalFestaCoins
-        {
-            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x510); }
-            set
-            {
-                if (value > 9999999) value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x510);
             }
         }
 
@@ -454,7 +462,7 @@ namespace PKHeX
         public int LastSavedDay { get { return (int)(LastSaved >> 16 & 0x1F); } set { LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
         public int LastSavedHour { get { return (int)(LastSaved >> 21 & 0x1F); } set { LastSaved = LastSaved & 0xFC1FFFFF | ((uint)value & 0x1F) << 21; } }
         public int LastSavedMinute { get { return (int)(LastSaved >> 26 & 0x3F); } set { LastSaved = LastSaved & 0x03FFFFFF | ((uint)value & 0x3F) << 26; } }
-        public string LastSavedTime => $"{LastSavedYear.ToString("0000")}{LastSavedMonth.ToString("00")}{LastSavedDay.ToString("00")}{LastSavedHour.ToString("00")}{LastSavedMinute.ToString("00")}";
+        public string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
 
         public int ResumeYear { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data,AdventureInfo + 0x4); } }
         public int ResumeMonth { get { return Data[AdventureInfo + 0x8]; } set { Data[AdventureInfo + 0x8] = (byte)value; } }
@@ -989,7 +997,7 @@ namespace PKHeX
             for (int i = 0; i < Data.Length / 0x200; i++)
             {
                 if (!FFFF.SequenceEqual(Data.Skip(i * 0x200).Take(0x200))) continue;
-                r.AppendLine($"0x200 chunk @ 0x{(i * 0x200).ToString("X5")} is FF'd.");
+                r.AppendLine($"0x200 chunk @ 0x{i*0x200:X5} is FF'd.");
                 r.AppendLine("Cyber will screw up (as of August 31st 2014).");
                 r.AppendLine();
 
@@ -1007,7 +1015,7 @@ namespace PKHeX
         public override string MiscSaveInfo()
         {
             return Blocks.Aggregate("", (current, b) => current +
-                $"{b.ID.ToString("00")}: {b.Offset.ToString("X5")}-{(b.Offset + b.Length).ToString("X5")}, {b.Length.ToString("X5")}{Environment.NewLine}");
+                $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
         }
 
         public override bool RequiresMemeCrypto

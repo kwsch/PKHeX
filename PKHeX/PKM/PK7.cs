@@ -319,7 +319,7 @@ namespace PKHeX
                 Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x78);
             }
         }
-        public int HT_Gender { get { return Data[0x92]; } set { Data[0x92] = (byte)value; } }
+        public override int HT_Gender { get { return Data[0x92]; } set { Data[0x92] = (byte)value; } }
         public override int CurrentHandler { get { return Data[0x93]; } set { Data[0x93] = (byte)value; } }
         public override int Geo1_Region { get { return Data[0x94]; } set { Data[0x94] = (byte)value; } }
         public override int Geo1_Country { get { return Data[0x95]; } set { Data[0x95] = (byte)value; } }

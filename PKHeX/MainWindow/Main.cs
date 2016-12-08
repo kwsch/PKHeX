@@ -38,7 +38,7 @@ namespace PKHeX
                     if (upd <= cur)
                         return;
                     
-                    string message = $"New Update Available! {upd.ToString("d")}";
+                    string message = $"New Update Available! {upd:d}";
                     if (InvokeRequired)
                         try { Invoke((MethodInvoker) delegate { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }); }
                         catch { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }
@@ -137,35 +137,8 @@ namespace PKHeX
 
             bool showChangelog = false;
             bool BAKprompt = false;
-            // Load User Settings
-            {
-                unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
-                updateUnicode();
-                SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Properties.Settings.Default.SetUpdateDex;
-                SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Properties.Settings.Default.SetUpdatePKM;
-
-                // Select Language
-                string l = Properties.Settings.Default.Language;
-                int lang = Array.IndexOf(GameInfo.lang_val, l);
-                if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
-                CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
-
-                // Version Check
-                if (Properties.Settings.Default.Version.Length > 0) // already run on system
-                {
-                    int lastrev; int.TryParse(Properties.Settings.Default.Version, out lastrev);
-                    int currrev; int.TryParse(Properties.Resources.ProgramVersion, out currrev);
-
-                    showChangelog = lastrev < currrev;
-                }
-
-                // BAK Prompt
-                if (!Properties.Settings.Default.BAKPrompt)
-                    BAKprompt = Properties.Settings.Default.BAKPrompt = true;
-
-                Properties.Settings.Default.Version = Properties.Resources.ProgramVersion;
-                Properties.Settings.Default.Save();
-            }
+            try { loadConfig(out BAKprompt, out showChangelog); }
+            catch { }
 
             InitializeFields();
             formInitialized = true;
@@ -254,12 +227,43 @@ namespace PKHeX
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
-        private static string ThreadPath => @"https://projectpokemon.org/forums/showthread.php?36986";
+        private static string ThreadPath => @"https://projectpokemon.org/pkhex/";
         private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
 
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
+        private void loadConfig(out bool BAKprompt, out bool showChangelog)
+        {
+            BAKprompt = false;
+            showChangelog = false;
+            unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
+            updateUnicode();
+            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Properties.Settings.Default.SetUpdateDex;
+            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Properties.Settings.Default.SetUpdatePKM;
+
+            // Select Language
+            string l = Properties.Settings.Default.Language;
+            int lang = Array.IndexOf(GameInfo.lang_val, l);
+            if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
+            CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
+
+            // Version Check
+            if (Properties.Settings.Default.Version.Length > 0) // already run on system
+            {
+                int lastrev; int.TryParse(Properties.Settings.Default.Version, out lastrev);
+                int currrev; int.TryParse(Properties.Resources.ProgramVersion, out currrev);
+
+                showChangelog = lastrev < currrev;
+            }
+
+            // BAK Prompt
+            if (!Properties.Settings.Default.BAKPrompt)
+                BAKprompt = Properties.Settings.Default.BAKPrompt = true;
+
+            Properties.Settings.Default.Version = Properties.Resources.ProgramVersion;
+            Properties.Settings.Default.Save();
+        }
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
         {
@@ -759,7 +763,7 @@ namespace PKHeX
             else
                 Util.Error("Attempted to load an unsupported file type/size.",
                     $"File Loaded:{Environment.NewLine}{path}",
-                    $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length.ToString("X4")})");
+                    $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
         }
         private bool openXOR(byte[] input, string path)
         {
@@ -957,6 +961,7 @@ namespace PKHeX
                 B_OpenSecretBase.Enabled = SAV.HasSecretBase;
                 B_OpenPokepuffs.Enabled = SAV.HasPuff;
                 B_OpenPokeBeans.Enabled = SAV.Generation == 7;
+                B_OpenZygardeCells.Enabled = SAV.Generation == 7;
                 B_OUTPasserby.Enabled = SAV.HasPSS;
                 B_OpenBoxLayout.Enabled = SAV.HasBoxWallpapers;
                 B_OpenWondercards.Enabled = SAV.HasWondercards;
@@ -989,8 +994,8 @@ namespace PKHeX
 
             PB_MarkPentagon.Visible = SAV.Generation >= 6;
             PB_MarkAlola.Visible = SAV.Generation >= 7;
-            TB_Secure1.Visible = TB_Secure2.Visible = L_GameSync.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
-            TB_GameSync.Visible = SAV.Exportable && SAV.Generation == 6;
+            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
+            TB_GameSync.Visible = L_GameSync.Visible = SAV.Exportable && SAV.Generation >= 6;
 
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = SAV.Generation == 5;
 
@@ -2001,7 +2006,7 @@ namespace PKHeX
             changingFields = false;
 
             // Potential Reading
-            L_Potential.Text = (!unicode
+            L_Potential.Text = (unicode
                 ? new[] {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"}
                 : new[] {"+", "++", "+++", "++++"}
                 )[pkm.PotentialRating];
@@ -3986,6 +3991,10 @@ namespace PKHeX
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
             new SAV_SecretBase().ShowDialog();
+        }
+        private void B_OpenZygardeCells_Click(object sender, EventArgs e)
+        {
+            new SAV_ZygardeCell().ShowDialog();
         }
         private void B_LinkInfo_Click(object sender, EventArgs e)
         {

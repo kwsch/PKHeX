@@ -357,7 +357,7 @@ namespace PKHeX
             {
                 MysteryGift MatchedGift = EncounterMatch as MysteryGift;
                 if (MatchedGift != null)
-                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID.ToString("0000")} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID:0000)} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
             }
 
             EncounterMatch = Legal.getValidStaticEncounter(pkm);
@@ -959,7 +959,7 @@ namespace PKHeX
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if ((pkm.Species > 731 && pkm.Species <= 785)
+                if ((pkm.Species >= 731 && pkm.Species <= 785)
                     || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e))
                     || Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e))
                     || Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e))) // past gen
@@ -1060,8 +1060,20 @@ namespace PKHeX
         {
             if (!Encounter.Valid)
                 return new CheckResult(Severity.Valid, "Skipped History check due to other check being invalid.", CheckIdentifier.History);
+
             if (pkm.GenNumber < 6)
-                return new CheckResult(Severity.Valid, "No History Block to check.", CheckIdentifier.History);
+            {
+                if (pkm.Format < 6)
+                    return new CheckResult(Severity.Valid, "No History Block to check.", CheckIdentifier.History);
+
+                if (pkm.OT_Affection > 0)
+                    return new CheckResult(Severity.Invalid, "OT Affection should be zero.", CheckIdentifier.History);
+                if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
+                    return new CheckResult(Severity.Invalid, "Should not have OT memories.", CheckIdentifier.History);
+            }
+            
+            if (pkm.HT_Gender > 1)
+                return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
 
             WC6 MatchedWC6 = EncounterMatch as WC6;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
@@ -1561,7 +1573,7 @@ namespace PKHeX
             }
 
             var Lineage = Legal.getLineage(pkm).ToArray();
-            if (Lineage.Any(e => Legal.Fossils.Contains(e))) // Only Poké Ball possible on Fossils
+            if (Lineage.Any(e => Legal.Fossils.Contains(e)) || new[] {137,233,474}.Contains(pkm.Species)) // Only Poké Ball possible (fossils/porygon)
             {
                 if (pkm.Ball == 4)
                     AddLine(Severity.Valid, "Ball possible.", CheckIdentifier.Ball);
@@ -1585,7 +1597,7 @@ namespace PKHeX
                 }
             }
 
-            if (Legal.Bank_NotAvailable7.Contains(baseSpecies))
+            if (Legal.Bank_NotAvailable7.Contains(baseSpecies) && !EncounterIsMysteryGift)
                 AddLine(Severity.Invalid, "Species not obtainable prior to Bank Release.", CheckIdentifier.Special);
 
             if (Legal.EvolveToAlolanForms.Contains(pkm.Species))

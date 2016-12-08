@@ -164,6 +164,35 @@ namespace PKHeX
 
             File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
         }
+        
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            bool cp = keyData == (Keys.Control | Keys.C) && ActiveControl is DataGridView;
+            if (!cp)
+                return base.ProcessCmdKey(ref msg, keyData);
+
+            string data = dgData.GetClipboardContent().GetText();
+            var dr = Util.Prompt(MessageBoxButtons.YesNo, "Copy as formatted table?");
+            if (dr != DialogResult.Yes)
+            {
+                Clipboard.SetText(data);
+                return true;
+            }
+
+            // Reformat datagrid clipboard content
+            string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            int tabcount = lines[0].Count(c => c == '\t');
+
+            string[] newlines = new string[lines.Length + 1];
+            newlines[0] = lines[0].Replace('\t', '|');
+            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(t => '|')); // 2 pipes for each end
+            for (int i = 1; i < lines.Length; i++)
+                newlines[i + 1] = lines[i].Replace('\t', '|');
+
+            Clipboard.SetText(string.Join(Environment.NewLine, newlines));
+
+            return true;
+        }
 
         public class PokemonList : SortableBindingList<Preview> { }
     }

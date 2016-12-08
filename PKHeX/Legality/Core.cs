@@ -91,8 +91,7 @@ namespace PKHeX
         {
             foreach (EncounterArea g in GameSlots)
             {
-                EncounterArea slots = SpecialSlots.FirstOrDefault(l => l.Location == g.Location);
-                if (slots != null)
+                foreach (var slots in SpecialSlots.Where(l => l.Location == g.Location))
                     g.Slots = g.Slots.Concat(slots.Slots).ToArray();
             }
             return GameSlots;

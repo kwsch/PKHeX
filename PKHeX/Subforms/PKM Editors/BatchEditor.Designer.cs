@@ -40,6 +40,7 @@
             this.CB_Property = new System.Windows.Forms.ComboBox();
             this.CB_Require = new System.Windows.Forms.ComboBox();
             this.B_Add = new System.Windows.Forms.Button();
+            this.L_PropType = new System.Windows.Forms.Label();
             this.FLP_RB.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,9 +103,9 @@
             this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_Instructions.Location = new System.Drawing.Point(12, 68);
+            this.RTB_Instructions.Location = new System.Drawing.Point(12, 84);
             this.RTB_Instructions.Name = "RTB_Instructions";
-            this.RTB_Instructions.Size = new System.Drawing.Size(370, 157);
+            this.RTB_Instructions.Size = new System.Drawing.Size(370, 141);
             this.RTB_Instructions.TabIndex = 5;
             this.RTB_Instructions.Text = "";
             // 
@@ -132,14 +133,6 @@
             // 
             this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Format.FormattingEnabled = true;
-            this.CB_Format.Items.AddRange(new object[] {
-            "All",
-            "pk7",
-            "pk6",
-            "pk5",
-            "pk4",
-            "pk3",
-            "Any"});
             this.CB_Format.Location = new System.Drawing.Point(11, 40);
             this.CB_Format.Name = "CB_Format";
             this.CB_Format.Size = new System.Drawing.Size(44, 21);
@@ -158,6 +151,7 @@
             this.CB_Property.Name = "CB_Property";
             this.CB_Property.Size = new System.Drawing.Size(140, 21);
             this.CB_Property.TabIndex = 9;
+            this.CB_Property.SelectedIndexChanged += new System.EventHandler(this.CB_Property_SelectedIndexChanged);
             // 
             // CB_Require
             // 
@@ -184,12 +178,22 @@
             this.B_Add.UseVisualStyleBackColor = true;
             this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
             // 
+            // L_PropType
+            // 
+            this.L_PropType.AutoSize = true;
+            this.L_PropType.Location = new System.Drawing.Point(58, 64);
+            this.L_PropType.Name = "L_PropType";
+            this.L_PropType.Size = new System.Drawing.Size(70, 13);
+            this.L_PropType.TabIndex = 12;
+            this.L_PropType.Text = "PropertyType";
+            // 
             // BatchEditor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 261);
+            this.Controls.Add(this.L_PropType);
             this.Controls.Add(this.B_Add);
             this.Controls.Add(this.CB_Require);
             this.Controls.Add(this.CB_Property);
@@ -208,6 +212,7 @@
             this.FLP_RB.ResumeLayout(false);
             this.FLP_RB.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -224,5 +229,6 @@
         private System.Windows.Forms.ComboBox CB_Property;
         private System.Windows.Forms.ComboBox CB_Require;
         private System.Windows.Forms.Button B_Add;
+        private System.Windows.Forms.Label L_PropType;
     }
 }

@@ -82,14 +82,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'ClickOnce-Debug|x86'">
     <Reference Include="System.Deployment" />
@@ -310,6 +307,12 @@
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.Designer.cs">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.Designer.cs">
+      <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\SAV_BoxViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -499,6 +502,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
       <DependentUpon>SAV_Trainer7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.resx">
+      <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxViewer.resx">
       <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
