@@ -79,7 +79,7 @@ namespace PKHeX
             get { return new int[] { Data[0x18], Data[0x19], Data[0x1A] }; }
             set
             {
-                if (value?.Length != 2) return;
+                if (value?.Length != 3) return;
                 Data[0x18] = (byte)value[0];
                 Data[0x19] = (byte)value[1];
                 Data[0x1A] = (byte)value[2];
