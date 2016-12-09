@@ -152,7 +152,7 @@ namespace PKHeX
                 }
                 switch (fromType.Name)
                 {
-                    case "PK1":
+                    case nameof(PK1):
                         if (toFormat == 2)
                         {
                             pkm = PKMType == typeof (PK2) ? ((PK1) pk).convertToPK2() : null;
@@ -161,7 +161,7 @@ namespace PKHeX
                         if (toFormat == 7)
                             pkm = null; // pkm.convertPK1toPK7();
                         break;
-                    case "PK2":
+                    case nameof(PK2):
                         if (PKMType == typeof (PK1))
                         {
                             if (pk.Species > 151)
@@ -174,43 +174,35 @@ namespace PKHeX
                         else
                             pkm = null;
                         break;
-                    case "CK3":
-                    case "XK3":
+                    case nameof(CK3):
+                    case nameof(XK3):
                         // interconverting C/XD needs to visit main series format
                         // ends up stripping purification/shadow etc stats
                         pkm = pkm.convertToPK3();
-                        goto case "PK3"; // fall through
-                    case "PK3":
+                        goto case nameof(PK3); // fall through
+                    case nameof(PK3):
                         if (toFormat == 3) // Gen3 Inter-trading
                         {
                             switch (PKMType.Name)
                             {
-                                case "CK3": pkm = pkm.convertToCK3(); break;
-                                case "XK3": pkm = pkm.convertToXK3(); break;
-                                case "PK3": pkm = pkm.convertToPK3(); break; // already converted, instantly returns
+                                case nameof(CK3): pkm = pkm.convertToCK3(); break;
+                                case nameof(XK3): pkm = pkm.convertToXK3(); break;
+                                case nameof(PK3): pkm = pkm.convertToPK3(); break; // already converted, instantly returns
                                 default: throw new FormatException();
                             }
                             break;
                         }
-                        if (fromType.Name != "PK3")
+                        if (fromType.Name != nameof(PK3))
                             pkm = pkm.convertToPK3();
 
                         pkm = ((PK3)pkm).convertToPK4();
+                        goto case nameof(PK4);
+                    case nameof(BK4):
+                        pkm = ((BK4)pkm).convertToPK4();
                         if (toFormat == 4)
-                        {
-                            if (PKMType == typeof (BK4))
-                                pkm = ((PK4) pkm).convertToBK4();
                             break;
-                        }
-                        pkm = ((PK4)pkm).convertToPK5();
-                        if (toFormat == 5)
-                            break;
-                        pkm = ((PK5)pkm).convertToPK6();
-                        if (toFormat == 6)
-                            break;
-                        pkm = new PK7(pkm.Data, pkm.Identifier);
-                        break;
-                    case "PK4":
+                        goto case nameof(PK4);
+                    case nameof(PK4):
                         if (PKMType == typeof(BK4))
                         {
                             pkm = ((PK4)pkm).convertToBK4();
@@ -219,28 +211,18 @@ namespace PKHeX
                         pkm = ((PK4)pkm).convertToPK5();
                         if (toFormat == 5)
                             break;
+                        goto case nameof(PK5);
+                    case nameof(PK5):
                         pkm = ((PK5)pkm).convertToPK6();
                         if (toFormat == 6)
                             break;
+                        goto case nameof(PK6);
+                    case nameof(PK6):
                         pkm = new PK7(pkm.Data, pkm.Identifier);
-                        break;
-                    case "BK4":
-                        pkm = ((BK4)pkm).convertToPK4();
-                        if (toFormat == 4)
+                        if (toFormat == 7)
                             break;
-                        pkm = ((PK4)pkm).convertToPK5();
-                        if (toFormat == 5)
-                            break;
-                        pkm = ((PK5)pkm).convertToPK6();
-                        if (toFormat == 6)
-                            break;
-                        pkm = new PK7(pkm.Data, pkm.Identifier);
-                        break;
-                    case "PK5":
-                        pkm = ((PK5)pkm).convertToPK6();
-                        break;
-                    case "PK6":
-                        pkm = new PK7(pkm.Data, pkm.Identifier);
+                        goto case nameof(PK7);
+                    case nameof(PK7):
                         break;
                 }
             }
