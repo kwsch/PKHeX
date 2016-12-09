@@ -51,7 +51,7 @@ namespace PKHeX
             {
                 if (value?.Length != 2) return;
                 BitConverter.GetBytes((short)value[0]).CopyTo(Data, 0xC);
-                BitConverter.GetBytes((short)value[0]).CopyTo(Data, 0xE);
+                BitConverter.GetBytes((short)value[1]).CopyTo(Data, 0xE);
             }
         }
         public override int Gender { get { return Data[0x10]; } set { Data[0x10] = (byte)value; } }
