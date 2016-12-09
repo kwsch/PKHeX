@@ -237,8 +237,8 @@ namespace PKHeX
                 
                     // Special Levelup Cases
                 case 16:
-                    if (pkm.CNT_Beauty > Argument)
-                        return skipChecks;
+                    if (pkm.CNT_Beauty < Argument)
+                        return false;
                     goto default;
                 case 23: // Gender = Male
                     if (pkm.Gender != 0)
