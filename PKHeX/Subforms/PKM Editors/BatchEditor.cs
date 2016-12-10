@@ -256,15 +256,39 @@ namespace PKHeX
         {
             foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
             {
+                string pv = i.PropertyValue;
+                if (pv.StartsWith("$") && pv.Contains(','))
+                {
+                    string str = pv.Substring(1);
+                    var split = str.Split(',');
+                    int.TryParse(split[0], out i.Min);
+                    int.TryParse(split[1], out i.Max);
+
+                    if (i.Min == i.Max)
+                    {
+                        i.PropertyValue = i.Min.ToString();
+                        Console.WriteLine(i.PropertyName + " randomization range Min/Max same?");
+                    }
+                    else
+                        i.Random = true;
+                }
+
                 switch (i.PropertyName)
                 {
-                    case "Species": i.setScreenedValue(Main.GameStrings.specieslist); continue;
-                    case "HeldItem": i.setScreenedValue(Main.GameStrings.itemlist); continue;
-                    case "Move1": case "Move2": case "Move3": case "Move4": i.setScreenedValue(Main.GameStrings.movelist); continue;
-                    case "RelearnMove1": case "RelearnMove2": case "RelearnMove3": case "RelearnMove4": i.setScreenedValue(Main.GameStrings.movelist); continue;
-                    case "Ability": i.setScreenedValue(Main.GameStrings.abilitylist); continue;
-                    case "Nature": i.setScreenedValue(Main.GameStrings.natures); continue;
-                    case "Ball": i.setScreenedValue(Main.GameStrings.balllist); continue;
+                    case nameof(PKM.Species): i.setScreenedValue(Main.GameStrings.specieslist); continue;
+                    case nameof(PKM.HeldItem): i.setScreenedValue(Main.GameStrings.itemlist); continue;
+                    case nameof(PKM.Ability): i.setScreenedValue(Main.GameStrings.abilitylist); continue;
+                    case nameof(PKM.Nature): i.setScreenedValue(Main.GameStrings.natures); continue;
+                    case nameof(PKM.Ball): i.setScreenedValue(Main.GameStrings.balllist); continue;
+                    case nameof(PKM.Move1):
+                    case nameof(PKM.Move2):
+                    case nameof(PKM.Move3):
+                    case nameof(PKM.Move4):
+                    case nameof(PKM.RelearnMove1):
+                    case nameof(PKM.RelearnMove2):
+                    case nameof(PKM.RelearnMove3):
+                    case nameof(PKM.RelearnMove4):
+                        i.setScreenedValue(Main.GameStrings.movelist); continue;
                 }
             }
         }
@@ -312,6 +336,11 @@ namespace PKHeX
                 int index = Array.IndexOf(arr, PropertyValue);
                 PropertyValue = index > -1 ? index.ToString() : PropertyValue;
             }
+
+            // Extra Functionality
+            public bool Random;
+            public int Min, Max;
+            public int RandomValue => Util.rand.Next(Min, Max + 1);
         }
         private enum ModifyResult
         {
@@ -348,22 +377,24 @@ namespace PKHeX
             {
                 try
                 {
-                    if (cmd.PropertyName == "MetDate")
+                    if (cmd.PropertyName == nameof(PKM.MetDate))
                         PKM.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    else if (cmd.PropertyName == "EggMetDate")
+                    else if (cmd.PropertyName == nameof(PKM.EggMetDate))
                         PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    else if (cmd.PropertyName == "EncryptionConstant" && cmd.PropertyValue == CONST_RAND)
+                    else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
-                    else if(cmd.PropertyName == "PID" && cmd.PropertyValue == CONST_RAND)
+                    else if(cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
                         PKM.setPIDGender(PKM.Gender);
-                    else if (cmd.PropertyName == "EncryptionConstant" && cmd.PropertyValue == "PID")
+                    else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
                         PKM.EncryptionConstant = PKM.PID;
-                    else if (cmd.PropertyName == "PID" && cmd.PropertyValue == CONST_SHINY)
+                    else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
                         PKM.setShinyPID();
-                    else if (cmd.PropertyName == "Species" && cmd.PropertyValue == "0")
+                    else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
                         PKM.Data = new byte[PKM.Data.Length];
                     else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
                         setRandomIVs(PKM, cmd);
+                    else if (cmd.Random)
+                        ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
