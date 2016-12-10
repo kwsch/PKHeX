@@ -261,7 +261,7 @@ namespace PKHeX
         public void sanitizePouch(bool HaX, int MaxItemID)
         {
             var x = Items.Where(item => item.Valid(LegalItems, HaX, MaxItemID)).ToArray();
-            Items = x.Concat(new byte[MaxCount - x.Length].Select(i => new InventoryItem())).ToArray();
+            Items = x.Concat(new byte[PouchDataSize - x.Length].Select(i => new InventoryItem())).ToArray();
         }
     }
 }
