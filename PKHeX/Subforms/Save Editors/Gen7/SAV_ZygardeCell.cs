@@ -103,7 +103,7 @@ namespace PKHeX
             "Iki Town (Night)",
             "Route 4",
             "Paniola Ranch (Night)",
-            "Paniola Ranch",
+            "Paniola Ranch (Day)",
             "Wela Volcano Park - Top",
             "Lush Jungle - Cave",
             "Route 7",
