@@ -328,7 +328,8 @@ namespace PKHeX
         public abstract int getPartyOffset(int slot);
         public abstract string getBoxName(int box);
         public abstract void setBoxName(int box, string val);
-        public virtual ulong? GameSyncID { get { return null; } set { } }
+        public virtual int GameSyncIDSize { get; } = 8;
+        public virtual string GameSyncID { get { return null; } set { } }
         public virtual ulong? Secure1 { get { return null; } set { } }
         public virtual ulong? Secure2 { get { return null; } set { } }
 

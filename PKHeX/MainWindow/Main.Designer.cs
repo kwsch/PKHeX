@@ -435,6 +435,7 @@
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_CGearSkin = new System.Windows.Forms.Button();
             this.B_OpenPokeBeans = new System.Windows.Forms.Button();
+            this.B_OpenZygardeCells = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -442,7 +443,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.B_OpenZygardeCells = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -5389,7 +5389,7 @@
             this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
-            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateU64);
+            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateGameSyncID);
             // 
             // B_SaveBoxBin
             // 
@@ -5625,6 +5625,16 @@
             this.B_OpenPokeBeans.UseVisualStyleBackColor = true;
             this.B_OpenPokeBeans.Click += new System.EventHandler(this.B_OpenPokeBeans_Click);
             // 
+            // B_OpenZygardeCells
+            // 
+            this.B_OpenZygardeCells.Location = new System.Drawing.Point(189, 148);
+            this.B_OpenZygardeCells.Name = "B_OpenZygardeCells";
+            this.B_OpenZygardeCells.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenZygardeCells.TabIndex = 26;
+            this.B_OpenZygardeCells.Text = "Zygarde Cells";
+            this.B_OpenZygardeCells.UseVisualStyleBackColor = true;
+            this.B_OpenZygardeCells.Click += new System.EventHandler(this.B_OpenZygardeCells_Click);
+            // 
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
@@ -5692,16 +5702,6 @@
             this.L_UpdateAvailable.Text = "New Update Available!";
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
-            // 
-            // B_OpenZygardeCells
-            // 
-            this.B_OpenZygardeCells.Location = new System.Drawing.Point(189, 148);
-            this.B_OpenZygardeCells.Name = "B_OpenZygardeCells";
-            this.B_OpenZygardeCells.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenZygardeCells.TabIndex = 26;
-            this.B_OpenZygardeCells.Text = "Zygarde Cells";
-            this.B_OpenZygardeCells.UseVisualStyleBackColor = true;
-            this.B_OpenZygardeCells.Click += new System.EventHandler(this.B_OpenZygardeCells_Click);
             // 
             // Main
             // 
