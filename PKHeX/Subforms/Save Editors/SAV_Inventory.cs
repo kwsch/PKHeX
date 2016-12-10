@@ -153,18 +153,15 @@ namespace PKHeX
                 var invalid = pouch.Items.Where(item => item.Index != 0 && !pouch.LegalItems.Contains((ushort)item.Index)).ToArray();
                 var outOfBounds = invalid.Where(item => item.Index >= itemlist.Length).ToArray();
                 var incorrectPouch = invalid.Where(item => item.Index < itemlist.Length).ToArray();
-                pouch.Items = pouch.Items.Where(item => item.Index == 0 || pouch.LegalItems.Contains((ushort)item.Index)).ToArray();
 
                 if (outOfBounds.Any())
                     Util.Error("Unknown item detected.", "Item ID(s): " + string.Join(", ", outOfBounds.Select(item => item.Index)));
-                if (incorrectPouch.Any())
+                if (!Main.HaX && incorrectPouch.Any())
                     Util.Alert($"The following item(s) have been removed from {pouch.Type} pouch.",
                         string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])), 
                         "If you save changes, the item(s) will no longer be in the pouch.");
 
-                int purgedItems = outOfBounds.Length + incorrectPouch.Length;
-                pouch.Items = pouch.Items.Concat(new byte[purgedItems].Select(i => new InventoryItem())).ToArray();
-
+                pouch.sanitizePouch(Main.HaX, itemlist.Length - 1);
                 getBag(dgv, pouch);
             }
         }

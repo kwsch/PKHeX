@@ -26,6 +26,16 @@ namespace PKHeX
         {
             return new InventoryItem {Count = Count, Index = Index, New = New};
         }
+
+        // Check Pouch Compatibility
+        public bool Valid(ushort[] LegalItems, bool HaX, int MaxItemID)
+        {
+            if (Index == 0)
+                return true;
+            if (Index <= MaxItemID)
+                return HaX || LegalItems.Contains((ushort)Index);
+            return false;
+        }
     }
 
     public class InventoryPouch
@@ -246,6 +256,12 @@ namespace PKHeX
             else
                 Items = Items.Where(item => item.Index != 0).OrderBy(item => names[item.Index])
                         .Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
+        }
+
+        public void sanitizePouch(bool HaX, int MaxItemID)
+        {
+            var x = Items.Where(item => item.Valid(LegalItems, HaX, MaxItemID)).ToArray();
+            Items = x.Concat(new byte[MaxCount - x.Length].Select(i => new InventoryItem())).ToArray();
         }
     }
 }
