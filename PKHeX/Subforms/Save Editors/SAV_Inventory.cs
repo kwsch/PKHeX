@@ -12,7 +12,7 @@ namespace PKHeX
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
             if (SAV.Generation <= 3)
-                B_GiveAll.Visible = false;
+                NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = false;
             itemlist = Main.GameStrings.getItemStrings(SAV.Generation, SAV.Version);
 
             for (int i = 0; i < itemlist.Length; i++)
