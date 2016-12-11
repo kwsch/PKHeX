@@ -4299,7 +4299,7 @@ namespace PKHeX
 
             public static bool? WasDragParticipant(object form, int index)
             {
-                if (slotDestinationBoxNumber != index)
+                if (slotDestinationBoxNumber != index && slotSourceBoxNumber != index)
                     return null; // form was not watching box
                 return slotSource == form || slotDestination == form; // form already updated?
             }
