@@ -1512,19 +1512,33 @@ namespace PKHeX
                 { AddLine(Severity.Invalid, "Cannot increase Contest Stats of an Egg.", CheckIdentifier.Misc); return; }
             }
 
-            if (Encounter.Valid && EncounterIsMysteryGift ^ pkm.FatefulEncounter)
+            if (Encounter.Valid)
             {
+                if (EncounterIsMysteryGift)
+                {
+                    if (pkm.FatefulEncounter)
+                        AddLine(Severity.Valid, "Mystery Gift Fateful Encounter is Valid.", CheckIdentifier.Fateful);
+                    else
+                        AddLine(Severity.Invalid, "Mystery Gift Fateful Encounter flag missing.", CheckIdentifier.Fateful);
+                    return;
+                }
                 if (EncounterType == typeof (EncounterStatic))
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     if (enc.Fateful)
-                        AddLine(Severity.Valid, "Special ingame Fateful Encounter.", CheckIdentifier.Fateful);
+                    {
+                        if (pkm.FatefulEncounter)
+                            AddLine(Severity.Valid, "Special ingame Fateful Encounter.", CheckIdentifier.Fateful);
+                        else
+                            AddLine(Severity.Invalid, "Special ingame Fateful Encounter flag missing.", CheckIdentifier.Fateful);
+                    }
+                    else if (pkm.FatefulEncounter)
+                        AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
                     return;
                 }
-                AddLine(Severity.Invalid, "Fateful Encounter should " + (pkm.FatefulEncounter ? "not " : "") + "be checked.", CheckIdentifier.Fateful);
-                return;
+                if (pkm.FatefulEncounter)
+                    AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
             }
-            AddLine(Severity.Valid, "Fateful Encounter is Valid.", CheckIdentifier.Fateful);
         }
         private void verifyVersionEvolution()
         {
