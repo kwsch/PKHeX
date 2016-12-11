@@ -514,10 +514,6 @@ namespace PKHeX
             137, // Porygon
             233, // Porygon2
             474, // Porygon-Z
-            546, // Cottonee
-            547, // Whimsicott
-            627, // Rufflet
-            628, // Braviary
             
             // No SOS slots
             142, // Aerodactyl

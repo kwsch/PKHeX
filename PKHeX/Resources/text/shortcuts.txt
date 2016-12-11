@@ -18,7 +18,7 @@ CTRL-SHIFT-T: Export Showdown Set
 Control + Click on...
 - Species: Import Showdown/Smogon set from Clipboard.
 - Nickname/OT box: Bring up the ingame-special characters.
-- Individual IVs: Set IV to max.
+- Individual IVs: Set IV to max. (toggle Hyper Training in Gen7 onwards)
 - Individual EVs: Set EV to max.
 - Randomize IVs: Set all IVs to max.
 - Randomize EVs: Set all EVs to 0.
@@ -65,9 +65,6 @@ Doubleclick the Box tab to open up a new Box Viewer. Only one is allowed at a ti
 Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
 
 // Misc Editors
-
-INVENTORY:
-- Holding ALT when clicking Give All will clear all items for that pouch.
 
 POKEPUFF:
 - Control Click the All Button to give the best Pokepuffs.

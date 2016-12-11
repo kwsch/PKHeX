@@ -550,9 +550,9 @@ namespace PKHeX
             MysteryGift MatchedGift = EncounterMatch as MysteryGift;
             string[] EventRib =
             {
-                "RibbonCountry", "RibbonNational", "RibbonEarth", "RibbonWorld", "RibbonClassic",
-                "RibbonPremier", "RibbonEvent", "RibbonBirthday", "RibbonSpecial", "RibbonSouvenir",
-                "RibbonWishing", "RibbonChampionBattle", "RibbonChampionRegional", "RibbonChampionNational", "RibbonChampionWorld"
+                nameof(PK6.RibbonCountry), nameof(PK6.RibbonNational), nameof(PK6.RibbonEarth), nameof(PK6.RibbonWorld), nameof(PK6.RibbonClassic),
+                nameof(PK6.RibbonPremier), nameof(PK6.RibbonEvent), nameof(PK6.RibbonBirthday), nameof(PK6.RibbonSpecial), nameof(PK6.RibbonSouvenir),
+                nameof(PK6.RibbonWishing), nameof(PK6.RibbonChampionBattle), nameof(PK6.RibbonChampionRegional), nameof(PK6.RibbonChampionNational), nameof(PK6.RibbonChampionWorld)
             };
             if (MatchedGift != null) // Wonder Card
             {
@@ -614,28 +614,28 @@ namespace PKHeX
             // Unobtainable ribbons for Gen Origin
             if (pkm.GenNumber > 3)
             {
-                if (ReflectUtil.getBooleanState(pkm, "RibbonChampionG3Hoenn") == true)
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonChampionG3Hoenn)) == true)
                     invalidRibbons.Add("GBA Champion"); // RSE HoF
-                if (ReflectUtil.getBooleanState(pkm, "RibbonChampionG3Hoenn") == true)
-                    invalidRibbons.Add("RibbonArtist"); // RSE Master Rank Portrait
-                if (ReflectUtil.getBooleanState(pkm, "RibbonChampionG3Hoenn") == true)
-                    invalidRibbons.Add("GBA Champion"); // RSE HoF
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonArtist)) == true)
+                    invalidRibbons.Add("Artist"); // RSE Master Rank Portrait
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonNational)) == true && pkm.Version != (int)GameVersion.CXD)
+                    invalidRibbons.Add("National Ribbon (Purified)"); // RSE HoF
             }
             if (pkm.GenNumber > 4)
             {
-                if (ReflectUtil.getBooleanState(pkm, "RibbonChampionSinnoh") == true)
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK4.RibbonChampionSinnoh)) == true)
                     invalidRibbons.Add("Sinnoh Champ"); // DPPt HoF
-                if (ReflectUtil.getBooleanState(pkm, "RibbonLegend") == true)
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK4.RibbonLegend)) == true)
                     invalidRibbons.Add("Legend"); // HGSS Defeat Red @ Mt.Silver
             }
             if (pkm.Format >= 6 && pkm.GenNumber >= 6)
             {
-                if (ReflectUtil.getBooleanState(pkm, "RibbonCountMemoryContest") == true)
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK6.RibbonCountMemoryContest)) == true)
                     invalidRibbons.Add("Contest Memory"); // Gen3/4 Contest
-                if (ReflectUtil.getBooleanState(pkm, "RibbonCountMemoryBattle") == true)
+                if (ReflectUtil.getBooleanState(pkm, nameof(PK6.RibbonCountMemoryBattle)) == true)
                     invalidRibbons.Add("Battle Memory"); // Gen3/4 Battle
             }
-            if (ReflectUtil.getBooleanState(pkm, "RibbonRecord") == true)
+            if (ReflectUtil.getBooleanState(pkm, nameof(PK6.RibbonRecord)) == true)
                 invalidRibbons.Add("Record"); // Unobtainable
             
             if (missingRibbons.Count + invalidRibbons.Count == 0)
