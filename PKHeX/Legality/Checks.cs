@@ -486,6 +486,11 @@ namespace PKHeX
                     return;
                 }
             }
+            if (MatchedGift != null && MatchedGift.Level > pkm.CurrentLevel)
+            {
+                AddLine(new CheckResult(Severity.Invalid, "Current Level below Wonder Card level.", CheckIdentifier.Level));
+                return;
+            }
 
             int lvl = pkm.CurrentLevel;
             if (lvl > 1 && pkm.IsEgg)
