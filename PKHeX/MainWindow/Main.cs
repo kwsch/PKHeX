@@ -1428,18 +1428,18 @@ namespace PKHeX
             updatePKRSInfected(null, null);
             updatePKRSCured(null, null);
 
-            if (HaX)
+            if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = pkm.Stat_Level.ToString();
-                MT_Form.Text = pkm.AltForm.ToString();
-                if (pkm.Stat_HPMax != 0) // stats present
+                MT_Level.Text = pk.Stat_Level.ToString();
+                MT_Form.Text = pk.AltForm.ToString();
+                if (pk.Stat_HPMax != 0) // stats present
                 {
-                    Stat_HP.Text = pkm.Stat_HPCurrent.ToString();
-                    Stat_ATK.Text = pkm.Stat_ATK.ToString();
-                    Stat_DEF.Text = pkm.Stat_DEF.ToString();
-                    Stat_SPA.Text = pkm.Stat_SPA.ToString();
-                    Stat_SPD.Text = pkm.Stat_SPD.ToString();
-                    Stat_SPE.Text = pkm.Stat_SPE.ToString();
+                    Stat_HP.Text = pk.Stat_HPCurrent.ToString();
+                    Stat_ATK.Text = pk.Stat_ATK.ToString();
+                    Stat_DEF.Text = pk.Stat_DEF.ToString();
+                    Stat_SPA.Text = pk.Stat_SPA.ToString();
+                    Stat_SPD.Text = pk.Stat_SPD.ToString();
+                    Stat_SPE.Text = pk.Stat_SPE.ToString();
                 }
             }
             fieldsLoaded = true;
