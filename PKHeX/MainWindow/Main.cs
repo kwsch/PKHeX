@@ -3229,6 +3229,19 @@ namespace PKHeX
         {
             if (!verifiedPKM()) return;
             int slot = getSlot(sender);
+            if (SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN) {
+                for (int i = 0; i < 72; i++) {
+                    int lslot = SAV.getData(19652 + i, 1)[0];
+                    i++;
+                    int lbox = SAV.getData(19652 + i, 1)[0];
+                    if (lbox == CB_BoxSelect.SelectedIndex) {
+                        if (slot == lslot) {
+                            Util.Alert("Failed to overwrite slot because is used by a Battle Box. Must take it out of team manually in-game.");
+                            return;
+                        }
+                    }
+                }
+            }
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
             { Util.Alert("Can't have empty/egg first slot."); return; }
 
