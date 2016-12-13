@@ -497,10 +497,17 @@ namespace PKHeX
                 pkdata[i/len] = new byte[len];
                 Array.Copy(data, i, pkdata[i/len], 0, len);
             }
-            
+
             PKM[] pkms = BoxData;
-            for (int i = 0; i < pkms.Length; i++)
+            for (int i = 0; i < pkms.Length; i++) {
+                if (Version == GameVersion.SN || Version == GameVersion.MN) {
+                    int box = i / 30;
+                    int slot = i % 30;
+                    if (Main.IsLinkedSlot(slot, box))
+                        continue;
+                }
                 pkms[i] = getPKM(decryptPKM(pkdata[i]));
+            }
             BoxData = pkms;
             return true;
         }
@@ -520,8 +527,12 @@ namespace PKHeX
             }
 
             PKM[] pkms = BoxData;
-            for (int i = 0; i < BoxSlotCount; i++)
-                pkms[box*BoxSlotCount + i] = getPKM(decryptPKM(pkdata[i]));
+            for (int i = 0; i < BoxSlotCount; i++) {
+                if ((Version == GameVersion.SN || Version == GameVersion.MN) && Main.IsLinkedSlot(i, box)) {
+                    continue;
+                }
+                pkms[box * BoxSlotCount + i] = getPKM(decryptPKM(pkdata[i]));
+            }
             BoxData = pkms;
             return true;
         }

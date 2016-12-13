@@ -3229,6 +3229,9 @@ namespace PKHeX
         {
             if (!verifiedPKM()) return;
             int slot = getSlot(sender);
+            if ((SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN) && IsLinkedSlot(slot, CB_BoxSelect.SelectedIndex)) {
+                return;
+            }
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
             { Util.Alert("Can't have empty/egg first slot."); return; }
 
@@ -3279,6 +3282,9 @@ namespace PKHeX
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
+            if ((SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN) && IsLinkedSlot(slot, CB_BoxSelect.SelectedIndex)) {
+                return;
+            }
             if (slot == 30 && SAV.PartyCount == 1 && !HaX) { Util.Alert("Can't delete first slot."); return; }
 
             int offset = getPKXOffset(slot);
@@ -3384,6 +3390,9 @@ namespace PKHeX
 
             for (int i = 0; i < 30; i++) // set to every slot in box
             {
+                if ((SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN) && IsLinkedSlot(i, CB_BoxSelect.SelectedIndex)) {
+                    continue;
+                }
                 SAV.setStoredSlot(pk, getPKXOffset(i));
                 getQuickFiller(SlotPictureBoxes[i], pk);
             }
@@ -4126,9 +4135,6 @@ namespace PKHeX
                     else // refresh image
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
-                    
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber && DragInfo.slotDestinationSlotNumber > -1)
-                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
                         getSlotColor(DragInfo.slotSourceSlotNumber, Properties.Resources.slotView);
@@ -4157,6 +4163,11 @@ namespace PKHeX
             DragInfo.slotDestinationSlotNumber = getSlot(sender);
             DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
             DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
+            if ((SAV.Version == GameVersion.SN || SAV.Version == GameVersion.MN)
+                && (IsLinkedSlot(DragInfo.slotDestinationSlotNumber, DragInfo.slotDestinationBoxNumber)
+                    || IsLinkedSlot(DragInfo.slotSourceSlotNumber, DragInfo.slotSourceBoxNumber))) {
+                return;
+            }
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -4303,6 +4314,20 @@ namespace PKHeX
                     return null; // form was not watching box
                 return slotSource == form || slotDestination == form; // form already updated?
             }
+        }
+        public static bool IsLinkedSlot(int slot, int box) {
+            for (int i = 0; i < 72; i++) {
+                int lslot = SAV.getData(19652 + i, 1)[0];
+                i++;
+                int lbox = SAV.getData(19652 + i, 1)[0];
+                if (lbox == box) {
+                    if (slot == lslot) {
+                        Util.Alert("Failed to modify slot "+ ++slot +" of box "+ ++box +" because is linked to a team. Take the Pokemon out of it in-game before trying again.");
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         #endregion
