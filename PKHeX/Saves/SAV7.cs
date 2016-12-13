@@ -316,12 +316,12 @@ namespace PKHeX
             get { return Data[TrainerCard + 5]; }
             set { Data[TrainerCard + 5] = (byte)value; }
         }
-        public override int GameSyncIDSize => 32; // 128 bits
+        public override int GameSyncIDSize => 16; // 64 bits
         public override string GameSyncID
         {
             get
             {
-                var data = Data.Skip(TrainerCard + 0x18).Take(GameSyncIDSize/2).Reverse().ToArray();
+                var data = Data.Skip(TrainerCard + 0x10).Take(GameSyncIDSize/2).Reverse().ToArray();
                 return BitConverter.ToString(data).Replace("-", "");
             }
             set
@@ -329,6 +329,28 @@ namespace PKHeX
                 if (value == null)
                     return;
                 if (value.Length > GameSyncIDSize)
+                    return;
+
+                Enumerable.Range(0, value.Length)
+                     .Where(x => x % 2 == 0)
+                     .Reverse()
+                     .Select(x => Convert.ToByte(value.Substring(x, 2), 16))
+                     .ToArray().CopyTo(Data, TrainerCard + 0x10);
+            }
+        }
+        public int NexUniqueIDSize => 32; // 128 bits
+        public string NexUniqueID
+        {
+            get
+            {
+                var data = Data.Skip(TrainerCard + 0x18).Take(NexUniqueIDSize/2).Reverse().ToArray();
+                return BitConverter.ToString(data).Replace("-", "");
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                if (value.Length > NexUniqueIDSize)
                     return;
 
                 Enumerable.Range(0, value.Length)
