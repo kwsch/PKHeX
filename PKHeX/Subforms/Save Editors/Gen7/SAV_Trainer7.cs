@@ -125,7 +125,7 @@ namespace PKHeX
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.FestaCoins);
 
-            // Poké Finder
+            // PokÃ© Finder
             NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
             NUD_ThumbsTotal.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsTotalValue);
             NUD_ThumbsRecord.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsHighValue);
@@ -198,7 +198,7 @@ namespace PKHeX
             SAV.BP = (uint)NUD_BP.Value;
             SAV.FestaCoins = (uint)NUD_FC.Value;
 
-            // Poké Finder
+            // PokÃ© Finder
             SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
             SAV.PokeFinderThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
             SAV.PokeFinderThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
@@ -242,8 +242,8 @@ namespace PKHeX
             string IDstr = "TSV: " + tsv.ToString("0000");
             if (SAV.Generation > 6) // always true for G7
                 IDstr += Environment.NewLine + "G7TID: " + SAV.TrainerID7.ToString("000000");
-            Tip1.SetToolTip(MT_TID, "TSV: " + IDstr);
-            Tip2.SetToolTip(MT_SID, "TSV: " + IDstr);
+            Tip1.SetToolTip(MT_TID, IDstr);
+            Tip2.SetToolTip(MT_SID, IDstr);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
