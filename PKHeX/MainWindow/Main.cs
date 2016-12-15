@@ -3229,6 +3229,10 @@ namespace PKHeX
         {
             if (!verifiedPKM()) return;
             int slot = getSlot(sender);
+            if (SAV.IsLinkedSlot(slot, CB_BoxSelect.SelectedIndex)) {
+                Util.Alert("Failed to set to slot " + (slot + 1) + " of box " + (CB_BoxSelect.SelectedIndex + 1) + " because target is linked with battle box.");
+                return;
+            }
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
             { Util.Alert("Can't have empty/egg first slot."); return; }
 
@@ -3279,6 +3283,10 @@ namespace PKHeX
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
+            if (SAV.IsLinkedSlot(slot, CB_BoxSelect.SelectedIndex)) {
+                Util.Alert("Failed to delete from slot " + (slot + 1) + " of box " + (CB_BoxSelect.SelectedIndex + 1) + " because target is linked with battle box.");
+                return;
+            }
             if (slot == 30 && SAV.PartyCount == 1 && !HaX) { Util.Alert("Can't delete first slot."); return; }
 
             int offset = getPKXOffset(slot);
@@ -3384,6 +3392,10 @@ namespace PKHeX
 
             for (int i = 0; i < 30; i++) // set to every slot in box
             {
+                if (SAV.IsLinkedSlot(i, CB_BoxSelect.SelectedIndex)) {
+                    Util.Alert("Failed to set to slot " + (i + 1) + " of box " + (CB_BoxSelect.SelectedIndex + 1) + " because target is linked with battle box.");
+                    continue;
+                }
                 SAV.setStoredSlot(pk, getPKXOffset(i));
                 getQuickFiller(SlotPictureBoxes[i], pk);
             }
@@ -4126,9 +4138,6 @@ namespace PKHeX
                     else // refresh image
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
-                    
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber && DragInfo.slotDestinationSlotNumber > -1)
-                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
                         getSlotColor(DragInfo.slotSourceSlotNumber, Properties.Resources.slotView);
@@ -4157,6 +4166,15 @@ namespace PKHeX
             DragInfo.slotDestinationSlotNumber = getSlot(sender);
             DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
             DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
+
+            if (SAV.IsLinkedSlot(DragInfo.slotDestinationSlotNumber, DragInfo.slotDestinationBoxNumber)) {
+                Util.Alert("Failed to move into slot " + (DragInfo.slotDestinationSlotNumber + 1) + " of box " + (DragInfo.slotDestinationBoxNumber + 1) + " because target is linked with battle box.");
+                return;
+            }
+            if (SAV.IsLinkedSlot(DragInfo.slotSourceSlotNumber, DragInfo.slotSourceBoxNumber)) {
+                Util.Alert("Failed to move from slot " + (DragInfo.slotSourceSlotNumber + 1) + " of box " + (DragInfo.slotSourceBoxNumber + 1) + " because origin is linked with battle box.");
+                return;
+            }
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
@@ -4304,7 +4322,6 @@ namespace PKHeX
                 return slotSource == form || slotDestination == form; // form already updated?
             }
         }
-
         #endregion
     }
 }
