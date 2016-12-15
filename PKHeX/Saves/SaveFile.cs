@@ -500,11 +500,11 @@ namespace PKHeX
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < pkms.Length; i++) {
-                if (Version == GameVersion.SN || Version == GameVersion.MN) {
-                    int box = i / 30;
-                    int slot = i % 30;
-                    if (Main.IsLinkedSlot(slot, box))
-                        continue;
+                int box = i / 30;
+                int slot = i % 30;
+                if (IsLinkedSlot(slot, box)) {
+                    Util.Alert("Failed to set to slot " + (slot + 1) + " of box " + (box + 1) + " because target is linked with battle box.");
+                    continue;
                 }
                 pkms[i] = getPKM(decryptPKM(pkdata[i]));
             }
@@ -528,7 +528,8 @@ namespace PKHeX
 
             PKM[] pkms = BoxData;
             for (int i = 0; i < BoxSlotCount; i++) {
-                if ((Version == GameVersion.SN || Version == GameVersion.MN) && Main.IsLinkedSlot(i, box)) {
+                if (IsLinkedSlot(i, box)) {
+                    Util.Alert("Failed to set to slot " + (i + 1) + " of box " + (box + 1) + " because target is linked with battle box.");
                     continue;
                 }
                 pkms[box * BoxSlotCount + i] = getPKM(decryptPKM(pkdata[i]));
@@ -565,5 +566,6 @@ namespace PKHeX
         }
 
         public virtual bool RequiresMemeCrypto { get { return false; } }
+        public virtual bool IsLinkedSlot(int slot, int box) { return false; }
     }
 }
