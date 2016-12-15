@@ -1065,7 +1065,6 @@ namespace PKHeX
             }
         }
         public override bool IsLinkedSlot(int slot, int box) {
-            if (Version != GameVersion.SN && Version != GameVersion.MN) { return false; }
             for (int i = 0; i < 72; i++) {
                 int lslot = getData(19652 + i, 1)[0];
                 i++;
