@@ -190,7 +190,7 @@ namespace PKHeX
             for (int i = 0; i < data.Length; i++)
             {
                 var pkm = data[i];
-                if (!pkm.Valid)
+                if (!pkm.Valid || pkm.Locked)
                 {
                     b.ReportProgress(i);
                     continue;

@@ -148,6 +148,7 @@ namespace PKHeX
                     data[i].Identifier = $"{getBoxName(i/BoxSlotCount)}:{i%BoxSlotCount + 1:00}";
                     data[i].Box = i/BoxSlotCount + 1;
                     data[i].Slot = i%BoxSlotCount + 1;
+                    data[i].Locked = getIsSlotLocked(data[i].Box, data[i].Slot);
                 }
                 return data;
             }
