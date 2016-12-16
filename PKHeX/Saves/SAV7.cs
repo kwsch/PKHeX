@@ -25,11 +25,19 @@ namespace PKHeX
             if (!Exportable)
                 resetBoxes();
 
-            var demo = new byte[0x4C4].SequenceEqual(Data.Skip(PCLayout).Take(0x4C4));
+            var demo = new byte[0x4C4].SequenceEqual(Data.Skip(PCLayout).Take(0x4C4)); // up to Battle Box values
             if (demo)
             {
                 PokeDex = -1; // Disabled
             }
+            int lockedCount = 0;
+            for (int i = 0; i < LockedSlots.Length; i++)
+            {
+                short val = BitConverter.ToInt16(Data, BattleBoxFlags + i * 2);
+                if (val >= 0)
+                    LockedSlots[lockedCount++] = (val & 0xFF + BoxSlotCount*(val >> 8)) & 0xFFFF;
+            }
+            Array.Resize(ref LockedSlots, lockedCount);
         }
 
         // Configuration
@@ -219,11 +227,13 @@ namespace PKHeX
                 PokeDexLanguageFlags =  PokeDex + 0x550;
                 WondercardData = WondercardFlags + 0x100;
 
+                BattleBoxFlags =        PCLayout + 0x4C4;
                 PCBackgrounds =         PCLayout + 0x5C0;
                 LastViewedBox =         PCLayout + 0x5E3;
                 PCFlags =               PCLayout + 0x5E0;
 
                 FashionLength = 0x1A08;
+                LockedSlots = new int[36];
             }
             else // Empty input
             {
@@ -245,6 +255,7 @@ namespace PKHeX
         private int JoinFestaData { get; set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
         private int BattleTree { get; set; } = int.MinValue;
+        private int BattleBoxFlags { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
@@ -863,6 +874,14 @@ namespace PKHeX
             protected set { Data[Party + 6 * SIZE_PARTY] = (byte)value; }
         }
         public override int BoxesUnlocked { get { return Data[PCFlags + 1]; } set { Data[PCFlags + 1] = (byte)value; } }
+        public override bool getIsSlotLocked(int box, int slot)
+        {
+            if (slot >= 30 || box > BoxCount)
+                return true;
+
+            int slotIndex = slot + BoxSlotCount*box;
+            return LockedSlots.Any(s => s == slotIndex);
+        }
 
         public override int DaycareSeedSize => 32; // 128 bits
         public override int getDaycareSlotOffset(int loc, int slot)

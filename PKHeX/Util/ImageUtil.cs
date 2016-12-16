@@ -10,6 +10,8 @@ namespace PKHeX
         // Image Layering/Blending Utility
         internal static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
         {
+            if (baseLayer == null)
+                return overLayer as Bitmap;
             Bitmap img = new Bitmap(baseLayer.Width, baseLayer.Height);
             using (Graphics gr = Graphics.FromImage(img))
             {
