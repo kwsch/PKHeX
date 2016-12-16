@@ -711,10 +711,30 @@ namespace PKHeX
             #region PC/Box Data
             else if (BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) > 0 && PKX.getIsPKM(input.Length / SAV.BoxSlotCount / SAV.BoxCount) || PKX.getIsPKM(input.Length / SAV.BoxSlotCount))
             {
-                if (SAV.setPCBin(input))
-                    Util.Alert("PC Binary loaded.");
-                else if (SAV.setBoxBin(input, CB_BoxSelect.SelectedIndex))
-                    Util.Alert("Box Binary loaded.");
+                if (SAV.getPCBin().Length == input.Length)
+                {
+                    if (SAV.getBoxHasLockedSlot(0, SAV.BoxCount - 1))
+                        Util.Alert("Battle Box slots prevent loading of PC data.");
+                    else if (SAV.setPCBin(input))
+                        Util.Alert("PC Binary loaded.");
+                    else
+                    {
+                        Util.Alert("Binary is not compatible with save file.", "Current SAV Generation: " + SAV.Generation);
+                        return;
+                    }
+                }
+                else if (SAV.getBoxBin(CB_BoxSelect.SelectedIndex).Length == input.Length)
+                {
+                    if (SAV.getBoxHasLockedSlot(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex))
+                        Util.Alert("Battle Box slots in box prevent loading of box data.");
+                    else if (SAV.setBoxBin(input, CB_BoxSelect.SelectedIndex))
+                        Util.Alert("Box Binary loaded.");
+                    else
+                    {
+                        Util.Alert("Binary is not compatible with save file.", "Current SAV Generation: " + SAV.Generation);
+                        return;
+                    }
+                }
                 else
                 {
                     Util.Alert("Binary is not compatible with save file.", "Current SAV Generation: " + SAV.Generation);
@@ -737,8 +757,16 @@ namespace PKHeX
                 bool? noSetb = getPKMSetOverride();
                 PKM[] data = b.BattlePKMs;
                 int offset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
+                int slotSkipped = 0;
                 for (int i = 0; i < 24; i++)
+                {
+                    if (SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, i))
+                    { slotSkipped++; continue; }
                     SAV.setStoredSlot(data[i], offset + i*SAV.SIZE_STORED, noSetb);
+                }
+
+                if (slotSkipped > 0)
+                    Util.Alert($"Skipped {slotSkipped} locked slot{(slotSkipped > 1 ? "s" : "")}.");
 
                 setPKXBoxes();
                 updateBoxViewers();
@@ -3124,23 +3152,31 @@ namespace PKHeX
             bool all = false;
             if (ModifierKeys == (Keys.Alt | Keys.Shift) && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
             {
+                if (SAV.getBoxHasLockedSlot(0, SAV.BoxCount - 1))
+                { Util.Alert("Battle Box slots prevent the clearing of all boxes."); return; }
                 SAV.resetBoxes();
                 modified = "Boxes cleared!";
                 all = true;
             }
             else if (ModifierKeys == Keys.Alt && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Clear Current Box?"))
             {
+                if (SAV.getBoxHasLockedSlot(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex))
+                { Util.Alert("Battle Box slots prevent the clearing of box."); return; }
                 SAV.resetBoxes(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex + 1);
                 modified = "Current Box cleared!";
             }
             else if (ModifierKeys == (Keys.Control | Keys.Shift) && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Sort ALL Boxes?!"))
             {
+                if (SAV.getBoxHasLockedSlot(0, SAV.BoxCount - 1))
+                { Util.Alert("Battle Box slots prevent the sorting of all boxes."); return; }
                 SAV.sortBoxes();
                 modified = "Boxes sorted!";
                 all = true;
             }
             else if (ModifierKeys == Keys.Control && DialogResult.Yes == Util.Prompt(MessageBoxButtons.YesNo, "Sort Current Box?"))
             {
+                if (SAV.getBoxHasLockedSlot(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex))
+                { Util.Alert("Battle Box slots prevent the sorting of box."); return; }
                 SAV.sortBoxes(CB_BoxSelect.SelectedIndex, CB_BoxSelect.SelectedIndex + 1);
                 modified = "Current Box sorted!";
             }
@@ -3231,6 +3267,8 @@ namespace PKHeX
             int slot = getSlot(sender);
             if (slot == 30 && (CB_Species.SelectedIndex == 0 || CHK_IsEgg.Checked))
             { Util.Alert("Can't have empty/egg first slot."); return; }
+            if (SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot))
+            { Util.Alert("Can't set to locked slot."); return; }
 
             int offset = getPKXOffset(slot);
             if (offset < 0)
@@ -3279,7 +3317,10 @@ namespace PKHeX
         private void clickDelete(object sender, EventArgs e)
         {
             int slot = getSlot(sender);
-            if (slot == 30 && SAV.PartyCount == 1 && !HaX) { Util.Alert("Can't delete first slot."); return; }
+            if (slot == 30 && SAV.PartyCount == 1 && !HaX)
+            { Util.Alert("Can't delete first slot."); return; }
+            if (SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot))
+            { Util.Alert("Can't delete locked slot."); return; }
 
             int offset = getPKXOffset(slot);
             if (offset < 0)
@@ -3382,11 +3423,18 @@ namespace PKHeX
 
             PKM pk = preparePKM();
 
+            int slotSkipped = 0;
             for (int i = 0; i < 30; i++) // set to every slot in box
             {
+                if (SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, i))
+                { slotSkipped++; continue; }
                 SAV.setStoredSlot(pk, getPKXOffset(i));
                 getQuickFiller(SlotPictureBoxes[i], pk);
             }
+
+            if (slotSkipped > 0)
+                Util.Alert($"Skipped {slotSkipped} locked slot{(slotSkipped > 1 ? "s" : "")}.");
+
             updateBoxViewers();
         }
         private void clickLegality(object sender, EventArgs e)
@@ -3709,7 +3757,13 @@ namespace PKHeX
             pk = pk ?? preparePKM(false); // don't perform control loss click
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
-            pb.Image = pk.Species != 0 ? pk.Sprite : null;
+
+            var sprite = pk.Species != 0 ? pk.Sprite : null;
+            int slot = getSlot(pb);
+            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
+            if (locked)
+                sprite = Util.LayerImage(sprite, Properties.Resources.locked, 5, 0, 1);
+            pb.Image = sprite;
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
         }
@@ -3733,7 +3787,13 @@ namespace PKHeX
                 return;
             }
             // Something stored in slot. Only display if species is valid.
-            pb.Image = p.Species == 0 ? null : p.Sprite;
+
+            var sprite = p.Species != 0 ? p.Sprite : null;
+            int slot = getSlot(pb);
+            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
+            if (locked)
+                sprite = Util.LayerImage(sprite, Properties.Resources.locked, 5, 0, 1);
+            pb.Image = sprite;
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
         }
@@ -4089,17 +4149,21 @@ namespace PKHeX
                 if (pb.Image == null)
                     return;
 
+                int slot = getSlot(pb);
+                int box = slot >= 30 ? -1 : CB_BoxSelect.SelectedIndex;
+                if (SAV.getIsSlotLocked(box, slot))
+                    return;
+
                 // Set flag to prevent re-entering.
                 DragInfo.slotDragDropInProgress = true;
 
                 DragInfo.slotSource = this;
-                DragInfo.slotSourceSlotNumber = getSlot(pb);
-                int offset = getPKXOffset(DragInfo.slotSourceSlotNumber);
+                DragInfo.slotSourceSlotNumber = slot;
+                DragInfo.slotSourceBoxNumber = box;
+                DragInfo.slotSourceOffset = getPKXOffset(DragInfo.slotSourceSlotNumber);
 
                 // Prepare Data
-                DragInfo.slotPkmSource = SAV.getData(offset, SAV.SIZE_STORED);
-                DragInfo.slotSourceOffset = offset;
-                DragInfo.slotSourceBoxNumber = DragInfo.slotSourceSlotNumber >= 30  ? -1 : CB_BoxSelect.SelectedIndex;
+                DragInfo.slotPkmSource = SAV.getData(DragInfo.slotSourceOffset, SAV.SIZE_STORED);
 
                 // Make a new file name based off the PID
                 bool encrypt = ModifierKeys == Keys.Control;
@@ -4161,6 +4225,12 @@ namespace PKHeX
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
+            if (SAV.getIsSlotLocked(DragInfo.slotDestinationBoxNumber, DragInfo.slotDestinationSlotNumber))
+            {
+                DragInfo.slotDestinationSlotNumber = -1; // Invalidate
+                Util.Alert("Unable to set to locked slot.");
+                return;
+            }
             if (DragInfo.slotSourceOffset < 0) // file
             {
                 if (files.Length <= 0)

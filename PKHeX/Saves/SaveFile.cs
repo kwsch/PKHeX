@@ -206,6 +206,7 @@ namespace PKHeX
                 for (int i = 0; i < data.Length; i++)
                 {
                     data[i] = getStoredSlot(BattleBox + SIZE_STORED * i);
+                    data[i].Locked = BattleBoxLocked;
                     if (data[i].Species == 0)
                         return data.Take(i).ToArray();
                 }
@@ -352,6 +353,7 @@ namespace PKHeX
         public virtual int BoxesUnlocked { get { return -1; } set { } }
         public virtual byte[] BoxFlags { get { return null; } set { } }
         public virtual int CurrentBox { get { return 0; } set { } }
+        protected int[] LockedSlots = new int[0];
 
         protected virtual int getBoxWallpaperOffset(int box) { return -1; }
         public int getBoxWallpaper(int box)
@@ -451,6 +453,11 @@ namespace PKHeX
             setStoredSlot(BlankPKM, getPartyOffset(5), false, false);
             PartyCount -= 1;
         }
+        public virtual bool getIsSlotLocked(int box, int slot) { return false; }
+        public bool getBoxHasLockedSlot(int BoxStart, int BoxEnd)
+        {
+            return LockedSlots.Any(slot => BoxStart*BoxSlotCount <= slot && slot < (BoxEnd + 1)*BoxSlotCount);
+        }
 
         public void sortBoxes(int BoxStart = 0, int BoxEnd = -1)
         {
@@ -485,6 +492,8 @@ namespace PKHeX
         public byte[] getBoxBin(int box) { return BoxData.Skip(box*BoxSlotCount).Take(BoxSlotCount).SelectMany(pk => pk.EncryptedBoxData).ToArray(); }
         public bool setPCBin(byte[] data)
         {
+            if (LockedSlots.Any())
+                return false;
             if (data.Length != getPCBin().Length)
                 return false;
 
@@ -506,6 +515,8 @@ namespace PKHeX
         }
         public bool setBoxBin(byte[] data, int box)
         {
+            if (LockedSlots.Any(slot => box * BoxSlotCount <= slot && slot < (box + 1) * BoxSlotCount))
+                return false;
             if (data.Length != getBoxBin(box).Length)
                 return false;
 
@@ -553,6 +564,6 @@ namespace PKHeX
             Edited = true;
         }
 
-        public virtual bool RequiresMemeCrypto { get { return false; } }
+        public virtual bool RequiresMemeCrypto => false;
     }
 }

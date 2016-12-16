@@ -258,6 +258,7 @@ namespace PKHeX
         // Derived
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
+        public virtual bool Locked { get { return false; } set { } }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public bool Gen7 => Version >= 30 && Version <= 31;
         public bool Gen6 => Version >= 24 && Version <= 29;
