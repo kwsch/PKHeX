@@ -880,8 +880,8 @@ namespace PKHeX
         public override int BoxesUnlocked { get { return Data[PCFlags + 1]; } set { Data[PCFlags + 1] = (byte)value; } }
         public override bool getIsSlotLocked(int box, int slot)
         {
-            if (slot >= 30 || box > BoxCount)
-                return true;
+            if (slot >= 30 || box >= BoxCount)
+                return false;
 
             int slotIndex = slot + BoxSlotCount*box;
             return LockedSlots.Any(s => s == slotIndex);
