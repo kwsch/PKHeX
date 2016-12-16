@@ -26,18 +26,22 @@ namespace PKHeX
                 resetBoxes();
 
             var demo = new byte[0x4C4].SequenceEqual(Data.Skip(PCLayout).Take(0x4C4)); // up to Battle Box values
-            if (demo)
+            if (demo || !Exportable)
             {
                 PokeDex = -1; // Disabled
+                LockedSlots = new int[0];
             }
-            int lockedCount = 0;
-            for (int i = 0; i < LockedSlots.Length; i++)
+            else // Valid slot locking info present
             {
-                short val = BitConverter.ToInt16(Data, BattleBoxFlags + i * 2);
-                if (val >= 0)
-                    LockedSlots[lockedCount++] = (val & 0xFF + BoxSlotCount*(val >> 8)) & 0xFFFF;
+                int lockedCount = 0;
+                for (int i = 0; i < LockedSlots.Length; i++)
+                {
+                    short val = BitConverter.ToInt16(Data, BattleBoxFlags + i*2);
+                    if (val >= 0)
+                        LockedSlots[lockedCount++] = (BoxSlotCount*(val >> 8) + (val & 0xFF)) & 0xFFFF;
+                }
+                Array.Resize(ref LockedSlots, lockedCount);
             }
-            Array.Resize(ref LockedSlots, lockedCount);
         }
 
         // Configuration
