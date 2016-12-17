@@ -96,6 +96,7 @@ namespace PKHeX
                     case "EVs": { parseLineEVs(brokenline[1].Trim()); break; }
                     case "IV":
                     case "IVs": { parseLineIVs(brokenline[1].Trim()); break; }
+                    case "Type": { brokenline = new[] {line}; goto default; } // Type: Null edge case
                     default:
                     {
                         // Either Nature or Gender ItemSpecies

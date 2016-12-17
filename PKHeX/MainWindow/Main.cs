@@ -1654,7 +1654,7 @@ namespace PKHeX
                 return;
 
             // Get Gender Threshold
-            int gt = SAV.Personal[Util.getIndex(CB_Species)].Gender;
+            int gt = SAV.Personal.getFormeEntry(Util.getIndex(CB_Species), CB_Form.SelectedIndex).Gender;
 
             if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
                 return;
@@ -2211,6 +2211,8 @@ namespace PKHeX
         {
             if (CB_Form == sender && fieldsLoaded)
                 pkm.AltForm = CB_Form.SelectedIndex;
+
+            updateGender();
             updateStats();
             // Repopulate Abilities if Species Form has different abilities
             setAbilityList();
@@ -2362,24 +2364,7 @@ namespace PKHeX
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
-            // Get Gender Threshold
-            int gt = SAV.Personal[pkm.Species].Gender;
-            int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
-            int Gender;
-
-            if (gt == 255)      // Genderless
-                Gender = 2;
-            else if (gt == 254) // Female Only
-                Gender = 1;
-            else if (gt == 0)  // Male Only
-                Gender = 0;
-            else if (cg == 2 || Util.getIndex(CB_GameOrigin) < 24)
-                Gender = (Util.getHEXval(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
-            else
-                Gender = cg;
-            
-            Label_Gender.Text = gendersymbols[Gender];
-            Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
+            updateGender();
 
             // If species changes and no nickname, set the new name == speciesName.
             if (!CHK_Nicknamed.Checked)
@@ -2844,6 +2829,27 @@ namespace PKHeX
                 c.SelectedValue = index;
             }
             fieldsLoaded |= tmp;
+        }
+
+        private void updateGender()
+        {
+            int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
+            int gt = SAV.Personal.getFormeEntry(Util.getIndex(CB_Species), CB_Form.SelectedIndex).Gender;
+
+            int Gender;
+            if (gt == 255)      // Genderless
+                Gender = 2;
+            else if (gt == 254) // Female Only
+                Gender = 1;
+            else if (gt == 0)  // Male Only
+                Gender = 0;
+            else if (cg == 2 || Util.getIndex(CB_GameOrigin) < 24)
+                Gender = (Util.getHEXval(TB_PID.Text) & 0xFF) <= gt ? 1 : 0;
+            else
+                Gender = cg;
+
+            Label_Gender.Text = gendersymbols[Gender];
+            Label_Gender.ForeColor = Gender == 2 ? Label_Species.ForeColor : (Gender == 1 ? Color.Red : Color.Blue);
         }
         private void updateStats()
         {
