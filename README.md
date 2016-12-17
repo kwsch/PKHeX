@@ -28,6 +28,10 @@ PKHeX is a Windows Forms application which requires .NET Framework v4.0.
 
 The executable can be built with any compiler that supports C# 6.0.
 
+### Build Configurations
+
+Use the Debug or Release build configurations when building using the .Net Framework.  Use the Mono-Debug or Mono-Release build configurations when building using Mono.
+
 ## Dependencies
 
 PKHeX's QR code generation code is taken from [QRCoder](https://github.com/codebude/QRCoder), which is licensed under [the MIT license](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt).

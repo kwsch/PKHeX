@@ -9,28 +9,34 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKHeX.Tests", "Tests\PKHeX.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7C0598C9-DDF3-4ACC-B15D-6A626ADB7530}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0137B955-AED7-4769-BDFE-637034CA9F8A}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		ClickOnce-Debug|x86 = ClickOnce-Debug|x86
-		ClickOnce-Release|x86 = ClickOnce-Release|x86
 		Debug|x86 = Debug|x86
+		Mono-Debug|x86 = Mono-Debug|x86
+		Mono-Release|x86 = Mono-Release|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.ClickOnce-Debug|x86.ActiveCfg = ClickOnce-Debug|x86
-		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.ClickOnce-Debug|x86.Build.0 = ClickOnce-Debug|x86
-		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.ClickOnce-Release|x86.ActiveCfg = ClickOnce-Release|x86
-		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.ClickOnce-Release|x86.Build.0 = ClickOnce-Release|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Debug|x86.ActiveCfg = Debug|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Debug|x86.Build.0 = Debug|x86
+		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Mono-Debug|x86.ActiveCfg = Mono-Debug|x86
+		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Mono-Debug|x86.Build.0 = Mono-Debug|x86
+		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Mono-Release|x86.ActiveCfg = Mono-Release|x86
+		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Mono-Release|x86.Build.0 = Mono-Release|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|x86.ActiveCfg = Release|x86
 		{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}.Release|x86.Build.0 = Release|x86
-		{8E2499BC-C11A-4809-8737-66D35A625425}.ClickOnce-Debug|x86.ActiveCfg = Debug|x86
-		{8E2499BC-C11A-4809-8737-66D35A625425}.ClickOnce-Debug|x86.Build.0 = Debug|x86
-		{8E2499BC-C11A-4809-8737-66D35A625425}.ClickOnce-Release|x86.ActiveCfg = Release|x86
-		{8E2499BC-C11A-4809-8737-66D35A625425}.ClickOnce-Release|x86.Build.0 = Release|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.ActiveCfg = Debug|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Debug|x86.Build.0 = Debug|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Mono-Debug|x86.ActiveCfg = Debug|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Mono-Debug|x86.Build.0 = Debug|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Mono-Release|x86.ActiveCfg = Release|x86
+		{8E2499BC-C11A-4809-8737-66D35A625425}.Mono-Release|x86.Build.0 = Release|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.ActiveCfg = Release|x86
 		{8E2499BC-C11A-4809-8737-66D35A625425}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
