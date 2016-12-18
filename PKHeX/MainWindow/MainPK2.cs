@@ -12,7 +12,7 @@ namespace PKHeX
                 return;
 
             // Do first
-            pk2.Stat_Level = HaX ? pk2.Stat_Level : PKX.getLevel(pk2.Species, pk2.EXP);
+            pk2.Stat_Level = HaX && pk2.Stat_HPMax != 0 ? pk2.Stat_Level : PKX.getLevel(pk2.Species, pk2.EXP);
             if (!HaX && pk2.Stat_Level == 100)
                 pk2.EXP = PKX.getEXP(pk2.Stat_Level, pk2.Species);
 
