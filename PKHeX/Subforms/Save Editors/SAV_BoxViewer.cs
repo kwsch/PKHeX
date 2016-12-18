@@ -207,7 +207,7 @@ namespace PKHeX
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
 
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber)
+                    if (DragInfo.SameBox)
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
                 }
                 catch (Exception x)
@@ -270,13 +270,13 @@ namespace PKHeX
                     { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
 
-                SAV.setStoredSlot(pk, DragInfo.slotDestinationOffset);
+                DragInfo.setPKMtoDestination(SAV, pk);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pk);
                 Console.WriteLine(c);
             }
             else
             {
-                PKM pkz = SAV.getStoredSlot(DragInfo.slotSourceOffset);
+                PKM pkz = DragInfo.getPKMfromSource(SAV);
                 if (!DragInfo.SourceValid) { } // not overwritable, do nothing
                 else if (ModifierKeys == Keys.Alt && DragInfo.DestinationValid) // overwrite
                 {
@@ -284,13 +284,13 @@ namespace PKHeX
                     if (DragInfo.SameBox)
                         getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], SAV.BlankPKM); // picturebox
 
-                    SAV.setStoredSlot(SAV.BlankPKM, DragInfo.slotSourceOffset);
+                    DragInfo.setPKMtoSource(SAV, SAV.BlankPKM);
                 }
                 else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid) // move
                 {
                     // Load data from destination
                     PKM pk = ((PictureBox)sender).Image != null
-                        ? SAV.getStoredSlot(DragInfo.slotDestinationOffset)
+                        ? DragInfo.getPKMfromDestination(SAV)
                         : SAV.BlankPKM;
 
                     // Set destination pokemon image to source picture box
@@ -298,18 +298,20 @@ namespace PKHeX
                         getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pk);
 
                     // Set destination pokemon data to source slot
-                    SAV.setStoredSlot(pk, DragInfo.slotSourceOffset);
+                    DragInfo.setPKMtoSource(SAV, pk);
                 }
                 else if (DragInfo.SameBox) // clone
                     getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pkz);
 
                 // Copy from temp to destination slot.
-                SAV.setStoredSlot(pkz, DragInfo.slotDestinationOffset);
+                DragInfo.setPKMtoDestination(SAV, pkz);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pkz);
 
                 e.Effect = DragDropEffects.Link;
                 Cursor = DefaultCursor;
             }
+            if (DragInfo.SourceParty || DragInfo.DestinationParty)
+                parent.setParty();
             if (DragInfo.slotSource == null) // another instance or file
             {
                 parent.notifyBoxViewerRefresh();

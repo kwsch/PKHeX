@@ -3595,7 +3595,7 @@ namespace PKHeX
         }
 
         // Generic Subfunctions //
-        private void setParty()
+        public void setParty()
         {
             PKM[] party = SAV.PartyData;
             PKM[] battle = SAV.BattleBoxData;
@@ -4197,7 +4197,7 @@ namespace PKHeX
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
                     
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber && DragInfo.slotDestinationSlotNumber > -1)
+                    if (DragInfo.SameBox)
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
@@ -4219,6 +4219,8 @@ namespace PKHeX
                     if (File.Exists(newfile) && DragInfo.CurrentPath == null)
                         File.Delete(newfile);
                 }).Start();
+                if (DragInfo.SourceParty || DragInfo.DestinationParty)
+                    setParty();
             }
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
@@ -4263,14 +4265,14 @@ namespace PKHeX
                     { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
 
-                SAV.setStoredSlot(pk, DragInfo.slotDestinationOffset);
+                DragInfo.setPKMtoDestination(SAV, pk);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pk);
                 getSlotColor(DragInfo.slotDestinationSlotNumber, Properties.Resources.slotSet);
                 Console.WriteLine(c);
             }
             else
             {
-                PKM pkz = SAV.getStoredSlot(DragInfo.slotSourceOffset);
+                PKM pkz = DragInfo.getPKMfromSource(SAV);
                 if (!DragInfo.SourceValid) { } // not overwritable, do nothing
                 else if (ModifierKeys == Keys.Alt && DragInfo.DestinationValid) // overwrite delete old slot
                 {
@@ -4278,13 +4280,13 @@ namespace PKHeX
                     if (DragInfo.SameBox)
                         getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], SAV.BlankPKM); // picturebox
 
-                    SAV.setStoredSlot(SAV.BlankPKM, DragInfo.slotSourceOffset);
+                    DragInfo.setPKMtoSource(SAV, SAV.BlankPKM);
                 }
                 else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid)
                 {
                     // Load data from destination
                     PKM pk = ((PictureBox) sender).Image != null
-                        ? SAV.getStoredSlot(DragInfo.slotDestinationOffset)
+                        ? DragInfo.getPKMfromDestination(SAV)
                         : SAV.BlankPKM;
 
                     // Set destination pokemon image to source picture box
@@ -4292,18 +4294,20 @@ namespace PKHeX
                         getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pk);
 
                     // Set destination pokemon data to source slot
-                    SAV.setStoredSlot(pk, DragInfo.slotSourceOffset);
+                    DragInfo.setPKMtoSource(SAV, pk);
                 }
                 else if (DragInfo.SameBox)
                     getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pkz);
 
                 // Copy from temp to destination slot.
-                SAV.setStoredSlot(pkz, DragInfo.slotDestinationOffset);
+                DragInfo.setPKMtoDestination(SAV, pkz);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pkz);
 
                 e.Effect = DragDropEffects.Link;
                 Cursor = DefaultCursor;
             }
+            if (DragInfo.SourceParty || DragInfo.DestinationParty)
+                setParty();
             if (DragInfo.slotSource == null) // another instance or file
             {
                 notifyBoxViewerRefresh();
@@ -4353,8 +4357,51 @@ namespace PKHeX
             public static string CurrentPath;
 
             public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;
-            public static bool SourceValid => slotSourceBoxNumber > -1;
-            public static bool DestinationValid => slotDestinationBoxNumber > -1;
+            public static bool SourceValid => slotSourceBoxNumber > -1 || SourceParty;
+            public static bool DestinationValid => slotDestinationBoxNumber > -1 || DestinationParty;
+            public static bool SourceParty => 30 <= slotSourceSlotNumber && slotSourceSlotNumber < 36;
+            public static bool DestinationParty => 30 <= slotDestinationSlotNumber && slotDestinationSlotNumber < 36;
+
+            // PKM Get Set
+            public static PKM getPKMfromSource(SaveFile SAV)
+            {
+                int o = slotSourceOffset;
+                return SourceParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
+            }
+            public static PKM getPKMfromDestination(SaveFile SAV)
+            {
+                int o = slotDestinationOffset;
+                return DestinationParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
+            }
+            public static void setPKMtoSource(SaveFile SAV, PKM pk)
+            {
+                int o = slotSourceOffset;
+                if (!SourceParty)
+                { SAV.setStoredSlot(pk, o); return; }
+
+                if (pk.Species == 0) // Empty Slot
+                { SAV.deletePartySlot(slotSourceSlotNumber-30); return; }
+
+                if (pk.Stat_HPMax == 0) // Without Stats (Box)
+                    pk.setStats(pk.getStats(pk.PersonalInfo));
+                SAV.setPartySlot(pk, o);
+            }
+            public static void setPKMtoDestination(SaveFile SAV, PKM pk)
+            {
+                int o = slotDestinationOffset;
+                if (!DestinationParty)
+                { SAV.setStoredSlot(pk, o); return; }
+
+                if (30 + SAV.PartyCount < slotDestinationSlotNumber)
+                {
+                    o = SAV.getPartyOffset(SAV.PartyCount);
+                    slotDestinationSlotNumber = 30 + SAV.PartyCount;
+                }
+                if (pk.Stat_HPMax == 0) // Without Stats (Box/File)
+                    pk.setStats(pk.getStats(pk.PersonalInfo));
+                SAV.setPartySlot(pk, o);
+            }
+
             public static void Reset()
             {
                 slotLeftMouseIsDown = false;
