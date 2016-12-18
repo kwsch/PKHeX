@@ -139,11 +139,11 @@
             // B_GiveAll
             // 
             this.B_GiveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_GiveAll.Location = new System.Drawing.Point(162, 306);
+            this.B_GiveAll.Location = new System.Drawing.Point(162, 284);
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(75, 23);
             this.B_GiveAll.TabIndex = 5;
-            this.B_GiveAll.Text = "Give All";
+            this.B_GiveAll.Text = "Collect All";
             this.B_GiveAll.UseVisualStyleBackColor = true;
             this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
             // 

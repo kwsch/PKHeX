@@ -75,10 +75,16 @@ namespace PKHeX
         }
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
+            int added = 0;
             for (int i = 0; i < dgv.RowCount; i++)
+            {
+                if (Array.IndexOf(states, (string)dgv.Rows[i].Cells[2].Value) != 2) // Not Collected
+                    added++;
                 dgv.Rows[i].Cells[2].Value = states[2];
+            }
 
-            NUD_Collected.Value = cellcount;
+            NUD_Collected.Value += added;
+            NUD_Cells.Value += added;
 
             System.Media.SystemSounds.Asterisk.Play();
         }
