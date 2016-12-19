@@ -25,7 +25,22 @@ namespace PKHeX
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
-                LB_Species.Items.Add(i.ToString("000") + " - " + Main.GameStrings.specieslist[i]);
+                LB_Species.Items.Add($"{i:000} - {Main.GameStrings.specieslist[i]}");
+
+            // Add Formes
+            int ctr = SAV.MaxSpeciesID;
+            for (int i = 0; i < SAV.MaxSpeciesID + 1; i++)
+            {
+                int c = SAV.Personal[i].FormeCount;
+                for (int j = 0; j < c; j++)
+                {
+                    int x = SaveUtil.getDexFormIndexSM(i, c, j);
+                    if (x == -1 || j == 0)
+                        continue;
+                    ctr++;
+                    LB_Species.Items.Add($"{ctr:000} - {Main.GameStrings.specieslist[i]}-{j}");
+                }
+            }
 
             Dex = new PokeDex7(SAV);
             editing = false;
@@ -101,7 +116,8 @@ namespace PKHeX
         {
             int pk = species - 1;
             editing = true;
-            CHK_P1.Checked = Dex.Owned[pk];
+            CHK_P1.Enabled = species <= SAV.MaxSpeciesID;
+            CHK_P1.Checked = CHK_P1.Enabled && Dex.Owned[pk];
 
             for (int i = 0; i < 4; i++)
                 CP[i + 1].Checked = Dex.Seen[i][pk];
@@ -110,7 +126,10 @@ namespace PKHeX
                 CP[i + 5].Checked = Dex.Displayed[i][pk];
 
             for (int i = 0; i < 9; i++)
-                CL[i].Checked = Dex.LanguageFlags[pk*9 + i];
+            {
+                CL[i].Enabled = species <= SAV.MaxSpeciesID;
+                CL[i].Checked = CL[i].Enabled && Dex.LanguageFlags[pk*9 + i];
+            }
             editing = false;
         }
         private void setEntry()
@@ -119,13 +138,17 @@ namespace PKHeX
                 return;
 
             int pk = species - 1;
-            Dex.Owned[pk] = CHK_P1.Checked;
 
             for (int i = 0; i < 4; i++)
                 Dex.Seen[i][pk] = CP[i + 1].Checked;
 
             for (int i = 0; i < 4; i++)
                 Dex.Displayed[i][pk] = CP[i + 5].Checked;
+
+            if (species > SAV.MaxSpeciesID)
+                return;
+
+            Dex.Owned[pk] = CHK_P1.Checked;
 
             for (int i = 0; i < 9; i++)
                 Dex.LanguageFlags[pk*9 + i] = CL[i].Checked;
@@ -292,7 +315,7 @@ namespace PKHeX
                     foreach (CheckBox t in new[] { CHK_P1 })
                         t.Checked = mnuCaughtNone != sender;
                     for (int j = 0; j < CL.Length; j++)
-                        CL[j].Checked = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
+                        CL[j].Checked = CL[j].Enabled && (sender == mnuComplete || (mnuCaughtNone != sender && j == lang));
 
                     if (mnuCaughtNone == sender)
                     {
@@ -317,7 +340,7 @@ namespace PKHeX
 
                         // ensure at least one Displayed
                         if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled; // except for formes -- base species is set as default seen
                     }
                 }
 
