@@ -1458,7 +1458,8 @@ namespace PKHeX
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = pk.Stat_Level.ToString();
+                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : PKX.getLevel(pk.Species, pk.EXP)).ToString();
+                TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
                 if (pk.Stat_HPMax != 0) // stats present
                 {
@@ -1945,25 +1946,26 @@ namespace PKHeX
                     EXP = PKX.getEXP(100, Species);
 
                 TB_Level.Text = Level.ToString();
-                if (!MT_Level.Visible)
+                if (!HaX)
                     TB_EXP.Text = EXP.ToString();
-                else
+                else if (Level <= 100 && Util.ToInt32(MT_Level.Text) <= 100)
                     MT_Level.Text = Level.ToString();
             }
             else
             {
                 // Change the XP
-                int Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
+                int Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
                 if (Level > 100) TB_Level.Text = "100";
                 if (Level > byte.MaxValue) MT_Level.Text = "255";
 
-                TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
+                if (Level <= 100)
+                    TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
             if (fieldsLoaded) // store values back
             {
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
-                pkm.Stat_Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
+                pkm.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
             }
             updateStats();
             updateLegality();

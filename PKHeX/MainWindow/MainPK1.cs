@@ -11,13 +11,11 @@ namespace PKHeX
                 return;
 
             // Do first
-            pk1.Stat_Level = HaX && pk1.Stat_HPMax != 0 ? pk1.Stat_Level : PKX.getLevel(pk1.Species, pk1.EXP);
-            if (!HaX && pk1.Stat_Level == 100)
+            pk1.Stat_Level = PKX.getLevel(pk1.Species, pk1.EXP);
+            if (pk1.Stat_Level == 100 && !HaX)
                 pk1.EXP = PKX.getEXP(pk1.Stat_Level, pk1.Species);
 
             CB_Species.SelectedValue = pk1.Species;
-            if (HaX)
-                MT_Level.Text = pk1.Stat_Level.ToString();
             TB_Level.Text = pk1.Stat_Level.ToString();
             TB_EXP.Text = pk1.EXP.ToString();
 

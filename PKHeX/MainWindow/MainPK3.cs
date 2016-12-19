@@ -12,8 +12,8 @@ namespace PKHeX
                 return;
 
             // Do first
-            pk3.Stat_Level = HaX && pk3.Stat_HPMax != 0 ? pk3.Stat_Level : PKX.getLevel(pk3.Species, pk3.EXP);
-            if (pk3.Stat_Level == 100)
+            pk3.Stat_Level = PKX.getLevel(pk3.Species, pk3.EXP);
+            if (pk3.Stat_Level == 100 && !HaX)
                 pk3.EXP = PKX.getEXP(pk3.Stat_Level, pk3.Species);
 
             CB_Species.SelectedValue = pk3.Species;
