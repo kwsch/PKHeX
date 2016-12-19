@@ -4937,6 +4937,8 @@
             this.ppkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx1.TabIndex = 2;
             this.ppkx1.TabStop = false;
+            this.ppkx1.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
+            this.ppkx1.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.ppkx1.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -4952,6 +4954,8 @@
             this.ppkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx2.TabIndex = 3;
             this.ppkx2.TabStop = false;
+            this.ppkx2.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
+            this.ppkx2.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.ppkx2.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -4967,6 +4971,8 @@
             this.ppkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx3.TabIndex = 4;
             this.ppkx3.TabStop = false;
+            this.ppkx3.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
+            this.ppkx3.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.ppkx3.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -4982,6 +4988,8 @@
             this.ppkx4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx4.TabIndex = 5;
             this.ppkx4.TabStop = false;
+            this.ppkx4.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
+            this.ppkx4.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.ppkx4.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -4997,6 +5005,8 @@
             this.ppkx5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx5.TabIndex = 6;
             this.ppkx5.TabStop = false;
+            this.ppkx5.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
+            this.ppkx5.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.ppkx5.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
@@ -5012,6 +5022,8 @@
             this.ppkx6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.ppkx6.TabIndex = 7;
             this.ppkx6.TabStop = false;
+            this.ppkx6.DragDrop += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragDrop);
+            this.ppkx6.DragEnter += new System.Windows.Forms.DragEventHandler(this.pbBoxSlot_DragEnter);
             this.ppkx6.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);

@@ -1458,7 +1458,8 @@ namespace PKHeX
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = pk.Stat_Level.ToString();
+                MT_Level.Text = (pk.Stat_HPMax != 0 ? pk.Stat_Level : PKX.getLevel(pk.Species, pk.EXP)).ToString();
+                TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = pk.AltForm.ToString();
                 if (pk.Stat_HPMax != 0) // stats present
                 {
@@ -1945,25 +1946,26 @@ namespace PKHeX
                     EXP = PKX.getEXP(100, Species);
 
                 TB_Level.Text = Level.ToString();
-                if (!MT_Level.Visible)
+                if (!HaX)
                     TB_EXP.Text = EXP.ToString();
-                else
+                else if (Level <= 100 && Util.ToInt32(MT_Level.Text) <= 100)
                     MT_Level.Text = Level.ToString();
             }
             else
             {
                 // Change the XP
-                int Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
+                int Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
                 if (Level > 100) TB_Level.Text = "100";
                 if (Level > byte.MaxValue) MT_Level.Text = "255";
 
-                TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
+                if (Level <= 100)
+                    TB_EXP.Text = PKX.getEXP(Level, Util.getIndex(CB_Species)).ToString();
             }
             changingFields = false;
             if (fieldsLoaded) // store values back
             {
                 pkm.EXP = Util.ToUInt32(TB_EXP.Text);
-                pkm.Stat_Level = Util.ToInt32((MT_Level.Visible ? MT_Level : TB_Level).Text);
+                pkm.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
             }
             updateStats();
             updateLegality();
@@ -3595,7 +3597,7 @@ namespace PKHeX
         }
 
         // Generic Subfunctions //
-        private void setParty()
+        public void setParty()
         {
             PKM[] party = SAV.PartyData;
             PKM[] battle = SAV.BattleBoxData;
@@ -4197,7 +4199,7 @@ namespace PKHeX
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
                     
-                    if (DragInfo.slotDestinationBoxNumber == DragInfo.slotSourceBoxNumber && DragInfo.slotDestinationSlotNumber > -1)
+                    if (DragInfo.SameBox)
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
@@ -4219,6 +4221,8 @@ namespace PKHeX
                     if (File.Exists(newfile) && DragInfo.CurrentPath == null)
                         File.Delete(newfile);
                 }).Start();
+                if (DragInfo.SourceParty || DragInfo.DestinationParty)
+                    setParty();
             }
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
@@ -4226,11 +4230,14 @@ namespace PKHeX
             DragInfo.slotDestination = this;
             DragInfo.slotDestinationSlotNumber = getSlot(sender);
             DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
-            DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
+            DragInfo.slotDestinationBoxNumber = DragInfo.DestinationParty ? -1 : CB_BoxSelect.SelectedIndex;
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
+            if (DragInfo.SameSlot)
+                return;
+            if (DragInfo.SameBox)
             if (SAV.getIsSlotLocked(DragInfo.slotDestinationBoxNumber, DragInfo.slotDestinationSlotNumber))
             {
                 DragInfo.slotDestinationSlotNumber = -1; // Invalidate
@@ -4263,14 +4270,14 @@ namespace PKHeX
                     { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
 
-                SAV.setStoredSlot(pk, DragInfo.slotDestinationOffset);
+                DragInfo.setPKMtoDestination(SAV, pk);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pk);
                 getSlotColor(DragInfo.slotDestinationSlotNumber, Properties.Resources.slotSet);
                 Console.WriteLine(c);
             }
             else
             {
-                PKM pkz = SAV.getStoredSlot(DragInfo.slotSourceOffset);
+                PKM pkz = DragInfo.getPKMfromSource(SAV);
                 if (!DragInfo.SourceValid) { } // not overwritable, do nothing
                 else if (ModifierKeys == Keys.Alt && DragInfo.DestinationValid) // overwrite delete old slot
                 {
@@ -4278,13 +4285,13 @@ namespace PKHeX
                     if (DragInfo.SameBox)
                         getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], SAV.BlankPKM); // picturebox
 
-                    SAV.setStoredSlot(SAV.BlankPKM, DragInfo.slotSourceOffset);
+                    DragInfo.setPKMtoSource(SAV, SAV.BlankPKM);
                 }
                 else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid)
                 {
                     // Load data from destination
                     PKM pk = ((PictureBox) sender).Image != null
-                        ? SAV.getStoredSlot(DragInfo.slotDestinationOffset)
+                        ? DragInfo.getPKMfromDestination(SAV)
                         : SAV.BlankPKM;
 
                     // Set destination pokemon image to source picture box
@@ -4292,18 +4299,20 @@ namespace PKHeX
                         getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pk);
 
                     // Set destination pokemon data to source slot
-                    SAV.setStoredSlot(pk, DragInfo.slotSourceOffset);
+                    DragInfo.setPKMtoSource(SAV, pk);
                 }
                 else if (DragInfo.SameBox)
                     getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pkz);
 
                 // Copy from temp to destination slot.
-                SAV.setStoredSlot(pkz, DragInfo.slotDestinationOffset);
+                DragInfo.setPKMtoDestination(SAV, pkz);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pkz);
 
                 e.Effect = DragDropEffects.Link;
                 Cursor = DefaultCursor;
             }
+            if (DragInfo.SourceParty || DragInfo.DestinationParty)
+                setParty();
             if (DragInfo.slotSource == null) // another instance or file
             {
                 notifyBoxViewerRefresh();
@@ -4353,8 +4362,52 @@ namespace PKHeX
             public static string CurrentPath;
 
             public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;
-            public static bool SourceValid => slotSourceBoxNumber > -1;
-            public static bool DestinationValid => slotDestinationBoxNumber > -1;
+            public static bool SameSlot => slotSourceSlotNumber == slotDestinationSlotNumber && slotSourceBoxNumber == slotDestinationBoxNumber;
+            public static bool SourceValid => slotSourceBoxNumber > -1 || SourceParty;
+            public static bool DestinationValid => slotDestinationBoxNumber > -1 || DestinationParty;
+            public static bool SourceParty => 30 <= slotSourceSlotNumber && slotSourceSlotNumber < 36;
+            public static bool DestinationParty => 30 <= slotDestinationSlotNumber && slotDestinationSlotNumber < 36;
+
+            // PKM Get Set
+            public static PKM getPKMfromSource(SaveFile SAV)
+            {
+                int o = slotSourceOffset;
+                return SourceParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
+            }
+            public static PKM getPKMfromDestination(SaveFile SAV)
+            {
+                int o = slotDestinationOffset;
+                return DestinationParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
+            }
+            public static void setPKMtoSource(SaveFile SAV, PKM pk)
+            {
+                int o = slotSourceOffset;
+                if (!SourceParty)
+                { SAV.setStoredSlot(pk, o); return; }
+
+                if (pk.Species == 0) // Empty Slot
+                { SAV.deletePartySlot(slotSourceSlotNumber-30); return; }
+
+                if (pk.Stat_HPMax == 0) // Without Stats (Box)
+                    pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                SAV.setPartySlot(pk, o);
+            }
+            public static void setPKMtoDestination(SaveFile SAV, PKM pk)
+            {
+                int o = slotDestinationOffset;
+                if (!DestinationParty)
+                { SAV.setStoredSlot(pk, o); return; }
+
+                if (30 + SAV.PartyCount < slotDestinationSlotNumber)
+                {
+                    o = SAV.getPartyOffset(SAV.PartyCount);
+                    slotDestinationSlotNumber = 30 + SAV.PartyCount;
+                }
+                if (pk.Stat_HPMax == 0) // Without Stats (Box/File)
+                    pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                SAV.setPartySlot(pk, o);
+            }
+
             public static void Reset()
             {
                 slotLeftMouseIsDown = false;

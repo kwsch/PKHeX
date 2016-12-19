@@ -13,7 +13,7 @@ namespace PKHeX
 
             // Do first
             pk5.Stat_Level = PKX.getLevel(pk5.Species, pk5.EXP);
-            if (pk5.Stat_Level == 100)
+            if (pk5.Stat_Level == 100 && !HaX)
                 pk5.EXP = PKX.getEXP(pk5.Stat_Level, pk5.Species);
 
             CB_Species.SelectedValue = pk5.Species;
