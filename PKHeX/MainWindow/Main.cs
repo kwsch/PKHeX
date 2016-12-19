@@ -4230,11 +4230,14 @@ namespace PKHeX
             DragInfo.slotDestination = this;
             DragInfo.slotDestinationSlotNumber = getSlot(sender);
             DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
-            DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
+            DragInfo.slotDestinationBoxNumber = DragInfo.DestinationParty ? -1 : CB_BoxSelect.SelectedIndex;
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { loadBoxesFromDB(files[0]); return; }
+            if (DragInfo.SameSlot)
+                return;
+            if (DragInfo.SameBox)
             if (SAV.getIsSlotLocked(DragInfo.slotDestinationBoxNumber, DragInfo.slotDestinationSlotNumber))
             {
                 DragInfo.slotDestinationSlotNumber = -1; // Invalidate
@@ -4359,6 +4362,7 @@ namespace PKHeX
             public static string CurrentPath;
 
             public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;
+            public static bool SameSlot => slotSourceSlotNumber == slotDestinationSlotNumber && slotSourceBoxNumber == slotDestinationBoxNumber;
             public static bool SourceValid => slotSourceBoxNumber > -1 || SourceParty;
             public static bool DestinationValid => slotDestinationBoxNumber > -1 || DestinationParty;
             public static bool SourceParty => 30 <= slotSourceSlotNumber && slotSourceSlotNumber < 36;
