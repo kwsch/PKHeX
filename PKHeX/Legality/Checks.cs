@@ -498,7 +498,7 @@ namespace PKHeX
             else if (lvl < pkm.Met_Level)
                 AddLine(Severity.Invalid, "Current level is below met level.", CheckIdentifier.Level);
             else if ((pkm.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)
-                AddLine(Severity.Invalid, "Level is below evolution requirements.", CheckIdentifier.Level);
+                AddLine(Severity.Invalid, "Evolution criteria not satisfied (level/trade evolution required).", CheckIdentifier.Level);
             else if (lvl > pkm.Met_Level && lvl > 1 && lvl != 100 && pkm.EXP == PKX.getEXP(pkm.Stat_Level, pkm.Species))
                 AddLine(Severity.Fishy, "Current experience matches level threshold.", CheckIdentifier.Level);
             else
