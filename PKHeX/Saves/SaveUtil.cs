@@ -118,7 +118,7 @@ namespace PKHeX
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static GameVersion getIsG2SAV(byte[] data)
         {
-            if (new[] {SIZE_G2RAW_J, SIZE_G2RAW_U, SIZE_G2BAT_J, SIZE_G2BAT_U, SIZE_G2EMU, SIZE_G2VC}.Contains(data.Length))
+            if (!new[] {SIZE_G2RAW_J, SIZE_G2RAW_U, SIZE_G2BAT_J, SIZE_G2BAT_U, SIZE_G2EMU, SIZE_G2VC}.Contains(data.Length))
                 return GameVersion.Invalid;
 
             // Check if it's not an american save or a japanese save
