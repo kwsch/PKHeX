@@ -1,8 +1,31 @@
 ﻿PKHeX - By Kaphotics
-http://projectpokemon.org/
 http://projectpokemon.org/pkhex
 
-16/12/06 - New Update:
+16/12/21 - New Update:
+ - Legality: Fine tuned problematic cases (Island Scan, SOS slots, Ash Greninja, result descriptions).
+ - Added: Battle Box slot indication and edit prevention for Generation 7 save files.
+ - Added: Party Drag&Drop
+ - Added: Zygarde Core stored count; also improved subform "Collect All" button method.
+ - Added: Pokédex forme editing (Gen7).
+ - Added: Advanced randomization for Batch Editor. Syntax: $x,y to have a random value within [x,y].
+ - Added: Property value type indication for Batch Editor. Hints the program's expectation for a value (string, number).
+ - Added: PKM Report now can be exported to markdown format (Reddit/GitHub) with column headers.
+ - Added: Unofficial VC savefile size for Gen 2 (GSC) games.
+ - Changed: Battle Revolution filename now contains the save counter to differentiate save files.
+ - Changed: Illegal XP/level handling improved to not reset to legal/irregular values.
+ - Changed: Gen 2 shiny randomization now gives random attack IVs.
+ - Changed: Gen 2 filenames now save with shiny & forme indication text.
+ - Fixed: ShowdownSet importing Type: Null with an item now imports correctly.
+ - Fixed: Setting a traded egg now behaves properly (Gen6/7).
+ - Fixed: Bulk importing now transfers pkm files correctly.
+ - Fixed: Species that have formes with different gender ratios (ie Pikachu cap) now use the correct ratio.
+ - Fixed: GameSync ID now displays correctly (Gen7).
+ - Fixed: Trainer Editor TSV text repitition in tooltip.
+ - Fixed: GiveAll no longer appears in the Inventory Editor for Gen 3 games.
+ - Fixed: Setting a Pokemon from another trainer without a Handling Trainer value will have friendship updated accordingly.
+ - Fixed: Handling Trainer gender now is set correctly. If you notice the Illegal indication -> Legal when checked... :)
+
+16/12/06 - New Update: (22000) [55523]
  - Legality: Updated MANY check cases for finer legality checking. Poke Pelago still unsupported.
  - Added: Ball Sprite indication to Met tab for users who are afflicted by balltism.
  - Added: Legal met location suggestion (click Met Location label) for Pokémon that can be legality checked.
