@@ -571,6 +571,11 @@ namespace PKHeX
                 TradeGeoLocation(SAV_COUNTRY, SAV_REGION);
 
             CurrentHandler = 1;
+            if (HT_Name != SAV_Trainer)
+            {
+                HT_Friendship = PersonalInfo.BaseFriendship;
+                HT_Affection = 0;
+            }
             HT_Name = SAV_Trainer;
             HT_Gender = SAV_GENDER;
 
@@ -614,16 +619,6 @@ namespace PKHeX
             HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
             HT_Intensity = 1;
             HT_Feeling = Util.rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
-        }
-        public void TradeFriendshipAffection(string SAV_TRAINER)
-        {
-            // Don't alter the data if the info is the same.
-            if (SAV_TRAINER == HT_Name) 
-                return;
-
-            // Reset
-            HT_Friendship = PersonalInfo.BaseFriendship;
-            HT_Affection = 0;
         }
 
         // Legality Properties

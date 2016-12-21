@@ -705,8 +705,6 @@ namespace PKHeX
                     pk7.CurrentFriendship = pk7.OppositeFriendship;
                 else if (pk7.Moves.Contains(218)) // Frustration
                     pkm.CurrentFriendship = pk7.OppositeFriendship;
-                else if (pk7.CurrentHandler == 1) // OT->HT, needs new Friendship/Affection
-                    pk7.TradeFriendshipAffection(OT);
             }
             pkm.RefreshChecksum();
         }
