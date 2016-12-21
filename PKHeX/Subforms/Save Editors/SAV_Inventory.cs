@@ -198,7 +198,7 @@ namespace PKHeX
                     continue;
 
                 int itemcnt;
-                int.TryParse(dgv.Rows[i].Cells[c++].Value.ToString(), out itemcnt);
+                int.TryParse(dgv.Rows[i].Cells[c++].Value?.ToString(), out itemcnt);
 
                 if (Main.HaX && SAV.Generation != 7) // Gen7 has true cap at 1023, keep 999 cap.
                 {
