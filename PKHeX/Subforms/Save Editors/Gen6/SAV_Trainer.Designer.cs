@@ -1922,8 +1922,7 @@ namespace PKHeX
             this.CAL_LastSavedTime.CustomFormat = "hh:mm tt";
             this.CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_LastSavedTime.Location = new System.Drawing.Point(115, 129);
-            this.CAL_LastSavedTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_LastSavedTime.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
             this.CAL_LastSavedTime.Name = "CAL_LastSavedTime";
             this.CAL_LastSavedTime.ShowUpDown = true;
             this.CAL_LastSavedTime.Size = new System.Drawing.Size(73, 20);

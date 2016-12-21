@@ -516,35 +516,29 @@ namespace PKHeX
         private int LastSavedDay { get { return (int)(LastSaved >> 16 & 0x1F); } set { LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
         private int LastSavedHour { get { return (int)(LastSaved >> 21 & 0x1F); } set { LastSaved = LastSaved & 0xFC1FFFFF | ((uint)value & 0x1F) << 21; } }
         private int LastSavedMinute { get { return (int)(LastSaved >> 26 & 0x3F); } set { LastSaved = LastSaved & 0x03FFFFFF | ((uint)value & 0x3F) << 26; } }
-        public string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
+        private string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
         public DateTime? LastSavedDate
         {
             get
             {
-                // Check to see if date is valid
-                if (!Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay))
-                {
-                    return null;
-                }
-                else
-                {
-                    return new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
-                }
+                return !Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay) 
+                    ? (DateTime?)null 
+                    : new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
             }
             set
             {
+                // Only update the properties if a value is provided.
                 if (value.HasValue)
                 {
-                    // Only update the properties if a value is provided.
-                    LastSavedYear = value.Value.Year;
-                    LastSavedMonth = value.Value.Month;
-                    LastSavedDay = value.Value.Day;
-                    LastSavedHour = value.Value.Hour;
-                    LastSavedMinute = value.Value.Minute;
+                    var dt = value.Value;
+                    LastSavedYear = dt.Year;
+                    LastSavedMonth = dt.Month;
+                    LastSavedDay = dt.Day;
+                    LastSavedHour = dt.Hour;
+                    LastSavedMinute = dt.Minute;
                 }
-                else
+                else // Clear the date.
                 {
-                    // Clear the date.
                     // If code tries to access MetDate again, null will be returned.
                     LastSavedYear = 0;
                     LastSavedMonth = 0;
