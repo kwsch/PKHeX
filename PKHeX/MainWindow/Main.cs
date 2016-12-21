@@ -2611,7 +2611,8 @@ namespace PKHeX
                 pkm.setShinyPID();
             else
             {
-                TB_ATKIV.Text = "15";
+                int[] atkIVs = {2, 3, 6, 7, 10, 11, 14, 15};
+                TB_ATKIV.Text = atkIVs[Util.rnd32()%atkIVs.Length].ToString();
                 TB_DEFIV.Text = "10";
                 TB_SPEIV.Text = "10";
                 TB_SPAIV.Text = "10";

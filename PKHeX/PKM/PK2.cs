@@ -23,8 +23,15 @@ namespace PKHeX
         public override int Format => 2;
 
         public bool Japanese => otname.Length == STRLEN_J;
-
-        public override string FileName => $"{Species:000} - {Nickname} - {SaveUtil.ccitt16(Encrypt()):X4}.{Extension}";
+        public override string FileName
+        {
+            get
+            {
+                string form = AltForm > 0 ? $"-{AltForm:00)}" : "";
+                string star = IsShiny ? " ★" : "";
+                return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.ccitt16(Encrypt()):X4}.{Extension}";
+            }
+        }
 
         public PK2(byte[] decryptedData = null, string ident = null, bool jp = false)
         {
