@@ -1007,7 +1007,7 @@ namespace PKHeX
             this.CAL_HoFDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.CAL_HoFDate.Location = new System.Drawing.Point(89, 72);
             this.CAL_HoFDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_HoFDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_HoFDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
             this.CAL_HoFDate.Name = "CAL_HoFDate";
             this.CAL_HoFDate.Size = new System.Drawing.Size(99, 20);
             this.CAL_HoFDate.TabIndex = 39;
@@ -1040,7 +1040,7 @@ namespace PKHeX
             this.CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.CAL_AdventureStartDate.Location = new System.Drawing.Point(89, 35);
             this.CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
             this.CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
             this.CAL_AdventureStartDate.Size = new System.Drawing.Size(99, 20);
             this.CAL_AdventureStartDate.TabIndex = 35;
