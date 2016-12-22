@@ -1122,6 +1122,46 @@ namespace PKHeX
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
+        
+        /// <summary>
+        /// Converts full width to single width
+        /// </summary>
+        /// <param name="str">Input string to sanitize.</param>
+        /// <returns></returns>
+        public static string SanitizeString(string str)
+        {
+            if (str.Length == 0)
+                return str;
+            var s = str.Replace("\u2019", "\u0027"); // farfetch'd
+            s = s.Replace("\uE08F", "\u2640"); // ♀
+            s = s.Replace("\uE08E", "\u2642"); // ♂
+            return s;
+        }
+        /// <summary>
+        /// Converts full width to half width when appropriate
+        /// </summary>
+        /// <param name="str">Input string to set.</param>
+        /// <param name="species"></param>
+        /// <param name="nicknamed"></param>
+        /// <returns></returns>
+        public static string UnSanitizeString(string str, int species = -1, bool nicknamed = true)
+        {
+            var s = str.Replace("\u0027", "\u2019"); // farfetch'd
+
+            bool foreign = true;
+            if ((species == 029 || species == 032) && !nicknamed)
+                foreign = str[0] != 'N';
+            else if (nicknamed)
+                foreign = str.Select(c => c >> 12).Any(c => c != 0 && c != 0xE);
+
+            if (foreign)
+                return s;
+
+            // Convert back to half width
+            s = s.Replace("\u2640", "\uE08F"); // ♀
+            s = s.Replace("\u2642", "\uE08E"); // ♂
+            return s;
+        }
 
         public static string TrimFromFFFF(string input)
         {
