@@ -4390,7 +4390,10 @@ namespace PKHeX
                 { SAV.deletePartySlot(slotSourceSlotNumber-30); return; }
 
                 if (pk.Stat_HPMax == 0) // Without Stats (Box)
+                {
                     pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                    pk.Stat_Level = pk.CurrentLevel;
+                }
                 SAV.setPartySlot(pk, o);
             }
             public static void setPKMtoDestination(SaveFile SAV, PKM pk)
@@ -4405,7 +4408,10 @@ namespace PKHeX
                     slotDestinationSlotNumber = 30 + SAV.PartyCount;
                 }
                 if (pk.Stat_HPMax == 0) // Without Stats (Box/File)
+                {
                     pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                    pk.Stat_Level = pk.CurrentLevel;
+                }
                 SAV.setPartySlot(pk, o);
             }
 
