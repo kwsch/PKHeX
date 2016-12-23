@@ -137,16 +137,46 @@ namespace PKHeX
 
             IVs = IVsSpeedFirst;
             EVs = EVsSpeedFirst;
+
+            // Showdown Quirks
+            switch (Species)
+            {
+                case 718: // Zygarde
+                    if (string.IsNullOrEmpty(Form)) Form = "50%";
+                    else if (Form == "Complete") Form = "100%";
+                    if (Ability == 211) Form += "-C"; // Power Construct
+                    break;
+                case 774: // Minior
+                    if (!string.IsNullOrWhiteSpace(Form) && Form != "Meteor")
+                        Form = "C-" + Form;
+                    break;
+            }
         }
         public string getText()
         {
             if (Species == 0 || Species > MAX_SPECIES)
                 return "";
 
+            // Showdown Quirks
+            string form = Form;
+            switch (Species)
+            {
+                case 718: // Zygarde
+                    form = form.Replace("-C", "");
+                    form = form.Replace("50%", "");
+                    form = form.Replace("100%", "Complete");
+                    break;
+                case 774: // Minior
+                    if (string.IsNullOrWhiteSpace(form) || form.StartsWith("M-"))
+                        form = "Meteor";
+                    form = form.Replace("C-", "");
+                    break;
+            }
+
             // First Line: Name, Nickname, Gender, Item
             string specForm = species[Species];
-            if (!string.IsNullOrWhiteSpace(Form))
-                specForm += "-" + Form.Replace("Mega ", "Mega-");
+            if (!string.IsNullOrWhiteSpace(form))
+                specForm += "-" + form.Replace("Mega ", "Mega-");
 
             string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}"; 
             if (!string.IsNullOrEmpty(Gender))
