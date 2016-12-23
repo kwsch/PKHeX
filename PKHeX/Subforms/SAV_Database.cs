@@ -503,6 +503,14 @@ namespace PKHeX
                 });
             }
 
+            if (Menu_SearchClones.Checked)
+            {
+                Func<PKM, string> hash = pk => pk.Species.ToString("000") + pk.PID.ToString("X8");
+                var r = res.ToArray();
+                var hashes = r.Select(hash).ToArray();
+                res = r.Where((t, i) => hashes.Count(x => x == hashes[i]) > 1).OrderBy(hash);
+            }
+
             var results = res.ToArray();
             if (results.Length == 0)
             {
