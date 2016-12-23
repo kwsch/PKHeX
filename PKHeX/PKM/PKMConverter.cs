@@ -196,6 +196,8 @@ namespace PKHeX
                             pkm = pkm.convertToPK3();
 
                         pkm = ((PK3)pkm).convertToPK4();
+                        if (toFormat == 4)
+                            break;
                         goto case nameof(PK4);
                     case nameof(BK4):
                         pkm = ((BK4)pkm).convertToPK4();

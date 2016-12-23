@@ -212,7 +212,7 @@ namespace PKHeX
         {
             if (pkm.Species == 0) return "";
 
-            string[] Forms = PKX.getFormList(pkm.Species, types, forms, new[] {"", "F", ""});
+            string[] Forms = PKX.getFormList(pkm.Species, types, forms, new[] {"", "F", ""}, pkm.Format);
             ShowdownSet Set = new ShowdownSet
             {
                 Nickname = pkm.Nickname,

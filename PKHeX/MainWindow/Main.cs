@@ -1651,9 +1651,6 @@ namespace PKHeX
         }
         private void clickGender(object sender, EventArgs e)
         {
-            if (SAV.Generation == 2)
-                return;
-
             // Get Gender Threshold
             int gt = SAV.Personal.getFormeEntry(Util.getIndex(CB_Species), CB_Form.SelectedIndex).Gender;
 
@@ -1664,7 +1661,9 @@ namespace PKHeX
             // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
 
             int newGender = PKX.getGender(Label_Gender.Text) ^ 1;
-            if (SAV.Generation <= 4)
+            if (SAV.Generation == 2)
+                do { TB_ATKIV.Text = (Util.rnd32() & SAV.MaxIV).ToString(); } while (PKX.getGender(Label_Gender.Text) != newGender);
+            else if (SAV.Generation <= 4)
             {
                 pkm.Species = Util.getIndex(CB_Species);
                 pkm.Version = Util.getIndex(CB_GameOrigin);
@@ -1677,7 +1676,6 @@ namespace PKHeX
             pkm.Gender = newGender;
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = pkm.Gender == 2 ? Label_Species.ForeColor : (pkm.Gender == 1 ? Color.Red : Color.Blue);
-
 
             if (PKX.getGender(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = PKX.getGender(Label_Gender.Text);
@@ -4390,7 +4388,10 @@ namespace PKHeX
                 { SAV.deletePartySlot(slotSourceSlotNumber-30); return; }
 
                 if (pk.Stat_HPMax == 0) // Without Stats (Box)
+                {
                     pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                    pk.Stat_Level = pk.CurrentLevel;
+                }
                 SAV.setPartySlot(pk, o);
             }
             public static void setPKMtoDestination(SaveFile SAV, PKM pk)
@@ -4405,7 +4406,10 @@ namespace PKHeX
                     slotDestinationSlotNumber = 30 + SAV.PartyCount;
                 }
                 if (pk.Stat_HPMax == 0) // Without Stats (Box/File)
+                {
                     pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                    pk.Stat_Level = pk.CurrentLevel;
+                }
                 SAV.setPartySlot(pk, o);
             }
 
