@@ -155,11 +155,9 @@ namespace PKHeX
                 else
                 {
                     // Data from Box: Delete from save file
-                    string[] split = pk.Identifier.Split(':');
-                    int box = Convert.ToInt32(split[0].Substring(1)) - 1;
-                    int slot = Convert.ToInt32(split[1]) - 1;
-                    int spot = box*30 + slot;
-                    int offset = Main.SAV.getBoxOffset(0) + spot*Main.SAV.SIZE_STORED;
+                    int box = pk.Box-1;
+                    int slot = pk.Slot-1;
+                    int offset = Main.SAV.getBoxOffset(box) + slot*Main.SAV.SIZE_STORED;
                     PKM pkSAV = Main.SAV.getStoredSlot(offset);
 
                     if (pkSAV.Data.SequenceEqual(pk.Data))
