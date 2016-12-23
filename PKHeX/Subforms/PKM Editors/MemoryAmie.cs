@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -235,7 +236,7 @@ namespace PKHeX
                     vs = "";
                     break;
                 case "PKM":
-                    argvals = Util.getCBList(Main.GameStrings.specieslist, null);
+                    argvals = Util.getCBList(Main.GameStrings.specieslist.Take(Main.SAV.MaxSpeciesID+1).ToArray(), null);
                     vs = vartypes[0];
                     break;
                 case "GENLOC":
@@ -272,7 +273,7 @@ namespace PKHeX
                 }
                     break;
                 case "MOVE":
-                    argvals = Util.getCBList(Main.GameStrings.movelist, null);
+                    argvals = Util.getCBList(Main.GameStrings.movelist.Take(622).ToArray(), null); // Hyperspace Fury
                     vs = vartypes[3];
                     break;
                 case "LOCATION":

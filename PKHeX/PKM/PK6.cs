@@ -209,21 +209,12 @@ namespace PKHeX
         #region Block B
         public override string Nickname
         {
-            get
-            {
-                return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x40, 24))
-                    .Replace("\uE08F", "\u2640") // nidoran
-                    .Replace("\uE08E", "\u2642") // nidoran
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
+            get { return PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x40, 24))); }
             set
             {
                 if (value.Length > 12)
                     value = value.Substring(0, 12); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                    .Replace("\u2640", "\uE08F") // nidoran
-                    .Replace("\u2642", "\uE08E") // nidoran
-                    .Replace("\u0027", "\u2019") // farfetch'd
+                string TempNick = PKX.UnSanitizeString(value)
                     .PadRight(value.Length + 1, '\0'); // Null Terminator
                 Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x40);
             }
@@ -292,21 +283,12 @@ namespace PKHeX
         #region Block C
         public override string HT_Name
         {
-            get
-            {
-                return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x78, 24))
-                    .Replace("\uE08F", "\u2640") // nidoran
-                    .Replace("\uE08E", "\u2642") // nidoran
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
+            get { return PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x78, 24))); }
             set
             {
                 if (value.Length > 12)
                     value = value.Substring(0, 12); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                    .Replace("\u2640", "\uE08F") // nidoran
-                    .Replace("\u2642", "\uE08E") // nidoran
-                    .Replace("\u0027", "\u2019") // farfetch'd
+                string TempNick = PKX.UnSanitizeString(value)
                     .PadRight(value.Length + 1, '\0'); // Null Terminator
                 Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x78);
             }
@@ -344,21 +326,12 @@ namespace PKHeX
         #region Block D
         public override string OT_Name
         {
-            get
-            {
-                return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB0, 24))
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
+            get { return PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB0, 24))); }
             set
             {
                 if (value.Length > 12)
                     value = value.Substring(0, 12); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019") // Farfetch'd
+                string TempNick = PKX.UnSanitizeString(value)
                 .PadRight(value.Length + 1, '\0'); // Null Terminator
                 Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0xB0);
             }

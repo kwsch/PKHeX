@@ -135,19 +135,9 @@ namespace PKHeX
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
-            this.Tab_Misc = new System.Windows.Forms.TabPage();
-            this.GB_PokeFinder = new System.Windows.Forms.GroupBox();
-            this.CHK_Gyro = new System.Windows.Forms.CheckBox();
-            this.CB_CameraVersion = new System.Windows.Forms.ComboBox();
-            this.L_CameraVersion = new System.Windows.Forms.Label();
-            this.NUD_SnapCount = new System.Windows.Forms.NumericUpDown();
-            this.L_SnapCount = new System.Windows.Forms.Label();
-            this.NUD_ThumbsRecord = new System.Windows.Forms.NumericUpDown();
-            this.L_ThumbsRecord = new System.Windows.Forms.Label();
-            this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
-            this.L_ThumbsTotal = new System.Windows.Forms.Label();
-            this.B_Fashion = new System.Windows.Forms.Button();
             this.Tab_BattleTree = new System.Windows.Forms.TabPage();
+            this.L_Super = new System.Windows.Forms.Label();
+            this.L_Regular = new System.Windows.Forms.Label();
             this.NUD_SMStreak2 = new System.Windows.Forms.NumericUpDown();
             this.NUD_SCStreak2 = new System.Windows.Forms.NumericUpDown();
             this.NUD_SMStreak1 = new System.Windows.Forms.NumericUpDown();
@@ -166,8 +156,18 @@ namespace PKHeX
             this.L_MStreak0 = new System.Windows.Forms.Label();
             this.NUD_RCStreak0 = new System.Windows.Forms.NumericUpDown();
             this.L_CStreak0 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.GB_PokeFinder = new System.Windows.Forms.GroupBox();
+            this.CHK_Gyro = new System.Windows.Forms.CheckBox();
+            this.CB_CameraVersion = new System.Windows.Forms.ComboBox();
+            this.L_CameraVersion = new System.Windows.Forms.Label();
+            this.NUD_SnapCount = new System.Windows.Forms.NumericUpDown();
+            this.L_SnapCount = new System.Windows.Forms.Label();
+            this.NUD_ThumbsRecord = new System.Windows.Forms.NumericUpDown();
+            this.L_ThumbsRecord = new System.Windows.Forms.Label();
+            this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
+            this.L_ThumbsTotal = new System.Windows.Forms.Label();
+            this.B_Fashion = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -181,11 +181,6 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
-            this.Tab_Misc.SuspendLayout();
-            this.GB_PokeFinder.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
             this.Tab_BattleTree.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak2)).BeginInit();
@@ -199,6 +194,11 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).BeginInit();
+            this.Tab_Misc.SuspendLayout();
+            this.GB_PokeFinder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -1007,7 +1007,7 @@ namespace PKHeX
             this.CAL_HoFDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.CAL_HoFDate.Location = new System.Drawing.Point(89, 72);
             this.CAL_HoFDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_HoFDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_HoFDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
             this.CAL_HoFDate.Name = "CAL_HoFDate";
             this.CAL_HoFDate.Size = new System.Drawing.Size(99, 20);
             this.CAL_HoFDate.TabIndex = 39;
@@ -1040,7 +1040,7 @@ namespace PKHeX
             this.CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.CAL_AdventureStartDate.Location = new System.Drawing.Point(89, 35);
             this.CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
             this.CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
             this.CAL_AdventureStartDate.Size = new System.Drawing.Size(99, 20);
             this.CAL_AdventureStartDate.TabIndex = 35;
@@ -1064,8 +1064,7 @@ namespace PKHeX
             this.CAL_LastSavedTime.CustomFormat = "hh:mm tt";
             this.CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_LastSavedTime.Location = new System.Drawing.Point(115, 129);
-            this.CAL_LastSavedTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            this.CAL_LastSavedTime.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
             this.CAL_LastSavedTime.Name = "CAL_LastSavedTime";
             this.CAL_LastSavedTime.ShowUpDown = true;
             this.CAL_LastSavedTime.Size = new System.Drawing.Size(73, 20);
@@ -1243,163 +1242,10 @@ namespace PKHeX
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // Tab_Misc
-            // 
-            this.Tab_Misc.Controls.Add(this.GB_PokeFinder);
-            this.Tab_Misc.Controls.Add(this.B_Fashion);
-            this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Misc.Name = "Tab_Misc";
-            this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Misc.Size = new System.Drawing.Size(386, 253);
-            this.Tab_Misc.TabIndex = 4;
-            this.Tab_Misc.Text = "Misc";
-            this.Tab_Misc.UseVisualStyleBackColor = true;
-            // 
-            // GB_PokeFinder
-            // 
-            this.GB_PokeFinder.Controls.Add(this.CHK_Gyro);
-            this.GB_PokeFinder.Controls.Add(this.CB_CameraVersion);
-            this.GB_PokeFinder.Controls.Add(this.L_CameraVersion);
-            this.GB_PokeFinder.Controls.Add(this.NUD_SnapCount);
-            this.GB_PokeFinder.Controls.Add(this.L_SnapCount);
-            this.GB_PokeFinder.Controls.Add(this.NUD_ThumbsRecord);
-            this.GB_PokeFinder.Controls.Add(this.L_ThumbsRecord);
-            this.GB_PokeFinder.Controls.Add(this.NUD_ThumbsTotal);
-            this.GB_PokeFinder.Controls.Add(this.L_ThumbsTotal);
-            this.GB_PokeFinder.Location = new System.Drawing.Point(3, 99);
-            this.GB_PokeFinder.Name = "GB_PokeFinder";
-            this.GB_PokeFinder.Size = new System.Drawing.Size(200, 151);
-            this.GB_PokeFinder.TabIndex = 57;
-            this.GB_PokeFinder.TabStop = false;
-            this.GB_PokeFinder.Text = "Poké Finder";
-            // 
-            // CHK_Gyro
-            // 
-            this.CHK_Gyro.AutoSize = true;
-            this.CHK_Gyro.Location = new System.Drawing.Point(129, 122);
-            this.CHK_Gyro.Name = "CHK_Gyro";
-            this.CHK_Gyro.Size = new System.Drawing.Size(48, 17);
-            this.CHK_Gyro.TabIndex = 46;
-            this.CHK_Gyro.Text = "Gyro";
-            this.CHK_Gyro.UseVisualStyleBackColor = true;
-            // 
-            // CB_CameraVersion
-            // 
-            this.CB_CameraVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_CameraVersion.Enabled = false;
-            this.CB_CameraVersion.FormattingEnabled = true;
-            this.CB_CameraVersion.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5"});
-            this.CB_CameraVersion.Location = new System.Drawing.Point(129, 99);
-            this.CB_CameraVersion.Name = "CB_CameraVersion";
-            this.CB_CameraVersion.Size = new System.Drawing.Size(40, 21);
-            this.CB_CameraVersion.TabIndex = 44;
-            // 
-            // L_CameraVersion
-            // 
-            this.L_CameraVersion.Location = new System.Drawing.Point(6, 100);
-            this.L_CameraVersion.Name = "L_CameraVersion";
-            this.L_CameraVersion.Size = new System.Drawing.Size(117, 20);
-            this.L_CameraVersion.TabIndex = 43;
-            this.L_CameraVersion.Text = "Camera Version:";
-            this.L_CameraVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_SnapCount
-            // 
-            this.NUD_SnapCount.Location = new System.Drawing.Point(129, 79);
-            this.NUD_SnapCount.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.NUD_SnapCount.Name = "NUD_SnapCount";
-            this.NUD_SnapCount.Size = new System.Drawing.Size(65, 20);
-            this.NUD_SnapCount.TabIndex = 42;
-            this.NUD_SnapCount.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            // 
-            // L_SnapCount
-            // 
-            this.L_SnapCount.Location = new System.Drawing.Point(6, 77);
-            this.L_SnapCount.Name = "L_SnapCount";
-            this.L_SnapCount.Size = new System.Drawing.Size(117, 20);
-            this.L_SnapCount.TabIndex = 41;
-            this.L_SnapCount.Text = "Snap Count:";
-            this.L_SnapCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_ThumbsRecord
-            // 
-            this.NUD_ThumbsRecord.Location = new System.Drawing.Point(129, 40);
-            this.NUD_ThumbsRecord.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.NUD_ThumbsRecord.Name = "NUD_ThumbsRecord";
-            this.NUD_ThumbsRecord.Size = new System.Drawing.Size(65, 20);
-            this.NUD_ThumbsRecord.TabIndex = 40;
-            this.NUD_ThumbsRecord.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            // 
-            // L_ThumbsRecord
-            // 
-            this.L_ThumbsRecord.Location = new System.Drawing.Point(6, 38);
-            this.L_ThumbsRecord.Name = "L_ThumbsRecord";
-            this.L_ThumbsRecord.Size = new System.Drawing.Size(117, 20);
-            this.L_ThumbsRecord.TabIndex = 39;
-            this.L_ThumbsRecord.Text = "Record Thumbs-Ups:";
-            this.L_ThumbsRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_ThumbsTotal
-            // 
-            this.NUD_ThumbsTotal.Location = new System.Drawing.Point(129, 18);
-            this.NUD_ThumbsTotal.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.NUD_ThumbsTotal.Name = "NUD_ThumbsTotal";
-            this.NUD_ThumbsTotal.Size = new System.Drawing.Size(65, 20);
-            this.NUD_ThumbsTotal.TabIndex = 38;
-            this.NUD_ThumbsTotal.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            // 
-            // L_ThumbsTotal
-            // 
-            this.L_ThumbsTotal.Location = new System.Drawing.Point(6, 16);
-            this.L_ThumbsTotal.Name = "L_ThumbsTotal";
-            this.L_ThumbsTotal.Size = new System.Drawing.Size(117, 20);
-            this.L_ThumbsTotal.TabIndex = 37;
-            this.L_ThumbsTotal.Text = "Total Thumbs-Ups:";
-            this.L_ThumbsTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // B_Fashion
-            // 
-            this.B_Fashion.Location = new System.Drawing.Point(6, 6);
-            this.B_Fashion.Name = "B_Fashion";
-            this.B_Fashion.Size = new System.Drawing.Size(132, 68);
-            this.B_Fashion.TabIndex = 0;
-            this.B_Fashion.Text = "Give all Fashion Items";
-            this.B_Fashion.UseVisualStyleBackColor = true;
-            this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
-            // 
             // Tab_BattleTree
             // 
-            this.Tab_BattleTree.Controls.Add(this.label2);
-            this.Tab_BattleTree.Controls.Add(this.label1);
+            this.Tab_BattleTree.Controls.Add(this.L_Super);
+            this.Tab_BattleTree.Controls.Add(this.L_Regular);
             this.Tab_BattleTree.Controls.Add(this.NUD_SMStreak2);
             this.Tab_BattleTree.Controls.Add(this.NUD_SCStreak2);
             this.Tab_BattleTree.Controls.Add(this.NUD_SMStreak1);
@@ -1425,6 +1271,24 @@ namespace PKHeX
             this.Tab_BattleTree.TabIndex = 5;
             this.Tab_BattleTree.Text = "Battle Tree";
             this.Tab_BattleTree.UseVisualStyleBackColor = true;
+            // 
+            // L_Super
+            // 
+            this.L_Super.Location = new System.Drawing.Point(243, 37);
+            this.L_Super.Name = "L_Super";
+            this.L_Super.Size = new System.Drawing.Size(60, 20);
+            this.L_Super.TabIndex = 94;
+            this.L_Super.Text = "Super";
+            this.L_Super.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // L_Regular
+            // 
+            this.L_Regular.Location = new System.Drawing.Point(177, 37);
+            this.L_Regular.Name = "L_Regular";
+            this.L_Regular.Size = new System.Drawing.Size(60, 20);
+            this.L_Regular.TabIndex = 93;
+            this.L_Regular.Text = "Regular";
+            this.L_Regular.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // NUD_SMStreak2
             // 
@@ -1684,23 +1548,158 @@ namespace PKHeX
             this.L_CStreak0.Text = "Current Streak Singles:";
             this.L_CStreak0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // label1
+            // Tab_Misc
             // 
-            this.label1.Location = new System.Drawing.Point(177, 37);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 20);
-            this.label1.TabIndex = 93;
-            this.label1.Text = "Regular";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Tab_Misc.Controls.Add(this.GB_PokeFinder);
+            this.Tab_Misc.Controls.Add(this.B_Fashion);
+            this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Misc.Name = "Tab_Misc";
+            this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Misc.Size = new System.Drawing.Size(386, 253);
+            this.Tab_Misc.TabIndex = 4;
+            this.Tab_Misc.Text = "Misc";
+            this.Tab_Misc.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // GB_PokeFinder
             // 
-            this.label2.Location = new System.Drawing.Point(243, 37);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 20);
-            this.label2.TabIndex = 94;
-            this.label2.Text = "Super";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.GB_PokeFinder.Controls.Add(this.CHK_Gyro);
+            this.GB_PokeFinder.Controls.Add(this.CB_CameraVersion);
+            this.GB_PokeFinder.Controls.Add(this.L_CameraVersion);
+            this.GB_PokeFinder.Controls.Add(this.NUD_SnapCount);
+            this.GB_PokeFinder.Controls.Add(this.L_SnapCount);
+            this.GB_PokeFinder.Controls.Add(this.NUD_ThumbsRecord);
+            this.GB_PokeFinder.Controls.Add(this.L_ThumbsRecord);
+            this.GB_PokeFinder.Controls.Add(this.NUD_ThumbsTotal);
+            this.GB_PokeFinder.Controls.Add(this.L_ThumbsTotal);
+            this.GB_PokeFinder.Location = new System.Drawing.Point(3, 99);
+            this.GB_PokeFinder.Name = "GB_PokeFinder";
+            this.GB_PokeFinder.Size = new System.Drawing.Size(200, 151);
+            this.GB_PokeFinder.TabIndex = 57;
+            this.GB_PokeFinder.TabStop = false;
+            this.GB_PokeFinder.Text = "Poké Finder";
+            // 
+            // CHK_Gyro
+            // 
+            this.CHK_Gyro.AutoSize = true;
+            this.CHK_Gyro.Location = new System.Drawing.Point(129, 122);
+            this.CHK_Gyro.Name = "CHK_Gyro";
+            this.CHK_Gyro.Size = new System.Drawing.Size(48, 17);
+            this.CHK_Gyro.TabIndex = 46;
+            this.CHK_Gyro.Text = "Gyro";
+            this.CHK_Gyro.UseVisualStyleBackColor = true;
+            // 
+            // CB_CameraVersion
+            // 
+            this.CB_CameraVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_CameraVersion.Enabled = false;
+            this.CB_CameraVersion.FormattingEnabled = true;
+            this.CB_CameraVersion.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"});
+            this.CB_CameraVersion.Location = new System.Drawing.Point(129, 99);
+            this.CB_CameraVersion.Name = "CB_CameraVersion";
+            this.CB_CameraVersion.Size = new System.Drawing.Size(40, 21);
+            this.CB_CameraVersion.TabIndex = 44;
+            // 
+            // L_CameraVersion
+            // 
+            this.L_CameraVersion.Location = new System.Drawing.Point(6, 100);
+            this.L_CameraVersion.Name = "L_CameraVersion";
+            this.L_CameraVersion.Size = new System.Drawing.Size(117, 20);
+            this.L_CameraVersion.TabIndex = 43;
+            this.L_CameraVersion.Text = "Camera Version:";
+            this.L_CameraVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_SnapCount
+            // 
+            this.NUD_SnapCount.Location = new System.Drawing.Point(129, 79);
+            this.NUD_SnapCount.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_SnapCount.Name = "NUD_SnapCount";
+            this.NUD_SnapCount.Size = new System.Drawing.Size(65, 20);
+            this.NUD_SnapCount.TabIndex = 42;
+            this.NUD_SnapCount.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_SnapCount
+            // 
+            this.L_SnapCount.Location = new System.Drawing.Point(6, 77);
+            this.L_SnapCount.Name = "L_SnapCount";
+            this.L_SnapCount.Size = new System.Drawing.Size(117, 20);
+            this.L_SnapCount.TabIndex = 41;
+            this.L_SnapCount.Text = "Snap Count:";
+            this.L_SnapCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_ThumbsRecord
+            // 
+            this.NUD_ThumbsRecord.Location = new System.Drawing.Point(129, 40);
+            this.NUD_ThumbsRecord.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_ThumbsRecord.Name = "NUD_ThumbsRecord";
+            this.NUD_ThumbsRecord.Size = new System.Drawing.Size(65, 20);
+            this.NUD_ThumbsRecord.TabIndex = 40;
+            this.NUD_ThumbsRecord.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_ThumbsRecord
+            // 
+            this.L_ThumbsRecord.Location = new System.Drawing.Point(6, 38);
+            this.L_ThumbsRecord.Name = "L_ThumbsRecord";
+            this.L_ThumbsRecord.Size = new System.Drawing.Size(117, 20);
+            this.L_ThumbsRecord.TabIndex = 39;
+            this.L_ThumbsRecord.Text = "Record Thumbs-Ups:";
+            this.L_ThumbsRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_ThumbsTotal
+            // 
+            this.NUD_ThumbsTotal.Location = new System.Drawing.Point(129, 18);
+            this.NUD_ThumbsTotal.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            this.NUD_ThumbsTotal.Name = "NUD_ThumbsTotal";
+            this.NUD_ThumbsTotal.Size = new System.Drawing.Size(65, 20);
+            this.NUD_ThumbsTotal.TabIndex = 38;
+            this.NUD_ThumbsTotal.Value = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+            // 
+            // L_ThumbsTotal
+            // 
+            this.L_ThumbsTotal.Location = new System.Drawing.Point(6, 16);
+            this.L_ThumbsTotal.Name = "L_ThumbsTotal";
+            this.L_ThumbsTotal.Size = new System.Drawing.Size(117, 20);
+            this.L_ThumbsTotal.TabIndex = 37;
+            this.L_ThumbsTotal.Text = "Total Thumbs-Ups:";
+            this.L_ThumbsTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // B_Fashion
+            // 
+            this.B_Fashion.Location = new System.Drawing.Point(6, 6);
+            this.B_Fashion.Name = "B_Fashion";
+            this.B_Fashion.Size = new System.Drawing.Size(132, 68);
+            this.B_Fashion.TabIndex = 0;
+            this.B_Fashion.Text = "Give all Fashion Items";
+            this.B_Fashion.UseVisualStyleBackColor = true;
+            this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
             // SAV_Trainer7
             // 
@@ -1733,12 +1732,6 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
-            this.Tab_Misc.ResumeLayout(false);
-            this.GB_PokeFinder.ResumeLayout(false);
-            this.GB_PokeFinder.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
             this.Tab_BattleTree.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak2)).EndInit();
@@ -1752,6 +1745,12 @@ namespace PKHeX
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).EndInit();
+            this.Tab_Misc.ResumeLayout(false);
+            this.GB_PokeFinder.ResumeLayout(false);
+            this.GB_PokeFinder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1895,7 +1894,7 @@ namespace PKHeX
         private System.Windows.Forms.NumericUpDown NUD_RCStreak2;
         private System.Windows.Forms.Label L_MStreak2;
         private System.Windows.Forms.NumericUpDown NUD_RMStreak2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label L_Regular;
+        private System.Windows.Forms.Label L_Super;
     }
 }
