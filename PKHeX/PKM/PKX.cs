@@ -1949,6 +1949,10 @@ namespace PKHeX
             ushort val = g3val > arr.Length ? ushort.MaxValue : arr[g3val];
             return val == ushort.MaxValue ? ITEM_UNK : val;
         }
+        public static bool isTransferrable34(ushort item)
+        {
+            return item == ITEM_UNK && item > 0;
+        }
 
         #region Gen 1 Character Tables
         private static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{

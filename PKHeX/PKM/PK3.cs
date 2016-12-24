@@ -290,9 +290,12 @@ namespace PKHeX
             // Unown Form
             pk4.AltForm = AltForm;
 
-            int item = HeldItem;
             if (HeldItem > 0)
-                pk4.HeldItem = item;
+            {
+                ushort item = PKX.getG4Item((ushort)HeldItem);
+                if (PKX.isTransferrable34(item))
+                    pk4.HeldItem = item;
+            }
 
             // Remove HM moves
             int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };
