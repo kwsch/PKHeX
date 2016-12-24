@@ -141,6 +141,9 @@ namespace PKHeX
             // Showdown Quirks
             switch (Species)
             {
+                case 658: // Greninja
+                    if (Ability == 210) Form += "-Ash"; // Battle Bond
+                    break;
                 case 718: // Zygarde
                     if (string.IsNullOrEmpty(Form)) Form = "50%";
                     else if (Form == "Complete") Form = "100%";
@@ -161,6 +164,10 @@ namespace PKHeX
             string form = Form;
             switch (Species)
             {
+                case 658: // Greninja
+                    form = form.Replace("Ash", "");
+                    form = form.Replace("Active", "");
+                    break;
                 case 718: // Zygarde
                     form = form.Replace("-C", "");
                     form = form.Replace("50%", "");
