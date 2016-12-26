@@ -27,7 +27,7 @@ namespace PKHeX
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00)}" : "";
+                string form = AltForm > 0 ? $"-{AltForm:00}" : "";
                 string star = IsShiny ? " ★" : "";
                 return $"{Species:000}{form}{star} - {Nickname} - {SaveUtil.ccitt16(Encrypt()):X4}.{Extension}";
             }
