@@ -104,7 +104,7 @@ namespace PKHeX
             Items = items;
             OriginalItems = Items.Select(i => i.Clone()).ToArray();
         }
-        public void setPouch7(ref byte[] Data)
+        public void setPouch7(ref byte[] Data, bool setNEW = false)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -115,7 +115,8 @@ namespace PKHeX
                 uint val = 0;
                 val |= (uint)(Items[i].Index & 0x3FF);
                 val |= (uint)(Items[i].Count & 0x3FF) << 10;
-                Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
+                if (setNEW)
+                    Items[i].New |= OriginalItems.All(z => z.Index != Items[i].Index);
                 if (Items[i].New)
                     val |= 0x40000000;
                 if (Items[i].FreeSpace)

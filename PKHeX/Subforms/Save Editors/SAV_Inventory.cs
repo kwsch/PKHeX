@@ -20,7 +20,7 @@ namespace PKHeX
                     itemlist[i] = $"(Item #{i:000})";
 
             HasFreeSpace = SAV.Generation == 7;
-            HasNew = SAV.Generation == 7;
+            HasNew = CHK_NEW.Visible = SAV.Generation == 7;
             Pouches = SAV.Inventory;
             initBags();
             getBags();
@@ -311,7 +311,7 @@ namespace PKHeX
                 if (HasFreeSpace)
                     dgv.Rows[i].Cells[l++].Value = t?.FreeSpace ?? false;
                 if (HasNew)
-                    dgv.Rows[i].Cells[l].Value = t?.New ?? false;
+                    dgv.Rows[i].Cells[l].Value = t?.New ?? CHK_NEW.Checked;
             }
             System.Media.SystemSounds.Asterisk.Play();
         }

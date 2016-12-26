@@ -46,6 +46,7 @@
             this.giveNone = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Count = new System.Windows.Forms.Label();
             this.NUD_Count = new System.Windows.Forms.NumericUpDown();
+            this.CHK_NEW = new System.Windows.Forms.CheckBox();
             this.sortMenu.SuspendLayout();
             this.giveMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
@@ -187,6 +188,7 @@
             // 
             // L_Count
             // 
+            this.L_Count.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.L_Count.AutoSize = true;
             this.L_Count.Location = new System.Drawing.Point(92, 367);
             this.L_Count.Name = "L_Count";
@@ -196,6 +198,7 @@
             // 
             // NUD_Count
             // 
+            this.NUD_Count.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.NUD_Count.Location = new System.Drawing.Point(93, 381);
             this.NUD_Count.Minimum = new decimal(new int[] {
             1,
@@ -211,11 +214,25 @@
             0,
             0});
             // 
+            // CHK_NEW
+            // 
+            this.CHK_NEW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CHK_NEW.AutoSize = true;
+            this.CHK_NEW.Checked = true;
+            this.CHK_NEW.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_NEW.Location = new System.Drawing.Point(148, 384);
+            this.CHK_NEW.Name = "CHK_NEW";
+            this.CHK_NEW.Size = new System.Drawing.Size(75, 17);
+            this.CHK_NEW.TabIndex = 22;
+            this.CHK_NEW.Text = "Flag NEW";
+            this.CHK_NEW.UseVisualStyleBackColor = true;
+            // 
             // SAV_Inventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(314, 411);
+            this.Controls.Add(this.CHK_NEW);
             this.Controls.Add(this.NUD_Count);
             this.Controls.Add(this.L_Count);
             this.Controls.Add(this.B_Sort);
@@ -255,5 +272,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuSortCount;
         private System.Windows.Forms.Label L_Count;
         private System.Windows.Forms.NumericUpDown NUD_Count;
+        private System.Windows.Forms.CheckBox CHK_NEW;
     }
 }
