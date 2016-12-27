@@ -266,6 +266,11 @@ namespace PKHeX
             if (pk == null)
                 return; // shouldn't ever hit
             
+            if (pk.CurrentRegion == 0)
+                pk.CurrentRegion = 2; // NTSC-U
+            if (pk.OriginalRegion == 0)
+                pk.OriginalRegion = 2; // NTSC-U
+
             // Set Shadow Data back to save
             if (pk.ShadowID <= 0 || pk.ShadowID >= ShadowInfo.Count)
                 return;

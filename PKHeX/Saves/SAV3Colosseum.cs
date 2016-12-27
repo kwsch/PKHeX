@@ -274,6 +274,17 @@ namespace PKHeX
             return data;
         }
 
+        protected override void setPKM(PKM pkm)
+        {
+            var pk = pkm as CK3;
+            if (pk == null)
+                return;
+
+            if (pk.CurrentRegion == 0)
+                pk.CurrentRegion = 2; // NTSC-U
+            if (pk.OriginalRegion == 0)
+                pk.OriginalRegion = 2; // NTSC-U
+        }
         protected override void setDex(PKM pkm)
         {
             // Dex Related
