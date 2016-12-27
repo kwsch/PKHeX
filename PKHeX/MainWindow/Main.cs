@@ -3889,6 +3889,10 @@ namespace PKHeX
                 {
                     if (verifyPKMtoSAV(pk).Length > 0)
                         continue;
+                    
+                    while (SAV.getIsSlotLocked(ctr/SAV.BoxSlotCount, ctr%SAV.BoxSlotCount))
+                        ctr++;
+
                     SAV.setStoredSlot(pk, SAV.getBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount * SAV.SIZE_STORED, noSetb);
                     if (pk.Format != temp.Format) // Transferred
                         pastctr++;
