@@ -12302,16 +12302,15 @@ namespace PKHeX.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
-        ///http://projectpokemon.org/
-        ///http://projectpokemon.org/forums/showthread.php?36986
+        ///http://projectpokemon.org/pkhex
         ///
-        ///11/18/16 - New Update:
-        /// - Added: Sun/Moon Support
-        /// - - Initial legality checking. Postgame encounters (Scan/Poke Pelago/etc) unsupported at this time.
-        /// - - QR Exporting for use with custom firmware patched code.
-        /// - - Trainer Editor and limited Pokedex editor
-        /// - Added: KChart, a personal info (base stats) viewer. Hold Shift when opening the PKM Database from the Tools drop-down.
-        /// - Added: Legal mo [rest of string was truncated]&quot;;.
+        ///16/12/21 - New Update:
+        /// - Legality: Fine tuned problematic cases (Island Scan, SOS slots, Ash Greninja, result descriptions).
+        /// - Added: Battle Box slot indication and edit prevention for Generation 7 save files.
+        /// - Added: Party Drag&amp;Drop
+        /// - Added: Zygarde Core stored count; also improved subform &quot;Collect All&quot; button method.
+        /// - Added: Pokédex forme editing (Gen7).
+        /// - Added: Advanced randomization for Batch Editor. Syntax: $x,y to have a random va [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -12611,7 +12610,8 @@ namespace PKHeX.Properties {
         ///   Looks up a localized string similar to 3100	Is Alolan Champion + Magearna Event Active
         ///3487	Received Magearna Gift
         ///1216	Received Gift Cosmog
-        ///0499	Received Gift Type:Null.
+        ///0499	Received Gift Type:Null
+        ///0160	Moone[0] / Sunne Portal [1].
         /// </summary>
         internal static string flags_sm {
             get {
@@ -17952,7 +17952,7 @@ namespace PKHeX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20161118.
+        ///   Looks up a localized string similar to 20161221.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -20869,6 +20869,16 @@ namespace PKHeX.Properties {
         internal static System.Drawing.Bitmap swapBox {
             get {
                 object obj = ResourceManager.GetObject("swapBox", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap team {
+            get {
+                object obj = ResourceManager.GetObject("team", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -33492,10 +33502,10 @@ namespace PKHeX.Properties {
         ///ライチュウ
         ///サンド
         ///サンドパン
-        ///ニドラン
+        ///ニドラン♀
         ///ニドリーナ
         ///ニドクイン
-        ///ニドラン
+        ///ニドラン♂
         ///ニドリーノ
         ///ニドキング
         ///ピッピ
@@ -33542,7 +33552,7 @@ namespace PKHeX.Properties {
         ///ゴローニャ
         ///ポニータ
         ///ギャロップ
-        ///ヤドン [rest of string was truncated]&quot;;.
+        ///ヤ [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_ja {
             get {

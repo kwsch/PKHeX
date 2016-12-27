@@ -355,6 +355,7 @@ namespace PKHeX
         public virtual byte[] BoxFlags { get { return null; } set { } }
         public virtual int CurrentBox { get { return 0; } set { } }
         protected int[] LockedSlots = new int[0];
+        protected int[] TeamSlots = new int[0];
 
         protected virtual int getBoxWallpaperOffset(int box) { return -1; }
         public int getBoxWallpaper(int box)
@@ -459,6 +460,7 @@ namespace PKHeX
         {
             return LockedSlots.Any(slot => BoxStart*BoxSlotCount <= slot && slot < (BoxEnd + 1)*BoxSlotCount);
         }
+        public virtual bool getIsTeamSet(int box, int slot) { return false; }
 
         public void sortBoxes(int BoxStart = 0, int BoxEnd = -1)
         {

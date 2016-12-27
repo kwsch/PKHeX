@@ -30,17 +30,29 @@ namespace PKHeX
             {
                 PokeDex = -1; // Disabled
                 LockedSlots = new int[0];
+                TeamSlots = new int[0];
             }
             else // Valid slot locking info present
             {
-                int lockedCount = 0;
-                for (int i = 0; i < LockedSlots.Length; i++)
+                int lockedCount = 0, teamCount = 0;
+                for (int i = 0; i < TeamCount; i++)
                 {
-                    short val = BitConverter.ToInt16(Data, BattleBoxFlags + i*2);
-                    if (val >= 0)
-                        LockedSlots[lockedCount++] = (BoxSlotCount*(val >> 8) + (val & 0xFF)) & 0xFFFF;
+                    bool locked = Data[PCBackgrounds - TeamCount - i] == 1;
+                    for (int j = 0; j < 6; j++)
+                    {
+                        short val = BitConverter.ToInt16(Data, BattleBoxFlags + (i*6 + j) * 2);
+                        if (val < 0)
+                            continue;
+
+                        var slotVal = (BoxSlotCount*(val >> 8) + (val & 0xFF)) & 0xFFFF;
+
+                        if (locked)
+                            LockedSlots[lockedCount++] = slotVal;
+                        else TeamSlots[teamCount++] = slotVal;
+                    }
                 }
                 Array.Resize(ref LockedSlots, lockedCount);
+                Array.Resize(ref TeamSlots, teamCount);
             }
         }
 
@@ -237,7 +249,10 @@ namespace PKHeX
                 PCFlags =               PCLayout + 0x5E0;
 
                 FashionLength = 0x1A08;
-                LockedSlots = new int[36];
+
+                TeamCount = 6;
+                LockedSlots = new int[6*TeamCount];
+                TeamSlots = new int[6*TeamCount];
             }
             else // Empty input
             {
@@ -260,6 +275,7 @@ namespace PKHeX
         private int PokeFinderSave { get; set; } = int.MinValue;
         private int BattleTree { get; set; } = int.MinValue;
         private int BattleBoxFlags { get; set; } = int.MinValue;
+        private int TeamCount { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         public int TrainerCard { get; private set; } = 0x14000;
@@ -914,6 +930,14 @@ namespace PKHeX
 
             int slotIndex = slot + BoxSlotCount*box;
             return LockedSlots.Any(s => s == slotIndex);
+        }
+        public override bool getIsTeamSet(int box, int slot)
+        {
+            if (slot >= 30 || box >= BoxCount)
+                return false;
+
+            int slotIndex = slot + BoxSlotCount * box;
+            return TeamSlots.Any(s => s == slotIndex);
         }
 
         public override int DaycareSeedSize => 32; // 128 bits
