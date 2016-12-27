@@ -115,7 +115,12 @@ namespace PKHeX
         }
 
         // Configuration
-        public override SaveFile Clone() { return new SAV3Colosseum(Write(DSV: false)); }
+        public override SaveFile Clone()
+        {
+            byte[] data = Write(DSV: false).Skip(Header.Length).ToArray();
+            var sav = new SAV3Colosseum(data) { Header = (byte[])Header.Clone() };
+            return sav;
+        }
 
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         public override int SIZE_PARTY => PKX.SIZE_3CSTORED; // unused
