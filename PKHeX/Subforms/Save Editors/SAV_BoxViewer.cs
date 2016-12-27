@@ -213,7 +213,7 @@ namespace PKHeX
                         getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
                     pb.BackgroundImage = null;
 
-                    if (DragInfo.SameBox)
+                    if (DragInfo.SameBox && DragInfo.DestinationValid)
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
                 }
                 catch (Exception x)
