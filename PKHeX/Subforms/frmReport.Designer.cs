@@ -41,8 +41,6 @@
             this.dgData.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
             this.dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             this.dgData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgData.Location = new System.Drawing.Point(0, 0);
@@ -50,6 +48,7 @@
             this.dgData.RowHeadersVisible = false;
             this.dgData.Size = new System.Drawing.Size(812, 461);
             this.dgData.TabIndex = 0;
+            this.dgData.Sorted += new System.EventHandler(this.dgData_Sorted);
             // 
             // BoxBar
             // 

@@ -114,6 +114,35 @@ namespace PKHeX
             InitializeComponent();
             dgData.DoubleBuffered(true);
             CenterToParent();
+            getContextMenu();
+        }
+        private void getContextMenu()
+        {
+            var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = "Hide Column", };
+            mnuHide.Click += (sender, e) =>
+            {
+                int c = dgData.SelectedCells.Count;
+                if (c == 0)
+                { Util.Alert("No cells/Columns selected."); return; }
+
+                for (int i = 0; i < c; i++)
+                    dgData.Columns[dgData.SelectedCells[i].ColumnIndex].Visible = false;
+            };
+            var mnuRestore = new ToolStripMenuItem { Name = "mnuRestore", Text = "Restore Columns", };
+            mnuRestore.Click += (sender, e) =>
+            {
+                int c = dgData.ColumnCount;
+                for (int i = 0; i < c; i++)
+                    dgData.Columns[i].Visible = true;
+
+                Util.Alert("Column visibility restored.");
+            };
+
+            ContextMenuStrip mnu = new ContextMenuStrip();
+            mnu.Items.Add(mnuHide);
+            mnu.Items.Add(mnuRestore);
+
+            dgData.ContextMenuStrip = mnu;
         }
         public void PopulateData(PKM[] Data)
         {
@@ -137,7 +166,25 @@ namespace PKHeX
                 dgData.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
             }
             BoxBar.Visible = false;
+
+            // Trigger Resizing
+            dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            for (int i = 0; i < dgData.Columns.Count; i++)
+            {
+                int w = dgData.Columns[i].Width;
+                dgData.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                dgData.Columns[i].Width = w;
+            }
+            dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            dgData_Sorted(null, null); // trigger row resizing
+
             ResumeLayout();
+        }
+        private void dgData_Sorted(object sender, EventArgs e)
+        {
+            int height = PKX.getSprite(1, 0, 0, 0, false, false).Height; // dummy sprite, max height of a row
+            for (int i = 0; i < dgData.Rows.Count; i++)
+                dgData.Rows[i].Height = height;
         }
         private void promptSaveCSV(object sender, FormClosingEventArgs e)
         {
