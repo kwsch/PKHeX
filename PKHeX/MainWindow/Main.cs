@@ -3466,106 +3466,49 @@ namespace PKHeX
             ((SAV4BR)SAV).CurrentSlot = Util.getIndex(CB_SaveSlot);
             setPKXBoxes();
         }
-        private void updateEggRNGSeed(object sender, EventArgs e)
-        {
-            if (TB_RNGSeed.Text.Length == 0)
-            {
-                // Reset to 0
-                TB_RNGSeed.Text = 0.ToString("X"+SAV.DaycareSeedSize);
-                return; // recursively triggers this method, no need to continue
-            }
-
-            string filterText = Util.getOnlyHex(TB_RNGSeed.Text);
-            if (filterText.Length != TB_RNGSeed.Text.Length)
-            {
-                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + TB_RNGSeed.Text);
-                // Reset to Stored Value
-                var seed = SAV.getDaycareRNGSeed(SAV.DaycareIndex);
-                if (seed != null)
-                    TB_RNGSeed.Text = seed;
-                return; // recursively triggers this method, no need to continue
-            }
-
-            // Write final value back to the save
-            var value = filterText.PadLeft(SAV.DaycareSeedSize, '0');
-            if (value != SAV.getDaycareRNGSeed(SAV.DaycareIndex))
-            {
-                SAV.setDaycareRNGSeed(SAV.DaycareIndex, value);
-                SAV.Edited = true;
-            }
-        }
-        private void updateGameSyncID(object sender, EventArgs e)
-        {
-            TextBox tb = TB_GameSync;
-            if (tb.Text.Length == 0)
-            {
-                // Reset to 0
-                tb.Text = 0.ToString("X" + SAV.GameSyncIDSize);
-                return; // recursively triggers this method, no need to continue
-            }
-
-            string filterText = Util.getOnlyHex(tb.Text);
-            if (filterText.Length != tb.Text.Length)
-            {
-                Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + tb.Text);
-                // Reset to Stored Value
-                var seed = SAV.GameSyncID;
-                if (seed != null)
-                    tb.Text = seed;
-                return; // recursively triggers this method, no need to continue
-            }
-
-            // Write final value back to the save
-            var value = filterText.PadLeft(SAV.GameSyncIDSize, '0');
-            if (value != SAV.GameSyncID)
-            {
-                SAV.GameSyncID = value;
-                SAV.Edited = true;
-            }
-        }
-        private void updateU64(object sender, EventArgs e)
+        private void updateStringSeed(object sender, EventArgs e)
         {
             if (!fieldsLoaded)
                 return;
 
             TextBox tb = sender as TextBox;
-            if (tb?.Text.Length == 0)
-            {
-                // Reset to 0
-                tb.Text = 0.ToString("X16");
-                return; // recursively triggers this method, no need to continue
-            }
+            if (tb == null)
+                return;
 
-            // Currently saved Value
-            ulong? oldval = 0;
-            if (SAV.Generation == 6)
+            if (tb.Text.Length == 0)
             {
-                if (tb == TB_Secure1)
-                    oldval = SAV.Secure1;
-                else if (tb == TB_Secure2)
-                    oldval = SAV.Secure2;
+                tb.Undo();
+                return;
             }
 
             string filterText = Util.getOnlyHex(tb.Text);
-
             if (filterText.Length != tb.Text.Length)
             {
                 Util.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + tb.Text);
-                // Reset to Stored Value
-                tb.Text = (oldval ?? 0).ToString("X16");
-                return; // recursively triggers this method, no need to continue
+                tb.Undo();
+                return;
             }
 
             // Write final value back to the save
-            ulong? newval = Convert.ToUInt64(filterText, 16);
-            if (newval == oldval) return;
-
-            if (SAV.Generation >= 6)
+            if (tb == TB_RNGSeed)
             {
+                var value = filterText.PadLeft(SAV.DaycareSeedSize, '0');
+                SAV.setDaycareRNGSeed(SAV.DaycareIndex, value);
+                SAV.Edited = true;
+            }
+            else if (tb == TB_GameSync)
+            {
+                var value = filterText.PadLeft(SAV.GameSyncIDSize, '0');
+                SAV.GameSyncID = value;
+                SAV.Edited = true;
+            }
+            else if (SAV.Generation >= 6)
+            {
+                var value = Convert.ToUInt64(filterText, 16);
                 if (tb == TB_Secure1)
-                    SAV.Secure1 = newval;
+                    SAV.Secure1 = value;
                 else if (tb == TB_Secure2)
-                    SAV.Secure2 = newval;
+                    SAV.Secure2 = value;
                 SAV.Edited = true;
             }
         }

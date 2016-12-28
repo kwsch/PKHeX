@@ -5134,7 +5134,7 @@
             this.TB_RNGSeed.Size = new System.Drawing.Size(120, 20);
             this.TB_RNGSeed.TabIndex = 8;
             this.TB_RNGSeed.Text = "0123456789ABCDEF";
-            this.TB_RNGSeed.TextChanged += new System.EventHandler(this.updateEggRNGSeed);
+            this.TB_RNGSeed.Validated += new System.EventHandler(this.updateStringSeed);
             // 
             // dcpkx2
             // 
@@ -5349,7 +5349,7 @@
             this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
             this.TB_Secure2.TabIndex = 17;
             this.TB_Secure2.Text = "0000000000000000";
-            this.TB_Secure2.TextChanged += new System.EventHandler(this.updateU64);
+            this.TB_Secure2.Validated += new System.EventHandler(this.updateStringSeed);
             // 
             // L_Secure1
             // 
@@ -5370,7 +5370,7 @@
             this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
             this.TB_Secure1.TabIndex = 15;
             this.TB_Secure1.Text = "0000000000000000";
-            this.TB_Secure1.TextChanged += new System.EventHandler(this.updateU64);
+            this.TB_Secure1.Validated += new System.EventHandler(this.updateStringSeed);
             // 
             // B_JPEG
             // 
@@ -5401,7 +5401,7 @@
             this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
-            this.TB_GameSync.TextChanged += new System.EventHandler(this.updateGameSyncID);
+            this.TB_GameSync.Validated += new System.EventHandler(this.updateStringSeed);
             // 
             // B_SaveBoxBin
             // 
