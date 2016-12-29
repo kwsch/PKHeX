@@ -249,33 +249,44 @@ namespace PKHeX
             new EncounterStatic { Species = 718, Form = 1, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
             new EncounterStatic { Species = 718, Form = 2, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
             new EncounterStatic { Species = 718, Form = 3, Level = 50, Relearn = new[]{000, 000, 000, 000}, Shiny = false, Ability = 1, Location = 118, IV3 = true, }, // Zygarde
+        };
 
-            new EncounterStatic { Species = 021, Location = 30016, Level = -1, }, // Spearow
-            new EncounterStatic { Species = 041, Location = 30016, Level = -1, }, // Zubat
-            new EncounterStatic { Species = 060, Location = 30016, Level = -1, }, // Poliwag
-            new EncounterStatic { Species = 064, Location = 30016, Level = -1, }, // Kadabra
-            new EncounterStatic { Species = 081, Location = 30016, Level = -1, }, // Magnemite
-            new EncounterStatic { Species = 090, Location = 30016, Level = -1, }, // Shellder
-            new EncounterStatic { Species = 092, Location = 30016, Level = -1, }, // Gastly
-            new EncounterStatic { Species = 120, Location = 30016, Level = -1, }, // Staryu
-            new EncounterStatic { Species = 123, Location = 30016, Level = -1, }, // Scyther
-            new EncounterStatic { Species = 127, Location = 30016, Level = -1, }, // Pinsir
-            new EncounterStatic { Species = 131, Location = 30016, Level = -1, }, // Lapras
-            new EncounterStatic { Species = 198, Location = 30016, Level = -1, }, // Murkrow
-            new EncounterStatic { Species = 227, Location = 30016, Level = -1, }, // Skarmory
-            new EncounterStatic { Species = 278, Location = 30016, Level = -1, }, // Wingull
-            new EncounterStatic { Species = 375, Location = 30016, Level = -1, }, // Metang
-            new EncounterStatic { Species = 426, Location = 30016, Level = -1, }, // Drifblim
-            new EncounterStatic { Species = 429, Location = 30016, Level = -1, }, // Mismagius
-            new EncounterStatic { Species = 587, Location = 30016, Level = -1, }, // Emolga
-            new EncounterStatic { Species = 627, Location = 30016, Level = -1, }, // Rufflet
-            new EncounterStatic { Species = 629, Location = 30016, Level = -1, }, // Vullaby
-            new EncounterStatic { Species = 661, Location = 30016, Level = -1, }, // Fletchling
-            new EncounterStatic { Species = 703, Location = 30016, Level = -1, }, // Carbink
-            new EncounterStatic { Species = 707, Location = 30016, Level = -1, }, // Klefki
-            new EncounterStatic { Species = 709, Location = 30016, Level = -1, }, // Trevenant
-            new EncounterStatic { Species = 731, Location = 30016, Level = -1, }, // Pikipek
-            new EncounterStatic { Species = 771, Location = 30016, Level = -1, }, // Pyukumuku
+        private static readonly EncounterArea[] Encounter_SM_Pelago =
+        {
+            new EncounterArea
+            {
+                Location = 30016, // Poké Pelago
+                Slots = new[]
+                {
+                    // Note: These level ranges are arbitrary -- no 'official'/verified documentation available.
+                    new EncounterSlot {Species = 021, LevelMin = 10, LevelMax = 55}, // Spearow
+                    new EncounterSlot {Species = 041, LevelMin = 10, LevelMax = 55}, // Zubat
+                    new EncounterSlot {Species = 060, LevelMin = 10, LevelMax = 55}, // Poliwag
+                    new EncounterSlot {Species = 064, LevelMin = 10, LevelMax = 55}, // Kadabra
+                    new EncounterSlot {Species = 081, LevelMin = 10, LevelMax = 55}, // Magnemite
+                    new EncounterSlot {Species = 090, LevelMin = 10, LevelMax = 55}, // Shellder
+                    new EncounterSlot {Species = 092, LevelMin = 10, LevelMax = 55}, // Gastly
+                    new EncounterSlot {Species = 120, LevelMin = 10, LevelMax = 55}, // Staryu
+                    new EncounterSlot {Species = 123, LevelMin = 10, LevelMax = 55}, // Scyther
+                    new EncounterSlot {Species = 127, LevelMin = 10, LevelMax = 55}, // Pinsir
+                    new EncounterSlot {Species = 131, LevelMin = 10, LevelMax = 55}, // Lapras
+                    new EncounterSlot {Species = 198, LevelMin = 10, LevelMax = 55}, // Murkrow
+                    new EncounterSlot {Species = 227, LevelMin = 10, LevelMax = 55}, // Skarmory
+                    new EncounterSlot {Species = 278, LevelMin = 10, LevelMax = 55}, // Wingull
+                    new EncounterSlot {Species = 375, LevelMin = 10, LevelMax = 55}, // Metang
+                    new EncounterSlot {Species = 426, LevelMin = 10, LevelMax = 55}, // Drifblim
+                    new EncounterSlot {Species = 429, LevelMin = 10, LevelMax = 55}, // Mismagius
+                    new EncounterSlot {Species = 587, LevelMin = 10, LevelMax = 55}, // Emolga
+                    new EncounterSlot {Species = 627, LevelMin = 10, LevelMax = 55}, // Rufflet
+                    new EncounterSlot {Species = 629, LevelMin = 10, LevelMax = 55}, // Vullaby
+                    new EncounterSlot {Species = 661, LevelMin = 10, LevelMax = 55}, // Fletchling
+                    new EncounterSlot {Species = 703, LevelMin = 10, LevelMax = 55}, // Carbink
+                    new EncounterSlot {Species = 707, LevelMin = 10, LevelMax = 55}, // Klefki
+                    new EncounterSlot {Species = 709, LevelMin = 10, LevelMax = 55}, // Trevenant
+                    new EncounterSlot {Species = 731, LevelMin = 10, LevelMax = 55}, // Pikipek
+                    new EncounterSlot {Species = 771, LevelMin = 10, LevelMax = 55}, // Pyukumuku
+                },
+            }
         };
         private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
