@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PKHeX
@@ -81,12 +82,19 @@ namespace PKHeX
 
             // Load Data
             RawDB = new List<PKM>();
-            foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
+            var files = Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories);
+            Parallel.ForEach(files, file =>
             {
                 FileInfo fi = new FileInfo(file);
-                if (fi.Extension.Contains(".pk") && PKX.getIsPKM(fi.Length))
-                    RawDB.Add(PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file));
-            }
+                if (!fi.Extension.Contains(".pk") || !PKX.getIsPKM(fi.Length)) return;
+                var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file);
+                if (pk == null)
+                    return;
+                lock (RawDB)
+                    RawDB.Add(pk);
+            });
+            RawDB = new List<PKM>(RawDB.Where(pk => pk != null).OrderBy(pk => pk.Identifier));
+
             // Fetch from save file
             foreach (var pkm in Main.SAV.BoxData.Where(pk => pk.Species != 0))
                 RawDB.Add(pkm);
@@ -485,9 +493,6 @@ namespace PKHeX
                         let split = line.Substring(1).Split('=')
                         where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
                         select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
-
-                if (filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
-                { Util.Error("Empty Filter Value detected."); return; }
 
                 BatchEditor.screenStrings(filters);
                 res = res.Where(pkm => // Compare across all filters
