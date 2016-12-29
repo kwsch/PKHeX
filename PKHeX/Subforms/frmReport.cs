@@ -182,7 +182,7 @@ namespace PKHeX
         }
         private void dgData_Sorted(object sender, EventArgs e)
         {
-            int height = PKX.getSprite(1, 0, 0, 0, false, false).Height; // dummy sprite, max height of a row
+            int height = PKX.getSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }
