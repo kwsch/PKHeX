@@ -73,6 +73,14 @@ namespace PKHeX
             CB_Region.DisplayMember = "Text";
             CB_Region.ValueMember = "Value";
             Main.setCountrySubRegion(CB_Country, "countries");
+
+            CB_SkinColor.Items.Clear();
+            string[] skinColors = { "Pale", "Default", "Tan", "Dark" };
+            foreach (string c in skinColors)
+            {
+                CB_SkinColor.Items.Add($"{Main.gendersymbols[0]} - {c}"); // M
+                CB_SkinColor.Items.Add($"{Main.gendersymbols[1]} - {c}"); // F
+            }
         }
         private void getTextBoxes()
         {
@@ -155,6 +163,8 @@ namespace PKHeX
             NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, SAV.getTreeStreak(0, super: true, max: true));
             NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.getTreeStreak(1, super: true, max: true));
             NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.getTreeStreak(2, super: true, max: true));
+
+            CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
         }
         private void save()
         {
@@ -225,6 +235,8 @@ namespace PKHeX
             SAV.setTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
             SAV.setTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
             SAV.setTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
+
+            SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

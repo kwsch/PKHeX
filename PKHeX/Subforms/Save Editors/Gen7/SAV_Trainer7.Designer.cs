@@ -168,6 +168,8 @@ namespace PKHeX
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
+            this.CB_SkinColor = new System.Windows.Forms.ComboBox();
+            this.L_SkinColor = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -1550,6 +1552,8 @@ namespace PKHeX
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.L_SkinColor);
+            this.Tab_Misc.Controls.Add(this.CB_SkinColor);
             this.Tab_Misc.Controls.Add(this.GB_PokeFinder);
             this.Tab_Misc.Controls.Add(this.B_Fashion);
             this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
@@ -1700,6 +1704,23 @@ namespace PKHeX
             this.B_Fashion.Text = "Give all Fashion Items";
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
+            // 
+            // CB_SkinColor
+            // 
+            this.CB_SkinColor.FormattingEnabled = true;
+            this.CB_SkinColor.Location = new System.Drawing.Point(267, 7);
+            this.CB_SkinColor.Name = "CB_SkinColor";
+            this.CB_SkinColor.Size = new System.Drawing.Size(109, 21);
+            this.CB_SkinColor.TabIndex = 58;
+            // 
+            // L_SkinColor
+            // 
+            this.L_SkinColor.Location = new System.Drawing.Point(144, 6);
+            this.L_SkinColor.Name = "L_SkinColor";
+            this.L_SkinColor.Size = new System.Drawing.Size(117, 20);
+            this.L_SkinColor.TabIndex = 59;
+            this.L_SkinColor.Text = "Skin Color:";
+            this.L_SkinColor.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Trainer7
             // 
@@ -1896,5 +1917,7 @@ namespace PKHeX
         private System.Windows.Forms.NumericUpDown NUD_RMStreak2;
         private System.Windows.Forms.Label L_Regular;
         private System.Windows.Forms.Label L_Super;
+        private System.Windows.Forms.ComboBox CB_SkinColor;
+        private System.Windows.Forms.Label L_SkinColor;
     }
 }
