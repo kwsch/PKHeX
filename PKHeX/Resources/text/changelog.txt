@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-16/12/21 - New Update:
+16/12/31 - New Update:
+ - Legality: Added Poké Pelago encounter cases.
+ - Added: Battle Box slot indication separated for locked & unlocked slots. Locked slots remain un-editable.
+ - Added: Record (trainer stat) editing (captured, battles, exp collected, etc) for Gen7.
+ - Added: Starter Choice Event Constant editing.
+ - Added: Relearn move suggestions for static encounters with relearn moves.
+ - Added: Option to set NEW flag when giving items.
+ - Added: Gender changing for Gen2, IVs will automatically update.
+ - Added: Database filter for Clones and option to delete clones.
+ - Updated: Database and Report windows now load/operate faster.
+ - Fixed: Database slot deletion no longer throws an error.
+ - Fixed: Showdown Set forme edge cases for new formes now import/export to Showdown's expected format.
+ - Fixed: Setting a party slot via drag&drop now sets the current stat level.
+ - Fixed: Memory arguments (items, species, etc) for Gen6 now constrained to legal Gen6 values.
+ - Fixed: Gender Symbol half/full width setting for latin/logographic languages.
+ - Fixed: Setting the item count to an empty string now defaults to zero.
+ - Fixed: Illegal dates no longer cause issue for Trainer Editors.
+ - Fixed: Transferring Gen3->Gen4 case re-added, and item transferring now behaves correctly.
+ - Fixed: Transferring Gen3->XD/Colosseum now has the Pokémon appear with correct 'valid' flags.
+ - Fixed: Fashion payload cheats no longer cause ingame crashes due to invalid dye values. Thanks Holla!
+
+16/12/21 - New Update: (39607) [95130]
  - Legality: Fine tuned problematic cases (Island Scan, SOS slots, Ash Greninja, result descriptions).
  - Added: Battle Box slot indication and edit prevention for Generation 7 save files.
  - Added: Party Drag&Drop
