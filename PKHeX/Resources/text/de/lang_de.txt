@@ -1,4 +1,4 @@
-﻿! PKHeX Interface Customization File
+! PKHeX Interface Customization File
 ! Languages: Save this file accordingly and put it in the same folder as PKHeX's executable.
 ! lang_en.txt = English
 ! lang_jp.txt = Japanese
@@ -16,31 +16,31 @@
 ! Main = PKHeX
 - Change stuff below this line, not above.
 ---------------------Menu Strip------------------------
-Menu_File = File
-Menu_Open = Open...
-Menu_Save = Save PKM...
-Menu_ExportSAV = Export SAV...
-Menu_ExportMAIN = Export main
-Menu_ExportBAK = Export BAK
-Menu_Exit = Quit
+Menu_File = Datei
+Menu_Open = Öffnen...
+Menu_Save = Speichere PKM...
+Menu_ExportSAV = Exportiere SAV...
+Menu_ExportMAIN = Exportiere main
+Menu_ExportBAK = Exportiere BAK
+Menu_Exit = Schließen
 --
-Menu_Tools = Tools
+Menu_Tools = Werkzeuge
 Menu_Showdown = Showdown
-Menu_ShowdownImportPKM = Import Set from Clipboard
-Menu_ShowdownExportPKM = Export Set to Clipboard
-Menu_ShowdownExportParty = Export Party to Clipboard
-Menu_ShowdownExportBattleBox = Export Battle Box to Clipboard
+Menu_ShowdownImportPKM = Importiere Set aus Zwischenablage
+Menu_ShowdownExportPKM = Exportiere Set in Zwischenablage
+Menu_ShowdownExportParty = Exportiere Team an Zwischenablage
+Menu_ShowdownExportBattleBox = Exportiere Kampf-Box in Zwischenablage
 Menu_CyberGadget = CyberGadget
-Menu_OpenTemp = Open Temp Folder
-Menu_OpenCache = Open Cache Folder
-Menu_Data = Data
-Menu_LoadBoxes = Load Boxes
-Menu_DumpBoxes = Dump Boxes
-Menu_Report = Box Data Report
+Menu_OpenTemp = Öffne Temp Ordner
+Menu_OpenCache = Öffne Cache Ordner
+Menu_Data = Daten
+Menu_LoadBoxes = Lade Boxen
+Menu_DumpBoxes = Dumpe Boxen
+Menu_Report = Box-Datenreport
 Menu_Database = PKM Datenbank
 Menu_Other = Andere
-Menu_OpenSDF = Open SaveDataFiler Folder
-Menu_OpenSDB = Open SaveDataBackup Folder
+Menu_OpenSDF = Öffne SaveDataFiler Ordner
+Menu_OpenSDB = Öffne SaveDataBackup Ordner
 --
 Menu_Options = Optionen
 Menu_Language = Sprache
@@ -139,7 +139,7 @@ Tab_Box = Box
 Tab_PartyBattle = Team-Kampf
 Tab_Other = Andere
 Tab_SAV = SAV
-B_OpenPokePuffs = ‎Poké Puffs
+B_OpenPokePuffs = Pofflés
 B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainerinfo
 B_OUTPasserby = Passanten
@@ -150,11 +150,11 @@ B_OpenOPowers = O-Kräfte
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
 --
-B_OpenSecretBase = Secret Base
+B_OpenSecretBase = Geheimbasis
 --------------------Tab Internals-----------------------
 L_Party = Team:
 L_BattleBox = Kampfbox:
-L_ReadOnlyPBB = Dieser ist nur lesbar.
+L_ReadOnlyPBB = Dieser Tab ist nur lesbar.
 GB_Daycare = Pension
 GB_GTS = GTS
 GB_Fused = Fused
@@ -163,9 +163,9 @@ DayCare_HasEgg = Ei verfügbar
 L_DaycareSeed = Seed
 L_ReadOnlyOther = Dieser Tab ist nur lesbar.
 B_JPEG = Speichere PGL .JPEG
-B_VerifyCHK = Checksums
-B_SaveBoxBin = Save Box Data++
-L_GameSync = Game Sync ID:
+B_VerifyCHK = Prüfsummen
+B_SaveBoxBin = Speichere Box Daten++
+L_GameSync = Spielsynchro ID:
 L_Secure1 = Secure Value 1:
 L_Secure2 = Secure Value 2:
 ! End
@@ -219,75 +219,75 @@ L_RibbonChampionWorld = Weltchampion
 L_RibbonCountMemoryContest = Verg. Wettbewerbsb.
 L_RibbonCountMemoryBattle = Verg. Kampfb.
 L_RibbonChampionG6Hoenn = Hoenn Champion (ORAS)
-L_RibbonContestStar = Contest Star
-L_RibbonMasterCoolness = Coolness Master
-L_RibbonMasterBeauty = Beauty Master
-L_RibbonMasterCuteness = Cuteness Master
-L_RibbonMasterCleverness = Cleverness Master
-L_RibbonMasterToughness = Toughness Master
+L_RibbonContestStar = Wettbewerbs-Star
+L_RibbonMasterCoolness = Coolness Meister
+L_RibbonMasterBeauty = Schönheit Meister
+L_RibbonMasterCuteness = Putzigkeit Meister
+L_RibbonMasterCleverness = Klugheit Meister
+L_RibbonMasterToughness = Stärke Meister
 ----------------Contest/Battle (PAST)-------------------
-L_RibbonG3Cool = Cool (G3)
-L_RibbonG3CoolSuper = Cool Super
-L_RibbonG3CoolHyper = Cool Hyper
-L_RibbonG3CoolMaster = Cool Master
-L_RibbonG3Beauty = Beauty (G3)
-L_RibbonG3BeautySuper = Beauty Super
-L_RibbonG3BeautyHyper = Beauty Hyper
-L_RibbonG3BeautyMaster = Beauty Master
-L_RibbonG3Cute = Cute (G3)
-L_RibbonG3CuteSuper = Cute Super
-L_RibbonG3CuteHyper = Cute Hyper
-L_RibbonG3CuteMaster = Cute Master
-L_RibbonG3Smart = Smart (G3)
-L_RibbonG3SmartSuper = Smart Super
-L_RibbonG3SmartHyper = Smart Hyper
-L_RibbonG3SmartMaster = Smart Master
-L_RibbonG3Tough = Tough (G3)
-L_RibbonG3ToughSuper = Tough Super
-L_RibbonG3ToughHyper = Tough Hyper
-L_RibbonG3ToughMaster = Tough Master
-L_RibbonG4Cool = Cool (G4)
-L_RibbonG4CoolGreat = Cool Great
-L_RibbonG4CoolUltra = Cool Ultra
-L_RibbonG4CoolMaster = Cool Master
-L_RibbonG4Beauty = Beauty (G4)
-L_RibbonG4BeautyGreat = Beauty Great
-L_RibbonG4BeautyUltra = Beauty Ultra
-L_RibbonG4BeautyMaster = Beauty Master
-L_RibbonG4Cute = Cute (G4)
-L_RibbonG4CuteGreat = Cute Great
-L_RibbonG4CuteUltra = Cute Ultra
-L_RibbonG4CuteMaster = Cute Master
-L_RibbonG4Smart = Smart (G4)
-L_RibbonG4SmartGreat = Smart Great
-L_RibbonG4SmartUltra = Smart Ultra
-L_RibbonG4SmartMaster = Smart Master
-L_RibbonG4Tough = Tough (G4)
-L_RibbonG4ToughGreat = Tough Great
-L_RibbonG4ToughUltra = Tough Ultra
-L_RibbonG4ToughMaster = Tough Master
-L_RibbonWinning = Winning
-L_RibbonVictory = Victory
-L_RibbonAbility = Ability
-L_RibbonAbilityGreat = Great Ability
-L_RibbonAbilityDouble = Double Ability
-L_RibbonAbilityMulti = Multi Ability
-L_RibbonAbilityPair = Pair Ability
-L_RibbonAbilityWorld = World Ability
-L_RibbonCountG3Cool = Cool
-L_RibbonCountG3Beauty = Beauty
-L_RibbonCountG3Cute = Cute
-L_RibbonCountG3Smart = Smart
-L_RibbonCountG3Tough = Tough
+L_RibbonG3Cool = Coolness (G3)
+L_RibbonG3CoolSuper = Coolness Super
+L_RibbonG3CoolHyper = Coolness Hyper
+L_RibbonG3CoolMaster = Coolness Master
+L_RibbonG3Beauty = Schönheit (G3)
+L_RibbonG3BeautySuper = Schönheit Super
+L_RibbonG3BeautyHyper = Schönheit Hyper
+L_RibbonG3BeautyMaster = Schönheit Master
+L_RibbonG3Cute = Anmut (G3)
+L_RibbonG3CuteSuper = Anmut Super
+L_RibbonG3CuteHyper = Anmut Hyper
+L_RibbonG3CuteMaster = Anmut Master
+L_RibbonG3Smart = Klugheit (G3)
+L_RibbonG3SmartSuper = Klugheit Super
+L_RibbonG3SmartHyper = Klugheit Hyper
+L_RibbonG3SmartMaster = Klugheit Master
+L_RibbonG3Tough = Stärke (G3)
+L_RibbonG3ToughSuper = Stärke Super
+L_RibbonG3ToughHyper = Stärke Hyper
+L_RibbonG3ToughMaster = Stärke Master
+L_RibbonG4Cool = Coolness (G4)
+L_RibbonG4CoolGreat = Coolness Mega
+L_RibbonG4CoolUltra = Coolness Ultra
+L_RibbonG4CoolMaster = Coolness Master
+L_RibbonG4Beauty = Schönheit (G4)
+L_RibbonG4BeautyGreat = Schönheit Mega
+L_RibbonG4BeautyUltra = Schönheit Ultra
+L_RibbonG4BeautyMaster = Schönheit Master
+L_RibbonG4Cute = Anmut (G4)
+L_RibbonG4CuteGreat = Anmut Mega
+L_RibbonG4CuteUltra = Anmut Ultra
+L_RibbonG4CuteMaster = Anmut Master
+L_RibbonG4Smart = Klugheit (G4)
+L_RibbonG4SmartGreat = Klugheit Mega
+L_RibbonG4SmartUltra = Klugheit Ultra
+L_RibbonG4SmartMaster = Klugheit Master
+L_RibbonG4Tough = Stärke (G4)
+L_RibbonG4ToughGreat = Stärke Mega
+L_RibbonG4ToughUltra = Stärke Ultra
+L_RibbonG4ToughMaster = Stärke Master
+L_RibbonWinning = Gewinner
+L_RibbonVictory = Sieger
+L_RibbonAbility = Fähigkeit
+L_RibbonAbilityGreat = Fähigkeit Groß
+L_RibbonAbilityDouble = Fähigkeit Doppel
+L_RibbonAbilityMulti = Fähigkeit Multi
+L_RibbonAbilityPair = Fähigkeit Paar
+L_RibbonAbilityWorld = Fähigkeit Welt
+L_RibbonCountG3Cool = Coolness
+L_RibbonCountG3Beauty = Schönheit
+L_RibbonCountG3Cute = Anmut
+L_RibbonCountG3Smart = Klugheit
+L_RibbonCountG3Tough = Stärke
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
 ! SuperTrainingEditor = Medal Editor
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
-B_All = Give All
-B_None = Remove All
-B_Cancel = Cancel
-B_Save = Save
+B_All = Alle
+B_None = Nichts
+B_Cancel = Abbrechen
+B_Save = Speichern
 ------------------Super Training-----------------------
 CHK_SuperTrain1_HP = Rang 1: KP
 CHK_SuperTrain1_ATK = Rang 1: Atk
@@ -322,8 +322,8 @@ CHK_SuperTrain7_2 = Rang 7: Bit-Ballon-Barriere
 CHK_SuperTrain7_3 = Rang 7: Blitz-K.O.!
 CHK_SuperTrain8_1 = Rang 8: Pokémon X/Y
 ---
-L_Bag = Last Used Bag:
-L_Hits = Hits Remaining:
+L_Bag = Letzter benutzer Sack:
+L_Hits = Schläge übrig:
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
@@ -344,15 +344,15 @@ Tab_Residence = Herkunft
 --
 - **Please leave the {0} in your line. The OT name will show instead.
 --
-L_Arguments = Deaktiviert ; Nie verlassen ; OT ; Letzte Gen. ; Erinnerungen mit ; Pokémon ; Area ; Item(s) ; Move ; Location
+L_Arguments = Deaktiviert ; Nie verlassen ; OT ; Letzte Gen. ; Erinnerungen mit ; Pokémon ; Area ; Item(s) ; Attacke ; Location
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
 ! ErrorWindow = Error
 - Change stuff below this line, not above.
 -------------------------------------------------------
-L_ProvideInfo = Please provide this information when reporting this error: 
-B_CopyToClipboard = Copy to Clipboard
-B_Continue = Continue
-B_Abort = Abort
+L_ProvideInfo = Bitte sende diese Information, wenn du den Fehler meldest:
+B_CopyToClipboard = In Zwischenablage kopieren
+B_Continue = Fortfahren
+B_Abort = Abbrechen
 ! End
