@@ -1,18 +1,16 @@
-None
-Rock Smash (HGSS)
-Tall Grass
+Kein
+Zertrümmerer (HGSS)
+Hohes Graß
 
 Dialga/Palkia
-Cave/Hall of Origin
+Höhle/Halle des Ursprungs
 
-Surfing/Fishing
+Surfen/Angeln
 
-Building/Enigma Stone
-Marsh/Safari
+Gebäude/Mytokristall
+Großmoor/Safari
 
-Starter/Fossil/Gift (DP)
-
-
+Starter/Fossil/Geschenk (DP)
 
 
 
@@ -21,5 +19,7 @@ Starter/Fossil/Gift (DP)
 
 
 
-Distortion World (Pt)
-Starter/Fossil/Gift (Pt/DP Trio)
+
+
+Zerrwelt (Pt)
+Starter/Fossil/Geschenk (Pt/DP Trio)
