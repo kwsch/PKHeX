@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -81,27 +82,22 @@ namespace PKHeX
                 p.ContextMenuStrip = mnu;
 
             // Load Data
-            RawDB = new List<PKM>();
+            var dbTemp = new ConcurrentBag<PKM>();
             var files = Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories);
             Parallel.ForEach(files, file =>
             {
                 FileInfo fi = new FileInfo(file);
                 if (!fi.Extension.Contains(".pk") || !PKX.getIsPKM(fi.Length)) return;
                 var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file);
-                if (pk == null)
-                    return;
-                lock (RawDB)
-                    RawDB.Add(pk);
+                if (pk != null)
+                    dbTemp.Add(pk);
             });
-            RawDB = new List<PKM>(RawDB.Where(pk => pk != null).OrderBy(pk => pk.Identifier));
-
-            // Fetch from save file
-            foreach (var pkm in Main.SAV.BoxData.Where(pk => pk.Species != 0))
-                RawDB.Add(pkm);
 
             // Prepare Database
-            RawDB = new List<PKM>(RawDB.Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0));
-            RawDB = new List<PKM>(RawDB.Distinct());
+            RawDB = new List<PKM>(dbTemp.OrderBy(pk => pk.Identifier)
+                                        .Concat(Main.SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
+                                        .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
+                                        .Distinct());
             setResults(RawDB);
 
             Menu_SearchSettings.DropDown.Closing += (sender, e) =>
