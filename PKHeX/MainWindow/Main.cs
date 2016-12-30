@@ -1869,6 +1869,12 @@ namespace PKHeX
             else if (sender == GB_RelearnMoves)
             {
                 int[] m = Legality.getSuggestedRelearn();
+                if (!pkm.WasEgg && !pkm.WasEvent && !pkm.WasEventEgg && !pkm.WasLink)
+                {
+                    var encounter = Legality.getSuggestedMetInfo();
+                    if (encounter != null)
+                        m = encounter.Relearn;
+                }
 
                 if (pkm.RelearnMoves.SequenceEqual(m))
                     return;
