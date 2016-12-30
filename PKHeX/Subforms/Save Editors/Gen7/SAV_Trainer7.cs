@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -23,11 +24,24 @@ namespace PKHeX
             
             getComboBoxes();
             getTextBoxes();
+
+            CB_Stats.Items.Clear();
+            for (int i = 0; i < 200; i++)
+            {
+                string name;
+                if (!RecordList.TryGetValue(i, out name))
+                    name =  i.ToString("D3");
+
+                CB_Stats.Items.Add(name);
+            }
+            CB_Stats.SelectedIndex = RecordList.First().Key;
+
             Loading = false;
         }
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly bool Loading;
         private bool MapUpdated;
+        private bool editing;
 
         private void getComboBoxes()
         {
@@ -308,5 +322,63 @@ namespace PKHeX
             byte[] data = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
             data.CopyTo(SAV.Data, SAV.Fashion);
         }
+        private void changeStat(object sender, EventArgs e)
+        {
+            editing = true;
+            int index = CB_Stats.SelectedIndex;
+            NUD_Stat.Maximum = SAV.getRecordMax(index);
+            NUD_Stat.Value = SAV.getRecord(index);
+
+            int offset = SAV.getRecordOffset(index);
+            L_Offset.Text = "Offset: 0x" + offset.ToString("X3");
+            editing = false;
+        }
+        private void changeStatVal(object sender, EventArgs e)
+        {
+            if (editing) return;
+            int index = CB_Stats.SelectedIndex;
+            SAV.setRecord(index, (int)NUD_Stat.Value);
+        }
+
+        private readonly Dictionary<int, string> RecordList = new Dictionary<int, string>
+        {
+            {004, "Wild Pokémon Battles"},
+            {006, "Pokemon Caught"},
+            {008, "Eggs Hatched"},
+            {011, "Link Trades"},
+            {015, "Battle Spot Battles"},
+            {019, "Money Spent"},
+            {022, "Exp. Points Collected"},
+            {024, "Deposited in the GTS"},
+            {025, "Nicknames Given"},
+            {028, "Battle Points Spent"},
+            {029, "Super Effective Moves Used"},
+            {032, "Berry Harvests"},
+            {033, "Trades at the GTS"},
+            {034, "Wonder Trades"},
+            {036, "Pokemon Rides"},
+            {037, "Beans Given"},
+            {038, "Festival Coins Spent"},
+            {039, "Poke Beans Collected"},
+            {040, "Battles at the Battle Tree"},
+            {041, "Z-Moves Used"},
+            {053, "Pokemon Petted"},
+            {066, "Guests Interacted With"},
+
+            {100, "Champion Title Defense"},
+            {110, "Pokemon Defeated"},
+            {112, "Pokemon Caught"},
+            {114, "Trainers Battled"},
+            {116, "Pokemon Evolved"},
+            {119, "Photos Taken"},
+            {123, "Loto-ID Wins"},
+            {124, "PP Raised"},
+            {127, "Shiny Pokemon Encountered"},
+            {128, "Missions Participated In"},
+            {129, "Facilities Hosted"},
+            {130, "QR Code Scans"},
+            {158, "Outfit Changes"},
+            {166, "Island Scans"},
+        };
     }
 }
