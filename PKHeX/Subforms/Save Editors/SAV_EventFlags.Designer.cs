@@ -32,7 +32,7 @@
             this.c_CustomFlag = new System.Windows.Forms.CheckBox();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.GB_FlagStatus = new System.Windows.Forms.GroupBox();
-            this.nud = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Flag = new System.Windows.Forms.NumericUpDown();
             this.CHK_CustomFlag = new System.Windows.Forms.Label();
             this.L_Value = new System.Windows.Forms.Label();
             this.CB_Stats = new System.Windows.Forms.ComboBox();
@@ -54,7 +54,7 @@
             this.TLP_Const = new System.Windows.Forms.TableLayoutPanel();
             this.L_EventFlagWarn = new System.Windows.Forms.Label();
             this.GB_FlagStatus.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flag)).BeginInit();
             this.GB_Researcher.SuspendLayout();
             this.GB_Flags.SuspendLayout();
             this.GB_Constants.SuspendLayout();
@@ -85,7 +85,7 @@
             // GB_FlagStatus
             // 
             this.GB_FlagStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.GB_FlagStatus.Controls.Add(this.nud);
+            this.GB_FlagStatus.Controls.Add(this.NUD_Flag);
             this.GB_FlagStatus.Controls.Add(this.CHK_CustomFlag);
             this.GB_FlagStatus.Controls.Add(this.L_Value);
             this.GB_FlagStatus.Controls.Add(this.CB_Stats);
@@ -99,19 +99,19 @@
             this.GB_FlagStatus.TabStop = false;
             this.GB_FlagStatus.Text = "Check Status";
             // 
-            // nud
+            // NUD_Flag
             // 
-            this.nud.Location = new System.Drawing.Point(87, 12);
-            this.nud.Maximum = new decimal(new int[] {
+            this.NUD_Flag.Location = new System.Drawing.Point(87, 12);
+            this.NUD_Flag.Maximum = new decimal(new int[] {
             3072,
             0,
             0,
             0});
-            this.nud.Name = "nud";
-            this.nud.Size = new System.Drawing.Size(45, 20);
-            this.nud.TabIndex = 9;
-            this.nud.ValueChanged += new System.EventHandler(this.changeCustomFlag);
-            this.nud.KeyUp += new System.Windows.Forms.KeyEventHandler(this.changeCustomFlag);
+            this.NUD_Flag.Name = "NUD_Flag";
+            this.NUD_Flag.Size = new System.Drawing.Size(45, 20);
+            this.NUD_Flag.TabIndex = 9;
+            this.NUD_Flag.ValueChanged += new System.EventHandler(this.changeCustomFlag);
+            this.NUD_Flag.KeyUp += new System.Windows.Forms.KeyEventHandler(this.changeCustomFlag);
             // 
             // CHK_CustomFlag
             // 
@@ -317,7 +317,7 @@
             this.TLP_Const.ColumnCount = 3;
             this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_Const.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.TLP_Const.Location = new System.Drawing.Point(6, 19);
             this.TLP_Const.Name = "TLP_Const";
             this.TLP_Const.RowCount = 1;
@@ -360,7 +360,7 @@
             this.Text = "Event Flag Editor";
             this.GB_FlagStatus.ResumeLayout(false);
             this.GB_FlagStatus.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Flag)).EndInit();
             this.GB_Researcher.ResumeLayout(false);
             this.GB_Researcher.PerformLayout();
             this.GB_Flags.ResumeLayout(false);
@@ -375,7 +375,7 @@
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.GroupBox GB_FlagStatus;
         private System.Windows.Forms.Label CHK_CustomFlag;
-        private System.Windows.Forms.NumericUpDown nud;
+        private System.Windows.Forms.NumericUpDown NUD_Flag;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.GroupBox GB_Researcher;
         private System.Windows.Forms.Label L_UnSet;

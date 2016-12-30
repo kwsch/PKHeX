@@ -41,8 +41,8 @@ namespace PKHeX
 
 
             CB_Stats.SelectedIndex = 0;
-            nud.Maximum = flags.Length - 1;
-            nud.Text = "0";
+            NUD_Flag.Maximum = flags.Length - 1;
+            NUD_Flag.Text = "0";
         }
 
         private readonly SaveFile SAV = Main.SAV.Clone();
@@ -83,7 +83,7 @@ namespace PKHeX
         {
             if (SAV.SM) // Ensure magearna event flag has magic constant
             {
-                BitConverter.GetBytes((ulong)(flags[3100] ? MagearnaConst : 0)).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
+                BitConverter.GetBytes(flags[3100] ? MagearnaConst : 0).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
             }
 
         }
@@ -183,10 +183,7 @@ namespace PKHeX
                         continue;
                     num.Add(n);
                     desc.Add(split[1]);
-                    if (split.Length == 3)
-                        enums.Add(split[2]);
-                    else
-                        enums.Add("");
+                    enums.Add(split.Length == 3 ? split[2] : "");
                 } catch { }
             }
             if (num.Count == 0)
@@ -221,10 +218,10 @@ namespace PKHeX
                     foreach (var entry in enums[i].Split(','))
                     {
                         var spl = entry.Split(':');
-                        map.Add(new { Text = spl[1], Value = (int)Convert.ToInt32(spl[0])});
+                        map.Add(new { Text = spl[1], Value = Convert.ToInt32(spl[0])});
                     }
                 }
-                var cb = new ComboBox()
+                var cb = new ComboBox
                 {
                     ValueMember = "Value",
                     DisplayMember = "Text",
@@ -232,16 +229,16 @@ namespace PKHeX
                     Width = 80,
                     Name = constCBTag + num[i].ToString("0000"),
                     DropDownStyle = ComboBoxStyle.DropDownList,
-                    BindingContext = this.BindingContext,
-                    DataSource = map
+                    BindingContext = BindingContext,
+                    DataSource = map,
+                    SelectedIndex = 0
                 };
-                cb.SelectedIndex = 0;
                 cb.SelectedValueChanged += toggleConst;
                 mtb.TextChanged += toggleConst;
                 TLP_Const.Controls.Add(lbl, 0, i);
                 TLP_Const.Controls.Add(cb, 1, i);
                 TLP_Const.Controls.Add(mtb, 2, i);
-                if (map.Any(val => val.Value == (int)Constants[num[i]]))
+                if (map.Any(val => val.Value == Constants[num[i]]))
                 {
                     cb.SelectedValue = (int)Constants[num[i]];
                 }
@@ -262,8 +259,8 @@ namespace PKHeX
             if (editing)
                 return;
             editing = true;
-            flags[(int)nud.Value] = c_CustomFlag.Checked;
-            CheckBox c = TLP_Flags.Controls[flagTag + nud.Value.ToString("0000")] as CheckBox;
+            flags[(int)NUD_Flag.Value] = c_CustomFlag.Checked;
+            CheckBox c = TLP_Flags.Controls[flagTag + NUD_Flag.Value.ToString("0000")] as CheckBox;
             if (c != null)
             {
                 c.Checked = c_CustomFlag.Checked;
@@ -272,17 +269,17 @@ namespace PKHeX
         }
         private void changeCustomFlag(object sender, EventArgs e)
         {
-            int flag = (int)nud.Value;
+            int flag = (int)NUD_Flag.Value;
             if (flag >= flags.Length)
             {
                 c_CustomFlag.Checked = false;
                 c_CustomFlag.Enabled = false;
-                nud.BackColor = Color.Red;
+                NUD_Flag.BackColor = Color.Red;
             }
             else
             {
                 c_CustomFlag.Enabled = true;
-                nud.ResetBackColor();
+                NUD_Flag.ResetBackColor();
                 c_CustomFlag.Checked = flags[flag];
             }
         }
@@ -297,7 +294,7 @@ namespace PKHeX
             editing = true;
             int flagnum = getControlNum((CheckBox) sender);
             flags[flagnum] = ((CheckBox)sender).Checked;
-            if (nud.Value == flagnum)
+            if (NUD_Flag.Value == flagnum)
                 c_CustomFlag.Checked = flags[flagnum];
             editing = false;
         }
