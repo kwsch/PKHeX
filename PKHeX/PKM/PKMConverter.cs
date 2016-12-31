@@ -248,12 +248,11 @@ namespace PKHeX
                 case 5:
                     if (BitConverter.ToUInt16(pkm, 4) != 0) // BK4
                         return;
-                    for (int i = 8; i < PKX.SIZE_4STORED; i += 2)
-                        chk += BitConverter.ToUInt16(pkm, i);
-                    if (chk != BitConverter.ToUInt16(pkm, 0x06))
+                    if (BitConverter.ToUInt32(pkm, 0x64) != 0)
                         pkm = PKX.decryptArray45(pkm);
                     return;
                 case 6:
+                case 7:
                     if (BitConverter.ToUInt16(pkm, 0xC8) != 0 && BitConverter.ToUInt16(pkm, 0x58) != 0)
                         pkm = PKX.decryptArray(pkm);
                     return;
