@@ -12,12 +12,14 @@ namespace PKHeX
         private enum Encounters
         {
             Unknown = -1,
-            Generic = 0
+            Generic = 0,
+            Fossil = 1,
         }
 
         private object EncounterMatch;
         private Type EncounterType;
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
+        private string EncounterName => getEncounterTypeName();
         private List<MysteryGift> EventGiftMatch;
         private CheckResult Encounter, History;
         private int[] RelearnBase;
@@ -210,6 +212,10 @@ namespace PKHeX
             
             r += Parse.Where(chk => chk != null && chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
                 .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+
+            r += Environment.NewLine;
+            r += "Encounter Type: " + EncounterName;
+
             return r.TrimEnd();
         }
 
@@ -236,6 +242,27 @@ namespace PKHeX
             if (pkm == null || pkm.GenNumber < 6 || !isOriginValid(pkm))
                 return null;
             return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+        }
+        private string getEncounterTypeName()
+        {
+            var t = EncounterMatch;
+            if (t is EncounterSlot[] || t is EncounterSlot)
+                return "Wild Encounter";
+            if (t.GetType().IsSubclassOf(typeof(MysteryGift)))
+                return $"Event Gift ({t.GetType().Name})";
+            if (t is EncounterStatic)
+                return "Static Encounter";
+            if (t is EncounterTrade)
+                return "In-game Trade";
+            if (t is EncounterLink)
+                return "Pokémon Link Encounter";
+            if (pkm.WasEgg)
+                return "Egg";
+            if (t.Equals(Encounters.Fossil))
+                return "Fossil";
+            if (t.Equals(Encounters.Unknown))
+                return "Unknown";
+            return t.GetType().Name;
         }
 
         public EncounterStatic getSuggestedMetInfo()

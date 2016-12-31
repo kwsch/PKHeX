@@ -357,7 +357,7 @@ namespace PKHeX
             {
                 MysteryGift MatchedGift = EncounterMatch as MysteryGift;
                 if (MatchedGift != null)
-                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID:0000)} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID:0000} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
             }
 
             EncounterMatch = Legal.getValidStaticEncounter(pkm);
@@ -420,6 +420,7 @@ namespace PKHeX
 
             if (Legal.getIsFossil(pkm))
             {
+                EncounterMatch = Encounters.Fossil;
                 return pkm.AbilityNumber != 4
                     ? new CheckResult(Severity.Valid, "Valid revived fossil.", CheckIdentifier.Encounter)
                     : new CheckResult(Severity.Invalid, "Hidden ability on revived fossil.", CheckIdentifier.Encounter);
@@ -1124,7 +1125,7 @@ namespace PKHeX
                     }
                 }
 
-                return new CheckResult(Severity.Valid, "S/M History Block valid.", CheckIdentifier.History);
+                return new CheckResult(Severity.Valid, "S/M History Block is valid.", CheckIdentifier.History);
             }
             if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
             {
@@ -1522,7 +1523,7 @@ namespace PKHeX
                 if (EncounterIsMysteryGift)
                 {
                     if (pkm.FatefulEncounter)
-                        AddLine(Severity.Valid, "Mystery Gift Fateful Encounter is Valid.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Valid, "Mystery Gift Fateful Encounter.", CheckIdentifier.Fateful);
                     else
                         AddLine(Severity.Invalid, "Mystery Gift Fateful Encounter flag missing.", CheckIdentifier.Fateful);
                     return;
@@ -1750,8 +1751,8 @@ namespace PKHeX
                     int[] moves = mg.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
-                            ? new CheckResult(Severity.Invalid, $"Expected ID: {movelist[moves[i]]}.", CheckIdentifier.RelearnMove)
-                            : new CheckResult(Severity.Valid, $"Matched {mg.CardID}", CheckIdentifier.RelearnMove);
+                            ? new CheckResult(Severity.Invalid, $"Expected: {movelist[moves[i]]}.", CheckIdentifier.RelearnMove)
+                            : new CheckResult(CheckIdentifier.RelearnMove);
                     if (res.Any(r => !r.Valid))
                         EventGiftMatch.Remove(mg);
                 }
