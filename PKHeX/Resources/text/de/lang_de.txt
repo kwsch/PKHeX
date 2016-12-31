@@ -344,7 +344,7 @@ Tab_Residence = Herkunft
 --
 - **Please leave the {0} in your line. The OT name will show instead.
 --
-L_Arguments = Deaktiviert ; Nie verlassen ; OT ; Letzte Gen. ; Erinnerungen mit ; Pokémon ; Area ; Item(s) ; Attacke ; Location
+L_Arguments = Deaktiviert ; Nie verlassen ; OT ; Letzte Gen. ; Erinnerungen mit ; Pokémon ; Region ; Item(s) ; Attacke ; Ort
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
