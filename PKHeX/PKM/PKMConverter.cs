@@ -238,7 +238,6 @@ namespace PKHeX
         internal static void checkEncrypted(ref byte[] pkm)
         {
             int format = getPKMDataFormat(pkm);
-            ushort chk = 0;
             switch (format)
             {
                 case 1:
