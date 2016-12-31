@@ -286,7 +286,7 @@ L_RibbonCountG3Tough = Stärke
 - DO NOT CHANGE THIS SECTION. 
 ! SuperTrainingEditor = Medal Editor
 - Change stuff below this line, not above.
-----------------------Buttons--------------------------
+-------------------------------------------------------
 B_All = Alle
 B_None = Nichts
 B_Cancel = Abbrechen
@@ -371,12 +371,11 @@ B_GiveAllBlocks = Alle Riegel
 B_Cancel = Abbrechen
 B_Save = Speichern
 ! End
-----------------------Buttons--------------------------
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
 ! SAV_BoxLayout = Box Layout Editor
 - Change stuff below this line, not above.
--------------------------------------------------------
+----------------------Buttons--------------------------
 L_Unlocked = Freigeschaltet:
 B_Cancel = Abbrechen
 B_Save = Speichern
