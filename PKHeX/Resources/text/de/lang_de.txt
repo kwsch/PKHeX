@@ -28,7 +28,7 @@ Menu_Tools = Werkzeuge
 Menu_Showdown = Showdown
 Menu_ShowdownImportPKM = Importiere Set aus Zwischenablage
 Menu_ShowdownExportPKM = Exportiere Set in Zwischenablage
-Menu_ShowdownExportParty = Exportiere Team an Zwischenablage
+Menu_ShowdownExportParty = Exportiere Team in Zwischenablage
 Menu_ShowdownExportBattleBox = Exportiere Kampf-Box in Zwischenablage
 Menu_CyberGadget = CyberGadget
 Menu_OpenTemp = Öffne Temp Ordner
@@ -154,7 +154,7 @@ B_OpenSecretBase = Geheimbasis
 --------------------Tab Internals-----------------------
 L_Party = Team:
 L_BattleBox = Kampfbox:
-L_ReadOnlyPBB = Dieser Tab ist nur lesbar.
+L_ReadOnlyPBB = Dieser ist nur lesbar.
 GB_Daycare = Pension
 GB_GTS = GTS
 GB_Fused = Fused
