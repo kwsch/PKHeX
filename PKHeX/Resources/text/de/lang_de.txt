@@ -92,6 +92,7 @@ Label_EggLocation = Fundort:
 Label_EggDate = Datum:
 --------------------Stats Tab Data----------------------
 Tab_Stats = Werte
+CHK_HackedStats = Gehackte Werte
 Label_IVs = DVs
 Label_EVs = EVs
 Label_Stats = Werte
@@ -140,12 +141,14 @@ Tab_PartyBattle = Team-Kampf
 Tab_Other = Andere
 Tab_SAV = SAV
 B_OpenPokePuffs = Pofflés
+B_OpenPokeBeans = Pokébohnen
 B_OpenItemPouch = Items
 B_OpenTrainerInfo = Trainerinfo
 B_OUTPasserby = Passanten
 B_OpenBoxLayout = Boxlayout
 B_OpenWondercards = Wunderkarte
 B_OpenBerryField = Beerenfeld
+B_OpenPokeBlocks = Pokériegel
 B_OpenOPowers = O-Kräfte
 B_OpenEventFlags = Event Flags
 B_OpenPokedex = Pokédex
@@ -348,6 +351,107 @@ L_Arguments = Deaktiviert ; Nie verlassen ; OT ; Letzte Gen. ; Erinnerungen mit 
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
+! SAV_PokeBlockORAS = Pokéblock Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Red = Rote Pokériegel:
+L_Blue = Blaue Pokériegel:
+L_Pink = Rosa Pokériegel:
+L_Green = Grüne Pokériegel:
+L_Yellow = Gelbe Pokériegel:
+L_Rainbow = Bunte Pokériegel:
+L_Red = Rote Pokériegel DX:
+L_Blue = Blaue Pokériegel DX:
+L_Pink = Rosa Pokériegel DX:
+L_Green = Grüne Pokériegel DX:
+L_Yellow = Gelbe Pokériegel DX:
+L_Rainbow = Bunte Pokériegel DX:
+B_RandomizeBerries = Zufällige Beeren
+B_GiveAllBlocks = Alle Riegel
+B_Cancel = Abbrechen
+B_Save = Speichern
+! End
+----------------------Buttons--------------------------
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION. Memories / Amie UI Below
+! SAV_BoxLayout = Box Layout Editor
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_Unlocked = Freigeschaltet:
+B_Cancel = Abbrechen
+B_Save = Speichern
+L_Flags = Freigeschaltete HG Flags:
+L_BG = HG:
+L_BoxName = Box Name:
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexORAS = Pokédex Editor (ORAS)
+- Change stuff below this line, not above.
+------------------------------------------------------
+L_goto = gehe zu:
+GB_Encountered = Gesehen
+CHK_P2 = Männlich
+CHK_P3 = Weiblich
+CHK_P4 = Schillernd Männlich
+CHK_P5 = Schillernd Weiblich
+GB_Owned = Gefangen
+CHK_P1 = Gefangen
+GB_Displayed = Angezeigt
+CHK_P6 = Männlich
+CHK_P7 = Weiblich
+CHK_P8 = Schillernd Männlich
+CHK_P9 = Schillernd Weiblich
+L_DexNav = DexNav Lv:
+GB_Language = Sprachen
+CHK_L1 = Japanisch
+CHK_L2 = Englisch
+CHK_L3 = Französisch
+CHK_L4 = Italienisch
+CHK_L5 = Deutsch
+CHK_L6 = Spanisch
+CHK_L7 = Koreanisch
+B_Modify = Ändern...
+B_GiveAll = Alle
+L_Spinda = Pandir:
+B_Save = Speichern
+B_Cancel = Abbrechen
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
+! SAV_PokedexXY = Pokédex Editor (XY)
+- Change stuff below this line, not above.
+-------------------------------------------------------
+L_goto = gehe zu:
+GB_Owned = Gefangen
+CHK_F1 = Fremd (Pre)
+CHK_P1 = Heimat (Kalos)
+GB_Encountered = Gesehen
+CHK_P2 = Männlich
+CHK_P3 = Weiblich
+CHK_P4 = Schillernd Männlich
+CHK_P5 = Schillernd Weiblich
+GB_Displayed = Angezeigt
+CHK_P6 = Männlich
+CHK_P7 = Weiblich
+CHK_P8 = Schillernd Männlich
+CHK_P9 = Schillernd Weiblich
+GB_Language = Sprachen
+CHK_L1 = Japanisch
+CHK_L2 = Englisch
+CHK_L3 = Französisch
+CHK_L4 = Italienisch
+CHK_L5 = Deutsch
+CHK_L6 = Spanisch
+CHK_L7 = Koreanisch
+B_Modify = Ändern...
+B_GiveAll = CAlle
+L_Spinda = Pandir:
+B_Save = Speichern
+B_Cancel = Abbrechen
+! End
+! -----------------------------------------------------
+- DO NOT CHANGE THIS SECTION.
 ! ErrorWindow = Error
 - Change stuff below this line, not above.
 -------------------------------------------------------
@@ -356,3 +460,4 @@ B_CopyToClipboard = In Zwischenablage kopieren
 B_Continue = Fortfahren
 B_Abort = Abbrechen
 ! End
+
