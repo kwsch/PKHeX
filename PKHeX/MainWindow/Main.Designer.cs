@@ -2755,11 +2755,11 @@
             // TB_IVTotal
             // 
             this.TB_IVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_IVTotal.Enabled = false;
             this.TB_IVTotal.Location = new System.Drawing.Point(0, 0);
             this.TB_IVTotal.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TB_IVTotal.MaxLength = 3;
             this.TB_IVTotal.Name = "TB_IVTotal";
+            this.TB_IVTotal.ReadOnly = true;
             this.TB_IVTotal.Size = new System.Drawing.Size(22, 20);
             this.TB_IVTotal.TabIndex = 41;
             this.TB_IVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -2767,11 +2767,11 @@
             // TB_EVTotal
             // 
             this.TB_EVTotal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_EVTotal.Enabled = false;
             this.TB_EVTotal.Location = new System.Drawing.Point(28, 0);
             this.TB_EVTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.TB_EVTotal.MaxLength = 3;
             this.TB_EVTotal.Name = "TB_EVTotal";
+            this.TB_EVTotal.ReadOnly = true;
             this.TB_EVTotal.Size = new System.Drawing.Size(28, 20);
             this.TB_EVTotal.TabIndex = 18;
             this.TB_EVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

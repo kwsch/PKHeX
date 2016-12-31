@@ -218,7 +218,7 @@ namespace PKHeX
             };
         private static GameVersion origintrack;
         private readonly PictureBox[] SlotPictureBoxes, movePB, relearnPB;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip();
+        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip(), NatureTip = new ToolTip(), EVTip = new ToolTip();
         #endregion
 
         #region Path Variables
@@ -2086,6 +2086,7 @@ namespace PKHeX
             else TB_EVTotal.BackColor = TB_IVTotal.BackColor;
 
             TB_EVTotal.Text = evtotal.ToString();
+            EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
             changingFields = false;
             updateStats();
         }
