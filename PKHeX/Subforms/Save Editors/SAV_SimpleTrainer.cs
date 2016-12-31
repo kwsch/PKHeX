@@ -8,6 +8,7 @@ namespace PKHeX
     {
         public SAV_SimpleTrainer()
         {
+            Loading = true;
             InitializeComponent();
             Util.TranslateInterface(this, Main.curlanguage);
 
@@ -101,10 +102,13 @@ namespace PKHeX
             if (SAV is SAV4)
             {
                 SAV4 s = (SAV4)SAV;
-                NUD_M.Value = s.M;
-                NUD_X.Value = s.X;
-                NUD_Z.Value = s.Z;
-                NUD_Y.Value = s.Y;
+                if (MapUpdated)
+                {
+                    NUD_M.Value = s.M;
+                    NUD_X.Value = s.X;
+                    NUD_Z.Value = s.Z;
+                    NUD_Y.Value = s.Y;
+                }
 
                 badgeval = s.Badges;
                 if (s.Version == GameVersion.HGSS)
@@ -116,10 +120,13 @@ namespace PKHeX
             else if (SAV is SAV5)
             {
                 SAV5 s = (SAV5)SAV;
-                NUD_M.Value = s.M;
-                NUD_X.Value = s.X;
-                NUD_Z.Value = s.Z;
-                NUD_Y.Value = s.Y;
+                if (MapUpdated)
+                {
+                    NUD_M.Value = s.M;
+                    NUD_X.Value = s.X;
+                    NUD_Z.Value = s.Z;
+                    NUD_Y.Value = s.Y;
+                }
 
                 badgeval = s.Badges;
             }
@@ -134,10 +141,14 @@ namespace PKHeX
             CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
             CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
             CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
+
+            Loading = false;
         }
         private readonly CheckBox[] cba;
         private readonly SaveFile SAV = Main.SAV.Clone();
-        
+        private readonly bool Loading;
+        private bool MapUpdated;
+
         private void changeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
@@ -227,6 +238,11 @@ namespace PKHeX
             val -= val % 86400;
             val += (int)(time.Value - new DateTime(2000, 1, 1)).TotalSeconds;
             return val;
+        }
+        private void changeMapValue(object sender, EventArgs e)
+        {
+            if (!Loading)
+                MapUpdated = true;
         }
     }
 }

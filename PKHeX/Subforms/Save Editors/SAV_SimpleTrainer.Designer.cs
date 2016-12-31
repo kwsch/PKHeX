@@ -353,7 +353,7 @@
             this.GB_Map.Controls.Add(this.L_CurrentMap);
             this.GB_Map.Controls.Add(this.L_Z);
             this.GB_Map.Controls.Add(this.L_X);
-            this.GB_Map.Location = new System.Drawing.Point(217, 100);
+            this.GB_Map.Location = new System.Drawing.Point(217, 98);
             this.GB_Map.Name = "GB_Map";
             this.GB_Map.Size = new System.Drawing.Size(157, 125);
             this.GB_Map.TabIndex = 71;
@@ -376,6 +376,7 @@
             this.NUD_Z.Name = "NUD_Z";
             this.NUD_Z.Size = new System.Drawing.Size(50, 20);
             this.NUD_Z.TabIndex = 53;
+            this.NUD_Z.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // NUD_M
             // 
@@ -388,6 +389,7 @@
             this.NUD_M.Name = "NUD_M";
             this.NUD_M.Size = new System.Drawing.Size(50, 20);
             this.NUD_M.TabIndex = 52;
+            this.NUD_M.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // NUD_Y
             // 
@@ -400,6 +402,7 @@
             this.NUD_Y.Name = "NUD_Y";
             this.NUD_Y.Size = new System.Drawing.Size(50, 20);
             this.NUD_Y.TabIndex = 51;
+            this.NUD_Y.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // NUD_X
             // 
@@ -412,6 +415,7 @@
             this.NUD_X.Name = "NUD_X";
             this.NUD_X.Size = new System.Drawing.Size(50, 20);
             this.NUD_X.TabIndex = 50;
+            this.NUD_X.ValueChanged += new System.EventHandler(this.changeMapValue);
             // 
             // L_Y
             // 
@@ -716,7 +720,7 @@
             this.GB_Options.Controls.Add(this.LBL_BattleStyle);
             this.GB_Options.Controls.Add(this.CB_BattleStyle);
             this.GB_Options.Controls.Add(this.CHK_BattleEffects);
-            this.GB_Options.Location = new System.Drawing.Point(217, 99);
+            this.GB_Options.Location = new System.Drawing.Point(217, 98);
             this.GB_Options.Name = "GB_Options";
             this.GB_Options.Size = new System.Drawing.Size(157, 125);
             this.GB_Options.TabIndex = 72;

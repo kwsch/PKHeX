@@ -447,7 +447,7 @@ namespace PKHeX
                 int ofs = 0;
                 switch (Version)
                 {
-                    case GameVersion.DP:
+                    case GameVersion.DP: ofs = 0x1238; break;
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
@@ -459,7 +459,7 @@ namespace PKHeX
                 int ofs = 0;
                 switch (Version)
                 {
-                    case GameVersion.DP:
+                    case GameVersion.DP: ofs = 0x1238; break;
                     case GameVersion.HGSS: ofs = 0x1234; break;
                     case GameVersion.Pt: ofs = 0x1280; break;
                 }
@@ -483,22 +483,16 @@ namespace PKHeX
             }
             set
             {
-                int ofs = 0;
+                int ofs = 0; int ofs2 = 0;
                 switch (Version)
                 {
-                    case GameVersion.DP: ofs = 0x25FA; break;
-                    case GameVersion.Pt: ofs = 0x287E; break;
-                    case GameVersion.HGSS: ofs = 0x236E; break;
+                    case GameVersion.DP: ofs = 0x25FA; ofs2 = 0x1240; break;
+                    case GameVersion.Pt: ofs = 0x287E; ofs2 = 0x1288; break;
+                    case GameVersion.HGSS: ofs = 0x236E; ofs2 = 0x123C; break;
                 }
-                ofs += GBO;
+                ofs += GBO; ofs2 += GBO;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
-                switch (Version)
-                {
-                    case GameVersion.DP:
-                    case GameVersion.HGSS:
-                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x123C + GBO);
-                        break;
-                }
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs2);
             }
         }
         public int Z
@@ -544,22 +538,16 @@ namespace PKHeX
             }
             set
             {
-                int ofs = 0;
+                int ofs = 0; int ofs2 = 0;
                 switch (Version)
                 {
-                    case GameVersion.DP: ofs = 0x25FE; break;
-                    case GameVersion.Pt: ofs = 0x2882; break;
-                    case GameVersion.HGSS: ofs = 0x2372; break;
+                    case GameVersion.DP: ofs = 0x25FE; ofs2 = 0x1244; break;
+                    case GameVersion.Pt: ofs = 0x2882; ofs2 = 0x128C; break;
+                    case GameVersion.HGSS: ofs = 0x2372; ofs2 = 0x1240; break;
                 }
-                ofs += GBO;
+                ofs += GBO; ofs2 += GBO;
                 BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
-                switch (Version)
-                {
-                    case GameVersion.DP:
-                    case GameVersion.HGSS:
-                        BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1240 + GBO);
-                        break;
-                }
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs2);
             }
         }
         public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x34); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); } }
