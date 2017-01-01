@@ -276,11 +276,19 @@ namespace PKHeX
         }
         private void verifyIVs()
         {
-            if (EncounterType == typeof (EncounterStatic) && (EncounterMatch as EncounterStatic)?.IV3 == true)
+            if ((EncounterMatch as EncounterStatic)?.IV3 == true)
             {
                 if (pkm.IVs.Count(iv => iv == 31) < 3)
                 {
                     AddLine(Severity.Invalid, "Should have at least 3 IVs = 31.", CheckIdentifier.IVs);
+                    return;
+                }
+            }
+            if ((EncounterMatch as EncounterSlot[])?.All(slot => slot.Type == SlotType.FriendSafari) == true)
+            {
+                if (pkm.IVs.Count(iv => iv == 31) < 2)
+                {
+                    AddLine(Severity.Invalid, "Friend Safari captures should have at least 2 IVs = 31.", CheckIdentifier.IVs);
                     return;
                 }
             }
