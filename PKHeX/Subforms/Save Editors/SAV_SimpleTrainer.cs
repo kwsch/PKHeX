@@ -102,13 +102,10 @@ namespace PKHeX
             if (SAV is SAV4)
             {
                 SAV4 s = (SAV4)SAV;
-                if (MapUpdated)
-                {
-                    NUD_M.Value = s.M;
-                    NUD_X.Value = s.X;
-                    NUD_Z.Value = s.Z;
-                    NUD_Y.Value = s.Y;
-                }
+                NUD_M.Value = s.M;
+                NUD_X.Value = s.X;
+                NUD_Z.Value = s.Z;
+                NUD_Y.Value = s.Y;
 
                 badgeval = s.Badges;
                 if (s.Version == GameVersion.HGSS)
@@ -120,13 +117,10 @@ namespace PKHeX
             else if (SAV is SAV5)
             {
                 SAV5 s = (SAV5)SAV;
-                if (MapUpdated)
-                {
-                    NUD_M.Value = s.M;
-                    NUD_X.Value = s.X;
-                    NUD_Z.Value = s.Z;
-                    NUD_Y.Value = s.Y;
-                }
+                NUD_M.Value = s.M;
+                NUD_X.Value = s.X;
+                NUD_Z.Value = s.Z;
+                NUD_Y.Value = s.Y;
 
                 badgeval = s.Badges;
             }
@@ -201,10 +195,13 @@ namespace PKHeX
             if (SAV is SAV4)
             {
                 SAV4 s = (SAV4)SAV;
-                s.M = (int)NUD_M.Value;
-                s.X = (int)NUD_X.Value;
-                s.Z = (int)NUD_Z.Value;
-                s.Y = (int)NUD_Y.Value;
+                if (MapUpdated)
+                {
+                    s.M = (int)NUD_M.Value;
+                    s.X = (int)NUD_X.Value;
+                    s.Z = (int)NUD_Z.Value;
+                    s.Y = (int)NUD_Y.Value;
+                }
                 s.Badges = badgeval & 0xFF;
                 if (s.Version == GameVersion.HGSS)
                 {
@@ -214,10 +211,13 @@ namespace PKHeX
             else if (SAV is SAV5)
             {
                 SAV5 s = (SAV5)SAV;
-                s.M = (int)NUD_M.Value;
-                s.X = (int)NUD_X.Value;
-                s.Z = (int)NUD_Z.Value;
-                s.Y = (int)NUD_Y.Value;
+                if (MapUpdated)
+                {
+                    s.M = (int)NUD_M.Value;
+                    s.X = (int)NUD_X.Value;
+                    s.Z = (int)NUD_Z.Value;
+                    s.Y = (int)NUD_Y.Value;
+                }
                 s.Badges = badgeval & 0xFF;
             }
             
