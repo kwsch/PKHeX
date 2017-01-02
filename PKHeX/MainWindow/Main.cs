@@ -280,12 +280,13 @@ namespace PKHeX
 
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported}" +
+                Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported};*.bak" +
                          $"|3DS Main Files|main" +
                          $"|Save Files|*.sav" +
                          $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
+                         "|Backup File|*.bak" +
                          "|All Files|*.*"
             };             
 
