@@ -352,31 +352,31 @@ namespace PKHeX
 
         internal static readonly int[] PastGenAlolanScans =
         {
-            152, // Chikorita
-            155, // Cyndaquil
-            158, // Totodile
-
             069, // Bellsprout
             111, // Rhyhorn
             116, // Horsea
-            183, // Marill
+            152, // Chikorita
+            155, // Cyndaquil
+            158, // Totodile
             220, // Swinub
-            315, // Roselia
             363, // Spheal
-            404, // Luxio
             543, // Venipede
             574, // Gothita
-            578, // Duosion
             599, // Klink
             607, // Litwick
             610, // Axew
             633, // Deino
             679, // Honedge
 
+            183, 298, // Marill {Azurill}
+            315, 406, // Roselia {Budew}
+
             175, // [468] Togekiss (Togepi)
             287, // [288] Vigoroth (Slakoth)
             396, // [397] Staravia (Starly)
+            403, // [404] Luxio (Shinx)
             495, // [497] Serperior (Snivy)
+            577, // [578] Duosion (Solosis)
 
             498, // [500] Emboar (Tepig)
             501, // [503] Samurott (Oshawott)
