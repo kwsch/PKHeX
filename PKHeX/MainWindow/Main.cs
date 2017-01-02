@@ -280,27 +280,19 @@ namespace PKHeX
 
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = $"Decrypted PKM File|{supported}" +
+                Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported}" +
+                         $"|3DS Main Files|main" +
+                         $"|Save Files|*.sav" +
+                         $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
-                         "|All Files|*.*",
-                RestoreDirectory = true,
-                FilterIndex = 4,
-                FileName = "main",
-            };
-
-            // Reset file dialog path if it no longer exists
-            if (!Directory.Exists(ofd.InitialDirectory))
-                ofd.InitialDirectory = WorkingDirectory;
+                         "|All Files|*.*"
+            };             
 
             // Detect main
             string path = SaveUtil.detectSaveFile();
             if (path != null)
-            { ofd.InitialDirectory = Path.GetDirectoryName(path); }
-            else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main")))
-            { }
-            else if (!Directory.Exists(ofd.InitialDirectory))
-            { ofd.RestoreDirectory = false; ofd.FilterIndex = 1; ofd.FileName = ""; }
+            { ofd.FileName = path; }
 
             if (ofd.ShowDialog() == DialogResult.OK) 
                 openQuick(ofd.FileName);
