@@ -1122,7 +1122,9 @@ namespace PKHeX
                         return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Affection should be zero.", CheckIdentifier.History);
 
                     // We know it is untraded (HT is empty), if it must be trade evolved flag it.
-                    if (Legal.getHasTradeEvolved(pkm) && (EncounterMatch as EncounterSlot[])?.Any(slot => slot.Species == pkm.Species) != true)
+                    if (Legal.getHasTradeEvolved(pkm) // if evo chain requires a trade
+                        && (EncounterMatch as EncounterSlot[])?.Any(slot => slot.Species == pkm.Species) != true // Wild Encounter
+                        && (EncounterMatch as EncounterStatic)?.Species != pkm.Species) // Static Encounter
                     {
                         if (pkm.Species != 350) // Milotic
                             return new CheckResult(Severity.Invalid, "Untraded -- requires a trade evolution.", CheckIdentifier.History);
