@@ -71,8 +71,8 @@ namespace PKHeX
             }
             catch { Valid = false; }
             getLegalityReport();
-            AllSuggestedMoves = !isOriginValid(pkm) ? new int[4] : getSuggestedMoves(true, true, true);
-            AllSuggestedRelearnMoves = !isOriginValid(pkm) ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
+            AllSuggestedMoves = !pkm.IsOriginValid() ? new int[4] : getSuggestedMoves(true, true, true);
+            AllSuggestedRelearnMoves = !pkm.IsOriginValid() ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
             AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
         }
 
@@ -87,7 +87,7 @@ namespace PKHeX
         private void parsePK6(PKM pk)
         {
             pkm = pk;
-            if (!isOriginValid(pkm))
+            if (!pkm.IsOriginValid())
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
@@ -97,26 +97,12 @@ namespace PKHeX
         private void parsePK7(PKM pk)
         {
             pkm = pk;
-            if (!isOriginValid(pkm))
+            if (!pkm.IsOriginValid())
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateMoveLegality();
             updateChecks();
-        }
-        private bool isOriginValid(PKM pk)
-        {
-            switch (pkm.GenNumber)
-            {
-                case 1: return pkm.Species <= 151;
-                case 2: return pkm.Species <= 251;
-                case 3: return pkm.Species <= 386;
-                case 4: return pkm.Species <= 493;
-                case 5: return pkm.Species <= 649;
-                case 6: return pkm.Species <= 721;
-                case 7: return pkm.Species <= 802;
-                default: return false;
-            }
         }
 
         private void updateRelearnLegality()
@@ -221,7 +207,7 @@ namespace PKHeX
 
         public int[] getSuggestedRelearn()
         {
-            if (RelearnBase == null || pkm.GenNumber < 6 || !isOriginValid(pkm))
+            if (RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid())
                 return new int[4];
 
             if (!pkm.WasEgg)
@@ -239,7 +225,7 @@ namespace PKHeX
         }
         public int[] getSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
-            if (pkm == null || pkm.GenNumber < 6 || !isOriginValid(pkm))
+            if (pkm == null || pkm.GenNumber < 6 || !pkm.IsOriginValid())
                 return null;
             return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
