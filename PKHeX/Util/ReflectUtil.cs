@@ -28,7 +28,7 @@ namespace PKHeX
         internal static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix)
         {
             return type.GetProperties()
-                .Where(p => p.Name.StartsWith(prefix))
+                .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
                 .Select(p => p.Name);
         }
         internal static IEnumerable<string> getPropertiesCanWritePublic(Type type)
