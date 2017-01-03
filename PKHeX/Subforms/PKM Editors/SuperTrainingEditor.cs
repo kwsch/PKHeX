@@ -24,6 +24,11 @@ namespace PKHeX
             TLP_SuperTrain.ResumeLayout();
             TLP_DistSuperTrain.ResumeLayout();
             
+            CHK_SecretUnlocked.Checked = pkm.SecretSuperTrainingUnlocked;
+            CHK_SecretComplete.Checked = pkm.SecretSuperTrainingComplete;
+            if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
+                CHK_Secret_CheckedChanged(null, null);
+
             if (pkm is PK6)
             {
                 CB_Bag.Items.Clear();
@@ -32,10 +37,6 @@ namespace PKHeX
                     CB_Bag.Items.Add(Main.GameStrings.trainingbags[i]);
 
                 PK6 pk6 = (PK6) pkm;
-                CHK_SecretUnlocked.Checked = pk6.SecretSuperTrainingUnlocked;
-                CHK_SecretComplete.Checked = pk6.SecretSuperTrainingComplete;
-                if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
-                    CHK_Secret_CheckedChanged(null, null);
                 CB_Bag.SelectedIndex = pk6.TrainingBag;
                 NUD_BagHits.Value = pk6.TrainingBagHits;
             }
