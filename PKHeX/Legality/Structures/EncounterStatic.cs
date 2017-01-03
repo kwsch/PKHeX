@@ -23,5 +23,6 @@
 
         public bool Fateful = false;
         public bool RibbonWishing = false;
+        public bool SkipFormCheck = false;
     }
 }

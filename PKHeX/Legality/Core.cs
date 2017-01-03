@@ -259,7 +259,7 @@ namespace PKHeX
                     continue;
                 if (e.Level != pkm.Met_Level)
                     continue;
-                if (e.Form != pkm.AltForm && !FormChange.Contains(pkm.Species))
+                if (e.Form != pkm.AltForm && !FormChange.Contains(pkm.Species) && !e.SkipFormCheck)
                     continue;
 
                 // Defer to EC/PID check
