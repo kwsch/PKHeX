@@ -892,13 +892,14 @@ namespace PKHeX
             populateFields(SAV.BlankPKM);
             SAV = sav;
 
+            string title = $"PKH{(HaX ? "a" : "e")}X ({Properties.Resources.ProgramVersion}) - " + $"SAV{SAV.Generation}: ";
             if (path != null) // Actual save file
             {
                 SAV.FilePath = Path.GetDirectoryName(path);
                 SAV.FileName = Path.GetExtension(path) == ".bak"
                     ? Path.GetFileName(path).Split(new[] { " [" }, StringSplitOptions.None)[0]
                     : Path.GetFileName(path);
-                Text = $"PKH{(HaX ? "a" : "e")}X - " + $"SAV{SAV.Generation}: {Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
+                Text = title + $"{Path.GetFileNameWithoutExtension(Util.CleanFileName(SAV.BAKName))}"; // more descriptive
 
                 // If backup folder exists, save a backup.
                 string backupName = Path.Combine(BackupPath, Util.CleanFileName(SAV.BAKName));
@@ -911,7 +912,7 @@ namespace PKHeX
             {
                 SAV.FilePath = null;
                 SAV.FileName = "Blank Save File";
-                Text = $"PKH{(HaX ? "a" : "e")}X - " + $"SAV{SAV.Generation}: {SAV.FileName} [{SAV.OT} ({SAV.Version})]";
+                Text = title + $"{SAV.FileName} [{SAV.OT} ({SAV.Version})]";
 
                 GB_SAVtools.Visible = false;
             }
@@ -3064,7 +3065,7 @@ namespace PKHeX
         {
             if (SAV.Edited)
             {
-                if (Util.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.  Are you sure you want to close PKHeX?") != DialogResult.Yes)
+                if (Util.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?") != DialogResult.Yes)
                 {
                     e.Cancel = true;
                 }
