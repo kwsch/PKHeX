@@ -54,6 +54,8 @@
             649, // Genesect
             676, // Furfrou
             720, // Hoopa
+            741, // Oricorio
+            773, // Silvally
         };
         internal static readonly int[] FormChangeMoves =
         {

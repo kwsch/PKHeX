@@ -280,27 +280,20 @@ namespace PKHeX
 
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = $"Decrypted PKM File|{supported}" +
+                Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported};*.bak" +
+                         $"|3DS Main Files|main" +
+                         $"|Save Files|*.sav" +
+                         $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
-                         "|All Files|*.*",
-                RestoreDirectory = true,
-                FilterIndex = 4,
-                FileName = "main",
-            };
-
-            // Reset file dialog path if it no longer exists
-            if (!Directory.Exists(ofd.InitialDirectory))
-                ofd.InitialDirectory = WorkingDirectory;
+                         "|Backup File|*.bak" +
+                         "|All Files|*.*"
+            };             
 
             // Detect main
             string path = SaveUtil.detectSaveFile();
             if (path != null)
-            { ofd.InitialDirectory = Path.GetDirectoryName(path); }
-            else if (File.Exists(Path.Combine(ofd.InitialDirectory, "main")))
-            { }
-            else if (!Directory.Exists(ofd.InitialDirectory))
-            { ofd.RestoreDirectory = false; ofd.FilterIndex = 1; ofd.FileName = ""; }
+            { ofd.FileName = path; }
 
             if (ofd.ShowDialog() == DialogResult.OK) 
                 openQuick(ofd.FileName);
@@ -1004,7 +997,7 @@ namespace PKHeX
                 B_OpenLinkInfo.Enabled = SAV.HasLink;
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
-                B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = SAV.HasParty; // Box RS
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
             }
             GB_SAVtools.Visible = FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1052,7 +1045,6 @@ namespace PKHeX
             if (SAV.Version == GameVersion.BATREV)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
-                CB_SaveSlot.Items.Clear();
                 CB_SaveSlot.DisplayMember = "Text"; CB_SaveSlot.ValueMember = "Value";
                 CB_SaveSlot.DataSource = new BindingSource(((SAV4BR) SAV).SaveSlots.Select(i => new ComboItem
                 {

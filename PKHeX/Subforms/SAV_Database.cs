@@ -466,9 +466,9 @@ namespace PKHeX
 
             // Filter for Selected Source
             if (!Menu_SearchBoxes.Checked)
-                res = res.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar));
+                res = res.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal));
             if (!Menu_SearchDatabase.Checked)
-                res = res.Where(pk => !pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar));
+                res = res.Where(pk => !pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal));
 
             slotSelected = -1; // reset the slot last viewed
             
@@ -628,7 +628,7 @@ namespace PKHeX
 
             var hashes = new List<string>();
             var deleted = 0;
-            var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar))
+            var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
                 .OrderByDescending(file => new FileInfo(file.Identifier).LastWriteTime);
             foreach (var pk in db)
             {

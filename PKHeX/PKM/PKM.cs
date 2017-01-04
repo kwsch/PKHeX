@@ -402,6 +402,20 @@ namespace PKHeX
         public virtual bool WasIngameTrade => Met_Location == 30001;
         public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
+        public virtual bool IsOriginValid()
+        {
+            switch (GenNumber)
+            {
+                case 1: return Species <= Legal.MaxSpeciesID_1;
+                case 2: return Species <= Legal.MaxSpeciesID_2;
+                case 3: return Species <= Legal.MaxSpeciesID_3;
+                case 4: return Species <= Legal.MaxSpeciesID_4;
+                case 5: return Species <= Legal.MaxSpeciesID_5;
+                case 6: return Species <= Legal.MaxSpeciesID_6;
+                case 7: return Species <= Legal.MaxSpeciesID_7;
+                default: return false;
+            }
+        }
         public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
         public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
 

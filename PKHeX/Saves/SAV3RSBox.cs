@@ -92,6 +92,7 @@ namespace PKHeX
         public override int OTLength => 8;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
+        public override bool HasBoxWallpapers => false;
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
