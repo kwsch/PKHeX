@@ -575,8 +575,11 @@ namespace PKHeX
         }
 
         // Font Related
+#if WINDOWS
         [DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
+#endif
+
         private static readonly PrivateFontCollection s_FontCollection = new PrivateFontCollection();
         private static FontFamily[] FontFamilies
         {
@@ -595,11 +598,18 @@ namespace PKHeX
             try
             {
                 byte[] fontData = Resources.pgldings_normalregular;
+#if WINDOWS
                 IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
                 Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
                 s_FontCollection.AddMemoryFont(fontPtr, Resources.pgldings_normalregular.Length); uint dummy = 0;
                 AddFontMemResourceEx(fontPtr, (uint)Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
                 Marshal.FreeCoTaskMem(fontPtr);
+#else
+                GCHandle fontHandle = GCHandle.Alloc(fontData, GCHandleType.Pinned);
+ 				s_FontCollection.AddMemoryFont(fontHandle.AddrOfPinnedObject(), fontData.Length);
+ 				fontHandle.Free();
+#endif
+
             }
             catch (Exception ex) { Util.Error("Unable to add ingame font.", ex); }
         }
@@ -1375,7 +1385,7 @@ namespace PKHeX
                 default: return (PID & 0xFF) <= genderratio ? 1 : 0;
             }
         }
-        #region Gen 3 Species Table
+#region Gen 3 Species Table
         internal static int[] newindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
@@ -1419,8 +1429,8 @@ namespace PKHeX
             388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,
             409,410,411,
         };
-        #endregion
-        #region Gen 3/4 Character Tables (Val->Unicode)
+#endregion
+#region Gen 3/4 Character Tables (Val->Unicode)
 
         internal static readonly ushort[] G4Values =
         {
@@ -1811,7 +1821,7 @@ namespace PKHeX
             209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 289, // E
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
-        #endregion
+#endregion
 
         public static readonly byte[][] G4TransferTrashBytes = {
             new byte[] { }, // Unused
@@ -1954,7 +1964,7 @@ namespace PKHeX
             return item == ITEM_UNK && item > 0;
         }
 
-        #region Gen 1 Character Tables
+#region Gen 1 Character Tables
         private static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{
             {0x50, "\0"},
             {0x5D, "[TRAINER]"},
@@ -2462,7 +2472,7 @@ namespace PKHeX
             {0xFE, "8"},
             {0xFF, "9"}
         };
-        #endregion
+#endregion
 
         public static int getG1Species(int raw_id)
         {
