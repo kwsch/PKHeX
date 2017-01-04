@@ -105,6 +105,7 @@
     <Compile Include="Legality\Structures\DexLevel.cs" />
     <Compile Include="Legality\Structures\EggMoves.cs" />
     <Compile Include="Legality\Structures\EncounterArea.cs" />
+    <Compile Include="Legality\Structures\EncounterGeneric.cs" />
     <Compile Include="Legality\Structures\EncounterLink.cs" />
     <Compile Include="Legality\Structures\EncounterSlot.cs" />
     <Compile Include="Legality\Structures\EncounterStatic.cs" />

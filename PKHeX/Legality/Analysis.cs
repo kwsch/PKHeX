@@ -7,19 +7,13 @@ namespace PKHeX
     public partial class LegalityAnalysis
     {
         private PKM pkm;
+        private DexLevel[] EvoChain;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
-
-        private enum Encounters
-        {
-            Unknown = -1,
-            Generic = 0,
-            Fossil = 1,
-        }
 
         private object EncounterMatch;
         private Type EncounterType;
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
-        private string EncounterName => getEncounterTypeName();
+        private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterMatch);
         private List<MysteryGift> EventGiftMatch;
         private CheckResult Encounter, History;
         private int[] RelearnBase;
@@ -91,6 +85,7 @@ namespace PKHeX
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
+            updateEncounterChain();
             updateMoveLegality();
             updateChecks();
         }
@@ -101,6 +96,7 @@ namespace PKHeX
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
+            updateEncounterChain();
             updateMoveLegality();
             updateChecks();
         }
@@ -118,12 +114,17 @@ namespace PKHeX
             // SecondaryChecked = false;
         }
 
+        private void updateEncounterChain()
+        {
+            if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched
+                EncounterMatch = EventGiftMatch.First(); // temporarily set one so that Encounter can be verified
+
+            Encounter = verifyEncounter();
+            EvoChain = Legal.getEvolutionChain(pkm, EncounterMatch);
+        }
         private void updateChecks()
         {
-            Encounter = verifyEncounter();
-
-            // If EncounterMatch is null, nullrefexception will prevent a lot of analysis from happening at all.
-            EncounterMatch = EncounterMatch ?? Encounters.Unknown;
+            EncounterMatch = EncounterMatch ?? pkm.Species;
 
             EncounterType = EncounterMatch?.GetType();
             if (EncounterType == typeof (MysteryGift))
@@ -227,28 +228,7 @@ namespace PKHeX
         {
             if (pkm == null || pkm.GenNumber < 6 || !pkm.IsOriginValid())
                 return null;
-            return Legal.getValidMoves(pkm, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
-        }
-        private string getEncounterTypeName()
-        {
-            var t = EncounterMatch;
-            if (t is EncounterSlot[] || t is EncounterSlot)
-                return "Wild Encounter";
-            if (t.GetType().IsSubclassOf(typeof(MysteryGift)))
-                return $"Event Gift ({t.GetType().Name})";
-            if (t is EncounterStatic)
-                return "Static Encounter";
-            if (t is EncounterTrade)
-                return "In-game Trade";
-            if (t is EncounterLink)
-                return "Pokémon Link Encounter";
-            if (pkm.WasEgg)
-                return "Egg";
-            if (t.Equals(Encounters.Fossil))
-                return "Fossil";
-            if (t.Equals(Encounters.Unknown))
-                return "Unknown";
-            return t.GetType().Name;
+            return Legal.getValidMoves(pkm, EvoChain, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
 
         public EncounterStatic getSuggestedMetInfo()

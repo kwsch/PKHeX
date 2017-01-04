@@ -426,13 +426,6 @@ namespace PKHeX
                 return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
             }
 
-            if (Legal.getIsFossil(pkm))
-            {
-                EncounterMatch = Encounters.Fossil;
-                return pkm.AbilityNumber != 4
-                    ? new CheckResult(Severity.Valid, "Valid revived fossil.", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Invalid, "Hidden ability on revived fossil.", CheckIdentifier.Encounter);
-            }
             EncounterMatch = Legal.getValidFriendSafari(pkm);
             if (EncounterMatch != null)
             {
@@ -1657,7 +1650,7 @@ namespace PKHeX
             if (pkm.GenNumber < 6)
                 return res;
 
-            var validMoves = Legal.getValidMoves(pkm).ToArray();
+            var validMoves = Legal.getValidMoves(pkm, EvoChain).ToArray();
             if (pkm.Species == 235) // Smeargle
             {
                 for (int i = 0; i < 4; i++)

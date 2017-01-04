@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX
@@ -166,12 +167,12 @@ namespace PKHeX
         }
 
         // Moves
-        internal static IEnumerable<int> getValidMoves(PKM pkm, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, IEnumerable<DexLevel> evoChain, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
+            return getValidMoves(pkm, version, evoChain, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
@@ -518,28 +519,6 @@ namespace PKHeX
             var lineage = table.getValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
         }
-        internal static bool getIsFossil(PKM pkm)
-        {
-            if (pkm.Egg_Location != 0)
-                return false;
-
-            switch (pkm.GenNumber)
-            {
-                case 6:
-                    if (pkm.Met_Level != 20)
-                        return false;
-                    if (pkm.XY && pkm.Met_Location == 44)
-                        return Fossils.Contains(getBaseSpecies(pkm));
-                    if (pkm.AO && pkm.Met_Location == 190)
-                        return Fossils.Contains(getBaseSpecies(pkm));
-                    return false;
-                case 7:
-                    // TBD
-                    return false;
-            }
-
-            return false;
-        }
         internal static bool getEvolutionValid(PKM pkm)
         {
             var curr = getValidPreEvolutions(pkm);
@@ -632,21 +611,21 @@ namespace PKHeX
 
         internal static bool getCanLearnMachineMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
-            return getValidMoves(pkm, version, Machine: true).Contains(move);
+            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), Machine: true).Contains(move);
         }
         internal static bool getCanRelearnMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
-            return getValidMoves(pkm, version, LVL: true, Relearn: true).Contains(move);
+            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), LVL: true, Relearn: true).Contains(move);
         }
         internal static bool getCanLearnMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
-            return getValidMoves(pkm, version, Tutor: true, Machine: true).Contains(move);
+            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), Tutor: true, Machine: true).Contains(move);
         }
         internal static bool getCanKnowMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
-            return getValidMoves(pkm, Version: version, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return getValidMoves(pkm, Version: version, vs: getValidPreEvolutions(pkm), LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
         internal static int getBaseSpecies(PKM pkm, int skipOption = 0)
@@ -665,6 +644,43 @@ namespace PKHeX
                 case 1: return evos.Length <= 1 ? pkm.Species : evos[evos.Length - 2].Species;
                 default: return evos.Length <= 0 ? pkm.Species : evos.Last().Species;
             }
+        }
+        internal static DexLevel[] getEvolutionChain(PKM pkm, object Encounter)
+        {
+            int minspec;
+            var vs = getValidPreEvolutions(pkm).ToArray();
+
+            // Evolution chain is in reverse order (devolution)
+
+            if (Encounter is int)
+                minspec = (int)Encounter;
+            else if (Encounter is EncounterGeneric[])
+                minspec = vs.Reverse().First(s => ((EncounterGeneric[]) Encounter).Any(slot => slot.Species == s.Species)).Species;
+            else if (Encounter is EncounterGeneric)
+                minspec = vs.Reverse().First(s => ((EncounterGeneric) Encounter).Species == s.Species).Species;
+            else
+                minspec = vs.Last().Species;
+
+            int index = Math.Max(0, Array.FindIndex(vs, p => p.Species == minspec));
+            Array.Resize(ref vs, index + 1);
+            return vs;
+        }
+        internal static string getEncounterTypeName(PKM pkm, object Encounter)
+        {
+            var t = Encounter;
+            if (pkm.WasEgg)
+                return "Egg";
+            if (t is EncounterGeneric)
+                return ((EncounterGeneric)t).Name;
+            if (t is EncounterGeneric[])
+            {
+                var arr = (EncounterGeneric[])t;
+                if (arr.Any())
+                    return arr.First().Name;
+            }
+            if (t is int)
+                return "Unknown";
+            return t.GetType().Name;
         }
         private static IEnumerable<EncounterArea> getDexNavAreas(PKM pkm)
         {
@@ -822,7 +838,7 @@ namespace PKHeX
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, lvl);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
-        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
+        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, IEnumerable<DexLevel> vs, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
         {
             List<int> r = new List<int> { 0 };
             int species = pkm.Species;
@@ -841,7 +857,6 @@ namespace PKHeX
             }
 
             r.AddRange(getMoves(pkm, species, lvl, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm);
 
             foreach (DexLevel evo in vs)
                 r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));

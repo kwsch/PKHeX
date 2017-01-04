@@ -1,8 +1,7 @@
 ﻿namespace PKHeX
 {
-    public class EncounterSlot
+    public class EncounterSlot : EncounterGeneric
     {
-        public int Species;
         public int Form;
         public int LevelMin;
         public int LevelMax;
@@ -24,6 +23,8 @@
             Type = template.Type;
             Pressure = template.Pressure;
         }
+
+        public override string Name => "Wild Encounter";
     }
 
 }

@@ -1,8 +1,7 @@
 ﻿namespace PKHeX
 {
-    public class EncounterLink
+    public class EncounterLink : EncounterGeneric
     {
-        public int Species;
         public int Level;
         public int Location = 30011;
         public int Ability = 1;
@@ -19,5 +18,7 @@
         public bool XY = false;
         public bool ORAS = false;
         public bool SM = false;
+
+        public override string Name => "Pokémon Link Gift";
     }
 }
