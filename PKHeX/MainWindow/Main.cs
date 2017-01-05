@@ -270,14 +270,7 @@ namespace PKHeX
             string pkx = pkm.Extension;
             string ekx = 'e' + pkx.Substring(1, pkx.Length-1);
 
-            string supported = "*.pkm;";
-            for (int i = 3; i <= SAV.Generation; i++)
-            {
-                supported += $"*.pk{i}";
-                if (i != pkm.Format)
-                    supported += ";";
-            }
-
+            string supported = string.Join(";", SAV.PKMExtensions.Select(s => "*."+s).Concat(new[] {"*.pkm"}));
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported};*.bak" +
@@ -320,8 +313,12 @@ namespace PKHeX
             if (File.Exists(path))
             {
                 // File already exists, save a .bak
-                byte[] backupfile = File.ReadAllBytes(path);
-                File.WriteAllBytes(path + ".bak", backupfile);
+                string bakpath = path + ".bak";
+                if (!File.Exists(bakpath))
+                {
+                    byte[] backupfile = File.ReadAllBytes(path);
+                    File.WriteAllBytes(bakpath, backupfile);
+                }
             }
 
             if (new[] {".ekx", "."+ekx, ".bin"}.Contains(ext))

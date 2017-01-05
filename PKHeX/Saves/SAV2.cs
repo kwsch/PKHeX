@@ -8,6 +8,11 @@ namespace PKHeX
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+        public override string[] PKMExtensions => PKM.Extensions.Where(f => 
+        {
+            int gen = f.Last() - 0x30;
+            return 1 <= gen && gen <= 2;
+        }).ToArray();
 
         public SAV2(byte[] data = null)
         {
@@ -202,13 +207,11 @@ namespace PKHeX
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
         public override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-
-        public int SIZE_BOX => BoxSlotCount*SIZE_STORED;
-
-        public int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
-
         public override PKM BlankPKM => new PK2(null, null, Japanese);
         public override Type PKMType => typeof(PK2);
+
+        private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
+        private int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
 
         public override int MaxMoveID => 251;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_2;

@@ -25,6 +25,12 @@ namespace PKHeX
         public virtual bool IndeterminateGame => false;
         public virtual bool IndeterminateLanguage => false;
         public virtual bool IndeterminateSubVersion => false;
+        public abstract string Extension { get; }
+        public virtual string[] PKMExtensions => PKM.Extensions.Where(f => 
+        {
+            int gen = f.Last() - 0x30;
+            return 3 <= gen && gen <= 7;
+        }).ToArray();
 
         // General PKM Properties
         public abstract Type PKMType { get; }
@@ -322,7 +328,6 @@ namespace PKHeX
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int PartyCount { get; protected set; }
-        public abstract string Extension { get; }
 
         // Varied Methods
         protected abstract void setChecksums();

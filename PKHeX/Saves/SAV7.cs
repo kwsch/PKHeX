@@ -10,6 +10,12 @@ namespace PKHeX
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => "";
+        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        {
+            int gen = f.Last() - 0x30;
+            return gen == 1 || (3 <= gen && gen <= 7);
+        }).ToArray();
+
         public SAV7(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G7SM] : (byte[])data.Clone();

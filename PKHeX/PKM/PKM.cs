@@ -6,6 +6,7 @@ namespace PKHeX
 {
     public abstract class PKM
     {
+        public static readonly string[] Extensions = PKX.getPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
         public virtual string Extension => "pk" + Format;
