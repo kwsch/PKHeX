@@ -25,6 +25,8 @@ namespace PKHeX
             L_Coins.Visible = B_MaxCoins.Visible = MT_Coins.Visible = SAV.Generation < 3;
             CB_Gender.Visible = SAV.Generation > 1;
 
+            L_PikaFriend.Visible = MT_PikaFriend.Visible = SAV.Generation == 1;
+
             TB_OTName.Text = SAV.OT;
             CB_Gender.SelectedIndex = SAV.Gender;
             MT_TID.Text = SAV.TID.ToString("00000");
@@ -55,6 +57,8 @@ namespace PKHeX
                 CB_BattleStyle.SelectedIndex = sav1.BattleStyleSwitch ? 0 : 1;
                 CB_SoundType.SelectedIndex = sav1.Sound;
                 CB_TextSpeed.SelectedIndex = sav1.TextSpeed;
+
+                MT_PikaFriend.Text = sav1.PikaFriendship.ToString();
             }
 
             if (SAV is SAV2)
@@ -173,6 +177,11 @@ namespace PKHeX
                 SAV1 sav1 = (SAV1) SAV;
                 sav1.Coin = (ushort) Util.ToUInt32(MT_Coins.Text);
                 sav1.Badges = badgeval & 0xFF;
+
+                var pf = Util.ToUInt32(MT_PikaFriend.Text);
+                if (pf > 255)
+                    pf = 255;
+                sav1.PikaFriendship = (byte) pf;
 
                 sav1.BattleEffects = CHK_BattleEffects.Checked;
                 sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;

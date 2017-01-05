@@ -92,6 +92,8 @@
             this.LBL_BattleStyle = new System.Windows.Forms.Label();
             this.CB_BattleStyle = new System.Windows.Forms.ComboBox();
             this.CHK_BattleEffects = new System.Windows.Forms.CheckBox();
+            this.L_PikaFriend = new System.Windows.Forms.Label();
+            this.MT_PikaFriend = new System.Windows.Forms.MaskedTextBox();
             this.GB_Adventure.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
@@ -105,6 +107,8 @@
             // 
             // GB_Adventure
             // 
+            this.GB_Adventure.Controls.Add(this.L_PikaFriend);
+            this.GB_Adventure.Controls.Add(this.MT_PikaFriend);
             this.GB_Adventure.Controls.Add(this.L_Started);
             this.GB_Adventure.Controls.Add(this.CAL_AdventureStartDate);
             this.GB_Adventure.Controls.Add(this.CAL_HoFDate);
@@ -792,6 +796,27 @@
             this.CHK_BattleEffects.Text = "Use Battle Effects";
             this.CHK_BattleEffects.UseVisualStyleBackColor = true;
             // 
+            // L_PikaFriend
+            // 
+            this.L_PikaFriend.AutoSize = true;
+            this.L_PikaFriend.Location = new System.Drawing.Point(7, 44);
+            this.L_PikaFriend.Name = "L_PikaFriend";
+            this.L_PikaFriend.Size = new System.Drawing.Size(100, 13);
+            this.L_PikaFriend.TabIndex = 73;
+            this.L_PikaFriend.Text = "Pikachu Friendship:";
+            this.L_PikaFriend.Visible = false;
+            // 
+            // MT_PikaFriend
+            // 
+            this.MT_PikaFriend.Location = new System.Drawing.Point(111, 40);
+            this.MT_PikaFriend.Mask = "000";
+            this.MT_PikaFriend.Name = "MT_PikaFriend";
+            this.MT_PikaFriend.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_PikaFriend.Size = new System.Drawing.Size(39, 20);
+            this.MT_PikaFriend.TabIndex = 72;
+            this.MT_PikaFriend.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_PikaFriend.Visible = false;
+            // 
             // SAV_SimpleTrainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -891,5 +916,7 @@
         private System.Windows.Forms.Label LBL_BattleStyle;
         private System.Windows.Forms.ComboBox CB_BattleStyle;
         private System.Windows.Forms.CheckBox CHK_BattleEffects;
+        private System.Windows.Forms.Label L_PikaFriend;
+        private System.Windows.Forms.MaskedTextBox MT_PikaFriend;
     }
 }

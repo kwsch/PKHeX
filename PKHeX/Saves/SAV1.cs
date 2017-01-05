@@ -243,6 +243,12 @@ namespace PKHeX
             get { return 0; }
             set { }
         }
+
+        public byte PikaFriendship
+        {
+            get { return Data[Japanese ? 0x2712 : 0x271C]; }
+            set { Data[Japanese ? 0x2712 : 0x271C] = value; }
+        }
         public override int PlayedHours
         {
             get { return BitConverter.ToUInt16(Data, Japanese ? 0x2CA0 : 0x2CED); }
