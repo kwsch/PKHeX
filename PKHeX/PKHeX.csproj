@@ -41,6 +41,11 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <LangVersion>6</LangVersion>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="MONO_WINFORMS_XIM_STYLE" value="disabled" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Mono-Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -52,6 +57,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <LangVersion>6</LangVersion>
     <DefineConstants>MONO</DefineConstants>
+    <EnvironmentVariables>
+      <EnvironmentVariables>
+        <Variable name="MONO_WINFORMS_XIM_STYLE" value="disabled" />
+      </EnvironmentVariables>
+    </EnvironmentVariables>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
@@ -62,7 +72,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;CLICKONCE</DefineConstants>
+    <DefineConstants>DEBUG;CLICKONCE;WINDOWS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -71,7 +81,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DefineConstants>CLICKONCE</DefineConstants>
+    <DefineConstants>CLICKONCE;WINDOWS</DefineConstants>
     <OutputPath>bin\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
