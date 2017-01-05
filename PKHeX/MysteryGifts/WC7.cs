@@ -93,7 +93,7 @@ namespace PKHeX
         
         // Pokémon Properties
         public override bool IsPokémon { get { return CardType == 0; } set { if (value) CardType = 0; } }
-        public override bool IsShiny { get { return PIDType == 2; } }
+        public override bool IsShiny => PIDType == 2;
         public int TID { 
             get { return BitConverter.ToUInt16(Data, 0x68); } 
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); } }
@@ -222,7 +222,14 @@ namespace PKHeX
 
         public override int[] Moves
         {
-            get { return new[] {Move1, Move2, Move3, Move4}; }
+            get { return new[] { Move1, Move2, Move3, Move4 }; }
+            set
+            {
+                if (value.Length > 0) Move1 = value[0];
+                if (value.Length > 1) Move2 = value[1];
+                if (value.Length > 2) Move3 = value[2];
+                if (value.Length > 3) Move4 = value[3];
+            }
         }
         public override int[] RelearnMoves
         {

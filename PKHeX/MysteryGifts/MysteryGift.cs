@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX
 {
-    public abstract class MysteryGift : EncounterGeneric
+    public abstract class MysteryGift : IEncounterable
     {
 
         /// <summary>
@@ -92,9 +92,10 @@ namespace PKHeX
             return getMysteryGift(data);
         }
         public string Type => GetType().Name;
-        public override string Name => $"Event Gift ({Type})";
+        public string Name => $"Event Gift ({Type})";
 
         // Properties
+        public virtual int Species { get { return -1; } set { } }
         public abstract bool GiftUsed { get; set; }
         public abstract string CardTitle { get; set; }
         public abstract int CardID { get; set; }
@@ -109,7 +110,7 @@ namespace PKHeX
         public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         // Search Properties
-        public virtual int[] Moves => new int[4];
+        public virtual int[] Moves { get { return new int[4]; } set { } }
         public virtual int[] RelearnMoves { get { return new int[4]; } set { } }
         public virtual bool IsShiny => false;
         public virtual bool IsEgg { get { return false; } set { } }

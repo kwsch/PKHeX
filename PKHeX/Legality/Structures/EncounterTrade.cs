@@ -1,7 +1,8 @@
 ﻿namespace PKHeX
 {
-    public class EncounterTrade : EncounterGeneric
+    public class EncounterTrade : IEncounterable
     {
+        public int Species { get; set; }
         public int Level;
 
         public int Location = 30001;
@@ -16,6 +17,6 @@
         public int Gender = -1;
         public int OTGender = -1;
 
-        public override string Name => "In-game Trade";
+        public string Name => "In-game Trade";
     }
 }

@@ -171,7 +171,7 @@ namespace PKHeX
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A3); } }
 	}
 
-    public class PL6_PKM //: PokemonLink
+    public class PL6_PKM : IEncounterable
     {
 
         internal const int Size = 0xA0;
@@ -328,5 +328,6 @@ namespace PKHeX
             }
         }
 
+        public string Name => "Pokémon Link";
     }
 }

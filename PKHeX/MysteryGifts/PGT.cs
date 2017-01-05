@@ -61,11 +61,11 @@ namespace PKHeX
             }
         }
 
-        public override int Species => Gift.PK.Species;
-        public override int[] Moves => Gift.PK.Moves;
-        public override bool IsShiny => Gift.PK.IsShiny;
-        public override bool IsEgg => Gift.PK.IsEgg;
-        public override int HeldItem => Gift.PK.HeldItem;
+        public override int Species { get { return Gift.Species; } set { Gift.Species = value; } }
+        public override int[] Moves { get { return Gift.Moves; } set { Gift.Moves = value; } }
+        public override int HeldItem { get { return Gift.HeldItem; } set { Gift.HeldItem = value; } }
+        public override bool IsShiny => Gift.IsShiny;
+        public override bool IsEgg { get { return Gift.IsEgg; } set { Gift.IsEgg = value; } }
 
         public override PKM convertToPKM(SaveFile SAV)
         {
@@ -146,15 +146,15 @@ namespace PKHeX
 
         private GiftType PGTGiftType { get { return (GiftType)Data[0]; } set {Data[0] = (byte)value; } }
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
-        public override bool IsEgg => PGTGiftType == GiftType.PokémonEgg;
-        public bool IsManaphyEgg => PGTGiftType == GiftType.ManaphyEgg;
-        public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) CardType = (int)GiftType.Item; } }
+        public override bool IsEgg { get { return PGTGiftType == GiftType.PokémonEgg; } set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
+        public bool IsManaphyEgg { get { return PGTGiftType == GiftType.ManaphyEgg; } set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
+        public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) PGTGiftType = GiftType.Item; } }
         public override bool IsPokémon { get { return PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; } set { } }
 
-        public override int Species => PK.Species;
-        public override int[] Moves => PK.Moves;
+        public override int Species { get { return PK.Species; } set { PK.Species = value; } }
+        public override int[] Moves { get { return PK.Moves; } set { PK.Moves = value; } }
+        public override int HeldItem { get { return PK.HeldItem; } set { PK.HeldItem = value; } }
         public override bool IsShiny => PK.IsShiny;
-        public override int HeldItem => PK.HeldItem;
 
         public override PKM convertToPKM(SaveFile SAV)
         {

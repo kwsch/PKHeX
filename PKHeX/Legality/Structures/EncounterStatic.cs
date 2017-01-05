@@ -1,7 +1,8 @@
 ﻿namespace PKHeX
 {
-    public class EncounterStatic : EncounterGeneric
+    public class EncounterStatic : IEncounterable
     {
+        public int Species { get; set; }
         public int Level;
 
         public int Location = 0;
@@ -24,6 +25,6 @@
         public bool RibbonWishing = false;
         public bool SkipFormCheck = false;
 
-        public override string Name => "Static Encounter";
+        public string Name => "Static Encounter";
     }
 }

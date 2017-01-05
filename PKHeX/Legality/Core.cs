@@ -654,10 +654,10 @@ namespace PKHeX
 
             if (Encounter is int)
                 minspec = (int)Encounter;
-            else if (Encounter is EncounterGeneric[])
-                minspec = vs.Reverse().First(s => ((EncounterGeneric[]) Encounter).Any(slot => slot.Species == s.Species)).Species;
-            else if (Encounter is EncounterGeneric)
-                minspec = vs.Reverse().First(s => ((EncounterGeneric) Encounter).Species == s.Species).Species;
+            else if (Encounter is IEncounterable[])
+                minspec = vs.Reverse().First(s => ((IEncounterable[]) Encounter).Any(slot => slot.Species == s.Species)).Species;
+            else if (Encounter is IEncounterable)
+                minspec = vs.Reverse().First(s => ((IEncounterable) Encounter).Species == s.Species).Species;
             else
                 minspec = vs.Last().Species;
 
@@ -670,11 +670,11 @@ namespace PKHeX
             var t = Encounter;
             if (pkm.WasEgg)
                 return "Egg";
-            if (t is EncounterGeneric)
-                return ((EncounterGeneric)t).Name;
-            if (t is EncounterGeneric[])
+            if (t is IEncounterable)
+                return ((IEncounterable)t).Name;
+            if (t is IEncounterable[])
             {
-                var arr = (EncounterGeneric[])t;
+                var arr = (IEncounterable[])t;
                 if (arr.Any())
                     return arr.First().Name;
             }

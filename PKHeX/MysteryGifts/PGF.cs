@@ -46,8 +46,7 @@ namespace PKHeX
         public int Move2 { get { return BitConverter.ToUInt16(Data, 0x14); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x14); } }
         public int Move3 { get { return BitConverter.ToUInt16(Data, 0x16); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); } }
         public int Move4 { get { return BitConverter.ToUInt16(Data, 0x18); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); } }
-        public override int Species { get { return BitConverter.ToUInt16(Data, 0x1A); }
-        }
+        public override int Species { get { return BitConverter.ToUInt16(Data, 0x1A); } set { BitConverter.GetBytes((ushort) value).CopyTo(Data, 0x1A); } }
         public int Form { get { return Data[0x1C]; } set { Data[0x1C] = (byte)value; } }
         public int Language { get { return Data[0x1D]; } set { Data[0x1D] = (byte)value; } }
         public string Nickname
@@ -143,10 +142,7 @@ namespace PKHeX
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
 
-        public override int[] Moves
-        {
-            get { return new[] { Move1, Move2, Move3, Move4 }; }
-        }
+        public override int[] Moves => new[] { Move1, Move2, Move3, Move4 };
         public override bool IsPokémon { get { return CardType == 1; } set { if (value) CardType = 1; } }
         public override bool IsItem { get { return CardType == 2; } set { if (value) CardType = 2; } }
         public bool IsPower { get { return CardType == 3; } set { if (value) CardType = 3; } }
