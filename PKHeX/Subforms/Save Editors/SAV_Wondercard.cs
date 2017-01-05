@@ -482,10 +482,9 @@ namespace PKHeX
             string s = gift.getCardHeader() + Environment.NewLine;
             if (gift.IsItem)
             {
-                s += "Item: " + Main.GameStrings.itemlist[gift.Item] + Environment.NewLine + "Quantity: " + gift.Quantity;
-                return s;
+                s += "Item: " + Main.GameStrings.itemlist[gift.Item] + Environment.NewLine + "Quantity: " + gift.Quantity + Environment.NewLine;
             }
-            if (gift.IsPokémon)
+            else if (gift.IsPokémon)
             {
                 PKM pk = gift.convertToPKM(Main.SAV);
 
@@ -501,10 +500,16 @@ namespace PKHeX
                             s += $"+ {Main.GameStrings.itemlist[addItem]}";
                     }
                 }
-                catch { s += "Unable to create gift description."; }
-                return s;
+                catch { s += "Unable to create gift description." + Environment.NewLine; }
             }
-            s += "Unknown Wonder Card Type!";
+            else { s += "Unknown Wonder Card Type!" + Environment.NewLine; }
+            if (gift is WC7)
+            {
+                var wc7 = (WC7) gift;
+                s += $"Repeatable: {wc7.GiftRepeatable}" + Environment.NewLine;
+                s += $"Collected: {wc7.GiftUsed}" + Environment.NewLine;
+                s += $"Once Per Day: {wc7.GiftOncePerDay}" + Environment.NewLine;
+            }
             return s;
         }
 

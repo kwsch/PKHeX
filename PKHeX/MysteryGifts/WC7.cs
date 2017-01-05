@@ -79,7 +79,15 @@ namespace PKHeX
         public int CardLocation { get { return Data[0x50]; } set { Data[0x50] = (byte)value; } }
 
         public int CardType { get { return Data[0x51]; } set { Data[0x51] = (byte)value; } }
-        public override bool GiftUsed { get { return Data[0x52] >> 1 > 0; } set { Data[0x52] = (byte)(Data[0x52] & ~2 | (value ? 2 : 0)); } }
+
+        public byte CardFlags { get { return Data[0x52]; } set { Data[0x52] = value; } }
+        
+        public bool GiftRepeatable { get { return (CardFlags & 1) == 0; } set { CardFlags = (byte)(CardFlags & ~1 | (value ? 0 : 1)); } }
+
+        public override bool GiftUsed { get { return (CardFlags & 2) == 2; } set { CardFlags = (byte)(CardFlags & ~2 | (value ? 2 : 0)); } }
+
+        public bool GiftOncePerDay { get { return (CardFlags & 4) == 4; } set { CardFlags = (byte)(CardFlags & ~4 | (value ? 4 : 0)); } }
+
         public bool MultiObtain { get { return Data[0x53] == 1; } set { Data[0x53] = (byte)(value ? 1 : 0); } }
 
         // Item Properties
