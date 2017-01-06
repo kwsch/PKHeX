@@ -205,6 +205,13 @@ namespace PKHeX
         public int OT_TextVar { get { return BitConverter.ToUInt16(Data, 0xE2); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xE2); } }
         public int OT_Feeling { get { return Data[0xE4]; } set { Data[0xE4] = (byte)value; } }
 
+        public int EV_HP { get { return Data[0xE5]; } set { Data[0xE5] = (byte)value; } }
+        public int EV_ATK { get { return Data[0xE6]; } set { Data[0xE6] = (byte)value; } }
+        public int EV_DEF { get { return Data[0xE7]; } set { Data[0xE7] = (byte)value; } }
+        public int EV_SPE { get { return Data[0xE8]; } set { Data[0xE8] = (byte)value; } }
+        public int EV_SPA { get { return Data[0xE9]; } set { Data[0xE9] = (byte)value; } }
+        public int EV_SPD { get { return Data[0xEA]; } set { Data[0xEA] = (byte)value; } }
+
         private byte RIB0 { get { return Data[0x74]; } set { Data[0x74] = value; } }
         public bool RibbonChampionBattle { get { return (RIB0 & (1 << 0)) == 1 << 0; } set { RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } } // Battle Champ Ribbon
         public bool RibbonChampionRegional { get { return (RIB0 & (1 << 1)) == 1 << 1; } set { RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } } // Regional Champ Ribbon
@@ -225,7 +232,26 @@ namespace PKHeX
         public bool RIB1_7 { get { return (RIB1 & (1 << 7)) == 1 << 7; } set { RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } } // Empty
 
         // Meta Accessible Properties
-        public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        public int[] IVs
+        {
+            get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; }
+            set
+            {
+                if (value?.Length != 6) return;
+                IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
+                IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
+            }
+        }
+        public int[] EVs
+        {
+            get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; }
+            set
+            {
+                if (value?.Length != 6) return;
+                EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
+                EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
+            }
+        }
         public bool IsNicknamed => Nickname.Length > 0;
 
         public override int[] Moves
@@ -320,6 +346,8 @@ namespace PKHeX
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
                 FatefulEncounter = true,
+
+                EVs = EVs,
             };
             pk.Move1_PP = pk.getMovePP(Move1, 0);
             pk.Move2_PP = pk.getMovePP(Move2, 0);
