@@ -79,16 +79,18 @@ namespace PKHeX
         public int CardLocation { get { return Data[0x50]; } set { Data[0x50] = (byte)value; } }
 
         public int CardType { get { return Data[0x51]; } set { Data[0x51] = (byte)value; } }
-
         public byte CardFlags { get { return Data[0x52]; } set { Data[0x52] = value; } }
         
         public bool GiftRepeatable { get { return (CardFlags & 1) == 0; } set { CardFlags = (byte)(CardFlags & ~1 | (value ? 0 : 1)); } }
-
         public override bool GiftUsed { get { return (CardFlags & 2) == 2; } set { CardFlags = (byte)(CardFlags & ~2 | (value ? 2 : 0)); } }
-
         public bool GiftOncePerDay { get { return (CardFlags & 4) == 4; } set { CardFlags = (byte)(CardFlags & ~4 | (value ? 4 : 0)); } }
 
         public bool MultiObtain { get { return Data[0x53] == 1; } set { Data[0x53] = (byte)(value ? 1 : 0); } }
+
+        // Bean (Mame) Properties
+        public bool IsBean { get { return CardType == 3; } set { if (value) CardType = 3; } }
+        // BP Properties
+        public bool IsBP { get { return CardType == 2; } set { if (value) CardType = 2; } }
 
         // Item Properties
         public override bool IsItem { get { return CardType == 1; } set { if (value) CardType = 1; } }
