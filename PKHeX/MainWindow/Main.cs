@@ -3131,9 +3131,16 @@ namespace PKHeX
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
 
             bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
-            File.WriteAllBytes(main.FileName, SAV.Write(dsv));
-            SAV.Edited = false;
-            Util.Alert("SAV exported to:", main.FileName);
+            try
+            {
+                File.WriteAllBytes(main.FileName, SAV.Write(dsv));
+                SAV.Edited = false;
+                Util.Alert("SAV exported to:", main.FileName);
+            }
+            catch (UnauthorizedAccessException x)
+            {
+                Util.Error(x.Message, "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
+            }
         }
 
         // Box/SAV Functions //
