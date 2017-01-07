@@ -73,9 +73,9 @@ namespace PKHeX
         public bool E => Version == GameVersion.E;
         public bool FRLG => Version == GameVersion.FRLG;
         public bool RS => Version == GameVersion.RS;
-        public bool RBY => Version == GameVersion.RBY;
-
         public bool GSC => Version == GameVersion.GS || Version == GameVersion.C;
+        public bool RBY => Version == GameVersion.RBY;
+        public bool GameCube => new[] { GameVersion.COLO, GameVersion.XD, GameVersion.RSBOX }.Contains(Version);
 
         public virtual int MaxMoveID => int.MaxValue;
         public virtual int MaxSpeciesID => int.MaxValue;
@@ -361,6 +361,81 @@ namespace PKHeX
         public virtual int CurrentBox { get { return 0; } set { } }
         protected int[] LockedSlots = new int[0];
         protected int[] TeamSlots = new int[0];
+        public bool MoveBox(int box, int insertBeforeBox)
+        {
+            if (box == insertBeforeBox) // no movement required
+                return true;
+            if (box >= BoxCount || insertBeforeBox >= BoxCount) // invalid box positions
+                return false;
+
+            int pos1 = BoxSlotCount*box;
+            int pos2 = BoxSlotCount*insertBeforeBox;
+            int min = Math.Min(pos1, pos2);
+            int max = Math.Max(pos1, pos2);
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within operation range
+                return false;
+
+            int len = BoxSlotCount*SIZE_STORED;
+            byte[] boxdata = getData(getBoxOffset(0), len*BoxCount); // get all boxes
+            string[] boxNames = new int[BoxCount].Select((x, i) => getBoxName(i)).ToArray();
+            int[] boxWallpapers = new int[BoxCount].Select((x, i) => getBoxWallpaper(i)).ToArray();
+
+            min /= BoxSlotCount;
+            max /= BoxSlotCount;
+            
+            // move all boxes within range to final spot
+            for (int i = min, ctr = min; i < max; i++)
+            {
+                int b = insertBeforeBox; // if box is the moved box, move to insertion point, else move to unused box.
+                if (i != box)
+                {
+                    if (insertBeforeBox == ctr)
+                        ++ctr;
+                    b = ctr++;
+                }
+                Array.Copy(boxdata, len*i, Data, getBoxOffset(b), len);
+                setBoxName(b, boxNames[i]);
+                setBoxWallpaper(b, boxWallpapers[i]);
+            }
+            return true;
+        }
+        public bool SwapBox(int box1, int box2)
+        {
+            if (box1 == box2) // no movement required
+                return true;
+            if (box1 >= BoxCount || box2 >= BoxCount) // invalid box positions
+                return false;
+
+            int min = BoxSlotCount * box1;
+            int max = BoxSlotCount * box1 + BoxSlotCount;
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within box
+                return false;
+
+            min = BoxSlotCount * box2;
+            max = BoxSlotCount * box2 + BoxSlotCount;
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within box
+                return false;
+
+            // Data
+            int b1o = getBoxOffset(box1);
+            int b2o = getBoxOffset(box2);
+            int len = BoxSlotCount*SIZE_STORED;
+            byte[] b1 = new byte[len];
+            Array.Copy(Data, b1o, b1, 0, len);
+            Array.Copy(Data, b2o, Data, b1o, len);
+            Array.Copy(b1, 0, Data, b2o, len);
+
+            // Name
+            string b1n = getBoxName(box1);
+            setBoxName(box1, getBoxName(box2));
+            setBoxName(box2, b1n);
+
+            // Wallpaper
+            int b1w = getBoxWallpaper(box1);
+            setBoxWallpaper(box1, getBoxWallpaper(box2));
+            setBoxWallpaper(box2, b1w);
+            return true;
+        }
 
         protected virtual int getBoxWallpaperOffset(int box) { return -1; }
         public int getBoxWallpaper(int box)

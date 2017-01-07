@@ -17,6 +17,11 @@ namespace PKHeX
 
             switch (SAV.Generation)
             {
+                case 3:
+                    if (SAV.GameCube)
+                        goto default;
+                    CB_BG.Items.AddRange(Main.GameStrings.wallpapernames.Take(16).ToArray());
+                    break;
                 case 4:
                 case 5:
                 case 6:
@@ -26,8 +31,8 @@ namespace PKHeX
                     CB_BG.Items.AddRange(Main.GameStrings.wallpapernames.Take(16).ToArray());
                     break;
                 default:
-                    Util.Error("Box layout is not supported for this game.");
-                    return;
+                    Util.Error("Box layout is not supported for this game.", "Please close the window.");
+                    break;
             }
 
             // Go
@@ -120,6 +125,51 @@ namespace PKHeX
                 SAV.setBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
 
             PAN_BG.BackgroundImage = BoxWallpaper.getWallpaper(SAV, CB_BG.SelectedIndex);
+        }
+        
+        private bool MoveItem(int direction)
+        {
+            // Checking selected item
+            if (LB_BoxSelect.SelectedItem == null || LB_BoxSelect.SelectedIndex < 0)
+                return false; // No selected item - nothing to do
+
+            // Calculate new index using move direction
+            int newIndex = LB_BoxSelect.SelectedIndex + direction;
+
+            // Checking bounds of the range
+            if (newIndex < 0 || newIndex >= LB_BoxSelect.Items.Count)
+                return false; // Index out of range - nothing to do
+
+            object selected = LB_BoxSelect.SelectedItem;
+
+            // Removing removable element
+            LB_BoxSelect.Items.Remove(selected);
+            // Insert it in new position
+            LB_BoxSelect.Items.Insert(newIndex, selected);
+            // Restore selection
+            LB_BoxSelect.SetSelected(newIndex, true);
+            editing = renameBox = false;
+
+            return true;
+        }
+
+        private void moveBox(object sender, EventArgs e)
+        {
+            int index = LB_BoxSelect.SelectedIndex;
+            int dir = sender == B_Up ? -1 : +1;
+            editing = renameBox = true;
+            if (!MoveItem(dir))
+            {
+                System.Media.SystemSounds.Asterisk.Play();
+            }
+            else if (!SAV.SwapBox(index, index + dir)) // valid but locked
+            {
+                MoveItem(-dir); // undo
+                Util.Alert("Locked slots prevent movement of box(es).");
+            }
+            else
+                changeBox(null, null);
+            editing = renameBox = false;
         }
     }
 }
