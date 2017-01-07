@@ -147,14 +147,22 @@ namespace PKHeX
             SaveFileDialog outputwc6 = new SaveFileDialog
             {
                 Filter = getFilter(),
-                FileName = Util.CleanFileName($"{mg.CardID} - {mg.CardTitle}{mg.Extension}")
+                FileName = Util.CleanFileName(mg.FileName)
             };
             if (outputwc6.ShowDialog() != DialogResult.OK) return;
 
             string path = outputwc6.FileName;
 
-            if (File.Exists(path)) // File already exists, save a .bak
-                File.WriteAllBytes(path + ".bak", File.ReadAllBytes(path));
+            if (File.Exists(path))
+            {
+                // File already exists, save a .bak
+                string bakpath = path + ".bak";
+                if (!File.Exists(bakpath))
+                {
+                    byte[] backupfile = File.ReadAllBytes(path);
+                    File.WriteAllBytes(bakpath, backupfile);
+                }
+            }
 
             File.WriteAllBytes(path, mg.Data);
         }
