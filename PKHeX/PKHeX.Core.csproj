@@ -191,7 +191,6 @@
     <Compile Include="Game\ComboItem.cs" />
     <Compile Include="Util\BigEndian.cs" />
     <Compile Include="Util\CryptoUtil.cs" />
-    <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
     <Compile Include="Util\ImageUtil.cs" />

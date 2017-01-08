@@ -461,7 +461,8 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="folderPath">Folder to look within</param>
         /// <param name="deep">Search all subfolders</param>
-        /// <returns>Full path of all save files that match criteria.</returns>
+        /// <param name="result">Full path of all save files that match criteria.</param>
+        /// <returns>Boolean indicating whether or not operation was successful.</returns>
         public static bool getSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result)
         {
             if (!Directory.Exists(folderPath))

@@ -19,7 +19,7 @@ namespace PKHeX.Core
     // sizeof(QR7) == 0x1A2
 
 
-    public class QR7
+    public static class QR7
     {
         private static bool hasGenderDifferences(int species)
         {

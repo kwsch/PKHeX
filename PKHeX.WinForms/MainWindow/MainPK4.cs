@@ -51,14 +51,7 @@ namespace PKHeX.WinForms
                 GB_EggConditions.Enabled = true;
 
                 CB_EggLocation.SelectedValue = pk4.Egg_Location;
-                if (pk4.EggMetDate.HasValue)
-                {
-                    CAL_EggDate.Value = pk4.EggMetDate.Value;
-                }
-                else
-                {
-                    CAL_EggDate.Value = new DateTime(2000, 1, 1);
-                }
+                CAL_EggDate.Value = pk4.EggMetDate ?? new DateTime(2000, 1, 1);
             }
             else { CAL_EggDate.Value = new DateTime(2000, 01, 01); CHK_AsEgg.Checked = GB_EggConditions.Enabled = false; CB_EggLocation.SelectedValue = 0; }
 

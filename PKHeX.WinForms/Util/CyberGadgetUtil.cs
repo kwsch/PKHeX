@@ -3,7 +3,7 @@ using System.IO;
 
 namespace PKHeX.WinForms
 {
-    public class CyberGadgetUtil
+    public static class CyberGadgetUtil
     {
         public static string GetTempFolder()
         {
@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
         {
             return Path.Combine(GetBackupLocation(), "cache");
         }
-        public static string GetRegistryValue(string key)
+        private static string GetRegistryValue(string key)
         {
             Microsoft.Win32.RegistryKey currentUser = Microsoft.Win32.Registry.CurrentUser;
             Microsoft.Win32.RegistryKey key3 = currentUser.OpenSubKey(GetRegistryBase());
@@ -25,11 +25,11 @@ namespace PKHeX.WinForms
             currentUser.Close();
             return str;
         }
-        public static string GetRegistryBase()
+        private static string GetRegistryBase()
         {
             return @"SOFTWARE\CYBER Gadget\3DSSaveEditor";
         }
-        public static string GetBackupLocation()
+        private static string GetBackupLocation()
         {
             string registryValue = GetRegistryValue("Location");
             if (!string.IsNullOrEmpty(registryValue))

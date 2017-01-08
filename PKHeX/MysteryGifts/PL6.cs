@@ -9,7 +9,7 @@ namespace PKHeX.Core
         public const int Size = 0xA47;
         public const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
 
-        public byte[] Data;
+        public readonly byte[] Data;
         public PL6(byte[] data = null)
         {
             Data = (byte[])(data?.Clone() ?? new byte[Size]);

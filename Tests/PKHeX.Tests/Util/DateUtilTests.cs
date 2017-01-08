@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PKHeX.Core;
 
 namespace PKHeX.Tests.Util
 {

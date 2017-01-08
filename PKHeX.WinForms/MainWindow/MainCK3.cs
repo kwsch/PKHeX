@@ -41,10 +41,7 @@ namespace PKHeX.WinForms
             CB_GameOrigin.SelectedValue = ck3.Version;
             CB_EncounterType.SelectedValue = ck3.Gen4 ? ck3.EncounterType : 0;
             CB_Ball.SelectedValue = ck3.Ball;
-
-            int cr = ck3.CurrentRegion;
-            int or = ck3.OriginalRegion;
-            int ver = ck3.Version;
+            
             CB_MetLocation.SelectedValue = ck3.Met_Location;
 
             TB_MetLevel.Text = ck3.Met_Level.ToString();

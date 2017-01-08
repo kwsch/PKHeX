@@ -17,8 +17,7 @@ namespace PKHeX.WinForms
             // Use constants 0x18C/2 = 198 thru +95
             ushort[] constants = SAV.EventConsts;
             ushort[] cells = constants.Skip(celloffset).Take(cellcount).ToArray();
-
-            int receivedCount = cells.Count(cell => cell == 2);
+            
             int cellCount = constants[cellstotal];
             int cellCollected = constants[cellscollected];
 
@@ -92,7 +91,7 @@ namespace PKHeX.WinForms
 
         #region locations -- lazy
 
-        private string[] locations =
+        private readonly string[] locations =
         {
             "Verdant Cave - Trial Site",
             "Ruins of Conflict - Outside",

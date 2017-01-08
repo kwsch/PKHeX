@@ -69,7 +69,7 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = p.SPE.ToString("000");
             row.Cells[r++].Value = abilities[p.Abilities[0]];
             row.Cells[r++].Value = abilities[p.Abilities[1]];
-            row.Cells[r++].Value = abilities[p.Abilities[2]];
+            row.Cells[r].Value = abilities[p.Abilities[2]];
             DGV.Rows.Add(row);
         }
         private static Color mapColor(int v)

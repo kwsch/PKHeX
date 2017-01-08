@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -278,8 +277,8 @@ namespace PKHeX.WinForms
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported};*.bak" +
-                         $"|3DS Main Files|main" +
-                         $"|Save Files|*.sav" +
+                         "|3DS Main Files|main" +
+                         "|Save Files|*.sav" +
                          $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +

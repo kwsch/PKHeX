@@ -617,7 +617,7 @@ namespace PKHeX.Core
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Seen Flag
-            Data[PokedexSeenOffset + ofs] &= (byte)(~bitval);
+            Data[PokedexSeenOffset + ofs] &= (byte)~bitval;
             if (seen)
                 Data[PokedexSeenOffset + ofs] |= bitval;
         }
@@ -634,7 +634,7 @@ namespace PKHeX.Core
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Captured Flag
-            Data[PokedexCaughtOffset + ofs] &= (byte)(~bitval);
+            Data[PokedexCaughtOffset + ofs] &= (byte)~bitval;
             if (caught)
             {
                 Data[PokedexCaughtOffset + ofs] |= bitval;
@@ -643,7 +643,7 @@ namespace PKHeX.Core
                     // Give all Unown caught to prevent a crash on pokedex view
                     for (int i = 1; i <= 26; i++)
                     {
-                        Data[PokedexSeenOffset + 0x1F + i] = (byte)(i);
+                        Data[PokedexSeenOffset + 0x1F + i] = (byte)i;
                     }
                 }
             }
