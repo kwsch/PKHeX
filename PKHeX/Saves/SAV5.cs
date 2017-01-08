@@ -152,39 +152,39 @@ namespace PKHeX.Core
                     new BlockInfo(0x18400, 0x09C0, 0x18DC2, 0x23F32), // Inventory
                     new BlockInfo(0x18E00, 0x0534, 0x19336, 0x23F34), // Party Pokemon
                     new BlockInfo(0x19400, 0x0068, 0x1946A, 0x23F36), // Trainer Data
-                    new BlockInfo(0x19500, 0x009C, 0x1959E, 0x23F38), // ???
-                    new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x23F3A), // ???
-                    new BlockInfo(0x1AA00, 0x07C4, 0x1B1C6, 0x23F3C), // ???
-                    new BlockInfo(0x1B200, 0x0D54, 0x1BF56, 0x23F3E), // ???
+                    new BlockInfo(0x19500, 0x009C, 0x1959E, 0x23F38), // Trainer Position
+                    new BlockInfo(0x19600, 0x1338, 0x1A93A, 0x23F3A), // Unity Tower and survey stuff
+                    new BlockInfo(0x1AA00, 0x07C4, 0x1B1C6, 0x23F3C), // Pal Pad Player Data
+                    new BlockInfo(0x1B200, 0x0D54, 0x1BF56, 0x23F3E), // Pal Pad Friend Data
                     new BlockInfo(0x1C000, 0x002C, 0x1C02E, 0x23F40), // Skin Info
                     new BlockInfo(0x1C100, 0x0658, 0x1C75A, 0x23F42), // ??? Gym badge data
-                    new BlockInfo(0x1C800, 0x0A94, 0x1D296, 0x23F44), // ???
-                    new BlockInfo(0x1D300, 0x01AC, 0x1D4AE, 0x23F46), // ???
-                    new BlockInfo(0x1D500, 0x03EC, 0x1D8EE, 0x23F48), // ???
+                    new BlockInfo(0x1C800, 0x0A94, 0x1D296, 0x23F44), // Mystery Gift
+                    new BlockInfo(0x1D300, 0x01AC, 0x1D4AE, 0x23F46), // Dream World Stuff (Catalog)
+                    new BlockInfo(0x1D500, 0x03EC, 0x1D8EE, 0x23F48), // Chatter
                     new BlockInfo(0x1D900, 0x005C, 0x1D95E, 0x23F4A), // Adventure Info
-                    new BlockInfo(0x1DA00, 0x01E0, 0x1DBE2, 0x23F4C), // ???
+                    new BlockInfo(0x1DA00, 0x01E0, 0x1DBE2, 0x23F4C), // Trainer Card Records
                     new BlockInfo(0x1DC00, 0x00A8, 0x1DCAA, 0x23F4E), // ???
-                    new BlockInfo(0x1DD00, 0x0460, 0x1E162, 0x23F50), // ???
+                    new BlockInfo(0x1DD00, 0x0460, 0x1E162, 0x23F50), // (40d)
                     new BlockInfo(0x1E200, 0x1400, 0x1F602, 0x23F52), // ???
-                    new BlockInfo(0x1F700, 0x02A4, 0x1F9A6, 0x23F54), // ???
+                    new BlockInfo(0x1F700, 0x02A4, 0x1F9A6, 0x23F54), // Contains flags and references for downloaded data (Musical)
                     new BlockInfo(0x1FA00, 0x02DC, 0x1FCDE, 0x23F56), // ???
                     new BlockInfo(0x1FD00, 0x034C, 0x2004E, 0x23F58), // ???
                     new BlockInfo(0x20100, 0x03EC, 0x204EE, 0x23F5A), // ???
                     new BlockInfo(0x20500, 0x00F8, 0x205FA, 0x23F5C), // ???
-                    new BlockInfo(0x20600, 0x02FC, 0x208FE, 0x23F5E), // ???
+                    new BlockInfo(0x20600, 0x02FC, 0x208FE, 0x23F5E), // Tournament Block
                     new BlockInfo(0x20900, 0x0094, 0x20996, 0x23F60), // ???
-                    new BlockInfo(0x20A00, 0x035C, 0x20D5E, 0x23F62), // ???
-                    new BlockInfo(0x20E00, 0x01CC, 0x20FCE, 0x23F64), // ???
-                    new BlockInfo(0x21000, 0x0168, 0x2116A, 0x23F66), // ???
-                    new BlockInfo(0x21200, 0x00EC, 0x212EE, 0x23F68), // ???
-                    new BlockInfo(0x21300, 0x01B0, 0x214B2, 0x23F6A), // ???
+                    new BlockInfo(0x20A00, 0x035C, 0x20D5E, 0x23F62), // Battle Box Block
+                    new BlockInfo(0x20E00, 0x01CC, 0x20FCE, 0x23F64), // Daycare Block
+                    new BlockInfo(0x21000, 0x0168, 0x2116A, 0x23F66), // Strength Boulder Status Block
+                    new BlockInfo(0x21200, 0x00EC, 0x212EE, 0x23F68), // Badge Flags, Money, Trainer Sayings
+                    new BlockInfo(0x21300, 0x01B0, 0x214B2, 0x23F6A), // Entralink (Level & Powers etc)
                     new BlockInfo(0x21500, 0x001C, 0x2151E, 0x23F6C), // ???
-                    new BlockInfo(0x21600, 0x04D4, 0x21AD6, 0x23F6E), // ???
-                    new BlockInfo(0x21B00, 0x0034, 0x21B36, 0x23F70), // ???
+                    new BlockInfo(0x21600, 0x04D4, 0x21AD6, 0x23F6E), // Pokedex
+                    new BlockInfo(0x21B00, 0x0034, 0x21B36, 0x23F70), // Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
                     new BlockInfo(0x21C00, 0x003C, 0x21C3E, 0x23F72), // ???
                     new BlockInfo(0x21D00, 0x01AC, 0x21EAE, 0x23F74), // ???
                     new BlockInfo(0x21F00, 0x0B90, 0x22A92, 0x23F76), // ???
-                    new BlockInfo(0x22B00, 0x009C, 0x22B9E, 0x23F78), // ???
+                    new BlockInfo(0x22B00, 0x009C, 0x22B9E, 0x23F78), // Online Records
                     new BlockInfo(0x22C00, 0x0850, 0x23452, 0x23F7A), // Entralink Forest pokémon data
                     new BlockInfo(0x23500, 0x0028, 0x2352A, 0x23F7C), // ???
                     new BlockInfo(0x23600, 0x0284, 0x23886, 0x23F7E), // ???
@@ -261,7 +261,7 @@ namespace PKHeX.Core
                     new BlockInfo(0x21B00, 0x01ac, 0x21CAE, 0x25F72), // ???
                     new BlockInfo(0x21D00, 0x0b90, 0x22892, 0x25F74), // ???
                     new BlockInfo(0x22900, 0x00ac, 0x229AE, 0x25F76), // Online Records
-                    new BlockInfo(0x22A00, 0x0850, 0x23252, 0x25F78), // Area NPC data - encrypted (60d)
+                    new BlockInfo(0x22A00, 0x0850, 0x23252, 0x25F78), // Entralink Forest pokémon data (60d)
                     new BlockInfo(0x23300, 0x0284, 0x23586, 0x25F7A), // ???
                     new BlockInfo(0x23600, 0x0010, 0x23612, 0x25F7C), // ???
                     new BlockInfo(0x23700, 0x00a8, 0x237AA, 0x25F7E), // ???
