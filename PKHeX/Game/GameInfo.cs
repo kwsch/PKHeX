@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class GameInfo
     {
@@ -256,6 +256,7 @@ namespace PKHeX
                 }
             }
         }
+        public static GameStrings Strings;
 
         // DataSource providing
         public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;

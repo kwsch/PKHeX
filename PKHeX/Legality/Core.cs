@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
         // Event Database(s)
-        internal static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
@@ -543,7 +543,8 @@ namespace PKHeX
         {
             return getStaticEncounters(pkm).FirstOrDefault();
         }
-        internal static int getLowestLevel(PKM pkm, int refSpecies = -1)
+
+        public static int getLowestLevel(PKM pkm, int refSpecies = -1)
         {
             if (refSpecies == -1)
                 refSpecies = getBaseSpecies(pkm);

@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class WC7 : MysteryGift
     {
-        internal const int Size = 0x108;
-        internal const int SizeFull = 0x310;
+        public const int Size = 0x108;
+        public const int SizeFull = 0x310;
         public override int Format => 7;
 
         public WC7(byte[] data = null)

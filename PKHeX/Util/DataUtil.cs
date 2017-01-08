@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public partial class Util
     {
@@ -129,7 +129,7 @@ namespace PKHeX
         }
         
         #region DataSource Providing
-        internal static List<ComboItem> getCBList(string textfile, string lang)
+        public static List<ComboItem> getCBList(string textfile, string lang)
         {
             // Set up
             string[] inputCSV = getStringList(textfile);
@@ -161,7 +161,7 @@ namespace PKHeX
                 Value = indexes[Array.IndexOf(unsortedList, s)]
             }).ToList();
         }
-        internal static List<ComboItem> getCBList(string[] inStrings, params int[][] allowed)
+        public static List<ComboItem> getCBList(string[] inStrings, params int[][] allowed)
         {
             List<ComboItem> cbList = new List<ComboItem>();
             if (allowed?.First() == null)
@@ -187,7 +187,7 @@ namespace PKHeX
             }
             return cbList;
         }
-        internal static List<ComboItem> getOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
+        public static List<ComboItem> getOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
         {
             if (allowed == null)
                 allowed = Enumerable.Range(0, inStrings.Length).ToArray();
@@ -213,7 +213,7 @@ namespace PKHeX
             }));
             return cbList;
         }
-        internal static List<ComboItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
+        public static List<ComboItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // Set up
             List<ComboItem> newlist = new List<ComboItem>();
@@ -246,7 +246,7 @@ namespace PKHeX
             }));
             return newlist;
         }
-        internal static List<ComboItem> getUnsortedCBList(string textfile)
+        public static List<ComboItem> getUnsortedCBList(string textfile)
         {
             // Set up
             List<ComboItem> cbList = new List<ComboItem>();

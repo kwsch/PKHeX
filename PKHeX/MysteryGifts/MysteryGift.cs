@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public abstract class MysteryGift : IEncounterable
     {

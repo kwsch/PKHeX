@@ -4,7 +4,7 @@ using System.Linq;
 
 using QRCoder;
 
-namespace PKHeX.Saves.Substructures
+namespace PKHeX.Core
 {
     // anatomy of a QR7:
     // u32 magic; // POKE

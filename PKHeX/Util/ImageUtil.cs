@@ -3,12 +3,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Util
     {
         // Image Layering/Blending Utility
-        internal static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
+        public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)
         {
             if (baseLayer == null)
                 return overLayer as Bitmap;
@@ -21,7 +21,7 @@ namespace PKHeX
             }
             return img;
         }
-        internal static Bitmap ChangeOpacity(Image img, double trans)
+        public static Bitmap ChangeOpacity(Image img, double trans)
         {
             if (img == null)
                 return null;
@@ -45,7 +45,7 @@ namespace PKHeX
 
             return bmp;
         }
-        internal static Bitmap ChangeAllColorTo(Image img, Color c)
+        public static Bitmap ChangeAllColorTo(Image img, Color c)
         {
             if (img == null)
                 return null;

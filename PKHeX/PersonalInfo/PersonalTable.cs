@@ -1,24 +1,24 @@
 ﻿using System;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PersonalTable
     {
-        internal static readonly PersonalTable SM = new PersonalTable(Properties.Resources.personal_sm, GameVersion.SM);
-        internal static readonly PersonalTable AO = new PersonalTable(Properties.Resources.personal_ao, GameVersion.ORAS);
-        internal static readonly PersonalTable XY = new PersonalTable(Properties.Resources.personal_xy, GameVersion.XY);
-        internal static readonly PersonalTable B2W2 = new PersonalTable(Properties.Resources.personal_b2w2, GameVersion.B2W2);
-        internal static readonly PersonalTable BW = new PersonalTable(Properties.Resources.personal_bw, GameVersion.BW);
-        internal static readonly PersonalTable HGSS = new PersonalTable(Properties.Resources.personal_hgss, GameVersion.HGSS);
-        internal static readonly PersonalTable Pt = new PersonalTable(Properties.Resources.personal_pt, GameVersion.Pt);
-        internal static readonly PersonalTable DP = new PersonalTable(Properties.Resources.personal_dp, GameVersion.DP);
-        internal static readonly PersonalTable LG = new PersonalTable(Properties.Resources.personal_lg, GameVersion.LG);
-        internal static readonly PersonalTable FR = new PersonalTable(Properties.Resources.personal_fr, GameVersion.FR);
-        internal static readonly PersonalTable E = new PersonalTable(Properties.Resources.personal_e, GameVersion.E);
-        internal static readonly PersonalTable RS = new PersonalTable(Properties.Resources.personal_rs, GameVersion.RS);
-        internal static readonly PersonalTable C = new PersonalTable(Properties.Resources.personal_c, GameVersion.C);
-        internal static readonly PersonalTable GS = new PersonalTable(Properties.Resources.personal_c, GameVersion.GS);
-        internal static readonly PersonalTable RBY = new PersonalTable(Properties.Resources.personal_rby, GameVersion.RBY);
+        public static readonly PersonalTable SM = new PersonalTable(Properties.Resources.personal_sm, GameVersion.SM);
+        public static readonly PersonalTable AO = new PersonalTable(Properties.Resources.personal_ao, GameVersion.ORAS);
+        public static readonly PersonalTable XY = new PersonalTable(Properties.Resources.personal_xy, GameVersion.XY);
+        public static readonly PersonalTable B2W2 = new PersonalTable(Properties.Resources.personal_b2w2, GameVersion.B2W2);
+        public static readonly PersonalTable BW = new PersonalTable(Properties.Resources.personal_bw, GameVersion.BW);
+        public static readonly PersonalTable HGSS = new PersonalTable(Properties.Resources.personal_hgss, GameVersion.HGSS);
+        public static readonly PersonalTable Pt = new PersonalTable(Properties.Resources.personal_pt, GameVersion.Pt);
+        public static readonly PersonalTable DP = new PersonalTable(Properties.Resources.personal_dp, GameVersion.DP);
+        public static readonly PersonalTable LG = new PersonalTable(Properties.Resources.personal_lg, GameVersion.LG);
+        public static readonly PersonalTable FR = new PersonalTable(Properties.Resources.personal_fr, GameVersion.FR);
+        public static readonly PersonalTable E = new PersonalTable(Properties.Resources.personal_e, GameVersion.E);
+        public static readonly PersonalTable RS = new PersonalTable(Properties.Resources.personal_rs, GameVersion.RS);
+        public static readonly PersonalTable C = new PersonalTable(Properties.Resources.personal_c, GameVersion.C);
+        public static readonly PersonalTable GS = new PersonalTable(Properties.Resources.personal_c, GameVersion.GS);
+        public static readonly PersonalTable RBY = new PersonalTable(Properties.Resources.personal_rby, GameVersion.RBY);
 
         private static byte[][] splitBytes(byte[] data, int size)
         {

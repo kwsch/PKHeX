@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
@@ -11,7 +11,7 @@ namespace PKHeX
         #region Met Locations
         internal static readonly int[] Met_XYc = {0, 60002, 30002,};
 
-        internal static readonly int[] Met_XY_0 =
+        public static readonly int[] Met_XY_0 =
         {
    /* XY */ 2, 6, 8, 10, 12, 14, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32,
             34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 82, 84, 86, 88,
@@ -161,7 +161,7 @@ namespace PKHeX
             065, 066, 067
         };
 
-        internal static readonly ushort[] Pouch_Berry_XY =
+        public static readonly ushort[] Pouch_Berry_XY =
         {
                  149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162,
             163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177,
@@ -692,7 +692,8 @@ namespace PKHeX
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
-        internal static readonly int[] WurmpleEvolutions =
+
+        public static readonly int[] WurmpleEvolutions =
         {
             266, 267, // Silcoon Beautifly
             268, 269, // Cascoon Dustox

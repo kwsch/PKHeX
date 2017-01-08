@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV1 : SaveFile
     {
@@ -459,7 +459,7 @@ namespace PKHeX
             // Get the Caught Flag
             return (Data[(Japanese ? 0x259E : 0x25A3) + ofs] & bitval) != 0;
         }
-        protected internal override void setSeen(PKM pkm, bool seen = true)
+        public override void setSeen(PKM pkm, bool seen = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -472,11 +472,11 @@ namespace PKHeX
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Seen Flag
-            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] &= (byte)(~bitval);
+            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] &= (byte)~bitval;
             if (seen)
                 Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] |= bitval;
         }
-        protected internal override void setCaught(PKM pkm, bool caught = true)
+        public override void setCaught(PKM pkm, bool caught = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -489,7 +489,7 @@ namespace PKHeX
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Captured Flag
-            Data[(Japanese ? 0x259E : 0x25A3) + ofs] &= (byte)(~bitval);
+            Data[(Japanese ? 0x259E : 0x25A3) + ofs] &= (byte)~bitval;
             if (caught)
                 Data[(Japanese ? 0x259E : 0x25A3) + ofs] |= bitval;
         }

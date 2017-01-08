@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public abstract class PKM
     {

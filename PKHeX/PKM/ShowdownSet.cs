@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class ShowdownSet
     {
@@ -245,7 +245,7 @@ namespace PKHeX
 
             return result;
         }
-        internal static string getShowdownText(PKM pkm)
+        public static string getShowdownText(PKM pkm)
         {
             if (pkm.Species == 0) return "";
 

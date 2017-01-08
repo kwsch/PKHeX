@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public partial class Util
     {
-        internal static readonly Random rand = new Random();
-        internal static uint rnd32()
+        public static readonly Random rand = new Random();
+        public static uint rnd32()
         {
             return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
-        internal static void Shuffle<T>(T[] array)
+        public static void Shuffle<T>(T[] array)
         {
             int n = array.Length;
             for (int i = 0; i < n; i++)

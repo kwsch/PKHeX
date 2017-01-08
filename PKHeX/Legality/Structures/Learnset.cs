@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public abstract class Learnset
     {

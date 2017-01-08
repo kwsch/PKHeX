@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     // Base Class for Save Files
     public abstract class SaveFile
     {
-        internal static bool SetUpdateDex = true;
-        internal static bool SetUpdatePKM = true;
+        public static bool SetUpdateDex = true;
+        public static bool SetUpdatePKM = true;
 
         // General Object Properties
         public byte[] Data;
@@ -629,8 +629,8 @@ namespace PKHeX
 
         public virtual bool getSeen(PKM pkm) { throw new NotImplementedException(); }
         public virtual bool getCaught(PKM pkm) { throw new NotImplementedException(); }
-        protected internal virtual void setSeen(PKM pkm, bool seen = true) { }
-        protected internal virtual void setCaught(PKM pkm, bool caught = true) { }
+        public virtual void setSeen(PKM pkm, bool seen = true) { }
+        public virtual void setCaught(PKM pkm, bool caught = true) { }
         
         public byte[] getData(int Offset, int Length)
         {

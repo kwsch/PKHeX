@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
-    internal static class BigEndian
+    public static class BigEndian
     {
-        internal static uint ToUInt32(byte[] data, int offset)
+        public static uint ToUInt32(byte[] data, int offset)
         {
             int val = 0;
             val |= data[offset + 0] << 24;
@@ -13,14 +13,14 @@ namespace PKHeX
             val |= data[offset + 3] << 0;
             return (uint)val;
         }
-        internal static ushort ToUInt16(byte[] data, int offset)
+        public static ushort ToUInt16(byte[] data, int offset)
         {
             int val = 0;
             val |= data[offset + 0] << 8;
             val |= data[offset + 1] << 0;
             return (ushort)val;
         }
-        internal static int ToInt32(byte[] data, int offset)
+        public static int ToInt32(byte[] data, int offset)
         {
             int val = 0;
             val |= data[offset + 0] << 24;
@@ -29,7 +29,7 @@ namespace PKHeX
             val |= data[offset + 3] << 0;
             return val;
         }
-        internal static short ToInt16(byte[] data, int offset)
+        public static short ToInt16(byte[] data, int offset)
         {
             int val = 0;
             val |= data[offset + 0] << 8;
@@ -37,19 +37,19 @@ namespace PKHeX
             return (short)val;
         }
 
-        internal static byte[] GetBytes(int value)
+        public static byte[] GetBytes(int value)
         {
             return Invert(BitConverter.GetBytes(value));
         }
-        internal static byte[] GetBytes(short value)
+        public static byte[] GetBytes(short value)
         {
             return Invert(BitConverter.GetBytes(value));
         }
-        internal static byte[] GetBytes(uint value)
+        public static byte[] GetBytes(uint value)
         {
             return Invert(BitConverter.GetBytes(value));
         }
-        internal static byte[] GetBytes(ushort value)
+        public static byte[] GetBytes(ushort value)
         {
             return Invert(BitConverter.GetBytes(value));
         }

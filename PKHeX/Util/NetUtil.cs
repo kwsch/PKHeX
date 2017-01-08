@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public partial class Util
     {

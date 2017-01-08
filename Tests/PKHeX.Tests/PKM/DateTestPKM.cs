@@ -1,11 +1,12 @@
 ﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.Tests.PKM
 {
     /// <summary>
-    /// A <see cref="PKHeX.PKM"/> implementation designed to test <see cref="PKHeX.PKM.MetDate"/> and <see cref="PKHeX.PKM.EggDate"/>.
+    /// A <see cref="PKM"/> implementation designed to test <see cref="PKM.MetDate"/> and <see cref="PKM.EggDate"/>.
     /// </summary>
-    class DateTestPKM : PKHeX.PKM
+    class DateTestPKM : Core.PKM
     {
         public int MetYear { get; set; }
         public int MetMonth { get; set; }
@@ -1041,7 +1042,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        public override PKHeX.PKM Clone()
+        public override Core.PKM Clone()
         {
             throw new NotImplementedException();
         }

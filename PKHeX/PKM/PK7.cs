@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PK7 : PKM
     {
-        internal static readonly byte[] ExtraBytes =
+        public static readonly byte[] ExtraBytes =
         {
             0x2A, // Old Marking Value
             // 0x36, 0x37, // Unused Ribbons

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV2 : SaveFile
     {
@@ -604,7 +604,7 @@ namespace PKHeX
             // Get the Caught Flag
             return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
         }
-        protected internal override void setSeen(PKM pkm, bool seen = true)
+        public override void setSeen(PKM pkm, bool seen = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -621,7 +621,7 @@ namespace PKHeX
             if (seen)
                 Data[PokedexSeenOffset + ofs] |= bitval;
         }
-        protected internal override void setCaught(PKM pkm, bool caught = true)
+        public override void setCaught(PKM pkm, bool caught = true)
         {
             if (pkm.Species == 0)
                 return;

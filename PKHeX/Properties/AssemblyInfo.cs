@@ -5,11 +5,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PKHeX")]
-[assembly: AssemblyDescription("Pokémon Save Editor")]
+[assembly: AssemblyTitle("PKHeX.Core")]
+[assembly: AssemblyDescription("Pokémon C# Class Library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ProjectPokémon")]
-[assembly: AssemblyProduct("PKHeX")]
+[assembly: AssemblyProduct("PKHeX.Core")]
 [assembly: AssemblyCopyright("Kaphotics")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

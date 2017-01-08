@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PersonalInfoORAS : PersonalInfoXY
     {

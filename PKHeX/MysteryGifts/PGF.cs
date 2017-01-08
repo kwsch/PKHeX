@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class PGF : MysteryGift
     {

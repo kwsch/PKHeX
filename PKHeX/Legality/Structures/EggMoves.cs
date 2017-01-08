@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public abstract class EggMoves
     {

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using PKHeX.Properties;
+using PKHeX.Core.Properties;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class PKX
     {
@@ -79,7 +77,7 @@ namespace PKHeX
             return seed = seed * a + c;
         }
         #region ExpTable
-        internal static readonly uint[,] ExpTable =
+        public static readonly uint[,] ExpTable =
         {
             {0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0},
@@ -324,41 +322,41 @@ namespace PKHeX
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
 
             if (pk.Format == 2)
-                return Main.GameStrings.metGSC_00000[locval];
+                return GameInfo.Strings.metGSC_00000[locval];
             if (pk.Format == 3)
-                return Main.GameStrings.metRSEFRLG_00000[locval%0x100];
+                return GameInfo.Strings.metRSEFRLG_00000[locval%0x100];
             if (pk.Gen4 && (eggmet || pk.Format == 4))
             {
-                if (locval < 2000) return Main.GameStrings.metHGSS_00000[locval];
-                if (locval < 3000) return Main.GameStrings.metHGSS_02000[locval % 2000];
-                                   return Main.GameStrings.metHGSS_03000[locval % 3000];
+                if (locval < 2000) return GameInfo.Strings.metHGSS_00000[locval];
+                if (locval < 3000) return GameInfo.Strings.metHGSS_02000[locval % 2000];
+                                   return GameInfo.Strings.metHGSS_03000[locval % 3000];
             }
             if (pk.Gen5 || pk.Format <= 5)
             {
-                if (locval < 30000) return Main.GameStrings.metBW2_00000[locval];
-                if (locval < 40000) return Main.GameStrings.metBW2_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.GameStrings.metBW2_40000[locval % 10000 - 1];
-                                    return Main.GameStrings.metBW2_60000[locval % 10000 - 1];
+                if (locval < 30000) return GameInfo.Strings.metBW2_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metBW2_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metBW2_40000[locval % 10000 - 1];
+                                    return GameInfo.Strings.metBW2_60000[locval % 10000 - 1];
             }
             if (pk.Gen6 || pk.Format <= 6)
             {
-                if (locval < 30000) return Main.GameStrings.metXY_00000[locval];
-                if (locval < 40000) return Main.GameStrings.metXY_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.GameStrings.metXY_40000[locval % 10000 - 1];
-                                    return Main.GameStrings.metXY_60000[locval % 10000 - 1];
+                if (locval < 30000) return GameInfo.Strings.metXY_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metXY_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metXY_40000[locval % 10000 - 1];
+                                    return GameInfo.Strings.metXY_60000[locval % 10000 - 1];
             }
             if (pk.Gen7 || pk.Format <= 7)
             {
-                if (locval < 30000) return Main.GameStrings.metSM_00000[locval];
-                if (locval < 40000) return Main.GameStrings.metSM_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.GameStrings.metSM_40000[locval % 10000 - 1];
-                                    return Main.GameStrings.metSM_60000[locval % 10000 - 1];
+                if (locval < 30000) return GameInfo.Strings.metSM_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metSM_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metSM_40000[locval % 10000 - 1];
+                                    return GameInfo.Strings.metSM_60000[locval % 10000 - 1];
             }
             return null; // Shouldn't happen for gen 3+
         }
         public static string[] getQRText(PKM pkm)
         {
-            var s = Main.GameStrings;
+            var s = GameInfo.Strings;
             string[] response = new string[3];
             // Summarize
             string filename = pkm.Nickname;
@@ -573,47 +571,7 @@ namespace PKHeX
         {
             return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
-
-        // Font Related
-#if WINDOWS
-        [DllImport("gdi32.dll")]
-        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
-#endif
-
-        private static readonly PrivateFontCollection s_FontCollection = new PrivateFontCollection();
-        private static FontFamily[] FontFamilies
-        {
-            get
-            {
-                if (s_FontCollection.Families.Length == 0) setPKXFont();
-                return s_FontCollection.Families;
-            }
-        }
-        public static Font getPKXFont(float size)
-        {
-            return new Font(FontFamilies[0], size);
-        }
-        private static void setPKXFont()
-        {
-            try
-            {
-                byte[] fontData = Resources.pgldings_normalregular;
-#if WINDOWS
-                IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
-                Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-                s_FontCollection.AddMemoryFont(fontPtr, Resources.pgldings_normalregular.Length); uint dummy = 0;
-                AddFontMemResourceEx(fontPtr, (uint)Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
-                Marshal.FreeCoTaskMem(fontPtr);
-#else
-                GCHandle fontHandle = GCHandle.Alloc(fontData, GCHandleType.Pinned);
- 				s_FontCollection.AddMemoryFont(fontHandle.AddrOfPinnedObject(), fontData.Length);
- 				fontHandle.Free();
-#endif
-
-            }
-            catch (Exception ex) { Util.Error("Unable to add ingame font.", ex); }
-        }
-
+        
         // Personal.dat
         public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = 6)
         {
@@ -1386,7 +1344,7 @@ namespace PKHeX
             }
         }
         #region Gen 3 Species Table
-        internal static int[] newindex => new[]
+        public static int[] newindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1408,7 +1366,7 @@ namespace PKHeX
             385,386,358,
         };
 
-        internal static int[] oldindex => new[]
+        public static int[] oldindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1432,7 +1390,7 @@ namespace PKHeX
         #endregion
         #region Gen 3/4 Character Tables (Val->Unicode)
 
-        internal static readonly ushort[] G4Values =
+        public static readonly ushort[] G4Values =
         {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
             22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
@@ -1591,7 +1549,7 @@ namespace PKHeX
             3429, 65535
         };
 
-        internal static readonly ushort[] G4Chars =
+        public static readonly ushort[] G4Chars =
         {
             12288, 12353, 12354, 12355, 12356, 12357, 12358, 12359, 12360, 12361, 12362, 12363,
             12364, 12365, 12366, 12367, 12368, 12369, 12370, 12371, 12372, 12373, 12374, 12375, 12376, 12377, 12378,
@@ -1782,7 +1740,7 @@ namespace PKHeX
             4467, 4469, 47252, 49968, 50108, 50388, 52012, 65535
         };
 
-        internal static readonly ushort[] G34_4E =
+        public static readonly ushort[] G34_4E =
         {
             478, 351, 352, 353, 358, 359, 360, 361, 362, 363, 020, 365, 366, 369, 370, 371, // 0
             415, 376, 377, 378, 368, 382, 383, 384, 046, 358, 359, 392, 393, 394, 395, 396, // 1
@@ -1802,7 +1760,7 @@ namespace PKHeX
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
 
-        internal static readonly ushort[] G34_4J =
+        public static readonly ushort[] G34_4J =
         {
             001, 003, 005, 007, 009, 011, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, // 0
             032, 034, 037, 039, 041, 043, 044, 045, 046, 047, 048, 051, 054, 057, 060, 063, // 1

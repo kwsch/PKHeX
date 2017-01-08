@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
@@ -22,7 +22,7 @@ namespace PKHeX
         };
 
         internal static readonly ushort[] HeldItems_GSC = new ushort[1].Concat(Pouch_Items_GSC).Concat(Pouch_Ball_GSC).Concat(Pouch_TMHM_GSC).ToArray();
-        
+
         internal static readonly int[] MovePP_GSC =
         {
             00,

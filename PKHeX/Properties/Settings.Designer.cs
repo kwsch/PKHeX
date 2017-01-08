@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PKHeX.Properties {
+namespace PKHeX.Core.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -20,78 +20,6 @@ namespace PKHeX.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Language {
-            get {
-                return ((string)(this["Language"]));
-            }
-            set {
-                this["Language"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Version {
-            get {
-                return ((string)(this["Version"]));
-            }
-            set {
-                this["Version"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Unicode {
-            get {
-                return ((bool)(this["Unicode"]));
-            }
-            set {
-                this["Unicode"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SetUpdateDex {
-            get {
-                return ((bool)(this["SetUpdateDex"]));
-            }
-            set {
-                this["SetUpdateDex"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SetUpdatePKM {
-            get {
-                return ((bool)(this["SetUpdatePKM"]));
-            }
-            set {
-                this["SetUpdatePKM"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool BAKPrompt {
-            get {
-                return ((bool)(this["BAKPrompt"]));
-            }
-            set {
-                this["BAKPrompt"] = value;
             }
         }
     }

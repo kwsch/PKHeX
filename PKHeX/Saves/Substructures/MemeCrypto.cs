@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class MemeCrypto
     {

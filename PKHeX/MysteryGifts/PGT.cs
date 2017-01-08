@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     /* Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was referenced.
      * http://projectpokemon.org/forums/member.php?829-Grovyle91
@@ -10,7 +10,7 @@ namespace PKHeX
      */
     public sealed class PCD : MysteryGift
     {
-        internal const int Size = 0x358; // 856
+        public const int Size = 0x358; // 856
         public override int Format => 4;
         public override int Level
         {

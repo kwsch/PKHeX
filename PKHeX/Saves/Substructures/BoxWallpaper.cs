@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class BoxWallpaper
     {

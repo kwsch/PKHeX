@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public enum Severity
     {
@@ -12,7 +12,7 @@ namespace PKHeX
         Valid = 1,
         NotImplemented = 2,
     }
-    public enum CheckIdentifier
+    internal enum CheckIdentifier
     {
         Move,
         RelearnMove,
@@ -44,14 +44,14 @@ namespace PKHeX
     }
     public class CheckResult
     {
-        public Severity Judgement = Severity.Valid;
-        public string Comment = "Valid";
+        internal readonly Severity Judgement = Severity.Valid;
+        internal string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
         public bool Flag;
-        public readonly CheckIdentifier Identifier;
+        private readonly CheckIdentifier Identifier;
 
-        public CheckResult(CheckIdentifier i) { }
-        public CheckResult(Severity s, string c, CheckIdentifier i)
+        internal CheckResult(CheckIdentifier i) { }
+        internal CheckResult(Severity s, string c, CheckIdentifier i)
         {
             Judgement = s;
             Comment = c;
@@ -1882,7 +1882,7 @@ namespace PKHeX
             return res;
         }
 
-        internal static string[] movelist = Util.getMovesList("en");
+        public static string[] movelist = Util.getMovesList("en");
         private static readonly string[] EventRibName =
         {
             "Country", "National", "Earth", "World", "Classic",

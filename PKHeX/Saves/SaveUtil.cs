@@ -4,42 +4,42 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class SaveUtil
     {
-        internal const int BEEF = 0x42454546;
+        public const int BEEF = 0x42454546;
 
-        internal const int SIZE_G7SM = 0x6BE00;
-        internal const int SIZE_G6XY = 0x65600;
-        internal const int SIZE_G6ORAS = 0x76000;
-        internal const int SIZE_G6ORASDEMO = 0x5A00;
-        internal const int SIZE_G5RAW = 0x80000;
-        internal const int SIZE_G5BW = 0x24000;
-        internal const int SIZE_G5B2W2 = 0x26000;
-        internal const int SIZE_G4BR = 0x380000;
-        internal const int SIZE_G4RAW = 0x80000;
-        internal const int SIZE_G3BOX = 0x76000;
-        internal const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
-        internal const int SIZE_G3COLO = 0x60000;
-        internal const int SIZE_G3COLOGCI = 0x60040; // +64 if has GCI data
-        internal const int SIZE_G3XD = 0x56000;
-        internal const int SIZE_G3XDGCI = 0x56040; // +64 if has GCI data
-        internal const int SIZE_G3RAW = 0x20000;
-        internal const int SIZE_G3RAWHALF = 0x10000;
-        internal const int SIZE_G2RAW_U = 0x8000;
-        internal const int SIZE_G2VC = 0x8010;
-        internal const int SIZE_G2BAT_U = 0x802C;
-        internal const int SIZE_G2EMU = 0x8030;
-        internal const int SIZE_G2RAW_J = 0x10000;
-        internal const int SIZE_G2BAT_J = 0x1002C;
-        internal const int SIZE_G1RAW = 0x8000;
-        internal const int SIZE_G1BAT = 0x802C;
+        public const int SIZE_G7SM = 0x6BE00;
+        public const int SIZE_G6XY = 0x65600;
+        public const int SIZE_G6ORAS = 0x76000;
+        public const int SIZE_G6ORASDEMO = 0x5A00;
+        public const int SIZE_G5RAW = 0x80000;
+        public const int SIZE_G5BW = 0x24000;
+        public const int SIZE_G5B2W2 = 0x26000;
+        public const int SIZE_G4BR = 0x380000;
+        public const int SIZE_G4RAW = 0x80000;
+        public const int SIZE_G3BOX = 0x76000;
+        public const int SIZE_G3BOXGCI = 0x76040; // +64 if has GCI data
+        public const int SIZE_G3COLO = 0x60000;
+        public const int SIZE_G3COLOGCI = 0x60040; // +64 if has GCI data
+        public const int SIZE_G3XD = 0x56000;
+        public const int SIZE_G3XDGCI = 0x56040; // +64 if has GCI data
+        public const int SIZE_G3RAW = 0x20000;
+        public const int SIZE_G3RAWHALF = 0x10000;
+        public const int SIZE_G2RAW_U = 0x8000;
+        public const int SIZE_G2VC = 0x8010;
+        public const int SIZE_G2BAT_U = 0x802C;
+        public const int SIZE_G2EMU = 0x8030;
+        public const int SIZE_G2RAW_J = 0x10000;
+        public const int SIZE_G2BAT_J = 0x1002C;
+        public const int SIZE_G1RAW = 0x8000;
+        public const int SIZE_G1BAT = 0x802C;
 
-        internal static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
-        internal static readonly byte[] HEADER_BOX = Encoding.ASCII.GetBytes("GPX");
-        internal static readonly byte[] HEADER_COLO = Encoding.ASCII.GetBytes("GC6");
-        internal static readonly byte[] HEADER_XD = Encoding.ASCII.GetBytes("GXX");
+        public static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
+        public static readonly byte[] HEADER_BOX = Encoding.ASCII.GetBytes("GPX");
+        public static readonly byte[] HEADER_COLO = Encoding.ASCII.GetBytes("GC6");
+        public static readonly byte[] HEADER_XD = Encoding.ASCII.GetBytes("GXX");
 
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
@@ -420,39 +420,41 @@ namespace PKHeX
         /// Detects a save file.
         /// </summary>
         /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
-        public static string detectSaveFile()
+        public static bool detectSaveFile(out string path, params string[] extra)
         {
-            string path;
             string path3DS = Path.GetPathRoot(Util.get3DSLocation());
             List<string> possiblePaths = new List<string>();
+            List<string> foldersToCheck = new List<string>(extra.Where(f => f?.Length > 0));
 
-            // save_manager
-            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "saveDataBackup")))
-                possiblePaths.AddRange(getSavesFromFolder(path, false));
+            // Homebrew/CFW
+            if (path3DS != null)
+            {
+                foldersToCheck.AddRange(new[]
+                {
+                    Path.Combine(path3DS, "saveDataBackup"),
+                    Path.Combine(path3DS, "filer", "UserSaveData"),
+                    Path.Combine(path3DS, "JKSV", "Saves"),
+                    Path.Combine(path3DS, "TWLSaveTool"),
+                    Path.Combine(path3DS, "fbi", "save"),
+                });
+            }
 
-            // SaveDataFiler
-            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "filer", "UserSaveData")))
-                possiblePaths.AddRange(getSavesFromFolder(path, true));
-
-            // JKSV
-            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "JKSV", "Saves")))
-                possiblePaths.AddRange(getSavesFromFolder(path, true));
-
-            // TWL Save Tool
-            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "TWLSaveTool")))
-                possiblePaths.AddRange(getSavesFromFolder(path, false));
-
-            // FBI
-            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "fbi", "save")))
-                possiblePaths.AddRange(getSavesFromFolder(path, false));
-
-            // CyberGadget (Cache)
-            string pathCache = Util.GetCacheFolder();
-            if (Directory.Exists(pathCache))
-                possiblePaths.AddRange(getSavesFromFolder(Path.Combine(pathCache), false));
+            foreach (var p in foldersToCheck)
+            {
+                IEnumerable<string> files;
+                if (!getSavesFromFolder(p, true, out files))
+                {
+                    if (files == null)
+                        continue;
+                    path = files.First(); // error
+                    return false;
+                }
+                possiblePaths.AddRange(files);
+            }
 
             // return newest save file path that is valid (oh man)
-            return possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p))?.ChecksumsValid ?? false);
+            path = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p))?.ChecksumsValid ?? false);
+            return true;
         }
         /// <summary>
         /// Retrieves the full path of the most recent file based on LastWriteTime.
@@ -460,22 +462,26 @@ namespace PKHeX
         /// <param name="folderPath">Folder to look within</param>
         /// <param name="deep">Search all subfolders</param>
         /// <returns>Full path of all save files that match criteria.</returns>
-        public static IEnumerable<string> getSavesFromFolder(string folderPath, bool deep)
+        public static bool getSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result)
         {
             if (!Directory.Exists(folderPath))
-                return null;
-            string[] files = new string[0];
+            {
+                result = null;
+                return false;
+            }
             try
             {
                 var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                files = Directory.GetFiles(folderPath, "*", searchOption);
+                var files = Directory.GetFiles(folderPath, "*", searchOption);
+                result = files.Where(f => SizeValidSAV((int)new FileInfo(f).Length));
+                return true;
             }
             catch (ArgumentException)
             {
-                Util.Error("Error encountered when detecting saves in the following folder:" + Environment.NewLine + folderPath,
-                    "Advise manually scanning to remove bad filenames from the folder." + Environment.NewLine + "Likely caused via Homebrew creating invalid filenames.");
+                result = new[] {"Error encountered when detecting saves in the following folder:" + Environment.NewLine + folderPath,
+                    "Advise manually scanning to remove bad filenames from the folder." + Environment.NewLine + "Likely caused via Homebrew creating invalid filenames."};
+                return false;
             }
-            return files.Where(f => SizeValidSAV((int)new FileInfo(f).Length));
         }
 
         /// <summary>
@@ -568,7 +574,7 @@ namespace PKHeX
         /// <param name="blockID">Block ID to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        internal static ushort check16(byte[] data, int blockID, ushort initial = 0)
+        public static ushort check16(byte[] data, int blockID, ushort initial = 0)
         {
             if (blockID == 36)
                 new byte[0x80].CopyTo(data, 0x100);
@@ -588,14 +594,14 @@ namespace PKHeX
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
-        internal static ushort check32(byte[] data)
+        public static ushort check32(byte[] data)
         {
             uint val = 0;
             for (int i = 0; i < data.Length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
             return (ushort)((val & 0xFFFF) + (val >> 16));
         }
-        internal static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
+        public static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
         {
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
@@ -830,7 +836,7 @@ namespace PKHeX
             }
         }
 
-        internal static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
+        public static byte[] DecryptGC(byte[] input, int start, int end, ushort[] keys)
         {
             byte[] output = (byte[])input.Clone();
             for (int ofs = start; ofs < end; ofs += 8)
@@ -845,7 +851,7 @@ namespace PKHeX
             }
             return output;
         }
-        internal static byte[] EncryptGC(byte[] input, int start, int end, ushort[] keys)
+        public static byte[] EncryptGC(byte[] input, int start, int end, ushort[] keys)
         {
             byte[] output = (byte[])input.Clone();
             for (int ofs = start; ofs < end; ofs += 8)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Util
     {

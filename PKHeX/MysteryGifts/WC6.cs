@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class WC6 : MysteryGift
     {
-        internal const int Size = 0x108;
-        internal const int SizeFull = 0x310;
-        internal const uint EonTicketConst = 0x225D73C2;
+        public const int Size = 0x108;
+        public const int SizeFull = 0x310;
+        public const uint EonTicketConst = 0x225D73C2;
         public override int Format => 6;
 
         public WC6(byte[] data = null)

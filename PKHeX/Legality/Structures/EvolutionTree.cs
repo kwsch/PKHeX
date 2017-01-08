@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class EvolutionTree
     {

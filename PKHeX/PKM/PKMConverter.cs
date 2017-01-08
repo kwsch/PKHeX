@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class PKMConverter
     {
-        internal static int Country = 49;
-        internal static int Region = 7;
-        internal static int ConsoleRegion = 1;
-        internal static string OT_Name = "PKHeX";
-        internal static int OT_Gender;
-        
-        internal static void updateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER)
+        public static int Country = 49;
+        public static int Region = 7;
+        public static int ConsoleRegion = 1;
+        public static string OT_Name = "PKHeX";
+        public static int OT_Gender;
+
+        public static void updateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER)
         {
             Region = SUBREGION;
             Country = COUNTRY;
@@ -115,7 +115,8 @@ namespace PKHeX
                     return null;
             }
         }
-        internal static PKM convertToFormat(PKM pk, Type PKMType, out string comment)
+
+        public static PKM convertToFormat(PKM pk, Type PKMType, out string comment)
         {
             if (pk == null || pk.Species == 0)
             {
@@ -235,7 +236,7 @@ namespace PKHeX
 
             return pkm;
         }
-        internal static void checkEncrypted(ref byte[] pkm)
+        public static void checkEncrypted(ref byte[] pkm)
         {
             int format = getPKMDataFormat(pkm);
             switch (format)

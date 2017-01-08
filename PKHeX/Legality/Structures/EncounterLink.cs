@@ -1,4 +1,4 @@
-﻿namespace PKHeX
+﻿namespace PKHeX.Core
 {
     public class EncounterLink : IEncounterable
     {
