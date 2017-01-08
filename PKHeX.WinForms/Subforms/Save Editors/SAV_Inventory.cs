@@ -211,7 +211,7 @@ namespace PKHeX.WinForms
                 }
                 else if (itemcnt > pouch.MaxCount)
                 {
-                    if (itemindex == 797 && itemcnt >= 2) // Edge case when for some reason the item count for Z-Ring was 2 in an unedited save and set 1 after using PKHeX.Core
+                    if (itemindex == 797 && itemcnt >= 2) // Edge case when for some reason the item count for Z-Ring was 2 in an unedited save and set 1 after using PKHeX
                         itemcnt = 2;
                     else
                         itemcnt = pouch.MaxCount; // Cap at pouch maximum

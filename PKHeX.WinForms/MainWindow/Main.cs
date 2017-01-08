@@ -193,7 +193,7 @@ namespace PKHeX.WinForms
         }
 
         #region Important Variables
-        public static SaveFile SAV = new SAV7 { Game = (int)GameVersion.SN, OT = "PKHeX.Core", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
+        public static SaveFile SAV = new SAV7 { Game = (int)GameVersion.SN, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
         public static PKM pkm = SAV.BlankPKM; // Tab Pokemon Data Storage
         private LegalityAnalysis Legality = new LegalityAnalysis(pkm);
 
@@ -226,12 +226,12 @@ namespace PKHeX.WinForms
 
         #region Path Variables
 
-        public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX.Core") : Environment.CurrentDirectory;
+        public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
-        private static string ThreadPath => @"https://projectpokemon.org/PKHeX.Core/";
-        private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX.Core/master/PKHeX.Core/Resources/text/version.txt";
+        private static string ThreadPath => @"https://projectpokemon.org/PKHeX/";
+        private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
 
         #endregion
 
@@ -382,7 +382,7 @@ namespace PKHeX.WinForms
             if (Directory.Exists(DatabasePath))
                 new SAV_Database(this).Show();
             else
-                WinFormsUtil.Alert("PKHeX.Core's database was not found.",
+                WinFormsUtil.Alert("PKHeX's database was not found.",
                     $"Please dump all boxes from a save file, then ensure the '{DatabasePath}' folder exists.");
         }
         private void mainMenuMysteryDM(object sender, EventArgs e)
@@ -667,7 +667,7 @@ namespace PKHeX.WinForms
                 if (openXOR(input, path)) // Check if we can load the save via xorpad
                     return; // only if a save is loaded we abort
                 if (BitConverter.ToUInt64(input, 0x10) != 0) // encrypted save
-                { WinFormsUtil.Error("PKHeX.Core only edits decrypted save files." + Environment.NewLine + "This save file is not decrypted.", path); return; }
+                { WinFormsUtil.Error("PKHeX only edits decrypted save files." + Environment.NewLine + "This save file is not decrypted.", path); return; }
                 
                 DialogResult sdr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Press Yes to load the sav at 0x3000", "Press No for the one at 0x82000");
                 if (sdr == DialogResult.Cancel)
@@ -1362,7 +1362,7 @@ namespace PKHeX.WinForms
             {
                 CB_Species.SelectedValue = 493;
                 CB_Move1.SelectedValue = 1;
-                TB_OT.Text = "PKHeX.Core";
+                TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
                 TB_SID.Text = 54321.ToString();
                 CB_GameOrigin.SelectedIndex = 0;
@@ -1638,7 +1638,7 @@ namespace PKHeX.WinForms
                 if (qr == null) return;
 
                 string[] r = pkx.QRText;
-                const string refURL = "PKHeX.Core @ ProjectPokemon.org";
+                const string refURL = "PKHeX @ ProjectPokemon.org";
                 new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})", pkx).ShowDialog();
             }
         }
@@ -3072,7 +3072,7 @@ namespace PKHeX.WinForms
         {
             if (SAV.Edited)
             {
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX.Core?") != DialogResult.Yes)
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?") != DialogResult.Yes)
                 {
                     e.Cancel = true;
                 }
@@ -3108,7 +3108,7 @@ namespace PKHeX.WinForms
         private static void promptBackup()
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                $"PKHeX.Core can perform automatic backups if you create a folder with the name \"{BackupPath}\" in the same folder as PKHeX.Core's executable.",
+                $"PKHeX can perform automatic backups if you create a folder with the name \"{BackupPath}\" in the same folder as PKHeX's executable.",
                 "Would you like to create the backup folder now?")) return;
 
             try { Directory.CreateDirectory(BackupPath); WinFormsUtil.Alert("Backup folder created!", 

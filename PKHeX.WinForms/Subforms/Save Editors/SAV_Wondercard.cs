@@ -357,7 +357,7 @@ namespace PKHeX.WinForms
 
                 string desc = $"({mg.Type}) {getDescription(mg)}";
 
-                new QR(qr, PB_Preview.Image, desc, "", "", "PKHeX.Core Wonder Card @ ProjectPokemon.org").ShowDialog();
+                new QR(qr, PB_Preview.Image, desc, "", "", "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
             }
         }
 

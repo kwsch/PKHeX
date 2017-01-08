@@ -189,7 +189,7 @@
             this.MinimizeBox = false;
             this.Name = "QR";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "PKHeX.Core QR Code (Click QR to Copy Image)";
+            this.Text = "PKHeX QR Code (Click QR to Copy Image)";
             ((System.ComponentModel.ISupportInitialize)(this.PB_QR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Slot)).EndInit();

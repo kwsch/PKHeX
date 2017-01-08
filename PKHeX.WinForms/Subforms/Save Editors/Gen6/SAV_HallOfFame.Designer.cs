@@ -333,7 +333,7 @@
             this.TB_OT.Name = "TB_OT";
             this.TB_OT.Size = new System.Drawing.Size(94, 20);
             this.TB_OT.TabIndex = 3;
-            this.TB_OT.Text = "PKHeX.Core";
+            this.TB_OT.Text = "PKHeX";
             this.TB_OT.TextChanged += new System.EventHandler(this.Write_Entry);
             // 
             // TB_SID

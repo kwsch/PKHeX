@@ -34,14 +34,14 @@ namespace PKHeX.WinForms
             try
             {
                 // Todo: make this translatable
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX.Core, but please report this error.", t.Exception, true);
+                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
             }
             catch
             {
                 try
                 {
                     // Todo: make this translatable
-                    MessageBox.Show("A fatal error has occurred in PKHeX.Core, and the details could not be displayed.  Please report this to the author.", "PKHeX.Core Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show("A fatal error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
                 finally
                 {
@@ -64,14 +64,14 @@ namespace PKHeX.WinForms
             {
                 var ex = (Exception)e.ExceptionObject;
                 // Todo: make this translatable
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX.Core must now close.", ex, false);
+                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
             }
             catch
             {
                 try
                 {
                     // Todo: make this translatable
-                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX.Core, and the details could not be displayed.  Please report this to the author.", "PKHeX.Core Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 }
                 finally
                 {
