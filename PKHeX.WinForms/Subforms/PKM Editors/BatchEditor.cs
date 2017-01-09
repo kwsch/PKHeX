@@ -11,9 +11,10 @@ namespace PKHeX.WinForms
 {
     public partial class BatchEditor : Form
     {
-        public BatchEditor()
+        public BatchEditor(PKM pk)
         {
             InitializeComponent();
+            pkm = pk;
             DragDrop += tabMain_DragDrop;
             DragEnter += tabMain_DragEnter;
 
@@ -23,6 +24,9 @@ namespace PKHeX.WinForms
             CB_Format.Items.Add("Any");
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
+            new ToolTip().SetToolTip(CB_Property, "Property of a given PKM to modify.");
+            new ToolTip().SetToolTip(L_PropType, "PropertyType of the currently loaded PKM in the main window.");
+            new ToolTip().SetToolTip(L_PropValue, "PropertyValue of the currently loaded PKM in the main window.");
         }
         private static string[][] getPropArray()
         {
@@ -43,6 +47,7 @@ namespace PKHeX.WinForms
             return p1;
         }
 
+        private readonly PKM pkm;
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private int currentFormat = -1;
@@ -311,6 +316,9 @@ namespace PKHeX.WinForms
         private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
         {
             L_PropType.Text = getPropertyType(CB_Property.Text);
+            L_PropValue.Text = pkm.GetType().HasProperty(CB_Property.Text)
+                ? ReflectUtil.GetValue(pkm, CB_Property.Text).ToString()
+                : "";
         }
         private string getPropertyType(string propertyName)
         {

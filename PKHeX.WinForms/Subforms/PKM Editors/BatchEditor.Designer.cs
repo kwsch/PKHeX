@@ -41,6 +41,7 @@
             this.CB_Require = new System.Windows.Forms.ComboBox();
             this.B_Add = new System.Windows.Forms.Button();
             this.L_PropType = new System.Windows.Forms.Label();
+            this.L_PropValue = new System.Windows.Forms.Label();
             this.FLP_RB.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -187,12 +188,22 @@
             this.L_PropType.TabIndex = 12;
             this.L_PropType.Text = "PropertyType";
             // 
+            // L_PropValue
+            // 
+            this.L_PropValue.AutoSize = true;
+            this.L_PropValue.Location = new System.Drawing.Point(204, 64);
+            this.L_PropValue.Name = "L_PropValue";
+            this.L_PropValue.Size = new System.Drawing.Size(73, 13);
+            this.L_PropValue.TabIndex = 13;
+            this.L_PropValue.Text = "PropertyValue";
+            // 
             // BatchEditor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(394, 261);
+            this.Controls.Add(this.L_PropValue);
             this.Controls.Add(this.L_PropType);
             this.Controls.Add(this.B_Add);
             this.Controls.Add(this.CB_Require);
@@ -230,5 +241,6 @@
         private System.Windows.Forms.ComboBox CB_Require;
         private System.Windows.Forms.Button B_Add;
         private System.Windows.Forms.Label L_PropType;
+        private System.Windows.Forms.Label L_PropValue;
     }
 }

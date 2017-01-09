@@ -465,7 +465,7 @@ namespace PKHeX.WinForms
         }
         private void manMenuBatchEditor(object sender, EventArgs e)
         {
-            new BatchEditor().ShowDialog();
+            new BatchEditor(preparePKM()).ShowDialog();
             setPKXBoxes(); // refresh
             updateBoxViewers();
         }
