@@ -42,7 +42,7 @@
             this.L_Status.Name = "L_Status";
             this.L_Status.Size = new System.Drawing.Size(105, 13);
             this.L_Status.TabIndex = 0;
-            this.L_Status.Text = "Starting up PKHeX.Core...";
+            this.L_Status.Text = "Starting up PKHeX...";
             // 
             // label2
             // 

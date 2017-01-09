@@ -4033,7 +4033,7 @@
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
             this.Menu_About.Size = new System.Drawing.Size(139, 22);
-            this.Menu_About.Text = "About &PKHeX.Core";
+            this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
             // tabBoxMulti

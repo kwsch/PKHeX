@@ -344,7 +344,7 @@ namespace PKHeX.WinForms
         private void mainMenuExit(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control) // Hotkey Triggered
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX.Core?")) return;
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?")) return;
             Close();
         }
         private void mainMenuAbout(object sender, EventArgs e)
@@ -415,7 +415,7 @@ namespace PKHeX.WinForms
             string path = "";
             if (Directory.Exists(DatabasePath))
             {
-                DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX.Core's database?");
+                DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Load from PKHeX's database?");
                 if (ld == DialogResult.Yes)
                     path = DatabasePath;
                 else if (ld == DialogResult.No)
@@ -441,7 +441,7 @@ namespace PKHeX.WinForms
             string path;
             bool dumptoboxes = false;
             // Dump all of box content to files.
-            DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX.Core's database?");
+            DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
             if (ld == DialogResult.Yes)
             {
                 path = DatabasePath;
