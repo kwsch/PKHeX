@@ -1852,6 +1852,12 @@ namespace PKHeX.Core
                     if (res.All(r => r.Valid))
                         break;
                 }
+                
+                // Duplicate Moves Check
+                for (int i = 0; i < 4; i++)
+                    if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
+                        res[i] = new CheckResult(Severity.Invalid, "Duplicate Relearn Move.", CheckIdentifier.RelearnMove);
+
                 return res;
             }
             if (Moves[0] != 0) // DexNav only?
