@@ -136,8 +136,17 @@ namespace PKHeX.WinForms
 
             bool showChangelog = false;
             bool BAKprompt = false;
-            try { loadConfig(out BAKprompt, out showChangelog); }
-            catch { }
+            int languageID = 1; // English
+            try
+            {
+                ConfigUtil.checkConfig();
+                loadConfig(out BAKprompt, out showChangelog, out languageID); 
+            }
+            catch (Exception e)
+            {
+                WinFormsUtil.Error("Failed to access settings:" + Environment.NewLine + e.Message, "Please delete corrupt user.config file.");
+            }
+            CB_MainLanguage.SelectedIndex = languageID;
 
             InitializeFields();
             formInitialized = true;
@@ -236,36 +245,41 @@ namespace PKHeX.WinForms
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
-        private void loadConfig(out bool BAKprompt, out bool showChangelog)
+        private void loadConfig(out bool BAKprompt, out bool showChangelog, out int languageID)
         {
             BAKprompt = false;
             showChangelog = false;
-            unicode = Menu_Unicode.Checked = Properties.Settings.Default.Unicode;
+            languageID = 1;
+
+            var Settings = Properties.Settings.Default;
+            Settings.Upgrade();
+
+            unicode = Menu_Unicode.Checked = Settings.Unicode;
             updateUnicode();
-            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Properties.Settings.Default.SetUpdateDex;
-            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Properties.Settings.Default.SetUpdatePKM;
+            SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
+            SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
 
             // Select Language
-            string l = Properties.Settings.Default.Language;
+            string l = Settings.Language;
             int lang = Array.IndexOf(GameInfo.lang_val, l);
             if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
-            CB_MainLanguage.SelectedIndex = lang < 0 ? 1 : lang;
+            languageID = lang < 0 ? 1 : lang;
 
             // Version Check
-            if (Properties.Settings.Default.Version.Length > 0) // already run on system
+            if (Settings.Version.Length > 0) // already run on system
             {
-                int lastrev; int.TryParse(Properties.Settings.Default.Version, out lastrev);
+                int lastrev; int.TryParse(Settings.Version, out lastrev);
                 int currrev; int.TryParse(Core.Properties.Resources.ProgramVersion, out currrev);
 
                 showChangelog = lastrev < currrev;
             }
 
             // BAK Prompt
-            if (!Properties.Settings.Default.BAKPrompt)
-                BAKprompt = Properties.Settings.Default.BAKPrompt = true;
+            if (!Settings.BAKPrompt)
+                BAKprompt = Settings.BAKPrompt = true;
 
-            Properties.Settings.Default.Version = Core.Properties.Resources.ProgramVersion;
-            Properties.Settings.Default.Save();
+            Settings.Version = Core.Properties.Resources.ProgramVersion;
+            Settings.Save();
         }
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)

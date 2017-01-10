@@ -72,6 +72,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -333,6 +334,7 @@
     <Compile Include="Subforms\SAV_MysteryGiftDB.Designer.cs">
       <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\FontUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
