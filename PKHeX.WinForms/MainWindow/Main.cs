@@ -2846,7 +2846,7 @@ namespace PKHeX.WinForms
             var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
             foreach (ComboBox c in cb)
             {
-                var index = c.SelectedValue;
+                var index = WinFormsUtil.getIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
                 c.SelectedValue = index;
             }
