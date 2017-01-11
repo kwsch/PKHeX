@@ -1082,11 +1082,29 @@ namespace PKHeX.Core
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
 
+            MysteryGift mg = EncounterMatch as MysteryGift;
             WC6 MatchedWC6 = EncounterMatch as WC6;
+            WC7 MatchedWC7 = EncounterMatch as WC7;
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
-                if (pkm.OT_Friendship != pkm.PersonalInfo.BaseFriendship)
+                if (pkm.OT_Friendship != PersonalTable.AO[MatchedWC6.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, "Event OT Friendship does not match base friendship.", CheckIdentifier.History);
+                if (pkm.OT_Affection != 0)
+                    return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
+                if (pkm.CurrentHandler != 1)
+                    return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+            }
+            else if (MatchedWC7?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC7=null
+            {
+                if (pkm.OT_Friendship != PersonalTable.SM[MatchedWC7.Species].BaseFriendship)
+                    return new CheckResult(Severity.Invalid, "Event OT Friendship does not match base friendship.", CheckIdentifier.History);
+                if (pkm.OT_Affection != 0)
+                    return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
+                if (pkm.CurrentHandler != 1)
+                    return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+            }
+            else if (mg != null && mg.Format < 6 && pkm.Format >= 6)
+            {
                 if (pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
