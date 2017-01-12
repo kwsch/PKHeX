@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace PKHeX.Core
 {
-    public static partial class Util
+    public static class ImageUtil
     {
         // Image Layering/Blending Utility
         public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double trans)

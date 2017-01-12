@@ -1,10 +1,8 @@
-﻿using System.Drawing;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public static class BoxWallpaper
     {
-        public static Bitmap getWallpaper(SaveFile SAV, int index)
+        public static string getWallpaper(SaveFile SAV, int index)
         {
             index++;
             string s = "box_wp" + index.ToString("00");
@@ -33,7 +31,7 @@ namespace PKHeX.Core
                         s += "rs";
                     break;
             }
-            return (Bitmap)(Properties.Resources.ResourceManager.GetObject(s) ?? Properties.Resources.box_wp16xy);
+            return s;
         }
     }
 }

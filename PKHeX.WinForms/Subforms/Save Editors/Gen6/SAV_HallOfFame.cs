@@ -229,7 +229,7 @@ namespace PKHeX.WinForms
             CB_Form.SelectedIndex = (int)form;
             setGenderLabel((int)gender);
             updateNickname(sender, e);
-            bpkx.Image = PKX.getSprite(species, (int)form, (int)gender, item, false, shiny == 1);
+            bpkx.Image = PKMUtil.getSprite(species, (int)form, (int)gender, item, false, shiny == 1);
             editing = true;
         }
         private void Write_Entry(object sender, EventArgs e)
@@ -290,7 +290,7 @@ namespace PKHeX.WinForms
             vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            bpkx.Image = PKX.getSprite(WinFormsUtil.getIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.getGender(Label_Gender.Text), WinFormsUtil.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = PKMUtil.getSprite(WinFormsUtil.getIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.getGender(Label_Gender.Text), WinFormsUtil.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
             displayEntry(null, null); // refresh text view
         }
         private void Validate_TextBoxes()
@@ -339,7 +339,7 @@ namespace PKHeX.WinForms
         {
             if (!editing)
                 return; //Don't do writing until loaded
-            bpkx.Image = PKX.getSprite(WinFormsUtil.getIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.getGender(Label_Gender.Text), WinFormsUtil.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = PKMUtil.getSprite(WinFormsUtil.getIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.getGender(Label_Gender.Text), WinFormsUtil.getIndex(CB_HeldItem), false, CHK_Shiny.Checked);
 
             Write_Entry(null, null);
         }

@@ -551,7 +551,7 @@ namespace PKHeX.WinForms
             }
             PKM[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
-                PKXBOXES[i].Image = data[i].Sprite;
+                PKXBOXES[i].Image = data[i].Sprite();
             for (int i = data.Length; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 

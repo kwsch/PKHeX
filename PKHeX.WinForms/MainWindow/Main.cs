@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
             L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
             new Thread(() =>
             {
-                string data = Util.getStringFromURL(VersionPath);
+                string data = NetUtil.getStringFromURL(VersionPath);
                 if (data == null)
                     return;
                 try
@@ -215,7 +215,7 @@ namespace PKHeX.WinForms
         private static Image colorizedcolor;
         private static int colorizedslot;
         public static bool HaX;
-        private static readonly Image mixedHighlight = Util.ChangeOpacity(Core.Properties.Resources.slotSet, 0.5);
+        private static readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Core.Properties.Resources.slotSet, 0.5);
         private static readonly string[] main_langlist =
             {
                 "日本語", // JPN
@@ -1491,7 +1491,7 @@ namespace PKHeX.WinForms
             Label_Friendship.Visible = !CHK_IsEgg.Checked && SAV.Generation > 1;
 
             // Set the Preview Box
-            dragout.Image = pk.Sprite;
+            dragout.Image = pk.Sprite();
             setMarkings();
             updateLegality();
         }
@@ -1577,27 +1577,27 @@ namespace PKHeX.WinForms
         {
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             for (int i = 0; i < pba.Length; i++)
-                pba[i].Image = Util.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] != 0 ? 1 : 0.1);
+                pba[i].Image = ImageUtil.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] != 0 ? 1 : 0.1);
 
-            PB_MarkShiny.Image = Util.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
-            PB_MarkCured.Image = Util.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
+            PB_MarkShiny.Image = ImageUtil.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
+            PB_MarkCured.Image = ImageUtil.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
             
-            PB_MarkPentagon.Image = Util.ChangeOpacity(PB_MarkPentagon.InitialImage, pkm.Gen6 ? 1 : 0.1);
+            PB_MarkPentagon.Image = ImageUtil.ChangeOpacity(PB_MarkPentagon.InitialImage, pkm.Gen6 ? 1 : 0.1);
 
             // Gen7 Markings
             if (pkm.Format != 7)
                 return;
 
-            PB_MarkAlola.Image = Util.ChangeOpacity(PB_MarkAlola.InitialImage, pkm.Gen7 ? 1 : 0.1);
+            PB_MarkAlola.Image = ImageUtil.ChangeOpacity(PB_MarkAlola.InitialImage, pkm.Gen7 ? 1 : 0.1);
             for (int i = 0; i < pba.Length; i++)
             {
                 switch (pkm.Markings[i])
                 {
                     case 1:
-                        pba[i].Image = Util.ChangeAllColorTo(pba[i].Image, Color.FromArgb(000, 191, 255));
+                        pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, Color.FromArgb(000, 191, 255));
                         break;
                     case 2:
-                        pba[i].Image = Util.ChangeAllColorTo(pba[i].Image, Color.FromArgb(255, 117, 179));
+                        pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, Color.FromArgb(255, 117, 179));
                         break;
                 }
             }
@@ -1642,7 +1642,7 @@ namespace PKHeX.WinForms
                 switch (pkx.Format)
                 {
                     case 7:
-                        qr = QR7.GenerateQRCode7((PK7) pkx);
+                        qr = QR.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
                         qr = QR.getQRImage(ekx, pkx.Format == 6 ? server : "null/#");
@@ -1947,7 +1947,7 @@ namespace PKHeX.WinForms
         private bool changingFields;
         private void updateBall(object sender, EventArgs e)
         {
-            PB_Ball.Image = PKX.getBallSprite(WinFormsUtil.getIndex(CB_Ball));
+            PB_Ball.Image = PKMUtil.getBallSprite(WinFormsUtil.getIndex(CB_Ball));
         }
         private void updateEXPLevel(object sender, EventArgs e)
         {
@@ -3622,7 +3622,7 @@ namespace PKHeX.WinForms
             {
                 int boxoffset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
                 int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
-                PAN_Box.BackgroundImage = BoxWallpaper.getWallpaper(SAV, boxbgval);
+                PAN_Box.BackgroundImage = SAV.getWallpaper(boxbgval);
                 for (int i = 0; i < 30; i++)
                 {
                     if (i < SAV.BoxSlotCount)
@@ -3671,7 +3671,7 @@ namespace PKHeX.WinForms
                     else
                     {
                         L_SlotOccupied[i].Text = $"{i + 1}: ✘";
-                        SlotPictureBoxes[i + 42].Image = Util.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
+                        SlotPictureBoxes[i + 42].Image = ImageUtil.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
                     }
                 }
                 bool? egg = SAV.getDaycareHasEgg(SAV.DaycareIndex);
@@ -3736,14 +3736,14 @@ namespace PKHeX.WinForms
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
 
-            var sprite = pk.Species != 0 ? pk.Sprite : null;
+            var sprite = pk.Species != 0 ? pk.Sprite() : null;
             int slot = getSlot(pb);
             bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
             bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
             if (locked)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
             else if (team)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
             pb.Image = sprite;
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
@@ -3769,14 +3769,14 @@ namespace PKHeX.WinForms
             }
             // Something stored in slot. Only display if species is valid.
 
-            var sprite = p.Species != 0 ? p.Sprite : null;
+            var sprite = p.Species != 0 ? p.Sprite() : null;
             int slot = getSlot(pb);
             bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
             bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
             if (locked)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
             else if (team)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
             pb.Image = sprite;
             pb.BackColor = Color.Transparent;
             pb.Visible = true;

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
-
-using QRCoder;
 
 namespace PKHeX.Core
 {
@@ -17,8 +14,7 @@ namespace PKHeX.Core
     // u8  dex_data[0x60];
     // u16 crc16
     // sizeof(QR7) == 0x1A2
-
-
+    
     public static class QR7
     {
         private static bool hasGenderDifferences(int species)
@@ -62,7 +58,7 @@ namespace PKHeX.Core
             }
             return basedata;
         }
-        private static byte[] GenerateQRData(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
+        public static byte[] GenerateQRData(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
         {
             if (box > 31)
                 box = 31;
@@ -86,23 +82,6 @@ namespace PKHeX.Core
             GetRawQR(pk7.Species, pk7.AltForm, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
             BitConverter.GetBytes((ushort) SaveUtil.check16(data.Take(0x1A0).ToArray(), 0)).CopyTo(data, 0x1A0);
             return data;
-        }
-
-        public static Bitmap GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
-        {
-            byte[] data = GenerateQRData(pk7, box, slot, num_copies);
-            using (var generator = new QRCodeGenerator())
-            using (var qr_data = generator.CreateQRCode(data))
-            using (var qr_code = new QRCode(qr_data))
-                return qr_code.GetGraphic(4);
-        }
-
-        public static Bitmap GenerateQRCode(byte[] data, int ppm = 4)
-        {
-            using (var generator = new QRCodeGenerator())
-            using (var qr_data = generator.CreateQRCode(data))
-            using (var qr_code = new QRCode(qr_data))
-                return qr_code.GetGraphic(ppm);
         }
     }
 }

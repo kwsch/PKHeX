@@ -361,7 +361,7 @@ namespace PKHeX.WinForms
                 };
 
             for (int i = 0; i < 8; i++)
-                pba[i].Image = Util.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
+                pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
         }
         private void getTextBoxes()
         {

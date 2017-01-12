@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
             if (!editing)
                 SAV.setBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
 
-            PAN_BG.BackgroundImage = BoxWallpaper.getWallpaper(SAV, CB_BG.SelectedIndex);
+            PAN_BG.BackgroundImage = SAV.getWallpaper(CB_BG.SelectedIndex);
         }
         
         private bool MoveItem(int direction)

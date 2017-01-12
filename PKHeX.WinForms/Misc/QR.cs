@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows.Forms;
 using PKHeX.Core;
+using QRCoder;
 
 namespace PKHeX.WinForms
 {
@@ -56,7 +57,7 @@ namespace PKHeX.WinForms
                 gfx.DrawImage(icon, preview.Width / 2 - icon.Width / 2, preview.Height / 2 - icon.Height / 2);
             }
             // Layer on Preview Image
-            Image pic = Util.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2, 1);
+            Image pic = ImageUtil.LayerImage(qr, preview, qr.Width / 2 - preview.Width / 2, qr.Height / 2 - preview.Height / 2, 1);
 
             Image newpic = new Bitmap(PB_QR.Width, PB_QR.Height);
             using (Graphics g = Graphics.FromImage(newpic))
@@ -91,7 +92,7 @@ namespace PKHeX.WinForms
             string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + HttpUtility.UrlEncode(address);
             try
             {
-                string data = Util.getStringFromURL(webURL);
+                string data = NetUtil.getStringFromURL(webURL);
                 if (data.Contains("could not find")) { WinFormsUtil.Alert("Reader could not find QR data in the image."); return null; }
                 if (data.Contains("filetype not supported")) { WinFormsUtil.Alert("Input URL is not valid. Double check that it is an image (jpg/png).", address); return null; }
                 // Quickly convert the json response to a data string
@@ -131,7 +132,7 @@ namespace PKHeX.WinForms
 
             try
             {
-                return Util.getImageFromURL(webURL);
+                return NetUtil.getImageFromURL(webURL);
             }
             catch
             {
@@ -150,12 +151,29 @@ namespace PKHeX.WinForms
             var box = (int) NUD_Box.Value - 1;
             var slot = (int) NUD_Slot.Value - 1;
             var copies = (int) NUD_Copies.Value;
-            var new_qr = QR7.GenerateQRCode7((PK7)pkm, box, slot, copies);
+            var new_qr = GenerateQRCode7((PK7)pkm, box, slot, copies);
             qr = new_qr;
             SuspendLayout();
             extraText = $" (Box {box+1}, Slot {slot+1}, {copies} cop{(copies > 1 ? "ies" : "y")})";
             RefreshImage();
             ResumeLayout();
+        }
+
+        // QR7 Utility
+        public static Image GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)
+        {
+            byte[] data = QR7.GenerateQRData(pk7, box, slot, num_copies);
+            using (var generator = new QRCodeGenerator())
+            using (var qr_data = generator.CreateQRCode(data))
+            using (var qr_code = new QRCode(qr_data))
+                return qr_code.GetGraphic(4);
+        }
+        public static Image GenerateQRCode(byte[] data, int ppm = 4)
+        {
+            using (var generator = new QRCodeGenerator())
+            using (var qr_data = generator.CreateQRCode(data))
+            using (var qr_code = new QRCode(qr_data))
+                return qr_code.GetGraphic(ppm);
         }
     }
 }

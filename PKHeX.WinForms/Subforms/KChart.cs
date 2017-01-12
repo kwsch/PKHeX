@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
 
             int r = 0;
             row.Cells[r++].Value = s.ToString("000") + (f > 0 ? "-"+f.ToString("00") :"");
-            row.Cells[r++].Value = PKX.getSprite(s, f, 0, 0, false, false, Main.SAV.Generation);
+            row.Cells[r++].Value = PKMUtil.getSprite(s, f, 0, 0, false, false, Main.SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = s > 721 || Legal.PastGenAlolanNatives.Contains(s);
             row.Cells[r].Style.BackColor = mapColor((int)((p.BST - 175) / 3f));

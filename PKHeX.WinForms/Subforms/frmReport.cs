@@ -18,7 +18,7 @@ namespace PKHeX.WinForms
         {
             private readonly PKM pkm;
             public string Position => pkm.Identifier;
-            public Image Sprite => pkm.Sprite;
+            public Image Sprite => pkm.Sprite();
             public string Nickname => pkm.Nickname;
             public string Species => GameInfo.Strings.specieslist[pkm.Species];
             public string Nature => GameInfo.Strings.natures[pkm.Nature];
@@ -183,7 +183,7 @@ namespace PKHeX.WinForms
         }
         private void dgData_Sorted(object sender, EventArgs e)
         {
-            int height = PKX.getSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
+            int height = PKMUtil.getSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }

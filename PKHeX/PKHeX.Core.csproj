@@ -193,13 +193,7 @@
     <Compile Include="Util\CryptoUtil.cs" />
     <Compile Include="Util\DataUtil.cs" />
     <Compile Include="Util\DateUtil.cs" />
-    <Compile Include="Util\ImageUtil.cs" />
-    <Compile Include="Util\NetUtil.cs" />
     <Compile Include="Util\PathUtil.cs" />
-    <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
-    <Compile Include="Util\QRCoder\QRCode.cs" />
-    <Compile Include="Util\QRCoder\QRCodeData.cs" />
-    <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\RandUtil.cs" />
     <Compile Include="Util\ReflectUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />

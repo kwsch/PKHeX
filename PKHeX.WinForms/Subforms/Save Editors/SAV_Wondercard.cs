@@ -473,14 +473,14 @@ namespace PKHeX.WinForms
         {
             Image img;
             if (gift.IsPokémon)
-                img = PKX.getSprite(gift.convertToPKM(Main.SAV));
+                img = PKMUtil.getSprite(gift.convertToPKM(Main.SAV));
             else if (gift.IsItem)
                 img = (Image)(Core.Properties.Resources.ResourceManager.GetObject("item_" + gift.Item) ?? Core.Properties.Resources.unknown);
             else
                 img = Core.Properties.Resources.unknown;
 
             if (gift.GiftUsed)
-                img = Util.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
+                img = ImageUtil.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
             return img;
         }
         private static string getDescription(MysteryGift gift)

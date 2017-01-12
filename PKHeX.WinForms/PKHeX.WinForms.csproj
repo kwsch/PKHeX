@@ -337,6 +337,13 @@
     <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\CyberGadgetUtil.cs" />
     <Compile Include="Util\FontUtil.cs" />
+    <Compile Include="Util\ImageUtil.cs" />
+    <Compile Include="Util\NetUtil.cs" />
+    <Compile Include="Util\PKMUtil.cs" />
+    <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCodeData.cs" />
+    <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
     <EmbeddedResource Include="MainWindow\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

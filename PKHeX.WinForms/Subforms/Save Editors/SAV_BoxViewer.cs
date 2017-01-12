@@ -90,7 +90,7 @@ namespace PKHeX.WinForms
         {
             int boxoffset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
             int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
-            PAN_Box.BackgroundImage = BoxWallpaper.getWallpaper(SAV, boxbgval);
+            PAN_Box.BackgroundImage = SAV.getWallpaper(boxbgval);
 
             for (int i = 0; i < SAV.BoxSlotCount; i++)
                 getSlotFiller(boxoffset + SAV.SIZE_STORED*i, SlotPictureBoxes[i]);
@@ -113,27 +113,27 @@ namespace PKHeX.WinForms
                 return;
             }
             // Something stored in slot. Only display if species is valid.
-            var sprite = p.Species != 0 ? p.Sprite : null;
+            var sprite = p.Species != 0 ? p.Sprite() : null;
             int slot = getSlot(pb);
             bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
             bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
             if (locked)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
             else if (team)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
             pb.Image = sprite;
             pb.BackColor = Color.Transparent;
         }
         private void getQuickFiller(PictureBox pb, PKM pk)
         {
-            var sprite = pk.Species != 0 ? pk.Sprite : null;
+            var sprite = pk.Species != 0 ? pk.Sprite() : null;
             int slot = getSlot(pb);
             bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
             bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
             if (locked)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
             else if (team)
-                sprite = Util.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
             pb.Image = sprite;
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
