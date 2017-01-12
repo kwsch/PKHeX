@@ -90,7 +90,7 @@ namespace PKHeX.WinForms
         {
             int boxoffset = SAV.getBoxOffset(CB_BoxSelect.SelectedIndex);
             int boxbgval = SAV.getBoxWallpaper(CB_BoxSelect.SelectedIndex);
-            PAN_Box.BackgroundImage = SAV.getWallpaper(boxbgval);
+            PAN_Box.BackgroundImage = SAV.WallpaperImage(boxbgval);
 
             for (int i = 0; i < SAV.BoxSlotCount; i++)
                 getSlotFiller(boxoffset + SAV.SIZE_STORED*i, SlotPictureBoxes[i]);

@@ -11,14 +11,10 @@ namespace PKHeX.WinForms
             string str = PKX.getBallString(ball);
             return (Image)Resources.ResourceManager.GetObject(str) ?? Resources._ball4; // Poké Ball (default)
         }
-        public static Image Sprite(this PKM pkm)
-        {
-            return getSprite(pkm);
-        }
         public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
         {
             if (species == 0)
-                return (Image)Resources.ResourceManager.GetObject("_0");
+                return Resources._0;
 
             string file = PKX.getSpriteString(species, form, gender, generation);
 
@@ -26,22 +22,15 @@ namespace PKHeX.WinForms
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
             if (baseImage == null)
             {
-                if (species < 803)
-                {
-                    baseImage = ImageUtil.LayerImage(
-                        (Image)Resources.ResourceManager.GetObject("_" + species),
-                        Resources.unknown,
-                        0, 0, .5);
-                }
-                else
-                    baseImage = Resources.unknown;
+                baseImage = (Image) Resources.ResourceManager.GetObject("_" + species);
+                baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
             }
             if (isegg)
             {
                 // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                baseImage = ImageUtil.LayerImage((Image)Resources.ResourceManager.GetObject("_0"), baseImage, 0, 0, 0.33);
+                baseImage = ImageUtil.LayerImage(Resources._0, baseImage, 0, 0, 0.33);
                 // Add the egg layer over-top with full opacity.
-                baseImage = ImageUtil.LayerImage(baseImage, (Image)Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
+                baseImage = ImageUtil.LayerImage(baseImage, Resources.egg, 0, 0, 1);
             }
             if (shiny)
             {
@@ -59,15 +48,53 @@ namespace PKHeX.WinForms
             }
             return baseImage;
         }
-        public static Image getSprite(PKM pkm)
+        public static Image getRibbonSprite(string name)
+        {
+            return Resources.ResourceManager.GetObject(name.Replace("CountG3", "G3").ToLower()) as Image;
+        }
+        public static Image getTypeSprite(int type)
+        {
+            return Resources.ResourceManager.GetObject("type_icon_" + type.ToString("00")) as Image;
+        }
+
+        private static Image getSprite(MysteryGift gift)
+        {
+            if (gift.Empty)
+                return null;
+
+            Image img;
+            if (gift.IsPokémon)
+                img = getSprite(gift.convertToPKM(Main.SAV));
+            else if (gift.IsItem)
+                img = (Image)(Resources.ResourceManager.GetObject("item_" + gift.Item) ?? Resources.unknown);
+            else
+                img = Resources.unknown;
+
+            if (gift.GiftUsed)
+                img = ImageUtil.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
+            return img;
+        }
+        private static Image getSprite(PKM pkm)
         {
             return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
-
-        public static Image getWallpaper(this SaveFile SAV, int box)
+        private static Image getSprite(SaveFile SAV)
+        {
+            string file = "tr_00";
+            if (SAV.Generation == 6 && (SAV.ORAS || SAV.ORASDEMO))
+                file = "tr_" + SAV.MultiplayerSpriteID.ToString("00");
+            return Resources.ResourceManager.GetObject(file) as Image;
+        }
+        private static Image getWallpaper(SaveFile SAV, int box)
         {
             string s = BoxWallpaper.getWallpaper(SAV, box);
             return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
         }
+
+        // Extension Methods
+        public static Image Sprite(this MysteryGift gift) => getSprite(gift);
+        public static Image Sprite(this PKM pkm) => getSprite(pkm);
+        public static Image Sprite(this SaveFile SAV) => getSprite(SAV);
+        public static Image WallpaperImage(this SaveFile SAV, int box) => getWallpaper(SAV, box);
     }
 }

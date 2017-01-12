@@ -516,9 +516,9 @@ namespace PKHeX.Core
 
             string file = "_" + species;
             if (form > 0) // Alt Form Handling
-                file = file + "_" + form;
+                file += "_" + form;
             else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-                file = file + "_" + gender;
+                file += "_" + gender;
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
                 file += "c"; // Cap

@@ -72,7 +72,7 @@ namespace PKHeX.WinForms
         private void addRibbonSprite(RibbonInfo rib)
         {
             PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + rib.Name };
-            var img = Core.Properties.Resources.ResourceManager.GetObject(rib.Name.Replace("CountG3", "G3").ToLower());
+            var img = PKMUtil.getRibbonSprite(rib.Name);
             if (img != null)
                 pb.BackgroundImage = (Bitmap)img;
             if (img == null)

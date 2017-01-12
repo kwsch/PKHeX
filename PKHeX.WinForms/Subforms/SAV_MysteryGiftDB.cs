@@ -311,7 +311,7 @@ namespace PKHeX.WinForms
             }
             var data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
             for (int i = 0; i < data.Length; i++)
-                PKXBOXES[i].Image = SAV_Wondercard.getSprite(data[i]);
+                PKXBOXES[i].Image = data[i].Sprite();
             for (int i = data.Length; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 

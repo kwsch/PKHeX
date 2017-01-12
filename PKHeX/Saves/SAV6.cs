@@ -347,7 +347,7 @@ namespace PKHeX.Core
             get { return Data[TrainerCard + 5]; }
             set { Data[TrainerCard + 5] = (byte)value; }
         }
-        public int Sprite
+        public override int MultiplayerSpriteID
         {
             get { return Data[TrainerCard + 7]; }
             set { Data[TrainerCard + 7] = (byte)value; }

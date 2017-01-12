@@ -328,6 +328,7 @@ namespace PKHeX.Core
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int PartyCount { get; protected set; }
+        public virtual int MultiplayerSpriteID { get { return 0; } set { } }
 
         // Varied Methods
         protected abstract void setChecksums();

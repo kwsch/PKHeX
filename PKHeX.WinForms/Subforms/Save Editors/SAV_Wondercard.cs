@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < mga.Gifts.Length; i++)
             {
                 MysteryGift m = mga.Gifts[i];
-                pba[i].Image = m.Empty ? null : getSprite(m);
+                pba[i].Image = m.Sprite();
             }
         }
         private void viewGiftData(MysteryGift g)
@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
                     g.GiftUsed = false;
 
                 RTB.Text = getDescription(g);
-                PB_Preview.Image = getSprite(g);
+                PB_Preview.Image = g.Sprite();
                 mg = g;
             }
             catch (Exception e)
@@ -468,21 +468,6 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
         }
         private int wc_slot = -1;
-
-        internal static Image getSprite(MysteryGift gift)
-        {
-            Image img;
-            if (gift.IsPokémon)
-                img = PKMUtil.getSprite(gift.convertToPKM(Main.SAV));
-            else if (gift.IsItem)
-                img = (Image)(Core.Properties.Resources.ResourceManager.GetObject("item_" + gift.Item) ?? Core.Properties.Resources.unknown);
-            else
-                img = Core.Properties.Resources.unknown;
-
-            if (gift.GiftUsed)
-                img = ImageUtil.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
-            return img;
-        }
         private static string getDescription(MysteryGift gift)
         {
             if (gift.Empty)
