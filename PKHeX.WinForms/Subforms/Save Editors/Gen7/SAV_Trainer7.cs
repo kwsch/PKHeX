@@ -251,7 +251,15 @@ namespace PKHeX.WinForms
             SAV.setTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
             SAV.setTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
 
-            SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
+            // Skin changed && (gender matches || override)
+            int gender = CB_Gender.SelectedIndex & 1;
+            int skin = CB_SkinColor.SelectedIndex & 1;
+            string gStr = CB_Gender.Items[gender].ToString();
+            string sStr = CB_Gender.Items[skin].ToString();
+
+            if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex && 
+                (SAV.Gender == skin || DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:\nGender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
+                    SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
