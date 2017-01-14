@@ -120,7 +120,15 @@ namespace PKHeX.WinForms
         private readonly string Counter;
         private readonly string Viewed;
         private const int MAXFORMAT = 7;
-        private readonly Func<PKM, string> hash = pk => pk.Species.ToString("000") + pk.PID.ToString("X8");
+        private readonly Func<PKM, string> hash = pk =>
+        {
+            switch (pk.Format)
+            {
+                case 1: return ((PK1)pk).DV16.ToString("X4");
+                case 2: return ((PK2)pk).DV16.ToString("X4");
+                default: return pk.Species.ToString("000") + pk.PID.ToString("X8");
+            }
+        };
 
         // Important Events
         private void clickView(object sender, EventArgs e)
