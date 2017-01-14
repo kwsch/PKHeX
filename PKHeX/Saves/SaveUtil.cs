@@ -373,6 +373,9 @@ namespace PKHeX.Core
             }
             return GameVersion.Invalid;
         }
+        /// <summary>Determines the type of 7th gen save</summary>
+        /// <param name="data">Save data of which to determine the type</param>
+        /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         public static GameVersion getIsG7SAV(byte[] data)
         {
             if (!new [] {SIZE_G7SM}.Contains(data.Length))
@@ -414,6 +417,94 @@ namespace PKHeX.Core
             sav.Header = header;
             sav.Footer = footer;
             return sav;
+        }
+
+        /// <summary>
+        /// Creates an instance of a SaveFile with a blank base.
+        /// </summary>
+        /// <param name="Game">Version to create the save file for.</param>
+        /// <param name="OT">Trainer Name</param>
+        /// <returns></returns>
+        private static SaveFile getBlankSAV(GameVersion Game, string OT)
+        {
+            var SAV = getBlankSAV(Game);
+            if (SAV == null)
+                return null;
+
+            SAV.Game = (int)Game;
+            SAV.OT = OT;
+
+            // Secondary Properties may not be used but can be filled in as template.
+            SAV.TID = 12345;
+            SAV.SID = 54321;
+            SAV.Language = 2; // English
+            SAV.Country = 49; // USA
+            SAV.SubRegion = 7; // CA
+            SAV.ConsoleRegion = 1; // Americas
+
+            return SAV;
+        }
+        /// <summary>
+        /// Creates an instance of a SaveFile with a blank base.
+        /// </summary>
+        /// <param name="Game">Version to create the save file for.</param>
+        /// <returns></returns>
+        private static SaveFile getBlankSAV(GameVersion Game)
+        {
+            switch (Game)
+            {
+                case GameVersion.RBY:
+                    return new SAV1();
+
+                case GameVersion.GS: case GameVersion.C: case GameVersion.GSC:
+                    return new SAV2();
+
+                case GameVersion.R: case GameVersion.S: case GameVersion.E: case GameVersion.FR: case GameVersion.LG:
+                    return new SAV3(versionOverride: Game);
+
+                case GameVersion.COLO:
+                    return new SAV3Colosseum();
+                case GameVersion.XD:
+                    return new SAV3XD();
+                case GameVersion.RSBOX:
+                    return new SAV3RSBox();
+
+                case GameVersion.D: case GameVersion.P: case GameVersion.DP:
+                    return new SAV4(new byte[SIZE_G4RAW], GameVersion.DP);
+                case GameVersion.Pt:
+                    return new SAV4(new byte[SIZE_G4RAW], GameVersion.Pt);
+                case GameVersion.HG: case GameVersion.SS: case GameVersion.HGSS:
+                    return new SAV4(new byte[SIZE_G4RAW], GameVersion.HGSS);
+
+                case GameVersion.B: case GameVersion.W: case GameVersion.BW:
+                    return new SAV5(new byte[SIZE_G5RAW], GameVersion.BW);
+                case GameVersion.B2: case GameVersion.W2: case GameVersion.B2W2:
+                    return new SAV5(new byte[SIZE_G5RAW], GameVersion.B2W2);
+
+                case GameVersion.X: case GameVersion.Y: case GameVersion.XY:
+                    return new SAV6(new byte[SIZE_G6XY]);
+                case GameVersion.ORASDEMO:
+                    return new SAV6(new byte[SIZE_G6ORASDEMO]);
+                case GameVersion.OR: case GameVersion.AS: case GameVersion.ORAS:
+                    return new SAV6(new byte[SIZE_G6ORAS]);
+
+                case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
+                    return new SAV7(new byte[SIZE_G7SM]);
+
+                default:
+                    return null;
+            }
+        }
+        /// <summary>
+        /// Creates an instance of a SaveFile with a blank base.
+        /// </summary>
+        /// <param name="generation">Generation of the Save File.</param>
+        /// <param name="OT">Trainer Name</param>
+        /// <returns>Save File for that generation.</returns>
+        public static SaveFile getBlankSAV(int generation, string OT)
+        {
+            var ver = GameUtil.getVersion(generation);
+            return getBlankSAV(ver, OT);
         }
 
         /// <summary>

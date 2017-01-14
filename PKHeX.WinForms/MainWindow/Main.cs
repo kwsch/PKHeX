@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Core.Properties;
 
 namespace PKHeX.WinForms
 {
@@ -32,7 +33,7 @@ namespace PKHeX.WinForms
                 try
                 {
                     DateTime upd = DateTime.ParseExact(data, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    DateTime cur = DateTime.ParseExact(Core.Properties.Resources.ProgramVersion, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    DateTime cur = DateTime.ParseExact(Resources.ProgramVersion, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
                     if (upd <= cur)
                         return;
@@ -202,7 +203,7 @@ namespace PKHeX.WinForms
         }
 
         #region Important Variables
-        public static SaveFile SAV = new SAV7 { Game = (int)GameVersion.SN, OT = "PKHeX", TID = 12345, SID = 54321, Language = 2, Country = 49, SubRegion = 7, ConsoleRegion = 1 }; // Save File
+        public static SaveFile SAV = SaveUtil.getBlankSAV(7, "PKHeX");
         public static PKM pkm = SAV.BlankPKM; // Tab Pokemon Data Storage
         private LegalityAnalysis Legality = new LegalityAnalysis(pkm);
 
@@ -215,7 +216,7 @@ namespace PKHeX.WinForms
         private static Image colorizedcolor;
         private static int colorizedslot;
         public static bool HaX;
-        private static readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Core.Properties.Resources.slotSet, 0.5);
+        private static readonly Image mixedHighlight = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
         private static readonly string[] main_langlist =
             {
                 "日本語", // JPN
@@ -269,7 +270,7 @@ namespace PKHeX.WinForms
             if (Settings.Version.Length > 0) // already run on system
             {
                 int lastrev; int.TryParse(Settings.Version, out lastrev);
-                int currrev; int.TryParse(Core.Properties.Resources.ProgramVersion, out currrev);
+                int currrev; int.TryParse(Resources.ProgramVersion, out currrev);
 
                 showChangelog = lastrev < currrev;
             }
@@ -278,7 +279,7 @@ namespace PKHeX.WinForms
             if (!Settings.BAKPrompt)
                 BAKprompt = Settings.BAKPrompt = true;
 
-            Settings.Version = Core.Properties.Resources.ProgramVersion;
+            Settings.Version = Resources.ProgramVersion;
             Settings.Save();
         }
         // Main Menu Strip UI Functions
@@ -913,7 +914,7 @@ namespace PKHeX.WinForms
             populateFields(SAV.BlankPKM);
             SAV = sav;
 
-            string title = $"PKH{(HaX ? "a" : "e")}X ({Core.Properties.Resources.ProgramVersion}) - " + $"SAV{SAV.Generation}: ";
+            string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"SAV{SAV.Generation}: ";
             if (path != null) // Actual save file
             {
                 SAV.FilePath = Path.GetDirectoryName(path);
@@ -1272,14 +1273,14 @@ namespace PKHeX.WinForms
         private static void refreshWC6DB()
         {
             List<MysteryGift> wc6db = new List<MysteryGift>();
-            byte[] wc6bin = Core.Properties.Resources.wc6;
+            byte[] wc6bin = Resources.wc6;
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
             {
                 byte[] data = new byte[WC6.Size];
                 Array.Copy(wc6bin, i, data, 0, WC6.Size);
                 wc6db.Add(new WC6(data));
             }
-            byte[] wc6full = Core.Properties.Resources.wc6full;
+            byte[] wc6full = Resources.wc6full;
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
             {
                 byte[] data = new byte[WC6.SizeFull];
@@ -1298,14 +1299,14 @@ namespace PKHeX.WinForms
         private static void refreshWC7DB()
         {
             List<MysteryGift> wc7db = new List<MysteryGift>();
-            byte[] wc7bin = Core.Properties.Resources.wc7;
+            byte[] wc7bin = Resources.wc7;
             for (int i = 0; i < wc7bin.Length; i += WC7.Size)
             {
                 byte[] data = new byte[WC7.Size];
                 Array.Copy(wc7bin, i, data, 0, WC7.Size);
                 wc7db.Add(new WC7(data));
             }
-            byte[] wc7full = Core.Properties.Resources.wc7full;
+            byte[] wc7full = Resources.wc7full;
             for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
             {
                 byte[] data = new byte[WC7.SizeFull];
@@ -2827,7 +2828,7 @@ namespace PKHeX.WinForms
             }
             PB_Legal.Visible = true;
 
-            PB_Legal.Image = Legality.Valid ? Core.Properties.Resources.valid : Core.Properties.Resources.warn;
+            PB_Legal.Image = Legality.Valid ? Resources.valid : Resources.warn;
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
@@ -3067,11 +3068,11 @@ namespace PKHeX.WinForms
         // Dragout Display
         private void dragoutHover(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = WinFormsUtil.getIndex(CB_Species) > 0 ? Core.Properties.Resources.slotSet : Core.Properties.Resources.slotDel;
+            dragout.BackgroundImage = WinFormsUtil.getIndex(CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = Core.Properties.Resources.slotTrans;
+            dragout.BackgroundImage = Resources.slotTrans;
         }
         private void dragoutDrop(object sender, DragEventArgs e)
         {
@@ -3291,7 +3292,7 @@ namespace PKHeX.WinForms
                 try { populateFields(pk); }
                 catch { }
                 // Visual to display what slot is currently loaded.
-                getSlotColor(slot, Core.Properties.Resources.slotView);
+                getSlotColor(slot, Resources.slotView);
             }
             else
                 SystemSounds.Exclamation.Play();
@@ -3324,7 +3325,7 @@ namespace PKHeX.WinForms
                 { slot = SAV.PartyCount + 30; offset = getPKXOffset(slot); }
                 SAV.setPartySlot(pk, offset);
                 setParty();
-                getSlotColor(slot, Core.Properties.Resources.slotSet);
+                getSlotColor(slot, Resources.slotSet);
             }
             else if (slot < 30 || HaX && slot >= 36 && slot < 42)
             {
@@ -3342,7 +3343,7 @@ namespace PKHeX.WinForms
 
                 SAV.setStoredSlot(pk, offset);
                 getQuickFiller(SlotPictureBoxes[slot], pk);
-                getSlotColor(slot, Core.Properties.Resources.slotSet);
+                getSlotColor(slot, Resources.slotSet);
             }
 
             updateBoxViewers();
@@ -3367,7 +3368,7 @@ namespace PKHeX.WinForms
             {
                 SAV.deletePartySlot(slot-30);
                 setParty();
-                getSlotColor(slot, Core.Properties.Resources.slotDel);
+                getSlotColor(slot, Resources.slotDel);
                 return;
             }
             if (slot < 30 || HaX && slot >= 36 && slot < 42)
@@ -3388,7 +3389,7 @@ namespace PKHeX.WinForms
             else return;
 
             getQuickFiller(SlotPictureBoxes[slot], SAV.BlankPKM);
-            getSlotColor(slot, Core.Properties.Resources.slotDel);
+            getSlotColor(slot, Resources.slotDel);
             updateBoxViewers();
 
             RedoStack.Clear(); Menu_Redo.Enabled = false;
@@ -3441,7 +3442,7 @@ namespace PKHeX.WinForms
                 CB_BoxSelect.SelectedIndex = change.Box;
             SAV.setStoredSlot(pk, offset);
             getQuickFiller(SlotPictureBoxes[slot], pk);
-            getSlotColor(slot, Core.Properties.Resources.slotSet);
+            getSlotColor(slot, Resources.slotSet);
 
             Menu_Undo.Enabled = UndoStack.Any();
             Menu_Redo.Enabled = RedoStack.Any();
@@ -3741,9 +3742,9 @@ namespace PKHeX.WinForms
             bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
             bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
             if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
             else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
             pb.Image = sprite;
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
@@ -3774,9 +3775,9 @@ namespace PKHeX.WinForms
             bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
             bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
             if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
             else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
+                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
             pb.Image = sprite;
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
@@ -4175,7 +4176,7 @@ namespace PKHeX.WinForms
                     var img = (Bitmap)pb.Image;
                     DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
                     pb.Image = null;
-                    pb.BackgroundImage = Core.Properties.Resources.slotDrag;
+                    pb.BackgroundImage = Resources.slotDrag;
                     // Thread Blocks on DoDragDrop
                     DragInfo.CurrentPath = newfile;
                     DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
@@ -4189,7 +4190,7 @@ namespace PKHeX.WinForms
                         SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
                     if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
-                        getSlotColor(DragInfo.slotSourceSlotNumber, Core.Properties.Resources.slotView);
+                        getSlotColor(DragInfo.slotSourceSlotNumber, Resources.slotView);
                 }
                 catch (Exception x)
                 {
@@ -4257,7 +4258,7 @@ namespace PKHeX.WinForms
 
                 DragInfo.setPKMtoDestination(SAV, pk);
                 getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pk);
-                getSlotColor(DragInfo.slotDestinationSlotNumber, Core.Properties.Resources.slotSet);
+                getSlotColor(DragInfo.slotDestinationSlotNumber, Resources.slotSet);
                 Console.WriteLine(c);
             }
             else

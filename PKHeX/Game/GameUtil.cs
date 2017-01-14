@@ -65,5 +65,26 @@
                     return GameVersion.Invalid;
             }
         }
+
+        /// <summary>
+        /// Gets a Version ID from the end of that Generation
+        /// </summary>
+        /// <param name="generation">Generation ID</param>
+        /// <returns>Version ID from requested generation. If none, return Unknown.</returns>
+        public static GameVersion getVersion(int generation)
+        {
+            switch (generation)
+            {
+                case 1: return GameVersion.RBY;
+                case 2: return GameVersion.C;
+                case 3: return GameVersion.E;
+                case 4: return GameVersion.SS;
+                case 5: return GameVersion.W2;
+                case 6: return GameVersion.AS;
+                case 7: return GameVersion.MN;
+                default:
+                    return GameVersion.Unknown;
+            }
+        }
     }
 }
