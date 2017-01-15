@@ -12,6 +12,7 @@ namespace PKHeX.WinForms
         [STAThread]
         private static void Main()
         {
+#if !DEBUG
             // Add the event handler for handling UI thread exceptions to the event.
             Application.ThreadException += UIThreadException;
 
@@ -20,6 +21,7 @@ namespace PKHeX.WinForms
 
             // Add the event handler for handling non-UI thread exceptions to the event. 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+#endif
 
             // Run the application
             Application.EnableVisualStyles();
