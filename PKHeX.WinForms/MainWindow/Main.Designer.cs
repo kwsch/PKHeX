@@ -3564,8 +3564,6 @@
             // 
             this.CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_ExtraBytes.FormattingEnabled = true;
-            this.CB_ExtraBytes.Items.AddRange(new object[] {
-            "0x00"});
             this.CB_ExtraBytes.Location = new System.Drawing.Point(20, 18);
             this.CB_ExtraBytes.Name = "CB_ExtraBytes";
             this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 21);

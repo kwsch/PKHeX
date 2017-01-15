@@ -48,7 +48,6 @@ namespace PKHeX.WinForms
             }).Start();
 
             setPKMFormatMode(SAV.Generation, SAV.Version);
-            CB_ExtraBytes.SelectedIndex = 0;
 
             // Set up form properties and arrays.
             SlotPictureBoxes = new[] {
@@ -1441,8 +1440,8 @@ namespace PKHeX.WinForms
             }
 
             // Load Extra Byte List
-            GB_ExtraBytes.Visible = extraBytes.Length != 0;
-            if (GB_ExtraBytes.Visible)
+            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Length != 0;
+            if (GB_ExtraBytes.Enabled)
             {
                 CB_ExtraBytes.Items.Clear();
                 foreach (byte b in extraBytes)
