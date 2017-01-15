@@ -425,7 +425,7 @@ namespace PKHeX.Core
         /// <param name="Game">Version to create the save file for.</param>
         /// <param name="OT">Trainer Name</param>
         /// <returns></returns>
-        private static SaveFile getBlankSAV(GameVersion Game, string OT)
+        public static SaveFile getBlankSAV(GameVersion Game, string OT)
         {
             var SAV = getBlankSAV(Game);
             if (SAV == null)

@@ -47,9 +47,8 @@ namespace PKHeX.WinForms
                 catch { }
             }).Start();
 
+            setPKMFormatMode(SAV.Generation, SAV.Version);
             CB_ExtraBytes.SelectedIndex = 0;
-            getFieldsfromPKM = populateFieldsPK7;
-            getPKMfromFields = preparePK7;
 
             // Set up form properties and arrays.
             SlotPictureBoxes = new[] {
@@ -203,7 +202,7 @@ namespace PKHeX.WinForms
         }
 
         #region Important Variables
-        public static SaveFile SAV = SaveUtil.getBlankSAV(7, "PKHeX");
+        public static SaveFile SAV = SaveUtil.getBlankSAV(GameVersion.SN, "PKHeX");
         public static PKM pkm = SAV.BlankPKM; // Tab Pokemon Data Storage
         private LegalityAnalysis Legality = new LegalityAnalysis(pkm);
 
@@ -1151,57 +1150,7 @@ namespace PKHeX.WinForms
 
             switch (SAV.Generation)
             {
-                case 1:
-                    getFieldsfromPKM = populateFieldsPK1;
-                    getPKMfromFields = preparePK1;
-                    extraBytes = new byte[] {};
-                    break;
-                case 2:
-                    getFieldsfromPKM = populateFieldsPK2;
-                    getPKMfromFields = preparePK2;
-                    extraBytes = new byte[] { };
-                    break;
-                case 3:
-                    if (SAV.Version == GameVersion.COLO)
-                    {
-                        getFieldsfromPKM = populateFieldsCK3;
-                        getPKMfromFields = prepareCK3;
-                        extraBytes = CK3.ExtraBytes;
-                        break;
-                    }
-                    if (SAV.Version == GameVersion.XD)
-                    {
-                        getFieldsfromPKM = populateFieldsXK3;
-                        getPKMfromFields = prepareXK3;
-                        extraBytes = XK3.ExtraBytes;
-                        break;
-                    }
-                    getFieldsfromPKM = populateFieldsPK3;
-                    getPKMfromFields = preparePK3;
-                    extraBytes = PK3.ExtraBytes;
-                    break;
-                case 4:
-                    if (SAV.Version == GameVersion.BATREV)
-                    {
-                        getFieldsfromPKM = populateFieldsBK4;
-                        getPKMfromFields = prepareBK4;
-                    }
-                    else
-                    {
-                        getFieldsfromPKM = populateFieldsPK4;
-                        getPKMfromFields = preparePK4;
-                    }
-                    extraBytes = PK4.ExtraBytes;
-                    break;
-                case 5:
-                    getFieldsfromPKM = populateFieldsPK5;
-                    getPKMfromFields = preparePK5;
-                    extraBytes = PK5.ExtraBytes;
-                    break;
                 case 6:
-                    getFieldsfromPKM = populateFieldsPK6;
-                    getPKMfromFields = preparePK6;
-                    extraBytes = PK6.ExtraBytes;
                     TB_GameSync.Enabled = SAV.GameSyncID != null;
                     TB_GameSync.MaxLength = SAV.GameSyncIDSize;
                     TB_GameSync.Text = (SAV.GameSyncID ?? 0.ToString()).PadLeft(SAV.GameSyncIDSize, '0');
@@ -1209,9 +1158,6 @@ namespace PKHeX.WinForms
                     TB_Secure2.Text = SAV.Secure2?.ToString("X16");
                     break;
                 case 7:
-                    getFieldsfromPKM = populateFieldsPK7;
-                    getPKMfromFields = preparePK7;
-                    extraBytes = PK7.ExtraBytes;
                     TB_GameSync.Enabled = SAV.GameSyncID != null;
                     TB_GameSync.MaxLength = SAV.GameSyncIDSize;
                     TB_GameSync.Text = (SAV.GameSyncID ?? 0.ToString()).PadLeft(SAV.GameSyncIDSize, '0');
@@ -1244,14 +1190,8 @@ namespace PKHeX.WinForms
             CHK_HackedStats.Enabled = CHK_HackedStats.Visible = MT_Level.Enabled = MT_Level.Visible = MT_Form.Enabled = MT_Form.Visible = HaX;
             TB_Level.Visible = !HaX;
 
-            // Load Extra Byte List
-            if (GB_ExtraBytes.Enabled)
-            {
-                CB_ExtraBytes.Items.Clear();
-                foreach (byte b in extraBytes)
-                    CB_ExtraBytes.Items.Add("0x" + b.ToString("X2"));
-                CB_ExtraBytes.SelectedIndex = 0;
-            }
+            // Setup PKM Preparation/Extra Bytes
+            setPKMFormatMode(SAV.Generation, SAV.Version);
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (SAV.Generation == 2)
@@ -1375,7 +1315,7 @@ namespace PKHeX.WinForms
             // Load Data
             populateFields(pkm);
             {
-                CB_Species.SelectedValue = 493;
+                CB_Species.SelectedValue = SAV.MaxSpeciesID;
                 CB_Move1.SelectedValue = 1;
                 TB_OT.Text = "PKHeX";
                 TB_TID.Text = 12345.ToString();
@@ -1383,10 +1323,11 @@ namespace PKHeX.WinForms
                 CB_GameOrigin.SelectedIndex = 0;
                 int curlang = Array.IndexOf(GameInfo.lang_val, curlanguage);
                 CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
-                CB_BoxSelect.SelectedIndex = 0;
-                CB_Ball.SelectedIndex = 0;
-                CB_Country.SelectedIndex = 0;
+                CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
+                CB_Country.SelectedIndex = Math.Min(0, CB_Country.Items.Count - 1);
                 CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
+
+                CB_BoxSelect.SelectedIndex = 0;
             }
         }
         private void InitializeLanguage()
@@ -1436,6 +1377,79 @@ namespace PKHeX.WinForms
         }
         private Action getFieldsfromPKM;
         private Func<PKM> getPKMfromFields;
+
+        private void setPKMFormatMode(int Format, GameVersion version)
+        {
+            byte[] extraBytes = new byte[0];
+            switch (Format)
+            {
+                case 1:
+                    getFieldsfromPKM = populateFieldsPK1;
+                    getPKMfromFields = preparePK1;
+                    break;
+                case 2:
+                    getFieldsfromPKM = populateFieldsPK2;
+                    getPKMfromFields = preparePK2;
+                    break;
+                case 3:
+                    if (version == GameVersion.COLO)
+                    {
+                        getFieldsfromPKM = populateFieldsCK3;
+                        getPKMfromFields = prepareCK3;
+                        extraBytes = CK3.ExtraBytes;
+                        break;
+                    }
+                    if (version == GameVersion.XD)
+                    {
+                        getFieldsfromPKM = populateFieldsXK3;
+                        getPKMfromFields = prepareXK3;
+                        extraBytes = XK3.ExtraBytes;
+                        break;
+                    }
+                    getFieldsfromPKM = populateFieldsPK3;
+                    getPKMfromFields = preparePK3;
+                    extraBytes = PK3.ExtraBytes;
+                    break;
+                case 4:
+                    if (version == GameVersion.BATREV)
+                    {
+                        getFieldsfromPKM = populateFieldsBK4;
+                        getPKMfromFields = prepareBK4;
+                    }
+                    else
+                    {
+                        getFieldsfromPKM = populateFieldsPK4;
+                        getPKMfromFields = preparePK4;
+                    }
+                    extraBytes = PK4.ExtraBytes;
+                    break;
+                case 5:
+                    getFieldsfromPKM = populateFieldsPK5;
+                    getPKMfromFields = preparePK5;
+                    extraBytes = PK5.ExtraBytes;
+                    break;
+                case 6:
+                    getFieldsfromPKM = populateFieldsPK6;
+                    getPKMfromFields = preparePK6;
+                    extraBytes = PK6.ExtraBytes;
+                    break;
+                case 7:
+                    getFieldsfromPKM = populateFieldsPK7;
+                    getPKMfromFields = preparePK7;
+                    extraBytes = PK7.ExtraBytes;
+                    break;
+            }
+
+            // Load Extra Byte List
+            GB_ExtraBytes.Visible = extraBytes.Length != 0;
+            if (GB_ExtraBytes.Visible)
+            {
+                CB_ExtraBytes.Items.Clear();
+                foreach (byte b in extraBytes)
+                    CB_ExtraBytes.Items.Add("0x" + b.ToString("X2"));
+                CB_ExtraBytes.SelectedIndex = 0;
+            }
+        }
         public void populateFields(PKM pk, bool focus = true)
         {
             if (pk == null) { WinFormsUtil.Error("Attempted to load a null file."); return; }

@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
             TB_Level.Text = pk2.Stat_Level.ToString();
             TB_EXP.Text = pk2.EXP.ToString();
             CB_HeldItem.SelectedValue = pk2.HeldItem;
-            CB_Form.SelectedIndex = pk2.AltForm;
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk2.AltForm ? pk2.AltForm : CB_Form.Items.Count - 1;
             CHK_IsEgg.Checked = pk2.IsEgg;
             TB_Friendship.Text = pk2.CurrentFriendship.ToString();
 

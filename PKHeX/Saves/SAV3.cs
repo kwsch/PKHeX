@@ -52,7 +52,7 @@ namespace PKHeX.Core
                 BlockOrder1[i] = BitConverter.ToInt16(Data, i*0x1000 + 0xFF4);
             int zeroBlock1 = Array.IndexOf(BlockOrder1, 0);
 
-            if (data.Length > SaveUtil.SIZE_G3RAWHALF)
+            if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
                 int[] BlockOrder2 = new int[14];
                 for (int i = 0; i < 14; i++)

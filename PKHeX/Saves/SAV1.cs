@@ -14,13 +14,17 @@ namespace PKHeX.Core
             return 1 <= gen && gen <= 2;
         }).ToArray();
 
-        public SAV1(byte[] data = null)
+        public SAV1(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G1RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            Version = data == null ? GameVersion.RBY : SaveUtil.getIsG1SAV(Data);
+            if (data == null)
+                Version = GameVersion.RBY;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else Version = SaveUtil.getIsG1SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -28,7 +32,7 @@ namespace PKHeX.Core
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = getPartyOffset(0);
 
-            Japanese = SaveUtil.getIsG1SAVJ(data);
+            Japanese = SaveUtil.getIsG1SAVJ(Data);
             Personal = PersonalTable.RBY;
 
             // Stash boxes after the save file's end.
