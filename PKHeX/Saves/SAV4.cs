@@ -64,62 +64,44 @@ namespace PKHeX.Core
         public override int MaxGameID => 15; // Colo/XD
 
         // Checksums
-        protected override void setChecksums()
+        private static int[][] getCHKOffsets(GameVersion g)
         {
-
-            switch (Version)
+            // start, end, chkoffset
+            switch (g)
             {
                 case GameVersion.DP:
-                    // 0x0000-0xC0EC @ 0xC0FE
-                    // 0xc100-0x1E2CC @ 0x1E2DE
-                    BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xC0EC).ToArray())).CopyTo(Data, 0xC0FE + GBO);
-                    BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0xc100 + SBO).Take(0x121CC).ToArray())).CopyTo(Data, 0x1E2DE + SBO);
-                    break;
+                    return new[] {new[] {0x0000, 0xC0EC, 0xC0FE}, new[] {0xc100, 0x1E2CC, 0x1E2DE}};
                 case GameVersion.Pt:
-                    // 0x0000-0xCF18 @ 0xCF2A
-                    // 0xCF2C-0x1F0FC @ 0x1F10E
-                    BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xCF18).ToArray())).CopyTo(Data, 0xCF2A + GBO);
-                    BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0xCF2C + SBO).Take(0x121D0).ToArray())).CopyTo(Data, 0x1F10E + SBO);
-                    break;
+                    return new[] {new[] {0x0000, 0xCF18, 0xCF2A}, new[] {0xCF2C, 0x1F0FC, 0x1F10E}};
                 case GameVersion.HGSS:
-                    // 0x0000-0xF618 @ 0xF626
-                    // 0xF700-0x21A00 @ 0x21A0E
-                    BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xF618).ToArray())).CopyTo(Data, 0xF626 + GBO);
-                    BitConverter.GetBytes(SaveUtil.ccitt16(Data.Skip(0xF700 + SBO).Take(0x12300).ToArray())).CopyTo(Data, 0x21A0E + SBO);
-                    break;
+                    return new[] {new[] {0x0000, 0xF618, 0xF626}, new[] {0xF700, 0x12300, 0x21A0E}};
+                    
+                default:
+                    return null;
             }
+        }
+        protected override void setChecksums()
+        {
+            int[][] c = getCHKOffsets(Version);
+            if (c == null)
+                return;
+
+            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] + GBO))).CopyTo(Data, c[0][2] + GBO);
+            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] + SBO))).CopyTo(Data, c[1][2] + SBO);
         }
         public override bool ChecksumsValid
         {
             get
             {
-                switch (Version)
-                {
-                    case GameVersion.DP:
-                        // 0x0000-0xC0EC @ 0xC0FE
-                        // 0xc100-0x1E2CC @ 0x1E2DE
-                        if (SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xC0EC).ToArray()) != BitConverter.ToUInt16(Data, 0xC0FE + GBO))
-                            return false; // Small Fail
-                        if (SaveUtil.ccitt16(Data.Skip(0xc100 + SBO).Take(0x121CC).ToArray()) != BitConverter.ToUInt16(Data, 0x1E2DE + SBO))
-                            return false; // Large Fail
-                        break;
-                    case GameVersion.Pt:
-                        // 0x0000-0xCF18 @ 0xCF2A
-                        // 0xCF2C-0x1F0FC @ 0x1F10E
-                        if (SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xCF18).ToArray()) != BitConverter.ToUInt16(Data, 0xCF2A + GBO))
-                            return false; // Small Fail
-                        if (SaveUtil.ccitt16(Data.Skip(0xCF2C + SBO).Take(0x121D0).ToArray()) != BitConverter.ToUInt16(Data, 0x1F10E + SBO))
-                            return false; // Large Fail
-                        break;
-                    case GameVersion.HGSS:
-                        // 0x0000-0xF618 @ 0xF626
-                        // 0xF700-0x219FC @ 0x21A0E
-                        if (SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xF618).ToArray()) != BitConverter.ToUInt16(Data, 0xF626 + GBO))
-                            return false; // Small Fail
-                        if (SaveUtil.ccitt16(Data.Skip(0xF700 + SBO).Take(0x12300).ToArray()) != BitConverter.ToUInt16(Data, 0x21A0E + SBO))
-                            return false; // Large Fail
-                        break;
-                }
+                int[][] c = getCHKOffsets(Version);
+                if (c == null)
+                    return false;
+
+                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] + GBO)) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
+                    return false; // Small Fail
+                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] + SBO)) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
+                    return false; // Large Fail
+
                 return true;
             }
         }
@@ -127,34 +109,16 @@ namespace PKHeX.Core
         {
             get
             {
+                int[][] c = getCHKOffsets(Version);
+                if (c == null)
+                    return "Unable to check Save File.";
+
                 string r = "";
-                switch (Version)
-                {
-                    case GameVersion.DP:
-                        // 0x0000-0xC0EC @ 0xC0FE
-                        // 0xc100-0x1E2CC @ 0x1E2DE
-                        if (SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xC0EC).ToArray()) != BitConverter.ToUInt16(Data, 0xC0FE + GBO))
-                            r += "Small block checksum is invalid" + Environment.NewLine;
-                        if (SaveUtil.ccitt16(Data.Skip(0xc100 + SBO).Take(0x121CC).ToArray()) != BitConverter.ToUInt16(Data, 0x1E2DE + SBO))
-                            r += "Large block checksum is invalid" + Environment.NewLine;
-                        break;
-                    case GameVersion.Pt:
-                        // 0x0000-0xCF18 @ 0xCF2A
-                        // 0xCF2C-0x1F0FC @ 0x1F10E
-                        if (SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xCF18).ToArray()) != BitConverter.ToUInt16(Data, 0xCF2A + GBO))
-                            r += "Small block checksum is invalid" + Environment.NewLine;
-                        if (SaveUtil.ccitt16(Data.Skip(0xCF2C + SBO).Take(0x121D0).ToArray()) != BitConverter.ToUInt16(Data, 0x1F10E + SBO))
-                            r += "Large block checksum is invalid" + Environment.NewLine;
-                        break;
-                    case GameVersion.HGSS:
-                        // 0x0000-0xF618 @ 0xF626
-                        // 0xF700-0x219FC @ 0x21A0E
-                        if (SaveUtil.ccitt16(Data.Skip(0 + GBO).Take(0xF618).ToArray()) != BitConverter.ToUInt16(Data, 0xF626 + GBO))
-                            r += "Small block checksum is invalid" + Environment.NewLine;
-                        if (SaveUtil.ccitt16(Data.Skip(0xF700 + SBO).Take(0x12300).ToArray()) != BitConverter.ToUInt16(Data, 0x21A0E + SBO))
-                            r += "Large block checksum is invalid" + Environment.NewLine;
-                        break;
-                }
+                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] + GBO)) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
+                    r += "Small block checksum is invalid" + Environment.NewLine;
+                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] + SBO)) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
+                    r += "Large block checksum is invalid" + Environment.NewLine;
+
                 return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
             }
         }
@@ -174,9 +138,9 @@ namespace PKHeX.Core
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (Data.Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (getData(0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 1; return; }
-            if (Data.Skip(0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (getData(0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 0; return; }
 
             // Check SaveCount for current save
@@ -198,9 +162,9 @@ namespace PKHeX.Core
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (Data.Skip(ofs).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (getData(ofs + 0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { storageBlock = 1; return; }
-            if (Data.Skip(ofs + 0x40000).Take(10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (getData(ofs + 0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { storageBlock = 0; return; }
 
             storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
@@ -357,7 +321,7 @@ namespace PKHeX.Core
         {
             get
             {
-                return PKX.array2strG4(Data.Skip(Trainer1).Take(0x10).ToArray())
+                return PKX.array2strG4(getData(Trainer1, 16))
                     .Replace("\uE08F", "\u2640") // Nidoran ♂
                     .Replace("\uE08E", "\u2642") // Nidoran ♀
                     .Replace("\u2019", "\u0027"); // Farfetch'd
@@ -370,7 +334,7 @@ namespace PKHeX.Core
                 .Replace("\u2640", "\uE08F") // Nidoran ♂
                 .Replace("\u2642", "\uE08E") // Nidoran ♀
                 .Replace("\u0027", "\u2019"); // Farfetch'd
-                PKX.str2arrayG4(TempNick).CopyTo(Data, Trainer1);
+                setData(PKX.str2arrayG4(TempNick), Trainer1);
             }
         }
         public override ushort TID
@@ -571,7 +535,7 @@ namespace PKHeX.Core
         {
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            return PKX.array2strG4(Data.Skip(offset + box*0x28).Take(0x28).ToArray());
+            return PKX.array2strG4(getData(offset + box*0x28, 0x28));
         }
         public override void setBoxName(int box, string value)
         {
@@ -579,7 +543,7 @@ namespace PKHeX.Core
                 value = value.Substring(0, 13); // Hard cap
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            PKX.str2arrayG4(value).CopyTo(Data, offset + box*0x28);
+            setData(PKX.str2arrayG4(value), offset + box*0x28);
         }
         public override PKM getPKM(byte[] data)
         {
@@ -665,9 +629,9 @@ namespace PKHeX.Core
             {
                 MysteryGift[] cards = new MysteryGift[8 + 3];
                 for (int i = 0; i < 8; i++) // 8 PGT
-                    cards[i] = new PGT(Data.Skip(WondercardData + i * PGT.Size).Take(PGT.Size).ToArray());
+                    cards[i] = new PGT(getData(WondercardData + i * PGT.Size, PGT.Size));
                 for (int i = 8; i < 11; i++) // 3 PCD
-                    cards[i] = new PCD(Data.Skip(WondercardData + 8 * PGT.Size+ (i-8) * PCD.Size).Take(PCD.Size).ToArray());
+                    cards[i] = new PCD(getData(WondercardData + 8 * PGT.Size + (i-8) * PCD.Size, PCD.Size));
                 return cards;
             }
             set
@@ -678,13 +642,13 @@ namespace PKHeX.Core
                 {
                     if (value[i].GetType() != typeof(PGT))
                         continue;
-                    value[i].Data.CopyTo(Data, WondercardData + i * PGT.Size);
+                    setData(value[i].Data, WondercardData + i * PGT.Size);
                 }
                 for (int i = 8; i < 11; i++) // 3 PCD
                 {
                     if (value[i].GetType() != typeof(PCD))
                         continue;
-                    value[i].Data.CopyTo(Data, WondercardData + 8 * PGT.Size + (i-8) * PGT.Size);
+                    setData(value[i].Data, WondercardData + 8 * PGT.Size + (i-8) * PCD.Size);
                 }
             }
         }
