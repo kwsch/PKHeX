@@ -579,18 +579,37 @@ namespace PKHeX.Core
         }
 
         // Mystery Gift
+        public bool MysteryGiftActive { get { return (Data[GBO + 72] & 1) == 1; } set { Data[GBO + 72] = (byte)((Data[GBO + 72] & 0xFE) | (value ? 1 : 0)); } }
+        private static bool getIsMysteryGiftAvailable(MysteryGift[] value)
+        {
+            if (value == null)
+                return false;
+            for (int i = 0; i < 8; i++) // 8 PGT
+                if ((value[i] as PGT)?.CardType != 0)
+                    return true;
+            for (int i = 8; i < 11; i++) // 3 PCD
+                if ((value[i] as PCD)?.Gift.CardType != 0)
+                    return true;
+            return false;
+        }
         public override MysteryGiftAlbum GiftAlbum
         {
             get
             {
-                return new MysteryGiftAlbum
+                var album = new MysteryGiftAlbum
                 {
                     Flags = MysteryGiftReceivedFlags,
                     Gifts = MysteryGiftCards,
                 };
+                album.Flags[2047] = false;
+                return album;
             }
             set
             {
+                bool available = getIsMysteryGiftAvailable(value.Gifts);
+                MysteryGiftActive |= available;
+                value.Flags[2047] = available;
+
                 MysteryGiftReceivedFlags = value.Flags;
                 MysteryGiftCards = value.Gifts;
             }
@@ -639,17 +658,11 @@ namespace PKHeX.Core
                 if (value == null)
                     return;
                 for (int i = 0; i < 8; i++) // 8 PGT
-                {
-                    if (value[i].GetType() != typeof(PGT))
-                        continue;
-                    setData(value[i].Data, WondercardData + i * PGT.Size);
-                }
+                    if (value[i] is PGT)
+                        setData(value[i].Data, WondercardData + i*PGT.Size);
                 for (int i = 8; i < 11; i++) // 3 PCD
-                {
-                    if (value[i].GetType() != typeof(PCD))
-                        continue;
-                    setData(value[i].Data, WondercardData + 8 * PGT.Size + (i-8) * PCD.Size);
-                }
+                    if (value[i] is PCD)
+                        setData(value[i].Data, WondercardData + 8*PGT.Size + (i - 8)*PCD.Size);
             }
         }
 
