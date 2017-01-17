@@ -262,6 +262,12 @@
     <Compile Include="Subforms\Save Editors\Gen6\SAV_Trainer.Designer.cs">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.Designer.cs">
+      <DependentUpon>SAV_HallOfFame7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -433,6 +439,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_Trainer.resx">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.resx">
+      <DependentUpon>SAV_HallOfFame7.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Pokebean.resx">
       <DependentUpon>SAV_Pokebean.cs</DependentUpon>

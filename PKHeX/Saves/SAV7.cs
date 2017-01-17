@@ -254,6 +254,8 @@ namespace PKHeX.Core
                 LastViewedBox =         PCLayout + 0x5E3;
                 PCFlags =               PCLayout + 0x5E0;
 
+                HoF = 0x25C0; // Inside EventWork (const/flag) block
+
                 FashionLength = 0x1A08;
 
                 TeamCount = 6;

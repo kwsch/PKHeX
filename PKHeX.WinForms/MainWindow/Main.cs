@@ -4075,7 +4075,10 @@ namespace PKHeX.WinForms
         }
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
-            new SAV_HallOfFame().ShowDialog();
+            if (SAV.Generation == 6)
+                new SAV_HallOfFame().ShowDialog();
+            else if (SAV.SM)
+                new SAV_HallOfFame7().ShowDialog();
         }
         private void B_OpenSecretBase_Click(object sender, EventArgs e)
         {
