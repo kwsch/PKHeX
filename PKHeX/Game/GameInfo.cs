@@ -92,7 +92,12 @@ namespace PKHeX.Core
                 natures = Util.getNaturesList(l);
                 types = get("types");
                 abilitylist = get("abilities");
+
                 movelist = get("moves");
+                string[] ps = {"P", "S"}; // Distinguish Physical/Special
+                for (int i = 622; i < 658; i++)
+                    movelist[i] += $" ({ps[i%2]})";
+
                 itemlist = get("items");
                 characteristics = get("character");
                 specieslist = get("species");
