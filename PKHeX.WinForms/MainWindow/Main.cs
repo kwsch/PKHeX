@@ -525,7 +525,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
                 { form = i; break; }
-            CB_Form.SelectedIndex = form;
+            CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count-1, form);
 
             // Set Ability
             int[] abilities = SAV.Personal.getAbilities(Set.Species, form);
