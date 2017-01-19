@@ -22,7 +22,7 @@ namespace PKHeX.Core
             for (int i = 0; i < Blocks.Length; i++)
             {
                 int offset = BLOCK_SIZE + i* BLOCK_SIZE;
-                Blocks[i] = new RSBOX_Block(Data.Skip(offset).Take(BLOCK_SIZE).ToArray(), offset);
+                Blocks[i] = new RSBOX_Block(getData(offset, BLOCK_SIZE), offset);
             }
 
             // Detect active save
@@ -62,7 +62,7 @@ namespace PKHeX.Core
             // Set Data Back
             foreach (RSBOX_Block b in Blocks)
                 b.Data.CopyTo(Data, b.Offset);
-            byte[] newFile = Data.Take(Data.Length - SIZE_RESERVED).ToArray();
+            byte[] newFile = getData(0, Data.Length - SIZE_RESERVED);
             return Header.Concat(newFile).ToArray();
         }
 
@@ -142,15 +142,15 @@ namespace PKHeX.Core
         public override string getBoxName(int box)
         {
             // Tweaked for the 1-30/31-60 box showing
-            string lo = (30*(box%2) + 1).ToString("00");
-            string hi = (30*(box%2 + 1)).ToString("00");
-            string boxName = $"[{lo}-{hi}] ";
-            box = box / 2;
+            int lo = 30*(box%2) + 1;
+            int hi = 30*(box%2 + 1);
+            string boxName = $"[{lo:00}-{hi:00}] ";
+            box /= 2;
 
             int offset = Box + 0x1EC38 + 9 * box;
             if (Data[offset] == 0 || Data[offset] == 0xFF)
                 boxName += $"BOX {box + 1}";
-            boxName += PKX.getG3Str(Data.Skip(offset).Take(9).ToArray(), Japanese);
+            boxName += PKX.getG3Str(getData(offset, 9), Japanese);
 
             return boxName;
         }
@@ -159,8 +159,9 @@ namespace PKHeX.Core
             int offset = Box + 0x1EC38 + 9 * box;
             if (value.Length > 8)
                 value = value.Substring(0, 8); // Hard cap
-            if (value == "BOX " + (box + 1))
-                new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }.CopyTo(Data, offset);
+
+            byte[] data = value == $"BOX {box + 1}" ? new byte[9] : PKX.setG3Str(value, Japanese); 
+            setData(data, offset);
         }
         public override PKM getPKM(byte[] data)
         {
