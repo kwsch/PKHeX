@@ -1608,7 +1608,6 @@ namespace PKHeX.WinForms
             // CB_CameraVersion
             // 
             this.CB_CameraVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_CameraVersion.Enabled = false;
             this.CB_CameraVersion.FormattingEnabled = true;
             this.CB_CameraVersion.Items.AddRange(new object[] {
             "1",
