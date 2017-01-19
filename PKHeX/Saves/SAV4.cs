@@ -86,8 +86,8 @@ namespace PKHeX.Core
             if (c == null)
                 return;
 
-            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] + GBO))).CopyTo(Data, c[0][2] + GBO);
-            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] + SBO))).CopyTo(Data, c[1][2] + SBO);
+            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] - c[0][0]))).CopyTo(Data, c[0][2] + GBO);
+            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] - c[1][0]))).CopyTo(Data, c[1][2] + SBO);
         }
         public override bool ChecksumsValid
         {
@@ -97,9 +97,9 @@ namespace PKHeX.Core
                 if (c == null)
                     return false;
 
-                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] + GBO)) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
+                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] - c[0][0])) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
                     return false; // Small Fail
-                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] + SBO)) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
+                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] - c[1][0])) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
                     return false; // Large Fail
 
                 return true;
@@ -114,9 +114,9 @@ namespace PKHeX.Core
                     return "Unable to check Save File.";
 
                 string r = "";
-                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] + GBO)) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
+                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] - c[0][0])) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
                     r += "Small block checksum is invalid" + Environment.NewLine;
-                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] + SBO)) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
+                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] - c[1][0])) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
                     r += "Large block checksum is invalid" + Environment.NewLine;
 
                 return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
