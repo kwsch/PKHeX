@@ -125,6 +125,8 @@ namespace PKHeX.WinForms
                     return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
                 case 6:
                     return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
+                case 7:
+                    return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
                 default:
                     return "";
             }
@@ -382,7 +384,7 @@ namespace PKHeX.WinForms
 
             // Prepare Data
             MysteryGift card = mga.Gifts[index];
-            string filename = Util.CleanFileName($"{card.CardID:0000} - {card.CardTitle}.wc6");
+            string filename = Util.CleanFileName($"{card.CardID:0000} - {card.CardTitle}.{card.Extension}");
 
             // Make File
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
