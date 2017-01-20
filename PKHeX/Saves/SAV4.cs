@@ -605,6 +605,7 @@ namespace PKHeX.Core
                 if (pgt == null)
                     continue;
 
+                cardMatch[i] = pgt.Slot = 3;
                 for (byte j = 0; j < 3; j++)
                 {
                     var pcd = value[8 + j] as PCD;
