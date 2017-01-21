@@ -605,6 +605,12 @@ namespace PKHeX.Core
                 if (pgt == null)
                     continue;
 
+                if (pgt.CardType == 0) // empty
+                {
+                    cardMatch[i] = pgt.Slot = 0;
+                    continue;
+                }
+
                 cardMatch[i] = pgt.Slot = 3;
                 for (byte j = 0; j < 3; j++)
                 {
@@ -613,7 +619,7 @@ namespace PKHeX.Core
                         continue;
 
                     // Check if data matches (except Slot @ 0x02)
-                    if (!pcd.Gift.Data.Take(2).Skip(1).SequenceEqual(pgt.Data.Take(2).Skip(1)))
+                    if (!pcd.GiftEquals(pgt))
                         continue;
 
                     cardMatch[i] = pgt.Slot = j;

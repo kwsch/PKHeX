@@ -407,7 +407,7 @@ namespace PKHeX.WinForms
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = getLastUnfilledByType(mg, mga);
-            if (lastUnfilled > -1 && lastUnfilled < index)
+            if (lastUnfilled > -1 && lastUnfilled < index && mga.Gifts[lastUnfilled].Type == mga.Gifts[index].Type)
                 index = lastUnfilled;
             
             if (wc_slot == -1) // dropped
@@ -420,17 +420,17 @@ namespace PKHeX.WinForms
                 { WinFormsUtil.Alert("Data size invalid.", files[0]); return; }
                 
                 byte[] data = File.ReadAllBytes(files[0]);
-                MysteryGift mg = MysteryGift.getMysteryGift(data, new FileInfo(files[0]).Extension);
+                MysteryGift gift = MysteryGift.getMysteryGift(data, new FileInfo(files[0]).Extension);
 
-                if (mg is PCD && mga.Gifts[index] is PGT)
-                    mg = (mg as PCD).Gift;
-                else if (mg.Type != mga.Gifts[index].Type)
+                if (gift is PCD && mga.Gifts[index] is PGT)
+                    gift = (gift as PCD).Gift;
+                else if (gift.Type != mga.Gifts[index].Type)
                 {
-                    WinFormsUtil.Alert("Can't set slot here.", $"{mg.Type} != {mga.Gifts[index].Type}");
+                    WinFormsUtil.Alert("Can't set slot here.", $"{gift.Type} != {mga.Gifts[index].Type}");
                     return;
                 }
                 setBackground(index, Core.Properties.Resources.slotSet);
-                mga.Gifts[index] = mg.Clone();
+                mga.Gifts[index] = gift.Clone();
                 
                 setCardID(mga.Gifts[index].CardID);
                 viewGiftData(mga.Gifts[index]);
@@ -440,8 +440,15 @@ namespace PKHeX.WinForms
                 MysteryGift s1 = mga.Gifts[index];
                 MysteryGift s2 = mga.Gifts[wc_slot];
 
+                if (s2 is PCD && s1 is PGT)
+                {
+                    // set the PGT to the PGT slot instead
+                    viewGiftData(s2);
+                    clickSet(pba[index], null);
+                    { WinFormsUtil.Alert($"Set {s2.Type} gift to {s1.Type} slot."); return; }
+                }
                 if (s1.Type != s2.Type)
-                { WinFormsUtil.Alert($"Can't swap {s1.Type} with {s2.Type}."); return; }
+                { WinFormsUtil.Alert($"Can't swap {s2.Type} with {s1.Type}."); return; }
                 mga.Gifts[wc_slot] = s1;
                 mga.Gifts[index] = s2;
 

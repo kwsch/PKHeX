@@ -67,6 +67,12 @@ namespace PKHeX.Core
         public override bool IsShiny => Gift.IsShiny;
         public override bool IsEgg { get { return Gift.IsEgg; } set { Gift.IsEgg = value; } }
 
+        public bool GiftEquals(PGT pgt)
+        {
+            // Skip over the PGT's "Corresponding PCD Slot"
+            return Gift.Data.Take(2).Skip(1).SequenceEqual(pgt.Data.Take(2).Skip(1));
+        }
+
         public override PKM convertToPKM(SaveFile SAV)
         {
             return Gift.convertToPKM(SAV);
