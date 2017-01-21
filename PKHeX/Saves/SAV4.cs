@@ -648,6 +648,12 @@ namespace PKHeX.Core
 
                 MysteryGiftReceivedFlags = value.Flags;
                 MysteryGiftCards = value.Gifts;
+
+                if (Version != GameVersion.DP)
+                    return;
+
+                bool[] activeGifts = value.Gifts.Select(gift => !gift.Empty).ToArray();
+                MysteryGiftDPSlotActiveFlags = activeGifts;
             }
         }
         protected override bool[] MysteryGiftReceivedFlags
@@ -678,6 +684,39 @@ namespace PKHeX.Core
                 Edited = true;
             }
         }
+
+        private const uint MysteryGiftDPSlotActive = 0xEDB88320;
+        private bool[] MysteryGiftDPSlotActiveFlags
+        {
+            get
+            {
+                if (Version != GameVersion.DP)
+                    return null;
+
+                int ofs = WondercardFlags + 0x100; // skip over flags
+                bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
+                for (int i = 0; i < active.Length; i++)
+                    active[i] = BitConverter.ToUInt32(Data, ofs + 4*i) == MysteryGiftDPSlotActive;
+
+                return active;
+            }
+            set
+            {
+                if (Version != GameVersion.DP)
+                    return;
+                if (value == null || value.Length != GiftCountMax)
+                    return;
+
+                int ofs = WondercardFlags + 0x100; // skip over flags
+                bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
+                for (int i = 0; i < active.Length; i++)
+                {
+                    byte[] magic = BitConverter.GetBytes(value[i] ? MysteryGiftDPSlotActive : 0); // 4 bytes
+                    setData(magic, ofs + 4*i);
+                }
+            }
+        }
+
         protected override MysteryGift[] MysteryGiftCards
         {
             get
