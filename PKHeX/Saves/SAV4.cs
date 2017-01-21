@@ -708,8 +708,7 @@ namespace PKHeX.Core
                     return;
 
                 int ofs = WondercardFlags + 0x100; // skip over flags
-                bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
-                for (int i = 0; i < active.Length; i++)
+                for (int i = 0; i < value.Length; i++)
                 {
                     byte[] magic = BitConverter.GetBytes(value[i] ? MysteryGiftDPSlotActive : 0); // 4 bytes
                     setData(magic, ofs + 4*i);
