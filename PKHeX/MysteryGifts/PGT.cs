@@ -69,8 +69,19 @@ namespace PKHeX.Core
 
         public bool GiftEquals(PGT pgt)
         {
-            // Skip over the PGT's "Corresponding PCD Slot"
-            return Gift.Data.Skip(3).SequenceEqual(pgt.Data.Skip(3));
+            // Skip over the PGT's "Corresponding PCD Slot" @ 0x02
+            byte[] g = pgt.Data;
+            byte[] c = Gift.Data;
+            if (g.Length != c.Length || g.Length < 3)
+                return false;
+            for (int i = 0; i < 2; i++)
+                if (g[i] != c[i])
+                    return false;
+            for (int i = 3; i < g.Length; i++)
+                if (g[i] != c[i])
+                    return false;
+
+            return true;
         }
 
         public override PKM convertToPKM(SaveFile SAV)
