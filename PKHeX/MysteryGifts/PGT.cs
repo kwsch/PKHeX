@@ -26,18 +26,29 @@ namespace PKHeX.Core
         public PCD(byte[] data = null)
         {
             Data = (byte[])(data?.Clone() ?? new byte[Size]);
-
-            byte[] giftData = new byte[PGT.Size];
-            Array.Copy(Data, 0, giftData, 0, PGT.Size);
-            Gift = new PGT(giftData);
-
-            Information = new byte[Data.Length - PGT.Size];
-            Array.Copy(Data, PGT.Size, Information, 0, Information.Length);
         }
-        public readonly PGT Gift;
-        public override object Content => Gift.PK;
 
-        public readonly byte[] Information;
+        public PGT Gift
+        {
+            get
+            {
+                byte[] giftData = new byte[PGT.Size];
+                Array.Copy(Data, 0, giftData, 0, PGT.Size);
+                return new PGT(giftData);
+            }
+            set { value?.Data.CopyTo(Data, 0); }
+        }
+        public byte[] Information
+        {
+            get
+            {
+                var data = new byte[Data.Length - PGT.Size];
+                Array.Copy(Data, PGT.Size, data, 0, data.Length);
+                return data;
+            }
+            set { value?.CopyTo(Data, Data.Length - PGT.Size); }
+        }
+        public override object Content => Gift.PK;
         public override bool GiftUsed { get { return Gift.GiftUsed; } set { Gift.GiftUsed = value; } }
         public override bool IsPokémon { get { return Gift.IsPokémon; } set { Gift.IsPokémon = value; } }
         public override bool IsItem { get { return Gift.IsItem; } set { Gift.IsItem = value; } }
@@ -128,19 +139,7 @@ namespace PKHeX.Core
 
         public PGT(byte[] data = null)
         {
-            refreshData((byte[])(data?.Clone() ?? new byte[Size]));
-        }
-
-        private void refreshData(byte[] data)
-        {
-            byte[] ekdata = new byte[PKX.SIZE_4PARTY];
-            Array.Copy(data, 8, ekdata, 0, ekdata.Length);
-            bool empty = ekdata.SequenceEqual(new byte[ekdata.Length]);
-            PK = new PK4(empty ? ekdata : PKX.decryptArray45(ekdata));
-
-            Unknown = new byte[0x10];
-            Array.Copy(data, 0xF4, Unknown, 0, 0x10);
-            RAW = data;
+            Data = (byte[])(data?.Clone() ?? new byte[Size]);
         }
 
         public byte CardType { get { return Data[0]; } set { Data[0] = value; } }
@@ -148,16 +147,41 @@ namespace PKHeX.Core
         public byte Slot { get { return Data[2]; } set { Data[2] = value; } }
         public byte Detail { get { return Data[3]; } set { Data[3] = value; } }
         public override int Item { get { return BitConverter.ToUInt16(Data, 0x4); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4); } }
-        public PK4 PK;
-        private byte[] Unknown;
-        private byte[] RAW;
 
-        public override byte[] Data
+        public PK4 PK
         {
-            get { return RAW; }
+            get
+            {
+                byte[] ekdata = new byte[PKX.SIZE_4PARTY];
+                Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
+                bool empty = ekdata.SequenceEqual(new byte[ekdata.Length]);
+                return new PK4(empty ? ekdata : PKX.decryptArray45(ekdata));
+            }
             set
             {
-                refreshData(value);
+                if (value == null)
+                    return;
+
+                var pkdata = value.Data.SequenceEqual(new byte[value.Data.Length])
+                    ? value.Data
+                    : PKX.encryptArray45(value.Data);
+                pkdata.CopyTo(Data, 8);
+            }
+        }
+
+        private byte[] Unknown
+        {
+            get
+            {
+                var data = new byte[0x10];
+                Array.Copy(Data, 0xF4, data, 0, 0x10);
+                return data;
+            }
+            set
+            {
+                if (value == null || value.Length != 10)
+                    return;
+                value.CopyTo(Data, 0xF4);
             }
         }
 
