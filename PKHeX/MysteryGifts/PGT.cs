@@ -70,7 +70,7 @@ namespace PKHeX.Core
         public bool GiftEquals(PGT pgt)
         {
             // Skip over the PGT's "Corresponding PCD Slot"
-            return Gift.Data.Take(2).Skip(1).SequenceEqual(pgt.Data.Take(2).Skip(1));
+            return Gift.Data.Skip(3).SequenceEqual(pgt.Data.Skip(3));
         }
 
         public override PKM convertToPKM(SaveFile SAV)
