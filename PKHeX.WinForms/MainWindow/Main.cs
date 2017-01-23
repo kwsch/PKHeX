@@ -262,7 +262,8 @@ namespace PKHeX.WinForms
             string l = Settings.Language;
             int lang = Array.IndexOf(GameInfo.lang_val, l);
             if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
-            languageID = lang < 0 ? 1 : lang;
+            if (lang > -1)
+                languageID = lang;
 
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
@@ -1026,7 +1027,6 @@ namespace PKHeX.WinForms
 
 
             // Generational Interface
-            byte[] extraBytes = new byte[1];
             Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
 
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = SAV.Generation >= 6;
