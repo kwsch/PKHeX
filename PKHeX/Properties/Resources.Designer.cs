@@ -8603,6 +8603,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap _6th {
+            get {
+                object obj = ResourceManager.GetObject("_6th", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap _7 {
             get {
                 object obj = ResourceManager.GetObject("_7", resourceCulture);
@@ -10633,6 +10643,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap alora {
+            get {
+                object obj = ResourceManager.GetObject("alora", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap anti_pokerus_icon {
             get {
                 object obj = ResourceManager.GetObject("anti_pokerus_icon", resourceCulture);
@@ -12432,16 +12452,6 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap else_icon {
-            get {
-                object obj = ResourceManager.GetObject("else_icon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] encounter_a {
@@ -12674,6 +12684,16 @@ namespace PKHeX.Core.Properties {
         public static System.Drawing.Bitmap helditem {
             get {
                 object obj = ResourceManager.GetObject("helditem", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap horohoro {
+            get {
+                object obj = ResourceManager.GetObject("horohoro", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -19000,16 +19020,6 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap sanchi {
-            get {
-                object obj = ResourceManager.GetObject("sanchi", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap savePKM {
             get {
                 object obj = ResourceManager.GetObject("savePKM", resourceCulture);
@@ -21900,8 +21910,7 @@ namespace PKHeX.Core.Properties {
         ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦
-        /// [rest of string was truncated]&quot;;.
+        ///预知梦        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_abilities_zh {
             get {
@@ -22018,8 +22027,7 @@ namespace PKHeX.Core.Properties {
         ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦
-        /// [rest of string was truncated]&quot;;.
+        ///预知梦        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_Abilities_zh1 {
             get {
@@ -24011,8 +24019,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_forms_de {
             get {
@@ -24274,8 +24281,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_forms_en {
             get {
@@ -25056,8 +25062,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_forms_fr {
             get {
@@ -25316,8 +25321,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_Forms_fr1 {
             get {
@@ -25577,8 +25581,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_forms_it {
             get {
@@ -25838,8 +25841,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_Forms_it1 {
             get {
@@ -26358,8 +26360,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_forms_ko {
             get {
@@ -26619,8 +26620,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_forms_zh {
             get {
@@ -27983,8 +27983,7 @@ namespace PKHeX.Core.Properties {
         ///마니아터널
         ///자랑의 뒷마당
         ///갖철섬
-        ///숲의 양옥집
-        /// [rest of string was truncated]&quot;;.
+        ///숲의 양옥집        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_hgss_00000_ko {
             get {
@@ -28070,8 +28069,7 @@ namespace PKHeX.Core.Properties {
         ///睿智湖畔
         ///隐泉之路
         ///心齐湖
-        ///立志湖
-        /// [rest of string was truncated]&quot;;.
+        ///立志湖        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_hgss_00000_zh {
             get {
@@ -29030,8 +29028,7 @@ namespace PKHeX.Core.Properties {
         ///クリティカット
         ///プラスパワー
         ///ディフェンダー
-        ///スピーダー
-        /// [rest of string was truncated]&quot;;.
+        ///スピーダー        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_items_ja {
             get {
@@ -29119,8 +29116,7 @@ namespace PKHeX.Core.Properties {
         ///실버스프레이
         ///골드스프레이
         ///동굴탈출로프
-        ///벌레회피스프레이
-        /// [rest of string was truncated]&quot;;.
+        ///벌레회피스프레이        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_items_ko {
             get {
@@ -30573,8 +30569,7 @@ namespace PKHeX.Core.Properties {
         ///Dard-Nuée
         ///Groz’Yeux
         ///Morsure
-        ///Rugissement
-        /// [rest of string was truncated]&quot;;.
+        ///Rugissement        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_moves_fr {
             get {
@@ -30707,8 +30702,7 @@ namespace PKHeX.Core.Properties {
         ///じごくぐるま
         ///けたぐり
         ///カウンター
-        ///ちきゅうなげ
-        /// [rest of string was truncated]&quot;;.
+        ///ちきゅうなげ        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_moves_ja {
             get {
@@ -30804,8 +30798,7 @@ namespace PKHeX.Core.Properties {
         ///전기쇼크
         ///10만볼트
         ///전기자석파
-        ///번개
-        /// [rest of string was truncated]&quot;;.
+        ///번개        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_moves_ko {
             get {
@@ -30920,8 +30913,7 @@ namespace PKHeX.Core.Properties {
         ///刺耳声
         ///影子分身
         ///自我再生
-        ///变硬
-        /// [rest of string was truncated]&quot;;.
+        ///变硬        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_moves_zh {
             get {
@@ -31468,8 +31460,7 @@ namespace PKHeX.Core.Properties {
         ///[~ 48]
         ///[~ 49]
         ///[~ 50]
-        ///[VAR 01A3(0000)]
-        /// [rest of string was truncated]&quot;;.
+        ///[VAR 01A3(0000)]        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_pokeblock_zh {
             get {
@@ -33486,8 +33477,7 @@ namespace PKHeX.Core.Properties {
         ///Diglett
         ///Dugtrio
         ///Meowth
-        ///Persian
-        /// [rest of string was truncated]&quot;;.
+        ///Persian        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_species_it {
             get {
@@ -33686,8 +33676,7 @@ namespace PKHeX.Core.Properties {
         ///킹크랩
         ///찌리리공
         ///붐볼
-        ///아라리
-        /// [rest of string was truncated]&quot;;.
+        ///아라리        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_species_ko {
             get {
@@ -34209,8 +34198,7 @@ namespace PKHeX.Core.Properties {
         ///¡Ráfaga de tiros de Fraxure!
         ///¡Tentacruel y sus globos de bits!
         ///¡Dale a Aerodactyl con tiros rápidos!
-        ///¡Destruye la barrera de Graveler!
-        /// [rest of string was truncated]&quot;;.
+        ///¡Destruye la barrera de Graveler!        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_supertraining_es {
             get {
@@ -35473,8 +35461,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///Route 10
         ///Menhir-Weg
-        ///Cromlexia
-        /// [rest of string was truncated]&quot;;.
+        ///Cromlexia        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_xy_00000_de {
             get {
@@ -36197,8 +36184,7 @@ namespace PKHeX.Core.Properties {
         ///VGE 2014
         ///VGE 2015
         ///VGE 2016
-        ///VGE 2017
-        /// [rest of string was truncated]&quot;;.
+        ///VGE 2017        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_xy_40000_de {
             get {
@@ -37614,6 +37600,16 @@ namespace PKHeX.Core.Properties {
         public static System.Drawing.Bitmap valid {
             get {
                 object obj = ResourceManager.GetObject("valid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap vc {
+            get {
+                object obj = ResourceManager.GetObject("vc", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

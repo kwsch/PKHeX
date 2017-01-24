@@ -156,6 +156,11 @@
     <Compile Include="MysteryGifts\PGF.cs" />
     <Compile Include="PKM\PK5.cs" />
     <Compile Include="PKM\PK6.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Saves\SAV7.cs" />
     <Compile Include="Saves\Substructures\BattleVideo.cs" />
     <Compile Include="Saves\Substructures\BlockInfo.cs" />
@@ -180,11 +185,6 @@
     <Compile Include="Saves\Substructures\ShadowInfo.cs" />
     <Compile Include="Saves\Substructures\StrategyMemo.cs" />
     <Compile Include="PKM\PKX.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Saves\Substructures\SaveObjects.cs" />
     <Compile Include="Saves\SaveUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1301,7 +1301,7 @@
     <None Include="Resources\text\de\lang_de.txt" />
     <None Include="Resources\text\fr\lang_fr.txt" />
     <None Include="Resources\img\misc\rare_icon.png" />
-    <None Include="Resources\img\misc\else_icon.png" />
+    <None Include="Resources\img\misc\6th.png" />
     <None Include="Resources\img\misc\box_mark_06.png" />
     <None Include="Resources\img\misc\box_mark_05.png" />
     <None Include="Resources\img\misc\box_mark_04.png" />
@@ -2581,7 +2581,7 @@
     <None Include="Resources\img\Bag\Bag_Z.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\img\misc\sanchi.png" />
+    <None Include="Resources\img\misc\alora.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\Pokemon Sprites\105-1.png" />
@@ -3410,6 +3410,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\misc\team.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\img\misc\horohoro.png" />
+    <Content Include="Resources\img\misc\vc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

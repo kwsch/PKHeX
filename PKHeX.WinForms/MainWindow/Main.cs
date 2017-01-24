@@ -1035,7 +1035,7 @@ namespace PKHeX.WinForms
             PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible = SAV.Generation >= 6;
 
             PB_MarkPentagon.Visible = SAV.Generation >= 6;
-            PB_MarkAlola.Visible = SAV.Generation >= 7;
+            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkHorohoro.Visible = SAV.Generation >= 7;
             TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
             TB_GameSync.Visible = L_GameSync.Visible = SAV.Exportable && SAV.Generation >= 6;
 
@@ -1603,6 +1603,9 @@ namespace PKHeX.WinForms
                 return;
 
             PB_MarkAlola.Image = ImageUtil.ChangeOpacity(PB_MarkAlola.InitialImage, pkm.Gen7 ? 1 : 0.1);
+            PB_MarkVC.Image = ImageUtil.ChangeOpacity(PB_MarkVC.InitialImage, pkm.VC ? 1 : 0.1);
+            PB_MarkHorohoro.Image = ImageUtil.ChangeOpacity(PB_MarkHorohoro.InitialImage, pkm.Horohoro ? 1 : 0.1);
+
             for (int i = 0; i < pba.Length; i++)
             {
                 switch (pkm.Markings[i])

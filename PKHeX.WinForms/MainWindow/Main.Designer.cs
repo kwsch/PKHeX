@@ -443,6 +443,8 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.PB_MarkVC = new System.Windows.Forms.PictureBox();
+            this.PB_MarkHorohoro = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -609,6 +611,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.mnuL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -3400,6 +3404,8 @@
             // 
             // GB_Markings
             // 
+            this.GB_Markings.Controls.Add(this.PB_MarkHorohoro);
+            this.GB_Markings.Controls.Add(this.PB_MarkVC);
             this.GB_Markings.Controls.Add(this.PB_MarkAlola);
             this.GB_Markings.Controls.Add(this.PB_Mark6);
             this.GB_Markings.Controls.Add(this.PB_MarkPentagon);
@@ -3419,9 +3425,9 @@
             // 
             // PB_MarkAlola
             // 
-            this.PB_MarkAlola.Image = Core.Properties.Resources.sanchi;
-            this.PB_MarkAlola.InitialImage = Core.Properties.Resources.sanchi;
-            this.PB_MarkAlola.Location = new System.Drawing.Point(96, 15);
+            this.PB_MarkAlola.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkAlola.Image")));
+            this.PB_MarkAlola.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkAlola.InitialImage")));
+            this.PB_MarkAlola.Location = new System.Drawing.Point(68, 15);
             this.PB_MarkAlola.Name = "PB_MarkAlola";
             this.PB_MarkAlola.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkAlola.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3445,7 +3451,7 @@
             // 
             this.PB_MarkPentagon.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.Image")));
             this.PB_MarkPentagon.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkPentagon.InitialImage")));
-            this.PB_MarkPentagon.Location = new System.Drawing.Point(18, 15);
+            this.PB_MarkPentagon.Location = new System.Drawing.Point(47, 15);
             this.PB_MarkPentagon.Name = "PB_MarkPentagon";
             this.PB_MarkPentagon.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkPentagon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3482,7 +3488,7 @@
             // 
             this.PB_MarkCured.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.Image")));
             this.PB_MarkCured.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkCured.InitialImage")));
-            this.PB_MarkCured.Location = new System.Drawing.Point(70, 15);
+            this.PB_MarkCured.Location = new System.Drawing.Point(26, 15);
             this.PB_MarkCured.Name = "PB_MarkCured";
             this.PB_MarkCured.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkCured.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3506,7 +3512,7 @@
             // 
             this.PB_MarkShiny.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.Image")));
             this.PB_MarkShiny.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkShiny.InitialImage")));
-            this.PB_MarkShiny.Location = new System.Drawing.Point(44, 15);
+            this.PB_MarkShiny.Location = new System.Drawing.Point(5, 15);
             this.PB_MarkShiny.Name = "PB_MarkShiny";
             this.PB_MarkShiny.Size = new System.Drawing.Size(20, 20);
             this.PB_MarkShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -3694,7 +3700,7 @@
             // 
             // Menu_Open
             // 
-            this.Menu_Open.Image = Core.Properties.Resources.open;
+            this.Menu_Open.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Open.Image")));
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
@@ -3704,7 +3710,7 @@
             // 
             // Menu_Save
             // 
-            this.Menu_Save.Image = Core.Properties.Resources.savePKM;
+            this.Menu_Save.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Save.Image")));
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
@@ -3718,14 +3724,14 @@
             this.Menu_ExportMAIN,
             this.Menu_ExportBAK});
             this.Menu_ExportSAV.Enabled = false;
-            this.Menu_ExportSAV.Image = Core.Properties.Resources.saveSAV;
+            this.Menu_ExportSAV.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ExportSAV.Image")));
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
             this.Menu_ExportSAV.Size = new System.Drawing.Size(139, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             // 
             // Menu_ExportMAIN
             // 
-            this.Menu_ExportMAIN.Image = Core.Properties.Resources.main;
+            this.Menu_ExportMAIN.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ExportMAIN.Image")));
             this.Menu_ExportMAIN.Name = "Menu_ExportMAIN";
             this.Menu_ExportMAIN.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportMAIN.ShowShortcutKeys = false;
@@ -3735,7 +3741,7 @@
             // 
             // Menu_ExportBAK
             // 
-            this.Menu_ExportBAK.Image = Core.Properties.Resources.bak;
+            this.Menu_ExportBAK.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ExportBAK.Image")));
             this.Menu_ExportBAK.Name = "Menu_ExportBAK";
             this.Menu_ExportBAK.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
             this.Menu_ExportBAK.ShowShortcutKeys = false;
@@ -3745,7 +3751,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = Core.Properties.Resources.exit;
+            this.Menu_Exit.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Exit.Image")));
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -3771,14 +3777,14 @@
             this.Menu_ShowdownExportPKM,
             this.Menu_ShowdownExportParty,
             this.Menu_ShowdownExportBattleBox});
-            this.Menu_Showdown.Image = Core.Properties.Resources.showdown;
+            this.Menu_Showdown.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Showdown.Image")));
             this.Menu_Showdown.Name = "Menu_Showdown";
             this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
             // 
-            this.Menu_ShowdownImportPKM.Image = Core.Properties.Resources.import;
+            this.Menu_ShowdownImportPKM.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownImportPKM.Image")));
             this.Menu_ShowdownImportPKM.Name = "Menu_ShowdownImportPKM";
             this.Menu_ShowdownImportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.Menu_ShowdownImportPKM.ShowShortcutKeys = false;
@@ -3788,7 +3794,7 @@
             // 
             // Menu_ShowdownExportPKM
             // 
-            this.Menu_ShowdownExportPKM.Image = Core.Properties.Resources.export;
+            this.Menu_ShowdownExportPKM.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportPKM.Image")));
             this.Menu_ShowdownExportPKM.Name = "Menu_ShowdownExportPKM";
             this.Menu_ShowdownExportPKM.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.T)));
@@ -3799,7 +3805,7 @@
             // 
             // Menu_ShowdownExportParty
             // 
-            this.Menu_ShowdownExportParty.Image = Core.Properties.Resources.export;
+            this.Menu_ShowdownExportParty.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportParty.Image")));
             this.Menu_ShowdownExportParty.Name = "Menu_ShowdownExportParty";
             this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
@@ -3807,7 +3813,7 @@
             // 
             // Menu_ShowdownExportBattleBox
             // 
-            this.Menu_ShowdownExportBattleBox.Image = Core.Properties.Resources.export;
+            this.Menu_ShowdownExportBattleBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_ShowdownExportBattleBox.Image")));
             this.Menu_ShowdownExportBattleBox.Name = "Menu_ShowdownExportBattleBox";
             this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(231, 22);
             this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
@@ -3818,14 +3824,14 @@
             this.Menu_CyberGadget.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenTemp,
             this.Menu_OpenCache});
-            this.Menu_CyberGadget.Image = Core.Properties.Resources.other;
+            this.Menu_CyberGadget.Image = ((System.Drawing.Image)(resources.GetObject("Menu_CyberGadget.Image")));
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
             this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_OpenTemp
             // 
-            this.Menu_OpenTemp.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenTemp.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenTemp.Image")));
             this.Menu_OpenTemp.Name = "Menu_OpenTemp";
             this.Menu_OpenTemp.Size = new System.Drawing.Size(175, 22);
             this.Menu_OpenTemp.Text = "Open Temp Folder";
@@ -3833,7 +3839,7 @@
             // 
             // Menu_OpenCache
             // 
-            this.Menu_OpenCache.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenCache.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenCache.Image")));
             this.Menu_OpenCache.Name = "Menu_OpenCache";
             this.Menu_OpenCache.Size = new System.Drawing.Size(175, 22);
             this.Menu_OpenCache.Text = "Open Cache Folder";
@@ -3848,14 +3854,14 @@
             this.Menu_Database,
             this.Menu_MGDatabase,
             this.Menu_BatchEditor});
-            this.Menu_Data.Image = Core.Properties.Resources.data;
+            this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
             this.Menu_Data.Name = "Menu_Data";
             this.Menu_Data.Size = new System.Drawing.Size(143, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
             // 
-            this.Menu_LoadBoxes.Image = Core.Properties.Resources.load;
+            this.Menu_LoadBoxes.Image = ((System.Drawing.Image)(resources.GetObject("Menu_LoadBoxes.Image")));
             this.Menu_LoadBoxes.Name = "Menu_LoadBoxes";
             this.Menu_LoadBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_LoadBoxes.Text = "Load Boxes";
@@ -3863,7 +3869,7 @@
             // 
             // Menu_DumpBoxes
             // 
-            this.Menu_DumpBoxes.Image = Core.Properties.Resources.dump;
+            this.Menu_DumpBoxes.Image = ((System.Drawing.Image)(resources.GetObject("Menu_DumpBoxes.Image")));
             this.Menu_DumpBoxes.Name = "Menu_DumpBoxes";
             this.Menu_DumpBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
@@ -3871,7 +3877,7 @@
             // 
             // Menu_Report
             // 
-            this.Menu_Report.Image = Core.Properties.Resources.report;
+            this.Menu_Report.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Report.Image")));
             this.Menu_Report.Name = "Menu_Report";
             this.Menu_Report.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.Menu_Report.ShowShortcutKeys = false;
@@ -3881,7 +3887,7 @@
             // 
             // Menu_Database
             // 
-            this.Menu_Database.Image = Core.Properties.Resources.database;
+            this.Menu_Database.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Database.Image")));
             this.Menu_Database.Name = "Menu_Database";
             this.Menu_Database.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
             this.Menu_Database.ShowShortcutKeys = false;
@@ -3891,7 +3897,7 @@
             // 
             // Menu_MGDatabase
             // 
-            this.Menu_MGDatabase.Image = Core.Properties.Resources.gift;
+            this.Menu_MGDatabase.Image = ((System.Drawing.Image)(resources.GetObject("Menu_MGDatabase.Image")));
             this.Menu_MGDatabase.Name = "Menu_MGDatabase";
             this.Menu_MGDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.G)));
             this.Menu_MGDatabase.ShowShortcutKeys = false;
@@ -3901,7 +3907,7 @@
             // 
             // Menu_BatchEditor
             // 
-            this.Menu_BatchEditor.Image = Core.Properties.Resources.settings;
+            this.Menu_BatchEditor.Image = ((System.Drawing.Image)(resources.GetObject("Menu_BatchEditor.Image")));
             this.Menu_BatchEditor.Name = "Menu_BatchEditor";
             this.Menu_BatchEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.Menu_BatchEditor.ShowShortcutKeys = false;
@@ -3914,14 +3920,14 @@
             this.Menu_Other.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenSDF,
             this.Menu_OpenSDB});
-            this.Menu_Other.Image = Core.Properties.Resources.other;
+            this.Menu_Other.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Other.Image")));
             this.Menu_Other.Name = "Menu_Other";
             this.Menu_Other.Size = new System.Drawing.Size(143, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
             // 
-            this.Menu_OpenSDF.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenSDF.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenSDF.Image")));
             this.Menu_OpenSDF.Name = "Menu_OpenSDF";
             this.Menu_OpenSDF.Size = new System.Drawing.Size(229, 22);
             this.Menu_OpenSDF.Text = "Open SaveDataFiler Folder";
@@ -3929,7 +3935,7 @@
             // 
             // Menu_OpenSDB
             // 
-            this.Menu_OpenSDB.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenSDB.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenSDB.Image")));
             this.Menu_OpenSDB.Name = "Menu_OpenSDB";
             this.Menu_OpenSDB.Size = new System.Drawing.Size(229, 22);
             this.Menu_OpenSDB.Text = "Open SaveDataBackup Folder";
@@ -3950,7 +3956,7 @@
             // 
             this.Menu_Language.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CB_MainLanguage});
-            this.Menu_Language.Image = Core.Properties.Resources.language;
+            this.Menu_Language.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Language.Image")));
             this.Menu_Language.Name = "Menu_Language";
             this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
@@ -3969,7 +3975,7 @@
             this.Menu_ModifyPKM,
             this.Menu_Undo,
             this.Menu_Redo});
-            this.Menu_Modify.Image = Core.Properties.Resources.settings;
+            this.Menu_Modify.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Modify.Image")));
             this.Menu_Modify.Name = "Menu_Modify";
             this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
@@ -4026,7 +4032,7 @@
             // 
             // Menu_About
             // 
-            this.Menu_About.Image = Core.Properties.Resources.about;
+            this.Menu_About.Image = ((System.Drawing.Image)(resources.GetObject("Menu_About.Image")));
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
@@ -4065,7 +4071,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Core.Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PAN_Box.BackgroundImage")));
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx30);
             this.PAN_Box.Controls.Add(this.bpkx29);
@@ -5713,6 +5719,28 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
+            // PB_MarkVC
+            // 
+            this.PB_MarkVC.Image = Core.Properties.Resources.vc;
+            this.PB_MarkVC.InitialImage = Core.Properties.Resources.vc;
+            this.PB_MarkVC.Location = new System.Drawing.Point(89, 15);
+            this.PB_MarkVC.Name = "PB_MarkVC";
+            this.PB_MarkVC.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkVC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkVC.TabIndex = 10;
+            this.PB_MarkVC.TabStop = false;
+            // 
+            // PB_MarkHorohoro
+            // 
+            this.PB_MarkHorohoro.Image = Core.Properties.Resources.horohoro;
+            this.PB_MarkHorohoro.InitialImage = Core.Properties.Resources.horohoro;
+            this.PB_MarkHorohoro.Location = new System.Drawing.Point(110, 15);
+            this.PB_MarkHorohoro.Name = "PB_MarkHorohoro";
+            this.PB_MarkHorohoro.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkHorohoro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkHorohoro.TabIndex = 11;
+            this.PB_MarkHorohoro.TabStop = false;
+            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5941,6 +5969,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.mnuL.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6360,6 +6390,8 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_BallLeft;
         private System.Windows.Forms.PictureBox PB_Ball;
         private System.Windows.Forms.Button B_OpenZygardeCells;
+        private System.Windows.Forms.PictureBox PB_MarkHorohoro;
+        private System.Windows.Forms.PictureBox PB_MarkVC;
     }
 }
 

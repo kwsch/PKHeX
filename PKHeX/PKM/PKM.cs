@@ -261,7 +261,9 @@ namespace PKHeX.Core
         public virtual bool IsShiny => TSV == PSV;
         public virtual bool Locked { get { return false; } set { } }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
-        public bool Gen7 => Version >= 30 && Version <= 31;
+        public bool VC => Version >= 35 && Version <= 41;
+        public bool Horohoro => Version == 34;
+        public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
