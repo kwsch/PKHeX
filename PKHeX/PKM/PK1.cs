@@ -231,7 +231,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
+        public override bool IsShiny => IV_ATK == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_DEF & 2) == 2;
         public override ushort Sanity { get { return 0; } set { } }
         public override bool ChecksumValid => true;
         public override ushort Checksum { get { return 0; } set { } }

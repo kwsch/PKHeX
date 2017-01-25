@@ -2644,9 +2644,20 @@ namespace PKHeX.WinForms
                 pkm.setShinyPID();
             else
             {
-                int[] atkIVs = {2, 3, 6, 7, 10, 11, 14, 15};
-                TB_ATKIV.Text = atkIVs[Util.rnd32()%atkIVs.Length].ToString();
-                TB_DEFIV.Text = "10";
+                // IVs determine shininess
+                // All 10IV except for one where (IV & 2 == 2) [gen specific]
+                int[] and2 = {2, 3, 6, 7, 10, 11, 14, 15};
+                int randIV = and2[Util.rnd32()%and2.Length];
+                if (pkm.Format == 1)
+                {
+                    TB_ATKIV.Text = "10"; // an attempt was made
+                    TB_DEFIV.Text = randIV.ToString();
+                }
+                else // pkm.Format == 2
+                {
+                    TB_ATKIV.Text = randIV.ToString();
+                    TB_DEFIV.Text = "10";
+                }
                 TB_SPEIV.Text = "10";
                 TB_SPAIV.Text = "10";
                 updateIVs(null, null);
