@@ -160,7 +160,7 @@ namespace PKHeX.Core
                             break;
                         }
                         if (toFormat == 7)
-                            pkm = null; // pkm.convertPK1toPK7();
+                            pkm = ((PK1) pk).convertToPK7();
                         break;
                     case nameof(PK2):
                         if (PKMType == typeof (PK1))

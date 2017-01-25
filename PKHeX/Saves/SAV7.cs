@@ -85,7 +85,7 @@ namespace PKHeX.Core
         public override int MaxItemID => 920;
         public override int MaxAbilityID => 232;
         public override int MaxBallID => 0x1A; // 26
-        public override int MaxGameID => 31; // MN
+        public override int MaxGameID => 38; // Yellow VC
 
         public int QRSaveData;
 

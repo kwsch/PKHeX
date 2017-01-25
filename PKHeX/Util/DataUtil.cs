@@ -205,12 +205,23 @@ namespace PKHeX.Core
             Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
             Array.Sort(sortedChoices);
 
+            var indices = new Dictionary<string, int>();
+            foreach (var str in unsortedChoices.Where(str => !indices.ContainsKey(str)))
+                indices.Add(str, 0);
+
             // Add the rest of the items
-            cbList.AddRange(sortedChoices.Select(s => new ComboItem
+            foreach (var s in sortedChoices)
             {
-                Text = s,
-                Value = allowed[Array.IndexOf(unsortedChoices, s)]
-            }));
+                var index = Array.IndexOf(unsortedChoices, s, indices[s]);
+                cbList.Add(new ComboItem
+                {
+                    Text = s,
+                    Value = allowed[index]
+                });
+                indices[s] = index + 1;
+            }
+
+            
             return cbList;
         }
         public static List<ComboItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)

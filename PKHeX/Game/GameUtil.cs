@@ -12,7 +12,14 @@
                 case GameVersion.CXD:
                     return GameVersion.CXD;
 
+                case GameVersion.GO:
+                    return GameVersion.GO;
+
                 case GameVersion.RBY:
+                case GameVersion.RD:
+                case GameVersion.BU:
+                case GameVersion.YW:
+                case GameVersion.GN:
                     return GameVersion.RBY;
 
                 case GameVersion.GS:

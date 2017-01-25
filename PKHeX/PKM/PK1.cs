@@ -111,6 +111,16 @@ namespace PKHeX.Core
             set { }
         }
 
+        public bool IsNicknamedBank
+        {
+            get
+            {
+                var spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
+                spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+                return Nickname != spName;
+            }
+        }
+
         public void setNotNicknamed()
         {
             string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
@@ -298,6 +308,78 @@ namespace PKHeX.Core
             Array.Copy(nick, 0, pk2.nick, 0, nick.Length);
 
             return pk2;
+        }
+
+        public PK7 convertToPK7()
+        {
+            var pk7 = new PK7
+            {
+                EncryptionConstant = Util.rnd32(),
+                Species = Species,
+                TID = TID,
+                EXP = EXP,
+                CurrentLevel = CurrentLevel,
+                Met_Level = CurrentLevel,
+                Nature = (int) (EXP%25),
+                PID = Util.rnd32(),
+                AbilityNumber = 4,
+                Ball = 4,
+                MetDate = DateTime.Now,
+                Version = (int)GameVersion.RD, // Default to red, for now?
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+                Move1_PP = Move1_PP,
+                Move2_PP = Move2_PP,
+                Move3_PP = Move3_PP,
+                Move4_PP = Move4_PP,
+                CurrentFriendship = PersonalTable.SM[Species].BaseFriendship,
+                Met_Location = 30013, // "Kanto region", hardcoded.
+                Gender = PersonalTable.SM[Species].RandomGender,
+                OT_Name = PKX.getG1ConvertedString(otname, Japanese),
+                Nickname = Util.getSpeciesList(Japanese ? "jp" : "en")[Species],
+                IsNicknamed = false
+            };
+
+
+            // IVs
+            var new_ivs = new int[6];
+            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = (int)(Util.rnd32() & 31);
+            for (var i = 0; i < (Species == 151 ? 5 : 3); i++) new_ivs[i] = 31;
+            Util.Shuffle(new_ivs);
+            pk7.IVs = new_ivs;
+
+            // Really? :(
+            if (IsShiny)
+                pk7.setShinyPID();
+
+            if (new[] {92, 93, 94, 151, 109, 110}.Contains(Species))
+                pk7.AbilityNumber = 1;
+
+            if (IsNicknamedBank)
+            {
+                pk7.IsNicknamed = true;
+                pk7.Nickname = PKX.getG1ConvertedString(nick, Japanese);
+            }
+
+            // TODO: Language, 3DS Country/Region Info, Memories (Link Trade/Somewhere, remembers feeling {rnd})
+
+            if (Species == 151) // Mew gets special treatment.
+            {
+                pk7.FatefulEncounter = true;
+                pk7.AbilityNumber = 1;
+                pk7.Egg_Location = 0;
+                pk7.Nickname = Util.getSpeciesList(Japanese ? "jp" : "en")[Species];
+                pk7.IsNicknamed = false;
+            }
+
+            pk7.RefreshChecksum();
+            return pk7;
         }
     }
 

@@ -620,26 +620,6 @@ namespace PKHeX.Core
             return pk;
         }
 
-        public PKM convertPK1toPK7()
-        {
-            if (Format != 1)
-                return null;
-            if (Species > 151)
-                return null;
-
-            var pk = new PK7();
-            TransferPropertiesWithReflection(this, pk);
-            pk.EVs = new int[6];
-            pk.Nature = IVs.Sum() % 25;
-            pk.IVs = new[] {31,31,31,31,31,31};
-            pk.RefreshChecksum();
-            if (!IsNicknamed)
-                pk.Nickname = Nickname.ToLower();
-            pk.Version = -1;
-            pk.Ability = PersonalTable.SM[Species].Abilities[0];
-            do PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
-            return pk;
-        }
         protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
             var SourceProperties = ReflectUtil.getPropertiesCanWritePublic(Source.GetType());

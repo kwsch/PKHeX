@@ -21,6 +21,8 @@
         /*Gen5*/ W = 20, B = 21, W2 = 22, B2 = 23,
         /*Gen6*/ X = 24, Y = 25, AS = 26, OR = 27,
         /*Gen7*/ SN = 30, MN = 31,
+        /* GO */ GO = 34,
+        /* VC */ RD = 35, BU = 36, GN = 37, YW = 38, 
 
         // Game Groupings (SaveFile type)
         RBY = 98,
