@@ -355,6 +355,8 @@ namespace PKHeX.WinForms
             {006, "Pokemon Caught"},
             {008, "Eggs Hatched"},
             {011, "Link Trades"},
+            {012, "Link Battles"},
+            {013, "Link Battle Wins"},
             {015, "Battle Spot Battles"},
             {019, "Money Spent"},
             {022, "Exp. Points Collected"},
