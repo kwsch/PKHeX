@@ -618,40 +618,11 @@ namespace PKHeX.Core
                         pk7.Ability = pk7.PersonalInfo.Abilities[index];
                     break;
             }
-
-            // Fix Name Strings
-            pk7.Nickname = convertString(pk7.Nickname);
-            pk7.OT_Name = convertString(pk7.OT_Name);
-            pk7.HT_Name = convertString(pk7.HT_Name);
             
             // Fix Checksum
             pk7.RefreshChecksum();
 
             return pk7; // Done!
-        }
-
-        private static string convertString(string input)
-        {
-            string s = "";
-            foreach (char c in input)
-            {
-                // Faces get shuffled.
-                switch (c)
-                {
-                    case '\uE081':
-                        s += c + 3;
-                        break;
-                    case '\uE082':
-                    case '\uE083':
-                    case '\uE084':
-                        s += c - 1;
-                        break;
-                    default:
-                        s += c;
-                        break;
-                }
-            }
-            return s;
         }
     }
 }
