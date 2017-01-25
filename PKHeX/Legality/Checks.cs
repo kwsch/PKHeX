@@ -518,8 +518,21 @@ namespace PKHeX.Core
             { AddLine(Severity.Invalid, "Super Training missions on Egg.", CheckIdentifier.Training); }
             else if (TrainCount > 0 && pkm.GenNumber != 6)
             { AddLine(Severity.Invalid, "Distribution Super Training missions are not available in game.", CheckIdentifier.Training); }
-            else if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
-            { AddLine(Severity.Invalid, "Super Training complete flag mismatch.", CheckIdentifier.Training); }
+            else
+            {
+                if (pkm.Format >= 7)
+                {
+                    if (pkm.SecretSuperTrainingUnlocked)
+                    { AddLine(Severity.Invalid, "Super Training unlocked flag invalid.", CheckIdentifier.Training); }
+                    if (pkm.SecretSuperTrainingComplete)
+                    { AddLine(Severity.Invalid, "Super Training complete flag invalid.", CheckIdentifier.Training); }
+                }
+                else
+                {
+                    if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
+                    { AddLine(Severity.Invalid, "Super Training complete flag mismatch.", CheckIdentifier.Training); }
+                }
+            }
 
             // Distribution Training Medals
             var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "DistSuperTrain");
@@ -1090,6 +1103,16 @@ namespace PKHeX.Core
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
 
+            if (pkm.Format >= 7) // Cleared Values
+            {
+                if (pkm.EncounterType != 0)
+                    return new CheckResult(Severity.Invalid, $"EncounterType invalid {pkm.EncounterType}.", CheckIdentifier.History);
+                if (pkm.Enjoyment != 0)
+                    return new CheckResult(Severity.Invalid, $"Enjoyment invalid {pkm.Enjoyment}.", CheckIdentifier.History);
+                if (pkm.Fullness != 0)
+                    return new CheckResult(Severity.Invalid, $"Fullness invalid {pkm.Fullness}.", CheckIdentifier.History);
+            }
+            
             MysteryGift mg = EncounterMatch as MysteryGift;
             WC6 MatchedWC6 = EncounterMatch as WC6;
             WC7 MatchedWC7 = EncounterMatch as WC7;
@@ -1118,7 +1141,7 @@ namespace PKHeX.Core
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
             }
-            if (pkm.GenNumber >= 7)
+            if (pkm.Format >= 7)
             {
                 var geo = new[]
                 {
@@ -1128,7 +1151,7 @@ namespace PKHeX.Core
                 if (geo.Any(d => d != 0))
                     return new CheckResult(Severity.Invalid, "Geolocation Memories should not be present.", CheckIdentifier.History);
                 
-                if (pkm.XY && pkm.CNTs.Any(stat => stat > 0))
+                if (pkm.GenNumber >= 7 && pkm.CNTs.Any(stat => stat > 0))
                     return new CheckResult(Severity.Invalid, "Untraded -- Contest stats on SM origin should be zero.", CheckIdentifier.History);
                 
                 if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
@@ -1272,7 +1295,13 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (EncounterType == typeof(WC6))
+            if (EncounterType == typeof(EncounterTrade))
+            {
+                // Undocumented, uncommon, and insignificant -- don't bother.
+                AddLine(Severity.Valid, "OT Memory (Ingame Trade) is valid.", CheckIdentifier.Memory);
+                return;
+            }
+            if (EncounterType == typeof(WC6) && pkm.Format == 6)
             {
                 WC6 MatchedWC6 = EncounterMatch as WC6;
                 if (pkm.OT_Memory != MatchedWC6.OT_Memory)
@@ -1296,14 +1325,7 @@ namespace PKHeX.Core
                 if (pkm.OT_Feeling != MatchedWC7.OT_Feeling)
                     AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC7.OT_Feeling) + ".", CheckIdentifier.Memory);
             }
-            if (EncounterType == typeof(EncounterTrade))
-            {
-                // Undocumented, uncommon, and insignificant -- don't bother.
-                AddLine(Severity.Valid, "OT Memory (Ingame Trade) is valid.", CheckIdentifier.Memory);
-                return;
-            }
-
-            if (pkm.GenNumber == 7)
+            else if (pkm.Format == 7)
             {
                 if (pkm.OT_Memory != 0)
                     AddLine(Severity.Invalid, "Should not have an OT Memory.", CheckIdentifier.Memory);
@@ -1360,7 +1382,7 @@ namespace PKHeX.Core
             if (!History.Valid)
                 return;
 
-            if (pkm.GenNumber == 7)
+            if (pkm.Format == 7)
             {
                 if (pkm.HT_Memory != 0)
                     AddLine(Severity.Invalid, "Should not have a HT Memory.", CheckIdentifier.Memory);

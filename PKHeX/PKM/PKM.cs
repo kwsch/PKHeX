@@ -263,17 +263,17 @@ namespace PKHeX.Core
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public bool VC => Version >= 35 && Version <= 41;
         public bool Horohoro => Version == 34;
-        public bool Gen7 => Version >= 30 && Version <= 33;
-        public bool Gen6 => Version >= 24 && Version <= 29;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
         protected bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        public bool Gen7 => Version >= 30 && Version <= 33;
+        public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
-        public bool GenU => !(Gen6 || Gen5 || Gen4 || Gen3);
+        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3);
         public int GenNumber
         {
             get
