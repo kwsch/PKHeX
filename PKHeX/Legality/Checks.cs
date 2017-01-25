@@ -1539,6 +1539,9 @@ namespace PKHeX.Core
         }
         private void verifyMisc()
         {
+            if (pkm.Format == 7 && pkm.Data[0x2A] != 0)
+            { AddLine(Severity.Invalid, "Incorrectly transferred from previous generation.", CheckIdentifier.Misc); return; }
+
             if (pkm.IsEgg)
             {
                 if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
