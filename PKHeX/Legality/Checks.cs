@@ -794,6 +794,14 @@ namespace PKHeX.Core
             }
             if (EncounterType == typeof (EncounterSlot[]))
             {
+                if (pkm.Met_Location == 30016 && pkm.Gen7) // Poké Pelago
+                {
+                    if (pkm.Ball == 0x04)
+                        AddLine(Severity.Valid, "Correct ball on Poké Pelago encounter.", CheckIdentifier.Ball);
+                    else
+                        AddLine(Severity.Invalid, "Incorrect ball on Poké Pelago encounter.", CheckIdentifier.Ball);
+                }
+
                 if (Legal.getWildBalls(pkm).Contains(pkm.Ball))
                     AddLine(Severity.Valid, "Correct ball on ingame encounter.", CheckIdentifier.Ball);
                 else
