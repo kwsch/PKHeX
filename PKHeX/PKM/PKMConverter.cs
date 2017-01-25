@@ -108,7 +108,7 @@ namespace PKHeX.Core
                     return new PK5(data, ident);
                 case 6:
                     PKM pkx = new PK6(data, ident);
-                    if (pkx.SM)
+                    if (pkx.SM || pkx.VC || pkx.Horohoro)
                         pkx = new PK7(data, ident);
                     return pkx;
                 default:
@@ -221,7 +221,7 @@ namespace PKHeX.Core
                             break;
                         goto case nameof(PK6);
                     case nameof(PK6):
-                        pkm = new PK7(pkm.Data, pkm.Identifier);
+                        pkm = ((PK6)pkm).convertToPK7();
                         if (toFormat == 7)
                             break;
                         goto case nameof(PK7);

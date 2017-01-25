@@ -601,5 +601,57 @@ namespace PKHeX.Core
         public override bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
         public override bool WasTradedEgg => Egg_Location == 30002;
         public override bool WasIngameTrade => Met_Location == 30001;
+
+        public PK7 convertToPK7()
+        {
+            PK7 pk7 = new PK7(Data)
+            {
+                Markings = Markings, // Clears old Super Training Bag & Hits Remaining
+                Data = { [0x2A] = 0 }, // Clears old Marking Value
+            };
+            
+            switch (AbilityNumber)
+            {
+                case 1: case 2: case 4: // Valid Ability Numbers
+                    int index = AbilityNumber >> 1;
+                    if (PersonalInfo.Abilities[index] == Ability) // correct pair
+                        pk7.Ability = pk7.PersonalInfo.Abilities[index];
+                    break;
+            }
+
+            // Fix Name Strings
+            pk7.Nickname = convertString(pk7.Nickname);
+            pk7.OT_Name = convertString(pk7.OT_Name);
+            pk7.HT_Name = convertString(pk7.HT_Name);
+            
+            // Fix Checksum
+            pk7.RefreshChecksum();
+
+            return pk7; // Done!
+        }
+
+        private static string convertString(string input)
+        {
+            string s = "";
+            foreach (char c in input)
+            {
+                // Faces get shuffled.
+                switch (c)
+                {
+                    case '\uE081':
+                        s += c + 3;
+                        break;
+                    case '\uE082':
+                    case '\uE083':
+                    case '\uE084':
+                        s += c - 1;
+                        break;
+                    default:
+                        s += c;
+                        break;
+                }
+            }
+            return s;
+        }
     }
 }
