@@ -1060,9 +1060,6 @@ namespace PKHeX.WinForms
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = SAV.Generation >= 2;
             Label_OTGender.Visible = SAV.Generation >= 2;
 
-            if (SAV.Generation == 1)
-                Label_IsShiny.Visible = false;
-
             if (SAV.Version == GameVersion.BATREV)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
@@ -1581,8 +1578,8 @@ namespace PKHeX.WinForms
             bool isShiny = pkm.IsShiny;
 
             // Set the Controls
-            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny && SAV.Generation > 1;
-            Label_IsShiny.Visible = isShiny && SAV.Generation > 1;
+            BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
+            Label_IsShiny.Visible = isShiny;
 
             // Refresh Markings (for Shiny Star if applicable)
             setMarkings();
@@ -2064,9 +2061,9 @@ namespace PKHeX.WinForms
                         : (pkm.Gender == 1 ? Color.Red : Color.Blue);
                     if (pkm.Species == 201 && e != null) // Unown
                         CB_Form.SelectedIndex = pkm.AltForm;
-                    setIsShiny(null);
-                    getQuickFiller(dragout);
                 }
+                setIsShiny(null);
+                getQuickFiller(dragout);
             }
                     
             CB_HPType.SelectedValue = pkm.HPType;
