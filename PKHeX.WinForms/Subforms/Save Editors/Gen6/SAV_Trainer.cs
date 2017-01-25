@@ -657,6 +657,8 @@ namespace PKHeX.WinForms
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (editing)
+                return;
             SAV.MultiplayerSpriteID = WinFormsUtil.getIndex(CB_MultiplayerSprite);
             PB_Sprite.Image = SAV.Sprite();
         }
