@@ -868,8 +868,7 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Error("Your platform does not support the required cryptography components.", "In order to be able to save your changes, you must either upgrade to a newer version of Windows or disable FIPS compliance mode.");
                     // Don't abort loading; user can still view save and fix checksum on another platform.
                 }
-            }            
-
+            }
             // Finish setting up the save file.
             if (sav.IndeterminateGame && sav.Generation == 3)
             {
@@ -1202,6 +1201,14 @@ namespace PKHeX.WinForms
             // No changes made yet
             UndoStack.Clear(); Menu_Undo.Enabled = false;
             RedoStack.Clear(); Menu_Redo.Enabled = false;
+
+            if (!string.IsNullOrWhiteSpace(path)) // Actual Save
+            {
+                // Check location write protection
+                if ((new DirectoryInfo(path).Attributes & FileAttributes.ReadOnly) != 0)
+                    WinFormsUtil.Alert("Save file's location is write protected:\n" + path,
+                        "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
+            }
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
