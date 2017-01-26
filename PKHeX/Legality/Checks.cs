@@ -1561,8 +1561,10 @@ namespace PKHeX.Core
         }
         private void verifyMisc()
         {
-            if (pkm.Format == 7 && pkm.Data[0x2A] != 0)
-            { AddLine(Severity.Invalid, "Incorrectly transferred from previous generation.", CheckIdentifier.Misc); return; }
+            if (pkm.Format == 7 && ((PK7)pkm).PelagoEventStatus != 0)
+            {
+                // TODO: Figure out what PelagoEventStati are legal.
+            }
 
             if (pkm.IsEgg)
             {
