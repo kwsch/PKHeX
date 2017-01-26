@@ -351,7 +351,7 @@ namespace PKHeX.Core
                 CurrentHandler = 1,
                 HT_Name = PKMConverter.OT_Name,
                 HT_Gender = PKMConverter.OT_Gender,
-                Language = PKMConverter,
+                Language = PKMConverter.Language,
             };
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
