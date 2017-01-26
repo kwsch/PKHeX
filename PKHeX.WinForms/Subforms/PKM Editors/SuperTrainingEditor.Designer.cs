@@ -155,7 +155,6 @@
             // CHK_SecretComplete
             // 
             this.CHK_SecretComplete.AutoSize = true;
-            this.CHK_SecretComplete.Enabled = false;
             this.CHK_SecretComplete.Location = new System.Drawing.Point(3, 17);
             this.CHK_SecretComplete.Name = "CHK_SecretComplete";
             this.CHK_SecretComplete.Size = new System.Drawing.Size(145, 17);

@@ -517,7 +517,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg && TrainCount > 0)
             { AddLine(Severity.Invalid, "Super Training missions on Egg.", CheckIdentifier.Training); }
             else if (TrainCount > 0 && pkm.GenNumber != 6)
-            { AddLine(Severity.Invalid, "Distribution Super Training missions are not available in game.", CheckIdentifier.Training); }
+            { AddLine(Severity.Invalid, "Super Training missions are not available in game.", CheckIdentifier.Training); }
             else
             {
                 if (pkm.Format >= 7)

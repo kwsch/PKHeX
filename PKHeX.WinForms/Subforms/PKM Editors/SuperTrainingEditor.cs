@@ -27,8 +27,6 @@ namespace PKHeX.WinForms
             
             CHK_SecretUnlocked.Checked = pkm.SecretSuperTrainingUnlocked;
             CHK_SecretComplete.Checked = pkm.SecretSuperTrainingComplete;
-            if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
-                CHK_Secret_CheckedChanged(null, null);
 
             if (pkm is PK6)
             {
@@ -40,10 +38,14 @@ namespace PKHeX.WinForms
                 PK6 pk6 = (PK6) pkm;
                 CB_Bag.SelectedIndex = pk6.TrainingBag;
                 NUD_BagHits.Value = pk6.TrainingBagHits;
+
+                if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
+                    CHK_Secret_CheckedChanged(null, null);
             }
             else
             {
                 L_Bag.Visible = CB_Bag.Visible = L_Hits.Visible = NUD_BagHits.Visible = false;
+                CHK_SecretUnlocked.Visible = CHK_SecretComplete.Visible = false;
             }
         }
 
@@ -139,16 +141,22 @@ namespace PKHeX.WinForms
             if (CHK_SecretUnlocked.Checked) // only give dist if Secret is Unlocked (None -> All -> All*)
                 foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())
                     c.Checked = true;
-            
-            CHK_SecretUnlocked.Checked = true;
-            CHK_SecretComplete.Checked = true;
+
+            if (pkm is PK6)
+            {
+                CHK_SecretUnlocked.Checked = true;
+                CHK_SecretComplete.Checked = true;
+            }
             foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>())
                 c.Checked = true;
         }
         private void B_None_Click(object sender, EventArgs e)
         {
-            CHK_SecretUnlocked.Checked = false;
-            CHK_SecretComplete.Checked = false;
+            if (pkm is PK6)
+            {
+                CHK_SecretUnlocked.Checked = false;
+                CHK_SecretComplete.Checked = false;
+            }
             foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>())
                 c.Checked = false;
             foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())
@@ -156,6 +164,8 @@ namespace PKHeX.WinForms
         }
         private void CHK_Secret_CheckedChanged(object sender, EventArgs e)
         {
+            if (!(pkm is PK6))
+                return;
             CHK_SecretComplete.Checked &= CHK_SecretUnlocked.Checked;
             CHK_SecretComplete.Enabled = CHK_SecretUnlocked.Checked;
             foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>().Where(chk => Convert.ToInt16(chk.Name[14]+"") >= 4))
