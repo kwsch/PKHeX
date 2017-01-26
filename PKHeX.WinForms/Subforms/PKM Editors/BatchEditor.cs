@@ -392,6 +392,8 @@ namespace PKHeX.WinForms
                         PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
                     else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
+                    else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
+                        PKM.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
                     else if(cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
                         PKM.setPIDGender(PKM.Gender);
                     else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
