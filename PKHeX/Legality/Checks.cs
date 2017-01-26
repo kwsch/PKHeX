@@ -1301,7 +1301,7 @@ namespace PKHeX.Core
                 AddLine(Severity.Valid, "OT Memory (Ingame Trade) is valid.", CheckIdentifier.Memory);
                 return;
             }
-            if (EncounterType == typeof(WC6) && pkm.Format == 6)
+            if (EncounterType == typeof(WC6))
             {
                 WC6 MatchedWC6 = EncounterMatch as WC6;
                 if (pkm.OT_Memory != MatchedWC6.OT_Memory)
@@ -1325,7 +1325,7 @@ namespace PKHeX.Core
                 if (pkm.OT_Feeling != MatchedWC7.OT_Feeling)
                     AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC7.OT_Feeling) + ".", CheckIdentifier.Memory);
             }
-            else if (pkm.Format == 7)
+            else if (pkm.GenNumber == 7)
             {
                 if (pkm.OT_Memory != 0)
                     AddLine(Severity.Invalid, "Should not have an OT Memory.", CheckIdentifier.Memory);
@@ -1382,7 +1382,7 @@ namespace PKHeX.Core
             if (!History.Valid)
                 return;
 
-            if (pkm.Format == 7)
+            if (pkm.GenNumber == 7)
             {
                 if (pkm.HT_Memory != 0)
                     AddLine(Severity.Invalid, "Should not have a HT Memory.", CheckIdentifier.Memory);
