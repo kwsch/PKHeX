@@ -1123,7 +1123,7 @@ namespace PKHeX.Core
             if (index < 0 || index > GiftCountMax)
                 return null;
 
-            return new WC7(Data.Skip(WondercardData + index * WC7.Size).Take(WC7.Size).ToArray());
+            return new WC7(getData(WondercardData + index * WC7.Size, WC7.Size));
         }
         private void setWC7(MysteryGift wc7, int index)
         {
@@ -1135,7 +1135,7 @@ namespace PKHeX.Core
             wc7.Data.CopyTo(Data, WondercardData + index * WC7.Size);
 
             for (int i = 0; i < GiftCountMax; i++)
-                if (BitConverter.ToUInt16(Data, WondercardData + i * WC7.Size) == 0)
+                if (getData(WondercardData + i * WC7.Size, WC7.Size).All(b => b == 0)) // empty
                     for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
                         Array.Copy(Data, WondercardData + j * WC7.Size, Data, WondercardData + (j - 1) * WC7.Size, WC7.Size);
 
