@@ -317,12 +317,11 @@ namespace PKHeX.Core
                 EncryptionConstant = Util.rnd32(),
                 Species = Species,
                 TID = TID,
-                EXP = EXP,
                 CurrentLevel = CurrentLevel,
+                EXP = EXP,
                 Met_Level = CurrentLevel,
                 Nature = (int) (EXP%25),
                 PID = Util.rnd32(),
-                AbilityNumber = 4,
                 Ball = 4,
                 MetDate = DateTime.Now,
                 Version = (int)GameVersion.RD, // Default to red, for now?
@@ -338,19 +337,29 @@ namespace PKHeX.Core
                 Move2_PP = Move2_PP,
                 Move3_PP = Move3_PP,
                 Move4_PP = Move4_PP,
-                CurrentFriendship = PersonalTable.SM[Species].BaseFriendship,
                 Met_Location = 30013, // "Kanto region", hardcoded.
                 Gender = PersonalTable.SM[Species].RandomGender,
                 OT_Name = PKX.getG1ConvertedString(otname, Japanese),
                 Nickname = Util.getSpeciesList(Japanese ? "jp" : "en")[Species],
-                IsNicknamed = false
-            };
+                IsNicknamed = false,
 
+
+
+                Country = PKMConverter.Country,
+                Region = PKMConverter.Region,
+                ConsoleRegion = PKMConverter.ConsoleRegion,
+                CurrentHandler = 1,
+                HT_Name = PKMConverter.OT_Name,
+                HT_Gender = PKMConverter.OT_Gender,
+                Language = PKMConverter,
+            };
+            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
             var new_ivs = new int[6];
+            int flawless = Species == 151 ? 5 : 3;
             for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = (int)(Util.rnd32() & 31);
-            for (var i = 0; i < (Species == 151 ? 5 : 3); i++) new_ivs[i] = 31;
+            for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
@@ -358,26 +367,21 @@ namespace PKHeX.Core
             if (IsShiny)
                 pk7.setShinyPID();
 
-            if (new[] {92, 93, 94, 151, 109, 110}.Contains(Species))
-                pk7.AbilityNumber = 1;
+            int abil = 2; // Hidden
+            if (new[] {92, 93, 94, 109, 110, 151}.Contains(Species))
+                abil = 0; // Reset
+            pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
-            if (IsNicknamedBank)
+            if (Species == 151) // Mew gets special treatment.
+                pk7.FatefulEncounter = true;
+            else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
                 pk7.Nickname = PKX.getG1ConvertedString(nick, Japanese);
             }
-
-            // TODO: Language, 3DS Country/Region Info, Memories (Link Trade/Somewhere, remembers feeling {rnd})
-
-            if (Species == 151) // Mew gets special treatment.
-            {
-                pk7.FatefulEncounter = true;
-                pk7.AbilityNumber = 1;
-                pk7.Egg_Location = 0;
-                pk7.Nickname = Util.getSpeciesList(Japanese ? "jp" : "en")[Species];
-                pk7.IsNicknamed = false;
-            }
-
+            
+            pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
+            
             pk7.RefreshChecksum();
             return pk7;
         }

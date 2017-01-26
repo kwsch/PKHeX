@@ -9,15 +9,17 @@ namespace PKHeX.Core
         public static int Region = 7;
         public static int ConsoleRegion = 1;
         public static string OT_Name = "PKHeX";
-        public static int OT_Gender;
+        public static int OT_Gender; // Male
+        public static int Language = 1; // en
 
-        public static void updateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER)
+        public static void updateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER, int LANGUAGE)
         {
             Region = SUBREGION;
             Country = COUNTRY;
             ConsoleRegion = _3DSREGION;
             OT_Name = TRAINERNAME;
             OT_Gender = TRAINERGENDER;
+            Language = LANGUAGE;
         }
 
         /// <summary>

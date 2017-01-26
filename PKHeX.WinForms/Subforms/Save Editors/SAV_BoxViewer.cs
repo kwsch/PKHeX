@@ -164,76 +164,76 @@ namespace PKHeX.WinForms
             if (DragInfo.slotDragDropInProgress)
                 return;
 
-            if (DragInfo.slotLeftMouseIsDown)
+            if (!DragInfo.slotLeftMouseIsDown)
+                return;
+
+            // The goal is to create a temporary PKX file for the underlying Pokemon
+            // and use that file to perform a drag drop operation.
+
+            // Abort if there is no Pokemon in the given slot.
+            PictureBox pb = (PictureBox)sender;
+            if (pb.Image == null)
+                return;
+
+            int slot = getSlot(pb);
+            int box = slot >= 30 ? -1 : CB_BoxSelect.SelectedIndex;
+            if (SAV.getIsSlotLocked(box, slot))
+                return;
+
+            // Set flag to prevent re-entering.
+            DragInfo.slotDragDropInProgress = true;
+
+            DragInfo.slotSource = this;
+            DragInfo.slotSourceSlotNumber = slot;
+            DragInfo.slotSourceBoxNumber = box;
+            DragInfo.slotSourceOffset = getPKXOffset(DragInfo.slotSourceSlotNumber);
+
+            // Prepare Data
+            DragInfo.slotPkmSource = SAV.getData(DragInfo.slotSourceOffset, SAV.SIZE_STORED);
+
+            // Make a new file name based off the PID
+            byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
+            Array.Resize(ref dragdata, SAV.SIZE_STORED);
+            PKM pkx = SAV.getPKM(dragdata);
+            string filename = pkx.FileName;
+
+            // Make File
+            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+            try
             {
-                // The goal is to create a temporary PKX file for the underlying Pokemon
-                // and use that file to perform a drag drop operation.
+                File.WriteAllBytes(newfile, dragdata);
+                var img = (Bitmap)pb.Image;
+                DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
+                pb.Image = null;
+                pb.BackgroundImage = Core.Properties.Resources.slotDrag;
+                // Thread Blocks on DoDragDrop
+                DragInfo.CurrentPath = newfile;
+                DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
+                    pb.Image = img;
+                else // refresh image
+                    getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
+                pb.BackgroundImage = null;
 
-                // Abort if there is no Pokemon in the given slot.
-                PictureBox pb = (PictureBox)sender;
-                if (pb.Image == null)
-                    return;
-
-                int slot = getSlot(pb);
-                int box = slot >= 30 ? -1 : CB_BoxSelect.SelectedIndex;
-                if (SAV.getIsSlotLocked(box, slot))
-                    return;
-
-                // Set flag to prevent re-entering.
-                DragInfo.slotDragDropInProgress = true;
-
-                DragInfo.slotSource = this;
-                DragInfo.slotSourceSlotNumber = slot;
-                DragInfo.slotSourceBoxNumber = box;
-                DragInfo.slotSourceOffset = getPKXOffset(DragInfo.slotSourceSlotNumber);
-
-                // Prepare Data
-                DragInfo.slotPkmSource = SAV.getData(DragInfo.slotSourceOffset, SAV.SIZE_STORED);
-
-                // Make a new file name based off the PID
-                byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
-                Array.Resize(ref dragdata, SAV.SIZE_STORED);
-                PKM pkx = SAV.getPKM(dragdata);
-                string filename = pkx.FileName;
-
-                // Make File
-                string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
-                try
-                {
-                    File.WriteAllBytes(newfile, dragdata);
-                    var img = (Bitmap)pb.Image;
-                    DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
-                    pb.Image = null;
-                    pb.BackgroundImage = Core.Properties.Resources.slotDrag;
-                    // Thread Blocks on DoDragDrop
-                    DragInfo.CurrentPath = newfile;
-                    DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-                    if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
-                        pb.Image = img;
-                    else // refresh image
-                        getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
-                    pb.BackgroundImage = null;
-
-                    if (DragInfo.SameBox && DragInfo.DestinationValid)
-                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
-                }
-                catch (Exception x)
-                {
-                    WinFormsUtil.Error("Drag & Drop Error", x);
-                }
-                parent.notifyBoxViewerRefresh();
-                DragInfo.Reset();
-                Cursor = DefaultCursor;
-
-                // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
-                // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
-                new Thread(() =>
-                {
-                    Thread.Sleep(500);
-                    if (File.Exists(newfile) && DragInfo.CurrentPath == null)
-                        File.Delete(newfile);
-                }).Start();
+                if (DragInfo.SameBox && DragInfo.DestinationValid)
+                    SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
             }
+            catch (Exception x)
+            {
+                WinFormsUtil.Error("Drag & Drop Error", x);
+            }
+            parent.notifyBoxViewerRefresh();
+            DragInfo.Reset();
+            Cursor = DefaultCursor;
+
+            // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
+            // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
+            new Thread(() =>
+            {
+                Thread.Sleep(500);
+                if (File.Exists(newfile) && DragInfo.CurrentPath == null)
+                    File.Delete(newfile);
+            }).Start();
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {

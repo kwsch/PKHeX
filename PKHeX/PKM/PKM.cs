@@ -261,13 +261,15 @@ namespace PKHeX.Core
         public virtual bool IsShiny => TSV == PSV;
         public virtual bool Locked { get { return false; } set { } }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
-        public bool VC => Version >= 35 && Version <= 41;
+        public bool VC2 => Version >= 39 && Version <= 41;
+        public bool VC1 => Version >= 35 && Version <= 38;
         public bool Horohoro => Version == 34;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
         protected bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
@@ -428,6 +430,18 @@ namespace PKHeX.Core
         public virtual bool HT_SPA { get { return false; } set { } }
         public virtual bool HT_SPD { get { return false; } set { } }
         public virtual bool HT_SPE { get { return false; } set { } }
+        public void HyperTrainInvert(int stat)
+        {
+            switch (stat)
+            {
+                case 0: HT_HP ^= true; break;
+                case 1: HT_ATK ^= true; break;
+                case 2: HT_DEF ^= true; break;
+                case 3: HT_SPA ^= true; break;
+                case 4: HT_SPD ^= true; break;
+                case 5: HT_SPE ^= true; break;
+            }
+        }
 
         public bool InhabitedGeneration(int Generation)
         {
@@ -489,6 +503,14 @@ namespace PKHeX.Core
                 ReorderMoves();
             }
         }
+        public void RefreshAbility(int n)
+        {
+            AbilityNumber = 1 << n;
+            int[] abilities = PersonalInfo.Abilities;
+            if (n < abilities.Length)
+                Ability = abilities[n];
+        }
+
 
         public int PotentialRating
         {

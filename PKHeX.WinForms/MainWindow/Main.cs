@@ -238,8 +238,9 @@ namespace PKHeX.WinForms
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
-        private static string ThreadPath => @"https://projectpokemon.org/PKHeX/";
-        private static string VersionPath => @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
+        private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
+        private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
+        private const string QR6Path = @"http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
 
         #endregion
 
@@ -1193,7 +1194,7 @@ namespace PKHeX.WinForms
                 updateOriginGame(null, null);
 
             // Refresh PK* conversion info
-            PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
+            PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
 
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
                 WinFormsUtil.TranslateInterface(this, curlanguage);
@@ -1593,22 +1594,23 @@ namespace PKHeX.WinForms
         }
         private void setMarkings()
         {
+            Func<bool, double> getOpacity = b => b ? 1 : 0.175;
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             for (int i = 0; i < pba.Length; i++)
-                pba[i].Image = ImageUtil.ChangeOpacity(pba[i].InitialImage, pkm.Markings[i] != 0 ? 1 : 0.1);
+                pba[i].Image = ImageUtil.ChangeOpacity(pba[i].InitialImage, getOpacity(pkm.Markings[i] != 0));
 
-            PB_MarkShiny.Image = ImageUtil.ChangeOpacity(PB_MarkShiny.InitialImage, !BTN_Shinytize.Enabled ? 1 : 0.1);
-            PB_MarkCured.Image = ImageUtil.ChangeOpacity(PB_MarkCured.InitialImage, CHK_Cured.Checked ? 1 : 0.1);
+            PB_MarkShiny.Image = ImageUtil.ChangeOpacity(PB_MarkShiny.InitialImage, getOpacity(!BTN_Shinytize.Enabled));
+            PB_MarkCured.Image = ImageUtil.ChangeOpacity(PB_MarkCured.InitialImage, getOpacity(CHK_Cured.Checked));
             
-            PB_MarkPentagon.Image = ImageUtil.ChangeOpacity(PB_MarkPentagon.InitialImage, pkm.Gen6 ? 1 : 0.1);
+            PB_MarkPentagon.Image = ImageUtil.ChangeOpacity(PB_MarkPentagon.InitialImage, getOpacity(pkm.Gen6));
 
             // Gen7 Markings
             if (pkm.Format != 7)
                 return;
 
-            PB_MarkAlola.Image = ImageUtil.ChangeOpacity(PB_MarkAlola.InitialImage, pkm.Gen7 ? 1 : 0.1);
-            PB_MarkVC.Image = ImageUtil.ChangeOpacity(PB_MarkVC.InitialImage, pkm.VC ? 1 : 0.1);
-            PB_MarkHorohoro.Image = ImageUtil.ChangeOpacity(PB_MarkHorohoro.InitialImage, pkm.Horohoro ? 1 : 0.1);
+            PB_MarkAlola.Image = ImageUtil.ChangeOpacity(PB_MarkAlola.InitialImage, getOpacity(pkm.Gen7));
+            PB_MarkVC.Image = ImageUtil.ChangeOpacity(PB_MarkVC.InitialImage, getOpacity(pkm.VC));
+            PB_MarkHorohoro.Image = ImageUtil.ChangeOpacity(PB_MarkHorohoro.InitialImage, getOpacity(pkm.Horohoro));
 
             for (int i = 0; i < pba.Length; i++)
             {
@@ -1657,8 +1659,7 @@ namespace PKHeX.WinForms
                 if (!verifiedPKM()) return;
                 PKM pkx = preparePKM();
                 byte[] ekx = pkx.EncryptedBoxData;
-
-                const string server = "http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
+                
                 Image qr;
                 switch (pkx.Format)
                 {
@@ -1666,7 +1667,7 @@ namespace PKHeX.WinForms
                         qr = QR.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
-                        qr = QR.getQRImage(ekx, pkx.Format == 6 ? server : "null/#");
+                        qr = QR.getQRImage(ekx, pkx.Format == 6 ? QR6Path : "null/#");
                         break;
                 }
 
@@ -1780,27 +1781,7 @@ namespace PKHeX.WinForms
                 else
                 {
                     var index = Array.IndexOf(new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV}, sender);
-                    switch (index)
-                    {
-                        case 0:
-                            pkm.HT_HP ^= true;
-                            break;
-                        case 1:
-                            pkm.HT_ATK ^= true;
-                            break;
-                        case 2:
-                            pkm.HT_DEF ^= true;
-                            break;
-                        case 3:
-                            pkm.HT_SPA ^= true;
-                            break;
-                        case 4:
-                            pkm.HT_SPD ^= true;
-                            break;
-                        case 5:
-                            pkm.HT_SPE ^= true;
-                            break;
-                    }
+                    pkm.HyperTrainInvert(index);
                     updateIVs(sender, e);
                 }
             else if (ModifierKeys == Keys.Alt)
@@ -2160,26 +2141,13 @@ namespace PKHeX.WinForms
         private void updateRandomEVs(object sender, EventArgs e)
         {
             changingFields = true;
-            if (ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift)
-            {
-                // Max EVs
-                TB_HPEV.Text = 0.ToString();
-                TB_ATKEV.Text = 0.ToString();
-                TB_DEFEV.Text = 0.ToString();
-                TB_SPAEV.Text = 0.ToString();
-                TB_SPDEV.Text = 0.ToString();
-                TB_SPEEV.Text = 0.ToString();
-            }
-            else
-            {
-                var evs = PKX.getRandomEVs(SAV.Generation);
-                TB_HPEV.Text = evs[0].ToString();
-                TB_ATKEV.Text = evs[1].ToString();
-                TB_DEFEV.Text = evs[2].ToString();
-                TB_SPAEV.Text = evs[3].ToString();
-                TB_SPDEV.Text = evs[4].ToString();
-                TB_SPEEV.Text = evs[5].ToString();
-            }
+
+            var tb = new[] {TB_HPEV, TB_ATKEV, TB_DEFEV, TB_SPAEV, TB_SPDEV, TB_SPEEV};
+            bool zero = ModifierKeys == Keys.Control || ModifierKeys == Keys.Shift;
+            var evs = zero ? new uint[6] : PKX.getRandomEVs(SAV.Generation);
+            for (int i = 0; i < 6; i++)
+                tb[i].Text = evs[i].ToString();
+
             changingFields = false;
             updateEVs(null, null);
         }
@@ -2426,7 +2394,17 @@ namespace PKHeX.WinForms
                 CB_MetLocation.DisplayMember = "Text";
                 CB_MetLocation.ValueMember = "Value";
                 CB_MetLocation.DataSource = new BindingSource(met_list, null);
-                CB_MetLocation.SelectedIndex = 0; // transporter or pal park for past gen pkm
+
+                int metLoc = 0; // transporter or pal park for past gen pkm
+                switch (newTrack)
+                {
+                    case GameVersion.GO: metLoc = 30012; break;
+                    case GameVersion.RBY: metLoc = 30013; break;
+                }
+                if (metLoc != 0)
+                    CB_MetLocation.SelectedValue = metLoc;
+                else
+                    CB_MetLocation.SelectedIndex = metLoc;
 
                 var egg_list = GameInfo.getLocationList(Version, SAV.Generation, egg:true);
                 CB_EggLocation.DisplayMember = "Text";
@@ -3116,13 +3094,10 @@ namespace PKHeX.WinForms
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (SAV.Edited)
-            {
-                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?") != DialogResult.Yes)
-                {
-                    e.Cancel = true;
-                }
-            }
+            if (!SAV.Edited)
+                return;
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
+                e.Cancel = true;
         }
         #endregion
 
@@ -3953,10 +3928,17 @@ namespace PKHeX.WinForms
         }
 
         // Subfunction Save Buttons //
-        private void B_OpenWondercards_Click(object sender, EventArgs e)
-        {
-            new SAV_Wondercard(sender as MysteryGift).ShowDialog();
-        }
+        private void B_OpenWondercards_Click(object sender, EventArgs e) => new SAV_Wondercard(sender as MysteryGift).ShowDialog();
+        private void B_OpenPokepuffs_Click(object sender, EventArgs e) => new SAV_Pokepuff().ShowDialog();
+        private void B_OpenPokeBeans_Click(object sender, EventArgs e) => new SAV_Pokebean().ShowDialog();
+        private void B_OpenItemPouch_Click(object sender, EventArgs e) => new SAV_Inventory().ShowDialog();
+        private void B_OpenBerryField_Click(object sender, EventArgs e) => new SAV_BerryFieldXY().ShowDialog();
+        private void B_OpenPokeblocks_Click(object sender, EventArgs e) => new SAV_PokeBlockORAS().ShowDialog();
+        private void B_OpenEventFlags_Click(object sender, EventArgs e) => new SAV_EventFlags().ShowDialog();
+        private void B_OpenSuperTraining_Click(object sender, EventArgs e) => new SAV_SuperTrain().ShowDialog();
+        private void B_OpenSecretBase_Click(object sender, EventArgs e) => new SAV_SecretBase().ShowDialog();
+        private void B_OpenZygardeCells_Click(object sender, EventArgs e) => new SAV_ZygardeCell().ShowDialog();
+        private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6().ShowDialog();
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
             new SAV_BoxLayout(CB_BoxSelect.SelectedIndex).ShowDialog();
@@ -3973,35 +3955,7 @@ namespace PKHeX.WinForms
             else if (SAV.Generation == 7)
                 new SAV_Trainer7().ShowDialog();
             // Refresh conversion info
-            PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender);
-        }
-        private void B_OpenPokepuffs_Click(object sender, EventArgs e)
-        {
-            new SAV_Pokepuff().ShowDialog();
-        }
-        private void B_OpenPokeBeans_Click(object sender, EventArgs e)
-        {
-            new SAV_Pokebean().ShowDialog();
-        }
-        private void B_OpenItemPouch_Click(object sender, EventArgs e)
-        {
-            new SAV_Inventory().ShowDialog();
-        }
-        private void B_OpenBerryField_Click(object sender, EventArgs e)
-        {
-            new SAV_BerryFieldXY().ShowDialog();
-        }
-        private void B_OpenPokeblocks_Click(object sender, EventArgs e)
-        {
-            new SAV_PokeBlockORAS().ShowDialog();
-        }
-        private void B_OpenEventFlags_Click(object sender, EventArgs e)
-        {
-            new SAV_EventFlags().ShowDialog();
-        }
-        private void B_OpenSuperTraining_Click(object sender, EventArgs e)
-        {
-            new SAV_SuperTrain().ShowDialog();
+            PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
@@ -4098,18 +4052,6 @@ namespace PKHeX.WinForms
             else if (SAV.SM)
                 new SAV_HallOfFame7().ShowDialog();
         }
-        private void B_OpenSecretBase_Click(object sender, EventArgs e)
-        {
-            new SAV_SecretBase().ShowDialog();
-        }
-        private void B_OpenZygardeCells_Click(object sender, EventArgs e)
-        {
-            new SAV_ZygardeCell().ShowDialog();
-        }
-        private void B_LinkInfo_Click(object sender, EventArgs e)
-        {
-            new SAV_Link6().ShowDialog();
-        }
         private void B_CGearSkin_Click(object sender, EventArgs e)
         {
             if (SAV.Generation != 5)
@@ -4144,10 +4086,8 @@ namespace PKHeX.WinForms
         // Drag and drop related functions
         private void pbBoxSlot_MouseClick(object sender, MouseEventArgs e)
         {
-            if (DragInfo.slotDragDropInProgress)
-                return;
-            
-            clickSlot(sender, e);
+            if (!DragInfo.slotDragDropInProgress)
+                clickSlot(sender, e);
         }
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
@@ -4168,83 +4108,83 @@ namespace PKHeX.WinForms
             if (DragInfo.slotDragDropInProgress)
                 return;
 
-            if (DragInfo.slotLeftMouseIsDown)
+            if (!DragInfo.slotLeftMouseIsDown)
+                return;
+
+            // The goal is to create a temporary PKX file for the underlying Pokemon
+            // and use that file to perform a drag drop operation.
+
+            // Abort if there is no Pokemon in the given slot.
+            PictureBox pb = (PictureBox)sender;
+            if (pb.Image == null)
+                return;
+
+            int slot = getSlot(pb);
+            int box = slot >= 30 ? -1 : CB_BoxSelect.SelectedIndex;
+            if (SAV.getIsSlotLocked(box, slot))
+                return;
+
+            // Set flag to prevent re-entering.
+            DragInfo.slotDragDropInProgress = true;
+
+            DragInfo.slotSource = this;
+            DragInfo.slotSourceSlotNumber = slot;
+            DragInfo.slotSourceBoxNumber = box;
+            DragInfo.slotSourceOffset = getPKXOffset(DragInfo.slotSourceSlotNumber);
+
+            // Prepare Data
+            DragInfo.slotPkmSource = SAV.getData(DragInfo.slotSourceOffset, SAV.SIZE_STORED);
+
+            // Make a new file name based off the PID
+            bool encrypt = ModifierKeys == Keys.Control;
+            byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
+            Array.Resize(ref dragdata, SAV.SIZE_STORED);
+            PKM pkx = SAV.getPKM(dragdata);
+            string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
+            string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
+
+            // Make File
+            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+            try
             {
-                // The goal is to create a temporary PKX file for the underlying Pokemon
-                // and use that file to perform a drag drop operation.
-
-                // Abort if there is no Pokemon in the given slot.
-                PictureBox pb = (PictureBox)sender;
-                if (pb.Image == null)
-                    return;
-
-                int slot = getSlot(pb);
-                int box = slot >= 30 ? -1 : CB_BoxSelect.SelectedIndex;
-                if (SAV.getIsSlotLocked(box, slot))
-                    return;
-
-                // Set flag to prevent re-entering.
-                DragInfo.slotDragDropInProgress = true;
-
-                DragInfo.slotSource = this;
-                DragInfo.slotSourceSlotNumber = slot;
-                DragInfo.slotSourceBoxNumber = box;
-                DragInfo.slotSourceOffset = getPKXOffset(DragInfo.slotSourceSlotNumber);
-
-                // Prepare Data
-                DragInfo.slotPkmSource = SAV.getData(DragInfo.slotSourceOffset, SAV.SIZE_STORED);
-
-                // Make a new file name based off the PID
-                bool encrypt = ModifierKeys == Keys.Control;
-                byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
-                Array.Resize(ref dragdata, SAV.SIZE_STORED);
-                PKM pkx = SAV.getPKM(dragdata);
-                string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
-                string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
-
-                // Make File
-                string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
-                try
-                {
-                    File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
-                    var img = (Bitmap)pb.Image;
-                    DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
-                    pb.Image = null;
-                    pb.BackgroundImage = Resources.slotDrag;
-                    // Thread Blocks on DoDragDrop
-                    DragInfo.CurrentPath = newfile;
-                    DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-                    if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
-                        pb.Image = img;
-                    else // refresh image
-                        getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
-                    pb.BackgroundImage = null;
+                File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
+                var img = (Bitmap)pb.Image;
+                DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
+                pb.Image = null;
+                pb.BackgroundImage = Resources.slotDrag;
+                // Thread Blocks on DoDragDrop
+                DragInfo.CurrentPath = newfile;
+                DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
+                if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
+                    pb.Image = img;
+                else // refresh image
+                    getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
+                pb.BackgroundImage = null;
                     
-                    if (DragInfo.SameBox && DragInfo.DestinationValid)
-                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
+                if (DragInfo.SameBox && DragInfo.DestinationValid)
+                    SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
 
-                    if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
-                        getSlotColor(DragInfo.slotSourceSlotNumber, Resources.slotView);
-                }
-                catch (Exception x)
-                {
-                    WinFormsUtil.Error("Drag & Drop Error", x);
-                }
-                notifyBoxViewerRefresh();
-                DragInfo.Reset();
-                Cursor = DefaultCursor;
-
-                // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
-                // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
-                new Thread(() =>
-                {
-                    Thread.Sleep(500);
-                    if (File.Exists(newfile) && DragInfo.CurrentPath == null)
-                        File.Delete(newfile);
-                }).Start();
-                if (DragInfo.SourceParty || DragInfo.DestinationParty)
-                    setParty();
+                if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
+                    getSlotColor(DragInfo.slotSourceSlotNumber, Resources.slotView);
             }
+            catch (Exception x)
+            {
+                WinFormsUtil.Error("Drag & Drop Error", x);
+            }
+            notifyBoxViewerRefresh();
+            DragInfo.Reset();
+            Cursor = DefaultCursor;
+
+            // Browser apps need time to load data since the file isn't moved to a location on the user's local storage.
+            // Tested 10ms -> too quick, 100ms was fine. 500ms should be safe?
+            new Thread(() =>
+            {
+                Thread.Sleep(500);
+                if (File.Exists(newfile) && DragInfo.CurrentPath == null)
+                    File.Delete(newfile);
+            }).Start();
+            if (DragInfo.SourceParty || DragInfo.DestinationParty)
+                setParty();
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {

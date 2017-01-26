@@ -586,11 +586,13 @@ namespace PKHeX.Core
         }
         public void TradeMemory(bool Bank)
         {
-            return; // appears no memories are set, ever?
-            // HT_Memory = 4; // Link trade to [VAR: General Location]
-            // HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
-            // HT_Intensity = 1;
-            // HT_Feeling = Util.rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
+            if (!Bank)
+                return;
+
+            HT_Memory = 4; // Link trade to [VAR: General Location]
+            HT_TextVar = 0; // Somewhere (Bank)
+            HT_Intensity = 1;
+            HT_Feeling = Util.rand.Next(0, 9); // 0-9 Bank
         }
 
         // Legality Properties
