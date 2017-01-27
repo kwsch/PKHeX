@@ -2449,7 +2449,7 @@ namespace PKHeX.Core
             const int gens = 7;
             var result = new List<string>();
             result.AddRange(new [] {"ck3", "xk3", "bk4"}); // Special Cases
-            for (int i = 1; i < gens; i++)
+            for (int i = 1; i <= gens; i++)
                 result.Add("pk"+i);
             return result.ToArray();
         }
