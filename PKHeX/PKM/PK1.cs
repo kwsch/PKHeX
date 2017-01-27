@@ -343,8 +343,6 @@ namespace PKHeX.Core
                 Nickname = Util.getSpeciesList(Japanese ? "jp" : "en")[Species],
                 IsNicknamed = false,
 
-
-
                 Country = PKMConverter.Country,
                 Region = PKMConverter.Region,
                 ConsoleRegion = PKMConverter.ConsoleRegion,
@@ -368,7 +366,7 @@ namespace PKHeX.Core
                 pk7.setShinyPID();
 
             int abil = 2; // Hidden
-            if (new[] {92, 93, 94, 109, 110, 151}.Contains(Species))
+            if (Legal.TransferSpeciesDefaultAbility_1.Contains(Species))
                 abil = 0; // Reset
             pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 

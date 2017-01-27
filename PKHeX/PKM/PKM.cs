@@ -280,6 +280,7 @@ namespace PKHeX.Core
         {
             get
             {
+                if (VC) return 7;
                 if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;

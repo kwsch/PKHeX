@@ -129,13 +129,7 @@ namespace PKHeX.WinForms
             else
                 GB_M_OT.Text = GB_M_CT.Text = $"N/A: {GameInfo.Strings.eggname}";
 
-            if (pkm.GenNumber == 7)
-            {
-                Tab_Residence.Enabled = false;
-                CB_OTMemory.Visible = CB_CTMemory.Visible = L_OT_TextLine.Visible = L_CT_TextLine.Visible = RTB_OT.Visible = RTB_CT.Visible = false;
-            }
-
-                init = true;
+            init = true;
 
             // Manually load the Memory Parse
             RTB_CT.Text = getMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, pkm.HT_Name);

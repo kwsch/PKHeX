@@ -61,7 +61,6 @@ namespace PKHeX.Core
                 }
             }
             catch { Valid = false; }
-            getLegalityReport();
             AllSuggestedMoves = !pkm.IsOriginValid() ? new int[4] : getSuggestedMoves(true, true, true);
             AllSuggestedRelearnMoves = !pkm.IsOriginValid() ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
             AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
@@ -133,7 +132,7 @@ namespace PKHeX.Core
 
             verifyECPID();
             verifyNickname();
-            verifyID();
+            verifyOT();
             verifyIVs();
             verifyHyperTraining();
             verifyEVs();
