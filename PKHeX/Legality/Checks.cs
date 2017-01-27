@@ -1148,8 +1148,10 @@ namespace PKHeX.Core
                     pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
                     pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
                 };
-                if (geo.Any(d => d != 0))
+                if (geo.Any(d => d != 0) && pkm.HT_Name.Length == 0)
                     return new CheckResult(Severity.Invalid, "Geolocation Memories should not be present.", CheckIdentifier.History);
+                if (pkm.Geo1_Country == 0 && pkm.HT_Name.Length != 0 && !pkm.WasEvent)
+                    return new CheckResult(Severity.Invalid, "Geolocation Memories should be present.", CheckIdentifier.History);
                 
                 if (pkm.GenNumber >= 7 && pkm.CNTs.Any(stat => stat > 0))
                     return new CheckResult(Severity.Invalid, "Untraded -- Contest stats on SM origin should be zero.", CheckIdentifier.History);
