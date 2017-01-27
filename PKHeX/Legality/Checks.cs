@@ -1213,8 +1213,28 @@ namespace PKHeX.Core
                     pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
                     pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
                 };
-                if (geo.Any(d => d != 0) && !pkm.VC1)
-                    return new CheckResult(Severity.Invalid, "Geolocation Memories should not be present.", CheckIdentifier.History);
+
+                // Check sequential order (no zero gaps)
+                bool geoEnd = false;
+                for (int i = 0; i < 5; i++)
+                {
+                    if (geoEnd && geo[i] != 0)
+                        return new CheckResult(Severity.Invalid, "Geolocation Memories invalid.", CheckIdentifier.History);
+
+                    if (geo[i] != 0)
+                        continue;
+                    if (geo[i + 5] != 0)
+                        return new CheckResult(Severity.Invalid, "Geolocation Region without Country.", CheckIdentifier.History);
+                    geoEnd = true;
+                }
+
+                if (pkm.VC1 || pkm.GenNumber < 7)
+                {
+                    var hasGeo = geo.Any(d => d != 0);
+
+                    if (!hasGeo)
+                        return new CheckResult(Severity.Invalid, "Geolocation Memories should be present.", CheckIdentifier.History);
+                }
                 
                 if (pkm.GenNumber >= 7 && pkm.CNTs.Any(stat => stat > 0))
                     return new CheckResult(Severity.Invalid, "Untraded -- Contest stats on SM origin should be zero.", CheckIdentifier.History);
@@ -1449,24 +1469,25 @@ namespace PKHeX.Core
 
             if (pkm.GenNumber == 7)
             {
-                bool hasMemory = pkm.VC1; // SM do not
-                string prefix = hasMemory ? "Should " : "Should not ";
+                bool check = pkm.VC1 || pkm.HT_Memory != 0;
+                if (!check)
+                    return;
 
-                if (hasMemory ^ pkm.HT_Memory != 0)
-                    AddLine(Severity.Invalid, prefix + "have a HT Memory.", CheckIdentifier.Memory);
-                if (hasMemory ^ pkm.HT_Intensity != 0)
-                    AddLine(Severity.Invalid, prefix + "have a HT Memory Intensity value.", CheckIdentifier.Memory);
+                if (pkm.HT_Memory != 4)
+                    AddLine(Severity.Invalid, "Should have a Link Trade HT Memory.", CheckIdentifier.Memory);
                 if (pkm.HT_TextVar != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory TextVar value.", CheckIdentifier.Memory);
-                if (hasMemory ^ pkm.HT_Feeling != 0)
-                    AddLine(Severity.Invalid, prefix + "have a HT Memory Feeling value.", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, "Should have a HT Memory TextVar value (somewhere).", CheckIdentifier.Memory);
+                if (pkm.HT_Intensity != 1)
+                    AddLine(Severity.Invalid, "Should have a HT Memory Intensity value (1st).", CheckIdentifier.Memory);
+                if (pkm.HT_Feeling > 10)
+                    AddLine(Severity.Invalid, "Should have a HT Memory Feeling value 0-9.", CheckIdentifier.Memory);
                 return;
             }
 
             switch (pkm.HT_Memory)
             {
                 case 0:
-                    if (pkm.Format != 6 || string.IsNullOrEmpty(pkm.HT_Name))
+                    if (string.IsNullOrEmpty(pkm.HT_Name))
                         return;
                     AddLine(Severity.Invalid, "HT Memory is missing.", CheckIdentifier.Memory); return;
                 case 1: // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.

@@ -626,6 +626,8 @@ namespace PKHeX.Core
             pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
             pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
 
+            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+
             // Fix Checksum
             pk7.RefreshChecksum();
 
