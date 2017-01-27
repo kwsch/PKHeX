@@ -77,7 +77,6 @@ namespace PKHeX.Core
                     fixEvoTreeSM();
                     break;
                 case GameVersion.ORAS:
-                    fixEvoTreeORAS();
                     break;
             }
         }
@@ -115,9 +114,6 @@ namespace PKHeX.Core
             var marowak = Lineage[Personal.getFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy(105);
             marowak.Form = -1; marowak.Banlist = new[] {GameVersion.SN, GameVersion.MN};
             Lineage[105].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { marowak } });
-        }
-        private void fixEvoTreeORAS()
-        {
         }
 
         private int getIndex(PKM pkm)
@@ -219,7 +215,7 @@ namespace PKHeX.Core
                 if (pkm.AltForm != Form)
                     return false;
 
-            if (Banlist.Contains((GameVersion)pkm.Version))
+            if (!skipChecks && Banlist.Contains((GameVersion)pkm.Version))
                 return false;
 
             switch (Method)
