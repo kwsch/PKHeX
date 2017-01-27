@@ -29,7 +29,7 @@ namespace PKHeX.Core
         public virtual string[] PKMExtensions => PKM.Extensions.Where(f => 
         {
             int gen = f.Last() - 0x30;
-            return 3 <= gen && gen <= 7;
+            return 3 <= gen && gen <= Generation;
         }).ToArray();
 
         // General PKM Properties
