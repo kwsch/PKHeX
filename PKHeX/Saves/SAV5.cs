@@ -108,12 +108,12 @@ namespace PKHeX.Core
         protected override int EventConstMax => 0x35E/2;
         protected override int GiftCountMax => 12;
 
-        public override int MaxMoveID => 559;
+        public override int MaxMoveID => Legal.MaxMoveID_5;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
-        public override int MaxItemID => Version == GameVersion.BW ? 632 : 638;
-        public override int MaxAbilityID => 164;
-        public override int MaxBallID => 0x19;
-        public override int MaxGameID => 23; // B2
+        public override int MaxItemID => Version == GameVersion.BW ? Legal.MaxItemID_5_BW : Legal.MaxItemID_5_B2W2;
+        public override int MaxAbilityID => Legal.MaxAbilityID_5;
+        public override int MaxBallID => Legal.MaxBallID_5;
+        public override int MaxGameID => Legal.MaxGameID_5; // B2
 
         // Blocks & Offsets
         private BlockInfo[] Blocks;

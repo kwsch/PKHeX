@@ -5,7 +5,11 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         internal const int MaxSpeciesID_7 = 802;
-        // PKHeX Valid Array Storage
+        internal const int MaxMoveID_7 = 720;
+        internal const int MaxItemID_7 = 920;
+        internal const int MaxAbilityID_7 = 232;
+        internal const int MaxBallID_7 = 0x1A; // 26
+        internal const int MaxGameID_7 = 38; // Yellow VC
 
         #region Met Locations
 

@@ -5,8 +5,10 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         internal const int MaxSpeciesID_1 = 151;
-
-        // PKHeX Valid Array Storage
+        internal const int MaxMoveID_1 = 165;
+        internal const int MaxItemID_1 = 255; 
+        internal const int MaxAbilityID_1 = 0;
+        
         internal static readonly ushort[] Pouch_Items_RBY = Enumerable.Range(0, 7)     // 0-6
            .Concat(Enumerable.Range(10, 11))  // 10-20
            .Concat(Enumerable.Range(29, 15))  // 29-43

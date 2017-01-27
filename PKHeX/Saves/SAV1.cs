@@ -168,10 +168,10 @@ namespace PKHeX.Core
         public override PKM BlankPKM => new PK1(null, null, Japanese);
         public override Type PKMType => typeof(PK1);
 
-        public override int MaxMoveID => 165;
+        public override int MaxMoveID => Legal.MaxMoveID_1;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
-        public override int MaxAbilityID => 0;
-        public override int MaxItemID => 255;
+        public override int MaxAbilityID => Legal.MaxAbilityID_1;
+        public override int MaxItemID => Legal.MaxItemID_1;
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
         public override int MaxMoney => 999999;

@@ -109,13 +109,53 @@ namespace PKHeX.Core
                 case 5:
                     return new PK5(data, ident);
                 case 6:
-                    PKM pkx = new PK6(data, ident);
-                    if (pkx.SM || pkx.VC || pkx.Horohoro)
-                        pkx = new PK7(data, ident);
-                    return pkx;
+                    var pkx = new PK6(data, ident);
+                    return checkPKMFormat7(pkx);
                 default:
                     return null;
             }
+        }
+        
+        /// <summary>
+        /// Checks if the input PK6 file is really a PK7, if so, updates the object.
+        /// </summary>
+        /// <param name="pk">PKM to check</param>
+        /// <returns>Updated PKM if actually PK7</returns>
+        private static PKM checkPKMFormat7(PK6 pk) => checkPK6is7(pk) ? new PK7(pk.Data, pk.Identifier) : (PKM)pk;
+        /// <summary>
+        /// Checks if the input PK6 file is really a PK7.
+        /// </summary>
+        /// <param name="pk">PKM to check</param>
+        /// <returns>Boolean is a PK7</returns>
+        private static bool checkPK6is7(PK6 pk)
+        {
+            if (pk.Version > Legal.MaxGameID_6)
+                return true;
+            if (pk.Geo1_Country != 0)
+                return false;
+
+            int lvl = pk.CurrentLevel;
+            if (lvl < 100 && pk.EncounterType != 0)
+                return false;
+            if (pk.EncounterType > 24)
+                return true;
+
+            if (pk.Enjoyment != 0 || pk.Fullness != 0)
+                return false;
+
+            // Check Ranges
+            if (pk.Species > Legal.MaxSpeciesID_6)
+                return true;
+            if (pk.Moves.Any(move => move > Legal.MaxMoveID_6_AO))
+                return true;
+            if (pk.RelearnMoves.Any(move => move > Legal.MaxMoveID_6_AO))
+                return true;
+            if (pk.Ability > Legal.MaxAbilityID_6_AO)
+                return true;
+            if (pk.HeldItem > Legal.MaxItemID_6_AO)
+                return true;
+
+            return false; // 6
         }
 
         public static PKM convertToFormat(PKM pk, Type PKMType, out string comment)

@@ -80,12 +80,12 @@ namespace PKHeX.Core
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override int MaxMoveID => 720;
+        public override int MaxMoveID => Legal.MaxMoveID_7;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_7;
-        public override int MaxItemID => 920;
-        public override int MaxAbilityID => 232;
-        public override int MaxBallID => 0x1A; // 26
-        public override int MaxGameID => 38; // Yellow VC
+        public override int MaxItemID => Legal.MaxItemID_7;
+        public override int MaxAbilityID => Legal.MaxAbilityID_7;
+        public override int MaxBallID => Legal.MaxBallID_7; // 26
+        public override int MaxGameID => Legal.MaxGameID_7;
 
         public int QRSaveData;
 

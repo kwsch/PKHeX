@@ -219,10 +219,10 @@ namespace PKHeX.Core
         private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
         private int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
 
-        public override int MaxMoveID => 251;
+        public override int MaxMoveID => Legal.MaxMoveID_2;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
-        public override int MaxAbilityID => 0;
-        public override int MaxItemID => 255;
+        public override int MaxAbilityID => Legal.MaxAbilityID_2;
+        public override int MaxItemID => Legal.MaxItemID_2;
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
         public override int MaxMoney => 999999;

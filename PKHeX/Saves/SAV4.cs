@@ -56,11 +56,11 @@ namespace PKHeX.Core
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
 
-        public override int MaxMoveID => 467;
+        public override int MaxMoveID => Legal.MaxMoveID_4;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
-        public override int MaxItemID => Version == GameVersion.HGSS ? 536 : Version == GameVersion.Pt ? 467 : 464;
-        public override int MaxAbilityID => 123;
-        public override int MaxBallID => 0x18;
+        public override int MaxItemID => Version == GameVersion.HGSS ? Legal.MaxItemID_4_HGSS : Version == GameVersion.Pt ? Legal.MaxItemID_4_Pt : Legal.MaxItemID_4_DP;
+        public override int MaxAbilityID => Legal.MaxAbilityID_4;
+        public override int MaxBallID => Legal.MaxBallID_4;
         public override int MaxGameID => 15; // Colo/XD
 
         // Checksums

@@ -5,8 +5,10 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         internal const int MaxSpeciesID_2 = 251;
-
-        // PKHeX Valid Array Storage
+        internal const int MaxMoveID_2 = 251;
+        internal const int MaxItemID_2 = 255;
+        internal const int MaxAbilityID_2 = 0;
+        
         internal static readonly ushort[] Pouch_Items_GSC = {
             3, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 51, 52, 53, 57, 60, 62, 63, 64, 65, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 117, 118, 119, 121, 122, 123, 124, 125, 126, 131, 132, 138, 139, 140, 143, 144, 146, 150, 151, 152, 156, 158, 163, 168, 169, 170, 172, 173, 174, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189
         };
