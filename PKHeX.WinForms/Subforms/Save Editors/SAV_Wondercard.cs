@@ -362,7 +362,7 @@ namespace PKHeX.WinForms
 
                 string desc = $"({mg.Type}) {getDescription(mg)}";
 
-                new QR(qr, PB_Preview.Image, desc, "", "", "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
+                new QR(qr, PB_Preview.Image, desc + "PKHeX Wonder Card @ ProjectPokemon.org", "", "", "").ShowDialog();
             }
         }
 
@@ -507,10 +507,18 @@ namespace PKHeX.WinForms
                     {
                         var addItem = ((WC7) gift).AdditionalItem;
                         if (addItem != 0)
-                            s += $"+ {GameInfo.Strings.itemlist[addItem]}";
+                            s += $"+ {GameInfo.Strings.itemlist[addItem]}" + Environment.NewLine;
                     }
                 }
                 catch { s += "Unable to create gift description." + Environment.NewLine; }
+            }
+            else if (gift.IsBP)
+            {
+                s += "BP: " + gift.BP + Environment.NewLine;
+            }
+            else if (gift.IsBean)
+            {
+                s += "Bean ID: " + gift.Bean + Environment.NewLine + "Quantity: " + gift.Quantity + Environment.NewLine;
             }
             else { s += "Unknown Wonder Card Type!" + Environment.NewLine; }
             if (gift is WC7)

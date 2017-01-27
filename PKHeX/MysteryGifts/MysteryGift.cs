@@ -107,6 +107,12 @@ namespace PKHeX.Core
         public virtual int Quantity { get { return 1; } set { } }
         public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
 
+        public virtual bool IsBP { get { return false; } set { } }
+        public virtual int BP { get { return 0; } set { } }
+        public virtual bool IsBean { get { return false; } set { } }
+        public virtual int Bean { get { return 0; } set { } }
+        public virtual int BeanCount { get { return 0; } set { } }
+
         public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         // Search Properties

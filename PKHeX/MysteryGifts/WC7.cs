@@ -86,11 +86,22 @@ namespace PKHeX.Core
         public bool GiftOncePerDay { get { return (CardFlags & 4) == 4; } set { CardFlags = (byte)(CardFlags & ~4 | (value ? 4 : 0)); } }
 
         public bool MultiObtain { get { return Data[0x53] == 1; } set { Data[0x53] = (byte)(value ? 1 : 0); } }
+        
+        // BP Properties
+        public override bool IsBP { get { return CardType == 3; } set { if (value) CardType = 3; } }
+        public override int BP
+        {
+            get { return Item; }
+            set { Item = value; }
+        }
 
         // Bean (Mame) Properties
-        public bool IsBean { get { return CardType == 3; } set { if (value) CardType = 3; } }
-        // BP Properties
-        public bool IsBP { get { return CardType == 2; } set { if (value) CardType = 2; } }
+        public override bool IsBean { get { return CardType == 2; } set { if (value) CardType = 2; } }
+        public override int Bean
+        {
+            get { return Item; }
+            set { Item = value; }
+        }
 
         // Item Properties
         public override bool IsItem { get { return CardType == 1; } set { if (value) CardType = 1; } }
