@@ -125,7 +125,8 @@ namespace PKHeX.Core
             if (pkm.Format < 7)
                 return pkm.Species;
 
-            return Personal.getFormeIndex(pkm.Species, pkm.AltForm);
+            var form = pkm.Species == 678 ? 0 : pkm.AltForm; // override Meowstic forme index
+            return Personal.getFormeIndex(pkm.Species, form);
         }
         private int getIndex(EvolutionMethod evo)
         {

@@ -952,6 +952,8 @@ namespace PKHeX.Core
                     return EggMovesAO[species].Moves.Concat(EggMovesXY[species].Moves);
 
                 case 7: // entries per form
+                    if (species == 678)
+                    { species = 677; formnum = 0; }
                     var entry = EggMovesSM[species];
                     if (formnum > 0)
                         entry = EggMovesSM[entry.FormTableIndex + formnum - 1];
