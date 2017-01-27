@@ -30,3 +30,10 @@ Rubí Omega
 
 Sol
 Luna
+
+
+Go
+Roja
+Azul
+Verde
+Amarilla

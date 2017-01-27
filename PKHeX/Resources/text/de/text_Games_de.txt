@@ -30,3 +30,10 @@ OR
 
 Sonne
 Mond
+
+
+Go
+Rote
+Blaue
+Grüne
+Gelbe

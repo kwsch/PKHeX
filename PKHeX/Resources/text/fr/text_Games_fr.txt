@@ -30,3 +30,10 @@ OR
 
 Soleil
 Lune
+
+
+Go
+Rouge
+Bleue
+Vert
+Jaune
