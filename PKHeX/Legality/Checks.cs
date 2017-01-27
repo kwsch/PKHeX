@@ -1384,19 +1384,26 @@ namespace PKHeX.Core
 
             if (pkm.GenNumber == 7)
             {
-                if (pkm.HT_Memory != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory.", CheckIdentifier.Memory);
-                if (pkm.HT_Intensity != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory Intensity value.", CheckIdentifier.Memory);
-                if (pkm.HT_TextVar != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory TextVar value.", CheckIdentifier.Memory);
-                if (pkm.HT_Feeling != 0)
-                    AddLine(Severity.Invalid, "Should not have a HT Memory Feeling value.", CheckIdentifier.Memory);
+                bool hasMemory = pkm.VC1; // SM do not
+                string prefix = hasMemory ? "Should " : "Should not ";
+
+                if (hasMemory ^ pkm.HT_Memory != 0)
+                    AddLine(Severity.Invalid, prefix + "have a HT Memory.", CheckIdentifier.Memory);
+                if (hasMemory ^ pkm.HT_Intensity != 0)
+                    AddLine(Severity.Invalid, prefix + "Should not have a HT Memory Intensity value.", CheckIdentifier.Memory);
+                if (hasMemory ^ pkm.HT_TextVar != 0)
+                    AddLine(Severity.Invalid, prefix + "Should not have a HT Memory TextVar value.", CheckIdentifier.Memory);
+                if (hasMemory ^ pkm.HT_Feeling != 0)
+                    AddLine(Severity.Invalid, prefix + "Should not have a HT Memory Feeling value.", CheckIdentifier.Memory);
                 return;
             }
 
             switch (pkm.HT_Memory)
             {
+                case 0:
+                    if (pkm.Format != 6 || string.IsNullOrEmpty(pkm.HT_Name))
+                        return;
+                    AddLine(Severity.Invalid, "HT Memory is missing.", CheckIdentifier.Memory); return;
                 case 1: // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
                     AddLine(Severity.Invalid, "HT Memory: Handling Trainer did not capture this.", CheckIdentifier.Memory); return;
 
