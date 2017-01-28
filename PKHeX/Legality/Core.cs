@@ -864,6 +864,8 @@ namespace PKHeX.Core
 
             if (species == 479) // Rotom
                 r.Add(RotomMoves[pkm.AltForm]);
+            if (species == 648) // Meloetta
+                r.Add(547); // Relic Song
 
             if (species == 25 && pkm.Format == 6 && pkm.GenNumber == 6) // Pikachu
                 r.Add(PikachuMoves[pkm.AltForm]);
