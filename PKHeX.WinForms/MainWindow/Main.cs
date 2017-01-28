@@ -129,15 +129,18 @@ namespace PKHeX.WinForms
             {
                 c.Opening += (sender, e) =>
                 {
+                    var items = ((ContextMenuStrip)sender).Items;
                     if (ModifierKeys == Keys.Control)
-                        ((ContextMenuStrip)sender).Items.Add(mnuLLegality);
-                };
-                c.Closing += (sender, e) =>
-                {
-                    if (((ContextMenuStrip)sender).Items.Contains(mnuLLegality))
-                        mnuL.Items.Add(mnuLLegality);
+                        items.Add(mnuLLegality);
+                    else if (items.Contains(mnuLLegality))
+                        items.Remove(mnuLLegality);
                 };
             }
+            mnuL.Opening += (sender, e) =>
+            {
+                if (mnuL.Items[0] != mnuLLegality)
+                    mnuL.Items.Insert(0, mnuLLegality);
+            };
 
             // Load WC6 folder to legality
             refreshWC6DB();
