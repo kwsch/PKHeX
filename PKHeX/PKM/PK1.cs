@@ -350,6 +350,8 @@ namespace PKHeX.Core
                 HT_Name = PKMConverter.OT_Name,
                 HT_Gender = PKMConverter.OT_Gender,
                 Language = PKMConverter.Language,
+                Geo1_Country = PKMConverter.Country,
+                Geo1_Region = PKMConverter.Region
             };
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
