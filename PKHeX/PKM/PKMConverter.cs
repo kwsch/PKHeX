@@ -131,15 +131,6 @@ namespace PKHeX.Core
         {
             if (pk.Version > Legal.MaxGameID_6)
                 return true;
-            if (pk.Geo1_Country != 0)
-                return false;
-
-            int lvl = pk.CurrentLevel;
-            if (lvl < 100 && pk.EncounterType != 0)
-                return false;
-            if (pk.EncounterType > 24)
-                return true;
-
             if (pk.Enjoyment != 0 || pk.Fullness != 0)
                 return false;
 
@@ -153,6 +144,12 @@ namespace PKHeX.Core
             if (pk.Ability > Legal.MaxAbilityID_6_AO)
                 return true;
             if (pk.HeldItem > Legal.MaxItemID_6_AO)
+                return true;
+
+            int lvl = pk.CurrentLevel;
+            if (lvl < 100 && pk.EncounterType != 0)
+                return false;
+            if (pk.EncounterType > 24)
                 return true;
 
             return false; // 6
