@@ -159,11 +159,16 @@ namespace PKHeX.Core
                     return true;
                 if (et > 24) // invalid encountertype
                     return true;
-                if (prefer > 6) // preferential treatment
-                    return true;
             }
 
-            return false; // 6
+            int mb = BitConverter.ToUInt16(pk.Data, 0x16);
+            if (mb > 0xAAA)
+                return false;
+            for (int i = 0; i < 6; i++)
+                if ((mb >> (i << 1) & 3) == 3) // markings are 10 or 01 (or 00), never 11
+                    return false;
+
+            return prefer > 6;
         }
 
         public static PKM convertToFormat(PKM pk, Type PKMType, out string comment)
