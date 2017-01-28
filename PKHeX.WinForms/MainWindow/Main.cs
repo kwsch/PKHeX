@@ -122,6 +122,23 @@ namespace PKHeX.WinForms
 
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
 
+            // Add Legality check to right click context menus
+            // ToolStripItem can't be in multiple contextmenus, so put the item back when closing.
+            var cm = new[]{mnuV, mnuVSD};
+            foreach (var c in cm)
+            {
+                c.Opening += (sender, e) =>
+                {
+                    if (ModifierKeys == Keys.Control)
+                        ((ContextMenuStrip)sender).Items.Add(mnuLLegality);
+                };
+                c.Closing += (sender, e) =>
+                {
+                    if (((ContextMenuStrip)sender).Items.Contains(mnuLLegality))
+                        mnuL.Items.Add(mnuLLegality);
+                };
+            }
+
             // Load WC6 folder to legality
             refreshWC6DB();
             // Load WC7 folder to legality
@@ -3175,9 +3192,12 @@ namespace PKHeX.WinForms
                 SAV.Edited = false;
                 WinFormsUtil.Alert("SAV exported to:", main.FileName);
             }
-            catch (UnauthorizedAccessException x)
+            catch (Exception x)
             {
-                WinFormsUtil.Error(x.Message, "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
+                if (x is UnauthorizedAccessException || x is FileNotFoundException)
+                    WinFormsUtil.Error("Unable to save." + Environment.NewLine + x.Message, 
+                        "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
+                else throw;
             }
         }
 
