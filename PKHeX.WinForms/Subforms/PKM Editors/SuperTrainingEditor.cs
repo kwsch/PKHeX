@@ -121,6 +121,11 @@ namespace PKHeX.WinForms
                 pk6.TrainingBag = CB_Bag.SelectedIndex;
                 pk6.TrainingBagHits = (int)NUD_BagHits.Value;
             }
+            else // clear flags if manually cleared
+            {
+                pkm.SecretSuperTrainingUnlocked &= CHK_SecretUnlocked.Checked;
+                pkm.SecretSuperTrainingComplete &= CHK_SecretComplete.Checked;
+            }
 
             Main.pkm = pkm;
         }
@@ -152,11 +157,8 @@ namespace PKHeX.WinForms
         }
         private void B_None_Click(object sender, EventArgs e)
         {
-            if (pkm is PK6)
-            {
-                CHK_SecretUnlocked.Checked = false;
-                CHK_SecretComplete.Checked = false;
-            }
+            CHK_SecretUnlocked.Checked = false;
+            CHK_SecretComplete.Checked = false;
             foreach (var c in TLP_SuperTrain.Controls.OfType<CheckBox>())
                 c.Checked = false;
             foreach (var c in TLP_DistSuperTrain.Controls.OfType<CheckBox>())

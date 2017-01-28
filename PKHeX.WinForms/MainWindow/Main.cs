@@ -1206,7 +1206,11 @@ namespace PKHeX.WinForms
             if (!string.IsNullOrWhiteSpace(path)) // Actual Save
             {
                 // Check location write protection
-                if ((new DirectoryInfo(path).Attributes & FileAttributes.ReadOnly) != 0)
+                bool locked = true;
+                try { locked = (new DirectoryInfo(path).Attributes & FileAttributes.ReadOnly) != 0; }
+                catch { }
+
+                if (locked)
                     WinFormsUtil.Alert("Save file's location is write protected:\n" + path,
                         "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             }
