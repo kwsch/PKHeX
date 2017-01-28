@@ -338,6 +338,8 @@ namespace PKHeX.Core
 
             int[] abilities = PersonalInfo.Abilities;
             int abilval = Array.IndexOf(abilities, Ability);
+            if (abilval >= 0 && abilities[abilval] == abilities[2] && HiddenAbility)
+                abilval = 2; // hidden ability shared with a regular ability
             if (abilval >= 0)
                 pk6.AbilityNumber = 1 << abilval;
             else // Fallback (shouldn't happen)
