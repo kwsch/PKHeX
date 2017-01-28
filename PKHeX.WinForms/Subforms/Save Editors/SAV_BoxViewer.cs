@@ -262,7 +262,7 @@ namespace PKHeX.WinForms
 
                 byte[] data = File.ReadAllBytes(file);
                 MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
-                PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
+                PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);

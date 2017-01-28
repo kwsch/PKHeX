@@ -707,7 +707,7 @@ namespace PKHeX.WinForms
             {
                 openSAV(sav, path);
             }
-            else if ((temp = PKMConverter.getPKMfromBytes(input)) != null)
+            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: SAV.Generation)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
@@ -1640,7 +1640,7 @@ namespace PKHeX.WinForms
 
                 if (ekx == null) return;
                 
-                PKM pk = PKMConverter.getPKMfromBytes(ekx);
+                PKM pk = PKMConverter.getPKMfromBytes(ekx, prefer: SAV.Generation);
                 if (pk == null) { WinFormsUtil.Alert("Decoded data not a valid PKM.", $"QR Data Size: {ekx.Length}"); }
                 else
                 {
@@ -3860,7 +3860,7 @@ namespace PKHeX.WinForms
             foreach (byte[] data in from file in filepaths where PKX.getIsPKM(new FileInfo(file).Length) select File.ReadAllBytes(file))
             {
                 string c;
-                PKM temp = PKMConverter.getPKMfromBytes(data);
+                PKM temp = PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
 
                 if (pk != null) // Write to save
@@ -4215,7 +4215,7 @@ namespace PKHeX.WinForms
 
                 byte[] data = File.ReadAllBytes(file);
                 MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
-                PKM temp = mg != null ? mg.convertToPKM(SAV) : PKMConverter.getPKMfromBytes(data);
+                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
