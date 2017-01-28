@@ -1569,9 +1569,12 @@ namespace PKHeX.WinForms
             if (!ability_list.Any())
                 ability_list.Add(GameInfo.Strings.abilitylist[0] + abilIdentifier[0]);
 
+            bool tmp = fieldsLoaded;
+            fieldsLoaded = false;
             int abil = CB_Ability.SelectedIndex;
             CB_Ability.DataSource = ability_list;
             CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+            fieldsLoaded = tmp;
         }
         // PKX Data Calculation Functions //
         private void setIsShiny(object sender)
