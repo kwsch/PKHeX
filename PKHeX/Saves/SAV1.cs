@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV1 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        {
+            int gen = f.Last() - 0x30;
+            return 1 <= gen && gen <= 2;
+        }).ToArray();
 
-        public SAV1(byte[] data = null)
+        public SAV1(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G1RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            Version = data == null ? GameVersion.RBY : SaveUtil.getIsG1SAV(Data);
+            if (data == null)
+                Version = GameVersion.RBY;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else Version = SaveUtil.getIsG1SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -23,7 +32,7 @@ namespace PKHeX
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = getPartyOffset(0);
 
-            Japanese = SaveUtil.getIsG1SAVJ(data);
+            Japanese = SaveUtil.getIsG1SAVJ(Data);
             Personal = PersonalTable.RBY;
 
             // Stash boxes after the save file's end.
@@ -153,18 +162,16 @@ namespace PKHeX
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
         public override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
-
-        public int SIZE_BOX => BoxSlotCount*SIZE_STORED;
-
-        public int SIZE_STOREDBOX => PokemonList1.GetDataLength(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
+        private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
+        private int SIZE_STOREDBOX => PokemonList1.GetDataLength(Japanese ? PokemonList1.CapacityType.StoredJP : PokemonList1.CapacityType.Stored, Japanese);
 
         public override PKM BlankPKM => new PK1(null, null, Japanese);
         public override Type PKMType => typeof(PK1);
 
-        public override int MaxMoveID => 165;
+        public override int MaxMoveID => Legal.MaxMoveID_1;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
-        public override int MaxAbilityID => 0;
-        public override int MaxItemID => 255;
+        public override int MaxAbilityID => Legal.MaxAbilityID_1;
+        public override int MaxItemID => Legal.MaxItemID_1;
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
         public override int MaxMoney => 999999;
@@ -239,6 +246,12 @@ namespace PKHeX
         {
             get { return 0; }
             set { }
+        }
+
+        public byte PikaFriendship
+        {
+            get { return Data[Japanese ? 0x2712 : 0x271C]; }
+            set { Data[Japanese ? 0x2712 : 0x271C] = value; }
         }
         public override int PlayedHours
         {
@@ -450,7 +463,7 @@ namespace PKHeX
             // Get the Caught Flag
             return (Data[(Japanese ? 0x259E : 0x25A3) + ofs] & bitval) != 0;
         }
-        protected internal override void setSeen(PKM pkm, bool seen = true)
+        public override void setSeen(PKM pkm, bool seen = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -463,11 +476,11 @@ namespace PKHeX
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Seen Flag
-            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] &= (byte)(~bitval);
+            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] &= (byte)~bitval;
             if (seen)
                 Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] |= bitval;
         }
-        protected internal override void setCaught(PKM pkm, bool caught = true)
+        public override void setCaught(PKM pkm, bool caught = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -480,7 +493,7 @@ namespace PKHeX
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Captured Flag
-            Data[(Japanese ? 0x259E : 0x25A3) + ofs] &= (byte)(~bitval);
+            Data[(Japanese ? 0x259E : 0x25A3) + ofs] &= (byte)~bitval;
             if (caught)
                 Data[(Japanese ? 0x259E : 0x25A3) + ofs] |= bitval;
         }

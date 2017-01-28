@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class XK3 : PKM // 3rd Generation PKM File
     {
-        internal static readonly byte[] ExtraBytes =
+        public static readonly byte[] ExtraBytes =
         {
             0x0A, 0x0B, 0x0C, 0x0D, 0x1E, 0x1F,
             0x2A, 0x2B,

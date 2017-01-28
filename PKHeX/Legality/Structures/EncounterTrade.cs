@@ -1,8 +1,8 @@
-﻿namespace PKHeX
+﻿namespace PKHeX.Core
 {
-    public class EncounterTrade
+    public class EncounterTrade : IEncounterable
     {
-        public int Species;
+        public int Species { get; set; }
         public int Level;
 
         public int Location = 30001;
@@ -16,5 +16,7 @@
         public bool Shiny = false;
         public int Gender = -1;
         public int OTGender = -1;
+
+        public string Name => "In-game Trade";
     }
 }

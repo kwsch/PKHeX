@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
-    internal static class Data
+    public static class Data
     {
-        internal static byte[][] unpackMini(byte[] fileData, string identifier)
+        public static byte[][] unpackMini(byte[] fileData, string identifier)
         {
             if (fileData == null || fileData.Length < 4)
                 return null;

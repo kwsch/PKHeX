@@ -1,4 +1,4 @@
-﻿namespace PKHeX
+﻿namespace PKHeX.Core
 {
     public abstract class PersonalInfo
     {
@@ -40,9 +40,9 @@
         public virtual int Height { get; set; } = 0;
         public virtual int Weight { get; set; } = 0;
 
-        public bool[] TMHM { get; set; }
-        public bool[] TypeTutors { get; set; }
-        public bool[][] SpecialTutors { get; set; } = new bool[0][];
+        public bool[] TMHM { get; protected set; }
+        public bool[] TypeTutors { get; protected set; }
+        public bool[][] SpecialTutors { get; protected set; } = new bool[0][];
 
         protected static bool[] getBits(byte[] data)
         {

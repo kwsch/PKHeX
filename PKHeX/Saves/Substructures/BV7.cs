@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class BV7 : BattleVideo
     {
@@ -50,5 +50,8 @@ namespace PKHeX
                 }
             }
         }
+
+        public int MusicID { get { return Data[0x21C]; } set { Data[0x21C] = (byte)value; } }
+        public bool SilentBGM { get { return MusicID == 0xFF; } set { MusicID = (byte)(value ? 0xFF : MusicID); } }
     }
 }

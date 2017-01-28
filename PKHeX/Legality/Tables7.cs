@@ -1,11 +1,15 @@
 ﻿using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
         internal const int MaxSpeciesID_7 = 802;
-        // PKHeX Valid Array Storage
+        internal const int MaxMoveID_7 = 720;
+        internal const int MaxItemID_7 = 920;
+        internal const int MaxAbilityID_7 = 232;
+        internal const int MaxBallID_7 = 0x1A; // 26
+        internal const int MaxGameID_7 = 38; // Yellow VC
 
         #region Met Locations
 
@@ -335,7 +339,8 @@ namespace PKHeX
             103, // Exeggutor
             105, // Marowak
         }.Concat(AlolanOriginForms).ToArray();
-        internal static readonly int[] PastGenAlolanNatives =
+
+        public static readonly int[] PastGenAlolanNatives =
         {
             010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
             051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 072, 073, 074, 075,

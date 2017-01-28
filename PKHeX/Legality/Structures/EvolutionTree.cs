@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class EvolutionTree
     {
@@ -77,7 +77,6 @@ namespace PKHeX
                     fixEvoTreeSM();
                     break;
                 case GameVersion.ORAS:
-                    fixEvoTreeORAS();
                     break;
             }
         }
@@ -108,16 +107,20 @@ namespace PKHeX
             Lineage[711].Chain.RemoveRange(0, 3);
 
             // Add past gen evolutions for other Marowak and Exeggutor
-            var exegg = Lineage[Personal.getFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy(103);
+            var raichu1 = Lineage[Personal.getFormeIndex(26, 1)];
+            var evo1 = raichu1.Chain[0].StageEntryMethods[0].Copy();
+            Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo1 } });
+            var evo2 = raichu1.Chain[1].StageEntryMethods[0].Copy();
+            evo2.Form = -1; evo2.Banlist = new[] { GameVersion.SN, GameVersion.MN };
+            Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo2 } });
+
+            var exegg = Lineage[Personal.getFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy();
             exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 4; // No night required (doesn't matter)
             Lineage[103].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { exegg } });
 
-            var marowak = Lineage[Personal.getFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy(105);
+            var marowak = Lineage[Personal.getFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy();
             marowak.Form = -1; marowak.Banlist = new[] {GameVersion.SN, GameVersion.MN};
             Lineage[105].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { marowak } });
-        }
-        private void fixEvoTreeORAS()
-        {
         }
 
         private int getIndex(PKM pkm)
@@ -125,7 +128,8 @@ namespace PKHeX
             if (pkm.Format < 7)
                 return pkm.Species;
 
-            return Personal.getFormeIndex(pkm.Species, pkm.AltForm);
+            var form = pkm.Species == 678 ? 0 : pkm.AltForm; // override Meowstic forme index
+            return Personal.getFormeIndex(pkm.Species, form);
         }
         private int getIndex(EvolutionMethod evo)
         {
@@ -215,10 +219,10 @@ namespace PKHeX
         {
             RequiresLevelUp = false;
             if (Form > -1)
-                if (pkm.AltForm != Form)
+                if (!skipChecks && pkm.AltForm != Form)
                     return false;
 
-            if (Banlist.Contains((GameVersion)pkm.Version))
+            if (!skipChecks && Banlist.Contains((GameVersion)pkm.Version))
                 return false;
 
             switch (Method)
@@ -311,8 +315,10 @@ namespace PKHeX
             };
         }
 
-        public EvolutionMethod Copy(int species)
+        public EvolutionMethod Copy(int species = -1)
         {
+            if (species < 0)
+                species = Species;
             return new EvolutionMethod
             {
                 Method = Method,

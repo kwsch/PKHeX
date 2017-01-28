@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PK5 : PKM // 5th Generation PKM File
     {
-        internal static readonly byte[] ExtraBytes =
+        public static readonly byte[] ExtraBytes =
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };

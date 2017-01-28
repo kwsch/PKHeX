@@ -1,17 +1,23 @@
 ﻿using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
         internal const int MaxSpeciesID_6 = 721;
-
-        // PKHeX Valid Array Storage
+        internal const int MaxMoveID_6_XY = 617;
+        internal const int MaxMoveID_6_AO = 621;
+        internal const int MaxItemID_6_XY = 717;
+        internal const int MaxItemID_6_AO = 775;
+        internal const int MaxAbilityID_6_XY = 188;
+        internal const int MaxAbilityID_6_AO = 191;
+        internal const int MaxBallID_6 = 0x19;
+        internal const int MaxGameID_6 = 27; // OR
 
         #region Met Locations
         internal static readonly int[] Met_XYc = {0, 60002, 30002,};
 
-        internal static readonly int[] Met_XY_0 =
+        public static readonly int[] Met_XY_0 =
         {
    /* XY */ 2, 6, 8, 10, 12, 14, 16, 17, 18, 20, 22, 24, 26, 28, 30, 32,
             34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 82, 84, 86, 88,
@@ -161,7 +167,7 @@ namespace PKHeX
             065, 066, 067
         };
 
-        internal static readonly ushort[] Pouch_Berry_XY =
+        public static readonly ushort[] Pouch_Berry_XY =
         {
                  149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162,
             163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177,
@@ -369,13 +375,25 @@ namespace PKHeX
         #region Static Encounter/Gift Tables
         private static readonly EncounterStatic[] Encounter_XY =
         {
-            new EncounterStatic { Species = 650, Level = 5, Location = 10, Gift = true }, // Chespin
-            new EncounterStatic { Species = 653, Level = 5, Location = 10, Gift = true }, // Fennekin
-            new EncounterStatic { Species = 656, Level = 5, Location = 10, Gift = true }, // Froakie
+            new EncounterStatic { Gift = true, Species = 650, Level = 5, Location = 10, }, // Chespin
+            new EncounterStatic { Gift = true, Species = 653, Level = 5, Location = 10, }, // Fennekin
+            new EncounterStatic { Gift = true, Species = 656, Level = 5, Location = 10, }, // Froakie
 
-            new EncounterStatic { Species = 1, Level = 10, Location = 22, Gift = true }, // Bulbasaur
-            new EncounterStatic { Species = 4, Level = 10, Location = 22, Gift = true }, // Charmander
-            new EncounterStatic { Species = 7, Level = 10, Location = 22, Gift = true }, // Squirtle
+            new EncounterStatic { Gift = true, Species = 1, Level = 10, Location = 22, }, // Bulbasaur
+            new EncounterStatic { Gift = true, Species = 4, Level = 10, Location = 22, }, // Charmander
+            new EncounterStatic { Gift = true, Species = 7, Level = 10, Location = 22, }, // Squirtle
+
+            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 44, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 44, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 44, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 44, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 44, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 44, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 44, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 20, Location = 44, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 20, Location = 44, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 44, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 44, }, // Amaura
 
             new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
             new EncounterStatic { Species = 131, Level = 30, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
@@ -410,21 +428,34 @@ namespace PKHeX
         };
         private static readonly EncounterStatic[] Encounter_AO =
         {
-            new EncounterStatic { Species = 252, Level = 5, Location = 204, Gift = true }, // Treeko
-            new EncounterStatic { Species = 255, Level = 5, Location = 204, Gift = true }, // Torchic
-            new EncounterStatic { Species = 258, Level = 5, Location = 204, Gift = true }, // Mudkip
+            new EncounterStatic { Gift = true, Species = 252, Level = 5, Location = 204, }, // Treeko
+            new EncounterStatic { Gift = true, Species = 255, Level = 5, Location = 204, }, // Torchic
+            new EncounterStatic { Gift = true, Species = 258, Level = 5, Location = 204, }, // Mudkip
             
-            new EncounterStatic { Species = 152, Level = 5, Location = 204, Gift = true }, // Chikorita
-            new EncounterStatic { Species = 155, Level = 5, Location = 204, Gift = true }, // Cyndaquil
-            new EncounterStatic { Species = 158, Level = 5, Location = 204, Gift = true }, // Totodile
+            new EncounterStatic { Gift = true, Species = 152, Level = 5, Location = 204, }, // Chikorita
+            new EncounterStatic { Gift = true, Species = 155, Level = 5, Location = 204, }, // Cyndaquil
+            new EncounterStatic { Gift = true, Species = 158, Level = 5, Location = 204, }, // Totodile
 
-            new EncounterStatic { Species = 387, Level = 5, Location = 204, Gift = true }, // Turtwig
-            new EncounterStatic { Species = 390, Level = 5, Location = 204, Gift = true }, // Chimchar
-            new EncounterStatic { Species = 393, Level = 5, Location = 204, Gift = true }, // Piplup
+            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 204, }, // Turtwig
+            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 204, }, // Chimchar
+            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 204, }, // Piplup
 
-            new EncounterStatic { Species = 495, Level = 5, Location = 204, Gift = true }, // Snivy
-            new EncounterStatic { Species = 498, Level = 5, Location = 204, Gift = true }, // Tepig
-            new EncounterStatic { Species = 501, Level = 5, Location = 204, Gift = true }, // Oshawott
+            new EncounterStatic { Gift = true, Species = 495, Level = 5, Location = 204, }, // Snivy
+            new EncounterStatic { Gift = true, Species = 498, Level = 5, Location = 204, }, // Tepig
+            new EncounterStatic { Gift = true, Species = 501, Level = 5, Location = 204, }, // Oshawott
+            
+            // Fossil
+            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 190, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 190, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 190, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 190, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 190, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 190, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 190, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 20, Location = 190, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 20, Location = 190, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 20, Location = 190, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 20, Location = 190, }, // Amaura
 
             new EncounterStatic { Species = 25, Level = 20, Location = 178, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
             new EncounterStatic { Species = 25, Level = 20, Location = 180, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
@@ -667,7 +698,8 @@ namespace PKHeX
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
-        internal static readonly int[] WurmpleEvolutions =
+
+        public static readonly int[] WurmpleEvolutions =
         {
             266, 267, // Silcoon Beautifly
             268, 269, // Cascoon Dustox

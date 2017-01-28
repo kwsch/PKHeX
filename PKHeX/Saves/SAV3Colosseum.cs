@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV3Colosseum : SaveFile
     {

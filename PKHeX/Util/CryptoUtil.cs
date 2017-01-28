@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public partial class Util
     {

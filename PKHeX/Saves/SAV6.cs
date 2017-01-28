@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV6 : SaveFile
     {
@@ -44,12 +44,12 @@ namespace PKHeX
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override int MaxMoveID => XY ? 617 : 621;
+        public override int MaxMoveID => XY ? Legal.MaxMoveID_6_XY : Legal.MaxMoveID_6_AO;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_6;
-        public override int MaxItemID => XY ? 717 : 775;
-        public override int MaxAbilityID => XY ? 188 : 191;
-        public override int MaxBallID => 0x19;
-        public override int MaxGameID => 27; // OR
+        public override int MaxItemID => XY ? Legal.MaxItemID_6_XY : Legal.MaxItemID_6_AO;
+        public override int MaxAbilityID => XY ? Legal.MaxAbilityID_6_XY : Legal.MaxAbilityID_6_AO;
+        public override int MaxBallID => Legal.MaxBallID_6;
+        public override int MaxGameID => Legal.MaxGameID_6; // OR
 
         // Feature Overrides
         public override bool HasGeolocation => true;
@@ -347,7 +347,7 @@ namespace PKHeX
             get { return Data[TrainerCard + 5]; }
             set { Data[TrainerCard + 5] = (byte)value; }
         }
-        public int Sprite
+        public override int MultiplayerSpriteID
         {
             get { return Data[TrainerCard + 7]; }
             set { Data[TrainerCard + 7] = (byte)value; }
@@ -635,7 +635,7 @@ namespace PKHeX
                 Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
         }
 
-        public byte[] Puffs { get { return Data.Skip(Puff).Take(100).ToArray(); } set { value.CopyTo(Data, Puff); } }
+        public byte[] Puffs { get { return getData(Puff, 100); } set { value.CopyTo(Data, Puff); } }
         public int PuffCount { get { return BitConverter.ToInt32(Data, Puff + 100); } set { BitConverter.GetBytes(value).CopyTo(Data, Puff + 100); } }
 
         public int[] SelectItems
@@ -676,7 +676,7 @@ namespace PKHeX
         }
 
         public override string JPEGTitle => JPEG < 0 ? null : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
-        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : Data.Skip(JPEG + 0x54).Take(0xE004).ToArray();
+        public override byte[] JPEGData => JPEG < 0 || Data[JPEG + 0x54] != 0xFF ? null : getData(JPEG + 0x54, 0xE004);
 
         // Inventory
         public override InventoryPouch[] Inventory
@@ -911,7 +911,7 @@ namespace PKHeX
             {
                 if (LinkInfo < 0)
                     return null;
-                return Data.Skip(LinkInfo).Take(0xC48).ToArray();
+                return getData(LinkInfo, 0xC48);
             }
             set
             {
@@ -930,7 +930,7 @@ namespace PKHeX
             if (index < 0 || index > GiftCountMax)
                 return null;
 
-            return new WC6(Data.Skip(WondercardData + index * WC6.Size).Take(WC6.Size).ToArray());
+            return new WC6(getData(WondercardData + index * WC6.Size, WC6.Size));
         }
         private void setWC6(MysteryGift wc6, int index)
         {
@@ -942,7 +942,7 @@ namespace PKHeX
             wc6.Data.CopyTo(Data, WondercardData + index * WC6.Size);
 
             for (int i = 0; i < GiftCountMax; i++)
-                if (BitConverter.ToUInt16(Data, WondercardData + i * WC6.Size) == 0)
+                if (getData(WondercardData + i * WC6.Size, WC6.Size).All(b => b == 0)) // empty
                     for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
                         Array.Copy(Data, WondercardData + j * WC6.Size, Data, WondercardData + (j - 1) * WC6.Size, WC6.Size);
 

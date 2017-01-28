@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV2 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+        public override string[] PKMExtensions => PKM.Extensions.Where(f => 
+        {
+            int gen = f.Last() - 0x30;
+            return 1 <= gen && gen <= 2;
+        }).ToArray();
 
-        public SAV2(byte[] data = null)
+        public SAV2(byte[] data = null, GameVersion versionOverride = GameVersion.Any)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G2RAW_U] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            Version = data == null ? GameVersion.GSC : SaveUtil.getIsG2SAV(Data);
+            if (data == null)
+                Version = GameVersion.C;
+            else if (versionOverride != GameVersion.Any)
+                Version = versionOverride;
+            else
+                Version = SaveUtil.getIsG2SAV(Data);
+
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -202,18 +213,16 @@ namespace PKHeX
 
         public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
         public override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-
-        public int SIZE_BOX => BoxSlotCount*SIZE_STORED;
-
-        public int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
-
         public override PKM BlankPKM => new PK2(null, null, Japanese);
         public override Type PKMType => typeof(PK2);
 
-        public override int MaxMoveID => 251;
+        private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
+        private int SIZE_STOREDBOX => PokemonList2.GetDataLength(Japanese ? PokemonList2.CapacityType.StoredJP : PokemonList2.CapacityType.Stored, Japanese);
+
+        public override int MaxMoveID => Legal.MaxMoveID_2;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
-        public override int MaxAbilityID => 0;
-        public override int MaxItemID => 255;
+        public override int MaxAbilityID => Legal.MaxAbilityID_2;
+        public override int MaxItemID => Legal.MaxItemID_2;
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
         public override int MaxMoney => 999999;
@@ -601,7 +610,7 @@ namespace PKHeX
             // Get the Caught Flag
             return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
         }
-        protected internal override void setSeen(PKM pkm, bool seen = true)
+        public override void setSeen(PKM pkm, bool seen = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -614,11 +623,11 @@ namespace PKHeX
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Seen Flag
-            Data[PokedexSeenOffset + ofs] &= (byte)(~bitval);
+            Data[PokedexSeenOffset + ofs] &= (byte)~bitval;
             if (seen)
                 Data[PokedexSeenOffset + ofs] |= bitval;
         }
-        protected internal override void setCaught(PKM pkm, bool caught = true)
+        public override void setCaught(PKM pkm, bool caught = true)
         {
             if (pkm.Species == 0)
                 return;
@@ -631,7 +640,7 @@ namespace PKHeX
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             // Set the Captured Flag
-            Data[PokedexCaughtOffset + ofs] &= (byte)(~bitval);
+            Data[PokedexCaughtOffset + ofs] &= (byte)~bitval;
             if (caught)
             {
                 Data[PokedexCaughtOffset + ofs] |= bitval;
@@ -640,7 +649,7 @@ namespace PKHeX
                     // Give all Unown caught to prevent a crash on pokedex view
                     for (int i = 1; i <= 26; i++)
                     {
-                        Data[PokedexSeenOffset + 0x1F + i] = (byte)(i);
+                        Data[PokedexSeenOffset + 0x1F + i] = (byte)i;
                     }
                 }
             }

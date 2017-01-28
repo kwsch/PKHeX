@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
-    public abstract class MysteryGift
+    public abstract class MysteryGift : IEncounterable
     {
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace PKHeX
             }
         }
 
-        public string Extension => "." + GetType().Name.ToLower();
+        public string Extension => GetType().Name.ToLower();
         public string FileName => getCardHeader() + "." + Extension;
         public virtual byte[] Data { get; set; }
         public abstract PKM convertToPKM(SaveFile SAV);
@@ -92,8 +92,10 @@ namespace PKHeX
             return getMysteryGift(data);
         }
         public string Type => GetType().Name;
+        public string Name => $"Event Gift ({Type})";
 
         // Properties
+        public virtual int Species { get { return -1; } set { } }
         public abstract bool GiftUsed { get; set; }
         public abstract string CardTitle { get; set; }
         public abstract int CardID { get; set; }
@@ -105,11 +107,16 @@ namespace PKHeX
         public virtual int Quantity { get { return 1; } set { } }
         public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
 
+        public virtual bool IsBP { get { return false; } set { } }
+        public virtual int BP { get { return 0; } set { } }
+        public virtual bool IsBean { get { return false; } set { } }
+        public virtual int Bean { get { return 0; } set { } }
+        public virtual int BeanCount { get { return 0; } set { } }
+
         public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         // Search Properties
-        public virtual int Species { get { return -1; } set { } }
-        public virtual int[] Moves => new int[4];
+        public virtual int[] Moves { get { return new int[4]; } set { } }
         public virtual int[] RelearnMoves { get { return new int[4]; } set { } }
         public virtual bool IsShiny => false;
         public virtual bool IsEgg { get { return false; } set { } }

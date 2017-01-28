@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PL6 //: PokemonLink
     {
-        internal const int Size = 0xA47;
-        internal const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
+        public const int Size = 0xA47;
+        public const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
 
-        public byte[] Data;
+        public readonly byte[] Data;
         public PL6(byte[] data = null)
         {
             Data = (byte[])(data?.Clone() ?? new byte[Size]);
@@ -171,7 +171,7 @@ namespace PKHeX
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A3); } }
 	}
 
-    public class PL6_PKM //: PokemonLink
+    public class PL6_PKM : IEncounterable
     {
 
         internal const int Size = 0xA0;
@@ -328,5 +328,6 @@ namespace PKHeX
             }
         }
 
+        public string Name => "Pokémon Link";
     }
 }

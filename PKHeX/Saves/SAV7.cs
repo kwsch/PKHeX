@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV7 : SaveFile
     {
@@ -10,6 +10,12 @@ namespace PKHeX
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {LastSavedTime}].bak";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => "";
+        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        {
+            int gen = f.Last() - 0x30;
+            return gen == 1 || (3 <= gen && gen <= 7);
+        }).ToArray();
+
         public SAV7(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G7SM] : (byte[])data.Clone();
@@ -74,12 +80,12 @@ namespace PKHeX
         public override int OTLength => 12;
         public override int NickLength => 12;
 
-        public override int MaxMoveID => 720;
+        public override int MaxMoveID => Legal.MaxMoveID_7;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_7;
-        public override int MaxItemID => 920;
-        public override int MaxAbilityID => 232;
-        public override int MaxBallID => 0x1A; // 26
-        public override int MaxGameID => 31; // MN
+        public override int MaxItemID => Legal.MaxItemID_7;
+        public override int MaxAbilityID => Legal.MaxAbilityID_7;
+        public override int MaxBallID => Legal.MaxBallID_7; // 26
+        public override int MaxGameID => Legal.MaxGameID_7;
 
         public int QRSaveData;
 
@@ -247,6 +253,8 @@ namespace PKHeX
                 PCBackgrounds =         PCLayout + 0x5C0;
                 LastViewedBox =         PCLayout + 0x5E3;
                 PCFlags =               PCLayout + 0x5E0;
+
+                HoF = 0x25C0; // Inside EventWork (const/flag) block
 
                 FashionLength = 0x1A08;
 
@@ -1115,7 +1123,7 @@ namespace PKHeX
             if (index < 0 || index > GiftCountMax)
                 return null;
 
-            return new WC7(Data.Skip(WondercardData + index * WC7.Size).Take(WC7.Size).ToArray());
+            return new WC7(getData(WondercardData + index * WC7.Size, WC7.Size));
         }
         private void setWC7(MysteryGift wc7, int index)
         {
@@ -1127,7 +1135,7 @@ namespace PKHeX
             wc7.Data.CopyTo(Data, WondercardData + index * WC7.Size);
 
             for (int i = 0; i < GiftCountMax; i++)
-                if (BitConverter.ToUInt16(Data, WondercardData + i * WC7.Size) == 0)
+                if (getData(WondercardData + i * WC7.Size, WC7.Size).All(b => b == 0)) // empty
                     for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
                         Array.Copy(Data, WondercardData + j * WC7.Size, Data, WondercardData + (j - 1) * WC7.Size, WC7.Size);
 
@@ -1173,12 +1181,6 @@ namespace PKHeX
                 $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
         }
 
-        public override bool RequiresMemeCrypto
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool RequiresMemeCrypto => true;
     }
 }

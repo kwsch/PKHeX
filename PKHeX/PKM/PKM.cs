@@ -2,10 +2,11 @@
 using System.Drawing;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public abstract class PKM
     {
+        public static readonly string[] Extensions = PKX.getPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
         public virtual string Extension => "pk" + Format;
@@ -260,21 +261,26 @@ namespace PKHeX
         public virtual bool IsShiny => TSV == PSV;
         public virtual bool Locked { get { return false; } set { } }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
-        public bool Gen7 => Version >= 30 && Version <= 31;
-        public bool Gen6 => Version >= 24 && Version <= 29;
+        public bool VC2 => Version >= 39 && Version <= 41;
+        public bool VC1 => Version >= 35 && Version <= 38;
+        public bool Horohoro => Version == 34;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        protected bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        public bool VC => VC1 || VC2;
+        public bool Gen7 => Version >= 30 && Version <= 33;
+        public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
-        public bool GenU => !(Gen6 || Gen5 || Gen4 || Gen3);
+        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3);
         public int GenNumber
         {
             get
             {
+                if (VC) return 7;
                 if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;
@@ -293,7 +299,6 @@ namespace PKHeX
         public int MarkHeart       { get { return Markings[3]; } set { var marks = Markings; marks[3] = value; Markings = marks; } }
         public int MarkStar        { get { return Markings[4]; } set { var marks = Markings; marks[4] = value; Markings = marks; } }
         public int MarkDiamond     { get { return Markings[5]; } set { var marks = Markings; marks[5] = value; Markings = marks; } }
-        public Image Sprite => PKX.getSprite(this);
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => PKX.getQRText(this);
 
@@ -426,6 +431,18 @@ namespace PKHeX
         public virtual bool HT_SPA { get { return false; } set { } }
         public virtual bool HT_SPD { get { return false; } set { } }
         public virtual bool HT_SPE { get { return false; } set { } }
+        public void HyperTrainInvert(int stat)
+        {
+            switch (stat)
+            {
+                case 0: HT_HP ^= true; break;
+                case 1: HT_ATK ^= true; break;
+                case 2: HT_DEF ^= true; break;
+                case 3: HT_SPA ^= true; break;
+                case 4: HT_SPD ^= true; break;
+                case 5: HT_SPE ^= true; break;
+            }
+        }
 
         public bool InhabitedGeneration(int Generation)
         {
@@ -487,6 +504,14 @@ namespace PKHeX
                 ReorderMoves();
             }
         }
+        public void RefreshAbility(int n)
+        {
+            AbilityNumber = 1 << n;
+            int[] abilities = PersonalInfo.Abilities;
+            if (n < abilities.Length)
+                Ability = abilities[n];
+        }
+
 
         public int PotentialRating
         {
@@ -505,7 +530,7 @@ namespace PKHeX
         {
             int level = CurrentLevel;
             ushort[] Stats = new ushort[6];
-            Stats[0] = (ushort)(p.HP == 1 ? 1 : (((HT_HP ? 31 : IV_HP) + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10));
+            Stats[0] = (ushort)(p.HP == 1 ? 1 : ((HT_HP ? 31 : IV_HP) + 2 * p.HP + EV_HP / 4 + 100) * level / 100 + 10);
             Stats[1] = (ushort)(((HT_ATK ? 31 : IV_ATK) + 2 * p.ATK + EV_ATK / 4) * level / 100 + 5);
             Stats[2] = (ushort)(((HT_DEF ? 31 : IV_DEF) + 2 * p.DEF + EV_DEF / 4) * level / 100 + 5);
             Stats[4] = (ushort)(((HT_SPA ? 31 : IV_SPA) + 2 * p.SPA + EV_SPA / 4) * level / 100 + 5);
@@ -618,26 +643,6 @@ namespace PKHeX
             return pk;
         }
 
-        public PKM convertPK1toPK7()
-        {
-            if (Format != 1)
-                return null;
-            if (Species > 151)
-                return null;
-
-            var pk = new PK7();
-            TransferPropertiesWithReflection(this, pk);
-            pk.EVs = new int[6];
-            pk.Nature = IVs.Sum() % 25;
-            pk.IVs = new[] {31,31,31,31,31,31};
-            pk.RefreshChecksum();
-            if (!IsNicknamed)
-                pk.Nickname = Nickname.ToLower();
-            pk.Version = -1;
-            pk.Ability = PersonalTable.SM[Species].Abilities[0];
-            do PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
-            return pk;
-        }
         protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
             var SourceProperties = ReflectUtil.getPropertiesCanWritePublic(Source.GetType());

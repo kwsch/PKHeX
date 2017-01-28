@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class MemeCrypto
     {
@@ -270,7 +269,7 @@ namespace PKHeX
                     byte[] ChecksumTable = new byte[0x140];
                     Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
 
-                    SignMemeData(sha256.ComputeHash(ChecksumTable).Concat((ReverseCrypt(CurSig) ?? new byte[0x60])).ToArray()).CopyTo(outSav, 0x6BB00);
+                    SignMemeData(sha256.ComputeHash(ChecksumTable).Concat(ReverseCrypt(CurSig) ?? new byte[0x60]).ToArray()).CopyTo(outSav, 0x6BB00);
                 }
                 return outSav;
             }           

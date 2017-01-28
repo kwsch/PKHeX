@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PK6 : PKM
     {
-        internal static readonly byte[] ExtraBytes =
+        public static readonly byte[] ExtraBytes =
         {
             0x36, 0x37, // Unused Ribbons
             0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
@@ -601,5 +601,37 @@ namespace PKHeX
         public override bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
         public override bool WasTradedEgg => Egg_Location == 30002;
         public override bool WasIngameTrade => Met_Location == 30001;
+
+        public PK7 convertToPK7()
+        {
+            PK7 pk7 = new PK7(Data)
+            {
+                Markings = Markings, // Clears old Super Training Bag & Hits Remaining
+                Data = { [0x2A] = 0 }, // Clears old Marking Value
+            };
+            
+            switch (AbilityNumber)
+            {
+                case 1: case 2: case 4: // Valid Ability Numbers
+                    int index = AbilityNumber >> 1;
+                    if (PersonalInfo.Abilities[index] == Ability) // correct pair
+                        pk7.Ability = pk7.PersonalInfo.Abilities[index];
+                    break;
+            }
+
+            // Bank-accurate data zeroing
+            for (var i = 0x94; i < 0x9E; i++) pk7.Data[i] = 0; /* Geolocations. */
+            for (var i = 0xAA; i < 0xB0; i++) pk7.Data[i] = 0; /* Unused/Amie Fullness & Enjoyment. */
+            for (var i = 0xE4; i < 0xE8; i++) pk7.Data[i] = 0; /* Unused. */
+            pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
+            pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
+
+            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+
+            // Fix Checksum
+            pk7.RefreshChecksum();
+
+            return pk7; // Done!
+        }
     }
 }

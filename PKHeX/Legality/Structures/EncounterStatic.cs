@@ -1,8 +1,8 @@
-﻿namespace PKHeX
+﻿namespace PKHeX.Core
 {
-    public class EncounterStatic
+    public class EncounterStatic : IEncounterable
     {
-        public int Species;
+        public int Species { get; set; }
         public int Level;
 
         public int Location = 0;
@@ -24,5 +24,7 @@
         public bool Fateful = false;
         public bool RibbonWishing = false;
         public bool SkipFormCheck = false;
+
+        public string Name => "Static Encounter";
     }
 }

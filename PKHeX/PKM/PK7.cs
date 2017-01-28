@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Text;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PK7 : PKM
     {
-        internal static readonly byte[] ExtraBytes =
+        public static readonly byte[] ExtraBytes =
         {
             0x2A, // Old Marking Value
             // 0x36, 0x37, // Unused Ribbons
@@ -93,7 +93,7 @@ namespace PKHeX
         public override int CNT_Smart { get { return Data[0x27]; } set { Data[0x27] = (byte)value; } }
         public override int CNT_Tough { get { return Data[0x28]; } set { Data[0x28] = (byte)value; } }
         public override int CNT_Sheen { get { return Data[0x29]; } set { Data[0x29] = (byte)value; } }
-        // public override byte MarkValue { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
+        public byte PelagoEventStatus { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
         private byte PKRS { get { return Data[0x2B]; } set { Data[0x2B] = value; } }
         public override int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
@@ -485,6 +485,8 @@ namespace PKHeX
         }
         public void FixMemories()
         {
+            Enjoyment = Fullness = 0;
+
             if (IsEgg) // No memories if is egg.
             {
                 Geo1_Country = Geo2_Country = Geo3_Country = Geo4_Country = Geo5_Country =
@@ -501,17 +503,6 @@ namespace PKHeX
                 HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)
                 OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
-            if (GenNumber >= 7)
-            {
-                HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
-                OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
-                Geo1_Region = Geo1_Country = 
-                    Geo2_Region = Geo2_Country = 
-                    Geo3_Region = Geo3_Country = 
-                    Geo4_Region = Geo4_Country = 
-                    Geo5_Region = Geo5_Country = 0;
-                return;
-            }
 
             Geo1_Region = Geo1_Country > 0 ? Geo1_Region : 0;
             Geo2_Region = Geo2_Country > 0 ? Geo2_Region : 0;
@@ -548,16 +539,17 @@ namespace PKHeX
                     Geo2_Country = Geo2_Region = 0;
                     continue;
                 }
-                if (Geo1_Country == 0 && !IsUntraded && !IsUntradedEvent6)
+                break;
+            }
+
+            if (GenNumber < 7) // must be transferred via bank, and must have memories
+            {
+                TradeMemory(Bank: true);
+                if (Geo1_Country == 0)
                 {
-                    if ((Country | Region) == 0)
-                        break;
-                    // Traded Non-Eggs/Events need to have a current location.
                     Geo1_Country = Country;
                     Geo1_Region = Region;
-                    continue;
                 }
-                break;
             }
         }
 
@@ -611,7 +603,7 @@ namespace PKHeX
         }
         private void TradeGeoLocation(int GeoCountry, int GeoRegion)
         {
-            return; // No geolocations are set, ever!
+            return; // No geolocations are set, ever! -- except for bank. Don't set them anyway.
             //// Allow the method to abort if the values are invalid
             //if (GeoCountry < 0 || GeoRegion < 0)
             //    return;
@@ -634,11 +626,13 @@ namespace PKHeX
         }
         public void TradeMemory(bool Bank)
         {
-            return; // appears no memories are set, ever?
-            // HT_Memory = 4; // Link trade to [VAR: General Location]
-            // HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
-            // HT_Intensity = 1;
-            // HT_Feeling = Util.rand.Next(0, Bank ? 9 : 19); // 0-9 Bank, 0-19 Trade
+            if (!Bank)
+                return;
+
+            HT_Memory = 4; // Link trade to [VAR: General Location]
+            HT_TextVar = 0; // Somewhere (Bank)
+            HT_Intensity = 1;
+            HT_Feeling = Util.rand.Next(0, 9); // 0-9 Bank
         }
 
         // Legality Properties

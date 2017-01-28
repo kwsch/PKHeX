@@ -1,8 +1,8 @@
-﻿namespace PKHeX
+﻿namespace PKHeX.Core
 {
-    public class EncounterLink
+    public class EncounterLink : IEncounterable
     {
-        public int Species;
+        public int Species { get; set; }
         public int Level;
         public int Location = 30011;
         public int Ability = 1;
@@ -19,5 +19,7 @@
         public bool XY = false;
         public bool ORAS = false;
         public bool SM = false;
+
+        public string Name => "Pokémon Link Gift";
     }
 }

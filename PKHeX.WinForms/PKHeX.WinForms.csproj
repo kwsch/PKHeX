@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D1B91861-A448-4762-A313-C7BC179F4415}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PKHeX.WinForms</RootNamespace>
+    <AssemblyName>PKHeX</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;CLICKONCE;WINDOWS</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>CLICKONCE;WINDOWS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono-Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Mono-Debug\</OutputPath>
+    <DefineConstants>DEBUG;MONO</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono-Release|x86'">
+    <OutputPath>bin\Mono-Release\</OutputPath>
+    <DefineConstants>MONO</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindow\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow\MainCK3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK5.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK6.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainPK7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\MainXK3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow\SlotChange.cs" />
+    <Compile Include="Misc\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\ErrorWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\ErrorWindow.Designer.cs">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\QR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\QR.Designer.cs">
+      <DependentUpon>QR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Misc\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Subforms\frmReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\frmReport.Designer.cs">
+      <DependentUpon>frmReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\KChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\KChart.Designer.cs">
+      <DependentUpon>KChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\BatchEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\BatchEditor.Designer.cs">
+      <DependentUpon>BatchEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\MemoryAmie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\MemoryAmie.Designer.cs">
+      <DependentUpon>MemoryAmie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\RibbonEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\RibbonEditor.Designer.cs">
+      <DependentUpon>RibbonEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\SuperTrainingEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\SuperTrainingEditor.Designer.cs">
+      <DependentUpon>SuperTrainingEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\Text.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\PKM Editors\Text.Designer.cs">
+      <DependentUpon>Text.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen5\CGearBackground.cs" />
+    <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.Designer.cs">
+      <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_BerryFieldXY.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_BerryFieldXY.Designer.cs">
+      <DependentUpon>SAV_BerryFieldXY.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_BoxLayout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_BoxLayout.Designer.cs">
+      <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_HallOfFame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_HallOfFame.Designer.cs">
+      <DependentUpon>SAV_HallOfFame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_Link6.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_Link6.Designer.cs">
+      <DependentUpon>SAV_Link6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_OPower.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_OPower.Designer.cs">
+      <DependentUpon>SAV_OPower.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.Designer.cs">
+      <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_PokedexORAS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_PokedexORAS.Designer.cs">
+      <DependentUpon>SAV_PokedexORAS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_PokedexXY.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_PokedexXY.Designer.cs">
+      <DependentUpon>SAV_PokedexXY.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_Pokepuff.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_Pokepuff.Designer.cs">
+      <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_SecretBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_SecretBase.Designer.cs">
+      <DependentUpon>SAV_SecretBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_SuperTrain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_SuperTrain.Designer.cs">
+      <DependentUpon>SAV_SuperTrain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_Trainer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen6\SAV_Trainer.Designer.cs">
+      <DependentUpon>SAV_Trainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.Designer.cs">
+      <DependentUpon>SAV_HallOfFame7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Pokebean.Designer.cs">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.Designer.cs">
+      <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_Trainer7.Designer.cs">
+      <DependentUpon>SAV_Trainer7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.Designer.cs">
+      <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_BoxViewer.Designer.cs">
+      <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_EventFlags.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_EventFlags.Designer.cs">
+      <DependentUpon>SAV_EventFlags.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_Inventory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_Inventory.Designer.cs">
+      <DependentUpon>SAV_Inventory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_SimplePokedex.Designer.cs">
+      <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_SimpleTrainer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_SimpleTrainer.Designer.cs">
+      <DependentUpon>SAV_SimpleTrainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_Wondercard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_Wondercard.Designer.cs">
+      <DependentUpon>SAV_Wondercard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\SAV_Database.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SAV_Database.Designer.cs">
+      <DependentUpon>SAV_Database.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\SAV_MysteryGiftDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SAV_MysteryGiftDB.Designer.cs">
+      <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\ConfigUtil.cs" />
+    <Compile Include="Util\CyberGadgetUtil.cs" />
+    <Compile Include="Util\FontUtil.cs" />
+    <Compile Include="Util\ImageUtil.cs" />
+    <Compile Include="Util\NetUtil.cs" />
+    <Compile Include="Util\PKMUtil.cs" />
+    <Compile Include="Util\QRCoder\AbstractQRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCode.cs" />
+    <Compile Include="Util\QRCoder\QRCodeData.cs" />
+    <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
+    <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="MainWindow\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\ErrorWindow.resx">
+      <DependentUpon>ErrorWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\QR.resx">
+      <DependentUpon>QR.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Misc\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Subforms\frmReport.resx">
+      <DependentUpon>frmReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\KChart.resx">
+      <DependentUpon>KChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\BatchEditor.resx">
+      <DependentUpon>BatchEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\MemoryAmie.resx">
+      <DependentUpon>MemoryAmie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\RibbonEditor.resx">
+      <DependentUpon>RibbonEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\SuperTrainingEditor.resx">
+      <DependentUpon>SuperTrainingEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\PKM Editors\Text.resx">
+      <DependentUpon>Text.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.resx">
+      <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_BerryFieldXY.resx">
+      <DependentUpon>SAV_BerryFieldXY.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_BoxLayout.resx">
+      <DependentUpon>SAV_BoxLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_HallOfFame.resx">
+      <DependentUpon>SAV_HallOfFame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_Link6.resx">
+      <DependentUpon>SAV_Link6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_OPower.resx">
+      <DependentUpon>SAV_OPower.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokeBlockORAS.resx">
+      <DependentUpon>SAV_PokeBlockORAS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokedexORAS.resx">
+      <DependentUpon>SAV_PokedexORAS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_PokedexXY.resx">
+      <DependentUpon>SAV_PokedexXY.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_Pokepuff.resx">
+      <DependentUpon>SAV_Pokepuff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_SecretBase.resx">
+      <DependentUpon>SAV_SecretBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_SuperTrain.resx">
+      <DependentUpon>SAV_SuperTrain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_Trainer.resx">
+      <DependentUpon>SAV_Trainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.resx">
+      <DependentUpon>SAV_HallOfFame7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Pokebean.resx">
+      <DependentUpon>SAV_Pokebean.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_PokedexSM.resx">
+      <DependentUpon>SAV_PokedexSM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_Trainer7.resx">
+      <DependentUpon>SAV_Trainer7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_ZygardeCell.resx">
+      <DependentUpon>SAV_ZygardeCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_BoxViewer.resx">
+      <DependentUpon>SAV_BoxViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_EventFlags.resx">
+      <DependentUpon>SAV_EventFlags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_Inventory.resx">
+      <DependentUpon>SAV_Inventory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_SimplePokedex.resx">
+      <DependentUpon>SAV_SimplePokedex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_SimpleTrainer.resx">
+      <DependentUpon>SAV_SimpleTrainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_Wondercard.resx">
+      <DependentUpon>SAV_Wondercard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SAV_Database.resx">
+      <DependentUpon>SAV_Database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SAV_MysteryGiftDB.resx">
+      <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PKHeX\PKHeX.Core.csproj">
+      <Project>{b4eff030-c75a-49f9-a4bc-738d1b61c4af}</Project>
+      <Name>PKHeX.Core</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

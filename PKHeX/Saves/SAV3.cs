@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public sealed class SAV3 : SaveFile
     {
@@ -52,7 +52,7 @@ namespace PKHeX
                 BlockOrder1[i] = BitConverter.ToInt16(Data, i*0x1000 + 0xFF4);
             int zeroBlock1 = Array.IndexOf(BlockOrder1, 0);
 
-            if (data.Length > SaveUtil.SIZE_G3RAWHALF)
+            if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
                 int[] BlockOrder2 = new int[14];
                 for (int i = 0; i < 14; i++)
@@ -166,11 +166,11 @@ namespace PKHeX
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);
 
-        public override int MaxMoveID => 354;
+        public override int MaxMoveID => Legal.MaxMoveID_3;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => 77;
-        public override int MaxItemID => 374;
-        public override int MaxBallID => 0xC;
+        public override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public override int MaxItemID => Legal.MaxItemID_3;
+        public override int MaxBallID => Legal.MaxBallID_3;
         public override int MaxGameID => 5;
 
         public override int BoxCount => 14;
@@ -350,13 +350,14 @@ namespace PKHeX
         {
             get
             {
+                int max = Version == GameVersion.FRLG ? 995 : 95;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 95, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem)/4),
+                    new InventoryPouch(InventoryType.Items, LegalItems, max, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem)/4),
                     new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, (OFS_PouchBalls - OFS_PouchKeyItem)/4),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 95, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls)/4),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 95, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM)/4),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 95, OFS_PouchBerry, Version == GameVersion.FRLG ? 43 : 46),
+                    new InventoryPouch(InventoryType.Balls, LegalBalls, max, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls)/4),
+                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, max, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM)/4),
+                    new InventoryPouch(InventoryType.Berries, LegalBerries, max, OFS_PouchBerry, Version == GameVersion.FRLG ? 43 : 46),
                 };
                 foreach (var p in pouch)
                 {

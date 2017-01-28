@@ -1,8 +1,8 @@
-﻿namespace PKHeX
+﻿namespace PKHeX.Core
 {
-    public class EncounterSlot
+    public class EncounterSlot : IEncounterable
     {
-        public int Species;
+        public int Species { get; set; }
         public int Form;
         public int LevelMin;
         public int LevelMax;
@@ -24,6 +24,7 @@
             Type = template.Type;
             Pressure = template.Pressure;
         }
-    }
 
+        public string Name => "Wild Encounter";
+    }
 }

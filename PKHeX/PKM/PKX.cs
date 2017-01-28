@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using PKHeX.Properties;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public static class PKX
     {
@@ -79,7 +75,7 @@ namespace PKHeX
             return seed = seed * a + c;
         }
         #region ExpTable
-        internal static readonly uint[,] ExpTable =
+        public static readonly uint[,] ExpTable =
         {
             {0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0},
@@ -324,41 +320,41 @@ namespace PKHeX
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
 
             if (pk.Format == 2)
-                return Main.GameStrings.metGSC_00000[locval];
+                return GameInfo.Strings.metGSC_00000[locval];
             if (pk.Format == 3)
-                return Main.GameStrings.metRSEFRLG_00000[locval%0x100];
+                return GameInfo.Strings.metRSEFRLG_00000[locval%0x100];
             if (pk.Gen4 && (eggmet || pk.Format == 4))
             {
-                if (locval < 2000) return Main.GameStrings.metHGSS_00000[locval];
-                if (locval < 3000) return Main.GameStrings.metHGSS_02000[locval % 2000];
-                                   return Main.GameStrings.metHGSS_03000[locval % 3000];
+                if (locval < 2000) return GameInfo.Strings.metHGSS_00000[locval];
+                if (locval < 3000) return GameInfo.Strings.metHGSS_02000[locval % 2000];
+                                   return GameInfo.Strings.metHGSS_03000[locval % 3000];
             }
             if (pk.Gen5 || pk.Format <= 5)
             {
-                if (locval < 30000) return Main.GameStrings.metBW2_00000[locval];
-                if (locval < 40000) return Main.GameStrings.metBW2_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.GameStrings.metBW2_40000[locval % 10000 - 1];
-                                    return Main.GameStrings.metBW2_60000[locval % 10000 - 1];
+                if (locval < 30000) return GameInfo.Strings.metBW2_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metBW2_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metBW2_40000[locval % 10000 - 1];
+                                    return GameInfo.Strings.metBW2_60000[locval % 10000 - 1];
             }
             if (pk.Gen6 || pk.Format <= 6)
             {
-                if (locval < 30000) return Main.GameStrings.metXY_00000[locval];
-                if (locval < 40000) return Main.GameStrings.metXY_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.GameStrings.metXY_40000[locval % 10000 - 1];
-                                    return Main.GameStrings.metXY_60000[locval % 10000 - 1];
+                if (locval < 30000) return GameInfo.Strings.metXY_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metXY_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metXY_40000[locval % 10000 - 1];
+                                    return GameInfo.Strings.metXY_60000[locval % 10000 - 1];
             }
             if (pk.Gen7 || pk.Format <= 7)
             {
-                if (locval < 30000) return Main.GameStrings.metSM_00000[locval];
-                if (locval < 40000) return Main.GameStrings.metSM_30000[locval % 10000 - 1];
-                if (locval < 60000) return Main.GameStrings.metSM_40000[locval % 10000 - 1];
-                                    return Main.GameStrings.metSM_60000[locval % 10000 - 1];
+                if (locval < 30000) return GameInfo.Strings.metSM_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metSM_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metSM_40000[locval % 10000 - 1];
+                                    return GameInfo.Strings.metSM_60000[locval % 10000 - 1];
             }
             return null; // Shouldn't happen for gen 3+
         }
         public static string[] getQRText(PKM pkm)
         {
-            var s = Main.GameStrings;
+            var s = GameInfo.Strings;
             string[] response = new string[3];
             // Summarize
             string filename = pkm.Nickname;
@@ -512,98 +508,24 @@ namespace PKHeX
         }
 
         // Data Requests
-        public static Image getBallSprite(int ball)
+        public static string getBallString(int ball) => "_ball" + ball;
+        public static string getSpriteString(int species, int form, int gender, int generation)
         {
-            return (Image)Resources.ResourceManager.GetObject("_ball" + ball) ?? Resources._ball4; // Poké Ball (default)
-        }
-        public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
-        {
-            if (species == 0)
-                return (Image)Resources.ResourceManager.GetObject("_0");
             if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
             string file = "_" + species;
             if (form > 0) // Alt Form Handling
-                file = file + "_" + form;
+                file += "_" + form;
             else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-                file = file + "_" + gender;
+                file += "_" + gender;
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
                 file += "c"; // Cap
 
-            // Redrawing logic
-            Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
-            if (baseImage == null)
-            {
-                if (species < 803)
-                {
-                    baseImage = Util.LayerImage(
-                        (Image)Resources.ResourceManager.GetObject("_" + species),
-                        Resources.unknown,
-                        0, 0, .5);
-                }
-                else
-                    baseImage = Resources.unknown;
-            }
-            if (isegg)
-            {
-                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                baseImage = Util.LayerImage((Image)Resources.ResourceManager.GetObject("_0"), baseImage, 0, 0, 0.33);
-                // Add the egg layer over-top with full opacity.
-                baseImage = Util.LayerImage(baseImage, (Image)Resources.ResourceManager.GetObject("egg"), 0, 0, 1);
-            }
-            if (shiny)
-            {   
-                // Add shiny star to top left of image.
-                baseImage = Util.LayerImage(baseImage, Resources.rare_icon, 0, 0, 0.7);
-            }
-            if (item > 0)
-            {
-                Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
-                if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
-                    itemimg = Resources.item_tm;
-
-                // Redraw
-                baseImage = Util.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
-            }
-            return baseImage;
+            return file;
         }
-        public static Image getSprite(PKM pkm)
-        {
-            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
-        }
-
-        // Font Related
-        [DllImport("gdi32.dll")]
-        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, [In] ref uint pcFonts);
-        private static readonly PrivateFontCollection s_FontCollection = new PrivateFontCollection();
-        private static FontFamily[] FontFamilies
-        {
-            get
-            {
-                if (s_FontCollection.Families.Length == 0) setPKXFont();
-                return s_FontCollection.Families;
-            }
-        }
-        public static Font getPKXFont(float size)
-        {
-            return new Font(FontFamilies[0], size);
-        }
-        private static void setPKXFont()
-        {
-            try
-            {
-                byte[] fontData = Resources.pgldings_normalregular;
-                IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
-                Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
-                s_FontCollection.AddMemoryFont(fontPtr, Resources.pgldings_normalregular.Length); uint dummy = 0;
-                AddFontMemResourceEx(fontPtr, (uint)Resources.pgldings_normalregular.Length, IntPtr.Zero, ref dummy);
-                Marshal.FreeCoTaskMem(fontPtr);
-            }
-            catch (Exception ex) { Util.Error("Unable to add ingame font.", ex); }
-        }
-
+        
         // Personal.dat
         public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = 6)
         {
@@ -1376,7 +1298,7 @@ namespace PKHeX
             }
         }
         #region Gen 3 Species Table
-        internal static int[] newindex => new[]
+        public static int[] newindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1398,7 +1320,7 @@ namespace PKHeX
             385,386,358,
         };
 
-        internal static int[] oldindex => new[]
+        public static int[] oldindex => new[]
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1422,7 +1344,7 @@ namespace PKHeX
         #endregion
         #region Gen 3/4 Character Tables (Val->Unicode)
 
-        internal static readonly ushort[] G4Values =
+        public static readonly ushort[] G4Values =
         {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
             22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
@@ -1581,7 +1503,7 @@ namespace PKHeX
             3429, 65535
         };
 
-        internal static readonly ushort[] G4Chars =
+        public static readonly ushort[] G4Chars =
         {
             12288, 12353, 12354, 12355, 12356, 12357, 12358, 12359, 12360, 12361, 12362, 12363,
             12364, 12365, 12366, 12367, 12368, 12369, 12370, 12371, 12372, 12373, 12374, 12375, 12376, 12377, 12378,
@@ -1772,7 +1694,7 @@ namespace PKHeX
             4467, 4469, 47252, 49968, 50108, 50388, 52012, 65535
         };
 
-        internal static readonly ushort[] G34_4E =
+        public static readonly ushort[] G34_4E =
         {
             478, 351, 352, 353, 358, 359, 360, 361, 362, 363, 020, 365, 366, 369, 370, 371, // 0
             415, 376, 377, 378, 368, 382, 383, 384, 046, 358, 359, 392, 393, 394, 395, 396, // 1
@@ -1792,7 +1714,7 @@ namespace PKHeX
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
 
-        internal static readonly ushort[] G34_4J =
+        public static readonly ushort[] G34_4J =
         {
             001, 003, 005, 007, 009, 011, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, // 0
             032, 034, 037, 039, 041, 043, 044, 045, 046, 047, 048, 051, 054, 057, 060, 063, // 1
@@ -2486,6 +2408,14 @@ namespace PKHeX
                 .Aggregate("", (current, cur) => current + cur);
         }
 
+        public static string getG1ConvertedString(byte[] strdata, bool jp)
+        {
+            var us_table = new ushort[] { 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0000, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049, 0x004A, 0x004B, 0x004C, 0x004D, 0x004E, 0x004F, 0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057, 0x0058, 0x0059, 0x005A, 0x0028, 0x0029, 0x003A, 0x003B, 0x0028, 0x0029, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067, 0x0068, 0x0069, 0x006A, 0x006B, 0x006C, 0x006D, 0x006E, 0x006F, 0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077, 0x0078, 0x0079, 0x007A, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x00C4, 0x00D6, 0x00DC, 0x00E4, 0x00F6, 0x00FC, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0050, 0x004D, 0x002D, 0x0020, 0x0020, 0x003F, 0x0021, 0x002D, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0xE08E, 0x0020, 0x0078, 0x002E, 0x002F, 0x002C, 0xE08F, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 };
+            var jp_table = new ushort[] { 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30AC, 0x30AE, 0x30B0, 0x30B2, 0x30B4, 0x30B6, 0x30B8, 0x30BA, 0x30BC, 0x30BE, 0x30C0, 0x30C2, 0x30C5, 0x30C7, 0x30C9, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30D0, 0x30D3, 0x30D6, 0x30DC, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x304C, 0x304E, 0x3050, 0x3052, 0x3054, 0x3056, 0x3058, 0x305A, 0x305C, 0x305E, 0x3060, 0x3062, 0x3065, 0x3067, 0x3069, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3070, 0x3073, 0x3076, 0x30D9, 0x307C, 0x3000, 0x30D1, 0x30D4, 0x30D7, 0x30DD, 0x3071, 0x3074, 0x3077, 0x30DA, 0x307D, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x0000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A2, 0x30A4, 0x30A6, 0x30A8, 0x30AA, 0x30AB, 0x30AD, 0x30AF, 0x30B1, 0x30B3, 0x30B5, 0x30B7, 0x30B9, 0x30BB, 0x30BD, 0x30BF, 0x30C1, 0x30C4, 0x30C6, 0x30C8, 0x30CA, 0x30CB, 0x30CC, 0x30CD, 0x30CE, 0x30CF, 0x30D2, 0x30D5, 0x30DB, 0x30DE, 0x30DF, 0x30E0, 0x30E1, 0x30E2, 0x30E4, 0x30E6, 0x30E8, 0x30E9, 0x30EB, 0x30EC, 0x30ED, 0x30EF, 0x30F2, 0x30F3, 0x30C3, 0x30E3, 0x30E5, 0x30E7, 0x30A3, 0x3042, 0x3044, 0x3046, 0x3048, 0x304A, 0x304B, 0x304D, 0x304F, 0x3051, 0x3053, 0x3055, 0x3057, 0x3059, 0x305B, 0x305D, 0x305F, 0x3061, 0x3064, 0x3066, 0x3068, 0x306A, 0x306B, 0x306C, 0x306D, 0x306E, 0x306F, 0x3072, 0x3075, 0x30D8, 0x307B, 0x307E, 0x307F, 0x3080, 0x3081, 0x3082, 0x3084, 0x3086, 0x3088, 0x3089, 0x30EA, 0x308B, 0x308C, 0x308D, 0x308F, 0x3092, 0x3093, 0x3063, 0x3083, 0x3085, 0x3087, 0x30FC, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A1, 0x30A5, 0x30A7, 0x3000, 0x3000, 0x3000, 0x2642, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A9, 0x2640, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000 };
+            var table = jp ? jp_table : us_table;
+            return Util.TrimFromZero(new string(strdata.Select(b => (char)table[b]).ToArray()));
+        }
+
         public static byte[] setG1Str(string str, bool jp)
         {
             Dictionary<string, byte> dict = jp ? U2RBY_J : U2RBY_U;
@@ -2512,6 +2442,16 @@ namespace PKHeX
                 .Replace("\u0027", "\u2019") // farfetch'd
                 .PadRight(value.Length + 1, (char)0); // Null Terminator
             return Encoding.BigEndianUnicode.GetBytes(TempNick);
+        }
+
+        public static string[] getPKMExtensions()
+        {
+            const int gens = 7;
+            var result = new List<string>();
+            result.AddRange(new [] {"ck3", "xk3", "bk4"}); // Special Cases
+            for (int i = 1; i <= gens; i++)
+                result.Add("pk"+i);
+            return result.ToArray();
         }
     }
 }

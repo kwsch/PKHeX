@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace PKHeX
+namespace PKHeX.Core
 {
     public class PK2 : PKM
     {
@@ -306,7 +306,7 @@ namespace PKHeX
 
         public override int HPType
         {
-            get { return 4 * (IV_ATK % 4) + (IV_DEF % 4); }
+            get { return 4 * IV_ATK % 4 + IV_DEF % 4; }
             set
             {
 

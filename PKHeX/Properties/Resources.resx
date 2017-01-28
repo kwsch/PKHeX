@@ -2791,9 +2791,6 @@
   <data name="box_mark_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\box_mark_06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="else_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\misc\else_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="rare_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\rare_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -6475,9 +6472,6 @@
   <data name="Bag_Z" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Bag\Bag_Z.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sanchi" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\misc\sanchi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="text_Abilities_de1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\de\text_Abilities_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -7371,5 +7365,17 @@
   </data>
   <data name="team" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\team.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="alora" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\alora.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="horohoro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\horohoro.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="vc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\vc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_6th" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\misc\6th.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
