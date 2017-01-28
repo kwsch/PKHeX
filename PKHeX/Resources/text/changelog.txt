@@ -1,7 +1,36 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-16/12/31 - New Update:
+17/01/28 - New Update:
+ - Added: Gen6->Gen7 transfer logic and Gen1->Gen7 transfer logic.
+ - - Note: Bank adds memories and geolocation data to all pk7 files it touches.
+ - Legality:
+ - - Added Gen6->Gen7 legality checks.
+ - - Added Gen1->Gen7 transfer legality checks. Full legality checking (encounter, moves) not performed.
+ - - Added Encounter Type to verbose export. (Hold control when checking legality for full report).
+ - - Added: Friend Safari IV check, Duplicate Relearn Move check, Poké Pelago Ball check.
+ - - Fixed edge cases. Thanks sora10pls, mcdrill89, drgoku282, Bellnox, Holla...
+ - - Removed Pre-Bank legality checks... because Bank now supports -> Gen 7.
+ - Batch Editor:
+ - - Now displays a property's current value (via PKM Tabs) to assist in defining edit instructions.
+ - - Added smart ability setting, use "$0" to set a PKM's ability and corresponding abilitynum to its first abil. $1, $2=hidden.
+ - Added: SD Card write protection is now detected on file load, and will alert the user if unable to save.
+ - Added: pk6/pk7 format guess-detection, since official methods do not. Thanks sora10pls!
+ - Added: WC7 enhanced descriptions when previewing individual Mystery Gifts / QRs.
+ - Added: Gen7 Hall of Fame Editor and more stat records. Thanks Holla!
+ - Added: Gen1 Pikachu Friendship to the generic Trainer Info editor.
+ - Added: Gen1 Shiny editing (Bank's criteria, different from Gen2).
+ - Added: Boxes can now be rearranged via the Box Layout editor.
+ - Added: EVs remaining tooltip - Hover over EV total textbox.
+ - Updated: German and Korean Translations. Thanks Korados & lilymaniac!
+ - Fixed: Gen4 Trainer Info no longer causes black screens, mystery gift now works. Thanks mariosmentor & Ammako!
+ - Fixed: More strings that have the exact same text as other indexes are now differentiated.
+ - Fixed: FR/LG inventory cap increased from 95->995. Thanks Ammako!
+ - Fixed: Wonder Card Gifts without CardIDs now save properly.
+ - Internals: Split program into .dll and .exe for code reuse on other projects.
+ - Thanks to everyone who has contributed to PKHeX's development over the past month! Too many people to thank :)
+
+16/12/31 - New Update: (123265) [218395]
  - Legality: Added Poké Pelago encounter cases.
  - Added: Battle Box slot indication separated for locked & unlocked slots. Locked slots remain un-editable.
  - Added: Record (trainer stat) editing (captured, battles, exp collected, etc) for Gen7.
