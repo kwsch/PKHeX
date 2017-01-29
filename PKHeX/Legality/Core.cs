@@ -159,8 +159,8 @@ namespace PKHeX.Core
                 var SOS_MN = getEncounterTables(Properties.Resources.encounter_mn_sos, "sm");
                 MarkG7SMSlots(ref SOS_SN);
                 MarkG7SMSlots(ref SOS_MN);
-                SlotsSN = addExtraTableSlots(REG_SN, SOS_SN).Concat(Encounter_SM_Pelago).ToArray();
-                SlotsMN = addExtraTableSlots(REG_MN, SOS_MN).Concat(Encounter_SM_Pelago).ToArray();
+                SlotsSN = addExtraTableSlots(REG_SN, SOS_SN).Concat(Encounter_Pelago_SM).Concat(Encounter_Pelago_SN).ToArray();
+                SlotsMN = addExtraTableSlots(REG_MN, SOS_MN).Concat(Encounter_Pelago_SM).Concat(Encounter_Pelago_MN).ToArray();
 
                 Evolves7 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, 802);
             }
