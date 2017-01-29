@@ -84,6 +84,8 @@ namespace PKHeX.Core
                 }
 
                 string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
+                if (brokenline.Length == 1)
+                    brokenline = new[] {brokenline[0], ""};
                 switch (brokenline[0])
                 {
                     case "Trait":
@@ -342,6 +344,8 @@ namespace PKHeX.Core
         private void parseLineEVs(string line)
         {
             string[] evlist = splitLineStats(line);
+            if (evlist.Length == 1)
+                InvalidLines.Add("Unknown EV input.");
             for (int i = 0; i < evlist.Length / 2; i++)
             {
                 ushort EV;
@@ -356,6 +360,8 @@ namespace PKHeX.Core
         private void parseLineIVs(string line)
         {
             string[] ivlist = splitLineStats(line);
+            if (ivlist.Length == 1)
+                InvalidLines.Add("Unknown IV input.");
             for (int i = 0; i < ivlist.Length / 2; i++)
             {
                 byte IV;
