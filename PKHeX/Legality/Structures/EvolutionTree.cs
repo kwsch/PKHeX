@@ -149,7 +149,7 @@ namespace PKHeX.Core
         public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, bool skipChecks = false)
         {
             int index = getIndex(pkm);
-            return Lineage[index].getExplicitLineage(pkm, lvl,skipChecks, MaxSpecies);
+            return Lineage[index].getExplicitLineage(pkm, lvl, skipChecks, MaxSpecies);
         }
     }
 
