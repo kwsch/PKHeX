@@ -1235,6 +1235,8 @@ namespace PKHeX.WinForms
                         "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             }
 
+            TemplateFields();
+
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
         }
@@ -1342,21 +1344,23 @@ namespace PKHeX.WinForms
 
             // Load Data
             populateFields(pkm);
-            {
-                CB_Species.SelectedValue = SAV.MaxSpeciesID;
-                CB_Move1.SelectedValue = 1;
-                TB_OT.Text = "PKHeX";
-                TB_TID.Text = 12345.ToString();
-                TB_SID.Text = 54321.ToString();
-                CB_GameOrigin.SelectedIndex = 0;
-                int curlang = Array.IndexOf(GameInfo.lang_val, curlanguage);
-                CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
-                CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
-                CB_Country.SelectedIndex = Math.Min(0, CB_Country.Items.Count - 1);
-                CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
-
-                CB_BoxSelect.SelectedIndex = 0;
-            }
+            TemplateFields();
+            CB_BoxSelect.SelectedIndex = 0;
+        }
+        private void TemplateFields()
+        {
+            CB_Species.SelectedValue = SAV.MaxSpeciesID;
+            CB_Move1.SelectedValue = 1;
+            TB_OT.Text = "PKHeX";
+            TB_TID.Text = 12345.ToString();
+            TB_SID.Text = 54321.ToString();
+            CB_GameOrigin.SelectedIndex = 0;
+            int curlang = Array.IndexOf(GameInfo.lang_val, curlanguage);
+            CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
+            CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
+            CB_Country.SelectedIndex = Math.Min(0, CB_Country.Items.Count - 1);
+            CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
+            CHK_Nicknamed.Checked = false;
         }
         private void InitializeLanguage()
         {

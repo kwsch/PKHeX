@@ -1045,9 +1045,6 @@ namespace PKHeX.Core
                 else
                     AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
 
-                if (pkm.AbilityNumber == 4)
-                    AddLine(Severity.Invalid, "Safari Ball with Hidden Ability.", CheckIdentifier.Ball);
-
                 return;
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
@@ -1111,7 +1108,7 @@ namespace PKHeX.Core
                     if (pkm.AbilityNumber == 4)
                         AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
                     else
-                        AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
+                        AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
                 }
                 else if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
                     AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
