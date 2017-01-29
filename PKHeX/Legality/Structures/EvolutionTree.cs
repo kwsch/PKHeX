@@ -149,7 +149,7 @@ namespace PKHeX.Core
         public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, bool skipChecks = false)
         {
             int index = getIndex(pkm);
-            return Lineage[index].getExplicitLineage(pkm, lvl, skipChecks, MaxSpecies);
+            return Lineage[index].getExplicitLineage(pkm, lvl,skipChecks, MaxSpecies);
         }
     }
 
@@ -376,6 +376,8 @@ namespace PKHeX.Core
                 if (!oneValid)
                     break;
             }
+            if (dl.Count > 1 && dl.Last().Species > Legal.getMaxSpeciesOrigin(pkm))
+                dl.RemoveAt(dl.Count - 1);//remove future gen preevolutions, no munchlax in a gen3 snorlax, no pichu in a gen1 vc raichu, etc
             return dl;
         }
     }

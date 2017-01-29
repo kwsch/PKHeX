@@ -369,7 +369,7 @@ namespace PKHeX.Core
 
             if (pkm.VC)
             {
-                int baseSpecies = Legal.getEvolutionChain(pkm, null).Min(entry => entry.Species);
+                int baseSpecies = Legal.getBaseSpecies(pkm);
                 if ((pkm.VC1 && baseSpecies > Legal.MaxSpeciesID_1) || 
                     (pkm.VC2 && baseSpecies > Legal.MaxSpeciesID_2))
                     return new CheckResult(Severity.Invalid, "VC: Unobtainable species.", CheckIdentifier.Encounter);

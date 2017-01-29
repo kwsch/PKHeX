@@ -384,17 +384,16 @@ namespace PKHeX.Core
                     return Legal.MaxSpeciesID_6;
                 case 7:
                     return Legal.MaxSpeciesID_7;
-
                 default:
-                    return Legal.MaxSpeciesID_6;
+                    return Legal.MaxSpeciesID_7;
             }
         }
 
         internal static int getMaxSpeciesOrigin(PKM pkm)
         {
-            if (pkm.VC1)
+            if (pkm.Format == 1 || pkm.VC1) //Gen1 VC could not trade with gen 2 yet
                 return getMaxSpeciesOrigin(1);
-            else if (pkm.VC2)
+            if (pkm.Format == 2 || pkm.VC2)
                 return getMaxSpeciesOrigin(2);
             else
                 return getMaxSpeciesOrigin(pkm.GenNumber);
