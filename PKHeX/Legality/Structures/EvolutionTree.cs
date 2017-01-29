@@ -354,6 +354,7 @@ namespace PKHeX.Core
 
         public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl, bool skipChecks, int maxSpecies)
         {
+            int maxSpeciesOrigin = Legal.getMaxSpeciesOrigin(pkm);
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count-1; i >= 0; i--) // reverse evolution!
             {
@@ -376,6 +377,8 @@ namespace PKHeX.Core
                 if (!oneValid)
                     break;
             }
+            if (dl.Any(d=>d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
+                dl.RemoveAt(dl.Count - 1);//remove future gen preevolutions, no munchlax in a gen3 snorlax, no pichu in a gen1 vc raichu, etc
             return dl;
         }
     }

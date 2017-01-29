@@ -365,6 +365,40 @@ namespace PKHeX.Core
                     return Evolves6;
             }
         }
+
+        private static int getMaxSpeciesOrigin(int generation)
+        {
+            switch (generation)
+            {
+                case 1:
+                    return Legal.MaxSpeciesID_1;
+                case 2:
+                    return Legal.MaxSpeciesID_2;
+                case 3:
+                    return Legal.MaxSpeciesID_3;
+                case 4:
+                    return Legal.MaxSpeciesID_4;
+                case 5:
+                    return Legal.MaxSpeciesID_5;
+                case 6:
+                    return Legal.MaxSpeciesID_6;
+                case 7:
+                    return Legal.MaxSpeciesID_7;
+                default:
+                    return Legal.MaxSpeciesID_7;
+            }
+        }
+
+        internal static int getMaxSpeciesOrigin(PKM pkm)
+        {
+            if (pkm.Format == 1 || pkm.VC1) //Gen1 VC could not trade with gen 2 yet
+                return getMaxSpeciesOrigin(1);
+            else if (pkm.Format == 2 || pkm.VC2)
+                return getMaxSpeciesOrigin(2);
+            else
+                return getMaxSpeciesOrigin(pkm.GenNumber);
+        }
+
         internal static IEnumerable<MysteryGift> getValidGifts(PKM pkm)
         {
             switch (pkm.GenNumber)
