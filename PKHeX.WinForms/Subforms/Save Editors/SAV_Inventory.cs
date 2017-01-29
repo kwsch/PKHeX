@@ -51,7 +51,7 @@ namespace PKHeX.WinForms
         private void initBags()
         {
             tabControl1.SizeMode = TabSizeMode.Fixed;
-            tabControl1.ItemSize = new Size(IL_Pouch.Images[0].Width + 4, 0);
+            tabControl1.ItemSize = new Size(IL_Pouch.Images[0].Width + 4, IL_Pouch.Images[0].Height + 4);
             for (int i = 0; i < Pouches.Length; i++)
             {
                 // Add Tab
