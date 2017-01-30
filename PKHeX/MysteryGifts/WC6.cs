@@ -350,7 +350,7 @@ namespace PKHeX.Core
 
             pk.MetDate = Date ?? DateTime.Now;
 
-            if (SAV.Generation > 6) // Gen7
+            if (SAV.Generation > 6 && OriginGame == 0) // Gen7
             {
                 pk.Version = (int)GameVersion.OR;
             }
