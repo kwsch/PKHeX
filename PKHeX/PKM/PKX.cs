@@ -636,7 +636,7 @@ namespace PKHeX.Core
                     {
                         f[412], // Plant
                         f[905], // Sandy
-                        f[904], // Trash
+                        f[906], // Trash
                     };
 
                 case 421:
@@ -841,7 +841,7 @@ namespace PKHeX.Core
                         f[976], // Savannah 
                         f[977], // Sun
                         f[978], // Ocean
-                        f[989], // Jungle
+                        f[979], // Jungle
                         f[980], // Fancy
                         f[981], // Poké Ball
                     };
@@ -871,7 +871,7 @@ namespace PKHeX.Core
                 case 676:
                     return new[]
                     {
-                        f[994], // Natural
+                        f[676], // Natural
                         f[995], // Heart
                         f[996], // Star
                         f[997], // Diamond

@@ -2281,6 +2281,9 @@ namespace PKHeX.WinForms
             changingFields = true;
             MT_Form.Text = CB_Form.SelectedIndex.ToString();
             changingFields = false;
+
+            if (fieldsLoaded)
+                getQuickFiller(dragout);
         }
         private void updateHaXForm(object sender, EventArgs e)
         {
@@ -2290,6 +2293,9 @@ namespace PKHeX.WinForms
             int form = pkm.AltForm = Util.ToInt32(MT_Form.Text);
             CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
             changingFields = false;
+
+            if (fieldsLoaded)
+                getQuickFiller(dragout);
         }
         private void updatePP(object sender, EventArgs e)
         {
@@ -3500,7 +3506,7 @@ namespace PKHeX.WinForms
             PKM pk = preparePKM();
 
             int slotSkipped = 0;
-            for (int i = 0; i < 30; i++) // set to every slot in box
+            for (int i = 0; i < SAV.BoxSlotCount; i++) // set to every slot in box
             {
                 if (SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, i))
                 { slotSkipped++; continue; }

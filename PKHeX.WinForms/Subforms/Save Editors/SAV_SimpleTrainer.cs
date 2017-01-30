@@ -176,7 +176,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV1)
             {
                 SAV1 sav1 = (SAV1) SAV;
-                sav1.Coin = (ushort) Util.ToUInt32(MT_Coins.Text);
+                sav1.Coin = (ushort)Math.Max(Util.ToUInt32(MT_Coins.Text), 9999);
                 sav1.Badges = badgeval & 0xFF;
 
                 var pf = Util.ToUInt32(MT_PikaFriend.Text);
@@ -193,7 +193,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV2)
             {
                 SAV2 sav2 = (SAV2)SAV;
-                sav2.Coin = (ushort)Util.ToUInt32(MT_Coins.Text);
+                sav2.Coin = (ushort)Math.Max(Util.ToUInt32(MT_Coins.Text), 9999);
                 sav2.Badges = badgeval & 0xFFFF;
 
                 sav2.BattleEffects = CHK_BattleEffects.Checked;

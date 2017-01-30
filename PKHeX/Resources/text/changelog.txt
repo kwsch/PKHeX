@@ -1,7 +1,19 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/01/28 - New Update:
+17/01/30 - New Update:
+ - Added: Control right-clicking a PKM slot (box, party, etc) now allows direct legality checking.
+ - Added: 6/7 detection preferential treatment & other detection methods. Thanks sora10pls!
+ - Added: Remove All medals button now clears Unlocked/Complete flags even if not visible.
+ - Fixed: Badly constructed ShowdownSets throw less exceptions (hopefully none). Thanks Sonic Blader!
+ - Fixed: Cloning to all slots in a Gen1/2 english save no longer overflows. Thanks Wanderer1391!
+ - Fixed: Forme list for Burmy/Vivillon/Furfrou now displays correct formes. Thanks sora10pls!
+ - Fixed: Gen4/5 PID no longer automatically rerolls when changing ability lists. Thanks RoC!
+ - Fixed: Multiple legality edge cases. Thanks everyone who reported!
+ - Fixed: 1/6->7 transfer not applying geolocation data. Thanks RoC!
+ - Fixed: English Demo Greninja now is recognized correctly.
+
+17/01/28 - New Update: (23464) [241859]
  - Added: Gen6->Gen7 transfer logic and Gen1->Gen7 transfer logic.
  - - Note: Bank adds memories and geolocation data to all pk7 files it touches.
  - Legality:

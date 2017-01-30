@@ -10,13 +10,13 @@ namespace PKHeX.Core
         private readonly EvolutionLineage[] Lineage;
         private readonly GameVersion Game;
         private readonly PersonalTable Personal;
-        private readonly int MaxSpecies;
+        private readonly int MaxSpeciesTree;
 
-        public EvolutionTree(byte[][] data, GameVersion game, PersonalTable personal, int maxSpecies)
+        public EvolutionTree(byte[][] data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
         {
             Game = game;
             Personal = personal;
-            MaxSpecies = maxSpecies;
+            MaxSpeciesTree = maxSpeciesTree;
             switch (game)
             {
                 case GameVersion.SM:
@@ -32,7 +32,7 @@ namespace PKHeX.Core
             for (int i = 0; i < Entries.Count; i++)
                 Lineage[i] = new EvolutionLineage();
             if (Game == GameVersion.ORAS)
-                Array.Resize(ref Lineage, maxSpecies + 1);
+                Array.Resize(ref Lineage, maxSpeciesTree + 1);
 
             // Populate Lineages
             for (int i = 1; i < Lineage.Length; i++)
@@ -149,7 +149,8 @@ namespace PKHeX.Core
         public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, bool skipChecks = false)
         {
             int index = getIndex(pkm);
-            return Lineage[index].getExplicitLineage(pkm, lvl, skipChecks, MaxSpecies);
+            int maxSpeciesOrigin = Legal.getMaxSpeciesOrigin(pkm);
+            return Lineage[index].getExplicitLineage(pkm, lvl, skipChecks, MaxSpeciesTree, maxSpeciesOrigin);
         }
     }
 
@@ -293,16 +294,6 @@ namespace PKHeX.Core
             }
         }
 
-        public DexLevel GetDexLevel(int lvl)
-        {
-            return new DexLevel
-            {
-                Species = Species,
-                Level = lvl,
-                Form = Form,
-                Flag = Method,
-            };
-        }
         public DexLevel GetDexLevel(int species, int lvl)
         {
 
@@ -352,7 +343,7 @@ namespace PKHeX.Core
             Chain.Insert(0, evo);
         }
 
-        public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl, bool skipChecks, int maxSpecies)
+        public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin)
         {
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count-1; i >= 0; i--) // reverse evolution!
@@ -364,11 +355,14 @@ namespace PKHeX.Core
                         continue;
 
                     oneValid = true;
-                    if (evo.Species > maxSpecies) // Gen7 Personal Formes -- unmap the forme personal entry to the actual species ID since species are consecutive
-                        dl.Add(evo.GetDexLevel(pkm.Species - Chain.Count + i, lvl));
-                    else
-                        dl.Add(evo.GetDexLevel(lvl));
+                    int species = evo.Species;
 
+                    // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
+                    if (evo.Species > maxSpeciesTree)
+                        species = pkm.Species - Chain.Count + i;
+
+                    dl.Add(evo.GetDexLevel(species, lvl));
+                    
                     if (evo.RequiresLevelUp)
                         lvl--;
                     break;
@@ -376,6 +370,11 @@ namespace PKHeX.Core
                 if (!oneValid)
                     break;
             }
+
+            // Remove future gen preevolutions, no munchlax in a gen3 snorlax, no pichu in a gen1 vc raichu, etc
+            if (dl.Any(d => d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
+                dl.RemoveAt(dl.Count - 1); 
+
             return dl;
         }
     }

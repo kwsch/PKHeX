@@ -369,7 +369,7 @@ namespace PKHeX.Core
 
             if (pkm.VC)
             {
-                int baseSpecies = Legal.getEvolutionChain(pkm, null).Min(entry => entry.Species);
+                int baseSpecies = Legal.getBaseSpecies(pkm);
                 if ((pkm.VC1 && baseSpecies > Legal.MaxSpeciesID_1) || 
                     (pkm.VC2 && baseSpecies > Legal.MaxSpeciesID_2))
                     return new CheckResult(Severity.Invalid, "VC: Unobtainable species.", CheckIdentifier.Encounter);
@@ -991,7 +991,7 @@ namespace PKHeX.Core
             }
             if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
             {
-                if (Legal.Ban_Gen4Ball.Contains(pkm.Species))
+                if (Legal.Ban_Gen4Ball_6.Contains(pkm.Species))
                     AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
@@ -1087,15 +1087,10 @@ namespace PKHeX.Core
 
                 return;
             }
-            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
+            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F) // Dusk Heal Quick
             {
-                if (Legal.Ban_Gen4Ball.Contains(pkm.Species))
-                {
-                    if (!Legal.Ban_Gen4Ball_AllowG7.Contains(pkm.Species))
-                        AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
-                }
+                if (Legal.Ban_Gen4Ball_7.Contains(pkm.Species))
+                    AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
 
