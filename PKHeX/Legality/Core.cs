@@ -987,11 +987,9 @@ namespace PKHeX.Core
                 case 6: // entries per species
                     return EggMovesAO[species].Moves.Concat(EggMovesXY[species].Moves);
 
-                case 7: // entries per form
-                    if (species == 678)
-                    { species = 677; formnum = 0; }
+                case 7: // entries per form if required
                     var entry = EggMovesSM[species];
-                    if (formnum > 0)
+                    if (formnum > 0 && ((PersonalInfoSM)PersonalTable.SM[species]).FormVariantEggMoves)
                         entry = EggMovesSM[entry.FormTableIndex + formnum - 1];
                     return entry.Moves;
 
