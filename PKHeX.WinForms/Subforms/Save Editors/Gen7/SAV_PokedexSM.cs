@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -30,7 +31,8 @@ namespace PKHeX.WinForms
 
             // Add Formes
             int ctr = SAV.MaxSpeciesID;
-            for (int i = 0; i < SAV.MaxSpeciesID + 1; i++)
+            baseSpecies = new List<int>();
+            for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
             {
                 int c = SAV.Personal[i].FormeCount;
                 for (int j = 0; j < c; j++)
@@ -38,6 +40,7 @@ namespace PKHeX.WinForms
                     int x = SaveUtil.getDexFormIndexSM(i, c, j);
                     if (x == -1 || j == 0)
                         continue;
+                    baseSpecies.Add(i);
                     ctr++;
                     LB_Species.Items.Add($"{ctr:000} - {GameInfo.Strings.specieslist[i]}-{j}");
                 }
@@ -53,6 +56,16 @@ namespace PKHeX.WinForms
         private bool editing;
         private int species = -1;
         private readonly CheckBox[] CP, CL;
+
+        private readonly List<int> baseSpecies;
+        private int getBaseSpeciesGender(int index)
+        {
+            if (index <= SAV.MaxSpeciesID)
+                return SAV.Personal[index + 1].Gender;
+
+            index -= SAV.MaxSpeciesID;
+            return SAV.Personal[baseSpecies[index]].Gender;
+        }
 
         private void changeCBSpecies(object sender, EventArgs e)
         {
@@ -119,6 +132,11 @@ namespace PKHeX.WinForms
             editing = true;
             CHK_P1.Enabled = species <= SAV.MaxSpeciesID;
             CHK_P1.Checked = CHK_P1.Enabled && Dex.Owned[pk];
+
+            int gt = getBaseSpeciesGender(LB_Species.SelectedIndex);
+
+            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
+            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
 
             for (int i = 0; i < 4; i++)
                 CP[i + 1].Checked = Dex.Seen[i][pk];
@@ -260,8 +278,7 @@ namespace PKHeX.WinForms
             {
                 CHK_P1.Checked = ModifierKeys != Keys.Control;
             }
-            int index = LB_Species.SelectedIndex+1;
-            int gt = SAV.Personal[index].Gender;
+            int gt = getBaseSpeciesGender(LB_Species.SelectedIndex);
 
             CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
             CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255 && ModifierKeys != Keys.Control;
@@ -282,18 +299,21 @@ namespace PKHeX.WinForms
             int lang = SAV.Language;
             if (lang > 5) lang -= 1;
             lang -= 1;
+            int[] totem = { 811, 1018, 1019, 1024, 1025, 1026, 1058, 1059, 1060 };
 
             if (sender == mnuSeenNone || sender == mnuSeenAll || sender == mnuComplete)
-                for (int i = 0; i < CB_Species.Items.Count; i++)
+                for (int i = 0; i < LB_Species.Items.Count; i++)
                 {
-                    int gt = SAV.Personal[i + 1].Gender;
                     LB_Species.SelectedIndex = i;
+                    int gt = getBaseSpeciesGender(LB_Species.SelectedIndex);
                     foreach (CheckBox t in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
                         t.Checked = mnuSeenNone != sender && t.Enabled;
 
-                    if (mnuSeenNone != sender)
+                    if (mnuSeenNone != sender && !totem.Contains(i+1))
                     {
-                        // if seen ensure at least one Displayed
+                        // ensure at least one Displayed except for formes
+                        if (i >= CB_Species.Items.Count)
+                            continue;
                         if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
                             (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
                     }
@@ -309,41 +329,51 @@ namespace PKHeX.WinForms
                 }
 
             if (sender == mnuCaughtNone || sender == mnuCaughtAll || sender == mnuComplete)
+            {
                 for (int i = 0; i < LB_Species.Items.Count; i++)
                 {
-                    int gt = SAV.Personal[i + 1].Gender;
+                    int gt = getBaseSpeciesGender(LB_Species.SelectedIndex);
                     LB_Species.SelectedIndex = i;
                     foreach (CheckBox t in new[] { CHK_P1 })
                         t.Checked = mnuCaughtNone != sender;
                     for (int j = 0; j < CL.Length; j++)
                         CL[j].Checked = CL[j].Enabled && (sender == mnuComplete || (mnuCaughtNone != sender && j == lang));
+                    
+                    // Don't modify totem entries
+                    if (totem.Contains(i+1))
+                        continue;
 
                     if (mnuCaughtNone == sender)
                     {
+                        if (i >= CB_Species.Items.Count)
+                            continue;
                         if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
                             if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
                                 (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
-                    }
-                    if (mnuCaughtNone != sender)
-                    {
-                        if (mnuComplete == sender)
-                        {
-                            // Seen All
-                            foreach (var chk in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
-                                chk.Checked = true;
-                        }
-                        else
-                        {
-                            // ensure at least one SEEN
-                            if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
-                                (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
-                        }
 
-                        // ensure at least one Displayed
-                        if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled; // except for formes -- base species is set as default seen
+                        continue;
                     }
+
+                    if (mnuComplete == sender)
+                    {
+                        // Seen All
+                        foreach (var chk in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
+                            chk.Checked = chk.Enabled;
+                    }
+                    else
+                    {
+                        // ensure at least one SEEN
+                        if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
+                            (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
+                    }
+
+                    // ensure at least one Displayed except for formes
+                    if (i >= CB_Species.Items.Count)
+                        continue;
+                    if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
+                        (gt != 254 ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
                 }
+            }
 
             setEntry();
             // Turn off zh2 Petilil
