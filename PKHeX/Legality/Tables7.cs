@@ -434,14 +434,9 @@ namespace PKHeX.Core
             496, 499, 502, //2
             497, 500, 503, //3
         };
-        internal static readonly int[] Ban_Gen4Ball_AllowG7 =
+        internal static readonly int[] Ban_Gen4Ball_7 =
         {
-            152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
-            153, 156, 159, //2
-            154, 157, 160, //3
-            495, 498, 501, //1 - Snivy, Tepig, Oshawott
-            496, 499, 502, //2
-            497, 500, 503, //3
+            566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
 
         internal static readonly int[] ZygardeMoves =

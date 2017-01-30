@@ -682,7 +682,7 @@ namespace PKHeX.Core
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
-        internal static readonly int[] Ban_Gen4Ball =
+        internal static readonly int[] Ban_Gen4Ball_6 =
         {
             152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
             153, 156, 159, //2
