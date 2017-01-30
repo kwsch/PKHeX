@@ -3506,7 +3506,7 @@ namespace PKHeX.WinForms
             PKM pk = preparePKM();
 
             int slotSkipped = 0;
-            for (int i = 0; i < 30; i++) // set to every slot in box
+            for (int i = 0; i < SAV.BoxSlotCount; i++) // set to every slot in box
             {
                 if (SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, i))
                 { slotSkipped++; continue; }
