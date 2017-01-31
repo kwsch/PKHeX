@@ -432,18 +432,15 @@ namespace PKHeX.WinForms
         private void mainMenuUnicode(object sender, EventArgs e)
         {
             Properties.Settings.Default.Unicode = unicode = Menu_Unicode.Checked;
-            Properties.Settings.Default.Save();
             updateUnicode();
         }
         private void mainMenuModifyDex(object sender, EventArgs e)
         {
             Properties.Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
-            Properties.Settings.Default.Save();
         }
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
             Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
-            Properties.Settings.Default.Save();
         }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
@@ -1312,7 +1309,6 @@ namespace PKHeX.WinForms
 
             // Set the culture (makes it easy to pass language to other forms)
             Properties.Settings.Default.Language = curlanguage;
-            Properties.Settings.Default.Save();
             Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage.Substring(0, 2));
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
         }
@@ -3134,7 +3130,10 @@ namespace PKHeX.WinForms
             if (!SAV.Edited)
                 return;
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
-                e.Cancel = true;
+            { e.Cancel = true; return; }
+
+            try { Properties.Settings.Default.Save(); }
+            catch (Exception x) { File.WriteAllLines("config error.txt", new[] {x.ToString()}); }
         }
         #endregion
 
