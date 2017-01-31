@@ -12324,14 +12324,12 @@ namespace PKHeX.Core.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex
         ///
-        ///16/12/31 - New Update:
-        /// - Legality: Added Poké Pelago encounter cases.
-        /// - Added: Battle Box slot indication separated for locked &amp; unlocked slots. Locked slots remain un-editable.
-        /// - Added: Record (trainer stat) editing (captured, battles, exp collected, etc) for Gen7.
-        /// - Added: Starter Choice Event Constant editing.
-        /// - Added: Relearn move suggestions for static encounters with relearn moves.
-        /// - Added: Option to set NEW flag when giving items.
-        /// [rest of string was truncated]&quot;;.
+        ///17/01/30 - New Update:
+        /// - Added: Control right-clicking a PKM slot (box, party, etc) now allows direct legality checking.
+        /// - Added: 6/7 detection preferential treatment &amp; other detection methods. Thanks sora10pls!
+        /// - Added: Remove All medals button now clears Unlocked/Complete flags even if not visible.
+        /// - Fixed: Badly constructed ShowdownSets throw less exceptions (hopefully none). Thanks Sonic Blader!
+        /// - Fixed: Cloning to all slots in a Gen1/2  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -12584,9 +12582,29 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] fashion_f_sm_illegal {
+            get {
+                object obj = ResourceManager.GetObject("fashion_f_sm_illegal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] fashion_m_sm {
             get {
                 object obj = ResourceManager.GetObject("fashion_m_sm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] fashion_m_sm_illegal {
+            get {
+                object obj = ResourceManager.GetObject("fashion_m_sm_illegal", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -17974,7 +17992,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20161231.
+        ///   Looks up a localized string similar to 20170130.
         /// </summary>
         public static string ProgramVersion {
             get {
@@ -26660,7 +26678,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///Sonne
-        ///Mond.
+        ///Mond
+        ///
+        ///
+        ///Go
+        ///Rote
+        ///Blaue
+        ///Grüne
+        ///Gelbe.
         /// </summary>
         public static string text_games_de {
             get {
@@ -26700,7 +26725,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///Sun
-        ///Moon.
+        ///Moon
+        ///
+        ///
+        ///Go
+        ///Red
+        ///Blue
+        ///Green
+        ///Yellow.
         /// </summary>
         public static string text_games_en {
             get {
@@ -26740,7 +26772,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///Sol
-        ///Luna.
+        ///Luna
+        ///
+        ///
+        ///Go
+        ///Roja
+        ///Azul
+        ///Verde
+        ///Amarilla.
         /// </summary>
         public static string text_games_es {
             get {
@@ -26780,7 +26819,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///Soleil
-        ///Lune.
+        ///Lune
+        ///
+        ///
+        ///Go
+        ///Rouge
+        ///Bleue
+        ///Vert
+        ///Jaune.
         /// </summary>
         public static string text_games_fr {
             get {
@@ -26820,7 +26866,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///Sole
-        ///Luna.
+        ///Luna
+        ///
+        ///
+        ///Go
+        ///Rossa
+        ///Blu
+        ///Verde
+        ///Gialla.
         /// </summary>
         public static string text_games_it {
             get {
@@ -26860,7 +26913,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///サン
-        ///ムーン.
+        ///ムーン
+        ///
+        ///
+        ///Go
+        ///赤
+        ///青
+        ///緑
+        ///黄.
         /// </summary>
         public static string text_games_ja {
             get {
@@ -26884,7 +26944,7 @@ namespace PKHeX.Core.Properties {
         ///Pt기라티나
         ///
         ///
-        ///세움/XD
+        ///콜로세움/XD
         ///
         ///
         ///
@@ -26900,7 +26960,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///썬
-        ///문.
+        ///문
+        ///
+        ///
+        ///고
+        ///레드
+        ///블루
+        ///그린
+        ///옐로.
         /// </summary>
         public static string text_games_ko {
             get {
@@ -26940,7 +27007,14 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///太阳
-        ///月亮.
+        ///月亮
+        ///
+        ///
+        ///Go
+        ///紅
+        ///藍色
+        ///綠色
+        ///黃色.
         /// </summary>
         public static string text_games_zh {
             get {

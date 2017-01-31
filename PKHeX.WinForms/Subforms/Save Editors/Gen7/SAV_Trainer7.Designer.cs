@@ -170,6 +170,7 @@ namespace PKHeX.WinForms
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
+            this.CB_Fashion = new System.Windows.Forms.ComboBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -1548,6 +1549,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.CB_Fashion);
             this.Tab_Misc.Controls.Add(this.L_SkinColor);
             this.Tab_Misc.Controls.Add(this.CB_SkinColor);
             this.Tab_Misc.Controls.Add(this.GB_PokeFinder);
@@ -1716,6 +1718,19 @@ namespace PKHeX.WinForms
             this.B_Fashion.Text = "Give all Fashion Items";
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
+            // 
+            // CB_Fashion
+            // 
+            this.CB_Fashion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Fashion.FormattingEnabled = true;
+            this.CB_Fashion.Items.AddRange(new object[] {
+            "New Game",
+            "All Legal",
+            "Everything"});
+            this.CB_Fashion.Location = new System.Drawing.Point(31, 76);
+            this.CB_Fashion.Name = "CB_Fashion";
+            this.CB_Fashion.Size = new System.Drawing.Size(107, 21);
+            this.CB_Fashion.TabIndex = 60;
             // 
             // SAV_Trainer7
             // 
@@ -1915,5 +1930,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.NumericUpDown NUD_Stat;
         private System.Windows.Forms.Label L_Value;
         private System.Windows.Forms.Label L_Offset;
+        private System.Windows.Forms.ComboBox CB_Fashion;
     }
 }
