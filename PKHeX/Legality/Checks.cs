@@ -1156,16 +1156,6 @@ namespace PKHeX.Core
             
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
-
-            if (pkm.Format >= 7) // Cleared Values
-            {
-                if (pkm.EncounterType != 0)
-                    return new CheckResult(Severity.Invalid, $"EncounterType invalid {pkm.EncounterType}.", CheckIdentifier.History);
-                if (pkm.Enjoyment != 0)
-                    return new CheckResult(Severity.Invalid, $"Enjoyment invalid {pkm.Enjoyment}.", CheckIdentifier.History);
-                if (pkm.Fullness != 0)
-                    return new CheckResult(Severity.Invalid, $"Fullness invalid {pkm.Fullness}.", CheckIdentifier.History);
-            }
             
             MysteryGift mg = EncounterMatch as MysteryGift;
             WC6 MatchedWC6 = EncounterMatch as WC6;
