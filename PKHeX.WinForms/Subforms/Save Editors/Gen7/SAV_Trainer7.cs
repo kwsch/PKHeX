@@ -36,6 +36,7 @@ namespace PKHeX.WinForms
                 CB_Stats.Items.Add(name);
             }
             CB_Stats.SelectedIndex = RecordList.First().Key;
+            CB_Fashion.SelectedIndex = 1;
 
             Loading = false;
         }
@@ -321,15 +322,51 @@ namespace PKHeX.WinForms
         }
         private void B_Fashion_Click(object sender, EventArgs e)
         {
-            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Giving all Fashion Items will clear existing data", "Continue?");
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing data", "Continue?");
             if (DialogResult.Yes != prompt)
                 return;
 
             // Clear Block
             new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
+            
             // Write Payload
-            byte[] data = SAV.Gender == 0 ? Core.Properties.Resources.fashion_m_sm : Core.Properties.Resources.fashion_f_sm;
-            data.CopyTo(SAV.Data, SAV.Fashion);
+
+            switch (CB_Fashion.SelectedIndex)
+            {
+                case 0: // Base Fashion
+                    if (SAV.Gender == 0) // Male
+                    {
+                        SAV.Data[0x42000] = 3;
+                        SAV.Data[0x420FB] = 3;
+                        SAV.Data[0x42124] = 3;
+                        SAV.Data[0x4228F] = 3;
+                        SAV.Data[0x423B4] = 3;
+                        SAV.Data[0x42452] = 3;
+                        SAV.Data[0x42517] = 3;
+                    }
+                    else // Female
+                    {
+                        SAV.Data[0x42000] = 3;
+                        SAV.Data[0x42100] = 3;
+                        SAV.Data[0x42223] = 3;
+                        SAV.Data[0x42288] = 3;
+                        SAV.Data[0x423B4] = 3;
+                        SAV.Data[0x42452] = 3;
+                        SAV.Data[0x42517] = 3;
+                    }
+                    break;
+                case 1: // Full Legal
+                    byte[] data1 = SAV.Gender == 0 ? Core.Properties.Resources.fashion_m_sm : Core.Properties.Resources.fashion_f_sm;
+                    data1.CopyTo(SAV.Data, SAV.Fashion);
+                    break;
+                case 2: // Everything
+                    byte[] data2 = SAV.Gender == 0 ? Core.Properties.Resources.fashion_m_sm_illegal : Core.Properties.Resources.fashion_f_sm_illegal;
+                    data2.CopyTo(SAV.Data, SAV.Fashion);
+                    break;
+                default:
+                    return;
+            }
+            System.Media.SystemSounds.Asterisk.Play();
         }
         private void changeStat(object sender, EventArgs e)
         {
@@ -351,9 +388,13 @@ namespace PKHeX.WinForms
 
         private readonly Dictionary<int, string> RecordList = new Dictionary<int, string>
         {
+            {000, "Steps Taken"},
+            {001, "Times Saved"},
             {004, "Wild Pokémon Battles"},
             {006, "Pokemon Caught"},
+            {006, "Pokemon Caught Fishing"},
             {008, "Eggs Hatched"},
+            {009, "Pokemon Evolved"},
             {011, "Link Trades"},
             {012, "Link Battles"},
             {013, "Link Battle Wins"},
@@ -381,6 +422,7 @@ namespace PKHeX.WinForms
             {112, "Pokemon Caught"},
             {114, "Trainers Battled"},
             {116, "Pokemon Evolved"},
+            {118, "Fossils Restored"},
             {119, "Photos Taken"},
             {123, "Loto-ID Wins"},
             {124, "PP Raised"},
@@ -389,6 +431,8 @@ namespace PKHeX.WinForms
             {129, "Facilities Hosted"},
             {130, "QR Code Scans"},
             {158, "Outfit Changes"},
+            {161, "Pelago Training Sessions"},
+            {162, "Pelago Hot Spring Sessions"},
             {166, "Island Scans"},
         };
     }

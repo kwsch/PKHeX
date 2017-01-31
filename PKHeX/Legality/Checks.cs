@@ -335,8 +335,11 @@ namespace PKHeX.Core
 
                 if (tr.Length > (lang == 2 ? 7 : 5))
                     AddLine(Severity.Invalid, "OT Name too long.", CheckIdentifier.Trainer);
-                if (pkm.Species == 151 && tr != "GF")
-                    AddLine(Severity.Invalid, "Incorrect event OT Name.", CheckIdentifier.Trainer);
+                if (pkm.Species == 151)
+                {
+                    if (tr != "GF" && tr != "ゲーフリ") // if there are more events with special OTs, may be worth refactoring
+                        AddLine(Severity.Invalid, "Incorrect event OT Name.", CheckIdentifier.Trainer);
+                }
             }
         }
 
@@ -1075,13 +1078,7 @@ namespace PKHeX.Core
                 if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e)))
                     AddLine(Severity.Valid, "Dream Ball inheritance possible from Female species.", CheckIdentifier.Ball);
                 else if (Lineage.Any(e => Legal.Inherit_DreamMale.Contains(e)))
-                {
-                    if (pkm.AbilityNumber != 4)
-                        AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
-                }
-
+                    AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
 
@@ -1198,29 +1195,30 @@ namespace PKHeX.Core
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
             }
+            
+            // Geolocations
+            var geo = new[]
+            {
+                pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
+                pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
+            };
+
+            // Check sequential order (no zero gaps)
+            bool geoEnd = false;
+            for (int i = 0; i < 5; i++)
+            {
+                if (geoEnd && geo[i] != 0)
+                    return new CheckResult(Severity.Invalid, "Geolocation Memories invalid.", CheckIdentifier.History);
+
+                if (geo[i] != 0)
+                    continue;
+                if (geo[i + 5] != 0)
+                    return new CheckResult(Severity.Invalid, "Geolocation Region without Country.", CheckIdentifier.History);
+                geoEnd = true;
+            }
             if (pkm.Format >= 7)
             {
-                var geo = new[]
-                {
-                    pkm.Geo1_Country, pkm.Geo2_Country, pkm.Geo3_Country, pkm.Geo4_Country, pkm.Geo5_Country,
-                    pkm.Geo1_Region, pkm.Geo2_Region, pkm.Geo3_Region, pkm.Geo4_Region, pkm.Geo5_Region,
-                };
-
-                // Check sequential order (no zero gaps)
-                bool geoEnd = false;
-                for (int i = 0; i < 5; i++)
-                {
-                    if (geoEnd && geo[i] != 0)
-                        return new CheckResult(Severity.Invalid, "Geolocation Memories invalid.", CheckIdentifier.History);
-
-                    if (geo[i] != 0)
-                        continue;
-                    if (geo[i + 5] != 0)
-                        return new CheckResult(Severity.Invalid, "Geolocation Region without Country.", CheckIdentifier.History);
-                    geoEnd = true;
-                }
-
-                if (pkm.VC1 || pkm.GenNumber < 7)
+                if (pkm.VC1)
                 {
                     var hasGeo = geo.Any(d => d != 0);
 
@@ -1229,7 +1227,7 @@ namespace PKHeX.Core
                 }
                 
                 if (pkm.GenNumber >= 7 && pkm.CNTs.Any(stat => stat > 0))
-                    return new CheckResult(Severity.Invalid, "Untraded -- Contest stats on SM origin should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, "Contest stats on SM origin should be zero.", CheckIdentifier.History);
                 
                 if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
                 {

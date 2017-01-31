@@ -989,7 +989,7 @@ namespace PKHeX.Core
 
                 case 7: // entries per form if required
                     var entry = EggMovesSM[species];
-                    if (formnum > 0 && ((PersonalInfoSM)PersonalTable.SM[species]).FormVariantEggMoves)
+                    if (formnum > 0 && AlolanOriginForms.Contains(species))
                         entry = EggMovesSM[entry.FormTableIndex + formnum - 1];
                     return entry.Moves;
 

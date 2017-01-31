@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -28,13 +29,24 @@ namespace PKHeX.WinForms
             {
                 StartPKHeX();
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException ex)
             {
-                MessageBox.Show("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                // Check whether or not the exception was from missing PKHeX.Core, rather than something else in the constructor of Main
+                if (ex.TargetSite == typeof(Program).GetMethod(nameof(StartPKHeX), BindingFlags.Static | BindingFlags.NonPublic))
+                {
+                    // Exception came from StartPKHeX and (probably) corresponds to missing PKHeX.Core
+                    MessageBox.Show("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return;
+                }
+                else
+                {
+                    // Exception came from Main
+                    throw;
+                }
             }
         }
 
-        static void StartPKHeX()
+        private static void StartPKHeX()
         {
             // Run the application
             Application.EnableVisualStyles();

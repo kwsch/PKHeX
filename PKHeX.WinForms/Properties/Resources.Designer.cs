@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PKHeX.WinForms.WinForms.Properties {
+namespace PKHeX.WinForms.Properties {
     using System;
     
     
