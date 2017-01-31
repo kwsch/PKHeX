@@ -48,7 +48,6 @@ namespace PKHeX.WinForms
 
         private static void StartPKHeX()
         {
-
             // Run the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
