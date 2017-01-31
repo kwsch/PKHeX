@@ -392,7 +392,7 @@ namespace PKHeX.WinForms
             {001, "Times Saved"},
             {004, "Wild Pokémon Battles"},
             {006, "Pokemon Caught"},
-            {006, "Pokemon Caught Fishing"},
+            {007, "Pokemon Caught Fishing"},
             {008, "Eggs Hatched"},
             {009, "Pokemon Evolved"},
             {011, "Link Trades"},
