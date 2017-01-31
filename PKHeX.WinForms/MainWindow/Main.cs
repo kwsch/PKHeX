@@ -258,7 +258,7 @@ namespace PKHeX.WinForms
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
-        private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
+        private const string ThreadPath = @"https://projectpokemon.org/forums/files/file/1-pkhex/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
         private const string QR6Path = @"http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
 
