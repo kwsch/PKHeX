@@ -1075,13 +1075,7 @@ namespace PKHeX.Core
                 if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e)))
                     AddLine(Severity.Valid, "Dream Ball inheritance possible from Female species.", CheckIdentifier.Ball);
                 else if (Lineage.Any(e => Legal.Inherit_DreamMale.Contains(e)))
-                {
-                    if (pkm.AbilityNumber != 4)
-                        AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
-                }
-
+                    AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
 
