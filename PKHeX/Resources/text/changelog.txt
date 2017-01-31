@@ -1,7 +1,18 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/01/30 - New Update:
+17/01/31 - New Update:
+ - Added: Default/Illegal(old code) fashion payloads for those wanting to undo/have anything.
+ - Changed: Internal program version updated to .NET 4.6.
+ - Changed: Improved exception checking for config & dll exceptions.
+ - Fixed: Geolocation data for 6->7 criteria relaxed to no longer falsely flag.
+ - Fixed: Alolan variant egg moves are now recognized correctly.
+ - Fixed: Japanese Event VC Mew no longer flagged for OT name.
+ - Fixed: Dream Ball inheritance check relaxed per new bank possibilities.
+ - Fixed: Importing wc6 on gen7 game no longer invalidates the origin version.
+ - Fixed: Setting Game Corner Coins to Gen1/2 saves is now capped at 9999.
+
+17/01/30 - New Update: (9339) [251198]
  - Added: Control right-clicking a PKM slot (box, party, etc) now allows direct legality checking.
  - Added: 6/7 detection preferential treatment & other detection methods. Thanks sora10pls!
  - Added: Remove All medals button now clears Unlocked/Complete flags even if not visible.
