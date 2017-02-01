@@ -1572,6 +1572,13 @@ namespace PKHeX.Core
                         }
                     }
                     break;
+                case 487: // Giratina
+                    if (pkm.AltForm == 1 && pkm.HeldItem!=112) // Origin form only with Griseous Orb
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist without Griseous Orb as Held Item", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
                 case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
