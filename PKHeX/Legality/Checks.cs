@@ -1579,6 +1579,20 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+                case 493: // Arceus
+                    {
+                        int item = pkm.HeldItem;
+                        int form = 0;
+                        if ((298 <= item && item <= 313) || item == 644)
+                            form = Array.IndexOf(Legal.Arceus_Plate, item) + 1;
+                        else if (777 <= item && item <= 793)
+                            form = Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
+                        if (form != pkm.AltForm)
+                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        else if (form != 0)
+                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                    }
+                    break;
                 case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
@@ -1623,6 +1637,18 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+                case 773: // Silvally
+                    {
+                        int item = pkm.HeldItem;
+                        int form = 0;
+                        if ((904 <= item && item <= 920) || item == 644)
+                            form = item - 903;
+                        if (form != pkm.AltForm)
+                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        else if (form != 0)
+                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                        break;
+                    }
                 case 774: // Minior
                     if (pkm.AltForm < 7)
                     {
