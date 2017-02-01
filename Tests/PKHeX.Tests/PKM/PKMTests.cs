@@ -52,7 +52,7 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(0, pk.MetYear, "Met_Year was not zeroed when MetDate is set to null");
 
             // Ensure setting to a date sets the components
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             // -- Set to something else first
             pk.MetDay = 12;
             pk.MetMonth = 12;
@@ -108,7 +108,7 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(0, pk.EggMetYear, "Egg_Year was not zeroed when EggMetDate is set to null");
 
             // Ensure setting to a date sets the components
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             // -- Set to something else first
             pk.EggMetDay = 12;
             pk.EggMetMonth = 12;
