@@ -97,7 +97,7 @@ namespace PKHeX.WinForms
             catch (MissingMethodException)
             {
                 // Todo: make this translatable
-                MessageBox.Show("Please ensure .NET Framework 4.6 is installed.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 Process.Start(@"https://www.microsoft.com/en-us/download/details.aspx?id=48130");
             }
             catch
