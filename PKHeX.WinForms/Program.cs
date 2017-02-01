@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -28,7 +29,15 @@ namespace PKHeX.WinForms
 
             try
             {
-                StartPKHeX();
+                {
+                    StartPKHeX();
+                }
+                else
+                {
+                    // Todo: make this translatable
+                    MessageBox.Show(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    Process.Start(@"https://www.microsoft.com/en-us/download/details.aspx?id=48130");
+                }
             }
             catch (FileNotFoundException ex)
             {
@@ -53,6 +62,15 @@ namespace PKHeX.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
+        }
+
+        {
+            const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+            {
+                int releaseKey = (int)ndpKey.GetValue("Release");
+                return releaseKey;
+            }
         }
 
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
@@ -93,12 +111,6 @@ namespace PKHeX.WinForms
                 var ex = (Exception)e.ExceptionObject;
                 // Todo: make this translatable
                 ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
-            }
-            catch (MissingMethodException)
-            {
-                // Todo: make this translatable
-                MessageBox.Show(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                Process.Start(@"https://www.microsoft.com/en-us/download/details.aspx?id=48130");
             }
             catch
             {
