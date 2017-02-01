@@ -7,8 +7,8 @@ Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wi
 Supports the following files:
 * Save files ("main", .sav)
 * Individual Pokémon entity files (.pk*)
-* Mystery Gift files (.pgt, .pcd, .pgf, .wc6) including conversion to .pk*
-* Importing teams from Decrypted Battle Videos (X/Y/OR/AS only)
+* Mystery Gift files (.pgt, .pcd, .pgf, .wc*) including conversion to .pk*
+* Importing teams from Decrypted 3DS Battle Videos
 * Transferring from one generation to another, converting formats along the way.
 
 Data is displayed in a view which can be edited and saved.
@@ -24,13 +24,13 @@ Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without 
 
 ## Building
 
-PKHeX is a Windows Forms application which requires .NET Framework v4.0.
+PKHeX is a Windows Forms application which requires .NET Framework v4.6.
 
 The executable can be built with any compiler that supports C# 6.0.
 
 ### Build Configurations
 
-Use the Debug or Release build configurations when building using the .Net Framework.  Use the Mono-Debug or Mono-Release build configurations when building using Mono.
+Use the Debug or Release build configurations when building using the .NET Framework.  Use the Mono-Debug or Mono-Release build configurations when building using Mono.
 
 ## Dependencies
 
