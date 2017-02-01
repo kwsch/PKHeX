@@ -29,6 +29,7 @@ namespace PKHeX.WinForms
 
             try
             {
+                if (GetFrameworkVersion() >= 393295)
                 {
                     StartPKHeX();
                 }
@@ -64,6 +65,7 @@ namespace PKHeX.WinForms
             Application.Run(new Main());
         }
 
+        public static int GetFrameworkVersion()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
             using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
