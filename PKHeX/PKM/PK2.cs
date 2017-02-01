@@ -248,7 +248,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override bool IsEgg { get; set; }
+        public sealed override bool IsEgg { get; set; }
 
         public override int Gender
         {
