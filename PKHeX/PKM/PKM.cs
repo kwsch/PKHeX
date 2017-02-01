@@ -374,7 +374,7 @@ namespace PKHeX.Core
                     return;
                 byte b = 0;
                 for (int i = 0; i < value.Length; i++)
-                    b |= (byte)(Math.Max(value[i], 1) << i);
+                    b |= (byte)(Math.Min(value[i], 1) << i);
                 MarkValue = b;
             }
         }
