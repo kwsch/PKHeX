@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -92,6 +93,12 @@ namespace PKHeX.WinForms
                 var ex = (Exception)e.ExceptionObject;
                 // Todo: make this translatable
                 ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
+            }
+            catch (MissingMethodException)
+            {
+                // Todo: make this translatable
+                MessageBox.Show("Please ensure .NET Framework 4.6 is installed.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Process.Start(@"https://www.microsoft.com/en-us/download/details.aspx?id=48130");
             }
             catch
             {
