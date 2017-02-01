@@ -36,7 +36,6 @@ namespace PKHeX.WinForms
                 {
                     // Exception came from StartPKHeX and (probably) corresponds to missing PKHeX.Core
                     MessageBox.Show("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
                 }
                 else
                 {
