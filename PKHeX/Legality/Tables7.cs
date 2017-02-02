@@ -318,8 +318,6 @@ namespace PKHeX.Core
         {
             019, // Rattata
             020, // Raticate
-            025, // Pikachu (Cosplay not transferrable)
-            026, // Raichu
             027, // Sandshrew
             028, // Sandslash
             037, // Vulpix
@@ -336,6 +334,7 @@ namespace PKHeX.Core
         };
         internal static readonly int[] EvolveToAlolanForms = new[]
         {
+            026, // Raichu
             103, // Exeggutor
             105, // Marowak
         }.Concat(AlolanOriginForms).ToArray();

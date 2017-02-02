@@ -1679,8 +1679,11 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0 && Legal.AlolanOriginForms.Contains(pkm.Species))
-            { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0)
+            {
+                if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species))
+                { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+            }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
             { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
 
