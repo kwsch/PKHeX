@@ -302,6 +302,27 @@ namespace PKHeX.Core
                     return;
                 }
             }
+            if (EncounterIsMysteryGift)
+            {
+                int[] IVs;
+                switch (((MysteryGift) EncounterMatch).Format)
+                {
+                    case 6: IVs = ((WC6)EncounterMatch).IVs; break;
+                    case 7: IVs = ((WC7)EncounterMatch).IVs; break;
+                    default: IVs = null; break;
+                }
+
+                if (IVs != null)
+                {
+                    var pkIVs = pkm.IVs;
+                    bool valid = true;
+                    for (int i = 0; i < 6; i++)
+                        if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
+                            valid = false;
+                    if (!valid)
+                        AddLine(Severity.Invalid, "IVs do not match Mystery Gift Data.", CheckIdentifier.IVs);
+                }
+            }
             if (pkm.IVs.Sum() == 0)
                 AddLine(Severity.Fishy, "All IVs are zero.", CheckIdentifier.IVs);
             else if (pkm.IVs[0] < 30 && pkm.IVs.All(iv => pkm.IVs[0] == iv))
