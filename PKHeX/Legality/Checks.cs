@@ -302,6 +302,27 @@ namespace PKHeX.Core
                     return;
                 }
             }
+            if (EncounterIsMysteryGift)
+            {
+                int[] IVs;
+                switch (((MysteryGift) EncounterMatch).Format)
+                {
+                    case 6: IVs = ((WC6)EncounterMatch).IVs; break;
+                    case 7: IVs = ((WC7)EncounterMatch).IVs; break;
+                    default: IVs = null; break;
+                }
+
+                if (IVs != null)
+                {
+                    var pkIVs = pkm.IVs;
+                    bool valid = true;
+                    for (int i = 0; i < 6; i++)
+                        if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
+                            valid = false;
+                    if (!valid)
+                        AddLine(Severity.Invalid, "IVs do not match Mystery Gift Data.", CheckIdentifier.IVs);
+                }
+            }
             if (pkm.IVs.Sum() == 0)
                 AddLine(Severity.Fishy, "All IVs are zero.", CheckIdentifier.IVs);
             else if (pkm.IVs[0] < 30 && pkm.IVs.All(iv => pkm.IVs[0] == iv))
@@ -1658,8 +1679,11 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0 && Legal.AlolanOriginForms.Contains(pkm.Species))
-            { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0)
+            {
+                if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species))
+                { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+            }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
             { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
 
