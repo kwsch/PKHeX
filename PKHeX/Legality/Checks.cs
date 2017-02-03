@@ -1594,9 +1594,9 @@ namespace PKHeX.Core
                     }
                     break;
                 case 487: // Giratina
-                    if (pkm.AltForm == 1 && pkm.HeldItem!=112) // Origin form only with Griseous Orb
+                    if (pkm.AltForm == 1 ^ pkm.HeldItem == 112) // Origin form only with Griseous Orb
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist without Griseous Orb as Held Item", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1674,6 +1674,17 @@ namespace PKHeX.Core
                     if (pkm.AltForm < 7)
                     {
                         AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
+
+                // Party Only Forms
+                case 492: // Shaymin
+                case 676: // Furfrou
+                case 720: // Hoopa
+                    if (pkm.AltForm != 0 && pkm.Box > -1) // has form but stored in box
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist outside of Party.", CheckIdentifier.Form);
                         return;
                     }
                     break;
