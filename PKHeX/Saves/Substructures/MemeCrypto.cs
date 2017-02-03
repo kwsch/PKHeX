@@ -284,7 +284,7 @@ namespace PKHeX.Core
                     sha256.ComputeHash(ChecksumTable).CopyTo(newSig, 0);
                     var memeSig = VerifyMemeData(CurSig);
                     if (memeSig != null)
-                        Array.Copy(memeSig, 0x20, newSig, 0, 0x60);
+                        Array.Copy(memeSig, 0x20, newSig, 0x20, 0x60);
 
                     SignMemeData(newSig).CopyTo(outSav, 0x6BB00);
                 }
