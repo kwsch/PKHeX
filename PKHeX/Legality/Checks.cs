@@ -1594,7 +1594,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 487: // Giratina
-                    if (pkm.AltForm == 1 && pkm.HeldItem != 112 || pkm.AltForm == 0 && pkm.HeldItem == 112) // Origin form only with Griseous Orb
+                    if (pkm.AltForm == 1 ^ pkm.HeldItem == 112) // Origin form only with Griseous Orb
                     {
                         AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
                         return;
@@ -1683,7 +1683,10 @@ namespace PKHeX.Core
                 case 676: // Furfrou
                 case 720: // Hoopa
                     if (pkm.AltForm != 0 && pkm.Box > -1) // has form but stored in box
+                    {
                         AddLine(Severity.Invalid, "Form cannot exist outside of Party.", CheckIdentifier.Form);
+                        return;
+                    }
                     break;
             }
 
