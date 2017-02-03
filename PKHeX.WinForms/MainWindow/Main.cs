@@ -3531,7 +3531,11 @@ namespace PKHeX.WinForms
             int slot = getSlot(sender);
             PKM pk;
             if (slot >= 0)
+            {
                 pk = SAV.getStoredSlot(getPKXOffset(slot));
+                if (slot < 30 || slot >= 36) // not party
+                    pk.Box = CB_BoxSelect.SelectedIndex; // mark as in a box
+            }
             else if (verifiedPKM())
                 pk = preparePKM();
             else

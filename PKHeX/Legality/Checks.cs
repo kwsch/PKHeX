@@ -1677,6 +1677,14 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+
+                // Party Only Forms
+                case 492: // Shaymin
+                case 676: // Furfrou
+                case 720: // Hoopa
+                    if (pkm.AltForm != 0 && pkm.Box > -1) // has form but stored in box
+                        AddLine(Severity.Invalid, "Form cannot exist outside of Party.", CheckIdentifier.Form);
+                    break;
             }
 
             if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0)
