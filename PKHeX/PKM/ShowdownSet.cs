@@ -144,7 +144,7 @@ namespace PKHeX.Core
             switch (Species)
             {
                 case 658: // Greninja
-                    if (Ability == 210) Form += "-Ash"; // Battle Bond
+                    if (Ability == 210) Form = "Ash"; // Battle Bond
                     break;
                 case 666: // Vivillon
                     if (Form == "Pokeball") Form = "Poké Ball";
