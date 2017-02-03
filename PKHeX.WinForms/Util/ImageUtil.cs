@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
-namespace PKHeX.Core
+namespace PKHeX.WinForms
 {
     public static class ImageUtil
     {

@@ -432,7 +432,7 @@ namespace PKHeX.Core
                     if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
-                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species))) continue;
+                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species)) && !getHasEvolvedFormChange(pkm)) continue;
                 if (wc.MetLocation != pkm.Met_Location) continue;
                 if (wc.EggLocation != pkm.Egg_Location) continue;
                 if (wc.Level != pkm.Met_Level) continue;
@@ -480,7 +480,7 @@ namespace PKHeX.Core
                     if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
-                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species))) continue;
+                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species)) && getHasEvolvedFormChange(pkm)) continue;
                 if (wc.MetLocation != pkm.Met_Location) continue;
                 if (wc.EggLocation != pkm.Egg_Location) continue;
                 if (wc.MetLevel != pkm.Met_Level) continue;
@@ -546,6 +546,14 @@ namespace PKHeX.Core
         internal static bool getHasEvolved(PKM pkm)
         {
             return getValidPreEvolutions(pkm).Count() > 1;
+        }
+        internal static bool getHasEvolvedFormChange(PKM pkm)
+        {
+            if (pkm.Format >= 7 && EvolveToAlolanForms.Contains(pkm.Species))
+                return pkm.AltForm == 1;
+            if (pkm.Species == 678 && pkm.Gender == 1)
+                return pkm.AltForm == 1;
+            return false;
         }
         internal static bool getHasTradeEvolved(PKM pkm)
         {

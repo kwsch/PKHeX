@@ -213,6 +213,9 @@
             797, 798, 799
         };
 
+        public static readonly int[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};
+        public static readonly int[] Arceus_ZCrystal = {782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793};
+
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal

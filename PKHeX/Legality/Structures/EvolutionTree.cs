@@ -82,6 +82,10 @@ namespace PKHeX.Core
         }
         private void fixEvoTreeSM()
         {
+            // Wormadam -- Copy Burmy 0 to Wormadam-1/2
+            Lineage[Personal.getFormeIndex(413, 1)].Chain.Insert(0, Lineage[413].Chain[0]);
+            Lineage[Personal.getFormeIndex(413, 2)].Chain.Insert(0, Lineage[413].Chain[0]);
+
             // Shellos -- Move Shellos-1 evo from Gastrodon-0 to Gastrodon-1
             Lineage[Personal.getFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
             Lineage[422+1].Chain.RemoveAt(0);

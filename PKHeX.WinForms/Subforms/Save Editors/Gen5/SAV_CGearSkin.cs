@@ -22,6 +22,7 @@ namespace PKHeX.WinForms
                 : new byte[CGearBackground.SIZE_CGB]);
 
             PB_Background.Image = bg.GetImage();
+            WinFormsUtil.Alert("Editor is incomplete.", "No guarantee of functionality.");
         }
 
         private readonly SAV5 SAV;

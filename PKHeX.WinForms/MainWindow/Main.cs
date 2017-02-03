@@ -2860,40 +2860,48 @@ namespace PKHeX.WinForms
         }
         private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
-            if (!fieldsLoaded)
-                return;
-            Legality = la ?? new LegalityAnalysis(pkm);
-            if (!Legality.Parsed || HaX)
+            if (pkm.GenNumber >= 6)
             {
-                PB_Legal.Visible = false;
-                return;
+                if (!fieldsLoaded)
+                    return;
+                Legality = la ?? new LegalityAnalysis(pkm);
+                if (!Legality.Parsed || HaX)
+                {
+                    PB_Legal.Visible = false;
+                    return;
+                }
+                PB_Legal.Visible = true;
+
+                PB_Legal.Image = Legality.Valid ? Resources.valid : Resources.warn;
+
+                // Refresh Move Legality
+                for (int i = 0; i < 4; i++)
+                    movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
+
+                for (int i = 0; i < 4; i++)
+                    relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
+
+                if (skipMoveRepop)
+                    return;
+                // Resort moves
+                bool tmp = fieldsLoaded;
+                fieldsLoaded = false;
+                var cb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
+                var moves = Legality.AllSuggestedMovesAndRelearn;
+                var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+                foreach (ComboBox c in cb)
+                {
+                    var index = WinFormsUtil.getIndex(c);
+                    c.DataSource = new BindingSource(moveList, null);
+                    c.SelectedValue = index;
+                }
+                fieldsLoaded |= tmp;
             }
-            PB_Legal.Visible = true;
-
-            PB_Legal.Image = Legality.Valid ? Resources.valid : Resources.warn;
-
-            // Refresh Move Legality
-            for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
-            
-            for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
-
-            if (skipMoveRepop)
-                return;
-            // Resort moves
-            bool tmp = fieldsLoaded;
-            fieldsLoaded = false;
-            var cb = new[] {CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
-            var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
-            foreach (ComboBox c in cb)
+            else
             {
-                var index = WinFormsUtil.getIndex(c);
-                c.DataSource = new BindingSource(moveList, null);
-                c.SelectedValue = index;
+                PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
+                PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = false;
             }
-            fieldsLoaded |= tmp;
         }
 
         private void updateGender()

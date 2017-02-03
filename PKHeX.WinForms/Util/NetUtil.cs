@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 
-namespace PKHeX.Core
+namespace PKHeX.WinForms
 {
     public class NetUtil
     {

@@ -302,6 +302,27 @@ namespace PKHeX.Core
                     return;
                 }
             }
+            if (EncounterIsMysteryGift)
+            {
+                int[] IVs;
+                switch (((MysteryGift) EncounterMatch).Format)
+                {
+                    case 6: IVs = ((WC6)EncounterMatch).IVs; break;
+                    case 7: IVs = ((WC7)EncounterMatch).IVs; break;
+                    default: IVs = null; break;
+                }
+
+                if (IVs != null)
+                {
+                    var pkIVs = pkm.IVs;
+                    bool valid = true;
+                    for (int i = 0; i < 6; i++)
+                        if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
+                            valid = false;
+                    if (!valid)
+                        AddLine(Severity.Invalid, "IVs do not match Mystery Gift Data.", CheckIdentifier.IVs);
+                }
+            }
             if (pkm.IVs.Sum() == 0)
                 AddLine(Severity.Fishy, "All IVs are zero.", CheckIdentifier.IVs);
             else if (pkm.IVs[0] < 30 && pkm.IVs.All(iv => pkm.IVs[0] == iv))
@@ -1572,6 +1593,27 @@ namespace PKHeX.Core
                         }
                     }
                     break;
+                case 487: // Giratina
+                    if (pkm.AltForm == 1 && pkm.HeldItem!=112) // Origin form only with Griseous Orb
+                    {
+                        AddLine(Severity.Invalid, "Form cannot exist without Griseous Orb as Held Item", CheckIdentifier.Form);
+                        return;
+                    }
+                    break;
+                case 493: // Arceus
+                    {
+                        int item = pkm.HeldItem;
+                        int form = 0;
+                        if ((298 <= item && item <= 313) || item == 644)
+                            form = Array.IndexOf(Legal.Arceus_Plate, item) + 1;
+                        else if (777 <= item && item <= 793)
+                            form = Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
+                        if (form != pkm.AltForm)
+                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        else if (form != 0)
+                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                    }
+                    break;
                 case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
@@ -1616,6 +1658,18 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+                case 773: // Silvally
+                    {
+                        int item = pkm.HeldItem;
+                        int form = 0;
+                        if ((904 <= item && item <= 920) || item == 644)
+                            form = item - 903;
+                        if (form != pkm.AltForm)
+                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        else if (form != 0)
+                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                        break;
+                    }
                 case 774: // Minior
                     if (pkm.AltForm < 7)
                     {
@@ -1625,8 +1679,11 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0 && Legal.AlolanOriginForms.Contains(pkm.Species))
-            { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+            if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0)
+            {
+                if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species))
+                { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+            }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
             { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
 
