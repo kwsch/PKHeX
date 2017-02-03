@@ -144,7 +144,10 @@ namespace PKHeX.Core
             switch (Species)
             {
                 case 658: // Greninja
-                    if (Ability == 210) Form += "-Ash"; // Battle Bond
+                    if (Ability == 210) Form = "Ash"; // Battle Bond
+                    break;
+                case 666: // Vivillon
+                    if (Form == "Pokeball") Form = "Poké Ball";
                     break;
                 case 718: // Zygarde
                     if (string.IsNullOrEmpty(Form)) Form = "50%";
@@ -164,22 +167,29 @@ namespace PKHeX.Core
 
             // Showdown Quirks
             string form = Form;
-            switch (Species)
+            if (!string.IsNullOrWhiteSpace(form))
             {
-                case 658: // Greninja
-                    form = form.Replace("Ash", "");
-                    form = form.Replace("Active", "");
-                    break;
-                case 718: // Zygarde
-                    form = form.Replace("-C", "");
-                    form = form.Replace("50%", "");
-                    form = form.Replace("100%", "Complete");
-                    break;
-                case 774: // Minior
-                    if (string.IsNullOrWhiteSpace(form) || form.StartsWith("M-"))
-                        form = "Meteor";
-                    form = form.Replace("C-", "");
-                    break;
+                switch (Species)
+                {
+                    case 658: // Greninja
+                        form = form.Replace("Ash", "");
+                        form = form.Replace("Active", "");
+                        break;
+                    case 718: // Zygarde
+                        form = form.Replace("-C", "");
+                        form = form.Replace("50%", "");
+                        form = form.Replace("100%", "Complete");
+                        break;
+                    case 774: // Minior
+                        if (form.StartsWith("M-"))
+                            form = "Meteor";
+                        form = form.Replace("C-", "");
+                        break;
+                }
+            }
+            else if (Species == 774) // Minior
+            {
+                form = "Meteor";
             }
 
             // First Line: Name, Nickname, Gender, Item
@@ -268,7 +278,11 @@ namespace PKHeX.Core
                 Shiny = pkm.IsShiny,
                 Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : "",
             };
+
             if (Set.Form == "F") Set.Gender = "";
+            else if (Set.Species == 676) Set.Form = ""; // Furfrou
+            else if (Set.Species == 666 && Set.Form == "Poké Ball") Set.Form = "Pokeball"; // Vivillon
+
             return Set.getText();
         }
 
