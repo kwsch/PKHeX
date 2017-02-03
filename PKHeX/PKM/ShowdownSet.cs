@@ -280,6 +280,8 @@ namespace PKHeX.Core
             };
 
             if (Set.Form == "F") Set.Gender = "";
+            else if (Set.Species == 676) Set.Form = ""; // Furfrou
+            else if (Set.Species == 666 && Set.Form == "Poké Ball") Set.Form = "Pokeball"; // Vivillon
 
             return Set.getText();
         }
