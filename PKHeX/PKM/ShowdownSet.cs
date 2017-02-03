@@ -146,6 +146,9 @@ namespace PKHeX.Core
                 case 658: // Greninja
                     if (Ability == 210) Form += "-Ash"; // Battle Bond
                     break;
+                case 666: // Vivillon
+                    if (Form == "Pokeball") Form = "Poké Ball";
+                    break;
                 case 718: // Zygarde
                     if (string.IsNullOrEmpty(Form)) Form = "50%";
                     else if (Form == "Complete") Form = "100%";
@@ -275,7 +278,9 @@ namespace PKHeX.Core
                 Shiny = pkm.IsShiny,
                 Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : "",
             };
+
             if (Set.Form == "F") Set.Gender = "";
+
             return Set.getText();
         }
 
