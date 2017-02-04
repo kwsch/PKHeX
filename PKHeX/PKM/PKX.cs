@@ -53,13 +53,7 @@ namespace PKHeX.Core
                 SIZE_6STORED, SIZE_6PARTY
             }.Contains((int)len);
         }
-
-        // C# PKX Function Library
-        // No WinForm object related code, only to calculate information.
-        // May require re-referencing to main form for string array referencing.
-        // Relies on Util for some common operations.
-
-        // Data
+        
         public static uint LCRNG(uint seed)
         {
             const uint a = 0x41C64E6D;
@@ -198,13 +192,37 @@ namespace PKHeX.Core
 
         public static string getSpeciesName(int species, int lang)
         {
-            try { return SpeciesLang[lang][species]; }
-            catch { return ""; }
+            if (lang < 0 || SpeciesLang.Length <= lang)
+                return "";
+            if (species < 0 || SpeciesLang[0].Length <= species)
+                return "";
+
+            return SpeciesLang[lang][species];
         }
         public static bool getIsNicknamed(int species, string nick)
         {
-            try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
-            catch { return false; }
+            if (species < 0 || SpeciesLang[0].Length <= species)
+                return false;
+            
+            return SpeciesLang.All(list => list[species].ToUpper() != nick);
+        }
+        public static string getSpeciesNameGeneration(int species, int lang, int generation)
+        {
+            string nick = getSpeciesName(species, lang);
+
+            if (generation < 5) // All caps GenIV and previous
+                nick = nick.ToUpper();
+            if (generation < 3)
+                nick = nick.Replace(" ", "");
+            return nick;
+        }
+        public static bool getIsNicknamedAnyLanguage(int species, int generation, string nick)
+        {
+            int len = SpeciesLang.Length;
+            for (int i = 0; i < len; i++)
+                if (getSpeciesNameGeneration(species, i, generation) == nick)
+                    return false;
+            return true;
         }
         public static readonly PersonalTable Personal = PersonalTable.SM;
 
