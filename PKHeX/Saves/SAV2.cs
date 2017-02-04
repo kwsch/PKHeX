@@ -226,6 +226,7 @@ namespace PKHeX.Core
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
         public override int MaxMoney => 999999;
+        public override int MaxCoins => 9999;
 
         public override int BoxCount => Japanese ? 9 : 14;
         public override int MaxEV => 65535;
@@ -457,11 +458,12 @@ namespace PKHeX.Core
         {
             get
             {
-                return BigEndian.ToUInt16(Data, MoneyOffset+7);
+                return BigEndian.ToUInt16(Data, MoneyOffset + 7);
             }
             set
             {
-               BigEndian.GetBytes(value > 9999 ? 9999 : value).ToArray().CopyTo(Data, MoneyOffset + 7);
+                ushort val = (ushort)Math.Min(value, MaxCoins);
+                BigEndian.GetBytes(val).CopyTo(Data, MoneyOffset + 7);
             }
         }
 
@@ -475,7 +477,7 @@ namespace PKHeX.Core
                 {
                     pouch = new[]
                     {
-                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, Japanese ? 0x23C9 : 0x23E7, 57),
+                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 99, Japanese ? 0x23C9 : 0x23E7, 57),
                         new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2402 : 0x2420, 20),
                         new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, Japanese ? 0x242C : 0x244A, 26),
                         new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2447 : 0x2465, 12),
@@ -486,7 +488,7 @@ namespace PKHeX.Core
                 {
                     pouch = new[]
                     {
-                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 1, Japanese ? 0x23C7 : 0x23E6, 57),
+                        new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 99, Japanese ? 0x23C7 : 0x23E6, 57),
                         new InventoryPouch(InventoryType.Items, LegalItems, 99, Japanese ? 0x2400 : 0x241F, 20),
                         new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 99, Japanese ? 0x242A : 0x2449, 26),
                         new InventoryPouch(InventoryType.Balls, LegalBalls, 99, Japanese ? 0x2445 : 0x2464, 12),
