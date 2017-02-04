@@ -470,7 +470,7 @@ namespace PKHeX.WinForms
         private void mainMenuBoxDump(object sender, EventArgs e)
         {
             string path;
-            bool dumptoboxes = false;
+            bool separate = false;
             // Dump all of box content to files.
             DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
             if (ld == DialogResult.Yes)
@@ -481,7 +481,7 @@ namespace PKHeX.WinForms
             }
             else if (ld == DialogResult.No)
             {
-                dumptoboxes = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
+                separate = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
 
                 // open folder dialog
                 FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -492,7 +492,9 @@ namespace PKHeX.WinForms
             }
             else return;
 
-            dumpBoxesToDB(path, dumptoboxes);
+            string result;
+            SAV.dumpBoxes(path, out result, separate);
+            WinFormsUtil.Alert(result);
         }
         private void manMenuBatchEditor(object sender, EventArgs e)
         {
@@ -3019,39 +3021,6 @@ namespace PKHeX.WinForms
             SystemSounds.Exclamation.Play();
             return false;
         }
-        public static string[] verifyPKMtoSAV(PKM pk)
-        {
-            // Check if PKM properties are outside of the valid range
-            List<string> errata = new List<string>();
-            if (SAV.Generation > 1)
-            {
-                ushort held = (ushort)pk.HeldItem;
-
-                if (held > GameInfo.Strings.itemlist.Length)
-                    errata.Add($"Item Index beyond range: {held}");
-                else if (held > SAV.MaxItemID)
-                    errata.Add($"Game can't obtain item: {GameInfo.Strings.itemlist[held]}");
-                else if (!pk.CanHoldItem(SAV.HeldItems))
-                    errata.Add($"Game can't hold item: {GameInfo.Strings.itemlist[held]}");
-            }
-
-            if (pk.Species > GameInfo.Strings.specieslist.Length)
-                errata.Add($"Species Index beyond range: {pk.HeldItem}");
-            else if (SAV.MaxSpeciesID < pk.Species)
-                errata.Add($"Game can't obtain species: {GameInfo.Strings.specieslist[pk.Species]}");
-
-            if (pk.Moves.Any(m => m > GameInfo.Strings.movelist.Length))
-                errata.Add($"Item Index beyond range: {string.Join(", ", pk.Moves.Where(m => m > GameInfo.Strings.movelist.Length).Select(m => m.ToString()))}");
-            else if (pk.Moves.Any(m => m > SAV.MaxMoveID))
-                errata.Add($"Game can't have move: {string.Join(", ", pk.Moves.Where(m => m > SAV.MaxMoveID).Select(m => GameInfo.Strings.movelist[m]))}");
-
-            if (pk.Ability > GameInfo.Strings.abilitylist.Length)
-                errata.Add($"Ability Index beyond range: {pk.Ability}");
-            else if (pk.Ability > SAV.MaxAbilityID)
-                errata.Add($"Game can't have ability: {GameInfo.Strings.abilitylist[pk.Ability]}");
-
-            return errata.ToArray();
-        }
         public PKM preparePKM(bool click = true)
         {
             if (click)
@@ -3362,7 +3331,7 @@ namespace PKHeX.WinForms
             }
             PKM pk = preparePKM();
 
-            string[] errata = verifyPKMtoSAV(pk);
+            string[] errata = SAV.IsPKMCompatible(pk);
             if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), "Continue?"))
                 return;
 
@@ -3860,26 +3829,6 @@ namespace PKHeX.WinForms
             // Refresh Boxes
             setPKXBoxes();
         }
-        private void dumpBoxesToDB(string path, bool individualBoxFolders)
-        {
-            PKM[] boxdata = SAV.BoxData;
-            if (boxdata == null) { WinFormsUtil.Error("Null argument when dumping boxes."); return; } 
-            for (int i = 0; i < boxdata.Length; i++)
-            {
-                PKM pk = boxdata[i];
-                if (pk.Species == 0 || !pk.Valid)
-                    continue;
-                string fileName = Util.CleanFileName(pk.FileName);
-                string boxfolder = "";
-                if (individualBoxFolders)
-                {
-                    boxfolder = SAV.getBoxName(i/SAV.BoxSlotCount);
-                    Directory.CreateDirectory(Path.Combine(path, boxfolder));
-                }
-                if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
-                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
-            }
-        }
         private void loadBoxesFromDB(string path)
         {
             if (string.IsNullOrWhiteSpace(path)) return;
@@ -3888,48 +3837,13 @@ namespace PKHeX.WinForms
             DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Clear subsequent boxes when importing data?", "If you only want to overwrite for new data, press no.");
             if (dr == DialogResult.Cancel)
                 return;
-            if (dr == DialogResult.Yes)
-                SAV.resetBoxes(CB_BoxSelect.SelectedIndex);
 
+            string result;
+            bool clearAll = dr == DialogResult.Yes;
             bool? noSetb = getPKMSetOverride();
 
-            int ctr = CB_BoxSelect.SelectedIndex*SAV.BoxSlotCount;
-            int pastctr = 0;
-            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
-
-            foreach (byte[] data in from file in filepaths where PKX.getIsPKM(new FileInfo(file).Length) select File.ReadAllBytes(file))
-            {
-                string c;
-                PKM temp = PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
-
-                if (pk != null) // Write to save
-                {
-                    if (verifyPKMtoSAV(pk).Length > 0)
-                        continue;
-                    
-                    while (SAV.getIsSlotLocked(ctr/SAV.BoxSlotCount, ctr%SAV.BoxSlotCount))
-                        ctr++;
-
-                    SAV.setStoredSlot(pk, SAV.getBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount * SAV.SIZE_STORED, noSetb);
-                    if (pk.Format != temp.Format) // Transferred
-                        pastctr++;
-                    if (++ctr == SAV.BoxCount*SAV.BoxSlotCount) // Boxes full!
-                        break; 
-                }
-                Console.WriteLine(c);
-            }
-            ctr -= SAV.BoxSlotCount * CB_BoxSelect.SelectedIndex; // actual imported count
-            if (ctr <= 0)
-                return; 
-
-            setPKXBoxes();
-            updateBoxViewers();
-            string result = $"Loaded {ctr} files to boxes.";
-            if (pastctr > 0)
-                WinFormsUtil.Alert(result, $"Conversion successful for {pastctr} past generation files.");
-            else
-                WinFormsUtil.Alert(result);
+            SAV.loadBoxes(path, out result, CB_BoxSelect.SelectedIndex, clearAll, noSetb);
+            WinFormsUtil.Alert(result);
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
@@ -4262,7 +4176,7 @@ namespace PKHeX.WinForms
                 if (pk == null)
                 { WinFormsUtil.Error(c); Console.WriteLine(c); return; }
 
-                string[] errata = verifyPKMtoSAV(pk);
+                string[] errata = SAV.IsPKMCompatible(pk);
                 if (errata.Length > 0)
                 {
                     string concat = string.Join(Environment.NewLine, errata);

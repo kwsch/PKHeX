@@ -269,7 +269,7 @@ namespace PKHeX.WinForms
                 if (pk == null)
                 { WinFormsUtil.Error(c); Console.WriteLine(c); return; }
 
-                string[] errata = verifyPKMtoSAV(pk);
+                string[] errata = SAV.IsPKMCompatible(pk);
                 if (errata.Length > 0)
                 {
                     string concat = string.Join(Environment.NewLine, errata);
