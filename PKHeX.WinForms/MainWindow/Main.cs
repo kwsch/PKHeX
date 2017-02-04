@@ -300,7 +300,6 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
 
             Settings.Version = Resources.ProgramVersion;
-            Settings.Save();
         }
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
@@ -1345,17 +1344,17 @@ namespace PKHeX.WinForms
         }
         private void TemplateFields()
         {
-            CB_Species.SelectedValue = SAV.MaxSpeciesID;
+            CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;
             TB_OT.Text = "PKHeX";
             TB_TID.Text = 12345.ToString();
             TB_SID.Text = 54321.ToString();
-            CB_GameOrigin.SelectedIndex = 0;
             int curlang = Array.IndexOf(GameInfo.lang_val, curlanguage);
             CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
             CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
             CB_Country.SelectedIndex = Math.Min(0, CB_Country.Items.Count - 1);
             CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
+            CB_Species.SelectedValue = SAV.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
         }
         private void InitializeLanguage()
@@ -2515,9 +2514,9 @@ namespace PKHeX.WinForms
             if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
             { clickShowdownExportPKM(sender, e); return; }
 
+            int lang = WinFormsUtil.getIndex(CB_Language);
             if (sender == CB_Language || sender == CHK_Nicknamed)
             {
-                int lang = WinFormsUtil.getIndex(CB_Language);
                 switch (lang)
                 {
                     case 9:
@@ -2536,24 +2535,20 @@ namespace PKHeX.WinForms
             // Fetch Current Species and set it as Nickname Text
             int species = WinFormsUtil.getIndex(CB_Species);
             if (species < 1 || species > SAV.MaxSpeciesID)
-                TB_Nickname.Text = "";
-            else
-            {
-                // get language
-                int lang = WinFormsUtil.getIndex(CB_Language);
-                if (CHK_IsEgg.Checked) species = 0; // Set species to 0 to get the egg name.
-                string nick = PKX.getSpeciesName(CHK_IsEgg.Checked ? 0 : species, lang);
+            { TB_Nickname.Text = ""; return; }
+            
+            if (CHK_IsEgg.Checked)
+                species = 0; // get the egg name.
 
-                if (SAV.Generation < 5) // All caps GenIV and previous
-                    nick = nick.ToUpper();
-                if (SAV.Generation < 3)
-                    nick = nick.Replace(" ", "");
-                TB_Nickname.Text = nick;
-                if (SAV.Generation == 1)
-                    ((PK1)pkm).setNotNicknamed();
-                if (SAV.Generation == 2)
-                    ((PK2)pkm).setNotNicknamed();
-            }
+            // If name is that of another language, don't replace the nickname
+            if (species != 0 && !PKX.getIsNicknamedAnyLanguage(species, SAV.Generation, TB_Nickname.Text))
+                return;
+
+            TB_Nickname.Text = PKX.getSpeciesNameGeneration(species, lang, SAV.Generation);
+            if (SAV.Generation == 1)
+                ((PK1) pkm).setNotNicknamed();
+            if (SAV.Generation == 2)
+                ((PK2) pkm).setNotNicknamed();
         }
         private void updateNicknameClick(object sender, MouseEventArgs e)
         {
@@ -3603,25 +3598,19 @@ namespace PKHeX.WinForms
             if (!fieldsLoaded)
                 return;
 
-            if (!CHK_Nicknamed.Checked)
-            {
-                int species = WinFormsUtil.getIndex(CB_Species);
-                if (species < 1 || species > SAV.MaxSpeciesID)
-                    return;
-                int lang = WinFormsUtil.getIndex(CB_Language);
-                if (CHK_IsEgg.Checked) species = 0; // Set species to 0 to get the egg name.
-                string nick = PKX.getSpeciesName(CHK_IsEgg.Checked ? 0 : species, lang);
+            pkm.Nickname = TB_Nickname.Text;
+            if (CHK_Nicknamed.Checked)
+                return;
 
-                if (SAV.Generation < 5) // All caps GenIV and previous
-                    nick = nick.ToUpper();
-                if (SAV.Generation < 3)
-                    nick = nick.Replace(" ", "");
-                if (TB_Nickname.Text != nick)
-                {
-                    CHK_Nicknamed.Checked = true;
-                    pkm.Nickname = TB_Nickname.Text;
-                }
-            }
+            int species = WinFormsUtil.getIndex(CB_Species);
+            if (species < 1 || species > SAV.MaxSpeciesID)
+                return;
+
+            if (CHK_IsEgg.Checked)
+                species = 0; // get the egg name.
+
+            if (PKX.getIsNicknamedAnyLanguage(species, SAV.Generation, TB_Nickname.Text))
+                CHK_Nicknamed.Checked = true;
         }
 
         // Generic Subfunctions //
