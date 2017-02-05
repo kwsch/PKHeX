@@ -8,6 +8,7 @@ namespace PKHeX.Core
     {
         public static bool SetUpdateDex = true;
         public static bool SetUpdatePKM = true;
+        public static bool ChkIllegal = true;
 
         // General Object Properties
         public byte[] Data;
