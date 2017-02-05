@@ -520,6 +520,9 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<int> getLineage(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return new[] {pkm.Species};
+
             var table = getEvolutionTable(pkm);
             var lineage = table.getValidPreEvolutions(pkm, pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
@@ -545,10 +548,16 @@ namespace PKHeX.Core
         }
         internal static bool getHasEvolved(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return false;
+
             return getValidPreEvolutions(pkm).Count() > 1;
         }
         internal static bool getHasEvolvedFormChange(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return false;
+
             if (pkm.Format >= 7 && EvolveToAlolanForms.Contains(pkm.Species))
                 return pkm.AltForm == 1;
             if (pkm.Species == 678 && pkm.Gender == 1)
@@ -557,6 +566,9 @@ namespace PKHeX.Core
         }
         internal static bool getHasTradeEvolved(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return false;
+
             var table = getEvolutionTable(pkm);
             var lineage = table.getValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
@@ -866,6 +878,11 @@ namespace PKHeX.Core
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
+            if (lvl == 1 && pkm.IsEgg)
+                return new List<DexLevel>
+                {
+                    new DexLevel { Species = pkm.Species, Level = 1 },
+                };
             if (pkm.Species == 292 && pkm.Met_Level + 1 <= lvl && lvl >= 20)
                 return new List<DexLevel>
                 {
