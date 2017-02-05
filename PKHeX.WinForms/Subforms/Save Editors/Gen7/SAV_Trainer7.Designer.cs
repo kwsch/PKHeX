@@ -157,6 +157,7 @@ namespace PKHeX.WinForms
             this.NUD_RCStreak0 = new System.Windows.Forms.NumericUpDown();
             this.L_CStreak0 = new System.Windows.Forms.Label();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.CB_Fashion = new System.Windows.Forms.ComboBox();
             this.L_SkinColor = new System.Windows.Forms.Label();
             this.CB_SkinColor = new System.Windows.Forms.ComboBox();
             this.GB_PokeFinder = new System.Windows.Forms.GroupBox();
@@ -170,7 +171,9 @@ namespace PKHeX.WinForms
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
-            this.CB_Fashion = new System.Windows.Forms.ComboBox();
+            this.L_G7TID = new System.Windows.Forms.Label();
+            this.MT_G7TID = new System.Windows.Forms.MaskedTextBox();
+            this.B_GenTID = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -207,7 +210,7 @@ namespace PKHeX.WinForms
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(250, 296);
+            this.B_Cancel.Location = new System.Drawing.Point(250, 334);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -217,7 +220,7 @@ namespace PKHeX.WinForms
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(331, 296);
+            this.B_Save.Location = new System.Drawing.Point(331, 334);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -453,7 +456,7 @@ namespace PKHeX.WinForms
             // 
             // L_Language
             // 
-            this.L_Language.Location = new System.Drawing.Point(14, 77);
+            this.L_Language.Location = new System.Drawing.Point(202, 82);
             this.L_Language.Name = "L_Language";
             this.L_Language.Size = new System.Drawing.Size(80, 13);
             this.L_Language.TabIndex = 21;
@@ -519,7 +522,7 @@ namespace PKHeX.WinForms
             // 
             this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(99, 73);
+            this.CB_Language.Location = new System.Drawing.Point(287, 79);
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(93, 21);
             this.CB_Language.TabIndex = 15;
@@ -805,11 +808,14 @@ namespace PKHeX.WinForms
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
-            this.TC_Editor.Size = new System.Drawing.Size(394, 279);
+            this.TC_Editor.Size = new System.Drawing.Size(394, 316);
             this.TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.B_GenTID);
+            this.Tab_Overview.Controls.Add(this.L_G7TID);
+            this.Tab_Overview.Controls.Add(this.MT_G7TID);
             this.Tab_Overview.Controls.Add(this.GB_Stats);
             this.Tab_Overview.Controls.Add(this.CB_AlolaTime);
             this.Tab_Overview.Controls.Add(this.L_AlolaTime);
@@ -836,7 +842,7 @@ namespace PKHeX.WinForms
             this.Tab_Overview.Location = new System.Drawing.Point(4, 22);
             this.Tab_Overview.Name = "Tab_Overview";
             this.Tab_Overview.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Overview.Size = new System.Drawing.Size(386, 253);
+            this.Tab_Overview.Size = new System.Drawing.Size(386, 290);
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
@@ -851,7 +857,7 @@ namespace PKHeX.WinForms
             this.GB_Stats.Controls.Add(this.L_BP);
             this.GB_Stats.Controls.Add(this.L_Value);
             this.GB_Stats.Controls.Add(this.CB_Stats);
-            this.GB_Stats.Location = new System.Drawing.Point(212, 113);
+            this.GB_Stats.Location = new System.Drawing.Point(212, 130);
             this.GB_Stats.Name = "GB_Stats";
             this.GB_Stats.Size = new System.Drawing.Size(171, 137);
             this.GB_Stats.TabIndex = 60;
@@ -954,14 +960,14 @@ namespace PKHeX.WinForms
             // 
             this.CB_AlolaTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_AlolaTime.FormattingEnabled = true;
-            this.CB_AlolaTime.Location = new System.Drawing.Point(287, 89);
+            this.CB_AlolaTime.Location = new System.Drawing.Point(287, 106);
             this.CB_AlolaTime.Name = "CB_AlolaTime";
             this.CB_AlolaTime.Size = new System.Drawing.Size(93, 21);
             this.CB_AlolaTime.TabIndex = 59;
             // 
             // L_AlolaTime
             // 
-            this.L_AlolaTime.Location = new System.Drawing.Point(209, 92);
+            this.L_AlolaTime.Location = new System.Drawing.Point(209, 109);
             this.L_AlolaTime.Name = "L_AlolaTime";
             this.L_AlolaTime.Size = new System.Drawing.Size(72, 13);
             this.L_AlolaTime.TabIndex = 58;
@@ -985,7 +991,7 @@ namespace PKHeX.WinForms
             this.GB_Adventure.Controls.Add(this.L_Minutes);
             this.GB_Adventure.Controls.Add(this.CAL_AdventureStartTime);
             this.GB_Adventure.Controls.Add(this.CAL_LastSavedTime);
-            this.GB_Adventure.Location = new System.Drawing.Point(3, 99);
+            this.GB_Adventure.Location = new System.Drawing.Point(3, 130);
             this.GB_Adventure.Name = "GB_Adventure";
             this.GB_Adventure.Size = new System.Drawing.Size(200, 151);
             this.GB_Adventure.TabIndex = 56;
@@ -1075,7 +1081,7 @@ namespace PKHeX.WinForms
             this.Tab_BadgeMap.Controls.Add(this.GB_Map);
             this.Tab_BadgeMap.Location = new System.Drawing.Point(4, 22);
             this.Tab_BadgeMap.Name = "Tab_BadgeMap";
-            this.Tab_BadgeMap.Size = new System.Drawing.Size(386, 253);
+            this.Tab_BadgeMap.Size = new System.Drawing.Size(386, 294);
             this.Tab_BadgeMap.TabIndex = 3;
             this.Tab_BadgeMap.Text = "Map";
             this.Tab_BadgeMap.UseVisualStyleBackColor = true;
@@ -1266,7 +1272,7 @@ namespace PKHeX.WinForms
             this.Tab_BattleTree.Location = new System.Drawing.Point(4, 22);
             this.Tab_BattleTree.Name = "Tab_BattleTree";
             this.Tab_BattleTree.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_BattleTree.Size = new System.Drawing.Size(386, 253);
+            this.Tab_BattleTree.Size = new System.Drawing.Size(386, 294);
             this.Tab_BattleTree.TabIndex = 5;
             this.Tab_BattleTree.Text = "Battle Tree";
             this.Tab_BattleTree.UseVisualStyleBackColor = true;
@@ -1557,10 +1563,23 @@ namespace PKHeX.WinForms
             this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
             this.Tab_Misc.Name = "Tab_Misc";
             this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Misc.Size = new System.Drawing.Size(386, 253);
+            this.Tab_Misc.Size = new System.Drawing.Size(386, 294);
             this.Tab_Misc.TabIndex = 4;
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
+            // 
+            // CB_Fashion
+            // 
+            this.CB_Fashion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Fashion.FormattingEnabled = true;
+            this.CB_Fashion.Items.AddRange(new object[] {
+            "New Game",
+            "All Legal",
+            "Everything"});
+            this.CB_Fashion.Location = new System.Drawing.Point(31, 76);
+            this.CB_Fashion.Name = "CB_Fashion";
+            this.CB_Fashion.Size = new System.Drawing.Size(107, 21);
+            this.CB_Fashion.TabIndex = 60;
             // 
             // L_SkinColor
             // 
@@ -1719,24 +1738,40 @@ namespace PKHeX.WinForms
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
-            // CB_Fashion
+            // L_G7TID
             // 
-            this.CB_Fashion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Fashion.FormattingEnabled = true;
-            this.CB_Fashion.Items.AddRange(new object[] {
-            "New Game",
-            "All Legal",
-            "Everything"});
-            this.CB_Fashion.Location = new System.Drawing.Point(31, 76);
-            this.CB_Fashion.Name = "CB_Fashion";
-            this.CB_Fashion.Size = new System.Drawing.Size(107, 21);
-            this.CB_Fashion.TabIndex = 60;
+            this.L_G7TID.Location = new System.Drawing.Point(-1, 78);
+            this.L_G7TID.Name = "L_G7TID";
+            this.L_G7TID.Size = new System.Drawing.Size(48, 13);
+            this.L_G7TID.TabIndex = 61;
+            this.L_G7TID.Text = "G7TID:";
+            this.L_G7TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_G7TID
+            // 
+            this.MT_G7TID.Location = new System.Drawing.Point(53, 75);
+            this.MT_G7TID.Mask = "000000";
+            this.MT_G7TID.Name = "MT_G7TID";
+            this.MT_G7TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_G7TID.Size = new System.Drawing.Size(65, 20);
+            this.MT_G7TID.TabIndex = 62;
+            this.MT_G7TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // B_GenTID
+            // 
+            this.B_GenTID.Location = new System.Drawing.Point(124, 75);
+            this.B_GenTID.Name = "B_GenTID";
+            this.B_GenTID.Size = new System.Drawing.Size(68, 20);
+            this.B_GenTID.TabIndex = 63;
+            this.B_GenTID.Text = "Generate";
+            this.B_GenTID.UseVisualStyleBackColor = true;
+            this.B_GenTID.Click += new System.EventHandler(this.B_GenTID_Click);
             // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 326);
+            this.ClientSize = new System.Drawing.Size(414, 366);
             this.Controls.Add(this.TC_Editor);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -1931,5 +1966,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Value;
         private System.Windows.Forms.Label L_Offset;
         private System.Windows.Forms.ComboBox CB_Fashion;
+        private System.Windows.Forms.Button B_GenTID;
+        private System.Windows.Forms.Label L_G7TID;
+        private System.Windows.Forms.MaskedTextBox MT_G7TID;
     }
 }
