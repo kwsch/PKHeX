@@ -1703,9 +1703,17 @@ namespace PKHeX.WinForms
 
                 if (qr == null) return;
 
+                var sprite = dragout.Image;
+                var la = new LegalityAnalysis(pkx);
+                if (la.Parsed)
+                {
+                    var img = la.Valid ? Resources.valid : Resources.warn;
+                    sprite = ImageUtil.LayerImage(sprite, img, 24, 0, 1);
+                }
+
                 string[] r = pkx.QRText;
-                const string refURL = "PKHeX @ ProjectPokemon.org";
-                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})", pkx).ShowDialog();
+                string refer = $"PKHeX ({Resources.ProgramVersion})";
+                new QR(qr, sprite, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})", pkx).ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
