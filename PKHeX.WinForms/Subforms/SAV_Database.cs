@@ -504,6 +504,8 @@ namespace PKHeX.WinForms
                 {
                     foreach (var cmd in filters)
                     {
+                        if (cmd.PropertyName == nameof(PKM.Identifier) + "Contains")
+                            return pkm.Identifier.Contains(cmd.PropertyValue);
                         if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
