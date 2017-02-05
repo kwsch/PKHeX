@@ -389,35 +389,9 @@ namespace PKHeX.WinForms
 
         private void B_GenTID_Click(object sender, EventArgs e)
         {
-            B_GenTID.Text = "Generating";
-            B_GenTID.Enabled = false;
-            int final, i_TID, i_SID;
-            Random random = new Random();
-            i_TID = random.Next(0, 65535);
-            bool matchFound = false;
-
-            while (!matchFound)
-            {
-                i_SID = 0;
-
-                while (i_SID < 65535 && !matchFound)
-                {
-                    final = i_TID + (i_SID * 65536) % 1000000;
-
-                    if (final == int.Parse(MT_G7TID.Text))
-                    {
-                        MT_TID.Text = i_TID.ToString();
-                        MT_SID.Text = i_SID.ToString();
-                        matchFound = true;
-                        B_GenTID.Text = "Generate";
-                        B_GenTID.Enabled = true;
-                    }
-
-                    i_SID++;
-                }
-
-                i_TID = (i_TID == 65535) ? 0 : i_TID + 1;
-            }
+            var tuple = SaveUtil.getTIDSID(Util.ToUInt32(MT_G7TID.Text), ModifierKeys == Keys.Control);
+            MT_TID.Text = tuple.Item1.ToString("D5");
+            MT_SID.Text = tuple.Item2.ToString("D5");
         }
 
         private readonly Dictionary<int, string> RecordList = new Dictionary<int, string>

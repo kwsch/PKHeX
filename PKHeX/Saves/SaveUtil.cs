@@ -975,5 +975,32 @@ namespace PKHeX.Core
 
             return keys;
         }
+
+        /// <summary>
+        /// Creates a 16bit TID/SID tuple for a given G7TID.
+        /// </summary>
+        /// <param name="G7TID">Desired G7TID</param>
+        /// <param name="minimizeSID">Optional param to yield minimum SID.</param>
+        /// <returns>16bit TID/SID tuple</returns>
+        public static Tuple<uint, uint> getTIDSID(uint G7TID, bool minimizeSID = false)
+        {
+            // 32 bit number = 4294 967295
+            // lowest 6 digits G7TID
+
+            // Bare minimum 32bit value to get ID, yields min SID
+            uint val = G7TID;
+            if (!minimizeSID) // randomize SID
+            {
+                uint s7 = 4294;
+                if (val > 967295)
+                    s7 -= 1;
+                s7 = (uint)Util.rand.Next(0, (int)s7);
+                val += s7 * 1000000;
+            }
+            uint TID = val & 0xFFFF;
+            uint SID = val >> 16;
+
+            return new Tuple<uint, uint>(TID, SID);
+        }
     }
 }
