@@ -112,29 +112,16 @@ namespace PKHeX.WinForms
                 pb.BackColor = Color.Red;
                 return;
             }
-            // Something stored in slot. Only display if species is valid.
-            var sprite = p.Species != 0 ? p.Sprite() : null;
+
             int slot = getSlot(pb);
-            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
-            pb.Image = sprite;
+            pb.Image = p.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, parent.Menu_FlagIllegal.Checked);
             pb.BackColor = Color.Transparent;
+            pb.Visible = true;
         }
         private void getQuickFiller(PictureBox pb, PKM pk)
         {
-            var sprite = pk.Species != 0 ? pk.Sprite() : null;
             int slot = getSlot(pb);
-            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Core.Properties.Resources.team, 21, 0, 1);
-            pb.Image = sprite;
+            pb.Image = pk.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, parent.Menu_FlagIllegal.Checked);
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
         }
@@ -269,7 +256,7 @@ namespace PKHeX.WinForms
                 if (pk == null)
                 { WinFormsUtil.Error(c); Console.WriteLine(c); return; }
 
-                string[] errata = verifyPKMtoSAV(pk);
+                string[] errata = SAV.IsPKMCompatible(pk);
                 if (errata.Length > 0)
                 {
                     string concat = string.Join(Environment.NewLine, errata);
@@ -333,7 +320,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
 
             if (DragInfo.slotDragDropInProgress)
-                Cursor = DragInfo.Cursor;
+                Cursor = (Cursor)DragInfo.Cursor;
         }
         private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {

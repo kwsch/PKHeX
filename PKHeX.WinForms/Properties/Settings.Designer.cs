@@ -94,5 +94,17 @@ namespace PKHeX.WinForms.Properties {
                 this["BAKPrompt"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FlagIllegal {
+            get {
+                return ((bool)(this["FlagIllegal"]));
+            }
+            set {
+                this["FlagIllegal"] = value;
+            }
+        }
     }
 }

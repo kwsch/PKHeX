@@ -31,8 +31,8 @@ namespace PKHeX.WinForms
             public string Move3 => GameInfo.Strings.movelist[pkm.Move3];
             public string Move4 => GameInfo.Strings.movelist[pkm.Move4];
             public string HeldItem => GameInfo.Strings.itemlist[pkm.HeldItem];
-            public string MetLoc => PKX.getLocation(pkm, eggmet: false);
-            public string EggLoc => PKX.getLocation(pkm, eggmet: true);
+            public string MetLoc => pkm.getLocation(eggmet: false);
+            public string EggLoc => pkm.getLocation(eggmet: true);
             public string Ball => GameInfo.Strings.balllist[pkm.Ball];
             public string OT => pkm.OT_Name;
             public string Version => GameInfo.Strings.gamelist[pkm.Version];

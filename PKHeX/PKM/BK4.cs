@@ -264,12 +264,12 @@ namespace PKHeX.Core
                 PKX.str2arrayG4BE(TempNick).CopyTo(Data, 0x68);
             }
         }
-        protected override int Egg_Year { get { return Data[0x78]; } set { Data[0x78] = (byte)value; } }
-        protected override int Egg_Month { get { return Data[0x79]; } set { Data[0x79] = (byte)value; } }
-        protected override int Egg_Day { get { return Data[0x7A]; } set { Data[0x7A] = (byte)value; } }
-        protected override int Met_Year { get { return Data[0x7B]; } set { Data[0x7B] = (byte)value; } }
-        protected override int Met_Month { get { return Data[0x7C]; } set { Data[0x7C] = (byte)value; } }
-        protected override int Met_Day { get { return Data[0x7D]; } set { Data[0x7D] = (byte)value; } }
+        public override int Egg_Year { get { return Data[0x78]; } set { Data[0x78] = (byte)value; } }
+        public override int Egg_Month { get { return Data[0x79]; } set { Data[0x79] = (byte)value; } }
+        public override int Egg_Day { get { return Data[0x7A]; } set { Data[0x7A] = (byte)value; } }
+        public override int Met_Year { get { return Data[0x7B]; } set { Data[0x7B] = (byte)value; } }
+        public override int Met_Month { get { return Data[0x7C]; } set { Data[0x7C] = (byte)value; } }
+        public override int Met_Day { get { return Data[0x7D]; } set { Data[0x7D] = (byte)value; } }
 
         public override int Egg_Location
         {

@@ -5,8 +5,14 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Common logic for <see cref="PKM"/> data providing and manipulation.
+    /// </summary>
     public static class PKX
     {
+        private static readonly PersonalTable Personal = PersonalTable.SM;
+        private const int Generation = 7;
+
         internal const int SIZE_1ULIST = 69;
         internal const int SIZE_1JLIST = 59;
         internal const int SIZE_1PARTY = 44;
@@ -36,10 +42,10 @@ namespace PKHeX.Core
         internal const int SIZE_6BLOCK = 56;
 
         /// <summary>
-        /// Determines if the given length is valid for a Pokemon file.
+        /// Determines if the given length is valid for a <see cref="PKM"/>.
         /// </summary>
-        /// <param name="len">Length of the data to check.</param>
-        /// <returns>A boolean indicating whether or not the length is valid for a Pokemon file.</returns>
+        /// <param name="len">Data length of the file/array.</param>
+        /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
         public static bool getIsPKM(long len)
         {
             return new[]
@@ -53,13 +59,7 @@ namespace PKHeX.Core
                 SIZE_6STORED, SIZE_6PARTY
             }.Contains((int)len);
         }
-
-        // C# PKX Function Library
-        // No WinForm object related code, only to calculate information.
-        // May require re-referencing to main form for string array referencing.
-        // Relies on Util for some common operations.
-
-        // Data
+        
         public static uint LCRNG(uint seed)
         {
             const uint a = 0x41C64E6D;
@@ -75,7 +75,7 @@ namespace PKHeX.Core
             return seed = seed * a + c;
         }
         #region ExpTable
-        public static readonly uint[,] ExpTable =
+        private static readonly uint[,] ExpTable =
         {
             {0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0},
@@ -196,22 +196,69 @@ namespace PKHeX.Core
             Util.getSpeciesList("zh2"), // 10 Traditional
         };
 
+        /// <summary>
+        /// Gets a Pokémon's default name for the desired language ID.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
+        /// <param name="lang">Language ID of the Pokémon</param>
+        /// <returns>The Species name if within expected range, else an empty string.</returns>
         public static string getSpeciesName(int species, int lang)
         {
-            try { return SpeciesLang[lang][species]; }
-            catch { return ""; }
-        }
-        public static bool getIsNicknamed(int species, string nick)
-        {
-            try { return SpeciesLang.All(list => list[species].ToUpper() != nick); }
-            catch { return false; }
-        }
-        public static readonly PersonalTable Personal = PersonalTable.SM;
+            if (lang < 0 || SpeciesLang.Length <= lang)
+                return "";
+            if (species < 0 || SpeciesLang[0].Length <= species)
+                return "";
 
-        // Stat Fetching
-        public static uint[] getRandomEVs(int Generation = 6)
+            return SpeciesLang[lang][species];
+        }
+
+        /// <summary>
+        /// Gets a Pokémon's default name for the desired language ID and generation.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
+        /// <param name="lang">Language ID of the Pokémon</param>
+        /// <param name="generation">Generation specific formatting option</param>
+        /// <returns>Generation specific default species name</returns>
+        public static string getSpeciesNameGeneration(int species, int lang, int generation)
         {
-            if (Generation > 2)
+            string nick = getSpeciesName(species, lang);
+
+            if (generation < 5) // All caps GenIV and previous
+                nick = nick.ToUpper();
+            if (generation < 3)
+                nick = nick.Replace(" ", "");
+            return nick;
+        }
+
+        /// <summary>
+        /// Checks if a nickname matches the species name of any language.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
+        /// <param name="nick">Current name</param>
+        /// <param name="generation">Generation specific formatting option</param>
+        /// <returns>True if it does not match any language name, False if not nicknamed</returns>
+        public static bool getIsNicknamedAnyLanguage(int species, string nick, int generation)
+        {
+            int len = SpeciesLang.Length;
+            if (generation < 3)
+                len = 3;
+            else if (generation < 7)
+                len = 8;
+
+            for (int i = 0; i < len; i++)
+                if (getSpeciesNameGeneration(species, i, generation) == nick)
+                    return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Gets randomized EVs for a given generation format
+        /// </summary>
+        /// <param name="generation">Generation specific formatting option</param>
+        /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
+        public static uint[] getRandomEVs(int generation = Generation)
+        {
+            if (generation > 2)
             {
                 uint[] evs = new uint[6];
                 do
@@ -230,10 +277,17 @@ namespace PKHeX.Core
             {
                 uint[] evs = new uint[6];
                 for (int i = 0; i < evs.Length; i++)
-                    evs[i] = Util.rnd32()%0x10000;
+                    evs[i] = Util.rnd32() & ushort.MaxValue;
                 return evs;
             }
         }
+
+        /// <summary>
+        /// Gets the current level of a species.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="exp">Experience points</param>
+        /// <returns>Current level of the species.</returns>
         public static int getLevel(int species, uint exp)
         {
             int growth = Personal[species].EXPGrowth;
@@ -242,12 +296,25 @@ namespace PKHeX.Core
                 if (tl == 100) return 100;
             return --tl;
         }
+
+        /// <summary>
+        /// Gets the minimum Experience points for the specified level.
+        /// </summary>
+        /// <param name="level">Current level</param>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <returns>Experience points needed to have specified level.</returns>
         public static uint getEXP(int level, int species)
         {
             if (level <= 1) return 0;
             if (level > 100) level = 100;
             return ExpTable[level, Personal[species].EXPGrowth];
         }
+
+        /// <summary>
+        /// Translates a Gender string to Gender integer.
+        /// </summary>
+        /// <param name="s">Gender string</param>
+        /// <returns>Gender integer</returns>
         public static int getGender(string s)
         {
             if (s == null) 
@@ -258,131 +325,10 @@ namespace PKHeX.Core
                 return 1;
             return 2;
         }
-
-        public static string[] getCountryRegionText(int country, int region, string lang)
-        {
-            // Get Language we're fetching for
-            int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko"}, lang);
-            // Return value storage
-            string[] data = new string[2]; // country, region
-
-            // Get Country Text
-            try
-            {
-                string[] inputCSV = Util.getStringList("countries");
-                // Set up our Temporary Storage
-                string[] unsortedList = new string[inputCSV.Length - 1];
-                int[] indexes = new int[inputCSV.Length - 1];
-
-                // Gather our data from the input file
-                for (int i = 1; i < inputCSV.Length; i++)
-                {
-                    string[] countryData = inputCSV[i].Split(',');
-                    if (countryData.Length <= 1) continue;
-                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                    unsortedList[i - 1] = countryData[index + 1];
-                }
-
-                int countrynum = Array.IndexOf(indexes, country);
-                data[0] = unsortedList[countrynum];
-            }
-            catch { data[0] = "Illegal"; }
-
-            // Get Region Text
-            try
-            {
-                string[] inputCSV = Util.getStringList("sr_" + country.ToString("000"));
-                // Set up our Temporary Storage
-                string[] unsortedList = new string[inputCSV.Length - 1];
-                int[] indexes = new int[inputCSV.Length - 1];
-
-                // Gather our data from the input file
-                for (int i = 1; i < inputCSV.Length; i++)
-                {
-                    string[] countryData = inputCSV[i].Split(',');
-                    if (countryData.Length <= 1) continue;
-                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                    unsortedList[i - 1] = countryData[index + 1];
-                }
-
-                int regionnum = Array.IndexOf(indexes, region);
-                data[1] = unsortedList[regionnum];
-            }
-            catch { data[1] = "Illegal"; }
-            return data;
-        }
-
-        public static string getLocation(PKM pk, bool eggmet)
-        {
-            if (pk.Format <= 2)
-                return "";
-
-            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-
-            if (pk.Format == 2)
-                return GameInfo.Strings.metGSC_00000[locval];
-            if (pk.Format == 3)
-                return GameInfo.Strings.metRSEFRLG_00000[locval%0x100];
-            if (pk.Gen4 && (eggmet || pk.Format == 4))
-            {
-                if (locval < 2000) return GameInfo.Strings.metHGSS_00000[locval];
-                if (locval < 3000) return GameInfo.Strings.metHGSS_02000[locval % 2000];
-                                   return GameInfo.Strings.metHGSS_03000[locval % 3000];
-            }
-            if (pk.Gen5 || pk.Format <= 5)
-            {
-                if (locval < 30000) return GameInfo.Strings.metBW2_00000[locval];
-                if (locval < 40000) return GameInfo.Strings.metBW2_30000[locval % 10000 - 1];
-                if (locval < 60000) return GameInfo.Strings.metBW2_40000[locval % 10000 - 1];
-                                    return GameInfo.Strings.metBW2_60000[locval % 10000 - 1];
-            }
-            if (pk.Gen6 || pk.Format <= 6)
-            {
-                if (locval < 30000) return GameInfo.Strings.metXY_00000[locval];
-                if (locval < 40000) return GameInfo.Strings.metXY_30000[locval % 10000 - 1];
-                if (locval < 60000) return GameInfo.Strings.metXY_40000[locval % 10000 - 1];
-                                    return GameInfo.Strings.metXY_60000[locval % 10000 - 1];
-            }
-            if (pk.Gen7 || pk.Format <= 7)
-            {
-                if (locval < 30000) return GameInfo.Strings.metSM_00000[locval];
-                if (locval < 40000) return GameInfo.Strings.metSM_30000[locval % 10000 - 1];
-                if (locval < 60000) return GameInfo.Strings.metSM_40000[locval % 10000 - 1];
-                                    return GameInfo.Strings.metSM_60000[locval % 10000 - 1];
-            }
-            return null; // Shouldn't happen for gen 3+
-        }
-        public static string[] getQRText(PKM pkm)
-        {
-            var s = GameInfo.Strings;
-            string[] response = new string[3];
-            // Summarize
-            string filename = pkm.Nickname;
-            if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
-                filename += $" ({s.specieslist[pkm.Species]})";
-            response[0] = $"{filename} [{s.abilitylist[pkm.Ability]}] lv{pkm.Stat_Level} @ {s.itemlist[pkm.HeldItem]} -- {s.natures[pkm.Nature]}";
-            response[1] = $"{s.movelist[pkm.Move1]} / {s.movelist[pkm.Move2]} / {s.movelist[pkm.Move3]} / {s.movelist[pkm.Move4]}";
-            response[2] = string.Format(
-                "IVs:{0}{1}{2}{3}{4}{5}"
-                + Environment.NewLine + Environment.NewLine +
-                "EVs:{6}{7}{8}{9}{10}{11}",
-                Environment.NewLine + pkm.IV_HP.ToString("00"),
-                Environment.NewLine + pkm.IV_ATK.ToString("00"),
-                Environment.NewLine + pkm.IV_DEF.ToString("00"),
-                Environment.NewLine + pkm.IV_SPA.ToString("00"),
-                Environment.NewLine + pkm.IV_SPD.ToString("00"),
-                Environment.NewLine + pkm.IV_SPE.ToString("00"),
-                Environment.NewLine + pkm.EV_HP,
-                Environment.NewLine + pkm.EV_ATK,
-                Environment.NewLine + pkm.EV_DEF,
-                Environment.NewLine + pkm.EV_SPA,
-                Environment.NewLine + pkm.EV_SPD,
-                Environment.NewLine + pkm.EV_SPE);
-
-            return response;
-        }
-
-        // PKX Manipulation
+        
+        /// <summary>
+        /// Positions for shuffling.
+        /// </summary>
         public static readonly byte[][] blockPosition =
         {
             new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
@@ -391,10 +337,21 @@ namespace PKHeX.Core
             new byte[] {3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 3, 2, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0},
         };
 
+        /// <summary>
+        /// Positions for unshuffling.
+        /// </summary>
         public static readonly byte[] blockPositionInvert =
         {
             0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
         };
+
+
+        /// <summary>
+        /// Shuffles a 232 byte array containing <see cref="PKM"/> data.
+        /// </summary>
+        /// <param name="data">Data to shuffle</param>
+        /// <param name="sv">Block Shuffle order</param>
+        /// <returns>Shuffled byte array</returns>
         public static byte[] shuffleArray(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
@@ -410,6 +367,13 @@ namespace PKHeX.Core
 
             return sdata;
         }
+
+        /// <summary>
+        /// Decrypts a 232 byte + party stat byte array.
+        /// </summary>
+        /// <param name="ekx">Encrypted <see cref="PKM"/> data.</param>
+        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
+        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
         public static byte[] decryptArray(byte[] ekx)
         {
             byte[] pkx = (byte[])ekx.Clone();
@@ -434,6 +398,11 @@ namespace PKHeX.Core
 
             return pkx;
         }
+
+        /// <summary>
+        /// Encrypts a 232 byte + party stat byte array.
+        /// </summary>
+        /// <param name="pkx">Decrypted <see cref="PKM"/> data.</param>
         public static byte[] encryptArray(byte[] pkx)
         {
             // Shuffle
@@ -461,6 +430,12 @@ namespace PKHeX.Core
             // Done
             return ekx;
         }
+
+        /// <summary>
+        /// Gets the checksum of a 232 byte array.
+        /// </summary>
+        /// <param name="data">Decrypted <see cref="PKM"/> data.</param>
+        /// <returns></returns>
         public static ushort getCHK(byte[] data)
         {
             ushort chk = 0;
@@ -470,6 +445,17 @@ namespace PKHeX.Core
             return chk;
         }
 
+        /// <summary>
+        /// Gets a random PID according to specifications.
+        /// </summary>
+        /// <param name="species">National Dex ID</param>
+        /// <param name="cg">Current Gender</param>
+        /// <param name="origin">Origin Generation</param>
+        /// <param name="nature">Nature</param>
+        /// <param name="form">AltForm</param>
+        /// <param name="OLDPID">Current PID</param>
+        /// <remarks>Used to retain ability bits.</remarks>
+        /// <returns>Rerolled PID.</returns>
         public static uint getRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
         {
             uint bits = OLDPID & 0x00010001;
@@ -525,9 +511,17 @@ namespace PKHeX.Core
 
             return file;
         }
-        
-        // Personal.dat
-        public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = 6)
+
+        /// <summary>
+        /// Gets a list of formes that the species can have.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="t">List of type names</param>
+        /// <param name="f">List of forme names</param>
+        /// <param name="g">List of gender names</param>
+        /// <param name="generation">Generation number for exclusive formes</param>
+        /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
+        public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = Generation)
         {
             // Mega List            
             if (Array.IndexOf(new[] 
@@ -1018,7 +1012,7 @@ namespace PKHeX.Core
 
         /// <summary>Calculate the Hidden Power Type of the entered IVs.</summary>
         /// <param name="type">Hidden Power Type</param>
-        /// <param name="ivs">Order: HP,ATK,DEF,SPEED,SPA,SPD</param>
+        /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
         /// <returns>Hidden Power Type</returns>
         public static int[] setHPIVs(int type, int[] ivs)
         {
@@ -1059,6 +1053,7 @@ namespace PKHeX.Core
             s = s.Replace("\uE08E", "\u2642"); // ♂
             return s;
         }
+
         /// <summary>
         /// Converts full width to half width when appropriate
         /// </summary>
@@ -1085,14 +1080,23 @@ namespace PKHeX.Core
             return s;
         }
 
+        /// <summary>
+        /// Trims a string at the first instance of a 0xFFFF terminator.
+        /// </summary>
+        /// <param name="input">String to trim.</param>
+        /// <returns>Trimmed string.</returns>
         public static string TrimFromFFFF(string input)
         {
             int index = input.IndexOf((char)0xFFFF);
             return index < 0 ? input : input.Substring(0, index);
         }
 
-        // Past Gen Manipulation
-
+        /// <summary>
+        /// Shuffles a 136 byte array containing <see cref="PKM"/> data.
+        /// </summary>
+        /// <param name="data">Data to shuffle</param>
+        /// <param name="sv">Block Shuffle order</param>
+        /// <returns>Shuffled byte array</returns>
         public static byte[] shuffleArray45(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
@@ -1109,6 +1113,11 @@ namespace PKHeX.Core
             return sdata;
         }
 
+        /// <summary>
+        /// Decrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
+        /// <returns>Decrypted <see cref="PKM"/> data.</returns>
         public static byte[] decryptArray45(byte[] ekm)
         {
             byte[] pkm = (byte[])ekm.Clone();
@@ -1135,6 +1144,11 @@ namespace PKHeX.Core
             return pkm;
         }
 
+        /// <summary>
+        /// Encrypts a 136 byte + party stat byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
+        /// <returns>Encrypted <see cref="PKM"/> data.</returns>
         public static byte[] encryptArray45(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
@@ -1163,24 +1177,45 @@ namespace PKHeX.Core
             return ekm;
         }
 
+        /// <summary>
+        /// Gets the Unown Forme ID from PID.
+        /// </summary>
+        /// <param name="PID">Personality ID</param>
+        /// <remarks>Should only be used for 3rd Generation origin specimens.</remarks>
+        /// <returns></returns>
         public static int getUnownForm(uint PID)
         {
             byte[] data = BitConverter.GetBytes(PID);
             return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
         }
 
+        /// <summary>
+        /// Converts a Generation 4 value to Unicode character.
+        /// </summary>
+        /// <param name="val">Encoded value.</param>
+        /// <returns>Decoded value (unicode).</returns>
         public static ushort val2charG4(ushort val)
         {
             int index = Array.IndexOf(G4Values, val);
             return index > -1 ? G4Chars[index] : (ushort)0xFFFF;
         }
 
+        /// <summary>
+        /// Converts a Unicode character to Generation 4 value.
+        /// </summary>
+        /// <param name="chr">Decoded value (unicode).</param>
+        /// <returns>Encoded value.</returns>
         public static ushort char2valG4(ushort chr)
         {
             int index = Array.IndexOf(G4Chars, chr);
             return index > -1 ? G4Values[index] : (ushort)0xFFFF;
         }
 
+        /// <summary>
+        /// Converts Generation 4 Little Endian encoded character data to string.
+        /// </summary>
+        /// <param name="strdata">Byte array containing encoded character data.</param>
+        /// <returns>Converted string.</returns>
         public static string array2strG4(byte[] strdata)
         {
             string s = "";
@@ -1195,6 +1230,11 @@ namespace PKHeX.Core
             return s;
         }
 
+        /// <summary>
+        /// Converts a string to Generation 4 Little Endian encoded character data.
+        /// </summary>
+        /// <param name="str">String to be converted.</param>
+        /// <returns>Byte array containing encoded character data</returns>
         public static byte[] str2arrayG4(string str)
         {
             byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
@@ -1210,6 +1250,11 @@ namespace PKHeX.Core
             return strdata;
         }
 
+        /// <summary>
+        /// Converts Generation 4 Big Endian encoded character data to string.
+        /// </summary>
+        /// <param name="strdata">Byte array containing encoded character data.</param>
+        /// <returns>Converted string.</returns>
         public static string array2strG4BE(byte[] strdata)
         {
             string s = "";
@@ -1224,6 +1269,11 @@ namespace PKHeX.Core
             return s;
         }
 
+        /// <summary>
+        /// Converts a string to Generation 4 Big Endian encoded character data.
+        /// </summary>
+        /// <param name="str">String to be converted.</param>
+        /// <returns>Byte array containing encoded character data</returns>
         public static byte[] str2arrayG4BE(string str)
         {
             byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
@@ -1239,16 +1289,40 @@ namespace PKHeX.Core
             return strdata;
         }
 
-        // Gen3 && 3->4 Conversion has two character tables, and translates to the same character map.
-        public static ushort getG4Val(byte val, bool jp) { return jp ? G34_4J[val] : G34_4E[val]; }
-        public static ushort getG3Char(byte val, bool jp) { return val2charG4(getG4Val(val, jp)); }
+        /// <summary>
+        /// Converts a Generation 3 encoded value to corresponding Generation 4 encoded value.
+        /// </summary>
+        /// <param name="val">Generation 3 encoded value.</param>
+        /// <param name="jp">Value source is Japanese font.</param>
+        /// <returns>Generation 4 encoded value.</returns>
+        public static ushort getG4Val(byte val, bool jp) => jp ? G34_4J[val] : G34_4E[val];
 
+        /// <summary>
+        /// Converts a Generation 3 encoded value to corresponding Generation 4 decoded character.
+        /// </summary>
+        /// <param name="val">Generation 3 encoded value.</param>
+        /// <param name="jp">Value source is Japanese font.</param>
+        /// <returns>Decoded value.</returns>
+        public static ushort getG3Char(byte val, bool jp) => val2charG4(getG4Val(val, jp));
+
+        /// <summary>
+        /// Converts a Generation 4 decoded character to Generation 3 encoded value.
+        /// </summary>
+        /// <param name="chr">Generation 4 decoded character.</param>
+        /// <param name="jp">Character destination is Japanese font.</param>
+        /// <returns>Generation 3 encoded value.</returns>
         public static byte setG3Char(ushort chr, bool jp)
         {
             int index = Array.IndexOf(jp ? G34_4J : G34_4E, char2valG4(chr));
             return (byte)(index > -1 ? index : 0xFF);
         }
 
+        /// <summary>
+        /// Converts a Generation 3 encoded value array to string.
+        /// </summary>
+        /// <param name="strdata">Byte array containing string data.</param>
+        /// <param name="jp">Value source is Japanese font.</param>
+        /// <returns>Decoded string.</returns>
         public static string getG3Str(byte[] strdata, bool jp)
         {
             return strdata
@@ -1258,6 +1332,12 @@ namespace PKHeX.Core
                 .Aggregate("", (current, chr) => current + (char)chr);
         }
 
+        /// <summary>
+        /// Converts a string to a Generation 3 encoded value array.
+        /// </summary>
+        /// <param name="str">Decoded string.</param>
+        /// <param name="jp">String destination is Japanese font.</param>
+        /// <returns></returns>
         public static byte[] setG3Str(string str, bool jp)
         {
             byte[] strdata = new byte[str.Length + 1]; // +1 for 0xFF
@@ -1274,18 +1354,35 @@ namespace PKHeX.Core
             return strdata;
         }
 
+        /// <summary>
+        /// Converts Generation 3 species ID to National Dex ID.
+        /// </summary>
+        /// <param name="g3index">Generation 3 species ID.</param>
+        /// <returns>National Dex ID.</returns>
         public static int getG4Species(int g3index)
         {
             int index = Array.IndexOf(oldindex, g3index);
             return newindex[index > -1 ? index : 0];
         }
 
+        /// <summary>
+        /// Converts a National Dex ID to Generation 3 species ID.
+        /// </summary>
+        /// <param name="g4index">National Dex ID</param>
+        /// <returns>Generation 3 species ID.</returns>
         public static int getG3Species(int g4index)
         {
             int index = Array.IndexOf(newindex, g4index);
             return oldindex[index > -1 ? index : 0];
         }
 
+        /// <summary>
+        /// Gets the gender ID of the species based on the Personality ID.
+        /// </summary>
+        /// <param name="species">National Dex ID.</param>
+        /// <param name="PID">Personality ID.</param>
+        /// <returns>Gender ID (0/1/2)</returns>
+        /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
         public static int getGender(int species, uint PID)
         {
             int genderratio = Personal[species].Gender;
@@ -1735,6 +1832,10 @@ namespace PKHeX.Core
         };
         #endregion
 
+        /// <summary>
+        /// Trash Bytes for Generation 3->4
+        /// </summary>
+        /// <remarks>String buffers are reused, data is not cleared which yields the trash bytes.</remarks>
         public static readonly byte[][] G4TransferTrashBytes = {
             new byte[] { }, // Unused
             new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 },
@@ -1746,6 +1847,11 @@ namespace PKHeX.Core
             new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
         };
 
+        /// <summary>
+        /// Decrypts an 80 byte format <see cref="PK3"/> byte array.
+        /// </summary>
+        /// <param name="ekm">Encrypted data.</param>
+        /// <returns>Decrypted data.</returns>
         public static byte[] decryptArray3(byte[] ekm)
         {
             if (ekm.Length != SIZE_3PARTY && ekm.Length != SIZE_3STORED)
@@ -1760,6 +1866,13 @@ namespace PKHeX.Core
                 ekm[i] ^= xorkey[i % 4];
             return shuffleArray3(ekm, PID%24);
         }
+
+        /// <summary>
+        /// Shuffles an 80 byte format <see cref="PK3"/> byte array.
+        /// </summary>
+        /// <param name="data">Unshuffled data.</param>
+        /// <param name="sv">Block order shuffle value</param>
+        /// <returns></returns>
         public static byte[] shuffleArray3(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
@@ -1775,6 +1888,12 @@ namespace PKHeX.Core
 
             return sdata;
         }
+
+        /// <summary>
+        /// Encrypts an 80 byte format <see cref="PK3"/> byte array.
+        /// </summary>
+        /// <param name="pkm">Decrypted data.</param>
+        /// <returns>Encrypted data.</returns>
         public static byte[] encryptArray3(byte[] pkm)
         {
             if (pkm.Length != SIZE_3PARTY && pkm.Length != SIZE_3STORED)
@@ -1791,7 +1910,14 @@ namespace PKHeX.Core
             return ekm;
         }
 
-        private const ushort ITEM_UNK = 128; // unused item, placeholder for sprite finding
+        /// <summary>Unused item, placeholder for sprite finding</summary>
+        private const ushort ITEM_UNK = 128;
+
+        /// <summary>
+        /// Converts a Generation 2 Item ID to Generation 4+ Item ID.
+        /// </summary>
+        /// <param name="g2val">Generation 2 Item ID.</param>
+        /// <returns>Generation 4+ Item ID.</returns>
         public static ushort getG4Item(byte g2val)
         {
             ushort[] arr =
@@ -1827,6 +1953,12 @@ namespace PKHeX.Core
             ushort val = g2val > arr.Length ? ushort.MaxValue : arr[g2val];
             return val == ushort.MaxValue ? ITEM_UNK : val;
         }
+
+        /// <summary>
+        /// Converts a Generation 3 Item ID to Generation 4+ Item ID.
+        /// </summary>
+        /// <param name="g3val">Generation 3 Item ID.</param>
+        /// <returns>Generation 4+ Item ID.</returns>
         public static ushort getG4Item(ushort g3val)
         {
             ushort[] arr =
@@ -1871,6 +2003,12 @@ namespace PKHeX.Core
             ushort val = g3val > arr.Length ? ushort.MaxValue : arr[g3val];
             return val == ushort.MaxValue ? ITEM_UNK : val;
         }
+
+        /// <summary>
+        /// Checks if the item can be kept during 3->4 conversion.
+        /// </summary>
+        /// <param name="item">Generation 3 Item ID.</param>
+        /// <returns>True if transferrable, False if not transferrable.</returns>
         public static bool isTransferrable34(ushort item)
         {
             return item == ITEM_UNK && item > 0;
@@ -2385,19 +2523,35 @@ namespace PKHeX.Core
             {0xFF, "9"}
         };
         #endregion
-
+        
+        /// <summary>
+        /// Converts Generation 1 species ID to National Dex ID.
+        /// </summary>
+        /// <param name="raw_id">Generation 1 species ID.</param>
+        /// <returns>National Dex ID.</returns>
         public static int getG1Species(int raw_id)
         {
             int[] table = { 0x00, 0x70, 0x73, 0x20, 0x23, 0x15, 0x64, 0x22, 0x50, 0x02, 0x67, 0x6C, 0x66, 0x58, 0x5E, 0x1D, 0x1F, 0x68, 0x6F, 0x83, 0x3B, 0x97, 0x82, 0x5A, 0x48, 0x5C, 0x7B, 0x78, 0x09, 0x7F, 0x72, 0x00, 0x00, 0x3A, 0x5F, 0x16, 0x10, 0x4F, 0x40, 0x4B, 0x71, 0x43, 0x7A, 0x6A, 0x6B, 0x18, 0x2F, 0x36, 0x60, 0x4C, 0x00, 0x7E, 0x00, 0x7D, 0x52, 0x6D, 0x00, 0x38, 0x56, 0x32, 0x80, 0x00, 0x00, 0x00, 0x53, 0x30, 0x95, 0x00, 0x00, 0x00, 0x54, 0x3C, 0x7C, 0x92, 0x90, 0x91, 0x84, 0x34, 0x62, 0x00, 0x00, 0x00, 0x25, 0x26, 0x19, 0x1A, 0x00, 0x00, 0x93, 0x94, 0x8C, 0x8D, 0x74, 0x75, 0x00, 0x00, 0x1B, 0x1C, 0x8A, 0x8B, 0x27, 0x28, 0x85, 0x88, 0x87, 0x86, 0x42, 0x29, 0x17, 0x2E, 0x3D, 0x3E, 0x0D, 0x0E, 0x0F, 0x00, 0x55, 0x39, 0x33, 0x31, 0x57, 0x00, 0x00, 0x0A, 0x0B, 0x0C, 0x44, 0x00, 0x37, 0x61, 0x2A, 0x96, 0x8F, 0x81, 0x00, 0x00, 0x59, 0x00, 0x63, 0x5B, 0x00, 0x65, 0x24, 0x6E, 0x35, 0x69, 0x00, 0x5D, 0x3F, 0x41, 0x11, 0x12, 0x79, 0x01, 0x03, 0x49, 0x00, 0x76, 0x77, 0x00, 0x00, 0x00, 0x00, 0x4D, 0x4E, 0x13, 0x14, 0x21, 0x1E, 0x4A, 0x89, 0x8E, 0x00, 0x51, 0x00, 0x00, 0x04, 0x07, 0x05, 0x08, 0x06, 0x00, 0x00, 0x00, 0x00, 0x2B, 0x2C, 0x2D, 0x45, 0x46, 0x47, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             return table[raw_id];
         }
 
+        /// <summary>
+        /// Converts a National Dex ID to Generation 1 species ID.
+        /// </summary>
+        /// <param name="dex_id">National Dex ID.</param>
+        /// <returns>Generation 1 species ID.</returns>
         public static int setG1Species(int dex_id)
         {
             int[] table = { 0x00, 0x99, 0x09, 0x9A, 0xB0, 0xB2, 0xB4, 0xB1, 0xB3, 0x1C, 0x7B, 0x7C, 0x7D, 0x70, 0x71, 0x72, 0x24, 0x96, 0x97, 0xA5, 0xA6, 0x05, 0x23, 0x6C, 0x2D, 0x54, 0x55, 0x60, 0x61, 0x0F, 0xA8, 0x10, 0x03, 0xA7, 0x07, 0x04, 0x8E, 0x52, 0x53, 0x64, 0x65, 0x6B, 0x82, 0xB9, 0xBA, 0xBB, 0x6D, 0x2E, 0x41, 0x77, 0x3B, 0x76, 0x4D, 0x90, 0x2F, 0x80, 0x39, 0x75, 0x21, 0x14, 0x47, 0x6E, 0x6F, 0x94, 0x26, 0x95, 0x6A, 0x29, 0x7E, 0xBC, 0xBD, 0xBE, 0x18, 0x9B, 0xA9, 0x27, 0x31, 0xA3, 0xA4, 0x25, 0x08, 0xAD, 0x36, 0x40, 0x46, 0x74, 0x3A, 0x78, 0x0D, 0x88, 0x17, 0x8B, 0x19, 0x93, 0x0E, 0x22, 0x30, 0x81, 0x4E, 0x8A, 0x06, 0x8D, 0x0C, 0x0A, 0x11, 0x91, 0x2B, 0x2C, 0x0B, 0x37, 0x8F, 0x12, 0x01, 0x28, 0x1E, 0x02, 0x5C, 0x5D, 0x9D, 0x9E, 0x1B, 0x98, 0x2A, 0x1A, 0x48, 0x35, 0x33, 0x1D, 0x3C, 0x85, 0x16, 0x13, 0x4C, 0x66, 0x69, 0x68, 0x67, 0xAA, 0x62, 0x63, 0x5A, 0x5B, 0xAB, 0x84, 0x4A, 0x4B, 0x49, 0x58, 0x59, 0x42, 0x83, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             return table[dex_id];
         }
 
+        /// <summary>
+        /// Converts Generation 1 encoded data into a string.
+        /// </summary>
+        /// <param name="strdata">Encoded data.</param>
+        /// <param name="jp">Data source is Japanese.</param>
+        /// <returns>Decoded string.</returns>
         public static string getG1Str(byte[] strdata, bool jp)
         {
             Dictionary<byte, string> dict = jp ? RBY2U_J : RBY2U_U;
@@ -2408,6 +2562,12 @@ namespace PKHeX.Core
                 .Aggregate("", (current, cur) => current + cur);
         }
 
+        /// <summary>
+        /// Converts Generation 1 encoded data the same way Bank converts.
+        /// </summary>
+        /// <param name="strdata">Generation 1 encoded data.</param>
+        /// <param name="jp">Data source is Japanese.</param>
+        /// <returns>Decoded string.</returns>
         public static string getG1ConvertedString(byte[] strdata, bool jp)
         {
             var us_table = new ushort[] { 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0000, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049, 0x004A, 0x004B, 0x004C, 0x004D, 0x004E, 0x004F, 0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057, 0x0058, 0x0059, 0x005A, 0x0028, 0x0029, 0x003A, 0x003B, 0x0028, 0x0029, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067, 0x0068, 0x0069, 0x006A, 0x006B, 0x006C, 0x006D, 0x006E, 0x006F, 0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077, 0x0078, 0x0079, 0x007A, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x00C4, 0x00D6, 0x00DC, 0x00E4, 0x00F6, 0x00FC, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0050, 0x004D, 0x002D, 0x0020, 0x0020, 0x003F, 0x0021, 0x002D, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0xE08E, 0x0020, 0x0078, 0x002E, 0x002F, 0x002C, 0xE08F, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 };
@@ -2416,6 +2576,12 @@ namespace PKHeX.Core
             return Util.TrimFromZero(new string(strdata.Select(b => (char)table[b]).ToArray()));
         }
 
+        /// <summary>
+        /// Converts a string to Generation 1 encoded data.
+        /// </summary>
+        /// <param name="str">Decoded string.</param>
+        /// <param name="jp">Data destination is Japanese.</param>
+        /// <returns>Encoded data.</returns>
         public static byte[] setG1Str(string str, bool jp)
         {
             Dictionary<string, byte> dict = jp ? U2RBY_J : U2RBY_U;
@@ -2428,10 +2594,24 @@ namespace PKHeX.Core
                 .ToArray();
         }
 
+        /// <summary>
+        /// Converts Big Endian encoded data to decoded string.
+        /// </summary>
+        /// <param name="data">Encoded data</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="length">Length of data to read.</param>
+        /// <returns>Decoded string.</returns>
         public static string getColoStr(byte[] data, int offset, int length)
         {
             return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length * 2));
         }
+
+        /// <summary>
+        /// Gets the bytes for a BigEndian string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static byte[] setColoStr(string value, int length)
         {
             if (value.Length > length)
@@ -2444,14 +2624,79 @@ namespace PKHeX.Core
             return Encoding.BigEndianUnicode.GetBytes(TempNick);
         }
 
-        public static string[] getPKMExtensions()
+        /// <summary>
+        /// Gets an array of valid <see cref="PKM"/> file extensions.
+        /// </summary>
+        /// <returns>Valid <see cref="PKM"/> file extensions.</returns>
+        public static string[] getPKMExtensions(int MaxGeneration = Generation)
         {
-            const int gens = 7;
             var result = new List<string>();
             result.AddRange(new [] {"ck3", "xk3", "bk4"}); // Special Cases
-            for (int i = 1; i <= gens; i++)
+            for (int i = 1; i <= MaxGeneration; i++)
                 result.Add("pk"+i);
             return result.ToArray();
+        }
+
+        // Extensions
+        public static string getLocation(this PKM pk, bool eggmet)
+        {
+            if (pk.Format <= 2)
+                return "";
+
+            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
+
+            if (pk.Format == 2)
+                return GameInfo.Strings.metGSC_00000[locval];
+            if (pk.Format == 3)
+                return GameInfo.Strings.metRSEFRLG_00000[locval % 0x100];
+            if (pk.Gen4 && (eggmet || pk.Format == 4))
+            {
+                if (locval < 2000) return GameInfo.Strings.metHGSS_00000[locval];
+                if (locval < 3000) return GameInfo.Strings.metHGSS_02000[locval % 2000];
+                return GameInfo.Strings.metHGSS_03000[locval % 3000];
+            }
+            if (pk.Gen5 || pk.Format <= 5)
+            {
+                if (locval < 30000) return GameInfo.Strings.metBW2_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metBW2_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metBW2_40000[locval % 10000 - 1];
+                return GameInfo.Strings.metBW2_60000[locval % 10000 - 1];
+            }
+            if (pk.Gen6 || pk.Format <= 6)
+            {
+                if (locval < 30000) return GameInfo.Strings.metXY_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metXY_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metXY_40000[locval % 10000 - 1];
+                return GameInfo.Strings.metXY_60000[locval % 10000 - 1];
+            }
+            if (pk.Gen7 || pk.Format <= 7)
+            {
+                if (locval < 30000) return GameInfo.Strings.metSM_00000[locval];
+                if (locval < 40000) return GameInfo.Strings.metSM_30000[locval % 10000 - 1];
+                if (locval < 60000) return GameInfo.Strings.metSM_40000[locval % 10000 - 1];
+                return GameInfo.Strings.metSM_60000[locval % 10000 - 1];
+            }
+            return null; // Shouldn't happen for gen 3+
+        }
+        public static string[] getQRText(this PKM pkm)
+        {
+            var s = GameInfo.Strings;
+            // Summarize
+            string filename = pkm.Nickname;
+            if (pkm.Nickname != s.specieslist[pkm.Species] && s.specieslist[pkm.Species] != null)
+                filename += $" ({s.specieslist[pkm.Species]})";
+            
+            string header = $"{filename} [{s.abilitylist[pkm.Ability]}] lv{pkm.Stat_Level} @ {s.itemlist[pkm.HeldItem]} -- {s.natures[pkm.Nature]}";
+            string moves = string.Join(" / ", pkm.Moves.Select(move => move < s.movelist.Length ? s.movelist[move] : "ERROR"));
+            string IVs = $"IVs: {pkm.IV_HP:00}/{pkm.IV_ATK:00}/{pkm.IV_DEF:00}/{pkm.IV_SPA:00}/{pkm.IV_SPD:00}/{pkm.IV_SPE:00}";
+            string EVs = $"EVs: {pkm.EV_HP:00}/{pkm.EV_ATK:00}/{pkm.EV_DEF:00}/{pkm.EV_SPA:00}/{pkm.EV_SPD:00}/{pkm.EV_SPE:00}";
+
+            return new[]
+            {
+                header,
+                moves,
+                IVs + "   " + EVs,
+            };
         }
     }
 }

@@ -16,8 +16,9 @@ namespace PKHeX.WinForms
             cba = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8};
             TB_OTName.MaxLength = SAV.OTLength;
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
+            B_MaxCoins.Click += (sender, e) => MT_Coins.Text = SAV.MaxCoins.ToString();
             MT_Money.Mask = "00000000000".Substring(0, SAV.MaxMoney.ToString().Length);
-            B_MaxCoins.Click += (sender, e) => MT_Coins.Text = "9999";
+            MT_Coins.Mask = "00000000000".Substring(0, SAV.MaxCoins.ToString().Length);
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.gendersymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -176,7 +177,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV1)
             {
                 SAV1 sav1 = (SAV1) SAV;
-                sav1.Coin = (ushort)Math.Max(Util.ToUInt32(MT_Coins.Text), 9999);
+                sav1.Coin = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
                 sav1.Badges = badgeval & 0xFF;
 
                 var pf = Util.ToUInt32(MT_PikaFriend.Text);
@@ -193,7 +194,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV2)
             {
                 SAV2 sav2 = (SAV2)SAV;
-                sav2.Coin = (ushort)Math.Max(Util.ToUInt32(MT_Coins.Text), 9999);
+                sav2.Coin = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
                 sav2.Badges = badgeval & 0xFFFF;
 
                 sav2.BattleEffects = CHK_BattleEffects.Checked;

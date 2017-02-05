@@ -175,6 +175,7 @@ namespace PKHeX.Core
         public override int MaxBallID => 0;
         public override int MaxGameID => 99; // What do I set this to...?
         public override int MaxMoney => 999999;
+        public override int MaxCoins => 9999;
 
         public override int BoxCount => Japanese ? 8 : 12;
         public override int MaxEV => 65535;
@@ -331,7 +332,8 @@ namespace PKHeX.Core
             }
             set
             {
-                BigEndian.GetBytes(Convert.ToUInt16(value.ToString("0000"), 16)).ToArray().CopyTo(Data, Japanese ? 0x2846 : 0x2850);
+                ushort val = (ushort)Math.Min(value, MaxCoins);
+                BigEndian.GetBytes(val).CopyTo(Data, Japanese ? 0x2846 : 0x2850);
             }
         }
 

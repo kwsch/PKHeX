@@ -5,7 +5,7 @@ using System.Net;
 
 namespace PKHeX.WinForms
 {
-    public class NetUtil
+    public static class NetUtil
     {
         public static string getStringFromURL(string webURL)
         {
