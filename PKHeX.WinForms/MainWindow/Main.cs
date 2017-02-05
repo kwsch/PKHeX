@@ -2543,7 +2543,7 @@ namespace PKHeX.WinForms
                 species = 0; // get the egg name.
 
             // If name is that of another language, don't replace the nickname
-            if (species != 0 && !PKX.getIsNicknamedAnyLanguage(species, SAV.Generation, TB_Nickname.Text))
+            if (species != 0 && !PKX.getIsNicknamedAnyLanguage(species, TB_Nickname.Text, SAV.Generation))
                 return;
 
             TB_Nickname.Text = PKX.getSpeciesNameGeneration(species, lang, SAV.Generation);
@@ -2601,7 +2601,7 @@ namespace PKHeX.WinForms
 
                 if (!CHK_Nicknamed.Checked)
                 {
-                    TB_Nickname.Text = PKX.getSpeciesName(0, WinFormsUtil.getIndex(CB_Language));
+                    TB_Nickname.Text = PKX.getSpeciesNameGeneration(0, WinFormsUtil.getIndex(CB_Language), pkm.Format);
                     CHK_Nicknamed.Checked = true;
                 }
             }
@@ -2619,7 +2619,7 @@ namespace PKHeX.WinForms
                     GB_EggConditions.Enabled = false;
                 }
 
-                if (TB_Nickname.Text == PKX.getSpeciesName(0, WinFormsUtil.getIndex(CB_Language)))
+                if (TB_Nickname.Text == PKX.getSpeciesNameGeneration(0, WinFormsUtil.getIndex(CB_Language), pkm.Format))
                     CHK_Nicknamed.Checked = false;
             }
 
@@ -3578,7 +3578,7 @@ namespace PKHeX.WinForms
             if (CHK_IsEgg.Checked)
                 species = 0; // get the egg name.
 
-            if (PKX.getIsNicknamedAnyLanguage(species, SAV.Generation, TB_Nickname.Text))
+            if (PKX.getIsNicknamedAnyLanguage(species, TB_Nickname.Text, SAV.Generation))
                 CHK_Nicknamed.Checked = true;
         }
 
@@ -3984,13 +3984,13 @@ namespace PKHeX.WinForms
                     try { gamename = GameInfo.Strings.gamelist[game]; }
                     catch { gamename = "UNKNOWN GAME"; }
 
-                    string[] cr = PKX.getCountryRegionText(country, region, curlanguage);
+                    var cr = GameInfo.getCountryRegionText(country, region, curlanguage);
                     result +=
                         "OT: " + otname + Environment.NewLine +
                         "Message: " + message + Environment.NewLine +
                         "Game: " + gamename + Environment.NewLine +
-                        "Country: " + cr[0] + Environment.NewLine +
-                        "Region: " + cr[1] + Environment.NewLine +
+                        "Country: " + cr.Item1 + Environment.NewLine +
+                        "Region: " + cr.Item2 + Environment.NewLine +
                         "Favorite: " + GameInfo.Strings.specieslist[favpkm];
 
                     r_offset += 0xC8; // Advance to next entry
