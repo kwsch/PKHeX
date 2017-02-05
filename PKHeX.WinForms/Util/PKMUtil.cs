@@ -27,8 +27,8 @@ namespace PKHeX.WinForms
             }
             if (isegg)
             {
-                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                baseImage = ImageUtil.LayerImage(Resources._0, baseImage, 0, 0, 0.33);
+                // Partially transparent species.
+                baseImage = ImageUtil.ChangeOpacity(baseImage, 0.33);
                 // Add the egg layer over-top with full opacity.
                 baseImage = ImageUtil.LayerImage(baseImage, Resources.egg, 0, 0, 1);
             }
