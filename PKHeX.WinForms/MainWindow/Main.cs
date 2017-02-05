@@ -278,6 +278,7 @@ namespace PKHeX.WinForms
             updateUnicode();
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
             SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
+            Menu_FlagIllegal.Checked = Settings.FlagIllegal;
 
             // Select Language
             string l = Settings.Language;
@@ -440,6 +441,12 @@ namespace PKHeX.WinForms
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
             Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+        }
+        private void mainMenuFlagIllegal(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.FlagIllegal = Menu_FlagIllegal.Checked;
+            updateBoxViewers(all:true);
+            setPKXBoxes();
         }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
@@ -3752,15 +3759,8 @@ namespace PKHeX.WinForms
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
 
-            var sprite = pk.Species != 0 ? pk.Sprite() : null;
             int slot = getSlot(pb);
-            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
-            pb.Image = sprite;
+            pb.Image = pk.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, Menu_FlagIllegal.Checked);
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
         }
@@ -3783,17 +3783,9 @@ namespace PKHeX.WinForms
                 pb.Visible = true;
                 return;
             }
-            // Something stored in slot. Only display if species is valid.
 
-            var sprite = p.Species != 0 ? p.Sprite() : null;
             int slot = getSlot(pb);
-            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
-            pb.Image = sprite;
+            pb.Image = p.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, Menu_FlagIllegal.Checked);
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
         }
