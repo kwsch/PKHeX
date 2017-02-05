@@ -1232,11 +1232,11 @@ namespace PKHeX.WinForms
             {
                 // Check location write protection
                 bool locked = true;
-                try { locked = (new DirectoryInfo(path).Attributes & FileAttributes.ReadOnly) != 0; }
+                try { locked = File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly); }
                 catch { }
 
                 if (locked)
-                    WinFormsUtil.Alert("Save file's location is write protected:\n" + path,
+                    WinFormsUtil.Alert("File's location is write protected:\n" + path,
                         "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             }
 
@@ -1502,7 +1502,7 @@ namespace PKHeX.WinForms
             pkm = pk.Clone();
 
             if (fieldsInitialized & !pkm.ChecksumValid)
-                WinFormsUtil.Alert("PKX File has an invalid checksum.");
+                WinFormsUtil.Alert("PKM File has an invalid checksum.");
 
             if (pkm.Format != SAV.Generation) // past gen format
             {
@@ -1663,11 +1663,6 @@ namespace PKHeX.WinForms
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
         {
-            if (SAV.Generation <= 3)
-            {
-                WinFormsUtil.Alert("QR feature not available for loaded game.");
-                return;
-            }
             if (ModifierKeys == Keys.Alt)
             {
                 // Fetch data from QR code...
@@ -1693,7 +1688,6 @@ namespace PKHeX.WinForms
             {
                 if (!verifiedPKM()) return;
                 PKM pkx = preparePKM();
-                byte[] ekx = pkx.EncryptedBoxData;
                 
                 Image qr;
                 switch (pkx.Format)
@@ -1702,7 +1696,8 @@ namespace PKHeX.WinForms
                         qr = QR.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
-                        qr = QR.getQRImage(ekx, pkx.Format == 6 ? QR6Path : "null/#");
+                        bool qr6 = pkx.Format == 6;
+                        qr = QR.getQRImage(pkx.EncryptedBoxData, qr6 ? QR6Path : QR.BadQRUrl);
                         break;
                 }
 
@@ -3074,12 +3069,12 @@ namespace PKHeX.WinForms
             {
                 File.WriteAllBytes(newfile, dragdata);
                 PictureBox pb = (PictureBox)sender;
-                Cursor = DragInfo.Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
+                DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
             { WinFormsUtil.Error("Drag & Drop Error", x); }
-            Cursor = DragInfo.Cursor = DefaultCursor;
+            DragInfo.Cursor = Cursor = DefaultCursor;
             File.Delete(newfile);
         }
         private void dragout_DragOver(object sender, DragEventArgs e)
@@ -4233,7 +4228,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
 
             if (DragInfo.slotDragDropInProgress)
-                Cursor = DragInfo.Cursor;
+                Cursor = (Cursor)DragInfo.Cursor;
         }
         private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
@@ -4264,7 +4259,7 @@ namespace PKHeX.WinForms
             public static int slotDestinationSlotNumber = -1;
             public static int slotDestinationBoxNumber = -1;
 
-            public static Cursor Cursor;
+            public static object Cursor;
             public static string CurrentPath;
 
             public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;

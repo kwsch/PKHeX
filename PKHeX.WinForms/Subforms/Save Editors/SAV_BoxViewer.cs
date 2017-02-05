@@ -320,7 +320,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
 
             if (DragInfo.slotDragDropInProgress)
-                Cursor = DragInfo.Cursor;
+                Cursor = (Cursor)DragInfo.Cursor;
         }
         private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {

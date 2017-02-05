@@ -81,6 +81,7 @@ namespace PKHeX.WinForms
         }
         
         // QR Utility
+        public const string BadQRUrl = "null/#"; // prefix to prevent URL from loading
         internal static byte[] getQRData()
         {
             // Fetch data from QR code...
@@ -107,7 +108,7 @@ namespace PKHeX.WinForms
                 pkstr = pkstr.Substring(0, pkstr.IndexOf(cap, StringComparison.Ordinal)); // Trim outro
                 try
                 {
-                    if (!pkstr.StartsWith("http")) // G7
+                    if (!pkstr.StartsWith("http") && pkstr.StartsWith(BadQRUrl)) // G7
                     {
                         string fstr = Regex.Unescape(pkstr);
                         byte[] raw = Encoding.Unicode.GetBytes(fstr);
