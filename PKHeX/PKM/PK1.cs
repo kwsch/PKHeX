@@ -340,7 +340,6 @@ namespace PKHeX.Core
                 Met_Location = 30013, // "Kanto region", hardcoded.
                 Gender = PersonalTable.SM[Species].RandomGender,
                 OT_Name = PKX.getG1ConvertedString(otname, Japanese),
-                Nickname = Util.getSpeciesList(Japanese ? "jp" : "en")[Species],
                 IsNicknamed = false,
 
                 Country = PKMConverter.Country,
@@ -353,6 +352,7 @@ namespace PKHeX.Core
                 Geo1_Country = PKMConverter.Country,
                 Geo1_Region = PKMConverter.Region
             };
+            pk7.Nickname = PKX.getSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
