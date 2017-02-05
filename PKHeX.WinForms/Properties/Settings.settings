@@ -17,6 +17,9 @@
     <Setting Name="SetUpdatePKM" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ChkIllegal" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
     <Setting Name="BAKPrompt" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>

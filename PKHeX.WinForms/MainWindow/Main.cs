@@ -278,6 +278,7 @@ namespace PKHeX.WinForms
             updateUnicode();
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
             SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
+            SaveFile.ChkIllegal = Menu_ChkIllegal.Checked = Settings.ChkIllegal;
 
             // Select Language
             string l = Settings.Language;
@@ -440,6 +441,10 @@ namespace PKHeX.WinForms
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
             Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+        }
+        private void mainMenuChkIllegal(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ChkIllegal = SaveFile.ChkIllegal = Menu_ChkIllegal.Checked;
         }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
@@ -3366,6 +3371,8 @@ namespace PKHeX.WinForms
             updateBoxViewers();
 
             RedoStack.Clear(); Menu_Redo.Enabled = false;
+
+            mainMenuChkIllegal(pk, SlotPictureBoxes[slot]);
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -3796,6 +3803,21 @@ namespace PKHeX.WinForms
             pb.Image = sprite;
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
+
+            mainMenuChkIllegal(p, pb);
+        }
+        private void mainMenuChkIllegal(PKM pk, PictureBox pb)
+        {
+            if (this.Menu_ChkIllegal.Checked==true && pk.GenNumber >= 6 && pk.Species != 0)
+            {
+                LegalityAnalysis la = new LegalityAnalysis(pk);
+                if (!la.Valid)
+                {
+                    var sprite = pk.Species != 0 ? pk.Sprite() : null;
+                    sprite = ImageUtil.LayerImage(sprite, Resources.warn_min, 26, 0, 1);
+                    pb.Image = sprite;
+                }
+            }
         }
         private void getSlotColor(int slot, Image color)
         {
