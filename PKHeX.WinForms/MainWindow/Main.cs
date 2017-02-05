@@ -172,9 +172,16 @@ namespace PKHeX.WinForms
             
             #endregion
             #region Load Initial File(s)
-            if (args.Length > 1) // Load the arguments
+            string pkmArg = null;
+            foreach (string arg in args.Skip(1)) // skip .exe
             {
-                foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
+                var fi = new FileInfo(arg);
+                if (!fi.Exists)
+                    continue;
+
+                if (PKX.getIsPKM(fi.Length))
+                    pkmArg = arg;
+                else
                     openQuick(arg, force: true);
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
@@ -203,6 +210,8 @@ namespace PKHeX.WinForms
                     SAV.Edited = false; // Prevents form close warning from showing until changes are made
                 }                    
             }
+            if (pkmArg != null)
+                openQuick(pkmArg, force: true);
 
             // Splash Screen closes on its own.
             BringToFront();
