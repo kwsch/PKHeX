@@ -184,8 +184,13 @@ namespace PKHeX.WinForms
             pk6.TID = Util.ToInt32(TB_TID.Text);
             pk6.SID = Util.ToInt32(TB_SID.Text);
             pk6.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk6.Ability = (byte)Array.IndexOf(GameInfo.Strings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
-            pk6.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);   // Number
+
+            if (CB_Ability.Text.Length >= 4)
+            {
+                pk6.Ability = (byte)Array.IndexOf(GameInfo.Strings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+                pk6.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);   // Number
+            }
+
             // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
             pk6.PID = Util.getHEXval(TB_PID.Text);
             pk6.Nature = (byte)WinFormsUtil.getIndex(CB_Nature);
