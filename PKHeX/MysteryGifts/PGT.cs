@@ -100,7 +100,7 @@ namespace PKHeX.Core
             return Gift.convertToPKM(SAV);
         }
     }
-    public class PGT : MysteryGift
+    public sealed class PGT : MysteryGift
     {
         internal const int Size = 0x104; // 260
         public override int Format => 4;

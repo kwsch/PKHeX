@@ -396,6 +396,7 @@
     <Compile Include="Util\QRCoder\QRCode.cs" />
     <Compile Include="Util\QRCoder\QRCodeData.cs" />
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
+    <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
     <EmbeddedResource Include="MainWindow\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>

@@ -981,7 +981,7 @@ namespace PKHeX.Core
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn.Contains(e)))
+                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn6.Contains(e)))
                     AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
                 if (pkm.AbilityNumber == 4)
                     AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
@@ -1073,13 +1073,8 @@ namespace PKHeX.Core
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if ((pkm.Species >= 731 && pkm.Species <= 785)
-                    || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e))
-                    || Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e))
-                    || Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e))) // past gen
-                {
+                if (Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e))) // past gen
                     AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-                }
                 else
                     AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
 

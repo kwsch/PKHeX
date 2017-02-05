@@ -286,22 +286,28 @@ namespace PKHeX.WinForms
             for (int i = 0; i < legalitems.Length; i++)
             {
                 int item = legalitems[i];
-                string itemname;
+                var itemname = itemlist[item];
                 int c = Count;
 
                 // Override for HMs
                 switch (SAV.Generation)
                 {
-                    case 3: {
-                        itemname = itemlist[item];
-                        if (Legal.Pouch_HM_RS.Contains(legalitems[i])) c = 1;
+                    case 1:
+                        if (197 >= item && item <= 201)
+                            c = 1;
                         break;
-                    }
-                    default: {
-                        itemname = itemlist[item];
-                        if (new[] { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 }.Contains(legalitems[i])) c = 1;
+                    case 2:
+                        if (item >= 244)
+                            c = 1;
                         break;
-                    }
+                    case 3:
+                        if (Legal.Pouch_HM_RS.Contains(legalitems[i]))
+                            c = 1;
+                        break;
+                    default:
+                        if (new[] { 420, 421, 422, 423, 423, 424, 425, 426, 427, 737 }.Contains(legalitems[i]))
+                            c = 1;
+                        break;
                 }
 
                 int l = 0;

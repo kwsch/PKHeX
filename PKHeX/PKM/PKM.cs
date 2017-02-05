@@ -128,9 +128,9 @@ namespace PKHeX.Core
         public abstract int OT_Friendship { get; set; }
 
         // Future Properties
-        protected virtual int Met_Year { get { return 0; } set { } }
-        protected virtual int Met_Month { get { return 0; } set { } }
-        protected virtual int Met_Day { get { return 0; } set { } }
+        public virtual int Met_Year { get { return 0; } set { } }
+        public virtual int Met_Month { get { return 0; } set { } }
+        public virtual int Met_Day { get { return 0; } set { } }
         public virtual string HT_Name { get; set; }
         public virtual int HT_Gender { get; set; }
         public virtual int HT_Affection { get; set; }
@@ -201,9 +201,9 @@ namespace PKHeX.Core
             }
         }
 
-        protected virtual int Egg_Year { get { return 0; } set { } }
-        protected virtual int Egg_Month { get { return 0; } set { } }
-        protected virtual int Egg_Day { get { return 0; } set { } }
+        public virtual int Egg_Year { get { return 0; } set { } }
+        public virtual int Egg_Month { get { return 0; } set { } }
+        public virtual int Egg_Day { get { return 0; } set { } }
 
         /// <summary>
         /// The date a Pokémon was met as an egg.
