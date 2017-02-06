@@ -544,7 +544,7 @@ namespace PKHeX.Core
 
             if (GenNumber < 7) // must be transferred via bank, and must have memories
             {
-                TradeMemory(Bank: true);
+                TradeMemory(true);
                 // georegions cleared on 6->7, no need to set
             }
         }

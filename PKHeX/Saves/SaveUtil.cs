@@ -672,9 +672,9 @@ namespace PKHeX.Core
                 new byte[0x80].CopyTo(data, 0x100);
 
             ushort chk = (ushort)~initial;
-            for (int i = 0; i < data.Length; i++)
+            foreach (byte t in data)
             {
-                chk = (ushort)(crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
+                chk = (ushort)(crc16[(t ^ chk) & 0xFF] ^ chk >> 8);
             }
 
             return (ushort)~chk;

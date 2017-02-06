@@ -435,10 +435,10 @@ namespace PKHeX.WinForms
 
         private void update255_MTB(object sender, EventArgs e)
         {
-            MaskedTextBox mtb = sender as MaskedTextBox;
+            MaskedTextBox mtb = (MaskedTextBox) sender;
             try
             {
-                int val = Util.ToInt32(mtb?.Text);
+                int val = Util.ToInt32(mtb.Text);
                 if (val > 255) mtb.Text = "255";
             }
             catch { mtb.Text = "0"; }

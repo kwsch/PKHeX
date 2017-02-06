@@ -597,8 +597,8 @@ namespace PKHeX.WinForms
         }
         private void changeSpecial(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            int val = Util.ToInt32(box?.Text);
+            MaskedTextBox box = (MaskedTextBox) sender;
+            int val = Util.ToInt32(box.Text);
 
             if (box == MT_HairColor)
                 box.Text = (val > 7 ? 7 : val).ToString();
@@ -607,14 +607,14 @@ namespace PKHeX.WinForms
         }
         private void change255(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box?.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox) sender;
+            if (box.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
         private void changeFFFF(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box?.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox) sender;
+            if (box.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
         private void changeStat(object sender, EventArgs e)

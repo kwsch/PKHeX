@@ -626,7 +626,7 @@ namespace PKHeX.Core
             pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
             pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
 
-            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+            pk7.TradeMemory(true); // oh no, memories on gen7 pkm
             pk7.Geo1_Country = PKMConverter.Country;
             pk7.Geo1_Region = PKMConverter.Region;
 

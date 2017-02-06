@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
 
         public static void PanelScroll(object sender, ScrollEventArgs e)
         {
-            var p = sender as Panel;
+            var p = (Panel) sender;
             switch (e.ScrollOrientation)
             {
                 case ScrollOrientation.HorizontalScroll:

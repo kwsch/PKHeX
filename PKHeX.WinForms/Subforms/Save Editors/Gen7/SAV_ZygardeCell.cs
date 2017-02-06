@@ -24,7 +24,7 @@ namespace PKHeX.WinForms
             NUD_Cells.Value = cellCount;
             NUD_Collected.Value = cellCollected;
 
-            var combo = dgv.Columns[2] as DataGridViewComboBoxColumn;
+            var combo = (DataGridViewComboBoxColumn) dgv.Columns[2];
             foreach (string t in states)
                 combo.Items.Add(t); // add only the Names
 

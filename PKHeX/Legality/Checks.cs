@@ -96,7 +96,7 @@ namespace PKHeX.Core
                 if (wIndex > -1)
                 {
                     // Check if Wurmple was the origin (only Egg and Wild Encounter)
-                    if (pkm.WasEgg || (EncounterType == typeof(EncounterSlot[]) && (EncounterMatch as EncounterSlot[]).All(slot => slot.Species == 265)))
+                    if (pkm.WasEgg || (EncounterType == typeof(EncounterSlot[]) && ((EncounterSlot[]) EncounterMatch).All(slot => slot.Species == 265)))
                         if ((pkm.EncryptionConstant >> 16)%10/5 != wIndex/2)
                         {
                             AddLine(Severity.Invalid, "Wurmple evolution Encryption Constant mismatch.", CheckIdentifier.EC);
@@ -1345,11 +1345,11 @@ namespace PKHeX.Core
                 if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19))
                     return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.", CheckIdentifier.Memory);
             }
-            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, GameVersion.Any)))
+            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t)))
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.", CheckIdentifier.Memory);
             }
-            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, GameVersion.Any))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.", CheckIdentifier.Memory);
             }
@@ -1384,7 +1384,7 @@ namespace PKHeX.Core
             }
             if (EncounterType == typeof(WC6))
             {
-                WC6 MatchedWC6 = EncounterMatch as WC6;
+                WC6 MatchedWC6 = (WC6) EncounterMatch;
                 if (pkm.OT_Memory != MatchedWC6.OT_Memory)
                     AddLine(Severity.Invalid, "Event " + (MatchedWC6.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC6.OT_Memory) + ".", CheckIdentifier.Memory);
                 if (pkm.OT_Intensity != MatchedWC6.OT_Intensity)
@@ -1396,7 +1396,7 @@ namespace PKHeX.Core
             }
             if (EncounterType == typeof(WC7))
             {
-                WC7 MatchedWC7 = EncounterMatch as WC7;
+                WC7 MatchedWC7 = (WC7) EncounterMatch;
                 if (pkm.OT_Memory != MatchedWC7.OT_Memory)
                     AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC7.OT_Memory) + ".", CheckIdentifier.Memory);
                 if (pkm.OT_Intensity != MatchedWC7.OT_Intensity)
@@ -1571,10 +1571,10 @@ namespace PKHeX.Core
                 case 25: // Pikachu
                     if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
                     {
-                        if (EncounterType == typeof(EncounterStatic))
-                            AddLine(Severity.Invalid, "Cosplay Pikachu cannot have the default form.", CheckIdentifier.Form);
-                        else
-                            AddLine(Severity.Invalid, "Only Cosplay Pikachu can have this form.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid,
+                            EncounterType == typeof(EncounterStatic)
+                                ? "Cosplay Pikachu cannot have the default form."
+                                : "Only Cosplay Pikachu can have this form.", CheckIdentifier.Form);
 
                         return;
                     }
@@ -1722,7 +1722,7 @@ namespace PKHeX.Core
                 }
                 if (EncounterType == typeof (EncounterStatic))
                 {
-                    var enc = EncounterMatch as EncounterStatic;
+                    var enc = (EncounterStatic) EncounterMatch;
                     if (enc.Fateful)
                     {
                         if (pkm.FatefulEncounter)
@@ -1759,7 +1759,7 @@ namespace PKHeX.Core
                 case 791: // Solgaleo
                     if (pkm.Version == 31 && pkm.IsUntraded)
                     {
-                        if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
+                        if (EncounterIsMysteryGift && ((MysteryGift) EncounterMatch).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
                         AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
                     }
@@ -1767,7 +1767,7 @@ namespace PKHeX.Core
                 case 792: // Lunala
                     if (pkm.Version == 30 && pkm.IsUntraded)
                     {
-                        if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
+                        if (EncounterIsMysteryGift && ((MysteryGift) EncounterMatch).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
                         AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
                     }

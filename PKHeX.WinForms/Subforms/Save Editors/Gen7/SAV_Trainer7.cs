@@ -301,14 +301,14 @@ namespace PKHeX.WinForms
         }
         private void change255(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box?.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox) sender;
+            if (box.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
         private void changeFFFF(object sender, EventArgs e)
         {
-            MaskedTextBox box = sender as MaskedTextBox;
-            if (box?.Text == "") box.Text = "0";
+            MaskedTextBox box = (MaskedTextBox) sender;
+            if (box.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
         private void changeMapValue(object sender, EventArgs e)
