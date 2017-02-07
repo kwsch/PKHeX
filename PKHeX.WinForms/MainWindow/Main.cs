@@ -741,7 +741,7 @@ namespace PKHeX.WinForms
             {
                 openSAV(sav, path);
             }
-            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: SAV.Generation)) != null)
+            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30)&7 : SAV.Generation)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
@@ -4173,7 +4173,7 @@ namespace PKHeX.WinForms
 
                 byte[] data = File.ReadAllBytes(file);
                 MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
-                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
+                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30)&7 : SAV.Generation);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
