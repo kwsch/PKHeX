@@ -89,7 +89,7 @@ namespace PKHeX.WinForms
             {
                 FileInfo fi = new FileInfo(file);
                 if (!fi.Extension.Contains(".pk") || !PKX.getIsPKM(fi.Length)) return;
-                var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file, prefer: Main.SAV.Generation);
+                var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - 0x30)&7);
                 if (pk != null)
                     dbTemp.Add(pk);
             });
