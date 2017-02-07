@@ -1,7 +1,19 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/01/31 - New Update:
+17/02/07 - New Update:
+ - Legality:
+ - - Added: Legality indication for exported QR images (if legality check is available for origin).
+ - - Added: Legality indication for Box/Party pkm slots (^ + opt-in via Options->Set to SAV).
+ - - Fixed: More edge cases for legality checks.
+ - Added: More Generation 7 trainer stat record labels. Thanks skywalker25 & Holla!
+ - Added: G7TID -> TID/SID generator for Generation 7 Trainer Editor. Thanks RoC!
+ - Added: QR exporting for non gen6/7 pkm. Only use is for sharing via image rather than file.
+ - Fixed: Transferred markings are now applied correctly.
+ - Fixed: Gen 2 inventory items TMHM cap raised from 1 to 99.
+ - Fixed: Importing japanese pk1 files now transfer to generation 7 without errors.
+
+17/01/31 - New Update: (44550) [295748]
  - Added: Default/Illegal(old code) fashion payloads for those wanting to undo/have anything.
  - Changed: Internal program version updated to .NET 4.6.
  - Changed: Improved exception checking for config & dll exceptions.
