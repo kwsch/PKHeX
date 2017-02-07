@@ -262,6 +262,8 @@
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
+            this.PB_MarkHorohoro = new System.Windows.Forms.PictureBox();
+            this.PB_MarkVC = new System.Windows.Forms.PictureBox();
             this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
             this.PB_MarkPentagon = new System.Windows.Forms.PictureBox();
@@ -317,6 +319,7 @@
             this.Menu_Modify = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_FlagIllegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
@@ -443,8 +446,6 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.PB_MarkVC = new System.Windows.Forms.PictureBox();
-            this.PB_MarkHorohoro = new System.Windows.Forms.PictureBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -529,6 +530,8 @@
             this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).BeginInit();
@@ -611,8 +614,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             this.mnuL.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -3423,6 +3424,28 @@
             this.GB_Markings.TabStop = false;
             this.GB_Markings.Text = "Markings";
             // 
+            // PB_MarkHorohoro
+            // 
+            this.PB_MarkHorohoro.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.Image")));
+            this.PB_MarkHorohoro.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkHorohoro.InitialImage")));
+            this.PB_MarkHorohoro.Location = new System.Drawing.Point(110, 15);
+            this.PB_MarkHorohoro.Name = "PB_MarkHorohoro";
+            this.PB_MarkHorohoro.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkHorohoro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkHorohoro.TabIndex = 11;
+            this.PB_MarkHorohoro.TabStop = false;
+            // 
+            // PB_MarkVC
+            // 
+            this.PB_MarkVC.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkVC.Image")));
+            this.PB_MarkVC.InitialImage = ((System.Drawing.Image)(resources.GetObject("PB_MarkVC.InitialImage")));
+            this.PB_MarkVC.Location = new System.Drawing.Point(89, 15);
+            this.PB_MarkVC.Name = "PB_MarkVC";
+            this.PB_MarkVC.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkVC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_MarkVC.TabIndex = 10;
+            this.PB_MarkVC.TabStop = false;
+            // 
             // PB_MarkAlola
             // 
             this.PB_MarkAlola.Image = ((System.Drawing.Image)(resources.GetObject("PB_MarkAlola.Image")));
@@ -3973,6 +3996,7 @@
             this.Menu_Modify.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_ModifyDex,
             this.Menu_ModifyPKM,
+            this.Menu_FlagIllegal,
             this.Menu_Undo,
             this.Menu_Redo});
             this.Menu_Modify.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Modify.Image")));
@@ -3999,6 +4023,14 @@
             this.Menu_ModifyPKM.Size = new System.Drawing.Size(164, 22);
             this.Menu_ModifyPKM.Text = "Modify PKM Info";
             this.Menu_ModifyPKM.Click += new System.EventHandler(this.mainMenuModifyPKM);
+            // 
+            // Menu_FlagIllegal
+            // 
+            this.Menu_FlagIllegal.CheckOnClick = true;
+            this.Menu_FlagIllegal.Name = "Menu_FlagIllegal";
+            this.Menu_FlagIllegal.Size = new System.Drawing.Size(164, 22);
+            this.Menu_FlagIllegal.Text = "Flag Legality";
+            this.Menu_FlagIllegal.Click += new System.EventHandler(this.mainMenuFlagIllegal);
             // 
             // Menu_Undo
             // 
@@ -5719,28 +5751,6 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // PB_MarkVC
-            // 
-            this.PB_MarkVC.Image = Core.Properties.Resources.vc;
-            this.PB_MarkVC.InitialImage = Core.Properties.Resources.vc;
-            this.PB_MarkVC.Location = new System.Drawing.Point(89, 15);
-            this.PB_MarkVC.Name = "PB_MarkVC";
-            this.PB_MarkVC.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkVC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkVC.TabIndex = 10;
-            this.PB_MarkVC.TabStop = false;
-            // 
-            // PB_MarkHorohoro
-            // 
-            this.PB_MarkHorohoro.Image = Core.Properties.Resources.horohoro;
-            this.PB_MarkHorohoro.InitialImage = Core.Properties.Resources.horohoro;
-            this.PB_MarkHorohoro.Location = new System.Drawing.Point(110, 15);
-            this.PB_MarkHorohoro.Name = "PB_MarkHorohoro";
-            this.PB_MarkHorohoro.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkHorohoro.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkHorohoro.TabIndex = 11;
-            this.PB_MarkHorohoro.TabStop = false;
-            // 
             // Main
             // 
             this.AllowDrop = true;
@@ -5876,6 +5886,8 @@
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).EndInit();
@@ -5969,8 +5981,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             this.mnuL.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkHorohoro)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -6392,6 +6402,7 @@
         private System.Windows.Forms.Button B_OpenZygardeCells;
         private System.Windows.Forms.PictureBox PB_MarkHorohoro;
         private System.Windows.Forms.PictureBox PB_MarkVC;
+        internal System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
     }
 }
 

@@ -89,7 +89,7 @@ namespace PKHeX.WinForms
             {
                 FileInfo fi = new FileInfo(file);
                 if (!fi.Extension.Contains(".pk") || !PKX.getIsPKM(fi.Length)) return;
-                var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file, prefer: Main.SAV.Generation);
+                var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - 0x30)&7);
                 if (pk != null)
                     dbTemp.Add(pk);
             });
@@ -504,6 +504,8 @@ namespace PKHeX.WinForms
                 {
                     foreach (var cmd in filters)
                     {
+                        if (cmd.PropertyName == nameof(PKM.Identifier) + "Contains")
+                            return pkm.Identifier.Contains(cmd.PropertyValue);
                         if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }

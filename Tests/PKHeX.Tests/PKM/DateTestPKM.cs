@@ -16,7 +16,7 @@ namespace PKHeX.Tests.PKM
         public int EggMetDay { get; set; }
         public override PersonalInfo PersonalInfo => null;
 
-        protected override int Met_Year
+        public override int Met_Year
         {
             get
             {
@@ -29,7 +29,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        protected override int Met_Month
+        public override int Met_Month
         {
             get
             {
@@ -42,7 +42,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        protected override int Met_Day
+        public override int Met_Day
         {
             get
             {
@@ -55,7 +55,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        protected override int Egg_Year
+        public override int Egg_Year
         {
             get
             {
@@ -68,7 +68,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        protected override int Egg_Month
+        public override int Egg_Month
         {
             get
             {
@@ -81,7 +81,7 @@ namespace PKHeX.Tests.PKM
             }
         }
 
-        protected override int Egg_Day
+        public override int Egg_Day
         {
             get
             {

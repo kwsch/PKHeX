@@ -311,7 +311,7 @@ namespace PKHeX.WinForms
                 else try
                 {
                     // get language
-                    TB_Nickname.Text = PKX.getSpeciesName(species, SAV.Language);
+                    TB_Nickname.Text = PKX.getSpeciesNameGeneration(species, SAV.Language, 6);
                 } 
                 catch { }
             }

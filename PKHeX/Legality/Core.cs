@@ -371,21 +371,21 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 1:
-                    return Legal.MaxSpeciesID_1;
+                    return MaxSpeciesID_1;
                 case 2:
-                    return Legal.MaxSpeciesID_2;
+                    return MaxSpeciesID_2;
                 case 3:
-                    return Legal.MaxSpeciesID_3;
+                    return MaxSpeciesID_3;
                 case 4:
-                    return Legal.MaxSpeciesID_4;
+                    return MaxSpeciesID_4;
                 case 5:
-                    return Legal.MaxSpeciesID_5;
+                    return MaxSpeciesID_5;
                 case 6:
-                    return Legal.MaxSpeciesID_6;
+                    return MaxSpeciesID_6;
                 case 7:
-                    return Legal.MaxSpeciesID_7;
+                    return MaxSpeciesID_7;
                 default:
-                    return Legal.MaxSpeciesID_7;
+                    return MaxSpeciesID_7;
             }
         }
 
@@ -520,6 +520,9 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<int> getLineage(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return new[] {pkm.Species};
+
             var table = getEvolutionTable(pkm);
             var lineage = table.getValidPreEvolutions(pkm, pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
@@ -545,10 +548,16 @@ namespace PKHeX.Core
         }
         internal static bool getHasEvolved(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return false;
+
             return getValidPreEvolutions(pkm).Count() > 1;
         }
         internal static bool getHasEvolvedFormChange(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return false;
+
             if (pkm.Format >= 7 && EvolveToAlolanForms.Contains(pkm.Species))
                 return pkm.AltForm == 1;
             if (pkm.Species == 678 && pkm.Gender == 1)
@@ -557,6 +566,9 @@ namespace PKHeX.Core
         }
         internal static bool getHasTradeEvolved(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return false;
+
             var table = getEvolutionTable(pkm);
             var lineage = table.getValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
@@ -866,6 +878,11 @@ namespace PKHeX.Core
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
+            if (lvl == 1 && pkm.IsEgg)
+                return new List<DexLevel>
+                {
+                    new DexLevel { Species = pkm.Species, Level = 1 },
+                };
             if (pkm.Species == 292 && pkm.Met_Level + 1 <= lvl && lvl >= 20)
                 return new List<DexLevel>
                 {

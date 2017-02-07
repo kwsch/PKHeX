@@ -443,5 +443,87 @@ namespace PKHeX.Core
 
             return metGen6;
         }
+
+        /// <summary>
+        /// Gets Country and Region strings for corresponding IDs and language.
+        /// </summary>
+        /// <param name="country">Country ID</param>
+        /// <param name="region">Region ID</param>
+        /// <param name="language">Language ID</param>
+        /// <returns></returns>
+        public static Tuple<string, string> getCountryRegionText(int country, int region, string language)
+        {
+            // Get Language we're fetching for
+            int lang = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "zh", "ko" }, language);
+            string c = getCountryString(country, lang);
+            string r = getRegionString(country, region, lang);
+            return new Tuple<string, string>(c, r); // country, region
+        }
+
+        /// <summary>
+        /// Gets the Country string for a given Country ID
+        /// </summary>
+        /// <param name="country">Country ID</param>
+        /// <param name="language">Language ID</param>
+        /// <returns>Country ID string</returns>
+        private static string getCountryString(int country, int language)
+        {
+            string c;
+            // Get Country Text
+            try
+            {
+                string[] inputCSV = Util.getStringList("countries");
+                // Set up our Temporary Storage
+                string[] unsortedList = new string[inputCSV.Length - 1];
+                int[] indexes = new int[inputCSV.Length - 1];
+
+                // Gather our data from the input file
+                for (int i = 1; i < inputCSV.Length; i++)
+                {
+                    string[] countryData = inputCSV[i].Split(',');
+                    if (countryData.Length <= 1) continue;
+                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                    unsortedList[i - 1] = countryData[language + 1];
+                }
+
+                int countrynum = Array.IndexOf(indexes, country);
+                c = unsortedList[countrynum];
+            }
+            catch { c = "Illegal"; }
+
+            return c;
+        }
+
+        /// <summary>
+        /// Gets the Region string for a specified country ID.
+        /// </summary>
+        /// <param name="country">Country ID</param>
+        /// <param name="region">Region ID</param>
+        /// <param name="language">Language ID</param>
+        /// <returns>Region ID string</returns>
+        private static string getRegionString(int country, int region, int language)
+        {
+            // Get Region Text
+            try
+            {
+                string[] inputCSV = Util.getStringList("sr_" + country.ToString("000"));
+                // Set up our Temporary Storage
+                string[] unsortedList = new string[inputCSV.Length - 1];
+                int[] indexes = new int[inputCSV.Length - 1];
+
+                // Gather our data from the input file
+                for (int i = 1; i < inputCSV.Length; i++)
+                {
+                    string[] countryData = inputCSV[i].Split(',');
+                    if (countryData.Length <= 1) continue;
+                    indexes[i - 1] = Convert.ToInt32(countryData[0]);
+                    unsortedList[i - 1] = countryData[language + 1];
+                }
+
+                int regionnum = Array.IndexOf(indexes, region);
+                return unsortedList[regionnum];
+            }
+            catch { return "Illegal"; }
+        }
     }
 }

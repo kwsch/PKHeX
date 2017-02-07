@@ -27,8 +27,8 @@ namespace PKHeX.WinForms
             }
             if (isegg)
             {
-                // Start with a partially transparent species by layering the species with partial opacity onto a blank image.
-                baseImage = ImageUtil.LayerImage(Resources._0, baseImage, 0, 0, 0.33);
+                // Partially transparent species.
+                baseImage = ImageUtil.ChangeOpacity(baseImage, 0.33);
                 // Add the egg layer over-top with full opacity.
                 baseImage = ImageUtil.LayerImage(baseImage, Resources.egg, 0, 0, 1);
             }
@@ -90,11 +90,39 @@ namespace PKHeX.WinForms
             string s = BoxWallpaper.getWallpaper(SAV, box);
             return (Bitmap)(Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy);
         }
+        private static Image getSprite(PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
+        {
+            if (!pkm.Valid)
+                return null;
+
+            var sprite = pkm.Species != 0 ? pkm.Sprite() : null;
+            if (flagIllegal && slot > -1)
+            {
+                pkm.Box = box;
+                var la = new LegalityAnalysis(pkm);
+                if (la.Parsed && !la.Valid)
+                {
+                    sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
+                    // sprite = ImageUtil.LayerImage(sprite, ImageUtil.ChangeAllColorTo(sprite, Color.Red), 0, 0, 0.5f);
+                }
+            }
+
+            bool locked = slot < 30 && SAV.getIsSlotLocked(box, slot);
+            bool team = slot < 30 && SAV.getIsTeamSet(box, slot);
+            if (locked)
+                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
+            else if (team)
+                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
+
+            return sprite;
+        }
 
         // Extension Methods
-        public static Image Sprite(this MysteryGift gift) => getSprite(gift);
-        public static Image Sprite(this PKM pkm) => getSprite(pkm);
-        public static Image Sprite(this SaveFile SAV) => getSprite(SAV);
         public static Image WallpaperImage(this SaveFile SAV, int box) => getWallpaper(SAV, box);
+        public static Image Sprite(this MysteryGift gift) => getSprite(gift);
+        public static Image Sprite(this SaveFile SAV) => getSprite(SAV);
+        public static Image Sprite(this PKM pkm) => getSprite(pkm);
+        public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
+            => getSprite(pkm, SAV, box, slot, flagIllegal);
     }
 }

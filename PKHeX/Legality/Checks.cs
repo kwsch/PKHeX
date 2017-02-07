@@ -981,7 +981,7 @@ namespace PKHeX.Core
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn.Contains(e)))
+                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn6.Contains(e)))
                     AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
                 if (pkm.AbilityNumber == 4)
                     AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
@@ -1073,13 +1073,8 @@ namespace PKHeX.Core
             }
             if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
             {
-                if ((pkm.Species >= 731 && pkm.Species <= 785)
-                    || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e))
-                    || Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e))
-                    || Lineage.Any(e => Legal.Inherit_Apricorn.Contains(e))) // past gen
-                {
+                if (Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e))) // past gen
                     AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-                }
                 else
                     AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
 
@@ -1175,6 +1170,9 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, "Should not have OT memories.", CheckIdentifier.History);
             }
             
+            if (pkm.Format >= 6 && pkm.GenNumber != pkm.Format && pkm.CurrentHandler != 1)
+                return new CheckResult(Severity.Invalid, "Current handler cannot be past gen OT for transferred specimen.", CheckIdentifier.History);
+
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
             

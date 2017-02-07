@@ -172,9 +172,16 @@ namespace PKHeX.WinForms
             
             #endregion
             #region Load Initial File(s)
-            if (args.Length > 1) // Load the arguments
+            string pkmArg = null;
+            foreach (string arg in args.Skip(1)) // skip .exe
             {
-                foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
+                var fi = new FileInfo(arg);
+                if (!fi.Exists)
+                    continue;
+
+                if (PKX.getIsPKM(fi.Length))
+                    pkmArg = arg;
+                else
                     openQuick(arg, force: true);
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
@@ -203,6 +210,8 @@ namespace PKHeX.WinForms
                     SAV.Edited = false; // Prevents form close warning from showing until changes are made
                 }                    
             }
+            if (pkmArg != null)
+                openQuick(pkmArg, force: true);
 
             // Splash Screen closes on its own.
             BringToFront();
@@ -278,6 +287,7 @@ namespace PKHeX.WinForms
             updateUnicode();
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
             SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
+            Menu_FlagIllegal.Checked = Settings.FlagIllegal;
 
             // Select Language
             string l = Settings.Language;
@@ -441,6 +451,12 @@ namespace PKHeX.WinForms
         {
             Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
         }
+        private void mainMenuFlagIllegal(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.FlagIllegal = Menu_FlagIllegal.Checked;
+            updateBoxViewers(all:true);
+            setPKXBoxes();
+        }
         private void mainMenuBoxLoad(object sender, EventArgs e)
         {
             string path = "";
@@ -470,7 +486,7 @@ namespace PKHeX.WinForms
         private void mainMenuBoxDump(object sender, EventArgs e)
         {
             string path;
-            bool dumptoboxes = false;
+            bool separate = false;
             // Dump all of box content to files.
             DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save to PKHeX's database?");
             if (ld == DialogResult.Yes)
@@ -481,7 +497,7 @@ namespace PKHeX.WinForms
             }
             else if (ld == DialogResult.No)
             {
-                dumptoboxes = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
+                separate = DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save each box separately?");
 
                 // open folder dialog
                 FolderBrowserDialog fbd = new FolderBrowserDialog();
@@ -492,7 +508,9 @@ namespace PKHeX.WinForms
             }
             else return;
 
-            dumpBoxesToDB(path, dumptoboxes);
+            string result;
+            SAV.dumpBoxes(path, out result, separate);
+            WinFormsUtil.Alert(result);
         }
         private void manMenuBatchEditor(object sender, EventArgs e)
         {
@@ -723,7 +741,7 @@ namespace PKHeX.WinForms
             {
                 openSAV(sav, path);
             }
-            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: SAV.Generation)) != null)
+            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30)&7 : SAV.Generation)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
@@ -1223,11 +1241,11 @@ namespace PKHeX.WinForms
             {
                 // Check location write protection
                 bool locked = true;
-                try { locked = (new DirectoryInfo(path).Attributes & FileAttributes.ReadOnly) != 0; }
+                try { locked = File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly); }
                 catch { }
 
                 if (locked)
-                    WinFormsUtil.Alert("Save file's location is write protected:\n" + path,
+                    WinFormsUtil.Alert("File's location is write protected:\n" + path,
                         "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             }
 
@@ -1493,7 +1511,7 @@ namespace PKHeX.WinForms
             pkm = pk.Clone();
 
             if (fieldsInitialized & !pkm.ChecksumValid)
-                WinFormsUtil.Alert("PKX File has an invalid checksum.");
+                WinFormsUtil.Alert("PKM File has an invalid checksum.");
 
             if (pkm.Format != SAV.Generation) // past gen format
             {
@@ -1654,11 +1672,6 @@ namespace PKHeX.WinForms
         // Clicked Label Shortcuts //
         private void clickQR(object sender, EventArgs e)
         {
-            if (SAV.Generation <= 3)
-            {
-                WinFormsUtil.Alert("QR feature not available for loaded game.");
-                return;
-            }
             if (ModifierKeys == Keys.Alt)
             {
                 // Fetch data from QR code...
@@ -1684,7 +1697,6 @@ namespace PKHeX.WinForms
             {
                 if (!verifiedPKM()) return;
                 PKM pkx = preparePKM();
-                byte[] ekx = pkx.EncryptedBoxData;
                 
                 Image qr;
                 switch (pkx.Format)
@@ -1693,15 +1705,24 @@ namespace PKHeX.WinForms
                         qr = QR.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
-                        qr = QR.getQRImage(ekx, pkx.Format == 6 ? QR6Path : "null/#");
+                        bool qr6 = pkx.Format == 6;
+                        qr = QR.getQRImage(pkx.EncryptedBoxData, qr6 ? QR6Path : QR.BadQRUrl);
                         break;
                 }
 
                 if (qr == null) return;
 
+                var sprite = dragout.Image;
+                var la = new LegalityAnalysis(pkx);
+                if (la.Parsed)
+                {
+                    var img = la.Valid ? Resources.valid : Resources.warn;
+                    sprite = ImageUtil.LayerImage(sprite, img, 24, 0, 1);
+                }
+
                 string[] r = pkx.QRText;
-                const string refURL = "PKHeX @ ProjectPokemon.org";
-                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})", pkx).ShowDialog();
+                string refer = $"PKHeX ({Resources.ProgramVersion})";
+                new QR(qr, sprite, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})", pkx).ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
@@ -2541,7 +2562,7 @@ namespace PKHeX.WinForms
                 species = 0; // get the egg name.
 
             // If name is that of another language, don't replace the nickname
-            if (species != 0 && !PKX.getIsNicknamedAnyLanguage(species, SAV.Generation, TB_Nickname.Text))
+            if (species != 0 && !PKX.getIsNicknamedAnyLanguage(species, TB_Nickname.Text, SAV.Generation))
                 return;
 
             TB_Nickname.Text = PKX.getSpeciesNameGeneration(species, lang, SAV.Generation);
@@ -2599,7 +2620,7 @@ namespace PKHeX.WinForms
 
                 if (!CHK_Nicknamed.Checked)
                 {
-                    TB_Nickname.Text = PKX.getSpeciesName(0, WinFormsUtil.getIndex(CB_Language));
+                    TB_Nickname.Text = PKX.getSpeciesNameGeneration(0, WinFormsUtil.getIndex(CB_Language), pkm.Format);
                     CHK_Nicknamed.Checked = true;
                 }
             }
@@ -2617,7 +2638,7 @@ namespace PKHeX.WinForms
                     GB_EggConditions.Enabled = false;
                 }
 
-                if (TB_Nickname.Text == PKX.getSpeciesName(0, WinFormsUtil.getIndex(CB_Language)))
+                if (TB_Nickname.Text == PKX.getSpeciesNameGeneration(0, WinFormsUtil.getIndex(CB_Language), pkm.Format))
                     CHK_Nicknamed.Checked = false;
             }
 
@@ -3019,39 +3040,6 @@ namespace PKHeX.WinForms
             SystemSounds.Exclamation.Play();
             return false;
         }
-        public static string[] verifyPKMtoSAV(PKM pk)
-        {
-            // Check if PKM properties are outside of the valid range
-            List<string> errata = new List<string>();
-            if (SAV.Generation > 1)
-            {
-                ushort held = (ushort)pk.HeldItem;
-
-                if (held > GameInfo.Strings.itemlist.Length)
-                    errata.Add($"Item Index beyond range: {held}");
-                else if (held > SAV.MaxItemID)
-                    errata.Add($"Game can't obtain item: {GameInfo.Strings.itemlist[held]}");
-                else if (!pk.CanHoldItem(SAV.HeldItems))
-                    errata.Add($"Game can't hold item: {GameInfo.Strings.itemlist[held]}");
-            }
-
-            if (pk.Species > GameInfo.Strings.specieslist.Length)
-                errata.Add($"Species Index beyond range: {pk.HeldItem}");
-            else if (SAV.MaxSpeciesID < pk.Species)
-                errata.Add($"Game can't obtain species: {GameInfo.Strings.specieslist[pk.Species]}");
-
-            if (pk.Moves.Any(m => m > GameInfo.Strings.movelist.Length))
-                errata.Add($"Item Index beyond range: {string.Join(", ", pk.Moves.Where(m => m > GameInfo.Strings.movelist.Length).Select(m => m.ToString()))}");
-            else if (pk.Moves.Any(m => m > SAV.MaxMoveID))
-                errata.Add($"Game can't have move: {string.Join(", ", pk.Moves.Where(m => m > SAV.MaxMoveID).Select(m => GameInfo.Strings.movelist[m]))}");
-
-            if (pk.Ability > GameInfo.Strings.abilitylist.Length)
-                errata.Add($"Ability Index beyond range: {pk.Ability}");
-            else if (pk.Ability > SAV.MaxAbilityID)
-                errata.Add($"Game can't have ability: {GameInfo.Strings.abilitylist[pk.Ability]}");
-
-            return errata.ToArray();
-        }
         public PKM preparePKM(bool click = true)
         {
             if (click)
@@ -3098,12 +3086,12 @@ namespace PKHeX.WinForms
             {
                 File.WriteAllBytes(newfile, dragdata);
                 PictureBox pb = (PictureBox)sender;
-                Cursor = DragInfo.Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
+                DragInfo.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
             catch (Exception x)
             { WinFormsUtil.Error("Drag & Drop Error", x); }
-            Cursor = DragInfo.Cursor = DefaultCursor;
+            DragInfo.Cursor = Cursor = DefaultCursor;
             File.Delete(newfile);
         }
         private void dragout_DragOver(object sender, DragEventArgs e)
@@ -3362,7 +3350,7 @@ namespace PKHeX.WinForms
             }
             PKM pk = preparePKM();
 
-            string[] errata = verifyPKMtoSAV(pk);
+            string[] errata = SAV.IsPKMCompatible(pk);
             if (errata.Length > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), "Continue?"))
                 return;
 
@@ -3609,7 +3597,7 @@ namespace PKHeX.WinForms
             if (CHK_IsEgg.Checked)
                 species = 0; // get the egg name.
 
-            if (PKX.getIsNicknamedAnyLanguage(species, SAV.Generation, TB_Nickname.Text))
+            if (PKX.getIsNicknamedAnyLanguage(species, TB_Nickname.Text, SAV.Generation))
                 CHK_Nicknamed.Checked = true;
         }
 
@@ -3783,15 +3771,8 @@ namespace PKHeX.WinForms
 
             if (pb == dragout) mnuLQR.Enabled = pk.Species != 0; // Species
 
-            var sprite = pk.Species != 0 ? pk.Sprite() : null;
             int slot = getSlot(pb);
-            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
-            pb.Image = sprite;
+            pb.Image = pk.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, Menu_FlagIllegal.Checked);
             if (pb.BackColor == Color.Red)
                 pb.BackColor = Color.Transparent;
         }
@@ -3814,17 +3795,9 @@ namespace PKHeX.WinForms
                 pb.Visible = true;
                 return;
             }
-            // Something stored in slot. Only display if species is valid.
 
-            var sprite = p.Species != 0 ? p.Sprite() : null;
             int slot = getSlot(pb);
-            bool locked = slot < 30 && SAV.getIsSlotLocked(CB_BoxSelect.SelectedIndex, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(CB_BoxSelect.SelectedIndex, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
-            pb.Image = sprite;
+            pb.Image = p.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, Menu_FlagIllegal.Checked);
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
         }
@@ -3860,26 +3833,6 @@ namespace PKHeX.WinForms
             // Refresh Boxes
             setPKXBoxes();
         }
-        private void dumpBoxesToDB(string path, bool individualBoxFolders)
-        {
-            PKM[] boxdata = SAV.BoxData;
-            if (boxdata == null) { WinFormsUtil.Error("Null argument when dumping boxes."); return; } 
-            for (int i = 0; i < boxdata.Length; i++)
-            {
-                PKM pk = boxdata[i];
-                if (pk.Species == 0 || !pk.Valid)
-                    continue;
-                string fileName = Util.CleanFileName(pk.FileName);
-                string boxfolder = "";
-                if (individualBoxFolders)
-                {
-                    boxfolder = SAV.getBoxName(i/SAV.BoxSlotCount);
-                    Directory.CreateDirectory(Path.Combine(path, boxfolder));
-                }
-                if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
-                    File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
-            }
-        }
         private void loadBoxesFromDB(string path)
         {
             if (string.IsNullOrWhiteSpace(path)) return;
@@ -3888,48 +3841,13 @@ namespace PKHeX.WinForms
             DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Clear subsequent boxes when importing data?", "If you only want to overwrite for new data, press no.");
             if (dr == DialogResult.Cancel)
                 return;
-            if (dr == DialogResult.Yes)
-                SAV.resetBoxes(CB_BoxSelect.SelectedIndex);
 
+            string result;
+            bool clearAll = dr == DialogResult.Yes;
             bool? noSetb = getPKMSetOverride();
 
-            int ctr = CB_BoxSelect.SelectedIndex*SAV.BoxSlotCount;
-            int pastctr = 0;
-            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
-
-            foreach (byte[] data in from file in filepaths where PKX.getIsPKM(new FileInfo(file).Length) select File.ReadAllBytes(file))
-            {
-                string c;
-                PKM temp = PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
-
-                if (pk != null) // Write to save
-                {
-                    if (verifyPKMtoSAV(pk).Length > 0)
-                        continue;
-                    
-                    while (SAV.getIsSlotLocked(ctr/SAV.BoxSlotCount, ctr%SAV.BoxSlotCount))
-                        ctr++;
-
-                    SAV.setStoredSlot(pk, SAV.getBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount * SAV.SIZE_STORED, noSetb);
-                    if (pk.Format != temp.Format) // Transferred
-                        pastctr++;
-                    if (++ctr == SAV.BoxCount*SAV.BoxSlotCount) // Boxes full!
-                        break; 
-                }
-                Console.WriteLine(c);
-            }
-            ctr -= SAV.BoxSlotCount * CB_BoxSelect.SelectedIndex; // actual imported count
-            if (ctr <= 0)
-                return; 
-
-            setPKXBoxes();
-            updateBoxViewers();
-            string result = $"Loaded {ctr} files to boxes.";
-            if (pastctr > 0)
-                WinFormsUtil.Alert(result, $"Conversion successful for {pastctr} past generation files.");
-            else
-                WinFormsUtil.Alert(result);
+            SAV.loadBoxes(path, out result, CB_BoxSelect.SelectedIndex, clearAll, noSetb);
+            WinFormsUtil.Alert(result);
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
@@ -4070,13 +3988,13 @@ namespace PKHeX.WinForms
                     try { gamename = GameInfo.Strings.gamelist[game]; }
                     catch { gamename = "UNKNOWN GAME"; }
 
-                    string[] cr = PKX.getCountryRegionText(country, region, curlanguage);
+                    var cr = GameInfo.getCountryRegionText(country, region, curlanguage);
                     result +=
                         "OT: " + otname + Environment.NewLine +
                         "Message: " + message + Environment.NewLine +
                         "Game: " + gamename + Environment.NewLine +
-                        "Country: " + cr[0] + Environment.NewLine +
-                        "Region: " + cr[1] + Environment.NewLine +
+                        "Country: " + cr.Item1 + Environment.NewLine +
+                        "Region: " + cr.Item2 + Environment.NewLine +
                         "Favorite: " + GameInfo.Strings.specieslist[favpkm];
 
                     r_offset += 0xC8; // Advance to next entry
@@ -4255,14 +4173,14 @@ namespace PKHeX.WinForms
 
                 byte[] data = File.ReadAllBytes(file);
                 MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
-                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
+                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30)&7 : SAV.Generation);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
                 { WinFormsUtil.Error(c); Console.WriteLine(c); return; }
 
-                string[] errata = verifyPKMtoSAV(pk);
+                string[] errata = SAV.IsPKMCompatible(pk);
                 if (errata.Length > 0)
                 {
                     string concat = string.Join(Environment.NewLine, errata);
@@ -4327,7 +4245,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
 
             if (DragInfo.slotDragDropInProgress)
-                Cursor = DragInfo.Cursor;
+                Cursor = (Cursor)DragInfo.Cursor;
         }
         private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
@@ -4358,7 +4276,7 @@ namespace PKHeX.WinForms
             public static int slotDestinationSlotNumber = -1;
             public static int slotDestinationBoxNumber = -1;
 
-            public static Cursor Cursor;
+            public static object Cursor;
             public static string CurrentPath;
 
             public static bool SameBox => slotSourceBoxNumber > -1 && slotSourceBoxNumber == slotDestinationBoxNumber;

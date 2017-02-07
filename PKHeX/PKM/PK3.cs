@@ -29,7 +29,7 @@ namespace PKHeX.Core
         public override int Nature { get { return (int)(PID % 25); } set { } }
         public override int AltForm { get { return Species == 201 ? PKX.getUnownForm(PID) : 0; } set { } }
 
-        public override bool IsNicknamed { get { return PKX.getIsNicknamed(Species, Nickname); } set { } }
+        public override bool IsNicknamed { get { return PKX.getIsNicknamedAnyLanguage(Species, Nickname, Format); } set { } }
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }

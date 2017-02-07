@@ -93,7 +93,7 @@ namespace PKHeX.Core
         public override int CNT_Smart { get { return Data[0x27]; } set { Data[0x27] = (byte)value; } }
         public override int CNT_Tough { get { return Data[0x28]; } set { Data[0x28] = (byte)value; } }
         public override int CNT_Sheen { get { return Data[0x29]; } set { Data[0x29] = (byte)value; } }
-        public byte PelagoEventStatus { get { return Data[0x2A]; } protected set { Data[0x2A] = value; } }
+        public byte PelagoEventStatus { get { return Data[0x2A]; } set { Data[0x2A] = value; } }
         private byte PKRS { get { return Data[0x2B]; } set { Data[0x2B] = value; } }
         public override int PKRS_Days { get { return PKRS & 0xF; } set { PKRS = (byte)(PKRS & ~0xF | value); } }
         public override int PKRS_Strain { get { return PKRS >> 4; } set { PKRS = (byte)(PKRS & 0xF | value << 4); } }
@@ -350,12 +350,12 @@ namespace PKHeX.Core
         public override int OT_Memory { get { return Data[0xCD]; } set { Data[0xCD] = (byte)value; } }
         public override int OT_TextVar { get { return BitConverter.ToUInt16(Data, 0xCE); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCE); } }
         public override int OT_Feeling { get { return Data[0xD0]; } set { Data[0xD0] = (byte)value; } }
-        protected override int Egg_Year { get { return Data[0xD1]; } set { Data[0xD1] = (byte)value; } }
-        protected override int Egg_Month { get { return Data[0xD2]; } set { Data[0xD2] = (byte)value; } }
-        protected override int Egg_Day { get { return Data[0xD3]; } set { Data[0xD3] = (byte)value; } }
-        protected override int Met_Year { get { return Data[0xD4]; } set { Data[0xD4] = (byte)value; } }
-        protected override int Met_Month { get { return Data[0xD5]; } set { Data[0xD5] = (byte)value; } }
-        protected override int Met_Day { get { return Data[0xD6]; } set { Data[0xD6] = (byte)value; } }
+        public override int Egg_Year { get { return Data[0xD1]; } set { Data[0xD1] = (byte)value; } }
+        public override int Egg_Month { get { return Data[0xD2]; } set { Data[0xD2] = (byte)value; } }
+        public override int Egg_Day { get { return Data[0xD3]; } set { Data[0xD3] = (byte)value; } }
+        public override int Met_Year { get { return Data[0xD4]; } set { Data[0xD4] = (byte)value; } }
+        public override int Met_Month { get { return Data[0xD5]; } set { Data[0xD5] = (byte)value; } }
+        public override int Met_Day { get { return Data[0xD6]; } set { Data[0xD6] = (byte)value; } }
         public byte _0xD7 { get { return Data[0xD7]; } set { Data[0xD7] = value; } }
         public override int Egg_Location { get { return BitConverter.ToUInt16(Data, 0xD8); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); } }
         public override int Met_Location { get { return BitConverter.ToUInt16(Data, 0xDA); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xDA); } }
