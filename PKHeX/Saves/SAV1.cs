@@ -328,7 +328,7 @@ namespace PKHeX.Core
         {
             get
             {
-                return Convert.ToUInt16(BigEndian.ToUInt16(Data, Japanese ? 0x2846 : 0x2850).ToString("X4"), 16);
+                return BigEndian.ToUInt16(Data, Japanese ? 0x2846 : 0x2850);
             }
             set
             {
