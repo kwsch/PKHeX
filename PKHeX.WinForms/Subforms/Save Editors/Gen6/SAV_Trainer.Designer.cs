@@ -202,6 +202,8 @@ namespace PKHeX.WinForms
             this.Tab_Multiplayer = new System.Windows.Forms.TabPage();
             this.Tab_Maison = new System.Windows.Forms.TabPage();
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
+            this.TB_TRNick = new System.Windows.Forms.TextBox();
+            this.L_TRNick = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
@@ -416,7 +418,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge8
             // 
-            this.PB_Badge8.Image = Core.Properties.Resources.badge_8;
             this.PB_Badge8.Location = new System.Drawing.Point(248, 63);
             this.PB_Badge8.Name = "PB_Badge8";
             this.PB_Badge8.Size = new System.Drawing.Size(50, 50);
@@ -427,7 +428,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge6
             // 
-            this.PB_Badge6.Image = Core.Properties.Resources.badge_6;
             this.PB_Badge6.Location = new System.Drawing.Point(142, 63);
             this.PB_Badge6.Name = "PB_Badge6";
             this.PB_Badge6.Size = new System.Drawing.Size(50, 50);
@@ -438,7 +438,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge4
             // 
-            this.PB_Badge4.Image = Core.Properties.Resources.badge_4;
             this.PB_Badge4.Location = new System.Drawing.Point(248, 10);
             this.PB_Badge4.Name = "PB_Badge4";
             this.PB_Badge4.Size = new System.Drawing.Size(50, 50);
@@ -449,7 +448,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge2
             // 
-            this.PB_Badge2.Image = Core.Properties.Resources.badge_2;
             this.PB_Badge2.Location = new System.Drawing.Point(142, 10);
             this.PB_Badge2.Name = "PB_Badge2";
             this.PB_Badge2.Size = new System.Drawing.Size(50, 50);
@@ -460,7 +458,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge7
             // 
-            this.PB_Badge7.Image = Core.Properties.Resources.badge_7;
             this.PB_Badge7.Location = new System.Drawing.Point(195, 63);
             this.PB_Badge7.Name = "PB_Badge7";
             this.PB_Badge7.Size = new System.Drawing.Size(50, 50);
@@ -471,7 +468,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge5
             // 
-            this.PB_Badge5.Image = Core.Properties.Resources.badge_5;
             this.PB_Badge5.Location = new System.Drawing.Point(89, 63);
             this.PB_Badge5.Name = "PB_Badge5";
             this.PB_Badge5.Size = new System.Drawing.Size(50, 50);
@@ -482,7 +478,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge3
             // 
-            this.PB_Badge3.Image = Core.Properties.Resources.badge_3;
             this.PB_Badge3.Location = new System.Drawing.Point(195, 10);
             this.PB_Badge3.Name = "PB_Badge3";
             this.PB_Badge3.Size = new System.Drawing.Size(50, 50);
@@ -493,7 +488,6 @@ namespace PKHeX.WinForms
             // 
             // PB_Badge1
             // 
-            this.PB_Badge1.Image = Core.Properties.Resources.badge_1;
             this.PB_Badge1.Location = new System.Drawing.Point(89, 10);
             this.PB_Badge1.Name = "PB_Badge1";
             this.PB_Badge1.Size = new System.Drawing.Size(50, 50);
@@ -2102,6 +2096,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_Appearance
             // 
+            this.Tab_Appearance.Controls.Add(this.L_TRNick);
+            this.Tab_Appearance.Controls.Add(this.TB_TRNick);
             this.Tab_Appearance.Controls.Add(this.CB_Skin);
             this.Tab_Appearance.Controls.Add(this.CB_Hair);
             this.Tab_Appearance.Controls.Add(this.MT_Hat);
@@ -2150,6 +2146,26 @@ namespace PKHeX.WinForms
             this.Tab_Appearance.TabIndex = 4;
             this.Tab_Appearance.Text = "Appearance";
             this.Tab_Appearance.UseVisualStyleBackColor = true;
+            // 
+            // TB_TRNick
+            // 
+            this.TB_TRNick.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_TRNick.Location = new System.Drawing.Point(202, 230);
+            this.TB_TRNick.MaxLength = 12;
+            this.TB_TRNick.Name = "TB_TRNick";
+            this.TB_TRNick.Size = new System.Drawing.Size(93, 20);
+            this.TB_TRNick.TabIndex = 73;
+            this.TB_TRNick.Text = "WWWWWWWWWWWW";
+            this.TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_TRNick
+            // 
+            this.L_TRNick.Location = new System.Drawing.Point(68, 230);
+            this.L_TRNick.Name = "L_TRNick";
+            this.L_TRNick.Size = new System.Drawing.Size(128, 20);
+            this.L_TRNick.TabIndex = 74;
+            this.L_TRNick.Text = "Trainer Nickname:";
+            this.L_TRNick.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Trainer
             // 
@@ -2379,5 +2395,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_Fame;
         private System.Windows.Forms.DateTimePicker CAL_HoFDate;
         private System.Windows.Forms.DateTimePicker CAL_HoFTime;
+        private System.Windows.Forms.Label L_TRNick;
+        private System.Windows.Forms.TextBox TB_TRNick;
     }
 }
