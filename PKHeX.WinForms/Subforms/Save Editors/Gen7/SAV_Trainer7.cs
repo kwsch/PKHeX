@@ -111,6 +111,7 @@ namespace PKHeX.WinForms
 
             MT_TID.Text = SAV.TID.ToString("00000");
             MT_SID.Text = SAV.SID.ToString("00000");
+            MT_G7TID.Text = SAV.TrainerID7.ToString("000000");
             MT_Money.Text = SAV.Money.ToString();
             
             CB_Country.SelectedValue = SAV.Country;
@@ -386,11 +387,20 @@ namespace PKHeX.WinForms
             SAV.setRecord(index, (int)NUD_Stat.Value);
         }
 
+        private void B_GenTID_Click(object sender, EventArgs e)
+        {
+            var tuple = SaveUtil.getTIDSID(Util.ToUInt32(MT_G7TID.Text), ModifierKeys == Keys.Control);
+            MT_TID.Text = tuple.Item1.ToString("D5");
+            MT_SID.Text = tuple.Item2.ToString("D5");
+        }
+
         private readonly Dictionary<int, string> RecordList = new Dictionary<int, string>
         {
             {000, "Steps Taken"},
             {001, "Times Saved"},
+            {003, "Total Battles"},
             {004, "Wild Pokémon Battles"},
+            {005, "Trainer Battles"},
             {006, "Pokemon Caught"},
             {007, "Pokemon Caught Fishing"},
             {008, "Eggs Hatched"},
@@ -403,17 +413,22 @@ namespace PKHeX.WinForms
             {022, "Exp. Points Collected"},
             {024, "Deposited in the GTS"},
             {025, "Nicknames Given"},
+            {027, "Battle Points Earned"},
             {028, "Battle Points Spent"},
             {029, "Super Effective Moves Used"},
             {032, "Berry Harvests"},
             {033, "Trades at the GTS"},
             {034, "Wonder Trades"},
+            {035, "Quick Links"},
             {036, "Pokemon Rides"},
             {037, "Beans Given"},
             {038, "Festival Coins Spent"},
             {039, "Poke Beans Collected"},
             {040, "Battles at the Battle Tree"},
             {041, "Z-Moves Used"},
+            {046, "Ran From Battles"},
+            {050, "Total Thumbs-Ups"},
+            {052, "Record Thumbs-ups"},
             {053, "Pokemon Petted"},
             {066, "Guests Interacted With"},
 
@@ -421,6 +436,7 @@ namespace PKHeX.WinForms
             {110, "Pokemon Defeated (Highest)"},
             {112, "Pokemon Caught (Highest)"},
             {114, "Trainers Battled (Highest)"},
+            {115, "Items Picked Up"},
             {116, "Pokemon Evolved (Highest)"},
             {118, "Fossils Restored"},
             {119, "Photos Taken"},
@@ -430,10 +446,13 @@ namespace PKHeX.WinForms
             {128, "Missions Participated In"},
             {129, "Facilities Hosted"},
             {130, "QR Code Scans"},
+            {137, "Battle Royal Dome Battles"},
             {158, "Outfit Changes"},
+            {159, "Battle Royal Dome Wins"},
             {161, "Pelago Training Sessions"},
             {162, "Pelago Hot Spring Sessions"},
             {166, "Island Scans"},
+            {172, "Berry Tree Battles"},
         };
     }
 }

@@ -247,8 +247,11 @@ namespace PKHeX.WinForms
             }
             else
             {
-                pk5.Ability = (byte)Array.IndexOf(GameInfo.Strings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
-                pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
+                if (CB_Ability.Text.Length >= 4)
+                {
+                    pk5.Ability = (byte)Array.IndexOf(GameInfo.Strings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+                    pk5.HiddenAbility = CB_Ability.SelectedIndex > 1; // not 0 or 1
+                }
             }
 
             // Fix Moves if a slot is empty 

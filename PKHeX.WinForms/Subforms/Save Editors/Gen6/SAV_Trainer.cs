@@ -13,7 +13,12 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
             if (Main.unicode)
-            try { TB_OTName.Font = FontUtil.getPKXFont(11); }
+                try
+                {
+                    TB_OTName.Font = FontUtil.getPKXFont(11);
+                    if (Main.SAV.XY)
+                        TB_TRNick.Font = TB_OTName.Font;
+                }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
 
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
@@ -448,6 +453,8 @@ namespace PKHeX.WinForms
                 MT_1403D.Text = SAV.Data[SAV.TrainerCard + 0x3D].ToString();
                 MT_1403E.Text = SAV.Data[SAV.TrainerCard + 0x3E].ToString();
                 MT_1403F.Text = SAV.Data[SAV.TrainerCard + 0x3F].ToString();
+
+                TB_TRNick.Text = SAV.OT_Nick;
             }
 
             CB_Vivillon.SelectedIndex = SAV.Vivillon;
@@ -540,6 +547,8 @@ namespace PKHeX.WinForms
                 SAV.Data[SAV.TrainerCard + 0x3D] = byte.Parse(MT_1403D.Text);
                 SAV.Data[SAV.TrainerCard + 0x3E] = byte.Parse(MT_1403E.Text);
                 SAV.Data[SAV.TrainerCard + 0x3F] = byte.Parse(MT_1403F.Text);
+
+                SAV.OT_Nick = TB_TRNick.Text;
             }
 
             // Vivillon

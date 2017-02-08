@@ -142,7 +142,11 @@ namespace PKHeX.WinForms
             pk4.SID = Util.ToInt32(TB_SID.Text);
             pk4.EXP = Util.ToUInt32(TB_EXP.Text);
             pk4.PID = Util.getHEXval(TB_PID.Text);
-            pk4.Ability = (byte)Array.IndexOf(GameInfo.Strings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+
+            if (CB_Ability.Text.Length >= 4)
+            {
+                pk4.Ability = (byte)Array.IndexOf(GameInfo.Strings.abilitylist, CB_Ability.Text.Remove(CB_Ability.Text.Length - 4));
+            }
 
             pk4.FatefulEncounter = CHK_Fateful.Checked;
             pk4.Gender = PKX.getGender(Label_Gender.Text);

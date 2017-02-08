@@ -172,9 +172,16 @@ namespace PKHeX.WinForms
             
             #endregion
             #region Load Initial File(s)
-            if (args.Length > 1) // Load the arguments
+            string pkmArg = null;
+            foreach (string arg in args.Skip(1)) // skip .exe
             {
-                foreach (string arg in args.Skip(1).Where(a => a.Length > 4))
+                var fi = new FileInfo(arg);
+                if (!fi.Exists)
+                    continue;
+
+                if (PKX.getIsPKM(fi.Length))
+                    pkmArg = arg;
+                else
                     openQuick(arg, force: true);
             }
             if (!SAV.Exportable) // No SAV loaded from exe args
@@ -203,6 +210,8 @@ namespace PKHeX.WinForms
                     SAV.Edited = false; // Prevents form close warning from showing until changes are made
                 }                    
             }
+            if (pkmArg != null)
+                openQuick(pkmArg, force: true);
 
             // Splash Screen closes on its own.
             BringToFront();
@@ -732,7 +741,7 @@ namespace PKHeX.WinForms
             {
                 openSAV(sav, path);
             }
-            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: SAV.Generation)) != null)
+            else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30)&7 : SAV.Generation)) != null)
             {
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
                 if (pk == null)
@@ -1703,9 +1712,17 @@ namespace PKHeX.WinForms
 
                 if (qr == null) return;
 
+                var sprite = dragout.Image;
+                var la = new LegalityAnalysis(pkx);
+                if (la.Parsed)
+                {
+                    var img = la.Valid ? Resources.valid : Resources.warn;
+                    sprite = ImageUtil.LayerImage(sprite, img, 24, 0, 1);
+                }
+
                 string[] r = pkx.QRText;
-                const string refURL = "PKHeX @ ProjectPokemon.org";
-                new QR(qr, dragout.Image, r[0], r[1], r[2], $"{refURL} ({pkx.GetType().Name})", pkx).ShowDialog();
+                string refer = $"PKHeX ({Resources.ProgramVersion})";
+                new QR(qr, sprite, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})", pkx).ShowDialog();
             }
         }
         private void clickFriendship(object sender, EventArgs e)
@@ -3101,13 +3118,14 @@ namespace PKHeX.WinForms
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SAV.Edited)
+            if (SAV.Edited && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
+            {
+                e.Cancel = true;
                 return;
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
-            { e.Cancel = true; return; }
+            }
 
             try { Properties.Settings.Default.Save(); }
-            catch (Exception x) { File.WriteAllLines("config error.txt", new[] {x.ToString()}); }
+            catch (Exception x) { File.WriteAllLines("config error.txt", new[] { x.ToString() }); }
         }
         #endregion
 
@@ -4156,7 +4174,7 @@ namespace PKHeX.WinForms
 
                 byte[] data = File.ReadAllBytes(file);
                 MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
-                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
+                PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30)&7 : SAV.Generation);
                 string c;
 
                 PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);

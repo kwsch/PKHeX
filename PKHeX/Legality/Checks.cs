@@ -1170,6 +1170,9 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, "Should not have OT memories.", CheckIdentifier.History);
             }
             
+            if (pkm.Format >= 6 && pkm.GenNumber != pkm.Format && pkm.CurrentHandler != 1)
+                return new CheckResult(Severity.Invalid, "Current handler cannot be past gen OT for transferred specimen.", CheckIdentifier.History);
+
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
             
