@@ -1111,17 +1111,10 @@ namespace PKHeX.Core
             }
             if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
             {
-                if (Legal.Ban_Gen3Ball_AllowG7.Contains(pkm.Species))
-                {
-                    if (pkm.AbilityNumber == 4)
-                        AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
-                }
-                else if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
+                if (Legal.Ban_Gen3Ball_7.Contains(pkm.Species))
                     AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable capture for Gen3Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
 
                 return;
             }

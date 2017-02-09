@@ -1002,5 +1002,74 @@ namespace PKHeX.Core
 
             return new Tuple<uint, uint>(TID, SID);
         }
+
+        /// <summary>
+        /// Creates a <see cref="SaveFile"/> via decryption using a stored xorpad.
+        /// </summary>
+        /// <param name="input">Encrypted byte array of savedata to decrypt.</param>
+        /// <param name="XORpads">Array of possible paths to check for xorpad compatibility.</param>
+        /// <returns>Returns a <see cref="SaveFile"/> if decryption was successful, else null.</returns>
+        public static SaveFile getSAVfromXORpads(byte[] input, string[] XORpads)
+        {
+            byte[] savID = new byte[0x10];
+            Array.Copy(input, 0x10, savID, 0, 0x10);
+            int[] sizes = { SIZE_G6XY, SIZE_G6ORAS, SIZE_G7SM };
+
+            foreach (var file in XORpads)
+            {
+                // Check if xorpad
+                FileInfo fi = new FileInfo(file);
+
+                string filename = fi.Name.ToLower();
+                if (!filename.Contains("xorpad") && !filename.Contains("key"))
+                    continue;
+
+                var length = fi.Length;
+                if (length != 0x10009C && length != 0x100000)
+                    continue;
+                
+                // Fix xorpad alignment
+                byte[] xorpad = File.ReadAllBytes(file);
+                if (xorpad.Length == 0x10009C) // Trim off Powersaves' header
+                {
+                    Array.Copy(xorpad, 0x9C, xorpad, 0, 0x100000);
+                    Array.Resize(ref xorpad, 0x100000);
+                }
+
+                // Check if encrypted 00's match save
+                if (!xorpad.Skip(0x10).Take(0x10).SequenceEqual(savID))
+                    continue;
+
+                // Set up Decrypted File
+                const int mainOffset = 0x5400;
+                int maxSize = sizes.Max();
+                byte[] decryptedPS = new byte[maxSize];
+                Array.Copy(input, mainOffset, decryptedPS, 0, decryptedPS.Length);
+
+                // xor through and decrypt
+                for (int z = 0; z < decryptedPS.Length; z++)
+                    decryptedPS[z] ^= xorpad[mainOffset + z];
+
+                // Weakly check the validity of the decrypted content
+                int i; for (i = 0; i < sizes.Length; i++)
+                {
+                    if (BitConverter.ToUInt32(decryptedPS, sizes[i] - 0x1F0) != BEEF)
+                        continue;
+                    Array.Resize(ref decryptedPS, sizes[i]);
+                    break;
+                }
+                if (i == sizes.Length)
+                    continue;
+                
+                // Save file is now decrypted!
+                var SAV = getVariantSAV(decryptedPS);
+                if (SAV == null)
+                    continue;
+
+                SAV.FileName = file;
+                return SAV;
+            }
+            return null; // no xorpad compatible
+        }
     }
 }

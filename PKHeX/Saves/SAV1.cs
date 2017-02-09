@@ -318,22 +318,23 @@ namespace PKHeX.Core
         }
         public override uint Money
         {
-            get { return uint.Parse((BigEndian.ToUInt32(Data, Japanese ? 0x25EE : 0x25F3) >> 8).ToString("X6")); }
+            get { return (uint)BigEndian.BCDToInt32(Data, Japanese ? 0x25EE : 0x25F3, 3); }
             set
             {
-                BigEndian.GetBytes(Convert.ToUInt32(value.ToString("000000"), 16)).Skip(1).ToArray().CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
+                value = (uint)Math.Min(value, MaxMoney);
+                BigEndian.Int32ToBCD((int)value, 3).CopyTo(Data, Japanese ? 0x25EE : 0x25F3);
             }
         }
         public uint Coin
         {
             get
             {
-                return uint.Parse(BigEndian.ToUInt16(Data, Japanese ? 0x2846 : 0x2850).ToString("X4"));
+                return (uint)BigEndian.BCDToInt32(Data, Japanese ? 0x2846 : 0x2850, 2);
             }
             set
             {
-                ushort val = (ushort)Math.Min(value, MaxCoins);
-                BigEndian.GetBytes(val).CopyTo(Data, Japanese ? 0x2846 : 0x2850);
+                value = (ushort)Math.Min(value, MaxCoins);
+                BigEndian.Int32ToBCD((int)value, 2).CopyTo(Data, Japanese ? 0x2846 : 0x2850);
             }
         }
 
