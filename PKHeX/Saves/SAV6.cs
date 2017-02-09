@@ -398,6 +398,11 @@ namespace PKHeX.Core
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x48, 0x1A)); }
             set { Encoding.Unicode.GetBytes(value.PadRight(13, '\0')).CopyTo(Data, TrainerCard + 0x48); }
         }
+        public string OT_Nick
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x62, 0x1A)); }
+            set { Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x62); }
+        }
         public string Saying1
         {
             get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 0, 0x22)); }

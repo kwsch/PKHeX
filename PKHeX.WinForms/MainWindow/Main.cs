@@ -3118,13 +3118,14 @@ namespace PKHeX.WinForms
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SAV.Edited)
+            if (SAV.Edited && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
+            {
+                e.Cancel = true;
                 return;
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
-            { e.Cancel = true; return; }
+            }
 
             try { Properties.Settings.Default.Save(); }
-            catch (Exception x) { File.WriteAllLines("config error.txt", new[] {x.ToString()}); }
+            catch (Exception x) { File.WriteAllLines("config error.txt", new[] { x.ToString() }); }
         }
         #endregion
 
