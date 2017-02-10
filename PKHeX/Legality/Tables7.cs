@@ -470,17 +470,9 @@ namespace PKHeX.Core
             599, // Klink
             622, // Golett
         };
-        internal static readonly int[] Ban_Gen3Ball_AllowG7 =
+        internal static readonly int[] Ban_Gen3Ball_7 =
         {
-            252, 255, 258, //1 - Treeko, Torchic, Mudkip
-            253, 256, 259, //2
-            254, 257, 260, //3
-            387, 390, 393, //1 - Turtwig, Chimchar, Piplup
-            388, 391, 394, //2
-            389, 392, 395, //3
-            495, 498, 501, //1 - Snivy, Tepig, Oshawott
-            496, 499, 502, //2
-            497, 500, 503, //3
+            566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
         internal static readonly int[] Ban_Gen4Ball_7 =
         {

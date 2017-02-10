@@ -844,52 +844,22 @@ namespace PKHeX.WinForms
         }
         private bool openXOR(byte[] input, string path)
         {
-            // Detection of stored Decryption XORpads:
-            if (ModifierKeys == Keys.Control) return false; // no xorpad compatible
-            byte[] savID = input.Take(0x10).ToArray();
-            string exepath = Application.StartupPath;
-            string xorpath = exepath.Clone().ToString();
-            string[] XORpads = Directory.GetFiles(xorpath);
+            // try to get a save file via xorpad in same folder
+            string[] pads = Directory.GetFiles(path);
+            var s = SaveUtil.getSAVfromXORpads(input, pads);
 
-            int loop = 0;
-
-            while (xorpath == exepath && loop++ == 0)
+            if (s == null) // failed to find xorpad in path folder
             {
-                foreach (byte[] data in from file in XORpads let fi = new FileInfo(file) where (fi.Name.ToLower().Contains("xorpad") || fi.Name.ToLower().Contains("key")) && (fi.Length == 0x10009C || fi.Length == 0x100000) select File.ReadAllBytes(file))
-                {
-                    // Fix xorpad alignment
-                    byte[] xorpad = data;
-                    if (xorpad.Length == 0x10009C) // Trim off Powersaves' header
-                        xorpad = xorpad.Skip(0x9C).ToArray(); // returns 0x100000
-
-                    if (!xorpad.Take(0x10).SequenceEqual(savID)) continue;
-
-                    // Set up Decrypted File
-                    byte[] decryptedPS = input.Skip(0x5400).Take(SaveUtil.SIZE_G6ORAS).ToArray();
-
-                    // xor through and decrypt
-                    for (int z = 0; z < decryptedPS.Length; z++)
-                        decryptedPS[z] ^= xorpad[0x5400 + z];
-
-                    // Weakly check the validity of the decrypted content
-                    if (BitConverter.ToUInt32(decryptedPS, SaveUtil.SIZE_G6ORAS - 0x1F0) == SaveUtil.BEEF)
-                        Array.Resize(ref decryptedPS, SaveUtil.SIZE_G6ORAS); // set to ORAS size
-                    else if (BitConverter.ToUInt32(decryptedPS, SaveUtil.SIZE_G6XY - 0x1F0) == SaveUtil.BEEF)
-                        Array.Resize(ref decryptedPS, SaveUtil.SIZE_G6XY); // set to X/Y size
-                    else if (BitConverter.ToUInt32(decryptedPS, SaveUtil.SIZE_G7SM - 0x1F0) == SaveUtil.BEEF)
-                        Array.Resize(ref decryptedPS, SaveUtil.SIZE_G7SM); // set to S/M size
-                    else
-                        continue;
-
-                    // Save file is now decrypted!
-                    // Trigger Loading of the decrypted save file.
-                    openSAV(SaveUtil.getVariantSAV(decryptedPS), path);
-                    return true;
-                }
-                // End file check loop, check the input path for xorpads too if it isn't the same as the EXE (quite common).
-                xorpath = Path.GetDirectoryName(path); // try again in the next folder up
+                // try again
+                pads = Directory.GetFiles(WorkingDirectory);
+                s = SaveUtil.getSAVfromXORpads(input, pads);
             }
-            return false; // no xorpad compatible
+
+            if (s == null)
+                return false; // failed
+
+            openSAV(s, s.FileName);
+            return true;
         }
         private void openSAV(SaveFile sav, string path)
         {
