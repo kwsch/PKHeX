@@ -320,14 +320,14 @@ namespace PKHeX.WinForms
             string supported = string.Join(";", SAV.PKMExtensions.Select(s => "*."+s).Concat(new[] {"*.pkm"}));
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = $"Supported Files|main;*.sav;*.bin;*.{ekx};{supported};*.bak" +
+                Filter = "All Files|*.*" +
+                         $"|Supported Files|main;*.sav;*.dat;*.bin;*.{ekx};{supported};*.bak" +
                          "|3DS Main Files|main" +
-                         "|Save Files|*.sav" +
+                         "|Save Files|*.sav;*.dat;" +
                          $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
-                         "|Backup File|*.bak" +
-                         "|All Files|*.*"
+                         "|Backup File|*.bak"
             };
 
             // Detect main

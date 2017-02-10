@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
         {
             var p = new string[types.Length][];
             for (int i = 0; i < p.Length; i++)
-                p[i] = ReflectUtil.getPropertiesCanWritePublic(types[i]).ToArray();
+                p[i] = ReflectUtil.getPropertiesCanWritePublic(types[i]).Concat(CustomProperties).ToArray();
 
             IEnumerable<string> all = p.SelectMany(prop => prop).Distinct();
             IEnumerable<string> any = p[0];
@@ -50,6 +50,11 @@ namespace PKHeX.WinForms
         private readonly PKM pkmref;
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
+        private const string CONST_SUGGEST = "$suggest";
+
+        private const string PROP_LEGAL = "Legal";
+        private static readonly string[] CustomProperties = {PROP_LEGAL};
+
         private int currentFormat = -1;
         private static readonly Type[] types = {typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof (PK3)};
         private static readonly string[][] properties = getPropArray();
@@ -98,6 +103,9 @@ namespace PKHeX.WinForms
                     "Continue?"))
                     return;
             }
+
+            if (!Instructions.Any())
+            { WinFormsUtil.Error("No instructions defined."); return; }
 
             string destPath = "";
             if (RB_Path.Checked)
@@ -322,6 +330,9 @@ namespace PKHeX.WinForms
         }
         private string getPropertyType(string propertyName)
         {
+            if (CustomProperties.Contains(propertyName))
+                return "Custom";
+
             int typeIndex = CB_Format.SelectedIndex;
             
             if (typeIndex == 0) // All
@@ -358,17 +369,41 @@ namespace PKHeX.WinForms
             Filtered,
             Modified,
         }
+
+        private class PKMInfo
+        {
+            private readonly PKM pkm;
+            public PKMInfo(PKM pk) { pkm = pk; }
+
+            private LegalityAnalysis la;
+            private LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
+
+            public bool Legal => Legality.Valid;
+            public int[] SuggestedRelearn => Legality.getSuggestedRelearn();
+            public int[] SuggestedMoves => Legality.getSuggestedMoves(tm: true, tutor: true, reminder: false);
+            public EncounterStatic SuggestedEncounter => Legality.getSuggestedMetInfo();
+        }
         private static ModifyResult ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
         {
             if (!PKM.ChecksumValid || PKM.Species == 0)
                 return ModifyResult.Invalid;
 
             Type pkm = PKM.GetType();
+            PKMInfo info = new PKMInfo(PKM);
 
             foreach (var cmd in Filters)
             {
                 try
                 {
+                    if (cmd.PropertyName == PROP_LEGAL)
+                    {
+                        bool legal;
+                        if (!bool.TryParse(cmd.PropertyValue, out legal))
+                            return ModifyResult.Error;
+                        if (legal == info.Legal == cmd.Evaluator)
+                            continue;
+                        return ModifyResult.Filtered;
+                    }
                     if (!pkm.HasProperty(cmd.PropertyName))
                         return ModifyResult.Filtered;
                     if (ReflectUtil.GetValueEquals(PKM, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
@@ -386,34 +421,81 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    if (cmd.PropertyName == nameof(PKM.MetDate))
-                        PKM.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    else if (cmd.PropertyName == nameof(PKM.EggMetDate))
-                        PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
-                        ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
-                    else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
-                        PKM.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
-                    else if(cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
-                        PKM.setPIDGender(PKM.Gender);
-                    else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
-                        PKM.EncryptionConstant = PKM.PID;
-                    else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
-                        PKM.setShinyPID();
-                    else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                        PKM.Data = new byte[PKM.Data.Length];
-                    else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
-                        setRandomIVs(PKM, cmd);
-                    else if (cmd.Random)
-                        ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
+                    if (cmd.PropertyValue == CONST_SUGGEST)
+                    {
+                        result = setSuggestedProperty(PKM, cmd, info) 
+                            ? ModifyResult.Modified 
+                            : ModifyResult.Error;
+                    }
                     else
-                        ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
-
-                    result = ModifyResult.Modified;
+                    {
+                        setProperty(PKM, cmd);
+                        result = ModifyResult.Modified;
+                    }
                 }
                 catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return result;
+        }
+        private static bool setSuggestedProperty(PKM PKM, StringInstruction cmd, PKMInfo info)
+        {
+            switch (cmd.PropertyName)
+            {
+                case nameof(PKM.RelearnMoves):
+                    PKM.RelearnMoves = info.SuggestedRelearn;
+                    return true;
+                case nameof(PKM.Met_Location):
+                    var encounter = info.SuggestedEncounter;
+                    if (encounter == null)
+                        return false;
+
+                    int level = encounter.Level;
+                    int location = encounter.Location;
+                    int minlvl = Legal.getLowestLevel(PKM, encounter.Species);
+
+                    PKM.Met_Level = level;
+                    PKM.Met_Location = location;
+                    PKM.CurrentLevel = Math.Max(minlvl, level);
+
+                    return true;
+
+                case nameof(PKM.Moves):
+                    var moves = info.SuggestedMoves;
+                    Util.Shuffle(moves);
+                    Array.Resize(ref moves, 4);
+                    PKM.Moves = moves;
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+        private static void setProperty(PKM PKM, StringInstruction cmd)
+        {
+            if (cmd.PropertyName == nameof(PKM.MetDate))
+                PKM.MetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            else if (cmd.PropertyName == nameof(PKM.EggMetDate))
+                PKM.EggMetDate = DateTime.ParseExact(cmd.PropertyValue, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32().ToString());
+            else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
+                PKM.RefreshAbility(Convert.ToInt16(cmd.PropertyValue[1]) - 0x30);
+            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RAND)
+                PKM.setPIDGender(PKM.Gender);
+            else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
+                PKM.EncryptionConstant = PKM.PID;
+            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
+                PKM.setShinyPID();
+            else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
+                PKM.Data = new byte[PKM.Data.Length];
+            else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
+                setRandomIVs(PKM, cmd);
+            else if (cmd.Random)
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
+            else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && cmd.PropertyValue.ToLower() == "false")
+            { PKM.IsNicknamed = false; PKM.Nickname = PKX.getSpeciesName(PKM.Species, PKM.Language); }
+            else
+                ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
         }
         private static void setRandomIVs(PKM PKM, StringInstruction cmd)
         {
