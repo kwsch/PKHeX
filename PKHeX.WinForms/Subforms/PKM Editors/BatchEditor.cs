@@ -406,6 +406,8 @@ namespace PKHeX.WinForms
                         setRandomIVs(PKM, cmd);
                     else if (cmd.Random)
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
+                    else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && cmd.PropertyValue.ToLower() == "false")
+                    { PKM.IsNicknamed = false; PKM.Nickname = PKX.getSpeciesName(PKM.Species, PKM.Language); }
                     else
                         ReflectUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
 
