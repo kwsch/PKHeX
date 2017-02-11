@@ -488,17 +488,7 @@ namespace PKHeX.WinForms
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {
-                var raw =
-                    RTB_Instructions.Lines
-                        .Where(line => !string.IsNullOrWhiteSpace(line))
-                        .Where(line => new[] { '!', '=' }.Contains(line[0]));
-
-                var filters = (from line in raw
-                        let eval = line[0] == '='
-                        let split = line.Substring(1).Split('=')
-                        where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                        select new BatchEditor.StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval }).ToArray();
-
+                var filters = BatchEditor.StringInstruction.getFilters(RTB_Instructions.Lines).ToArray();
                 BatchEditor.screenStrings(filters);
                 res = res.Where(pkm => // Compare across all filters
                 {

@@ -32,17 +32,17 @@ namespace PKHeX.WinForms
         {
             var p = new string[types.Length][];
             for (int i = 0; i < p.Length; i++)
-                p[i] = ReflectUtil.getPropertiesCanWritePublic(types[i]).Concat(CustomProperties).ToArray();
+                p[i] = ReflectUtil.getPropertiesCanWritePublic(types[i]).Concat(CustomProperties).OrderBy(a => a).ToArray();
 
-            IEnumerable<string> all = p.SelectMany(prop => prop).Distinct();
-            IEnumerable<string> any = p[0];
-            for (int i = 1; i < p.Length; i++)
-                any = any.Union(p[i]);
+            // Properties for any PKM
+            var any = p.SelectMany(prop => prop).Distinct().ToArray();
+            // Properties shared by all PKM
+            var all = p.Skip(1).Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).ToArray();
 
             var p1 = new string[types.Length + 2][];
             Array.Copy(p, 0, p1, 1, p.Length);
-            p1[0] = all.ToArray();
-            p1[p1.Length-1] = any.ToArray();
+            p1[0] = all;
+            p1[p1.Length - 1] = any;
 
             return p1;
         }
@@ -85,15 +85,61 @@ namespace PKHeX.WinForms
 
             runBackgroundWorker();
         }
+        private void B_Add_Click(object sender, EventArgs e)
+        {
+            if (CB_Property.SelectedIndex < 0)
+            { WinFormsUtil.Alert("Invalid property selected."); return; }
+
+            char[] prefix = { '.', '=', '!' };
+            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
+            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
+                s = Environment.NewLine + s;
+
+            RTB_Instructions.AppendText(s);
+        }
+        private void CB_Format_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (currentFormat == CB_Format.SelectedIndex)
+                return;
+
+            int format = CB_Format.SelectedIndex;
+            CB_Property.Items.Clear();
+            CB_Property.Items.AddRange(properties[format]);
+            CB_Property.SelectedIndex = 0;
+            currentFormat = format;
+        }
+        private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            L_PropType.Text = getPropertyType(CB_Property.Text);
+            L_PropValue.Text = pkmref.GetType().HasProperty(CB_Property.Text)
+                ? ReflectUtil.GetValue(pkmref, CB_Property.Text).ToString()
+                : "";
+        }
+        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+        private void tabMain_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (!Directory.Exists(files[0]))
+                return;
+
+            TB_Folder.Text = files[0];
+            TB_Folder.Visible = true;
+            RB_SAV.Checked = false;
+            RB_Path.Checked = true;
+        }
 
         private BackgroundWorker b = new BackgroundWorker { WorkerReportsProgress = true };
         private void runBackgroundWorker()
         {
-            var Filters = getFilters().ToList();
+            var Filters = StringInstruction.getFilters(RTB_Instructions.Lines).ToArray();
             if (Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
             { WinFormsUtil.Error("Empty Filter Value detected."); return; }
 
-            var Instructions = getInstructions().ToList();
+            var Instructions = StringInstruction.getInstructions(RTB_Instructions.Lines).ToArray();
             var emptyVal = Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue)).ToArray();
             if (emptyVal.Any())
             {
@@ -126,11 +172,14 @@ namespace PKHeX.WinForms
             screenStrings(Instructions);
 
             b.DoWork += (sender, e) => {
+
+                len = err = ctr = 0;
                 if (RB_SAV.Checked)
                 {
                     var data = Main.SAV.BoxData;
                     setupProgressBar(data.Length);
                     processSAV(data, Filters, Instructions);
+                    Main.SAV.BoxData = data;
                 }
                 else
                 {
@@ -172,100 +221,135 @@ namespace PKHeX.WinForms
         
         // Mass Editing
         private int ctr, len, err;
-        private IEnumerable<StringInstruction> getFilters()
+        private void processSAV(PKM[] data, StringInstruction[] Filters, StringInstruction[] Instructions)
         {
-            var raw =
-                RTB_Instructions.Lines
-                    .Where(line => !string.IsNullOrWhiteSpace(line))
-                    .Where(line => new[] {'!','='}.Contains(line[0]));
-
-            return from line in raw
-                   let eval = line[0] == '='
-                   let split = line.Substring(1).Split('=')
-                   where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                   select new StringInstruction {PropertyName = split[0], PropertyValue = split[1], Evaluator = eval};
-        }
-        private IEnumerable<StringInstruction> getInstructions()
-        {
-            var raw =
-                RTB_Instructions.Lines
-                    .Where(line => !string.IsNullOrEmpty(line))
-                    .Where(line => new[] {'.'}.Contains(line[0]))
-                    .Select(line => line.Substring(1));
-
-            return from line in raw
-                   select line.Split('=') into split
-                   where split.Length == 2
-                   select new StringInstruction { PropertyName = split[0], PropertyValue = split[1] };
-        }
-        private void processSAV(PKM[] data, List<StringInstruction> Filters, List<StringInstruction> Instructions)
-        {
-            len = err = ctr = 0;
             for (int i = 0; i < data.Length; i++)
             {
-                var pkm = data[i];
-                if (!pkm.Valid || pkm.Locked)
-                {
-                    b.ReportProgress(i);
-                    continue;
-                }
-
-                ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
-                if (r != ModifyResult.Invalid)
-                    len++;
-                if (r == ModifyResult.Error)
-                    err++;
-                if (r == ModifyResult.Modified)
-                {
-                    if (pkm.Species != 0)
-                        pkm.RefreshChecksum();
-                    ctr++;
-                }
-
+                processPKM(data[i], Filters, Instructions);
                 b.ReportProgress(i);
             }
-
-            Main.SAV.BoxData = data;
         }
-        private void processFolder(string[] files, List<StringInstruction> Filters, List<StringInstruction> Instructions, string destPath)
+        private void processFolder(string[] files, StringInstruction[] Filters, StringInstruction[] Instructions, string destPath)
         {
-            len = err = ctr = 0;
             for (int i = 0; i < files.Length; i++)
             {
                 string file = files[i];
-                if (!PKX.getIsPKM(new FileInfo(file).Length))
+                var fi = new FileInfo(file);
+                if (!PKX.getIsPKM(fi.Length))
                 {
                     b.ReportProgress(i);
                     continue;
                 }
 
+                int format = fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30) & 7 : Main.SAV.Generation;
                 byte[] data = File.ReadAllBytes(file);
-                var pkm = PKMConverter.getPKMfromBytes(data, prefer: Main.SAV.Generation);
-                
-                if (!pkm.Valid)
-                {
-                    b.ReportProgress(i);
-                    continue;
-                }
-
-                ModifyResult r = ProcessPKM(pkm, Filters, Instructions);
-                if (r != ModifyResult.Invalid)
-                    len++;
-                if (r == ModifyResult.Error)
-                    err++;
-                if (r == ModifyResult.Modified)
-                {
-                    if (pkm.Species > 0)
-                    {
-                        pkm.RefreshChecksum();
-                        File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
-                        ctr++;
-                    }
-                }
+                var pkm = PKMConverter.getPKMfromBytes(data, prefer: format);
+                if (processPKM(pkm, Filters, Instructions))
+                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
 
                 b.ReportProgress(i);
             }
         }
+        private bool processPKM(PKM pkm, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        {
+            if (!pkm.Valid || pkm.Locked)
+                return false;
+
+            ModifyResult r = tryModifyPKM(pkm, Filters, Instructions);
+            if (r != ModifyResult.Invalid)
+                len++;
+            if (r == ModifyResult.Error)
+                err++;
+            if (r != ModifyResult.Modified)
+                return false;
+            if (pkm.Species <= 0)
+                return false;
+
+            pkm.RefreshChecksum();
+            ctr++;
+            return true;
+        }
+        
+        private string getPropertyType(string propertyName)
+        {
+            if (CustomProperties.Contains(propertyName))
+                return "Custom";
+
+            int typeIndex = CB_Format.SelectedIndex;
+            
+            if (typeIndex == 0) // All
+                return types[0].GetProperty(propertyName).PropertyType.Name;
+
+            if (typeIndex == properties.Length - 1) // Any
+                foreach (var p in types.Select(t => t.GetProperty(propertyName)).Where(p => p != null))
+                    return p.PropertyType.Name;
+            
+            return types[typeIndex - 1].GetProperty(propertyName).PropertyType.Name;
+        }
+
+        // Utility Methods
+        private enum ModifyResult
+        {
+            Invalid,
+            Error,
+            Filtered,
+            Modified,
+        }
+        public class StringInstruction
+        {
+            public string PropertyName;
+            public string PropertyValue;
+            public bool Evaluator;
+            public void setScreenedValue(string[] arr)
+            {
+                int index = Array.IndexOf(arr, PropertyValue);
+                PropertyValue = index > -1 ? index.ToString() : PropertyValue;
+            }
+
+            // Extra Functionality
+            public bool Random;
+            public int Min, Max;
+            public int RandomValue => Util.rand.Next(Min, Max + 1);
+
+            public static IEnumerable<StringInstruction> getFilters(IEnumerable<string> lines)
+            {
+                var raw = lines
+                    .Where(line => !string.IsNullOrWhiteSpace(line))
+                    .Where(line => new[] { '!', '=' }.Contains(line[0]));
+
+                return from line in raw
+                    let eval = line[0] == '='
+                    let split = line.Substring(1).Split('=')
+                    where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
+                    select new StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval };
+            }
+            public static IEnumerable<StringInstruction> getInstructions(IEnumerable<string> lines)
+            {
+                var raw = lines
+                    .Where(line => !string.IsNullOrEmpty(line))
+                    .Where(line => new[] { '.' }.Contains(line[0]))
+                    .Select(line => line.Substring(1));
+
+                return from line in raw
+                    select line.Split('=') into split
+                    where split.Length == 2
+                    select new StringInstruction { PropertyName = split[0], PropertyValue = split[1] };
+            }
+        }
+        private class PKMInfo
+        {
+            private readonly PKM pkm;
+            public PKMInfo(PKM pk) { pkm = pk; }
+
+            private LegalityAnalysis la;
+            private LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
+
+            public bool Legal => Legality.Valid;
+            public int[] SuggestedRelearn => Legality.getSuggestedRelearn();
+            public int[] SuggestedMoves => Legality.getSuggestedMoves(tm: true, tutor: true, reminder: false);
+            public EncounterStatic SuggestedEncounter => Legality.getSuggestedMetInfo();
+        }
+
         public static void screenStrings(IEnumerable<StringInstruction> il)
         {
             foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
@@ -306,84 +390,7 @@ namespace PKHeX.WinForms
                 }
             }
         }
-        
-        private void tabMain_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-        }
-        private void tabMain_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (!Directory.Exists(files[0])) return;
-
-            TB_Folder.Text = files[0];
-            TB_Folder.Visible = true;
-            RB_SAV.Checked = false;
-            RB_Path.Checked = true;
-        }
-        private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            L_PropType.Text = getPropertyType(CB_Property.Text);
-            L_PropValue.Text = pkmref.GetType().HasProperty(CB_Property.Text)
-                ? ReflectUtil.GetValue(pkmref, CB_Property.Text).ToString()
-                : "";
-        }
-        private string getPropertyType(string propertyName)
-        {
-            if (CustomProperties.Contains(propertyName))
-                return "Custom";
-
-            int typeIndex = CB_Format.SelectedIndex;
-            
-            if (typeIndex == 0) // All
-                return types[0].GetProperty(propertyName).PropertyType.Name;
-
-            if (typeIndex == properties.Length - 1) // Any
-                foreach (var p in types.Select(t => t.GetProperty(propertyName)).Where(p => p != null))
-                    return p.PropertyType.Name;
-            
-            return types[typeIndex - 1].GetProperty(propertyName).PropertyType.Name;
-        }
-
-        // Utility Methods
-        public class StringInstruction
-        {
-            public string PropertyName;
-            public string PropertyValue;
-            public bool Evaluator;
-            public void setScreenedValue(string[] arr)
-            {
-                int index = Array.IndexOf(arr, PropertyValue);
-                PropertyValue = index > -1 ? index.ToString() : PropertyValue;
-            }
-
-            // Extra Functionality
-            public bool Random;
-            public int Min, Max;
-            public int RandomValue => Util.rand.Next(Min, Max + 1);
-        }
-        private enum ModifyResult
-        {
-            Invalid,
-            Error,
-            Filtered,
-            Modified,
-        }
-
-        private class PKMInfo
-        {
-            private readonly PKM pkm;
-            public PKMInfo(PKM pk) { pkm = pk; }
-
-            private LegalityAnalysis la;
-            private LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
-
-            public bool Legal => Legality.Valid;
-            public int[] SuggestedRelearn => Legality.getSuggestedRelearn();
-            public int[] SuggestedMoves => Legality.getSuggestedMoves(tm: true, tutor: true, reminder: false);
-            public EncounterStatic SuggestedEncounter => Legality.getSuggestedMetInfo();
-        }
-        private static ModifyResult ProcessPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
+        private static ModifyResult tryModifyPKM(PKM PKM, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
         {
             if (!PKM.ChecksumValid || PKM.Species == 0)
                 return ModifyResult.Invalid;
@@ -502,42 +509,19 @@ namespace PKHeX.WinForms
             int MaxIV = PKM.Format <= 2 ? 15 : 31;
             if (cmd.PropertyName == "IVs")
             {
-                bool IV3 = Legal.Legends.Contains(PKM.Species) || Legal.SubLegends.Contains(PKM.Species);
                 int[] IVs = new int[6];
-                do
-                {
-                    for (int i = 0; i < 6; i++)
-                        IVs[i] = (int)(Util.rnd32() & MaxIV);
-                } while (IV3 && IVs.Where(i => i == MaxIV).Count() < 3);
-                ReflectUtil.SetValue(PKM, cmd.PropertyName, IVs);
+
+                for (int i = 0; i < 6; i++)
+                    IVs[i] = (int)(Util.rnd32() & MaxIV);
+                if (Legal.Legends.Contains(PKM.Species) || Legal.SubLegends.Contains(PKM.Species))
+                    for (int i = 0; i < 3; i++)
+                        IVs[i] = MaxIV;
+
+                Util.Shuffle(IVs);
+                PKM.IVs = IVs;
             }
             else
                 ReflectUtil.SetValue(PKM, cmd.PropertyName, Util.rnd32() & MaxIV);
-        }
-
-        private void B_Add_Click(object sender, EventArgs e)
-        {
-            if (CB_Property.SelectedIndex < 0)
-            { WinFormsUtil.Alert("Invalid property selected."); return; }
-
-            char[] prefix = {'.', '=', '!'};
-            string s = prefix[CB_Require.SelectedIndex] + CB_Property.Items[CB_Property.SelectedIndex].ToString() + "=";
-            if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines.Last().Length > 0)
-                s = Environment.NewLine + s;
-
-            RTB_Instructions.AppendText(s);
-        }
-
-        private void CB_Format_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (currentFormat == CB_Format.SelectedIndex)
-                return;
-
-            int format = CB_Format.SelectedIndex;
-            CB_Property.Items.Clear();
-            CB_Property.Items.AddRange(properties[format]);
-            CB_Property.SelectedIndex = 0;
-            currentFormat = format;
         }
     }
 }
