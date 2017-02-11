@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PKHeX.Core.Properties;
 
 namespace PKHeX.Core
 {
@@ -9,18 +10,22 @@ namespace PKHeX.Core
         // Event Database(s)
         public static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
+        // Gen 1
+        private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rby);
+        private static readonly EvolutionTree Evolves1;
+
         // Gen 6
-        private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Properties.Resources.eggmove_xy, "xy"));
-        private static readonly Learnset[] LevelUpXY = Learnset6.getArray(Data.unpackMini(Properties.Resources.lvlmove_xy, "xy"));
-        private static readonly EggMoves[] EggMovesAO = EggMoves6.getArray(Data.unpackMini(Properties.Resources.eggmove_ao, "ao"));
-        private static readonly Learnset[] LevelUpAO = Learnset6.getArray(Data.unpackMini(Properties.Resources.lvlmove_ao, "ao"));
+        private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_xy, "xy"));
+        private static readonly Learnset[] LevelUpXY = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_xy, "xy"));
+        private static readonly EggMoves[] EggMovesAO = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_ao, "ao"));
+        private static readonly Learnset[] LevelUpAO = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_ao, "ao"));
         private static readonly EvolutionTree Evolves6;
         private static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
         private static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
 
         // Gen 7
-        private static readonly EggMoves[] EggMovesSM = EggMoves7.getArray(Data.unpackMini(Properties.Resources.eggmove_sm, "sm"));
-        private static readonly Learnset[] LevelUpSM = Learnset7.getArray(Data.unpackMini(Properties.Resources.lvlmove_sm, "sm"));
+        private static readonly EggMoves[] EggMovesSM = EggMoves7.getArray(Data.unpackMini(Resources.eggmove_sm, "sm"));
+        private static readonly Learnset[] LevelUpSM = Learnset7.getArray(Data.unpackMini(Resources.lvlmove_sm, "sm"));
         private static readonly EvolutionTree Evolves7;
         private static readonly EncounterArea[] SlotsSN, SlotsMN;
         private static readonly EncounterStatic[] StaticSN, StaticMN;
@@ -56,27 +61,27 @@ namespace PKHeX.Core
             {
                 case GameVersion.X:
                     ident = "xy";
-                    tables = Properties.Resources.encounter_x;
+                    tables = Resources.encounter_x;
                     break;
                 case GameVersion.Y:
                     ident = "xy";
-                    tables = Properties.Resources.encounter_y;
+                    tables = Resources.encounter_y;
                     break;
                 case GameVersion.AS:
                     ident = "ao";
-                    tables = Properties.Resources.encounter_a;
+                    tables = Resources.encounter_a;
                     break;
                 case GameVersion.OR:
                     ident = "ao";
-                    tables = Properties.Resources.encounter_o;
+                    tables = Resources.encounter_o;
                     break;
                 case GameVersion.SN:
                     ident = "sm";
-                    tables = Properties.Resources.encounter_sn;
+                    tables = Resources.encounter_sn;
                     break;
                 case GameVersion.MN:
                     ident = "sm";
-                    tables = Properties.Resources.encounter_mn;
+                    tables = Resources.encounter_mn;
                     break;
             }
             if (ident == null)
@@ -128,6 +133,10 @@ namespace PKHeX.Core
 
         static Legal() // Setup
         {
+            // Gen 1
+            {
+                Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.RBY, MaxSpeciesID_1);
+            }
             // Gen 6
             {
                 StaticX = getStaticEncounters(GameVersion.X);
@@ -147,7 +156,7 @@ namespace PKHeX.Core
                 MarkG6AOSlots(ref SlotsA);
                 MarkG6AOSlots(ref SlotsO);
 
-                Evolves6 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_ao, "ao"), GameVersion.ORAS, PersonalTable.AO, 721);
+                Evolves6 = new EvolutionTree(Data.unpackMini(Resources.evos_ao, "ao"), GameVersion.ORAS, PersonalTable.AO, MaxSpeciesID_6);
             }
             // Gen 7
             {
@@ -155,14 +164,14 @@ namespace PKHeX.Core
                 StaticMN = getStaticEncounters(GameVersion.MN);
                 var REG_SN = getEncounterTables(GameVersion.SN);
                 var REG_MN = getEncounterTables(GameVersion.MN);
-                var SOS_SN = getEncounterTables(Properties.Resources.encounter_sn_sos, "sm");
-                var SOS_MN = getEncounterTables(Properties.Resources.encounter_mn_sos, "sm");
+                var SOS_SN = getEncounterTables(Resources.encounter_sn_sos, "sm");
+                var SOS_MN = getEncounterTables(Resources.encounter_mn_sos, "sm");
                 MarkG7SMSlots(ref SOS_SN);
                 MarkG7SMSlots(ref SOS_MN);
                 SlotsSN = addExtraTableSlots(REG_SN, SOS_SN).Concat(Encounter_Pelago_SM).Concat(Encounter_Pelago_SN).ToArray();
                 SlotsMN = addExtraTableSlots(REG_MN, SOS_MN).Concat(Encounter_Pelago_SM).Concat(Encounter_Pelago_MN).ToArray();
 
-                Evolves7 = new EvolutionTree(Data.unpackMini(Properties.Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, 802);
+                Evolves7 = new EvolutionTree(Data.unpackMini(Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
             }
         }
 

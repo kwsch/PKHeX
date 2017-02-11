@@ -12324,12 +12324,14 @@ namespace PKHeX.Core.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex
         ///
-        ///17/01/30 - New Update:
-        /// - Added: Control right-clicking a PKM slot (box, party, etc) now allows direct legality checking.
-        /// - Added: 6/7 detection preferential treatment &amp; other detection methods. Thanks sora10pls!
-        /// - Added: Remove All medals button now clears Unlocked/Complete flags even if not visible.
-        /// - Fixed: Badly constructed ShowdownSets throw less exceptions (hopefully none). Thanks Sonic Blader!
-        /// - Fixed: Cloning to all slots in a Gen1/2  [rest of string was truncated]&quot;;.
+        ///17/02/07 - New Update:
+        /// - Legality:
+        /// - - Added: Legality indication for exported QR images (if legality check is available for origin).
+        /// - - Added: Legality indication for Box/Party pkm slots (^ + opt-in via Options-&gt;Set to SAV).
+        /// - - Fixed: More edge cases for legality checks.
+        /// - Added: More Generation 7 trainer stat record labels. Thanks skywalker25 &amp; Holla!
+        /// - Added: G7TID -&gt; TID/SID generator for Generation 7 Trainer Editor. Thanks RoC!
+        /// -  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -12535,6 +12537,16 @@ namespace PKHeX.Core.Properties {
         public static byte[] evos_ao {
             get {
                 object obj = ResourceManager.GetObject("evos_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] evos_rby {
+            get {
+                object obj = ResourceManager.GetObject("evos_rby", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -17764,6 +17776,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] lvlmove_rby {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_rby", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] lvlmove_sm {
             get {
                 object obj = ResourceManager.GetObject("lvlmove_sm", resourceCulture);
@@ -17992,7 +18014,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20170130.
+        ///   Looks up a localized string similar to 20170207.
         /// </summary>
         public static string ProgramVersion {
             get {
@@ -19071,7 +19093,7 @@ namespace PKHeX.Core.Properties {
         ///// Main Window
         ///
         ///CTRL-O: Open
-        ///CTRL-S: Export PK6
+        ///CTRL-S: Export PKM
         ///CTRL-E: Export SAV
         ///CTRL-B: Export BAK
         ///CTRL-Q: Quit
@@ -28889,7 +28911,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ningún objeto
+        ///   Looks up a localized string similar to Ninguno
         ///Master Ball
         ///Ultra Ball
         ///Super Ball
@@ -28930,7 +28952,7 @@ namespace PKHeX.Core.Properties {
         ///Éter
         ///Éter Máximo
         ///Elixir
-        ///Elixir M [rest of string was truncated]&quot;;.
+        ///Elixir Máximo        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_items_es {
             get {

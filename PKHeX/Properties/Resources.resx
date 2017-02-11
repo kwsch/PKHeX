@@ -7384,4 +7384,10 @@
   <data name="fashion_m_sm_illegal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\fashion_m_sm_illegal;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="evos_rby" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\evos_rby.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_rby" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_rby.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
