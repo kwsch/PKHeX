@@ -2532,7 +2532,7 @@ namespace PKHeX.WinForms
                 species = 0; // get the egg name.
 
             // If name is that of another language, don't replace the nickname
-            if (species != 0 && !PKX.getIsNicknamedAnyLanguage(species, TB_Nickname.Text, SAV.Generation))
+            if (sender != CB_Language && species != 0 && !PKX.getIsNicknamedAnyLanguage(species, TB_Nickname.Text, SAV.Generation))
                 return;
 
             TB_Nickname.Text = PKX.getSpeciesNameGeneration(species, lang, SAV.Generation);
