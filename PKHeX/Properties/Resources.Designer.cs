@@ -12464,6 +12464,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] encounter_blue {
+            get {
+                object obj = ResourceManager.GetObject("encounter_blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] encounter_mn {
             get {
                 object obj = ResourceManager.GetObject("encounter_mn", resourceCulture);
@@ -12487,6 +12497,26 @@ namespace PKHeX.Core.Properties {
         public static byte[] encounter_o {
             get {
                 object obj = ResourceManager.GetObject("encounter_o", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_rb_f {
+            get {
+                object obj = ResourceManager.GetObject("encounter_rb_f", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_red {
+            get {
+                object obj = ResourceManager.GetObject("encounter_red", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -12527,6 +12557,26 @@ namespace PKHeX.Core.Properties {
         public static byte[] encounter_y {
             get {
                 object obj = ResourceManager.GetObject("encounter_y", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_yellow {
+            get {
+                object obj = ResourceManager.GetObject("encounter_yellow", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_yellow_f {
+            get {
+                object obj = ResourceManager.GetObject("encounter_yellow_f", resourceCulture);
                 return ((byte[])(obj));
             }
         }

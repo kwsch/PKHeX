@@ -118,5 +118,17 @@ namespace PKHeX.Core
             10, 15, 20, 15, 10, 10, 10, 20, 05, 30, 05, 10, 15, 10, 10, 05, 20, 30, 10, 30, 15, 15, 15, 15, 30, 10, 20, 15, 10, 10, 20, 15, 05, 05, 15, 15, 05, 10, 05, 20, 05, 15, 20, 05, 20, 20, 20, 20, 10, 20,
             10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05,
         };
+        internal static readonly int[] WildPokeBalls4_DPPt =
+        {
+            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            // Cherish ball not usable
+        };
+        internal static readonly int[] WildPokeBalls4_HGSS =
+        {
+            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            // Cherish ball not usable
+            17, 18, 19, 20, 21, 22,
+            // Comp Ball not usable in wild
+        };
     }
 }

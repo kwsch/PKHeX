@@ -268,7 +268,7 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        protected bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
@@ -477,6 +477,12 @@ namespace PKHeX.Core
                     return false;
             }
         }
+
+        /// <summary>
+        /// Checks if the PKM has its original met location.
+        /// </summary>
+        /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
+        public bool HasOriginalMetLocation => !(GenNumber <= 4 && Format > 4 || VC);
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.

@@ -30,5 +30,32 @@ namespace PKHeX.Core
         };
 
         internal static readonly int[] TransferSpeciesDefaultAbility_1 = {92, 93, 94, 109, 110, 151};
+
+        internal static readonly int[] TMHM_RBY =
+        {
+            005, 013, 014, 018, 025, 092, 032, 034, 036, 038,
+            061, 055, 058, 059, 063, 006, 066, 068, 069, 099,
+            072, 076, 082, 085, 087, 089, 090, 091, 094, 100,
+            102, 104, 115, 117, 118, 120, 121, 126, 129, 130,
+            135, 138, 143, 156, 086, 149, 153, 157, 161, 164,
+
+            015, 019, 057, 070, 148
+        };
+        internal static readonly int[] WildPokeBalls1 = {4};
+
+        internal static readonly EncounterStatic[] Encounter_RBY =
+        {
+            // todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_RBY =
+        {
+            // todo
+        };
+        internal static readonly EncounterArea FishOldGood_RBY = new EncounterArea { Location = -1, Slots = new EncounterSlot[]
+        {
+            new EncounterSlot1 {Species = 129, LevelMin = 05, LevelMax = 05, Type = SlotType.Old_Rod,  Rate = -1, }, // Magikarp
+            new EncounterSlot1 {Species = 118, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, }, // Goldeen
+            new EncounterSlot1 {Species = 060, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, }, // Poliwag
+        }};
     }
 }
