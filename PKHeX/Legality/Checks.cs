@@ -519,6 +519,38 @@ namespace PKHeX.Core
             }
             return null;
         }
+
+        private CheckResult verifyEncounterG1()
+        {
+            // Since encounter matching is super weak due to limited stored data in the structure
+            // Calculate all 3 at the same time and pick the best result (by species).
+            var s = Legal.getValidStaticEncounter(pkm);
+            var e = Legal.getValidWildEncounters(pkm);
+            var t = Legal.getValidIngameTrade(pkm);
+
+            const byte invalid = 255;
+
+            var sm = s?.Species ?? invalid;
+            var em = e?.Min(slot => slot.Species) ?? invalid;
+            var tm = t?.Species ?? invalid;
+
+            if (sm + em + tm == 3*invalid)
+                return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
+
+            if (em <= sm && em <= tm)
+            {
+                EncounterMatch = e;
+                return verifyEncounterWild();
+            }
+            if (sm <= em && sm <= tm)
+            {
+                EncounterMatch = s;
+                return verifyEncounterStatic();
+            }
+
+            // else is trade
+            return new CheckResult(Severity.Valid, "Valid ingame trade.", CheckIdentifier.Encounter);
+        }
         private CheckResult verifyEncounter()
         {
             if (pkm.VC || pkm.Format < 3)
@@ -531,16 +563,12 @@ namespace PKHeX.Core
                 
                 if (pkm.Format > 2) // transported to 7+
                     Parse.Add(verifyVCEncounter(baseSpecies));
-            }
-            else if (pkm.GenNumber == 4)
-            {
 
+                return verifyEncounterG1();
             }
-            else
-            {
-                if (pkm.WasLink)
-                    return verifyEncounterLink();
-            }
+            
+            if (pkm.WasLink)
+                return verifyEncounterLink();
 
             if (pkm.WasEvent || pkm.WasEventEgg)
             {

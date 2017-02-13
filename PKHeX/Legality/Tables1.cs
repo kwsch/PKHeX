@@ -50,37 +50,33 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 007, Level = 05 }, // Squirtle
             new EncounterStatic { Species = 025, Level = 05 }, // Pikachu
             
-            // Red Game Corner
-            new EncounterStatic { Species = 063, Level = 09 }, // Abra
-            new EncounterStatic { Species = 025, Level = 08 }, // Clefairy
-            new EncounterStatic { Species = 025, Level = 17 }, // Nidorina
-            new EncounterStatic { Species = 147, Level = 18 }, // Dratini
-            new EncounterStatic { Species = 123, Level = 25 }, // Scyther
-            new EncounterStatic { Species = 137, Level = 26 }, // Porygon
-
-            // Blue(EN) / Green(JP) Game Corner
-            new EncounterStatic { Species = 063, Level = 06 }, // Abra
-            new EncounterStatic { Species = 035, Level = 12 }, // Clefairy
-            new EncounterStatic { Species = 030, Level = 17 }, // Nidorina
-            new EncounterStatic { Species = 127, Level = 20 }, // Pinsir
-            new EncounterStatic { Species = 147, Level = 24 }, // Dratini
-            new EncounterStatic { Species = 137, Level = 18 }, // Porygon
-
-            // Blue(JP) Game Corner
-            new EncounterStatic { Species = 063, Level = 08 }, // Abra
-            new EncounterStatic { Species = 025, Level = 12 }, // Pikachu
-            new EncounterStatic { Species = 116, Level = 18 }, // Horsea
-            new EncounterStatic { Species = 036, Level = 24 }, // Clefable
-            new EncounterStatic { Species = 148, Level = 30 }, // Dragonair
-            new EncounterStatic { Species = 137, Level = 22 }, // Porygon
-
-            // Yellow Game Corner
-            new EncounterStatic { Species = 063, Level = 15 }, // Abra
-            new EncounterStatic { Species = 025, Level = 18 }, // Vulpix
-            new EncounterStatic { Species = 025, Level = 22 }, // Wigglytuff
-            new EncounterStatic { Species = 123, Level = 30 }, // Scyther
-            new EncounterStatic { Species = 127, Level = 30 }, // Pinsir
-            new EncounterStatic { Species = 137, Level = 26 }, // Porygon
+            // Game Corner
+            new EncounterStatic { Species = 030, Level = 17 }, // Nidorina (Red Game Corner)
+            new EncounterStatic { Species = 033, Level = 17 }, // Nidorino (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic { Species = 035, Level = 08 }, // Clefairy (Red Game Corner)
+            new EncounterStatic { Species = 036, Level = 24 }, // Clefable (Blue[JP] Game Corner)
+            new EncounterStatic { Species = 037, Level = 18 }, // Vulpix (Yellow Game Corner)
+            new EncounterStatic { Species = 040, Level = 22 }, // Wigglytuff (Yellow Game Corner)
+            new EncounterStatic { Species = 063, Level = 06 }, // Abra (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic { Species = 116, Level = 18 }, // Horsea (Blue[JP] Game Corner)
+            new EncounterStatic { Species = 123, Level = 25 }, // Scyther (Red Game Corner)
+            new EncounterStatic { Species = 127, Level = 20 }, // Pinsir (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic { Species = 137, Level = 18 }, // Porygon (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic { Species = 147, Level = 18 }, // Dratini (Red Game Corner)
+            new EncounterStatic { Species = 148, Level = 30 }, // Dragonair (Blue[JP] Game Corner)
+           
+            // Lower level less ideal matches; best match is from above.
+         // new EncounterStatic { Species = 025, Level = 12 }, // Pikachu (Blue[JP] Game Corner) 
+         // new EncounterStatic { Species = 035, Level = 12 }, // Clefairy (Blue[EN] / Green[JP] Game Corner)
+         // new EncounterStatic { Species = 063, Level = 09 }, // Abra (Red Game Corner)
+         // new EncounterStatic { Species = 063, Level = 08 }, // Abra (Blue[JP] Game Corner)
+         // new EncounterStatic { Species = 063, Level = 15 }, // Abra (Yellow Game Corner)
+         // new EncounterStatic { Species = 123, Level = 30 }, // Scyther (Yellow Game Corner)
+         // new EncounterStatic { Species = 127, Level = 30 }, // Pinsir (Yellow Game Corner)
+         // new EncounterStatic { Species = 137, Level = 22 }, // Porygon (Blue[JP] Game Corner)
+         // new EncounterStatic { Species = 137, Level = 26 }, // Porygon (Red Game Corner)
+         // new EncounterStatic { Species = 137, Level = 26 }, // Porygon (Yellow Game Corner)
+         // new EncounterStatic { Species = 147, Level = 24 }, // Dratini (Blue[EN] / Green[JP] Game Corner)
 
             new EncounterStatic { Species = 129, Level = 05 }, // Magikarp
             new EncounterStatic { Species = 143, Level = 30 }, // Snorlax
@@ -101,11 +97,11 @@ namespace PKHeX.Core
             
             new EncounterStatic { Species = 133, Level = 25 }, // Eevee
 
-            // Yellow Only
-            new EncounterStatic { Species = 133, Level = 25 }, // Eevee (Celadon City)
-            new EncounterStatic { Species = 001, Level = 10 }, // Bulbasaur (Cerulean City)
-            new EncounterStatic { Species = 004, Level = 10 }, // Charmander (Route 24)
-            new EncounterStatic { Species = 007, Level = 10 }, // Squirtle (Vermillion City)
+            // Yellow Only -- duplicate encounters with a higher level
+         // new EncounterStatic { Species = 133, Level = 25 }, // Eevee (Celadon City)
+         // new EncounterStatic { Species = 001, Level = 10 }, // Bulbasaur (Cerulean City)
+         // new EncounterStatic { Species = 004, Level = 10 }, // Charmander (Route 24)
+         // new EncounterStatic { Species = 007, Level = 10 }, // Squirtle (Vermillion City)
         };
         internal static readonly EncounterTrade[] TradeGift_RBY =
         {

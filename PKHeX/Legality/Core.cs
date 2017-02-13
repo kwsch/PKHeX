@@ -1045,7 +1045,7 @@ namespace PKHeX.Core
                         PersonalInfo pi = PersonalTable.RBY[species];
                         if (LVL)
                         {
-                            r.AddRange(((PersonalInfoG1)PersonalTable.RBY[species]).Moves);
+                            r.AddRange(((PersonalInfoG1)pi).Moves);
                             r.AddRange(LevelUpRB[species].getMoves(lvl));
                         }
                         if (Machine) r.AddRange(TMHM_RBY.Where((t, m) => pi.TMHM[m]));
