@@ -40,11 +40,11 @@ namespace PKHeX.Core
         }
         public override int CatchRate { get { return Data[0x08]; } set { Data[0x08] = (byte)value; } }
         public override int BaseEXP { get { return Data[0x09]; } set { Data[0x09] = (byte)value; } }
-        public int Move1 { get { return Data[0x0A]; } set { Data[0x0A] = (byte)value; } }
-        public int Move2 { get { return Data[0x0B]; } set { Data[0x0B] = (byte)value; } }
-        public int Move3 { get { return Data[0x0C]; } set { Data[0x0C] = (byte)value; } }
-        public int Move4 { get { return Data[0x0D]; } set { Data[0x0D] = (byte)value; } }
-        public override int EXPGrowth { get { return Data[0x13]; } set { Data[0x13] = (byte)value; } }
+        public int Move1 { get { return Data[0x0F]; } set { Data[0x0F] = (byte)value; } }
+        public int Move2 { get { return Data[0x10]; } set { Data[0x10] = (byte)value; } }
+        public int Move3 { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
+        public int Move4 { get { return Data[0x13]; } set { Data[0x13] = (byte)value; } }
+        public override int EXPGrowth { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
 
         // EV Yields are just aliases for base stats in Gen I
         public override int EV_HP { get { return HP; } set { } }
@@ -64,5 +64,11 @@ namespace PKHeX.Core
         public override int BaseFriendship { get { return 0; } set { } }
         public override int EscapeRate { get { return 0; } set { } }
         public override int Color { get { return 0; } set { } }
+
+        public int[] Moves
+        {
+            get { return new[] { Move1, Move2, Move3, Move4 }; }
+            set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
+        }
     }
 }

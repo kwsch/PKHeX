@@ -39,11 +39,14 @@ namespace PKHeX.Core
 
             try
             {
+                switch (pk.Format) // prior to storing GameVersion
+                {
+                    case 1: parsePK1(pk); break;
+                }
                 switch (pk.GenNumber)
                 {
                     case 6: parsePK6(pk); break;
                     case 7: parsePK7(pk); break;
-                    default: return;
                 }
 
                 Valid = Parsed = Parse.Any();
@@ -59,6 +62,8 @@ namespace PKHeX.Core
                     if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
                         AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
                 }
+                else
+                    return;
             }
             catch { Valid = false; }
             AllSuggestedMoves = !pkm.IsOriginValid() ? new int[4] : getSuggestedMoves(true, true, true);
@@ -73,6 +78,19 @@ namespace PKHeX.Core
         private void AddLine(CheckResult chk)
         {
             Parse.Add(chk);
+        }
+
+        private void parsePK1(PKM pk)
+        {
+            pkm = pk;
+            if (!pkm.IsOriginValid())
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            
+            updateEncounterChain();
+            updateMoveLegality();
+            verifyNickname();
+            verifyDVs();
+            verifyG1OT();
         }
         private void parsePK6(PKM pk)
         {
@@ -116,6 +134,7 @@ namespace PKHeX.Core
                 EncounterMatch = EventGiftMatch.First(); // temporarily set one so that Encounter can be verified
 
             Encounter = verifyEncounter();
+            Parse.Add(Encounter);
             EvoChain = Legal.getEvolutionChain(pkm, EncounterMatch);
         }
         private void updateChecks()
@@ -160,6 +179,8 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
                     r += $"{vMoves[i].Judgement} Move {i + 1}: {vMoves[i].Comment}" + Environment.NewLine;
+
+            if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (!vRelearn[i].Valid)
                     r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
@@ -186,7 +207,9 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
                 if (vMoves[i].Valid)
                     r += $"{vMoves[i].Judgement} Move {i + 1}: {vMoves[i].Comment}" + Environment.NewLine;
-            for (int i = 0; i < 4; i++)
+
+            if (pkm.Format >= 6)
+                for (int i = 0; i < 4; i++)
                 if (vRelearn[i].Valid)
                     r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
 
@@ -222,8 +245,10 @@ namespace PKHeX.Core
         }
         public int[] getSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
-            if (pkm == null || pkm.GenNumber < 6 || !pkm.IsOriginValid())
+            if (pkm == null || !pkm.IsOriginValid())
                 return null;
+            if (pkm.GenNumber < 6 && pkm.Format != 1)
+                return new int[4];
             return Legal.getValidMoves(pkm, EvoChain, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
 

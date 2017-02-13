@@ -12,6 +12,7 @@ namespace PKHeX.Core
 
         // Gen 1
         private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rby);
+        private static readonly Learnset[] LevelUpY = Learnset1.getArray(Resources.lvlmove_rby);
         private static readonly EvolutionTree Evolves1;
         private static readonly EncounterArea[] SlotsRBY;
         private static readonly EncounterStatic[] StaticRBY;
@@ -282,11 +283,14 @@ namespace PKHeX.Core
                     continue;
                 if (e.EggLocation != pkm.Egg_Location)
                     continue;
-                if (pkm.HasOriginalMetLocation && e.Location != 0 && e.Location != pkm.Met_Location)
-                    continue;
+                if (pkm.HasOriginalMetLocation)
+                {
+                    if (e.Location != 0 && e.Location != pkm.Met_Location)
+                        continue;
+                    if (e.Level != pkm.Met_Level)
+                        continue;
+                }
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
-                    continue;
-                if (e.Level != pkm.Met_Level)
                     continue;
                 if (e.Form != pkm.AltForm && !FormChange.Contains(pkm.Species) && !e.SkipFormCheck)
                     continue;
@@ -783,7 +787,7 @@ namespace PKHeX.Core
             }
             if (t is int)
                 return "Unknown";
-            return t.GetType().Name;
+            return t?.GetType().Name ?? "Unknown";
         }
         private static IEnumerable<EncounterArea> getDexNavAreas(PKM pkm)
         {
@@ -802,7 +806,8 @@ namespace PKHeX.Core
             List<int> moves = new List<int>();
             if (pkm.InhabitedGeneration(1))
             {
-                moves.AddRange(LevelUpRB[species].getMoves(lvl));
+                moves.AddRange(((PersonalInfoG1)PersonalTable.RBY[species]).Moves);
+                moves.AddRange(LevelUpY[species].getMoves(lvl));
             }
             if (pkm.InhabitedGeneration(6))
             {
@@ -822,6 +827,7 @@ namespace PKHeX.Core
         {
             switch ((GameVersion)pkm.Version)
             {
+                case GameVersion.RBY:
                 case GameVersion.RD: case GameVersion.BU:
                 case GameVersion.GN: case GameVersion.YW:
                     return getSlots(pkm, SlotsRBY, lvl);
@@ -846,6 +852,7 @@ namespace PKHeX.Core
         {
             switch ((GameVersion)pkm.Version)
             {
+                case GameVersion.RBY:
                 case GameVersion.RD: case GameVersion.BU:
                 case GameVersion.GN: case GameVersion.YW:
                     return getStatic(pkm, StaticRBY, lvl);
@@ -884,18 +891,31 @@ namespace PKHeX.Core
 
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm);
+
             // Get slots where pokemon can exist
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin - df) || ignoreLevel);
+            bool ignoreSlotLevel = ignoreLevel;
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
+
+            if (pkm.Format < 3 || pkm.VC)
+                return slots; // no met level or special encounter considerations
 
             // Filter for Met Level
             int lvl = pkm.Met_Level;
-            var encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df) || ignoreLevel).ToList();
+            int gen = pkm.GenNumber;
+            bool ignoreMetLevel = ignoreLevel || gen <= 4 && pkm.Format != gen;
+            var encounterSlots = slots.Where(slot => ignoreMetLevel || slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
 
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
             if (slotMax != null)
                 slotMax = new EncounterSlot(slotMax) { Pressure = true, Form = pkm.AltForm };
 
+            if (gen < 4)
+            {
+                if (slotMax != null)
+                    slotdata.Add(slotMax);
+                return slotdata;
+            }
             if (!DexNav)
             {
                 // Filter for Form Specific
@@ -1005,7 +1025,11 @@ namespace PKHeX.Core
         private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder)
         {
             List<int> r = new List<int> { 0 };
-            for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
+            int gen = pkm.GenNumber;
+            if (pkm.Format < 3)
+                gen = 1;
+
+            for (; gen <= pkm.Format; gen++)
                r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen, MoveReminder));
             return r.Distinct();
         }
@@ -1016,6 +1040,17 @@ namespace PKHeX.Core
             var ver = Version;
             switch (Generation)
             {
+                case 1:
+                    {
+                        PersonalInfo pi = PersonalTable.RBY[species];
+                        if (LVL)
+                        {
+                            r.AddRange(((PersonalInfoG1)PersonalTable.RBY[species]).Moves);
+                            r.AddRange(LevelUpRB[species].getMoves(lvl));
+                        }
+                        if (Machine) r.AddRange(TMHM_RBY.Where((t, m) => pi.TMHM[m]));
+                        break;
+                    }
                 case 6:
                     switch (ver)
                     {

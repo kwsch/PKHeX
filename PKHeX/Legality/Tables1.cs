@@ -45,7 +45,67 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic[] Encounter_RBY =
         {
-            // todo
+            new EncounterStatic { Species = 001, Level = 05 }, // Bulbasaur
+            new EncounterStatic { Species = 004, Level = 05 }, // Charmander
+            new EncounterStatic { Species = 007, Level = 05 }, // Squirtle
+            new EncounterStatic { Species = 025, Level = 05 }, // Pikachu
+            
+            // Red Game Corner
+            new EncounterStatic { Species = 063, Level = 09 }, // Abra
+            new EncounterStatic { Species = 025, Level = 08 }, // Clefairy
+            new EncounterStatic { Species = 025, Level = 17 }, // Nidorina
+            new EncounterStatic { Species = 147, Level = 18 }, // Dratini
+            new EncounterStatic { Species = 123, Level = 25 }, // Scyther
+            new EncounterStatic { Species = 137, Level = 26 }, // Porygon
+
+            // Blue(EN) / Green(JP) Game Corner
+            new EncounterStatic { Species = 063, Level = 06 }, // Abra
+            new EncounterStatic { Species = 035, Level = 12 }, // Clefairy
+            new EncounterStatic { Species = 030, Level = 17 }, // Nidorina
+            new EncounterStatic { Species = 127, Level = 20 }, // Pinsir
+            new EncounterStatic { Species = 147, Level = 24 }, // Dratini
+            new EncounterStatic { Species = 137, Level = 18 }, // Porygon
+
+            // Blue(JP) Game Corner
+            new EncounterStatic { Species = 063, Level = 08 }, // Abra
+            new EncounterStatic { Species = 025, Level = 12 }, // Pikachu
+            new EncounterStatic { Species = 116, Level = 18 }, // Horsea
+            new EncounterStatic { Species = 036, Level = 24 }, // Clefable
+            new EncounterStatic { Species = 148, Level = 30 }, // Dragonair
+            new EncounterStatic { Species = 137, Level = 22 }, // Porygon
+
+            // Yellow Game Corner
+            new EncounterStatic { Species = 063, Level = 15 }, // Abra
+            new EncounterStatic { Species = 025, Level = 18 }, // Vulpix
+            new EncounterStatic { Species = 025, Level = 22 }, // Wigglytuff
+            new EncounterStatic { Species = 123, Level = 30 }, // Scyther
+            new EncounterStatic { Species = 127, Level = 30 }, // Pinsir
+            new EncounterStatic { Species = 137, Level = 26 }, // Porygon
+
+            new EncounterStatic { Species = 129, Level = 05 }, // Magikarp
+            new EncounterStatic { Species = 143, Level = 30 }, // Snorlax
+            new EncounterStatic { Species = 106, Level = 30 }, // Hitmonlee
+            new EncounterStatic { Species = 107, Level = 30 }, // Hitmonchan
+
+            new EncounterStatic { Species = 131, Level = 15 }, // Lapras
+            new EncounterStatic { Species = 138, Level = 30 }, // Omanyte
+            new EncounterStatic { Species = 140, Level = 30 }, // Kabuto
+            new EncounterStatic { Species = 142, Level = 30 }, // Aerodactyl
+
+            
+            new EncounterStatic { Species = 144, Level = 50 }, // Articuno
+            new EncounterStatic { Species = 145, Level = 50 }, // Zapdos
+            new EncounterStatic { Species = 146, Level = 50 }, // Moltres
+
+            new EncounterStatic { Species = 150, Level = 70 }, // Mewtwo
+            
+            new EncounterStatic { Species = 133, Level = 25 }, // Eevee
+
+            // Yellow Only
+            new EncounterStatic { Species = 133, Level = 25 }, // Eevee (Celadon City)
+            new EncounterStatic { Species = 001, Level = 10 }, // Bulbasaur (Cerulean City)
+            new EncounterStatic { Species = 004, Level = 10 }, // Charmander (Route 24)
+            new EncounterStatic { Species = 007, Level = 10 }, // Squirtle (Vermillion City)
         };
         internal static readonly EncounterTrade[] TradeGift_RBY =
         {
