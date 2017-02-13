@@ -631,6 +631,9 @@ namespace PKHeX.Core
             if (pkm.Egg_Location != ematch.EggLocation)
                 return new CheckResult(Severity.Invalid, "Should not have an egg location.", CheckIdentifier.Encounter);
 
+            if (species == 150 && pkm.Moves.Contains(6))
+                return new CheckResult(Severity.Invalid, "Mewtwo cannot be transferred while knowing Pay Day.", CheckIdentifier.Encounter);
+
             return new CheckResult(CheckIdentifier.Encounter);
         }
         private void verifyLevel()
