@@ -1318,7 +1318,7 @@ namespace PKHeX.Core
                         if (pkm.Species != 350) // Milotic
                             return new CheckResult(Severity.Invalid, "Untraded -- requires a trade evolution.", CheckIdentifier.History);
                         if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                            return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Levelup Evolution.", CheckIdentifier.History);
+                            return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Level-up Evolution.", CheckIdentifier.History);
                         if (pkm.CurrentLevel == 1)
                             return new CheckResult(Severity.Invalid, "Untraded -- Beauty is high enough but still Level 1.", CheckIdentifier.History);
                     }
@@ -1349,7 +1349,7 @@ namespace PKHeX.Core
                     if (pkm.Species != 350) // Milotic
                         return new CheckResult(Severity.Invalid, "Untraded -- requires a trade evolution.", CheckIdentifier.History);
                     if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                        return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Levelup Evolution.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Level-up Evolution.", CheckIdentifier.History);
                     if (pkm.CurrentLevel == 1)
                         return new CheckResult(Severity.Invalid, "Untraded -- Beauty is high enough but still Level 1.", CheckIdentifier.History);
                 }
@@ -1861,7 +1861,9 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
                 res[i] = new CheckResult(CheckIdentifier.Move);
             
-            var validMoves = Legal.getValidMoves(pkm, EvoChain).ToArray();
+            var validMoves = Legal.getValidMoves(pkm, EvoChain, Tutor: false, Machine: false).ToArray();
+            var validTMHM = Legal.getValidMoves(pkm, EvoChain, Tutor: false, MoveReminder: false).ToArray();
+            var validTutor = Legal.getValidMoves(pkm, EvoChain, Machine: false, MoveReminder: false).ToArray();
             if (pkm.Species == 235) // Smeargle
             {
                 for (int i = 0; i < 4; i++)
@@ -1878,10 +1880,14 @@ namespace PKHeX.Core
                     {
                         if (Moves[i] == Legal.Struggle)
                             res[i] = new CheckResult(Severity.Invalid, "Invalid Move: Struggle.", CheckIdentifier.Move);
-                        else if (validMoves.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.", CheckIdentifier.Move);
                         else if (RelearnMoves.Contains(Moves[i]))
                             res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.", CheckIdentifier.Move) { Flag = true };
+                        else if (validMoves.Contains(Moves[i]))
+                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.", CheckIdentifier.Move);
+                        else if (validTMHM.Contains(Moves[i]))
+                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "TM/HM.", CheckIdentifier.Move);
+                        else if (validTutor.Contains(Moves[i]))
+                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Tutor.", CheckIdentifier.Move);
                         else if (mg.Moves.Contains(Moves[i]))
                             res[i] = new CheckResult(Severity.Valid, "Wonder Card Non-Relearn Move.", CheckIdentifier.Move);
                         else
@@ -1904,10 +1910,14 @@ namespace PKHeX.Core
                 {
                     if (Moves[i] == Legal.Struggle)
                         res[i] = new CheckResult(Severity.Invalid, "Invalid Move: Struggle.", CheckIdentifier.Move);
-                    else if (validMoves.Contains(Moves[i]))
-                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.", CheckIdentifier.Move);
                     else if (RelearnMoves.Contains(Moves[i]))
                         res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.", CheckIdentifier.Move) { Flag = true };
+                    else if (validMoves.Contains(Moves[i]))
+                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.", CheckIdentifier.Move);
+                    else if (validTMHM.Contains(Moves[i]))
+                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "TM/HM.", CheckIdentifier.Move);
+                    else if (validTutor.Contains(Moves[i]))
+                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Tutor.", CheckIdentifier.Move);
                     else if (GiftMoves.Contains(Moves[i]))
                         res[i] = new CheckResult(Severity.Valid, "Wonder Card Non-Relearn Move.", CheckIdentifier.Move);
                     else
