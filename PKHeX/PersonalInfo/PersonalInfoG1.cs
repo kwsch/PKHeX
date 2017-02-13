@@ -42,9 +42,9 @@ namespace PKHeX.Core
         public override int BaseEXP { get { return Data[0x09]; } set { Data[0x09] = (byte)value; } }
         public int Move1 { get { return Data[0x0F]; } set { Data[0x0F] = (byte)value; } }
         public int Move2 { get { return Data[0x10]; } set { Data[0x10] = (byte)value; } }
-        public int Move3 { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
-        public int Move4 { get { return Data[0x13]; } set { Data[0x13] = (byte)value; } }
-        public override int EXPGrowth { get { return Data[0x14]; } set { Data[0x14] = (byte)value; } }
+        public int Move3 { get { return Data[0x11]; } set { Data[0x11] = (byte)value; } }
+        public int Move4 { get { return Data[0x12]; } set { Data[0x12] = (byte)value; } }
+        public override int EXPGrowth { get { return Data[0x13]; } set { Data[0x13] = (byte)value; } }
 
         // EV Yields are just aliases for base stats in Gen I
         public override int EV_HP { get { return HP; } set { } }
