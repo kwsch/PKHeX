@@ -353,6 +353,11 @@ namespace PKHeX.Core
                 Geo1_Region = PKMConverter.Region
             };
             pk7.Nickname = PKX.getSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
+            if (otname[0] == 0x5D) // Ingame Trade
+            {
+                var s = PKX.getG1Char(0x5D, Japanese);
+                pk7.OT_Name = s.Substring(0, 1) + s.Substring(1).ToLower();
+            }
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
