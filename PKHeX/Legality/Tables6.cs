@@ -225,17 +225,7 @@ namespace PKHeX.Core
         };
 
         #endregion
-
-        // Legality
-        internal const int Struggle = 165;
-        internal const int Chatter = 448;
-        internal static readonly int[] InvalidSketch =
-        {
-            // Regular Moves
-            Struggle, Chatter
-            // Z-Moves
-            // TODO
-        };
+        
         internal static readonly int[] EggLocations = {60002, 30002};
         internal static readonly int[] ValidMet_XY =
         {

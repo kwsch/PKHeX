@@ -1876,23 +1876,8 @@ namespace PKHeX.Core
                 int[] RelearnMoves = pkm.RelearnMoves;
                 foreach (MysteryGift mg in EventGiftMatch)
                 {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (Moves[i] == Legal.Struggle)
-                            res[i] = new CheckResult(Severity.Invalid, "Invalid Move: Struggle.", CheckIdentifier.Move);
-                        else if (RelearnMoves.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.", CheckIdentifier.Move) { Flag = true };
-                        else if (validMoves.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.", CheckIdentifier.Move);
-                        else if (validTMHM.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "TM/HM.", CheckIdentifier.Move);
-                        else if (validTutor.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Tutor.", CheckIdentifier.Move);
-                        else if (mg.Moves.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Valid, "Wonder Card Non-Relearn Move.", CheckIdentifier.Move);
-                        else
-                            res[i] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
-                    }
+                    int[] GiftMoves = mg.Moves;
+                    res = parseMoves(Moves, validMoves, RelearnMoves, validTMHM, validTutor, GiftMoves);
                     if (res.Any(r => !r.Valid))
                         continue;
 
@@ -1904,25 +1889,8 @@ namespace PKHeX.Core
             else
             {
                 int[] RelearnMoves = pkm.RelearnMoves;
-                MysteryGift MatchedGift = EncounterMatch as MysteryGift;
-                int[] GiftMoves = MatchedGift?.Moves ?? new int[0];
-                for (int i = 0; i < 4; i++)
-                {
-                    if (Moves[i] == Legal.Struggle)
-                        res[i] = new CheckResult(Severity.Invalid, "Invalid Move: Struggle.", CheckIdentifier.Move);
-                    else if (RelearnMoves.Contains(Moves[i]))
-                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Relearn Move.", CheckIdentifier.Move) { Flag = true };
-                    else if (validMoves.Contains(Moves[i]))
-                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Level-up.", CheckIdentifier.Move);
-                    else if (validTMHM.Contains(Moves[i]))
-                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "TM/HM.", CheckIdentifier.Move);
-                    else if (validTutor.Contains(Moves[i]))
-                        res[i] = new CheckResult(Severity.Valid, Moves[i] == 0 ? "Empty" : "Tutor.", CheckIdentifier.Move);
-                    else if (GiftMoves.Contains(Moves[i]))
-                        res[i] = new CheckResult(Severity.Valid, "Wonder Card Non-Relearn Move.", CheckIdentifier.Move);
-                    else
-                        res[i] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
-                }
+                int[] GiftMoves = (EncounterMatch as MysteryGift)?.Moves ?? new int[0];
+                res = parseMoves(Moves, validMoves, RelearnMoves, validTMHM, validTutor, GiftMoves);
             }
             if (Moves[0] == 0) // None
                 res[0] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
@@ -1936,6 +1904,28 @@ namespace PKHeX.Core
                 if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
                     res[i] = new CheckResult(Severity.Invalid, "Duplicate Move.", CheckIdentifier.Move);
 
+            return res;
+        }
+        private CheckResult[] parseMoves(int[] moves, int[] learn, int[] relearn, int[] tmhm, int[] tutor, int[] giftmoves)
+        {
+            CheckResult[] res = new CheckResult[4];
+            for (int i = 0; i < 4; i++)
+            {
+                if (moves[i] == 0)
+                    res[i] = new CheckResult(Severity.Valid, "Empty", CheckIdentifier.Move);
+                else if (relearn.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "Relearn Move.", CheckIdentifier.Move) { Flag = true };
+                else if (learn.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "Level-up.", CheckIdentifier.Move);
+                else if (tmhm.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "TM/HM.", CheckIdentifier.Move);
+                else if (tutor.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "Tutor.", CheckIdentifier.Move);
+                else if (giftmoves.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "Mystery Gift Non-Relearn Move.", CheckIdentifier.Move);
+                else
+                    res[i] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
+            }
             return res;
         }
         private CheckResult[] verifyRelearn()
