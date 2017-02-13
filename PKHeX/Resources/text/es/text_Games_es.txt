@@ -34,6 +34,6 @@ Luna
 
 Go
 Roja
-Azul
-Verde
+Azul[INT]/Verde[JP]
+Azul[JP]
 Amarilla

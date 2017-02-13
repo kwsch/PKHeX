@@ -34,6 +34,6 @@ Mond
 
 Go
 Rote
+Blaue[INT]/Grüne[JP]
 Blaue
-Grüne
 Gelbe

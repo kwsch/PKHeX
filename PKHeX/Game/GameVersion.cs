@@ -22,7 +22,7 @@
         /*Gen6*/ X = 24, Y = 25, AS = 26, OR = 27,
         /*Gen7*/ SN = 30, MN = 31,
         /* GO */ GO = 34,
-        /* VC */ RD = 35, BU = 36, GN = 37, YW = 38, 
+        /* VC */ RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
 
         // Game Groupings (SaveFile type)
         RBY = 98,
