@@ -29,16 +29,33 @@ namespace PKHeX.WinForms
 
             try
             {
-                if (GetFrameworkVersion() >= 393295)
+                if (IsOnWindows())
                 {
-                    StartPKHeX();
+                    if (GetFrameworkVersion() >= 393295)
+                    {
+                        StartPKHeX();
+                    }
+                    else
+                    {
+                        // Todo: make this translatable
+                        MessageBox.Show(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        Process.Start(@"https://www.microsoft.com/download/details.aspx?id=48130");
+                    }
                 }
                 else
                 {
-                    // Todo: make this translatable
-                    MessageBox.Show(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    Process.Start(@"https://www.microsoft.com/download/details.aspx?id=48130");
+                    //CLR Version 4.0.30319.42000 is equivalent to .NET Framework version 4.6
+                    if ((Environment.Version.CompareTo(Version.Parse("4.0.30319.42000"))) >= 0)
+                    {
+                        StartPKHeX();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.",
+                                        "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    }
                 }
+                
             }
             catch (FileNotFoundException ex)
             {
@@ -62,6 +79,16 @@ namespace PKHeX.WinForms
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
         }
+
+        public static bool IsOnWindows()
+        {
+            // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
+            int p = (int)Environment.OSVersion.Platform;
+            if ((p == 4) || (p == 6) || (p == 128))
+                return false;
+            return true;
+        }
+
 
         public static int GetFrameworkVersion()
         {
