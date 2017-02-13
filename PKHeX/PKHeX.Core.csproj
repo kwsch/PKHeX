@@ -276,9 +276,13 @@
     <None Include="Resources\byte\fashion_f_sm_illegal" />
     <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\fashion_m_sm_illegal" />
+    <None Include="Resources\byte\lvlmove_rb.pkl" />
     <None Include="Resources\byte\lvlmove_rby.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
+    <None Include="Resources\byte\lvlmove_y.pkl" />
+    <None Include="Resources\byte\personal_rb" />
     <None Include="Resources\byte\personal_sm" />
+    <None Include="Resources\byte\personal_y" />
     <None Include="Resources\byte\wc7.pkl" />
     <None Include="Resources\byte\wc7full.pkl" />
     <None Include="Resources\text\gen3\text_gsc_00000_es.txt" />

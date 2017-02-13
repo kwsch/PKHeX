@@ -8,7 +8,7 @@ namespace PKHeX.Core
         // Internal use only
         protected internal byte[] otname;
         protected internal byte[] nick;
-        public override PersonalInfo PersonalInfo => PersonalTable.RBY[Species];
+        public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();

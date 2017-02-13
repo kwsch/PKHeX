@@ -33,7 +33,7 @@ namespace PKHeX.Core
             Party = getPartyOffset(0);
 
             Japanese = SaveUtil.getIsG1SAVJ(Data);
-            Personal = PersonalTable.RBY;
+            Personal = PersonalTable.Y;
 
             // Stash boxes after the save file's end.
             byte[] TempBox = new byte[SIZE_STOREDBOX];

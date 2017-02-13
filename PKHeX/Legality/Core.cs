@@ -11,8 +11,8 @@ namespace PKHeX.Core
         public static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
         // Gen 1
-        private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rby);
-        private static readonly Learnset[] LevelUpY = Learnset1.getArray(Resources.lvlmove_rby);
+        private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rb);
+        private static readonly Learnset[] LevelUpY = Learnset1.getArray(Resources.lvlmove_y);
         private static readonly EvolutionTree Evolves1;
         private static readonly EncounterArea[] SlotsRBY;
         private static readonly EncounterStatic[] StaticRBY;
@@ -138,7 +138,7 @@ namespace PKHeX.Core
         {
             // Gen 1
             {
-                Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.RBY, MaxSpeciesID_1);
+                Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
                 var red         = EncounterArea.getArray1_GW(Resources.encounter_red);
                 var blu         = EncounterArea.getArray1_GW(Resources.encounter_blue);
                 var ylw         = EncounterArea.getArray1_GW(Resources.encounter_yellow);
@@ -806,7 +806,9 @@ namespace PKHeX.Core
             List<int> moves = new List<int>();
             if (pkm.InhabitedGeneration(1))
             {
-                moves.AddRange(((PersonalInfoG1)PersonalTable.RBY[species]).Moves);
+                moves.AddRange(((PersonalInfoG1)PersonalTable.RB[species]).Moves);
+                moves.AddRange(((PersonalInfoG1)PersonalTable.Y[species]).Moves);
+                moves.AddRange(LevelUpRB[species].getMoves(lvl));
                 moves.AddRange(LevelUpY[species].getMoves(lvl));
             }
             if (pkm.InhabitedGeneration(6))
@@ -1042,13 +1044,20 @@ namespace PKHeX.Core
             {
                 case 1:
                     {
-                        PersonalInfo pi = PersonalTable.RBY[species];
+                        var pi_rb = (PersonalInfoG1)PersonalTable.RB[species];
+                        var pi_y = (PersonalInfoG1)PersonalTable.Y[species];
                         if (LVL)
                         {
-                            r.AddRange(((PersonalInfoG1)pi).Moves);
+                            r.AddRange(pi_rb.Moves);
+                            r.AddRange(pi_y.Moves);
                             r.AddRange(LevelUpRB[species].getMoves(lvl));
+                            r.AddRange(LevelUpY[species].getMoves(lvl));
                         }
-                        if (Machine) r.AddRange(TMHM_RBY.Where((t, m) => pi.TMHM[m]));
+                        if (Machine)
+                        {
+                            r.AddRange(TMHM_RBY.Where((t, m) => pi_rb.TMHM[m]));
+                            r.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
+                        }
                         break;
                     }
                 case 6:
