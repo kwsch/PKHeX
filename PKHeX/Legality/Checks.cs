@@ -1644,6 +1644,19 @@ namespace PKHeX.Core
                             AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
                     }
                     break;
+                case 649: // Genesect
+                    {
+                        int item = pkm.HeldItem;
+                        int form = 0;
+                        if (116 <= item && item <= 119)
+                            form = item - 115;
+
+                        if (form != pkm.AltForm)
+                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        else
+                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                    }
+                    break;
                 case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
