@@ -1005,6 +1005,9 @@ namespace PKHeX.Core
             foreach (DexLevel evo in vs)
                 r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
 
+            if (pkm.Format <= 3)
+                return r.Distinct().ToArray();
+
             if (species == 479) // Rotom
                 r.Add(RotomMoves[pkm.AltForm]);
             if (species == 648) // Meloetta
@@ -1015,7 +1018,7 @@ namespace PKHeX.Core
 
             if (species == 718 && pkm.GenNumber == 7) // Zygarde
                 r.AddRange(ZygardeMoves);
-            if (species == 25 || species == 26 && pkm.Format == 7) // Pikachu/Raichu Tutor
+            if ((species == 25 || species == 26) && pkm.Format == 7) // Pikachu/Raichu Tutor
                 r.Add(344); // Volt Tackle
 
             if (Relearn) r.AddRange(pkm.RelearnMoves);
@@ -1055,6 +1058,8 @@ namespace PKHeX.Core
                             r.AddRange(TMHM_RBY.Where((t, m) => pi_rb.TMHM[m]));
                             r.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
                         }
+                        if (moveTutor)
+                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
                         break;
                     }
                 case 6:
@@ -1130,15 +1135,14 @@ namespace PKHeX.Core
         }
         private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors)
         {
-            PersonalInfo info = pkm.PersonalInfo;
             List<int> moves = new List<int>();
-
             if (pkm.Format < 3)
             {
                 if (pkm.Species == 25 || pkm.Species == 26) // Surf Pikachu via Stadium
                     moves.Add(57);
                 return moves;
             }
+            PersonalInfo info = pkm.PersonalInfo;
 
             // Type Tutors -- Pledge moves and High BP moves switched places in G7+
             if (pkm.Format <= 6)
