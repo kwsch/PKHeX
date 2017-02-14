@@ -913,6 +913,8 @@ namespace PKHeX.WinForms
             }
 
             // clean fields
+            bool WindowToggleRequired = SAV.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
+            bool WindowTranslationRequired = false;
             PKM pk = preparePKM();
             populateFields(SAV.BlankPKM);
             SAV = sav;
@@ -956,8 +958,6 @@ namespace PKHeX.WinForms
                 else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
             }
             setPKXBoxes();   // Reload all of the PKX Windows
-
-            bool WindowTranslationRequired = false;
 
             // Hide content if not present in game.
             GB_SUBE.Visible = SAV.HasSUBE;
@@ -1201,7 +1201,17 @@ namespace PKHeX.WinForms
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
 
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
+            {
+                // Keep window title
+                title = Text;
                 WinFormsUtil.TranslateInterface(this, curlanguage);
+                Text = title;
+            }
+            if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
+            {
+                tabMain.SelectedTab = Tab_Met; // parent tab of CB_GameOrigin
+                tabMain.SelectedTab = Tab_Main; // first tab
+            }
             
             // No changes made yet
             UndoStack.Clear(); Menu_Undo.Enabled = false;
