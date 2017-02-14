@@ -40,8 +40,7 @@ namespace PKHeX.Core
             switch (Game)
             {
                 case GameVersion.RBY:
-                    table = Encounter_RBY;
-                    break;
+                    return Encounter_RBY; // GameVersion filtering not possible, return immediately
                 case GameVersion.X: case GameVersion.Y:
                     table = Encounter_XY;
                     break;
@@ -203,15 +202,13 @@ namespace PKHeX.Core
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
             List<int> r = new List<int> { 0 };
-            if (pkm.Format < 6)
+            if (pkm.GenNumber < 6)
                 return r;
 
             int species = getBaseSpecies(pkm, skipOption);
             r.AddRange(getLVLMoves(pkm, species, 1, pkm.AltForm));
 
             int form = pkm.AltForm;
-            if (pkm.Format < 6)
-                form = 0;
             if (pkm.Format == 6 && pkm.Species != 678)
                 form = 0;
 
@@ -1137,7 +1134,11 @@ namespace PKHeX.Core
             List<int> moves = new List<int>();
 
             if (pkm.Format < 3)
+            {
+                if (pkm.Species == 25 || pkm.Species == 26) // Surf Pikachu via Stadium
+                    moves.Add(57);
                 return moves;
+            }
 
             // Type Tutors -- Pledge moves and High BP moves switched places in G7+
             if (pkm.Format <= 6)

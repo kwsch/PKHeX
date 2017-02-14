@@ -48,7 +48,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 001, Level = 05 }, // Bulbasaur
             new EncounterStatic { Species = 004, Level = 05 }, // Charmander
             new EncounterStatic { Species = 007, Level = 05 }, // Squirtle
-            new EncounterStatic { Species = 025, Level = 05 }, // Pikachu
+            new EncounterStatic { Species = 025, Level = 05, Version = GameVersion.YW }, // Pikachu
             
             // Game Corner
             new EncounterStatic { Species = 030, Level = 17 }, // Nidorina (Red Game Corner)
@@ -98,14 +98,15 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 133, Level = 25 }, // Eevee
 
             // Yellow Only -- duplicate encounters with a higher level
-         // new EncounterStatic { Species = 133, Level = 25 }, // Eevee (Celadon City)
-         // new EncounterStatic { Species = 001, Level = 10 }, // Bulbasaur (Cerulean City)
-         // new EncounterStatic { Species = 004, Level = 10 }, // Charmander (Route 24)
-         // new EncounterStatic { Species = 007, Level = 10 }, // Squirtle (Vermillion City)
+         // new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.YW }, // Eevee (Celadon City)
+         // new EncounterStatic { Species = 001, Level = 10, Version = GameVersion.YW }, // Bulbasaur (Cerulean City)
+         // new EncounterStatic { Species = 004, Level = 10, Version = GameVersion.YW }, // Charmander (Route 24)
+         // new EncounterStatic { Species = 007, Level = 10, Version = GameVersion.YW }, // Squirtle (Vermillion City)
+
+            new EncounterStatic {Species = 054, Level = 15, Moves = new [] { 10, 133 }, Version = GameVersion.SPECIAL }, // Stadium Psyduck (Amnesia)
         };
         internal static readonly EncounterTrade[] TradeGift_RBY =
         {
-            // todo
         };
         internal static readonly EncounterArea FishOldGood_RBY = new EncounterArea { Location = -1, Slots = new EncounterSlot[]
         {

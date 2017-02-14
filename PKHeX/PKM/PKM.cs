@@ -282,7 +282,6 @@ namespace PKHeX.Core
         {
             get
             {
-                if (VC) return 7;
                 if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;
@@ -290,6 +289,7 @@ namespace PKHeX.Core
                 if (Gen3) return 3;
                 if (Gen2) return Format; // 2
                 if (Gen1) return Format; // 1
+                if (VC) return 1;
                 return -1;
             } 
         }
@@ -420,6 +420,8 @@ namespace PKHeX.Core
             }
             switch (GenNumber)
             {
+                case 1: return Species <= Legal.MaxSpeciesID_1;
+                case 2: return Species <= Legal.MaxSpeciesID_2;
                 case 3: return Species <= Legal.MaxSpeciesID_3;
                 case 4: return Species <= Legal.MaxSpeciesID_4;
                 case 5: return Species <= Legal.MaxSpeciesID_5;

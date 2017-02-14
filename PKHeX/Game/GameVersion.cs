@@ -39,6 +39,7 @@
         SM = 109,
 
         // Extra Game Groupings (Generation)
-        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7
+        Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,
+        SPECIAL, // Stadium
     }
 }

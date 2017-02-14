@@ -46,6 +46,8 @@ namespace PKHeX.Core
                 switch (pk.GenNumber)
                 {
                     case 6: parsePK6(pk); break;
+
+                    case 1: parsePK7(pk); break;
                     case 7: parsePK7(pk); break;
                 }
 
