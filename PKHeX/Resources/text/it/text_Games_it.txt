@@ -34,6 +34,6 @@ Luna
 
 Go
 Rossa
-Blu
-Verde
+Blu[INT]/Verde[JP]
+Blu[JP]
 Gialla

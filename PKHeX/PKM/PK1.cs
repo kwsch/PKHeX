@@ -8,7 +8,7 @@ namespace PKHeX.Core
         // Internal use only
         protected internal byte[] otname;
         protected internal byte[] nick;
-        public override PersonalInfo PersonalInfo => PersonalTable.RBY[Species];
+        public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
         public byte[] OT_Name_Raw => (byte[])otname.Clone();
         public byte[] Nickname_Raw => (byte[])nick.Clone();
@@ -259,7 +259,7 @@ namespace PKHeX.Core
         public override int OT_Friendship { get { return 0; } set { } }
         public override int OT_Gender { get { return 0; } set { } }
         public override int Ball { get { return 0; } set { } }
-        public override int Version { get { return 0; } set { } }
+        public override int Version { get { return (int)GameVersion.RBY; } set { } }
         public override int SID { get { return 0; } set { } }
         public override int PKRS_Strain { get { return 0; } set { } }
         public override int PKRS_Days { get { return 0; } set { } }
@@ -353,6 +353,11 @@ namespace PKHeX.Core
                 Geo1_Region = PKMConverter.Region
             };
             pk7.Nickname = PKX.getSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
+            if (otname[0] == 0x5D) // Ingame Trade
+            {
+                var s = PKX.getG1Char(0x5D, Japanese);
+                pk7.OT_Name = s.Substring(0, 1) + s.Substring(1).ToLower();
+            }
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
@@ -381,6 +386,18 @@ namespace PKHeX.Core
             }
             
             pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
+
+            if (pk7.Species == 150) // Pay Day Mewtwo
+            {
+                var moves = pk7.Moves;
+                var index = Array.IndexOf(moves, 6);
+                if (index != -1)
+                {
+                    moves[index] = 0;
+                    pk7.Moves = moves;
+                    pk7.FixMoves();
+                }
+            }
             
             pk7.RefreshChecksum();
             return pk7;

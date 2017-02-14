@@ -268,24 +268,28 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        protected bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
-        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3);
+        public bool Gen2 => Version == (int)GameVersion.GSC;
+        public bool Gen1 => Version == (int)GameVersion.RBY;
+        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1);
         public int GenNumber
         {
             get
             {
-                if (VC) return 7;
                 if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;
                 if (Gen4) return 4;
                 if (Gen3) return 3;
+                if (Gen2) return Format; // 2
+                if (Gen1) return Format; // 1
+                if (VC) return 1;
                 return -1;
             } 
         }
@@ -405,10 +409,15 @@ namespace PKHeX.Core
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public virtual bool WasTradedEgg => Egg_Location == 30002;
         public virtual bool WasIngameTrade => Met_Location == 30001;
-        public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
+        public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid()
         {
+            switch (Format)
+            {
+                case 1: return Species <= Legal.MaxSpeciesID_1;
+                case 2: return Species <= Legal.MaxSpeciesID_2;
+            }
             switch (GenNumber)
             {
                 case 1: return Species <= Legal.MaxSpeciesID_1;
@@ -477,6 +486,12 @@ namespace PKHeX.Core
                     return false;
             }
         }
+
+        /// <summary>
+        /// Checks if the PKM has its original met location.
+        /// </summary>
+        /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
+        public bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.

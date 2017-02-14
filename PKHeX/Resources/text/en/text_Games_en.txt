@@ -34,6 +34,6 @@ Moon
 
 Go
 Red
-Blue
-Green
+Blue[INT]/Green[JP]
+Blue[JP]
 Yellow

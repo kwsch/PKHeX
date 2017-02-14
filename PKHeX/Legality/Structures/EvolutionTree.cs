@@ -19,11 +19,14 @@ namespace PKHeX.Core
             MaxSpeciesTree = maxSpeciesTree;
             switch (game)
             {
-                case GameVersion.SM:
-                    Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
+                case GameVersion.RBY:
+                    Entries = EvolutionSet1.getArray(data[0]);
                     break;
                 case GameVersion.ORAS:
                     Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
+                    break;
+                case GameVersion.SM:
+                    Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
                     break;
             }
             
@@ -32,7 +35,7 @@ namespace PKHeX.Core
             for (int i = 0; i < Entries.Count; i++)
                 Lineage[i] = new EvolutionLineage();
             if (Game == GameVersion.ORAS)
-                Array.Resize(ref Lineage, maxSpeciesTree + 1);
+                Array.Resize(ref Lineage, MaxSpeciesTree + 1);
 
             // Populate Lineages
             for (int i = 1; i < Lineage.Length; i++)
@@ -162,6 +165,58 @@ namespace PKHeX.Core
     {
         public EvolutionMethod[] PossibleEvolutions;
     }
+    public class EvolutionSet1 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, ref int offset)
+        {
+            switch (data[offset])
+            {
+                case 1: // Level
+                    var m1 = new EvolutionMethod
+                    {
+                        Method = 1, // Use Item
+                        Level = data[offset + 1],
+                        Species = data[offset + 2]
+                    };
+                    offset += 3;
+                    return m1;
+                case 2: // Use Item
+                    var m2 = new EvolutionMethod
+                    {
+                        Method = 8, // Use Item
+                        Argument = data[offset + 1],
+                        // 1
+                        Species = data[offset + 3],
+                    };
+                    offset += 4;
+                    return m2;
+                case 3: // Trade
+                    var m3 = new EvolutionMethod
+                    {
+                        Method = 5, // Trade
+                        // 1
+                        Species = data[offset + 2]
+                    };
+                    offset += 3;
+                    return m3;
+            }
+            return null;
+        }
+        public static List<EvolutionSet> getArray(byte[] data)
+        {
+            var evos = new List<EvolutionSet>();
+            int offset = 0;
+            for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
+            {
+                var m = new List<EvolutionMethod>();
+                while (data[offset] != 0)
+                    m.Add(getMethod(data, ref offset));
+                ++offset;
+                evos.Add(new EvolutionSet1 { PossibleEvolutions = m.ToArray() });
+            }
+            return evos;
+        }
+    }
     public class EvolutionSet6 : EvolutionSet
     {
         private const int SIZE = 6;
@@ -172,7 +227,7 @@ namespace PKHeX.Core
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
-                PossibleEvolutions[i/SIZE] = new EvolutionMethod
+                var evo = new EvolutionMethod
                 {
                     Method = BitConverter.ToUInt16(data, i + 0),
                     Argument = BitConverter.ToUInt16(data, i + 2),
@@ -183,8 +238,10 @@ namespace PKHeX.Core
                 };
 
                 // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
-                if (argEvos.Contains(PossibleEvolutions[i/SIZE].Method))
-                    PossibleEvolutions[i/SIZE].Level = 0;
+                if (argEvos.Contains(evo.Method))
+                    evo.Level = 0;
+
+                PossibleEvolutions[i/SIZE] = evo;
             }
         }
     }

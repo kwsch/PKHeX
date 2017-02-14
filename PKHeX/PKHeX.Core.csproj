@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B4EFF030-C75A-49F9-A4BC-738D1B61C4AF}</ProjectGuid>
@@ -261,17 +261,28 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\byte\eggmove_sm.pkl" />
+    <None Include="Resources\byte\encounter_blue.pkl" />
     <None Include="Resources\byte\encounter_mn.pkl" />
     <None Include="Resources\byte\encounter_mn_sos.pkl" />
+    <None Include="Resources\byte\encounter_rb_f.pkl" />
+    <None Include="Resources\byte\encounter_red.pkl" />
     <None Include="Resources\byte\encounter_sn.pkl" />
     <None Include="Resources\byte\encounter_sn_sos.pkl" />
+    <None Include="Resources\byte\encounter_yellow.pkl" />
+    <None Include="Resources\byte\encounter_yellow_f.pkl" />
+    <None Include="Resources\byte\evos_rby.pkl" />
     <None Include="Resources\byte\evos_sm.pkl" />
     <None Include="Resources\byte\fashion_f_sm" />
     <None Include="Resources\byte\fashion_f_sm_illegal" />
     <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\fashion_m_sm_illegal" />
+    <None Include="Resources\byte\lvlmove_rb.pkl" />
+    <None Include="Resources\byte\lvlmove_rby.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
+    <None Include="Resources\byte\lvlmove_y.pkl" />
+    <None Include="Resources\byte\personal_rb" />
     <None Include="Resources\byte\personal_sm" />
+    <None Include="Resources\byte\personal_y" />
     <None Include="Resources\byte\wc7.pkl" />
     <None Include="Resources\byte\wc7full.pkl" />
     <None Include="Resources\text\gen3\text_gsc_00000_es.txt" />

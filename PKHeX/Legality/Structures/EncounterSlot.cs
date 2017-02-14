@@ -27,4 +27,17 @@
 
         public string Name => "Wild Encounter";
     }
+    public class EncounterSlot1 : EncounterSlot
+    {
+        public int Rate;
+        public EncounterSlot1() { }
+        public EncounterSlot1(EncounterSlot1 template)
+        {
+            Species = template.Species;
+            LevelMax = template.LevelMax;
+            LevelMin = template.LevelMin;
+            Type = template.Type;
+            Rate = template.Rate;
+        }
+    }
 }

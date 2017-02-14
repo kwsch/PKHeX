@@ -81,5 +81,6 @@ namespace PKHeX.Core
             580, 581, 582, 583, 584, 585, 586, 587, 588, 589,
             590, 591, 592, 593
         };
+        internal static readonly int[] WildPokeBalls3 = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12};
     }
 }
