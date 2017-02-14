@@ -913,6 +913,8 @@ namespace PKHeX.WinForms
             }
 
             // clean fields
+            bool WindowToggleRequired = SAV.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
+            bool WindowTranslationRequired = false;
             PKM pk = preparePKM();
             populateFields(SAV.BlankPKM);
             SAV = sav;
@@ -956,8 +958,6 @@ namespace PKHeX.WinForms
                 else { tabBoxMulti.SelectedIndex = 0; CB_BoxSelect.SelectedIndex = startBox; }
             }
             setPKXBoxes();   // Reload all of the PKX Windows
-
-            bool WindowTranslationRequired = false;
 
             // Hide content if not present in game.
             GB_SUBE.Visible = SAV.HasSUBE;
@@ -1201,7 +1201,17 @@ namespace PKHeX.WinForms
             PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
 
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
+            {
+                // Keep window title
+                title = Text;
                 WinFormsUtil.TranslateInterface(this, curlanguage);
+                Text = title;
+            }
+            if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
+            {
+                tabMain.SelectedTab = Tab_Met; // parent tab of CB_GameOrigin
+                tabMain.SelectedTab = Tab_Main; // first tab
+            }
             
             // No changes made yet
             UndoStack.Clear(); Menu_Undo.Enabled = false;
@@ -1383,11 +1393,11 @@ namespace PKHeX.WinForms
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            var moves = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.MoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
-                cb.DataSource = new BindingSource(moves, null);
+                cb.DataSource = new BindingSource(GameInfo.MoveDataSource, null);
             }
         }
         private Action getFieldsfromPKM;
@@ -2837,7 +2847,9 @@ namespace PKHeX.WinForms
             LegalityAnalysis la = new LegalityAnalysis(pk);
             if (!la.Parsed)
             {
-                WinFormsUtil.Alert($"Checking legality of PK{pk.Format} files that originated from Gen{pk.GenNumber} is not supported.");
+                WinFormsUtil.Alert(pk.Format < 3
+                    ? $"Checking legality of PK{pk.Format} files is not supported."
+                    : $"Checking legality of PK{pk.Format} files that originated from Gen{pk.GenNumber} is not supported.");
                 return;
             }
             if (tabs)
@@ -2846,48 +2858,43 @@ namespace PKHeX.WinForms
         }
         private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
-            if (pkm.GenNumber >= 6)
+            if (!fieldsLoaded)
+                return;
+            
+            Legality = la ?? new LegalityAnalysis(pkm);
+            if (!Legality.Parsed || HaX)
             {
-                if (!fieldsLoaded)
-                    return;
-                Legality = la ?? new LegalityAnalysis(pkm);
-                if (!Legality.Parsed || HaX)
-                {
-                    PB_Legal.Visible = false;
-                    return;
-                }
-                PB_Legal.Visible = true;
-
-                PB_Legal.Image = Legality.Valid ? Resources.valid : Resources.warn;
-
-                // Refresh Move Legality
-                for (int i = 0; i < 4; i++)
-                    movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
-
-                for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX;
-
-                if (skipMoveRepop)
-                    return;
-                // Resort moves
-                bool tmp = fieldsLoaded;
-                fieldsLoaded = false;
-                var cb = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
-                var moves = Legality.AllSuggestedMovesAndRelearn;
-                var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
-                foreach (ComboBox c in cb)
-                {
-                    var index = WinFormsUtil.getIndex(c);
-                    c.DataSource = new BindingSource(moveList, null);
-                    c.SelectedValue = index;
-                }
-                fieldsLoaded |= tmp;
-            }
-            else
-            {
-                PB_Legal.Visible = PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
+                PB_Legal.Visible =
+                PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
                 PB_WarnRelearn1.Visible = PB_WarnRelearn2.Visible = PB_WarnRelearn3.Visible = PB_WarnRelearn4.Visible = false;
+                return;
             }
+
+            PB_Legal.Visible = true;
+            PB_Legal.Image = Legality.Valid ? Resources.valid : Resources.warn;
+
+            // Refresh Move Legality
+            for (int i = 0; i < 4; i++)
+                movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
+            
+            for (int i = 0; i < 4; i++)
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX && pkm.Format >= 6;
+
+            if (skipMoveRepop)
+                return;
+            // Resort moves
+            bool tmp = fieldsLoaded;
+            fieldsLoaded = false;
+            var cb = new[] {CB_Move1, CB_Move2, CB_Move3, CB_Move4};
+            var moves = Legality.AllSuggestedMovesAndRelearn;
+            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            foreach (ComboBox c in cb)
+            {
+                var index = WinFormsUtil.getIndex(c);
+                c.DataSource = new BindingSource(moveList, null);
+                c.SelectedValue = index;
+            }
+            fieldsLoaded |= tmp;
         }
 
         private void updateGender()

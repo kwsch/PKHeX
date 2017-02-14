@@ -2017,7 +2017,7 @@ namespace PKHeX.Core
         #region Gen 1 Character Tables
         private static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{
             {0x50, "\0"},
-            {0x5D, "[TRAINER]"},
+            {0x5D, "TRAINER"},
             {0x7F, " "},
             {0x80, "A"},
             {0x81, "B"},
@@ -2103,7 +2103,7 @@ namespace PKHeX.Core
 
         private static Dictionary<string, byte> U2RBY_U => new Dictionary<string, byte> {
             {"\0", 0x50},
-            {"[TRAINER]", 0x5D},
+            {"TRAINER", 0x5D},
             {" ", 0x7F},
             {"A", 0x80},
             {"B", 0x81},
@@ -2560,6 +2560,18 @@ namespace PKHeX.Core
                 .Select(b => dict[b])
                 .TakeWhile(s => s != "\0")
                 .Aggregate("", (current, cur) => current + cur);
+        }
+
+        /// <summary>
+        /// Converts Generation 1 encoded character to string.
+        /// </summary>
+        /// <param name="key">Encoded character.</param>
+        /// <param name="jp">Data source is Japanese.</param>
+        /// <returns>Decoded string.</returns>
+        public static string getG1Char(byte key, bool jp)
+        {
+            Dictionary<byte, string> dict = jp ? RBY2U_J : RBY2U_U;
+            return dict.ContainsKey(key) ? dict[key] : "";
         }
 
         /// <summary>

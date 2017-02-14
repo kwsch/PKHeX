@@ -267,8 +267,8 @@ namespace PKHeX.Core
         public static GameStrings Strings;
 
         // DataSource providing
-        public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        public static List<ComboItem> HaXMoveDataSource;
+        public static List<ComboItem> ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
+        public static List<ComboItem> LegalMoveDataSource, HaXMoveDataSource, MoveDataSource;
         private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6, metGen7;
 
         public static void InitializeDataSources(GameStrings s)
@@ -284,7 +284,7 @@ namespace PKHeX.Core
             VersionDataSource.AddRange(Util.getCBList(s.gamelist, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
 
             HaXMoveDataSource = Util.getCBList(s.movelist, null);
-            MoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
+            MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
             #region Met Locations
             // Gen 2
             {

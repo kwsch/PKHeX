@@ -6388,9 +6388,6 @@
   <data name="ProgramVersion" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\version.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="personal_rby" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\byte\personal_rby;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="text_gsc_00000_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\gen3\text_gsc_00000_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
@@ -7387,9 +7384,6 @@
   <data name="evos_rby" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\evos_rby.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lvlmove_rby" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\byte\lvlmove_rby.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="encounter_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\encounter_blue.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -7404,5 +7398,17 @@
   </data>
   <data name="encounter_yellow_f" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\encounter_yellow_f.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_rb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_rb.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_y" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_y.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_rb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_rb;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="personal_y" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\personal_y;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

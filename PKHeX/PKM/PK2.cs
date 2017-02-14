@@ -327,7 +327,7 @@ namespace PKHeX.Core
         public override int Egg_Location { get { return 0; } set { } }
         public override int OT_Friendship { get { return 0; } set { } }
         public override int Ball { get { return 0; } set { } }
-        public override int Version { get { return 0; } set { } }
+        public override int Version { get { return (int)GameVersion.GSC; } set { } }
         public override int SID { get { return 0; } set { } }
         public override int CNT_Cool { get { return 0; } set { } }
         public override int CNT_Beauty { get { return 0; } set { } }
