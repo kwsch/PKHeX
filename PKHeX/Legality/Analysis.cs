@@ -92,6 +92,7 @@ namespace PKHeX.Core
             
             updateEncounterChain();
             updateMoveLegality();
+            updateEncounterInfo();
             verifyNickname();
             verifyDVs();
             verifyG1OT();
@@ -105,6 +106,7 @@ namespace PKHeX.Core
             updateRelearnLegality();
             updateEncounterChain();
             updateMoveLegality();
+            updateEncounterInfo();
             updateChecks();
         }
         private void parsePK7(PKM pk)
@@ -116,6 +118,7 @@ namespace PKHeX.Core
             updateRelearnLegality();
             updateEncounterChain();
             updateMoveLegality();
+            updateEncounterInfo();
             updateChecks();
         }
 
@@ -141,13 +144,16 @@ namespace PKHeX.Core
             Parse.Add(Encounter);
             EvoChain = Legal.getEvolutionChain(pkm, EncounterMatch);
         }
-        private void updateChecks()
+        private void updateEncounterInfo()
         {
             EncounterMatch = EncounterMatch ?? pkm.Species;
 
             EncounterType = EncounterMatch?.GetType();
             if (EncounterType == typeof (MysteryGift))
                 EncounterType = EncounterType.BaseType;
+        }
+        private void updateChecks()
+        {
             History = verifyHistory();
 
             AddLine(Encounter);
@@ -269,14 +275,18 @@ namespace PKHeX.Core
                     Level = 1,
                 };
 
-            var capture = Legal.getCaptureLocation(pkm);
-            if (capture != null)
+            var area = Legal.getCaptureLocation(pkm);
+            if (area != null)
+            {
+                var slots = area.Slots.OrderBy(s => s.LevelMin);
                 return new EncounterStatic
                 {
-                    Species = capture.Slots.First().Species,
-                    Location = capture.Location,
-                    Level = capture.Slots.First().LevelMin,
+                    Species = slots.First().Species,
+                    Location = area.Location,
+                    Level = slots.First().LevelMin,
                 };
+
+            }
 
             var encounter = Legal.getStaticLocation(pkm);
             return encounter;

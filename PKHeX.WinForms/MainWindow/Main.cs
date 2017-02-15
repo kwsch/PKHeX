@@ -1940,8 +1940,12 @@ namespace PKHeX.WinForms
                 return;
 
             pkm = preparePKM();
+            updateLegality();
+            if (Legality.Valid)
+                return;
+
             var encounter = Legality.getSuggestedMetInfo();
-            if (encounter == null || encounter.Location < 0)
+            if (encounter == null || (pkm.Format >= 3 && encounter.Location < 0))
             {
                 WinFormsUtil.Alert("Unable to provide a suggestion.");
                 return;
@@ -1950,21 +1954,35 @@ namespace PKHeX.WinForms
             int level = encounter.Level;
             int location = encounter.Location;
             int minlvl = Legal.getLowestLevel(pkm, encounter.Species);
-
-            if (pkm.Met_Level == level && pkm.Met_Location == location && pkm.CurrentLevel >= minlvl)
+            if (minlvl == 0)
+                minlvl = level;
+            
+            if (pkm.CurrentLevel >= minlvl && pkm.Met_Level == level && pkm.Met_Location == location)
                 return;
 
-            var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
-            var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
-            string suggestion = $"Suggested:\nMet Location: {locstr}\nMet Level: {level}";
+            var suggestion = new List<string> {"Suggested:"};
+            if (pkm.Format >= 3)
+            {
+                var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
+                var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
+                suggestion.Add($"Met Location: {locstr}");
+                suggestion.Add($"Met Level: {level}");
+            }
             if (pkm.CurrentLevel < minlvl)
-                suggestion += $"\nCurrent Level {minlvl}";
+                suggestion.Add($"Current Level: {minlvl}");
 
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggestion) != DialogResult.Yes)
+            if (suggestion.Count == 1) // no suggestion
                 return;
 
-            TB_MetLevel.Text = level.ToString();
-            CB_MetLocation.SelectedValue = location;
+            string suggest = string.Join(Environment.NewLine, suggestion);
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggest) != DialogResult.Yes)
+                return;
+
+            if (pkm.Format >= 3)
+            {
+                TB_MetLevel.Text = level.ToString();
+                CB_MetLocation.SelectedValue = location;
+            }
 
             if (pkm.CurrentLevel < minlvl)
                 TB_Level.Text = minlvl.ToString();

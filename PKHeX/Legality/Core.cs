@@ -637,11 +637,11 @@ namespace PKHeX.Core
                 select new EncounterArea
                 {
                     Location = area.Location, Slots = slots,
-                }).FirstOrDefault();
+                }).OrderBy(area => area.Slots.Min(x => x.LevelMin)).FirstOrDefault();
         }
         internal static EncounterStatic getStaticLocation(PKM pkm)
         {
-            return getStaticEncounters(pkm).FirstOrDefault();
+            return getStaticEncounters(pkm, 100).OrderBy(s => s.Level).FirstOrDefault();
         }
 
         public static int getLowestLevel(PKM pkm, int refSpecies = -1)
@@ -889,7 +889,7 @@ namespace PKHeX.Core
             List<EncounterSlot> slotdata = new List<EncounterSlot>();
 
             // Get Valid levels
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm);
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, ignoreLevel ? 100 : -1, ignoreLevel);
 
             // Get slots where pokemon can exist
             bool ignoreSlotLevel = ignoreLevel;

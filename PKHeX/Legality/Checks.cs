@@ -25,6 +25,7 @@ namespace PKHeX.Core
         Gender,
         EVs,
         Language,
+        Nickname,
         Trainer,
         IVs,
         None,
@@ -143,12 +144,12 @@ namespace PKHeX.Core
             // If the Pokémon is not nicknamed, it should match one of the language strings.
             if (pkm.Nickname.Length == 0)
             {
-                AddLine(Severity.Invalid, "Nickname is empty.", CheckIdentifier.EVs);
+                AddLine(Severity.Invalid, "Nickname is empty.", CheckIdentifier.Nickname);
                 return;
             }
             if (pkm.Species > PKX.SpeciesLang[0].Length)
             {
-                AddLine(Severity.Indeterminate, "Species index invalid for Nickname comparison.", CheckIdentifier.EVs);
+                AddLine(Severity.Indeterminate, "Species index invalid for Nickname comparison.", CheckIdentifier.Nickname);
                 return;
             }
 
@@ -159,7 +160,7 @@ namespace PKHeX.Core
                 int lang = Array.IndexOf(PKX.SpeciesLang, langset);
 
                 if (pk.Length > (lang == 2 ? 10 : 5))
-                    AddLine(Severity.Invalid, "Nickname too long.", CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, "Nickname too long.", CheckIdentifier.Nickname);
             }
 
             if (!Encounter.Valid)
@@ -193,7 +194,7 @@ namespace PKHeX.Core
                 else if (pkm.SM)
                 {
                     // TODO
-                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon un-implemented.", CheckIdentifier.EVs);
+                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon un-implemented.", CheckIdentifier.Nickname);
                     return;
                 }
 
@@ -212,11 +213,11 @@ namespace PKHeX.Core
                 string OT = validOT[validOT.Length/2 + index];
 
                 if (nick != pkm.Nickname)
-                    AddLine(Severity.Fishy, "Ingame Trade nickname has been altered.", CheckIdentifier.EVs);
+                    AddLine(Severity.Fishy, "Ingame Trade nickname has been altered.", CheckIdentifier.Nickname);
                 else if (OT != pkm.OT_Name)
                     AddLine(Severity.Invalid, "Ingame Trade OT has been altered.", CheckIdentifier.Trainer);
                 else
-                    AddLine(Severity.Valid, "Ingame Trade OT/Nickname have not been altered.", CheckIdentifier.EVs);
+                    AddLine(Severity.Valid, "Ingame Trade OT/Nickname have not been altered.", CheckIdentifier.Nickname);
 
                 return;
             }
@@ -224,11 +225,11 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (!pkm.IsNicknamed && (pkm.Format != 7))
-                    AddLine(Severity.Invalid, "Eggs must be nicknamed.", CheckIdentifier.EVs);
+                    AddLine(Severity.Invalid, "Eggs must be nicknamed.", CheckIdentifier.Egg);
                 else if (PKX.SpeciesLang[pkm.Language][0] != pkm.Nickname)
-                    AddLine(Severity.Invalid, "Egg name does not match language Egg name.", CheckIdentifier.EVs);
+                    AddLine(Severity.Invalid, "Egg name does not match language Egg name.", CheckIdentifier.Egg);
                 else
-                    AddLine(Severity.Valid, "Egg matches language Egg name.", CheckIdentifier.EVs);
+                    AddLine(Severity.Valid, "Egg matches language Egg name.", CheckIdentifier.Egg);
 
                 return;
             }
@@ -245,15 +246,15 @@ namespace PKHeX.Core
 
                     AddLine(Severity.Fishy, index == pkm.Species && i != pkm.Language
                         ? "Nickname matches another species name (+language)."
-                        : "Nickname flagged, matches species name.", CheckIdentifier.EVs);
+                        : "Nickname flagged, matches species name.", CheckIdentifier.Nickname);
                     return;
                 }
-                AddLine(Severity.Valid, "Nickname does not match another species name.", CheckIdentifier.EVs);
+                AddLine(Severity.Valid, "Nickname does not match another species name.", CheckIdentifier.Nickname);
             }
             else if (pkm.Format < 3)
             {
                 // pk1/pk2 IsNicknamed getter checks for match, logic should only reach here if matches.
-                AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.EVs);
+                AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.Nickname);
             }
             else
             {
@@ -262,9 +263,9 @@ namespace PKHeX.Core
                        || PKX.SpeciesLang[pkm.Language][pkm.Species] == nickname;
 
                 if (!match)
-                    AddLine(Severity.Invalid, "Nickname does not match species name.", CheckIdentifier.EVs);
+                    AddLine(Severity.Invalid, "Nickname does not match species name.", CheckIdentifier.Nickname);
                 else
-                    AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.EVs);
+                    AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.Nickname);
             }
         }
         private void verifyEVs()
@@ -571,7 +572,7 @@ namespace PKHeX.Core
                 var result = verifyEncounterG1();
 
                 if (pkm.Format > 2) // transported to 7+
-                    Parse.Add(verifyVCEncounter(baseSpecies));
+                    AddLine(verifyVCEncounter(baseSpecies));
 
                 return result;
             }
@@ -622,10 +623,10 @@ namespace PKHeX.Core
 
             // Check existing EncounterMatch
             if (EncounterMatch == null)
-                Parse.Add(new CheckResult(Severity.Invalid, "Unable to match an encounter from origin game.", CheckIdentifier.Encounter));
+                AddLine(new CheckResult(Severity.Invalid, "Unable to match an encounter from origin game.", CheckIdentifier.Encounter));
             var s = EncounterMatch as EncounterStatic;
             if (s != null && s.Version == GameVersion.SPECIAL)
-                Parse.Add(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
+                AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
 
             EncounterMatch = new EncounterStatic
             {
