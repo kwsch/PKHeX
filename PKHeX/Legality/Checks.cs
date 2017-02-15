@@ -1565,7 +1565,7 @@ namespace PKHeX.Core
             if (!History.Valid)
                 return;
 
-            if (pkm.GenNumber == 7)
+            if (pkm.GenNumber == 7 || pkm.GenNumber == 1)
             {
                 bool check = pkm.VC1 || pkm.HT_Memory != 0;
                 if (!check)
