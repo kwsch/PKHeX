@@ -192,12 +192,19 @@ namespace PKHeX.Core
         }
 
         // Moves
-        internal static IEnumerable<int> getValidMoves(PKM pkm, IEnumerable<DexLevel> evoChain, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, evoChain, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
+            return getValidMoves(pkm, version, evoChains, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder);
+        }
+        internal static IEnumerable<int> getValidMoves(PKM pkm, IEnumerable<DexLevel> evoChain,int generation, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
+        {
+            GameVersion version = (GameVersion)pkm.Version;
+            if (!pkm.IsUntraded)
+                version = GameVersion.Any;
+            return getValidMoves(pkm, version, evoChain, generation,LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
@@ -414,7 +421,7 @@ namespace PKHeX.Core
                 default: return -1;
             }
         }
-
+        
         internal static int getMaxSpeciesOrigin(PKM pkm)
         {
             if (pkm.Format == 1 || pkm.VC1) // Gen1 VC could not trade with gen 2 yet
@@ -705,25 +712,52 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static bool getCanLearnMachineMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
+        internal static bool getCanLearnMachineMove(PKM pkm, int move, int[] generations, GameVersion version = GameVersion.Any)
         {
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), Machine: true).Contains(move);
+            foreach (int generation in generations)
+                if (getCanLearnMachineMove(pkm, generation, move, version))
+                    return true;
+            return false;
         }
-        internal static bool getCanRelearnMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
+        internal static bool getCanRelearnMove(PKM pkm,int move, int[] generations, GameVersion version = GameVersion.Any)
         {
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), LVL: true, Relearn: true).Contains(move);
+            foreach (int generation in generations)
+                if (getCanRelearnMove(pkm, move, generation, version))
+                    return true;
+            return false;
         }
-        internal static bool getCanLearnMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
+        internal static bool getCanLearnMove(PKM pkm, int move, int[] generations, GameVersion version = GameVersion.Any)
         {
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), Tutor: true, Machine: true).Contains(move);
+            foreach (int generation in generations)
+                if (getCanLearnMove(pkm, move, generation, version))
+                    return true;
+            return false;
         }
-        internal static bool getCanKnowMove(PKM pkm, int move, GameVersion version = GameVersion.Any)
+        internal static bool getCanKnowMove(PKM pkm, int move, int[] generations, GameVersion version = GameVersion.Any)
+        {
+            foreach (int generation in generations)
+                if (getCanKnowMove(pkm, move, generation, version))
+                    return true;
+            return false;
+        }
+        internal static bool getCanLearnMachineMove(PKM pkm,int move, int generation, GameVersion version = GameVersion.Any)
+        {
+            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), generation, Machine: true).Contains(move);
+        }
+        internal static bool getCanRelearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
+        {
+            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), generation, LVL: true, Relearn: true).Contains(move);
+        }
+        internal static bool getCanLearnMove(PKM pkm,int move, int generation, GameVersion version = GameVersion.Any)
+        {
+            return getValidMoves(pkm, version, getValidPreEvolutions(pkm), generation, Tutor: true, Machine: true).Contains(move);
+        }
+        internal static bool getCanKnowMove(PKM pkm,int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
-            return getValidMoves(pkm, Version: version, vs: getValidPreEvolutions(pkm), LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return getValidMoves(pkm, version,getValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
-
         internal static int getBaseSpecies(PKM pkm, int skipOption = 0)
         {
             if (pkm.Species == 292)
@@ -838,7 +872,7 @@ namespace PKHeX.Core
             //Maxlevel is also used for previous generations, it removes evolutions imposible before the transfer level
             //For example a fire red charizard whose current level in XY is 50 but met level is 20, it couldnt be a Charizard in gen 3 and 4 games
             vs = vs.Skip(skip).Where(e=>e.MinLevel <= maxlevel).ToArray();
-            //Reduce the evolution chain levels to max level, because met level is the las one when the pokemon could be and learn moves in that generation
+            //Reduce the evolution chain levels to max level, because met level is the last one when the pokemon could be and learn moves in that generation
             foreach (DexLevel d in vs)
                 d.Level = Math.Min(d.Level, maxlevel);
             return vs;
@@ -1039,13 +1073,13 @@ namespace PKHeX.Core
             if (lvl == 1 && pkm.IsEgg)
                 return new List<DexLevel>
                 {
-                    new DexLevel { Species = pkm.Species, Level = 1 },
+                    new DexLevel { Species = pkm.Species, Level = 1, MinLevel = 1  },
                 };
-            if (pkm.Species == 292 && pkm.Met_Level + 1 <= lvl && lvl >= 20)
+            if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
                 return new List<DexLevel>
                 {
-                    new DexLevel { Species = 292, Level = lvl },
-                    new DexLevel { Species = 290, Level = lvl-1 }
+                    new DexLevel { Species = 292, Level = lvl, MinLevel =20 },
+                    new DexLevel { Species = 290, Level = lvl - 1, MinLevel = 1 }
                 };
 
             var et = getEvolutionTable(pkm);
@@ -1056,11 +1090,22 @@ namespace PKHeX.Core
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, lvl);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
-        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, IEnumerable<DexLevel> vs, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
+        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, DexLevel[][] vs, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
         {
             List<int> r = new List<int> { 0 };
+            for(int gen =1;gen<=7;gen++)
+            {
+                if (vs[gen].Any())
+                    r.AddRange(getValidMoves(pkm, Version, vs[gen], gen, LVL, Tutor, Machine, MoveReminder));
+            }
+            return r.Distinct().ToArray();
+        }
+        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, IEnumerable<DexLevel> vs, int Generation, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true)
+        {
+            List<int> r = new List<int> { 0 };
+            if (!vs.Any())
+                return r;
             int species = pkm.Species;
-            int lvl = pkm.CurrentLevel;
 
             // Special Type Tutors Availability
             bool moveTutor = Tutor || MoveReminder; // Usually true, except when called for move suggestions (no tutored moves)
@@ -1069,15 +1114,13 @@ namespace PKHeX.Core
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
                 for (int i = 0; i < formcount; i++)
-                    r.AddRange(getMoves(pkm, species, lvl, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
+                    r.AddRange(getMoves(pkm, species, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, Generation, MoveReminder));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
                 return r.Distinct().ToArray();
             }
 
-            r.AddRange(getMoves(pkm, species, lvl, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
-
             foreach (DexLevel evo in vs)
-                r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder));
+                r.AddRange(getMoves(pkm, evo.Species, evo.Level, evo.Form, moveTutor, Version, LVL, Tutor, Machine, Generation, MoveReminder));
 
             if (pkm.Format <= 3)
                 return r.Distinct().ToArray();

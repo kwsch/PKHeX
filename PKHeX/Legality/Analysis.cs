@@ -259,7 +259,7 @@ namespace PKHeX.Core
                 return null;
             if (!Parsed)
                 return new int[4];
-            return Legal.getValidMoves(pkm, EvoChain, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+            return Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
 
         public EncounterStatic getSuggestedMetInfo()
