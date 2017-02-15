@@ -70,8 +70,8 @@ namespace PKHeX.Core
                     return;
             }
             catch { Valid = false; }
-            AllSuggestedMoves = !pkm.IsOriginValid() ? new int[4] : getSuggestedMoves(true, true, true);
-            AllSuggestedRelearnMoves = !pkm.IsOriginValid() ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
+            AllSuggestedMoves = !pkm.IsOriginValid ? new int[4] : getSuggestedMoves(true, true, true);
+            AllSuggestedRelearnMoves = !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
             AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
         }
 
@@ -87,7 +87,7 @@ namespace PKHeX.Core
         private void parsePK1(PKM pk)
         {
             pkm = pk;
-            if (!pkm.IsOriginValid())
+            if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
             
             updateEncounterChain();
@@ -100,7 +100,7 @@ namespace PKHeX.Core
         private void parsePK6(PKM pk)
         {
             pkm = pk;
-            if (!pkm.IsOriginValid())
+            if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
@@ -112,7 +112,7 @@ namespace PKHeX.Core
         private void parsePK7(PKM pk)
         {
             pkm = pk;
-            if (!pkm.IsOriginValid())
+            if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
 
             updateRelearnLegality();
@@ -235,7 +235,7 @@ namespace PKHeX.Core
 
         public int[] getSuggestedRelearn()
         {
-            if (RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid())
+            if (RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid)
                 return new int[4];
 
             if (!pkm.WasEgg)
@@ -253,7 +253,7 @@ namespace PKHeX.Core
         }
         public int[] getSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
-            if (pkm == null || !pkm.IsOriginValid())
+            if (pkm == null || !pkm.IsOriginValid)
                 return null;
             if (!Parsed)
                 return new int[4];
@@ -265,11 +265,12 @@ namespace PKHeX.Core
             if (pkm == null)
                 return null;
 
+            int loc = getSuggestedTransferLocation(pkm);
             if (pkm.WasEgg)
                 return new EncounterStatic
                 {
                     Species = Legal.getBaseSpecies(pkm),
-                    Location = getSuggestedEggMetLocation(pkm),
+                    Location = loc != -1 ? loc : getSuggestedEggMetLocation(pkm),
                     Level = 1,
                 };
 
@@ -280,13 +281,14 @@ namespace PKHeX.Core
                 return new EncounterStatic
                 {
                     Species = slots.First().Species,
-                    Location = area.Location,
+                    Location = loc != -1 ? loc : area.Location,
                     Level = slots.First().LevelMin,
                 };
-
             }
 
             var encounter = Legal.getStaticLocation(pkm);
+            if (loc != -1)
+                encounter.Location = loc;
             return encounter;
         }
         private static int getSuggestedEggMetLocation(PKM pkm)
@@ -317,6 +319,19 @@ namespace PKHeX.Core
                 case GameVersion.MN:
                     return 50; // Route 4
             }
+            return -1;
+        }
+        private static int getSuggestedTransferLocation(PKM pkm)
+        {
+            // Return one of legal hatch locations for game
+            if (pkm.HasOriginalMetLocation)
+                return -1;
+            if (pkm.VC1)
+                return 30013;
+            if (pkm.Format == 4) // Pal Park
+                return 0x37;
+            if (pkm.Format == 5) // Transporter
+                return 30001;
             return -1;
         }
     }

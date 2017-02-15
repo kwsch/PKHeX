@@ -1959,6 +1959,8 @@ namespace PKHeX.WinForms
             
             if (pkm.CurrentLevel >= minlvl && pkm.Met_Level == level && pkm.Met_Location == location)
                 return;
+            if (minlvl < level)
+                minlvl = level;
 
             var suggestion = new List<string> {"Suggested:"};
             if (pkm.Format >= 3)

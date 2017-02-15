@@ -403,6 +403,7 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
+        private int MaxSpeciesID => Legal.getMaxSpeciesOrigin(Format);
         public virtual bool WasLink => false;
         public virtual bool WasEgg => Egg_Location > 0;
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
@@ -411,25 +412,8 @@ namespace PKHeX.Core
         public virtual bool WasIngameTrade => Met_Location == 30001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
-        public virtual bool IsOriginValid()
-        {
-            switch (Format)
-            {
-                case 1: return Species <= Legal.MaxSpeciesID_1;
-                case 2: return Species <= Legal.MaxSpeciesID_2;
-            }
-            switch (GenNumber)
-            {
-                case 1: return Species <= Legal.MaxSpeciesID_1;
-                case 2: return Species <= Legal.MaxSpeciesID_2;
-                case 3: return Species <= Legal.MaxSpeciesID_3;
-                case 4: return Species <= Legal.MaxSpeciesID_4;
-                case 5: return Species <= Legal.MaxSpeciesID_5;
-                case 6: return Species <= Legal.MaxSpeciesID_6;
-                case 7: return Species <= Legal.MaxSpeciesID_7;
-                default: return false;
-            }
-        }
+        public virtual bool IsOriginValid => Species <= Legal.getMaxSpeciesOrigin(Format);
+
         public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
         public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
 
@@ -462,26 +446,33 @@ namespace PKHeX.Core
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.
         /// </summary>
         /// <param name="Generation">Set of games.</param>
+        /// <param name="species"></param>
         /// <returns>True if could inhabit, False if not.</returns>
-        public bool InhabitedGeneration(int Generation)
+        public bool InhabitedGeneration(int Generation, int species = -1)
         {
-            if (VC1 && Generation == 1)
-                return true; // Virtual Console Gen1
+            if (species < 0)
+                species = Species;
 
             if (Format < Generation)
                 return false; // Future
-            if (GenNumber > Generation)
-                return false; // Past
 
-            switch (Generation) // Sanity Check Species ID
+            if (!IsOriginValid)
+                return false;
+
+            // Sanity Check Species ID
+            if (Legal.getMaxSpeciesOrigin(GenNumber) < species)
+                return false;
+
+            int gen = GenNumber;
+            switch (Generation)
             {
-                case 1: return Species <= Legal.MaxSpeciesID_1;
-                case 2: return Species <= Legal.MaxSpeciesID_2;
-                case 3: return Species <= Legal.MaxSpeciesID_3;
-                case 4: return Species <= Legal.MaxSpeciesID_4;
-                case 5: return Species <= Legal.MaxSpeciesID_5;
-                case 6: return Species <= Legal.MaxSpeciesID_6;
-                case 7: return Species <= Legal.MaxSpeciesID_7;
+                case 1: return VC;
+                case 2: return VC;
+                case 3: return Gen3;
+                case 4: return 3 <= gen && gen <= 4;
+                case 5: return 3 <= gen && gen <= 5;
+                case 6: return 3 <= gen && gen <= 6;
+                case 7: return VC || 3 <= gen && gen <= 7;
                 default:
                     return false;
             }

@@ -400,26 +400,18 @@ namespace PKHeX.Core
             }
         }
 
-        private static int getMaxSpeciesOrigin(int generation)
+        internal static int getMaxSpeciesOrigin(int generation)
         {
             switch (generation)
             {
-                case 1:
-                    return MaxSpeciesID_1;
-                case 2:
-                    return MaxSpeciesID_2;
-                case 3:
-                    return MaxSpeciesID_3;
-                case 4:
-                    return MaxSpeciesID_4;
-                case 5:
-                    return MaxSpeciesID_5;
-                case 6:
-                    return MaxSpeciesID_6;
-                case 7:
-                    return MaxSpeciesID_7;
-                default:
-                    return MaxSpeciesID_7;
+                case 1: return MaxSpeciesID_1;
+                case 2: return MaxSpeciesID_2;
+                case 3: return MaxSpeciesID_3;
+                case 4: return MaxSpeciesID_4;
+                case 5: return MaxSpeciesID_5;
+                case 6: return MaxSpeciesID_6;
+                case 7: return MaxSpeciesID_7;
+                default: return -1;
             }
         }
 
@@ -1028,11 +1020,18 @@ namespace PKHeX.Core
         {
             List<int> r = new List<int> { 0 };
             int gen = pkm.GenNumber;
-            if (pkm.Format < 3)
-                gen = 1;
+            if (pkm.GenNumber < 3)
+            {
+                int max = pkm.Format < 3 ? 2 : 1;
+                for (; gen <= max; gen++)
+                    if (pkm.InhabitedGeneration(gen, species))
+                        r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen, MoveReminder));
+                gen = 7;
+            }
 
             for (; gen <= pkm.Format; gen++)
-               r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen, MoveReminder));
+                if (pkm.InhabitedGeneration(gen))
+                    r.AddRange(getMoves(pkm, species, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, gen, MoveReminder));
             return r.Distinct();
         }
         private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, int Generation, bool MoveReminder)
@@ -1118,6 +1117,9 @@ namespace PKHeX.Core
         }
         private static IEnumerable<int> getEggMoves(PKM pkm, int species, int formnum)
         {
+            if (!pkm.InhabitedGeneration(pkm.GenNumber, species))
+                return new List<int>();
+
             switch (pkm.GenNumber)
             {
                 case 6: // entries per species
