@@ -421,7 +421,20 @@ namespace PKHeX.Core
                 default: return -1;
             }
         }
-        
+
+        internal static int[] getFutureGenEvolutions(int generation)
+        {
+            switch (generation)
+            {
+                case 1: return FutureEvolutionsGen1;
+                case 2: return FutureEvolutionsGen2;
+                case 3: return FutureEvolutionsGen3;
+                case 4: return FutureEvolutionsGen4;
+                case 5: return FutureEvolutionsGen5;
+                default: return new int[0];
+            }
+        }
+
         internal static int getMaxSpeciesOrigin(PKM pkm)
         {
             if (pkm.Format == 1 || pkm.VC1) // Gen1 VC could not trade with gen 2 yet

@@ -89,5 +89,10 @@ namespace PKHeX.Core
             // HGSS balls not usable
             // Dream ball not usable in wild
         };
+
+        internal static readonly int[] FutureEvolutionsGen5 =
+        {
+            700
+        };
     }
 }
