@@ -741,11 +741,68 @@ namespace PKHeX.Core
                 default: return evos.Length <= 0 ? pkm.Species : evos.Last().Species;
             }
         }
+
+        internal static DexLevel[][] getEvolutionChainsAllGens(PKM pkm, object Encounter)
+        {
+            IEnumerable<DexLevel> CompleteEvoChain = getEvolutionChain(pkm, Encounter);
+            DexLevel[][] GensEvoChains = new DexLevel[8][];
+            for (int gen = 1; gen <= 7; gen++)
+                GensEvoChains[gen] = new DexLevel[0];
+
+            if(pkm.GenU || pkm.Species==0)//Illegal origin or empty pokemon, return only chain for current format
+            {
+                GensEvoChains[pkm.Format] = CompleteEvoChain.ToArray();
+                return GensEvoChains;
+            }
+
+            int currengenlevel = pkm.CurrentLevel;
+            int maxgen = (pkm.Format <= 2) ? 2 : pkm.Format;
+            int mingen = (pkm.Format <= 2) ? 1 : pkm.GenNumber;
+            //Iterate generations backwards because level will be decreased from current level in each generation
+            for (int gen = maxgen; gen >= mingen; gen--)
+            {
+                if ((pkm.Gen1 || pkm.VC1) && pkm.Format >2 && 2 <= gen && gen <= 6)
+                    continue;
+                if ((pkm.Gen2 || pkm.VC2) && 3 <= gen && gen <= 6)
+                    continue;
+                if (!pkm.HasOriginalMetLocation && pkm.Format >2 && gen <= 4 && currengenlevel > pkm.Met_Level)
+                    //Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximun level met level
+                    currengenlevel = pkm.Met_Level;
+                //Remove future gen evolutions after a few special considerations, 
+                //it he pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
+                while (CompleteEvoChain.Any() && CompleteEvoChain.First().Species > getMaxSpeciesOrigin(gen))
+                {   
+                    //Eeve requieres to level one time to be Sylveon, it can be deduced in gen 5 and before it existed with maximun one level bellow current
+                    if (CompleteEvoChain.First().Species == 700 && gen == 5)
+                        currengenlevel--;
+                    //This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5,6 or 7
+                    //We can deduce that it existed in gen 4 until met level,
+                    //but if current level is met level we can also deduce it existed in gen 3 until maximun met level -1
+                    if (gen == 3 && pkm.Format>4 && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().RequiresLvlUp)
+                        currengenlevel--;
+                    CompleteEvoChain = CompleteEvoChain.Skip(1);
+                };
+                //Alolan form evolutions, remove from gens 1-6 chains
+                if (gen < 7 && pkm.Format >= 7 && CompleteEvoChain.Any() && CompleteEvoChain.First().Form > 0 && EvolveToAlolanForms.Contains(CompleteEvoChain.First().Species))
+                    CompleteEvoChain = CompleteEvoChain.Skip(1);
+                
+                if(CompleteEvoChain.Any())
+                {
+                    GensEvoChains[gen] = getEvolutionChain(pkm, Encounter, CompleteEvoChain.First().Species, currengenlevel);
+                    if (!pkm.HasOriginalMetLocation &&  gen >= pkm.GenNumber )
+                        //Remove previous evolutions bellow transfer level
+                        //For example a gen3 charizar in format 7 with current level 36 and met level 36
+                        //chain level for charmander is 35, is bellow met level
+                        GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= currengenlevel).ToArray();
+                }
+            }
+            return GensEvoChains;
+        }
         internal static DexLevel[] getEvolutionChain(PKM pkm, object Encounter)
         {
             return getEvolutionChain(pkm, Encounter,pkm.Species, 100);
         }
-        public static DexLevel[] getEvolutionChain(PKM pkm, object Encounter,int maxspec, int maxlevel)
+        internal static DexLevel[] getEvolutionChain(PKM pkm, object Encounter,int maxspec, int maxlevel)
         {
             int minspec;
             DexLevel[] vs = getValidPreEvolutions(pkm).ToArray();

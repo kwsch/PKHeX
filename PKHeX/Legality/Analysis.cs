@@ -8,6 +8,7 @@ namespace PKHeX.Core
     {
         private PKM pkm;
         private DexLevel[] EvoChain;
+        private DexLevel[][] EvoChainsAllGens;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         private object EncounterMatch;
@@ -143,6 +144,7 @@ namespace PKHeX.Core
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
             EvoChain = Legal.getEvolutionChain(pkm, EncounterMatch);
+            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterMatch);
         }
         private void updateEncounterInfo()
         {
