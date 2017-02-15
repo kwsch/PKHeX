@@ -153,7 +153,7 @@ namespace PKHeX.Core
 
             return Personal.getFormeIndex(evolvesToSpecies, evolvesToForm);
         }
-        public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, bool skipChecks = false)
+        public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl,bool skipChecks = false)
         {
             int index = getIndex(pkm);
             int maxSpeciesOrigin = Legal.getMaxSpeciesOrigin(pkm);
@@ -354,7 +354,7 @@ namespace PKHeX.Core
                     return false;
             }
         }
-
+        
         public DexLevel GetDexLevel(int species, int lvl)
         {
 
@@ -416,6 +416,22 @@ namespace PKHeX.Core
                         continue;
 
                     oneValid = true;
+                    if (evo.Level == 0 && !evo.RequiresLevelUp) //Evolutions like elemental stones
+                        dl.Last().MinLevel = 1;
+                    else if(evo.Level ==0) //Evolutions like frienship, picho -> pikachu, eeve -> umbreon, etc
+                    {
+                        dl.Last().MinLevel = 2;
+                        if (dl.Count() > 1 && dl.First().MinLevel == 1)
+                            dl.First().MinLevel = 2;
+                    }
+                    else
+                    {
+                        dl.Last().MinLevel = evo.Level;
+                        if (dl.Count() > 1 && dl.First().MinLevel == 1)
+                            dl.First().MinLevel = evo.Level; //Pokemon like Nidoqueen, its minimun level is Nidorina minimun level
+                        if (dl.Count() > 1 && dl.First().MinLevel == 2)
+                            dl.First().MinLevel = evo.Level + 1; //Pokemon like Crobat, its minimun level is Golbat minimun level + 1
+                    }
                     int species = evo.Species;
 
                     // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
@@ -436,6 +452,8 @@ namespace PKHeX.Core
             if (dl.Any(d => d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
                 dl.RemoveAt(dl.Count - 1); 
 
+            //Last species is the wild/hatched species, the minimu is 1 because it has not evolved from previous species
+            dl.Last().MinLevel = 1;
             return dl;
         }
     }
