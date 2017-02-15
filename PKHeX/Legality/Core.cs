@@ -1166,21 +1166,22 @@ namespace PKHeX.Core
 
             if (pkm.Format <= 3)
                 return r.Distinct().ToArray();
+            if (LVL)
+            { 
+                if (species == 479 && Generation >= 4) // Rotom
+                    r.Add(RotomMoves[pkm.AltForm]);
+                if (species == 648 && Generation >= 5) // Meloetta
+                    r.Add(547); // Relic Song
 
-            if (species == 479) // Rotom
-                r.Add(RotomMoves[pkm.AltForm]);
-            if (species == 648) // Meloetta
-                r.Add(547); // Relic Song
+                if (species == 25 && pkm.Format == 6 && Generation == 6) // Pikachu
+                    r.Add(PikachuMoves[pkm.AltForm]);
 
-            if (species == 25 && pkm.Format == 6 && pkm.GenNumber == 6) // Pikachu
-                r.Add(PikachuMoves[pkm.AltForm]);
-
-            if (species == 718 && pkm.GenNumber == 7) // Zygarde
-                r.AddRange(ZygardeMoves);
-            if ((species == 25 || species == 26) && pkm.Format == 7) // Pikachu/Raichu Tutor
+                if (species == 718 && Generation == 7) // Zygarde
+                    r.AddRange(ZygardeMoves);
+            }
+            if ((species == 25 || species == 26) && Generation == 7 && moveTutor) // Pikachu/Raichu Tutor
                 r.Add(344); // Volt Tackle
-
-            if (Relearn) r.AddRange(pkm.RelearnMoves);
+            if (Relearn && Generation >= 6) r.AddRange(pkm.RelearnMoves);
             return r.Distinct().ToArray();
         }
         private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder)
