@@ -278,6 +278,7 @@ namespace PKHeX.Core
                 return null;
 
             int currentLevel = Level > 0 ? Level : (int)(Util.rnd32()%100 + 1);
+            var pi = PersonalTable.AO[Species];
             PK6 pk = new PK6
             {
                 Species = Species,
@@ -286,11 +287,11 @@ namespace PKHeX.Core
                 SID = SID,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PersonalTable.AO[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PersonalTable.AO[Species].RandomGender),
+                Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
-                EncryptionConstant = EncryptionConstant == 0 ? Util.rnd32() : EncryptionConstant,
-                Version = OriginGame == 0 ? SAV.Game : OriginGame,
-                Language = Language == 0 ? SAV.Language : Language,
+                EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.rnd32(),
+                Version = OriginGame != 0 ? OriginGame : SAV.Game,
+                Language = Language != 0 ? Language : SAV.Language,
                 Ball = Ball,
                 Country = SAV.Country,
                 Region = SAV.SubRegion,
@@ -334,7 +335,7 @@ namespace PKHeX.Core
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
                 
-                OT_Friendship = PersonalTable.AO[Species].BaseFriendship,
+                OT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
