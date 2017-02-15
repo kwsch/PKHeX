@@ -524,6 +524,16 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x50C);
             }
         }
+        public string FestivalPlazaName
+        {
+            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, JoinFestaData + 0x510, 0x2A)); }
+            set
+            {
+                const int max = 20;
+                if (value.Length > max) value = value.Substring(0, max);
+                Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, JoinFestaData + 0x510);
+            }
+        }
 
         public override int PlayedHours
         { 
