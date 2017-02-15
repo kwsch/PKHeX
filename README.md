@@ -16,7 +16,7 @@ The interface can be translated with resource/external text files so that differ
 
 Pokémon Showdown sets and QR codes can be imported/exported to assist in sharing.
 
-Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required ([svdt](https://github.com/meladroit/svdt), [save_manager](https://gist.github.com/profi200/d0d092c11d0eb0692748), [JKSM](https://github.com/J-D-K/JKSM), or [SaveDataFiler](https://digiex.net/threads/savedatafiler-nintendo-3ds-save-game-backup-and-restore-application.14645/)).
+Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required ([svdt](https://github.com/meladroit/svdt), [save_manager], [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
 
 ## Screenshots
 
