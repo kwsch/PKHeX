@@ -51,7 +51,7 @@ namespace PKHeX.Core
         public bool Flag;
         private readonly CheckIdentifier Identifier;
 
-        internal CheckResult(CheckIdentifier i) { }
+        internal CheckResult(CheckIdentifier i) { Identifier = i; }
         internal CheckResult(Severity s, string c, CheckIdentifier i)
         {
             Judgement = s;
@@ -622,11 +622,19 @@ namespace PKHeX.Core
                 species = baseSpecies;
 
             // Check existing EncounterMatch
-            if (EncounterMatch == null)
-                AddLine(new CheckResult(Severity.Invalid, "Unable to match an encounter from origin game.", CheckIdentifier.Encounter));
+            string oldEncounter = (EncounterMatch as IEncounterable)?.Name;
+            AddLine(oldEncounter != null
+                ? new CheckResult(Severity.Valid, "Origin game encounter: " + oldEncounter, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, "Unable to match an encounter from origin game.", CheckIdentifier.Encounter));
+
             var s = EncounterMatch as EncounterStatic;
             if (s != null && s.Version == GameVersion.SPECIAL)
-                AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
+            {
+                bool exceptions = false;
+                exceptions |= baseSpecies == 151 && pkm.TID == 22796;
+                if (!exceptions)
+                    AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
+            }
 
             EncounterMatch = new EncounterStatic
             {
@@ -637,6 +645,7 @@ namespace PKHeX.Core
                 Fateful = species == 151,
                 Location = 30013,
                 EggLocation = 0,
+                Version = GameVersion.RBY
             };
             var ematch = (EncounterStatic) EncounterMatch;
 

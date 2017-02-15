@@ -155,8 +155,6 @@ namespace PKHeX.Core
         private void updateChecks()
         {
             History = verifyHistory();
-
-            AddLine(Encounter);
             AddLine(History);
 
             verifyECPID();
