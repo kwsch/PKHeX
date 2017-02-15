@@ -416,22 +416,25 @@ namespace PKHeX.Core
                         continue;
 
                     oneValid = true;
-                    if (evo.Level == 0 && !evo.RequiresLevelUp) //Evolutions like elemental stones
+                    if (evo.Level == 0 && !evo.RequiresLevelUp) //Evolutions like elemental stones, trade, etc
+                    {
                         dl.Last().MinLevel = 1;
+                    }
                     else if(evo.Level ==0) //Evolutions like frienship, picho -> pikachu, eeve -> umbreon, etc
                     {
                         dl.Last().MinLevel = 2;
-                        if (dl.Count() > 1 && dl.First().MinLevel == 1)
-                            dl.First().MinLevel = 2;
+                        if (dl.Count() > 1 && !dl.First().RequiresLvlUp)
+                            dl.First().MinLevel = 2; //Raichu from Pikachu would have minimun level 1, but with Pichu included Raichu minimun level is 2
                     }
-                    else
+                    else //level up evolutions
                     {
                         dl.Last().MinLevel = evo.Level;
-                        if (dl.Count() > 1 && dl.First().MinLevel == 1)
+                        if (dl.Count() > 1 && dl.First().MinLevel < evo.Level && !dl.First().RequiresLvlUp)
                             dl.First().MinLevel = evo.Level; //Pokemon like Nidoqueen, its minimun level is Nidorina minimun level
-                        if (dl.Count() > 1 && dl.First().MinLevel == 2)
+                        if (dl.Count() > 1 && dl.First().MinLevel <= evo.Level && dl.First().RequiresLvlUp)
                             dl.First().MinLevel = evo.Level + 1; //Pokemon like Crobat, its minimun level is Golbat minimun level + 1
                     }
+                    dl.Last().RequiresLvlUp = evo.RequiresLevelUp;
                     int species = evo.Species;
 
                     // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
@@ -452,8 +455,9 @@ namespace PKHeX.Core
             if (dl.Any(d => d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
                 dl.RemoveAt(dl.Count - 1); 
 
-            //Last species is the wild/hatched species, the minimu is 1 because it has not evolved from previous species
+            //Last species is the wild/hatched species, the minimun is 1 because it has not evolved from previous species
             dl.Last().MinLevel = 1;
+            dl.Last().RequiresLvlUp = false;
             return dl;
         }
     }
