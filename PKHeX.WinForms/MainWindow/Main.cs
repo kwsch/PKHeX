@@ -3843,6 +3843,7 @@ namespace PKHeX.WinForms
             bool? noSetb = getPKMSetOverride();
 
             SAV.loadBoxes(path, out result, CB_BoxSelect.SelectedIndex, clearAll, noSetb);
+            setPKXBoxes();
             WinFormsUtil.Alert(result);
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
