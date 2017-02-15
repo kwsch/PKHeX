@@ -294,6 +294,11 @@ namespace PKHeX.Core
                     if (e.Level != pkm.Met_Level)
                         continue;
                 }
+                else
+                {
+                    if (e.Level > pkm.Met_Level)
+                        continue;
+                }
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
                     continue;
                 if (e.Form != pkm.AltForm && !FormChange.Contains(pkm.Species) && !e.SkipFormCheck)
@@ -350,7 +355,9 @@ namespace PKHeX.Core
                 return null;
             if (pkm.HasOriginalMetLocation && z.Location != pkm.Met_Location)
                 return null;
-            if (z.Level != pkm.Met_Level)
+            if (pkm.HasOriginalMetLocation && z.Level != pkm.Met_Level)
+                return null;
+            if (!pkm.HasOriginalMetLocation && z.Level > pkm.Met_Level)
                 return null;
             if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
                 return null;
@@ -421,7 +428,7 @@ namespace PKHeX.Core
                 default: return -1;
             }
         }
-
+        
         internal static int[] getFutureGenEvolutions(int generation)
         {
             switch (generation)
@@ -1016,14 +1023,31 @@ namespace PKHeX.Core
             bool ignoreSlotLevel = ignoreLevel;
             IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
 
-            if (pkm.Format < 3 || pkm.VC)
-                return slots; // no met level or special encounter considerations
-
             // Filter for Met Level
-            int lvl = pkm.Met_Level;
+            int lvl = (pkm.Format < 3) ? pkm.CurrentLevel : pkm.Met_Level;
             int gen = pkm.GenNumber;
-            bool ignoreMetLevel = ignoreLevel || gen <= 4 && pkm.Format != gen;
-            var encounterSlots = slots.Where(slot => ignoreMetLevel || slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
+            IEnumerable<EncounterSlot> encounterSlots;
+            if(pkm.HasOriginalMetLocation)
+                encounterSlots = slots.Where(slot => ignoreLevel || slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
+            else
+            {
+                //See comments in getEvolutionChainsAllGens for more info in this sentence
+                if (gen == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
+                    lvl--;
+                //Those encounters with level min greater that met level are not valid for this pokemon
+                encounterSlots = slots.Where(slot => ignoreLevel || slot.LevelMin <= lvl).ToList();
+            }
+
+            if(gen <= 2)
+            {   
+                //For gen 1 and 2 return minimun level slot
+                //Minimun level is needed to check available moves, because there is no move reminder in gen 1,
+                //There are moves in the level up table that cant be legally obtained
+                EncounterSlot slotMin = encounterSlots.OrderBy(slot => slot.LevelMin).FirstOrDefault();
+                if (slotMin != null)
+                    slotdata.Add(slotMin);
+                return slotdata;
+            }
 
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
@@ -1036,7 +1060,7 @@ namespace PKHeX.Core
                     slotdata.Add(slotMax);
                 return slotdata;
             }
-            if (!DexNav)
+            if (gen == 6 || !DexNav)
             {
                 // Filter for Form Specific
                 slotdata.AddRange(WildForms.Contains(pkm.Species)
@@ -1048,6 +1072,11 @@ namespace PKHeX.Core
             }
 
             List<EncounterSlot> eslots = encounterSlots.Where(slot => !WildForms.Contains(pkm.Species) || slot.Form == pkm.AltForm).ToList();
+            if(gen <=4)
+            {
+                slotdata.AddRange(eslots);
+                return slotdata;
+            }
             if (slotMax != null)
                 eslots.Add(slotMax);
             foreach (EncounterSlot s in eslots)
@@ -1092,7 +1121,7 @@ namespace PKHeX.Core
                 return new List<DexLevel>
                 {
                     new DexLevel { Species = 292, Level = lvl, MinLevel =20 },
-                    new DexLevel { Species = 290, Level = lvl - 1, MinLevel = 1 }
+                    new DexLevel { Species = 290, Level = lvl-1, MinLevel = 1 }
                 };
 
             var et = getEvolutionTable(pkm);
