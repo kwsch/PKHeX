@@ -743,8 +743,12 @@ namespace PKHeX.Core
         }
         internal static DexLevel[] getEvolutionChain(PKM pkm, object Encounter)
         {
+            return getEvolutionChain(pkm, Encounter,pkm.Species, 100);
+        }
+        public static DexLevel[] getEvolutionChain(PKM pkm, object Encounter,int maxspec, int maxlevel)
+        {
             int minspec;
-            var vs = getValidPreEvolutions(pkm).ToArray();
+            DexLevel[] vs = getValidPreEvolutions(pkm).ToArray();
 
             // Evolution chain is in reverse order (devolution)
 
@@ -757,8 +761,29 @@ namespace PKHeX.Core
             else
                 minspec = vs.Last().Species;
 
-            int index = Math.Max(0, Array.FindIndex(vs, p => p.Species == minspec));
-            Array.Resize(ref vs, index + 1);
+            int minindex = Math.Max(0, Array.FindIndex(vs, p => p.Species == minspec));
+            Array.Resize(ref vs, minindex + 1);
+            if(vs.Last().MinLevel > 1) //Last entry from vs is removed, turn next entry into the wild/hatched pokemon
+            {
+                vs.Last().MinLevel = 1;
+                vs.Last().RequiresLvlUp = false;
+                if (vs.First().MinLevel == 2 && !vs.First().RequiresLvlUp)
+                {
+                    //Example Raichu in gen 2 or later, 
+                    //because Pichu requires level up minimun level of Raichu would be 2
+                    //but after removing Pichu because the origin species is Pikachu, Raichu min level should be 1
+                    vs.First().MinLevel = 1;
+                    vs.First().RequiresLvlUp = false;
+                }
+            }
+            //Maxspec is used to remove future gen evolutions, to gather evolution chain of a pokemon in previous generations
+            int skip = Math.Max(0, Array.FindIndex(vs, p => p.Species == maxspec));
+            //Maxlevel is also used for previous generations, it removes evolutions imposible before the transfer level
+            //For example a fire red charizard whose current level in XY is 50 but met level is 20, it couldnt be a Charizard in gen 3 and 4 games
+            vs = vs.Skip(skip).Where(e=>e.MinLevel <= maxlevel).ToArray();
+            //Reduce the evolution chain levels to max level, because met level is the las one when the pokemon could be and learn moves in that generation
+            foreach (DexLevel d in vs)
+                d.Level = Math.Min(d.Level, maxlevel);
             return vs;
         }
         internal static string getEncounterTypeName(PKM pkm, object Encounter)
