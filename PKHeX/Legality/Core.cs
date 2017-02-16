@@ -1054,13 +1054,7 @@ namespace PKHeX.Core
             if (slotMax != null)
                 slotMax = new EncounterSlot(slotMax) { Pressure = true, Form = pkm.AltForm };
 
-            if (gen < 4)
-            {
-                if (slotMax != null)
-                    slotdata.Add(slotMax);
-                return slotdata;
-            }
-            if (gen == 6 || !DexNav)
+            if (gen >= 6 && !DexNav)
             {
                 // Filter for Form Specific
                 slotdata.AddRange(WildForms.Contains(pkm.Species)
@@ -1072,7 +1066,7 @@ namespace PKHeX.Core
             }
 
             List<EncounterSlot> eslots = encounterSlots.Where(slot => !WildForms.Contains(pkm.Species) || slot.Form == pkm.AltForm).ToList();
-            if(gen <=4)
+            if(gen <= 5)
             {
                 slotdata.AddRange(eslots);
                 return slotdata;
