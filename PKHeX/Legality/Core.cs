@@ -833,7 +833,7 @@ namespace PKHeX.Core
 
             int currengenlevel = pkm.CurrentLevel;
             int maxgen = (pkm.Format <= 2) ? 2 : pkm.Format;
-            int mingen = (pkm.Format <= 2) ? 1 : pkm.GenNumber;
+            int mingen = (pkm.VC2 || pkm.Format <= 2) ? 1 : pkm.GenNumber;
             //Iterate generations backwards because level will be decreased from current level in each generation
             for (int gen = maxgen; gen >= mingen; gen--)
             {
