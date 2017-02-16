@@ -1162,7 +1162,7 @@ namespace PKHeX.Core
             }
 
             foreach (DexLevel evo in vs)
-                r.AddRange(getMoves(pkm, evo.Species, evo.Level, evo.Form, moveTutor, Version, LVL, Tutor, Machine, Generation, MoveReminder));
+                r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, Generation, MoveReminder));
 
             if (pkm.Format <= 3)
                 return r.Distinct().ToArray();
