@@ -331,7 +331,7 @@ namespace PKHeX.Core
 
             int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level : getMaxLevelGeneration(pkm);
             if (lvl <= 0)
-                return lvl;
+                return null;
             // Get valid pre-evolutions
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
 
