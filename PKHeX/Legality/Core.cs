@@ -803,7 +803,7 @@ namespace PKHeX.Core
             for (int gen = 1; gen <= 7; gen++)
                 GensEvoChains[gen] = new DexLevel[0];
 
-            if(pkm.GenU || pkm.Species==0)//Illegal origin or empty pokemon, return only chain for current format
+            if((pkm.Format >2 && pkm.GenU) || pkm.Species==0)//Illegal origin or empty pokemon, return only chain for current format
             {
                 GensEvoChains[pkm.Format] = CompleteEvoChain.ToArray();
                 return GensEvoChains;
@@ -820,10 +820,10 @@ namespace PKHeX.Core
                 if ((pkm.Gen2 || pkm.VC2) && 3 <= gen && gen <= 6)
                     continue;
                 if (!pkm.HasOriginalMetLocation && pkm.Format >2 && gen <= 4 && currengenlevel > pkm.Met_Level)
-                    //Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximun level met level
+                    //Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximun level equals to met level
                     currengenlevel = pkm.Met_Level;
                 //Remove future gen evolutions after a few special considerations, 
-                //it he pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
+                //it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
                 while (CompleteEvoChain.Any() && CompleteEvoChain.First().Species > getMaxSpeciesOrigin(gen))
                 {   
                     //Eeve requieres to level one time to be Sylveon, it can be deduced in gen 5 and before it existed with maximun one level bellow current
@@ -832,7 +832,7 @@ namespace PKHeX.Core
                     //This is a gen 3 pokemon in a gen 4 phase evolution that requieres level up and then transfered to gen 5,6 or 7
                     //We can deduce that it existed in gen 4 until met level,
                     //but if current level is met level we can also deduce it existed in gen 3 until maximun met level -1
-                    if (gen == 3 && pkm.Format>4 && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().RequiresLvlUp)
+                    if (gen == 3 && pkm.Format>4 && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_3 && CompleteEvoChain.First().RequiresLvlUp)
                         currengenlevel--;
                     CompleteEvoChain = CompleteEvoChain.Skip(1);
                 };
