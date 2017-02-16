@@ -473,7 +473,7 @@ namespace PKHeX.Core
             int gen = GenNumber;
             switch (Generation)
             {
-                case 1: return Format == 1 || VC1;
+                case 1: return Format == 1 || VC;
                 case 2: return Format <= 2 || VC2;
                 case 3: return Gen3;
                 case 4: return 3 <= gen && gen <= 4;
