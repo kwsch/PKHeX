@@ -821,8 +821,6 @@ namespace PKHeX.Core
 
             if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
                 return pkm.Met_Level - 1;
-            if (pkm.VC2 && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
-                return pkm.Met_Level - 1;
 
             return pkm.CurrentLevel;
         }
@@ -896,7 +894,7 @@ namespace PKHeX.Core
                     if (gen == 3 && pkm.Format>4 && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_3 && CompleteEvoChain.First().RequiresLvlUp)
                         currengenlevel--;
                     //The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level bellow gen 2 level
-                    if (gen == 1 && (pkm.Format == 2 || pkm.VC2 ) && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_1 && CompleteEvoChain.First().RequiresLvlUp)
+                    if (gen == 1 && pkm.Format == 2 && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_1 && CompleteEvoChain.First().RequiresLvlUp)
                         currengenlevel--;
                     CompleteEvoChain = CompleteEvoChain.Skip(1);
                 };
