@@ -282,7 +282,8 @@ namespace PKHeX.Core
             IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm);
 
             int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level : getMaxLevelGeneration(pkm);
-
+            if (lvl <= 0)
+                return null; ;
             // Back Check against pkm
             foreach (EncounterStatic e in poss)
             {
@@ -329,7 +330,8 @@ namespace PKHeX.Core
                 return null;
 
             int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level : getMaxLevelGeneration(pkm);
-
+            if (lvl <= 0)
+                return lvl;
             // Get valid pre-evolutions
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
 
@@ -1086,6 +1088,8 @@ namespace PKHeX.Core
             IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
 
             int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level: getMaxLevelGeneration(pkm);
+            if (lvl <= 0)
+                return slotdata;
             int gen = pkm.GenNumber;
             IEnumerable<EncounterSlot> encounterSlots;
             if(pkm.HasOriginalMetLocation)
