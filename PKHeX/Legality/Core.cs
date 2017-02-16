@@ -281,11 +281,7 @@ namespace PKHeX.Core
             // Get possible encounters
             IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm);
 
-            int lvl = (pkm.Format < 3) ? pkm.CurrentLevel : pkm.Met_Level;
-            if (pkm.Gen3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
-                lvl--;
-            if (gen1Encounter && (pkm.Format == 2 || pkm.VC2) && lvl == pkm.CurrentLevel && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
-                lvl--;
+            int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level : getMaxLevelGeneration(pkm);
 
             // Back Check against pkm
             foreach (EncounterStatic e in poss)
@@ -332,11 +328,7 @@ namespace PKHeX.Core
             if (lang == 0 || lang == 6)
                 return null;
 
-            int lvl = (pkm.Format < 3) ? pkm.CurrentLevel : pkm.Met_Level;
-            if (pkm.Gen3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
-                lvl--;
-            if (gen1Encounter && (pkm.Format == 2 || pkm.VC2) && lvl == pkm.CurrentLevel && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
-                lvl--;
+            int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level : getMaxLevelGeneration(pkm);
 
             // Get valid pre-evolutions
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
@@ -808,7 +800,53 @@ namespace PKHeX.Core
                 default: return evos.Length <= 0 ? pkm.Species : evos.Last().Species;
             }
         }
+        internal static int getMaxLevelGeneration(PKM pkm)
+        {
+            return getMaxLevelGeneration(pkm, pkm.GenNumber);
+        }
+        internal static int getMaxLevelGeneration(PKM pkm, int generation)
+        {
+            if (!pkm.InhabitedGeneration(generation))
+                return 0;
 
+            if (pkm.Format <= 2)
+            {
+                if (generation == 1 && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
+                    return pkm.CurrentLevel - 1;
+                return pkm.CurrentLevel;
+            }
+
+            if (pkm.Species == 700 && generation == 5)
+                return pkm.CurrentLevel - 1;
+
+            if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
+                return pkm.Met_Level - 1;
+            if (pkm.VC2 && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
+                return pkm.Met_Level - 1;
+
+            return pkm.CurrentLevel;
+        }
+
+        internal static int getMinLevelGeneration(PKM pkm)
+        {
+            return getMinLevelGeneration(pkm, pkm.GenNumber);
+        }
+        internal static int getMinLevelGeneration(PKM pkm, int generation)
+        {
+            if (!pkm.InhabitedGeneration(generation))
+                return 0;
+
+            if (pkm.Format <= 2)
+                return 2;
+            
+            if(!pkm.HasOriginalMetLocation)
+                return pkm.Met_Level;
+
+            if (pkm.GenNumber <= 3)
+                return 2;
+
+            return 1;
+        }
         internal static DexLevel[][] getEvolutionChainsAllGens(PKM pkm, object Encounter)
         {
             IEnumerable<DexLevel> CompleteEvoChain = getEvolutionChain(pkm, Encounter);
@@ -1049,22 +1087,14 @@ namespace PKHeX.Core
             bool ignoreSlotLevel = ignoreLevel;
             IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
 
-            // Filter for Met Level
-            int lvl = (pkm.Format < 3) ? pkm.CurrentLevel : pkm.Met_Level;
+            int lvl = (pkm.HasOriginalMetLocation) ? pkm.Met_Level: getMaxLevelGeneration(pkm);
             int gen = pkm.GenNumber;
             IEnumerable<EncounterSlot> encounterSlots;
             if(pkm.HasOriginalMetLocation)
                 encounterSlots = slots.Where(slot => ignoreLevel || slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
             else
-            {
-                //See comments in getEvolutionChainsAllGens for more info in this sentence
-                if (gen == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
-                    lvl--;
-                if (gen == 1 && ( pkm.Format == 2 || pkm.VC2 ) && lvl == pkm.CurrentLevel && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
-                    lvl--;
                 //Those encounters with level min greater that met level are not valid for this pokemon
                 encounterSlots = slots.Where(slot => ignoreLevel || slot.LevelMin <= lvl).ToList();
-            }
 
             if(gen <= 2)
             {   
@@ -1233,6 +1263,8 @@ namespace PKHeX.Core
             {
                 case 1:
                     {
+                        if (species > MaxSpeciesID_1)//Sanity check
+                            return r;
                         var pi_rb = (PersonalInfoG1)PersonalTable.RB[species];
                         var pi_y = (PersonalInfoG1)PersonalTable.Y[species];
                         if (LVL)
