@@ -119,5 +119,11 @@ namespace PKHeX.Core
         {
             169,182,186,196,197,199,208,212,230,233,242,462,463,464,465,466,467,470,471,474,700
         };
+
+        internal static readonly int[] FutureEvolutionsGen1_Gen2LevelUp = new int[]
+        {
+              169,196,197,242
+        };
+        //Crobat Espeon Umbreon Blissey
     }
 }

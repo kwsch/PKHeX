@@ -526,9 +526,9 @@ namespace PKHeX.Core
         {
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
-            var s = Legal.getValidStaticEncounter(pkm);
+            var s = Legal.getValidStaticEncounter(pkm, gen1Encounter: true);
             var e = Legal.getValidWildEncounters(pkm);
-            var t = Legal.getValidIngameTrade(pkm);
+            var t = Legal.getValidIngameTrade(pkm, gen1Encounter: true);
 
             const byte invalid = 255;
 

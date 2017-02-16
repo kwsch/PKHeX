@@ -276,10 +276,17 @@ namespace PKHeX.Core
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
             return s.Any() ? s.ToArray() : null;
         }
-        internal static EncounterStatic getValidStaticEncounter(PKM pkm)
+        internal static EncounterStatic getValidStaticEncounter(PKM pkm, bool gen1Encounter = false)
         {
             // Get possible encounters
             IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm);
+
+            int lvl = (pkm.Format < 3) ? pkm.CurrentLevel : pkm.Met_Level;
+            if (pkm.Gen3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
+                lvl--;
+            if (gen1Encounter && (pkm.Format == 2 || pkm.VC2) && lvl == pkm.CurrentLevel && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
+                lvl--;
+
             // Back Check against pkm
             foreach (EncounterStatic e in poss)
             {
@@ -291,12 +298,12 @@ namespace PKHeX.Core
                 {
                     if (e.Location != 0 && e.Location != pkm.Met_Location)
                         continue;
-                    if (e.Level != pkm.Met_Level)
+                    if (e.Level != lvl)
                         continue;
                 }
                 else
                 {
-                    if (e.Level > pkm.Met_Level)
+                    if (e.Level > lvl)
                         continue;
                 }
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
@@ -317,13 +324,19 @@ namespace PKHeX.Core
             }
             return null;
         }
-        internal static EncounterTrade getValidIngameTrade(PKM pkm)
+        internal static EncounterTrade getValidIngameTrade(PKM pkm, bool gen1Encounter = false)
         {
             if (!pkm.WasIngameTrade)
                 return null;
             int lang = pkm.Language;
             if (lang == 0 || lang == 6)
                 return null;
+
+            int lvl = (pkm.Format < 3) ? pkm.CurrentLevel : pkm.Met_Level;
+            if (pkm.Gen3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
+                lvl--;
+            if (gen1Encounter && (pkm.Format == 2 || pkm.VC2) && lvl == pkm.CurrentLevel && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
+                lvl--;
 
             // Get valid pre-evolutions
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
@@ -355,9 +368,9 @@ namespace PKHeX.Core
                 return null;
             if (pkm.HasOriginalMetLocation && z.Location != pkm.Met_Location)
                 return null;
-            if (pkm.HasOriginalMetLocation && z.Level != pkm.Met_Level)
+            if (pkm.HasOriginalMetLocation && z.Level != lvl)
                 return null;
-            if (!pkm.HasOriginalMetLocation && z.Level > pkm.Met_Level)
+            if (!pkm.HasOriginalMetLocation && z.Level > lvl)
                 return null;
             if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
                 return null;
@@ -808,6 +821,15 @@ namespace PKHeX.Core
                 GensEvoChains[pkm.Format] = CompleteEvoChain.ToArray();
                 return GensEvoChains;
             }
+            //If is egg skip the other checks and just return the evo chain for GenNumber, that will contains only the pokemon inside the egg
+            //Empty list returned if is an impossible egg (like a gen 3 infernape inside an egg)
+            if (pkm.IsEgg && getMaxSpeciesOrigin(pkm.GenNumber) > pkm.Species)
+                return GensEvoChains;
+            else if (pkm.IsEgg)
+            {
+                GensEvoChains[pkm.GenNumber] = CompleteEvoChain.ToArray();
+                return GensEvoChains;
+            }
 
             int currengenlevel = pkm.CurrentLevel;
             int maxgen = (pkm.Format <= 2) ? 2 : pkm.Format;
@@ -822,9 +844,10 @@ namespace PKHeX.Core
                 if (!pkm.HasOriginalMetLocation && pkm.Format >2 && gen <= 4 && currengenlevel > pkm.Met_Level)
                     //Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximun level equals to met level
                     currengenlevel = pkm.Met_Level;
+                int maxspeciesgen = getMaxSpeciesOrigin(gen);
                 //Remove future gen evolutions after a few special considerations, 
                 //it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
-                while (CompleteEvoChain.Any() && CompleteEvoChain.First().Species > getMaxSpeciesOrigin(gen))
+                while (CompleteEvoChain.Any() && CompleteEvoChain.First().Species > maxspeciesgen)
                 {   
                     //Eeve requieres to level one time to be Sylveon, it can be deduced in gen 5 and before it existed with maximun one level bellow current
                     if (CompleteEvoChain.First().Species == 700 && gen == 5)
@@ -833,6 +856,9 @@ namespace PKHeX.Core
                     //We can deduce that it existed in gen 4 until met level,
                     //but if current level is met level we can also deduce it existed in gen 3 until maximun met level -1
                     if (gen == 3 && pkm.Format>4 && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_3 && CompleteEvoChain.First().RequiresLvlUp)
+                        currengenlevel--;
+                    //The same condition for gen2 evolution of gen 1 pokemon, level of the pokemon in gen 1 games would be CurrentLevel -1 one level bellow gen 2 level
+                    if (gen == 1 && (pkm.Format == 2 || pkm.VC2 ) && currengenlevel == pkm.CurrentLevel && CompleteEvoChain.First().Species > MaxSpeciesID_1 && CompleteEvoChain.First().RequiresLvlUp)
                         currengenlevel--;
                     CompleteEvoChain = CompleteEvoChain.Skip(1);
                 };
@@ -1033,6 +1059,8 @@ namespace PKHeX.Core
             {
                 //See comments in getEvolutionChainsAllGens for more info in this sentence
                 if (gen == 3 && pkm.Format > 4 && lvl == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
+                    lvl--;
+                if (gen == 1 && ( pkm.Format == 2 || pkm.VC2 ) && lvl == pkm.CurrentLevel && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
                     lvl--;
                 //Those encounters with level min greater that met level are not valid for this pokemon
                 encounterSlots = slots.Where(slot => ignoreLevel || slot.LevelMin <= lvl).ToList();
