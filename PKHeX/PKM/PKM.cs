@@ -453,7 +453,11 @@ namespace PKHeX.Core
             if (species < 0)
                 species = Species;
 
-            if (Format == 1 && Generation ==2 && Legal.MaxSpeciesID_2 >= species)
+            if (Format == 1 && Generation ==2 && (Legal.MaxSpeciesID_2 >= species || Legal.FutureEvolutionsGen2.Contains(species)))
+                return true;
+
+            if (Format == Generation)
+                //Every pokemon even those with illegal data inhabit the generation of its current format
                 return true;
 
             if (Format < Generation)
@@ -463,7 +467,7 @@ namespace PKHeX.Core
                 return false;
 
             // Sanity Check Species ID
-            if (Legal.getMaxSpeciesOrigin(GenNumber) < species)
+            if (Legal.getMaxSpeciesOrigin(GenNumber) < species && !Legal.getFutureGenEvolutions(GenNumber).Contains(species))
                 return false;
 
             int gen = GenNumber;
