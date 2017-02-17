@@ -824,7 +824,10 @@ namespace PKHeX.Core
             if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
                 return pkm.Met_Level - 1;
 
-            return pkm.CurrentLevel;
+			if(!pkm.HasOriginalMetLocation))
+				return pkm.Met_Level;
+			
+			return pkm.CurrentLevel;
         }
 
         internal static int getMinLevelGeneration(PKM pkm)
