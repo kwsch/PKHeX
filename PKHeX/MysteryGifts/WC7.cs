@@ -108,10 +108,32 @@ namespace PKHeX.Core
         public override int Item {
             get { return BitConverter.ToUInt16(Data, 0x68); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); } }
+
+        public int GetItem(int index)
+        {
+            return BitConverter.ToUInt16(Data, 0x68 + 0x4*index);
+        }
+
+        public void SetItem(int index, ushort item)
+        {
+            BitConverter.GetBytes(item).CopyTo(Data, 0x68 + 4*index);
+        }
+
         public override int Quantity {
             get { return BitConverter.ToUInt16(Data, 0x6A); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); } }
-        
+
+        public int GetQuantity(int index)
+        {
+            return BitConverter.ToUInt16(Data, 0x6A + 0x4 * index);
+        }
+
+        public void SetQuantity(int index, ushort quantity)
+        {
+            BitConverter.GetBytes(quantity).CopyTo(Data, 0x6A + 4 * index);
+        }
+
+
         // Pokémon Properties
         public override bool IsPokémon { get { return CardType == 0; } set { if (value) CardType = 0; } }
         public override bool IsShiny => PIDType == 2;

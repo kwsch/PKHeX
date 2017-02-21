@@ -492,7 +492,17 @@ namespace PKHeX.WinForms
             string s = gift.getCardHeader() + Environment.NewLine;
             if (gift.IsItem)
             {
-                s += "Item: " + GameInfo.Strings.itemlist[gift.Item] + Environment.NewLine + "Quantity: " + gift.Quantity + Environment.NewLine;
+                s += $"Item: {GameInfo.Strings.itemlist[gift.Item]} (Quantity: {gift.Quantity})" + Environment.NewLine;
+                if (gift is WC7)
+                {
+                    var ind = 1;
+                    var wc7 = (WC7) gift;
+                    while (wc7.GetItem(ind) != 0)
+                    {
+                        s += $"Item: {GameInfo.Strings.itemlist[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})" + Environment.NewLine;
+                        ind++;
+                    }
+                }
             }
             else if (gift.IsPokémon)
             {
