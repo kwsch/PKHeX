@@ -526,9 +526,9 @@ namespace PKHeX.Core
         {
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
-            var s = Legal.getValidStaticEncounter(pkm);
+            var s = Legal.getValidStaticEncounter(pkm, gen1Encounter: true);
             var e = Legal.getValidWildEncounters(pkm);
-            var t = Legal.getValidIngameTrade(pkm);
+            var t = Legal.getValidIngameTrade(pkm, gen1Encounter: true);
 
             const byte invalid = 255;
 
@@ -1433,8 +1433,11 @@ namespace PKHeX.Core
                     resultPrefix = "HT ";
                     break;
             }
+            int[] generations = new int[1] { pkm.Format };
+            if (pkm.GenNumber == 6 && pkm.Format == 7)
+                generations = new int[2] { 6, 7 };
             int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
-            if (matchingMoveMemory != -1 && pkm.Species != 235  && !Legal.getCanLearnMachineMove(pkm, Legal.MoveSpecificMemories[1][matchingMoveMemory]))
+            if (matchingMoveMemory != -1 && pkm.Species != 235  && !Legal.getCanLearnMachineMove(pkm, Legal.MoveSpecificMemories[1][matchingMoveMemory], generations))
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.", CheckIdentifier.Memory);
             }
@@ -1444,14 +1447,14 @@ namespace PKHeX.Core
             }
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
             {
-                if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19))
+                if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19, generations))
                     return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.", CheckIdentifier.Memory);
             }
-            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, GameVersion.Any)))
+            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, generations, GameVersion.Any)))
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.", CheckIdentifier.Memory);
             }
-            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, GameVersion.Any))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, generations, GameVersion.Any))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
             {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.", CheckIdentifier.Memory);
             }
@@ -1897,9 +1900,9 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
                 res[i] = new CheckResult(CheckIdentifier.Move);
             
-            var validMoves = Legal.getValidMoves(pkm, EvoChain, Tutor: false, Machine: false).ToArray();
-            var validTMHM = Legal.getValidMoves(pkm, EvoChain, Tutor: false, MoveReminder: false).ToArray();
-            var validTutor = Legal.getValidMoves(pkm, EvoChain, Machine: false, MoveReminder: false).ToArray();
+            var validMoves = Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: false, Machine: false).ToArray();
+            var validTMHM = Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: false, MoveReminder: false).ToArray();
+            var validTutor = Legal.getValidMoves(pkm, EvoChainsAllGens, Machine: false, MoveReminder: false).ToArray();
             if (pkm.Species == 235) // Smeargle
             {
                 for (int i = 0; i < 4; i++)

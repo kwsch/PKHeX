@@ -114,5 +114,16 @@ namespace PKHeX.Core
             new EncounterSlot1 {Species = 118, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, }, // Goldeen
             new EncounterSlot1 {Species = 060, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, }, // Poliwag
         }};
+
+        internal static readonly int[] FutureEvolutionsGen1 =
+        {
+            169,182,186,196,197,199,208,212,230,233,242,462,463,464,465,466,467,470,471,474,700
+        };
+
+        internal static readonly int[] FutureEvolutionsGen1_Gen2LevelUp = new int[]
+        {
+              169,196,197,242
+        };
+        //Crobat Espeon Umbreon Blissey
     }
 }

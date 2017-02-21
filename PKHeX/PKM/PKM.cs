@@ -277,7 +277,7 @@ namespace PKHeX.Core
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
         public bool Gen2 => Version == (int)GameVersion.GSC;
         public bool Gen1 => Version == (int)GameVersion.RBY;
-        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1);
+        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1 || VC);
         public int GenNumber
         {
             get
@@ -453,6 +453,13 @@ namespace PKHeX.Core
             if (species < 0)
                 species = Species;
 
+            if (Format == 1 && Generation ==2 && (Legal.MaxSpeciesID_2 >= species || Legal.FutureEvolutionsGen2.Contains(species)))
+                return true;
+
+            if (Format == Generation)
+                //Every pokemon even those with illegal data inhabit the generation of its current format
+                return true;
+
             if (Format < Generation)
                 return false; // Future
 
@@ -460,14 +467,14 @@ namespace PKHeX.Core
                 return false;
 
             // Sanity Check Species ID
-            if (Legal.getMaxSpeciesOrigin(GenNumber) < species)
+            if (Legal.getMaxSpeciesOrigin(GenNumber) < species && !Legal.getFutureGenEvolutions(GenNumber).Contains(species))
                 return false;
 
             int gen = GenNumber;
             switch (Generation)
             {
-                case 1: return VC;
-                case 2: return VC;
+                case 1: return Format == 1 || VC;
+                case 2: return Format <= 2 || VC2;
                 case 3: return Gen3;
                 case 4: return 3 <= gen && gen <= 4;
                 case 5: return 3 <= gen && gen <= 5;
