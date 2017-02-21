@@ -10,7 +10,7 @@ namespace PKHeX.Core
         private DexLevel[][] EvoChainsAllGens;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
-        private object EncounterMatch;
+        private object EncounterMatch, EncounterOriginal;
         private Type EncounterType;
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterMatch);
@@ -142,7 +142,7 @@ namespace PKHeX.Core
 
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
-            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterMatch);
+            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginal ?? EncounterMatch);
         }
         private void updateEncounterInfo()
         {

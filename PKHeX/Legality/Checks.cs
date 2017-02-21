@@ -636,6 +636,7 @@ namespace PKHeX.Core
                     AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
             }
 
+            EncounterOriginal = EncounterMatch; // Store for later recollection
             EncounterMatch = new EncounterStatic
             {
                 Species = species,
