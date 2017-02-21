@@ -302,7 +302,7 @@ namespace PKHeX.Core
                     continue;
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
                     continue;
-                if (e.Form != pkm.AltForm && !FormChange.Contains(pkm.Species) && !e.SkipFormCheck)
+                if (e.Form != pkm.AltForm && !e.SkipFormCheck && !getCanFormChange(pkm, e.Species))
                     continue;
 
                 // Defer to EC/PID check
@@ -450,7 +450,7 @@ namespace PKHeX.Core
                     if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
-                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species)) && !getHasEvolvedFormChange(pkm)) continue;
+                if (wc.Form != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
                 if (wc.MetLocation != pkm.Met_Location) continue;
                 if (wc.EggLocation != pkm.Egg_Location) continue;
                 if (wc.Level != pkm.Met_Level) continue;
@@ -498,7 +498,7 @@ namespace PKHeX.Core
                     if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
-                if (wc.Form != pkm.AltForm && vs.All(dl => !FormChange.Contains(dl.Species)) && getHasEvolvedFormChange(pkm)) continue;
+                if (wc.Form != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
                 if (wc.MetLocation != pkm.Met_Location) continue;
                 if (wc.EggLocation != pkm.Egg_Location) continue;
                 if (wc.MetLevel != pkm.Met_Level) continue;
@@ -646,6 +646,16 @@ namespace PKHeX.Core
             if (SplitBreed.Contains(getBaseSpecies(pkm, 1)))
                 return curr.Count() >= poss.Count() - 1;
             return curr.Count() >= poss.Count();
+        }
+        internal static bool getCanFormChange(PKM pkm, int species)
+        {
+            if (FormChange.Contains(species))
+                return true;
+            if (getHasEvolvedFormChange(pkm))
+                return true;
+            if (pkm.Species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
+                return true;
+            return false;
         }
 
         internal static EncounterArea getCaptureLocation(PKM pkm)
