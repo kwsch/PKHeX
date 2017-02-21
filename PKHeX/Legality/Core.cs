@@ -839,9 +839,10 @@ namespace PKHeX.Core
         internal static DexLevel[][] getEvolutionChainsAllGens(PKM pkm, object Encounter)
         {
             var CompleteEvoChain = getEvolutionChain(pkm, Encounter).ToArray();
-            DexLevel[][] GensEvoChains = new DexLevel[pkm.Format + 1][];
-            for (int gen = 1; gen <= pkm.Format; gen++)
-                GensEvoChains[gen] = new DexLevel[0];
+            int size = Math.Max(pkm.Format, 2);
+            DexLevel[][] GensEvoChains = new DexLevel[size + 1][];
+            for (int i = 0; i <= size; i++)
+                GensEvoChains[i] = new DexLevel[0];
 
             if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU) // Illegal origin or empty pokemon, return only chain for current format
             {
