@@ -1165,7 +1165,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 422, Relearn = new[] {124}},                    // Shellos: Sludge
             new EncounterStatic { Species = 131, Relearn = new[] {419}},                    // Lapras: Avalanche
             new EncounterStatic { Species = 102, Relearn = new[] {335,285,384,381,267,246}},// Exeggcute: Block, Skill Swap, Power Swap, Lucky Chant, Nature Power, Ancient Power
-            new EncounterStatic { Species = 123, Relearn = new[] {211,501,432,179,68}},	    // Scyther: Steel Wing, Quick Guard, Defog, Reversal, Counter
+            new EncounterStatic { Species = 123, Relearn = new[] {211,501,432,179,68}},     // Scyther: Steel Wing, Quick Guard, Defog, Reversal, Counter
             new EncounterStatic { Species = 198, Relearn = new[] {375,260,195}},            // Murkrow: Psycho Shift, Flatter, Perish Song
             new EncounterStatic { Species = 447, Relearn = new[] {299}},                    // Riolu: Blaze Kick
             new EncounterStatic { Species = 147, Relearn = new[] {245}},                    // Dratini: Extreme Speed

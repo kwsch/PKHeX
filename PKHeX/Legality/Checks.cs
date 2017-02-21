@@ -1433,31 +1433,23 @@ namespace PKHeX.Core
                     resultPrefix = "HT ";
                     break;
             }
-            int[] generations = new int[1] { pkm.Format };
-            if (pkm.GenNumber == 6 && pkm.Format == 7)
-                generations = new int[2] { 6, 7 };
             int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
-            if (matchingMoveMemory != -1 && pkm.Species != 235  && !Legal.getCanLearnMachineMove(pkm, Legal.MoveSpecificMemories[1][matchingMoveMemory], generations))
-            {
+            if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.getCanLearnMachineMove(pkm, Legal.MoveSpecificMemories[1][matchingMoveMemory], 6))
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.", CheckIdentifier.Memory);
-            }
+
             if (m == 6 && !Legal.LocationsWithPKCenter[0].Contains(t))
-            {
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Location doesn't have a Pokemon Center.", CheckIdentifier.Memory);
-            }
+
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
-            {
-                if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19, generations))
+                if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19, 6))
                     return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.", CheckIdentifier.Memory);
-            }
-            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, generations, GameVersion.Any)))
-            {
+
+            if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, 6)))
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.", CheckIdentifier.Memory);
-            }
-            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, generations, GameVersion.Any))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-            {
+
+            if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
                 return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.", CheckIdentifier.Memory);
-            }
+
             return new CheckResult(Severity.Valid, resultPrefix + "Memory is valid.", CheckIdentifier.Memory);
         }
         private void verifyOTMemory()
@@ -1676,11 +1668,10 @@ namespace PKHeX.Core
                 case 25: // Pikachu
                     if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
                     {
-                        if (EncounterType == typeof(EncounterStatic))
-                            AddLine(Severity.Invalid, "Cosplay Pikachu cannot have the default form.", CheckIdentifier.Form);
-                        else
-                            AddLine(Severity.Invalid, "Only Cosplay Pikachu can have this form.", CheckIdentifier.Form);
-
+                        string msg = EncounterType == typeof (EncounterStatic)
+                            ? "Cosplay Pikachu cannot have the default form."
+                            : "Only Cosplay Pikachu can have this form.";
+                        AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
                     if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterIsMysteryGift)
