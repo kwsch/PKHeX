@@ -263,7 +263,12 @@ namespace PKHeX.Core
                        || PKX.SpeciesLang[pkm.Language][pkm.Species] == nickname;
 
                 if (!match)
-                    AddLine(Severity.Invalid, "Nickname does not match species name.", CheckIdentifier.Nickname);
+                {
+                    if ((EncounterMatch as MysteryGift)?.CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49)
+                        AddLine(Severity.Valid, "Nickname matches demo language name.", CheckIdentifier.Nickname);
+                    else
+                        AddLine(Severity.Invalid, "Nickname does not match species name.", CheckIdentifier.Nickname);
+                }
                 else
                     AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.Nickname);
             }
