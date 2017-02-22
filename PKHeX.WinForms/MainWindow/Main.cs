@@ -321,9 +321,9 @@ namespace PKHeX.WinForms
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
-                         $"|Supported Files|main;*.sav;*.dat;*.bin;*.{ekx};{supported};*.bak" +
+                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;*.{ekx};{supported};*.bak" +
                          "|3DS Main Files|main" +
-                         "|Save Files|*.sav;*.dat;" +
+                         "|Save Files|*.sav;*.dat;*.gci" +
                          $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
@@ -691,7 +691,9 @@ namespace PKHeX.WinForms
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
             if (fi.Length > 0x10009C && fi.Length != 0x380000)
-                WinFormsUtil.Error("Input file is too large.", path);
+                WinFormsUtil.Error("Input file is too large." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
+            else if (fi.Length < 32)
+                WinFormsUtil.Error("Input file is too small." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
             else
             {
                 byte[] input; try { input = File.ReadAllBytes(path); }
@@ -1940,8 +1942,12 @@ namespace PKHeX.WinForms
                 return;
 
             pkm = preparePKM();
+            updateLegality();
+            if (Legality.Valid)
+                return;
+
             var encounter = Legality.getSuggestedMetInfo();
-            if (encounter == null || encounter.Location < 0)
+            if (encounter == null || (pkm.Format >= 3 && encounter.Location < 0))
             {
                 WinFormsUtil.Alert("Unable to provide a suggestion.");
                 return;
@@ -1950,21 +1956,37 @@ namespace PKHeX.WinForms
             int level = encounter.Level;
             int location = encounter.Location;
             int minlvl = Legal.getLowestLevel(pkm, encounter.Species);
-
-            if (pkm.Met_Level == level && pkm.Met_Location == location && pkm.CurrentLevel >= minlvl)
+            if (minlvl == 0)
+                minlvl = level;
+            
+            if (pkm.CurrentLevel >= minlvl && pkm.Met_Level == level && pkm.Met_Location == location)
                 return;
+            if (minlvl < level)
+                minlvl = level;
 
-            var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
-            var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
-            string suggestion = $"Suggested:\nMet Location: {locstr}\nMet Level: {level}";
+            var suggestion = new List<string> {"Suggested:"};
+            if (pkm.Format >= 3)
+            {
+                var met_list = GameInfo.getLocationList((GameVersion)pkm.Version, SAV.Generation, egg: false);
+                var locstr = met_list.FirstOrDefault(loc => loc.Value == location)?.Text;
+                suggestion.Add($"Met Location: {locstr}");
+                suggestion.Add($"Met Level: {level}");
+            }
             if (pkm.CurrentLevel < minlvl)
-                suggestion += $"\nCurrent Level {minlvl}";
+                suggestion.Add($"Current Level: {minlvl}");
 
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggestion) != DialogResult.Yes)
+            if (suggestion.Count == 1) // no suggestion
                 return;
 
-            TB_MetLevel.Text = level.ToString();
-            CB_MetLocation.SelectedValue = location;
+            string suggest = string.Join(Environment.NewLine, suggestion);
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggest) != DialogResult.Yes)
+                return;
+
+            if (pkm.Format >= 3)
+            {
+                TB_MetLevel.Text = level.ToString();
+                CB_MetLocation.SelectedValue = location;
+            }
 
             if (pkm.CurrentLevel < minlvl)
                 TB_Level.Text = minlvl.ToString();
@@ -3825,6 +3847,7 @@ namespace PKHeX.WinForms
             bool? noSetb = getPKMSetOverride();
 
             SAV.loadBoxes(path, out result, CB_BoxSelect.SelectedIndex, clearAll, noSetb);
+            setPKXBoxes();
             WinFormsUtil.Alert(result);
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)

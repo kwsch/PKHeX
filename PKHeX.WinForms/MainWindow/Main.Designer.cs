@@ -926,6 +926,7 @@
             this.Label_CurLevel.TabIndex = 7;
             this.Label_CurLevel.Text = "Level:";
             this.Label_CurLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_CurLevel.Click += new System.EventHandler(this.clickMetLocation);
             // 
             // TB_Level
             // 

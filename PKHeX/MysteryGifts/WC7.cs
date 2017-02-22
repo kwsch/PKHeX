@@ -108,10 +108,32 @@ namespace PKHeX.Core
         public override int Item {
             get { return BitConverter.ToUInt16(Data, 0x68); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); } }
+
+        public int GetItem(int index)
+        {
+            return BitConverter.ToUInt16(Data, 0x68 + 0x4*index);
+        }
+
+        public void SetItem(int index, ushort item)
+        {
+            BitConverter.GetBytes(item).CopyTo(Data, 0x68 + 4*index);
+        }
+
         public override int Quantity {
             get { return BitConverter.ToUInt16(Data, 0x6A); }
             set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); } }
-        
+
+        public int GetQuantity(int index)
+        {
+            return BitConverter.ToUInt16(Data, 0x6A + 0x4 * index);
+        }
+
+        public void SetQuantity(int index, ushort quantity)
+        {
+            BitConverter.GetBytes(quantity).CopyTo(Data, 0x6A + 4 * index);
+        }
+
+
         // Pokémon Properties
         public override bool IsPokémon { get { return CardType == 0; } set { if (value) CardType = 0; } }
         public override bool IsShiny => PIDType == 2;
@@ -297,6 +319,7 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : (int)(Util.rnd32()%100 + 1);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
+            var pi = PersonalTable.SM[Species];
             PK7 pk = new PK7
             {
                 Species = Species,
@@ -305,11 +328,11 @@ namespace PKHeX.Core
                 SID = SID,
                 Met_Level = metLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PersonalTable.AO[Species].Gender == 255 ? 2 : (Gender != 3 ? Gender : PersonalTable.AO[Species].RandomGender),
+                Gender = Gender != 3 ? Gender : pi.RandomGender,
                 AltForm = Form,
-                EncryptionConstant = EncryptionConstant == 0 ? Util.rnd32() : EncryptionConstant,
-                Version = OriginGame == 0 ? SAV.Game : OriginGame,
-                Language = Language == 0 ? SAV.Language : Language,
+                EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.rnd32(),
+                Version = OriginGame != 0 ? OriginGame : SAV.Game,
+                Language = Language != 0 ? Language : SAV.Language,
                 Ball = Ball,
                 Country = SAV.Country,
                 Region = SAV.SubRegion,
@@ -353,7 +376,7 @@ namespace PKHeX.Core
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
                 
-                OT_Friendship = PersonalTable.AO[Species].BaseFriendship,
+                OT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,

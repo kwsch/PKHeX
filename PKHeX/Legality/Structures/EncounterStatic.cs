@@ -26,6 +26,15 @@
         public bool RibbonWishing = false;
         public bool SkipFormCheck = false;
 
-        public string Name => "Static Encounter";
+        public string Name
+        {
+            get
+            {
+                const string game = "Static Encounter";
+                if (Version == GameVersion.Any)
+                    return game;
+                return game + " " + $"({Version})";
+            }
+        }
     }
 }

@@ -416,6 +416,7 @@ namespace PKHeX.Core
                         continue;
 
                     oneValid = true;
+                    updateMinValues(dl, evo);
                     int species = evo.Species;
 
                     // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
@@ -423,7 +424,7 @@ namespace PKHeX.Core
                         species = pkm.Species - Chain.Count + i;
 
                     dl.Add(evo.GetDexLevel(species, lvl));
-                    
+
                     if (evo.RequiresLevelUp)
                         lvl--;
                     break;
@@ -436,7 +437,42 @@ namespace PKHeX.Core
             if (dl.Any(d => d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
                 dl.RemoveAt(dl.Count - 1); 
 
+            // Last species is the wild/hatched species, the minimum is 1 because it has not evolved from previous species
+            dl.Last().MinLevel = 1;
+            dl.Last().RequiresLvlUp = false;
             return dl;
+        }
+        private static void updateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
+        {
+            var last = dl.Last();
+            if (evo.Level == 0) // Evolutions like elemental stones, trade, etc
+            {
+                if (!evo.RequiresLevelUp)
+                    last.MinLevel = 1;
+                else
+                {
+                    // Evolutions like frienship, pichu -> pikachu, eevee -> umbreon, etc
+                    last.MinLevel = 2;
+
+                    var first = dl.First();
+                    if (dl.Count > 1 && !first.RequiresLvlUp)
+                        first.MinLevel = 2; // Raichu from Pikachu would have minimum level 1, but with Pichu included Raichu minimum level is 2
+                }
+            }
+            else // level up evolutions
+            {
+                last.MinLevel = evo.Level;
+
+                var first = dl.First();
+                if (dl.Count > 1)
+                {
+                    if (first.MinLevel < evo.Level && !first.RequiresLvlUp)
+                        first.MinLevel = evo.Level; // Pokemon like Nidoqueen, its minimum level is Nidorina minimum level
+                    if (first.MinLevel <= evo.Level && first.RequiresLvlUp)
+                        first.MinLevel = evo.Level + 1; // Pokemon like Crobat, its minimum level is Golbat minimum level + 1
+                }
+            }
+            last.RequiresLvlUp = evo.RequiresLevelUp;
         }
     }
     public class EvolutionStage

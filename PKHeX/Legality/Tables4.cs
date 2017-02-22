@@ -130,5 +130,10 @@ namespace PKHeX.Core
             17, 18, 19, 20, 21, 22,
             // Comp Ball not usable in wild
         };
+
+        internal static readonly int[] FutureEvolutionsGen4 =
+        {
+            700
+        };
     }
 }

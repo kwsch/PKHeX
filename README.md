@@ -16,7 +16,7 @@ The interface can be translated with resource/external text files so that differ
 
 Pokémon Showdown sets and QR codes can be imported/exported to assist in sharing.
 
-Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required (svdt, save_manager, or SaveDataFiler).
+Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required ([svdt](https://github.com/meladroit/svdt), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
 
 ## Screenshots
 
@@ -42,4 +42,4 @@ PKHeX can be opened with IDEs such as [Visual Studio](https://www.visualstudio.c
 
 ### GNU/Linux
 
-Install MonoDevelop and [Mono](http://www.mono-project.com/) runtime with `flatpak install --user --from https://download.mono-project.com/repo/monodevelop.flatpakref`. GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono (so developers using *BSD, Windows and OS X should be able to reproduce them).
+Install [MonoDevelop](http://www.monodevelop.com/) and [Mono Runtime](http://www.mono-project.com/) with `flatpak install --user --from https://download.mono-project.com/repo/monodevelop.flatpakref`. GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono (so developers using *BSD, Windows and OS X should be able to reproduce them).

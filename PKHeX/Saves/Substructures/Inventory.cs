@@ -175,6 +175,8 @@ namespace PKHeX.Core
             else
             {
                 int numStored = Data[Offset];
+                if (numStored > PouchDataSize) // uninitialized yellow (0xFF), sanity check for out-of-bounds values
+                    numStored = 0;
                 for (int i = 0; i < numStored; i++)
                 {
                     switch (Type)
