@@ -323,11 +323,10 @@ namespace PKHeX.WinForms
                 Filter = "All Files|*.*" +
                          $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;*.{ekx};{supported};*.bak" +
                          "|3DS Main Files|main" +
-                         "|Save Files|*.sav;*.dat;" +
+                         "|Save Files|*.sav;*.dat;*.gci" +
                          $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
-                         "|Gamecube Save File|*.gci" +
                          "|Backup File|*.bak"
             };
 
