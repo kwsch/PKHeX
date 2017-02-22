@@ -623,6 +623,9 @@ namespace PKHeX.Core
             577, // Solosis
             582, // Vanillite
             595, // Joltik
+
+            // Via Incense Breeding
+            298, 360, 406, 433, 438, 439, 440, 446, 458,
         };
         internal static readonly int[] Ban_DreamHidden =
         {
