@@ -1953,10 +1953,10 @@ namespace PKHeX.Core
             {
                 if (moves[i] == 0)
                     res[i] = new CheckResult(Severity.Valid, "Empty", CheckIdentifier.Move);
-                else if (relearn.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Relearn Move.", CheckIdentifier.Move) { Flag = true };
                 else if (learn.Contains(moves[i]))
                     res[i] = new CheckResult(Severity.Valid, "Level-up.", CheckIdentifier.Move);
+                else if (relearn.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "Relearn Move.", CheckIdentifier.Move) { Flag = true };
                 else if (tmhm.Contains(moves[i]))
                     res[i] = new CheckResult(Severity.Valid, "TM/HM.", CheckIdentifier.Move);
                 else if (tutor.Contains(moves[i]))
@@ -2021,7 +2021,7 @@ namespace PKHeX.Core
 
             if (pkm.WasEgg && !Legal.NoHatchFromEgg.Contains(pkm.Species))
             {
-                GameVersion[] Games = { GameVersion.XY };
+                GameVersion[] Games = {};
                 switch (pkm.GenNumber)
                 {
                     case 6:
