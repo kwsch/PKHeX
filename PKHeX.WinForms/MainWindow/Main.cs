@@ -321,12 +321,13 @@ namespace PKHeX.WinForms
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
-                         $"|Supported Files|main;*.sav;*.dat;*.bin;*.{ekx};{supported};*.bak" +
+                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;*.{ekx};{supported};*.bak" +
                          "|3DS Main Files|main" +
                          "|Save Files|*.sav;*.dat;" +
                          $"|Decrypted PKM File|{supported}" +
                          $"|Encrypted PKM File|*.{ekx}" +
                          "|Binary File|*.bin" +
+                         "|Gamecube Save File|*.gci" +
                          "|Backup File|*.bak"
             };
 
