@@ -643,11 +643,9 @@ namespace PKHeX.Core
                 species = baseSpecies;
 
             // Check existing EncounterMatch
-            string oldEncounter = (EncounterMatch as IEncounterable)?.Name;
-            if (oldEncounter == null)
+            if ((EncounterOriginal ?? EncounterMatch) == null)
                 return new CheckResult(Severity.Invalid, "Unable to match an encounter from origin game.", CheckIdentifier.Encounter);
 
-            AddLine(new CheckResult(Severity.Valid, "Origin game encounter: " + oldEncounter, CheckIdentifier.Encounter));
             var s = EncounterMatch as EncounterStatic;
             if (s != null && s.Version == GameVersion.SPECIAL)
             {
