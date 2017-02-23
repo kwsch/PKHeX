@@ -41,5 +41,9 @@ namespace PKHeX.Core
         {
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
+        internal static readonly EncounterTrade[] TradeGift_GSC =
+        {
+
+        };
     }
 }

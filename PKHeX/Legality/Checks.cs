@@ -194,7 +194,22 @@ namespace PKHeX.Core
                 else if (pkm.SM)
                 {
                     // TODO
-                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon un-implemented.", CheckIdentifier.Nickname);
+                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon not implemented.", CheckIdentifier.Nickname);
+                    return;
+                }
+                else if (pkm.Format <= 2 || pkm.VC)
+                {
+                    var et = EncounterOriginal as EncounterTrade;
+                    if (et?.TID == 0) // Gen1 Trade
+                    {
+                        string ot = pkm.OT_Name;
+                        if (ot != "トレーナー" && ot != "TRAINER")
+                            AddLine(Severity.Invalid, "Incorrect OT name for RBY in-game trade.", CheckIdentifier.Trainer);
+                    }
+                    else // Gen2
+                    {
+                        AddLine(Severity.Valid, "Ingame Trade for GSC not implemented.", CheckIdentifier.Trainer);
+                    }
                     return;
                 }
 
@@ -554,10 +569,10 @@ namespace PKHeX.Core
                 EncounterMatch = e;
                 return verifyEncounterWild();
             }
-            if (sm <= em && sm <= tm)
+            if (tm <= sm && tm <= em)
             {
-                EncounterMatch = s;
-                return verifyEncounterStatic();
+                EncounterMatch = t;
+                return verifyEncounterTrade();
             }
 
             // else is trade
@@ -575,6 +590,7 @@ namespace PKHeX.Core
                 
                 // Get EncounterMatch prior to parsing transporter legality
                 var result = verifyEncounterG1();
+                EncounterOriginal = EncounterMatch;
 
                 if (pkm.Format > 2) // transported to 7+
                     AddLine(verifyVCEncounter(baseSpecies));
@@ -640,8 +656,7 @@ namespace PKHeX.Core
                 if (!exceptions)
                     AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
             }
-
-            EncounterOriginal = EncounterMatch; // Store for later recollection
+            
             EncounterMatch = new EncounterStatic
             {
                 Species = species,
@@ -951,6 +966,7 @@ namespace PKHeX.Core
 
             AddLine(Severity.Valid, "Ability matches ability number.", CheckIdentifier.Ability);
         }
+
         private void verifyBall()
         {
             if (pkm.GenNumber < 6)
@@ -1026,29 +1042,8 @@ namespace PKHeX.Core
 
             if (pkm.WasEgg)
             {
-                if (pkm.GenNumber < 6) // No inheriting Balls
-                {
-                    if (pkm.Ball != 0x04)
-                        AddLine(Severity.Invalid, "Ball should be Pokéball.", CheckIdentifier.Ball);
-                    return;
-                }
-
-                if (pkm.Ball == 0x01) // Master Ball
-                { AddLine(Severity.Invalid, "Master Ball on egg origin.", CheckIdentifier.Ball); return; }
-                if (pkm.Ball == 0x10) // Cherish Ball
-                { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
-                if (pkm.Ball == 0x04) // Poké Ball
-                { AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball); return; }
-
-                switch (pkm.GenNumber)
-                {
-                    case 6: // Gen6 Inheritance Rules
-                        verifyEggBallGen6();
-                        return;
-                    case 7: // Gen7 Inheritance Rules
-                        verifyEggBallGen7();
-                        return;
-                }
+                verifyBallEgg();
+                return;
             }
 
             if (pkm.Ball == 0x04) // Poké Ball
@@ -1059,7 +1054,35 @@ namespace PKHeX.Core
 
             AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
         }
-        private void verifyEggBallGen6()
+        private void verifyBallEgg()
+        {
+            if (pkm.GenNumber < 6) // No inheriting Balls
+            {
+                if (pkm.Ball != 0x04) // Must be Pokéball -- no ball inheritance.
+                    AddLine(Severity.Invalid, "Ball should be Pokéball.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, "Pokéball on egg.", CheckIdentifier.Ball);
+                return;
+            }
+
+            if (pkm.Ball == 0x01) // Master Ball
+            { AddLine(Severity.Invalid, "Master Ball on egg origin.", CheckIdentifier.Ball); return; }
+            if (pkm.Ball == 0x10) // Cherish Ball
+            { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
+            if (pkm.Ball == 0x04) // Poké Ball
+            { AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball); return; }
+
+            switch (pkm.GenNumber)
+            {
+                case 6: // Gen6 Inheritance Rules
+                    verifyBallEggGen6();
+                    return;
+                case 7: // Gen7 Inheritance Rules
+                    verifyBallEggGen7();
+                    return;
+            }
+        }
+        private void verifyBallEggGen6()
         {
             if (pkm.Gender == 2) // Genderless
             {
@@ -1159,7 +1182,7 @@ namespace PKHeX.Core
                     ? "Ball unobtainable in origin generation."
                     : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
         }
-        private void verifyEggBallGen7()
+        private void verifyBallEggGen7()
         {
             var Lineage = Legal.getLineage(pkm).ToArray();
             if (722 <= pkm.Species && pkm.Species <= 730) // G7 Starters
@@ -1398,7 +1421,7 @@ namespace PKHeX.Core
             }
             else // Is Traded
             {
-                if (pkm.HT_Memory == 0 && pkm.Format == 6)
+                if (pkm.Format == 6 && pkm.HT_Memory == 0)
                     return new CheckResult(Severity.Invalid, "Memory -- missing Handling Trainer Memory.", CheckIdentifier.History);
             }
 

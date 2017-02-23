@@ -13,7 +13,7 @@ namespace PKHeX.Core
         private object EncounterMatch, EncounterOriginal;
         private Type EncounterType;
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
-        private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterMatch);
+        private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginal ?? EncounterMatch);
         private List<MysteryGift> EventGiftMatch;
         private CheckResult Encounter, History;
         private int[] RelearnBase;
@@ -148,7 +148,7 @@ namespace PKHeX.Core
         {
             EncounterMatch = EncounterMatch ?? pkm.Species;
 
-            EncounterType = EncounterMatch?.GetType();
+            EncounterType = (EncounterOriginal ?? EncounterMatch)?.GetType();
             if (EncounterType == typeof (MysteryGift))
                 EncounterType = EncounterType.BaseType;
         }

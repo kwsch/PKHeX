@@ -319,8 +319,14 @@ namespace PKHeX.Core
         }
         internal static EncounterTrade getValidIngameTrade(PKM pkm, bool gen1Encounter = false)
         {
+            if (pkm.VC || pkm.Format <= 2)
+                return getValidEncounterTradeVC(pkm);
+
             if (!pkm.WasIngameTrade)
-                return null;
+            {
+                if (pkm.HasOriginalMetLocation)
+                    return null;
+            }
             int lang = pkm.Language;
             if (lang == 0 || lang == 6)
                 return null;
@@ -332,9 +338,7 @@ namespace PKHeX.Core
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
 
             EncounterTrade[] table = null;
-            if (pkm.VC1)
-                table = TradeGift_RBY;
-            else if (pkm.XY)
+            if (pkm.XY)
                 table = TradeGift_XY;
             else if (pkm.AO)
                 table = TradeGift_AO;
@@ -371,6 +375,35 @@ namespace PKHeX.Core
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
             //    return null;
 
+            return z;
+        }
+        internal static EncounterTrade getValidEncounterTradeVC(PKM pkm)
+        {
+            var p = getValidPreEvolutions(pkm).ToArray();
+            // Check GSC Trades first, if no match return the result from RBY.
+            return getValidEncounterTradeVC2(pkm, p) ?? getValidEncounterTradeVC1(pkm, p);
+        }
+        private static EncounterTrade getValidEncounterTradeVC2(PKM pkm, DexLevel[] p)
+        {
+            var z = TradeGift_GSC.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+            if (z == null)
+                return null;
+
+            // Filter Criteria
+            for (int i = 0; i < 6; i++)
+                if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
+                    return null;
+
+            if (z.TID != pkm.TID)
+                return null;
+
+            return z;
+        }
+        private static EncounterTrade getValidEncounterTradeVC1(PKM pkm, DexLevel[] p)
+        {
+            var z = TradeGift_RBY.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+            if (z?.Level > pkm.CurrentLevel) // minimum required level
+                return null;
             return z;
         }
         internal static EncounterSlot[] getValidFriendSafari(PKM pkm)
