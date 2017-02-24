@@ -18,6 +18,8 @@ Pokémon Showdown sets and QR codes can be imported/exported to assist in sharin
 
 Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required ([svdt](https://github.com/meladroit/svdt), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
 
+**We do not support or condone cheating at the expense of others. Do not use significantly hacked Pokémon in battle or in trades with those who are unaware hacked Pokémon are in use.**
+
 ## Screenshots
 
 ![Main Window](http://i.imgur.com/QT3IxpR.png)
