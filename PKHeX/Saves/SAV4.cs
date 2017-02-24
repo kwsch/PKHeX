@@ -758,12 +758,26 @@ namespace PKHeX.Core
 
             const int brSize = 0x40;
             int bit = pkm.Species - 1;
+            byte mask = (byte) (1 << (bit&7));
+            int ofs = PokeDex + bit>>3 + 0x4;
 
             // Set the Species Owned Flag
-            Data[PokeDex + brSize*0 + bit/8 + 0x4] |= (byte) (1 << (bit%8));
+            Data[ofs + brSize*0] |= mask;
 
-            // Set the Species Seen Flag
-            Data[PokeDex + brSize*1 + bit/8 + 0x4] |= (byte) (1 << (bit%8));
+            // Check if already Seen
+            int gr = pkm.PersonalInfo.Gender;
+            if (gr != 0 && gr < 254) // Not genderless or fixed gender
+            {
+                bool m = (Data[ofs + brSize*1] & mask) != 0;
+                bool f = (Data[ofs + brSize*2] & mask) != 0;
+                if (!(m || f)) // not yet seen
+                {
+                    // Set OTHER gender seen bit so it appears second
+                    int gender = pkm.Gender & 1;
+                    gender ^= 1; // other gender
+                    Data[ofs + brSize*(1 + gender)] |= mask;
+                }
+            }
 
             int FormOffset1 = PokeDex + 0x108;
             int PokeDexLanguageFlags = FormOffset1 + 0x20;
