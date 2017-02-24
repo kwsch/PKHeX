@@ -20,23 +20,23 @@ namespace PKHeX.WinForms
             public string Position => pkm.Identifier;
             public Image Sprite => pkm.Sprite();
             public string Nickname => pkm.Nickname;
-            public string Species => GameInfo.Strings.specieslist[pkm.Species];
-            public string Nature => GameInfo.Strings.natures[pkm.Nature];
-            public string Gender => Main.gendersymbols[pkm.Gender];
+            public string Species => get(GameInfo.Strings.specieslist, pkm.Species);
+            public string Nature => get(GameInfo.Strings.natures, pkm.Nature);
+            public string Gender => get(Main.gendersymbols, pkm.Gender);
             public string ESV => pkm.PSV.ToString("0000");
-            public string HP_Type => GameInfo.Strings.types[pkm.HPType+1];
-            public string Ability => GameInfo.Strings.abilitylist[pkm.Ability];
-            public string Move1 => GameInfo.Strings.movelist[pkm.Move1];
-            public string Move2 => GameInfo.Strings.movelist[pkm.Move2];
-            public string Move3 => GameInfo.Strings.movelist[pkm.Move3];
-            public string Move4 => GameInfo.Strings.movelist[pkm.Move4];
-            public string HeldItem => GameInfo.Strings.itemlist[pkm.HeldItem];
+            public string HP_Type => get(GameInfo.Strings.types, pkm.HPType+1);
+            public string Ability => get(GameInfo.Strings.abilitylist, pkm.Ability);
+            public string Move1 => get(GameInfo.Strings.movelist, pkm.Move1);
+            public string Move2 => get(GameInfo.Strings.movelist, pkm.Move2);
+            public string Move3 => get(GameInfo.Strings.movelist, pkm.Move3);
+            public string Move4 => get(GameInfo.Strings.movelist, pkm.Move4);
+            public string HeldItem => get(GameInfo.Strings.itemlist, pkm.HeldItem);
             public string MetLoc => pkm.getLocation(eggmet: false);
             public string EggLoc => pkm.getLocation(eggmet: true);
-            public string Ball => GameInfo.Strings.balllist[pkm.Ball];
+            public string Ball => get(GameInfo.Strings.balllist, pkm.Ball);
             public string OT => pkm.OT_Name;
-            public string Version => GameInfo.Strings.gamelist[pkm.Version];
-            public string OTLang => GameInfo.Strings.gamelanguages[pkm.Language] ?? $"UNK {pkm.Language}";
+            public string Version => get(GameInfo.Strings.gamelist, pkm.Version);
+            public string OTLang => get(GameInfo.Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
             public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
             public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
             public string DSRegionID => pkm.Format > 5 ? pkm.ConsoleRegion.ToString() : "N/A";
@@ -92,10 +92,10 @@ namespace PKHeX.WinForms
             public int Move2_PPUp => pkm.Move2_PPUps;
             public int Move3_PPUp => pkm.Move3_PPUps;
             public int Move4_PPUp => pkm.Move4_PPUps;
-            public string Relearn1 => GameInfo.Strings.movelist[pkm.RelearnMove1];
-            public string Relearn2 => GameInfo.Strings.movelist[pkm.RelearnMove2];
-            public string Relearn3 => GameInfo.Strings.movelist[pkm.RelearnMove3];
-            public string Relearn4 => GameInfo.Strings.movelist[pkm.RelearnMove4];
+            public string Relearn1 => get(GameInfo.Strings.movelist, pkm.RelearnMove1);
+            public string Relearn2 => get(GameInfo.Strings.movelist, pkm.RelearnMove2);
+            public string Relearn3 => get(GameInfo.Strings.movelist, pkm.RelearnMove3);
+            public string Relearn4 => get(GameInfo.Strings.movelist, pkm.RelearnMove4);
             public ushort Checksum => pkm.Checksum;
             public int mFriendship => pkm.OT_Friendship;
             public int OT_Affection => pkm.OT_Affection;
@@ -109,6 +109,8 @@ namespace PKHeX.WinForms
 
             #endregion
             public Preview(PKM p) { pkm = p; }
+
+            private static string get(IReadOnlyList<string> arr, int val) => arr?.Count > val ? arr[val] : null;
         }
         public frmReport()
         {
