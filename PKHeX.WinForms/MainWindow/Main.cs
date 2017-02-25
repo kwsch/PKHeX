@@ -4121,7 +4121,12 @@ namespace PKHeX.WinForms
                 pb.BackgroundImage = null;
                     
                 if (DragInfo.SameBox && DragInfo.DestinationValid)
-                    SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
+                {
+                    if (SAV.getIsTeamSet(box, DragInfo.slotDestinationSlotNumber) ^ SAV.getIsTeamSet(box, DragInfo.slotSourceSlotNumber))
+                        getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], SAV.getStoredSlot(DragInfo.slotDestinationOffset));
+                    else
+                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
+                }
 
                 if (result == DragDropEffects.Copy) // viewed in tabs, apply 'view' highlight
                     getSlotColor(DragInfo.slotSourceSlotNumber, Resources.slotView);
