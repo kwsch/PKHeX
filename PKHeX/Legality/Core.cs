@@ -11,11 +11,16 @@ namespace PKHeX.Core
         public static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
         // Gen 1
-        private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rb);
-        private static readonly Learnset[] LevelUpY = Learnset1.getArray(Resources.lvlmove_y);
+        private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rb, MaxSpeciesID_1);
+        private static readonly Learnset[] LevelUpY = Learnset1.getArray(Resources.lvlmove_y, MaxSpeciesID_1);
         private static readonly EvolutionTree Evolves1;
         private static readonly EncounterArea[] SlotsRBY;
         private static readonly EncounterStatic[] StaticRBY;
+
+        // Gen 2
+        private static readonly Learnset[] LevelUpGS = Learnset1.getArray(Resources.lvlmove_gs, MaxSpeciesID_2);
+        private static readonly Learnset[] LevelUpC = Learnset1.getArray(Resources.lvlmove_c, MaxSpeciesID_2);
+        private static readonly EvolutionTree Evolves2;
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_xy, "xy"));
@@ -152,6 +157,10 @@ namespace PKHeX.Core
                 Array.Resize(ref SlotsRBY, SlotsRBY.Length + 1);
                 SlotsRBY[SlotsRBY.Length - 1] = FishOldGood_RBY;
                 StaticRBY = getStaticEncounters(GameVersion.RBY);
+            }
+            // Gen 2
+            {
+                Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
             }
             // Gen 6
             {
@@ -439,6 +448,8 @@ namespace PKHeX.Core
             {
                 case 1:
                     return Evolves1;
+                case 2:
+                    return Evolves2;
 
                 case 6:
                     return Evolves6;

@@ -36,9 +36,9 @@ namespace PKHeX.Core
             Levels = levels.ToArray();
             Count = Moves.Length;
         }
-        public static Learnset[] getArray(byte[] input)
+        public static Learnset[] getArray(byte[] input, int maxSpecies)
         {
-            var data = new Learnset[Legal.MaxSpeciesID_1 + 1];
+            var data = new Learnset[maxSpecies + 1];
 
             int offset = 0;
             for (int s = 0; s < data.Length; s++)

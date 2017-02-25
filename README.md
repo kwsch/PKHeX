@@ -5,7 +5,7 @@ PKHeX
 Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29).
 
 Supports the following files:
-* Save files ("main", \*.sav, \*.dat, \*.gci)
+* Save files ("main", \*.sav, \*.dsv, \*.dat, \*.gci)
 * Individual Pokémon entity files (.pk\*)
 * Mystery Gift files (.pgt, .pcd, .pgf, .wc\*) including conversion to .pk\*
 * Importing teams from Decrypted 3DS Battle Videos
@@ -17,6 +17,8 @@ The interface can be translated with resource/external text files so that differ
 Pokémon Showdown sets and QR codes can be imported/exported to assist in sharing.
 
 Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required ([svdt](https://github.com/meladroit/svdt), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
+
+**We do not support or condone cheating at the expense of others. Do not use significantly hacked Pokémon in battle or in trades with those who are unaware hacked Pokémon are in use.**
 
 ## Screenshots
 
