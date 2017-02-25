@@ -7411,4 +7411,13 @@
   <data name="personal_y" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\personal_y;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="evos_gsc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\evos_gsc.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_c.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_gs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_gs.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -12324,14 +12324,15 @@ namespace PKHeX.Core.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex
         ///
-        ///17/02/07 - New Update:
+        ///17/02/25 - New Update:
         /// - Legality:
-        /// - - Added: Legality indication for exported QR images (if legality check is available for origin).
-        /// - - Added: Legality indication for Box/Party pkm slots (^ + opt-in via Options-&gt;Set to SAV).
+        /// - - Added: Legality checking for RBY Pokémon as pk1 and pk7+.
         /// - - Fixed: More edge cases for legality checks.
-        /// - Added: More Generation 7 trainer stat record labels. Thanks skywalker25 &amp; Holla!
-        /// - Added: G7TID -&gt; TID/SID generator for Generation 7 Trainer Editor. Thanks RoC!
-        /// -  [rest of string was truncated]&quot;;.
+        /// - Batch Editor:
+        /// - - Added: Nickname clearing to batch editor (via .IsNicknamed=False).
+        /// - - Added: Legality filtering and bulk suggestions for Met Location, Current Moves &amp; Relearn Moves.
+        /// - - - Use $suggest to use suggested result from the legality analysis.
+        /// - - Changed: Properties are now sort [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -12587,6 +12588,16 @@ namespace PKHeX.Core.Properties {
         public static byte[] evos_ao {
             get {
                 object obj = ResourceManager.GetObject("evos_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] evos_gsc {
+            get {
+                object obj = ResourceManager.GetObject("evos_gsc", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -17826,6 +17837,26 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] lvlmove_c {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_c", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] lvlmove_gs {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_gs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] lvlmove_rb {
             get {
                 object obj = ResourceManager.GetObject("lvlmove_rb", resourceCulture);
@@ -18084,7 +18115,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20170207.
+        ///   Looks up a localized string similar to 20170225.
         /// </summary>
         public static string ProgramVersion {
             get {
@@ -34274,8 +34305,8 @@ namespace PKHeX.Core.Properties {
         ///小磁怪
         ///三合一磁怪
         ///大蔥鴨
-        ///都都
-        ///都都利
+        ///嘟嘟
+        ///嘟嘟利
         ///小海獅
         ///白海獅
         ///臭泥

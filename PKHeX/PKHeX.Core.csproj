@@ -270,12 +270,15 @@
     <None Include="Resources\byte\encounter_sn_sos.pkl" />
     <None Include="Resources\byte\encounter_yellow.pkl" />
     <None Include="Resources\byte\encounter_yellow_f.pkl" />
+    <None Include="Resources\byte\evos_gsc.pkl" />
     <None Include="Resources\byte\evos_rby.pkl" />
     <None Include="Resources\byte\evos_sm.pkl" />
     <None Include="Resources\byte\fashion_f_sm" />
     <None Include="Resources\byte\fashion_f_sm_illegal" />
     <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\fashion_m_sm_illegal" />
+    <None Include="Resources\byte\lvlmove_c.pkl" />
+    <None Include="Resources\byte\lvlmove_gs.pkl" />
     <None Include="Resources\byte\lvlmove_rb.pkl" />
     <None Include="Resources\byte\lvlmove_rby.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
