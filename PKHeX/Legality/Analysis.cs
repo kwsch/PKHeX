@@ -174,9 +174,7 @@ namespace PKHeX.Core
             verifyForm();
             verifyMisc();
             verifyGender();
-
-            if (pkm.Format == 7)
-                verifyItem();
+            verifyItem();
 
             verifyVersionEvolution();
             // SecondaryChecked = true;

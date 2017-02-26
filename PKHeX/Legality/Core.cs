@@ -1493,5 +1493,14 @@ namespace PKHeX.Core
             // No tutors in G7
             return moves.Distinct();
         }
+
+        public static int[] getUnreleasedItems(int generation)
+        {
+            switch (generation)
+            {
+                case 7: return UnreleasedItems_7;
+                default: return new int[0];
+            }
+        }
     }
 }
