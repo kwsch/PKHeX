@@ -1252,7 +1252,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Unreleased Items
-        internal static readonly int[] UnreleasedItems_7 =
+        internal static readonly int[] UnreleasedHeldItems_7 =
         {
             016, // Cherish Ball
             064, // Fluffy Tail
@@ -1342,5 +1342,6 @@ namespace PKHeX.Core
             836, // Pikashunium Z
         };
         #endregion
+        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(1, MaxItemID_7).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
     }
 }

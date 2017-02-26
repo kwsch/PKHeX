@@ -656,6 +656,30 @@ namespace PKHeX.Core
             }
         }
 
+        internal static bool[] getReleasedHeldItems(int generation)
+        {
+            switch (generation)
+            {
+                case 2: return ReleasedHeldItems_2;
+                case 3: return ReleasedHeldItems_3;
+                case 4: return ReleasedHeldItems_4;
+                case 5: return ReleasedHeldItems_5;
+                case 6: return ReleasedHeldItems_6;
+                case 7: return ReleasedHeldItems_7;
+                default: return new bool[0];
+            }
+        }
+        internal static bool getHeldItemAllowed(int generation, int item)
+        {
+            if (item < 0)
+                return false;
+            if (item == 0)
+                return true;
+
+            var items = getReleasedHeldItems(generation);
+            return items.Length > item && items[item];
+        }
+
         internal static bool getDexNavValid(PKM pkm)
         {
             if (!pkm.AO || !pkm.InhabitedGeneration(6))
@@ -1492,15 +1516,6 @@ namespace PKHeX.Core
             }
             // No tutors in G7
             return moves.Distinct();
-        }
-
-        public static int[] getUnreleasedItems(int generation)
-        {
-            switch (generation)
-            {
-                case 7: return UnreleasedItems_7;
-                default: return new int[0];
-            }
         }
     }
 }

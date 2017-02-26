@@ -72,8 +72,7 @@ namespace PKHeX.Core
 
         private void verifyItem()
         {
-            var unreleasedItems = Legal.getUnreleasedItems(pkm.Format);
-            if (unreleasedItems.Contains(pkm.HeldItem))
+            if (!Legal.getHeldItemAllowed(pkm.Format, pkm.HeldItem))
                 AddLine(Severity.Invalid, "Held item is unreleased.", CheckIdentifier.Form);
         }
 
