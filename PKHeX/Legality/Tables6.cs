@@ -766,6 +766,6 @@ namespace PKHeX.Core
         {
             // todo
         };
-        internal static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
     }
 }
