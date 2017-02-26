@@ -434,7 +434,6 @@ namespace PKHeX.WinForms
             {052, "Record Thumbs-ups"},
             {053, "Pokemon Petted"},
             {066, "Guests Interacted With"},
-
             {100, "Champion Title Defense"},
             {110, "Pokemon Defeated (Highest)"},
             {112, "Pokemon Caught (Highest)"},
