@@ -2814,6 +2814,8 @@ namespace PKHeX.WinForms
                     pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
                 }
+                if (sender == CB_HeldItem && SAV.Generation == 7)
+                    updateLegality();
             }
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well
