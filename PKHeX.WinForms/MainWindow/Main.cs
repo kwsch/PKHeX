@@ -2292,7 +2292,10 @@ namespace PKHeX.WinForms
                 }
             }
             else if (PKX.getGender(CB_Form.Text) < 2)
-                Label_Gender.Text = CB_Form.Text;
+            {
+                if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
+                    Label_Gender.Text = gendersymbols[PKX.getGender(CB_Form.Text)];
+            }
 
             if (changingFields) 
                 return;
@@ -2921,7 +2924,7 @@ namespace PKHeX.WinForms
 
         private void updateGender()
         {
-            int cg = Array.IndexOf(gendersymbols, Label_Gender.Text);
+            int cg = PKX.getGender(Label_Gender.Text);
             int gt = SAV.Personal.getFormeEntry(WinFormsUtil.getIndex(CB_Species), CB_Form.SelectedIndex).Gender;
 
             int Gender;
