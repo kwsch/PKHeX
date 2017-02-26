@@ -268,24 +268,28 @@ namespace PKHeX.Core
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        protected bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
         public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
         public bool Gen3 => Version >= 1 && Version <= 5 || Version == 15;
-        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3);
+        public bool Gen2 => Version == (int)GameVersion.GSC;
+        public bool Gen1 => Version == (int)GameVersion.RBY;
+        public bool GenU => !(Gen7 || Gen6 || Gen5 || Gen4 || Gen3 || Gen2 || Gen1 || VC);
         public int GenNumber
         {
             get
             {
-                if (VC) return 7;
                 if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;
                 if (Gen4) return 4;
                 if (Gen3) return 3;
+                if (Gen2) return Format; // 2
+                if (Gen1) return Format; // 1
+                if (VC) return 1;
                 return -1;
             } 
         }
@@ -399,28 +403,17 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
+        private int MaxSpeciesID => Legal.getMaxSpeciesOrigin(Format);
         public virtual bool WasLink => false;
         public virtual bool WasEgg => Egg_Location > 0;
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public virtual bool WasTradedEgg => Egg_Location == 30002;
         public virtual bool WasIngameTrade => Met_Location == 30001;
-        public virtual bool IsUntraded => string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
+        public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
-        public virtual bool IsOriginValid()
-        {
-            switch (GenNumber)
-            {
-                case 1: return Species <= Legal.MaxSpeciesID_1;
-                case 2: return Species <= Legal.MaxSpeciesID_2;
-                case 3: return Species <= Legal.MaxSpeciesID_3;
-                case 4: return Species <= Legal.MaxSpeciesID_4;
-                case 5: return Species <= Legal.MaxSpeciesID_5;
-                case 6: return Species <= Legal.MaxSpeciesID_6;
-                case 7: return Species <= Legal.MaxSpeciesID_7;
-                default: return false;
-            }
-        }
+        public virtual bool IsOriginValid => Species <= Legal.getMaxSpeciesOrigin(Format);
+
         public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
         public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
 
@@ -453,30 +446,46 @@ namespace PKHeX.Core
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.
         /// </summary>
         /// <param name="Generation">Set of games.</param>
+        /// <param name="species"></param>
         /// <returns>True if could inhabit, False if not.</returns>
-        public bool InhabitedGeneration(int Generation)
+        public bool InhabitedGeneration(int Generation, int species = -1)
         {
-            if (VC1 && Generation == 1)
-                return true; // Virtual Console Gen1
+            if (species < 0)
+                species = Species;
+
+            if (Format == Generation)
+                return true;
 
             if (Format < Generation)
                 return false; // Future
-            if (GenNumber > Generation)
-                return false; // Past
 
-            switch (Generation) // Sanity Check Species ID
+            if (!IsOriginValid)
+                return false;
+
+            // Sanity Check Species ID
+            if (Legal.getMaxSpeciesOrigin(GenNumber) < species && !Legal.getFutureGenEvolutions(GenNumber).Contains(species))
+                return false;
+
+            int gen = GenNumber;
+            switch (Generation)
             {
-                case 1: return Species <= Legal.MaxSpeciesID_1;
-                case 2: return Species <= Legal.MaxSpeciesID_2;
-                case 3: return Species <= Legal.MaxSpeciesID_3;
-                case 4: return Species <= Legal.MaxSpeciesID_4;
-                case 5: return Species <= Legal.MaxSpeciesID_5;
-                case 6: return Species <= Legal.MaxSpeciesID_6;
-                case 7: return Species <= Legal.MaxSpeciesID_7;
+                case 1:
+                case 2: return Format <= 2 || VC;
+                case 3: return Gen3;
+                case 4: return 3 <= gen && gen <= 4;
+                case 5: return 3 <= gen && gen <= 5;
+                case 6: return 3 <= gen && gen <= 6;
+                case 7: return VC || 3 <= gen && gen <= 7;
                 default:
                     return false;
             }
         }
+
+        /// <summary>
+        /// Checks if the PKM has its original met location.
+        /// </summary>
+        /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
+        public bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.

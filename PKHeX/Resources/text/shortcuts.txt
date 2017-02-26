@@ -38,7 +38,7 @@ Hold Control when dragging to save encrypted (ekx).
 
 Click on...
 - OT label: Set save file details to relevant properties.
-- Met Location label: Suggest encounter information for relevant properties.
+- Level / Met Location label: Suggest encounter information for relevant properties.
 - Moves groupbox: Suggest legal moves.
 - Relearn Moves groupbox: Suggest legal relearn moves.
 

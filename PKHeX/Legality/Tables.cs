@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Linq;
+
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
@@ -197,6 +199,7 @@
             695, 696, 697, 698, 699, 700, 701, 702, 703,
             719,
         };
+        internal static readonly int[] InvalidSketch = new[] { 165, 448 }.Concat(Z_Moves).ToArray(); // Struggle & Chatter
 
         public static readonly int[] Legends =
         {
@@ -219,7 +222,7 @@
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
-        public static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Blue, Green, Yellow
+        public static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Green, Blue, Yellow
         public static readonly int[] Games_7go = { 34 };
         public static readonly int[] Games_7sm = { 30, 31 };
         public static readonly int[] Games_6xy = { 24, 25 };

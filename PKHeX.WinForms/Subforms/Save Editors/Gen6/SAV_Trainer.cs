@@ -39,6 +39,9 @@ namespace PKHeX.WinForms
             pba = new [] { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = Main.SAV.ORAS;
+            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = Main.SAV.ORAS;
+            PB_Sprite.Visible = Main.SAV.ORAS;
+
             L_Style.Visible = TB_Style.Visible = SAV.XY;
             if (!SAV.XY)
                 TC_Editor.TabPages.Remove(Tab_Appearance);

@@ -182,6 +182,7 @@ namespace PKHeX.WinForms
             NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.getTreeStreak(2, super: true, max: true));
 
             CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
+            TB_PlazaName.Text = SAV.FestivalPlazaName;
         }
         private void save()
         {
@@ -262,6 +263,8 @@ namespace PKHeX.WinForms
             if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex && 
                 (SAV.Gender == skin || DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:\nGender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
+
+            SAV.FestivalPlazaName = TB_PlazaName.Text;
         }
 
         private void clickOT(object sender, MouseEventArgs e)

@@ -10,6 +10,7 @@
         public int Form = 0;
         public bool? Shiny = null; // false = never, true = always, null = possible
         public int[] Relearn = new int[4];
+        public int[] Moves = new int[4];
         public int Gender = -1;
         public int EggLocation = 0;
         public Nature Nature = Nature.Random;
@@ -25,6 +26,15 @@
         public bool RibbonWishing = false;
         public bool SkipFormCheck = false;
 
-        public string Name => "Static Encounter";
+        public string Name
+        {
+            get
+            {
+                const string game = "Static Encounter";
+                if (Version == GameVersion.Any)
+                    return game;
+                return game + " " + $"({Version})";
+            }
+        }
     }
 }

@@ -19,11 +19,17 @@ namespace PKHeX.Core
             MaxSpeciesTree = maxSpeciesTree;
             switch (game)
             {
-                case GameVersion.SM:
-                    Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
+                case GameVersion.RBY:
+                    Entries = EvolutionSet1.getArray(data[0], maxSpeciesTree);
+                    break;
+                case GameVersion.GSC:
+                    Entries = EvolutionSet2.getArray(data[0], maxSpeciesTree);
                     break;
                 case GameVersion.ORAS:
                     Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
+                    break;
+                case GameVersion.SM:
+                    Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
                     break;
             }
             
@@ -32,7 +38,7 @@ namespace PKHeX.Core
             for (int i = 0; i < Entries.Count; i++)
                 Lineage[i] = new EvolutionLineage();
             if (Game == GameVersion.ORAS)
-                Array.Resize(ref Lineage, maxSpeciesTree + 1);
+                Array.Resize(ref Lineage, MaxSpeciesTree + 1);
 
             // Populate Lineages
             for (int i = 1; i < Lineage.Length; i++)
@@ -162,6 +168,94 @@ namespace PKHeX.Core
     {
         public EvolutionMethod[] PossibleEvolutions;
     }
+    public class EvolutionSet1 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, ref int offset)
+        {
+            switch (data[offset])
+            {
+                case 1: // Level
+                    var m1 = new EvolutionMethod
+                    {
+                        Method = 1, // Level Up
+                        Level = data[offset + 1],
+                        Species = data[offset + 2]
+                    };
+                    offset += 3;
+                    return m1;
+                case 2: // Use Item
+                    var m2 = new EvolutionMethod
+                    {
+                        Method = 8, // Use Item
+                        Argument = data[offset + 1],
+                        // 1
+                        Species = data[offset + 3],
+                    };
+                    offset += 4;
+                    return m2;
+                case 3: // Trade
+                    var m3 = new EvolutionMethod
+                    {
+                        Method = 5, // Trade
+                        // 1
+                        Species = data[offset + 2]
+                    };
+                    offset += 3;
+                    return m3;
+            }
+            return null;
+        }
+        public static List<EvolutionSet> getArray(byte[] data, int maxSpecies)
+        {
+            var evos = new List<EvolutionSet>();
+            int offset = 0;
+            for (int i = 0; i <= maxSpecies; i++)
+            {
+                var m = new List<EvolutionMethod>();
+                while (data[offset] != 0)
+                    m.Add(getMethod(data, ref offset));
+                ++offset;
+                evos.Add(new EvolutionSet1 { PossibleEvolutions = m.ToArray() });
+            }
+            return evos;
+        }
+    }
+    public class EvolutionSet2 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, ref int offset)
+        {
+            int method = data[offset];
+            int arg = data[offset + 1];
+            int species = data[offset + 2];
+            offset += 3;
+
+            switch (method)
+            {
+                case 1: /* Level Up */ return new EvolutionMethod { Method = 1, Species = species, Level = arg };
+                case 2: /* Use Item */ return new EvolutionMethod { Method = 8, Species = species, Argument = arg };
+                case 3: /*  Trade   */ return new EvolutionMethod { Method = 5, Species = species };
+                case 4: /*Friendship*/ return new EvolutionMethod { Method = 1, Species = species };
+                case 5: /*  Stats   */
+                    // species is currently stat ID, we don't care about evo type as stats can be changed after evo
+                    return new EvolutionMethod { Method = 1, Species = data[offset++], Level = arg }; // Tyrogue stats
+            }
+            return null;
+        }
+        public static List<EvolutionSet> getArray(byte[] data, int maxSpecies)
+        {
+            var evos = new List<EvolutionSet>();
+            int offset = 0;
+            for (int i = 0; i <= maxSpecies; i++)
+            {
+                var m = new List<EvolutionMethod>();
+                while (data[offset] != 0)
+                    m.Add(getMethod(data, ref offset));
+                ++offset;
+                evos.Add(new EvolutionSet2 { PossibleEvolutions = m.ToArray() });
+            }
+            return evos;
+        }
+    }
     public class EvolutionSet6 : EvolutionSet
     {
         private const int SIZE = 6;
@@ -172,7 +266,7 @@ namespace PKHeX.Core
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
-                PossibleEvolutions[i/SIZE] = new EvolutionMethod
+                var evo = new EvolutionMethod
                 {
                     Method = BitConverter.ToUInt16(data, i + 0),
                     Argument = BitConverter.ToUInt16(data, i + 2),
@@ -183,8 +277,10 @@ namespace PKHeX.Core
                 };
 
                 // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
-                if (argEvos.Contains(PossibleEvolutions[i/SIZE].Method))
-                    PossibleEvolutions[i/SIZE].Level = 0;
+                if (argEvos.Contains(evo.Method))
+                    evo.Level = 0;
+
+                PossibleEvolutions[i/SIZE] = evo;
             }
         }
     }
@@ -359,6 +455,7 @@ namespace PKHeX.Core
                         continue;
 
                     oneValid = true;
+                    updateMinValues(dl, evo);
                     int species = evo.Species;
 
                     // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
@@ -366,7 +463,7 @@ namespace PKHeX.Core
                         species = pkm.Species - Chain.Count + i;
 
                     dl.Add(evo.GetDexLevel(species, lvl));
-                    
+
                     if (evo.RequiresLevelUp)
                         lvl--;
                     break;
@@ -379,7 +476,42 @@ namespace PKHeX.Core
             if (dl.Any(d => d.Species <= maxSpeciesOrigin) && dl.Last().Species > maxSpeciesOrigin)
                 dl.RemoveAt(dl.Count - 1); 
 
+            // Last species is the wild/hatched species, the minimum is 1 because it has not evolved from previous species
+            dl.Last().MinLevel = 1;
+            dl.Last().RequiresLvlUp = false;
             return dl;
+        }
+        private static void updateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
+        {
+            var last = dl.Last();
+            if (evo.Level == 0) // Evolutions like elemental stones, trade, etc
+            {
+                if (!evo.RequiresLevelUp)
+                    last.MinLevel = 1;
+                else
+                {
+                    // Evolutions like frienship, pichu -> pikachu, eevee -> umbreon, etc
+                    last.MinLevel = 2;
+
+                    var first = dl.First();
+                    if (dl.Count > 1 && !first.RequiresLvlUp)
+                        first.MinLevel = 2; // Raichu from Pikachu would have minimum level 1, but with Pichu included Raichu minimum level is 2
+                }
+            }
+            else // level up evolutions
+            {
+                last.MinLevel = evo.Level;
+
+                var first = dl.First();
+                if (dl.Count > 1)
+                {
+                    if (first.MinLevel < evo.Level && !first.RequiresLvlUp)
+                        first.MinLevel = evo.Level; // Pokemon like Nidoqueen, its minimum level is Nidorina minimum level
+                    if (first.MinLevel <= evo.Level && first.RequiresLvlUp)
+                        first.MinLevel = evo.Level + 1; // Pokemon like Crobat, its minimum level is Golbat minimum level + 1
+                }
+            }
+            last.RequiresLvlUp = evo.RequiresLevelUp;
         }
     }
     public class EvolutionStage

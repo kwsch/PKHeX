@@ -104,6 +104,9 @@ namespace PKHeX.WinForms
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.B_GenTID = new System.Windows.Forms.Button();
+            this.L_G7TID = new System.Windows.Forms.Label();
+            this.MT_G7TID = new System.Windows.Forms.MaskedTextBox();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
             this.NUD_Stat = new System.Windows.Forms.NumericUpDown();
             this.NUD_FC = new System.Windows.Forms.NumericUpDown();
@@ -171,9 +174,8 @@ namespace PKHeX.WinForms
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
-            this.L_G7TID = new System.Windows.Forms.Label();
-            this.MT_G7TID = new System.Windows.Forms.MaskedTextBox();
-            this.B_GenTID = new System.Windows.Forms.Button();
+            this.TB_PlazaName = new System.Windows.Forms.TextBox();
+            this.L_PlazaName = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -847,6 +849,35 @@ namespace PKHeX.WinForms
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
             // 
+            // B_GenTID
+            // 
+            this.B_GenTID.Location = new System.Drawing.Point(124, 75);
+            this.B_GenTID.Name = "B_GenTID";
+            this.B_GenTID.Size = new System.Drawing.Size(68, 20);
+            this.B_GenTID.TabIndex = 63;
+            this.B_GenTID.Text = "Generate";
+            this.B_GenTID.UseVisualStyleBackColor = true;
+            this.B_GenTID.Click += new System.EventHandler(this.B_GenTID_Click);
+            // 
+            // L_G7TID
+            // 
+            this.L_G7TID.Location = new System.Drawing.Point(-1, 78);
+            this.L_G7TID.Name = "L_G7TID";
+            this.L_G7TID.Size = new System.Drawing.Size(48, 13);
+            this.L_G7TID.TabIndex = 61;
+            this.L_G7TID.Text = "G7TID:";
+            this.L_G7TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_G7TID
+            // 
+            this.MT_G7TID.Location = new System.Drawing.Point(53, 75);
+            this.MT_G7TID.Mask = "000000";
+            this.MT_G7TID.Name = "MT_G7TID";
+            this.MT_G7TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_G7TID.Size = new System.Drawing.Size(65, 20);
+            this.MT_G7TID.TabIndex = 62;
+            this.MT_G7TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // GB_Stats
             // 
             this.GB_Stats.Controls.Add(this.NUD_Stat);
@@ -1081,7 +1112,7 @@ namespace PKHeX.WinForms
             this.Tab_BadgeMap.Controls.Add(this.GB_Map);
             this.Tab_BadgeMap.Location = new System.Drawing.Point(4, 22);
             this.Tab_BadgeMap.Name = "Tab_BadgeMap";
-            this.Tab_BadgeMap.Size = new System.Drawing.Size(386, 294);
+            this.Tab_BadgeMap.Size = new System.Drawing.Size(386, 290);
             this.Tab_BadgeMap.TabIndex = 3;
             this.Tab_BadgeMap.Text = "Map";
             this.Tab_BadgeMap.UseVisualStyleBackColor = true;
@@ -1272,7 +1303,7 @@ namespace PKHeX.WinForms
             this.Tab_BattleTree.Location = new System.Drawing.Point(4, 22);
             this.Tab_BattleTree.Name = "Tab_BattleTree";
             this.Tab_BattleTree.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_BattleTree.Size = new System.Drawing.Size(386, 294);
+            this.Tab_BattleTree.Size = new System.Drawing.Size(386, 290);
             this.Tab_BattleTree.TabIndex = 5;
             this.Tab_BattleTree.Text = "Battle Tree";
             this.Tab_BattleTree.UseVisualStyleBackColor = true;
@@ -1555,6 +1586,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.L_PlazaName);
+            this.Tab_Misc.Controls.Add(this.TB_PlazaName);
             this.Tab_Misc.Controls.Add(this.CB_Fashion);
             this.Tab_Misc.Controls.Add(this.L_SkinColor);
             this.Tab_Misc.Controls.Add(this.CB_SkinColor);
@@ -1563,7 +1596,7 @@ namespace PKHeX.WinForms
             this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
             this.Tab_Misc.Name = "Tab_Misc";
             this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Misc.Size = new System.Drawing.Size(386, 294);
+            this.Tab_Misc.Size = new System.Drawing.Size(386, 290);
             this.Tab_Misc.TabIndex = 4;
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
@@ -1738,34 +1771,25 @@ namespace PKHeX.WinForms
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
-            // L_G7TID
+            // TB_PlazaName
             // 
-            this.L_G7TID.Location = new System.Drawing.Point(-1, 78);
-            this.L_G7TID.Name = "L_G7TID";
-            this.L_G7TID.Size = new System.Drawing.Size(48, 13);
-            this.L_G7TID.TabIndex = 61;
-            this.L_G7TID.Text = "G7TID:";
-            this.L_G7TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.TB_PlazaName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_PlazaName.Location = new System.Drawing.Point(217, 139);
+            this.TB_PlazaName.MaxLength = 20;
+            this.TB_PlazaName.Name = "TB_PlazaName";
+            this.TB_PlazaName.Size = new System.Drawing.Size(159, 20);
+            this.TB_PlazaName.TabIndex = 61;
+            this.TB_PlazaName.Text = "WWWWWWWWWWWWWWWWWWWW";
             // 
-            // MT_G7TID
+            // L_PlazaName
             // 
-            this.MT_G7TID.Location = new System.Drawing.Point(53, 75);
-            this.MT_G7TID.Mask = "000000";
-            this.MT_G7TID.Name = "MT_G7TID";
-            this.MT_G7TID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_G7TID.Size = new System.Drawing.Size(65, 20);
-            this.MT_G7TID.TabIndex = 62;
-            this.MT_G7TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // B_GenTID
-            // 
-            this.B_GenTID.Location = new System.Drawing.Point(124, 75);
-            this.B_GenTID.Name = "B_GenTID";
-            this.B_GenTID.Size = new System.Drawing.Size(68, 20);
-            this.B_GenTID.TabIndex = 63;
-            this.B_GenTID.Text = "Generate";
-            this.B_GenTID.UseVisualStyleBackColor = true;
-            this.B_GenTID.Click += new System.EventHandler(this.B_GenTID_Click);
+            this.L_PlazaName.AutoSize = true;
+            this.L_PlazaName.Location = new System.Drawing.Point(214, 119);
+            this.L_PlazaName.Name = "L_PlazaName";
+            this.L_PlazaName.Size = new System.Drawing.Size(106, 13);
+            this.L_PlazaName.TabIndex = 62;
+            this.L_PlazaName.Text = "Festival Plaza Name:";
+            this.L_PlazaName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SAV_Trainer7
             // 
@@ -1813,6 +1837,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).EndInit();
             this.Tab_Misc.ResumeLayout(false);
+            this.Tab_Misc.PerformLayout();
             this.GB_PokeFinder.ResumeLayout(false);
             this.GB_PokeFinder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
@@ -1969,5 +1994,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_GenTID;
         private System.Windows.Forms.Label L_G7TID;
         private System.Windows.Forms.MaskedTextBox MT_G7TID;
+        private System.Windows.Forms.TextBox TB_PlazaName;
+        private System.Windows.Forms.Label L_PlazaName;
     }
 }

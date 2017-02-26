@@ -470,17 +470,9 @@ namespace PKHeX.Core
             599, // Klink
             622, // Golett
         };
-        internal static readonly int[] Ban_Gen3Ball_AllowG7 =
+        internal static readonly int[] Ban_Gen3Ball_7 =
         {
-            252, 255, 258, //1 - Treeko, Torchic, Mudkip
-            253, 256, 259, //2
-            254, 257, 260, //3
-            387, 390, 393, //1 - Turtwig, Chimchar, Piplup
-            388, 391, 394, //2
-            389, 392, 395, //3
-            495, 498, 501, //1 - Snivy, Tepig, Oshawott
-            496, 499, 502, //2
-            497, 500, 503, //3
+            566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
         internal static readonly int[] Ban_Gen4Ball_7 =
         {
@@ -1173,7 +1165,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 422, Relearn = new[] {124}},                    // Shellos: Sludge
             new EncounterStatic { Species = 131, Relearn = new[] {419}},                    // Lapras: Avalanche
             new EncounterStatic { Species = 102, Relearn = new[] {335,285,384,381,267,246}},// Exeggcute: Block, Skill Swap, Power Swap, Lucky Chant, Nature Power, Ancient Power
-            new EncounterStatic { Species = 123, Relearn = new[] {211,501,432,179,68}},	    // Scyther: Steel Wing, Quick Guard, Defog, Reversal, Counter
+            new EncounterStatic { Species = 123, Relearn = new[] {211,501,432,179,68}},     // Scyther: Steel Wing, Quick Guard, Defog, Reversal, Counter
             new EncounterStatic { Species = 198, Relearn = new[] {375,260,195}},            // Murkrow: Psycho Shift, Flatter, Perish Song
             new EncounterStatic { Species = 447, Relearn = new[] {299}},                    // Riolu: Blaze Kick
             new EncounterStatic { Species = 147, Relearn = new[] {245}},                    // Dratini: Extreme Speed

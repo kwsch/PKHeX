@@ -25,6 +25,28 @@
             Pressure = template.Pressure;
         }
 
-        public string Name => "Wild Encounter";
+        public string Name
+        {
+            get
+            {
+                const string wild = "Wild Encounter";
+                if (Type == SlotType.Any)
+                    return wild;
+                return wild + " " + $"{Type.ToString().Replace("_", " ")}";
+            }
+        }
+    }
+    public class EncounterSlot1 : EncounterSlot
+    {
+        public int Rate;
+        public EncounterSlot1() { }
+        public EncounterSlot1(EncounterSlot1 template)
+        {
+            Species = template.Species;
+            LevelMax = template.LevelMax;
+            LevelMin = template.LevelMin;
+            Type = template.Type;
+            Rate = template.Rate;
+        }
     }
 }

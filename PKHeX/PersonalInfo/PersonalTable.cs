@@ -18,7 +18,8 @@ namespace PKHeX.Core
         public static readonly PersonalTable RS = new PersonalTable(Properties.Resources.personal_rs, GameVersion.RS);
         public static readonly PersonalTable C = new PersonalTable(Properties.Resources.personal_c, GameVersion.C);
         public static readonly PersonalTable GS = new PersonalTable(Properties.Resources.personal_c, GameVersion.GS);
-        public static readonly PersonalTable RBY = new PersonalTable(Properties.Resources.personal_rby, GameVersion.RBY);
+        public static readonly PersonalTable RB = new PersonalTable(Properties.Resources.personal_rb, GameVersion.RBY);
+        public static readonly PersonalTable Y = new PersonalTable(Properties.Resources.personal_y, GameVersion.RBY);
 
         private static byte[][] splitBytes(byte[] data, int size)
         {

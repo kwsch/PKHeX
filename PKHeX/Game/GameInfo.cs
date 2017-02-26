@@ -267,8 +267,8 @@ namespace PKHeX.Core
         public static GameStrings Strings;
 
         // DataSource providing
-        public static List<ComboItem> MoveDataSource, ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
-        public static List<ComboItem> HaXMoveDataSource;
+        public static List<ComboItem> ItemDataSource, SpeciesDataSource, BallDataSource, NatureDataSource, AbilityDataSource, VersionDataSource;
+        public static List<ComboItem> LegalMoveDataSource, HaXMoveDataSource, MoveDataSource;
         private static List<ComboItem> metGen2, metGen3, metGen3CXD, metGen4, metGen5, metGen6, metGen7;
 
         public static void InitializeDataSources(GameStrings s)
@@ -284,7 +284,7 @@ namespace PKHeX.Core
             VersionDataSource.AddRange(Util.getCBList(s.gamelist, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
 
             HaXMoveDataSource = Util.getCBList(s.movelist, null);
-            MoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
+            MoveDataSource = LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
             #region Met Locations
             // Gen 2
             {
@@ -524,6 +524,57 @@ namespace PKHeX.Core
                 return unsortedList[regionnum];
             }
             catch { return "Illegal"; }
+        }
+
+        /// <summary>
+        /// Gets the location names array for a specified generation.
+        /// </summary>
+        /// <param name="gen">Generation to get location names for.</param>
+        /// <param name="bankID">BankID used to choose the text bank.</param>
+        /// <returns>List of location names.</returns>
+        public static string[] getLocationNames(int gen, int bankID)
+        {
+            switch (gen)
+            {
+                case 2: return Strings.metGSC_00000;
+                case 3: return Strings.metRSEFRLG_00000;
+                case 4:
+                    switch (bankID)
+                    {
+                        case 0: return Strings.metHGSS_00000;
+                        case 2: return Strings.metHGSS_02000;
+                        default: return null;
+                    }
+                case 5:
+                    switch (bankID)
+                    {
+                        case 0: return Strings.metBW2_00000;
+                        case 3: return Strings.metBW2_30000;
+                        case 4: return Strings.metBW2_40000;
+                        case 6: return Strings.metBW2_60000;
+                        default: return null;
+                    }
+                case 6:
+                    switch (bankID)
+                    {
+                        case 0: return Strings.metXY_00000;
+                        case 3: return Strings.metXY_30000;
+                        case 4: return Strings.metXY_40000;
+                        case 6: return Strings.metXY_60000;
+                        default: return null;
+                    }
+                case 7:
+                    switch (bankID)
+                    {
+                        case 0: return Strings.metSM_00000;
+                        case 3: return Strings.metSM_30000;
+                        case 4: return Strings.metSM_40000;
+                        case 6: return Strings.metSM_60000;
+                        default: return null;
+                    }
+                default:
+                    return null;
+            }
         }
     }
 }

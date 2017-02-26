@@ -12324,12 +12324,15 @@ namespace PKHeX.Core.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex
         ///
-        ///17/01/30 - New Update:
-        /// - Added: Control right-clicking a PKM slot (box, party, etc) now allows direct legality checking.
-        /// - Added: 6/7 detection preferential treatment &amp; other detection methods. Thanks sora10pls!
-        /// - Added: Remove All medals button now clears Unlocked/Complete flags even if not visible.
-        /// - Fixed: Badly constructed ShowdownSets throw less exceptions (hopefully none). Thanks Sonic Blader!
-        /// - Fixed: Cloning to all slots in a Gen1/2  [rest of string was truncated]&quot;;.
+        ///17/02/25 - New Update:
+        /// - Legality:
+        /// - - Added: Legality checking for RBY Pokémon as pk1 and pk7+.
+        /// - - Fixed: More edge cases for legality checks.
+        /// - Batch Editor:
+        /// - - Added: Nickname clearing to batch editor (via .IsNicknamed=False).
+        /// - - Added: Legality filtering and bulk suggestions for Met Location, Current Moves &amp; Relearn Moves.
+        /// - - - Use $suggest to use suggested result from the legality analysis.
+        /// - - Changed: Properties are now sort [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -12462,6 +12465,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] encounter_blue {
+            get {
+                object obj = ResourceManager.GetObject("encounter_blue", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] encounter_mn {
             get {
                 object obj = ResourceManager.GetObject("encounter_mn", resourceCulture);
@@ -12485,6 +12498,26 @@ namespace PKHeX.Core.Properties {
         public static byte[] encounter_o {
             get {
                 object obj = ResourceManager.GetObject("encounter_o", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_rb_f {
+            get {
+                object obj = ResourceManager.GetObject("encounter_rb_f", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_red {
+            get {
+                object obj = ResourceManager.GetObject("encounter_red", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -12532,9 +12565,49 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] encounter_yellow {
+            get {
+                object obj = ResourceManager.GetObject("encounter_yellow", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_yellow_f {
+            get {
+                object obj = ResourceManager.GetObject("encounter_yellow_f", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] evos_ao {
             get {
                 object obj = ResourceManager.GetObject("evos_ao", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] evos_gsc {
+            get {
+                object obj = ResourceManager.GetObject("evos_gsc", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] evos_rby {
+            get {
+                object obj = ResourceManager.GetObject("evos_rby", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -17764,6 +17837,36 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] lvlmove_c {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_c", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] lvlmove_gs {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_gs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] lvlmove_rb {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_rb", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] lvlmove_sm {
             get {
                 object obj = ResourceManager.GetObject("lvlmove_sm", resourceCulture);
@@ -17777,6 +17880,16 @@ namespace PKHeX.Core.Properties {
         public static byte[] lvlmove_xy {
             get {
                 object obj = ResourceManager.GetObject("lvlmove_xy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] lvlmove_y {
+            get {
+                object obj = ResourceManager.GetObject("lvlmove_y", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -17944,9 +18057,9 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] personal_rby {
+        public static byte[] personal_rb {
             get {
-                object obj = ResourceManager.GetObject("personal_rby", resourceCulture);
+                object obj = ResourceManager.GetObject("personal_rb", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -17984,6 +18097,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] personal_y {
+            get {
+                object obj = ResourceManager.GetObject("personal_y", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] pgldings_normalregular {
             get {
                 object obj = ResourceManager.GetObject("pgldings_normalregular", resourceCulture);
@@ -17992,7 +18115,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20170130.
+        ///   Looks up a localized string similar to 20170225.
         /// </summary>
         public static string ProgramVersion {
             get {
@@ -19071,7 +19194,7 @@ namespace PKHeX.Core.Properties {
         ///// Main Window
         ///
         ///CTRL-O: Open
-        ///CTRL-S: Export PK6
+        ///CTRL-S: Export PKM
         ///CTRL-E: Export SAV
         ///CTRL-B: Export BAK
         ///CTRL-Q: Quit
@@ -26683,8 +26806,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///Rote
+        ///Blaue[INT]/Grüne[JP]
         ///Blaue
-        ///Grüne
         ///Gelbe.
         /// </summary>
         public static string text_games_de {
@@ -26730,8 +26853,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///Red
-        ///Blue
-        ///Green
+        ///Blue[INT]/Green[JP]
+        ///Blue[JP]
         ///Yellow.
         /// </summary>
         public static string text_games_en {
@@ -26777,8 +26900,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///Roja
-        ///Azul
-        ///Verde
+        ///Azul[INT]/Verde[JP]
+        ///Azul[JP]
         ///Amarilla.
         /// </summary>
         public static string text_games_es {
@@ -26824,8 +26947,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///Rouge
-        ///Bleue
-        ///Vert
+        ///Bleue[INT]/Vert[JP]
+        ///Bleue[JP]
         ///Jaune.
         /// </summary>
         public static string text_games_fr {
@@ -26871,8 +26994,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///Rossa
-        ///Blu
-        ///Verde
+        ///Blu[INT]/Verde[JP]
+        ///Blu[JP]
         ///Gialla.
         /// </summary>
         public static string text_games_it {
@@ -26918,8 +27041,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///赤
-        ///青
-        ///緑
+        ///青[INT]/緑[JP]
+        ///青[JP]
         ///黄.
         /// </summary>
         public static string text_games_ja {
@@ -26965,8 +27088,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///고
         ///레드
-        ///블루
-        ///그린
+        ///블루[INT]/그린[JP]
+        ///블루[JP]
         ///옐로.
         /// </summary>
         public static string text_games_ko {
@@ -27012,8 +27135,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Go
         ///紅
-        ///藍色
-        ///綠色
+        ///藍色[INT]/綠色[JP]
+        ///藍色[JP]
         ///黃色.
         /// </summary>
         public static string text_games_zh {
@@ -28889,7 +29012,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ningún objeto
+        ///   Looks up a localized string similar to Ninguno
         ///Master Ball
         ///Ultra Ball
         ///Super Ball
@@ -28930,7 +29053,7 @@ namespace PKHeX.Core.Properties {
         ///Éter
         ///Éter Máximo
         ///Elixir
-        ///Elixir M [rest of string was truncated]&quot;;.
+        ///Elixir Máximo        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string text_items_es {
             get {
@@ -34182,8 +34305,8 @@ namespace PKHeX.Core.Properties {
         ///小磁怪
         ///三合一磁怪
         ///大蔥鴨
-        ///都都
-        ///都都利
+        ///嘟嘟
+        ///嘟嘟利
         ///小海獅
         ///白海獅
         ///臭泥

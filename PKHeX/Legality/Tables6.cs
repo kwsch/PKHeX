@@ -225,17 +225,7 @@ namespace PKHeX.Core
         };
 
         #endregion
-
-        // Legality
-        internal const int Struggle = 165;
-        internal const int Chatter = 448;
-        internal static readonly int[] InvalidSketch =
-        {
-            // Regular Moves
-            Struggle, Chatter
-            // Z-Moves
-            // TODO
-        };
+        
         internal static readonly int[] EggLocations = {60002, 30002};
         internal static readonly int[] ValidMet_XY =
         {
@@ -633,6 +623,9 @@ namespace PKHeX.Core
             577, // Solosis
             582, // Vanillite
             595, // Joltik
+
+            // Via Incense Breeding
+            298, 360, 406, 433, 438, 439, 440, 446, 458,
         };
         internal static readonly int[] Ban_DreamHidden =
         {
