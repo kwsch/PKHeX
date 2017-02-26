@@ -21,6 +21,8 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpGS = Learnset1.getArray(Resources.lvlmove_gs, MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpC = Learnset1.getArray(Resources.lvlmove_c, MaxSpeciesID_2);
         private static readonly EvolutionTree Evolves2;
+        private static readonly EncounterArea[] SlotsGSC;
+        private static readonly EncounterStatic[] StaticGSC;
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_xy, "xy"));
@@ -46,6 +48,9 @@ namespace PKHeX.Core
             {
                 case GameVersion.RBY:
                     return Encounter_RBY; // GameVersion filtering not possible, return immediately
+                case GameVersion.GSC:
+                    return Encounter_GSC;
+
                 case GameVersion.X: case GameVersion.Y:
                     table = Encounter_XY;
                     break;
@@ -161,6 +166,10 @@ namespace PKHeX.Core
             // Gen 2
             {
                 Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
+
+                SlotsGSC = new EncounterArea[0]; // todo
+
+                StaticGSC = getStaticEncounters(GameVersion.GSC);
             }
             // Gen 6
             {
@@ -1072,6 +1081,11 @@ namespace PKHeX.Core
                 case GameVersion.GN: case GameVersion.YW:
                     return getSlots(pkm, SlotsRBY, lvl);
 
+                case GameVersion.GSC:
+                case GameVersion.GD: case GameVersion.SV:
+                case GameVersion.C:
+                    return getSlots(pkm, SlotsGSC, lvl);
+
                 case GameVersion.X:
                     return getSlots(pkm, SlotsX, lvl);
                 case GameVersion.Y:
@@ -1096,6 +1110,11 @@ namespace PKHeX.Core
                 case GameVersion.RD: case GameVersion.BU:
                 case GameVersion.GN: case GameVersion.YW:
                     return getStatic(pkm, StaticRBY, lvl);
+
+                case GameVersion.GSC:
+                case GameVersion.GD: case GameVersion.SV:
+                case GameVersion.C:
+                    return getStatic(pkm, StaticGSC, lvl);
 
                 case GameVersion.X:
                     return getStatic(pkm, StaticX, lvl);
@@ -1346,6 +1365,23 @@ namespace PKHeX.Core
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
                         break;
                     }
+                case 2:
+                    {
+                        int index = PersonalTable.C.getFormeIndex(species, 0);
+                        var pi_c = (PersonalInfoG1)PersonalTable.C[index];
+                        if (LVL)
+                        {
+                            r.AddRange(LevelUpGS[index].getMoves(lvl));
+                            r.AddRange(LevelUpC[index].getMoves(lvl));
+                        }
+                        if (Machine)
+                        {
+                            r.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
+                        }
+                        if (moveTutor)
+                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
+                        break;
+                    }
                 case 6:
                     switch (ver)
                     {
@@ -1456,6 +1492,15 @@ namespace PKHeX.Core
             }
             // No tutors in G7
             return moves.Distinct();
+        }
+
+        public static int[] getUnreleasedItems(int generation)
+        {
+            switch (generation)
+            {
+                case 7: return UnreleasedItems_7;
+                default: return new int[0];
+            }
         }
     }
 }

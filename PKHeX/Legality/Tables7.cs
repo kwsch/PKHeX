@@ -1250,5 +1250,97 @@ namespace PKHeX.Core
         };
 
         #endregion
+
+        #region Unreleased Items
+        internal static readonly int[] UnreleasedItems_7 =
+        {
+            016, // Cherish Ball
+            064, // Fluffy Tail
+            065, // Blue Flute
+            066, // Yellow Flute
+            067, // Red Flute
+            068, // Black Flute
+            069, // White Flute
+            070, // Shoal Salt
+            071, // Shoal Shell
+            099, // Root Fossil
+            100, // Claw Fossil
+            101, // Helix Fossil
+            102, // Dome Fossil
+            103, // Old Amber
+            111, // Odd Keystone
+            164, // Razz Berry
+            166, // Nanab Berry
+            167, // Wepear Berry
+            175, // Cornn Berry
+            176, // Magost Berry
+            177, // Rabuta Berry
+            178, // Nomel Berry
+            179, // Spelon Berry
+            180, // Pamtre Berry
+            181, // Watmel Berry
+            182, // Durin Berry
+            183, // Belue Berry
+            208, // Enigma Berry
+            209, // Micle Berry
+            210, // Custap Berry
+            211, // Jaboca Berry
+            212, // Rowap Berry
+            215, // Macho Brace
+            260, // Red Scarf
+            261, // Blue Scarf
+            262, // Pink Scarf
+            263, // Green Scarf
+            264, // Yellow Scarf
+            548, // Fire Gem
+            549, // Water Gem
+            550, // Electric Gem
+            551, // Grass Gem
+            552, // Ice Gem
+            553, // Fighting Gem
+            554, // Poison Gem
+            555, // Ground Gem
+            556, // Flying Gem
+            557, // Psychic Gem
+            558, // Bug Gem
+            559, // Rock Gem
+            560, // Ghost Gem
+            561, // Dragon Gem
+            562, // Dark Gem
+            563, // Steel Gem
+            657, // Gardevoirite
+            658, // Ampharosite
+            662, // Mewtwonite X
+            663, // Mewtwonite Y
+            664, // Blazikenite
+            665, // Medichamite
+            666, // Houndoominite
+            667, // Aggronite
+            668, // Banettite
+            669, // Tyranitarite
+            674, // Abomasite
+            680, // Heracronite
+            681, // Mawilite
+            682, // Manectite
+            684, // Latiasite
+            685, // Latiosite
+            710, // Jaw Fossil
+            711, // Sail Fossil
+            715, // Fairy Gem
+            752, // Swamperite
+            753, // Sceptilite
+            755, // Altarianite
+            756, // Galladite
+            757, // Audinite
+            761, // Steelixite
+            762, // Pidgeotite
+            764, // Diancite
+            767, // Cameruptite
+            768, // Lopunnite
+            770, // Beeddrillite
+            802, // Marshadium Z
+            836, // Pikashunium Z
+        };
+        #endregion
     }
 }
