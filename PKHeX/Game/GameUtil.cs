@@ -23,6 +23,8 @@
                     return GameVersion.RBY;
 
                 case GameVersion.GS:
+                case GameVersion.GD:
+                case GameVersion.SV:
                 case GameVersion.C:
                     return GameVersion.GSC;
 

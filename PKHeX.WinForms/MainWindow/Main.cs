@@ -1714,6 +1714,15 @@ namespace PKHeX.WinForms
             else
                 TB_Friendship.Text = TB_Friendship.Text == "255" ? SAV.Personal[pkm.Species].BaseFriendship.ToString() : "255";
         }
+
+        private void clickLevel(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control)
+            {
+                ((MaskedTextBox)sender).Text = "100";
+            }
+        }
+
         private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
@@ -2814,6 +2823,8 @@ namespace PKHeX.WinForms
                     pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
                 }
+                if (sender == CB_HeldItem && SAV.Generation == 7)
+                    updateLegality();
             }
             updateNatureModification(sender, null);
             updateIVs(null, null); // updating Nature will trigger stats to update as well

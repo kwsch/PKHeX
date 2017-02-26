@@ -35,15 +35,34 @@ namespace PKHeX.Core
             10, 05, 10, 20, 20, 40, 15, 10, 20, 20, 25, 05, 15, 10, 05, 20, 15, 20, 25, 20, 05, 30, 05, 10, 20, 40, 05, 20, 40, 20, 15, 35, 10, 05, 05, 05, 15, 05, 20, 05, 05, 15, 20, 10, 05, 05, 15, 15, 15, 15,
             10, 00, 00, 00, 00
         };
+        internal static readonly int[] TMHM_GSC =
+        {
+            223, 029, 174, 205, 046, 092, 192, 249, 244, 237,
+            241, 230, 173, 059, 063, 196, 182, 240, 202, 203,
+            218, 076, 231, 225, 087, 089, 216, 091, 094, 247,
+            189, 104, 008, 207, 214, 188, 201, 126, 129, 111,
+            009, 138, 197, 156, 213, 168, 211, 007, 210, 171,
+
+            015, 019, 057, 070, 148, 250, 127
+        };
         internal static readonly int[] WildPokeBalls2 = { 4 };
 
         internal static readonly int[] FutureEvolutionsGen2 =
         {
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
+        internal static readonly EncounterStatic[] Encounter_GSC =
+        {
+            // todo
+        };
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
-
+            // todo
         };
+        internal static readonly int[] UnreleasedItems_2 =
+        {
+            // todo
+        };
+        internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(1, MaxItemID_2).Select(i => HeldItems_GSC.Contains((ushort)i) && !UnreleasedItems_2.Contains(i)).ToArray();
     }
 }

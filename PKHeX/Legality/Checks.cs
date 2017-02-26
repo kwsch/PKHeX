@@ -69,6 +69,13 @@ namespace PKHeX.Core
                 // return;
             }
         }
+
+        private void verifyItem()
+        {
+            if (!Legal.getHeldItemAllowed(pkm.Format, pkm.HeldItem))
+                AddLine(Severity.Invalid, "Held item is unreleased.", CheckIdentifier.Form);
+        }
+
         private void verifyECPID()
         {
             if (pkm.EncryptionConstant == 0)

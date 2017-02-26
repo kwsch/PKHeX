@@ -94,5 +94,10 @@ namespace PKHeX.Core
         {
             700
         };
+        internal static readonly int[] UnreleasedItems_5 =
+        {
+            // todo
+        };
+        internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(1, MaxItemID_5_B2W2).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
     }
 }
