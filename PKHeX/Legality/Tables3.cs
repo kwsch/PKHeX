@@ -94,5 +94,10 @@ namespace PKHeX.Core
         };
         // Ambipom Weavile Magnezone Lickilicky Tangrowth
         // Yanmega Leafeon Glaceon Mamoswine Gliscor Probopass
+        internal static readonly int[] UnreleasedItems_3 =
+        {
+            // todo
+        };
+        internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
     }
 }

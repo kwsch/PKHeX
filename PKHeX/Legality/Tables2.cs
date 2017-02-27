@@ -59,5 +59,10 @@ namespace PKHeX.Core
         {
             // todo
         };
+        internal static readonly int[] UnreleasedItems_2 =
+        {
+            // todo
+        };
+        internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i) && !UnreleasedItems_2.Contains(i)).ToArray();
     }
 }
