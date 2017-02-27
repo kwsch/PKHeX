@@ -1908,9 +1908,9 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
                 res[i] = new CheckResult(CheckIdentifier.Move);
             
-            var validMoves = Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: false, Machine: false).ToArray();
-            var validTMHM = Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: false, MoveReminder: false).ToArray();
-            var validTutor = Legal.getValidMoves(pkm, EvoChainsAllGens, Machine: false, MoveReminder: false).ToArray();
+            var validLevelMoves = Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: false, Machine: false).ToArray();
+            var validTMHM = Legal.getValidMoves(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false).ToArray();
+            var validTutor = Legal.getValidMoves(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false).ToArray();
             if (pkm.Species == 235) // Smeargle
             {
                 for (int i = 0; i < 4; i++)
@@ -1924,7 +1924,7 @@ namespace PKHeX.Core
                 foreach (MysteryGift mg in EventGiftMatch)
                 {
                     int[] SpecialMoves = mg.Moves;
-                    res = parseMoves(Moves, validMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves);
+                    res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves);
                     if (res.Any(r => !r.Valid))
                         continue;
 
@@ -1941,7 +1941,7 @@ namespace PKHeX.Core
                                      (EncounterMatch as EncounterTrade)?.Moves ??
                                      new int[0];
 
-                res = parseMoves(Moves, validMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves);
+                res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves);
             }
             if (Moves[0] == 0) // None
                 res[0] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);

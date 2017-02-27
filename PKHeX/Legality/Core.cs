@@ -214,19 +214,19 @@ namespace PKHeX.Core
         }
 
         // Moves
-        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, evoChains, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder);
+            return getValidMoves(pkm, version, evoChains, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder);
         }
-        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[] evoChain, int generation, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
+        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[] evoChain, int generation, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, evoChain, generation, LVL: true, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
+            return getValidMoves(pkm, version, evoChain, generation, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder); 
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {
@@ -1458,7 +1458,7 @@ namespace PKHeX.Core
                             r.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
+                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
                         break;
                     }
                 case 2:
@@ -1475,7 +1475,9 @@ namespace PKHeX.Core
                             r.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
+                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                        if (pkm.Format == 1) //tradeback gen 2 -> gen 1
+                            r = r.Where(m => m <= MaxMoveID_1).ToList();
                         break;
                     }
                 case 6:
@@ -1488,7 +1490,7 @@ namespace PKHeX.Core
                             PersonalInfo pi = PersonalTable.XY[index];
 
                             if (LVL) r.AddRange(LevelUpXY[index].getMoves(lvl));
-                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
+                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine) r.AddRange(TMHM_XY.Where((t, m) => pi.TMHM[m]));
 
                             if (ver == GameVersion.Any) // Fall Through
@@ -1502,7 +1504,7 @@ namespace PKHeX.Core
                             PersonalInfo pi = PersonalTable.AO[index];
 
                             if (LVL) r.AddRange(LevelUpAO[index].getMoves(lvl));
-                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
+                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine) r.AddRange(TMHM_AO.Where((t, m) => pi.TMHM[m]));
                             break;
                         }
@@ -1520,7 +1522,7 @@ namespace PKHeX.Core
                                 lvl = 100; // Move reminder can teach any level in movepool now!
 
                             if (LVL) r.AddRange(LevelUpSM[index].getMoves(lvl));
-                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors));
+                            if (moveTutor) r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine) r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
                             break;
                         }
@@ -1552,41 +1554,45 @@ namespace PKHeX.Core
                     return new List<int>();
             }
         }
-        private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors)
+        private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
             List<int> moves = new List<int>();
-            if (pkm.Format < 3)
-            {
-                if (pkm.Species == 25 || pkm.Species == 26) // Surf Pikachu via Stadium
-                    moves.Add(57);
-                return moves;
-            }
             PersonalInfo info = pkm.PersonalInfo;
-
-            // Type Tutors -- Pledge moves and High BP moves switched places in G7+
-            if (pkm.Format <= 6)
-                moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
-            else if (pkm.Format >= 7)
-                moves.AddRange(TypeTutor7.Where((t, i) => info.TypeTutors[i]));
-
-            // Varied Tutors
-            //if (pkm.InhabitedGeneration(5) && Tutors)
-            //{
-            //    //PersonalInfo pi = PersonalTable.B2W2.getFormeEntry(species, form);
-            //    //for (int i = 0; i < Tutors_B2W2.Length; i++)
-            //    //    for (int b = 0; b < Tutors_B2W2[i].Length; b++)
-            //    //        if (pi.SpecialTutors[i][b])
-            //    //            moves.Add(Tutors_B2W2[i][b]);
-            //}
-            if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
+            switch (generation)
             {
-                PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
-                for (int i = 0; i < Tutors_AO.Length; i++)
-                    for (int b = 0; b < Tutors_AO[i].Length; b++)
-                        if (pi.SpecialTutors[i][b])
-                            moves.Add(Tutors_AO[i][b]);
+                case 1:
+                case 2:
+                    if (pkm.Format < 3 && (pkm.Species == 25 || pkm.Species == 26)) // Surf Pikachu via Stadium
+                        moves.Add(57);
+                    break;
+                //case 5:
+                // Varied Tutors
+                //if (pkm.InhabitedGeneration(5) && Tutors)
+                //{
+                //    //PersonalInfo pi = PersonalTable.B2W2.getFormeEntry(species, form);
+                //    //for (int i = 0; i < Tutors_B2W2.Length; i++)
+                //    //    for (int b = 0; b < Tutors_B2W2[i].Length; b++)
+                //    //        if (pi.SpecialTutors[i][b])
+                //    //            moves.Add(Tutors_B2W2[i][b]);
+                //}
+                case 6:
+                    moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+                    if ( pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
+                    {
+                        PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
+                        for (int i = 0; i < Tutors_AO.Length; i++)
+                            for (int b = 0; b < Tutors_AO[i].Length; b++)
+                                if (pi.SpecialTutors[i][b])
+                                    moves.Add(Tutors_AO[i][b]);
+                    }
+                    break;
+                case 7:
+                    // Type Tutors -- Pledge moves and High BP moves switched places in G7+
+                    moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
+                    // No special tutors in G7
+                    break;
+
             }
-            // No tutors in G7
             return moves.Distinct();
         }
     }
