@@ -1254,6 +1254,7 @@ namespace PKHeX.Core
         #region Unreleased Items
         internal static readonly int[] UnreleasedHeldItems_7 =
         {
+            005, // Safari Ball
             016, // Cherish Ball
             064, // Fluffy Tail
             065, // Blue Flute
@@ -1308,6 +1309,14 @@ namespace PKHeX.Core
             561, // Dragon Gem
             562, // Dark Gem
             563, // Steel Gem
+            576, // Dream Ball
+            584, // Relic Copper
+            585, // Relic Silver
+            586, // Relic Gold
+            587, // Relic Vase
+            588, // Relic Band
+            589, // Relic Statue
+            590, // Relic Crown
             657, // Gardevoirite
             658, // Ampharosite
             662, // Mewtwonite X
