@@ -354,7 +354,7 @@ namespace PKHeX.Core
             get
             {
                 int max = Version == GameVersion.FRLG ? 995 : 95;
-                var PCItems = new [] {LegalItems, LegalKeyItems, LegalKeyItems, LegalTMHMs, LegalBerries}.SelectMany(a => a).ToArray();
+                var PCItems = new [] {LegalItems, LegalKeyItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries}.SelectMany(a => a).ToArray();
                 InventoryPouch[] pouch =
                 {
                     new InventoryPouch(InventoryType.Items, LegalItems, max, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem)/4),
