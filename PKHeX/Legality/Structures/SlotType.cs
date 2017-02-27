@@ -17,5 +17,6 @@
         FriendSafari,
         Special,
         SOS,
+        Swarm,
     }
 }

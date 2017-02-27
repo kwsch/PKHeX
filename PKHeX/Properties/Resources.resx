@@ -7420,4 +7420,13 @@
   <data name="lvlmove_gs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\lvlmove_gs.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="encounter_crystal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_crystal.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encounter_gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_gold.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encounter_silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_silver.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
