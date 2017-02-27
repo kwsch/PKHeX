@@ -1342,6 +1342,6 @@ namespace PKHeX.Core
             836, // Pikashunium Z
         };
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(1, MaxItemID_7).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
     }
 }

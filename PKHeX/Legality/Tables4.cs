@@ -139,6 +139,6 @@ namespace PKHeX.Core
         {
             // todo
         };
-        internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(1, MaxItemID_4_HGSS).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
     }
 }
