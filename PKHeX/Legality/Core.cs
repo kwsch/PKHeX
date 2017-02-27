@@ -167,7 +167,10 @@ namespace PKHeX.Core
             {
                 Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
 
-                SlotsGSC = new EncounterArea[0]; // todo
+                var g = EncounterArea.getArray2_GW(Resources.encounter_gold);
+                var s = EncounterArea.getArray2_GW(Resources.encounter_silver);
+                var c = EncounterArea.getArray2_GW(Resources.encounter_crystal);
+                SlotsGSC = addExtraTableSlots(addExtraTableSlots(g, s), c);
 
                 StaticGSC = getStaticEncounters(GameVersion.GSC);
             }
@@ -1206,7 +1209,11 @@ namespace PKHeX.Core
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
             if (slotMax != null)
-                slotMax = new EncounterSlot(slotMax) { Pressure = true, Form = pkm.AltForm };
+            {
+                slotMax = slotMax.Clone();
+                slotMax.Pressure = true;
+                slotMax.Form = pkm.AltForm;
+            };
 
             if (gen >= 6 && !DexNav)
             {
@@ -1230,7 +1237,8 @@ namespace PKHeX.Core
             foreach (EncounterSlot s in eslots)
             {
                 bool nav = s.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
-                EncounterSlot slot = new EncounterSlot(s) { DexNav = nav };
+                EncounterSlot slot = s.Clone();
+                slot.DexNav = nav;
 
                 if (slot.LevelMin > lvl)
                     slot.WhiteFlute = true;
