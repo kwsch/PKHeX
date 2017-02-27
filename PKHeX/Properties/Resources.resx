@@ -7429,4 +7429,7 @@
   <data name="encounter_silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\encounter_silver.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="encounter_gsc_f" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_gsc_f.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

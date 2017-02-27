@@ -12495,6 +12495,16 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] encounter_gsc_f {
+            get {
+                object obj = ResourceManager.GetObject("encounter_gsc_f", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] encounter_mn {
             get {
                 object obj = ResourceManager.GetObject("encounter_mn", resourceCulture);

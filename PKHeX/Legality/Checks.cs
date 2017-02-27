@@ -550,45 +550,20 @@ namespace PKHeX.Core
         {
             return new CheckResult(Severity.Valid, "Valid ingame trade.", CheckIdentifier.Encounter);
         }
-        private CheckResult verifyEncounterG1()
+        private CheckResult verifyEncounterG12()
         {
-            // Since encounter matching is super weak due to limited stored data in the structure
-            // Calculate all 3 at the same time and pick the best result (by species).
-            // Favor special event move gifts as Static Encounters when applicable
-            var s = Legal.getValidStaticEncounter(pkm, gen1Encounter: true);
-            var e = Legal.getValidWildEncounters(pkm);
-            var t = Legal.getValidIngameTrade(pkm, gen1Encounter: true);
-
-            const byte invalid = 255;
-
-            var sm = s?.Species ?? invalid;
-            var em = e?.Min(slot => slot.Species) ?? invalid;
-            var tm = t?.Species ?? invalid;
-
-            if (sm + em + tm == 3*invalid)
+            var obj = Legal.getEncounter12(pkm, pkm.Format < 3);
+            if (obj == null)
                 return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
 
-            if (s != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
-            {
-                EncounterMatch = s;
-                return verifyEncounterStatic();
-            }
-            if (em <= sm && em <= tm)
-            {
-                EncounterMatch = e;
+            EncounterMatch = obj.Item1;
+            if (EncounterMatch is EncounterSlot[])
                 return verifyEncounterWild();
-            }
-            if (sm <= em && sm <= tm)
-            {
-                EncounterMatch = s;
+            if (EncounterMatch is EncounterStatic)
                 return verifyEncounterStatic();
-            }
-            if (tm <= sm && tm <= em)
-            {
-                EncounterMatch = t;
+            if (EncounterMatch is EncounterTrade)
                 return verifyEncounterTrade();
-            }
-            
+
             // shouldn't ever hit, above 3*invalid check should abort
             Console.WriteLine($"Gen1 encounter fallthrough: {pkm.FileName}");
             return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
@@ -604,7 +579,7 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, "VC: Unobtainable species.", CheckIdentifier.Encounter);
                 
                 // Get EncounterMatch prior to parsing transporter legality
-                var result = verifyEncounterG1();
+                var result = verifyEncounterG12();
                 EncounterOriginal = EncounterMatch;
 
                 if (pkm.Format > 2) // transported to 7+

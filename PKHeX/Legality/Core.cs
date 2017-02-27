@@ -170,8 +170,9 @@ namespace PKHeX.Core
                 var g = EncounterArea.getArray2_GW(Resources.encounter_gold);
                 var s = EncounterArea.getArray2_GW(Resources.encounter_silver);
                 var c = EncounterArea.getArray2_GW(Resources.encounter_crystal);
-                SlotsGSC = addExtraTableSlots(addExtraTableSlots(g, s), c);
-
+                var f = EncounterArea.getArray2_F(Resources.encounter_gsc_f);
+                SlotsGSC = addExtraTableSlots(g, s).Concat(c).Concat(f).ToArray();
+                
                 StaticGSC = getStaticEncounters(GameVersion.GSC);
             }
             // Gen 6
@@ -289,18 +290,24 @@ namespace PKHeX.Core
                     return null;
             }
         }
-        internal static EncounterSlot[] getValidWildEncounters(PKM pkm)
+        internal static EncounterSlot[] getValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
             List<EncounterSlot> s = new List<EncounterSlot>();
 
-            foreach (var area in getEncounterAreas(pkm))
+            foreach (var area in getEncounterAreas(pkm, gameSource))
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
             return s.Any() ? s.ToArray() : null;
         }
-        internal static EncounterStatic getValidStaticEncounter(PKM pkm, bool gen1Encounter = false)
+        internal static EncounterStatic getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
             // Get possible encounters
-            IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm);
+            IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm, gameSource: gameSource);
 
             int lvl = getMinLevelEncounter(pkm);
             if (lvl <= 0)
@@ -338,10 +345,12 @@ namespace PKHeX.Core
             }
             return null;
         }
-        internal static EncounterTrade getValidIngameTrade(PKM pkm, bool gen1Encounter = false)
+        internal static EncounterTrade getValidIngameTrade(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion) pkm.Version;
             if (pkm.VC || pkm.Format <= 2)
-                return getValidEncounterTradeVC(pkm);
+                return getValidEncounterTradeVC(pkm, gameSource);
 
             if (!pkm.WasIngameTrade)
             {
@@ -398,11 +407,19 @@ namespace PKHeX.Core
 
             return z;
         }
-        internal static EncounterTrade getValidEncounterTradeVC(PKM pkm)
+        private static EncounterTrade getValidEncounterTradeVC(PKM pkm, GameVersion gameSource)
         {
             var p = getValidPreEvolutions(pkm).ToArray();
-            // Check GSC Trades first, if no match return the result from RBY.
-            return getValidEncounterTradeVC2(pkm, p) ?? getValidEncounterTradeVC1(pkm, p);
+
+            switch (gameSource)
+            {
+                case GameVersion.RBY:
+                    return getValidEncounterTradeVC1(pkm, p);
+                case GameVersion.GSC:
+                    return getValidEncounterTradeVC2(pkm, p);
+                default:
+                    return null;
+            }
         }
         private static EncounterTrade getValidEncounterTradeVC2(PKM pkm, DexLevel[] p)
         {
@@ -426,6 +443,44 @@ namespace PKHeX.Core
             if (z?.Level > pkm.CurrentLevel) // minimum required level
                 return null;
             return z;
+        }
+        private static Tuple<object, int> getEncounter12(PKM pkm, GameVersion game)
+        {
+            // Since encounter matching is super weak due to limited stored data in the structure
+            // Calculate all 3 at the same time and pick the best result (by species).
+            // Favor special event move gifts as Static Encounters when applicable
+            var s = getValidStaticEncounter(pkm, game);
+            var e = getValidWildEncounters(pkm, game);
+            var t = getValidIngameTrade(pkm, game);
+            const byte invalid = 255;
+
+            var sm = s?.Species ?? invalid;
+            var em = e?.Min(slot => slot.Species) ?? invalid;
+            var tm = t?.Species ?? invalid;
+
+            if (sm + em + tm == 3 * invalid)
+                return null;
+
+            if (s != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
+                return new Tuple<object, int>(s, s.Level);
+            if (em <= sm && em <= tm)
+                return new Tuple<object, int>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin));
+            if (sm <= em && sm <= tm)
+                return new Tuple<object, int>(s, s.Level);
+            if (tm <= sm && tm <= em)
+                return new Tuple<object, int>(t, t.Level);
+            return null;
+        }
+        internal static Tuple<object, int> getEncounter12(PKM pkm, bool gen2)
+        {
+            var g1 = getEncounter12(pkm, GameVersion.RBY);
+            var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
+
+            if (g1 == null || g2 == null)
+                return g1 ?? g2;
+            
+            // Both generations can provide an encounter. Return lowest level encounter
+            return g1.Item2 < g2.Item2 ? g1 : g2;
         }
         internal static EncounterSlot[] getValidFriendSafari(PKM pkm)
         {
@@ -1099,9 +1154,12 @@ namespace PKHeX.Core
             }
             return moves;
         }
-        private static IEnumerable<EncounterArea> getEncounterSlots(PKM pkm, int lvl = -1)
+        private static IEnumerable<EncounterArea> getEncounterSlots(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
         {
-            switch ((GameVersion)pkm.Version)
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            switch (gameSource)
             {
                 case GameVersion.RBY:
                 case GameVersion.RD: case GameVersion.BU:
@@ -1129,9 +1187,12 @@ namespace PKHeX.Core
                 default: return new List<EncounterArea>();
             }
         }
-        private static IEnumerable<EncounterStatic> getStaticEncounters(PKM pkm, int lvl = -1)
+        private static IEnumerable<EncounterStatic> getStaticEncounters(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
         {
-            switch ((GameVersion)pkm.Version)
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion) pkm.Version;
+
+            switch (gameSource)
             {
                 case GameVersion.RBY:
                 case GameVersion.RD: case GameVersion.BU:
@@ -1160,9 +1221,12 @@ namespace PKHeX.Core
                 default: return new List<EncounterStatic>();
             }
         }
-        private static IEnumerable<EncounterArea> getEncounterAreas(PKM pkm)
+        private static IEnumerable<EncounterArea> getEncounterAreas(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            var slots = getEncounterSlots(pkm);
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            var slots = getEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation;
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
         }
@@ -1400,7 +1464,7 @@ namespace PKHeX.Core
                 case 2:
                     {
                         int index = PersonalTable.C.getFormeIndex(species, 0);
-                        var pi_c = (PersonalInfoG1)PersonalTable.C[index];
+                        var pi_c = (PersonalInfoG2)PersonalTable.C[index];
                         if (LVL)
                         {
                             r.AddRange(LevelUpGS[index].getMoves(lvl));

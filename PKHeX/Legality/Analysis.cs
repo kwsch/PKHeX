@@ -42,6 +42,7 @@ namespace PKHeX.Core
                 switch (pk.Format) // prior to storing GameVersion
                 {
                     case 1: parsePK1(pk); break;
+                    case 2: parsePK1(pk); break;
                 }
 
                 if (!Parse.Any())
