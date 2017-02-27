@@ -596,13 +596,13 @@ namespace PKHeX.WinForms
             TB_Friendship.Text = Set.Friendship.ToString();
 
             // Reset IV/EVs
-            BTN_RerollPID.PerformClick();
-            BTN_RerollEC.PerformClick();
+            updateRandomPID(sender, e);
+            updateRandomEC(sender, e);
             ComboBox[] p = {CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4};
             for (int i = 0; i < 4; i++)
                 p[i].SelectedIndex = m[i].SelectedIndex != 0 ? 3 : 0; // max PP
             
-            if (Set.Shiny) BTN_Shinytize.PerformClick();
+            if (Set.Shiny) updateShinyPID(sender, e);
             pkm = preparePKM();
             updateLegality();
         }
@@ -2211,6 +2211,8 @@ namespace PKHeX.WinForms
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
+            if (pkm.Format < 3)
+                return;
             if (fieldsLoaded)
                 pkm.PID = Util.getHEXval(TB_PID.Text);
 
@@ -2230,6 +2232,8 @@ namespace PKHeX.WinForms
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
+            if (pkm.Format < 6)
+                return;
             pkm.Version = WinFormsUtil.getIndex(CB_GameOrigin);
             if (pkm.GenNumber < 6)
             {
