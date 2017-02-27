@@ -1476,6 +1476,8 @@ namespace PKHeX.Core
                         }
                         if (moveTutor)
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                        if (pkm.Format == 1) //tradeback gen 2 -> gen 1
+                            r = r.Where(m => m <= MaxMoveID_1).ToList();
                         break;
                     }
                 case 6:
