@@ -1277,7 +1277,7 @@ namespace PKHeX.Core
                 slotMax = slotMax.Clone();
                 slotMax.Pressure = true;
                 slotMax.Form = pkm.AltForm;
-            };
+            }
 
             if (gen >= 6 && !DexNav)
             {
@@ -1557,7 +1557,7 @@ namespace PKHeX.Core
         private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
             List<int> moves = new List<int>();
-            PersonalInfo info = pkm.PersonalInfo;
+            PersonalInfo info;
             switch (generation)
             {
                 case 1:
@@ -1576,6 +1576,7 @@ namespace PKHeX.Core
                 //    //            moves.Add(Tutors_B2W2[i][b]);
                 //}
                 case 6:
+                    info = PersonalTable.AO[species];
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     if ( pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
                     {
@@ -1587,6 +1588,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 7:
+                    info = PersonalTable.SM[species];
                     // Type Tutors -- Pledge moves and High BP moves switched places in G7+
                     moves.AddRange(TypeTutor7.Where((t, i) => info.TypeTutors[i]));
                     // No special tutors in G7
