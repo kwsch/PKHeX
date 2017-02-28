@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -403,9 +402,17 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
-        private int MaxSpeciesID => Legal.getMaxSpeciesOrigin(Format);
         public virtual bool WasLink => false;
-        public virtual bool WasEgg => Egg_Location > 0;
+        private bool _WasEgg;
+        public virtual bool WasEgg
+        {
+            get
+            {
+                if (HasOriginalMetLocation)
+                    return Egg_Location > 0;
+                return _WasEgg;
+            } set { _WasEgg = value; }
+        }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public virtual bool WasTradedEgg => Egg_Location == 30002;

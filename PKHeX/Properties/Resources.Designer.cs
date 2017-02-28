@@ -12435,6 +12435,26 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] eggmove_c {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_c", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] eggmove_gs {
+            get {
+                object obj = ResourceManager.GetObject("eggmove_gs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] eggmove_sm {
             get {
                 object obj = ResourceManager.GetObject("eggmove_sm", resourceCulture);

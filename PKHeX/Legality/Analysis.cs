@@ -97,6 +97,7 @@ namespace PKHeX.Core
             verifyNickname();
             verifyDVs();
             verifyG1OT();
+            verifyEggMoves();
         }
         private void parsePK6(PKM pk)
         {
@@ -176,6 +177,9 @@ namespace PKHeX.Core
             verifyMisc();
             verifyGender();
             verifyItem();
+
+            if (pkm.GenNumber < 5)
+                verifyEggMoves();
 
             verifyVersionEvolution();
             // SecondaryChecked = true;

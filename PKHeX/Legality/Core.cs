@@ -18,7 +18,9 @@ namespace PKHeX.Core
         private static readonly EncounterStatic[] StaticRBY;
 
         // Gen 2
+        private static readonly EggMoves[] EggMovesGS = EggMoves2.getArray(Resources.eggmove_gs, MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpGS = Learnset1.getArray(Resources.lvlmove_gs, MaxSpeciesID_2);
+        private static readonly EggMoves[] EggMovesC = EggMoves2.getArray(Resources.eggmove_c, MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpC = Learnset1.getArray(Resources.lvlmove_c, MaxSpeciesID_2);
         private static readonly EvolutionTree Evolves2;
         private static readonly EncounterArea[] SlotsGSC;
@@ -278,6 +280,10 @@ namespace PKHeX.Core
             }
             return null;
         }
+        internal static IEnumerable<int> getEggMoves(PKM pkm, GameVersion Version)
+        {
+            return getEggMoves(pkm, getBaseSpecies(pkm), 0, Version);
+        } 
 
         // Encounter
         internal static EncounterLink getValidLinkGifts(PKM pkm)
@@ -446,20 +452,32 @@ namespace PKHeX.Core
         }
         private static Tuple<object, int> getEncounter12(PKM pkm, GameVersion game)
         {
+            bool WasEgg = game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
+            if (WasEgg)
+            {
+                // Further Filtering
+                if (pkm.Format < 3)
+                {
+                    WasEgg &= pkm.Met_Location == 0 || pkm.Met_Level == 1; // 2->1->2 clears met info
+                }
+            }
+
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
             var s = getValidStaticEncounter(pkm, game);
             var e = getValidWildEncounters(pkm, game);
             var t = getValidIngameTrade(pkm, game);
-            const byte invalid = 255;
 
+            if (s == null && e == null && t == null && !WasEgg)
+                return null;
+
+            const byte invalid = 255;
             var sm = s?.Species ?? invalid;
             var em = e?.Min(slot => slot.Species) ?? invalid;
             var tm = t?.Species ?? invalid;
-
-            if (sm + em + tm == 3 * invalid)
-                return null;
+            if (WasEgg && new[] {sm, em, tm}.Min(a => a) >= 5)
+                return new Tuple<object, int>(true, 5); // egg encounter preferred
 
             if (s != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
                 return new Tuple<object, int>(s, s.Level);
@@ -506,6 +524,17 @@ namespace PKHeX.Core
             }
 
             return slots.Any() ? slots.ToArray() : null;
+        }
+        private static bool getWasEgg23(PKM pkm)
+        {
+            if (pkm.Format > 2 && pkm.Ball != 4)
+                return false;
+
+            int lvl = pkm.CurrentLevel;
+            if (lvl < 5)
+                return false;
+
+            return getEvolutionValid(pkm);
         }
 
         // Generation Specific Fetching
@@ -1534,13 +1563,25 @@ namespace PKHeX.Core
             }
             return r;
         }
-        private static IEnumerable<int> getEggMoves(PKM pkm, int species, int formnum)
+        private static IEnumerable<int> getEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
         {
             if (!pkm.InhabitedGeneration(pkm.GenNumber, species))
                 return new List<int>();
 
             switch (pkm.GenNumber)
             {
+                case 1:
+                case 2:
+                    switch (Version)
+                    {
+                        case GameVersion.GS:
+                            return EggMovesGS[species].Moves;
+                        case GameVersion.C:
+                            return EggMovesC[species].Moves;
+                        default:
+                            return new List<int>();
+
+                    }
                 case 6: // entries per species
                     return EggMovesAO[species].Moves.Concat(EggMovesXY[species].Moves);
 

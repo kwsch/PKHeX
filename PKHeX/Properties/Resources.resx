@@ -7432,4 +7432,10 @@
   <data name="encounter_gsc_f" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\encounter_gsc_f.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="eggmove_c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_c.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eggmove_gs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_gs.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -260,6 +260,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\byte\eggmove_c.pkl" />
+    <None Include="Resources\byte\eggmove_gs.pkl" />
     <None Include="Resources\byte\eggmove_sm.pkl" />
     <None Include="Resources\byte\encounter_blue.pkl" />
     <None Include="Resources\byte\encounter_crystal.pkl" />

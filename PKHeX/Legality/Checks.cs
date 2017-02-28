@@ -452,6 +452,18 @@ namespace PKHeX.Core
         }
         private CheckResult verifyEncounterEgg()
         {
+            if (pkm.GenNumber < 4)
+            {
+                if (pkm.Format <= 2) // can't check anything
+                    return new CheckResult(CheckIdentifier.Encounter);
+                
+                if (pkm.HasOriginalMetLocation)
+                {
+
+                }
+                return new CheckResult(CheckIdentifier.Encounter);
+            }
+
             // Check Hatch Locations
             if (pkm.Met_Level != 1)
                 return new CheckResult(Severity.Invalid, "Invalid met level, expected 1.", CheckIdentifier.Encounter);
@@ -557,6 +569,11 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
 
             EncounterMatch = obj.Item1;
+            if (EncounterMatch is bool)
+            {
+                pkm.WasEgg = true;
+                return verifyEncounterEgg();
+            }
             if (EncounterMatch is EncounterSlot[])
                 return verifyEncounterWild();
             if (EncounterMatch is EncounterStatic)
@@ -957,6 +974,8 @@ namespace PKHeX.Core
 
         private void verifyBall()
         {
+            if (pkm.Format < 3)
+                return; // no ball info saved
             if (pkm.GenNumber < 6)
                 return; // not implemented
 
@@ -1901,7 +1920,7 @@ namespace PKHeX.Core
             }
         }
 
-        private CheckResult[] verifyMoves()
+        private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
         {
             int[] Moves = pkm.Moves;
             CheckResult[] res = new CheckResult[4];
@@ -1924,7 +1943,7 @@ namespace PKHeX.Core
                 foreach (MysteryGift mg in EventGiftMatch)
                 {
                     int[] SpecialMoves = mg.Moves;
-                    res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves);
+                    res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0]);
                     if (res.Any(r => !r.Valid))
                         continue;
 
@@ -1935,13 +1954,14 @@ namespace PKHeX.Core
             }
             else
             {
+                int[] EggMoves = pkm.WasEgg ? Legal.getEggMoves(pkm, game).ToArray() : new int[0];
                 int[] RelearnMoves = pkm.RelearnMoves;
                 int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
                                      (EncounterMatch as EncounterStatic)?.Moves ??
                                      (EncounterMatch as EncounterTrade)?.Moves ??
                                      new int[0];
 
-                res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves);
+                res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, EggMoves);
             }
             if (Moves[0] == 0) // None
                 res[0] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
@@ -1957,7 +1977,7 @@ namespace PKHeX.Core
 
             return res;
         }
-        private static CheckResult[] parseMoves(int[] moves, int[] learn, int[] relearn, int[] tmhm, int[] tutor, int[] special)
+        private static CheckResult[] parseMoves(int[] moves, int[] learn, int[] relearn, int[] tmhm, int[] tutor, int[] special, int[] egg)
         {
             CheckResult[] res = new CheckResult[4];
             for (int i = 0; i < 4; i++)
@@ -1965,13 +1985,15 @@ namespace PKHeX.Core
                 if (moves[i] == 0)
                     res[i] = new CheckResult(Severity.Valid, "Empty", CheckIdentifier.Move);
                 else if (learn.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Level-up.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, "Learned by Level-up.", CheckIdentifier.Move);
+                else if (egg.Contains(moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, "Egg Move.", CheckIdentifier.Move) { Flag = true };
                 else if (relearn.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Relearn Move.", CheckIdentifier.Move) { Flag = true };
+                    res[i] = new CheckResult(Severity.Valid, "Relearnable Move.", CheckIdentifier.Move) { Flag = true };
                 else if (tmhm.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "TM/HM.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, "Learned by TM/HM.", CheckIdentifier.Move);
                 else if (tutor.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Tutor.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, "Learned by Move Tutor.", CheckIdentifier.Move);
                 else if (special.Contains(moves[i]))
                     res[i] = new CheckResult(Severity.Valid, "Special Non-Relearn Move.", CheckIdentifier.Move);
                 else
@@ -2148,6 +2170,36 @@ namespace PKHeX.Core
                     ? new CheckResult(Severity.Invalid, "Expected no Relearn Moves.", CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             return res;
+        }
+        private CheckResult verifyEggMoves()
+        {
+            if (!pkm.WasEgg || vMoves.All(m => m.Valid))
+                return new CheckResult(CheckIdentifier.Egg);
+
+            // todo: egg move breeding legality
+            switch (pkm.GenNumber)
+            {
+                case 1:
+                case 2:
+                    // Check Both Egg Moves -- egg moves are initially checked with no game as the base.
+                    foreach (var game in new[] {GameVersion.GS, GameVersion.C})
+                    {
+                        vMoves = verifyMoves(game);
+                        if (vMoves.Any(m => !m.Valid))
+                            continue;
+
+                        // todo: check compatibility of parents (chain wise)
+                        return new CheckResult(Severity.Valid, $"Egg Moves sourced from {game}.", CheckIdentifier.Egg);
+                    }
+                    break;
+
+                case 3:
+                    return new CheckResult(Severity.NotImplemented, "Egg Move set check unimplemented.", CheckIdentifier.Egg);
+
+                case 4:
+                    return new CheckResult(Severity.NotImplemented, "Egg Move set check unimplemented.", CheckIdentifier.Egg);
+            }
+            return new CheckResult(CheckIdentifier.Egg);
         }
 
         public static string[] movelist = Util.getMovesList("en");
