@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Properties;
+using System.Configuration;
 
 namespace PKHeX.WinForms
 {
@@ -161,9 +162,18 @@ namespace PKHeX.WinForms
                 ConfigUtil.checkConfig();
                 loadConfig(out BAKprompt, out showChangelog, out languageID); 
             }
-            catch (Exception e)
+            catch (ConfigurationErrorsException e)
             {
-                WinFormsUtil.Error("Failed to access settings:" + Environment.NewLine + e.Message, "Please delete corrupt user.config file.");
+                // Delete the settings if they exist
+                var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
+                if (File.Exists(settingsFilename))
+                {
+                    File.Delete(settingsFilename);
+                }
+                else
+                {
+                    WinFormsUtil.Error("Unable to load settings.", e);
+                }
             }
             CB_MainLanguage.SelectedIndex = languageID;
 
