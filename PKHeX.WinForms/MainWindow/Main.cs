@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Properties;
+using System.Configuration;
 
 namespace PKHeX.WinForms
 {
@@ -161,9 +162,32 @@ namespace PKHeX.WinForms
                 ConfigUtil.checkConfig();
                 loadConfig(out BAKprompt, out showChangelog, out languageID); 
             }
-            catch (Exception e)
+            catch (ConfigurationErrorsException e)
             {
-                WinFormsUtil.Error("Failed to access settings:" + Environment.NewLine + e.Message, "Please delete corrupt user.config file.");
+                // Delete the settings if they exist
+                var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
+                if (!string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
+                {
+                    if (MessageBox.Show("PKHeX's settings are corrupt.  Would you like to reset the settings?  (Click Yes to delete the settings or No to close the program.", "PKHeX", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        File.Delete(settingsFilename);
+
+                        // This should theoretically work, but has failed in evandixon's testing
+                        // Properties.Settings.Default.Reload();
+
+                        // Instead, restart the application
+                        MessageBox.Show("The settings have been deleted.  Please restart PKHeX.");
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    else
+                    {
+                        Process.GetCurrentProcess().Kill();
+                    }
+                }
+                else
+                {
+                    WinFormsUtil.Error("Unable to load settings.", e);
+                }
             }
             CB_MainLanguage.SelectedIndex = languageID;
 
