@@ -8,7 +8,6 @@
         BATREV = -7,
         RSBOX = -5,
         GS = -4,
-        C = -3,
 
         // Indicators
         Invalid = -2,
@@ -23,6 +22,7 @@
         /*Gen7*/ SN = 30, MN = 31,
         /* GO */ GO = 34,
         /* VC */ RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
+        GD, SV, C,
 
         // Game Groupings (SaveFile type)
         RBY = 98,

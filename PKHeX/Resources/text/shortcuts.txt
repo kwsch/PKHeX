@@ -24,6 +24,7 @@ Control + Click on...
 - Randomize EVs: Set all EVs to 0.
 - PP Ups Label: Set all PP Ups to 0. (Click = 3)
 - Friendship Label: Set Friendship to 0. (Click = 255 or Base)
+- Level box: Set Level to 100.
 
 Alt + Click on...
 - Preview Sprite to load from a QR url on your clipboard.
@@ -38,7 +39,7 @@ Hold Control when dragging to save encrypted (ekx).
 
 Click on...
 - OT label: Set save file details to relevant properties.
-- Met Location label: Suggest encounter information for relevant properties.
+- Level / Met Location label: Suggest encounter information for relevant properties.
 - Moves groupbox: Suggest legal moves.
 - Relearn Moves groupbox: Suggest legal relearn moves.
 

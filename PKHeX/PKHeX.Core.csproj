@@ -75,7 +75,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;CLICKONCE;WINDOWS</DefineConstants>
+    <DefineConstants>DEBUG;WINDOWS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -85,7 +85,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DefineConstants>CLICKONCE;WINDOWS</DefineConstants>
+    <DefineConstants>WINDOWS</DefineConstants>
     <OutputPath>bin\x86\Release\</OutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -122,7 +122,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;CLICKONCE;WINDOWS</DefineConstants>
+    <DefineConstants>DEBUG;WINDOWS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -132,7 +132,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>CLICKONCE;WINDOWS</DefineConstants>
+    <DefineConstants>WINDOWS</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -260,22 +260,31 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\byte\eggmove_c.pkl" />
+    <None Include="Resources\byte\eggmove_gs.pkl" />
     <None Include="Resources\byte\eggmove_sm.pkl" />
     <None Include="Resources\byte\encounter_blue.pkl" />
+    <None Include="Resources\byte\encounter_crystal.pkl" />
+    <None Include="Resources\byte\encounter_gold.pkl" />
+    <None Include="Resources\byte\encounter_gsc_f.pkl" />
     <None Include="Resources\byte\encounter_mn.pkl" />
     <None Include="Resources\byte\encounter_mn_sos.pkl" />
     <None Include="Resources\byte\encounter_rb_f.pkl" />
     <None Include="Resources\byte\encounter_red.pkl" />
+    <None Include="Resources\byte\encounter_silver.pkl" />
     <None Include="Resources\byte\encounter_sn.pkl" />
     <None Include="Resources\byte\encounter_sn_sos.pkl" />
     <None Include="Resources\byte\encounter_yellow.pkl" />
     <None Include="Resources\byte\encounter_yellow_f.pkl" />
+    <None Include="Resources\byte\evos_gsc.pkl" />
     <None Include="Resources\byte\evos_rby.pkl" />
     <None Include="Resources\byte\evos_sm.pkl" />
     <None Include="Resources\byte\fashion_f_sm" />
     <None Include="Resources\byte\fashion_f_sm_illegal" />
     <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\fashion_m_sm_illegal" />
+    <None Include="Resources\byte\lvlmove_c.pkl" />
+    <None Include="Resources\byte\lvlmove_gs.pkl" />
     <None Include="Resources\byte\lvlmove_rb.pkl" />
     <None Include="Resources\byte\lvlmove_rby.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />

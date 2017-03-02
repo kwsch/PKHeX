@@ -2652,43 +2652,44 @@ namespace PKHeX.Core
         // Extensions
         public static string getLocation(this PKM pk, bool eggmet)
         {
-            if (pk.Format <= 2)
+            if (pk.Format < 2)
                 return "";
 
+            int gen = -1;
+            int bankID = 0;
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
 
             if (pk.Format == 2)
-                return GameInfo.Strings.metGSC_00000[locval];
-            if (pk.Format == 3)
-                return GameInfo.Strings.metRSEFRLG_00000[locval % 0x100];
-            if (pk.Gen4 && (eggmet || pk.Format == 4))
+                gen = 2;
+            else if (pk.Format == 3)
+                gen = 3;
+            else if (pk.Gen4 && (eggmet || pk.Format == 4)) // 4
             {
-                if (locval < 2000) return GameInfo.Strings.metHGSS_00000[locval];
-                if (locval < 3000) return GameInfo.Strings.metHGSS_02000[locval % 2000];
-                return GameInfo.Strings.metHGSS_03000[locval % 3000];
+                const int size = 1000;
+                bankID = locval/size;
+                gen = 4;
+                locval %= size;
             }
-            if (pk.Gen5 || pk.Format <= 5)
+            else // 5-7+
             {
-                if (locval < 30000) return GameInfo.Strings.metBW2_00000[locval];
-                if (locval < 40000) return GameInfo.Strings.metBW2_30000[locval % 10000 - 1];
-                if (locval < 60000) return GameInfo.Strings.metBW2_40000[locval % 10000 - 1];
-                return GameInfo.Strings.metBW2_60000[locval % 10000 - 1];
+                const int size = 10000;
+                bankID = locval/size;
+
+                int g = pk.GenNumber;
+                if (g >= 5)
+                    gen = g;
+                else if (pk.Format >= 5)
+                    gen = pk.Format;
+
+                locval %= size;
+                if (bankID >= 3)
+                    locval -= 1;
             }
-            if (pk.Gen6 || pk.Format <= 6)
-            {
-                if (locval < 30000) return GameInfo.Strings.metXY_00000[locval];
-                if (locval < 40000) return GameInfo.Strings.metXY_30000[locval % 10000 - 1];
-                if (locval < 60000) return GameInfo.Strings.metXY_40000[locval % 10000 - 1];
-                return GameInfo.Strings.metXY_60000[locval % 10000 - 1];
-            }
-            if (pk.Gen7 || pk.Format <= 7)
-            {
-                if (locval < 30000) return GameInfo.Strings.metSM_00000[locval];
-                if (locval < 40000) return GameInfo.Strings.metSM_30000[locval % 10000 - 1];
-                if (locval < 60000) return GameInfo.Strings.metSM_40000[locval % 10000 - 1];
-                return GameInfo.Strings.metSM_60000[locval % 10000 - 1];
-            }
-            return null; // Shouldn't happen for gen 3+
+
+            var bank = GameInfo.getLocationNames(gen, bankID);
+            if (bank == null || bank.Length <= locval)
+                return "";
+            return bank[locval];
         }
         public static string[] getQRText(this PKM pkm)
         {

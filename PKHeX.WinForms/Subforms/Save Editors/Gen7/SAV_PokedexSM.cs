@@ -20,6 +20,7 @@ namespace PKHeX.WinForms
             // Clear Listbox and ComboBox
             LB_Species.Items.Clear();
             CB_Species.Items.Clear();
+            LB_Forms.Items.Clear();
 
             // Fill List
             CB_Species.DisplayMember = "Text";
@@ -54,6 +55,7 @@ namespace PKHeX.WinForms
         private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
         private readonly PokeDex7 Dex;
         private bool editing;
+        private bool allModifying;
         private int species = -1;
         private readonly CheckBox[] CP, CL;
 
@@ -76,6 +78,7 @@ namespace PKHeX.WinForms
             species = (int)CB_Species.SelectedValue;
             LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
             LB_Species.TopIndex = LB_Species.SelectedIndex;
+            if (!allModifying) fillLBForms();
             getEntry();
             editing = false;
         }
@@ -87,8 +90,88 @@ namespace PKHeX.WinForms
             editing = true;
             species = LB_Species.SelectedIndex + 1;
             CB_Species.SelectedValue = species;
+            if (!allModifying) fillLBForms();
             getEntry();
             editing = false;
+        }
+        private void changeLBForms(object sender, EventArgs e)
+        {
+            if (allModifying) return;
+            if (editing) return;
+            setEntry();
+
+            editing = true;
+            int bspecies;
+            int fspecies = LB_Species.SelectedIndex + 1;
+            if (fspecies <= SAV.MaxSpeciesID)
+                bspecies = fspecies;
+            else
+                bspecies = baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
+            int form = LB_Forms.SelectedIndex;
+            if (form > 0)
+            {
+                int fc = SAV.Personal[bspecies].FormeCount;
+                if (fc > 1) // actually has forms
+                {
+                    int f = SaveUtil.getDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                    if (f >= 0) // bit index valid
+                        species = f + form + 1;
+                    else
+                        species = bspecies;
+                }
+                else
+                    species = bspecies;
+            }
+            else species = bspecies;
+            CB_Species.SelectedValue = species;
+            LB_Species.SelectedIndex = species - 1;
+            LB_Species.TopIndex = LB_Species.SelectedIndex;
+            getEntry();
+            editing = false;
+        }
+        private bool fillLBForms()
+        {
+            if (allModifying) return false;
+            LB_Forms.DataSource = null;
+            LB_Forms.Items.Clear();
+
+            int bspecies;
+            int fspecies = LB_Species.SelectedIndex + 1;
+            if (fspecies <= SAV.MaxSpeciesID)
+                bspecies = fspecies;
+            else
+                bspecies = baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
+            bool hasForms = SAV.Personal[bspecies].HasFormes || new[] { 201, 664, 665, 414 }.Contains(bspecies);
+            LB_Forms.Enabled = hasForms;
+            if (!hasForms) return false;
+            var ds = PKX.getFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, new[] { "♂", "♀", "-" }, SAV.Generation).ToList();
+            if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
+            { // empty (Alolan Totems)
+                LB_Forms.Enabled = false;
+                return false;
+            }
+            else
+            {
+                LB_Forms.DataSource = ds;
+                if (fspecies <= SAV.MaxSpeciesID)
+                    LB_Forms.SelectedIndex = 0;
+                else
+                {
+                    int fc = SAV.Personal[bspecies].FormeCount;
+                    if (fc > 1) // actually has forms
+                    {
+                        int f = SaveUtil.getDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                        if (f >= 0)
+                        { // bit index valid
+                            if (f > fspecies - LB_Forms.Items.Count - 1)
+                                LB_Forms.SelectedIndex = fspecies - f - 1;
+                            else
+                                LB_Forms.SelectedIndex = -1;
+                        }
+                    }
+                }
+            }
+            return true;
         }
         private void removedropCB(object sender, KeyEventArgs e)
         {
@@ -296,10 +379,14 @@ namespace PKHeX.WinForms
         }
         private void modifyAll(object sender, EventArgs e)
         {
+            allModifying = true;
+            LB_Forms.Enabled = LB_Forms.Visible = false;
+
             int lang = SAV.Language;
             if (lang > 5) lang -= 1;
             lang -= 1;
-            int[] totem = { 811, 1018, 1019, 1024, 1025, 1026, 1058, 1059, 1060 };
+            int[] totem = { 811, 1018, 1019, 1025, 1026, 1058, 1059, 1060 };
+            // 1024 is used by Wishiwashi school form.
 
             if (sender == mnuSeenNone || sender == mnuSeenAll || sender == mnuComplete)
                 for (int i = 0; i < LB_Species.Items.Count; i++)
@@ -379,6 +466,9 @@ namespace PKHeX.WinForms
             // Turn off zh2 Petilil
             Dex.LanguageFlags[548*9 + 8] = false;
             getEntry();
+            allModifying = false;
+            LB_Forms.Enabled = LB_Forms.Visible = true;
+            LB_Species.SelectedIndex = 0;
         }
     }
 }

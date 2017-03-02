@@ -20,7 +20,10 @@ namespace PKHeX.Core
             switch (game)
             {
                 case GameVersion.RBY:
-                    Entries = EvolutionSet1.getArray(data[0]);
+                    Entries = EvolutionSet1.getArray(data[0], maxSpeciesTree);
+                    break;
+                case GameVersion.GSC:
+                    Entries = EvolutionSet2.getArray(data[0], maxSpeciesTree);
                     break;
                 case GameVersion.ORAS:
                     Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
@@ -174,7 +177,7 @@ namespace PKHeX.Core
                 case 1: // Level
                     var m1 = new EvolutionMethod
                     {
-                        Method = 1, // Use Item
+                        Method = 1, // Level Up
                         Level = data[offset + 1],
                         Species = data[offset + 2]
                     };
@@ -202,17 +205,53 @@ namespace PKHeX.Core
             }
             return null;
         }
-        public static List<EvolutionSet> getArray(byte[] data)
+        public static List<EvolutionSet> getArray(byte[] data, int maxSpecies)
         {
             var evos = new List<EvolutionSet>();
             int offset = 0;
-            for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
+            for (int i = 0; i <= maxSpecies; i++)
             {
                 var m = new List<EvolutionMethod>();
                 while (data[offset] != 0)
                     m.Add(getMethod(data, ref offset));
                 ++offset;
                 evos.Add(new EvolutionSet1 { PossibleEvolutions = m.ToArray() });
+            }
+            return evos;
+        }
+    }
+    public class EvolutionSet2 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, ref int offset)
+        {
+            int method = data[offset];
+            int arg = data[offset + 1];
+            int species = data[offset + 2];
+            offset += 3;
+
+            switch (method)
+            {
+                case 1: /* Level Up */ return new EvolutionMethod { Method = 1, Species = species, Level = arg };
+                case 2: /* Use Item */ return new EvolutionMethod { Method = 8, Species = species, Argument = arg };
+                case 3: /*  Trade   */ return new EvolutionMethod { Method = 5, Species = species };
+                case 4: /*Friendship*/ return new EvolutionMethod { Method = 1, Species = species };
+                case 5: /*  Stats   */
+                    // species is currently stat ID, we don't care about evo type as stats can be changed after evo
+                    return new EvolutionMethod { Method = 1, Species = data[offset++], Level = arg }; // Tyrogue stats
+            }
+            return null;
+        }
+        public static List<EvolutionSet> getArray(byte[] data, int maxSpecies)
+        {
+            var evos = new List<EvolutionSet>();
+            int offset = 0;
+            for (int i = 0; i <= maxSpecies; i++)
+            {
+                var m = new List<EvolutionMethod>();
+                while (data[offset] != 0)
+                    m.Add(getMethod(data, ref offset));
+                ++offset;
+                evos.Add(new EvolutionSet2 { PossibleEvolutions = m.ToArray() });
             }
             return evos;
         }

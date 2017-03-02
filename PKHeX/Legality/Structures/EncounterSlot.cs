@@ -13,16 +13,20 @@
         public bool WhiteFlute;
         public bool BlackFlute;
         public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
+        public int SlotNumber;
         public EncounterSlot() { }
-
-        public EncounterSlot(EncounterSlot template)
+        public virtual EncounterSlot Clone()
         {
-            Species = template.Species;
-            AllowDexNav = template.AllowDexNav;
-            LevelMax = template.LevelMax;
-            LevelMin = template.LevelMin;
-            Type = template.Type;
-            Pressure = template.Pressure;
+            return new EncounterSlot
+            {
+                Species = Species,
+                AllowDexNav = AllowDexNav,
+                LevelMax = LevelMax,
+                LevelMin = LevelMin,
+                Type = Type,
+                Pressure = Pressure,
+                SlotNumber = SlotNumber,
+            };
         }
 
         public string Name
@@ -40,13 +44,17 @@
     {
         public int Rate;
         public EncounterSlot1() { }
-        public EncounterSlot1(EncounterSlot1 template)
+        public override EncounterSlot Clone()
         {
-            Species = template.Species;
-            LevelMax = template.LevelMax;
-            LevelMin = template.LevelMin;
-            Type = template.Type;
-            Rate = template.Rate;
+            return new EncounterSlot1
+            {
+                Species = Species,
+                LevelMax = LevelMax,
+                LevelMin = LevelMin,
+                Type = Type,
+                Rate = Rate,
+                SlotNumber = SlotNumber,
+            };
         }
     }
 }

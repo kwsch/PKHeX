@@ -394,6 +394,8 @@ namespace PKHeX.Core
             pk6.AltForm = AltForm;
             pk6.Nature = Nature;
 
+            // Apply trash bytes for species name of current app language -- default to PKM's language
+            pk6.Nickname = PKX.getSpeciesName(Species, Language);
             pk6.Nickname = Nickname.Length > 1 && !IsNicknamed
                 ? Nickname[0] + Nickname.Substring(1).ToLower() // Decapitalize
                 : Nickname;

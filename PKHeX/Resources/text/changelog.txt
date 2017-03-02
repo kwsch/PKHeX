@@ -1,7 +1,24 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/02/07 - New Update:
+17/02/25 - New Update:
+ - Legality:
+ - - Added: Legality checking for RBY Pokémon as pk1 and pk7+.
+ - - Fixed: More edge cases for legality checks.
+ - Batch Editor:
+ - - Added: Nickname clearing to batch editor (via .IsNicknamed=False).
+ - - Added: Legality filtering and bulk suggestions for Met Location, Current Moves & Relearn Moves.
+ - - - Use $suggest to use suggested result from the legality analysis.
+ - - Changed: Properties are now sorted alphabetically.
+ - Added: WC7 parsing for multiple-item gifts. Thanks SciresM!
+ - Added: X/Y Trainer Nickname editing (via Current Appearance tab).
+ - Added: S/M Festival Plaza name editing.
+ - Fixed: Gen4 Pokédex bitflag setting no longer sets invalid data for single-gender species.
+ - Fixed: wc7->pk7 base friendship fixed. Thanks T.O.R.N.A.D.O & Odaxis!
+ - Fixed: Gen1/2 Money/Coin editing & inventory editing edge cases.
+ - Updated: Menu sprites to use Sun/Moon sprites for some species (like Steelix).
+
+17/02/07 - New Update: (64480) [360228]
  - Legality:
  - - Added: Legality indication for exported QR images (if legality check is available for origin).
  - - Added: Legality indication for Box/Party pkm slots (^ + opt-in via Options->Set to SAV).
