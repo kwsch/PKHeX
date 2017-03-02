@@ -166,7 +166,7 @@ namespace PKHeX.WinForms
             {
                 // Delete the settings if they exist
                 var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
-                if (File.Exists(settingsFilename))
+                if (!string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
                 {
                     if (MessageBox.Show("PKHeX's settings are corrupt.  Would you like to reset the settings?  (Click Yes to delete the settings or No to close the program.", "PKHeX", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
