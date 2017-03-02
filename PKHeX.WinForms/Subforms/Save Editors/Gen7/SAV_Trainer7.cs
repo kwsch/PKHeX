@@ -97,6 +97,11 @@ namespace PKHeX.WinForms
                 CB_SkinColor.Items.Add($"{Main.gendersymbols[0]} - {c}"); // M
                 CB_SkinColor.Items.Add($"{Main.gendersymbols[1]} - {c}"); // F
             }
+
+            L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
+            CB_Vivillon.DisplayMember = "Text";
+            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.DataSource = PKX.getFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols).ToList();
         }
         private void getTextBoxes()
         {
@@ -183,6 +188,8 @@ namespace PKHeX.WinForms
 
             CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
             TB_PlazaName.Text = SAV.FestivalPlazaName;
+
+            CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
         }
         private void save()
         {
@@ -265,6 +272,9 @@ namespace PKHeX.WinForms
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
+
+            // Vivillon
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
