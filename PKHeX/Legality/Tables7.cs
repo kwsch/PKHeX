@@ -430,7 +430,16 @@ namespace PKHeX.Core
             769, 771, 774, 775, 776, 777, 778, 779, 780, 781,
             782
         };
-        internal static readonly int[] Inherit_Apricorn7 = Inherit_Apricorn6.Concat(PastGenAlolanScans).Concat(AlolanCaptureOffspring).Distinct().ToArray();
+        internal static readonly int[] Inherit_ApricornMale7 =
+        {
+            100, // Voltorb
+            343, // Baltoy
+            436, // Bronzor
+
+            // Others are capturable in the Alola region
+            // Magnemite, Staryu, Tauros
+        };
+        internal static readonly int[] Inherit_Apricorn7 = Inherit_Apricorn6.Concat(Inherit_ApricornMale7).Concat(PastGenAlolanScans).Concat(AlolanCaptureOffspring).Distinct().ToArray();
         internal static readonly int[] Inherit_SafariMale =
         {
             128, // Tauros

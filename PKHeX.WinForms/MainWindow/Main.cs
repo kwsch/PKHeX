@@ -877,11 +877,11 @@ namespace PKHeX.WinForms
                 }
             }
             // Finish setting up the save file.
-            if (sav.IndeterminateGame && sav.Generation == 3)
+            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 // Hacky cheats invalidated the Game Code value.
                 var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    "Unknown Gen3 Game Detected. Select Origins:",
+                    "Gen3 Game Detected. Select Origins:",
                     "Yes: Ruby / Sapphire" + Environment.NewLine +
                     "No: Emerald" + Environment.NewLine +
                     "Cancel: FireRed / LeafGreen");
