@@ -168,7 +168,21 @@ namespace PKHeX.WinForms
                 var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
                 if (File.Exists(settingsFilename))
                 {
-                    File.Delete(settingsFilename);
+                    if (MessageBox.Show("PKHeX's settings are corrupt.  Would you like to reset the settings?  (Click Yes to delete the settings or No to close the program.", "PKHeX", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        File.Delete(settingsFilename);
+
+                        // This should theoretically work, but has failed in evandixon's testing
+                        // Properties.Settings.Default.Reload();
+
+                        // Instead, restart the application
+                        MessageBox.Show("The settings have been deleted.  Please restart PKHeX.");
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    else
+                    {
+                        Process.GetCurrentProcess().Kill();
+                    }
                 }
                 else
                 {
