@@ -176,6 +176,8 @@ namespace PKHeX.WinForms
             this.B_Fashion = new System.Windows.Forms.Button();
             this.TB_PlazaName = new System.Windows.Forms.TextBox();
             this.L_PlazaName = new System.Windows.Forms.Label();
+            this.L_Vivillon = new System.Windows.Forms.Label();
+            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -815,6 +817,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.CB_Vivillon);
+            this.Tab_Overview.Controls.Add(this.L_Vivillon);
             this.Tab_Overview.Controls.Add(this.B_GenTID);
             this.Tab_Overview.Controls.Add(this.L_G7TID);
             this.Tab_Overview.Controls.Add(this.MT_G7TID);
@@ -1791,6 +1795,24 @@ namespace PKHeX.WinForms
             this.L_PlazaName.Text = "Festival Plaza Name:";
             this.L_PlazaName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // L_Vivillon
+            // 
+            this.L_Vivillon.Location = new System.Drawing.Point(-1, 101);
+            this.L_Vivillon.Name = "L_Vivillon";
+            this.L_Vivillon.Size = new System.Drawing.Size(80, 12);
+            this.L_Vivillon.TabIndex = 64;
+            this.L_Vivillon.Text = "Vivillon:";
+            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Vivillon
+            // 
+            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Vivillon.FormattingEnabled = true;
+            this.CB_Vivillon.Location = new System.Drawing.Point(85, 98);
+            this.CB_Vivillon.Name = "CB_Vivillon";
+            this.CB_Vivillon.Size = new System.Drawing.Size(93, 20);
+            this.CB_Vivillon.TabIndex = 65;
+            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1996,5 +2018,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.MaskedTextBox MT_G7TID;
         private System.Windows.Forms.TextBox TB_PlazaName;
         private System.Windows.Forms.Label L_PlazaName;
+        private System.Windows.Forms.Label L_Vivillon;
+        private System.Windows.Forms.ComboBox CB_Vivillon;
     }
 }

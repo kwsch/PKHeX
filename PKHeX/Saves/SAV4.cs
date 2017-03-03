@@ -759,7 +759,7 @@ namespace PKHeX.Core
             const int brSize = 0x40;
             int bit = pkm.Species - 1;
             byte mask = (byte) (1 << (bit&7));
-            int ofs = PokeDex + bit>>3 + 0x4;
+            int ofs = PokeDex + (bit>>3) + 0x4;
 
             // Set the Species Owned Flag
             Data[ofs + brSize*0] |= mask;

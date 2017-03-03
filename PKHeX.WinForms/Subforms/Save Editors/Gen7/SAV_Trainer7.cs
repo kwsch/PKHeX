@@ -97,6 +97,11 @@ namespace PKHeX.WinForms
                 CB_SkinColor.Items.Add($"{Main.gendersymbols[0]} - {c}"); // M
                 CB_SkinColor.Items.Add($"{Main.gendersymbols[1]} - {c}"); // F
             }
+
+            L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
+            CB_Vivillon.DisplayMember = "Text";
+            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.DataSource = PKX.getFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols).ToList();
         }
         private void getTextBoxes()
         {
@@ -183,6 +188,8 @@ namespace PKHeX.WinForms
 
             CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
             TB_PlazaName.Text = SAV.FestivalPlazaName;
+
+            CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
         }
         private void save()
         {
@@ -265,6 +272,9 @@ namespace PKHeX.WinForms
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
+
+            // Vivillon
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -407,15 +417,20 @@ namespace PKHeX.WinForms
             {006, "Pokemon Caught"},
             {007, "Pokemon Caught Fishing"},
             {008, "Eggs Hatched"},
-            {009, "Pokemon Evolved"},
+            {009, "Pokémon Evolved"},
+            {010, "Pokémon Healed at Pokémon Centers"},
             {011, "Link Trades"},
             {012, "Link Battles"},
             {013, "Link Battle Wins"},
             {015, "Battle Spot Battles"},
+            {018, "Mart Stack Purchases"},
             {019, "Money Spent"},
-            {022, "Exp. Points Collected"},
+            {021, "Pokémon Defeated"},
+            {022, "Exp. Points Collected (Highest)"},
+            {023, "Exp. Points Collected (Today)"},
             {024, "Deposited in the GTS"},
             {025, "Nicknames Given"},
+            {026, "Bonus Premier Balls Received"},
             {027, "Battle Points Earned"},
             {028, "Battle Points Spent"},
             {029, "Super Effective Moves Used"},
@@ -434,13 +449,17 @@ namespace PKHeX.WinForms
             {052, "Record Thumbs-ups"},
             {053, "Pokemon Petted"},
             {066, "Guests Interacted With"},
+            {067, "Berry Piles Collected"},
 
             {100, "Champion Title Defense"},
             {110, "Pokemon Defeated (Highest)"},
+            {111, "Pokemon Defeated (Today)"},
             {112, "Pokemon Caught (Highest)"},
+            {113, "Pokemon Caught (Today)"},
             {114, "Trainers Battled (Highest)"},
-            {115, "Items Picked Up"},
+            {115, "Trainers Battled (Today)"},
             {116, "Pokemon Evolved (Highest)"},
+            {117, "Pokemon Evolved (Today)"},
             {118, "Fossils Restored"},
             {119, "Photos Taken"},
             {123, "Loto-ID Wins"},
@@ -449,6 +468,7 @@ namespace PKHeX.WinForms
             {128, "Missions Participated In"},
             {129, "Facilities Hosted"},
             {130, "QR Code Scans"},
+            {132, "Café Drinks Bought"},
             {137, "Battle Royal Dome Battles"},
             {158, "Outfit Changes"},
             {159, "Battle Royal Dome Wins"},

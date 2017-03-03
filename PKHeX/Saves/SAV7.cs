@@ -495,6 +495,11 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x11C);
             }
         }
+        public int Vivillon
+        {
+            get { return Data[Misc + 0x130] & 0x1F; }
+            set { Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F)); }
+        }
         public uint UsedFestaCoins
         {
             get { return BitConverter.ToUInt32(Data, 0x69C98); }

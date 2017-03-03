@@ -11,6 +11,7 @@ using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Properties;
+using System.Configuration;
 
 namespace PKHeX.WinForms
 {
@@ -161,9 +162,32 @@ namespace PKHeX.WinForms
                 ConfigUtil.checkConfig();
                 loadConfig(out BAKprompt, out showChangelog, out languageID); 
             }
-            catch (Exception e)
+            catch (ConfigurationErrorsException e)
             {
-                WinFormsUtil.Error("Failed to access settings:" + Environment.NewLine + e.Message, "Please delete corrupt user.config file.");
+                // Delete the settings if they exist
+                var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
+                if (!string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
+                {
+                    if (MessageBox.Show("PKHeX's settings are corrupt.  Would you like to reset the settings?  (Click Yes to delete the settings or No to close the program.", "PKHeX", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        File.Delete(settingsFilename);
+
+                        // This should theoretically work, but has failed in evandixon's testing
+                        // Properties.Settings.Default.Reload();
+
+                        // Instead, restart the application
+                        MessageBox.Show("The settings have been deleted.  Please restart PKHeX.");
+                        Process.GetCurrentProcess().Kill();
+                    }
+                    else
+                    {
+                        Process.GetCurrentProcess().Kill();
+                    }
+                }
+                else
+                {
+                    WinFormsUtil.Error("Unable to load settings.", e);
+                }
             }
             CB_MainLanguage.SelectedIndex = languageID;
 
@@ -596,13 +620,13 @@ namespace PKHeX.WinForms
             TB_Friendship.Text = Set.Friendship.ToString();
 
             // Reset IV/EVs
-            BTN_RerollPID.PerformClick();
-            BTN_RerollEC.PerformClick();
+            updateRandomPID(sender, e);
+            updateRandomEC(sender, e);
             ComboBox[] p = {CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4};
             for (int i = 0; i < 4; i++)
                 p[i].SelectedIndex = m[i].SelectedIndex != 0 ? 3 : 0; // max PP
             
-            if (Set.Shiny) BTN_Shinytize.PerformClick();
+            if (Set.Shiny) updateShinyPID(sender, e);
             pkm = preparePKM();
             updateLegality();
         }
@@ -877,11 +901,11 @@ namespace PKHeX.WinForms
                 }
             }
             // Finish setting up the save file.
-            if (sav.IndeterminateGame && sav.Generation == 3)
+            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 // Hacky cheats invalidated the Game Code value.
                 var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    "Unknown Gen3 Game Detected. Select Origins:",
+                    "Gen3 Game Detected. Select Origins:",
                     "Yes: Ruby / Sapphire" + Environment.NewLine +
                     "No: Emerald" + Environment.NewLine +
                     "Cancel: FireRed / LeafGreen");
@@ -2211,6 +2235,8 @@ namespace PKHeX.WinForms
         }
         private void updateRandomPID(object sender, EventArgs e)
         {
+            if (pkm.Format < 3)
+                return;
             if (fieldsLoaded)
                 pkm.PID = Util.getHEXval(TB_PID.Text);
 
@@ -2230,6 +2256,8 @@ namespace PKHeX.WinForms
         }
         private void updateRandomEC(object sender, EventArgs e)
         {
+            if (pkm.Format < 6)
+                return;
             pkm.Version = WinFormsUtil.getIndex(CB_GameOrigin);
             if (pkm.GenNumber < 6)
             {

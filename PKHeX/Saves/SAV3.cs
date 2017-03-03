@@ -97,6 +97,7 @@ namespace PKHeX.Core
             {
                 case GameVersion.RS:
                     LegalKeyItems = Legal.Pouch_Key_RS;
+                    OFS_PCItem = BlockOfs[1] + 0x0498;
                     OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
                     OFS_PouchKeyItem = BlockOfs[1] + 0x05B0;
                     OFS_PouchBalls = BlockOfs[1] + 0x0600;
@@ -106,6 +107,7 @@ namespace PKHeX.Core
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
+                    OFS_PCItem = BlockOfs[1] + 0x0298;
                     OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
                     OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
                     OFS_PouchBalls = BlockOfs[1] + 0x0430;
@@ -115,6 +117,7 @@ namespace PKHeX.Core
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
+                    OFS_PCItem = BlockOfs[1] + 0x0498;
                     OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
                     OFS_PouchKeyItem = BlockOfs[1] + 0x05D8;
                     OFS_PouchBalls = BlockOfs[1] + 0x0650;
@@ -351,6 +354,7 @@ namespace PKHeX.Core
             get
             {
                 int max = Version == GameVersion.FRLG ? 995 : 95;
+                var PCItems = new [] {LegalItems, LegalKeyItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries}.SelectMany(a => a).ToArray();
                 InventoryPouch[] pouch =
                 {
                     new InventoryPouch(InventoryType.Items, LegalItems, max, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem)/4),
@@ -358,10 +362,12 @@ namespace PKHeX.Core
                     new InventoryPouch(InventoryType.Balls, LegalBalls, max, OFS_PouchBalls, (OFS_PouchTMHM - OFS_PouchBalls)/4),
                     new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, max, OFS_PouchTMHM, (OFS_PouchBerry - OFS_PouchTMHM)/4),
                     new InventoryPouch(InventoryType.Berries, LegalBerries, max, OFS_PouchBerry, Version == GameVersion.FRLG ? 43 : 46),
+                    new InventoryPouch(InventoryType.PCItems, PCItems, max, OFS_PCItem, (OFS_PouchHeldItem - OFS_PCItem)/4),
                 };
                 foreach (var p in pouch)
                 {
-                    p.SecurityKey = SecurityKey;
+                    if (p.Type != InventoryType.PCItems)
+                        p.SecurityKey = SecurityKey;
                     p.getPouch(ref Data);
                 }
                 return pouch;

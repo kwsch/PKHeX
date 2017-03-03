@@ -32,12 +32,12 @@ namespace PKHeX.WinForms
         {
             var p = new string[types.Length][];
             for (int i = 0; i < p.Length; i++)
-                p[i] = ReflectUtil.getPropertiesCanWritePublic(types[i]).Concat(CustomProperties).OrderBy(a => a).ToArray();
+                p[i] = ReflectUtil.getPropertiesCanWritePublicDeclared(types[i]).Concat(CustomProperties).OrderBy(a => a).ToArray();
 
             // Properties for any PKM
-            var any = p.SelectMany(prop => prop).Distinct().ToArray();
+            var any = ReflectUtil.getPropertiesCanWritePublic(typeof(PK1)).Concat(p.SelectMany(a => a)).Distinct().ToArray();
             // Properties shared by all PKM
-            var all = p.Skip(1).Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).ToArray();
+            var all = p.Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).ToArray();
 
             var p1 = new string[types.Length + 2][];
             Array.Copy(p, 0, p1, 1, p.Length);
@@ -56,7 +56,12 @@ namespace PKHeX.WinForms
         private static readonly string[] CustomProperties = {PROP_LEGAL};
 
         private int currentFormat = -1;
-        private static readonly Type[] types = {typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof (PK3)};
+        private static readonly Type[] types = 
+        {
+            typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
+            typeof (PK3), typeof (XK3), typeof (CK3),
+            typeof (PK2), typeof (PK1),
+        };
         private static readonly string[][] properties = getPropArray();
 
         // GUI Methods

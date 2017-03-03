@@ -42,6 +42,7 @@ namespace PKHeX.Core
                 switch (pk.Format) // prior to storing GameVersion
                 {
                     case 1: parsePK1(pk); break;
+                    case 2: parsePK1(pk); break;
                 }
 
                 if (!Parse.Any())
@@ -96,6 +97,7 @@ namespace PKHeX.Core
             verifyNickname();
             verifyDVs();
             verifyG1OT();
+            verifyEggMoves();
         }
         private void parsePK6(PKM pk)
         {
@@ -175,6 +177,9 @@ namespace PKHeX.Core
             verifyMisc();
             verifyGender();
             verifyItem();
+
+            if (pkm.GenNumber < 5)
+                verifyEggMoves();
 
             verifyVersionEvolution();
             // SecondaryChecked = true;

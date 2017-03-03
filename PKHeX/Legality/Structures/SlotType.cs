@@ -17,5 +17,7 @@
         FriendSafari,
         Special,
         SOS,
+        Swarm,
+        Headbutt,
     }
 }
