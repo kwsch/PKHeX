@@ -7438,4 +7438,13 @@
   <data name="eggmove_gs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\eggmove_gs.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="encounter_crystal_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_crystal_h.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encounter_gold_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_gold_h.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encounter_silver_h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encounter_silver_h.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

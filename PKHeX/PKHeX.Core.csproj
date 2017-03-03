@@ -265,13 +265,16 @@
     <None Include="Resources\byte\eggmove_sm.pkl" />
     <None Include="Resources\byte\encounter_blue.pkl" />
     <None Include="Resources\byte\encounter_crystal.pkl" />
+    <None Include="Resources\byte\encounter_crystal_h.pkl" />
     <None Include="Resources\byte\encounter_gold.pkl" />
+    <None Include="Resources\byte\encounter_gold_h.pkl" />
     <None Include="Resources\byte\encounter_gsc_f.pkl" />
     <None Include="Resources\byte\encounter_mn.pkl" />
     <None Include="Resources\byte\encounter_mn_sos.pkl" />
     <None Include="Resources\byte\encounter_rb_f.pkl" />
     <None Include="Resources\byte\encounter_red.pkl" />
     <None Include="Resources\byte\encounter_silver.pkl" />
+    <None Include="Resources\byte\encounter_silver_h.pkl" />
     <None Include="Resources\byte\encounter_sn.pkl" />
     <None Include="Resources\byte\encounter_sn_sos.pkl" />
     <None Include="Resources\byte\encounter_yellow.pkl" />
