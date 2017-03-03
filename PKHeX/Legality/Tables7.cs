@@ -1328,8 +1328,6 @@ namespace PKHeX.Core
             590, // Relic Crown
             657, // Gardevoirite
             658, // Ampharosite
-            662, // Mewtwonite X
-            663, // Mewtwonite Y
             664, // Blazikenite
             665, // Medichamite
             666, // Houndoominite
