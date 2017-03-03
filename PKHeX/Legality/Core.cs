@@ -801,6 +801,8 @@ namespace PKHeX.Core
                 return pkm.AltForm == 1;
             if (pkm.Species == 678 && pkm.Gender == 1)
                 return pkm.AltForm == 1;
+            if (pkm.Species == 773)
+                return true;
             return false;
         }
         internal static bool getHasTradeEvolved(PKM pkm)
