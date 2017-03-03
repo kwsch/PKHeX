@@ -149,7 +149,8 @@ namespace PKHeX.Core
         {
             // Gen 1
             {
-                Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
+                StaticRBY = getStaticEncounters(GameVersion.RBY);
+
                 var red         = EncounterArea.getArray1_GW(Resources.encounter_red);
                 var blu         = EncounterArea.getArray1_GW(Resources.encounter_blue);
                 var ylw         = EncounterArea.getArray1_GW(Resources.encounter_yellow);
@@ -163,19 +164,28 @@ namespace PKHeX.Core
                 SlotsRBY = addExtraTableSlots(addExtraTableSlots(red, blu), ylw);
                 Array.Resize(ref SlotsRBY, SlotsRBY.Length + 1);
                 SlotsRBY[SlotsRBY.Length - 1] = FishOldGood_RBY;
-                StaticRBY = getStaticEncounters(GameVersion.RBY);
+
+                Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
             }
             // Gen 2
             {
-                Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
+                StaticGSC = getStaticEncounters(GameVersion.GSC);
 
+                // Grass/Water
                 var g = EncounterArea.getArray2_GW(Resources.encounter_gold);
                 var s = EncounterArea.getArray2_GW(Resources.encounter_silver);
                 var c = EncounterArea.getArray2_GW(Resources.encounter_crystal);
+                // Fishing
                 var f = EncounterArea.getArray2_F(Resources.encounter_gsc_f);
-                SlotsGSC = addExtraTableSlots(g, s).Concat(c).Concat(f).ToArray();
-                
-                StaticGSC = getStaticEncounters(GameVersion.GSC);
+                // Headbutt/Rock Smash
+                var h_c = EncounterArea.getArray2_H(Resources.encounter_crystal_h);
+                var h_g = EncounterArea.getArray2_H(Resources.encounter_gold_h);
+                var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
+                var h = h_c.Concat(h_g).Concat(h_s);
+
+                SlotsGSC = addExtraTableSlots(g, s).Concat(c).Concat(f).Concat(h).ToArray();
+
+                Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
             }
             // Gen 6
             {
@@ -791,6 +801,8 @@ namespace PKHeX.Core
                 return pkm.AltForm == 1;
             if (pkm.Species == 678 && pkm.Gender == 1)
                 return pkm.AltForm == 1;
+            if (pkm.Species == 773)
+                return true;
             return false;
         }
         internal static bool getHasTradeEvolved(PKM pkm)

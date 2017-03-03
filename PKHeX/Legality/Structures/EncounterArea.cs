@@ -82,6 +82,34 @@ namespace PKHeX.Core
             }
             return slots.ToArray();
         }
+        private static EncounterSlot1[] getSlots2_H(byte[] data, ref int ofs, SlotType t)
+        {
+            // slot set ends in 0xFF
+            var slots = new List<EncounterSlot1>();
+            int tableCount = t == SlotType.Headbutt ? 2 : 1;
+            while (tableCount != 0)
+            {
+                int rate = data[ofs++];
+                if (rate == 0xFF) // end of table
+                {
+                    tableCount--;
+                    continue;
+                }
+
+                int species = data[ofs++];
+                int level = data[ofs++];
+
+                slots.Add(new EncounterSlot1
+                {
+                    Rate = rate,
+                    Species = species,
+                    LevelMin = level,
+                    LevelMax = level,
+                    Type = t
+                });
+            }
+            return slots.ToArray();
+        }
 
         private static IEnumerable<EncounterArea> getAreas2(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
         {
@@ -96,7 +124,7 @@ namespace PKHeX.Core
             }
             return areas;
         }
-        private static IEnumerable<EncounterArea> getAreas2_F(byte[] data, ref int ofs, SlotType t)
+        private static IEnumerable<EncounterArea> getAreas2_F(byte[] data, ref int ofs)
         {
             var areas = new List<EncounterArea>();
             var types = new[] {SlotType.Old_Rod, SlotType.Good_Rod, SlotType.Super_Rod};
@@ -142,6 +170,57 @@ namespace PKHeX.Core
                 }
             }
             return areas;
+        }
+        private static IEnumerable<EncounterArea> getAreas2_H(byte[] data, ref int ofs)
+        {
+            // Read Location Table
+            var head = new List<EncounterArea>();
+            var headID = new List<int>();
+            while (data[ofs] != 0xFF)
+            {
+                head.Add(new EncounterArea
+                {
+                    Location = (data[ofs++] << 8) | data[ofs++],
+                    Slots = null, // later
+                });
+                headID.Add(data[ofs++]);
+            }
+            ofs++;
+
+            var rock = new List<EncounterArea>();
+            var rockID = new List<int>();
+            while (data[ofs] != 0xFF)
+            {
+                rock.Add(new EncounterArea
+                {
+                    Location = (data[ofs++] << 8) | data[ofs++],
+                    Slots = null, // later
+                });
+                rockID.Add(data[ofs++]);
+            }
+            ofs++;
+            ofs += 0x16; // jump over GetTreeMons
+
+            // Read ptr table
+            int[] ptr = new int[data.Length == 0x109 ? 6 : 9]; // GS : C
+            for (int i = 0; i < ptr.Length; i++)
+                ptr[i] = data[ofs++] | (data[ofs++] << 8);
+
+            int baseOffset = ptr.Min() - ofs;
+
+            // Read Tables
+            for (int i = 0; i < head.Count; i++)
+            {
+                int o = ptr[headID[i]] - baseOffset;
+                head[i].Slots = getSlots2_H(data, ref o, SlotType.Headbutt);
+            }
+            for (int i = 0; i < rock.Count; i++)
+            {
+                int o = ptr[rockID[i]] - baseOffset;
+                rock[i].Slots = getSlots2_H(data, ref o, SlotType.Rock_Smash);
+            }
+
+            return head.Concat(rock);
         }
 
         /// <summary>
@@ -287,7 +366,12 @@ namespace PKHeX.Core
         public static EncounterArea[] getArray2_F(byte[] data)
         {
             int ofs = 0;
-            return getAreas2_F(data, ref ofs, SlotType.Any).ToArray();
+            return getAreas2_F(data, ref ofs).ToArray();
+        }
+        public static EncounterArea[] getArray2_H(byte[] data)
+        {
+            int ofs = 0;
+            return getAreas2_H(data, ref ofs).ToArray();
         }
 
         public static EncounterArea[] getArray(byte[][] entries)

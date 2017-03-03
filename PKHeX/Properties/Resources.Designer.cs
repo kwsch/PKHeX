@@ -12505,9 +12505,29 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] encounter_crystal_h {
+            get {
+                object obj = ResourceManager.GetObject("encounter_crystal_h", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] encounter_gold {
             get {
                 object obj = ResourceManager.GetObject("encounter_gold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_gold_h {
+            get {
+                object obj = ResourceManager.GetObject("encounter_gold_h", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -12578,6 +12598,16 @@ namespace PKHeX.Core.Properties {
         public static byte[] encounter_silver {
             get {
                 object obj = ResourceManager.GetObject("encounter_silver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_silver_h {
+            get {
+                object obj = ResourceManager.GetObject("encounter_silver_h", resourceCulture);
                 return ((byte[])(obj));
             }
         }

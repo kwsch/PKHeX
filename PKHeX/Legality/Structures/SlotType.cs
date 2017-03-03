@@ -18,5 +18,6 @@
         Special,
         SOS,
         Swarm,
+        Headbutt,
     }
 }

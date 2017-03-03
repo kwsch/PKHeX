@@ -767,11 +767,10 @@ namespace PKHeX.Core
         /// <param name="Destination"><see cref="PKM"/> that receives property values.</param>
         protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
-            var SourceProperties = ReflectUtil.getPropertiesCanWritePublic(Source.GetType());
-            var DestinationProperties = ReflectUtil.getPropertiesCanWritePublic(Destination.GetType());
-
-            // Skip Data property when applying all individual properties. Let the setters do the updates for Data.
-            foreach (string property in SourceProperties.Intersect(DestinationProperties).Where(prop => prop != nameof(Data)))
+            // Only transfer declared properties not defined in PKM.cs but in the actual type
+            var SourceProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Source.GetType());
+            var DestinationProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Destination.GetType());
+            foreach (string property in SourceProperties.Intersect(DestinationProperties))
             {
                 var prop = ReflectUtil.GetValue(this, property);
                 if (prop != null)

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace PKHeX.Core
 {
-    public static partial class ReflectUtil
+    public static class ReflectUtil
     {
         public static bool GetValueEquals(object obj, string propertyName, object value)
         {
@@ -27,15 +27,21 @@ namespace PKHeX.Core
             return pi.GetValue(obj, null);
         }
 
-        public static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix)
+        public static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix, BindingFlags flags = BindingFlags.Default)
         {
-            return type.GetProperties()
+            return type.GetProperties(flags)
                 .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
                 .Select(p => p.Name);
         }
-        public static IEnumerable<string> getPropertiesCanWritePublic(Type type)
+        public static IEnumerable<string> getPropertiesCanWritePublic(Type type, BindingFlags flags = BindingFlags.Default)
         {
-            return type.GetProperties().Where(p => p.CanWrite && p.GetSetMethod(nonPublic: true).IsPublic).Select(p => p.Name);
+            return type.GetProperties(flags)
+                .Where(p => p.CanWrite && p.GetSetMethod(nonPublic: true).IsPublic)
+                .Select(p => p.Name);
+        }
+        public static IEnumerable<string> getPropertiesCanWritePublicDeclared(Type type)
+        {
+            return getPropertiesCanWritePublic(type, BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         }
         public static bool HasProperty(this Type type, string name)
         {
