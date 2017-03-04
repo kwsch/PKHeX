@@ -565,11 +565,16 @@ namespace PKHeX.Core
         {
             if (BoxEnd < 0)
                 BoxEnd = BoxCount;
+
+            var blank = BlankPKM.EncryptedBoxData;
+            if (this is SAV3RSBox)
+                Array.Resize(ref blank, blank.Length + 4); // 00000 TID/SID at end
+
             for (int i = BoxStart; i < BoxEnd; i++)
             {
                 int offset = getBoxOffset(i);
                 for (int p = 0; p < BoxSlotCount; p++)
-                    setStoredSlot(BlankPKM, offset + SIZE_STORED * p);
+                    setData(blank, offset + SIZE_STORED * p);
             }
         }
 

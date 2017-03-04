@@ -2817,7 +2817,6 @@ namespace PKHeX.WinForms
             if (cb == null) 
                 return;
             
-            cb.SelectionLength = 0;
             if (cb.Text == "")
             { cb.SelectedIndex = 0; return; }
             if (cb.SelectedValue == null)
