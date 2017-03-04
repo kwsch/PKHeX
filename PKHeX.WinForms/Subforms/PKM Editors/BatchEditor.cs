@@ -50,6 +50,7 @@ namespace PKHeX.WinForms
         private readonly PKM pkmref;
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
+        private const string CONST_RANDSHINY = "$randshiny";
         private const string CONST_SUGGEST = "$suggest";
 
         private const string PROP_LEGAL = "Legal";
@@ -498,6 +499,8 @@ namespace PKHeX.WinForms
                 PKM.EncryptionConstant = PKM.PID;
             else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
                 PKM.setShinyPID();
+            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_RANDSHINY)
+                if (PKM.IsShiny) PKM.setShinyPID(); else PKM.setPIDGender(PKM.Gender);
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
                 PKM.Data = new byte[PKM.Data.Length];
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
