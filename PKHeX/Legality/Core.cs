@@ -430,7 +430,7 @@ namespace PKHeX.Core
             switch (gameSource)
             {
                 case GameVersion.RBY:
-                    return getValidEncounterTradeVC1(pkm, p);
+                    return getValidEncounterTradeVC1(pkm, p, TradeGift_RBY);
                 case GameVersion.GSC:
                     return getValidEncounterTradeVC2(pkm, p);
                 default:
@@ -439,24 +439,36 @@ namespace PKHeX.Core
         }
         private static EncounterTrade getValidEncounterTradeVC2(PKM pkm, DexLevel[] p)
         {
-            var z = TradeGift_GSC.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
-            if (z == null)
-                return null;
+            // Check RBY trades with loosened level criteria.
+            var z = getValidEncounterTradeVC1(pkm, p, TradeGift_RBY_2);
+            if (z != null)
+                return z;
+
+            // Check GSC trades. Reuse generic table fetch-match
+            z = getValidEncounterTradeVC1(pkm, p, TradeGift_GSC);
 
             // Filter Criteria
-            for (int i = 0; i < 6; i++)
-                if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
-                    return null;
-
+            if (z?.Gender != pkm.Gender)
+                return null;
             if (z.TID != pkm.TID)
                 return null;
-
+            if (!z.IVs.SequenceEqual(pkm.IVs))
+                return null;
+            if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != z.Location)
+                return null;
+            
+            int index = Array.IndexOf(TradeGift_GSC, z);
+            if (TradeGift_GSC_OTs[index].All(ot => ot != pkm.OT_Name))
+                return null;
+            
             return z;
         }
-        private static EncounterTrade getValidEncounterTradeVC1(PKM pkm, DexLevel[] p)
+        private static EncounterTrade getValidEncounterTradeVC1(PKM pkm, DexLevel[] p, EncounterTrade[] table)
         {
-            var z = TradeGift_RBY.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
-            if (z?.Level > pkm.CurrentLevel) // minimum required level
+            var z = table.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
+            if (z == null)
+                return null;
+            if (z.Level > pkm.CurrentLevel) // minimum required level
                 return null;
             return z;
         }

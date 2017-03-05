@@ -53,11 +53,74 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterStatic[] Encounter_GSC =
         {
-            // todo
+            new EncounterStatic { Species = 152, Level = 05, Version = GameVersion.GSC }, // Chikorita @ New Bark Town
+            new EncounterStatic { Species = 155, Level = 05, Version = GameVersion.GSC }, // Cyndaquil @ New Bark Town
+            new EncounterStatic { Species = 158, Level = 05, Version = GameVersion.GSC }, // Totodile @ New Bark Town
+            
+            new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC }, // Togepi
+            new EncounterStatic { Species = 131, Level = 20, Version = GameVersion.GSC }, // Lapras @ Union Cave
+            new EncounterStatic { Species = 133, Level = 20, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
+            
+            new EncounterStatic { Species = 185, Level = 20, Version = GameVersion.GSC }, // Sudowoodo @ Route 36
+            new EncounterStatic { Species = 213, Level = 15, Version = GameVersion.GSC }, // Shuckle @ Cianwood City
+            new EncounterStatic { Species = 236, Level = 10, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
+            
+            new EncounterStatic { Species = 130, Level = 30, Version = GameVersion.GSC, Shiny = true, }, // Gyarados @ Lake of Rage
+            new EncounterStatic { Species = 074, Level = 21, Version = GameVersion.GSC }, // Geodude @ Rocket Hideout
+            new EncounterStatic { Species = 109, Level = 21, Version = GameVersion.GSC }, // Koffing @ Rocket Hideout
+            new EncounterStatic { Species = 100, Level = 23, Version = GameVersion.GSC }, // Voltorb @ Rocket Hideout
+            new EncounterStatic { Species = 101, Level = 23, Version = GameVersion.GSC }, // Electrode @ Rocket Hideout
+            new EncounterStatic { Species = 143, Level = 50, Version = GameVersion.GSC }, // Snorlax @ Vermillion City
+            new EncounterStatic { Species = 243, Level = 40, Version = GameVersion.GSC }, // Raikou
+            new EncounterStatic { Species = 244, Level = 40, Version = GameVersion.GSC }, // Entei
+            new EncounterStatic { Species = 245, Level = 40, Version = GameVersion.GS }, // Suicune
+            new EncounterStatic { Species = 245, Level = 40, Version = GameVersion.C }, // Suicune @ Tin Tower
+            
+            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Pichu Dizzy Punch
+            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Cleffa Dizzy Punch
+            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Igglybuff Dizzy Punch
+            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Tyrogue Dizzy Punch
+            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Smoochum Dizzy Punch
+            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Elekid Dizzy Punch
+            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Magby Dizzy Punch
+            
+            new EncounterStatic { Species = 147, Level = 40, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
+
+            new EncounterStatic { Species = 249, Level = 70, Version = GameVersion.GD }, // Lugia @ Whirl Islands
+            new EncounterStatic { Species = 249, Level = 40, Version = GameVersion.SV }, // Lugia @ Whirl Islands
+            new EncounterStatic { Species = 249, Level = 60, Version = GameVersion.C }, // Lugia @ Whirl Islands
+            
+            new EncounterStatic { Species = 250, Level = 40, Version = GameVersion.GD }, // Ho-Oh @ Tin Tower
+            new EncounterStatic { Species = 250, Level = 70, Version = GameVersion.SV }, // Ho-Oh @ Tin Tower
+            new EncounterStatic { Species = 250, Level = 60, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
+            
+            new EncounterStatic { Species = 251, Level = 30, Version = GameVersion.SPECIAL }, // Celebi @ Ilex Forest
         };
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
-            // todo
+            new EncounterTrade { Species = 095, Level = 03, Gender = 0, Location = 06, TID = 48926, IVs = new[] {08, 09, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
+            new EncounterTrade { Species = 066, Level = 05, Gender = 1, Location = 16, TID = 37460, IVs = new[] {12, 03, 07, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
+            new EncounterTrade { Species = 100, Level = 05, Gender = 2, Location = 27, TID = 29189, IVs = new[] {08, 09, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
+            new EncounterTrade { Species = 112, Level = 30, Gender = 1, Location = 41, TID = 00283, IVs = new[] {12, 07, 07, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [blue jp game corner]
+            new EncounterTrade { Species = 142, Level = 05, Gender = 0, Location = 76, TID = 26491, IVs = new[] {08, 09, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
+            new EncounterTrade { Species = 078, Level = 14, Gender = 0, Location = 51, TID = 15616, IVs = new[] {08, 09, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
+
+            new EncounterTrade { Species = 085, Level = 30, Gender = 1, Location = 41, TID = 00283, IVs = new[] {12, 07, 07, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [blue jp game corner]
+            new EncounterTrade { Species = 178, Level = 15, Gender = 0, Location = 51, TID = 15616, IVs = new[] {08, 09, 06, 08, 06} }, // Xatu @ Pewter City for Haunter [wild]
+            new EncounterTrade { Species = 082, Level = 16, Gender = 2, Location = 68, TID = 50082, IVs = new[] {08, 09, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [wild]
+        };
+        internal static readonly string[][] TradeGift_GSC_OTs =
+        {
+            new[] { "コンタ", "KYLE" },
+            new[] { "ナオキ", "MIKE" },
+            new[] { "ゲン", "TIM" },
+            new[] { "ミサコ", "EMY" },
+            new[] { "キヨミ", "KIM" },
+            new[] { "デンジ", "CHRIS" },
+
+            new[] { "ミサコ", "EMY" },
+            new[] { "デンジ", "CHRIS" },
+            new[] { "モリオ", "FOREST" },
         };
         internal static readonly int[] UnreleasedItems_2 =
         {
