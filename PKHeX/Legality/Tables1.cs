@@ -108,7 +108,7 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_RBY =
         {
             // Species & Minimum level (legal) possible to acquire at.
-            new EncounterTrade { Species = 122, Level = 06 }, // Mr. Mime - Game Corner Abra
+          //new EncounterTrade { Species = 122, Level = 06 }, // Mr. Mime - Game Corner Abra
             new EncounterTrade { Species = 032, Level = 02 }, // Nidoran♂ - Wild Nidoran♀
             new EncounterTrade { Species = 029, Level = 02 }, // Nidoran♀ - Wild Nidoran♂
             new EncounterTrade { Species = 030, Level = 16 }, // Nidorina - Evolve Nidorino
@@ -119,7 +119,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 114, Level = 13 }, // Tangela - Wild Venonat (GSC: 5)
             new EncounterTrade { Species = 086, Level = 28 }, // Seel - Wild Ponyta (GSC: 6)
             
-          //new EncounterTrade { Species = 122, Level = 03 }, // Mr. Mime - Wild Jigglypuff
+            new EncounterTrade { Species = 122, Level = 03 }, // Mr. Mime - Wild Jigglypuff
             new EncounterTrade { Species = 060, Level = 02 }, // Poliwag - Wild Rattata
             new EncounterTrade { Species = 115, Level = 42 }, // Kangaskhan - Evolve Rhydon (GSC: 30)
             new EncounterTrade { Species = 128, Level = 28 }, // Tauros - Evolve Persian (GSC: 18)
@@ -136,6 +136,38 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 112, Level = 15 }, // Rhydon - Surf Golduck (GSC: 10)
             new EncounterTrade { Species = 087, Level = 15 }, // Dewgong - Wild Growlithe (GSC: 5)
             new EncounterTrade { Species = 089, Level = 25 }, // Muk - Wild Kangaskhan (GSC: 14)
+        };
+        internal static readonly EncounterTrade[] TradeGift_RBY_2 =
+        {
+            // Trade gifts that can be obtained at a lower level due to the requested Pokémon being a lower level in GSC
+          //new EncounterTrade { Species = 122, Level = 06 }, // Mr. Mime - Game Corner Abra
+          //new EncounterTrade { Species = 032, Level = 02 }, // Nidoran♂ - Wild Nidoran♀
+          //new EncounterTrade { Species = 029, Level = 02 }, // Nidoran♀ - Wild Nidoran♂
+          //new EncounterTrade { Species = 030, Level = 16 }, // Nidorina - Evolve Nidorino
+          //new EncounterTrade { Species = 108, Level = 15 }, // Lickitung - Surf Slowbro
+            new EncounterTrade { Species = 124, Level = 10 }, // Jynx - Fish Poliwhirl (RBY: 15)
+          //new EncounterTrade { Species = 083, Level = 02 }, // Farfetch’d - Wild Spearow
+          //new EncounterTrade { Species = 101, Level = 03 }, // Electrode - Wild Raichu
+            new EncounterTrade { Species = 114, Level = 13 }, // Tangela - Wild Venonat (RBY: 5)
+            new EncounterTrade { Species = 086, Level = 06 }, // Seel - Wild Ponyta (RBY: 28)
+            
+          //new EncounterTrade { Species = 122, Level = 03 }, // Mr. Mime - Wild Jigglypuff
+          //new EncounterTrade { Species = 060, Level = 02 }, // Poliwag - Wild Rattata
+            new EncounterTrade { Species = 115, Level = 30 }, // Kangaskhan - Evolve Rhydon (RBY: 42)
+            new EncounterTrade { Species = 128, Level = 18 }, // Tauros - Evolve Persian (RBY: 28)
+            new EncounterTrade { Species = 093, Level = 10 }, // Haunter - Trade Machoke (RBY: 20)
+          //new EncounterTrade { Species = 083, Level = 02 }, // Farfetch’d - Wild Pidgey
+            new EncounterTrade { Species = 075, Level = 15 }, // Graveler - Evolve Kadabra (RBY: 16)
+          //new EncounterTrade { Species = 079, Level = 22 }, // Slowpoke - Wild Seel
+            new EncounterTrade { Species = 098, Level = 05 }, // Krabby - Wild Growlithe (RBY: 15)
+            
+          //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (RBY: 6)
+            new EncounterTrade { Species = 067, Level = 10 }, // Machoke - Wild Cubone (RBY: 20)
+          //new EncounterTrade { Species = 051, Level = 15 }, // Dugtrio - Trade Lickitung
+          //new EncounterTrade { Species = 047, Level = 13 }, // Parasect - Trade Tangela
+            new EncounterTrade { Species = 112, Level = 10 }, // Rhydon - Surf Golduck (RBY: 15)
+            new EncounterTrade { Species = 087, Level = 05 }, // Dewgong - Wild Growlithe (RBY: 15)
+            new EncounterTrade { Species = 089, Level = 14 }, // Muk - Wild Kangaskhan (RBY: 25)
         };
         internal static readonly EncounterArea FishOldGood_RBY = new EncounterArea { Location = -1, Slots = new EncounterSlot[]
         {
