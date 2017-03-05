@@ -111,27 +111,27 @@ namespace PKHeX.Core
         {
             get
             {
-                string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-                spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+                string spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
                 return !nick.SequenceEqual(
                         PKX.setG1Str(spName, Japanese)
                             .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1))
                             .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)));
             }
-            set { }
+            set 
+            {
+                if (!value)
+                    setNotNicknamed();
+            }
         }
-
         public void setNotNicknamed()
         {
-            string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-            spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+            string spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
             nick = PKX.setG1Str(spName, Japanese)
                       .Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1))
                       .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)) // Decimal point<->period fix
                       .ToArray();
         }
-
-
+        
         #region Stored Attributes
         public override int Species
         {
@@ -228,14 +228,15 @@ namespace PKHeX.Core
         {
             int gv = PersonalInfo.Gender;
 
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 1;
-            if (gv == 0)
-                return Gender == 0;
             switch (gv)
             {
+                case 255:
+                    return Gender == 2;
+                case 254:
+                    return Gender == 1;
+                case 0:
+                    return Gender == 0;
+
                 case 31:
                     return IV_ATK >= 2 ? Gender == 0 : Gender == 1;
                 case 63:
@@ -304,12 +305,15 @@ namespace PKHeX.Core
             set{ }
         }
 
+        private int HPVal => getHiddenPowerBitVal(new[] {IV_SPC, IV_SPE, IV_DEF, IV_ATK});
+        public override int HPPower => (5 * HPVal + IV_SPC % 4) / 2 + 31;
         public override int HPType
         {
             get { return ((IV_ATK & 3) << 2) | (IV_DEF & 3); }
             set
             {
-
+                IV_DEF = ((IV_DEF >> 2) << 2) | (value & 3);
+                IV_DEF = ((IV_ATK >> 2) << 2) | ((value >> 2) & 3);
             }
         }
         public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
