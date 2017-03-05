@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/02/25 - New Update:
+17/03/05 - New Update:
+ - Legality:
+ - - Added: Legality checking for GSC Pokémon as pk2 (as well as traded pk1).
+ - - Added: Held Item availability checks for Gen7 format files.
+ - - Fixed: More edge cases for legality checks.
+ - Added: Control-Click the current level textbox to set to level 100. Thanks RoC!
+ - Added: Legality column to Report's data table.
+ - Added: Gen7: 50+ trainer stat records have been identified. Thanks tastymeatball!
+ - Added: Gen7: Vivillon Form editing for Sun/Moon (via Trainer Editor)
+ - Added: Gen3: Version detection prompt can be forced to appear by holding control when opening the file.
+ - Added: Gen3: PCItem pouch can now be edited via the Inventory Editor.
+ - Fixed: Gen7: Free Space index is now treated correctly. Thanks pokecal!
+ - Fixed: Gen6: Complete Pokédex button now sets the correct seen flags for single gender species.
+ - Fixed: Gen5->6 trash bytes are kept on transfer. Thanks Sabresite!
+ - Fixed: Gen3/4: GameCube/Wii format (xk3/ck3/bk4) transfers no longer incorrectly transfer IVs.
+ - Fixed: Gen2: Money/Coin editing now shows the correct value.
+ - Fixed: Gen2: Hidden Power type calculation now calculates the correct type. Thanks SciresM!
+ - Fixed: Editing Pumpkaboo forms with the PKHeX German Language translation no longer throw errors.
+ - Fixed: Importing a shiny showdown from a tab other than Main now sets the shiny status correctly.
+
+17/02/25 - New Update: (28838) [389066]
  - Legality:
  - - Added: Legality checking for RBY Pokémon as pk1 and pk7+.
  - - Fixed: More edge cases for legality checks.
