@@ -1912,7 +1912,7 @@ namespace PKHeX.WinForms
         }
         private void clickMoves(object sender, EventArgs e)
         {
-            updateLegality();
+            updateLegality(skipMoveRepop:true);
             if (sender == GB_CurrentMoves)
             {
                 bool random = ModifierKeys == Keys.Control;
@@ -1969,7 +1969,7 @@ namespace PKHeX.WinForms
                 return;
 
             pkm = preparePKM();
-            updateLegality();
+            updateLegality(skipMoveRepop:true);
             if (Legality.Valid)
                 return;
 
@@ -2950,6 +2950,7 @@ namespace PKHeX.WinForms
                 var index = WinFormsUtil.getIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
                 c.SelectedValue = index;
+                c.SelectionLength = 0; // flicker hack
             }
             fieldsLoaded |= tmp;
         }
