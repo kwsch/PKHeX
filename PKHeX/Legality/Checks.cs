@@ -916,6 +916,15 @@ namespace PKHeX.Core
                 }
                 if (pkm.GenNumber == 6)
                 {
+                    if (EncounterIsMysteryGift)
+                    {
+                        var wc = EncounterMatch as WC6;
+                        var type = wc?.AbilityType;
+                        if (type < 3 && pkm.AbilityNumber != 1 << type) // set number
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                        else if (type == 3 && pkm.AbilityNumber == 4) // 1/2 only
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                    }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
                     {
                         var slots = (EncounterSlot[])EncounterMatch;
@@ -932,6 +941,15 @@ namespace PKHeX.Core
                 }
                 if (pkm.GenNumber == 7)
                 {
+                    if (EncounterIsMysteryGift)
+                    {
+                        var wc = EncounterMatch as WC7;
+                        var type = wc?.AbilityType;
+                        if (type < 3 && pkm.AbilityNumber != 1 << type) // set number
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                        else if (type == 3 && pkm.AbilityNumber == 4) // 1/2 only
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                    }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
                     {
                         var slots = (EncounterSlot[])EncounterMatch;
