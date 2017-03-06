@@ -167,7 +167,7 @@ namespace PKHeX.WinForms
             langbools[6, species - 1] = CHK_L7.Checked;
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.getDexFormIndexORAS(species, fc);
+            int f = SAV.B2W2 ? SaveUtil.getDexFormIndexB2W2(species, fc) : SaveUtil.getDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
 
