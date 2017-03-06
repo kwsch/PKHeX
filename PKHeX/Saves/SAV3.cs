@@ -104,6 +104,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0640;
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
                     Personal = PersonalTable.RS;
+                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
@@ -114,6 +115,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     Personal = PersonalTable.FR;
+                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
@@ -124,6 +126,7 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     Personal = PersonalTable.E;
+                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     break;
             }
             LegalItems = Legal.Pouch_Items_RS;
@@ -464,44 +467,82 @@ namespace PKHeX.Core
             return PKX.decryptArray3(data);
         }
 
+        // Pokédex
+        private readonly int[] SeenFlagOffsets;
+        public override bool HasPokeDex => true;
         protected override void setDex(PKM pkm)
         {
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > MaxSpeciesID)
-                return;
-            if (Version == GameVersion.Unknown)
-                return;
-            if (BlockOfs.Any(z => z < 0))
+            int species = pkm.Species;
+            if (!canSetDex(species))
                 return;
             
-            int bit = pkm.Species - 1;
-            int ofs = bit/8;
-            byte bitval = (byte)(1 << (bit%8));
+            setCaught(pkm.Species, true);
+            setSeen(pkm.Species, true);
+        }
+        private bool canSetDex(int species)
+        {
+            if (species == 0)
+                return false;
+            if (species > MaxSpeciesID)
+                return false;
+            if (Version == GameVersion.Unknown)
+                return false;
+            if (BlockOfs.Any(z => z < 0))
+                return false;
+            return true;
+        }
+        private bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int ofs = bit / 8;
+            byte bitval = (byte) (1 << (bit&7));
 
-            // Set the Captured Flag
-            Data[BlockOfs[0] + 0x28 + ofs] |= bitval;
+            int caughtOffset = BlockOfs[0] + 0x28 + ofs;
 
-            // Set the Seen Flag
-            Data[BlockOfs[0] + 0x5C + ofs] |= bitval;
+            return (Data[caughtOffset] & bitval) != 0;
+        }
+        private void setCaught(int species, bool caught)
+        {
+            int bit = species - 1;
+            int ofs = bit / 8;
+            int bitval = caught ? 1 << (bit&7) : 0;
+            int caughtOffset = BlockOfs[0] + 0x28 + ofs;
 
-            // Set the two other Seen flags (mirrored)
-            switch (Version)
+            if (caught)
+                Data[caughtOffset] |= (byte)bitval;
+            else
+                Data[caughtOffset] &= (byte)~bitval;
+        }
+        private bool getSeen(int species)
+        {
+            int bit = species - 1;
+            int ofs = bit / 8;
+            byte bitval = (byte)(1 << (bit&7));
+
+            int seenOffset = BlockOfs[0] + 0x5C + ofs;
+            return (Data[seenOffset] & bitval) != 0;
+        }
+        private void setSeen(int species, bool seen)
+        {
+            int bit = species - 1;
+            int ofs = bit / 8;
+            int bitval = seen ? 1 << (bit&7) : 0;
+
+            if (seen)
             {
-                case GameVersion.RS:
-                    Data[BlockOfs[1] + 0x938 + ofs] |= bitval;
-                    Data[BlockOfs[4] + 0xC0C + ofs] |= bitval;
-                    break;
-                case GameVersion.E:
-                    Data[BlockOfs[1] + 0x988 + ofs] |= bitval;
-                    Data[BlockOfs[4] + 0xCA4 + ofs] |= bitval;
-                    break;
-                case GameVersion.FRLG:
-                    Data[BlockOfs[1] + 0x5F8 + ofs] |= bitval;
-                    Data[BlockOfs[4] + 0xB98 + ofs] |= bitval;
-                    break;
+                for (int i = 0; i < 3; i++)
+                    Data[SeenFlagOffsets[i] + ofs] |= (byte)bitval;
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                    Data[SeenFlagOffsets[i] + ofs] &= (byte) ~bitval;
             }
         }
+        public override bool getCaught(PKM pkm) => getCaught(pkm.Species);
+        public override void setCaught(PKM pkm, bool caught = true) => setCaught(pkm.Species, caught);
+        public override bool getSeen(PKM pkm) => getSeen(pkm.Species);
+        public override void setSeen(PKM pkm, bool seen = true) => setSeen(pkm.Species, seen);
 
         public bool NationalDex
         {

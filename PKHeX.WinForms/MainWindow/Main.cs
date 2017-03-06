@@ -3979,6 +3979,8 @@ namespace PKHeX.WinForms
                 new SAV_PokedexXY().ShowDialog();
             else if (SAV.RBY || SAV.GSC)
                 new SAV_SimplePokedex().ShowDialog();
+            else if (SAV.RS || SAV.E || SAV.FRLG)
+                new SAV_SimplePokedex().ShowDialog();
             else if (SAV.SM)
                 new SAV_PokedexSM().ShowDialog();
         }
