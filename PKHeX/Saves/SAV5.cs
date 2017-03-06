@@ -358,9 +358,9 @@ namespace PKHeX.Core
         private const int wcSeed = 0x1D290;
 
         public readonly int CGearInfoOffset, CGearDataOffset;
-        private readonly int Trainer2, AdventureInfo, PokeDexLanguageFlags;
+        private readonly int Trainer2, AdventureInfo;
+        public readonly int PokeDexLanguageFlags;
         public override bool HasBoxWallpapers => false;
-        public override bool HasPokeDex => false;
 
         // Daycare
         public override int DaycareSeedSize => 16;
@@ -623,26 +623,28 @@ namespace PKHeX.Core
             int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
+            int shift = shiny*2 + gender + 1;
             int shiftoff = shiny * brSize * 2 + gender * brSize + brSize;
+            int ofs = PokeDex + 0x8 + (bit >> 3);
 
             // Set the Species Owned Flag
-            Data[PokeDex + 0x8 + bit / 8] |= (byte)(1 << (bit % 8));
+            Data[ofs + brSize*0] |= (byte)(1 << (bit % 8));
 
             // Set the [Species/Gender/Shiny] Seen Flag
-            Data[PokeDex + 0x8 + shiftoff + bit / 8] |= (byte)(1 << (bit % 8));
+            Data[PokeDex + 0x8 + shiftoff + bit / 8] |= (byte)(1 << (bit&7));
 
             // Set the Display flag if none are set
             bool Displayed = false;
-            Displayed |= (Data[PokeDex + 0x8 + brSize*5 + bit/8] & (byte)(1 << (bit%8))) != 0;
-            Displayed |= (Data[PokeDex + 0x8 + brSize*6 + bit/8] & (byte)(1 << (bit%8))) != 0;
-            Displayed |= (Data[PokeDex + 0x8 + brSize*7 + bit/8] & (byte)(1 << (bit%8))) != 0;
-            Displayed |= (Data[PokeDex + 0x8 + brSize*8 + bit/8] & (byte)(1 << (bit%8))) != 0;
+            Displayed |= (Data[ofs + brSize*5] & (byte)(1 << (bit&7))) != 0;
+            Displayed |= (Data[ofs + brSize*6] & (byte)(1 << (bit&7))) != 0;
+            Displayed |= (Data[ofs + brSize*7] & (byte)(1 << (bit&7))) != 0;
+            Displayed |= (Data[ofs + brSize*8] & (byte)(1 << (bit&7))) != 0;
             if (!Displayed) // offset is already biased by brSize, reuse shiftoff but for the display flags.
-                Data[PokeDex + 0x8 + shiftoff + brSize*4 + bit/8] |= (byte)(1 << (bit%8));
+                Data[ofs + brSize*(shift + 4)] |= (byte)(1 << (bit&7));
 
             // Set the Language
             if (lang < 0) lang = 1;
-            Data[PokeDexLanguageFlags + (bit*7 + lang) / 8] |= (byte)(1 << ((bit*7 + lang) % 8));
+            Data[PokeDexLanguageFlags + ((bit*7 + lang)>>3)] |= (byte)(1 << ((bit*7 + lang) & 7));
 
             // Formes
             int fc = Personal[pkm.Species].FormeCount;
@@ -654,19 +656,19 @@ namespace PKHeX.Core
             bit = f + pkm.AltForm;
 
             // Set Form Seen Flag
-            Data[FormDex + FormLen*shiny + bit/8] |= (byte)(1 << (bit%8));
+            Data[FormDex + FormLen*shiny + (bit>>3)] |= (byte)(1 << (bit&7));
 
             // Set Displayed Flag if necessary, check all flags
             for (int i = 0; i < fc; i++)
             {
                 bit = f + i;
-                if ((Data[FormDex + FormLen*2 + bit/8] & (byte)(1 << (bit%8))) != 0) // Nonshiny
+                if ((Data[FormDex + FormLen*2 + (bit>>3)] & (byte)(1 << (bit&7))) != 0) // Nonshiny
                     return; // already set
-                if ((Data[FormDex + FormLen*3 + bit/8] & (byte)(1 << (bit%8))) != 0) // Shiny
+                if ((Data[FormDex + FormLen*3 + (bit>>3)] & (byte)(1 << (bit&7))) != 0) // Shiny
                     return; // already set
             }
             bit = f + pkm.AltForm;
-            Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
+            Data[FormDex + FormLen * (2 + shiny) + (bit>>3)] |= (byte)(1 << (bit&7));
         }
     }
 }
