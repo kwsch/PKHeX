@@ -27,13 +27,13 @@ namespace PKHeX.Core
             return pi.GetValue(obj, null);
         }
 
-        public static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix, BindingFlags flags = BindingFlags.Default)
+        public static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
         {
             return type.GetProperties(flags)
                 .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
                 .Select(p => p.Name);
         }
-        public static IEnumerable<string> getPropertiesCanWritePublic(Type type, BindingFlags flags = BindingFlags.Default)
+        public static IEnumerable<string> getPropertiesCanWritePublic(Type type, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
         {
             return type.GetProperties(flags)
                 .Where(p => p.CanWrite && p.GetSetMethod(nonPublic: true).IsPublic)
