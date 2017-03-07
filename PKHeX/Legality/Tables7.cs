@@ -1336,7 +1336,6 @@ namespace PKHeX.Core
             669, // Tyranitarite
             674, // Abomasite
             680, // Heracronite
-            681, // Mawilite
             682, // Manectite
             684, // Latiasite
             685, // Latiosite
@@ -1353,7 +1352,6 @@ namespace PKHeX.Core
             764, // Diancite
             767, // Cameruptite
             768, // Lopunnite
-            770, // Beeddrillite
             802, // Marshadium Z
             836, // Pikashunium Z
         };
