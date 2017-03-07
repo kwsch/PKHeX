@@ -3983,9 +3983,12 @@ namespace PKHeX.WinForms
                     if (SAV.GameCube)
                         return;
                     new SAV_SimplePokedex().ShowDialog(); break;
+                case 4:
+                    if (SAV is SAV4BR)
+                        return;
+                    new SAV_Pokedex4().ShowDialog(); break;
                 case 5:
-                    new SAV_Pokedex5().ShowDialog();
-                    break;
+                    new SAV_Pokedex5().ShowDialog(); break;
                 case 6:
                     if (SAV.ORAS)
                         new SAV_PokedexORAS().ShowDialog();
