@@ -103,7 +103,7 @@ namespace PKHeX.WinForms
                 return null;
 
             bool isBoxBGRed = false;
-            if (SAV.Generation == 7 || SAV.Generation == 6)
+            if (pkm.Species != 0 && slot >= 0 && slot < 30 && (SAV.Generation == 7 || SAV.Generation == 6))
             {
                 switch (SAV.getBoxWallpaper(box))
                 {
