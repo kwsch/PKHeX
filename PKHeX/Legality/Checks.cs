@@ -214,7 +214,7 @@ namespace PKHeX.Core
                     }
                     else // Gen2
                     {
-                        AddLine(Severity.Valid, "Ingame Trade for GSC not implemented.", CheckIdentifier.Trainer);
+                        return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
                     }
                     return;
                 }

@@ -1648,7 +1648,7 @@ namespace PKHeX.Core
             switch (generation)
             {
                 case 2:
-                    moves.AddRange(Tutor_GSC.Where((t, i) => PersonalTable.C[species].TMHM[57 + i]));
+                    moves.AddRange(Tutors_GSC.Where((t, i) => PersonalTable.C[species].TMHM[57 + i]));
                     goto case 1;
                 case 1:
                     if (pkm.Format < 3 && (pkm.Species == 25 || pkm.Species == 26)) // Surf Pikachu via Stadium

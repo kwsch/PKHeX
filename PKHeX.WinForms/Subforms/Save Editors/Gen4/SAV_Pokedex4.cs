@@ -126,7 +126,7 @@ namespace PKHeX.WinForms
 
             string[] formNames = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms,
                 Main.gendersymbols, 4);
-            var seen = forms.Where(z => z != 0xFF).Select((v, i) => formNames[forms[i]]).ToArray();
+            var seen = forms.Where(z => (byte)z != 0xFF).Select((v, i) => formNames[forms[i]]).ToArray();
             var not = formNames.Where(z => !seen.Contains(z)).ToArray();
 
             LB_Form.Items.AddRange(seen);
@@ -256,6 +256,8 @@ namespace PKHeX.WinForms
             LB_NForm.Items.AddRange(LB_Form.Items);
             LB_Form.Items.Clear();
             CHK_Seen.Checked = false;
+            foreach (var c in CL)
+                c.Checked = false;
         }
         private void seenAll()
         {
@@ -312,10 +314,14 @@ namespace PKHeX.WinForms
                     CHK_Caught.Checked = false;
                     seenNone();
                 }
-                else
+                else if (LB_NGender.Items.Count > 0)
                 {
-                    LB_NGender.SelectedIndex = 0;
-                    toggleSeen(B_GLeft, e);
+                    int count = LB_NGender.Items.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        LB_NGender.SelectedIndex = 0;
+                        toggleSeen(B_GLeft, e);
+                    }
                 }
             }
             LB_Gender.Enabled = LB_NGender.Enabled = LB_Form.Enabled = LB_NForm.Enabled = CHK_Seen.Checked;
