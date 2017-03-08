@@ -472,8 +472,9 @@ namespace PKHeX.Core
                 return null;
             return z;
         }
-        private static Tuple<object, int> getEncounter12(PKM pkm, GameVersion game)
+        private static Tuple<object, int, byte> getEncounter12(PKM pkm, GameVersion game)
         {
+            // Tuple: Encounter, Level, Preference (higher = more preferred)
             bool WasEgg = game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
             {
@@ -481,6 +482,7 @@ namespace PKHeX.Core
                 if (pkm.Format < 3)
                 {
                     WasEgg &= pkm.Met_Location == 0 || pkm.Met_Level == 1; // 2->1->2 clears met info
+                    WasEgg &= pkm.CurrentLevel >= 5;
                 }
             }
 
@@ -498,20 +500,25 @@ namespace PKHeX.Core
             var sm = s?.Species ?? invalid;
             var em = e?.Min(slot => slot.Species) ?? invalid;
             var tm = t?.Species ?? invalid;
-            if (WasEgg && new[] {sm, em, tm}.Min(a => a) >= 5)
-                return new Tuple<object, int>(true, 5); // egg encounter preferred
 
             if (s != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
-                return new Tuple<object, int>(s, s.Level);
+                return new Tuple<object, int, byte>(s, s.Level, 20); // special move 
+            if (game == GameVersion.GSC)
+            {
+                if (t != null)
+                    return new Tuple<object, int, byte>(t, t.Level, 10); // gen2 trade
+                if (WasEgg && new[] { sm, em, tm }.Min(a => a) >= 5)
+                    return new Tuple<object, int, byte>(true, 5, 9); // gen2 egg
+            }
             if (em <= sm && em <= tm)
-                return new Tuple<object, int>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin));
+                return new Tuple<object, int, byte>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin), 3);
             if (sm <= em && sm <= tm)
-                return new Tuple<object, int>(s, s.Level);
+                return new Tuple<object, int, byte>(s, s.Level, 2);
             if (tm <= sm && tm <= em)
-                return new Tuple<object, int>(t, t.Level);
+                return new Tuple<object, int, byte>(t, t.Level, 1);
             return null;
         }
-        internal static Tuple<object, int> getEncounter12(PKM pkm, bool gen2)
+        internal static Tuple<object, int, byte> getEncounter12(PKM pkm, bool gen2)
         {
             var g1 = getEncounter12(pkm, GameVersion.RBY);
             var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
@@ -519,8 +526,23 @@ namespace PKHeX.Core
             if (g1 == null || g2 == null)
                 return g1 ?? g2;
             
-            // Both generations can provide an encounter. Return lowest level encounter
+            var t = g1.Item1 as EncounterTrade;
+            if (t != null && getEncounterTrade1Valid(pkm, t))
+                return g1;
+
+            // Both generations can provide an encounter. Return highest preference
+            if (g1.Item3 > g2.Item3)
+                return g1;
+            if (g1.Item3 < g2.Item3)
+                return g2;
+            // Return lowest level encounter
             return g1.Item2 < g2.Item2 ? g1 : g2;
+        }
+        internal static bool getEncounterTrade1Valid(PKM pkm, EncounterTrade t)
+        {
+            string ot = pkm.OT_Name;
+            string tr = pkm.Format <= 2 ? "TRAINER" : "Trainer"; // decaps on transfer
+            return ot == "トレーナー" || ot == tr;
         }
         internal static EncounterSlot[] getValidFriendSafari(PKM pkm)
         {
@@ -1625,8 +1647,10 @@ namespace PKHeX.Core
             PersonalInfo info;
             switch (generation)
             {
-                case 1:
                 case 2:
+                    moves.AddRange(Tutor_GSC.Where((t, i) => PersonalTable.C[species].TMHM[57 + i]));
+                    goto case 1;
+                case 1:
                     if (pkm.Format < 3 && (pkm.Species == 25 || pkm.Species == 26)) // Surf Pikachu via Stadium
                         moves.Add(57);
                     break;

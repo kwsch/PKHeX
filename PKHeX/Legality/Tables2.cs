@@ -45,6 +45,7 @@ namespace PKHeX.Core
 
             015, 019, 057, 070, 148, 250, 127
         };
+        internal static readonly int[] Tutor_GSC = {53, 85, 58}; // Flamethrower, Thunderbolt & Ice Beam
         internal static readonly int[] WildPokeBalls2 = { 4 };
 
         internal static readonly int[] FutureEvolutionsGen2 =

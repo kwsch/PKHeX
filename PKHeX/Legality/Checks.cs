@@ -209,9 +209,7 @@ namespace PKHeX.Core
                     var et = EncounterOriginal as EncounterTrade;
                     if (et?.TID == 0) // Gen1 Trade
                     {
-                        string ot = pkm.OT_Name;
-                        string tr = pkm.Format <= 2 ? "TRAINER" : "Trainer"; // decaps on transfer
-                        if (ot != "トレーナー" && ot != tr)
+                        if (!Legal.getEncounterTrade1Valid(pkm, et))
                             AddLine(Severity.Invalid, "Incorrect OT name for RBY in-game trade.", CheckIdentifier.Trainer);
                     }
                     else // Gen2
