@@ -11,7 +11,7 @@ namespace PKHeX.WinForms
             string str = PKX.getBallString(ball);
             return (Image)Resources.ResourceManager.GetObject(str) ?? Resources._ball4; // Poké Ball (default)
         }
-        public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1)
+        public static Image getSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false)
         {
             if (species == 0)
                 return Resources._0;
@@ -35,7 +35,10 @@ namespace PKHeX.WinForms
             if (shiny)
             {
                 // Add shiny star to top left of image.
-                baseImage = ImageUtil.LayerImage(baseImage, Resources.rare_icon, 0, 0, 0.7);
+                if (isBoxBGRed)
+                    baseImage = ImageUtil.LayerImage(baseImage, Resources.rare_icon_alt, 0, 0, 0.7);
+                else
+                    baseImage = ImageUtil.LayerImage(baseImage, Resources.rare_icon, 0, 0, 0.7);
             }
             if (item > 0)
             {
@@ -78,6 +81,10 @@ namespace PKHeX.WinForms
         {
             return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
         }
+        private static Image getSprite(PKM pkm, bool isBoxBGRed)
+        {
+            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
+        }
         private static Image getSprite(SaveFile SAV)
         {
             string file = "tr_00";
@@ -95,7 +102,19 @@ namespace PKHeX.WinForms
             if (!pkm.Valid)
                 return null;
 
-            var sprite = pkm.Species != 0 ? pkm.Sprite() : null;
+            bool isBoxBGRed = false;
+            if (SAV.Generation == 7 || SAV.Generation == 6)
+            {
+                switch (SAV.getBoxWallpaper(box))
+                {
+                    case 5: // Volcano
+                    case 12: // PokeCenter
+                    case 20: // Special5 Flare/Magma
+                        isBoxBGRed = true;
+                        break;
+                }
+            }
+            var sprite = pkm.Species != 0 ? (isBoxBGRed ? pkm.Sprite(true) : pkm.Sprite()) : null;
             if (flagIllegal && slot > -1)
             {
                 pkm.Box = box;
@@ -122,6 +141,7 @@ namespace PKHeX.WinForms
         public static Image Sprite(this MysteryGift gift) => getSprite(gift);
         public static Image Sprite(this SaveFile SAV) => getSprite(SAV);
         public static Image Sprite(this PKM pkm) => getSprite(pkm);
+        public static Image Sprite(this PKM pkm, bool isBoxBGRed) => getSprite(pkm, isBoxBGRed);
         public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
             => getSprite(pkm, SAV, box, slot, flagIllegal);
     }
