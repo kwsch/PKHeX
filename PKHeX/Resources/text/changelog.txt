@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/03/05 - New Update:
+17/03/08 - New Update:
+ - Legality:
+ - - Added: WC6/WC7 ability legality check.
+ - - Added: Gen2 move tutors and remainder of encounter tables.
+ - - Fixed: Gen2 edge cases and enhanced matched encounter determination.
+ - Added: Gen5 Pokedex Editor
+ - Added: Gen4 Pokedex Editor
+ - Added: Gen3 Pokedex Editor
+ - Fixed: Gen3 Egg nickname handling. Thanks Sabresite!
+ - Fixed: Ribbons should now appear in the Ribbons editor.
+ - Changed: Beedrillite and Mawilite removed removed from unreleased items list (now legal).
+ - Changed: Batch Editor Any/All swapped position; red Type color indicates property is not present for tabs pkm.
+
+17/03/05 - New Update: (8420) [397486]
  - Legality:
  - - Added: Legality checking for GSC Pokémon as pk2 (as well as traded pk1).
  - - Added: Held Item availability checks for Gen7 format files.
