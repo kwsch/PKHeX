@@ -851,6 +851,8 @@ namespace PKHeX.Core
             }
 
             int FormOffset1 = PokeDex + 4 + 4*brSize + 4;
+            if (HGSS)
+                FormOffset1 += 0x1C;
             switch (species)
             {
                 case 422: // Shellos

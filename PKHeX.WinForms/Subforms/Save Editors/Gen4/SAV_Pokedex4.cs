@@ -198,10 +198,10 @@ namespace PKHeX.WinForms
             }
 
             var forms = SAV.getForms(species);
-            string[] formNames = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols, 4);
             if (forms != null)
             {
                 int[] arr = new int[LB_Form.Items.Count];
+                string[] formNames = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols, 4);
                 for (int i = 0; i < LB_Form.Items.Count; i++)
                     arr[i] = Array.IndexOf(formNames, (string)LB_Form.Items[i]);
                 SAV.setForms(species, arr);
@@ -321,6 +321,12 @@ namespace PKHeX.WinForms
                     {
                         LB_NGender.SelectedIndex = 0;
                         toggleSeen(B_GLeft, e);
+                    }
+                    int count2 = LB_NForm.Items.Count;
+                    for (int i = 0; i < count2; i++)
+                    {
+                        LB_NForm.SelectedIndex = 0;
+                        toggleForm(B_FLeft, e);
                     }
                 }
             }
