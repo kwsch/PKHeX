@@ -1328,8 +1328,6 @@ namespace PKHeX.Core
             590, // Relic Crown
             657, // Gardevoirite
             658, // Ampharosite
-            662, // Mewtwonite X
-            663, // Mewtwonite Y
             664, // Blazikenite
             665, // Medichamite
             666, // Houndoominite
@@ -1338,7 +1336,6 @@ namespace PKHeX.Core
             669, // Tyranitarite
             674, // Abomasite
             680, // Heracronite
-            681, // Mawilite
             682, // Manectite
             684, // Latiasite
             685, // Latiosite
@@ -1355,7 +1352,6 @@ namespace PKHeX.Core
             764, // Diancite
             767, // Cameruptite
             768, // Lopunnite
-            770, // Beeddrillite
             802, // Marshadium Z
             836, // Pikashunium Z
         };

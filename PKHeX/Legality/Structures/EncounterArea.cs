@@ -122,6 +122,7 @@ namespace PKHeX.Core
                     Slots = getSlots2_GW(data, ref ofs, t, slotSets, slotCount),
                 });
             }
+            ofs++;
             return areas;
         }
         private static IEnumerable<EncounterArea> getAreas2_F(byte[] data, ref int ofs)

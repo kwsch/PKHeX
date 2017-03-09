@@ -18224,6 +18224,16 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rare_icon_alt {
+            get {
+                object obj = ResourceManager.GetObject("rare_icon_alt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ID,3DS Region
         ///0,Japan (日本)
         ///1,Americas (NA/SA)

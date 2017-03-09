@@ -209,14 +209,12 @@ namespace PKHeX.Core
                     var et = EncounterOriginal as EncounterTrade;
                     if (et?.TID == 0) // Gen1 Trade
                     {
-                        string ot = pkm.OT_Name;
-                        string tr = pkm.Format <= 2 ? "TRAINER" : "Trainer"; // decaps on transfer
-                        if (ot != "トレーナー" && ot != tr)
+                        if (!Legal.getEncounterTrade1Valid(pkm, et))
                             AddLine(Severity.Invalid, "Incorrect OT name for RBY in-game trade.", CheckIdentifier.Trainer);
                     }
                     else // Gen2
                     {
-                        AddLine(Severity.Valid, "Ingame Trade for GSC not implemented.", CheckIdentifier.Trainer);
+                        return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
                     }
                     return;
                 }
@@ -916,6 +914,15 @@ namespace PKHeX.Core
                 }
                 if (pkm.GenNumber == 6)
                 {
+                    if (EncounterIsMysteryGift)
+                    {
+                        var wc = EncounterMatch as WC6;
+                        var type = wc?.AbilityType;
+                        if (type < 3 && pkm.AbilityNumber != 1 << type) // set number
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                        else if (type == 3 && pkm.AbilityNumber == 4) // 1/2 only
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                    }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
                     {
                         var slots = (EncounterSlot[])EncounterMatch;
@@ -932,6 +939,15 @@ namespace PKHeX.Core
                 }
                 if (pkm.GenNumber == 7)
                 {
+                    if (EncounterIsMysteryGift)
+                    {
+                        var wc = EncounterMatch as WC7;
+                        var type = wc?.AbilityType;
+                        if (type < 3 && pkm.AbilityNumber != 1 << type) // set number
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                        else if (type == 3 && pkm.AbilityNumber == 4) // 1/2 only
+                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                    }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
                     {
                         var slots = (EncounterSlot[])EncounterMatch;
