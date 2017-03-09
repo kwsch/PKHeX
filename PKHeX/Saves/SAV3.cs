@@ -106,17 +106,6 @@ namespace PKHeX.Core
                     Personal = PersonalTable.RS;
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
                     break;
-                case GameVersion.FRLG:
-                    LegalKeyItems = Legal.Pouch_Key_FRLG;
-                    OFS_PCItem = BlockOfs[1] + 0x0298;
-                    OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
-                    OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
-                    OFS_PouchBalls = BlockOfs[1] + 0x0430;
-                    OFS_PouchTMHM = BlockOfs[1] + 0x0464;
-                    OFS_PouchBerry = BlockOfs[1] + 0x054C;
-                    Personal = PersonalTable.FR;
-                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
-                    break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
                     OFS_PCItem = BlockOfs[1] + 0x0498;
@@ -126,6 +115,17 @@ namespace PKHeX.Core
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     Personal = PersonalTable.E;
+                    SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
+                    break;
+                case GameVersion.FRLG:
+                    LegalKeyItems = Legal.Pouch_Key_FRLG;
+                    OFS_PCItem = BlockOfs[1] + 0x0298;
+                    OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
+                    OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
+                    OFS_PouchBalls = BlockOfs[1] + 0x0430;
+                    OFS_PouchTMHM = BlockOfs[1] + 0x0464;
+                    OFS_PouchBerry = BlockOfs[1] + 0x054C;
+                    Personal = PersonalTable.FR;
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     break;
             }
