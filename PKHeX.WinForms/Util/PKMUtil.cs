@@ -35,10 +35,8 @@ namespace PKHeX.WinForms
             if (shiny)
             {
                 // Add shiny star to top left of image.
-                if (isBoxBGRed)
-                    baseImage = ImageUtil.LayerImage(baseImage, Resources.rare_icon_alt, 0, 0, 0.7);
-                else
-                    baseImage = ImageUtil.LayerImage(baseImage, Resources.rare_icon, 0, 0, 0.7);
+                var rare = isBoxBGRed ? Resources.rare_icon_alt : Resources.rare_icon;
+                baseImage = ImageUtil.LayerImage(baseImage, rare, 0, 0, 0.7);
             }
             if (item > 0)
             {
@@ -47,7 +45,9 @@ namespace PKHeX.WinForms
                     itemimg = Resources.item_tm;
 
                 // Redraw
-                baseImage = ImageUtil.LayerImage(baseImage, itemimg, 22 + (15 - itemimg.Width) / 2, 15 + (15 - itemimg.Height), 1);
+                int x = 22 + (15 - itemimg.Width)/2;
+                int y = 15 + (15 - itemimg.Height);
+                baseImage = ImageUtil.LayerImage(baseImage, itemimg, x, y, 1);
             }
             return baseImage;
         }
@@ -77,11 +77,7 @@ namespace PKHeX.WinForms
                 img = ImageUtil.LayerImage(new Bitmap(img.Width, img.Height), img, 0, 0, 0.3);
             return img;
         }
-        private static Image getSprite(PKM pkm)
-        {
-            return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format);
-        }
-        private static Image getSprite(PKM pkm, bool isBoxBGRed)
+        private static Image getSprite(PKM pkm, bool isBoxBGRed = false)
         {
             return getSprite(pkm.Species, pkm.AltForm, pkm.Gender, pkm.SpriteItem, pkm.IsEgg, pkm.IsShiny, pkm.Format, isBoxBGRed);
         }
@@ -102,36 +98,26 @@ namespace PKHeX.WinForms
             if (!pkm.Valid)
                 return null;
 
-            bool isBoxBGRed = false;
-            if (pkm.Species != 0 && slot >= 0 && slot < 30 && (SAV.Generation == 7 || SAV.Generation == 6))
-            {
-                switch (SAV.getBoxWallpaper(box))
-                {
-                    case 5: // Volcano
-                    case 12: // PokeCenter
-                    case 20: // Special5 Flare/Magma
-                        isBoxBGRed = true;
-                        break;
-                }
-            }
-            var sprite = pkm.Species != 0 ? (isBoxBGRed ? pkm.Sprite(true) : pkm.Sprite()) : null;
-            if (flagIllegal && slot > -1)
+            bool inBox = slot > 0 && slot < 30;
+            var sprite = pkm.Species != 0 ? pkm.Sprite(isBoxBGRed: inBox && BoxWallpaper.getWallpaperRed(SAV, box)) : null;
+
+            if (slot <= -1) // from tabs
+                return sprite;
+
+            if (flagIllegal)
             {
                 pkm.Box = box;
                 var la = new LegalityAnalysis(pkm);
                 if (la.Parsed && !la.Valid)
-                {
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
-                    // sprite = ImageUtil.LayerImage(sprite, ImageUtil.ChangeAllColorTo(sprite, Color.Red), 0, 0, 0.5f);
-                }
             }
-
-            bool locked = slot < 30 && SAV.getIsSlotLocked(box, slot);
-            bool team = slot < 30 && SAV.getIsTeamSet(box, slot);
-            if (locked)
-                sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
-            else if (team)
-                sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
+            if (inBox) // in box
+            {
+                if (SAV.getIsSlotLocked(box, slot))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, 26, 0, 1);
+                else if (SAV.getIsTeamSet(box, slot))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.team, 21, 0, 1);
+            }
 
             return sprite;
         }
@@ -140,8 +126,7 @@ namespace PKHeX.WinForms
         public static Image WallpaperImage(this SaveFile SAV, int box) => getWallpaper(SAV, box);
         public static Image Sprite(this MysteryGift gift) => getSprite(gift);
         public static Image Sprite(this SaveFile SAV) => getSprite(SAV);
-        public static Image Sprite(this PKM pkm) => getSprite(pkm);
-        public static Image Sprite(this PKM pkm, bool isBoxBGRed) => getSprite(pkm, isBoxBGRed);
+        public static Image Sprite(this PKM pkm, bool isBoxBGRed = false) => getSprite(pkm, isBoxBGRed);
         public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)
             => getSprite(pkm, SAV, box, slot, flagIllegal);
     }
