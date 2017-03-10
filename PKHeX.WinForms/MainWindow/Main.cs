@@ -1044,6 +1044,7 @@ namespace PKHeX.WinForms
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
+                B_OpenMiscEditor.Enabled = SAV is SAV3;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -3999,6 +4000,14 @@ namespace PKHeX.WinForms
                     if (SAV.SM)
                         new SAV_PokedexSM().ShowDialog();
                     break;
+            }
+        }
+        private void B_OpenMiscEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Generation)
+            {
+                case 3:
+                    new SAV_Misc3().ShowDialog(); break;
             }
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)

@@ -446,6 +446,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.B_OpenMiscEditor = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -5497,6 +5498,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_CGearSkin);
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
             this.FLP_SAVtools.Controls.Add(this.B_OpenZygardeCells);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenMiscEditor);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -5752,6 +5754,16 @@
             this.L_UpdateAvailable.Text = "New Update Available!";
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
+            // 
+            // B_OpenMiscEditor
+            // 
+            this.B_OpenMiscEditor.Location = new System.Drawing.Point(3, 177);
+            this.B_OpenMiscEditor.Name = "B_OpenMiscEditor";
+            this.B_OpenMiscEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenMiscEditor.TabIndex = 27;
+            this.B_OpenMiscEditor.Text = "Misc Edits";
+            this.B_OpenMiscEditor.UseVisualStyleBackColor = true;
+            this.B_OpenMiscEditor.Click += new System.EventHandler(this.B_OpenMiscEditor_Click);
             // 
             // Main
             // 
@@ -6405,6 +6417,7 @@
         private System.Windows.Forms.PictureBox PB_MarkHorohoro;
         private System.Windows.Forms.PictureBox PB_MarkVC;
         internal System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
+        private System.Windows.Forms.Button B_OpenMiscEditor;
     }
 }
 

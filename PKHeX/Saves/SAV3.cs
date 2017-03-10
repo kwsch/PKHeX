@@ -160,6 +160,7 @@ namespace PKHeX.Core
         private int ABO => ActiveSAV*0xE000;
         private readonly int[] BlockOrder;
         private readonly int[] BlockOfs;
+        public int getBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version); }
@@ -330,25 +331,32 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.RS:
-                    case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0494) ^ SecurityKey;
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0294) ^ SecurityKey;
+                    case GameVersion.E: return (ushort)(BitConverter.ToUInt16(Data, BlockOfs[1] + 0x0494) ^ SecurityKey);
+                    case GameVersion.FRLG: return (ushort)(BitConverter.ToUInt16(Data, BlockOfs[1] + 0x0294) ^ SecurityKey);
                     default: return 0;
                 }
             }
             set
             {
+                if (value > 9999)
+                    value = 9999;
                 switch (Version)
                 {
                     case GameVersion.RS:
-                    case GameVersion.E: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, BlockOfs[1] + 0x0494); break;
-                    case GameVersion.FRLG: BitConverter.GetBytes(value ^ SecurityKey).CopyTo(Data, BlockOfs[1] + 0x0294); break;
+                    case GameVersion.E: BitConverter.GetBytes((ushort)(value ^ SecurityKey)).CopyTo(Data, BlockOfs[1] + 0x0494); break;
+                    case GameVersion.FRLG: BitConverter.GetBytes((ushort)(value ^ SecurityKey)).CopyTo(Data, BlockOfs[1] + 0x0294); break;
                 }
             }
         }
-        public int BP
+        public uint BP
         {
-            get { return Data[BlockOfs[0] + 0xEB8]; }
-            set { Data[BlockOfs[0] + 0xEB8] = (byte)value; }
+            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xEB8); }
+            set
+            {
+                if (value > 9999)
+                    value = 9999;
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xEB8);
+            }
         }
 
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
