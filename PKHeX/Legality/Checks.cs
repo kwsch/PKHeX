@@ -918,9 +918,15 @@ namespace PKHeX.Core
                     {
                         var wc = EncounterMatch as WC6;
                         var type = wc?.AbilityType;
-                        if (type < 3 && pkm.AbilityNumber != 1 << type) // set number
-                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
-                        else if (type == 3 && pkm.AbilityNumber == 4) // 1/2 only
+                        int abilNumber = pkm.AbilityNumber;
+                        if (type < 3 && abilNumber != 1 << type) // set number
+                        {
+                            if (type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
+                                AddLine(Severity.Valid, "Ability modified with Ability Capsule.", CheckIdentifier.Ability);
+                            else
+                                AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                        }
+                        else if (type == 3 && abilNumber == 4) // 1/2 only
                             AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
                     }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
@@ -943,9 +949,15 @@ namespace PKHeX.Core
                     {
                         var wc = EncounterMatch as WC7;
                         var type = wc?.AbilityType;
-                        if (type < 3 && pkm.AbilityNumber != 1 << type) // set number
-                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
-                        else if (type == 3 && pkm.AbilityNumber == 4) // 1/2 only
+                        int abilNumber = pkm.AbilityNumber;
+                        if (type < 3 && abilNumber != 1 << type) // set number
+                        {
+                            if (type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
+                                AddLine(Severity.Valid, "Ability modified with Ability Capsule.", CheckIdentifier.Ability);
+                            else
+                                AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                        }
+                        else if (type == 3 && abilNumber == 4) // 1/2 only
                             AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
                     }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
