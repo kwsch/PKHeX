@@ -313,11 +313,15 @@ namespace PKHeX.Core
         }
         private void verifyIVs()
         {
+            var e = EncounterMatch as EncounterStatic;
             if ((EncounterMatch as EncounterStatic)?.IV3 == true)
             {
-                if (pkm.IVs.Count(iv => iv == 31) < 3)
+                int IVCount = 3;
+                if (e.Version == GameVersion.RBY && pkm.Species == 151)
+                    IVCount = 5; // VC Mew
+                if (pkm.IVs.Count(iv => iv == 31) < IVCount)
                 {
-                    AddLine(Severity.Invalid, "Should have at least 3 IVs = 31.", CheckIdentifier.IVs);
+                    AddLine(Severity.Invalid, $"Should have at least {IVCount} IVs = 31.", CheckIdentifier.IVs);
                     return;
                 }
             }
@@ -334,8 +338,9 @@ namespace PKHeX.Core
                 int[] IVs;
                 switch (((MysteryGift) EncounterMatch).Format)
                 {
-                    case 6: IVs = ((WC6)EncounterMatch).IVs; break;
                     case 7: IVs = ((WC7)EncounterMatch).IVs; break;
+                    case 6: IVs = ((WC6)EncounterMatch).IVs; break;
+                    case 5: IVs = ((PGF)EncounterMatch).IVs; break;
                     default: IVs = null; break;
                 }
 
@@ -659,18 +664,8 @@ namespace PKHeX.Core
                 if (!exceptions)
                     AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
             }
-            
-            EncounterMatch = new EncounterStatic
-            {
-                Species = species,
-                Gift = true, // Forces Poké Ball
-                Ability = Legal.TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = species == 151 ? (bool?)false : null,
-                Fateful = species == 151,
-                Location = 30013,
-                EggLocation = 0,
-                Version = GameVersion.RBY
-            };
+
+            EncounterMatch = Legal.getRBYStaticTransfer(species);
             var ematch = (EncounterStatic) EncounterMatch;
 
             if (pkm.Met_Location != ematch.Location)

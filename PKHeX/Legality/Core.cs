@@ -878,9 +878,30 @@ namespace PKHeX.Core
                     Location = area.Location, Slots = slots,
                 }).OrderBy(area => area.Slots.Min(x => x.LevelMin)).FirstOrDefault();
         }
-        internal static EncounterStatic getStaticLocation(PKM pkm)
+        internal static EncounterStatic getRBYStaticTransfer(int species)
         {
-            return getStaticEncounters(pkm, 100).OrderBy(s => s.Level).FirstOrDefault();
+            return new EncounterStatic
+            {
+                Species = species,
+                Gift = true, // Forces Poké Ball
+                Ability = TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
+                Shiny = species == 151 ? (bool?)false : null,
+                Fateful = species == 151,
+                Location = 30013,
+                EggLocation = 0,
+                IV3 = true,
+                Version = GameVersion.RBY
+            };
+        }
+        internal static EncounterStatic getStaticLocation(PKM pkm, int species = -1)
+        {
+            switch (pkm.GenNumber)
+            {
+                case 1:
+                    return getRBYStaticTransfer(species);
+                default:
+                    return getStaticEncounters(pkm, 100).OrderBy(s => s.Level).FirstOrDefault();
+            }
         }
 
         public static int getLowestLevel(PKM pkm, int refSpecies = -1)
@@ -1123,7 +1144,7 @@ namespace PKHeX.Core
                     continue;
 
                 GensEvoChains[gen] = getEvolutionChain(pkm, Encounter, CompleteEvoChain.First().Species, lvl);
-                if (!pkm.HasOriginalMetLocation && gen >= pkm.GenNumber )
+                if (gen > 2 && !pkm.HasOriginalMetLocation && gen >= pkm.GenNumber)
                     //Remove previous evolutions bellow transfer level
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
                     //chain level for charmander is 35, is bellow met level
