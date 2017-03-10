@@ -293,7 +293,7 @@ namespace PKHeX.Core
             }
 
             var encounter = Legal.getStaticLocation(pkm);
-            if (loc != -1)
+            if (loc != -1 && encounter != null)
                 encounter.Location = loc;
             return encounter;
         }

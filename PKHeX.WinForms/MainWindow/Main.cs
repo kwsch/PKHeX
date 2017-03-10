@@ -167,27 +167,9 @@ namespace PKHeX.WinForms
                 // Delete the settings if they exist
                 var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
                 if (!string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
-                {
-                    if (MessageBox.Show("PKHeX's settings are corrupt.  Would you like to reset the settings?  (Click Yes to delete the settings or No to close the program.", "PKHeX", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        File.Delete(settingsFilename);
-
-                        // This should theoretically work, but has failed in evandixon's testing
-                        // Properties.Settings.Default.Reload();
-
-                        // Instead, restart the application
-                        MessageBox.Show("The settings have been deleted.  Please restart PKHeX.");
-                        Process.GetCurrentProcess().Kill();
-                    }
-                    else
-                    {
-                        Process.GetCurrentProcess().Kill();
-                    }
-                }
+                    deleteConfig(settingsFilename);
                 else
-                {
                     WinFormsUtil.Error("Unable to load settings.", e);
-                }
             }
             CB_MainLanguage.SelectedIndex = languageID;
 
@@ -334,6 +316,18 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
 
             Settings.Version = Resources.ProgramVersion;
+        }
+        private static void deleteConfig(string settingsFilename)
+        {
+            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "PKHeX's settings are corrupt. Would you like to reset the settings?",
+                "Yes to delete the settings or No to close the program.");
+
+            if (dr == DialogResult.Yes)
+            {
+                File.Delete(settingsFilename);
+                WinFormsUtil.Alert("The settings have been deleted", "Please restart the program.");
+            }
+            Process.GetCurrentProcess().Kill();
         }
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
@@ -1050,6 +1044,7 @@ namespace PKHeX.WinForms
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
+                B_OpenMiscEditor.Enabled = SAV is SAV3;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1918,7 +1913,7 @@ namespace PKHeX.WinForms
         }
         private void clickMoves(object sender, EventArgs e)
         {
-            updateLegality();
+            updateLegality(skipMoveRepop:true);
             if (sender == GB_CurrentMoves)
             {
                 bool random = ModifierKeys == Keys.Control;
@@ -1975,7 +1970,7 @@ namespace PKHeX.WinForms
                 return;
 
             pkm = preparePKM();
-            updateLegality();
+            updateLegality(skipMoveRepop:true);
             if (Legality.Valid)
                 return;
 
@@ -2817,7 +2812,6 @@ namespace PKHeX.WinForms
             if (cb == null) 
                 return;
             
-            cb.SelectionLength = 0;
             if (cb.Text == "")
             { cb.SelectedIndex = 0; return; }
             if (cb.SelectedValue == null)
@@ -2957,6 +2951,7 @@ namespace PKHeX.WinForms
                 var index = WinFormsUtil.getIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
                 c.SelectedValue = index;
+                c.SelectionLength = 0; // flicker hack
             }
             fieldsLoaded |= tmp;
         }
@@ -3980,14 +3975,40 @@ namespace PKHeX.WinForms
         }
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
-            if (SAV.ORAS)
-                new SAV_PokedexORAS().ShowDialog();
-            else if (SAV.XY)
-                new SAV_PokedexXY().ShowDialog();
-            else if (SAV.RBY || SAV.GSC)
-                new SAV_SimplePokedex().ShowDialog();
-            else if (SAV.SM)
-                new SAV_PokedexSM().ShowDialog();
+            switch (SAV.Generation)
+            {
+                case 1:
+                case 2:
+                    new SAV_SimplePokedex().ShowDialog(); break;
+                case 3:
+                    if (SAV.GameCube)
+                        return;
+                    new SAV_SimplePokedex().ShowDialog(); break;
+                case 4:
+                    if (SAV is SAV4BR)
+                        return;
+                    new SAV_Pokedex4().ShowDialog(); break;
+                case 5:
+                    new SAV_Pokedex5().ShowDialog(); break;
+                case 6:
+                    if (SAV.ORAS)
+                        new SAV_PokedexORAS().ShowDialog();
+                    else if (SAV.XY)
+                        new SAV_PokedexXY().ShowDialog();
+                    break;
+                case 7:
+                    if (SAV.SM)
+                        new SAV_PokedexSM().ShowDialog();
+                    break;
+            }
+        }
+        private void B_OpenMiscEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Generation)
+            {
+                case 3:
+                    new SAV_Misc3().ShowDialog(); break;
+            }
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
         {

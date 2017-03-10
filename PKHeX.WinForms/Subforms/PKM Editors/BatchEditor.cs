@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace PKHeX.WinForms
             DragEnter += tabMain_DragEnter;
 
             CB_Format.Items.Clear();
-            CB_Format.Items.Add("All");
-            foreach (Type t in types) CB_Format.Items.Add(t.Name.ToLower());
             CB_Format.Items.Add("Any");
+            foreach (Type t in types) CB_Format.Items.Add(t.Name.ToLower());
+            CB_Format.Items.Add("All");
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
             new ToolTip().SetToolTip(CB_Property, "Property of a given PKM to modify.");
@@ -35,14 +36,14 @@ namespace PKHeX.WinForms
                 p[i] = ReflectUtil.getPropertiesCanWritePublicDeclared(types[i]).Concat(CustomProperties).OrderBy(a => a).ToArray();
 
             // Properties for any PKM
-            var any = ReflectUtil.getPropertiesCanWritePublic(typeof(PK1)).Concat(p.SelectMany(a => a)).Distinct().ToArray();
+            var any = ReflectUtil.getPropertiesCanWritePublic(typeof(PK1)).Concat(p.SelectMany(a => a)).Distinct().OrderBy(a => a).ToArray();
             // Properties shared by all PKM
-            var all = p.Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).ToArray();
+            var all = p.Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
 
             var p1 = new string[types.Length + 2][];
             Array.Copy(p, 0, p1, 1, p.Length);
-            p1[0] = all;
-            p1[p1.Length - 1] = any;
+            p1[0] = any;
+            p1[p1.Length - 1] = all;
 
             return p1;
         }
@@ -116,9 +117,16 @@ namespace PKHeX.WinForms
         private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
         {
             L_PropType.Text = getPropertyType(CB_Property.Text);
-            L_PropValue.Text = pkmref.GetType().HasProperty(CB_Property.Text)
-                ? ReflectUtil.GetValue(pkmref, CB_Property.Text).ToString()
-                : "";
+            if (pkmref.GetType().HasProperty(CB_Property.Text))
+            {
+                L_PropValue.Text = ReflectUtil.GetValue(pkmref, CB_Property.Text).ToString();
+                L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
+            }
+            else // no property, flag
+            {
+                L_PropValue.Text = string.Empty;
+                L_PropType.ForeColor = Color.Red;
+            }
         }
         private void tabMain_DragEnter(object sender, DragEventArgs e)
         {
@@ -282,10 +290,10 @@ namespace PKHeX.WinForms
 
             int typeIndex = CB_Format.SelectedIndex;
             
-            if (typeIndex == 0) // All
+            if (typeIndex == properties.Length - 1) // All
                 return types[0].GetProperty(propertyName).PropertyType.Name;
 
-            if (typeIndex == properties.Length - 1) // Any
+            if (typeIndex == 0) // Any
                 foreach (var p in types.Select(t => t.GetProperty(propertyName)).Where(p => p != null))
                     return p.PropertyType.Name;
             

@@ -7,11 +7,12 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    public partial class SAV_PokedexXY : Form
+    public partial class SAV_Pokedex5 : Form
     {
-        public SAV_PokedexXY()
+        public SAV_Pokedex5()
         {
             InitializeComponent();
+            FormLen = SAV.B2W2 ? 0xB : 0x9;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
@@ -32,19 +33,19 @@ namespace PKHeX.WinForms
             getData();
             editing = false;
             LB_Species.SelectedIndex = 0;
-            TB_Spinda.Text = BitConverter.ToUInt32(SAV.Data, SAV.Spinda).ToString("X8");
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
+        private readonly SAV5 SAV = new SAV5(Main.SAV.Data);
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
-        private readonly bool[,] specbools = new bool[9, 0x60 * 8];
-        private readonly bool[,] langbools = new bool[7, 0x60 * 8];
-        private readonly bool[] foreignbools = new bool[0x52 * 8];
+        private readonly bool[,] specbools = new bool[9, brSize * 8];
+        private readonly bool[,] langbools = new bool[7, brSize * 8];
         private BitArray formbools;
         private bool editing;
         private int species = -1;
-        private const int FormLen = 0x18;
+        private const int brSize = 0x54;
+        private readonly int FormLen;
+        private const int LangSize = 0x238; // 649*7/8 = 237.xxx
 
         private void changeCBSpecies(object sender, EventArgs e)
         {
@@ -110,16 +111,11 @@ namespace PKHeX.WinForms
             // Load Bools for the data
             int pk = species;
 
-            L_Spinda.Visible = TB_Spinda.Visible = pk == 327;
-
             // Load Partitions
             for (int i = 0; i < 9; i++)
                 CP[i].Checked = specbools[i, pk - 1];
             for (int i = 0; i < 7; i++)
                 CL[i].Checked = langbools[i, pk - 1];
-
-            if (pk < 650) { CHK_F1.Enabled = true; CHK_F1.Checked = foreignbools[pk - 1]; }
-            else { CHK_F1.Enabled = CHK_F1.Checked = false; }
             
             int gt = SAV.Personal[pk].Gender;
 
@@ -130,14 +126,13 @@ namespace PKHeX.WinForms
             CLB_FormDisplayed.Items.Clear();
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.getDexFormIndexXY(species, fc);
+            int f = SAV.B2W2 ? SaveUtil.getDexFormIndexB2W2(species, fc) : SaveUtil.getDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
             string[] forms = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols);
             if (forms.Length < 1)
                 return;
-
-            // 0x26 packs of bools
+            
             for (int i = 0; i < forms.Length; i++) // Seen
                 CLB_FormsSeen.Items.Add(forms[i], formbools[f + i + 0*FormLen*8]);
             for (int i = 0; i < forms.Length; i++) // Seen Shiny
@@ -162,8 +157,6 @@ namespace PKHeX.WinForms
             specbools[6, species - 1] = CHK_P7.Checked;
             specbools[7, species - 1] = CHK_P8.Checked;
             specbools[8, species - 1] = CHK_P9.Checked;
-            if (CHK_F1.Enabled) // species < 650 // (1-649)
-                foreignbools[species - 1] = CHK_F1.Checked;
 
             langbools[0, species - 1] = CHK_L1.Checked;
             langbools[1, species - 1] = CHK_L2.Checked;
@@ -174,7 +167,7 @@ namespace PKHeX.WinForms
             langbools[6, species - 1] = CHK_L7.Checked;
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SaveUtil.getDexFormIndexORAS(species, fc);
+            int f = SAV.B2W2 ? SaveUtil.getDexFormIndexB2W2(species, fc) : SaveUtil.getDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
 
@@ -194,32 +187,27 @@ namespace PKHeX.WinForms
         private void getData()
         {
             // Fill Bit arrays
-            for (int i = 0; i < 9; i++)
+            int arrCount = specbools.GetLength(0);
+            for (int i = 0; i < arrCount; i++)
             {
-                byte[] data = new byte[0x60];
-                Array.Copy(SAV.Data, SAV.PokeDex + 8 + 0x60 * i, data, 0, 0x60);
+                byte[] data = new byte[brSize];
+                Array.Copy(SAV.Data, SAV.PokeDex + 8 + brSize * i, data, 0, brSize);
                 BitArray BitRegion = new BitArray(data);
-                for (int b = 0; b < 0x60 * 8; b++)
+                for (int b = 0; b < brSize * 8; b++)
                     specbools[i, b] = BitRegion[b];
             }
 
             // Fill Language arrays
-            byte[] langdata = new byte[0x280];
-            Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, 0x280);
+            byte[] langdata = new byte[LangSize];
+            Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, LangSize);
             BitArray LangRegion = new BitArray(langdata);
-            for (int b = 0; b < 721; b++) // 721 Species
+            for (int b = 0; b < SAV.MaxSpeciesID; b++)
                 for (int i = 0; i < 7; i++) // 7 Languages
                     langbools[i, b] = LangRegion[7 * b + i];
-
-            // Fill Foreign array
-            byte[] foreigndata = new byte[0x52];
-            Array.Copy(SAV.Data, SAV.PokeDex + 0x64C, foreigndata, 0, 0x52);
-            BitArray ForeignRegion = new BitArray(foreigndata);
-            for (int b = 0; b < 0x52 * 8; b++)
-                foreignbools[b] = ForeignRegion[b];
             
             byte[] formdata = new byte[FormLen*4];
-            Array.Copy(SAV.Data, SAV.PokeDex + 0x368, formdata, 0, formdata.Length);
+            int FormDex = SAV.PokeDex + 0x8 + brSize*9;
+            Array.Copy(SAV.Data, FormDex, formdata, 0, formdata.Length);
             formbools = new BitArray(formdata);
         }
         private void setData()
@@ -228,46 +216,35 @@ namespace PKHeX.WinForms
             // Return to Byte Array        
             for (int p = 0; p < 9; p++)
             {
-                byte[] sdata = new byte[0x60];
+                byte[] sdata = new byte[brSize];
 
-                for (int i = 0; i < 0x60 * 8; i++)
+                for (int i = 0; i < brSize * 8; i++)
                     if (specbools[p, i])
-                        sdata[i / 8] |= (byte)(1 << i % 8);
+                        sdata[i>>3] |= (byte)(1 << (i&7));
 
-                sdata.CopyTo(SAV.Data, SAV.PokeDex + 8 + 0x60 * p);
+                sdata.CopyTo(SAV.Data, SAV.PokeDex + 8 + brSize * p);
             }
 
             // Build new bool array for the Languages
             {
-                bool[] languagedata = new bool[0x280 * 8];
-                for (int i = 0; i < 731; i++)
-                    for (int l = 0; l < 7; l++)
-                        languagedata[i * 7 + l] = langbools[l, i];
+                int langCount = langbools.GetLength(0);
+                int speciesCount = langbools.GetLength(1);
+                bool[] languagedata = new bool[speciesCount << 3];
+                for (int i = 0; i < speciesCount; i++)
+                    for (int l = 0; l < langCount; l++)
+                        languagedata[i * langCount + l] = langbools[l, i];
 
                 // Return to Byte Array
-                byte[] ldata = new byte[languagedata.Length / 8];
+                byte[] ldata = new byte[languagedata.Length>>3];
 
                 for (int i = 0; i < languagedata.Length; i++)
                     if (languagedata[i])
-                        ldata[i / 8] |= (byte)(1 << i % 8);
+                        ldata[i>>3] |= (byte)(1 << (i&7));
 
                 ldata.CopyTo(SAV.Data, SAV.PokeDexLanguageFlags);
             }
-
-            formbools.CopyTo(SAV.Data, SAV.PokeDex + 0x368);
-
-            // Return Foreign Array
-            {
-                byte[] foreigndata = new byte[0x52];
-                for (int i = 0; i < 0x52 * 8; i++)
-                    if (foreignbools[i])
-                        foreigndata[i / 8] |= (byte)(1 << i % 8);
-                foreigndata.CopyTo(SAV.Data, SAV.PokeDex + 0x64C);
-            }
-
-            // Store Spinda Spot
-            uint PID = Util.getHEXval(TB_Spinda.Text);
-            BitConverter.GetBytes(PID).CopyTo(SAV.Data, SAV.Spinda);
+            int FormDex = SAV.PokeDex + 0x8 + brSize * 9;
+            formbools.CopyTo(SAV.Data, FormDex);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -300,10 +277,6 @@ namespace PKHeX.WinForms
             if (CHK_P1.Enabled)
             {
                 CHK_P1.Checked = ModifierKeys != Keys.Control;
-            }
-            if (CHK_F1.Enabled)
-            {
-                CHK_F1.Checked = ModifierKeys != Keys.Control;
             }
             int index = LB_Species.SelectedIndex+1;
             int gt = SAV.Personal[index].Gender;
@@ -348,7 +321,7 @@ namespace PKHeX.WinForms
                             t.Checked = false;
                     }
 
-                    if (!CHK_P1.Checked && !CHK_F1.Checked)
+                    if (!CHK_P1.Checked)
                         foreach (CheckBox t in CL)
                             t.Checked = false;
                 }
@@ -358,7 +331,7 @@ namespace PKHeX.WinForms
                 {
                     int gt = SAV.Personal[i + 1].Gender;
                     LB_Species.SelectedIndex = i;
-                    foreach (CheckBox t in new[] { CHK_P1, CHK_F1 })
+                    foreach (CheckBox t in new[] { CHK_P1 })
                         t.Checked = mnuCaughtNone != sender;
                     for (int j = 0; j < CL.Length; j++)
                         CL[j].Checked = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
@@ -391,8 +364,6 @@ namespace PKHeX.WinForms
 
             setEntry();
             setData();
-            if (mnuComplete == sender) // Turn off Italian Petlil
-                SAV.Data[SAV.PokeDexLanguageFlags + 0x1DF] &= 0xFE;
 
             getData();
             getEntry();

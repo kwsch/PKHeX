@@ -424,6 +424,12 @@ namespace PKHeX.WinForms
                 Console.Write(e);
             }
 
+            if (string.IsNullOrEmpty(r))
+            {
+                WinFormsUtil.Alert("No Event Constant diff found.");
+                return;
+            }
+
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
                 return;
             Clipboard.SetText(r);

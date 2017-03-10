@@ -101,30 +101,31 @@ namespace PKHeX.Core
         {
             get
             {
-                string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-                spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+                string spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
                 return !nick.SequenceEqual(
                         PKX.setG1Str(spName, Japanese)
                             .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1))
                             .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)));
             }
-            set { }
+            set
+            {
+                if (!value)
+                    setNotNicknamed();
+            }
         }
 
         public bool IsNicknamedBank
         {
             get
             {
-                var spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-                spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+                var spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
                 return Nickname != spName;
             }
         }
 
         public void setNotNicknamed()
         {
-            string spName = PKX.getSpeciesName(Species, Japanese ? 1 : 2).ToUpper();
-            spName = spName.Replace(" ", ""); // Gen I/II didn't have a space for Mr. Mime
+            string spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
             nick = PKX.setG1Str(spName, Japanese)
                       .Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1))
                       .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)) // Decimal point<->period fix

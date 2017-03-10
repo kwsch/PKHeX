@@ -397,23 +397,23 @@ namespace PKHeX.Core
         }
         public override uint Money
         {
-            get { return (uint)BigEndian.BCDToInt32(Data, MoneyOffset, 3); }
+            get { return BigEndian.ToUInt32(Data, MoneyOffset-1) & 0xFFFFFF; }
             set
             {
-                value = (uint)Math.Min(value, MaxMoney);
-                BigEndian.Int32ToBCD((int)value, 3).CopyTo(Data, MoneyOffset);
+                byte[] data = BigEndian.GetBytes((uint) Math.Min(value, MaxMoney));
+                Array.Copy(data, 1, Data, MoneyOffset, 3);
             }
         }
         public uint Coin
         {
             get
             {
-                return (uint)BigEndian.BCDToInt32(Data, MoneyOffset + 7, 2);
+                return BigEndian.ToUInt16(Data, MoneyOffset + 7);
             }
             set
             {
                 value = (ushort)Math.Min(value, MaxCoins);
-                BigEndian.Int32ToBCD((int)value, 2).CopyTo(Data, MoneyOffset + 7);
+                BigEndian.GetBytes((ushort)value).CopyTo(Data, MoneyOffset + 7);
             }
         }
 
