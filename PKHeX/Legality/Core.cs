@@ -863,7 +863,7 @@ namespace PKHeX.Core
                 return true;
             if (getHasEvolvedFormChange(pkm))
                 return true;
-            if (pkm.Species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
+            if (pkm.Species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm == 3)
                 return true;
             return false;
         }
