@@ -2637,6 +2637,20 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets the Main Series language ID from a GameCube (C/XD) language ID. Re-maps Spanish 6->7.
+        /// </summary>
+        /// <param name="value">GameCube (C/XD) language ID.</param>
+        /// <returns>Main Series language ID.</returns>
+        public static byte getMainLangIDfromGC(byte value) => value == 6 ? (byte)7 : value;
+
+        /// <summary>
+        /// Gets the GameCube (C/XD) language ID from a Main Series language ID. Re-maps Spanish 7->6.
+        /// </summary>
+        /// <param name="value">Main Series language ID.</param>
+        /// <returns>GameCube (C/XD) language ID.</returns>
+        public static byte getGCLangIDfromMain(byte value) => value == 7 ? (byte)6 : value;
+
+        /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
         /// </summary>
         /// <returns>Valid <see cref="PKM"/> file extensions.</returns>
