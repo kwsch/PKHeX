@@ -82,6 +82,8 @@ namespace PKHeX.WinForms
         
         // QR Utility
         public const string BadQRUrl = "null/#"; // prefix to prevent URL from loading
+        public const string QR6Path = @"http://lunarcookies.github.io/b1s1.html";
+
         internal static byte[] getQRData()
         {
             // Fetch data from QR code...
@@ -175,6 +177,17 @@ namespace PKHeX.WinForms
             using (var qr_data = generator.CreateQRCode(data))
             using (var qr_code = new QRCode(qr_data))
                 return qr_code.GetGraphic(ppm);
+        }
+
+        public static string getQRServer(int format)
+        {
+            switch (format)
+            {
+                case 6:
+                    return QR6Path;
+                default:
+                    return BadQRUrl;
+            }
         }
     }
 }

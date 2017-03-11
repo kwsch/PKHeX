@@ -275,7 +275,6 @@ namespace PKHeX.WinForms
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
-        private const string QR6Path = @"http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
 
         #endregion
 
@@ -1671,6 +1670,7 @@ namespace PKHeX.WinForms
             }
         }
         // Clicked Label Shortcuts //
+        private bool QR6Notified = false;
         private void clickQR(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
@@ -1706,8 +1706,13 @@ namespace PKHeX.WinForms
                         qr = QR.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
-                        bool qr6 = pkx.Format == 6;
-                        qr = QR.getQRImage(pkx.EncryptedBoxData, qr6 ? QR6Path : QR.BadQRUrl);
+                        if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
+                        {
+                            WinFormsUtil.Alert("QR codes are deprecated in favor of other methods.",
+                                "Consider utilizing homebrew or on-the-fly RAM editing custom firmware (PKMN-NTR).");
+                            QR6Notified = true;
+                        }
+                        qr = QR.getQRImage(pkx.EncryptedBoxData, QR.getQRServer(pkx.Format));
                         break;
                 }
 
