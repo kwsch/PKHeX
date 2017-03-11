@@ -1,7 +1,16 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/03/08 - New Update:
+17/03/11 - New Update:
+ - Legality:
+ - - Fixed: More edge cases (mystery gift ability capsule, gen1/2 evo chain & static encounter suggestions).
+ - Added: Gen7 More trainer stat records and precise maximum value fetching. Thanks tastymeatball & Holla!
+ - Added: Gen3 Misc Record editor. Thanks Aladore384!
+ - Added: Alternate shiny icon for red box backgrounds (more visible with a halo). Thanks pokecal!
+ - Fixed: Gen3 E/FRLG dex editing bitflag set no longer invalidates the save file.
+ - Fixed: Gen3 C/XD Spanish pkm no longer invalidated when editing. Thanks javierhimura!
+
+17/03/08 - New Update: (11343) [408829]
  - Legality:
  - - Added: WC6/WC7 ability legality check.
  - - Added: Gen2 move tutors and remainder of encounter tables.
