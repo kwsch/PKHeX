@@ -7,8 +7,11 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        // Event Database(s)
-        public static MysteryGift[] MGDB_G6, MGDB_G7 = new MysteryGift[0];
+        /// <summary>Event Database for a given Generation</summary>
+        public static MysteryGift[] MGDB_G4, MGDB_G5, MGDB_G6, MGDB_G7 = new MysteryGift[0];
+
+        /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
+        public static bool AllowGBCartEra = false;
 
         // Gen 1
         private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rb, MaxSpeciesID_1);
@@ -505,7 +508,7 @@ namespace PKHeX.Core
                 return new Tuple<object, int, byte>(s, s.Level, 20); // special move 
             if (game == GameVersion.GSC)
             {
-                if (t != null)
+                if (t != null && t.TID != 0)
                     return new Tuple<object, int, byte>(t, t.Level, 10); // gen2 trade
                 if (WasEgg && new[] { sm, em, tm }.Min(a => a) >= 5)
                     return new Tuple<object, int, byte>(true, 5, 9); // gen2 egg
@@ -527,7 +530,7 @@ namespace PKHeX.Core
                 return g1 ?? g2;
             
             var t = g1.Item1 as EncounterTrade;
-            if (t != null && getEncounterTrade1Valid(pkm, t))
+            if (t != null && getEncounterTrade1Valid(pkm))
                 return g1;
 
             // Both generations can provide an encounter. Return highest preference
@@ -538,7 +541,7 @@ namespace PKHeX.Core
             // Return lowest level encounter
             return g1.Item2 < g2.Item2 ? g1 : g2;
         }
-        internal static bool getEncounterTrade1Valid(PKM pkm, EncounterTrade t)
+        internal static bool getEncounterTrade1Valid(PKM pkm)
         {
             string ot = pkm.OT_Name;
             string tr = pkm.Format <= 2 ? "TRAINER" : "Trainer"; // decaps on transfer

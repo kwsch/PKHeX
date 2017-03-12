@@ -204,7 +204,6 @@ namespace PKHeX.WinForms
                 }
                 catch (Exception ex)
                 {
-                    // Todo: translate this
                     ErrorWindow.ShowErrorDialog("An error occurred while attempting to auto-load your save file.", ex, true);
                 }
                 
@@ -894,7 +893,17 @@ namespace PKHeX.WinForms
                 }
             }
             // Finish setting up the save file.
-            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
+            if (sav.Generation == 1)
+            {
+                // Ask the user if it is a VC save file or if it is from a physical cartridge.
+                // Necessary for legality checking possibilities that are only obtainable on GSC (non VC) or event distributions.
+                var drVC = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} Save File detected. Is this a Virtual Console Save File?",
+                    "Yes: Virtual Console" + Environment.NewLine + "No: Physical Cartridge");
+                if (drVC == DialogResult.Cancel)
+                    return;
+                Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
+            }
+            else if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 // Hacky cheats invalidated the Game Code value.
                 var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -1670,7 +1679,7 @@ namespace PKHeX.WinForms
             }
         }
         // Clicked Label Shortcuts //
-        private bool QR6Notified = false;
+        private bool QR6Notified;
         private void clickQR(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)

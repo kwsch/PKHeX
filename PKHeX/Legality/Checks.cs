@@ -209,7 +209,7 @@ namespace PKHeX.Core
                     var et = EncounterOriginal as EncounterTrade;
                     if (et?.TID == 0) // Gen1 Trade
                     {
-                        if (!Legal.getEncounterTrade1Valid(pkm, et))
+                        if (!Legal.getEncounterTrade1Valid(pkm))
                             AddLine(Severity.Invalid, "Incorrect OT name for RBY in-game trade.", CheckIdentifier.Trainer);
                     }
                     else // Gen2
@@ -567,7 +567,7 @@ namespace PKHeX.Core
         }
         private CheckResult verifyEncounterG12()
         {
-            var obj = Legal.getEncounter12(pkm, pkm.Format < 3);
+            var obj = Legal.getEncounter12(pkm, Legal.AllowGBCartEra && pkm.Format < 3);
             if (obj == null)
                 return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
 
@@ -1619,11 +1619,18 @@ namespace PKHeX.Core
             if (!History.Valid)
                 return;
 
-            if (pkm.GenNumber == 7 || pkm.GenNumber == 1)
+            if (pkm.Format >= 7)
             {
-                bool check = pkm.VC1 || pkm.HT_Memory != 0;
-                if (!check)
+                /* 
+                *  Bank Transfer adds in the Link Trade Memory.
+                *  Trading 7<->7 between games (not Bank) clears this data.
+                */
+                if (pkm.HT_Memory == 0)
+                {
+                    if (pkm.HT_TextVar != 0 || pkm.HT_Intensity != 0 || pkm.HT_Feeling != 0)
+                        AddLine(Severity.Invalid, "HT memory not cleared properly.", CheckIdentifier.Memory);
                     return;
+                }
 
                 if (pkm.HT_Memory != 4)
                     AddLine(Severity.Invalid, "Should have a Link Trade HT Memory.", CheckIdentifier.Memory);
