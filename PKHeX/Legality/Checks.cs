@@ -1032,6 +1032,17 @@ namespace PKHeX.Core
 
                 return;
             }
+
+            var pers = PersonalTable.SM.getFormeEntry(pkm.Species, pkm.AltForm);
+            if (pers.CatchRate <= 20 && pers.Weight < 1000 && pkm.Ball == 495)
+            {
+                // This check will eventually be wrong because Volcarona will be breedable in a heavy ball if
+                // Larvesta ever becomes available to catch. It's solid for now, though.
+                AddLine(Severity.Invalid, "Cannot catch low-catch rate, light mon in a heavy ball in Gen VII.", CheckIdentifier.Ball);
+                return;
+            }
+
+
             if (EncounterType == typeof(EncounterStatic))
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
