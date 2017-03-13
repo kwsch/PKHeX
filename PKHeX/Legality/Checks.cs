@@ -1033,15 +1033,17 @@ namespace PKHeX.Core
                 return;
             }
 
-            var pers = PersonalTable.SM.getFormeEntry(pkm.Species, pkm.AltForm);
-            if (pers.CatchRate <= 20 && pers.Weight < 1000 && pkm.Ball == 495)
+            var lineage = Legal.getLineage(pkm);
+
+            if (pkm.Ball == 0x14 && pkm.Gen7) // Heavy Ball
             {
-                // This check will eventually be wrong because Volcarona will be breedable in a heavy ball if
-                // Larvesta ever becomes available to catch. It's solid for now, though.
-                AddLine(Severity.Invalid, "Cannot catch low-catch rate, light mon in a heavy ball in Gen VII.", CheckIdentifier.Ball);
+                if (lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e) && (PersonalTable.SM[e].CatchRate > 20 || PersonalTable.SM[e].Weight >= 1000)))
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Invalid, "Heavy ball not possible for light, low-catch rate species in Gen VII", CheckIdentifier.Ball);
+
                 return;
             }
-
 
             if (EncounterType == typeof(EncounterStatic))
             {
