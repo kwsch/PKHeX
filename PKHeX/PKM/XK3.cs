@@ -81,7 +81,7 @@ namespace PKHeX.Core
         public override int Version { get { return SaveUtil.getG3VersionID(Data[0x34]); } set { Data[0x34] = (byte)SaveUtil.getCXDVersionID(value); } }
         public int CurrentRegion { get { return Data[0x35]; } set { Data[0x35] = (byte)value; } }
         public int OriginalRegion { get { return Data[0x36]; } set { Data[0x36] = (byte)value; } }
-        public override int Language { get { return Data[0x37]; } set { Data[0x37] = (byte)value; } }
+        public override int Language { get { return PKX.getMainLangIDfromGC(Data[0x37]); } set { Data[0x37] = PKX.getGCLangIDfromMain((byte)value); } }
         public override string OT_Name { get { return PKX.getColoStr(Data, 0x38, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x38); } } // +2 terminator
         public override string Nickname { get { return PKX.getColoStr(Data, 0x4E, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
         private string Nickname2 { get { return PKX.getColoStr(Data, 0x64, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x64); } } // +2 terminator

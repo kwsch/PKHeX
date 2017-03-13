@@ -252,6 +252,12 @@
     <Compile Include="Subforms\PKM Editors\Text.Designer.cs">
       <DependentUpon>Text.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen3\SAV_Misc3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen3\SAV_Misc3.Designer.cs">
+      <DependentUpon>SAV_Misc3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -482,6 +488,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\PKM Editors\Text.resx">
       <DependentUpon>Text.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen3\SAV_Misc3.resx">
+      <DependentUpon>SAV_Misc3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.resx">
       <DependentUpon>SAV_Pokedex4.cs</DependentUpon>

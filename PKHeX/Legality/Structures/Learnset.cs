@@ -12,6 +12,8 @@ namespace PKHeX.Core
 
         public int[] getMoves(int level)
         {
+            if (level >= 100)
+                return Moves;
             for (int i = 0; i < Levels.Length; i++)
                 if (Levels[i] > level)
                     return Moves.Take(i).ToArray();

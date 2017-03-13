@@ -618,18 +618,13 @@ namespace PKHeX.Core
         public void setRecord(int recordID, int value)
         {
             int ofs = getRecordOffset(recordID);
+            int max = getRecordMax(recordID);
+            if (value > max)
+                value = max;
             if (recordID < 100)
                 BitConverter.GetBytes(value).CopyTo(Data, ofs);
             if (recordID < 200)
-                BitConverter.GetBytes((short)value).CopyTo(Data, ofs);
-        }
-        public int getRecordMax(int recordID)
-        {
-            if (recordID < 100)
-                return int.MaxValue;
-            if (recordID < 200)
-                return short.MaxValue;
-            return 0;
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
         }
         public int getRecordOffset(int recordID)
         {
@@ -639,6 +634,33 @@ namespace PKHeX.Core
                 return Record + recordID*2 + 200; // first 100 are 4bytes, so bias the difference
             return -1;
         }
+
+        public int getRecordMax(int recordID) => recordID < 200 ? RecordMax[RecordMaxType[recordID]] : 0;
+        private static readonly int[] RecordMax = {999999999, 9999999, 999999, 99999, 65535, 9999, 999};
+        private static readonly int[] RecordMaxType =
+        {
+            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
+            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        };
 
         public ushort PokeFinderCameraVersion
         {

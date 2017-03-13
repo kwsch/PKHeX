@@ -204,7 +204,6 @@ namespace PKHeX.WinForms
                 }
                 catch (Exception ex)
                 {
-                    // Todo: translate this
                     ErrorWindow.ShowErrorDialog("An error occurred while attempting to auto-load your save file.", ex, true);
                 }
                 
@@ -275,7 +274,6 @@ namespace PKHeX.WinForms
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
-        private const string QR6Path = @"http://loadcode.projectpokemon.org/b1s1.html#"; // Rehosted with permission from LC/MS -- massive thanks!
 
         #endregion
 
@@ -895,7 +893,17 @@ namespace PKHeX.WinForms
                 }
             }
             // Finish setting up the save file.
-            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
+            if (sav.Generation == 1)
+            {
+                // Ask the user if it is a VC save file or if it is from a physical cartridge.
+                // Necessary for legality checking possibilities that are only obtainable on GSC (non VC) or event distributions.
+                var drVC = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} Save File detected. Is this a Virtual Console Save File?",
+                    "Yes: Virtual Console" + Environment.NewLine + "No: Physical Cartridge");
+                if (drVC == DialogResult.Cancel)
+                    return;
+                Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
+            }
+            else if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 // Hacky cheats invalidated the Game Code value.
                 var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -1044,6 +1052,7 @@ namespace PKHeX.WinForms
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
+                B_OpenMiscEditor.Enabled = SAV is SAV3;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1670,6 +1679,7 @@ namespace PKHeX.WinForms
             }
         }
         // Clicked Label Shortcuts //
+        private bool QR6Notified;
         private void clickQR(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
@@ -1705,8 +1715,13 @@ namespace PKHeX.WinForms
                         qr = QR.GenerateQRCode7((PK7) pkx);
                         break;
                     default:
-                        bool qr6 = pkx.Format == 6;
-                        qr = QR.getQRImage(pkx.EncryptedBoxData, qr6 ? QR6Path : QR.BadQRUrl);
+                        if (pkx.Format == 6 && !QR6Notified) // hint that the user should not be using QR6 injection
+                        {
+                            WinFormsUtil.Alert("QR codes are deprecated in favor of other methods.",
+                                "Consider utilizing homebrew or on-the-fly RAM editing custom firmware (PKMN-NTR).");
+                            QR6Notified = true;
+                        }
+                        qr = QR.getQRImage(pkx.EncryptedBoxData, QR.getQRServer(pkx.Format));
                         break;
                 }
 
@@ -3078,8 +3093,7 @@ namespace PKHeX.WinForms
         public PKM preparePKM(bool click = true)
         {
             if (click)
-                tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
-
+                ValidateChildren();
             PKM pk = getPKMfromFields();
             return pk?.Clone();
         }
@@ -3203,6 +3217,7 @@ namespace PKHeX.WinForms
         {
             if (!Menu_ExportSAV.Enabled)
                 return;
+            ValidateChildren();
 
             // Chunk Error Checking
             string err = SAV.MiscSaveChecks();
@@ -3999,6 +4014,14 @@ namespace PKHeX.WinForms
                     if (SAV.SM)
                         new SAV_PokedexSM().ShowDialog();
                     break;
+            }
+        }
+        private void B_OpenMiscEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Generation)
+            {
+                case 3:
+                    new SAV_Misc3().ShowDialog(); break;
             }
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
