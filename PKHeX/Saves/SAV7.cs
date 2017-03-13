@@ -500,6 +500,11 @@ namespace PKHeX.Core
             get { return Data[Misc + 0x130] & 0x1F; }
             set { Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F)); }
         }
+        public int DaysFromRefreshed
+        {
+            get { return Data[Misc + 0x123]; }
+            set { Data[Misc + 0x123] = (byte)value; }
+        }
         public uint UsedFestaCoins
         {
             get { return BitConverter.ToUInt32(Data, 0x69C98); }

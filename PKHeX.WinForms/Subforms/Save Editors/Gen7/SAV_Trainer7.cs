@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
 
             Loading = false;
         }
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
+        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip();
         private readonly bool Loading;
         private bool MapUpdated;
         private bool editing;
@@ -190,6 +190,7 @@ namespace PKHeX.WinForms
             TB_PlazaName.Text = SAV.FestivalPlazaName;
 
             CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.DaysFromRefreshed);
         }
         private void save()
         {
@@ -275,6 +276,8 @@ namespace PKHeX.WinForms
 
             // Vivillon
             if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
+            
+            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -391,6 +394,7 @@ namespace PKHeX.WinForms
 
             int offset = SAV.getRecordOffset(index);
             L_Offset.Text = "Offset: 0x" + offset.ToString("X3");
+            updateTip(index, true);
             editing = false;
         }
         private void changeStatVal(object sender, EventArgs e)
@@ -398,6 +402,38 @@ namespace PKHeX.WinForms
             if (editing) return;
             int index = CB_Stats.SelectedIndex;
             SAV.setRecord(index, (int)NUD_Stat.Value);
+            updateTip(index, false);
+        }
+        private void updateTip(int index, bool updateStats)
+        {
+            switch (index)
+            {
+                case 2: // Storyline Completed Time
+                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    seconds -= seconds % 86400;
+                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    Tip3.SetToolTip(NUD_Stat, dateval2str(SAV.getRecord(index), seconds));
+                    break;
+                default:
+                    Tip3.RemoveAll();
+                    break;
+            }
+            if (updateStats)
+            {
+                string tip = "";
+                if (RecordList.TryGetValue(index, out tip))
+                    Tip3.SetToolTip(CB_Stats, tip);
+            }
+        }
+        private string dateval2str(int value, int refval = -1)
+        {
+            string tip = "";
+            if (value >= 86400)
+                tip += (value / 86400) + "d ";
+            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
+            if (refval >= 0)
+                tip += Environment.NewLine + "Date: " + new DateTime(2000, 1, 1).AddSeconds(refval + value).ToString();
+            return tip;
         }
 
         private void B_GenTID_Click(object sender, EventArgs e)

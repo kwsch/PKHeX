@@ -178,6 +178,8 @@ namespace PKHeX.WinForms
             this.L_PlazaName = new System.Windows.Forms.Label();
             this.L_Vivillon = new System.Windows.Forms.Label();
             this.CB_Vivillon = new System.Windows.Forms.ComboBox();
+            this.L_DaysFromRefreshed = new System.Windows.Forms.Label();
+            this.NUD_DaysFromRefreshed = new System.Windows.Forms.NumericUpDown();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -206,6 +208,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RMStreak0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).BeginInit();
             this.Tab_Misc.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DaysFromRefreshed)).BeginInit();
             this.GB_PokeFinder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
@@ -1590,6 +1593,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.L_DaysFromRefreshed);
+            this.Tab_Misc.Controls.Add(this.NUD_DaysFromRefreshed);
             this.Tab_Misc.Controls.Add(this.L_PlazaName);
             this.Tab_Misc.Controls.Add(this.TB_PlazaName);
             this.Tab_Misc.Controls.Add(this.CB_Fashion);
@@ -1813,6 +1818,32 @@ namespace PKHeX.WinForms
             this.CB_Vivillon.Size = new System.Drawing.Size(93, 20);
             this.CB_Vivillon.TabIndex = 65;
             // 
+            // L_DaysFromRefreshed
+            // 
+            this.L_DaysFromRefreshed.Location = new System.Drawing.Point(144, 28);
+            this.L_DaysFromRefreshed.Name = "L_DaysFromRefreshed";
+            this.L_DaysFromRefreshed.Size = new System.Drawing.Size(117, 18);
+            this.L_DaysFromRefreshed.TabIndex = 63;
+            this.L_DaysFromRefreshed.Text = "Days from Refreshed:";
+            this.L_DaysFromRefreshed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_DaysFromRefreshed
+            // 
+            this.NUD_DaysFromRefreshed.Location = new System.Drawing.Point(267, 30);
+            this.NUD_DaysFromRefreshed.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_DaysFromRefreshed.Name = "NUD_DaysFromRefreshed";
+            this.NUD_DaysFromRefreshed.Size = new System.Drawing.Size(42, 19);
+            this.NUD_DaysFromRefreshed.TabIndex = 64;
+            this.NUD_DaysFromRefreshed.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1860,6 +1891,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_RCStreak0)).EndInit();
             this.Tab_Misc.ResumeLayout(false);
             this.Tab_Misc.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DaysFromRefreshed)).EndInit();
             this.GB_PokeFinder.ResumeLayout(false);
             this.GB_PokeFinder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
@@ -2020,5 +2052,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_PlazaName;
         private System.Windows.Forms.Label L_Vivillon;
         private System.Windows.Forms.ComboBox CB_Vivillon;
+        private System.Windows.Forms.NumericUpDown NUD_DaysFromRefreshed;
+        private System.Windows.Forms.Label L_DaysFromRefreshed;
     }
 }
