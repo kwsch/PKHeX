@@ -190,6 +190,7 @@ namespace PKHeX.WinForms
             TB_PlazaName.Text = SAV.FestivalPlazaName;
 
             CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.DaysFromRefreshed);
         }
         private void save()
         {
@@ -275,6 +276,8 @@ namespace PKHeX.WinForms
 
             // Vivillon
             if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
+            
+            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
