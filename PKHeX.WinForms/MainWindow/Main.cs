@@ -3093,8 +3093,7 @@ namespace PKHeX.WinForms
         public PKM preparePKM(bool click = true)
         {
             if (click)
-                tabMain.Select(); // hack to make sure comboboxes are set (users scrolling through and immediately setting causes this)
-
+                ValidateChildren();
             PKM pk = getPKMfromFields();
             return pk?.Clone();
         }
@@ -3218,6 +3217,7 @@ namespace PKHeX.WinForms
         {
             if (!Menu_ExportSAV.Enabled)
                 return;
+            ValidateChildren();
 
             // Chunk Error Checking
             string err = SAV.MiscSaveChecks();
