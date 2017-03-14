@@ -486,6 +486,19 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x4);
             }
         }
+        public uint Stamps
+        {
+            get // 15 stamps
+            {
+                return (BitConverter.ToUInt32(Data, Misc + 0x08) << 13) >> 17; // discard top13, lowest4
+            }
+            set
+            {
+                uint flags = BitConverter.ToUInt32(Data, Misc + 0x08) & 0xFFF8000F;
+                flags |= (value & 0x7FFF) << 4;
+                BitConverter.GetBytes(flags).CopyTo(Data, Misc + 0x08);
+            }
+        }
         public uint BP
         {
             get { return BitConverter.ToUInt32(Data, Misc + 0x11C); }
@@ -542,6 +555,25 @@ namespace PKHeX.Core
                 const int max = 20;
                 if (value.Length > max) value = value.Substring(0, max);
                 Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, JoinFestaData + 0x510);
+            }
+        }
+        public struct FashionItem
+        {
+            public bool IsOwned;
+            public bool IsNew;
+        }
+        public FashionItem[] Wardrobe
+        {
+            get
+            {
+                var data = getData(Fashion, 0x5A8);
+                return data.Select(b => new FashionItem {IsOwned = (b & 1) != 0, IsNew = (b & 2) != 0}).ToArray();
+            }
+            set
+            {
+                if (value.Length != 0x5A8)
+                    throw new ArgumentOutOfRangeException($"Unexpected size: 0x{value.Length:X}");
+                setData(value.Select(t => (byte) ((t.IsOwned ? 1 : 0) | (t.IsNew ? 2 : 0))).ToArray(), Fashion);
             }
         }
 
