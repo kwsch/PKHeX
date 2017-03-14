@@ -1033,14 +1033,13 @@ namespace PKHeX.Core
                 return;
             }
 
-            var lineage = Legal.getLineage(pkm);
-
             if (pkm.Ball == 0x14 && pkm.Gen7) // Heavy Ball
             {
-                if (lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e) && (PersonalTable.SM[e].CatchRate > 20 || PersonalTable.SM[e].Weight >= 1000)))
-                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                var lineage = Legal.getLineage(pkm);
+                if (lineage.Any(e => Legal.AlolanCaptureNoHeavyBall.Contains(e)))
+                    AddLine(Severity.Invalid, "Heavy ball not possible for light, low-catch rate species in Gen VII.", CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Invalid, "Heavy ball not possible for light, low-catch rate species in Gen VII", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
 
                 return;
             }
