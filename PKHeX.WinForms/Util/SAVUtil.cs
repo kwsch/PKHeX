@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
                 string boxfolder = "";
                 if (boxFolders)
                 {
-                    boxfolder = SAV.getBoxName(pk.Box);
+                    boxfolder = SAV.getBoxName(pk.Box - 1);
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))

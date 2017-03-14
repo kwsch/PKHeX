@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -13,28 +12,26 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
-            
-            if (SAV.FRLG)
-            {
+            if (SAV.FRLG || SAV.E)
                 readJoyful();
-                TB_OTName.Text = PKX.getG3Str(SAV.getData(SAV.getBlockOffset(4) + 0xBCC, 8), SAV.Japanese);
-            }
             else
-            {
-                TAB_Joyful.Hide();
-                TB_OTName.Hide();
-                L_TrainerName.Hide();
-            }
+                tabControl1.Controls.Remove(TAB_Joyful);
+
+            if (SAV.FRLG)
+                TB_OTName.Text = PKX.getG3Str(SAV.getData(SAV.getBlockOffset(4) + 0xBCC, 8), SAV.Japanese);
+            else
+                TB_OTName.Visible = L_TrainerName.Visible = false;
+            
             NUD_BP.Value = SAV.BP;
             NUD_Coins.Value = SAV.Coin;
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            if (SAV.FRLG)
-            {
+            if (tabControl1.Controls.Contains(TAB_Joyful))
                 saveJoyful();
+            if (SAV.FRLG)
                 SAV.setData(PKX.setG3Str(TB_OTName.Text, SAV.Japanese), SAV.getBlockOffset(4) + 0xBCC);
-            }
+
             SAV.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
 
