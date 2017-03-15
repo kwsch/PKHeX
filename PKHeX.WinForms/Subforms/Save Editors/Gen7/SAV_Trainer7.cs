@@ -347,6 +347,7 @@ namespace PKHeX.WinForms
             new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
             
             // Write Payload
+            // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
 
             switch (CB_Fashion.SelectedIndex)
             {
@@ -418,21 +419,21 @@ namespace PKHeX.WinForms
                     Tip3.RemoveAll();
                     break;
             }
-            if (updateStats)
-            {
-                string tip = "";
-                if (RecordList.TryGetValue(index, out tip))
-                    Tip3.SetToolTip(CB_Stats, tip);
-            }
+            if (!updateStats)
+                return;
+
+            string tip;
+            if (RecordList.TryGetValue(index, out tip))
+                Tip3.SetToolTip(CB_Stats, tip);
         }
-        private string dateval2str(int value, int refval = -1)
+        private static string dateval2str(int value, int refval = -1)
         {
             string tip = "";
             if (value >= 86400)
-                tip += (value / 86400) + "d ";
+                tip += value / 86400 + "d ";
             tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
             if (refval >= 0)
-                tip += Environment.NewLine + "Date: " + new DateTime(2000, 1, 1).AddSeconds(refval + value).ToString();
+                tip += Environment.NewLine + "Date: " + new DateTime(2000, 1, 1).AddSeconds(refval + value);
             return tip;
         }
 

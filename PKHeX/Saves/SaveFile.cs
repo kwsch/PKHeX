@@ -628,17 +628,14 @@ namespace PKHeX.Core
         }
 
         protected virtual void setPKM(PKM pkm) { }
-        protected virtual void setDex(PKM pkm)
-        {
-            setSeen(pkm);
-            setCaught(pkm);
-        }
+        protected virtual void setDex(PKM pkm) { }
+        public virtual bool getSeen(int species) => false;
+        public virtual void setSeen(int species, bool seen) { }
+        public virtual bool getCaught(int species) => false;
+        public virtual void setCaught(int species, bool caught) { }
+        public int SeenCount => PokeDex < 0 ? 0 : new bool[MaxSpeciesID].Where((b, i) => getSeen(i+1)).Count();
+        public int CaughtCount => PokeDex < 0 ? 0 : new bool[MaxSpeciesID].Where((b, i) => getCaught(i+1)).Count();
 
-        public virtual bool getSeen(PKM pkm) { throw new NotImplementedException(); }
-        public virtual bool getCaught(PKM pkm) { throw new NotImplementedException(); }
-        public virtual void setSeen(PKM pkm, bool seen = true) { }
-        public virtual void setCaught(PKM pkm, bool caught = true) { }
-        
         public byte[] getData(int Offset, int Length)
         {
             if (Offset + Length > Data.Length)

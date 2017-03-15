@@ -1702,8 +1702,7 @@ namespace PKHeX.Core
                     break;
                 case 7:
                     info = PersonalTable.SM[species];
-                    // Type Tutors -- Pledge moves and High BP moves switched places in G7+
-                    moves.AddRange(TypeTutor7.Where((t, i) => info.TypeTutors[i]));
+                    moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     // No special tutors in G7
                     break;
 

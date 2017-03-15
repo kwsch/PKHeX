@@ -1037,11 +1037,10 @@ namespace PKHeX.Core
             {
                 var lineage = Legal.getLineage(pkm);
                 if (lineage.Any(e => Legal.AlolanCaptureNoHeavyBall.Contains(e)))
+                {
                     AddLine(Severity.Invalid, "Heavy ball not possible for light, low-catch rate species in Gen VII.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
-
-                return;
+                    return;
+                }
             }
 
             if (EncounterType == typeof(EncounterStatic))

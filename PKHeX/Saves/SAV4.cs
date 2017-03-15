@@ -841,6 +841,28 @@ namespace PKHeX.Core
             Data[PokeDexLanguageFlags + pkm.Species] |= (byte) (1 << lang);
         }
 
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x4; // Magic
+            return (1 << bm & Data[ofs + bd]) != 0;
+        }
+        public override bool getSeen(int species)
+        {
+            const int brSize = 0x40;
+
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x4; // Magic
+
+            return (1 << bm & Data[ofs + bd + brSize*1]) != 0;
+        }
+
         public int[] getForms(int species)
         {
             const int brSize = 0x40;
