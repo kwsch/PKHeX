@@ -524,8 +524,6 @@ namespace PKHeX.Core
             // No HMs
         };
 
-        internal static readonly int[] TypeTutor7 = {520, 519, 518, 338, 307, 308, 434, 620};
-
         internal static readonly int[] MovePP_SM =
         {
             00,
