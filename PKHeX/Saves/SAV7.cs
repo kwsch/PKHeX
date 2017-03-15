@@ -1035,6 +1035,34 @@ namespace PKHeX.Core
             // Set the Display flag if none are set
             Data[ofs + (4 + shift) * brSize + bd] |= (byte)(1 << bm);
         }
+
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x08 // Magic + Flags
+                      + 0x80; // Misc Data (1024 bits)
+            return (1 << bm & Data[ofs + bd]) != 0;
+        }
+        public override bool getSeen(int species)
+        {
+            const int brSize = 0x8C;
+
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            byte mask = (byte)(1 << bm);
+            int ofs = PokeDex // Raw Offset
+                      + 0x08 // Magic + Flags
+                      + 0x80; // Misc Data (1024 bits)
+
+            for (int i = 1; i <= 4; i++) // check all 4 seen flags (gender/shiny)
+                if ((Data[ofs + bd + i * brSize] & mask) != 0)
+                    return true;
+            return false;
+        }
         public override byte[] decryptPKM(byte[] data)
         {
             return PKX.decryptArray(data);

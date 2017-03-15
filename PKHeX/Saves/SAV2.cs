@@ -532,69 +532,39 @@ namespace PKHeX.Core
         }
 
         // Pokédex
-        public override bool getSeen(PKM pkm)
+        protected override void setDex(PKM pkm)
         {
-            if (pkm.Species == 0)
-                return false;
-            if (pkm.Species > MaxSpeciesID)
-                return false;
-            if (Version == GameVersion.Unknown)
-                return false;
+            int species = pkm.Species;
+            if (!canSetDex(species))
+                return;
 
-            int bit = pkm.Species - 1;
-            int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            // Get the Seen Flag
-            return (Data[PokedexSeenOffset + ofs] & bitval) != 0;
+            setCaught(pkm.Species, true);
+            setSeen(pkm.Species, true);
         }
-        public override bool getCaught(PKM pkm)
+        private bool canSetDex(int species)
         {
-            if (pkm.Species == 0)
+            if (species <= 0)
                 return false;
-            if (pkm.Species > MaxSpeciesID)
+            if (species > MaxSpeciesID)
                 return false;
             if (Version == GameVersion.Unknown)
                 return false;
-
-            int bit = pkm.Species - 1;
-            int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            // Get the Caught Flag
-            return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
+            return true;
         }
-        public override void setSeen(PKM pkm, bool seen = true)
+        public override void setSeen(int species, bool seen)
         {
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > MaxSpeciesID)
-                return;
-            if (Version == GameVersion.Unknown)
-                return;
-
-            int bit = pkm.Species - 1;
+            int bit = species - 1;
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
 
-            if (!seen)
-            {
-                // Clear the Seen Flag
+            if (seen)
+                Data[PokedexSeenOffset + ofs] |= bitval;
+            else
                 Data[PokedexSeenOffset + ofs] &= (byte)~bitval;
-                return;
-            }
-
-            // Set the Seen Flag
-            Data[PokedexSeenOffset + ofs] |= bitval;
         }
-        public override void setCaught(PKM pkm, bool caught = true)
+        public override void setCaught(int species, bool caught)
         {
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > MaxSpeciesID)
-                return;
-            if (Version == GameVersion.Unknown)
-                return;
-
-            int bit = pkm.Species - 1;
+            int bit = species - 1;
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
 
@@ -607,14 +577,28 @@ namespace PKHeX.Core
 
             // Set the Captured Flag
             Data[PokedexCaughtOffset + ofs] |= bitval;
-            if (pkm.Species == 201) // Unown
-            {
-                // Give all Unown caught to prevent a crash on pokedex view
-                for (int i = 1; i <= 26; i++)
-                {
-                    Data[PokedexSeenOffset + 0x1F + i] = (byte)i;
-                }
-            }
+            if (species != 201)
+                return;
+
+            // Give all Unown caught to prevent a crash on pokedex view
+            for (int i = 1; i <= 26; i++)
+                Data[PokedexSeenOffset + 0x1F + i] = (byte) i;
+        }
+        public override bool getSeen(int species)
+        {
+            int bit = species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            // Get the Seen Flag
+            return (Data[PokedexSeenOffset + ofs] & bitval) != 0;
+        }
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            // Get the Caught Flag
+            return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
         }
     }
 }

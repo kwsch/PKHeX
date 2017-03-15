@@ -489,7 +489,7 @@ namespace PKHeX.Core
         }
         private bool canSetDex(int species)
         {
-            if (species == 0)
+            if (species <= 0)
                 return false;
             if (species > MaxSpeciesID)
                 return false;
@@ -499,17 +499,18 @@ namespace PKHeX.Core
                 return false;
             return true;
         }
-        private bool getCaught(int species)
+
+        public override bool getCaught(int species)
         {
             int bit = species - 1;
-            int ofs = bit / 8;
+            int ofs = bit >> 3;
             byte bitval = (byte) (1 << (bit&7));
 
             int caughtOffset = BlockOfs[0] + 0x28 + ofs;
 
             return (Data[caughtOffset] & bitval) != 0;
         }
-        private void setCaught(int species, bool caught)
+        public override void setCaught(int species, bool caught)
         {
             int bit = species - 1;
             int ofs = bit / 8;
@@ -521,16 +522,17 @@ namespace PKHeX.Core
             else
                 Data[caughtOffset] &= (byte)~bitval;
         }
-        private bool getSeen(int species)
+
+        public override bool getSeen(int species)
         {
             int bit = species - 1;
-            int ofs = bit / 8;
+            int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit&7));
 
             int seenOffset = BlockOfs[0] + 0x5C + ofs;
             return (Data[seenOffset] & bitval) != 0;
         }
-        private void setSeen(int species, bool seen)
+        public override void setSeen(int species, bool seen)
         {
             int bit = species - 1;
             int ofs = bit / 8;
@@ -547,10 +549,6 @@ namespace PKHeX.Core
                     Data[SeenFlagOffsets[i] + ofs] &= (byte) ~bitval;
             }
         }
-        public override bool getCaught(PKM pkm) => getCaught(pkm.Species);
-        public override void setCaught(PKM pkm, bool caught = true) => setCaught(pkm.Species, caught);
-        public override bool getSeen(PKM pkm) => getSeen(pkm.Species);
-        public override void setSeen(PKM pkm, bool seen = true) => setSeen(pkm.Species, seen);
 
         public bool NationalDex
         {
