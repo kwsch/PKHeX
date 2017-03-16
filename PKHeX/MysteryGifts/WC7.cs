@@ -455,7 +455,8 @@ namespace PKHeX.Core
                     pk.PID = (uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF));
                     break;
                 case 03: // Random Nonshiny
-                    do { pk.PID = Util.rnd32(); } while ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF)) < 16);
+                    pk.PID = Util.rnd32();
+                    if ((uint)(((TID ^ SID ^ (pk.PID & 0xFFFF)) << 16) + (pk.PID & 0xFFFF)) < 16) pk.PID ^= 0x10000000;
                     break;
             }
 
