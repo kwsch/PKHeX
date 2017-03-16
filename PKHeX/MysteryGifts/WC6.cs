@@ -381,11 +381,10 @@ namespace PKHeX.Core
             switch (IVs[0])
             {
                 case 0xFE:
-                    finalIVs[0] = 31;
-                    do { // 31 HP IV, 2 other 31s
-                    for (int i = 1; i < 6; i++)
+                    do { // 3 Perfect IVs
+                    for (int i = 0; i < 6; i++)
                         finalIVs[i] = IVs[i] > 31 ? (int)(Util.rnd32() & 0x1F) : IVs[i];
-                    } while (finalIVs.Count(r => r == 31) < 3); // 31 + 2*31
+                    } while (finalIVs.Count(r => r == 31) < 3); // 3*31
                     break;
                 case 0xFD: 
                     do { // 2 other 31s
