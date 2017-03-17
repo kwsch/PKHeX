@@ -298,10 +298,9 @@ namespace PKHeX.Core
             }
 
             // Remove HM moves
-            int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };
             int[] newMoves = pk4.Moves;
             for (int i = 0; i < 4; i++)
-                if (banned.Contains(newMoves[i]))
+                if (Legal.HM_3.Contains(newMoves[i]))
                     newMoves[i] = 0;
             pk4.Moves = newMoves;
             pk4.FixMoves();
