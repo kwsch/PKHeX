@@ -439,11 +439,12 @@ namespace PKHeX.Core
 
             PK5 pk5 = new PK5(Data) // Convert away!
             {
-                HeldItem = 0,
                 OT_Friendship = 70,
                 // Apply new met date
                 MetDate = moment
             };
+            if (Legal.HeldItems_BW.Contains((ushort) HeldItem))
+                pk5.HeldItem = HeldItem;
 
             // Arceus Type Changing -- Plate forcibly removed.
             if (pk5.Species == 493)

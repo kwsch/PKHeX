@@ -467,7 +467,7 @@ namespace PKHeX.Core
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)
-                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a Gen{Generation} Save File.");
+                throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
             if (trade ?? SetUpdatePKM)
                 setPKM(pkm);
             if (dex ?? SetUpdateDex)
@@ -485,36 +485,7 @@ namespace PKHeX.Core
         {
             if (pkm == null) return;
             if (pkm.GetType() != PKMType)
-                throw new InvalidCastException($"PKM Format needs to be {PKMType} when setting to a {GetType().Name.Last()} Save File.");
-            if (trade ?? SetUpdatePKM)
-                setPKM(pkm);
-            if (dex ?? SetUpdateDex)
-                setDex(pkm);
-
-            setData(pkm.EncryptedBoxData, offset);
-            Edited = true;
-        }
-        public void setPartySlot(byte[] data, int offset, bool? trade = null, bool? dex = null)
-        {
-            if (data == null) return;
-            PKM pkm = getPKM(decryptPKM(data));
-            if (trade ?? SetUpdatePKM)
-                setPKM(pkm);
-            if (dex ?? SetUpdateDex)
-                setDex(pkm);
-
-            for (int i = 0; i < 6; i++)
-                if (getPartyOffset(i) == offset)
-                    if (PartyCount <= i)
-                        PartyCount = i + 1;
-
-            setData(pkm.EncryptedPartyData, offset);
-            Edited = true;
-        }
-        public void setStoredSlot(byte[] data, int offset, bool? trade = null, bool? dex = null)
-        {
-            if (data == null) return;
-            PKM pkm = getPKM(decryptPKM(data));
+                throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
             if (trade ?? SetUpdatePKM)
                 setPKM(pkm);
             if (dex ?? SetUpdateDex)
@@ -633,8 +604,8 @@ namespace PKHeX.Core
         public virtual void setSeen(int species, bool seen) { }
         public virtual bool getCaught(int species) => false;
         public virtual void setCaught(int species, bool caught) { }
-        public int SeenCount => PokeDex < 0 ? 0 : new bool[MaxSpeciesID].Where((b, i) => getSeen(i+1)).Count();
-        public int CaughtCount => PokeDex < 0 ? 0 : new bool[MaxSpeciesID].Where((b, i) => getCaught(i+1)).Count();
+        public int SeenCount => HasPokeDex ? new bool[MaxSpeciesID].Where((b, i) => getSeen(i+1)).Count() : 0;
+        public int CaughtCount => HasPokeDex ? new bool[MaxSpeciesID].Where((b, i) => getCaught(i+1)).Count() : 0;
 
         public byte[] getData(int Offset, int Length)
         {
