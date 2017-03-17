@@ -104,6 +104,7 @@ namespace PKHeX.WinForms
                 dgvIndex.DisplayIndex = c++;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                if (!Main.HaX)
                 ((DataGridViewTextBoxColumn) dgvIndex).MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
             }
 
