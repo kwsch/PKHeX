@@ -448,7 +448,10 @@ namespace PKHeX.Core
 
             // Arceus Type Changing -- Plate forcibly removed.
             if (pk5.Species == 493)
+            {
                 pk5.AltForm = 0;
+                pk5.HeldItem = 0;
+            }
 
             // Fix PP
             pk5.Move1_PP = pk5.getMovePP(pk5.Move1, pk5.Move1_PPUps);
