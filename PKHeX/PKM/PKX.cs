@@ -1910,7 +1910,7 @@ namespace PKHeX.Core
             return ekm;
         }
 
-        /// <summary>Unused item, placeholder for sprite finding</summary>
+        /// <summary>Unused item, placeholder for item/sprite finding</summary>
         private const ushort ITEM_UNK = 128;
 
         /// <summary>
@@ -2011,7 +2011,7 @@ namespace PKHeX.Core
         /// <returns>True if transferrable, False if not transferrable.</returns>
         public static bool isTransferrable34(ushort item)
         {
-            return item == ITEM_UNK && item > 0;
+            return item != ITEM_UNK && item > 0;
         }
 
         #region Gen 1 Character Tables

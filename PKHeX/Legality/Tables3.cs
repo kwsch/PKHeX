@@ -99,5 +99,6 @@ namespace PKHeX.Core
             // todo
         };
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
+        internal static readonly int[] HM_3 = {15, 19, 57, 70, 148, 249, 127, 291};
     }
 }

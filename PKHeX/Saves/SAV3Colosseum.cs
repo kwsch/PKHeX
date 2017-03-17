@@ -25,7 +25,7 @@ namespace PKHeX.Core
         private readonly int SaveCount = -1;
         private readonly int SaveIndex = -1;
         private readonly StrategyMemo StrategyMemo;
-        public override int MaxShadowID => 0x30; // 48
+        public override int MaxShadowID => 0x80; // 128
         private readonly int Memo;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne;
         private readonly int OFS_PouchCologne;

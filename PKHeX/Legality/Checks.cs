@@ -871,7 +871,7 @@ namespace PKHeX.Core
                 result[0] = "Missing Ribbons: " + string.Join(", ", missingRibbons);
             if (invalidRibbons.Count > 0)
                 result[1] = "Invalid Ribbons: " + string.Join(", ", invalidRibbons);
-            AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s=>!string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
+            AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
         }
         private void verifyAbility()
         {
@@ -2143,7 +2143,7 @@ namespace PKHeX.Core
                     else
                         reqBase = baseCt;
 
-                    if (pkm.RelearnMoves.Where(m=>m != 0).Count() < Math.Min(4, baseMoves.Count))
+                    if (pkm.RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
                         reqBase = Math.Min(4, unique);
 
                     // Movepool finalized! Check validity.

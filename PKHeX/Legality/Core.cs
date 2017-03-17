@@ -1479,14 +1479,14 @@ namespace PKHeX.Core
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(getMoves(pkm, species, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
-                return r.Distinct().ToArray();
+                return r.Distinct();
             }
 
             foreach (DexLevel evo in vs)
                 r.AddRange(getMoves(pkm, evo.Species, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, Generation));
 
             if (pkm.Format <= 3)
-                return r.Distinct().ToArray();
+                return r.Distinct();
             if (LVL)
             { 
                 if (species == 479 && Generation >= 4) // Rotom
@@ -1510,7 +1510,7 @@ namespace PKHeX.Core
             }
             if (Relearn && Generation >= 6)
                 r.AddRange(pkm.RelearnMoves);
-            return r.Distinct().ToArray();
+            return r.Distinct();
         }
         private static IEnumerable<int> getMoves(PKM pkm, int species, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder)
         {

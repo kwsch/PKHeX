@@ -439,7 +439,6 @@ namespace PKHeX.Core
 
             PK5 pk5 = new PK5(Data) // Convert away!
             {
-                HeldItem = 0,
                 OT_Friendship = 70,
                 // Apply new met date
                 MetDate = moment
@@ -447,7 +446,14 @@ namespace PKHeX.Core
 
             // Arceus Type Changing -- Plate forcibly removed.
             if (pk5.Species == 493)
+            {
                 pk5.AltForm = 0;
+                pk5.HeldItem = 0;
+            }
+            else
+            {
+                pk5.HeldItem = Legal.HeldItems_BW.Contains((ushort) HeldItem) ? HeldItem : 0;
+            }
 
             // Fix PP
             pk5.Move1_PP = pk5.getMovePP(pk5.Move1, pk5.Move1_PPUps);
@@ -455,14 +461,14 @@ namespace PKHeX.Core
             pk5.Move3_PP = pk5.getMovePP(pk5.Move3, pk5.Move3_PPUps);
             pk5.Move4_PP = pk5.getMovePP(pk5.Move4, pk5.Move4_PPUps);
 
-            // Disassociate Nature and PID
-            pk5.Nature = (int)(pk5.PID % 25);
+            // Disassociate Nature and PID, pk4 getter does PID%25
+            pk5.Nature = Nature;
 
             // Delete Platinum/HGSS Met Location Data
             BitConverter.GetBytes((uint)0).CopyTo(pk5.Data, 0x44);
 
             // Met / Crown Data Detection
-            pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Array.IndexOf(new[] {251, 243, 244, 245}, pk5.Species) >= 0
+            pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Array.IndexOf(Legal.CrownBeasts, pk5.Species) >= 0
                 ? (pk5.Species == 251 ? 30010 : 30012) // Celebi : Beast
                 : 30001; // Pokétransfer (not Crown)
             
