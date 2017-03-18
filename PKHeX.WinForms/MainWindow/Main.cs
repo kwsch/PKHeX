@@ -903,7 +903,10 @@ namespace PKHeX.WinForms
                     return;
                 Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
             }
-            else if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
+            else
+                Legal.AllowGBCartEra = sav.Generation == 2;
+
+            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 // Hacky cheats invalidated the Game Code value.
                 var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
