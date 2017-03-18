@@ -263,11 +263,13 @@ namespace PKHeX.Core
         public bool VC2 => Version >= 39 && Version <= 41;
         public bool VC1 => Version >= 35 && Version <= 38;
         public bool Horohoro => Version == 34;
+        public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
+        public bool HGSS => Version == (int)GameVersion.HG || Version == (int)GameVersion.SS;
+        public bool B2W2 => Version == (int)GameVersion.B2 || Version == (int)GameVersion.W2;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
         protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;

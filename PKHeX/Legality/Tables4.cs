@@ -141,5 +141,32 @@ namespace PKHeX.Core
         };
         internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
         internal static readonly int[] CrownBeasts = {251, 243, 244, 245};
+
+        internal static readonly int[] Tutors_4 =
+        {
+            291, 189, 210, 196, 205, 009, 007, 276,
+            008, 442, 401, 466, 380, 173, 180, 314,
+            270, 283, 200, 246, 235, 324, 428, 410,
+            414, 441, 239, 402, 334, 393, 387, 340,
+            271, 257, 282, 389, 129, 253, 162, 220,
+            081, 366, 356, 388, 277, 272, 215, 067,
+            143, 335, 450,
+        };
+        internal static readonly EncounterStatic[] Encounter_DPPt =
+        {
+            //todo
+        };
+        internal static readonly EncounterStatic[] Encounter_HGSS =
+        {
+            //todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_DPPt =
+        {
+            //todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_HGSS =
+        {
+            //todo
+        };
     }
 }

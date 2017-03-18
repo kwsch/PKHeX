@@ -99,5 +99,29 @@ namespace PKHeX.Core
             // todo
         };
         internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2+1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
+        internal static readonly int[][] Tutors_B2W2 =
+        {
+            new[] { 343, 450, 529, 340, 324, 442, 162, 253, 402, 530, 067, 441, 007, 009, 008 }, // Driftveil City
+            new[] { 387, 334, 393, 277, 335, 304, 527, 196, 231, 401, 414, 428, 492, 276, 356, 406, 399 }, // Lentimas Town
+            new[] { 020, 173, 215, 282, 235, 355, 143, 272, 257, 202, 409, 220, 366 }, // Humilau City
+            new[] { 388, 380, 270, 495, 478, 472, 180, 278, 271, 446, 200, 283, 214, 285, 289, } // Nacrene City
+        };
+
+        internal static readonly EncounterStatic[] Encounter_BW =
+        {
+            //todo
+        };
+        internal static readonly EncounterStatic[] Encounter_B2W2 =
+        {
+            //todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_BW =
+        {
+            //todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_B2W2 =
+        {
+            //todo
+        };
     }
 }

@@ -99,6 +99,49 @@ namespace PKHeX.Core
             // todo
         };
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
+        internal static readonly int[] TM_3 =
+        {
+            264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
+            241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
+            218, 076, 231, 085, 087, 089, 216, 091, 094, 247,
+            280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
+            259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
+        };
         internal static readonly int[] HM_3 = {15, 19, 57, 70, 148, 249, 127, 291};
+        internal static readonly int[] TypeTutor3 = {338, 307, 308};
+        internal static readonly int[] Tutor_3Mew =
+        {
+            185, // Feint Attack
+            252, // Fake Out
+            095, // Hypnosis
+            101, // Night Shade
+            272, // Role Play
+            192, // Zap Cannon
+        };
+        internal static readonly int[][] Tutor_Frontier =
+        {
+            new[] {135, 069, 138, 005, 025, 034, 157, 068, 086, 014},
+            new[] {111, 173, 189, 129, 196, 203, 244, 008, 009, 007},
+        };
+        internal static readonly int[] Tutor_E = {038, 223, 153, 210, 118, 102, 205, 214, 164, 207};
+        internal static readonly int[] Tutor_FRLG = {034, 068, 038, 138, 153, 025, 005, 118, 102, 157, 069, 135, 164, 014, 086};
+
+        internal static readonly EncounterStatic[] Encounter_RSE =
+        {
+            //todo
+        };
+        internal static readonly EncounterStatic[] Encounter_FRLG =
+        {
+            //todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_RSE =
+        {
+            //todo
+        };
+        internal static readonly EncounterTrade[] TradeGift_FRLG =
+        {
+            //todo
+        };
+
     }
 }

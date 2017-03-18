@@ -715,8 +715,12 @@ namespace PKHeX.WinForms
                 byte[] input; try { input = File.ReadAllBytes(path); }
                 catch (Exception e) { WinFormsUtil.Error("Unable to load file.  It could be in use by another program.\nPath: " + path, e); return; }
 
+                #if DEBUG
+                openFile(input, path, ext);
+                #else
                 try { openFile(input, path, ext); }
                 catch (Exception e) { WinFormsUtil.Error("Unable to load file.\nPath: " + path, e); }
+                #endif
             }
         }
         private void openFile(byte[] input, string path, string ext)

@@ -260,8 +260,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\byte\eggmove_bw.pkl" />
     <None Include="Resources\byte\eggmove_c.pkl" />
+    <None Include="Resources\byte\eggmove_dppt.pkl" />
     <None Include="Resources\byte\eggmove_gs.pkl" />
+    <None Include="Resources\byte\eggmove_hgss.pkl" />
+    <None Include="Resources\byte\eggmove_rs.pkl" />
     <None Include="Resources\byte\eggmove_sm.pkl" />
     <None Include="Resources\byte\encounter_blue.pkl" />
     <None Include="Resources\byte\encounter_crystal.pkl" />
@@ -286,15 +290,26 @@
     <None Include="Resources\byte\fashion_f_sm_illegal" />
     <None Include="Resources\byte\fashion_m_sm" />
     <None Include="Resources\byte\fashion_m_sm_illegal" />
+    <None Include="Resources\byte\hmtm_g3.pkl" />
+    <None Include="Resources\byte\lvlmove_b2w2.pkl" />
+    <None Include="Resources\byte\lvlmove_bw.pkl" />
     <None Include="Resources\byte\lvlmove_c.pkl" />
+    <None Include="Resources\byte\lvlmove_dp.pkl" />
+    <None Include="Resources\byte\lvlmove_e.pkl" />
+    <None Include="Resources\byte\lvlmove_fr.pkl" />
     <None Include="Resources\byte\lvlmove_gs.pkl" />
+    <None Include="Resources\byte\lvlmove_hgss.pkl" />
+    <None Include="Resources\byte\lvlmove_lg.pkl" />
+    <None Include="Resources\byte\lvlmove_pt.pkl" />
     <None Include="Resources\byte\lvlmove_rb.pkl" />
-    <None Include="Resources\byte\lvlmove_rby.pkl" />
+    <None Include="Resources\byte\lvlmove_rs.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
     <None Include="Resources\byte\lvlmove_y.pkl" />
     <None Include="Resources\byte\personal_rb" />
     <None Include="Resources\byte\personal_sm" />
     <None Include="Resources\byte\personal_y" />
+    <None Include="Resources\byte\tutors_g3.pkl" />
+    <None Include="Resources\byte\tutors_g4.pkl" />
     <None Include="Resources\byte\wc7.pkl" />
     <None Include="Resources\byte\wc7full.pkl" />
     <None Include="Resources\text\gen3\text_gsc_00000_es.txt" />
@@ -355,7 +370,6 @@
     <None Include="Resources\byte\personal_hgss" />
     <None Include="Resources\byte\personal_lg" />
     <None Include="Resources\byte\personal_pt" />
-    <None Include="Resources\byte\personal_rby" />
     <None Include="Resources\byte\personal_rs" />
     <None Include="Resources\byte\personal_xy" />
     <None Include="Resources\byte\wc6.pkl" />

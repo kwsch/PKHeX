@@ -7450,4 +7450,52 @@
   <data name="rare_icon_alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\misc\rare_icon_alt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="eggmove_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_bw.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eggmove_dppt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_dppt.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eggmove_hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_hgss.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="eggmove_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\eggmove_rs.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="hmtm_g3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\hmtm_g3.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_b2w2.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_bw.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_dp.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_e.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_fr.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_hgss.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_lg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_lg.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_pt.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lvlmove_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\lvlmove_rs.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tutors_g3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\tutors_g3.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tutors_g4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\tutors_g4.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

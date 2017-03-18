@@ -21,6 +21,8 @@ namespace PKHeX.Core
 
         public readonly bool Parsed;
         public readonly bool Valid;
+        public bool ParsedValid => Parsed && Valid;
+        public bool ParsedInvalid => Parsed && !Valid;
         public CheckResult[] vMoves = new CheckResult[4];
         public CheckResult[] vRelearn = new CheckResult[4];
         public string Report => getLegalityReport();
@@ -48,6 +50,9 @@ namespace PKHeX.Core
                 if (!Parse.Any())
                 switch (pk.GenNumber)
                 {
+                    case 3: parsePK3(pk); break;
+                    case 4: parsePK4(pk); break;
+                    case 5: parsePK5(pk); break;
                     case 6: parsePK6(pk); break;
 
                     case 1: parsePK7(pk); break;
@@ -59,7 +64,7 @@ namespace PKHeX.Core
                 {
                     if (Parse.Any(chk => !chk.Valid))
                         Valid = false;
-                    if (vMoves.Any(m => m.Valid != true))
+                    else if (vMoves.Any(m => m.Valid != true))
                         Valid = false;
                     else if (vRelearn.Any(m => m.Valid != true))
                         Valid = false;
@@ -98,6 +103,39 @@ namespace PKHeX.Core
             verifyDVs();
             verifyG1OT();
             verifyEggMoves();
+        }
+        private void parsePK3(PKM pk)
+        {
+            pkm = pk;
+            if (!pkm.IsOriginValid)
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            
+            updateEncounterChain();
+            updateMoveLegality();
+            updateEncounterInfo();
+            updateChecks();
+        }
+        private void parsePK4(PKM pk)
+        {
+            pkm = pk;
+            if (!pkm.IsOriginValid)
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            
+            updateEncounterChain();
+            updateMoveLegality();
+            updateEncounterInfo();
+            updateChecks();
+        }
+        private void parsePK5(PKM pk)
+        {
+            pkm = pk;
+            if (!pkm.IsOriginValid)
+            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            
+            updateEncounterChain();
+            updateMoveLegality();
+            updateEncounterInfo();
+            updateChecks();
         }
         private void parsePK6(PKM pk)
         {
@@ -156,29 +194,31 @@ namespace PKHeX.Core
         }
         private void updateChecks()
         {
-            History = verifyHistory();
-            AddLine(History);
-
             verifyECPID();
             verifyNickname();
             verifyOT();
             verifyIVs();
-            verifyHyperTraining();
             verifyEVs();
             verifyLevel();
-            verifyMedals();
             verifyRibbons();
             verifyAbility();
             verifyBall();
-            verifyOTMemory();
-            verifyHTMemory();
             verifyRegion();
             verifyForm();
             verifyMisc();
             verifyGender();
             verifyItem();
 
-            if (pkm.GenNumber < 5)
+            if (pkm.Format >= 6)
+            {
+                History = verifyHistory();
+                AddLine(History);
+                verifyOTMemory();
+                verifyHTMemory();
+                verifyHyperTraining();
+                verifyMedals();
+            }
+            if (pkm.GenNumber < 5 || pkm.VC)
                 verifyEggMoves();
 
             verifyVersionEvolution();
