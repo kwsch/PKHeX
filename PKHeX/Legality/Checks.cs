@@ -49,7 +49,7 @@ namespace PKHeX.Core
         internal string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
         public bool Flag;
-        private readonly CheckIdentifier Identifier;
+        internal readonly CheckIdentifier Identifier;
 
         internal CheckResult(CheckIdentifier i) { Identifier = i; }
         internal CheckResult(Severity s, string c, CheckIdentifier i)
@@ -876,6 +876,8 @@ namespace PKHeX.Core
         private void verifyAbility()
         {
             int[] abilities = pkm.PersonalInfo.Abilities;
+            if (abilities[1] == 0)
+                abilities[1] = abilities[0];
             int abilval = Array.IndexOf(abilities, pkm.Ability);
             if (abilval < 0)
             {
@@ -2003,6 +2005,11 @@ namespace PKHeX.Core
                                      new int[0];
 
                 res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, EggMoves);
+
+                if (pkm.GenNumber >= 6)
+                    for (int i = 0; i < 4; i++)
+                        if (res[i].Flag && !RelearnMoves.Contains(Moves[i]))
+                            res[i] = new CheckResult(Severity.Invalid, "Relearn Moves missing " + res[i].Comment, res[i].Identifier);
             }
             if (Moves[0] == 0) // None
                 res[0] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
@@ -2098,6 +2105,15 @@ namespace PKHeX.Core
                 GameVersion[] Games = {};
                 switch (pkm.GenNumber)
                 {
+                    case 3:
+                        Games = new[] {GameVersion.RS, GameVersion.E, GameVersion.FRLG};
+                        break;
+                    case 4:
+                        Games = new[] {GameVersion.DP, GameVersion.Pt, GameVersion.HGSS};
+                        break;
+                    case 5:
+                        Games = new[] {GameVersion.BW, GameVersion.B2W2};
+                        break;
                     case 6:
                         Games = new[] {GameVersion.XY, GameVersion.ORAS};
                         break;
