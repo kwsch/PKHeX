@@ -479,7 +479,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 190, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Aipom 
                     new EncounterSlot { Species = 214, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Heracross
                     new EncounterSlot { Species = 265, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Wurmple
-                    new EncounterSlot { Species = 412, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Burmy 
+                    new EncounterSlot { Species = 412, LevelMin = 5, LevelMax = 15, Form = 0, Type = SlotType.HoneyTree }, // Burmy Plant Cloak
                     new EncounterSlot { Species = 415, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Combee 
                     new EncounterSlot { Species = 420, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cheruby
                     new EncounterSlot { Species = 446, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Munchlax 
@@ -499,7 +499,7 @@ namespace PKHeX.Core
             {
                 Slots = SlotsPt_HoneyTree.Slots.Concat(new EncounterSlot[]
                 {
-                    new EncounterSlot { Species = 267, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cascoon
+                    new EncounterSlot { Species = 268, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cascoon
                 }).ToArray()
             };
 
