@@ -1924,6 +1924,16 @@ namespace PKHeX.Core
                 }
                 if (pkm.FatefulEncounter)
                     AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
+                if (pkm.Format == 5)
+                {
+                    var enc = EncounterMatch as EncounterStatic;
+                    bool req = enc?.NSparkle ?? false;
+                    bool has = ((PK5) pkm).NPokémon;
+                    if (req && !has)
+                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag missing.", CheckIdentifier.Fateful);
+                    if (!req && has)
+                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag should not be checked.", CheckIdentifier.Fateful);
+                }
             }
         }
         private void verifyVersionEvolution()

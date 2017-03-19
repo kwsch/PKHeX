@@ -35,8 +35,6 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpFR = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_fr, "fr"));
         private static readonly Learnset[] LevelUpLG = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_lg, "lg"));
         private static readonly EggMoves[] EggMovesRS = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_rs, "rs"));
-        //private static readonly TMHMTutorMoves[] TutorsG3 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.tutors_g3, "g3"));
-        //private static readonly TMHMTutorMoves[] HMTMG3 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.hmtm_g3, "g3"));
         private static readonly EvolutionTree Evolves3;
         private static readonly EncounterArea[] SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG;
         private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;
@@ -127,6 +125,16 @@ namespace PKHeX.Core
             byte[] tables = null;
             switch (Game)
             {
+                case GameVersion.R: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_r, "ru"));
+                case GameVersion.S: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_s, "sa"));
+                case GameVersion.E: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_e, "em"));
+                case GameVersion.FR: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_fr, "fr"));
+                case GameVersion.LG: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_lg, "lg"));
+                case GameVersion.D: return EncounterArea.getArray4DPPt(Data.unpackMini(Resources.encounter_d, "da"));
+                case GameVersion.P: return EncounterArea.getArray4DPPt(Data.unpackMini(Resources.encounter_p, "pe"));
+                case GameVersion.Pt: return EncounterArea.getArray4DPPt(Data.unpackMini(Resources.encounter_pt, "pt"));
+                case GameVersion.HG: return EncounterArea.getArray4HGSS(Data.unpackMini(Resources.encounter_hg, "hg"));
+                case GameVersion.SS: return EncounterArea.getArray4HGSS(Data.unpackMini(Resources.encounter_ss, "ss"));
                 case GameVersion.B: ident = "51"; tables = Resources.encounter_b; break;
                 case GameVersion.W: ident = "51"; tables = Resources.encounter_w; break;
                 case GameVersion.B2: ident = "52"; tables = Resources.encounter_b2; break;
@@ -156,7 +164,33 @@ namespace PKHeX.Core
             }
             return GameSlots;
         }
+        private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
+        {
+            // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.Where(a => (a.Location < 188 || a.Location > 194)).
+                          GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
+        }
 
+        private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
+        {
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
+        }
+        private static void MarkG4Slots(ref EncounterArea[] Areas)
+        {
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
+        }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -187,6 +221,11 @@ namespace PKHeX.Core
                 } while (ctr != area.Slots.Length);
                 area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
             }
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -272,13 +311,25 @@ namespace PKHeX.Core
                 StaticFR = getStaticEncounters(GameVersion.FR);
                 StaticLG = getStaticEncounters(GameVersion.LG);
 
-                SlotsR = getEncounterTables(GameVersion.R);
-                SlotsS = getEncounterTables(GameVersion.S);
-                SlotsE = getEncounterTables(GameVersion.E);
-                SlotsFR = getEncounterTables(GameVersion.FR);
-                SlotsLG = getEncounterTables(GameVersion.LG);
+                var R_Slots = getEncounterTables(GameVersion.R);
+                var S_Slots = getEncounterTables(GameVersion.S);
+                var E_Slots = getEncounterTables(GameVersion.E);
+                var FR_Slots = getEncounterTables(GameVersion.FR);
+                var LG_Slots = getEncounterTables(GameVersion.LG);
 
-              //Evolves3 = new EvolutionTree(Data.unpackMini(Resources.evos_rs, "rs"), GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
+                MarkG3Slots_RSE(ref R_Slots);
+                MarkG3Slots_RSE(ref S_Slots);
+                MarkG3Slots_RSE(ref E_Slots);
+                MarkG3Slots_FRLG(ref FR_Slots);
+                MarkG3Slots_FRLG(ref LG_Slots);
+
+                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
+                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
+                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt);
+                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt);
+                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt);
+
+                Evolves3 = new EvolutionTree(new[] { Resources.evos_g3 }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
                 // Update Personal Entries with TM/Tutor Data
                 var TMHM = Data.unpackMini(Resources.hmtm_g3, "g3");
@@ -296,13 +347,33 @@ namespace PKHeX.Core
                 StaticHG = getStaticEncounters(GameVersion.HG);
                 StaticSS = getStaticEncounters(GameVersion.SS);
 
-                SlotsD = getEncounterTables(GameVersion.D);
-                SlotsP = getEncounterTables(GameVersion.P);
-                SlotsPt = getEncounterTables(GameVersion.Pt);
-                SlotsHG = getEncounterTables(GameVersion.HG);
-                SlotsSS = getEncounterTables(GameVersion.SS);
+                var D_Slots = getEncounterTables(GameVersion.D);
+                var P_Slots = getEncounterTables(GameVersion.P);
+                var Pt_Slots = getEncounterTables(GameVersion.Pt);
+                var HG_Slots = getEncounterTables(GameVersion.HG);
+                var SS_Slots = getEncounterTables(GameVersion.SS);
+                var HG_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Resources.encunters_hb_hg, "hg"));
+                var SS_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Resources.encunters_hb_ss, "ss"));
 
-              //Evolves4 = new EvolutionTree(Data.unpackMini(Resources.evos_dp, "dp"), GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
+                var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
+                var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
+                var Pt_HoneyTrees_Slots = SlotsPt_HoneyTree.Clone(HoneyTreesLocation);
+
+                MarkG4Slots(ref D_Slots);
+                MarkG4Slots(ref P_Slots);
+                MarkG4Slots(ref Pt_Slots);
+                MarkG4Slots(ref HG_Slots);
+                MarkG4Slots(ref SS_Slots);
+                MarkG4Slots(ref HG_Headbutt_Slots);
+                MarkG4Slots(ref SS_Headbutt_Slots);
+
+                SlotsD = addExtraTableSlots(addExtraTableSlots(D_Slots, D_HoneyTrees_Slots), SlotsDPPPtAlt);
+                SlotsP = addExtraTableSlots(addExtraTableSlots(P_Slots, P_HoneyTrees_Slots), SlotsDPPPtAlt);
+                SlotsPt = addExtraTableSlots(addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots), SlotsDPPPtAlt);
+                SlotsHG = addExtraTableSlots(addExtraTableSlots(HG_Slots, HG_Headbutt_Slots), SlotsHGSSAlt);
+                SlotsSS = addExtraTableSlots(addExtraTableSlots(SS_Slots, SS_Headbutt_Slots), SlotsHGSSAlt);
+
+                Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
                 // Update Personal Entries with Tutor Data
                 var tutors = Data.unpackMini(Resources.tutors_g4, "g4");
@@ -325,7 +396,7 @@ namespace PKHeX.Core
                 MarkG5Slots(ref SlotsB2);
                 MarkG5Slots(ref SlotsW2);
 
-                //Evolves5 = new EvolutionTree(Data.unpackMini(Resources.evos_bw, "bw"), GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
+                Evolves5 = new EvolutionTree(new[] { Resources.evos_g5 }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
             }
             // Gen 6
             {
@@ -363,10 +434,6 @@ namespace PKHeX.Core
 
                 Evolves7 = new EvolutionTree(Data.unpackMini(Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
             }
-
-            // Temp
-
-            Evolves3 = Evolves4 = Evolves5 = Evolves6;
         }
 
         // Moves
