@@ -104,6 +104,22 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_HGSS = new ushort[1].Concat(Pouch_Items_HGSS).Concat(Pouch_Mail_HGSS).Concat(Pouch_Medicine_HGSS).Concat(Pouch_Berries_HGSS).Concat(Pouch_Ball_Pt).Concat(Pouch_TMHM_HGSS.Take(Pouch_TMHM_HGSS.Length - 8)).ToArray();
         #endregion
 
+        internal static readonly int[] TMHM_HGSS =
+        {
+            264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
+            241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
+            218, 076, 231, 085, 087, 089, 216, 091, 094, 247,
+            280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
+            259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
+            355, 411, 412, 206, 362, 374, 451, 203, 406, 409,
+            261, 318, 373, 153, 421, 371, 278, 416, 397, 148,
+            444, 419, 086, 360, 014, 446, 244, 445, 399, 157,
+            404, 214, 363, 398, 138, 447, 207, 365, 369, 164,
+            430, 433,
+
+            015, 019, 057, 070, 250, 432, 249, 127, 431 // Defog(DPPt) & Whirlpool(HGSS)
+        };
+
         internal static readonly int[] MovePP_DP =
         {
             00,
@@ -381,11 +397,27 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
-            //todo
+            new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new int[] {15,15,15,25,25,20}, Nature = Nature.Quiet,}, // Abra
+            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new int[] {15,20,15,25,15,25}, Nature = Nature.Lonely, }, // Chatot
+            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new int[] {20,25,15,15,15,25}, Nature = Nature.Hasty,}, // Haunter
+            new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new int[] {15,25,15,25,15,20}, Nature = Nature.Mild}, // Magikarp
         };
         internal static readonly EncounterTrade[] TradeGift_HGSS =
         {
-            //todo
+            new EncounterTrade { Species = 095, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new int[] {25,20,25,15,15,15}, Nature = Nature.Hasty,}, // Onix
+            new EncounterTrade { Species = 066, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new int[] {15,25,20,15,15,20}, Nature = Nature.Lonely,}, // Machop
+            new EncounterTrade { Species = 100, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new int[] {15,20,15,25,15,25}, Nature = Nature.Hardy,}, // Voltorb
+            new EncounterTrade { Species = 085, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new int[] {20,20,20,15,15,15}, Nature = Nature.Impish,}, // Dodrio
+            new EncounterTrade { Species = 082, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new int[] {15,20,15,20,20,20}, Nature = Nature.Impish,}, // Magneton
+            new EncounterTrade { Species = 178, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new int[] {15,20,15,20,20,20}, Nature = Nature.Modest,}, // Xatu
+            new EncounterTrade { Species = 025, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new int[] {20,25,18,25,13,31}, Nature = Nature.Jolly,}, // Pikachu
+            new EncounterTrade { Species = 374, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new int[] {28,29,24,24,25,23}, Nature = Nature.Brave,}, // Beldum
+            new EncounterTrade { Species = 111, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new int[] {22,31,13,22,9,0}, Nature = Nature.Relaxed, Moves= new int[]{422,-1,-1,-1} }, // Rhyhorn
+            new EncounterTrade { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new int[] {8,30,28,18,20,6}, Nature = Nature.Brave,}, // Steelix
+
+            //Gift
+            new EncounterTrade { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Hasty,   Level = 20, Location = 183, Moves= new int[]{043,031,228,332}},//Webster's Spearow
+            new EncounterTrade { Species = 213, Ability = 2, TID = 04336, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Relaxed, Level = 20, Location = 130, Moves= new int[]{132,117,227,219}},//Kirk's Shuckle
         };
     }
 }
