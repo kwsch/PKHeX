@@ -631,6 +631,35 @@ namespace PKHeX.Core
             return Area4;
         }
 
+        private static EncounterArea getArea4HGSS_Headbutt(byte[] data)
+        {
+            EncounterArea Area4 = new EncounterArea();
+            if (data.Length < 78)
+            { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
+            Area4.Location = BitConverter.ToUInt16(data, 0);
+            //4 bytes padding
+            var Slots = new List<EncounterSlot>();
+
+			// 00-11 Normal trees
+			// 12-17 Special trees
+            for (int i = 0; i < 18; i++)
+            {
+                int Species = BitConverter.ToUInt16(data, 6 + i * 4);
+                if (Species > 0)
+                {
+                    Slots.Add(new EncounterSlot()
+                    {
+                        Species = Species,
+                        LevelMin = data[8 + i * 4],
+                        LevelMax = data[9 + i * 4],
+                        Type = SlotType.Headbutt
+                    });
+                }
+            }
+            Area4.Slots = Slots.ToArray();
+            return Area4;
+        }
+
         /// <summary>
         /// RBY Format Slot Getter from data.
         /// </summary>
@@ -836,6 +865,26 @@ namespace PKHeX.Core
             for (int i = 0; i < entries.Length; i++)
             {
                 EncounterArea Area = getArea4HGSS(entries[i]);
+                if (Area.Slots.Any())
+                    Areas.Add(Area);
+            }
+            return Areas.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Hearth Gold and Soul Silver Headbutt tree data.
+        /// </summary>
+        /// <param name="entries">Raw data, one byte array per encounter area</param>
+        /// <returns>Array of encounter areas.</returns>
+        public static EncounterArea[] getArray4HGSS_Headbutt(byte[][] entries)
+        {
+            if (entries == null)
+                return null;
+
+            var Areas = new List<EncounterArea>();
+            for (int i = 0; i < entries.Length; i++)
+            {
+                EncounterArea Area = getArea4HGSS_Headbutt(entries[i]);
                 if (Area.Slots.Any())
                     Areas.Add(Area);
             }

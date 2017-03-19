@@ -297,6 +297,8 @@
     <None Include="Resources\byte\encounter_w2.pkl" />
     <None Include="Resources\byte\encounter_yellow.pkl" />
     <None Include="Resources\byte\encounter_yellow_f.pkl" />
+    <None Include="Resources\byte\encunters_hb_hg.pkl" />
+    <None Include="Resources\byte\encunters_hb_ss.pkl" />
     <None Include="Resources\byte\evos_g3.pkl" />
     <None Include="Resources\byte\evos_g4.pkl" />
     <None Include="Resources\byte\evos_g5.pkl" />

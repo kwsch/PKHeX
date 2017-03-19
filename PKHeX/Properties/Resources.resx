@@ -7549,4 +7549,10 @@
   <data name="evos_g5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\evos_g5.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="encunters_hb_hg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encunters_hb_hg.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="encunters_hb_ss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\encunters_hb_ss.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

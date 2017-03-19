@@ -226,6 +226,12 @@ namespace PKHeX.Core
                 } while (ctr != area.Slots.Length);
                 area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
             }
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea()
+                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -352,18 +358,22 @@ namespace PKHeX.Core
                 var Pt_Slots = getEncounterTables(GameVersion.Pt);
                 var HG_Slots = getEncounterTables(GameVersion.HG);
                 var SS_Slots = getEncounterTables(GameVersion.SS);
+                var HG_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Resources.encunters_hb_hg, "hg"));
+                var SS_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Resources.encunters_hb_ss, "ss"));
 
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
                 MarkG4Slots(ref Pt_Slots);
                 MarkG4Slots(ref HG_Slots);
                 MarkG4Slots(ref SS_Slots);
+                MarkG4Slots(ref HG_Headbutt_Slots);
+                MarkG4Slots(ref SS_Headbutt_Slots);
 
                 SlotsD = addExtraTableSlots(D_Slots, SlotsDPPPtAlt);
                 SlotsP = addExtraTableSlots(P_Slots, SlotsDPPPtAlt);
                 SlotsPt = addExtraTableSlots(Pt_Slots, SlotsDPPPtAlt);
-                SlotsHG = addExtraTableSlots(HG_Slots, SlotsHGSSAlt);
-                SlotsSS = addExtraTableSlots(SS_Slots, SlotsHGSSAlt);
+                SlotsHG = addExtraTableSlots(addExtraTableSlots(HG_Slots, HG_Headbutt_Slots), SlotsHGSSAlt);
+                SlotsSS = addExtraTableSlots(addExtraTableSlots(SS_Slots, SS_Headbutt_Slots), SlotsHGSSAlt);
 
                 Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 

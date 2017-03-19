@@ -12855,6 +12855,26 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
+        public static byte[] encunters_hb_hg {
+            get {
+                object obj = ResourceManager.GetObject("encunters_hb_hg", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
+        public static byte[] encunters_hb_ss {
+            get {
+                object obj = ResourceManager.GetObject("encunters_hb_ss", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Byte[].
+        /// </summary>
         public static byte[] evos_ao {
             get {
                 object obj = ResourceManager.GetObject("evos_ao", resourceCulture);
