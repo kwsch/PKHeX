@@ -4,6 +4,7 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
+        internal const int MaxSpeciesIndex_3 = 412;
         internal const int MaxSpeciesID_3 = 386;
         internal const int MaxMoveID_3 = 354;
         internal const int MaxItemID_3 = 374;
