@@ -236,6 +236,12 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 244, Level = 50, }, //Entei
             new EncounterStatic { Species = 245, Level = 50, }, //Suicune
         };
+
+        private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
+        private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};
+        private static readonly int[] TradeContest_Cute =   {05, 05, 30, 05, 05, 10};
+        private static readonly int[] TradeContest_Clever = {05, 05, 05, 30, 05, 10};
+        private static readonly int[] TradeContest_Tough =  {05, 05, 05, 05, 30, 10};
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
             new EncounterTrade { Species = 296, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Nature = Nature.Hardy, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Makuhita
@@ -262,11 +268,6 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
-        private static int[] TradeContest_Cool      = { 30, 5, 5, 5, 5, 10 };
-        private static int[] TradeContest_Beauty    = { 5, 30, 5, 5, 5, 10 };
-        private static int[] TradeContest_Cute      = { 5, 5, 30, 5, 5, 10 };
-        private static int[] TradeContest_Clever    = { 5, 5, 5, 30, 5, 10 };
-        private static int[] TradeContest_Tough     = { 5, 5, 5, 5, 30, 10 };
 
         #region AltSlots
         private static readonly EncounterArea[] SlotsRSEAlt =
