@@ -134,11 +134,49 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterTrade[] TradeGift_BW =
         {
-            //todo
+            new EncounterTrade { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Modest, Version = GameVersion.B, }, // Petilil
+            new EncounterTrade { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Modest, Version = GameVersion.W, }, // Cottonee
+            new EncounterTrade { Species = 550, Form = 0, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Version = GameVersion.B, }, // Basculin-Red
+            new EncounterTrade { Species = 550, Form = 1, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20},  Nature = Nature.Adamant, Version = GameVersion.W, }, // Basculin-Blue
+            new EncounterTrade { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax, }, // Emolga
+            new EncounterTrade { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Gentle, }, // Rotom
+            new EncounterTrade { Species = 446, Level = 65, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious, }, // Munchlax
         };
         internal static readonly EncounterTrade[] TradeGift_B2W2 =
         {
-            //todo
+            new EncounterTrade { Species = 548, Level = 20, Ability = 2, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid, Version = GameVersion.B2, }, // Petilil
+            new EncounterTrade { Species = 546, Level = 20, Ability = 1, TID = 05720, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Modest, Version = GameVersion.W2, }, // Cottonee
+            new EncounterTrade { Species = 526, Level = 35, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, }, // Gigalith
+            new EncounterTrade { Species = 465, Level = 35, Ability = 1, TID = 27658, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Adamant, }, // Tangrowth
+            new EncounterTrade { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Calm, }, // Rotom
+            new EncounterTrade { Species = 424, Level = 40, Ability = 2, TID = 17074, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Jolly, }, // Ambipom
+            new EncounterTrade { Species = 526, Level = 40, Ability = 1, TID = 17074, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Timid, }, // Alakazam
+            // player is male
+            new EncounterTrade { Species = 052, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 202, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 280, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 410, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 111, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 422, Form = 0, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,}, //Shellos-Red
+            new EncounterTrade { Species = 303, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 442, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 143, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
+            //// player is female
+            new EncounterTrade { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 408, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 111, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 422, Form = 1, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,}, //Shellos-Blue
+            new EncounterTrade { Species = 302, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 442, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 143, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
         };
     }
 }
