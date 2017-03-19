@@ -400,7 +400,7 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
             new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,25,25,20}, Nature = Nature.Quiet,}, // Abra
-            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,15,25}, Nature = Nature.Lonely, }, // Chatot
+            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,15,25}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
             new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,15,15,25}, Nature = Nature.Hasty,}, // Haunter
             new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,25,15,20}, Nature = Nature.Mild}, // Magikarp
         };
