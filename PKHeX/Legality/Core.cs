@@ -278,7 +278,7 @@ namespace PKHeX.Core
                 SlotsFR = getEncounterTables(GameVersion.FR);
                 SlotsLG = getEncounterTables(GameVersion.LG);
 
-              //Evolves3 = new EvolutionTree(Data.unpackMini(Resources.evos_rs, "rs"), GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
+                Evolves3 = new EvolutionTree(new[] { Resources.evos_g3 }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
                 // Update Personal Entries with TM/Tutor Data
                 var TMHM = Data.unpackMini(Resources.hmtm_g3, "g3");
@@ -302,7 +302,7 @@ namespace PKHeX.Core
                 SlotsHG = getEncounterTables(GameVersion.HG);
                 SlotsSS = getEncounterTables(GameVersion.SS);
 
-              //Evolves4 = new EvolutionTree(Data.unpackMini(Resources.evos_dp, "dp"), GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
+                Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
                 // Update Personal Entries with Tutor Data
                 var tutors = Data.unpackMini(Resources.tutors_g4, "g4");
@@ -325,7 +325,7 @@ namespace PKHeX.Core
                 MarkG5Slots(ref SlotsB2);
                 MarkG5Slots(ref SlotsW2);
 
-                //Evolves5 = new EvolutionTree(Data.unpackMini(Resources.evos_bw, "bw"), GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
+                Evolves5 = new EvolutionTree(new[] { Resources.evos_g5 }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
             }
             // Gen 6
             {
@@ -363,10 +363,6 @@ namespace PKHeX.Core
 
                 Evolves7 = new EvolutionTree(Data.unpackMini(Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
             }
-
-            // Temp
-
-            Evolves3 = Evolves4 = Evolves5 = Evolves6;
         }
 
         // Moves

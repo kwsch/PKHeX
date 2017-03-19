@@ -25,13 +25,13 @@ namespace PKHeX.Core
                 case GameVersion.GSC:
                     Entries = EvolutionSet2.getArray(data[0], maxSpeciesTree);
                     break;
-                case GameVersion.E:
+                case GameVersion.RS:
                     Entries = EvolutionSet3.getArray(data[0]);
                     break;
-                case GameVersion.Pt:
+                case GameVersion.DP:
                     Entries = EvolutionSet4.getArray(data[0]);
                     break;
-                case GameVersion.B2W2:
+                case GameVersion.BW:
                     Entries = EvolutionSet5.getArray(data[0]);
                     break;
                 case GameVersion.ORAS:
