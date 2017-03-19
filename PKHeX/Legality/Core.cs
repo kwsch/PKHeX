@@ -127,6 +127,16 @@ namespace PKHeX.Core
             byte[] tables = null;
             switch (Game)
             {
+                case GameVersion.R: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_r, "ru"));
+                case GameVersion.S: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_s, "sa"));
+                case GameVersion.E: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_e, "em"));
+                case GameVersion.FR: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_fr, "fr"));
+                case GameVersion.LG: return EncounterArea.getArray3(Data.unpackMini(Resources.encounter_lg, "lg"));
+                case GameVersion.D: return EncounterArea.getArray4DPPt(Data.unpackMini(Resources.encounter_d, "da"));
+                case GameVersion.P: return EncounterArea.getArray4DPPt(Data.unpackMini(Resources.encounter_p, "pe"));
+                case GameVersion.Pt: return EncounterArea.getArray4DPPt(Data.unpackMini(Resources.encounter_pt, "pt"));
+                case GameVersion.HG: return EncounterArea.getArray4HGSS(Data.unpackMini(Resources.encounter_hg, "hg"));
+                case GameVersion.SS: return EncounterArea.getArray4HGSS(Data.unpackMini(Resources.encounter_ss, "ss"));
                 case GameVersion.B: ident = "51"; tables = Resources.encounter_b; break;
                 case GameVersion.W: ident = "51"; tables = Resources.encounter_w; break;
                 case GameVersion.B2: ident = "52"; tables = Resources.encounter_b2; break;
