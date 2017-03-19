@@ -4,6 +4,8 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
+        internal const int MaxSpeciesIndex_4_DP = 500;
+        internal const int MaxSpeciesIndex_4_HGSSPt = 507;
         internal const int MaxSpeciesID_4 = 493;
         internal const int MaxMoveID_4 = 467;
         internal const int MaxItemID_4_DP = 464;
@@ -419,5 +421,141 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Hasty,   Level = 20, Location = 183, Moves= new int[]{043,031,228,332}},//Webster's Spearow
             new EncounterTrade { Species = 213, Ability = 2, TID = 04336, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Relaxed, Level = 20, Location = 130, Moves= new int[]{132,117,227,219}},//Kirk's Shuckle
         };
+
+        #region Alt Slots
+        private static readonly EncounterArea[] SlotsDPPPtAlt =
+        {
+            new EncounterArea {
+                Location = 50, // Mount Coronet
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Old_Rod }, // Feebas
+                     new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Good_Rod }, // Feebas
+                     new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Super_Rod }, // Feebas
+                },},
+            new EncounterArea {
+                Location = 53, //Solaceon Ruins
+                Slots = new[]
+                {
+                    //new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 0 }, // Unown A
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 1 }, // Unown B
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 2 }, // Unown C
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 3 }, // Unown D
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 4 }, // Unown E
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 5 }, // Unown F
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 6 }, // Unown G
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 7 }, // Unown H
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 8 }, // Unown I
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 9 }, // Unown J
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 10 }, // Unown K
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 11 }, // Unown L
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 12 }, // Unown M
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 13 }, // Unown N
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 14 }, // Unown O
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 15 }, // Unown P
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 16 }, // Unown Q
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 17 }, // Unown R
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 18 }, // Unown S
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 19 }, // Unown T
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 20 }, // Unown U
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 21 }, // Unown V
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 22 }, // Unown W
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 23 }, // Unown X
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 24 }, // Unown Y
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 25 }, // Unown !
+                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 26 }, // Unown ?
+                },},
+        };
+
+        private static readonly EncounterArea[] SlotsHGSSAlt =
+        {
+            new EncounterArea {
+                Location = 209, // Ruins of Alph
+                Slots = new[]
+                {
+                    //new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 0 }, // Unown A
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 1 }, // Unown B
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 2 }, // Unown C
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 3 }, // Unown D
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 4 }, // Unown E
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 5 }, // Unown F
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 6 }, // Unown G
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 7 }, // Unown H
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 8 }, // Unown I
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 9 }, // Unown J
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 10 }, // Unown K
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 11 }, // Unown L
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 12 }, // Unown M
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 13 }, // Unown N
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 14 }, // Unown O
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 15 }, // Unown P
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 16 }, // Unown Q
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 17 }, // Unown R
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 18 }, // Unown S
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 19 }, // Unown T
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 20 }, // Unown U
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 21 }, // Unown V
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 22 }, // Unown W
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 23 }, // Unown X
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 24 }, // Unown Y
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 25 }, // Unown !
+                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 26 }, // Unown ?
+                },},
+        };
+
+        private static readonly EncounterArea SlotsPt_HoneyTree =
+            new EncounterArea
+            {
+                Slots = new[]
+                {
+                    new EncounterSlot { Species = 190, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Aipom 
+                    new EncounterSlot { Species = 214, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Heracross
+                    new EncounterSlot { Species = 265, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Wurmple
+                    new EncounterSlot { Species = 412, LevelMin = 5, LevelMax = 15, Form = 0, Type = SlotType.HoneyTree }, // Burmy Plant Cloak
+                    new EncounterSlot { Species = 415, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Combee 
+                    new EncounterSlot { Species = 420, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cheruby
+                    new EncounterSlot { Species = 446, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Munchlax 
+                },
+            };
+
+        private static readonly EncounterArea SlotsD_HoneyTree =
+            new EncounterArea {
+                Slots = SlotsPt_HoneyTree.Slots.Concat( new EncounterSlot[]
+                {
+                    new EncounterSlot { Species = 266, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Silcoon
+                }).ToArray()
+        };
+
+        private static readonly EncounterArea SlotsP_HoneyTree =
+            new EncounterArea
+            {
+                Slots = SlotsPt_HoneyTree.Slots.Concat(new EncounterSlot[]
+                {
+                    new EncounterSlot { Species = 268, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cascoon
+                }).ToArray()
+            };
+
+        private static readonly int[] HoneyTreesLocation = new int[]
+        {
+            20, // Route 205
+            21, // Route 206
+            22, // Route 207
+            23, // Route 208
+            24, // Route 209
+            25, // Route 210
+            26, // Route 211 
+            27, // Route 212 
+            28, // Route 213
+            29, // Route 214
+            30, // Route 215
+            33, // Route 218
+            36, // Route 221
+            37, // Route 222
+            47, // Valley Windworks 
+            49, // Fuego Ironworks
+            58, //Floaroma Meadow
+        };
+
+        #endregion
     }
 }
