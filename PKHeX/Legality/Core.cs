@@ -35,8 +35,6 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpFR = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_fr, "fr"));
         private static readonly Learnset[] LevelUpLG = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_lg, "lg"));
         private static readonly EggMoves[] EggMovesRS = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_rs, "rs"));
-        //private static readonly TMHMTutorMoves[] TutorsG3 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.tutors_g3, "g3"));
-        //private static readonly TMHMTutorMoves[] HMTMG3 = TMHMTutorMoves.getArray(Data.unpackMini(Properties.Resources.hmtm_g3, "g3"));
         private static readonly EvolutionTree Evolves3;
         private static readonly EncounterArea[] SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG;
         private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;
