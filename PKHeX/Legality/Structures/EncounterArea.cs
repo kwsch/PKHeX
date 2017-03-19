@@ -293,7 +293,7 @@ namespace PKHeX.Core
                     LevelMax = level,
                     LevelMin = level,
                     Species = species,
-                    Type = SlotType.Grass
+                    Type = t
                 };
             }
             
@@ -314,20 +314,20 @@ namespace PKHeX.Core
                     LevelMin = level,
                     LevelMax = level,
                     Species = species,
-                    Type = SlotType.Grass
+                    Type = t
                 };
             }
             for (int i = 0; i < numslots; i++)
             {
                 slots[numslots + i] = slots[i].Clone();
                 slots[numslots + i].Species = (int)BitConverter.ToUInt16(data, ofs + numslots * 3 + i * 2);
-                slots[numslots + i].Type = SlotType.Grass;
+                slots[numslots + i].Type = t;
             }
             for (int i = 0; i < numslots; i++)
             {
                 slots[numslots * 2 + i] = slots[i].Clone();
                 slots[numslots * 2 + i].Species = (int)BitConverter.ToUInt16(data, ofs + numslots * 5 + i * 2);
-                slots[numslots * 2 + i].Type = SlotType.Grass;
+                slots[numslots * 2 + i].Type = t;
             }
 
             ofs += numslots * 7;
