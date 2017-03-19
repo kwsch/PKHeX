@@ -697,8 +697,12 @@ namespace PKHeX.Core
             }
 
             int lvl = pkm.CurrentLevel;
-            if (lvl > 1 && pkm.IsEgg)
-                AddLine(Severity.Invalid, "Current level for an egg is invalid.", CheckIdentifier.Level);
+            if (pkm.IsEgg)
+            {
+                var eggValid = pkm.Format <= 3 ? lvl == 5 : lvl == 1;
+                if (!eggValid)
+                    AddLine(Severity.Invalid, "Current level for an egg is invalid.", CheckIdentifier.Level);
+            }
             else if (lvl < pkm.Met_Level)
                 AddLine(Severity.Invalid, "Current level is below met level.", CheckIdentifier.Level);
             else if ((pkm.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)

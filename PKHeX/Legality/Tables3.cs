@@ -201,16 +201,16 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 9, Level = 5,  Location = 088, }, // Squirtle
 
             //Fossil @ Cinnabar Island
-            new EncounterStatic { Gift = true, Species = 138, Level = 30,  Location = 140, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 30,  Location = 140, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 30,  Location = 140, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 138, Level = 30, Location = 140, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 30, Location = 140, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 30, Location = 140, }, // Aerodactyl
 
             //Gift
-            new EncounterStatic { Gift = true, Species = 106, Level = 30,  Location = 098, }, // Hitmonlee @ Saffron City
-            new EncounterStatic { Gift = true, Species = 107, Level = 30,  Location = 098, }, // Hitmonchan @ Saffron City
-            new EncounterStatic { Gift = true, Species = 129, Level = 5,  Location = 099, }, // Magikarp @ Route 4
-            new EncounterStatic { Gift = true, Species = 131, Level = 25,  Location = 134, }, // Lapras @ Silph Co.
-            new EncounterStatic { Gift = true, Species = 133, Level = 25,  Location = 094, }, // Eevee @ Celadon City
+            new EncounterStatic { Gift = true, Species = 106, Level = 25, Location = 098, }, // Hitmonlee @ Saffron City
+            new EncounterStatic { Gift = true, Species = 107, Level = 25, Location = 098, }, // Hitmonchan @ Saffron City
+            new EncounterStatic { Gift = true, Species = 129, Level = 5, Location = 099, }, // Magikarp @ Route 4
+            new EncounterStatic { Gift = true, Species = 131, Level = 25, Location = 134, }, // Lapras @ Silph Co.
+            new EncounterStatic { Gift = true, Species = 133, Level = 25, Location = 094, }, // Eevee @ Celadon City
             new EncounterStatic { Gift = true, Species = 175, Level = 5, }, // Togepi Egg
 
             //Stationary
