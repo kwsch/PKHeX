@@ -19,5 +19,6 @@
         SOS,
         Swarm,
         Headbutt,
+        Pokeradar
     }
 }
