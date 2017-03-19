@@ -166,7 +166,27 @@ namespace PKHeX.Core
             }
             return GameSlots;
         }
+        private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
+        {
+            // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.Where(a => (a.Location < 188 || a.Location > 194)).
+                          GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea()
+                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
+        }
 
+        private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
+        {
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.GroupBy(a => a.Location).
+                          Select(a =>
+                                     new EncounterArea()
+                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                          ToArray();
+        }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -282,11 +302,23 @@ namespace PKHeX.Core
                 StaticFR = getStaticEncounters(GameVersion.FR);
                 StaticLG = getStaticEncounters(GameVersion.LG);
 
-                SlotsR = getEncounterTables(GameVersion.R);
-                SlotsS = getEncounterTables(GameVersion.S);
-                SlotsE = getEncounterTables(GameVersion.E);
-                SlotsFR = getEncounterTables(GameVersion.FR);
-                SlotsLG = getEncounterTables(GameVersion.LG);
+                var R_Slots = getEncounterTables(GameVersion.R);
+                var S_Slots = getEncounterTables(GameVersion.S);
+                var E_Slots = getEncounterTables(GameVersion.E);
+                var FR_Slots = getEncounterTables(GameVersion.FR);
+                var LG_Slots = getEncounterTables(GameVersion.LG);
+
+                MarkG3Slots_RSE(ref R_Slots);
+                MarkG3Slots_RSE(ref S_Slots);
+                MarkG3Slots_RSE(ref E_Slots);
+                MarkG3Slots_FRLG(ref FR_Slots);
+                MarkG3Slots_FRLG(ref LG_Slots);
+
+                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
+                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
+                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt);
+                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt);
+                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt);
 
                 Evolves3 = new EvolutionTree(new[] { Resources.evos_g3 }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
