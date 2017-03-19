@@ -238,11 +238,29 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
-            //todo
+            new EncounterTrade { Species = 296, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Nature = Nature.Hardy, Version = GameVersion.RS, }, // Makuhita
+            new EncounterTrade { Species = 300, Ability = 1, TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {5,4,4,5,4,4}, Nature = Nature.Timid, Version = GameVersion.RS, }, // Skitty
+            new EncounterTrade { Species = 222, Ability = 2, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {4,4,5,4,4,5}, Nature = Nature.Calm, Version = GameVersion.RS, }, // Corsola
+            new EncounterTrade { Species = 273, Ability = 2, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,5,4,4,4}, Nature = Nature.Relaxed, Version = GameVersion.E, }, // Seedot
+            new EncounterTrade { Species = 311, Ability = 1, TID = 08460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {4,4,4,5,5,4}, Nature = Nature.Hasty, Version = GameVersion.E, }, // Plusle
+            new EncounterTrade { Species = 116, Ability = 1, TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,4,4,5,4}, Nature = Nature.Brave, Version = GameVersion.E, }, // Horsea*
+            new EncounterTrade { Species = 052, Ability = 1, TID = 25945, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Nature = Nature.Naive, Version = GameVersion.E, }, // Meowth*
+            //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
         internal static readonly EncounterTrade[] TradeGift_FRLG =
         {
-            //todo
+            new EncounterTrade { Species = 122, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, Nature = Nature.Timid, }, // Mr. Mime
+            new EncounterTrade { Species = 029, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {22,18,25,19,15,22}, Nature = Nature.Bold, Version = GameVersion.FR, }, // Nidoran♀
+            new EncounterTrade { Species = 032, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, Nature = Nature.Lonely, Version = GameVersion.LG, }, // Nidoran♂ *
+            new EncounterTrade { Species = 030, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, Nature = Nature.Lonely, Version = GameVersion.FR,}, // Nidorina *
+            new EncounterTrade { Species = 033, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Nature = Nature.Bold, Version = GameVersion.LG,}, // Nidorino  *
+            new EncounterTrade { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, }, // Lickitung  * 
+            new EncounterTrade { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, }, // Jynx
+            new EncounterTrade { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,21,14,15,20}, Nature = Nature.Adamant, }, // Farfetch'd
+            new EncounterTrade { Species = 101, Ability = 1, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, }, // Electrode
+            new EncounterTrade { Species = 114, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, }, // Tangela
+            new EncounterTrade { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, }, // Seel *
+            //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
 
         #region AltSlots
