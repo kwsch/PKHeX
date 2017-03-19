@@ -154,7 +154,131 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterStatic[] Encounter_DPPt =
         {
-            //todo
+            //Starters
+            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 076, Version = GameVersion.DP,}, // Turtwig @ Lake Verity
+            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 076, Version = GameVersion.DP,}, // Chimchar
+            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 076, Version = GameVersion.DP,}, // Piplup
+            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Turtwig @ Route 201
+            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Chimchar
+            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Piplup
+
+            //Fossil @ Mining Museum
+            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 094, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 094, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 094, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 094, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 094, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 094, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 094, }, // Shieldon
+
+            //Gift
+            new EncounterStatic { Gift = true, Species = 133, Level = 5, Location = 010, Version = GameVersion.DP,}, //Eevee @ Hearthome City 
+            new EncounterStatic { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt,}, //Eevee @ Hearthome City 
+            new EncounterStatic { Gift = true, Species = 137, Level = 25, Location = 012, Version = GameVersion.Pt,}, //Porygon @ Veilstone City
+            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 009, Version = GameVersion.Pt,}, //Togepi Egg @ Eterna City
+            new EncounterStatic { Gift = true, Species = 440, Level = 1, EggLocation = 010, Version = GameVersion.DP,}, //Happiny Egg @ Hearthome City 
+            new EncounterStatic { Gift = true, Species = 447, Level = 1, EggLocation = 069,}, //Riolu Egg @ Iron Island
+
+            //Stationary Lengerdary
+            new EncounterStatic { Species = 377, Level = 30, Location = 043, Version = GameVersion.Pt,}, //Regirock @ Route 228
+            new EncounterStatic { Species = 378, Level = 30, Location = 050, Version = GameVersion.Pt,}, //Regice @ Mt. Coronet
+            new EncounterStatic { Species = 379, Level = 30, Location = 069, Version = GameVersion.Pt,}, //Registeel @ Iron Island
+            new EncounterStatic { Species = 480, Level = 50, Location = 078,}, //Uxie @ Lake Acuity
+            new EncounterStatic { Species = 482, Level = 50, Location = 077,}, //Azelf @ Lake Valor
+            new EncounterStatic { Species = 483, Level = 47, Location = 051, Version = GameVersion.D,}, //Dialga @ Spear Pillar
+            new EncounterStatic { Species = 483, Level = 70, Location = 051, Version = GameVersion.Pt,}, //Dialga @ Spear Pillar
+            new EncounterStatic { Species = 484, Level = 47, Location = 051, Version = GameVersion.P,}, //Palkia @ Spear Pillar
+            new EncounterStatic { Species = 484, Level = 70, Location = 051, Version = GameVersion.Pt,}, //Palkia @ Spear Pillar
+            new EncounterStatic { Species = 485, Level = 70, Location = 084, Version = GameVersion.DP,}, //Heatran @ Stark Mountain
+            new EncounterStatic { Species = 485, Level = 50, Location = 084, Version = GameVersion.Pt,}, //Heatran @ Stark Mountain
+            new EncounterStatic { Species = 486, Level = 70, Location = 064, Version = GameVersion.DP,}, //Regigigas @ Snowpoint Temple
+            new EncounterStatic { Species = 486, Level = 1, Location = 064, Version = GameVersion.Pt,}, //Regigigas @ Snowpoint Temple
+            new EncounterStatic { Species = 487, Form = 0, Level = 70, Location = 062, Version = GameVersion.DP,}, //Giratina @ Turnback Cave
+            new EncounterStatic { Species = 487, Form = 1, Level = 47, Location = 117, Version = GameVersion.Pt,}, //Giratina @ Distortion World
+            new EncounterStatic { Species = 487, Form = 0, Level = 47, Location = 062, Version = GameVersion.Pt,}, //Giratina @ Turnback Cave
+
+            //Event
+            new EncounterStatic { Species = 491, Level = 40, Location = 079, Version = GameVersion.DP,}, //Darkrai @ Newmoon Island
+            new EncounterStatic { Species = 491, Level = 50, Location = 079, Version = GameVersion.Pt,}, //Darkrai @ Newmoon Island
+            new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063,}, //Shaymin @ Flower Paradise
+            //new EncounterStatic { Species = 493, Level = 80, Location = 086,}, //Arceus @ Hall of Origin
+
+            //Roaming
+            new EncounterStatic { Species = 481, Level = 50, }, //Mesprit
+            new EncounterStatic { Species = 488, Level = 50, }, //Cresselia
+            new EncounterStatic { Species = 144, Level = 60, Version = GameVersion.Pt, }, //Articuno
+            new EncounterStatic { Species = 145, Level = 60, Version = GameVersion.Pt, }, //Zapdos
+            new EncounterStatic { Species = 146, Level = 60, Version = GameVersion.Pt, }, //Moltres
+
+            //Swarm 
+            //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
+            new EncounterStatic { Species = 016, Level = 51, Location = 044, Version = GameVersion.DP,}, //Pidgey @ Route 229
+            new EncounterStatic { Species = 081, Level = 28, Location = 049, Version = GameVersion.DP,}, //Magnemite @ Fuego Ironworks
+            new EncounterStatic { Species = 081, Level = 29, Location = 049, Version = GameVersion.DP,}, //Magnemite @ Fuego Ironworks
+            new EncounterStatic { Species = 083, Level = 28, Location = 036, Version = GameVersion.DP,}, //Farfetch'd @ Route 221
+            new EncounterStatic { Species = 083, Level = 28, Location = 036, Version = GameVersion.Pt,}, //Farfetch'd @ Route 221
+            new EncounterStatic { Species = 083, Level = 29, Location = 036, Version = GameVersion.Pt,}, //Farfetch'd @ Route 221
+            new EncounterStatic { Species = 084, Level = 2, Location = 016, }, //Doduo @ Route 201
+            new EncounterStatic { Species = 096, Level = 20, Location = 030, Version = GameVersion.DP,}, //Drowzee @ Route 215
+            new EncounterStatic { Species = 096, Level = 21, Location = 030, Version = GameVersion.DP,}, //Drowzee @ Route 215
+            new EncounterStatic { Species = 096, Level = 19, Location = 030, Version = GameVersion.Pt,}, //Drowzee @ Route 215
+            new EncounterStatic { Species = 096, Level = 20, Location = 030, Version = GameVersion.Pt,}, //Drowzee @ Route 215
+            new EncounterStatic { Species = 098, Level = 52, Location = 041, Version = GameVersion.DP,}, //Krabby @ Route 226
+            new EncounterStatic { Species = 098, Level = 48, Location = 041, Version = GameVersion.Pt,}, //Krabby @ Route 226
+            new EncounterStatic { Species = 098, Level = 49, Location = 041, Version = GameVersion.Pt,}, //Krabby @ Route 226
+            new EncounterStatic { Species = 100, Level = 28, Location = 033, Version = GameVersion.DP,}, //Voltorb @ Route 218
+            new EncounterStatic { Species = 100, Level = 28, Location = 033, Version = GameVersion.Pt,}, //Voltorb @ Route 218
+            new EncounterStatic { Species = 100, Level = 29, Location = 033, Version = GameVersion.Pt,}, //Voltorb @ Route 218
+            new EncounterStatic { Species = 104, Level = 4, Location = 018, }, //Cubone @ Route 203
+            new EncounterStatic { Species = 108, Level = 34, Location = 077, Version = GameVersion.DP,}, //Lickitung @ Lake Valor
+            new EncounterStatic { Species = 108, Level = 36, Location = 077, Version = GameVersion.DP,}, //Lickitung @ Lake Valor
+            new EncounterStatic { Species = 127, Level = 48, Location = 044, Version = GameVersion.Pt,}, //Pinsir @ Route 229
+            new EncounterStatic { Species = 127, Level = 49, Location = 044, Version = GameVersion.Pt,}, //Pinsir @ Route 229
+            new EncounterStatic { Species = 177, Level = 53, Location = 039, Version = GameVersion.DP,}, //Natu @ Route 224
+            new EncounterStatic { Species = 177, Level = 50, Location = 039, Version = GameVersion.Pt,}, //Natu @ Route 224
+            new EncounterStatic { Species = 206, Level = 16, Location = 023, Version = GameVersion.DP,}, //Dunsparce @ Route 208
+            new EncounterStatic { Species = 206, Level = 18, Location = 023, Version = GameVersion.Pt,}, //Dunsparce @ Route 208
+            new EncounterStatic { Species = 209, Level = 16, Location = 024, Version = GameVersion.DP,}, //Snubbull @ Route 209
+            new EncounterStatic { Species = 209, Level = 18, Location = 024, Version = GameVersion.Pt,}, //Snubbull @ Route 209
+            new EncounterStatic { Species = 209, Level = 19, Location = 024, Version = GameVersion.Pt,}, //Snubbull @ Route 209
+            new EncounterStatic { Species = 220, Level = 34, Location = 032, Version = GameVersion.DP,}, //Swinub @ Route 217
+            new EncounterStatic { Species = 222, Level = 50, Location = 045, Version = GameVersion.DP,}, //Corsola @ Route 230
+            new EncounterStatic { Species = 222, Level = 48, Location = 045, Version = GameVersion.Pt,}, //Corsola @ Route 230
+            new EncounterStatic { Species = 225, Level = 32, Location = 031, Version = GameVersion.DP,}, //Delibird @ Route 216
+            new EncounterStatic { Species = 225, Level = 32, Location = 032, Version = GameVersion.Pt,}, //Delibird @ Route 217
+            new EncounterStatic { Species = 225, Level = 33, Location = 032, Version = GameVersion.Pt,}, //Delibird @ Route 217
+            new EncounterStatic { Species = 231, Level = 5, Location = 022, Version = GameVersion.DP,}, //Phanpy @ Route 207
+            new EncounterStatic { Species = 231, Level = 5, Location = 022, Version = GameVersion.Pt,}, //Phanpy @ Route 207
+            new EncounterStatic { Species = 231, Level = 7, Location = 022, Version = GameVersion.Pt,}, //Phanpy @ Route 207
+            new EncounterStatic { Species = 238, Level = 35, Location = 078, Version = GameVersion.DP,}, //Smoochum @ Lake Acuity
+            new EncounterStatic { Species = 246, Level = 16, Location = 021, Version = GameVersion.Pt,}, //Larvitar @ Route 206
+            new EncounterStatic { Species = 263, Level = 3, Location = 017,}, //Zigzagoon @ Route 202
+            new EncounterStatic { Species = 283, Level = 2, Location = 076, Version = GameVersion.DP,}, //Surskit @ Lake Verity
+            new EncounterStatic { Species = 287, Level = 10, Location = 048, Version = GameVersion.DP,}, //Slakoth @ Eterna Forest
+            new EncounterStatic { Species = 287, Level = 10, Location = 048, Version = GameVersion.Pt,}, //Slakoth @ Eterna Forest
+            new EncounterStatic { Species = 287, Level = 11, Location = 048, Version = GameVersion.Pt,}, //Slakoth @ Eterna Forest
+            new EncounterStatic { Species = 296, Level = 50, Location = 040, Version = GameVersion.DP,}, //Makuhita @ Route 225
+            new EncounterStatic { Species = 296, Level = 51, Location = 040, Version = GameVersion.DP,}, //Makuhita @ Route 225
+            new EncounterStatic { Species = 296, Level = 48, Location = 040, Version = GameVersion.Pt,}, //Makuhita @ Route 225
+            new EncounterStatic { Species = 296, Level = 49, Location = 040, Version = GameVersion.Pt,}, //Makuhita @ Route 225
+            new EncounterStatic { Species = 299, Level = 14, Location = 021, Version = GameVersion.DP,}, //Nosepass @ Route 206
+            new EncounterStatic { Species = 300, Level = 40, Location = 037, Version = GameVersion.DP,}, //Skitty @ Route 222
+            new EncounterStatic { Species = 300, Level = 39, Location = 037, Version = GameVersion.Pt,}, //Skitty @ Route 222
+            new EncounterStatic { Species = 300, Level = 40, Location = 037, Version = GameVersion.Pt,}, //Skitty @ Route 222
+            new EncounterStatic { Species = 309, Level = 7, Location = 047, Version = GameVersion.DP,}, //Electrike @ Valley Windworks
+            new EncounterStatic { Species = 309, Level = 9, Location = 047, Version = GameVersion.Pt,}, //Electrike @ Valley Windworks
+            new EncounterStatic { Species = 309, Level = 10, Location = 047, Version = GameVersion.Pt,}, //Electrike @ Valley Windworks
+            new EncounterStatic { Species = 325, Level = 22, Location = 039, Version = GameVersion.DP,}, //Spoink @ Route 214
+            new EncounterStatic { Species = 325, Level = 23, Location = 039, Version = GameVersion.DP,}, //Spoink @ Route 214
+            new EncounterStatic { Species = 325, Level = 21, Location = 039, Version = GameVersion.Pt,}, //Spoink @ Route 214
+            new EncounterStatic { Species = 325, Level = 23, Location = 039, Version = GameVersion.Pt,}, //Spoink @ Route 214
+            new EncounterStatic { Species = 327, Level = 55, Location = 042, Version = GameVersion.DP,}, //Spinda @ Route 227
+            new EncounterStatic { Species = 327, Level = 53, Location = 042, Version = GameVersion.Pt,}, //Spinda @ Route 227
+            new EncounterStatic { Species = 327, Level = 54, Location = 042, Version = GameVersion.Pt,}, //Spinda @ Route 227
+            new EncounterStatic { Species = 359, Level = 20, Location = 028, Version = GameVersion.DP,}, //Absol @ Route 213
+            new EncounterStatic { Species = 374, Level = 53, Location = 043, Version = GameVersion.DP,}, //Beldum @ Route 228
+            new EncounterStatic { Species = 374, Level = 51, Location = 043, Version = GameVersion.Pt,}, //Beldum @ Route 228
+            new EncounterStatic { Species = 374, Level = 52, Location = 043, Version = GameVersion.Pt,}, //Beldum @ Route 228
         };
         internal static readonly EncounterStatic[] Encounter_HGSS =
         {
@@ -183,6 +307,10 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new int[] {245, 086, 239, 082}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new int[] {043, 086, 239, 082}, }, // Dratini @ Dragon's Den (Non-ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 236, Level = 10,  Location = 216, }, // Tyrogue @ Mt. Mortar
+            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 128,}, // Togepi Egg @ Violet City
+            new EncounterStatic { Gift = true, Species = 179, Level = 1, EggLocation = 128,}, // Mareep Egg @ Violet City
+            new EncounterStatic { Gift = true, Species = 194, Level = 1, EggLocation = 128,}, // Wooper Egg @ Violet City
+            new EncounterStatic { Gift = true, Species = 218, Level = 1, EggLocation = 128,}, // Slugma Egg @ Violet City
 
             //Stationary
             new EncounterStatic { Species = 130, Level = 30, Shiny = true ,Location = 135, }, //Gyarados @ Lake of Rage
