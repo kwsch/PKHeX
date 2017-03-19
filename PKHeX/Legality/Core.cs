@@ -1952,7 +1952,7 @@ namespace PKHeX.Core
                         if (Machine)
                         {
                             var pi_c = PersonalTable.HGSS[index];
-                            r.AddRange(TM_3.Where((t, m) => pi_c.TMHM[m]));
+                            r.AddRange(TMHM_HGSS.Where((t, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
