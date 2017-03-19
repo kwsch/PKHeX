@@ -27,6 +27,28 @@ namespace PKHeX.Core
             }
         }
 
+        public EncounterArea Clone(int location)
+        {
+            EncounterArea Areas = new EncounterArea();
+            Areas.Location = location;
+            Areas.Slots = new EncounterSlot[Slots.Length];
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                Areas.Slots[i] = Slots[i].Clone();
+            }
+            return Areas;
+        }
+
+        public EncounterArea[] Clone(int[] locations)
+        {
+            EncounterArea[] Areas = new EncounterArea[locations.Length];
+            for(int i=0;i<locations.Length;i++)
+            {
+                Areas[i] =  Clone(locations[i]);
+            }
+            return Areas;
+        }
+
         private static EncounterSlot1[] getSlots1_GW(byte[] data, ref int ofs, SlotType t)
         {
             int rate = data[ofs++];

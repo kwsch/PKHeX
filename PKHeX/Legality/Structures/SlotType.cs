@@ -19,6 +19,7 @@
         SOS,
         Swarm,
         Headbutt,
-        Pokeradar
+        Pokeradar,
+        HoneyTree
     }
 }

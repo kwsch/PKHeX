@@ -470,6 +470,60 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 26 }, // Unown ?
                 },},
         };
+
+        private static readonly EncounterArea SlotsPt_HoneyTree =
+            new EncounterArea
+            {
+                Slots = new[]
+                {
+                    new EncounterSlot { Species = 190, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Aipom 
+                    new EncounterSlot { Species = 214, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Heracross
+                    new EncounterSlot { Species = 265, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Wurmple
+                    new EncounterSlot { Species = 412, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Burmy 
+                    new EncounterSlot { Species = 415, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Combee 
+                    new EncounterSlot { Species = 420, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cheruby
+                    new EncounterSlot { Species = 446, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Munchlax 
+                },
+            };
+
+        private static readonly EncounterArea SlotsD_HoneyTree =
+            new EncounterArea {
+                Slots = SlotsPt_HoneyTree.Slots.Concat( new EncounterSlot[]
+                {
+                    new EncounterSlot { Species = 266, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Silcoon
+                }).ToArray()
+        };
+
+        private static readonly EncounterArea SlotsP_HoneyTree =
+            new EncounterArea
+            {
+                Slots = SlotsPt_HoneyTree.Slots.Concat(new EncounterSlot[]
+                {
+                    new EncounterSlot { Species = 267, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cascoon
+                }).ToArray()
+            };
+
+        private static readonly int[] HoneyTreesLocation = new int[]
+        {
+            20, // Route 205
+            21, // Route 206
+            22, // Route 207
+            23, // Route 208
+            24, // Route 209
+            25, // Route 210
+            26, // Route 211 
+            27, // Route 212 
+            28, // Route 213
+            29, // Route 214
+            30, // Route 215
+            33, // Route 218
+            36, // Route 221
+            37, // Route 222
+            47, // Valley Windworks 
+            49, // Fuego Ironworks
+            58, //Floaroma Meadow
+        };
+
         #endregion
     }
 }
