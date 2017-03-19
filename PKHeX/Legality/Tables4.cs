@@ -422,6 +422,11 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 213, Ability = 2, TID = 04336, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Relaxed, Level = 20, Location = 130, Moves= new[]{132,117,227,219}},//Kirk's Shuckle
         };
 
+        // Encounter Slots that are replaced
+        internal static readonly int[] Slot4_Time = {2, 3};
+        internal static readonly int[] Slot4_Sound = {4, 5};
+        internal static readonly int[] Slot4_Radar = {6, 7, 10, 11};
+        internal static readonly int[] Slot4_Dual = {8, 9};
         #region Alt Slots
         private static readonly EncounterArea[] SlotsDPPPtAlt =
         {
