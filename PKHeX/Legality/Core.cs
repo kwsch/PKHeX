@@ -127,30 +127,16 @@ namespace PKHeX.Core
             byte[] tables = null;
             switch (Game)
             {
-                case GameVersion.X:
-                    ident = "xy";
-                    tables = Resources.encounter_x;
-                    break;
-                case GameVersion.Y:
-                    ident = "xy";
-                    tables = Resources.encounter_y;
-                    break;
-                case GameVersion.AS:
-                    ident = "ao";
-                    tables = Resources.encounter_a;
-                    break;
-                case GameVersion.OR:
-                    ident = "ao";
-                    tables = Resources.encounter_o;
-                    break;
-                case GameVersion.SN:
-                    ident = "sm";
-                    tables = Resources.encounter_sn;
-                    break;
-                case GameVersion.MN:
-                    ident = "sm";
-                    tables = Resources.encounter_mn;
-                    break;
+                case GameVersion.B: ident = "51"; tables = Resources.encounter_b; break;
+                case GameVersion.W: ident = "51"; tables = Resources.encounter_w; break;
+                case GameVersion.B2: ident = "52"; tables = Resources.encounter_b2; break;
+                case GameVersion.W2: ident = "52"; tables = Resources.encounter_w2; break;
+                case GameVersion.X: ident = "xy"; tables = Resources.encounter_x; break;
+                case GameVersion.Y: ident = "xy"; tables = Resources.encounter_y; break; 
+                case GameVersion.AS: ident = "ao"; tables = Resources.encounter_a; break;
+                case GameVersion.OR: ident = "ao"; tables = Resources.encounter_o; break;
+                case GameVersion.SN: ident = "sm"; tables = Resources.encounter_sn; break;
+                case GameVersion.MN: ident = "sm"; tables = Resources.encounter_mn; break;
             }
             if (ident == null)
                 return new EncounterArea[0];
@@ -169,6 +155,38 @@ namespace PKHeX.Core
                     g.Slots = g.Slots.Concat(slots.Slots).ToArray();
             }
             return GameSlots;
+        }
+
+        private static void MarkG5Slots(ref EncounterArea[] Areas)
+        {
+            foreach (var area in Areas)
+            {
+                int ctr = 0;
+                do
+                {
+                    for (int i = 0; i < 12; i++)
+                        area.Slots[ctr++].Type = SlotType.Grass; // Single
+
+                    for (int i = 0; i < 12; i++)
+                        area.Slots[ctr++].Type = SlotType.Grass; // Double
+
+                    for (int i = 0; i < 12; i++)
+                        area.Slots[ctr++].Type = SlotType.Grass; // Shaking
+
+                    for (int i = 0; i < 5; i++) // 5
+                        area.Slots[ctr++].Type = SlotType.Surf; // Surf
+
+                    for (int i = 0; i < 5; i++) // 5
+                        area.Slots[ctr++].Type = SlotType.Surf; // Surf Spot
+
+                    for (int i = 0; i < 5; i++) // 5
+                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish
+
+                    for (int i = 0; i < 5; i++) // 5
+                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish Spot
+                } while (ctr != area.Slots.Length);
+                area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
+            }
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -302,8 +320,12 @@ namespace PKHeX.Core
                 SlotsW = getEncounterTables(GameVersion.W);
                 SlotsB2 = getEncounterTables(GameVersion.B2);
                 SlotsW2 = getEncounterTables(GameVersion.W2);
+                MarkG5Slots(ref SlotsB);
+                MarkG5Slots(ref SlotsW);
+                MarkG5Slots(ref SlotsB2);
+                MarkG5Slots(ref SlotsW2);
 
-              //Evolves5 = new EvolutionTree(Data.unpackMini(Resources.evos_bw, "bw"), GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
+                //Evolves5 = new EvolutionTree(Data.unpackMini(Resources.evos_bw, "bw"), GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
             }
             // Gen 6
             {
@@ -1949,7 +1971,7 @@ namespace PKHeX.Core
                         if (Machine)
                         {
                             var pi_c = PersonalTable.B2W2[index];
-                            r.AddRange(TM_3.Where((t, m) => pi_c.TMHM[m]));
+                            r.AddRange(TMHM_BW.Where((t, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));

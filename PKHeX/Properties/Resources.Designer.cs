@@ -12525,6 +12525,26 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] encounter_b {
+            get {
+                object obj = ResourceManager.GetObject("encounter_b", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_b2 {
+            get {
+                object obj = ResourceManager.GetObject("encounter_b2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] encounter_blue {
             get {
                 object obj = ResourceManager.GetObject("encounter_blue", resourceCulture);
@@ -12668,6 +12688,26 @@ namespace PKHeX.Core.Properties {
         public static byte[] encounter_sn_sos {
             get {
                 object obj = ResourceManager.GetObject("encounter_sn_sos", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_w {
+            get {
+                object obj = ResourceManager.GetObject("encounter_w", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] encounter_w2 {
+            get {
+                object obj = ResourceManager.GetObject("encounter_w2", resourceCulture);
                 return ((byte[])(obj));
             }
         }
