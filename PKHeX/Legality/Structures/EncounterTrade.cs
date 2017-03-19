@@ -10,7 +10,9 @@
         public Nature Nature = Nature.Random;
         public int TID;
         public int SID = 0;
+        public GameVersion Version = GameVersion.Any;
         public int[] IVs = { -1, -1, -1, -1, -1, -1 };
+        public int[] Contest = { 0, 0, 0, 0, 0, 0 };
         public int[] Moves;
         public int Form = 0;
         public bool Shiny = false;

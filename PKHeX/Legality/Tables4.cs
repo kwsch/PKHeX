@@ -193,9 +193,9 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 133, Level = 5, Location = 010, Version = GameVersion.DP,}, //Eevee @ Hearthome City 
             new EncounterStatic { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt,}, //Eevee @ Hearthome City 
             new EncounterStatic { Gift = true, Species = 137, Level = 25, Location = 012, Version = GameVersion.Pt,}, //Porygon @ Veilstone City
-            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 009, Version = GameVersion.Pt,}, //Togepi Egg @ Eterna City
-            new EncounterStatic { Gift = true, Species = 440, Level = 1, EggLocation = 010, Version = GameVersion.DP,}, //Happiny Egg @ Hearthome City 
-            new EncounterStatic { Gift = true, Species = 447, Level = 1, EggLocation = 069,}, //Riolu Egg @ Iron Island
+            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 2011, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
+            new EncounterStatic { Gift = true, Species = 440, Level = 1, EggLocation = 2009, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
+            new EncounterStatic { Gift = true, Species = 447, Level = 1, EggLocation = 2010,}, //Riolu Egg from Riley
 
             //Stationary Lengerdary
             new EncounterStatic { Species = 377, Level = 30, Location = 043, Version = GameVersion.Pt,}, //Regirock @ Route 228
@@ -325,10 +325,10 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new[] {245, 086, 239, 082}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new[] {043, 086, 239, 082}, }, // Dratini @ Dragon's Den (Non-ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 236, Level = 10,  Location = 216, }, // Tyrogue @ Mt. Mortar
-            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 128,}, // Togepi Egg @ Violet City
-            new EncounterStatic { Gift = true, Species = 179, Level = 1, EggLocation = 128,}, // Mareep Egg @ Violet City
-            new EncounterStatic { Gift = true, Species = 194, Level = 1, EggLocation = 128,}, // Wooper Egg @ Violet City
-            new EncounterStatic { Gift = true, Species = 218, Level = 1, EggLocation = 128,}, // Slugma Egg @ Violet City
+            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 2013,}, // Togepi Egg from Mr. Pokemon
+            new EncounterStatic { Gift = true, Species = 179, Level = 1, EggLocation = 2014,}, // Mareep Egg from Primo
+            new EncounterStatic { Gift = true, Species = 194, Level = 1, EggLocation = 2014,}, // Wooper Egg from Primo
+            new EncounterStatic { Gift = true, Species = 218, Level = 1, EggLocation = 2014,}, // Slugma Egg from Primo
 
             //Stationary
             new EncounterStatic { Species = 130, Level = 30, Shiny = true ,Location = 135, }, //Gyarados @ Lake of Rage
@@ -400,7 +400,7 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
             new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,25,25,20}, Nature = Nature.Quiet,}, // Abra
-            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,15,25}, Nature = Nature.Lonely, }, // Chatot
+            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,15,25}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
             new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,15,15,25}, Nature = Nature.Hasty,}, // Haunter
             new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,25,15,20}, Nature = Nature.Mild}, // Magikarp
         };
