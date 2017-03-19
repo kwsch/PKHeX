@@ -280,8 +280,8 @@ namespace PKHeX.Core
             else
             {
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
-                bool match = (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && PKX.SpeciesLang.Any(lang => lang[pkm.Species] == nickname)
-                       || PKX.SpeciesLang[pkm.Language][pkm.Species] == nickname;
+                bool match = PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
+                match |= (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
 
                 if (!match)
                 {
