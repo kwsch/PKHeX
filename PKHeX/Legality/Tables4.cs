@@ -158,7 +158,98 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterStatic[] Encounter_HGSS =
         {
-            //todo
+            //Starters
+            new EncounterStatic { Gift = true, Species = 1, Level = 5,  Location = 138, }, // Bulbasaur @ Pallet Town
+            new EncounterStatic { Gift = true, Species = 4, Level = 5,  Location = 138, }, // Charmander
+            new EncounterStatic { Gift = true, Species = 9, Level = 5,  Location = 138, }, // Squirtle
+            new EncounterStatic { Gift = true, Species = 152, Level = 5,  Location = 126, }, // Chikorita @ New Bark Town
+            new EncounterStatic { Gift = true, Species = 155, Level = 5,  Location = 126, }, // Cyndaquil
+            new EncounterStatic { Gift = true, Species = 158, Level = 5,  Location = 126, }, // Totodile
+            new EncounterStatic { Gift = true, Species = 252, Level = 5,  Location = 148, }, // Treecko @ Saffron City
+            new EncounterStatic { Gift = true, Species = 255, Level = 5,  Location = 148, }, // Torchic
+            new EncounterStatic { Gift = true, Species = 258, Level = 5,  Location = 148, }, // Mudkip
+
+            //Fossil @ Pewter City
+            new EncounterStatic { Gift = true, Species = 138, Level = 20,  Location = 140, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 20,  Location = 140, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 20,  Location = 140, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 20,  Location = 140, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 20,  Location = 140, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 20,  Location = 140, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 20,  Location = 140, }, // Shieldon
+
+            //Gift
+            new EncounterStatic { Gift = true, Species = 133, Level = 5,  Location = 131, }, // Eevee @ Goldenrod Cityx
+            new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new int[] {245, 086, 239, 082}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
+            new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new int[] {043, 086, 239, 082}, }, // Dratini @ Dragon's Den (Non-ExtremeSpeed)
+            new EncounterStatic { Gift = true, Species = 236, Level = 10,  Location = 216, }, // Tyrogue @ Mt. Mortar
+
+            //Stationary
+            new EncounterStatic { Species = 130, Level = 30, Shiny = true ,Location = 135, }, //Gyarados @ Lake of Rage
+            new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave
+            new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
+            new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
+            new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36
+
+            //Stationary Lengerdary
+            new EncounterStatic { Species = 144, Level = 50, Location = 203, }, //Articuno @ Seafoam Islands
+            new EncounterStatic { Species = 145, Level = 50, Location = 158, }, //Zapdos @ Route 10
+            new EncounterStatic { Species = 146, Level = 50, Location = 137, }, //Moltres @ Mt. Silver
+            new EncounterStatic { Species = 150, Level = 70, Location = 199, }, //Mewtwo @ Cerulean Cave
+            new EncounterStatic { Species = 245, Level = 40, Location = 173, }, //Suicune @ Route 25
+            new EncounterStatic { Species = 245, Level = 40, Location = 206, }, //Suicune @ Burned Tower
+            new EncounterStatic { Species = 249, Level = 45, Location = 218, Version = GameVersion.SS, }, //Lugia @ Whirl Islands
+            new EncounterStatic { Species = 249, Level = 70, Location = 218, Version = GameVersion.HG, }, //Lugia @ Whirl Islands
+            new EncounterStatic { Species = 250, Level = 45, Location = 205, Version = GameVersion.HG, }, //Ho-Oh @ Bell Tower
+            new EncounterStatic { Species = 250, Level = 70, Location = 205, Version = GameVersion.SS, }, //Ho-Oh @ Bell Tower
+            new EncounterStatic { Species = 380, Level = 40, Location = 140, Version = GameVersion.SS, }, //Latias @ Pewter City
+            new EncounterStatic { Species = 381, Level = 40, Location = 140, Version = GameVersion.HG, }, //Latios @ Pewter City
+            new EncounterStatic { Species = 382, Level = 50, Location = 232, Version = GameVersion.HG, }, //Kyogre @ Embedded Tower
+            new EncounterStatic { Species = 383, Level = 50, Location = 232, Version = GameVersion.SS, }, //Groudon @ Embedded Tower
+            new EncounterStatic { Species = 384, Level = 50, Location = 232, }, //Rayquaza @ Embedded Tower
+            new EncounterStatic { Species = 483, Level = 1, Location = 231, }, //Dialga @ Sinjoh Ruins
+            new EncounterStatic { Species = 484, Level = 1, Location = 231, }, //Palkia @ Sinjoh Ruins
+            new EncounterStatic { Species = 487, Level = 1, Location = 231, }, //Giratina @ Sinjoh Ruins
+
+            //Swarm
+            new EncounterStatic { Species = 113, Level = 23, Location = 161, }, //Chansey @ Route 13
+            new EncounterStatic { Species = 132, Level = 34, Location = 195, }, //Ditto @ Route 47
+            new EncounterStatic { Species = 183, Level = 15, Location = 216, }, //Marill @ Mt. Mortar
+            new EncounterStatic { Species = 193, Level = 12, Location = 183, }, //Yanma @ Route 35
+            new EncounterStatic { Species = 206, Level = 2, Location = 220, }, //Dunsparce @ Dark Cave
+            new EncounterStatic { Species = 206, Level = 3, Location = 220, }, //Dunsparce @ Dark Cave
+            new EncounterStatic { Species = 209, Level = 16, Location = 186, }, //Snubbull @ Route 38
+            new EncounterStatic { Species = 211, Level = 40, Location = 180, }, //Qwilfish @ Route 32
+            new EncounterStatic { Species = 223, Level = 20, Location = 192, }, //Remoraid @ Route 44
+            new EncounterStatic { Species = 261, Level = 2, Location = 149, }, //Poochyena @ Route 1
+            new EncounterStatic { Species = 278, Level = 35, Location = 143, }, //Wingull @ Vermillion City
+            new EncounterStatic { Species = 280, Level = 10, Location = 182, }, //Ralts @ Route 34
+            new EncounterStatic { Species = 280, Level = 11, Location = 182, }, //Ralts @ Route 34
+            new EncounterStatic { Species = 302, Level = 13, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
+            new EncounterStatic { Species = 302, Level = 14, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
+            new EncounterStatic { Species = 302, Level = 15, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
+            new EncounterStatic { Species = 303, Level = 13, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
+            new EncounterStatic { Species = 303, Level = 14, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
+            new EncounterStatic { Species = 303, Level = 15, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
+            new EncounterStatic { Species = 316, Level = 5, Location = 151, Version = GameVersion.SS,}, //Gulpin @ Route 3
+            new EncounterStatic { Species = 333, Level = 23, Location = 193, }, //Swablu @ Route 45
+            new EncounterStatic { Species = 340, Level = 10, Location = 128, }, //Whiscash @ Violet City
+            new EncounterStatic { Species = 340, Level = 20, Location = 128, }, //Whiscash @ Violet City
+            new EncounterStatic { Species = 340, Level = 40, Location = 128, }, //Whiscash @ Violet City
+            new EncounterStatic { Species = 343, Level = 5, Location = 151, Version = GameVersion.HG,}, //Baltoy @ Route 3
+            new EncounterStatic { Species = 366, Level = 35, Location = 167, }, //Clamperl @ Route 19
+            new EncounterStatic { Species = 369, Level = 40, Location = 160, }, //Relicanth @ Route 12
+            new EncounterStatic { Species = 370, Level = 20, Location = 175, }, //Luvdisc @ Route 27
+            new EncounterStatic { Species = 401, Level = 3, Location = 224, }, //Kricketot @ Viridian Forest
+            new EncounterStatic { Species = 427, Level = 8, Location = 173, }, //Buneary @ Route 25
+            new EncounterStatic { Species = 427, Level = 9, Location = 173, }, //Buneary @ Route 25
+            new EncounterStatic { Species = 427, Level = 10, Location = 173, }, //Buneary @ Route 25
+
+            //Roaming
+            new EncounterStatic { Species = 243, Level = 40, }, //Raikou
+            new EncounterStatic { Species = 244, Level = 40, }, //Entei
+            new EncounterStatic { Species = 380, Level = 35, Version = GameVersion.HG, }, //Latias
+            new EncounterStatic { Species = 381, Level = 35, Version = GameVersion.SS, }, //Latios
         };
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
