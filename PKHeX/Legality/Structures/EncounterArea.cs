@@ -255,7 +255,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < numslots; i++)
                 {
-                    int Species = PKX.getG4Species(BitConverter.ToUInt16(data, ofs + 4 + i * 4));
+                    int Species = BitConverter.ToInt16(data, ofs + 4 + i * 4);
                     if (Species <= 0)
                         continue;
                     
@@ -281,7 +281,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < numslots; i++)
                 {
-                    int Species = PKX.getG4Species(BitConverter.ToUInt16(data, ofs + 4 + i * 4));
+                    int Species = BitConverter.ToInt16(data, ofs + 4 + i * 4);
                     if (Species <= 0)
                         continue;
                     
