@@ -871,7 +871,7 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 4:
-                    return getMatchingPGT(pkm, MGDB_G4);
+                    return getMatchingPCD(pkm, MGDB_G4);
                 case 5:
                     return getMatchingPGF(pkm, MGDB_G5);
                 case 6:
@@ -882,17 +882,17 @@ namespace PKHeX.Core
                     return new List<MysteryGift>();
             }
         }
-        private static IEnumerable<MysteryGift> getMatchingPGT(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<MysteryGift> getMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
         {
-            var validPGT = new List<MysteryGift>();
+            var validPCD = new List<MysteryGift>();
             if (DB == null)
-                return validPGT;
+                return validPCD;
 
             // todo
             var vs = getValidPreEvolutions(pkm).ToArray();
-            foreach (PGT mg in DB.OfType<PGT>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
+            foreach (PCD mg in DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
-                var wc = mg.PK;
+                var wc = mg.Gift.PK;
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
                     if (wc.SID != pkm.SID) continue;
@@ -922,9 +922,9 @@ namespace PKHeX.Core
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
                 // RIBBONS: Defer to ribbon legality
 
-                validPGT.Add(mg);
+                validPCD.Add(mg);
             }
-            return validPGT;
+            return validPCD;
         }
         private static IEnumerable<MysteryGift> getMatchingPGF(PKM pkm, IEnumerable<MysteryGift> DB)
         {

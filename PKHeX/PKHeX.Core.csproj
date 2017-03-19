@@ -324,9 +324,11 @@
     <None Include="Resources\byte\lvlmove_rs.pkl" />
     <None Include="Resources\byte\lvlmove_sm.pkl" />
     <None Include="Resources\byte\lvlmove_y.pkl" />
+    <None Include="Resources\byte\pcd.pkl" />
     <None Include="Resources\byte\personal_rb" />
     <None Include="Resources\byte\personal_sm" />
     <None Include="Resources\byte\personal_y" />
+    <None Include="Resources\byte\pgf.pkl" />
     <None Include="Resources\byte\tutors_g3.pkl" />
     <None Include="Resources\byte\tutors_g4.pkl" />
     <None Include="Resources\byte\wc7.pkl" />

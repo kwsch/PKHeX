@@ -143,9 +143,10 @@ namespace PKHeX.WinForms
                     mnuL.Items.Insert(0, mnuLLegality);
             };
 
-            // Load WC6 folder to legality
+            // Load Event Databases
+            refreshPCDDB();
+            refreshPGFDB();
             refreshWC6DB();
-            // Load WC7 folder to legality
             refreshWC7DB();
 
             #endregion
@@ -1269,6 +1270,49 @@ namespace PKHeX.WinForms
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
+        }
+
+        private static void refreshPCDDB()
+        {
+            List<MysteryGift> db = new List<MysteryGift>();
+            byte[] bin = Resources.pcd;
+            for (int i = 0; i < bin.Length; i += PCD.Size)
+            {
+                byte[] data = new byte[PCD.Size];
+                Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
+                db.Add(new PCD(data));
+            }
+            if (Directory.Exists(MGDatabasePath))
+            {
+                foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
+                {
+                    var fi = new FileInfo(file);
+                    if (fi.Length == PCD.Size && fi.Extension == ".pcd")
+                        db.Add(new PCD(File.ReadAllBytes(file)));
+                    else if (fi.Length == PGT.Size && fi.Extension == ".pgt")
+                        db.Add(new PCD {Gift = new PGT(File.ReadAllBytes(file)), CardTitle = "MGDB PGT"});
+                }
+            }
+
+            Legal.MGDB_G4 = db.Distinct().ToArray();
+        }
+        private static void refreshPGFDB()
+        {
+            List<MysteryGift> db = new List<MysteryGift>();
+            byte[] bin = Resources.pgf;
+            for (int i = 0; i < bin.Length; i += PGF.Size) 
+            {
+                byte[] data = new byte[PGF.Size];
+                Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
+                db.Add(new PGF(data));
+            }
+            if (Directory.Exists(MGDatabasePath))
+                db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
+                               let fi = new FileInfo(file)
+                               where ".pgf" == fi.Extension && PGF.Size == fi.Length
+                               select new PGF(File.ReadAllBytes(file)));
+
+            Legal.MGDB_G5 = db.Distinct().ToArray();
         }
         private static void refreshWC6DB()
         {

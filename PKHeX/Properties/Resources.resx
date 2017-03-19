@@ -7555,4 +7555,10 @@
   <data name="encunters_hb_ss" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\encunters_hb_ss.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="pcd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\pcd.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pgf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\pgf.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
