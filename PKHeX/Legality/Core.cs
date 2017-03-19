@@ -173,8 +173,7 @@ namespace PKHeX.Core
             Areas = Areas.Where(a => (a.Location < 188 || a.Location > 194)).
                           GroupBy(a => a.Location).
                           Select(a =>
-                                     new EncounterArea()
-                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
 
@@ -183,8 +182,7 @@ namespace PKHeX.Core
             // Group areas by location id, the raw data have areas with different slots but the same location id
             Areas = Areas.GroupBy(a => a.Location).
                           Select(a =>
-                                     new EncounterArea()
-                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
         private static void MarkG4Slots(ref EncounterArea[] Areas)
@@ -192,8 +190,7 @@ namespace PKHeX.Core
             // Group areas by location id, the raw data have areas with different slots but the same location id
             Areas = Areas.GroupBy(a => a.Location).
                           Select(a =>
-                                     new EncounterArea()
-                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
@@ -229,8 +226,7 @@ namespace PKHeX.Core
             // Group areas by location id, the raw data have areas with different slots but the same location id
             Areas = Areas.GroupBy(a => a.Location).
                           Select(a =>
-                                     new EncounterArea()
-                                     { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
+                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)

@@ -259,7 +259,7 @@ namespace PKHeX.Core
                     int levelmax = data[ofs + 3 + i * 4];
                     int Species = PKX.getG4Species(BitConverter.ToUInt16(data, ofs + 4 + i * 4));
                     if (Species > 0)
-                        slots.Add(new EncounterSlot()
+                        slots.Add(new EncounterSlot
                         {
                             LevelMin = levelmin,
                             LevelMax = levelmax,
@@ -285,7 +285,7 @@ namespace PKHeX.Core
                     int levelmax = data[ofs + 3 + i * 4];
                     int Species = PKX.getG4Species(BitConverter.ToUInt16(data, ofs + 4 + i * 4));
                     if (Species > 0)
-                        slots.Add(new EncounterSlot()
+                        slots.Add(new EncounterSlot
                         {
                             LevelMin = levelmin,
                             LevelMax = levelmax,
@@ -304,13 +304,9 @@ namespace PKHeX.Core
             
             for (int i = 0; i < numslots; i++)
             {
-                int levelmin = data[ofs + 2 + i * 4];
-                int levelmax = data[ofs + 3 + i * 4];
-                int Species = BitConverter.ToUInt16(data, ofs + 4 + i * 4);
-
                 int level = (int)BitConverter.ToUInt32(data, ofs + i * 8);
                 int species = (int)BitConverter.ToUInt32(data, ofs + i * 8);
-                slots[i] = new EncounterSlot()
+                slots[i] = new EncounterSlot
                 {
                     LevelMax = level,
                     LevelMin = level,
@@ -331,7 +327,7 @@ namespace PKHeX.Core
             {
                 int level = data[ofs + i];
                 int species = BitConverter.ToUInt16(data,  ofs + numslots + i * 2);
-                slots[i] = new EncounterSlot()
+                slots[i] = new EncounterSlot
                 {
                     LevelMin = level,
                     LevelMax = level,
@@ -342,13 +338,13 @@ namespace PKHeX.Core
             for (int i = 0; i < numslots; i++)
             {
                 slots[numslots + i] = slots[i].Clone();
-                slots[numslots + i].Species = (int)BitConverter.ToUInt16(data, ofs + numslots * 3 + i * 2);
+                slots[numslots + i].Species = BitConverter.ToUInt16(data, ofs + numslots * 3 + i * 2);
                 slots[numslots + i].Type = t;
             }
             for (int i = 0; i < numslots; i++)
             {
                 slots[numslots * 2 + i] = slots[i].Clone();
-                slots[numslots * 2 + i].Species = (int)BitConverter.ToUInt16(data, ofs + numslots * 5 + i * 2);
+                slots[numslots * 2 + i].Species = BitConverter.ToUInt16(data, ofs + numslots * 5 + i * 2);
                 slots[numslots * 2 + i].Type = t;
             }
 
@@ -443,7 +439,7 @@ namespace PKHeX.Core
                 //2 bytes padding
                 int Species = (int)BitConverter.ToUInt32(data, ofs + 4 + i * 8);
                 if (Species > 0)
-                    slots.Add(new EncounterSlot()
+                    slots.Add(new EncounterSlot
                     {
                         LevelMin = levelmin,
                         LevelMax = levelmax,
@@ -462,9 +458,9 @@ namespace PKHeX.Core
             {
                 int levelmin = data[ofs + 0 + i * 4];
                 int levelmax = data[ofs + 1 + i * 4];
-                int Species = (int)BitConverter.ToUInt16(data, ofs + 2 + i * 4);
+                int Species = BitConverter.ToUInt16(data, ofs + 2 + i * 4);
                 if (Species > 0)
-                    slots.Add(new EncounterSlot()
+                    slots.Add(new EncounterSlot
                     {
                         LevelMin = levelmin,
                         LevelMax = levelmax,
@@ -480,19 +476,15 @@ namespace PKHeX.Core
         private static EncounterArea getArea3(byte[] data)
         {
             EncounterArea Area3 = new EncounterArea();
-            bool HaveGrassSlots = false;
-            bool HaveSurfSlots = false;
-            bool HaveRockSmashSlots = false;
-            bool HaveFishingSlots = false;
-        
+
             if (data.Length < 6)
             { Area3.Location = 0; Area3.Slots = new EncounterSlot[0]; return Area3; }
 
             Area3.Location = data[0];
-            HaveGrassSlots = data[1] == 1;
-            HaveSurfSlots = data[2] == 1;
-            HaveRockSmashSlots = data[3] == 1;
-            HaveFishingSlots = data[4] == 1;
+            var HaveGrassSlots = data[1] == 1;
+            var HaveSurfSlots = data[2] == 1;
+            var HaveRockSmashSlots = data[3] == 1;
+            var HaveFishingSlots = data[4] == 1;
 
             int offset = 5;
             var slots = new List<EncounterSlot>();
@@ -510,12 +502,6 @@ namespace PKHeX.Core
 
         private static EncounterArea getArea4DPPt(byte[] data)
         {
-            int ofs = 0;
-            int GrassRatio = 0;
-            int SurfRatio = 0;
-            int OldRodRatio = 0;
-            int GoodRodRatio = 0;
-            int SuperRodRatio = 0;
             EncounterArea Area4 = new EncounterArea();
             if (data.Length != 426)
             { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
@@ -523,8 +509,8 @@ namespace PKHeX.Core
             var Slots = new List<EncounterSlot>();
             Area4.Location = BitConverter.ToUInt16(data, 0);
 
-            GrassRatio = (int)BitConverter.ToUInt32(data, 2);
-            ofs = 6;
+            var GrassRatio = (int)BitConverter.ToUInt32(data, 2);
+            var ofs = 6;
             if (GrassRatio > 0)
             {
                 EncounterSlot[] GrassSlots = getSlots4_DPPt_G(data, ref ofs, 12, SlotType.Grass);
@@ -545,7 +531,7 @@ namespace PKHeX.Core
             else
                 ofs = 206;
 
-            SurfRatio = (int)BitConverter.ToUInt32(data, ofs);
+            var SurfRatio = (int)BitConverter.ToUInt32(data, ofs);
             ofs += 4;
             if (SurfRatio > 0)
                 Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Surf));
@@ -553,21 +539,21 @@ namespace PKHeX.Core
                 ofs += 40;
 
             ofs += 44; //44 bytes padding
-            OldRodRatio = (int)BitConverter.ToUInt32(data, 294);
+            var OldRodRatio = (int)BitConverter.ToUInt32(data, 294);
             ofs += 4;
             if (OldRodRatio > 0)
                 Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Old_Rod));
             else
                 ofs += 40;
 
-            GoodRodRatio = (int)BitConverter.ToUInt32(data, 338);
+            var GoodRodRatio = (int)BitConverter.ToUInt32(data, 338);
             ofs += 4;
             if (GoodRodRatio > 0)
                 Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Good_Rod));
             else
                 ofs += 40;
 
-            SuperRodRatio = (int)BitConverter.ToUInt32(data, 382);
+            var SuperRodRatio = (int)BitConverter.ToUInt32(data, 382);
             ofs += 4;
             if (SuperRodRatio > 0)
                 Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Super_Rod));
@@ -580,12 +566,6 @@ namespace PKHeX.Core
 
         private static EncounterArea getArea4HGSS(byte[] data)
         {
-            int GrassRatio = 0;
-            int SurfRatio = 0;
-            int OldRodRatio = 0;
-            int GoodRodRatio = 0;
-            int SuperRodRatio = 0;
-            int RockSmashRatio = 0;
             EncounterArea Area4 = new EncounterArea();
             if (data.Length != 198)
             { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
@@ -593,12 +573,12 @@ namespace PKHeX.Core
             var Slots = new List<EncounterSlot>();
             Area4.Location = BitConverter.ToUInt16(data, 0);
 
-            GrassRatio = data[2];
-            SurfRatio = data[3];
-            RockSmashRatio = data[4];
-            OldRodRatio = data[5];
-            GoodRodRatio = data[6];
-            SuperRodRatio = data[7];
+            int GrassRatio = data[2];
+            int SurfRatio = data[3];
+            int RockSmashRatio = data[4];
+            int OldRodRatio = data[5];
+            int GoodRodRatio = data[6];
+            int SuperRodRatio = data[7];
             // 2 bytes padding
             int ofs = 10;
 
@@ -669,7 +649,7 @@ namespace PKHeX.Core
                 int Species = BitConverter.ToUInt16(data, 6 + i * 4);
                 if (Species > 0)
                 {
-                    Slots.Add(new EncounterSlot()
+                    Slots.Add(new EncounterSlot
                     {
                         Species = Species,
                         LevelMin = data[8 + i * 4],
@@ -844,9 +824,9 @@ namespace PKHeX.Core
                 return null;
 
             var Areas = new List<EncounterArea>();
-            for (int i = 0; i < entries.Length; i++)
+            foreach (byte[] t in entries)
             {
-                EncounterArea Area = getArea3(entries[i]);
+                EncounterArea Area = getArea3(t);
                 if (Area.Slots.Any())
                     Areas.Add(Area);
             }

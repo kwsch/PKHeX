@@ -203,7 +203,6 @@ namespace PKHeX.Core
             verifyRibbons();
             verifyAbility();
             verifyBall();
-            verifyRegion();
             verifyForm();
             verifyMisc();
             verifyGender();
@@ -217,8 +216,9 @@ namespace PKHeX.Core
                 verifyHTMemory();
                 verifyHyperTraining();
                 verifyMedals();
+                verifyRegion();
             }
-            if (pkm.GenNumber < 5 || pkm.VC)
+            if (pkm.GenNumber < 5)
                 verifyEggMoves();
 
             verifyVersionEvolution();
