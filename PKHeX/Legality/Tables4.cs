@@ -502,14 +502,6 @@ namespace PKHeX.Core
             //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
             new EncounterArea
             {
-                Location = 36, // Route 221
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 081, Type = SlotType.Grass }, // Farfetch'd
-                },
-            },
-            new EncounterArea
-            {
                 Location = 16, // Route 201
                 Slots = new[]
                 {
@@ -518,26 +510,10 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                Location = 30, // Route 215
+                Location = 17, // Route 202
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 096, Type = SlotType.Grass }, // Drowzee
-                },
-            },
-            new EncounterArea
-            {
-                Location = 41, // Route 226
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 098, Type = SlotType.Grass }, // Krabby
-                },
-            },
-            new EncounterArea
-            {
-                Location = 33, // Route 218
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 100, Type = SlotType.Grass }, // Voltorb
+                     new EncounterSlot { Species = 263, Type = SlotType.Grass }, // Zigzagoon
                 },
             },
             new EncounterArea
@@ -550,10 +526,10 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                Location = 39, // Route 224
+                Location = 22, // Route 207
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 177, Type = SlotType.Grass }, // Natu
+                     new EncounterSlot { Species = 231, Type = SlotType.Grass }, // Phanpy
                 },
             },
             new EncounterArea
@@ -574,10 +550,10 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                Location = 45, // Route 230
+                Location = 30, // Route 215
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 222, Type = SlotType.Grass }, // Corsola
+                     new EncounterSlot { Species = 096, Type = SlotType.Grass }, // Drowzee
                 },
             },
             new EncounterArea
@@ -590,34 +566,18 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                Location = 22, // Route 207
+                Location = 33, // Route 218
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 231, Type = SlotType.Grass }, // Phanpy
+                     new EncounterSlot { Species = 100, Type = SlotType.Grass }, // Voltorb
                 },
             },
             new EncounterArea
             {
-                Location = 17, // Route 202
+                Location = 36, // Route 221
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 263, Type = SlotType.Grass }, // Zigzagoon
-                },
-            },
-            new EncounterArea
-            {
-                Location = 48, // Eterna Forest
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 287, Type = SlotType.Grass }, // Slakoth
-                },
-            },
-            new EncounterArea
-            {
-                Location = 40, // Route 225
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 296, Type = SlotType.Grass }, // Makuhita
+                     new EncounterSlot { Species = 081, Type = SlotType.Grass }, // Farfetch'd
                 },
             },
             new EncounterArea
@@ -630,18 +590,27 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                Location = 47, // Valley Windworks
+                Location = 39, // Route 224
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 309, Type = SlotType.Grass }, // Electrike
+                     new EncounterSlot { Species = 177, Type = SlotType.Grass }, // Natu
+                     new EncounterSlot { Species = 325, Type = SlotType.Grass }, // Spoink
                 },
             },
             new EncounterArea
             {
-                Location = 39, // Route 114
+                Location = 40, // Route 225
                 Slots = new[]
                 {
-                     new EncounterSlot { Species = 325, Type = SlotType.Grass }, // Spoink
+                     new EncounterSlot { Species = 296, Type = SlotType.Grass }, // Makuhita
+                },
+            },
+            new EncounterArea
+            {
+                Location = 41, // Route 226
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 098, Type = SlotType.Grass }, // Krabby
                 },
             },
             new EncounterArea
@@ -660,10 +629,59 @@ namespace PKHeX.Core
                      new EncounterSlot { Species = 374, Type = SlotType.Grass }, // Beldum
                 },
             },
+            new EncounterArea
+            {
+                Location = 45, // Route 230
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 222, Type = SlotType.Grass }, // Corsola
+                },
+            },
+            new EncounterArea
+            {
+                Location = 47, // Valley Windworks
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 309, Type = SlotType.Grass }, // Electrike
+                },
+            },
+            new EncounterArea
+            {
+                Location = 48, // Eterna Forest
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 287, Type = SlotType.Grass }, // Slakoth
+                },
+            },
         };
 
         private static readonly EncounterArea[] SlotsDP_Swarm = SlotsDPPT_Swarm.Concat(
             new EncounterArea[] {
+                new EncounterArea
+                {
+                    Location = 21, // Route 206
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 299, Type = SlotType.Grass }, // Nosepass
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 28, // Route 213
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 359, Type = SlotType.Grass }, // Absol
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 32, // Route 217
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 220, Type = SlotType.Grass }, // Swinub
+                         new EncounterSlot { Species = 225, Type = SlotType.Grass }, // Delibird
+                    },
+                },
                 new EncounterArea
                 {
                     Location = 44, // Route 229
@@ -682,18 +700,18 @@ namespace PKHeX.Core
                 },
                 new EncounterArea
                 {
-                    Location = 77, // Lake Valor
+                    Location = 76, // Lake Verity
                     Slots = new[]
                     {
-                         new EncounterSlot { Species = 108, Type = SlotType.Grass }, // Lickitung
+                         new EncounterSlot { Species = 283, Type = SlotType.Grass }, // Surskit
                     },
                 },
                 new EncounterArea
                 {
-                    Location = 32, // Route 217
+                    Location = 77, // Lake Valor
                     Slots = new[]
                     {
-                         new EncounterSlot { Species = 220, Type = SlotType.Grass }, // Swinub
+                         new EncounterSlot { Species = 108, Type = SlotType.Grass }, // Lickitung
                     },
                 },
                 new EncounterArea
@@ -704,56 +722,24 @@ namespace PKHeX.Core
                          new EncounterSlot { Species = 238, Type = SlotType.Grass }, // Smoochum
                     },
                 },
-                new EncounterArea
-                {
-                    Location = 32, // Route 217
-                    Slots = new[]
-                    {
-                         new EncounterSlot { Species = 225, Type = SlotType.Grass }, // Delibird
-                    },
-                },
-                new EncounterArea
-                {
-                    Location = 76, // Lake Verity
-                    Slots = new[]
-                    {
-                         new EncounterSlot { Species = 283, Type = SlotType.Grass }, // Surskit
-                    },
-                },
-                new EncounterArea
-                {
-                    Location = 21, // Route 206
-                    Slots = new[]
-                    {
-                         new EncounterSlot { Species = 299, Type = SlotType.Grass }, // Nosepass
-                    },
-                },
-                new EncounterArea
-                {
-                    Location = 28, // Route 213
-                    Slots = new[]
-                    {
-                         new EncounterSlot { Species = 359, Type = SlotType.Grass }, // Absol
-                    },
-                },
             }).ToArray();
 
         private static readonly EncounterArea[] SlotsPt_Swarm = SlotsDPPT_Swarm.Concat(
             new EncounterArea[] {
                 new EncounterArea
                 {
-                    Location = 44, // Route 229
-                    Slots = new[]
-                    {
-                            new EncounterSlot { Species = 127, Type = SlotType.Grass }, // Pinsir
-                    },
-                },
-                new EncounterArea
-                {
                     Location = 21, // Route 206
                     Slots = new[]
                     {
                             new EncounterSlot { Species = 246, Type = SlotType.Grass }, // Larvitar
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 44, // Route 229
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 127, Type = SlotType.Grass }, // Pinsir
                     },
                 },
             }).ToArray();
@@ -764,10 +750,122 @@ namespace PKHeX.Core
             //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
             new EncounterArea
             {
+                Location = 128, // Violet City
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 340, Type = SlotType.Old_Rod }, // Whiscash
+                     new EncounterSlot { Species = 340, Type = SlotType.Good_Rod }, // Whiscash
+                     new EncounterSlot { Species = 340, Type = SlotType.Super_Rod }, // Whiscash
+                },
+            },
+            new EncounterArea
+            {
+                Location = 143, // Vermillion City
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 278, Type = SlotType.Surf }, // Wingull
+                },
+            },
+            new EncounterArea
+            {
+                Location = 149, // Route 1
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 261, Type = SlotType.Grass }, // Poochyena
+                },
+            },
+            new EncounterArea
+            {
+                Location = 160, // Route 12
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 369, Type = SlotType.Old_Rod }, // Relicanth
+                     new EncounterSlot { Species = 369, Type = SlotType.Good_Rod }, // Relicanth
+                     new EncounterSlot { Species = 369, Type = SlotType.Super_Rod }, // Relicanth
+                },
+            },
+            new EncounterArea
+            {
                 Location = 161, // Route 113
                 Slots = new[]
                 {
                      new EncounterSlot { Species = 113, Type = SlotType.Grass }, // Chansey
+                },
+            },
+            new EncounterArea
+            {
+                Location = 167, // Route 19
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 366, Type = SlotType.Surf }, // Clamperl
+                },
+            },
+            new EncounterArea
+            {
+                Location = 173, // Route 25
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 427, Type = SlotType.Grass }, // Buneary
+                },
+            },
+            new EncounterArea
+            {
+                Location = 175, // Route 27
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 370, Type = SlotType.Surf }, // Luvdisc
+                },
+            },
+            new EncounterArea
+            {
+                Location = 180, // Route 32
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 211, Type = SlotType.Old_Rod }, // Qwilfish
+                     new EncounterSlot { Species = 211, Type = SlotType.Good_Rod }, // Qwilfish
+                     new EncounterSlot { Species = 211, Type = SlotType.Super_Rod }, // Qwilfish
+                },
+            },
+            new EncounterArea
+            {
+                Location = 182, // Route 34
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 280, Type = SlotType.Grass }, // Ralts
+                },
+            },
+            new EncounterArea
+            {
+                Location = 183, // Route 35
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 193, Type = SlotType.Grass }, // Yanma
+                },
+            },
+            new EncounterArea
+            {
+                Location = 186, // Route 38
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 209, Type = SlotType.Grass }, // Snubbull
+                },
+            },
+            new EncounterArea
+            {
+                Location = 192, // Route 44
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 223, Type = SlotType.Old_Rod }, // Remoraid
+                     new EncounterSlot { Species = 223, Type = SlotType.Good_Rod }, // Remoraid
+                     new EncounterSlot { Species = 223, Type = SlotType.Super_Rod }, // Remoraid
+                },
+            },
+            new EncounterArea
+            {
+                Location = 193, // Route 45
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 333, Type = SlotType.Grass }, // Swablu
                 },
             },
             new EncounterArea
@@ -788,106 +886,10 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                Location = 183, // Route 35
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 193, Type = SlotType.Grass }, // Yanma
-                },
-            },
-            new EncounterArea
-            {
                 Location = 220, // Dark Cave
                 Slots = new[]
                 {
                      new EncounterSlot { Species = 206, Type = SlotType.Grass }, // Dunsparce
-                },
-            },
-            new EncounterArea
-            {
-                Location = 186, // Route 38
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 209, Type = SlotType.Grass }, // Snubbull
-                },
-            },
-            new EncounterArea
-            {
-                Location = 180, // Route 32
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 211, Type = SlotType.Super_Rod }, // Qwilfish
-                },
-            },
-            new EncounterArea
-            {
-                Location = 192, // Route 44
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 223, Type = SlotType.Super_Rod }, // Remoraid
-                },
-            },
-            new EncounterArea
-            {
-                Location = 149, // Route 1
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 261, Type = SlotType.Grass }, // Poochyena
-                },
-            },
-            new EncounterArea
-            {
-                Location = 143, // Vermillion City
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 278, Type = SlotType.Surf }, // Wingull
-                },
-            },
-            new EncounterArea
-            {
-                Location = 182, // Route 34
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 280, Type = SlotType.Grass }, // Ralts
-                },
-            },
-            new EncounterArea
-            {
-                Location = 193, // Route 45
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 333, Type = SlotType.Grass }, // Swablu
-                },
-            },
-            new EncounterArea
-            {
-                Location = 128, // Violet City
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 340, Type = SlotType.Super_Rod }, // Whiscash
-                },
-            },
-            new EncounterArea
-            {
-                Location = 167, // Route 19
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 366, Type = SlotType.Surf }, // Clamperl
-                },
-            },
-            new EncounterArea
-            {
-                Location = 160, // Route 12
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 369, Type = SlotType.Super_Rod }, // Relicanth
-                },
-            },
-            new EncounterArea
-            {
-                Location = 175, // Route 27
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 370, Type = SlotType.Surf }, // Luvdisc
                 },
             },
             new EncounterArea
@@ -898,26 +900,10 @@ namespace PKHeX.Core
                      new EncounterSlot { Species = 401, Type = SlotType.Grass }, // Kricketot
                 },
             },
-            new EncounterArea
-            {
-                Location = 173, // Route 25
-                Slots = new[]
-                {
-                     new EncounterSlot { Species = 427, Type = SlotType.Grass }, // Buneary
-                },
-            },
         };
 
         private static readonly EncounterArea[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(
             new EncounterArea[] {
-                new EncounterArea
-                {
-                    Location = 157, // Route 9
-                    Slots = new[]
-                    {
-                            new EncounterSlot { Species = 302, Type = SlotType.Grass }, // Sableye
-                    },
-                },
                 new EncounterArea
                 {
                     Location = 151, // Route 3
@@ -926,24 +912,32 @@ namespace PKHeX.Core
                             new EncounterSlot { Species = 343, Type = SlotType.Grass }, // Baltoy
                     },
                 },
+                new EncounterArea
+                {
+                    Location = 157, // Route 9
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 302, Type = SlotType.Grass }, // Sableye
+                    },
+                },
             }).ToArray();
 
         private static readonly EncounterArea[] SlotsSS_Swarm = SlotsHGSS_Swarm.Concat(
             new EncounterArea[] {
                 new EncounterArea
                 {
-                    Location = 157, // Route 9
-                    Slots = new[]
-                    {
-                            new EncounterSlot { Species = 303, Type = SlotType.Grass }, // Mawile
-                    },
-                },
-                new EncounterArea
-                {
                     Location = 151, // Route 3
                     Slots = new[]
                     {
                             new EncounterSlot { Species = 316, Type = SlotType.Grass }, // Gulpin
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 157, // Route 9
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 303, Type = SlotType.Grass }, // Mawile
                     },
                 },
             }).ToArray();
