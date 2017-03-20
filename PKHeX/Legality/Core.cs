@@ -2079,9 +2079,22 @@ namespace PKHeX.Core
                         if (Machine)
                         {
                             var pi_hgss = PersonalTable.HGSS[index];
-                            r.AddRange(TMHM_HGSS.Where((t, m) => pi_hgss.TMHM[m]));
                             var pi_dppt = PersonalTable.Pt[index];
-                            r.AddRange(TMHM_DPPt.Where((t, m) => pi_dppt.TMHM[m]));
+                            r.AddRange(TM_4.Where((t, m) => pi_hgss.TMHM[m]));
+                            if (pkm.Format > 4)
+                            {
+                                // The combination of both these moves is illegal, it should be checked that the pokemon only learn one
+                                // except if it can learn any of these moves in gen 5 or later
+                                if (pi_hgss.TMHM[96])
+                                    r.Add(250); // Whirlpool
+                                if (pi_dppt.TMHM[96])
+                                    r.Add(432); // Defog
+                            }
+                            else
+                            {
+                                r.AddRange(HM_DPPt.Where((t, m) => pi_dppt.TMHM[m + 92]));
+                                r.AddRange(HM_HGSS.Where((t, m) => pi_hgss.TMHM[m + 92]));
+                            }
                         }
                         if (moveTutor)
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));

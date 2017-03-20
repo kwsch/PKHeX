@@ -106,7 +106,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_HGSS = new ushort[1].Concat(Pouch_Items_HGSS).Concat(Pouch_Mail_HGSS).Concat(Pouch_Medicine_HGSS).Concat(Pouch_Berries_HGSS).Concat(Pouch_Ball_Pt).Concat(Pouch_TMHM_HGSS.Take(Pouch_TMHM_HGSS.Length - 8)).ToArray();
         #endregion
 
-        internal static readonly int[] TMHM_HGSS =
+        internal static readonly int[] TM_4 =
         {
             264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
             241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
@@ -118,23 +118,15 @@ namespace PKHeX.Core
             444, 419, 086, 360, 014, 446, 244, 445, 399, 157,
             404, 214, 363, 398, 138, 447, 207, 365, 369, 164,
             430, 433,
+        };
 
+        internal static readonly int[] HM_HGSS =
+        {
             015, 019, 057, 070, 250, 249, 127, 431 // Defog(DPPt) & Whirlpool(HGSS)
         };
 
-        internal static readonly int[] TMHM_DPPt =
+        internal static readonly int[] HM_DPPt =
         {
-            264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
-            241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
-            218, 076, 231, 085, 087, 089, 216, 091, 094, 247,
-            280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
-            259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
-            355, 411, 412, 206, 362, 374, 451, 203, 406, 409,
-            261, 318, 373, 153, 421, 371, 278, 416, 397, 148,
-            444, 419, 086, 360, 014, 446, 244, 445, 399, 157,
-            404, 214, 363, 398, 138, 447, 207, 365, 369, 164,
-            430, 433,
-
             015, 019, 057, 070, 432, 249, 127, 431 // Defog(DPPt) & Whirlpool(HGSS)
         };
 
