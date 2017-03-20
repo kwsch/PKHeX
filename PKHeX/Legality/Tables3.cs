@@ -305,9 +305,9 @@ namespace PKHeX.Core
                 new EncounterStatic { Gift = true, Species = 9, Level = 5, Location = 088, }, // Squirtle
 
                 //Fossil @ Cinnabar Island
-                new EncounterStatic { Gift = true, Species = 138, Level = 30, Location = 096, }, // Omanyte
-                new EncounterStatic { Gift = true, Species = 140, Level = 30, Location = 096, }, // Kabuto
-                new EncounterStatic { Gift = true, Species = 142, Level = 30, Location = 096, }, // Aerodactyl
+                new EncounterStatic { Gift = true, Species = 138, Level = 5, Location = 096, }, // Omanyte
+                new EncounterStatic { Gift = true, Species = 140, Level = 5, Location = 096, }, // Kabuto
+                new EncounterStatic { Gift = true, Species = 142, Level = 5, Location = 096, }, // Aerodactyl
 
                 //Gift
                 new EncounterStatic { Gift = true, Species = 106, Level = 25, Location = 098, }, // Hitmonlee @ Saffron City
