@@ -2259,9 +2259,9 @@ namespace PKHeX.Core
                     moves.AddRange(Tutor_E.Where((t, i) => PersonalTable.E[species].TMHM[58 + i]));
                     // FRLG Tutors
                     // Only special tutor moves, normal tutor moves are already included in Emerald data
-                    moves.AddRange(SpecialTutors_FRLG.Where(t => SpecialTutors_Compatibility_FRLG[t].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_FRLG.Where((t, i) => SpecialTutors_Compatibility_FRLG[i].Any(e => e == species)));
                     // XD
-                    moves.AddRange(SpecialTutors_XD_Exclusive.Where(t => SpecialTutors_Compatibility_XD_Exclusive[t].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_XD_Exclusive.Where((t, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
                     // XD (Mew)
                     if (species == 151)
                         moves.AddRange(Tutor_3Mew);
@@ -2270,7 +2270,7 @@ namespace PKHeX.Core
                 case 4:
                     info = PersonalTable.HGSS[species];
                     moves.AddRange(Tutors_4.Where((t, i) => info.TypeTutors[i]));
-                    moves.AddRange(SpecialTutors_4.Where(t => SpecialTutors_Compatibility_4[t].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_4.Where((t, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
                     break;
                 case 5:
                     info = PersonalTable.B2W2[species];
