@@ -158,7 +158,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 010, }, // Anorith
 
             //Gift
-            new EncounterStatic { Gift = true, Species = 034, Level = 25, Location = 034, }, // Castform @ Weather Institute
+            new EncounterStatic { Gift = true, Species = 351, Level = 25, Location = 034, }, // Castform @ Weather Institute
             new EncounterStatic { Gift = true, Species = 374, Level = 5, Location = 013, }, // Beldum @ Mossdeep City
             new EncounterStatic { Gift = true, Species = 360, Level = 5, }, // Wynaut Egg
 
@@ -262,7 +262,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 033, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
             new EncounterTrade { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, Contest = TradeContest_Tough, }, // Lickitung  * 
             new EncounterTrade { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, Contest = TradeContest_Beauty, }, // Jynx
-            new EncounterTrade { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,21,14,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
+            new EncounterTrade { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
             new EncounterTrade { Species = 101, Ability = 1, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
             new EncounterTrade { Species = 114, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, Contest = TradeContest_Cute, }, // Tangela
             new EncounterTrade { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
