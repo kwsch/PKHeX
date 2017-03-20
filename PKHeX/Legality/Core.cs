@@ -183,6 +183,34 @@ namespace PKHeX.Core
                                      new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
+
+        private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
+        {
+            // Swarm slots replace slots 0 and 1 from encounters data
+            // Species id are not included in encounter tables but levels can be copied from the encounter raw data
+            foreach(EncounterArea Area in Areas)
+            {
+                var SwarmSlots = SwarmAreas.Where(a => a.Location == Area.Location).SelectMany(s=>s.Slots);
+                foreach(EncounterSlot SwarmSlot in SwarmSlots)
+                {
+                    var OutputSlots = new List<EncounterSlot>();
+                    var ReplacedSlots = Area.Slots.Where(s => s.Type == SwarmSlot.Type);
+
+                    var SwarmOutputSlot0 = ReplacedSlots.First().Clone();
+                    SwarmOutputSlot0.Species = SwarmSlot.Species;
+                    OutputSlots.Add(SwarmOutputSlot0);
+
+                    var SwarmOutputSlot1 = ReplacedSlots.Skip(1).First().Clone();
+                    SwarmOutputSlot1.Species = SwarmSlot.Species;
+                    OutputSlots.Add(SwarmOutputSlot1);
+                                        
+                    Area.Slots = Area.Slots.Concat(OutputSlots).ToArray();
+                }
+
+                Area.Slots = Area.Slots.Where(a => a.Species > 0).ToArray();
+            }
+        }
+
         private static void MarkG4Slots(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
@@ -358,6 +386,12 @@ namespace PKHeX.Core
                 var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
                 var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
                 var Pt_HoneyTrees_Slots = SlotsPt_HoneyTree.Clone(HoneyTreesLocation);
+
+                MarkG4SwarmSlots(ref D_Slots, SlotsDP_Swarm);
+                MarkG4SwarmSlots(ref P_Slots, SlotsDP_Swarm);
+                MarkG4SwarmSlots(ref Pt_Slots, SlotsPt_Swarm);
+                MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
+                MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
 
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
@@ -579,7 +613,15 @@ namespace PKHeX.Core
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
-                if (e.EggLocation != pkm.Egg_Location)
+                if(pkm.Gen3 && e.EggLocation != 0)
+                {   
+                    //Hartched gen 3 gift egg can not be differentiated form normal eggs 
+                    if (!pkm.IsEgg || pkm.Format > 3)
+                        continue;
+                    if (e.EggLocation != pkm.Met_Location)
+                        continue;
+                }
+                else if (e.EggLocation != pkm.Egg_Location)
                     continue;
                 if (pkm.HasOriginalMetLocation)
                 {
