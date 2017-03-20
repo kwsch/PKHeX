@@ -21,4 +21,9 @@
 
         public string Name => "In-game Trade";
     }
+
+    public class EncounterTradePID : EncounterTrade
+    {
+        public uint PID;
+    }
 }

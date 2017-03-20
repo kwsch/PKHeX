@@ -650,7 +650,12 @@ namespace PKHeX.Core
             {
                 if (z.Location != pkm.Met_Location)
                     return null;
-                if (z.Level != lvl)
+                if (pkm.Format < 5)
+                {
+                    if (z.Level > lvl)
+                        return null;
+                }
+                else if (z.Level != lvl)
                     return null;
             }
             else
@@ -1859,7 +1864,7 @@ namespace PKHeX.Core
 
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
                 if (vs[gen].Any())
-                    r.AddRange(getValidMoves(pkm, Version, vs[gen], gen, LVL, Tutor, Machine, MoveReminder));
+                    r.AddRange(getValidMoves(pkm, Version, vs[gen], gen, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder));
 
             return r.Distinct().ToArray();
         }

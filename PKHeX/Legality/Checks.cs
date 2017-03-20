@@ -2119,15 +2119,6 @@ namespace PKHeX.Core
                 GameVersion[] Games = {};
                 switch (pkm.GenNumber)
                 {
-                    case 3:
-                        Games = new[] {GameVersion.RS, GameVersion.E, GameVersion.FRLG};
-                        break;
-                    case 4:
-                        Games = new[] {GameVersion.DP, GameVersion.Pt, GameVersion.HGSS};
-                        break;
-                    case 5:
-                        Games = new[] {GameVersion.BW, GameVersion.B2W2};
-                        break;
                     case 6:
                         Games = new[] {GameVersion.XY, GameVersion.ORAS};
                         break;
