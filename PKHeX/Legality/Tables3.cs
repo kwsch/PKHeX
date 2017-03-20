@@ -140,8 +140,66 @@ namespace PKHeX.Core
             new[] {135, 069, 138, 005, 025, 034, 157, 068, 086, 014},
             new[] {111, 173, 189, 129, 196, 203, 244, 008, 009, 007},
         };
-        internal static readonly int[] Tutor_E = {038, 223, 153, 210, 118, 102, 205, 214, 164, 207};
-        internal static readonly int[] Tutor_FRLG = {034, 068, 038, 138, 153, 025, 005, 118, 102, 157, 069, 135, 164, 014, 086};
+
+        internal static readonly int[] Tutor_E =
+        {
+            005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
+            138, 086, 153, 157, 164, 223, 205, 244, 173, 196,
+            203, 189, 008, 207, 214, 129, 111, 009, 007, 210
+        };
+
+        internal static readonly int[] Tutor_FRLG =
+        {
+            005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
+            138, 086, 153, 157, 164
+        };
+
+        internal static readonly int[] SpecialTutors_FRLG =
+        {
+            307, 308, 338
+        };
+
+        internal static readonly int[][] SpecialTutors_Compatibility_FRLG =
+        {
+            new int[] { 6 },
+            new int[] { 9 },
+            new int[] { 3 },
+        };
+
+        // Tutor moves from XD that can be learned as tutor moves in emerald
+        // For this moves compatibility data is the same in XD and Emerald
+        internal static readonly int[] SpecialTutors_XD_Emerald =
+        {
+            034, 038, 069, 086, 102, 120, 138, 143, 164, 171, 196, 207,
+        };
+
+        internal static readonly int[] SpecialTutors_XD_Exclusive =
+        {
+            120, 143, 171
+        };
+
+        internal static readonly int[] SpecialTutors_XD = SpecialTutors_XD_Emerald.Concat(SpecialTutors_XD_Exclusive).ToArray();
+
+        internal static readonly int[][] SpecialTutors_Compatibility_XD_Exclusive =
+        {
+            new int[] { 074, 075, 076, 088, 089, 090, 091, 092, 093, 094, 095,
+                        100, 101, 102, 103, 109, 110, 143, 150, 151, 185, 204,
+                        205, 208, 211, 218, 219, 222, 273, 274, 275, 299, 316,
+                        317, 320, 321, 323, 324, 337, 338, 343, 344, 362, 375,
+                        376, 377, 378, 379 },
+
+            new int[] { 016, 017, 018, 021, 022, 084, 085, 142, 144, 145, 146,
+                        151, 163, 164, 176, 177, 178, 198, 225, 227, 250, 276,
+                        277, 278, 279, 333, 334 },
+
+            new int[] { 012, 035, 036, 039, 040, 052, 053, 063, 064, 065, 079,
+                        080, 092, 093, 094, 096, 097, 102, 103, 108, 121, 122,
+                        124, 131, 137, 150, 151, 163, 164, 173, 174, 177, 178,
+                        190, 196, 197, 198, 199, 200, 203, 206, 215, 228, 229,
+                        233, 234, 238, 248, 249, 250, 251, 280, 281, 282, 284,
+                        292, 302, 315, 316, 317, 327, 353, 354, 355, 356, 358,
+                        359, 385, 386 }
+        };
 
         internal static readonly int[] Roaming_MetLocation_FRLG =
         {
