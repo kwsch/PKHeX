@@ -63,7 +63,7 @@ namespace PKHeX.Core
             149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212
         };
         internal static readonly ushort[] HeldItems_BW = new ushort[1].Concat(Pouch_Items_BW).Concat(Pouch_Medicine_BW).Concat(Pouch_Berries_BW).ToArray();
-        
+
         internal static readonly ushort[] Pouch_Key_B2W2 = {
             437, 442, 447, 450, 453, 458, 465, 466, 471, 504, 578, 616, 617, 621, 626, 627, 628, 630, 631, 632, 633, 634, 635, 636, 637, 638,
         };
@@ -115,7 +115,7 @@ namespace PKHeX.Core
         {
             // todo
         };
-        internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2+1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2 + 1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
         internal static readonly int[][] Tutors_B2W2 =
         {
             new[] { 343, 450, 529, 340, 324, 442, 162, 253, 402, 530, 067, 441, 007, 009, 008 }, // Driftveil City
@@ -126,11 +126,121 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic[] Encounter_BW =
         {
-            //todo
+            //Starters @ Nuvema Town
+            new EncounterStatic { Gift = true, Species = 495, Level = 5, Location = 4, }, // Snivys
+            new EncounterStatic { Gift = true, Species = 498, Level = 5, Location = 4, }, // Tepig
+            new EncounterStatic { Gift = true, Species = 501, Level = 5, Location = 4, }, // Oshawott
+
+            //Fossil @ Nacrene City
+            new EncounterStatic { Gift = true, Species = 138, Level = 25, Location = 7, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 25, Location = 7, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 25, Location = 7, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 25, Location = 7, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 25, Location = 7, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 25, Location = 7, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 25, Location = 7, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 25, Location = 7, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 25, Location = 7, }, // Archen
+
+            //Gift
+            new EncounterStatic { Gift = true, Species = 511, Level = 10, Location = 32, }, // Pansage @ Dreamyard
+            new EncounterStatic { Gift = true, Species = 513, Level = 10, Location = 32, }, // Pansear
+            new EncounterStatic { Gift = true, Species = 515, Level = 10, Location = 32, }, // Panpour
+            new EncounterStatic { Gift = true, Species = 129, Level = 5, Location = 68, }, // Magikarp @ Marvelous Bridge
+            new EncounterStatic { Gift = true, Species = 636, Level = 1, EggLocation = 60003, }, // Larvesta Egg from Treasure Hunter
+
+            //Stationary
+            new EncounterStatic { Species = 518, Level = 50, Ability = 4, Location = 32, }, //Musharna @ Dreamyard Friday Only
+            new EncounterStatic { Species = 590, Level = 20, Location = 19, }, //Foongus @ Route 6
+            new EncounterStatic { Species = 590, Level = 30, Location = 23, }, //Foongus @ Route 10
+            new EncounterStatic { Species = 591, Level = 40, Location = 23, }, //Amoonguss @ Route 10
+            new EncounterStatic { Species = 555, Level = 35, Ability = 4, Location = 34, }, //Darmanitan @ Desert Resort
+            new EncounterStatic { Species = 637, Level = 70, Location = 35, }, //Volcarona @ Relic Castle
+
+            //Stationary Lengerdary
+            new EncounterStatic { Species = 638, Level = 42, Location = 54,}, //Cobalion @ Mistralton Cave
+            new EncounterStatic { Species = 639, Level = 42, Location = 40,}, //Terrakion @ Victory Road
+            new EncounterStatic { Species = 640, Level = 42, Location = 33,}, //Virizion @ Pinwheel Forest
+            new EncounterStatic { Species = 643, Level = 50, Location = 45, Shiny = false, Version = GameVersion.B, }, //Reshiram @ N'Castle
+            new EncounterStatic { Species = 643, Level = 50, Location = 39, Shiny = false, Version = GameVersion.B, }, //Reshiram @ Dragonspiral Tower
+            new EncounterStatic { Species = 644, Level = 50, Location = 45, Shiny = false, Version = GameVersion.W, }, //Zekrom @ N'Castle
+            new EncounterStatic { Species = 644, Level = 50, Location = 39, Shiny = false, Version = GameVersion.W, }, //Zekrom @ Dragonspiral Tower
+            new EncounterStatic { Species = 645, Level = 70, Location = 70,}, //Landorus @ Abundant Shrine
+            new EncounterStatic { Species = 646, Level = 75, Location = 61,}, //Kyurem @ Giant Chasm
+
+            //Event
+            new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
+            new EncounterStatic { Species = 570, Level = 10, Location = 32, Gender = 0, Gift = true, }, // Zorua @ Castelia City
+            new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
+
+            //Roaming
+            new EncounterStatic { Species = 641, Level = 40, }, //Tornadus
+            new EncounterStatic { Species = 642, Level = 40, }, //Thundurus
         };
         internal static readonly EncounterStatic[] Encounter_B2W2 =
         {
-            //todo
+            //Starters @ Aspertia City
+            new EncounterStatic { Gift = true, Species = 495, Level = 5, Location = 117, }, // Snivy
+            new EncounterStatic { Gift = true, Species = 498, Level = 5, Location = 117, }, // Tepig
+            new EncounterStatic { Gift = true, Species = 501, Level = 5, Location = 117, }, // Oshawott
+
+            //Fossil @ Nacrene City
+            new EncounterStatic { Gift = true, Species = 138, Level = 25, Location = 7, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 25, Location = 7, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 25, Location = 7, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 25, Location = 7, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 25, Location = 7, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 25, Location = 7, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 25, Location = 7, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 25, Location = 7, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 25, Location = 7, }, // Archen
+
+            //Gift
+            new EncounterStatic { Gift = true, Species = 133, Level = 10, Ability = 4, Location = 8, }, //HA Eevee @ Castelia City
+            new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 0, }, //HA Deerling @ Route 6
+            new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 1, }, //HA Deerling @ Route 6
+            new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 2, }, //HA Deerling @ Route 6
+            new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 3, }, //HA Deerling @ Route 6
+            new EncounterStatic { Gift = true, Species = 443, Level = 1, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
+            new EncounterStatic { Gift = true, Species = 147, Level = 1, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
+            new EncounterStatic { Gift = true, Species = 129, Level = 5, Location = 68, }, // Magikarp @ Marvelous Bridge
+            new EncounterStatic { Gift = true, Species = 440, Level = 1, Ability = 1, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
+
+            //Stationary
+            new EncounterStatic { Species = 590, Level = 29, Location = 19, }, // Foongus @ Route 6
+            new EncounterStatic { Species = 591, Level = 47, Location = 24, }, // Amoonguss @ Route 11
+            new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.B2, Gender = 0,}, // HA Jellicent @ Undella Bay Mon Only
+            new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.W2, Gender = 1,}, // HA Jellicent @ Undella Bay Thurs Only
+            new EncounterStatic { Species = 628, Level = 25, Location = 17, Ability = 4, Version = GameVersion.W2, Gender = 0,}, // HA Braviary @ Route 4 Mon Only
+            new EncounterStatic { Species = 630, Level = 25, Location = 17, Ability = 4, Version = GameVersion.B2, Gender = 1,}, // HA Mandibuzz @ Route 4 Thurs Only
+            new EncounterStatic { Species = 637, Level = 35, Location = 35, }, // Volcarona @ Relic Castle
+            new EncounterStatic { Species = 637, Level = 65, Location = 35, }, // Volcarona @ Relic Castle
+            new EncounterStatic { Species = 558, Level = 42, Location = 141, }, // Crustle @ Seaside Cave
+            new EncounterStatic { Species = 612, Level = 60, Location = 147, Shiny = true}, // Haxorus @ Nature Preserve
+
+            //Stationary Lengerdary
+            new EncounterStatic { Species = 377, Level = 65, Location = 149,}, //Regirock @ Underground Ruins
+            new EncounterStatic { Species = 378, Level = 65, Location = 149,}, //Regice @ Underground Ruins
+            new EncounterStatic { Species = 379, Level = 65, Location = 149,}, //Registeel @ Underground Ruins
+            new EncounterStatic { Species = 380, Level = 68, Location = 032, Version = GameVersion.W2, }, // Latias @ Dreamyard
+            new EncounterStatic { Species = 381, Level = 68, Location = 032, Version = GameVersion.B2, }, // Latios @ Dreamyard
+            new EncounterStatic { Species = 480, Level = 65, Location = 007,}, //Uxie @ Nacrene City
+            new EncounterStatic { Species = 481, Level = 65, Location = 056,}, //Mesprit @ Celestial Tower
+            new EncounterStatic { Species = 482, Level = 65, Location = 128,}, //Azelf @ Route 23
+            new EncounterStatic { Species = 485, Level = 68, Location = 132,}, //Heatran @ Reversal Mountain
+            new EncounterStatic { Species = 486, Level = 68, Location = 038,}, //Regigigas @ Twist Mountain
+            new EncounterStatic { Species = 488, Level = 68, Location = 068,}, //Cresselia @ Marvelous Bridge
+
+            new EncounterStatic { Species = 638, Level = 45, Location = 026,}, // Cobalion @ Route 13
+            new EncounterStatic { Species = 638, Level = 65, Location = 026,}, // Cobalion @ Route 13
+            new EncounterStatic { Species = 639, Level = 45, Location = 127,}, // Terrakion @ Route 22
+            new EncounterStatic { Species = 639, Level = 65, Location = 127,}, // Terrakion @ Route 22
+            new EncounterStatic { Species = 640, Level = 45, Location = 024,}, // Virizion @ Route 11
+            new EncounterStatic { Species = 640, Level = 65, Location = 024,}, // Virizion @ Route 11
+            new EncounterStatic { Species = 643, Level = 70, Location = 039, Shiny = false, Version = GameVersion.W2, }, // Reshiram @ Dragonspiral Tower
+            new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = false, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
+            new EncounterStatic { Species = 646, Level = 70, Location = 061, Form = 0}, // Kyurem @ Giant Chasm
+
         };
         internal static readonly EncounterTrade[] TradeGift_BW =
         {
@@ -164,7 +274,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
             new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1,},
-            //// player is female
+            // player is female
             new EncounterTrade { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
@@ -177,6 +287,8 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
+            // Gift
+            new EncounterTrade { Species = 570, Level = 25, Ability = 1, TID = 00002, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {30,30,30,30,30,30}, Nature = Nature.Hasty, } //N's Zorua
         };
     }
 }

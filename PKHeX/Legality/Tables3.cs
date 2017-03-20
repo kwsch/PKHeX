@@ -214,7 +214,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 175, Level = 5, }, // Togepi Egg
 
             //Stationary
-            new EncounterStatic { Species = 143, Level = 30, Location = 102, }, //Snorlax @ Route 12
+            new EncounterStatic { Species = 143, Level = 30, Location = 112, }, //Snorlax @ Route 12
             new EncounterStatic { Species = 143, Level = 30, Location = 116, }, //Snorlax @ Route 16
             new EncounterStatic { Species = 101, Level = 34, Location = 142, }, //Electrode @ Power Plant
             new EncounterStatic { Species = 097, Level = 30, Location = 176, }, //Hypno @ Berry Forest
