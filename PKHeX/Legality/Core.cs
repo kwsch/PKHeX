@@ -190,61 +190,20 @@ namespace PKHeX.Core
             // Species id are not included in encounter tables but levels can be copied from the encounter raw data
             foreach(EncounterArea Area in Areas)
             {
-                var Swarms = SwarmAreas.Where(a => a.Location == Area.Location);
-                foreach(EncounterArea Swarm in Swarms)
+                var SwarmSlots = SwarmAreas.Where(a => a.Location == Area.Location).SelectMany(s=>s.Slots);
+                foreach(EncounterSlot SwarmSlot in SwarmSlots)
                 {
                     var OutputSlots = new List<EncounterSlot>();
-                    var SwarmSlot = Swarm.Slots.First();
+                    var ReplacedSlots = Area.Slots.Where(s => s.Type == SwarmSlot.Type);
 
-                    if (SwarmSlot.Type == SlotType.Grass)
-                    {
-                        var SwarmRawSlot0 = Area.Slots.Where(s => s.Type == SlotType.Grass).First().Clone();
-                        SwarmRawSlot0.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot0);
+                    var SwarmOutputSlot0 = ReplacedSlots.First().Clone();
+                    SwarmOutputSlot0.Species = SwarmSlot.Species;
+                    OutputSlots.Add(SwarmOutputSlot0);
 
-                        var SwarmRawSlot1 = Area.Slots.Where(s => s.Type == SlotType.Grass).Take(1).First().Clone();
-                        SwarmRawSlot1.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot1);
-                    }
-
-                    if (SwarmSlot.Type == SlotType.Surf)
-                    {
-                        var SwarmRawSlot0 = Area.Slots.Where(s => s.Type == SlotType.Surf).First().Clone();
-                        SwarmRawSlot0.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot0);
-
-                        var SwarmRawSlot1 = Area.Slots.Where(s => s.Type == SlotType.Surf).Take(1).First().Clone();
-                        SwarmRawSlot1.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot1);
-                    }
-
-                    if (SwarmSlot.Type == SlotType.Super_Rod)
-                    {
-                        var SwarmRawSlot0_OR = Area.Slots.Where(s => s.Type == SlotType.Old_Rod).First().Clone();
-                        SwarmRawSlot0_OR.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot0_OR);
-
-                        var SwarmRawSlot1_OR = Area.Slots.Where(s => s.Type == SlotType.Old_Rod).Take(1).First().Clone();
-                        SwarmRawSlot1_OR.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot1_OR);
-
-                        var SwarmRawSlot0_GR = Area.Slots.Where(s => s.Type == SlotType.Good_Rod).First().Clone();
-                        SwarmRawSlot0_GR.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot0_GR);
-
-                        var SwarmRawSlot1_GR = Area.Slots.Where(s => s.Type == SlotType.Good_Rod).Take(1).First().Clone();
-                        SwarmRawSlot1_GR.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot1_GR);
-
-                        var SwarmRawSlot0_SR = Area.Slots.Where(s => s.Type == SlotType.Super_Rod).First().Clone();
-                        SwarmRawSlot0_SR.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot0_SR);
-
-                        var SwarmRawSlot1_SR = Area.Slots.Where(s => s.Type == SlotType.Super_Rod).Take(1).First().Clone();
-                        SwarmRawSlot1_SR.Species = SwarmSlot.Species;
-                        OutputSlots.Add(SwarmRawSlot1_SR);
-                    }
-
+                    var SwarmOutputSlot1 = ReplacedSlots.Skip(1).First().Clone();
+                    SwarmOutputSlot1.Species = SwarmSlot.Species;
+                    OutputSlots.Add(SwarmOutputSlot1);
+                                        
                     Area.Slots = Area.Slots.Concat(OutputSlots).ToArray();
                 }
 
