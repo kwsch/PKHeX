@@ -168,19 +168,20 @@ namespace PKHeX.Core
         {
             // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
             // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.Where(a => (a.Location < 188 || a.Location > 194)).
-                          GroupBy(a => a.Location).
-                          Select(a =>
-                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
-                          ToArray();
+            Areas = Areas.Where(a => a.Location < 188 || a.Location > 194).GroupBy(a => a.Location).Select(a => new EncounterArea
+            {
+                Location = a.First().Location,
+                Slots = a.SelectMany(m => m.Slots).ToArray()
+            }).ToArray();
         }
         private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).
-                          Select(a =>
-                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
-                          ToArray();
+            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
+            {
+                Location = a.First().Location,
+                Slots = a.SelectMany(m => m.Slots).ToArray()
+            }).ToArray();
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
@@ -188,24 +189,17 @@ namespace PKHeX.Core
             // Species id are not included in encounter tables but levels can be copied from the encounter raw data
             foreach(EncounterArea Area in Areas)
             {
-                var SwarmSlots = SwarmAreas.Where(a => a.Location == Area.Location).SelectMany(s=>s.Slots);
-                foreach(EncounterSlot SwarmSlot in SwarmSlots)
+                var SwarmSlots = SwarmAreas.Where(a => a.Location == Area.Location).SelectMany(s => s.Slots);
+                var OutputSlots = new List<EncounterSlot>();
+                foreach (EncounterSlot SwarmSlot in SwarmSlots)
                 {
-                    var OutputSlots = new List<EncounterSlot>();
-                    var ReplacedSlots = Area.Slots.Where(s => s.Type == SwarmSlot.Type).ToArray();
-
-                    var SwarmOutputSlot0 = ReplacedSlots[0].Clone();
-                    SwarmOutputSlot0.Species = SwarmSlot.Species;
-                    OutputSlots.Add(SwarmOutputSlot0);
-
-                    var SwarmOutputSlot1 = ReplacedSlots[1].Clone();
-                    SwarmOutputSlot1.Species = SwarmSlot.Species;
-                    OutputSlots.Add(SwarmOutputSlot1);
-                                        
-                    Area.Slots = Area.Slots.Concat(OutputSlots).ToArray();
+                    foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(2).Select(slot => slot.Clone()))
+                    {
+                        swarmSlot.Species = SwarmSlot.Species;
+                        OutputSlots.Add(swarmSlot);
+                    }
                 }
-
-                Area.Slots = Area.Slots.Where(a => a.Species > 0).ToArray();
+                Area.Slots = Area.Slots.Concat(OutputSlots).Where(a => a.Species > 0).ToArray();
             }
         }
         private static void MarkG4Slots(ref EncounterArea[] Areas)
