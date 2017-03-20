@@ -233,29 +233,12 @@ namespace PKHeX.Core
 
         internal static readonly int[] Roaming_MetLocation_RSE =
         {
-            // TODO: Check if roaming encounter is possible in routes 11, 119 and 120
-            16, // Route 101
-            17, // Route 102
-            18, // Route 103
-            19, // Route 104
-            // Routes 105 to 109 only have surf encounters
-            25, // Route 110
-            26, // Route 111 Deep sand
-            27, // Route 112
-            28, // Route 113
-            29, // Route 114
-            30, // Route 115
-            31, // Route 116
-            32, // Route 117
-            33, // Route 118
-            34, // Route 119 Long grass
-            35, // Route 120 Long grass
-            36, // Route 121
-            // Routes 122 only have surf encounters
-            38, // Route 123
-            // Routes 124 to 129 only have surf encounters
-            // Route 130 only have grass inMirage Island
-            // Routes 132 to 134 only have surf encounters
+            //Roaming encounter is possible in tall grass and on water
+            //Route 101-138 
+            16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+            26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+            36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+            46, 47, 48, 49,
         };
 
         internal static readonly EncounterStatic[] Encounter_RSE =
@@ -322,9 +305,9 @@ namespace PKHeX.Core
                 new EncounterStatic { Gift = true, Species = 9, Level = 5, Location = 088, }, // Squirtle
 
                 //Fossil @ Cinnabar Island
-                new EncounterStatic { Gift = true, Species = 138, Level = 30, Location = 096, }, // Omanyte
-                new EncounterStatic { Gift = true, Species = 140, Level = 30, Location = 096, }, // Kabuto
-                new EncounterStatic { Gift = true, Species = 142, Level = 30, Location = 096, }, // Aerodactyl
+                new EncounterStatic { Gift = true, Species = 138, Level = 5, Location = 096, }, // Omanyte
+                new EncounterStatic { Gift = true, Species = 140, Level = 5, Location = 096, }, // Kabuto
+                new EncounterStatic { Gift = true, Species = 142, Level = 5, Location = 096, }, // Aerodactyl
 
                 //Gift
                 new EncounterStatic { Gift = true, Species = 106, Level = 25, Location = 098, }, // Hitmonlee @ Saffron City
