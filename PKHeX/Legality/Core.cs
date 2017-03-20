@@ -315,7 +315,7 @@ namespace PKHeX.Core
             var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
             var h = h_c.Concat(h_g).Concat(h_s);
 
-                return addExtraTableSlots(g, s).Concat(c).Concat(f).Concat(h).ToArray();
+            return addExtraTableSlots(g, s).Concat(c).Concat(f).Concat(h).ToArray();
         }
         static Legal() // Setup
         {
@@ -2042,19 +2042,15 @@ namespace PKHeX.Core
                             {
                                 switch(form)
                                 {
-                                    case 0: r.AddRange(LevelUpRS[index].getMoves(lvl));break;
+                                    case 0: r.AddRange(LevelUpRS[index].getMoves(lvl)); break;
                                     case 1: r.AddRange(LevelUpFR[index].getMoves(lvl)); break;
                                     case 2: r.AddRange(LevelUpLG[index].getMoves(lvl)); break;
                                     case 3: r.AddRange(LevelUpE[index].getMoves(lvl)); break;
                                 }
                             }
-                            else
-                            {
-                                r.AddRange(LevelUpRS[index].getMoves(lvl));
+                            else //Add only emerald moves, all the gen 3 level up tables are equal except deoxys level up tables
                                 r.AddRange(LevelUpE[index].getMoves(lvl));
-                                r.AddRange(LevelUpFR[index].getMoves(lvl));
-                                r.AddRange(LevelUpLG[index].getMoves(lvl));
-                            }
+                            
                         }
                         if (Machine)
                         {
