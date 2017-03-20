@@ -370,7 +370,7 @@ namespace PKHeX.Core
         }
         private static IEnumerable<EncounterSlot> getSlots4_G_Replace(byte[] data, ref int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
-            //Special slots like GBA Dual Slot. Those slot only contain the info the species, the level is copy from one of the first grass slots
+            //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
             var slots = new List<EncounterSlot>();
 
             int numslots = slotnums.Length;
@@ -419,13 +419,14 @@ namespace PKHeX.Core
             }
 
             // If the grass slot is replaced by all the time slots that means the species in the grass slot will never be used
-            // Unlike raid slot and gba dual slot the time of the day is always day, morning or night
+            // Unlike radio slot and gba dual slot the time of the day is always day, morning or night
             if (CountReplaced[0] == 3)
                 GrassSlots[2].Species = 0;
             if (CountReplaced[1] == 3)
                 GrassSlots[3].Species = 0;
 
-            return GrassSlots.Where(s => s.Species > 0).Concat(slots);
+            //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
+            return GrassSlots.Concat(slots);
         }
         private static IEnumerable<EncounterSlot> getSlots4DPPt_WFR(byte[] data, ref int ofs, int numslots, SlotType t)
         {
@@ -436,7 +437,8 @@ namespace PKHeX.Core
                 int Species = BitConverter.ToInt32(data, ofs + 4 + i * 8);
                 if (Species <= 0)
                     continue;
-                
+                // fishing and surf slots with species = 0 are not added
+                // DPPt does not have fishing or surf swarms
                 slots.Add(new EncounterSlot
                 {
                     LevelMin = data[ofs + 0 + i * 8],
@@ -456,8 +458,10 @@ namespace PKHeX.Core
             {
                 // min, max, [16bit species]
                 int Species = BitConverter.ToInt16(data, ofs + 2 + i * 4);
-                if (Species <= 0)
+                if (t == SlotType.Rock_Smash && Species <= 0)
                     continue;
+                // fishing and surf slots with species = 0 are added too, it is needed for the swarm encounters, 
+                // it will be deleted after add swarm slots
 
                 slots.Add(new EncounterSlot
                 {
@@ -515,7 +519,7 @@ namespace PKHeX.Core
                 //Morning, Day and Night slots replace slots 2 and 3
                 Slots.AddRange(getSlots4_G_TimeReplace(data, ref ofs, GrassSlots, SlotType.Grass, Legal.Slot4_Time));
                 //Pokéradar slots replace slots 6,7,10 and 11
-                //Pokeradar is marked with different slot type because it have different PID-IV generationn
+                //Pokéradar is marked with different slot type because it have different PID-IV generationn
                 Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar));
                 ofs += 24; //24 bytes padding
                 //Dual Slots replace slots 8 and 9
@@ -570,14 +574,14 @@ namespace PKHeX.Core
             var Slots = new List<EncounterSlot>();
             Area4.Location = BitConverter.ToUInt16(data, 0);
 
-            int GrassRatio = data[2];
-            int SurfRatio = data[3];
-            int RockSmashRatio = data[4];
-            int OldRodRatio = data[5];
-            int GoodRodRatio = data[6];
-            int SuperRodRatio = data[7];
+            var GrassRatio = data[2];
+            var SurfRatio = data[3];
+            var RockSmashRatio = data[4];
+            var OldRodRatio = data[5];
+            var GoodRodRatio = data[6];
+            var SuperRodRatio = data[7];
             // 2 bytes padding
-            int ofs = 10;
+            var ofs = 10;
 
             EncounterSlot[] GrassSlots = null;
 
@@ -586,7 +590,8 @@ namespace PKHeX.Core
                 // First 36 slots are morning, day and night grass slots
                 // The order is 12 level values, 12 morning species, 12 day species and 12 night species
                 GrassSlots = getSlots4_HGSS_G(data, ref ofs, 12, SlotType.Grass);
-                Slots.AddRange(GrassSlots.Where(s => s.Species > 0));
+                //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
+                Slots.AddRange(GrassSlots);
 
                 // Hoenn Sound and Sinnoh Sound replace slots 4 and 5
                 Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 2, GrassSlots, Legal.Slot4_Sound)); // Hoenn

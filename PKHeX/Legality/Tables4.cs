@@ -170,6 +170,45 @@ namespace PKHeX.Core
             081, 366, 356, 388, 277, 272, 215, 067,
             143, 335, 450,
         };
+
+        internal static readonly EncounterStatic[] Encounter_HGSS_Swarm =
+        {
+            //Swarm 
+            //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
+            new EncounterStatic { Species = 113, Level = 23, Location = 161, }, //Chansey @ Route 13
+            new EncounterStatic { Species = 132, Level = 34, Location = 195, }, //Ditto @ Route 47
+            new EncounterStatic { Species = 183, Level = 15, Location = 216, }, //Marill @ Mt. Mortar
+            new EncounterStatic { Species = 193, Level = 12, Location = 183, }, //Yanma @ Route 35
+            new EncounterStatic { Species = 206, Level = 2, Location = 220, }, //Dunsparce @ Dark Cave
+            new EncounterStatic { Species = 206, Level = 3, Location = 220, }, //Dunsparce @ Dark Cave
+            new EncounterStatic { Species = 209, Level = 16, Location = 186, }, //Snubbull @ Route 38
+            new EncounterStatic { Species = 211, Level = 40, Location = 180, }, //Qwilfish @ Route 32
+            new EncounterStatic { Species = 223, Level = 20, Location = 192, }, //Remoraid @ Route 44
+            new EncounterStatic { Species = 261, Level = 2, Location = 149, }, //Poochyena @ Route 1
+            new EncounterStatic { Species = 278, Level = 35, Location = 143, }, //Wingull @ Vermillion City
+            new EncounterStatic { Species = 280, Level = 10, Location = 182, }, //Ralts @ Route 34
+            new EncounterStatic { Species = 280, Level = 11, Location = 182, }, //Ralts @ Route 34
+            new EncounterStatic { Species = 302, Level = 13, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
+            new EncounterStatic { Species = 302, Level = 14, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
+            new EncounterStatic { Species = 302, Level = 15, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
+            new EncounterStatic { Species = 303, Level = 13, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
+            new EncounterStatic { Species = 303, Level = 14, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
+            new EncounterStatic { Species = 303, Level = 15, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
+            new EncounterStatic { Species = 316, Level = 5, Location = 151, Version = GameVersion.SS,}, //Gulpin @ Route 3
+            new EncounterStatic { Species = 333, Level = 23, Location = 193, }, //Swablu @ Route 45
+            new EncounterStatic { Species = 340, Level = 10, Location = 128, }, //Whiscash @ Violet City Old Rod
+            new EncounterStatic { Species = 340, Level = 20, Location = 128, }, //Whiscash @ Violet City Good Rod
+            new EncounterStatic { Species = 340, Level = 40, Location = 128, }, //Whiscash @ Violet City Super Rod
+            new EncounterStatic { Species = 343, Level = 5, Location = 151, Version = GameVersion.HG,}, //Baltoy @ Route 3
+            new EncounterStatic { Species = 366, Level = 35, Location = 167, }, //Clamperl @ Route 19
+            new EncounterStatic { Species = 369, Level = 40, Location = 160, }, //Relicanth @ Route 12
+            new EncounterStatic { Species = 370, Level = 20, Location = 175, }, //Luvdisc @ Route 27
+            new EncounterStatic { Species = 401, Level = 3, Location = 224, }, //Kricketot @ Viridian Forest
+            new EncounterStatic { Species = 427, Level = 8, Location = 173, }, //Buneary @ Route 25
+            new EncounterStatic { Species = 427, Level = 9, Location = 173, }, //Buneary @ Route 25
+            new EncounterStatic { Species = 427, Level = 10, Location = 173, }, //Buneary @ Route 25
+        };
+
         internal static readonly EncounterStatic[] Encounter_DPPt =
         {
             //Starters
@@ -227,76 +266,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 144, Level = 60, Version = GameVersion.Pt, }, //Articuno
             new EncounterStatic { Species = 145, Level = 60, Version = GameVersion.Pt, }, //Zapdos
             new EncounterStatic { Species = 146, Level = 60, Version = GameVersion.Pt, }, //Moltres
-
-            //Swarm 
-            //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
-            new EncounterStatic { Species = 016, Level = 51, Location = 044, Version = GameVersion.DP,}, //Pidgey @ Route 229
-            new EncounterStatic { Species = 081, Level = 28, Location = 049, Version = GameVersion.DP,}, //Magnemite @ Fuego Ironworks
-            new EncounterStatic { Species = 081, Level = 29, Location = 049, Version = GameVersion.DP,}, //Magnemite @ Fuego Ironworks
-            new EncounterStatic { Species = 083, Level = 28, Location = 036, Version = GameVersion.DP,}, //Farfetch'd @ Route 221
-            new EncounterStatic { Species = 083, Level = 28, Location = 036, Version = GameVersion.Pt,}, //Farfetch'd @ Route 221
-            new EncounterStatic { Species = 083, Level = 29, Location = 036, Version = GameVersion.Pt,}, //Farfetch'd @ Route 221
-            new EncounterStatic { Species = 084, Level = 2, Location = 016, }, //Doduo @ Route 201
-            new EncounterStatic { Species = 096, Level = 20, Location = 030, Version = GameVersion.DP,}, //Drowzee @ Route 215
-            new EncounterStatic { Species = 096, Level = 21, Location = 030, Version = GameVersion.DP,}, //Drowzee @ Route 215
-            new EncounterStatic { Species = 096, Level = 19, Location = 030, Version = GameVersion.Pt,}, //Drowzee @ Route 215
-            new EncounterStatic { Species = 096, Level = 20, Location = 030, Version = GameVersion.Pt,}, //Drowzee @ Route 215
-            new EncounterStatic { Species = 098, Level = 52, Location = 041, Version = GameVersion.DP,}, //Krabby @ Route 226
-            new EncounterStatic { Species = 098, Level = 48, Location = 041, Version = GameVersion.Pt,}, //Krabby @ Route 226
-            new EncounterStatic { Species = 098, Level = 49, Location = 041, Version = GameVersion.Pt,}, //Krabby @ Route 226
-            new EncounterStatic { Species = 100, Level = 28, Location = 033, Version = GameVersion.DP,}, //Voltorb @ Route 218
-            new EncounterStatic { Species = 100, Level = 28, Location = 033, Version = GameVersion.Pt,}, //Voltorb @ Route 218
-            new EncounterStatic { Species = 100, Level = 29, Location = 033, Version = GameVersion.Pt,}, //Voltorb @ Route 218
-            new EncounterStatic { Species = 104, Level = 4, Location = 018, }, //Cubone @ Route 203
-            new EncounterStatic { Species = 108, Level = 34, Location = 077, Version = GameVersion.DP,}, //Lickitung @ Lake Valor
-            new EncounterStatic { Species = 108, Level = 36, Location = 077, Version = GameVersion.DP,}, //Lickitung @ Lake Valor
-            new EncounterStatic { Species = 127, Level = 48, Location = 044, Version = GameVersion.Pt,}, //Pinsir @ Route 229
-            new EncounterStatic { Species = 127, Level = 49, Location = 044, Version = GameVersion.Pt,}, //Pinsir @ Route 229
-            new EncounterStatic { Species = 177, Level = 53, Location = 039, Version = GameVersion.DP,}, //Natu @ Route 224
-            new EncounterStatic { Species = 177, Level = 50, Location = 039, Version = GameVersion.Pt,}, //Natu @ Route 224
-            new EncounterStatic { Species = 206, Level = 16, Location = 023, Version = GameVersion.DP,}, //Dunsparce @ Route 208
-            new EncounterStatic { Species = 206, Level = 18, Location = 023, Version = GameVersion.Pt,}, //Dunsparce @ Route 208
-            new EncounterStatic { Species = 209, Level = 16, Location = 024, Version = GameVersion.DP,}, //Snubbull @ Route 209
-            new EncounterStatic { Species = 209, Level = 18, Location = 024, Version = GameVersion.Pt,}, //Snubbull @ Route 209
-            new EncounterStatic { Species = 209, Level = 19, Location = 024, Version = GameVersion.Pt,}, //Snubbull @ Route 209
-            new EncounterStatic { Species = 220, Level = 34, Location = 032, Version = GameVersion.DP,}, //Swinub @ Route 217
-            new EncounterStatic { Species = 222, Level = 50, Location = 045, Version = GameVersion.DP,}, //Corsola @ Route 230
-            new EncounterStatic { Species = 222, Level = 48, Location = 045, Version = GameVersion.Pt,}, //Corsola @ Route 230
-            new EncounterStatic { Species = 225, Level = 32, Location = 031, Version = GameVersion.DP,}, //Delibird @ Route 216
-            new EncounterStatic { Species = 225, Level = 32, Location = 032, Version = GameVersion.Pt,}, //Delibird @ Route 217
-            new EncounterStatic { Species = 225, Level = 33, Location = 032, Version = GameVersion.Pt,}, //Delibird @ Route 217
-            new EncounterStatic { Species = 231, Level = 5, Location = 022, Version = GameVersion.DP,}, //Phanpy @ Route 207
-            new EncounterStatic { Species = 231, Level = 5, Location = 022, Version = GameVersion.Pt,}, //Phanpy @ Route 207
-            new EncounterStatic { Species = 231, Level = 7, Location = 022, Version = GameVersion.Pt,}, //Phanpy @ Route 207
-            new EncounterStatic { Species = 238, Level = 35, Location = 078, Version = GameVersion.DP,}, //Smoochum @ Lake Acuity
-            new EncounterStatic { Species = 246, Level = 16, Location = 021, Version = GameVersion.Pt,}, //Larvitar @ Route 206
-            new EncounterStatic { Species = 263, Level = 3, Location = 017,}, //Zigzagoon @ Route 202
-            new EncounterStatic { Species = 283, Level = 2, Location = 076, Version = GameVersion.DP,}, //Surskit @ Lake Verity
-            new EncounterStatic { Species = 287, Level = 10, Location = 048, Version = GameVersion.DP,}, //Slakoth @ Eterna Forest
-            new EncounterStatic { Species = 287, Level = 10, Location = 048, Version = GameVersion.Pt,}, //Slakoth @ Eterna Forest
-            new EncounterStatic { Species = 287, Level = 11, Location = 048, Version = GameVersion.Pt,}, //Slakoth @ Eterna Forest
-            new EncounterStatic { Species = 296, Level = 50, Location = 040, Version = GameVersion.DP,}, //Makuhita @ Route 225
-            new EncounterStatic { Species = 296, Level = 51, Location = 040, Version = GameVersion.DP,}, //Makuhita @ Route 225
-            new EncounterStatic { Species = 296, Level = 48, Location = 040, Version = GameVersion.Pt,}, //Makuhita @ Route 225
-            new EncounterStatic { Species = 296, Level = 49, Location = 040, Version = GameVersion.Pt,}, //Makuhita @ Route 225
-            new EncounterStatic { Species = 299, Level = 14, Location = 021, Version = GameVersion.DP,}, //Nosepass @ Route 206
-            new EncounterStatic { Species = 300, Level = 40, Location = 037, Version = GameVersion.DP,}, //Skitty @ Route 222
-            new EncounterStatic { Species = 300, Level = 39, Location = 037, Version = GameVersion.Pt,}, //Skitty @ Route 222
-            new EncounterStatic { Species = 300, Level = 40, Location = 037, Version = GameVersion.Pt,}, //Skitty @ Route 222
-            new EncounterStatic { Species = 309, Level = 7, Location = 047, Version = GameVersion.DP,}, //Electrike @ Valley Windworks
-            new EncounterStatic { Species = 309, Level = 9, Location = 047, Version = GameVersion.Pt,}, //Electrike @ Valley Windworks
-            new EncounterStatic { Species = 309, Level = 10, Location = 047, Version = GameVersion.Pt,}, //Electrike @ Valley Windworks
-            new EncounterStatic { Species = 325, Level = 22, Location = 039, Version = GameVersion.DP,}, //Spoink @ Route 214
-            new EncounterStatic { Species = 325, Level = 23, Location = 039, Version = GameVersion.DP,}, //Spoink @ Route 214
-            new EncounterStatic { Species = 325, Level = 21, Location = 039, Version = GameVersion.Pt,}, //Spoink @ Route 214
-            new EncounterStatic { Species = 325, Level = 23, Location = 039, Version = GameVersion.Pt,}, //Spoink @ Route 214
-            new EncounterStatic { Species = 327, Level = 55, Location = 042, Version = GameVersion.DP,}, //Spinda @ Route 227
-            new EncounterStatic { Species = 327, Level = 53, Location = 042, Version = GameVersion.Pt,}, //Spinda @ Route 227
-            new EncounterStatic { Species = 327, Level = 54, Location = 042, Version = GameVersion.Pt,}, //Spinda @ Route 227
-            new EncounterStatic { Species = 359, Level = 20, Location = 028, Version = GameVersion.DP,}, //Absol @ Route 213
-            new EncounterStatic { Species = 374, Level = 53, Location = 043, Version = GameVersion.DP,}, //Beldum @ Route 228
-            new EncounterStatic { Species = 374, Level = 51, Location = 043, Version = GameVersion.Pt,}, //Beldum @ Route 228
-            new EncounterStatic { Species = 374, Level = 52, Location = 043, Version = GameVersion.Pt,}, //Beldum @ Route 228
         };
         internal static readonly EncounterStatic[] Encounter_HGSS =
         {
@@ -356,40 +325,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 483, Level = 1, Location = 231, }, //Dialga @ Sinjoh Ruins
             new EncounterStatic { Species = 484, Level = 1, Location = 231, }, //Palkia @ Sinjoh Ruins
             new EncounterStatic { Species = 487, Level = 1, Location = 231, Form = 1}, //Giratina @ Sinjoh Ruins
-
-            //Swarm
-            new EncounterStatic { Species = 113, Level = 23, Location = 161, }, //Chansey @ Route 13
-            new EncounterStatic { Species = 132, Level = 34, Location = 195, }, //Ditto @ Route 47
-            new EncounterStatic { Species = 183, Level = 15, Location = 216, }, //Marill @ Mt. Mortar
-            new EncounterStatic { Species = 193, Level = 12, Location = 183, }, //Yanma @ Route 35
-            new EncounterStatic { Species = 206, Level = 2, Location = 220, }, //Dunsparce @ Dark Cave
-            new EncounterStatic { Species = 206, Level = 3, Location = 220, }, //Dunsparce @ Dark Cave
-            new EncounterStatic { Species = 209, Level = 16, Location = 186, }, //Snubbull @ Route 38
-            new EncounterStatic { Species = 211, Level = 40, Location = 180, }, //Qwilfish @ Route 32
-            new EncounterStatic { Species = 223, Level = 20, Location = 192, }, //Remoraid @ Route 44
-            new EncounterStatic { Species = 261, Level = 2, Location = 149, }, //Poochyena @ Route 1
-            new EncounterStatic { Species = 278, Level = 35, Location = 143, }, //Wingull @ Vermillion City
-            new EncounterStatic { Species = 280, Level = 10, Location = 182, }, //Ralts @ Route 34
-            new EncounterStatic { Species = 280, Level = 11, Location = 182, }, //Ralts @ Route 34
-            new EncounterStatic { Species = 302, Level = 13, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
-            new EncounterStatic { Species = 302, Level = 14, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
-            new EncounterStatic { Species = 302, Level = 15, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
-            new EncounterStatic { Species = 303, Level = 13, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
-            new EncounterStatic { Species = 303, Level = 14, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
-            new EncounterStatic { Species = 303, Level = 15, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
-            new EncounterStatic { Species = 316, Level = 5, Location = 151, Version = GameVersion.SS,}, //Gulpin @ Route 3
-            new EncounterStatic { Species = 333, Level = 23, Location = 193, }, //Swablu @ Route 45
-            new EncounterStatic { Species = 340, Level = 10, Location = 128, }, //Whiscash @ Violet City Old Rod
-            new EncounterStatic { Species = 340, Level = 20, Location = 128, }, //Whiscash @ Violet City Good Rod
-            new EncounterStatic { Species = 340, Level = 40, Location = 128, }, //Whiscash @ Violet City Super Rod
-            new EncounterStatic { Species = 343, Level = 5, Location = 151, Version = GameVersion.HG,}, //Baltoy @ Route 3
-            new EncounterStatic { Species = 366, Level = 35, Location = 167, }, //Clamperl @ Route 19
-            new EncounterStatic { Species = 369, Level = 40, Location = 160, }, //Relicanth @ Route 12
-            new EncounterStatic { Species = 370, Level = 20, Location = 175, }, //Luvdisc @ Route 27
-            new EncounterStatic { Species = 401, Level = 3, Location = 224, }, //Kricketot @ Viridian Forest
-            new EncounterStatic { Species = 427, Level = 8, Location = 173, }, //Buneary @ Route 25
-            new EncounterStatic { Species = 427, Level = 9, Location = 173, }, //Buneary @ Route 25
-            new EncounterStatic { Species = 427, Level = 10, Location = 173, }, //Buneary @ Route 25
 
             //Roaming
             new EncounterStatic { Species = 243, Level = 40, }, //Raikou
@@ -560,6 +495,458 @@ namespace PKHeX.Core
             49, // Fuego Ironworks
             58, //Floaroma Meadow
         };
+
+        private static readonly EncounterArea[] SlotsDPPT_Swarm =
+        {
+            //Swarm 
+            //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
+            new EncounterArea
+            {
+                Location = 36, // Route 221
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 081, Type = SlotType.Grass }, // Farfetch'd
+                },
+            },
+            new EncounterArea
+            {
+                Location = 16, // Route 201
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 084, Type = SlotType.Grass }, // Doduo
+                },
+            },
+            new EncounterArea
+            {
+                Location = 30, // Route 215
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 096, Type = SlotType.Grass }, // Drowzee
+                },
+            },
+            new EncounterArea
+            {
+                Location = 41, // Route 226
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 098, Type = SlotType.Grass }, // Krabby
+                },
+            },
+            new EncounterArea
+            {
+                Location = 33, // Route 218
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 100, Type = SlotType.Grass }, // Voltorb
+                },
+            },
+            new EncounterArea
+            {
+                Location = 18, // Route 203
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 104, Type = SlotType.Grass }, // Cubone
+                },
+            },
+            new EncounterArea
+            {
+                Location = 39, // Route 224
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 177, Type = SlotType.Grass }, // Natu
+                },
+            },
+            new EncounterArea
+            {
+                Location = 23, // Route 208
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 206, Type = SlotType.Grass }, // Dunsparce
+                },
+            },
+            new EncounterArea
+            {
+                Location = 24, // Route 209
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 209, Type = SlotType.Grass }, // Snubbull
+                },
+            },
+            new EncounterArea
+            {
+                Location = 45, // Route 230
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 222, Type = SlotType.Grass }, // Corsola
+                },
+            },
+            new EncounterArea
+            {
+                Location = 31, // Route 216
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 225, Type = SlotType.Grass }, // Delibird
+                },
+            },
+            new EncounterArea
+            {
+                Location = 22, // Route 207
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 231, Type = SlotType.Grass }, // Phanpy
+                },
+            },
+            new EncounterArea
+            {
+                Location = 17, // Route 202
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 263, Type = SlotType.Grass }, // Zigzagoon
+                },
+            },
+            new EncounterArea
+            {
+                Location = 48, // Eterna Forest
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 287, Type = SlotType.Grass }, // Slakoth
+                },
+            },
+            new EncounterArea
+            {
+                Location = 40, // Route 225
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 296, Type = SlotType.Grass }, // Makuhita
+                },
+            },
+            new EncounterArea
+            {
+                Location = 37, // Route 222
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 300, Type = SlotType.Grass }, // Skitty
+                },
+            },
+            new EncounterArea
+            {
+                Location = 47, // Valley Windworks
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 309, Type = SlotType.Grass }, // Electrike
+                },
+            },
+            new EncounterArea
+            {
+                Location = 39, // Route 114
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 325, Type = SlotType.Grass }, // Spoink
+                },
+            },
+            new EncounterArea
+            {
+                Location = 42, // Route 227
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 327, Type = SlotType.Grass }, // Spinda
+                },
+            },
+            new EncounterArea
+            {
+                Location = 43, // Route 228
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 374, Type = SlotType.Grass }, // Beldum
+                },
+            },
+        };
+
+        private static readonly EncounterArea[] SlotsDP_Swarm = SlotsDPPT_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea
+                {
+                    Location = 44, // Route 229
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 016, Type = SlotType.Grass }, // Pidgey
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 49, // Fuego Ironworks
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 081, Type = SlotType.Grass }, // Magnemite
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 77, // Lake Valor
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 108, Type = SlotType.Grass }, // Lickitung
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 32, // Route 217
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 220, Type = SlotType.Grass }, // Swinub
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 78, // Lake Acuity
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 238, Type = SlotType.Grass }, // Smoochum
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 32, // Route 217
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 225, Type = SlotType.Grass }, // Delibird
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 76, // Lake Verity
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 283, Type = SlotType.Grass }, // Surskit
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 21, // Route 206
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 299, Type = SlotType.Grass }, // Nosepass
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 28, // Route 213
+                    Slots = new[]
+                    {
+                         new EncounterSlot { Species = 359, Type = SlotType.Grass }, // Absol
+                    },
+                },
+            }).ToArray();
+
+        private static readonly EncounterArea[] SlotsPt_Swarm = SlotsDPPT_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea
+                {
+                    Location = 44, // Route 229
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 127, Type = SlotType.Grass }, // Pinsir
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 21, // Route 206
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 246, Type = SlotType.Grass }, // Larvitar
+                    },
+                },
+            }).ToArray();
+
+        private static readonly EncounterArea[] SlotsHGSS_Swarm =
+        {
+            //Swarm 
+            //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
+            new EncounterArea
+            {
+                Location = 161, // Route 113
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 113, Type = SlotType.Grass }, // Chansey
+                },
+            },
+            new EncounterArea
+            {
+                Location = 195, // Route 43
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 132, Type = SlotType.Grass }, // Ditto
+                },
+            },
+            new EncounterArea
+            {
+                Location = 216, // Mt. Mortar
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 189, Type = SlotType.Grass }, // Marill
+                },
+            },
+            new EncounterArea
+            {
+                Location = 183, // Route 35
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 193, Type = SlotType.Grass }, // Yanma
+                },
+            },
+            new EncounterArea
+            {
+                Location = 220, // Dark Cave
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 206, Type = SlotType.Grass }, // Dunsparce
+                },
+            },
+            new EncounterArea
+            {
+                Location = 186, // Route 38
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 209, Type = SlotType.Grass }, // Snubbull
+                },
+            },
+            new EncounterArea
+            {
+                Location = 180, // Route 32
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 211, Type = SlotType.Super_Rod }, // Qwilfish
+                },
+            },
+            new EncounterArea
+            {
+                Location = 192, // Route 44
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 223, Type = SlotType.Super_Rod }, // Remoraid
+                },
+            },
+            new EncounterArea
+            {
+                Location = 149, // Route 1
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 261, Type = SlotType.Grass }, // Poochyena
+                },
+            },
+            new EncounterArea
+            {
+                Location = 143, // Vermillion City
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 278, Type = SlotType.Surf }, // Wingull
+                },
+            },
+            new EncounterArea
+            {
+                Location = 182, // Route 34
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 280, Type = SlotType.Grass }, // Ralts
+                },
+            },
+            new EncounterArea
+            {
+                Location = 193, // Route 45
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 333, Type = SlotType.Grass }, // Swablu
+                },
+            },
+            new EncounterArea
+            {
+                Location = 128, // Violet City
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 340, Type = SlotType.Super_Rod }, // Whiscash
+                },
+            },
+            new EncounterArea
+            {
+                Location = 167, // Route 19
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 366, Type = SlotType.Surf }, // Clamperl
+                },
+            },
+            new EncounterArea
+            {
+                Location = 160, // Route 12
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 369, Type = SlotType.Super_Rod }, // Relicanth
+                },
+            },
+            new EncounterArea
+            {
+                Location = 175, // Route 27
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 370, Type = SlotType.Surf }, // Luvdisc
+                },
+            },
+            new EncounterArea
+            {
+                Location = 224, // Viridian Forest
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 401, Type = SlotType.Grass }, // Kricketot
+                },
+            },
+            new EncounterArea
+            {
+                Location = 173, // Route 25
+                Slots = new[]
+                {
+                     new EncounterSlot { Species = 427, Type = SlotType.Grass }, // Buneary
+                },
+            },
+        };
+
+        private static readonly EncounterArea[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea
+                {
+                    Location = 157, // Route 9
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 302, Type = SlotType.Grass }, // Sableye
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 151, // Route 3
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 343, Type = SlotType.Grass }, // Baltoy
+                    },
+                },
+            }).ToArray();
+
+        private static readonly EncounterArea[] SlotsSS_Swarm = SlotsHGSS_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea
+                {
+                    Location = 157, // Route 9
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 303, Type = SlotType.Grass }, // Mawile
+                    },
+                },
+                new EncounterArea
+                {
+                    Location = 151, // Route 3
+                    Slots = new[]
+                    {
+                            new EncounterSlot { Species = 316, Type = SlotType.Grass }, // Gulpin
+                    },
+                },
+            }).ToArray();
 
         #endregion
 

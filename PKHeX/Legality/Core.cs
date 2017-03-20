@@ -183,6 +183,75 @@ namespace PKHeX.Core
                                      new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
+
+        private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
+        {
+            // Swarm slots replace slots 0 and 1 from encounters data
+            // Species id are not included in encounter tables but levels can be copied from the encounter raw data
+            foreach(EncounterArea Area in Areas)
+            {
+                var Swarms = SwarmAreas.Where(a => a.Location == Area.Location);
+                foreach(EncounterArea Swarm in Swarms)
+                {
+                    var OutputSlots = new List<EncounterSlot>();
+                    var SwarmSlot = Swarm.Slots.First();
+
+                    if (SwarmSlot.Type == SlotType.Grass)
+                    {
+                        var SwarmRawSlot0 = Area.Slots.Where(s => s.Type == SlotType.Grass).First().Clone();
+                        SwarmRawSlot0.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot0);
+
+                        var SwarmRawSlot1 = Area.Slots.Where(s => s.Type == SlotType.Grass).Take(1).First().Clone();
+                        SwarmRawSlot1.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot1);
+                    }
+
+                    if (SwarmSlot.Type == SlotType.Surf)
+                    {
+                        var SwarmRawSlot0 = Area.Slots.Where(s => s.Type == SlotType.Surf).First().Clone();
+                        SwarmRawSlot0.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot0);
+
+                        var SwarmRawSlot1 = Area.Slots.Where(s => s.Type == SlotType.Surf).Take(1).First().Clone();
+                        SwarmRawSlot1.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot1);
+                    }
+
+                    if (SwarmSlot.Type == SlotType.Super_Rod)
+                    {
+                        var SwarmRawSlot0_OR = Area.Slots.Where(s => s.Type == SlotType.Old_Rod).First().Clone();
+                        SwarmRawSlot0_OR.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot0_OR);
+
+                        var SwarmRawSlot1_OR = Area.Slots.Where(s => s.Type == SlotType.Old_Rod).Take(1).First().Clone();
+                        SwarmRawSlot1_OR.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot1_OR);
+
+                        var SwarmRawSlot0_GR = Area.Slots.Where(s => s.Type == SlotType.Good_Rod).First().Clone();
+                        SwarmRawSlot0_GR.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot0_GR);
+
+                        var SwarmRawSlot1_GR = Area.Slots.Where(s => s.Type == SlotType.Good_Rod).Take(1).First().Clone();
+                        SwarmRawSlot1_GR.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot1_GR);
+
+                        var SwarmRawSlot0_SR = Area.Slots.Where(s => s.Type == SlotType.Super_Rod).First().Clone();
+                        SwarmRawSlot0_SR.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot0_SR);
+
+                        var SwarmRawSlot1_SR = Area.Slots.Where(s => s.Type == SlotType.Super_Rod).Take(1).First().Clone();
+                        SwarmRawSlot1_SR.Species = SwarmSlot.Species;
+                        OutputSlots.Add(SwarmRawSlot1_SR);
+                    }
+
+                    Area.Slots = Area.Slots.Concat(OutputSlots).ToArray();
+                }
+
+                Area.Slots = Area.Slots.Where(a => a.Species > 0).ToArray();
+            }
+        }
+
         private static void MarkG4Slots(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
@@ -358,6 +427,12 @@ namespace PKHeX.Core
                 var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
                 var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
                 var Pt_HoneyTrees_Slots = SlotsPt_HoneyTree.Clone(HoneyTreesLocation);
+
+                MarkG4SwarmSlots(ref D_Slots, SlotsDP_Swarm);
+                MarkG4SwarmSlots(ref P_Slots, SlotsDP_Swarm);
+                MarkG4SwarmSlots(ref Pt_Slots, SlotsPt_Swarm);
+                MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
+                MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
 
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
