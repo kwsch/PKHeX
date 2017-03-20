@@ -191,19 +191,21 @@ namespace PKHeX.Core
 
             //Roaming
             new EncounterStatic { Species = 380, Level = 40, Version = GameVersion.S, }, //Latias
+            new EncounterStatic { Species = 380, Level = 40, Version = GameVersion.E, }, //Latias
             new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.R, }, //Latios
+            new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.E, }, //Latios
         };
         internal static readonly EncounterStatic[] Encounter_FRLG =
         {
             //Starters @ Pallet Town
-            new EncounterStatic { Gift = true, Species = 1, Level = 5,  Location = 088, }, // Bulbasaur 
-            new EncounterStatic { Gift = true, Species = 4, Level = 5,  Location = 088, }, // Charmander
-            new EncounterStatic { Gift = true, Species = 9, Level = 5,  Location = 088, }, // Squirtle
+            new EncounterStatic { Gift = true, Species = 1, Level = 5, Location = 088, }, // Bulbasaur 
+            new EncounterStatic { Gift = true, Species = 4, Level = 5, Location = 088, }, // Charmander
+            new EncounterStatic { Gift = true, Species = 9, Level = 5, Location = 088, }, // Squirtle
 
             //Fossil @ Cinnabar Island
-            new EncounterStatic { Gift = true, Species = 138, Level = 30, Location = 140, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 30, Location = 140, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 30, Location = 140, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 138, Level = 30, Location = 096, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 30, Location = 096, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 30, Location = 096, }, // Aerodactyl
 
             //Gift
             new EncounterStatic { Gift = true, Species = 106, Level = 25, Location = 098, }, // Hitmonlee @ Saffron City
@@ -223,7 +225,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 144, Level = 50, Location = 139, }, //Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 142, }, //Zapdos @ Power Plant
             new EncounterStatic { Species = 146, Level = 50, Location = 175, }, //Moltres @ Mt. Ember. 
-            new EncounterStatic { Species = 150, Level = 70, Location = 199, }, //Mewtwo @ Cerulean Cave
+            new EncounterStatic { Species = 150, Level = 70, Location = 141, }, //Mewtwo @ Cerulean Cave
 
             //Event
             new EncounterStatic { Species = 249, Level = 70, Location = 174, }, //Lugia @ Navel Rock

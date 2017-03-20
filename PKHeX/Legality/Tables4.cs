@@ -198,9 +198,9 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 447, Level = 1, EggLocation = 2010,}, //Riolu Egg from Riley
 
             //Stationary Lengerdary
-            new EncounterStatic { Species = 377, Level = 30, Location = 043, Version = GameVersion.Pt,}, //Regirock @ Route 228
-            new EncounterStatic { Species = 378, Level = 30, Location = 050, Version = GameVersion.Pt,}, //Regice @ Mt. Coronet
-            new EncounterStatic { Species = 379, Level = 30, Location = 069, Version = GameVersion.Pt,}, //Registeel @ Iron Island
+            new EncounterStatic { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt,}, //Regirock @ Rock Peak Ruins
+            new EncounterStatic { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt,}, //Regice @ Iceberg Ruins
+            new EncounterStatic { Species = 379, Level = 30, Location = 123, Version = GameVersion.Pt,}, //Registeel @ Iron Ruins
             new EncounterStatic { Species = 480, Level = 50, Location = 078,}, //Uxie @ Lake Acuity
             new EncounterStatic { Species = 482, Level = 50, Location = 077,}, //Azelf @ Lake Valor
             new EncounterStatic { Species = 483, Level = 47, Location = 051, Version = GameVersion.D,}, //Dialga @ Spear Pillar
@@ -321,18 +321,18 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 410, Level = 20,  Location = 140, }, // Shieldon
 
             //Gift
-            new EncounterStatic { Gift = true, Species = 133, Level = 5,  Location = 131, }, // Eevee @ Goldenrod Cityx
+            new EncounterStatic { Gift = true, Species = 133, Level = 5,  Location = 131, }, // Eevee @ Goldenrod City
             new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new[] {245, 086, 239, 082}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 147, Level = 15,  Location = 222, Moves = new[] {043, 086, 239, 082}, }, // Dratini @ Dragon's Den (Non-ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 236, Level = 10,  Location = 216, }, // Tyrogue @ Mt. Mortar
-            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 2013,}, // Togepi Egg from Mr. Pokemon
+            new EncounterStatic { Gift = true, Species = 175, Level = 1, EggLocation = 2013, Moves = new[] {045, 204, 326, -1},}, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
             new EncounterStatic { Gift = true, Species = 179, Level = 1, EggLocation = 2014,}, // Mareep Egg from Primo
             new EncounterStatic { Gift = true, Species = 194, Level = 1, EggLocation = 2014,}, // Wooper Egg from Primo
             new EncounterStatic { Gift = true, Species = 218, Level = 1, EggLocation = 2014,}, // Slugma Egg from Primo
 
             //Stationary
             new EncounterStatic { Species = 130, Level = 30, Shiny = true ,Location = 135, }, //Gyarados @ Lake of Rage
-            new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave
+            new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave Friday Only
             new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
             new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
             new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36
@@ -355,7 +355,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 384, Level = 50, Location = 232, }, //Rayquaza @ Embedded Tower
             new EncounterStatic { Species = 483, Level = 1, Location = 231, }, //Dialga @ Sinjoh Ruins
             new EncounterStatic { Species = 484, Level = 1, Location = 231, }, //Palkia @ Sinjoh Ruins
-            new EncounterStatic { Species = 487, Level = 1, Location = 231, }, //Giratina @ Sinjoh Ruins
+            new EncounterStatic { Species = 487, Level = 1, Location = 231, Form = 1}, //Giratina @ Sinjoh Ruins
 
             //Swarm
             new EncounterStatic { Species = 113, Level = 23, Location = 161, }, //Chansey @ Route 13
@@ -379,9 +379,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 303, Level = 15, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
             new EncounterStatic { Species = 316, Level = 5, Location = 151, Version = GameVersion.SS,}, //Gulpin @ Route 3
             new EncounterStatic { Species = 333, Level = 23, Location = 193, }, //Swablu @ Route 45
-            new EncounterStatic { Species = 340, Level = 10, Location = 128, }, //Whiscash @ Violet City
-            new EncounterStatic { Species = 340, Level = 20, Location = 128, }, //Whiscash @ Violet City
-            new EncounterStatic { Species = 340, Level = 40, Location = 128, }, //Whiscash @ Violet City
+            new EncounterStatic { Species = 340, Level = 10, Location = 128, }, //Whiscash @ Violet City Old Rod
+            new EncounterStatic { Species = 340, Level = 20, Location = 128, }, //Whiscash @ Violet City Good Rod
+            new EncounterStatic { Species = 340, Level = 40, Location = 128, }, //Whiscash @ Violet City Super Rod
             new EncounterStatic { Species = 343, Level = 5, Location = 151, Version = GameVersion.HG,}, //Baltoy @ Route 3
             new EncounterStatic { Species = 366, Level = 35, Location = 167, }, //Clamperl @ Route 19
             new EncounterStatic { Species = 369, Level = 40, Location = 160, }, //Relicanth @ Route 12
