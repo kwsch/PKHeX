@@ -127,7 +127,7 @@ namespace PKHeX.WinForms
                 else if (abils[0] == abils[1] || abils[1] == 0)
                     CB_Ability.SelectedIndex = pk4.PIDAbility;
                 else
-                    CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+                    CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
         private PKM preparePK4()
@@ -364,7 +364,7 @@ namespace PKHeX.WinForms
                 else if (abils[0] == abils[1] || abils[1] == 0)
                     CB_Ability.SelectedIndex = pk4.PIDAbility;
                 else
-                    CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
+                    CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
         private PKM prepareBK4()

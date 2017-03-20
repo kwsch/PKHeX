@@ -297,7 +297,8 @@ namespace PKHeX.WinForms
             // Select Language
             string l = Settings.Language;
             int lang = Array.IndexOf(GameInfo.lang_val, l);
-            if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
+            if (lang < 0)
+                lang = Array.IndexOf(GameInfo.lang_val, "en");
             if (lang > -1)
                 languageID = lang;
 
@@ -2998,10 +2999,10 @@ namespace PKHeX.WinForms
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
+                movePB[i].Visible = !Legality.vMoves[i].Valid;
             
             for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX && pkm.Format >= 6;
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && pkm.Format >= 6;
 
             if (skipMoveRepop)
                 return;
@@ -3465,7 +3466,7 @@ namespace PKHeX.WinForms
                 setParty();
                 getSlotColor(slot, Resources.slotSet);
             }
-            else if (slot < 30 || HaX && slot >= 36 && slot < 42)
+            else if (slot < 30 || HaX)
             {
                 if (slot < 30)
                 {
@@ -3509,7 +3510,7 @@ namespace PKHeX.WinForms
                 getSlotColor(slot, Resources.slotDel);
                 return;
             }
-            if (slot < 30 || HaX && slot >= 36 && slot < 42)
+            if (slot < 30 || HaX)
             {
                 if (slot < 30)
                 {

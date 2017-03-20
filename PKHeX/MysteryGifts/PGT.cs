@@ -255,7 +255,7 @@ namespace PKHeX.Core
             }
 
             // Generate Met Info
-            if (IsPokémon)
+            if (!IsEgg)
             {
                 pk4.Met_Location = pk4.Egg_Location + 3000;
                 pk4.Egg_Location = 0;

@@ -190,7 +190,7 @@ namespace PKHeX.Core
 
             EncounterType = (EncounterOriginal ?? EncounterMatch)?.GetType();
             if (EncounterType == typeof (MysteryGift))
-                EncounterType = EncounterType.BaseType;
+                EncounterType = EncounterType?.BaseType;
         }
         private void updateChecks()
         {

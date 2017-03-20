@@ -563,18 +563,27 @@ namespace PKHeX.Core
 
         private CheckResult verifyEncounterSafari()
         {
-            if (pkm.Species == 670 || pkm.Species == 671) // Floette
-                if (!new[] {0, 1, 3}.Contains(pkm.AltForm)) // 0/1/3 - RBY
-                    return new CheckResult(Severity.Invalid, "Friend Safari: Not valid color.", CheckIdentifier.Encounter);
-            else if (pkm.Species == 710 || pkm.Species == 711) // Pumpkaboo
-                if (pkm.AltForm != 1) // Average
-                    return new CheckResult(Severity.Invalid, "Friend Safari: Not average sized.", CheckIdentifier.Encounter);
-            else if (pkm.Species == 586) // Sawsbuck
-                if (pkm.AltForm != 0)
-                    return new CheckResult(Severity.Invalid, "Friend Safari: Not Spring form.", CheckIdentifier.Encounter);
+            switch (pkm.Species)
+            {
+                case 670: // Floette
+                case 671: // Florges
+                    if (!new[] {0, 1, 3}.Contains(pkm.AltForm)) // 0/1/3 - RBY
+                        return new CheckResult(Severity.Invalid, "Friend Safari: Not valid color.", CheckIdentifier.Encounter);
+                    break;
+                case 710: // Pumpkaboo
+                case 711: // Goregeist
+                    if (pkm.AltForm != 1) // Average
+                        return new CheckResult(Severity.Invalid, "Friend Safari: Not average sized.", CheckIdentifier.Encounter);
+                    break;
+                case 586: // Sawsbuck
+                    if (pkm.AltForm != 0)
+                        return new CheckResult(Severity.Invalid, "Friend Safari: Not Spring form.", CheckIdentifier.Encounter);
+                    break;
+            }
 
             return new CheckResult(Severity.Valid, "Valid Friend Safari encounter.", CheckIdentifier.Encounter);
         }
+
         private CheckResult verifyEncounterWild()
         {
             EncounterSlot[] enc = (EncounterSlot[])EncounterMatch;

@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace PKHeX.Core
 {
-    public sealed class SAV3Colosseum : SaveFile
+    public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
@@ -145,6 +145,7 @@ namespace PKHeX.Core
 
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();
+        public void Dispose() => sha1.Dispose();
         private byte[] EncryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)

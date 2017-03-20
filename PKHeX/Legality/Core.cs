@@ -1321,7 +1321,7 @@ namespace PKHeX.Core
 
         internal static bool getCanLearnMachineMove(PKM pkm, int move, IEnumerable<int> generations, GameVersion version = GameVersion.Any)
         {
-            return generations.Any(generation => getCanLearnMachineMove(pkm, generation, move, version));
+            return generations.Any(generation => getCanLearnMachineMove(pkm, move, generation, version));
         }
         internal static bool getCanRelearnMove(PKM pkm, int move, IEnumerable<int> generations, GameVersion version = GameVersion.Any)
         {
