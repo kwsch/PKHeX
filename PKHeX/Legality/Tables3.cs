@@ -160,7 +160,7 @@ namespace PKHeX.Core
             //Gift
             new EncounterStatic { Gift = true, Species = 351, Level = 25, Location = 034, }, // Castform @ Weather Institute
             new EncounterStatic { Gift = true, Species = 374, Level = 5, Location = 013, }, // Beldum @ Mossdeep City
-            new EncounterStatic { Gift = true, Species = 360, Level = 5, }, // Wynaut Egg
+            new EncounterStatic { Gift = true, Species = 360, Level = 5, EggLocation = 253}, // Wynaut Egg
 
             //Stationary
             new EncounterStatic { Species = 352, Level = 30, Location = 034, }, //Kecleon @ Route 119
@@ -213,7 +213,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 129, Level = 5, Location = 099, }, // Magikarp @ Route 4
             new EncounterStatic { Gift = true, Species = 131, Level = 25, Location = 134, }, // Lapras @ Silph Co.
             new EncounterStatic { Gift = true, Species = 133, Level = 25, Location = 094, }, // Eevee @ Celadon City
-            new EncounterStatic { Gift = true, Species = 175, Level = 5, }, // Togepi Egg
+            new EncounterStatic { Gift = true, Species = 175, Level = 5, EggLocation = 253 }, // Togepi Egg
 
             //Stationary
             new EncounterStatic { Species = 143, Level = 30, Location = 112, }, //Snorlax @ Route 12

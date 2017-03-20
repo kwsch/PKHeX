@@ -579,7 +579,15 @@ namespace PKHeX.Core
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
-                if (e.EggLocation != pkm.Egg_Location)
+                if(pkm.Gen3 && e.EggLocation != 0)
+                {   
+                    //Hartched gen 3 gift egg can not be differentiated form normal eggs 
+                    if (!pkm.IsEgg || pkm.Format > 3)
+                        continue;
+                    if (e.EggLocation != pkm.Met_Location)
+                        continue;
+                }
+                else if (e.EggLocation != pkm.Egg_Location)
                     continue;
                 if (pkm.HasOriginalMetLocation)
                 {
