@@ -315,7 +315,7 @@ namespace PKHeX.Core
             var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
             var h = h_c.Concat(h_g).Concat(h_s);
 
-            return addExtraTableSlots(g, s).Concat(c).Concat(f).Concat(h).ToArray();
+                return addExtraTableSlots(g, s).Concat(c).Concat(f).Concat(h).ToArray();
         }
         static Legal() // Setup
         {
@@ -363,9 +363,11 @@ namespace PKHeX.Core
                 var TMHM = Data.unpackMini(Resources.hmtm_g3, "g3");
                 for (int i = 0; i <= MaxSpeciesID_3; i++)
                     PersonalTable.RS[i].AddTMHM(TMHM[i]);
+                // Tutors g3 contains tutor compatiblity data extracted from emerald, 
+                // fire red and leaf green tutors data is a subset of emerald data
                 var tutors = Data.unpackMini(Resources.tutors_g3, "g3");
                 for (int i = 0; i <= MaxSpeciesID_3; i++)
-                    PersonalTable.RS[i].AddTypeTutors(tutors[i]);
+                    PersonalTable.E[i].AddTypeTutors(tutors[i]);
             }
             // Gen 4
             {
@@ -2036,10 +2038,23 @@ namespace PKHeX.Core
                             return r;
                         if (LVL)
                         {
-                            r.AddRange(LevelUpRS[index].getMoves(lvl));
-                            r.AddRange(LevelUpE[index].getMoves(lvl));
-                            r.AddRange(LevelUpFR[index].getMoves(lvl));
-                            r.AddRange(LevelUpLG[index].getMoves(lvl));
+                            if(index == 386)
+                            {
+                                switch(form)
+                                {
+                                    case 0: r.AddRange(LevelUpRS[index].getMoves(lvl));break;
+                                    case 1: r.AddRange(LevelUpFR[index].getMoves(lvl)); break;
+                                    case 2: r.AddRange(LevelUpLG[index].getMoves(lvl)); break;
+                                    case 3: r.AddRange(LevelUpE[index].getMoves(lvl)); break;
+                                }
+                            }
+                            else
+                            {
+                                r.AddRange(LevelUpRS[index].getMoves(lvl));
+                                r.AddRange(LevelUpE[index].getMoves(lvl));
+                                r.AddRange(LevelUpFR[index].getMoves(lvl));
+                                r.AddRange(LevelUpLG[index].getMoves(lvl));
+                            }
                         }
                         if (Machine)
                         {
@@ -2050,6 +2065,8 @@ namespace PKHeX.Core
                         }
                         if (moveTutor)
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                        if (pkm.Format > 3) //Remove HM
+                            r = r.Except(HM_3).ToList();
                         break;
                     }
                 case 4:
@@ -2065,11 +2082,15 @@ namespace PKHeX.Core
                         }
                         if (Machine)
                         {
-                            var pi_c = PersonalTable.HGSS[index];
-                            r.AddRange(TMHM_HGSS.Where((t, m) => pi_c.TMHM[m]));
+                            var pi_hgss = PersonalTable.HGSS[index];
+                            r.AddRange(TMHM_HGSS.Where((t, m) => pi_hgss.TMHM[m]));
+                            var pi_dppt = PersonalTable.Pt[index];
+                            r.AddRange(TMHM_DPPt.Where((t, m) => pi_dppt.TMHM[m]));
                         }
                         if (moveTutor)
                             r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                        if (pkm.Format > 4) //Remove HM
+                            r = r.Except(HM_4_RemovePokeTransfer).ToList();
                         break;
                     }
                 case 5:
@@ -2224,16 +2245,14 @@ namespace PKHeX.Core
                     moves.AddRange(Tutors_GSC.Where((t, i) => PersonalTable.C[species].TMHM[57 + i]));
                     goto case 1;
                 case 3:
-                    // RS Tutors
-                    moves.AddRange(TypeTutor3.Where((t, i) => PersonalTable.C[species].TMHM[58 + i]));
                     // E Tutors (Free)
-
                     // E Tutors (BP)
-
+                    moves.AddRange(Tutor_E.Where((t, i) => PersonalTable.E[species].TMHM[58 + i]));
                     // FRLG Tutors
-
+                    // Only special tutor moves, normal tutor moves are already included in Emerald data
+                    moves.AddRange(SpecialTutors_FRLG.Where(t => SpecialTutors_Compatibility_FRLG[t].Any(e => e == species)));
                     // XD
-
+                    moves.AddRange(SpecialTutors_XD_Exclusive.Where(t => SpecialTutors_Compatibility_XD_Exclusive[t].Any(e => e == species)));
                     // XD (Mew)
                     if (species == 151)
                         moves.AddRange(Tutor_3Mew);
@@ -2242,6 +2261,7 @@ namespace PKHeX.Core
                 case 4:
                     info = PersonalTable.HGSS[species];
                     moves.AddRange(Tutors_4.Where((t, i) => info.TypeTutors[i]));
+                    moves.AddRange(SpecialTutors_4.Where(t => SpecialTutors_Compatibility_4[t].Any(e => e == species)));
                     break;
                 case 5:
                     info = PersonalTable.B2W2[species];
