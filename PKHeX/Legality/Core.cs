@@ -174,7 +174,6 @@ namespace PKHeX.Core
                                      new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
-
         private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
@@ -183,7 +182,6 @@ namespace PKHeX.Core
                                      new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
                           ToArray();
         }
-
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
             // Swarm slots replace slots 0 and 1 from encounters data
@@ -194,13 +192,13 @@ namespace PKHeX.Core
                 foreach(EncounterSlot SwarmSlot in SwarmSlots)
                 {
                     var OutputSlots = new List<EncounterSlot>();
-                    var ReplacedSlots = Area.Slots.Where(s => s.Type == SwarmSlot.Type);
+                    var ReplacedSlots = Area.Slots.Where(s => s.Type == SwarmSlot.Type).ToArray();
 
-                    var SwarmOutputSlot0 = ReplacedSlots.First().Clone();
+                    var SwarmOutputSlot0 = ReplacedSlots[0].Clone();
                     SwarmOutputSlot0.Species = SwarmSlot.Species;
                     OutputSlots.Add(SwarmOutputSlot0);
 
-                    var SwarmOutputSlot1 = ReplacedSlots.Skip(1).First().Clone();
+                    var SwarmOutputSlot1 = ReplacedSlots[1].Clone();
                     SwarmOutputSlot1.Species = SwarmSlot.Species;
                     OutputSlots.Add(SwarmOutputSlot1);
                                         
@@ -210,14 +208,14 @@ namespace PKHeX.Core
                 Area.Slots = Area.Slots.Where(a => a.Species > 0).ToArray();
             }
         }
-
         private static void MarkG4Slots(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).
-                          Select(a =>
-                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
-                          ToArray();
+            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
+            {
+                Location = a.First().Location,
+                Slots = a.SelectMany(m => m.Slots).ToArray()
+            }).ToArray();
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
@@ -250,10 +248,11 @@ namespace PKHeX.Core
                 area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
             }
             // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).
-                          Select(a =>
-                                     new EncounterArea { Location = a.First().Location, Slots = a.SelectMany(m => m.Slots).ToArray() }).
-                          ToArray();
+            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
+            {
+                Location = a.First().Location,
+                Slots = a.SelectMany(m => m.Slots).ToArray()
+            }).ToArray();
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -362,7 +361,7 @@ namespace PKHeX.Core
                 // Update Personal Entries with TM/Tutor Data
                 var TMHM = Data.unpackMini(Resources.hmtm_g3, "g3");
                 for (int i = 0; i <= MaxSpeciesID_3; i++)
-                    PersonalTable.RS[i].AddTMHM(TMHM[i]);
+                    PersonalTable.E[i].AddTMHM(TMHM[i]);
                 // Tutors g3 contains tutor compatiblity data extracted from emerald, 
                 // fire red and leaf green tutors data is a subset of emerald data
                 var tutors = Data.unpackMini(Resources.tutors_g3, "g3");
@@ -2033,7 +2032,7 @@ namespace PKHeX.Core
                     }
                 case 3:
                     {
-                        int index = PersonalTable.RS.getFormeIndex(species, 0);
+                        int index = PersonalTable.E.getFormeIndex(species, 0);
                         if (index == 0)
                             return r;
                         if (LVL)
@@ -2054,7 +2053,7 @@ namespace PKHeX.Core
                         }
                         if (Machine)
                         {
-                            var pi_c = PersonalTable.RS[index];
+                            var pi_c = PersonalTable.E[index];
                             r.AddRange(TM_3.Where((t, m) => pi_c.TMHM[m]));
                             if (pkm.Format == 3) // HM moves must be removed for 3->4, only give if current format.
                                 r.AddRange(HM_3.Where((t, m) => pi_c.TMHM[m+50]));
@@ -2251,17 +2250,19 @@ namespace PKHeX.Core
                         moves.Add(57);
                     break;
                 case 2:
-                    moves.AddRange(Tutors_GSC.Where((t, i) => PersonalTable.C[species].TMHM[57 + i]));
+                    info = PersonalTable.C[species];
+                    moves.AddRange(Tutors_GSC.Where((t, i) => info.TMHM[57 + i]));
                     goto case 1;
                 case 3:
                     // E Tutors (Free)
                     // E Tutors (BP)
-                    moves.AddRange(Tutor_E.Where((t, i) => PersonalTable.E[species].TMHM[58 + i]));
+                    info = PersonalTable.E[species];
+                    moves.AddRange(Tutor_E.Where((t, i) => info.TypeTutors[i]));
                     // FRLG Tutors
                     // Only special tutor moves, normal tutor moves are already included in Emerald data
-                    moves.AddRange(SpecialTutors_FRLG.Where(t => SpecialTutors_Compatibility_FRLG[t].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_FRLG.Where((t, i) => SpecialTutors_Compatibility_FRLG[i].Any(e => e == species)));
                     // XD
-                    moves.AddRange(SpecialTutors_XD_Exclusive.Where(t => SpecialTutors_Compatibility_XD_Exclusive[t].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_XD_Exclusive.Where((t, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
                     // XD (Mew)
                     if (species == 151)
                         moves.AddRange(Tutor_3Mew);
@@ -2270,7 +2271,7 @@ namespace PKHeX.Core
                 case 4:
                     info = PersonalTable.HGSS[species];
                     moves.AddRange(Tutors_4.Where((t, i) => info.TypeTutors[i]));
-                    moves.AddRange(SpecialTutors_4.Where(t => SpecialTutors_Compatibility_4[t].Any(e => e == species)));
+                    moves.AddRange(SpecialTutors_4.Where((t, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
                     break;
                 case 5:
                     info = PersonalTable.B2W2[species];
