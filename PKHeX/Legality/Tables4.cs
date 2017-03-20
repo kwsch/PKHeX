@@ -562,5 +562,18 @@ namespace PKHeX.Core
         };
 
         #endregion
+
+        internal static readonly int[] ValidMet_DP =
+        {
+            //todo
+        };
+        internal static readonly int[] ValidMet_Pt = ValidMet_DP.Concat(new int[]
+        {
+            //todo
+        }).ToArray();
+        internal static readonly int[] ValidMet_HGSS =
+        {
+            //todo
+        };
     }
 }

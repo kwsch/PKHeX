@@ -347,5 +347,17 @@ namespace PKHeX.Core
         };
         #endregion
 
+        internal static readonly int[] ValidMet_RS =
+        {
+            //todo
+        };
+        internal static readonly int[] ValidMet_E = ValidMet_RS.Concat(new int[]
+        {
+            //todo
+        }).ToArray();
+        internal static readonly int[] ValidMet_FRLG =
+        {
+            //todo
+        };
     }
 }

@@ -290,5 +290,14 @@ namespace PKHeX.Core
             // Gift
             new EncounterTrade { Species = 570, Level = 25, Ability = 1, TID = 00002, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {30,30,30,30,30,30}, Nature = Nature.Hasty, } //N's Zorua
         };
+
+        internal static readonly int[] ValidMet_BW =
+        {
+            // todo
+        };
+        internal static readonly int[] ValidMet_B2W2 =
+        {
+            // todo
+        };
     }
 }
