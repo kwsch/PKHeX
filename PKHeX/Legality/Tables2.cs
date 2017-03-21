@@ -52,30 +52,43 @@ namespace PKHeX.Core
         {
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
-        internal static readonly EncounterStatic[] Encounter_GSC =
+
+        internal static readonly EncounterStatic[] Encounter_GSC_Common =
         {
-            new EncounterStatic { Species = 152, Level = 05, Version = GameVersion.GSC }, // Chikorita @ New Bark Town
-            new EncounterStatic { Species = 155, Level = 05, Version = GameVersion.GSC }, // Cyndaquil @ New Bark Town
-            new EncounterStatic { Species = 158, Level = 05, Version = GameVersion.GSC }, // Totodile @ New Bark Town
+            new EncounterStatic { Species = 152, Level = 05, Location = 001, Version = GameVersion.GSC }, // Chikorita @ New Bark Town
+            new EncounterStatic { Species = 155, Level = 05, Location = 001, Version = GameVersion.GSC }, // Cyndaquil @ New Bark Town
+            new EncounterStatic { Species = 158, Level = 05, Location = 001, Version = GameVersion.GSC }, // Totodile @ New Bark Town
             
             new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC }, // Togepi
-            new EncounterStatic { Species = 131, Level = 20, Version = GameVersion.GSC }, // Lapras @ Union Cave
-            new EncounterStatic { Species = 133, Level = 20, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
+            new EncounterStatic { Species = 131, Level = 20, Location = 010, Version = GameVersion.GSC }, // Lapras @ Union Cave
+            new EncounterStatic { Species = 133, Level = 20, Location = 016, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
             
-            new EncounterStatic { Species = 185, Level = 20, Version = GameVersion.GSC }, // Sudowoodo @ Route 36
-            new EncounterStatic { Species = 213, Level = 15, Version = GameVersion.GSC }, // Shuckle @ Cianwood City
-            new EncounterStatic { Species = 236, Level = 10, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
+            new EncounterStatic { Species = 185, Level = 20, Location = 020,  Version = GameVersion.GSC }, // Sudowoodo @ Route 36
+            new EncounterStatic { Species = 213, Level = 15, Location = 033, Version = GameVersion.GSC }, // Shuckle @ Cianwood City
+            new EncounterStatic { Species = 236, Level = 10, Location = 035, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
             
-            new EncounterStatic { Species = 130, Level = 30, Version = GameVersion.GSC, Shiny = true, }, // Gyarados @ Lake of Rage
-            new EncounterStatic { Species = 074, Level = 21, Version = GameVersion.GSC }, // Geodude @ Rocket Hideout
-            new EncounterStatic { Species = 109, Level = 21, Version = GameVersion.GSC }, // Koffing @ Rocket Hideout
-            new EncounterStatic { Species = 100, Level = 23, Version = GameVersion.GSC }, // Voltorb @ Rocket Hideout
-            new EncounterStatic { Species = 101, Level = 23, Version = GameVersion.GSC }, // Electrode @ Rocket Hideout
-            new EncounterStatic { Species = 143, Level = 50, Version = GameVersion.GSC }, // Snorlax @ Vermillion City
-            new EncounterStatic { Species = 243, Level = 40, Version = GameVersion.GSC }, // Raikou
-            new EncounterStatic { Species = 244, Level = 40, Version = GameVersion.GSC }, // Entei
+            new EncounterStatic { Species = 130, Level = 30, Location = 038, Version = GameVersion.GSC, Shiny = true, }, // Gyarados @ Lake of Rage
+            new EncounterStatic { Species = 074, Level = 21, Location = 036, Version = GameVersion.GSC }, // Geodude @ Rocket Hideout (Mahogany Town)
+            new EncounterStatic { Species = 109, Level = 21, Location = 036, Version = GameVersion.GSC }, // Koffing @ Rocket Hideout (Mahogany Town)
+            new EncounterStatic { Species = 100, Level = 23, Location = 036, Version = GameVersion.GSC }, // Voltorb @ Rocket Hideout (Mahogany Town)
+            new EncounterStatic { Species = 101, Level = 23, Location = 036, Version = GameVersion.GSC }, // Electrode @ Rocket Hideout (Mahogany Town)
+            new EncounterStatic { Species = 143, Level = 50, Location = 061, Version = GameVersion.GSC }, // Snorlax @ Vermillion City
+        };
+
+        internal static readonly EncounterStatic[] Encounter_GS_Exclusive = 
+        {
             new EncounterStatic { Species = 245, Level = 40, Version = GameVersion.GS }, // Suicune
-            new EncounterStatic { Species = 245, Level = 40, Version = GameVersion.C }, // Suicune @ Tin Tower
+
+            new EncounterStatic { Species = 249, Level = 70, Version = GameVersion.GD }, // Lugia @ Whirl Islands
+            new EncounterStatic { Species = 249, Level = 40, Version = GameVersion.SV }, // Lugia @ Whirl Islands
+            
+            new EncounterStatic { Species = 250, Level = 40, Version = GameVersion.GD }, // Ho-Oh @ Tin Tower
+            new EncounterStatic { Species = 250, Level = 70, Version = GameVersion.SV }, // Ho-Oh @ Tin Tower
+        };
+
+        internal static readonly EncounterStatic[] Encounter_C_Exclusive = 
+        {
+            new EncounterStatic { Species = 245, Level = 40, Location = 023, Version = GameVersion.C }, // Suicune @ Tin Tower
             
             new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Pichu Dizzy Punch
             new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Cleffa Dizzy Punch
@@ -85,18 +98,17 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Elekid Dizzy Punch
             new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Magby Dizzy Punch
             
-            new EncounterStatic { Species = 147, Level = 40, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
-
-            new EncounterStatic { Species = 249, Level = 70, Version = GameVersion.GD }, // Lugia @ Whirl Islands
-            new EncounterStatic { Species = 249, Level = 40, Version = GameVersion.SV }, // Lugia @ Whirl Islands
-            new EncounterStatic { Species = 249, Level = 60, Version = GameVersion.C }, // Lugia @ Whirl Islands
+            new EncounterStatic { Species = 147, Level = 40, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
             
-            new EncounterStatic { Species = 250, Level = 40, Version = GameVersion.GD }, // Ho-Oh @ Tin Tower
-            new EncounterStatic { Species = 250, Level = 70, Version = GameVersion.SV }, // Ho-Oh @ Tin Tower
-            new EncounterStatic { Species = 250, Level = 60, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
-            
-            new EncounterStatic { Species = 251, Level = 30, Version = GameVersion.SPECIAL }, // Celebi @ Ilex Forest
+            new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
+            new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
+            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.SPECIAL }, // Celebi @ Ilex Forest
         };
+
+        internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();
+        internal static readonly EncounterStatic[] Encounter_C = Encounter_GSC_Common.Concat(Encounter_C_Exclusive).ToArray();
+        internal static readonly EncounterStatic[] Encounter_GSC = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_C_Exclusive).ToArray();
+
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
             new EncounterTrade { Species = 095, Level = 03, Gender = 0, Location = 06, TID = 48926, IVs = new[] {08, 09, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]

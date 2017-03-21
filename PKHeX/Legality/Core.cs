@@ -26,8 +26,8 @@ namespace PKHeX.Core
         private static readonly EggMoves[] EggMovesC = EggMoves2.getArray(Resources.eggmove_c, MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpC = Learnset1.getArray(Resources.lvlmove_c, MaxSpeciesID_2);
         private static readonly EvolutionTree Evolves2;
-        private static readonly EncounterArea[] SlotsGSC;
-        private static readonly EncounterStatic[] StaticGSC;
+        private static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
+        private static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
 
         // Gen 3
         private static readonly Learnset[] LevelUpE = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_e, "em"));
@@ -81,6 +81,10 @@ namespace PKHeX.Core
             {
                 case GameVersion.RBY:
                     return Encounter_RBY; // GameVersion filtering not possible, return immediately
+                case GameVersion.GS:
+                    return Encounter_GS;
+                case GameVersion.C:
+                    return Encounter_C;
                 case GameVersion.GSC:
                     return Encounter_GSC;
 
@@ -294,22 +298,39 @@ namespace PKHeX.Core
 
             return table;
         }
-        private static EncounterArea[] getTables2()
+        private static EncounterArea[] getTables2(GameVersion Version)
         {
-            // Grass/Water
-            var g = EncounterArea.getArray2_GW(Resources.encounter_gold);
-            var s = EncounterArea.getArray2_GW(Resources.encounter_silver);
-            var c = EncounterArea.getArray2_GW(Resources.encounter_crystal);
+            EncounterArea[] Slots = null;
             // Fishing
             var f = EncounterArea.getArray2_F(Resources.encounter_gsc_f);
-            // Headbutt/Rock Smash
-            var h_c = EncounterArea.getArray2_H(Resources.encounter_crystal_h);
-            var h_g = EncounterArea.getArray2_H(Resources.encounter_gold_h);
-            var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
-            var h = h_c.Concat(h_g).Concat(h_s);
+            if(Version == GameVersion.GS || Version == GameVersion.GSC)
+            {
+                // Grass/Water
+                var g = EncounterArea.getArray2_GW(Resources.encounter_gold);
+                var s = EncounterArea.getArray2_GW(Resources.encounter_silver);
+                // Headbutt/Rock Smash
+                var h_g = EncounterArea.getArray2_H(Resources.encounter_gold_h);
+                var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
 
-            return addExtraTableSlots(g, s).Concat(c).Concat(f).Concat(h).ToArray();
+                Slots = addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(g, s), h_g), h_s),f);
+            }
+            if (Version == GameVersion.C || Version == GameVersion.GSC)
+            {
+                // Grass/Water
+                var c = EncounterArea.getArray2_GW(Resources.encounter_crystal);
+                // Headbutt/Rock Smash
+                var h_c = EncounterArea.getArray2_H(Resources.encounter_crystal_h);
+
+                var SlotsC = addExtraTableSlots(addExtraTableSlots(c, h_c),f);
+                if (Version == GameVersion.C)
+                    Slots = SlotsC;
+                else
+                    Slots = addExtraTableSlots(Slots, SlotsC);
+            }
+
+            return Slots;
         }
+
         static Legal() // Setup
         {
             // Gen 1
@@ -320,8 +341,12 @@ namespace PKHeX.Core
             }
             // Gen 2
             {
+                StaticGS = getStaticEncounters(GameVersion.GS);
+                StaticC = getStaticEncounters(GameVersion.C);
                 StaticGSC = getStaticEncounters(GameVersion.GSC);
-                SlotsGSC = getTables2();
+                SlotsGS = getTables2(GameVersion.GS);
+                SlotsC = getTables2(GameVersion.C);
+                SlotsGSC = getTables2(GameVersion.GSC);
                 Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
             }
             // Gen3
@@ -1648,7 +1673,7 @@ namespace PKHeX.Core
                 case GameVersion.GSC:
                 case GameVersion.GD: case GameVersion.SV:
                 case GameVersion.C:
-                    return getSlots(pkm, SlotsGSC, lvl);
+                    return getSlots(pkm, getSlotsTableGen2(pkm), lvl);
 
                 case GameVersion.R:
                     return getSlots(pkm, SlotsR, lvl);
@@ -1712,7 +1737,7 @@ namespace PKHeX.Core
                 case GameVersion.GSC:
                 case GameVersion.GD: case GameVersion.SV:
                 case GameVersion.C:
-                    return getStatic(pkm, StaticGSC, lvl);
+                    return getStatic(pkm, getStaticTableGen2(pkm), lvl);
 
                 case GameVersion.R:
                     return getStatic(pkm, StaticR, lvl);
@@ -1855,6 +1880,41 @@ namespace PKHeX.Core
             }
             return slotdata;
         }
+        private static IEnumerable<EncounterArea> getSlotsTableGen2(PKM pkm)
+        {
+            if (pkm.Format != 2)
+                // Gen 2 met location is lost outside gen 2 games
+                return SlotsGSC;
+            else
+            {
+                if (pkm.HasOriginalMetLocation)
+                    // Format 2 with met location, encounter should be from crystal
+                    return SlotsC;
+                else if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                    // Format 2 without met location but pokemon could not be tradeback to gen 1, 
+                    // encounter should be from gold or silver
+                    return SlotsGS;
+                else
+                    // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
+                    // or it can be a crystal pokemon that lost met location after being tradeback to gen 1 games
+                    return SlotsGSC;
+            }
+        }
+        private static IEnumerable<EncounterStatic> getStaticTableGen2(PKM pkm)
+        {
+            if (pkm.Format != 2)
+                return StaticGSC;
+            else
+            {
+                if (pkm.HasOriginalMetLocation)
+                    return StaticC;
+                else if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                    return StaticGS;
+                else
+                    return StaticGSC;
+            }
+        }
+
         private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
         {
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, lvl);
