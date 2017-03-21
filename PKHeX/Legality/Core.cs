@@ -212,10 +212,9 @@ namespace PKHeX.Core
         {
             foreach(EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
             {
-                foreach (EncounterSlot Slot in Area.Slots)
+                foreach (EncounterSlot Slot in Area.Slots.Where(s=>s.Species == Species))
                 {
-                    if (Slot.Species == Species)
-                        Slot.Form = form;
+                    Slot.Form = form;
                 }
             }
         }
