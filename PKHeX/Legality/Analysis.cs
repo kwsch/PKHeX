@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.CheckStrings;
 
 namespace PKHeX.Core
 {
@@ -25,8 +26,7 @@ namespace PKHeX.Core
         public bool ParsedInvalid => Parsed && !Valid;
         public CheckResult[] vMoves = new CheckResult[4];
         public CheckResult[] vRelearn = new CheckResult[4];
-        public string Report => getLegalityReport();
-        public string VerboseReport => getVerboseLegalityReport();
+        public string Report(bool verbose = false) => verbose ? getVerboseLegalityReport() : getLegalityReport(); 
         public readonly int[] AllSuggestedMoves;
         public readonly int[] AllSuggestedRelearnMoves;
         public readonly int[] AllSuggestedMovesAndRelearn;
@@ -70,7 +70,7 @@ namespace PKHeX.Core
                         Valid = false;
 
                     if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
-                        AddLine(Severity.Indeterminate, "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?", CheckIdentifier.Fateful);
+                        AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
                 }
                 else
                     return;
@@ -94,7 +94,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
             
             updateEncounterChain();
             updateMoveLegality();
@@ -102,46 +102,49 @@ namespace PKHeX.Core
             verifyNickname();
             verifyDVs();
             verifyG1OT();
-            verifyEggMoves();
+            AddLine(verifyEggMoves());
         }
         private void parsePK3(PKM pk)
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
             
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();
             updateChecks();
+            AddLine(verifyEggMoves());
         }
         private void parsePK4(PKM pk)
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
             
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();
             updateChecks();
+            AddLine(verifyEggMoves());
         }
         private void parsePK5(PKM pk)
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
             
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();
             updateChecks();
+            AddLine(verifyEggMoves());
         }
         private void parsePK6(PKM pk)
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateEncounterChain();
@@ -153,7 +156,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, "Species does not exist in origin game.", CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
 
             updateRelearnLegality();
             updateEncounterChain();
@@ -165,13 +168,13 @@ namespace PKHeX.Core
         private void updateRelearnLegality()
         {
             try { vRelearn = verifyRelearn(); }
-            catch { for (int i = 0; i < 4; i++) vRelearn[i] = new CheckResult(Severity.Invalid, "Internal error.", CheckIdentifier.RelearnMove); }
+            catch { for (int i = 0; i < 4; i++) vRelearn[i] = new CheckResult(Severity.Invalid, V190, CheckIdentifier.RelearnMove); }
             // SecondaryChecked = false;
         }
         private void updateMoveLegality()
         {
             try { vMoves = verifyMoves(); }
-            catch { for (int i = 0; i < 4; i++) vMoves[i] = new CheckResult(Severity.Invalid, "Internal error.", CheckIdentifier.Move); }
+            catch { for (int i = 0; i < 4; i++) vMoves[i] = new CheckResult(Severity.Invalid, V190, CheckIdentifier.Move); }
             // SecondaryChecked = false;
         }
 
@@ -227,26 +230,27 @@ namespace PKHeX.Core
         private string getLegalityReport()
         {
             if (!Parsed)
-                return "Analysis not available for this Pokémon.";
+                return V189;
             
             string r = "";
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
-                    r += $"{vMoves[i].Judgement} Move {i + 1}: {vMoves[i].Comment}" + Environment.NewLine;
+                    r += string.Format(V191, vMoves[i].Judgement, i + 1, vMoves[i].Comment) + Environment.NewLine;
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (!vRelearn[i].Valid)
-                    r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
+                    r += string.Format(V192, vRelearn[i].Judgement, i + 1, vRelearn[i].Comment) + Environment.NewLine;
 
             if (r.Length == 0 && Parse.All(chk => chk.Valid) && Valid)
-                return "Legal!";
+                return V193;
             
             // Build result string...
-            r += Parse.Where(chk => !chk.Valid).Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+            var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
+            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, chk.Judgement, chk.Comment)));
 
             if (r.Length == 0)
-                r = "Internal Error.";
+                r = V190;
 
             return r.TrimEnd();
         }
@@ -260,21 +264,22 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 4; i++)
                 if (vMoves[i].Valid)
-                    r += $"{vMoves[i].Judgement} Move {i + 1}: {vMoves[i].Comment}" + Environment.NewLine;
+                    r += string.Format(V191, vMoves[i].Judgement, i + 1, vMoves[i].Comment) + Environment.NewLine;
 
             if (pkm.Format >= 6)
-                for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
                 if (vRelearn[i].Valid)
-                    r += $"{vRelearn[i].Judgement} Relearn Move {i + 1}: {vRelearn[i].Comment}" + Environment.NewLine;
+                    r += string.Format(V192, vRelearn[i].Judgement, i + 1, vRelearn[i].Comment) + Environment.NewLine;
 
             if (rl != r.Length) // move info added, break for next section
                 r += Environment.NewLine;
             
-            r += Parse.Where(chk => chk != null && chk.Valid && chk.Comment != "Valid").OrderBy(chk => chk.Judgement) // Fishy sorted to top
-                .Aggregate("", (current, chk) => current + $"{chk.Judgement}: {chk.Comment}{Environment.NewLine}");
+            var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
+            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, chk.Judgement, chk.Comment)));
 
             r += Environment.NewLine;
-            r += "Encounter Type: " + EncounterName;
+            r += "===" + Environment.NewLine + Environment.NewLine;
+            r += string.Format(V195, EncounterName);
 
             return r.TrimEnd();
         }

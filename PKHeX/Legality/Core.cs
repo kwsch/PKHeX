@@ -1185,7 +1185,7 @@ namespace PKHeX.Core
             var lineage = table.getValidPreEvolutions(pkm, pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
         }
-        internal static IEnumerable<int> getWildBalls(PKM pkm)
+        internal static int[] getWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)
             {
