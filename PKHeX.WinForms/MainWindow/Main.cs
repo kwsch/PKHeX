@@ -2978,7 +2978,7 @@ namespace PKHeX.WinForms
             }
             if (tabs)
                 updateLegality(la, skipMoveRepop);
-            WinFormsUtil.Alert(verbose ? la.VerboseReport : la.Report);
+            WinFormsUtil.Alert(la.Report(verbose));
         }
         private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
