@@ -287,6 +287,10 @@ namespace PKHeX.Core
             }
             ReduceAreasSize(ref Areas);
         }
+        private static void MarkG7REGSlots(ref EncounterArea[] Areas)
+        {
+            ReduceAreasSize(ref Areas);
+        }
         private static void MarkG7SMSlots(ref EncounterArea[] Areas)
         {
             foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
@@ -505,6 +509,8 @@ namespace PKHeX.Core
                 var REG_MN = getEncounterTables(GameVersion.MN);
                 var SOS_SN = getEncounterTables(Resources.encounter_sn_sos, "sm");
                 var SOS_MN = getEncounterTables(Resources.encounter_mn_sos, "sm");
+                MarkG7REGSlots(ref REG_SN);
+                MarkG7REGSlots(ref REG_MN);
                 MarkG7SMSlots(ref SOS_SN);
                 MarkG7SMSlots(ref SOS_MN);
                 SlotsSN = addExtraTableSlots(REG_SN, SOS_SN).Concat(Encounter_Pelago_SM).Concat(Encounter_Pelago_SN).ToArray();
