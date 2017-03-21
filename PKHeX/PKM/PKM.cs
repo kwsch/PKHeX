@@ -263,11 +263,15 @@ namespace PKHeX.Core
         public bool VC2 => Version >= 39 && Version <= 41;
         public bool VC1 => Version >= 35 && Version <= 38;
         public bool Horohoro => Version == 34;
+        public bool E => Version == (int)GameVersion.E;
+        public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
+        public bool Pt => (int)GameVersion.Pt == Version;
+        public bool HGSS => Version == (int)GameVersion.HG || Version == (int)GameVersion.SS;
+        public bool B2W2 => Version == (int)GameVersion.B2 || Version == (int)GameVersion.W2;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
-        protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
@@ -425,8 +429,8 @@ namespace PKHeX.Core
         }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
-        public virtual bool WasTradedEgg => Egg_Location == 30002;
-        public virtual bool WasIngameTrade => Met_Location == 30001;
+        public virtual bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;
+        public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.getMaxSpeciesOrigin(Format);

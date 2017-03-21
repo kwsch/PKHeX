@@ -74,9 +74,8 @@ namespace PKHeX.Core
                 case GameVersion.E:
                 case GameVersion.FR:
                 case GameVersion.LG:
-                    Array.Resize(ref d, 387);
-                    for (int i = 0; i < d.Length; i++) // entries are not in order of natdexID
-                        d[i] = new PersonalInfoG3(entries[PKX.getG3Species(i)]);
+                    for (int i = 0; i < d.Length; i++)
+                        d[i] = new PersonalInfoG3(entries[i]);
                     break;
                 case GameVersion.DP:
                 case GameVersion.Pt:

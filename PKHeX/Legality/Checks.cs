@@ -49,7 +49,7 @@ namespace PKHeX.Core
         internal string Comment = "Valid";
         public bool Valid => Judgement >= Severity.Fishy;
         public bool Flag;
-        private readonly CheckIdentifier Identifier;
+        internal readonly CheckIdentifier Identifier;
 
         internal CheckResult(CheckIdentifier i) { Identifier = i; }
         internal CheckResult(Severity s, string c, CheckIdentifier i)
@@ -280,8 +280,8 @@ namespace PKHeX.Core
             else
             {
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
-                bool match = (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && PKX.SpeciesLang.Any(lang => lang[pkm.Species] == nickname)
-                       || PKX.SpeciesLang[pkm.Language][pkm.Species] == nickname;
+                bool match = PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
+                match |= (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
 
                 if (!match)
                 {
@@ -453,73 +453,137 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID:0000} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
             return null;
         }
+
         private CheckResult verifyEncounterEgg()
         {
-            if (pkm.GenNumber < 4)
-            {
-                if (pkm.Format <= 2) // can't check anything
-                    return new CheckResult(CheckIdentifier.Encounter);
-                
-                if (pkm.HasOriginalMetLocation)
-                {
-
-                }
-                return new CheckResult(CheckIdentifier.Encounter);
-            }
-
-            // Check Hatch Locations
-            if (pkm.Met_Level != 1)
-                return new CheckResult(Severity.Invalid, "Invalid met level, expected 1.", CheckIdentifier.Encounter);
-            // Check species
+            // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, "Species cannot be hatched from an egg.", CheckIdentifier.Encounter);
-            if (pkm.IsEgg)
-            {
-                if (pkm.Egg_Location == 30002)
-                    return new CheckResult(Severity.Invalid, "Egg location shouldn't be 'traded' for an un-hatched egg.", CheckIdentifier.Encounter);
 
-                if (pkm.Met_Location == 30002)
-                    return new CheckResult(Severity.Valid, "Valid traded un-hatched egg.", CheckIdentifier.Encounter);
-                return pkm.Met_Location == 0
-                    ? new CheckResult(Severity.Valid, "Valid un-hatched egg.", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Invalid, "Invalid location for un-hatched egg (expected no met location).", CheckIdentifier.Encounter);
-            }
-            if (pkm.XY)
+            switch (pkm.GenNumber)
             {
-                if (pkm.Egg_Location == 318)
-                    return new CheckResult(Severity.Invalid, "Invalid X/Y egg location.", CheckIdentifier.Encounter);
-                return Legal.ValidMet_XY.Contains(pkm.Met_Location)
-                    ? new CheckResult(Severity.Valid, "Valid X/Y hatched egg.", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Invalid, "Invalid X/Y location for hatched egg.", CheckIdentifier.Encounter);
+                case 1:
+                case 2: return new CheckResult(CheckIdentifier.Encounter); // no met location info
+                case 3: return verifyEncounterEgg3();
+                case 4: return pkm.IsEgg ? verifyUnhatchedEgg(2002) : verifyEncounterEgg4();
+                case 5: return pkm.IsEgg ? verifyUnhatchedEgg(30002) : verifyEncounterEgg5();
+                case 6: return pkm.IsEgg ? verifyUnhatchedEgg(30002) : verifyEncounterEgg6();
+                case 7: return pkm.IsEgg ? verifyUnhatchedEgg(30002) : verifyEncounterEgg7();
+
+                default: // none of the above
+                    return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
             }
+        }
+        private CheckResult verifyEncounterEgg3()
+        {
+            if (pkm.Format == 3)
+            {
+                if (pkm.Met_Level != 0)
+                    return new CheckResult(Severity.Invalid, "Invalid met level, expected 0.", CheckIdentifier.Encounter);
+                if (pkm.IsEgg)
+                {
+                    var loc = pkm.FRLG ? 146 /* Four Island */ : 32; /* RSE: Route 117 */
+                    if (pkm.Met_Location != loc)
+                        return new CheckResult(Severity.Invalid, "Invalid unhatched egg met location.", CheckIdentifier.Encounter);
+                }
+                else
+                {
+                    var locs = pkm.FRLG ? Legal.ValidMet_FRLG : pkm.E ? Legal.ValidMet_E : Legal.ValidMet_RS;
+                    if (!locs.Contains(pkm.Met_Location))
+                        return new CheckResult(Severity.Invalid, "Invalid hatch (met) location.", CheckIdentifier.Encounter);
+                }
+            }
+            else
+            {
+                if (pkm.Met_Level < 5)
+                    return new CheckResult(Severity.Invalid, "Invalid met level for transfer.", CheckIdentifier.Encounter);
+                if (pkm.Egg_Location != 0)
+                    return new CheckResult(Severity.Invalid, "Invalid Egg location, expected none.", CheckIdentifier.Encounter);
+                if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+                    return new CheckResult(Severity.Invalid, "Invalid Met location, expected Pal Park.", CheckIdentifier.Encounter);
+                if (pkm.Format != 4 && pkm.Met_Location != 30001)
+                    return new CheckResult(Severity.Invalid, "Invalid Met location, expected Transporter.", CheckIdentifier.Encounter);
+            }
+            return new CheckResult(CheckIdentifier.Encounter);
+        }
+        private CheckResult verifyEncounterEgg4()
+        {
+            if (pkm.Format == 4)
+                return verifyEncounterEggLevelLoc(0, pkm.HGSS ? Legal.ValidMet_HGSS : pkm.Pt ? Legal.ValidMet_Pt : Legal.ValidMet_DP);
+
+            // transferred
+            if (pkm.Met_Level < 1)
+                return new CheckResult(Severity.Invalid, "Invalid met level for transfer.", CheckIdentifier.Encounter);
+
+            if (pkm.Met_Location != 30001)
+                return new CheckResult(Severity.Invalid, "Invalid Met location, expected Transporter.", CheckIdentifier.Encounter);
+            return new CheckResult(CheckIdentifier.Encounter);
+        }
+        private CheckResult verifyEncounterEgg5()
+        {
+            return verifyEncounterEggLevelLoc(1, pkm.B2W2 ? Legal.ValidMet_B2W2 : Legal.ValidMet_BW);
+        }
+        private CheckResult verifyEncounterEgg6()
+        {
             if (pkm.AO)
-            {
-                return Legal.ValidMet_AO.Contains(pkm.Met_Location)
-                    ? new CheckResult(Severity.Valid, "Valid OR/AS hatched egg.", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Invalid, "Invalid OR/AS location for hatched egg.", CheckIdentifier.Encounter);
-            }
+                return verifyEncounterEggLevelLoc(1, Legal.ValidMet_AO);
+
+            if (pkm.Egg_Location == 318)
+                return new CheckResult(Severity.Invalid, "Invalid X/Y egg location.", CheckIdentifier.Encounter);
+
+            return verifyEncounterEggLevelLoc(1, Legal.ValidMet_XY);
+        }
+        private CheckResult verifyEncounterEgg7()
+        {
             if (pkm.SM)
-            {
-                return Legal.ValidMet_SM.Contains(pkm.Met_Location)
-                    ? new CheckResult(Severity.Valid, "Valid S/M hatched egg.", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Invalid, "Invalid S/M location for hatched egg.", CheckIdentifier.Encounter);
-            }
+                return verifyEncounterEggLevelLoc(1, Legal.ValidMet_SM);
+
+            // no other games
             return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
         }
+        private CheckResult verifyEncounterEggLevelLoc(int eggLevel, int[] MetLocations)
+        {
+            if (pkm.Met_Level != eggLevel)
+                return new CheckResult(Severity.Invalid, $"Invalid met level, expected {eggLevel}.", CheckIdentifier.Encounter);
+            return MetLocations.Contains(pkm.Met_Location)
+                ? new CheckResult(Severity.Valid, "Valid hatch (met) location.", CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, "Invalid hatch (met) location.", CheckIdentifier.Encounter);
+        }
+        private CheckResult verifyUnhatchedEgg(int tradeLoc)
+        {
+            if (pkm.Egg_Location == tradeLoc)
+                return new CheckResult(Severity.Invalid, "Egg location shouldn't be 'traded' for an un-hatched egg.", CheckIdentifier.Encounter);
+
+            if (pkm.Met_Location == tradeLoc)
+                return new CheckResult(Severity.Valid, "Valid traded un-hatched egg.", CheckIdentifier.Encounter);
+            return pkm.Met_Location == 0
+                ? new CheckResult(Severity.Valid, "Valid un-hatched egg.", CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, "Invalid location for un-hatched egg (expected no met location).", CheckIdentifier.Encounter);
+        }
+
         private CheckResult verifyEncounterSafari()
         {
-            if (pkm.Species == 670 || pkm.Species == 671) // Floette
-                if (!new[] {0, 1, 3}.Contains(pkm.AltForm)) // 0/1/3 - RBY
-                    return new CheckResult(Severity.Invalid, "Friend Safari: Not valid color.", CheckIdentifier.Encounter);
-            else if (pkm.Species == 710 || pkm.Species == 711) // Pumpkaboo
-                if (pkm.AltForm != 1) // Average
-                    return new CheckResult(Severity.Invalid, "Friend Safari: Not average sized.", CheckIdentifier.Encounter);
-            else if (pkm.Species == 586) // Sawsbuck
-                if (pkm.AltForm != 0)
-                    return new CheckResult(Severity.Invalid, "Friend Safari: Not Spring form.", CheckIdentifier.Encounter);
+            switch (pkm.Species)
+            {
+                case 670: // Floette
+                case 671: // Florges
+                    if (!new[] {0, 1, 3}.Contains(pkm.AltForm)) // 0/1/3 - RBY
+                        return new CheckResult(Severity.Invalid, "Friend Safari: Not valid color.", CheckIdentifier.Encounter);
+                    break;
+                case 710: // Pumpkaboo
+                case 711: // Goregeist
+                    if (pkm.AltForm != 1) // Average
+                        return new CheckResult(Severity.Invalid, "Friend Safari: Not average sized.", CheckIdentifier.Encounter);
+                    break;
+                case 586: // Sawsbuck
+                    if (pkm.AltForm != 0)
+                        return new CheckResult(Severity.Invalid, "Friend Safari: Not Spring form.", CheckIdentifier.Encounter);
+                    break;
+            }
 
             return new CheckResult(Severity.Valid, "Valid Friend Safari encounter.", CheckIdentifier.Encounter);
         }
+
         private CheckResult verifyEncounterWild()
         {
             EncounterSlot[] enc = (EncounterSlot[])EncounterMatch;
@@ -697,8 +761,12 @@ namespace PKHeX.Core
             }
 
             int lvl = pkm.CurrentLevel;
-            if (lvl > 1 && pkm.IsEgg)
-                AddLine(Severity.Invalid, "Current level for an egg is invalid.", CheckIdentifier.Level);
+            if (pkm.IsEgg)
+            {
+                var eggValid = pkm.Format <= 3 ? lvl == 5 : lvl == 1;
+                if (!eggValid)
+                    AddLine(Severity.Invalid, "Current level for an egg is invalid.", CheckIdentifier.Level);
+            }
             else if (lvl < pkm.Met_Level)
                 AddLine(Severity.Invalid, "Current level is below met level.", CheckIdentifier.Level);
             else if ((pkm.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)
@@ -876,6 +944,8 @@ namespace PKHeX.Core
         private void verifyAbility()
         {
             int[] abilities = pkm.PersonalInfo.Abilities;
+            if (abilities[1] == 0)
+                abilities[1] = abilities[0];
             int abilval = Array.IndexOf(abilities, pkm.Ability);
             if (abilval < 0)
             {
@@ -1922,6 +1992,16 @@ namespace PKHeX.Core
                 }
                 if (pkm.FatefulEncounter)
                     AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
+                if (pkm.Format == 5)
+                {
+                    var enc = EncounterMatch as EncounterStatic;
+                    bool req = enc?.NSparkle ?? false;
+                    bool has = ((PK5) pkm).NPokémon;
+                    if (req && !has)
+                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag missing.", CheckIdentifier.Fateful);
+                    if (!req && has)
+                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag should not be checked.", CheckIdentifier.Fateful);
+                }
             }
         }
         private void verifyVersionEvolution()
@@ -2003,6 +2083,11 @@ namespace PKHeX.Core
                                      new int[0];
 
                 res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, EggMoves);
+
+                if (pkm.GenNumber >= 6)
+                    for (int i = 0; i < 4; i++)
+                        if (res[i].Flag && !RelearnMoves.Contains(Moves[i]))
+                            res[i] = new CheckResult(Severity.Invalid, "Relearn Moves missing " + res[i].Comment, res[i].Identifier);
             }
             if (Moves[0] == 0) // None
                 res[0] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);

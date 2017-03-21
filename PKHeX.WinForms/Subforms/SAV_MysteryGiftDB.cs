@@ -75,6 +75,8 @@ namespace PKHeX.WinForms
 
             // Load Data
             RawDB = new List<MysteryGift>();
+            RawDB.AddRange(Legal.MGDB_G4);
+            RawDB.AddRange(Legal.MGDB_G5);
             RawDB.AddRange(Legal.MGDB_G6);
             RawDB.AddRange(Legal.MGDB_G7);
 

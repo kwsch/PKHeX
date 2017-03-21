@@ -165,8 +165,8 @@ namespace PKHeX.WinForms
 
             // Poké Finder
             NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
-            NUD_ThumbsTotal.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsTotalValue);
-            NUD_ThumbsRecord.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsHighValue);
+            NUD_ThumbsTotal.Value = Math.Min(NUD_ThumbsTotal.Maximum, SAV.PokeFinderThumbsTotalValue);
+            NUD_ThumbsRecord.Value = Math.Min(NUD_ThumbsRecord.Maximum, SAV.PokeFinderThumbsHighValue);
 
             CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
             CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;

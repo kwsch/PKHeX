@@ -318,7 +318,7 @@ namespace PKHeX.Core
         {
             int index = line.LastIndexOf("(", StringComparison.Ordinal);
             string n1, n2;
-            if (index != 0) // correct format
+            if (index > 1) // correct format
             {
                 n1 = line.Substring(0, index - 1);
                 n2 = line.Substring(index).Trim();

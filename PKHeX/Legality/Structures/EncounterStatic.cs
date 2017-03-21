@@ -25,6 +25,46 @@
         public bool Fateful = false;
         public bool RibbonWishing = false;
         public bool SkipFormCheck = false;
+        public bool NSparkle = false;
+        public bool Roaming = false;
+
+        public EncounterStatic[] Clone(int[] locations)
+        {
+            EncounterStatic[] Encounters = new EncounterStatic[locations.Length];
+            for (int i = 0; i < locations.Length; i++)
+                Encounters[i] = Clone(locations[i]);
+            return Encounters;
+        }
+
+        public EncounterStatic Clone(int location)
+        {
+            return new EncounterStatic()
+            {
+                Species = Species,
+                Level = Level,
+                Location = location,
+                Ability = Ability,
+                Form = Form,
+                Shiny = Shiny,
+                Relearn = Relearn,
+                Moves = Moves,
+                Gender = Gender,
+                EggLocation = EggLocation,
+                Nature = Nature,
+                Gift = Gift,
+                Ball = Ball,
+                Version = Version,
+                IVs = IVs,
+                IV3 = IV3,
+                Contest = Contest,
+                HeldItem = HeldItem,
+                Fateful = Fateful,
+                RibbonWishing = RibbonWishing,
+                SkipFormCheck = SkipFormCheck,
+                NSparkle = NSparkle,
+                Roaming = Roaming
+            };
+        }
 
         public string Name
         {
