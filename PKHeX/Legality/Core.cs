@@ -206,6 +206,19 @@ namespace PKHeX.Core
                 Area.Slots = Area.Slots.Concat(OutputSlots).Where(a => a.Species > 0).ToArray();
             }
         }
+        // Gen 4 raw encounter data does not contains info for alt slots
+        // Shellos and Gastrodom East Sea form should be modified 
+        private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
+        {
+            foreach(EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    if (Slot.Species == Species)
+                        Slot.Form = form;
+                }
+            }
+        }
         private static void MarkG4Slots(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
@@ -412,6 +425,13 @@ namespace PKHeX.Core
                 MarkG4SwarmSlots(ref Pt_Slots, SlotsPt_Swarm);
                 MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
                 MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
+
+                MarkG4AltFormSlots(ref D_Slots, 422, 1, Shellos_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref D_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref P_Slots, 422, 1, Shellos_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref P_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
+                MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
 
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
