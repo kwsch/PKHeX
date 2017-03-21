@@ -47,6 +47,28 @@ namespace PKHeX.WinForms
             return true;
         }
 
+        public static bool dumpBox(this SaveFile SAV, string path, out string result, int currentBox)
+        {
+            PKM[] boxdata = SAV.BoxData;
+            if (boxdata == null)
+            { result = "Invalid Box Data, unable to dump."; return false; }
+
+            int ctr = 0;
+            foreach (PKM pk in boxdata)
+            {
+                if (pk.Species == 0 || !pk.Valid || (pk.Box - 1) != currentBox)
+                    continue;
+
+                ctr++;
+                string fileName = Util.CleanFileName(pk.FileName);
+                if (!File.Exists(Path.Combine(path, fileName)))
+                    File.WriteAllBytes(Path.Combine(path, fileName), pk.DecryptedBoxData);
+            }
+
+            result = $"Dumped Box ({ctr} pkm) to path:\n" + path;
+            return true;
+        }
+
         /// <summary>
         /// Loads a folder of files to the <see cref="SaveFile"/>.
         /// </summary>

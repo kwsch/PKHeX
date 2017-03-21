@@ -530,6 +530,22 @@ namespace PKHeX.WinForms
             SAV.dumpBoxes(path, out result, separate);
             WinFormsUtil.Alert(result);
         }
+        private void mainMenuBoxDumpSingle(object sender, EventArgs e)
+        {
+            string path;
+
+            // open folder dialog
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() != DialogResult.OK)
+                return;
+
+            path = fbd.SelectedPath;
+
+            string result;
+            int currentBox = CB_BoxSelect.SelectedIndex;
+            SAV.dumpBox(path, out result, currentBox);
+            WinFormsUtil.Alert(result);
+        }
         private void manMenuBatchEditor(object sender, EventArgs e)
         {
             new BatchEditor(preparePKM()).ShowDialog();
@@ -2978,7 +2994,7 @@ namespace PKHeX.WinForms
             }
             if (tabs)
                 updateLegality(la, skipMoveRepop);
-            WinFormsUtil.Alert(verbose ? la.VerboseReport : la.Report);
+            WinFormsUtil.Alert(la.Report(verbose));
         }
         private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {

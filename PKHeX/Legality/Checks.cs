@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.CheckStrings;
 
 namespace PKHeX.Core
 {
@@ -46,7 +47,7 @@ namespace PKHeX.Core
     public class CheckResult
     {
         internal readonly Severity Judgement = Severity.Valid;
-        internal string Comment = "Valid";
+        internal string Comment = V;
         public bool Valid => Judgement >= Severity.Fishy;
         public bool Flag;
         internal readonly CheckIdentifier Identifier;
@@ -65,34 +66,32 @@ namespace PKHeX.Core
         {
             if (pkm.PersonalInfo.Gender == 255 && pkm.Gender != 2)
             {
-                AddLine(Severity.Invalid, "Genderless Pokémon should not have a gender.", CheckIdentifier.Gender);
+                AddLine(Severity.Invalid, V203, CheckIdentifier.Gender);
                 // return;
             }
         }
-
         private void verifyItem()
         {
             if (!Legal.getHeldItemAllowed(pkm.Format, pkm.HeldItem))
-                AddLine(Severity.Invalid, "Held item is unreleased.", CheckIdentifier.Form);
+                AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
         }
-
         private void verifyECPID()
         {
             if (pkm.EncryptionConstant == 0)
-                AddLine(Severity.Fishy, "Encryption Constant is not set.", CheckIdentifier.EC);
+                AddLine(Severity.Fishy, V201, CheckIdentifier.EC);
 
             if (pkm.PID == 0)
-                AddLine(Severity.Fishy, "PID is not set.", CheckIdentifier.PID);
+                AddLine(Severity.Fishy, V207, CheckIdentifier.PID);
 
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
-                AddLine(Severity.Fishy, "Encryption Constant matches PID.", CheckIdentifier.PID);
+                AddLine(Severity.Fishy, V208, CheckIdentifier.PID);
 
             if (EncounterType == typeof (EncounterStatic))
             {
                 var enc = (EncounterStatic) EncounterMatch;
                 if (enc.Shiny != null && (bool) enc.Shiny ^ pkm.IsShiny)
                 {
-                    AddLine(Severity.Invalid, $"Encounter {(enc.Shiny == true ? "must be" : "cannot be")} shiny.", CheckIdentifier.Shiny);
+                    AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
                     return;
                 }
             }
@@ -107,19 +106,19 @@ namespace PKHeX.Core
                     if (pkm.WasEgg || (EncounterType == typeof(EncounterSlot[]) && (EncounterMatch as EncounterSlot[]).All(slot => slot.Species == 265)))
                         if ((pkm.EncryptionConstant >> 16)%10/5 != wIndex/2)
                         {
-                            AddLine(Severity.Invalid, "Wurmple evolution Encryption Constant mismatch.", CheckIdentifier.EC);
+                            AddLine(Severity.Invalid, V210, CheckIdentifier.EC);
                             return;
                         }
                 }
                 else if (pkm.Species == 265)
                 {
-                    AddLine(Severity.Valid, "Wurmple Evolution: " + ((pkm.EncryptionConstant >> 16)%10/5 == 0 ? "Silcoon" : "Cascoon"), CheckIdentifier.EC);
+                    AddLine(Severity.Valid, string.Format(V212, (pkm.EncryptionConstant >> 16)%10/5 == 0 ? V213 : V214), CheckIdentifier.EC);
                 }
                 
                 int xor = pkm.TSV ^ pkm.PSV;
                 if (xor < 16 && xor >= 8 && (pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
                 {
-                    AddLine(Severity.Fishy, "Encryption Constant matches shinyxored PID.", CheckIdentifier.EC);
+                    AddLine(Severity.Fishy, V211, CheckIdentifier.EC);
                     return;
                 }
             }
@@ -142,8 +141,8 @@ namespace PKHeX.Core
             {
                 AddLine(Severity.Invalid,
                     xorPID 
-                    ? "PID should be equal to EC [with top bit flipped]!" 
-                    : "PID should be equal to EC!", CheckIdentifier.ECPID);
+                    ? V215
+                    : V216, CheckIdentifier.ECPID);
             }
         }
         private void verifyNickname()
@@ -151,12 +150,12 @@ namespace PKHeX.Core
             // If the Pokémon is not nicknamed, it should match one of the language strings.
             if (pkm.Nickname.Length == 0)
             {
-                AddLine(Severity.Invalid, "Nickname is empty.", CheckIdentifier.Nickname);
+                AddLine(Severity.Invalid, V2, CheckIdentifier.Nickname);
                 return;
             }
             if (pkm.Species > PKX.SpeciesLang[0].Length)
             {
-                AddLine(Severity.Indeterminate, "Species index invalid for Nickname comparison.", CheckIdentifier.Nickname);
+                AddLine(Severity.Indeterminate, V3, CheckIdentifier.Nickname);
                 return;
             }
 
@@ -167,7 +166,7 @@ namespace PKHeX.Core
                 int lang = Array.IndexOf(PKX.SpeciesLang, langset);
 
                 if (pk.Length > (lang == 2 ? 10 : 5))
-                    AddLine(Severity.Invalid, "Nickname too long.", CheckIdentifier.Nickname);
+                    AddLine(Severity.Invalid, V1, CheckIdentifier.Nickname);
             }
 
             if (!Encounter.Valid)
@@ -175,12 +174,12 @@ namespace PKHeX.Core
 
             if (pkm.Format <= 6 && pkm.Language > 8)
             {
-                AddLine(Severity.Indeterminate, "Language ID > 8.", CheckIdentifier.Language);
+                AddLine(Severity.Indeterminate, V4, CheckIdentifier.Language);
                 return;
             }
             if (pkm.Format <= 7 && pkm.Language > 10)
             {
-                AddLine(Severity.Indeterminate, "Language ID > 10.", CheckIdentifier.Language);
+                AddLine(Severity.Indeterminate, V5, CheckIdentifier.Language);
                 return;
             }
 
@@ -201,7 +200,7 @@ namespace PKHeX.Core
                 else if (pkm.SM)
                 {
                     // TODO
-                    AddLine(Severity.Valid, "Ingame Trade for Sun/Moon not implemented.", CheckIdentifier.Nickname);
+                    AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
                     return;
                 }
                 else if (pkm.Format <= 2 || pkm.VC)
@@ -210,7 +209,7 @@ namespace PKHeX.Core
                     if (et?.TID == 0) // Gen1 Trade
                     {
                         if (!Legal.getEncounterTrade1Valid(pkm))
-                            AddLine(Severity.Invalid, "Incorrect OT name for RBY in-game trade.", CheckIdentifier.Trainer);
+                            AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
                     }
                     else // Gen2
                     {
@@ -221,12 +220,12 @@ namespace PKHeX.Core
 
                 if (validOT.Length == 0)
                 {
-                    AddLine(Severity.Indeterminate, "Ingame Trade invalid version?", CheckIdentifier.Trainer);
+                    AddLine(Severity.Indeterminate, V7, CheckIdentifier.Trainer);
                     return;
                 }
                 if (index == -1 || validOT.Length < index*2)
                 {
-                    AddLine(Severity.Indeterminate, "Ingame Trade invalid lookup?", CheckIdentifier.Trainer);
+                    AddLine(Severity.Indeterminate, V8, CheckIdentifier.Trainer);
                     return;
                 }
 
@@ -234,11 +233,11 @@ namespace PKHeX.Core
                 string OT = validOT[validOT.Length/2 + index];
 
                 if (nick != pkm.Nickname)
-                    AddLine(Severity.Fishy, "Ingame Trade nickname has been altered.", CheckIdentifier.Nickname);
+                    AddLine(Severity.Fishy, V9, CheckIdentifier.Nickname);
                 else if (OT != pkm.OT_Name)
-                    AddLine(Severity.Invalid, "Ingame Trade OT has been altered.", CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
                 else
-                    AddLine(Severity.Valid, "Ingame Trade OT/Nickname have not been altered.", CheckIdentifier.Nickname);
+                    AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
 
                 return;
             }
@@ -246,11 +245,11 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (!pkm.IsNicknamed && (pkm.Format != 7))
-                    AddLine(Severity.Invalid, "Eggs must be nicknamed.", CheckIdentifier.Egg);
+                    AddLine(Severity.Invalid, V12, CheckIdentifier.Egg);
                 else if (PKX.SpeciesLang[pkm.Language][0] != pkm.Nickname)
-                    AddLine(Severity.Invalid, "Egg name does not match language Egg name.", CheckIdentifier.Egg);
+                    AddLine(Severity.Invalid, V13, CheckIdentifier.Egg);
                 else
-                    AddLine(Severity.Valid, "Egg matches language Egg name.", CheckIdentifier.Egg);
+                    AddLine(Severity.Valid, V14, CheckIdentifier.Egg);
 
                 return;
             }
@@ -266,16 +265,16 @@ namespace PKHeX.Core
                         continue;
 
                     AddLine(Severity.Fishy, index == pkm.Species && i != pkm.Language
-                        ? "Nickname matches another species name (+language)."
-                        : "Nickname flagged, matches species name.", CheckIdentifier.Nickname);
+                        ? V15
+                        : V16, CheckIdentifier.Nickname);
                     return;
                 }
-                AddLine(Severity.Valid, "Nickname does not match another species name.", CheckIdentifier.Nickname);
+                AddLine(Severity.Valid, V17, CheckIdentifier.Nickname);
             }
             else if (pkm.Format < 3)
             {
                 // pk1/pk2 IsNicknamed getter checks for match, logic should only reach here if matches.
-                AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.Nickname);
+                AddLine(Severity.Valid, V18, CheckIdentifier.Nickname);
             }
             else
             {
@@ -286,12 +285,12 @@ namespace PKHeX.Core
                 if (!match)
                 {
                     if ((EncounterMatch as MysteryGift)?.CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49)
-                        AddLine(Severity.Valid, "Nickname matches demo language name.", CheckIdentifier.Nickname);
+                        AddLine(Severity.Valid, V19, CheckIdentifier.Nickname);
                     else
-                        AddLine(Severity.Invalid, "Nickname does not match species name.", CheckIdentifier.Nickname);
+                        AddLine(Severity.Invalid, V20, CheckIdentifier.Nickname);
                 }
                 else
-                    AddLine(Severity.Valid, "Nickname matches species name.", CheckIdentifier.Nickname);
+                    AddLine(Severity.Valid, V18, CheckIdentifier.Nickname);
             }
         }
         private void verifyEVs()
@@ -299,17 +298,17 @@ namespace PKHeX.Core
             var evs = pkm.EVs;
             int sum = evs.Sum();
             if (pkm.IsEgg && sum > 0)
-                AddLine(Severity.Invalid, "Eggs cannot receive EVs.", CheckIdentifier.EVs);
+                AddLine(Severity.Invalid, V22, CheckIdentifier.EVs);
             else if (sum == 0 && pkm.Stat_Level - pkm.Met_Level > 0)
-                AddLine(Severity.Fishy, "All EVs are zero, but leveled above Met Level.", CheckIdentifier.EVs);
+                AddLine(Severity.Fishy, V23, CheckIdentifier.EVs);
             else if (sum == 508)
-                AddLine(Severity.Fishy, "2 EVs remaining.", CheckIdentifier.EVs);
+                AddLine(Severity.Fishy, V24, CheckIdentifier.EVs);
             else if (sum > 510)
-                AddLine(Severity.Invalid, "EV total cannot be above 510.", CheckIdentifier.EVs);
+                AddLine(Severity.Invalid, V25, CheckIdentifier.EVs);
             else if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
-                AddLine(Severity.Invalid, "EVs cannot go above 252.", CheckIdentifier.EVs);
+                AddLine(Severity.Invalid, V26, CheckIdentifier.EVs);
             else if (evs.All(ev => pkm.EVs[0] == ev) && evs[0] != 0)
-                AddLine(Severity.Fishy, "EVs are all equal.", CheckIdentifier.EVs);
+                AddLine(Severity.Fishy, V27, CheckIdentifier.EVs);
         }
         private void verifyIVs()
         {
@@ -321,7 +320,7 @@ namespace PKHeX.Core
                     IVCount = 5; // VC Mew
                 if (pkm.IVs.Count(iv => iv == 31) < IVCount)
                 {
-                    AddLine(Severity.Invalid, $"Should have at least {IVCount} IVs = 31.", CheckIdentifier.IVs);
+                    AddLine(Severity.Invalid, string.Format(V28, IVCount), CheckIdentifier.IVs);
                     return;
                 }
             }
@@ -329,7 +328,7 @@ namespace PKHeX.Core
             {
                 if (pkm.IVs.Count(iv => iv == 31) < 2)
                 {
-                    AddLine(Severity.Invalid, "Friend Safari captures should have at least 2 IVs = 31.", CheckIdentifier.IVs);
+                    AddLine(Severity.Invalid, V29, CheckIdentifier.IVs);
                     return;
                 }
             }
@@ -352,13 +351,13 @@ namespace PKHeX.Core
                         if (IVs[i] <= 31 && IVs[i] != pkIVs[i])
                             valid = false;
                     if (!valid)
-                        AddLine(Severity.Invalid, "IVs do not match Mystery Gift Data.", CheckIdentifier.IVs);
+                        AddLine(Severity.Invalid, V30, CheckIdentifier.IVs);
                 }
             }
             if (pkm.IVs.Sum() == 0)
-                AddLine(Severity.Fishy, "All IVs are zero.", CheckIdentifier.IVs);
+                AddLine(Severity.Fishy, V31, CheckIdentifier.IVs);
             else if (pkm.IVs[0] < 30 && pkm.IVs.All(iv => pkm.IVs[0] == iv))
-                AddLine(Severity.Fishy, "All IVs are equal.", CheckIdentifier.IVs);
+                AddLine(Severity.Fishy, V32, CheckIdentifier.IVs);
         }
         private void verifyDVs()
         {
@@ -370,18 +369,18 @@ namespace PKHeX.Core
                 return; // Already matches Encounter Trade information
 
             if (pkm.TID == 0 && pkm.SID == 0)
-                AddLine(Severity.Fishy, "TID and SID are zero.", CheckIdentifier.Trainer);
+                AddLine(Severity.Fishy, V33, CheckIdentifier.Trainer);
             else if (pkm.VC)
             {
                 if (pkm.SID != 0)
-                    AddLine(Severity.Invalid, "SID should be 0.", CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, V34, CheckIdentifier.Trainer);
             }
             else if (pkm.TID == pkm.SID)
-                AddLine(Severity.Fishy, "TID and SID are equal.", CheckIdentifier.Trainer);
+                AddLine(Severity.Fishy, V35, CheckIdentifier.Trainer);
             else if (pkm.TID == 0)
-                AddLine(Severity.Fishy, "TID is zero.", CheckIdentifier.Trainer);
+                AddLine(Severity.Fishy, V36, CheckIdentifier.Trainer);
             else if (pkm.SID == 0)
-                AddLine(Severity.Fishy, "SID is zero.", CheckIdentifier.Trainer);
+                AddLine(Severity.Fishy, V37, CheckIdentifier.Trainer);
 
             if (pkm.VC)
                 verifyG1OT();
@@ -394,11 +393,11 @@ namespace PKHeX.Core
             int lang = Array.IndexOf(PKX.SpeciesLang, langset);
 
             if (tr.Length > (lang == 2 ? 7 : 5))
-                AddLine(Severity.Invalid, "OT Name too long.", CheckIdentifier.Trainer);
+                AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
             if (pkm.Species == 151)
             {
                 if (tr != "GF" && tr != "ゲーフリ") // if there are more events with special OTs, may be worth refactoring
-                    AddLine(Severity.Invalid, "Incorrect event OT Name.", CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
         }
 
@@ -411,16 +410,16 @@ namespace PKHeX.Core
             var HTs = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
 
             if (HTs.Any(ht => ht) && pkm.CurrentLevel != 100)
-                AddLine(Severity.Invalid, "Can't Hyper Train a pokemon that isn't level 100.", CheckIdentifier.IVs);
+                AddLine(Severity.Invalid, V40, CheckIdentifier.IVs);
 
             if (IVs.All(iv => iv == 31) && HTs.Any(ht => ht))
-                AddLine(Severity.Invalid, "Can't Hyper Train a pokemon with perfect IVs.", CheckIdentifier.IVs);
+                AddLine(Severity.Invalid, V41, CheckIdentifier.IVs);
             else
             {
                 for (int i = 0; i < 6; i++) // Check individual IVs
                 {
                     if ((IVs[i] == 31) && HTs[i])
-                        AddLine(Severity.Invalid, "Can't Hyper Train a perfect IV.", CheckIdentifier.IVs);
+                        AddLine(Severity.Invalid, V42, CheckIdentifier.IVs);
                 }
             }
         }
@@ -430,27 +429,27 @@ namespace PKHeX.Core
             // Should NOT be Fateful, and should be in Database
             EncounterLink enc = EncounterMatch as EncounterLink;
             if (enc == null)
-                return new CheckResult(Severity.Invalid, "Invalid Link Gift: unable to find matching gift.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V43, CheckIdentifier.Encounter);
 
             if (pkm.XY && !enc.XY)
-                return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in XY.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V44, CheckIdentifier.Encounter);
             if (pkm.AO && !enc.ORAS)
-                return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in ORAS.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V45, CheckIdentifier.Encounter);
             if (pkm.SM && !enc.SM)
-                return new CheckResult(Severity.Invalid, "Invalid Link Gift: can't obtain in SM.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V46, CheckIdentifier.Encounter);
 
             if (enc.Shiny != null && (bool)enc.Shiny ^ pkm.IsShiny)
-                return new CheckResult(Severity.Invalid, "Shiny Link gift mismatch.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V47, CheckIdentifier.Encounter);
 
             return pkm.FatefulEncounter
-                ? new CheckResult(Severity.Invalid, "Invalid Link Gift: should not be Fateful Encounter.", CheckIdentifier.Encounter)
-                : new CheckResult(Severity.Valid, "Valid Link gift.", CheckIdentifier.Encounter);
+                ? new CheckResult(Severity.Invalid, V48, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Valid, V49, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterEvent()
         {
             MysteryGift MatchedGift = EncounterMatch as MysteryGift;
             if (MatchedGift != null)
-                return new CheckResult(Severity.Valid, $"Matches #{MatchedGift.CardID:0000} ({MatchedGift.CardTitle})", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.CardID.ToString("0000"), MatchedGift.CardTitle), CheckIdentifier.Encounter);
             return null;
         }
 
@@ -458,7 +457,7 @@ namespace PKHeX.Core
         {
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species))
-                return new CheckResult(Severity.Invalid, "Species cannot be hatched from an egg.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
             {
@@ -471,7 +470,7 @@ namespace PKHeX.Core
                 case 7: return pkm.IsEgg ? verifyUnhatchedEgg(30002) : verifyEncounterEgg7();
 
                 default: // none of the above
-                    return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V51, CheckIdentifier.Encounter);
             }
         }
         private CheckResult verifyEncounterEgg3()
@@ -479,51 +478,51 @@ namespace PKHeX.Core
             if (pkm.Format == 3)
             {
                 if (pkm.Met_Level != 0)
-                    return new CheckResult(Severity.Invalid, "Invalid met level, expected 0.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, string.Format(V52, 0), CheckIdentifier.Encounter);
                 if (pkm.IsEgg)
                 {
                     var loc = pkm.FRLG ? 146 /* Four Island */ : 32; /* RSE: Route 117 */
                     if (pkm.Met_Location != loc)
-                        return new CheckResult(Severity.Invalid, "Invalid unhatched egg met location.", CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Invalid, V55, CheckIdentifier.Encounter);
                 }
                 else
                 {
                     var locs = pkm.FRLG ? Legal.ValidMet_FRLG : pkm.E ? Legal.ValidMet_E : Legal.ValidMet_RS;
                     if (locs.Contains(pkm.Met_Location))
-                        return new CheckResult(Severity.Valid, "Valid hatch (met) location.", CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Valid, V53, CheckIdentifier.Encounter);
                     if (Legal.ValidMet_FRLG.Contains(pkm.Met_Location) || Legal.ValidMet_E.Contains(pkm.Met_Location) || Legal.ValidMet_RS.Contains(pkm.Met_Location))
-                        return new CheckResult(Severity.Valid, "Trade egg valid hatch (met) location.", CheckIdentifier.Encounter);
-                    return new CheckResult(Severity.Invalid, "Invalid hatch (met) location.", CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Valid, V56, CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V54, CheckIdentifier.Encounter);
                 }
             }
             else
             {
                 if (pkm.IsEgg)
-                    return new CheckResult(Severity.Invalid, "Gen 3 unhatched egg can not be transfered via Pal Park.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V57, CheckIdentifier.Encounter);
                 if (pkm.Met_Level < 5)
-                    return new CheckResult(Severity.Invalid, "Invalid met level for transfer.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V58, CheckIdentifier.Encounter);
                 if (pkm.Egg_Location != 0)
-                    return new CheckResult(Severity.Invalid, "Invalid Egg location, expected none.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
                 if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
-                    return new CheckResult(Severity.Invalid, "Invalid Met location, expected Pal Park.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V60, CheckIdentifier.Encounter);
                 if (pkm.Format != 4 && pkm.Met_Location != 30001)
-                    return new CheckResult(Severity.Invalid, "Invalid Met location, expected Transporter.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
             }
-            return new CheckResult(CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, V53, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterEgg4()
         {
             if (pkm.Format == 4)
                 return verifyEncounterEggLevelLoc(0, pkm.HGSS ? Legal.ValidMet_HGSS : pkm.Pt ? Legal.ValidMet_Pt : Legal.ValidMet_DP);
-            else if (pkm.IsEgg)
-                return new CheckResult(Severity.Invalid, "Gen 4 unhatched egg can not be transfered via Transporter", CheckIdentifier.Encounter);
+            if (pkm.IsEgg)
+                return new CheckResult(Severity.Invalid, V57, CheckIdentifier.Encounter);
             // transferred
             if (pkm.Met_Level < 1)
-                return new CheckResult(Severity.Invalid, "Invalid met level for transfer.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V58, CheckIdentifier.Encounter);
 
             if (pkm.Met_Location != 30001)
-                return new CheckResult(Severity.Invalid, "Invalid Met location, expected Transporter.", CheckIdentifier.Encounter);
-            return new CheckResult(CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, V63, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterEgg5()
         {
@@ -535,7 +534,7 @@ namespace PKHeX.Core
                 return verifyEncounterEggLevelLoc(1, Legal.ValidMet_AO);
 
             if (pkm.Egg_Location == 318)
-                return new CheckResult(Severity.Invalid, "Invalid X/Y egg location.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V55, CheckIdentifier.Encounter);
 
             return verifyEncounterEggLevelLoc(1, Legal.ValidMet_XY);
         }
@@ -545,26 +544,26 @@ namespace PKHeX.Core
                 return verifyEncounterEggLevelLoc(1, Legal.ValidMet_SM);
 
             // no other games
-            return new CheckResult(Severity.Invalid, "Invalid location for hatched egg.", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Invalid, V51, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterEggLevelLoc(int eggLevel, int[] MetLocations)
         {
             if (pkm.Met_Level != eggLevel)
-                return new CheckResult(Severity.Invalid, $"Invalid met level, expected {eggLevel}.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, string.Format(V52, eggLevel), CheckIdentifier.Encounter);
             return MetLocations.Contains(pkm.Met_Location)
-                ? new CheckResult(Severity.Valid, "Valid hatch (met) location.", CheckIdentifier.Encounter)
-                : new CheckResult(Severity.Invalid, "Invalid hatch (met) location.", CheckIdentifier.Encounter);
+                ? new CheckResult(Severity.Valid, V53, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, V54, CheckIdentifier.Encounter);
         }
         private CheckResult verifyUnhatchedEgg(int tradeLoc)
         {
             if (pkm.Egg_Location == tradeLoc)
-                return new CheckResult(Severity.Invalid, "Egg location shouldn't be 'traded' for an un-hatched egg.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V62, CheckIdentifier.Encounter);
 
             if (pkm.Met_Location == tradeLoc)
-                return new CheckResult(Severity.Valid, "Valid traded un-hatched egg.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Valid, V56, CheckIdentifier.Encounter);
             return pkm.Met_Location == 0
-                ? new CheckResult(Severity.Valid, "Valid un-hatched egg.", CheckIdentifier.Encounter)
-                : new CheckResult(Severity.Invalid, "Invalid location for un-hatched egg (expected no met location).", CheckIdentifier.Encounter);
+                ? new CheckResult(Severity.Valid, V63, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
         }
 
         private CheckResult verifyEncounterSafari()
@@ -574,20 +573,20 @@ namespace PKHeX.Core
                 case 670: // Floette
                 case 671: // Florges
                     if (!new[] {0, 1, 3}.Contains(pkm.AltForm)) // 0/1/3 - RBY
-                        return new CheckResult(Severity.Invalid, "Friend Safari: Not valid color.", CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Invalid, V64, CheckIdentifier.Encounter);
                     break;
                 case 710: // Pumpkaboo
                 case 711: // Goregeist
                     if (pkm.AltForm != 1) // Average
-                        return new CheckResult(Severity.Invalid, "Friend Safari: Not average sized.", CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Invalid, V6, CheckIdentifier.Encounter);
                     break;
                 case 586: // Sawsbuck
                     if (pkm.AltForm != 0)
-                        return new CheckResult(Severity.Invalid, "Friend Safari: Not Spring form.", CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Invalid, V65, CheckIdentifier.Encounter);
                     break;
             }
 
-            return new CheckResult(Severity.Valid, "Valid Friend Safari encounter.", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, V66, CheckIdentifier.Encounter);
         }
 
         private CheckResult verifyEncounterWild()
@@ -596,25 +595,25 @@ namespace PKHeX.Core
 
             if (enc.Any(slot => slot.Normal))
                 return enc.All(slot => slot.Pressure)
-                    ? new CheckResult(Severity.Valid, "Valid encounter at location (Pressure/Hustle/Vital Spirit).", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Valid, "Valid encounter at location.", CheckIdentifier.Encounter);
+                    ? new CheckResult(Severity.Valid, V67, CheckIdentifier.Encounter)
+                    : new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
 
             // Decreased Level Encounters
             if (enc.Any(slot => slot.WhiteFlute))
                 return enc.All(slot => slot.Pressure)
-                    ? new CheckResult(Severity.Valid, "Valid encounter at location (White Flute & Pressure/Hustle/Vital Spirit).", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Valid, "Valid encounter at location (White Flute).", CheckIdentifier.Encounter);
+                    ? new CheckResult(Severity.Valid, V69, CheckIdentifier.Encounter)
+                    : new CheckResult(Severity.Valid, V70, CheckIdentifier.Encounter);
 
             // Increased Level Encounters
             if (enc.Any(slot => slot.BlackFlute))
                 return enc.All(slot => slot.Pressure)
-                    ? new CheckResult(Severity.Valid, "Valid encounter at location (Black Flute & Pressure/Hustle/Vital Spirit).", CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Valid, "Valid encounter at location (Black Flute).", CheckIdentifier.Encounter);
+                    ? new CheckResult(Severity.Valid, V71, CheckIdentifier.Encounter)
+                    : new CheckResult(Severity.Valid, V72, CheckIdentifier.Encounter);
 
             if (enc.Any(slot => slot.Pressure))
-                return new CheckResult(Severity.Valid, "Valid encounter at location (Pressure/Hustle/Vital Spirit).", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Valid, V67, CheckIdentifier.Encounter);
 
-            return new CheckResult(Severity.Valid, "Valid encounter at location (DexNav).", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, V73, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterStatic()
         {
@@ -625,21 +624,21 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < 4; i++)
                     vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
-                        ? new CheckResult(Severity.Invalid, "Static encounter relearn move mismatch.", CheckIdentifier.RelearnMove)
+                        ? new CheckResult(Severity.Invalid, V74, CheckIdentifier.RelearnMove)
                         : new CheckResult(CheckIdentifier.RelearnMove);
-                return new CheckResult(Severity.Valid, "Valid gift/static encounter.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Valid, V75, CheckIdentifier.Encounter);
             }
             return null;
         }
         private CheckResult verifyEncounterTrade()
         {
-            return new CheckResult(Severity.Valid, "Valid ingame trade.", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, V76, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterG12()
         {
             var obj = Legal.getEncounter12(pkm, Legal.AllowGBCartEra && pkm.Format < 3);
             if (obj == null)
-                return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
             EncounterMatch = obj.Item1;
             if (EncounterMatch is bool)
@@ -656,7 +655,7 @@ namespace PKHeX.Core
 
             // shouldn't ever hit, above 3*invalid check should abort
             Console.WriteLine($"Gen1 encounter fallthrough: {pkm.FileName}");
-            return new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounter()
         {
@@ -666,7 +665,7 @@ namespace PKHeX.Core
                 bool g1 = pkm.VC1 || pkm.Format == 1;
                 
                 if ((g1 && baseSpecies > Legal.MaxSpeciesID_1) || (baseSpecies > Legal.MaxSpeciesID_2))
-                    return new CheckResult(Severity.Invalid, "VC: Unobtainable species.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, V77, CheckIdentifier.Encounter);
                 
                 // Get EncounterMatch prior to parsing transporter legality
                 var result = verifyEncounterG12();
@@ -710,9 +709,9 @@ namespace PKHeX.Core
             if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
                 return verifyEncounterTrade();
 
-            return wasEvent 
-                ? new CheckResult(Severity.Invalid, "Unable to match to a Mystery Gift in the database.", CheckIdentifier.Encounter) 
-                : new CheckResult(Severity.Invalid, "Unknown encounter.", CheckIdentifier.Encounter);
+            return wasEvent
+                ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter) 
+                : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
@@ -724,7 +723,7 @@ namespace PKHeX.Core
 
             // Check existing EncounterMatch
             if ((EncounterOriginal ?? EncounterMatch) == null)
-                return new CheckResult(Severity.Invalid, "Unable to match an encounter from origin game.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
             var s = EncounterMatch as EncounterStatic;
             if (s != null && s.Version == GameVersion.SPECIAL)
@@ -732,19 +731,19 @@ namespace PKHeX.Core
                 bool exceptions = false;
                 exceptions |= baseSpecies == 151 && pkm.TID == 22796;
                 if (!exceptions)
-                    AddLine(new CheckResult(Severity.Invalid, "Special encounter is not available to Virtual Console games.", CheckIdentifier.Encounter));
+                    AddLine(new CheckResult(Severity.Invalid, V79, CheckIdentifier.Encounter));
             }
 
             EncounterMatch = Legal.getRBYStaticTransfer(species);
             var ematch = (EncounterStatic) EncounterMatch;
 
             if (pkm.Met_Location != ematch.Location)
-                return new CheckResult(Severity.Invalid, "Invalid met location.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V81, CheckIdentifier.Encounter);
             if (pkm.Egg_Location != ematch.EggLocation)
-                return new CheckResult(Severity.Invalid, "Should not have an egg location.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
 
             if (species == 150 && pkm.Moves.Contains(6))
-                return new CheckResult(Severity.Invalid, "Mewtwo cannot be transferred while knowing Pay Day.", CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V82, CheckIdentifier.Encounter);
 
             return new CheckResult(CheckIdentifier.Encounter);
         }
@@ -756,31 +755,31 @@ namespace PKHeX.Core
             {
                 if (!(MatchedGift is WC7) || ((WC7) MatchedGift).MetLevel != pkm.Met_Level)
                 {
-                    AddLine(new CheckResult(Severity.Invalid, "Met Level does not match Wonder Card level.", CheckIdentifier.Level));
+                    AddLine(new CheckResult(Severity.Invalid, V83, CheckIdentifier.Level));
                     return;
                 }
             }
             if (MatchedGift != null && MatchedGift.Level > pkm.CurrentLevel)
             {
-                AddLine(new CheckResult(Severity.Invalid, "Current Level below Wonder Card level.", CheckIdentifier.Level));
+                AddLine(new CheckResult(Severity.Invalid, V84, CheckIdentifier.Level));
                 return;
             }
 
             int lvl = pkm.CurrentLevel;
             if (pkm.IsEgg)
             {
-                var eggValid = pkm.Format <= 3 ? lvl == 5 : lvl == 1;
-                if (!eggValid)
-                    AddLine(Severity.Invalid, "Current level for an egg is invalid.", CheckIdentifier.Level);
+                int elvl = pkm.Format <= 3 ? 5 : 1;
+                if (elvl != lvl)
+                    AddLine(Severity.Invalid, string.Format(V52, elvl), CheckIdentifier.Level);
             }
             else if (lvl < pkm.Met_Level)
-                AddLine(Severity.Invalid, "Current level is below met level.", CheckIdentifier.Level);
+                AddLine(Severity.Invalid, V85, CheckIdentifier.Level);
             else if ((pkm.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)
-                AddLine(Severity.Invalid, "Evolution not valid (or level/trade evolution unsatisfied).", CheckIdentifier.Level);
+                AddLine(Severity.Invalid, V86, CheckIdentifier.Level);
             else if (lvl > pkm.Met_Level && lvl > 1 && lvl != 100 && pkm.EXP == PKX.getEXP(pkm.Stat_Level, pkm.Species))
-                AddLine(Severity.Fishy, "Current experience matches level threshold.", CheckIdentifier.Level);
+                AddLine(Severity.Fishy, V87, CheckIdentifier.Level);
             else
-                AddLine(Severity.Valid, "Current level is not below met level.", CheckIdentifier.Level);
+                AddLine(Severity.Valid, V88, CheckIdentifier.Level);
         }
         private void verifyMedals()
         {
@@ -791,22 +790,22 @@ namespace PKHeX.Core
             var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "SuperTrain").ToArray();
             var TrainCount = TrainNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true);
             if (pkm.IsEgg && TrainCount > 0)
-            { AddLine(Severity.Invalid, "Super Training missions on Egg.", CheckIdentifier.Training); }
-            else if (TrainCount > 0 && pkm.GenNumber != 6)
-            { AddLine(Severity.Invalid, "Super Training missions are not available in game.", CheckIdentifier.Training); }
+            { AddLine(Severity.Invalid, V89, CheckIdentifier.Training); }
+            else if (TrainCount > 0 && pkm.GenNumber > 6)
+            { AddLine(Severity.Invalid, V90, CheckIdentifier.Training); }
             else
             {
                 if (pkm.Format >= 7)
                 {
                     if (pkm.SecretSuperTrainingUnlocked)
-                    { AddLine(Severity.Invalid, "Super Training unlocked flag invalid.", CheckIdentifier.Training); }
+                    { AddLine(Severity.Invalid, V91, CheckIdentifier.Training); }
                     if (pkm.SecretSuperTrainingComplete)
-                    { AddLine(Severity.Invalid, "Super Training complete flag invalid.", CheckIdentifier.Training); }
+                    { AddLine(Severity.Invalid, V92, CheckIdentifier.Training); }
                 }
                 else
                 {
                     if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
-                    { AddLine(Severity.Invalid, "Super Training complete flag mismatch.", CheckIdentifier.Training); }
+                    { AddLine(Severity.Invalid, V93, CheckIdentifier.Training); }
                 }
             }
 
@@ -814,11 +813,11 @@ namespace PKHeX.Core
             var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "DistSuperTrain");
             var DistCount = DistNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true);
             if (pkm.IsEgg && DistCount > 0)
-            { AddLine(Severity.Invalid, "Distribution Super Training missions on Egg.", CheckIdentifier.Training); }
-            else if (DistCount > 0 && pkm.GenNumber != 6)
-            { AddLine(Severity.Invalid, "Distribution Super Training missions are not available in game.", CheckIdentifier.Training); }
+            { AddLine(Severity.Invalid, V89, CheckIdentifier.Training); }
+            else if (DistCount > 0 && pkm.GenNumber > 6)
+            { AddLine(Severity.Invalid, V90, CheckIdentifier.Training); }
             else if (DistCount > 0)
-            { AddLine(Severity.Fishy, "Distribution Super Training missions are not released.", CheckIdentifier.Training); }
+            { AddLine(Severity.Fishy, V94, CheckIdentifier.Training); }
         }
         private void verifyRibbons()
         {
@@ -834,9 +833,9 @@ namespace PKHeX.Core
                 foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
                 {
                     if (RibbonValue as bool? == true) // Boolean
-                    { AddLine(Severity.Invalid, "Eggs should not have ribbons.", CheckIdentifier.Ribbon); return; }
+                    { AddLine(Severity.Invalid, V95, CheckIdentifier.Ribbon); return; }
                     if ((RibbonValue as int?) > 0) // Count
-                    { AddLine(Severity.Invalid, "Eggs should not have ribbons.", CheckIdentifier.Ribbon); return; }
+                    { AddLine(Severity.Invalid, V95, CheckIdentifier.Ribbon); return; }
                 }
                 return;
             }
@@ -911,40 +910,40 @@ namespace PKHeX.Core
             if (pkm.GenNumber > 3)
             {
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonChampionG3Hoenn)) == true)
-                    invalidRibbons.Add("GBA Champion"); // RSE HoF
+                    invalidRibbons.Add(V96); // RSE HoF
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonArtist)) == true)
-                    invalidRibbons.Add("Artist"); // RSE Master Rank Portrait
+                    invalidRibbons.Add(V97); // RSE Master Rank Portrait
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonNational)) == true && pkm.Version != (int)GameVersion.CXD)
-                    invalidRibbons.Add("National Ribbon (Purified)"); // RSE HoF
+                    invalidRibbons.Add(V98); // RSE HoF
             }
             if (pkm.GenNumber > 4)
             {
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK4.RibbonChampionSinnoh)) == true)
-                    invalidRibbons.Add("Sinnoh Champ"); // DPPt HoF
+                    invalidRibbons.Add(V99); // DPPt HoF
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK4.RibbonLegend)) == true)
-                    invalidRibbons.Add("Legend"); // HGSS Defeat Red @ Mt.Silver
+                    invalidRibbons.Add(V100); // HGSS Defeat Red @ Mt.Silver
             }
             if (pkm.Format >= 6 && pkm.GenNumber >= 6)
             {
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK6.RibbonCountMemoryContest)) == true)
-                    invalidRibbons.Add("Contest Memory"); // Gen3/4 Contest
+                    invalidRibbons.Add(V106); // Gen3/4 Contest
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK6.RibbonCountMemoryBattle)) == true)
-                    invalidRibbons.Add("Battle Memory"); // Gen3/4 Battle
+                    invalidRibbons.Add(V105); // Gen3/4 Battle
             }
             if (ReflectUtil.getBooleanState(pkm, nameof(PK6.RibbonRecord)) == true)
-                invalidRibbons.Add("Record"); // Unobtainable
+                invalidRibbons.Add(V104); // Unobtainable
             
             if (missingRibbons.Count + invalidRibbons.Count == 0)
             {
-                AddLine(Severity.Valid, "All ribbons accounted for.", CheckIdentifier.Ribbon);
+                AddLine(Severity.Valid, V103, CheckIdentifier.Ribbon);
                 return;
             }
 
             string[] result = new string[2];
             if (missingRibbons.Count > 0)
-                result[0] = "Missing Ribbons: " + string.Join(", ", missingRibbons);
+                result[0] = string.Format(V101, string.Join(", ", missingRibbons));
             if (invalidRibbons.Count > 0)
-                result[1] = "Invalid Ribbons: " + string.Join(", ", invalidRibbons);
+                result[1] = string.Format(V102, string.Join(", ", invalidRibbons));
             AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
         }
         private void verifyAbility()
@@ -955,7 +954,7 @@ namespace PKHeX.Core
             int abilval = Array.IndexOf(abilities, pkm.Ability);
             if (abilval < 0)
             {
-                AddLine(Severity.Invalid, "Ability is not valid for species/form.", CheckIdentifier.Ability);
+                AddLine(Severity.Invalid, V107, CheckIdentifier.Ability);
                 return;
             }
 
@@ -964,24 +963,27 @@ namespace PKHeX.Core
                 // Check Hidden Ability Mismatches
                 if (pkm.GenNumber >= 5)
                 {
+                    bool valid = true;
                     if (EncounterType == typeof(EncounterStatic))
+                    {
                         if (pkm.AbilityNumber == 4 ^ ((EncounterStatic) EncounterMatch).Ability == 4)
-                        {
-                            AddLine(Severity.Invalid, "Hidden Ability mismatch for static encounter.", CheckIdentifier.Ability);
-                        }
-                    if (EncounterType == typeof(EncounterTrade))
+                            valid = false;
+                    }
+                    else if (EncounterType == typeof(EncounterTrade))
+                    {
                         if (pkm.AbilityNumber == 4 ^ ((EncounterTrade) EncounterMatch).Ability == 4)
-                        {
-                            AddLine(Severity.Invalid, "Hidden Ability mismatch for ingame trade.", CheckIdentifier.Ability);
-                            return;
-                        }
-                    if (EncounterType == typeof(EncounterLink))
+                            valid = false;
+                    }
+                    else if (EncounterType == typeof(EncounterLink))
+                    {
                         if (pkm.AbilityNumber != ((EncounterLink)EncounterMatch).Ability)
-                        {
-                            AddLine(Severity.Invalid, "Ability mismatch for Link Gift.", CheckIdentifier.Ability);
-                            return;
-                        }
-
+                            valid = false;
+                    }
+                    if (!valid)
+                    {
+                        AddLine(Severity.Invalid, V108, CheckIdentifier.Ability);
+                        return;
+                    }
                 }
                 if (pkm.GenNumber == 6)
                 {
@@ -993,12 +995,12 @@ namespace PKHeX.Core
                         if (type < 3 && abilNumber != 1 << type) // set number
                         {
                             if (type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
-                                AddLine(Severity.Valid, "Ability modified with Ability Capsule.", CheckIdentifier.Ability);
+                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
                             else
-                                AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
                         }
                         else if (type == 3 && abilNumber == 4) // 1/2 only
-                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
                     }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
                     {
@@ -1024,12 +1026,12 @@ namespace PKHeX.Core
                         if (type < 3 && abilNumber != 1 << type) // set number
                         {
                             if (type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
-                                AddLine(Severity.Valid, "Ability modified with Ability Capsule.", CheckIdentifier.Ability);
+                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
                             else
-                                AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
                         }
                         else if (type == 3 && abilNumber == 4) // 1/2 only
-                            AddLine(Severity.Invalid, "Ability does not match Mystery Gift.", CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
                     }
                     if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
                     {
@@ -1038,13 +1040,13 @@ namespace PKHeX.Core
 
                         if (!valid)
                         {
-                            AddLine(Severity.Invalid, "Hidden Ability on non-SOS wild encounter.", CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, V111, CheckIdentifier.Ability);
                             return;
                         }
                     }
                     if (Legal.Ban_NoHidden7.Contains(pkm.Species) && pkm.AbilityNumber == 4)
                     {
-                        AddLine(Severity.Invalid, "Hidden Ability not available.", CheckIdentifier.Ability);
+                        AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
                         return;
                     }
 
@@ -1055,7 +1057,7 @@ namespace PKHeX.Core
             {
                 if (pkm.Version != (int) GameVersion.CXD && abilities[0] != abilities[1] && pkm.PIDAbility != abilval)
                 {
-                    AddLine(Severity.Invalid, "Ability does not match PID.", CheckIdentifier.Ability);
+                    AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
                     return;
                 }
             }
@@ -1063,14 +1065,22 @@ namespace PKHeX.Core
             {
                 if (abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
                 {
-                    AddLine(Severity.Invalid, "Ability does not match ability number.", CheckIdentifier.Ability);
+                    AddLine(Severity.Invalid, V114, CheckIdentifier.Ability);
                     return;
                 }
             }
 
-            AddLine(Severity.Valid, "Ability matches ability number.", CheckIdentifier.Ability);
+            AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
         }
 
+        private void verifyBallEquals(params int[] balls)
+        {
+            int ball = pkm.Ball;
+            if (balls.Any(b => b == ball))
+                AddLine(Severity.Valid, V119, CheckIdentifier.Ball);
+            else
+                AddLine(Severity.Invalid, V118, CheckIdentifier.Ball);
+        }
         private void verifyBall()
         {
             if (pkm.Format < 3)
@@ -1083,29 +1093,17 @@ namespace PKHeX.Core
 
             if (EncounterIsMysteryGift)
             {
-                if (pkm.Ball != ((MysteryGift) EncounterMatch).Ball)
-                    AddLine(Severity.Invalid, "Ball does not match specified Mystery Gift Ball.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Ball matches Mystery Gift.", CheckIdentifier.Ball);
-
+                verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
                 return;
             }
             if (EncounterType == typeof (EncounterLink))
             {
-                if (((EncounterLink)EncounterMatch).Ball != pkm.Ball)
-                    AddLine(Severity.Invalid, "Incorrect ball on Link gift.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Correct ball on Link gift.", CheckIdentifier.Ball);
-
+                verifyBallEquals(((EncounterLink)EncounterMatch).Ball);
                 return;
             }
             if (EncounterType == typeof (EncounterTrade))
             {
-                if (pkm.Ball != 4) // Pokeball
-                    AddLine(Severity.Invalid, "Incorrect ball on ingame trade encounter.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Correct ball on ingame trade encounter.", CheckIdentifier.Ball);
-
+                verifyBallEquals(4); // Pokeball
                 return;
             }
 
@@ -1114,7 +1112,7 @@ namespace PKHeX.Core
                 var lineage = Legal.getLineage(pkm);
                 if (lineage.Any(e => Legal.AlolanCaptureNoHeavyBall.Contains(e)))
                 {
-                    AddLine(Severity.Invalid, "Heavy ball not possible for light, low-catch rate species in Gen VII.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V116, CheckIdentifier.Ball);
                     return;
                 }
             }
@@ -1123,37 +1121,17 @@ namespace PKHeX.Core
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
                 if (enc?.Gift ?? false)
-                {
-                    if (enc.Ball != pkm.Ball) // Pokéball by default
-                        AddLine(Severity.Invalid, "Incorrect ball on ingame gift.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Valid, "Correct ball on ingame gift.", CheckIdentifier.Ball);
-
-                    return;
-                }
-
-                if (Legal.getWildBalls(pkm).Contains(pkm.Ball))
-                    AddLine(Severity.Valid, "Correct ball on ingame static encounter.", CheckIdentifier.Ball);
+                    verifyBallEquals(enc.Ball);
                 else
-                    AddLine(Severity.Invalid, "Incorrect ball on ingame static encounter.", CheckIdentifier.Ball);
-
+                    verifyBallEquals(Legal.getWildBalls(pkm));
                 return;
             }
             if (EncounterType == typeof (EncounterSlot[]))
             {
                 if (pkm.Met_Location == 30016 && pkm.Gen7) // Poké Pelago
-                {
-                    if (pkm.Ball == 0x04)
-                        AddLine(Severity.Valid, "Correct ball on Poké Pelago encounter.", CheckIdentifier.Ball);
-                    else
-                        AddLine(Severity.Invalid, "Incorrect ball on Poké Pelago encounter.", CheckIdentifier.Ball);
-                }
-
-                if (Legal.getWildBalls(pkm).Contains(pkm.Ball))
-                    AddLine(Severity.Valid, "Correct ball on ingame encounter.", CheckIdentifier.Ball);
+                    verifyBallEquals(4); // Pokeball
                 else
-                    AddLine(Severity.Invalid, "Incorrect ball on ingame encounter.", CheckIdentifier.Ball);
-
+                    verifyBallEquals(Legal.getWildBalls(pkm));
                 return;
             }
 
@@ -1163,31 +1141,22 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.Ball == 0x04) // Poké Ball
-            {
-                AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball);
-                return;
-            }
-
-            AddLine(Severity.Invalid, "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+            verifyBallEquals(4); // Pokeball
         }
         private void verifyBallEgg()
         {
             if (pkm.GenNumber < 6) // No inheriting Balls
             {
-                if (pkm.Ball != 0x04) // Must be Pokéball -- no ball inheritance.
-                    AddLine(Severity.Invalid, "Ball should be Pokéball.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Pokéball on egg.", CheckIdentifier.Ball);
+                verifyBallEquals(4); // Must be Pokéball -- no ball inheritance.
                 return;
             }
 
             if (pkm.Ball == 0x01) // Master Ball
-            { AddLine(Severity.Invalid, "Master Ball on egg origin.", CheckIdentifier.Ball); return; }
+            { AddLine(Severity.Invalid, V117, CheckIdentifier.Ball); return; }
             if (pkm.Ball == 0x10) // Cherish Ball
-            { AddLine(Severity.Invalid, "Cherish Ball on non-event.", CheckIdentifier.Ball); return; }
+            { AddLine(Severity.Invalid, V120, CheckIdentifier.Ball); return; }
             if (pkm.Ball == 0x04) // Poké Ball
-            { AddLine(Severity.Valid, "Standard Poké Ball.", CheckIdentifier.Ball); return; }
+            { AddLine(Severity.Valid, V119, CheckIdentifier.Ball); return; }
 
             switch (pkm.GenNumber)
             {
@@ -1203,183 +1172,174 @@ namespace PKHeX.Core
         {
             if (pkm.Gender == 2) // Genderless
             {
-                if (pkm.Ball != 0x04) // Must be Pokéball as ball can only pass via mother (not Ditto!)
-                    AddLine(Severity.Invalid, "Non-Pokéball on genderless egg.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Pokéball on genderless egg.", CheckIdentifier.Ball);
-
+                verifyBallEquals(4); // Must be Pokéball as ball can only pass via mother (not Ditto!)
                 return;
             }
             if (Legal.BreedMaleOnly.Contains(pkm.Species))
             {
-                if (pkm.Ball != 0x04) // Must be Pokéball as ball can only pass via mother (not Ditto!)
-                    AddLine(Severity.Invalid, "Non-Pokéball on Male-Only egg.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Pokéball on Male-Only egg.", CheckIdentifier.Ball);
-
+                verifyBallEquals(4); // Must be Pokéball as ball can only pass via mother (not Ditto!)
                 return;
             }
 
-            if (pkm.Ball == 0x05) // Safari Ball
+            int ball = pkm.Ball;
+
+            if (ball >= 26)
+            {
+                AddLine(Severity.Invalid, V126, CheckIdentifier.Ball);
+                return;
+            }
+            if (ball == 0x05) // Safari Ball
             {
                 if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Safari.Contains(e)))
-                    AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 else if (pkm.AbilityNumber == 4)
-                    AddLine(Severity.Invalid, "Safari Ball with Hidden Ability.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Safari Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
-            if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
+            if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
                 if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Apricorn6.Contains(e)))
-                    AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 if (pkm.AbilityNumber == 4)
-                    AddLine(Severity.Invalid, "Apricorn Ball with Hidden Ability.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
-            if (pkm.Ball == 0x18) // Sport Ball
+            if (ball == 0x18) // Sport Ball
             {
                 if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Sport.Contains(e)))
-                    AddLine(Severity.Invalid, "Sport Ball not possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 else if (pkm.AbilityNumber == 4)
-                    AddLine(Severity.Invalid, "Sport Ball with Hidden Ability.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
-            if (pkm.Ball == 0x19) // Dream Ball
+            if (ball == 0x19) // Dream Ball
             {
-                if (Legal.getLineage(pkm).All(e => !Legal.Inherit_Dream.Contains(e)))
-                    AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+                if (Legal.getLineage(pkm).Any(e => Legal.Inherit_Dream.Contains(e)))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Dream Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(pkm.Species))
-                    AddLine(Severity.Invalid, "Hidden Ability not obtainable from Dream World.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
 
                 return;
             }
-            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F)
+            if (0x0D <= ball && ball <= 0x0F)
             {
-                if (Legal.Ban_Gen4Ball_6.Contains(pkm.Species))
-                    AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                if (!Legal.Ban_Gen4Ball_6.Contains(pkm.Species))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
-            if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
+            if (0x02 <= ball && ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
             {
                 if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
-                    AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
-                    AddLine(Severity.Invalid, "Ball not possible for species with hidden ability.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
 
             if (pkm.Species > 650 && pkm.Species != 700) // Sylveon
             {
-                if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
-                    AddLine(Severity.Invalid, "Unobtainable ball for Kalos origin.", CheckIdentifier.Ball);
+                if (Legal.getWildBalls(pkm).Contains(pkm.Ball))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable ball for Kalos origin.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
                 return;
             }
 
-            AddLine(Severity.Invalid, pkm.Ball >= 26
-                    ? "Ball unobtainable in origin generation."
-                    : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+            AddLine(Severity.Invalid, V125, CheckIdentifier.Ball);
         }
         private void verifyBallEggGen7()
         {
             var Lineage = Legal.getLineage(pkm).ToArray();
             if (722 <= pkm.Species && pkm.Species <= 730) // G7 Starters
             {
-                if (pkm.Ball == 4)
-                    AddLine(Severity.Valid, "Ball possible.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Invalid, "Only Poké Ball possible.", CheckIdentifier.Ball);
+                verifyBallEquals(4);
                 return;
             }
 
-            if (pkm.Ball == 0x05) // Safari Ball
+            int ball = pkm.Ball;
+            if (ball == 0x05) // Safari Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e)))
-                    AddLine(Severity.Valid, "Safari Ball possible from Female parent.", CheckIdentifier.Ball);
-                else if (Lineage.Any(e => Legal.Inherit_SafariMale.Contains(e)))
-                    AddLine(Severity.Valid, "Safari Ball possible from Male parent.", CheckIdentifier.Ball);
+                if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e) || Legal.Inherit_SafariMale.Contains(e)))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Invalid, "Safari Ball not possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
-            if (0x10 < pkm.Ball && pkm.Ball < 0x18) // Apricorn Ball
+            if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
                 if (Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e))) // past gen
-                    AddLine(Severity.Valid, "Apricorn Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Invalid, "Apricorn Ball not possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
-            if (pkm.Ball == 0x18) // Sport Ball
+            if (ball == 0x18) // Sport Ball
             {
-                if (Lineage.All(e => !Legal.Inherit_Sport.Contains(e)))
-                    AddLine(Severity.Invalid, "Sport Ball not possible for species.", CheckIdentifier.Ball);
+                if (Lineage.Any(e => Legal.Inherit_Sport.Contains(e)))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Sport Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
-            if (pkm.Ball == 0x19) // Dream Ball
+            if (ball == 0x19) // Dream Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e)))
-                    AddLine(Severity.Valid, "Dream Ball inheritance possible from Female species.", CheckIdentifier.Ball);
-                else if (Lineage.Any(e => Legal.Inherit_DreamMale.Contains(e)))
-                    AddLine(Severity.Valid, "Dream Ball inheritance possible from Male/Genderless species.", CheckIdentifier.Ball);
+                if (Lineage.Any(e => Legal.Inherit_Dream.Contains(e) || Legal.Inherit_DreamMale.Contains(e)))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Invalid, "Dream Ball not possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
-            if (0x0D <= pkm.Ball && pkm.Ball <= 0x0F) // Dusk Heal Quick
+            if (0x0D <= ball && ball <= 0x0F) // Dusk Heal Quick
             {
-                if (Legal.Ban_Gen4Ball_7.Contains(pkm.Species))
-                    AddLine(Severity.Invalid, "Unobtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                if (!Legal.Ban_Gen4Ball_7.Contains(pkm.Species))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable capture for Gen4 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
-            if (0x02 <= pkm.Ball && pkm.Ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
+            if (0x02 <= ball && ball <= 0x0C) // Don't worry, Ball # 0x05 was already checked.
             {
-                if (Legal.Ban_Gen3Ball_7.Contains(pkm.Species))
-                    AddLine(Severity.Invalid, "Unobtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                if (!Legal.Ban_Gen3Ball_7.Contains(pkm.Species))
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                 else
-                    AddLine(Severity.Valid, "Obtainable capture for Gen3 Ball.", CheckIdentifier.Ball);
+                    AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
 
                 return;
             }
 
-            if (pkm.Ball == 26)
+            if (ball == 26)
             {
                 if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
                 {
-                    AddLine(Severity.Valid, "Beast Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                     return;
                 }
                 if (Lineage.Any(e => Legal.PastGenAlolanScans.Contains(e)))
                 {
-                    AddLine(Severity.Valid, "Scanned Beast Ball possible for species.", CheckIdentifier.Ball);
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                     return;
                 }
                 // next statement catches all new alolans
@@ -1387,39 +1347,40 @@ namespace PKHeX.Core
 
             if (pkm.Species > 721)
             {
-                if (!Legal.getWildBalls(pkm).Contains(pkm.Ball))
-                    AddLine(Severity.Invalid, "Unobtainable ball for Alola origin.", CheckIdentifier.Ball);
-                else
-                    AddLine(Severity.Valid, "Obtainable ball for Alola origin.", CheckIdentifier.Ball);
+                verifyBallEquals(Legal.getWildBalls(pkm));
                 return;
             }
 
-            AddLine(Severity.Invalid, pkm.Ball > 26
-                    ? "Ball unobtainable in origin generation."
-                    : "No ball check satisfied, assuming illegal.", CheckIdentifier.Ball);
+
+            if (ball >= 27)
+            {
+                AddLine(Severity.Invalid, V126, CheckIdentifier.Ball);
+                return;
+            }
+            AddLine(Severity.Invalid, V125, CheckIdentifier.Ball);
         }
 
         private CheckResult verifyHistory()
         {
             if (!Encounter.Valid)
-                return new CheckResult(Severity.Valid, "Skipped History check due to other check being invalid.", CheckIdentifier.History);
+                return new CheckResult(Severity.Valid, V127, CheckIdentifier.History);
 
             if (pkm.GenNumber < 6)
             {
                 if (pkm.Format < 6)
-                    return new CheckResult(Severity.Valid, "No History Block to check.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Valid, V128, CheckIdentifier.History);
 
                 if (pkm.OT_Affection > 0)
-                    return new CheckResult(Severity.Invalid, "OT Affection should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V129, CheckIdentifier.History);
                 if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
-                    return new CheckResult(Severity.Invalid, "Should not have OT memories.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V130, CheckIdentifier.History);
             }
             
             if (pkm.Format >= 6 && pkm.GenNumber != pkm.Format && pkm.CurrentHandler != 1)
-                return new CheckResult(Severity.Invalid, "Current handler cannot be past gen OT for transferred specimen.", CheckIdentifier.History);
+                return new CheckResult(Severity.Invalid, V124, CheckIdentifier.History);
 
             if (pkm.HT_Gender > 1)
-                return new CheckResult(Severity.Invalid, $"HT Gender invalid {pkm.HT_Gender}.", CheckIdentifier.History);
+                return new CheckResult(Severity.Invalid, string.Format(V131, pkm.HT_Gender), CheckIdentifier.History);
             
             MysteryGift mg = EncounterMatch as MysteryGift;
             WC6 MatchedWC6 = EncounterMatch as WC6;
@@ -1427,27 +1388,27 @@ namespace PKHeX.Core
             if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
             {
                 if (pkm.OT_Friendship != PersonalTable.AO[MatchedWC6.Species].BaseFriendship)
-                    return new CheckResult(Severity.Invalid, "Event OT Friendship does not match base friendship.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
                 if (pkm.OT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
-                    return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
             else if (MatchedWC7?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC7=null
             {
                 if (pkm.OT_Friendship != PersonalTable.SM[MatchedWC7.Species].BaseFriendship)
-                    return new CheckResult(Severity.Invalid, "Event OT Friendship does not match base friendship.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
                 if (pkm.OT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
-                    return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
             else if (mg != null && mg.Format < 6 && pkm.Format >= 6)
             {
                 if (pkm.OT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, "Event OT Affection should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
-                    return new CheckResult(Severity.Invalid, "Current handler should not be Event OT.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
             
             // Geolocations
@@ -1462,12 +1423,12 @@ namespace PKHeX.Core
             for (int i = 0; i < 5; i++)
             {
                 if (geoEnd && geo[i] != 0)
-                    return new CheckResult(Severity.Invalid, "Geolocation Memories invalid.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V135, CheckIdentifier.History);
 
                 if (geo[i] != 0)
                     continue;
                 if (geo[i + 5] != 0)
-                    return new CheckResult(Severity.Invalid, "Geolocation Region without Country.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V136, CheckIdentifier.History);
                 geoEnd = true;
             }
             if (pkm.Format >= 7)
@@ -1477,20 +1438,20 @@ namespace PKHeX.Core
                     var hasGeo = geo.Any(d => d != 0);
 
                     if (!hasGeo)
-                        return new CheckResult(Severity.Invalid, "Geolocation Memories should be present.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V137, CheckIdentifier.History);
                 }
                 
                 if (pkm.GenNumber >= 7 && pkm.CNTs.Any(stat => stat > 0))
-                    return new CheckResult(Severity.Invalid, "Contest stats on SM origin should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
                 
                 if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
                 {
                     if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                        return new CheckResult(Severity.Invalid, "Untraded -- Current handler should not be the Handling Trainer.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V139, CheckIdentifier.History);
                     if (pkm.HT_Friendship != 0)
-                        return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Friendship should be zero.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
                     if (pkm.HT_Affection != 0)
-                        return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Affection should be zero.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
 
                     // We know it is untraded (HT is empty), if it must be trade evolved flag it.
                     if (Legal.getHasTradeEvolved(pkm) // if evo chain requires a trade
@@ -1498,68 +1459,68 @@ namespace PKHeX.Core
                         && (EncounterMatch as EncounterStatic)?.Species != pkm.Species) // Static Encounter
                     {
                         if (pkm.Species != 350) // Milotic
-                            return new CheckResult(Severity.Invalid, "Untraded -- requires a trade evolution.", CheckIdentifier.History);
+                            return new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
                         if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                            return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Level-up Evolution.", CheckIdentifier.History);
+                            return new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
                         if (pkm.CurrentLevel == 1)
-                            return new CheckResult(Severity.Invalid, "Untraded -- Beauty is high enough but still Level 1.", CheckIdentifier.History);
+                            return new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
                     }
                 }
 
-                return new CheckResult(Severity.Valid, "S/M History Block is valid.", CheckIdentifier.History);
+                return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
             }
             if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
             {
                 if (pkm.HT_Name.Length != 0)
-                    return new CheckResult(Severity.Invalid, "GeoLocation Memory -- HT Name present but has no previous Country.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V146, CheckIdentifier.History);
                 if (pkm.Geo1_Country != 0)
-                    return new CheckResult(Severity.Invalid, "GeoLocation Memory -- Previous country of residence but no Handling Trainer.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V147, CheckIdentifier.History);
                 if (pkm.HT_Memory != 0)
-                    return new CheckResult(Severity.Invalid, "Memory -- Handling Trainer memory present but no Handling Trainer.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V148, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                    return new CheckResult(Severity.Invalid, "Untraded -- Current handler should not be the Handling Trainer.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V139, CheckIdentifier.History);
                 if (pkm.HT_Friendship != 0)
-                    return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Friendship should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
                 if (pkm.HT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, "Untraded -- Handling Trainer Affection should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
                 if (pkm.XY && pkm.CNTs.Any(stat => stat > 0))
-                    return new CheckResult(Severity.Invalid, "Untraded -- Contest stats on XY should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
 
                 // We know it is untraded (HT is empty), if it must be trade evolved flag it.
                 if (Legal.getHasTradeEvolved(pkm) && (EncounterMatch as EncounterSlot[])?.Any(slot => slot.Species == pkm.Species) != true)
                 {
                     if (pkm.Species != 350) // Milotic
-                        return new CheckResult(Severity.Invalid, "Untraded -- requires a trade evolution.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
                     if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                        return new CheckResult(Severity.Invalid, "Untraded -- Beauty is not high enough for Level-up Evolution.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
                     if (pkm.CurrentLevel == 1)
-                        return new CheckResult(Severity.Invalid, "Untraded -- Beauty is high enough but still Level 1.", CheckIdentifier.History);
+                        return new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
                 }
             }
             else // Is Traded
             {
                 if (pkm.Format == 6 && pkm.HT_Memory == 0)
-                    return new CheckResult(Severity.Invalid, "Memory -- missing Handling Trainer Memory.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V150, CheckIdentifier.History);
             }
 
             // Memory ChecksResult
             if (pkm.IsEgg)
             {
                 if (pkm.HT_Memory != 0)
-                    return new CheckResult(Severity.Invalid, "Memory -- has Handling Trainer Memory.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V149, CheckIdentifier.History);
                 if (pkm.OT_Memory != 0)
-                    return new CheckResult(Severity.Invalid, "Memory -- has Original Trainer Memory.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V151, CheckIdentifier.History);
             }
             else if (EncounterType != typeof(WC6))
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
-                    return new CheckResult(Severity.Invalid, "Memory -- missing Original Trainer Memory.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V152, CheckIdentifier.History);
                 if (pkm.GenNumber < 6 && pkm.OT_Affection != 0)
-                    return new CheckResult(Severity.Invalid, "OT Affection should be zero.", CheckIdentifier.History);
+                    return new CheckResult(Severity.Invalid, V129, CheckIdentifier.History);
             }
             // Unimplemented: Ingame Trade Memories
 
-            return new CheckResult(Severity.Valid, "History is valid.", CheckIdentifier.History);
+            return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
         }
         private CheckResult verifyCommonMemory(int handler)
         {
@@ -1571,32 +1532,44 @@ namespace PKHeX.Core
                 case 0:
                     m = pkm.OT_Memory;
                     t = pkm.OT_TextVar;
-                    resultPrefix = "OT ";
+                    resultPrefix = V205;
                     break;
                 case 1:
                     m = pkm.HT_Memory;
                     t = pkm.HT_TextVar;
-                    resultPrefix = "HT ";
+                    resultPrefix = V206;
                     break;
             }
             int matchingMoveMemory = Array.IndexOf(Legal.MoveSpecificMemories[0], m);
             if (matchingMoveMemory != -1 && pkm.Species != 235 && !Legal.getCanLearnMachineMove(pkm, Legal.MoveSpecificMemories[1][matchingMoveMemory], 6))
-                return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot learn this move.", CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
 
             if (m == 6 && !Legal.LocationsWithPKCenter[0].Contains(t))
-                return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Location doesn't have a Pokemon Center.", CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V154, resultPrefix), CheckIdentifier.Memory);
 
             if (m == 21) // {0} saw {2} carrying {1} on its back. {4} that {3}.
                 if (!Legal.getCanLearnMachineMove(new PK6 {Species = t, EXP = PKX.getEXP(100, t)}, 19, 6))
-                    return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Argument Species cannot learn Fly.", CheckIdentifier.Memory);
+                    return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
 
             if ((m == 16 || m == 48) && (t == 0 || !Legal.getCanKnowMove(pkm, t, 6)))
-                return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot know this move.", CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
 
             if (m == 49 && (t == 0 || !Legal.getCanRelearnMove(pkm, t, 6))) // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                return new CheckResult(Severity.Invalid, resultPrefix + "Memory: Species cannot relearn this move.", CheckIdentifier.Memory);
+                return new CheckResult(Severity.Invalid, string.Format(V153, resultPrefix), CheckIdentifier.Memory);
 
-            return new CheckResult(Severity.Valid, resultPrefix + "Memory is valid.", CheckIdentifier.Memory);
+            return new CheckResult(Severity.Valid, string.Format(V155, resultPrefix), CheckIdentifier.Memory);
+        }
+
+        private void verifyOTMemoryIs(int[] values)
+        {
+            if (pkm.OT_Memory != values[0])
+                AddLine(Severity.Invalid, string.Format(V197, V205, values[0]), CheckIdentifier.Memory);
+            if (pkm.OT_Intensity != values[1])
+                AddLine(Severity.Invalid, string.Format(V198, V205, values[1]), CheckIdentifier.Memory);
+            if (pkm.OT_TextVar != values[2])
+                AddLine(Severity.Invalid, string.Format(V199, V205, values[2]), CheckIdentifier.Memory);
+            if (pkm.OT_Feeling != values[3])
+                AddLine(Severity.Invalid, string.Format(V200, V205, values[3]), CheckIdentifier.Memory);
         }
         private void verifyOTMemory()
         {
@@ -1608,57 +1581,30 @@ namespace PKHeX.Core
 
             if (pkm.GenNumber < 6)
             {
-                if (pkm.OT_Memory != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory.", CheckIdentifier.Memory);
-                if (pkm.OT_Intensity != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory Intensity value.", CheckIdentifier.Memory);
-                if (pkm.OT_TextVar != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory TextVar value.", CheckIdentifier.Memory);
-                if (pkm.OT_Feeling != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory Feeling value.", CheckIdentifier.Memory);
+                verifyOTMemoryIs(new [] {0,0,0,0}); // empty
                 return;
             }
 
             if (EncounterType == typeof(EncounterTrade))
             {
                 // Undocumented, uncommon, and insignificant -- don't bother.
-                AddLine(Severity.Valid, "OT Memory (Ingame Trade) is valid.", CheckIdentifier.Memory);
                 return;
             }
             if (EncounterType == typeof(WC6))
             {
-                WC6 MatchedWC6 = EncounterMatch as WC6;
-                if (pkm.OT_Memory != MatchedWC6.OT_Memory)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC6.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC6.OT_Memory) + ".", CheckIdentifier.Memory);
-                if (pkm.OT_Intensity != MatchedWC6.OT_Intensity)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC6.OT_Intensity == 0 ? "should not have an OT Memory Intensity value" : "OT Memory Intensity should be index " + MatchedWC6.OT_Intensity) + ".", CheckIdentifier.Memory);
-                if (pkm.OT_TextVar != MatchedWC6.OT_TextVar)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC6.OT_TextVar == 0 ? "should not have an OT Memory TextVar value" : "OT Memory TextVar should be index " + MatchedWC6.OT_TextVar) + ".", CheckIdentifier.Memory);
-                if (pkm.OT_Feeling != MatchedWC6.OT_Feeling)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC6.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC6.OT_Feeling) + ".", CheckIdentifier.Memory);
+                WC6 g = EncounterMatch as WC6;
+                verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
+                return;
             }
             if (EncounterType == typeof(WC7))
             {
-                WC7 MatchedWC7 = EncounterMatch as WC7;
-                if (pkm.OT_Memory != MatchedWC7.OT_Memory)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Memory == 0 ? "should not have an OT Memory" : "OT Memory should be index " + MatchedWC7.OT_Memory) + ".", CheckIdentifier.Memory);
-                if (pkm.OT_Intensity != MatchedWC7.OT_Intensity)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Intensity == 0 ? "should not have an OT Memory Intensity value" : "OT Memory Intensity should be index " + MatchedWC7.OT_Intensity) + ".", CheckIdentifier.Memory);
-                if (pkm.OT_TextVar != MatchedWC7.OT_TextVar)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_TextVar == 0 ? "should not have an OT Memory TextVar value" : "OT Memory TextVar should be index " + MatchedWC7.OT_TextVar) + ".", CheckIdentifier.Memory);
-                if (pkm.OT_Feeling != MatchedWC7.OT_Feeling)
-                    AddLine(Severity.Invalid, "Event " + (MatchedWC7.OT_Feeling == 0 ? "should not have an OT Memory Feeling value" : "OT Memory Feeling should be index " + MatchedWC7.OT_Feeling) + ".", CheckIdentifier.Memory);
+                WC7 g = EncounterMatch as WC7;
+                verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
+                return;
             }
-            else if (pkm.GenNumber == 7)
+            if (pkm.GenNumber >= 7)
             {
-                if (pkm.OT_Memory != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory.", CheckIdentifier.Memory);
-                if (pkm.OT_Intensity != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory Intensity value.", CheckIdentifier.Memory);
-                if (pkm.OT_TextVar != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory TextVar value.", CheckIdentifier.Memory);
-                if (pkm.OT_Feeling != 0)
-                    AddLine(Severity.Invalid, "Should not have an OT Memory Feeling value.", CheckIdentifier.Memory);
+                verifyOTMemoryIs(new[] {0, 0, 0, 0}); // empty
                 return;
             }
 
@@ -1666,11 +1612,11 @@ namespace PKHeX.Core
             {
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
                     if (!pkm.WasEgg && pkm.Egg_Location != 60004)
-                        AddLine(Severity.Invalid, "OT Memory: OT did not hatch this.", CheckIdentifier.Memory);
+                        AddLine(Severity.Invalid, string.Format(V160, V205), CheckIdentifier.Memory);
                     break;
 
                 case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
-                    AddLine(Severity.Invalid, "OT Memory: Link Trade is not a valid first memory.", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, string.Format(V161, V205), CheckIdentifier.Memory);
                     return;
 
                 case 6: // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
@@ -1679,22 +1625,22 @@ namespace PKHeX.Core
                     {
                         int gameID = Legal.LocationsWithPKCenter[1][matchingOriginGame];
                         if (pkm.XY && gameID != 0 || pkm.AO && gameID != 1)
-                            AddLine(Severity.Invalid, "OT Memory: Location doesn't exist on Origin Game region.", CheckIdentifier.Memory);
+                            AddLine(Severity.Invalid, string.Format(V162, V205), CheckIdentifier.Memory);
                     }
                     AddLine(verifyCommonMemory(0));
                     return;
 
                 case 14:
                     if (!Legal.getCanBeCaptured(pkm.OT_TextVar, pkm.GenNumber, (GameVersion)pkm.Version))
-                        AddLine(Severity.Invalid, "OT Memory: Captured Species can not be captured in game.", CheckIdentifier.Memory);
+                        AddLine(Severity.Invalid, string.Format(V165, V205), CheckIdentifier.Memory);
                     else
-                        AddLine(Severity.Valid, "OT Memory: Captured Species can be captured in game.", CheckIdentifier.Memory);
+                        AddLine(Severity.Valid, string.Format(V164, V205), CheckIdentifier.Memory);
                     return;
             }
             if (pkm.XY && Legal.Memory_NotXY.Contains(pkm.OT_Memory))
-                AddLine(Severity.Invalid, "OT Memory: OR/AS exclusive memory on X/Y origin.", CheckIdentifier.Memory);
+                AddLine(Severity.Invalid, string.Format(V163, V205), CheckIdentifier.Memory);
             if (pkm.AO && Legal.Memory_NotAO.Contains(pkm.OT_Memory))
-                AddLine(Severity.Invalid, "OT Memory: X/Y exclusive memory on OR/AS origin.", CheckIdentifier.Memory);
+                AddLine(Severity.Invalid, string.Format(V163, V205), CheckIdentifier.Memory);
 
             AddLine(verifyCommonMemory(0));
         }
@@ -1720,13 +1666,13 @@ namespace PKHeX.Core
                 }
 
                 if (pkm.HT_Memory != 4)
-                    AddLine(Severity.Invalid, "Should have a Link Trade HT Memory.", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, V156, CheckIdentifier.Memory);
                 if (pkm.HT_TextVar != 0)
-                    AddLine(Severity.Invalid, "Should have a HT Memory TextVar value (somewhere).", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, V157, CheckIdentifier.Memory);
                 if (pkm.HT_Intensity != 1)
-                    AddLine(Severity.Invalid, "Should have a HT Memory Intensity value (1st).", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, V158, CheckIdentifier.Memory);
                 if (pkm.HT_Feeling > 10)
-                    AddLine(Severity.Invalid, "Should have a HT Memory Feeling value 0-9.", CheckIdentifier.Memory);
+                    AddLine(Severity.Invalid, V159, CheckIdentifier.Memory);
                 return;
             }
 
@@ -1735,18 +1681,18 @@ namespace PKHeX.Core
                 case 0:
                     if (string.IsNullOrEmpty(pkm.HT_Name))
                         return;
-                    AddLine(Severity.Invalid, "HT Memory is missing.", CheckIdentifier.Memory); return;
+                    AddLine(Severity.Invalid, V150, CheckIdentifier.Memory); return;
                 case 1: // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
-                    AddLine(Severity.Invalid, "HT Memory: Handling Trainer did not capture this.", CheckIdentifier.Memory); return;
+                    AddLine(Severity.Invalid, string.Format(V202, V206), CheckIdentifier.Memory); return;
 
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-                    AddLine(Severity.Invalid, "HT Memory: Handling Trainer did not hatch this.", CheckIdentifier.Memory); return;
+                    AddLine(Severity.Invalid, string.Format(V160, V206), CheckIdentifier.Memory); return;
 
                 case 14:
-                    if (!Legal.getCanBeCaptured(pkm.HT_TextVar, pkm.GenNumber))
-                        AddLine(Severity.Invalid, "HT Memory: Captured Species can not be captured in game.", CheckIdentifier.Memory);
+                    if (Legal.getCanBeCaptured(pkm.HT_TextVar, pkm.GenNumber))
+                        AddLine(Severity.Valid, string.Format(V164, V206), CheckIdentifier.Memory);
                     else
-                        AddLine(Severity.Valid, "HT Memory: Captured Species can be captured in game.", CheckIdentifier.Memory);
+                        AddLine(Severity.Invalid, string.Format(V165, V206), CheckIdentifier.Memory);
                     return;
             }
             AddLine(verifyCommonMemory(1));
@@ -2061,7 +2007,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < 4; i++)
                     res[i] = Legal.InvalidSketch.Contains(Moves[i])
-                        ? new CheckResult(Severity.Invalid, "Invalid Sketch move.", CheckIdentifier.Move)
+                        ? new CheckResult(Severity.Invalid, V166, CheckIdentifier.Move)
                         : new CheckResult(CheckIdentifier.Move);
             }
             else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched
@@ -2093,19 +2039,19 @@ namespace PKHeX.Core
                 if (pkm.GenNumber >= 6)
                     for (int i = 0; i < 4; i++)
                         if (res[i].Flag && !RelearnMoves.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Invalid, "Relearn Moves missing " + res[i].Comment, res[i].Identifier);
+                            res[i] = new CheckResult(Severity.Invalid, string.Format(V170, res[i].Comment), res[i].Identifier);
             }
             if (Moves[0] == 0) // None
-                res[0] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
+                res[0] = new CheckResult(Severity.Invalid, V167, CheckIdentifier.Move);
 
             if (pkm.Species == 647) // Keldeo
                 if (pkm.AltForm == 1 ^ pkm.Moves.Contains(548))
-                    res[Math.Max(Array.IndexOf(pkm.Moves, 548), 0)] = new CheckResult(Severity.Invalid, "Secret Sword / Resolute Keldeo Mismatch.", CheckIdentifier.Move);
+                    res[Math.Max(Array.IndexOf(pkm.Moves, 548), 0)] = new CheckResult(Severity.Invalid, V169, CheckIdentifier.Move);
 
             // Duplicate Moves Check
             for (int i = 0; i < 4; i++)
                 if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
-                    res[i] = new CheckResult(Severity.Invalid, "Duplicate Move.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Invalid, V168, CheckIdentifier.Move);
 
             return res;
         }
@@ -2115,21 +2061,21 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 if (moves[i] == 0)
-                    res[i] = new CheckResult(Severity.Valid, "Empty", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.Move);
                 else if (learn.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Learned by Level-up.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, V177, CheckIdentifier.Move);
                 else if (egg.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Egg Move.", CheckIdentifier.Move) { Flag = true };
+                    res[i] = new CheckResult(Severity.Valid, V171, CheckIdentifier.Move) { Flag = true };
                 else if (relearn.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Relearnable Move.", CheckIdentifier.Move) { Flag = true };
+                    res[i] = new CheckResult(Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
                 else if (tmhm.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Learned by TM/HM.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, V173, CheckIdentifier.Move);
                 else if (tutor.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Learned by Move Tutor.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, V174, CheckIdentifier.Move);
                 else if (special.Contains(moves[i]))
-                    res[i] = new CheckResult(Severity.Valid, "Special Non-Relearn Move.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Valid, V175, CheckIdentifier.Move);
                 else
-                    res[i] = new CheckResult(Severity.Invalid, "Invalid Move.", CheckIdentifier.Move);
+                    res[i] = new CheckResult(Severity.Invalid, V176, CheckIdentifier.Move);
             }
             return res;
         }
@@ -2157,7 +2103,7 @@ namespace PKHeX.Core
                 RelearnBase = moves;
                 for (int i = 0; i < 4; i++)
                     res[i] = moves[i] != Moves[i]
-                        ? new CheckResult(Severity.Invalid, $"Expected: {movelist[moves[i]]}.", CheckIdentifier.RelearnMove)
+                        ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
                         : new CheckResult(CheckIdentifier.RelearnMove);
                 return res;
             }
@@ -2170,7 +2116,7 @@ namespace PKHeX.Core
                     int[] moves = mg.RelearnMoves;
                     for (int i = 0; i < 4; i++)
                         res[i] = moves[i] != Moves[i]
-                            ? new CheckResult(Severity.Invalid, $"Expected: {movelist[moves[i]]}.", CheckIdentifier.RelearnMove)
+                            ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
                             : new CheckResult(CheckIdentifier.RelearnMove);
                     if (res.Any(r => !r.Valid))
                         EventGiftMatch.Remove(mg);
@@ -2213,7 +2159,7 @@ namespace PKHeX.Core
                     if (baseCt > 4) baseCt = 4;
 
                     // Obtain Nonstandard moves
-                    var relearnMoves = Legal.getValidRelearn(pkm, skipOption).ToArray();
+                    var relearnMoves = Legal.getValidRelearn(pkm, skipOption).ToList();
                     var relearn = pkm.RelearnMoves.Where(move => move != 0 
                         && (!baseMoves.Contains(move) || relearnMoves.Contains(move))
                         ).ToArray();
@@ -2240,30 +2186,30 @@ namespace PKHeX.Core
                     // Movepool finalized! Check validity.
                     
                     int[] rl = pkm.RelearnMoves;
-                    string em = string.Join(", ", baseMoves.Select(r => r >= movelist.Length ? "ERROR" : movelist[r]));
+                    string em = string.Join(", ", baseMoves.Select(r => r >= movelist.Length ? V190 : movelist[r]));
                     RelearnBase = baseMoves.ToArray();
                     // Base Egg Move
                     for (int j = 0; j < reqBase; j++)
                     {
                         if (baseMoves.Contains(rl[j]))
-                            res[j] = new CheckResult(Severity.Valid, "Base egg move.", CheckIdentifier.RelearnMove);
+                            res[j] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
                         else
                         {
-                            res[j] = new CheckResult(Severity.Invalid, "Base egg move missing.", CheckIdentifier.RelearnMove);
+                            res[j] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
                             for (int f = j+1; f < reqBase; f++)
-                                res[f] = new CheckResult(Severity.Invalid, "Base egg move missing.", CheckIdentifier.RelearnMove);
-                            res[reqBase-1].Comment += $"{Environment.NewLine}Expected the following Relearn Moves: {em}.";
+                                res[f] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
+                            res[reqBase-1].Comment += string.Format(Environment.NewLine + V181, em);
                             break;
                         }
                     }
 
                     // Non-Base
                     if (Legal.LightBall.Contains(pkm.Species))
-                        relearnMoves = relearnMoves.Concat(new[] { 344 }).ToArray();
+                        relearnMoves.Add(344);
                     for (int j = reqBase; j < 4; j++)
                         res[j] = !relearnMoves.Contains(rl[j])
-                            ? new CheckResult(Severity.Invalid, "Not an expected relearn move.", CheckIdentifier.RelearnMove)
-                            : new CheckResult(Severity.Valid, rl[j] == 0 ? "Empty" : "Relearn move.", CheckIdentifier.RelearnMove);
+                            ? new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove)
+                            : new CheckResult(Severity.Valid, rl[j] == 0 ? V167 : V172, CheckIdentifier.RelearnMove);
 
                     if (res.All(r => r.Valid))
                         break;
@@ -2272,7 +2218,7 @@ namespace PKHeX.Core
                 // Duplicate Moves Check
                 for (int i = 0; i < 4; i++)
                     if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
-                        res[i] = new CheckResult(Severity.Invalid, "Duplicate Relearn Move.", CheckIdentifier.RelearnMove);
+                        res[i] = new CheckResult(Severity.Invalid, V168, CheckIdentifier.RelearnMove);
 
                 return res;
             }
@@ -2283,11 +2229,11 @@ namespace PKHeX.Core
                     goto noRelearn;
 
                 res[0] = !Legal.getValidRelearn(pkm, 0).Contains(Moves[0])
-                        ? new CheckResult(Severity.Invalid, "Not an expected DexNav move.", CheckIdentifier.RelearnMove)
+                        ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
                         : new CheckResult(CheckIdentifier.RelearnMove);
                 for (int i = 1; i < 4; i++)
                     res[i] = Moves[i] != 0
-                        ? new CheckResult(Severity.Invalid, "Expected no Relearn Move in slot.", CheckIdentifier.RelearnMove)
+                        ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
                         : new CheckResult(CheckIdentifier.RelearnMove);
 
                 if (res[0].Valid)
@@ -2299,7 +2245,7 @@ namespace PKHeX.Core
             noRelearn:
             for (int i = 0; i < 4; i++)
                 res[i] = Moves[i] != 0
-                    ? new CheckResult(Severity.Invalid, "Expected no Relearn Moves.", CheckIdentifier.RelearnMove)
+                    ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             return res;
         }
@@ -2321,15 +2267,15 @@ namespace PKHeX.Core
                             continue;
 
                         // todo: check compatibility of parents (chain wise)
-                        return new CheckResult(Severity.Valid, $"Egg Moves sourced from {game}.", CheckIdentifier.Egg);
+                        return new CheckResult(Severity.Valid, string.Format(V185, game), CheckIdentifier.Egg);
                     }
                     break;
 
                 case 3:
-                    return new CheckResult(Severity.NotImplemented, "Egg Move set check unimplemented.", CheckIdentifier.Egg);
+                    return new CheckResult(Severity.NotImplemented, V186, CheckIdentifier.Egg);
 
                 case 4:
-                    return new CheckResult(Severity.NotImplemented, "Egg Move set check unimplemented.", CheckIdentifier.Egg);
+                    return new CheckResult(Severity.NotImplemented, V186, CheckIdentifier.Egg);
             }
             return new CheckResult(CheckIdentifier.Egg);
         }

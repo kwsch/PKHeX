@@ -538,6 +538,35 @@ namespace PKHeX.Core
                 }).ToArray()
             };
 
+        private static readonly int[] Shellos_EastSeaLocation_DP = new[]
+        {
+            28, // Route 213
+            34, // Route 224
+        };
+
+        private static readonly int[] Shellos_EastSeaLocation_Pt = new[]
+        {
+            11, // Pastoria City
+            27, // Route 212
+            28, // Route 213
+        };
+
+        private static readonly int[] Gastrodon_EastSeaLocation_DP = new[]
+        {
+            37, // Route 222
+            39, // Route 224
+            45, // Route 230
+        };
+
+        private static readonly int[] Gastrodon_EastSeaLocation_Pt = new[]
+        {
+            11, // Pastoria City
+            27, // Route 212
+            28, // Route 213
+            39, // Route 224
+            45, // Route 230
+        };
+
         private static readonly int[] HoneyTreesLocation = new[]
         {
             20, // Route 205
