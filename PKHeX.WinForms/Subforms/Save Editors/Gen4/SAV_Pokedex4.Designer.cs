@@ -51,6 +51,7 @@
             this.mnuCaughtNone = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCaughtAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuComplete = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUpgraded = new System.Windows.Forms.ToolStripMenuItem();
             this.CHK_Seen = new System.Windows.Forms.CheckBox();
             this.LB_Gender = new System.Windows.Forms.ListBox();
             this.B_GUp = new System.Windows.Forms.Button();
@@ -241,7 +242,8 @@
             this.mnuSeenAll,
             this.mnuCaughtNone,
             this.mnuCaughtAll,
-            this.mnuComplete});
+            this.mnuComplete,
+            this.mnuUpgraded});
             this.modifyMenu.Name = "modifyMenu";
             this.modifyMenu.Size = new System.Drawing.Size(149, 114);
             // 
@@ -279,6 +281,14 @@
             this.mnuComplete.Size = new System.Drawing.Size(148, 22);
             this.mnuComplete.Text = "Complete Dex";
             this.mnuComplete.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuUpgraded
+            // 
+            this.mnuUpgraded.CheckOnClick = true;
+            this.mnuUpgraded.Name = "mnuUpgraded";
+            this.mnuUpgraded.Size = new System.Drawing.Size(148, 22);
+            this.mnuUpgraded.Text = "National Dex";
+            this.mnuUpgraded.Click += new System.EventHandler(this.mnuUpgraded_Click);
             // 
             // CHK_Seen
             // 
@@ -488,6 +498,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuCaughtNone;
         private System.Windows.Forms.ToolStripMenuItem mnuCaughtAll;
         private System.Windows.Forms.ToolStripMenuItem mnuComplete;
+        private System.Windows.Forms.ToolStripMenuItem mnuUpgraded;
         private System.Windows.Forms.CheckBox CHK_Seen;
         private System.Windows.Forms.ListBox LB_Gender;
         private System.Windows.Forms.Button B_GUp;
