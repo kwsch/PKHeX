@@ -124,7 +124,21 @@ namespace PKHeX.Core
             new[] { 388, 380, 270, 495, 478, 472, 180, 278, 271, 446, 200, 283, 214, 285, 289, } // Nacrene City
         };
 
-        internal static readonly EncounterStatic[] Encounter_BW =
+        internal static readonly int[] Roaming_MetLocation_BW =
+        {
+            25,26,27,28, // Route 12,13,14,15 Night latter half
+            15,16,31,    // Route 2,3,18 Morning 
+            17,18,29,    // Route 4,5,16 Daytime 
+            19,20,21,    // Route 6,7,8 Evening 
+            22,23,24,    // Route 9,10,11 Night former half
+        };
+        internal static readonly EncounterStatic[] Encounter_BW_Roam =
+        {
+            new EncounterStatic { Species = 641, Level = 40, Version = GameVersion.B, Roaming = true }, //Tornadus
+            new EncounterStatic { Species = 642, Level = 40, Version = GameVersion.W, Roaming = true }, //Thundurus
+        };
+
+        internal static readonly EncounterStatic[] Encounter_BW_Regular =
         {
             //Starters @ Nuvema Town
             new EncounterStatic { Gift = true, Species = 495, Level = 5, Location = 4, }, // Snivys
@@ -146,15 +160,15 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 511, Level = 10, Location = 32, }, // Pansage @ Dreamyard
             new EncounterStatic { Gift = true, Species = 513, Level = 10, Location = 32, }, // Pansear
             new EncounterStatic { Gift = true, Species = 515, Level = 10, Location = 32, }, // Panpour
-            new EncounterStatic { Gift = true, Species = 129, Level = 5, Location = 68, }, // Magikarp @ Marvelous Bridge
-            new EncounterStatic { Gift = true, Species = 636, Level = 1, EggLocation = 60003, }, // Larvesta Egg from Treasure Hunter
+            new EncounterStatic { Gift = true, Species = 129, Level = 05, Location = 68, }, // Magikarp @ Marvelous Bridge
+            new EncounterStatic { Gift = true, Species = 636, Level = 01, EggLocation = 60003, }, // Larvesta Egg from Treasure Hunter
 
             //Stationary
-            new EncounterStatic { Species = 518, Level = 50, Ability = 4, Location = 32, }, //Musharna @ Dreamyard Friday Only
+            new EncounterStatic { Species = 518, Level = 50, Location = 32, Ability = 4, }, //Musharna @ Dreamyard Friday Only
             new EncounterStatic { Species = 590, Level = 20, Location = 19, }, //Foongus @ Route 6
             new EncounterStatic { Species = 590, Level = 30, Location = 23, }, //Foongus @ Route 10
             new EncounterStatic { Species = 591, Level = 40, Location = 23, }, //Amoonguss @ Route 10
-            new EncounterStatic { Species = 555, Level = 35, Ability = 4, Location = 34, }, //Darmanitan @ Desert Resort
+            new EncounterStatic { Species = 555, Level = 35, Location = 34, Ability = 4, }, //Darmanitan @ Desert Resort
             new EncounterStatic { Species = 637, Level = 70, Location = 35, }, //Volcarona @ Relic Castle
 
             //Stationary Lengerdary
@@ -172,11 +186,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
             new EncounterStatic { Species = 570, Level = 10, Location = 32, Gender = 0, Gift = true, }, // Zorua @ Castelia City
             new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
-
-            //Roaming
-            new EncounterStatic { Species = 641, Level = 40, Version = GameVersion.B,}, //Tornadus
-            new EncounterStatic { Species = 642, Level = 40, Version = GameVersion.W,}, //Thundurus
         };
+
+        internal static readonly EncounterStatic[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
+
         internal static readonly EncounterStatic[] Encounter_B2W2 =
         {
             //Starters @ Aspertia City
@@ -201,10 +214,10 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 1, }, //HA Deerling @ Route 6
             new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 2, }, //HA Deerling @ Route 6
             new EncounterStatic { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 19, Form = 3, }, //HA Deerling @ Route 6
-            new EncounterStatic { Gift = true, Species = 443, Level = 1, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
-            new EncounterStatic { Gift = true, Species = 147, Level = 1, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
-            new EncounterStatic { Gift = true, Species = 129, Level = 5, Location = 68, }, // Magikarp @ Marvelous Bridge
-            new EncounterStatic { Gift = true, Species = 440, Level = 1, Ability = 1, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
+            new EncounterStatic { Gift = true, Species = 443, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
+            new EncounterStatic { Gift = true, Species = 147, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
+            new EncounterStatic { Gift = true, Species = 129, Level = 05, Location = 68, }, // Magikarp @ Marvelous Bridge
+            new EncounterStatic { Gift = true, Species = 440, Level = 01, Ability = 1, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
 
             //Stationary
             new EncounterStatic { Species = 590, Level = 29, Location = 19, }, // Foongus @ Route 6
