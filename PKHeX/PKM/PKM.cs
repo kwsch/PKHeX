@@ -506,7 +506,7 @@ namespace PKHeX.Core
         /// Checks if the PKM has its original met location.
         /// </summary>
         /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
-        public bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
+        public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.

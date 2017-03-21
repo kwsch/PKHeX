@@ -300,6 +300,8 @@ namespace PKHeX.Core
                 case 2: // no encryption
                     return;
                 case 3:
+                    if (pkm.Length == PKX.SIZE_3CSTORED || pkm.Length == PKX.SIZE_3XSTORED)
+                        return; // no encryption for C/XD
                     ushort chk = 0;
                     for (int i = 0x20; i < PKX.SIZE_3STORED; i += 2)
                         chk += BitConverter.ToUInt16(pkm, i);
