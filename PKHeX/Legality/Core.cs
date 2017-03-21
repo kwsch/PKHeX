@@ -168,6 +168,19 @@ namespace PKHeX.Core
             }
             return GameSlots;
         }
+        private static void ReduceAreasSize(ref EncounterArea[] Areas)
+        {
+            // Group areas by location id, the raw data have areas with different slots but the same location id
+            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
+            {
+                Location = a.First().Location,
+                Slots = a.SelectMany(m => m.Slots).ToArray()
+            }).ToArray();
+        }
+        private static void MarkG2Slots(ref EncounterArea[] Areas)
+        {
+            ReduceAreasSize(ref Areas);
+        }
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
         {
             // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
@@ -180,12 +193,7 @@ namespace PKHeX.Core
         }
         private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
         {
-            // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
-            {
-                Location = a.First().Location,
-                Slots = a.SelectMany(m => m.Slots).ToArray()
-            }).ToArray();
+            ReduceAreasSize(ref Areas);
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
@@ -206,14 +214,21 @@ namespace PKHeX.Core
                 Area.Slots = Area.Slots.Concat(OutputSlots).Where(a => a.Species > 0).ToArray();
             }
         }
+        // Gen 4 raw encounter data does not contains info for alt slots
+        // Shellos and Gastrodom East Sea form should be modified 
+        private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
+        {
+            foreach(EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
+            {
+                foreach (EncounterSlot Slot in Area.Slots.Where(s=>s.Species == Species))
+                {
+                    Slot.Form = form;
+                }
+            }
+        }
         private static void MarkG4Slots(ref EncounterArea[] Areas)
         {
-            // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
-            {
-                Location = a.First().Location,
-                Slots = a.SelectMany(m => m.Slots).ToArray()
-            }).ToArray();
+            ReduceAreasSize(ref Areas);
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
@@ -245,12 +260,7 @@ namespace PKHeX.Core
                 } while (ctr != area.Slots.Length);
                 area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
             }
-            // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
-            {
-                Location = a.First().Location,
-                Slots = a.SelectMany(m => m.Slots).ToArray()
-            }).ToArray();
+            ReduceAreasSize(ref Areas);
         }
         private static void MarkG6XYSlots(ref EncounterArea[] Areas)
         {
@@ -260,6 +270,7 @@ namespace PKHeX.Core
                 for (int i = slotct - 15; i < slotct; i++)
                     area.Slots[i].Type = SlotType.Horde;
             }
+            ReduceAreasSize(ref Areas);
         }
         private static void MarkG6AOSlots(ref EncounterArea[] Areas)
         {
@@ -274,11 +285,17 @@ namespace PKHeX.Core
                 for (int i = 0; i < slotct; i++)
                     area.Slots[i].AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
             }
+            ReduceAreasSize(ref Areas);
+        }
+        private static void MarkG7REGSlots(ref EncounterArea[] Areas)
+        {
+            ReduceAreasSize(ref Areas);
         }
         private static void MarkG7SMSlots(ref EncounterArea[] Areas)
         {
             foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
                 s.Type = SlotType.SOS;
+            ReduceAreasSize(ref Areas);
         }
         private static EncounterArea[] getTables1()
         {
@@ -337,6 +354,7 @@ namespace PKHeX.Core
             {
                 StaticRBY = getStaticEncounters(GameVersion.RBY);
                 SlotsRBY = getTables1();
+                // Gen 1 is the only gen where ReduceAreasSize is not needed
                 Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
             }
             // Gen 2
@@ -347,6 +365,9 @@ namespace PKHeX.Core
                 SlotsGS = getTables2(GameVersion.GS);
                 SlotsC = getTables2(GameVersion.C);
                 SlotsGSC = getTables2(GameVersion.GSC);
+                MarkG2Slots(ref SlotsGS);
+                MarkG2Slots(ref SlotsC);
+                MarkG2Slots(ref SlotsGSC);
                 Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
             }
             // Gen3
@@ -412,6 +433,13 @@ namespace PKHeX.Core
                 MarkG4SwarmSlots(ref Pt_Slots, SlotsPt_Swarm);
                 MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
                 MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
+
+                MarkG4AltFormSlots(ref D_Slots, 422, 1, Shellos_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref D_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref P_Slots, 422, 1, Shellos_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref P_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
+                MarkG4AltFormSlots(ref Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
+                MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
 
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
@@ -481,6 +509,8 @@ namespace PKHeX.Core
                 var REG_MN = getEncounterTables(GameVersion.MN);
                 var SOS_SN = getEncounterTables(Resources.encounter_sn_sos, "sm");
                 var SOS_MN = getEncounterTables(Resources.encounter_mn_sos, "sm");
+                MarkG7REGSlots(ref REG_SN);
+                MarkG7REGSlots(ref REG_MN);
                 MarkG7SMSlots(ref SOS_SN);
                 MarkG7SMSlots(ref SOS_MN);
                 SlotsSN = addExtraTableSlots(REG_SN, SOS_SN).Concat(Encounter_Pelago_SM).Concat(Encounter_Pelago_SN).ToArray();
