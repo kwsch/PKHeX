@@ -238,10 +238,12 @@ namespace PKHeX.Core
 
         internal static readonly int[] Roaming_MetLocation_DPPt =
         {
-            // Route 201-230  
+            // Route 201-222 can be encountered in either grass or water
             16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-            26, 27, 28, 29, 30, 31, 32, 33,
-            36, 37,     39, 40, 41, 42, 43, 44, 45, // Route 219,220,223 surfing only 
+            26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+            36, 37, 
+            47,     // Valley Windworks
+            49,     // Fuego Ironworks
         };
         internal static readonly EncounterStatic[] Encounter_DPPt_Roam =
         {
@@ -393,7 +395,7 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic[] Encounter_HGSS = Encounter_HGSS_KantoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto)).Concat(
                                                                     Encounter_HGSS_JohtoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto))).Concat(
-                                                                    Encounter_DPPt_Regular).ToArray();
+                                                                    Encounter_HGSS_Regular).ToArray();
 
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
@@ -440,7 +442,7 @@ namespace PKHeX.Core
                 Location = 53, //Solaceon Ruins
                 Slots = new[]
                 {
-                    //new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 0 }, // Unown A
+                    //new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 0 }, // Unown A Loaded from encounters raw file
                     new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 1 }, // Unown B
                     new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 2 }, // Unown C
                     new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 3 }, // Unown D
@@ -476,7 +478,7 @@ namespace PKHeX.Core
                 Location = 209, // Ruins of Alph
                 Slots = new[]
                 {
-                    //new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 0 }, // Unown A
+                    //new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 0 }, // Unown A Loaded from encounters raw file
                     new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 1 }, // Unown B
                     new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 2 }, // Unown C
                     new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 3 }, // Unown D
