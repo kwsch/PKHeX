@@ -102,7 +102,7 @@ namespace PKHeX.Core
     }
     public sealed class PGT : MysteryGift
     {
-        internal const int Size = 0x104; // 260
+        public const int Size = 0x104; // 260
         public override int Format => 4;
         public override int Level
         {
@@ -255,7 +255,7 @@ namespace PKHeX.Core
             }
 
             // Generate Met Info
-            if (IsPokémon)
+            if (!IsEgg)
             {
                 pk4.Met_Location = pk4.Egg_Location + 3000;
                 pk4.Egg_Location = 0;

@@ -143,9 +143,10 @@ namespace PKHeX.WinForms
                     mnuL.Items.Insert(0, mnuLLegality);
             };
 
-            // Load WC6 folder to legality
+            // Load Event Databases
+            refreshPCDDB();
+            refreshPGFDB();
             refreshWC6DB();
-            // Load WC7 folder to legality
             refreshWC7DB();
 
             #endregion
@@ -268,7 +269,7 @@ namespace PKHeX.WinForms
 
         #region Path Variables
 
-        public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Environment.CurrentDirectory;
+        public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Application.StartupPath;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
@@ -296,7 +297,8 @@ namespace PKHeX.WinForms
             // Select Language
             string l = Settings.Language;
             int lang = Array.IndexOf(GameInfo.lang_val, l);
-            if (lang < 0) Array.IndexOf(GameInfo.lang_val, "en");
+            if (lang < 0)
+                lang = Array.IndexOf(GameInfo.lang_val, "en");
             if (lang > -1)
                 languageID = lang;
 
@@ -715,8 +717,12 @@ namespace PKHeX.WinForms
                 byte[] input; try { input = File.ReadAllBytes(path); }
                 catch (Exception e) { WinFormsUtil.Error("Unable to load file.  It could be in use by another program.\nPath: " + path, e); return; }
 
+                #if DEBUG
+                openFile(input, path, ext);
+                #else
                 try { openFile(input, path, ext); }
                 catch (Exception e) { WinFormsUtil.Error("Unable to load file.\nPath: " + path, e); }
+                #endif
             }
         }
         private void openFile(byte[] input, string path, string ext)
@@ -903,7 +909,10 @@ namespace PKHeX.WinForms
                     return;
                 Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
             }
-            else if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
+            else
+                Legal.AllowGBCartEra = sav.Generation == 2;
+
+            if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 // Hacky cheats invalidated the Game Code value.
                 var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -1262,6 +1271,49 @@ namespace PKHeX.WinForms
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
+        }
+
+        private static void refreshPCDDB()
+        {
+            List<MysteryGift> db = new List<MysteryGift>();
+            byte[] bin = Resources.pcd;
+            for (int i = 0; i < bin.Length; i += PCD.Size)
+            {
+                byte[] data = new byte[PCD.Size];
+                Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
+                db.Add(new PCD(data));
+            }
+            if (Directory.Exists(MGDatabasePath))
+            {
+                foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
+                {
+                    var fi = new FileInfo(file);
+                    if (fi.Length == PCD.Size && fi.Extension == ".pcd")
+                        db.Add(new PCD(File.ReadAllBytes(file)));
+                    else if (fi.Length == PGT.Size && fi.Extension == ".pgt")
+                        db.Add(new PCD {Gift = new PGT(File.ReadAllBytes(file)), CardTitle = "MGDB PGT"});
+                }
+            }
+
+            Legal.MGDB_G4 = db.Distinct().ToArray();
+        }
+        private static void refreshPGFDB()
+        {
+            List<MysteryGift> db = new List<MysteryGift>();
+            byte[] bin = Resources.pgf;
+            for (int i = 0; i < bin.Length; i += PGF.Size) 
+            {
+                byte[] data = new byte[PGF.Size];
+                Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
+                db.Add(new PGF(data));
+            }
+            if (Directory.Exists(MGDatabasePath))
+                db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
+                               let fi = new FileInfo(file)
+                               where ".pgf" == fi.Extension && PGF.Size == fi.Length
+                               select new PGF(File.ReadAllBytes(file)));
+
+            Legal.MGDB_G5 = db.Distinct().ToArray();
         }
         private static void refreshWC6DB()
         {
@@ -2947,10 +2999,10 @@ namespace PKHeX.WinForms
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.vMoves[i].Valid && !HaX;
+                movePB[i].Visible = !Legality.vMoves[i].Valid;
             
             for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && !HaX && pkm.Format >= 6;
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && pkm.Format >= 6;
 
             if (skipMoveRepop)
                 return;
@@ -3414,7 +3466,7 @@ namespace PKHeX.WinForms
                 setParty();
                 getSlotColor(slot, Resources.slotSet);
             }
-            else if (slot < 30 || HaX && slot >= 36 && slot < 42)
+            else if (slot < 30 || HaX)
             {
                 if (slot < 30)
                 {
@@ -3458,7 +3510,7 @@ namespace PKHeX.WinForms
                 getSlotColor(slot, Resources.slotDel);
                 return;
             }
-            if (slot < 30 || HaX && slot >= 36 && slot < 42)
+            if (slot < 30 || HaX)
             {
                 if (slot < 30)
                 {

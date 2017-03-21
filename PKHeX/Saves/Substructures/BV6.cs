@@ -122,7 +122,7 @@ namespace PKHeX.Core
         private int MatchFlags { get { return Data[0x2E57]; } set { Data[0x2E57] = (byte)value; } }
         public DateTime MatchStamp
         {
-            get { return new DateTime(MatchYear, MatchDay, MatchMonth, MatchHour, MatchMinute, MatchSecond); }
+            get { return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond); }
             set { MatchYear = value.Year; MatchDay = value.Day; MatchMonth = value.Month; MatchHour = value.Hour; MatchMinute = value.Minute; MatchSecond = value.Second; }
         }
         private int UploadYear { get { return BitConverter.ToUInt16(Data, 0x2E58); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E58); } }
@@ -134,7 +134,7 @@ namespace PKHeX.Core
         private int UploadFlags { get { return Data[0x2E5F]; } set { Data[0x2E5F] = (byte)value; } }
         public DateTime UploadStamp
         {
-            get { return new DateTime(UploadYear, UploadDay, UploadMonth, UploadHour, UploadMinute, UploadSecond); }
+            get { return new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond); }
             set { UploadYear = value.Year; UploadDay = value.Day; UploadMonth = value.Month; UploadHour = value.Hour; UploadMinute = value.Minute; UploadSecond = value.Second; }
         }
 

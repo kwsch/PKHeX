@@ -16,12 +16,11 @@ namespace PKHeX.WinForms
             string[] spec = Util.getSpeciesList(Main.curlanguage);
             for (int i = 0; i < seen.Length; i++)
             {
-                PKM tempPkm = new PK6();
-                tempPkm.Species = i + 1;
-                seen[i] = SAV.getSeen(tempPkm);
-                caught[i] = SAV.getCaught(tempPkm);
-                CLB_Seen.Items.Add(spec[i + 1]);
-                CLB_Caught.Items.Add(spec[i + 1]);
+                int species = i + 1;
+                seen[i] = SAV.getSeen(species);
+                caught[i] = SAV.getCaught(species);
+                CLB_Seen.Items.Add(spec[species]);
+                CLB_Caught.Items.Add(spec[species]);
                 CLB_Seen.SetItemChecked(i, seen[i]);
                 CLB_Caught.SetItemChecked(i, caught[i]);
             }
@@ -37,10 +36,9 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < seen.Length; i++)
             {
-                PKM tempPkm = new PK6();
-                tempPkm.Species = i + 1;
-                SAV.setSeen(tempPkm, seen[i]);
-                SAV.setCaught(tempPkm, caught[i]);
+                int species = i + 1;
+                SAV.setSeen(species, seen[i]);
+                SAV.setCaught(species, caught[i]);
             }
             SAV.Data.CopyTo(Main.SAV.Data, 0);
             Main.SAV.Edited = true;

@@ -481,10 +481,10 @@ namespace PKHeX.WinForms
 
             slotSelected = -1; // reset the slot last viewed
             
-            if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked) // Legal Only
-                res = res.Where(pk => pk.GenNumber >= 6 && new LegalityAnalysis(pk).Valid);
-            if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked) // Illegal Only
-                res = res.Where(pk => pk.GenNumber >= 6 && !new LegalityAnalysis(pk).Valid);
+            if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked)
+                res = res.Where(pk => new LegalityAnalysis(pk).ParsedValid);
+            if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked)
+                res = res.Where(pk => new LegalityAnalysis(pk).ParsedInvalid);
 
             if (RTB_Instructions.Lines.Any(line => line.Length > 0))
             {

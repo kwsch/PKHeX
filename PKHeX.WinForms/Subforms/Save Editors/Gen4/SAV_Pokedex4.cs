@@ -27,6 +27,8 @@ namespace PKHeX.WinForms
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - " + GameInfo.Strings.specieslist[i]);
             
+            mnuUpgraded.Checked = SAV.DexUpgraded;
+            
             editing = false;
             LB_Species.SelectedIndex = 0;
         }
@@ -425,6 +427,11 @@ namespace PKHeX.WinForms
             lb.Items.Remove(item);
             lb.Items.Insert(newIndex, item);
             lb.SelectedIndex = newIndex;
+        }
+        private void mnuUpgraded_Click(object sender, EventArgs e)
+        {
+            SAV.DexUpgraded ^= true;
+            mnuUpgraded.Checked = SAV.DexUpgraded;
         }
     }
 }

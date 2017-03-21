@@ -102,9 +102,12 @@ namespace PKHeX.WinForms
             {
                 int puri = xk3.Purification;
                 if (puri > NUD_Purification.Maximum)
-                    puri = (int)NUD_Purification.Maximum;
+                    puri = 0;
+                else if (puri < NUD_Purification.Minimum)
+                    puri = (int)NUD_Purification.Minimum;
+
                 NUD_Purification.Value = puri;
-                CHK_Shadow.Checked = puri > 0;
+                CHK_Shadow.Checked = puri < 0;
 
                 NUD_ShadowID.Value = Math.Max(xk3.ShadowID, 0);
             }

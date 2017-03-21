@@ -257,7 +257,7 @@ namespace PKHeX.Core
             int offset = data.Length - SIZE_G3COLO;
             for (int i = 0; i < 3; i++)
             {
-                var ident = data.Skip(0x6000 + offset + 0x1E000*i).Take(4).ToArray();
+                var ident = data.Skip(0x6000 + offset + 0x1E000*i).Take(4);
                 if (!ident.SequenceEqual(slotintroColo))
                     return GameVersion.Invalid;
             }
@@ -276,7 +276,7 @@ namespace PKHeX.Core
             int offset = data.Length - SIZE_G3XD;
             for (int i = 0; i < 2; i++)
             {
-                var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4).ToArray();
+                var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4);
                 if (!ident.SequenceEqual(slotintroXD))
                     return GameVersion.Invalid;
             }

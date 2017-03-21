@@ -236,7 +236,7 @@ namespace PKHeX.WinForms
         }
         private void setEntry()
         {
-            if (species < 0) 
+            if (species <= 0) 
                 return;
 
             int pk = species - 1;

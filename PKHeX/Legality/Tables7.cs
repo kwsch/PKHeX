@@ -430,6 +430,7 @@ namespace PKHeX.Core
             769, 771, 774, 775, 776, 777, 778, 779, 780, 781,
             782
         };
+        internal static readonly int[] AlolanCaptureNoHeavyBall = {374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly int[] Inherit_ApricornMale7 =
         {
             100, // Voltorb
@@ -522,8 +523,6 @@ namespace PKHeX.Core
 
             // No HMs
         };
-
-        internal static readonly int[] TypeTutor7 = {520, 519, 518, 338, 307, 308, 434, 620};
 
         internal static readonly int[] MovePP_SM =
         {

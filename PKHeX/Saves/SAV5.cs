@@ -670,5 +670,30 @@ namespace PKHeX.Core
             bit = f + pkm.AltForm;
             Data[FormDex + FormLen * (2 + shiny) + (bit>>3)] |= (byte)(1 << (bit&7));
         }
+
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x08; // Magic + Flags
+            return (1 << bm & Data[ofs + bd]) != 0;
+        }
+        public override bool getSeen(int species)
+        {
+            const int brSize = 0x54;
+
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x08; // Magic + Flags
+
+            for (int i = 1; i <= 4; i++)
+                if ((1 << bm & Data[ofs + bd + i * brSize]) != 0)
+                    return true;
+            return false;
+        }
     }
 }

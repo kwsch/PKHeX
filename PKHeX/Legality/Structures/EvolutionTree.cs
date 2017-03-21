@@ -25,6 +25,15 @@ namespace PKHeX.Core
                 case GameVersion.GSC:
                     Entries = EvolutionSet2.getArray(data[0], maxSpeciesTree);
                     break;
+                case GameVersion.RS:
+                    Entries = EvolutionSet3.getArray(data[0]);
+                    break;
+                case GameVersion.DP:
+                    Entries = EvolutionSet4.getArray(data[0]);
+                    break;
+                case GameVersion.BW:
+                    Entries = EvolutionSet5.getArray(data[0]);
+                    break;
                 case GameVersion.ORAS:
                     Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
                     break;
@@ -254,6 +263,164 @@ namespace PKHeX.Core
                 evos.Add(new EvolutionSet2 { PossibleEvolutions = m.ToArray() });
             }
             return evos;
+        }
+    }
+    public class EvolutionSet3 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, int offset)
+        {
+            int method = BitConverter.ToUInt16(data, offset + 0);
+            int arg =  BitConverter.ToUInt16(data, offset + 2);
+            int species = PKX.getG4Species(BitConverter.ToUInt16(data, offset + 4));
+            //2 bytes padding
+
+            switch (method)
+            {
+                case 1: /* Friendship*/
+                case 2: /* Friendship day*/
+                case 3: /* Friendship night*/
+                case 5: /* Trade   */
+                case 6: /* Trade while holding */
+                    return new EvolutionMethod { Method = method, Species = species, Argument = arg };
+                case 4: /* Level Up */
+                    return new EvolutionMethod { Method = 4, Species = species, Level = arg, Argument = arg };
+                case 7: /* Use item */
+                case 15: /* Beauty evolution*/
+                    return new EvolutionMethod { Method = method + 1, Species = species, Argument = arg };
+                case 8: /* Tyrogue -> Hitmonchan */
+                case 9: /* Tyrogue -> Hitmonlee */
+                case 10: /* Tyrogue -> Hitmontop*/
+                case 11: /* Wurmple -> Silcoon evolution */
+                case 12: /* Wurmple -> Cascoon evolution */
+                case 13: /* Nincada -> Ninjask evolution */
+                case 14: /* Shedinja spawn in Nincada -> Ninjask evolution */
+                    return new EvolutionMethod { Method = method + 1, Species = species, Level = arg, Argument = arg };
+            }
+            return null;
+        }
+        public static List<EvolutionSet> getArray(byte[] data)
+        {
+            EvolutionSet[] evos = new EvolutionSet[Legal.MaxSpeciesID_3 + 1];
+            evos[0] = new EvolutionSet3 { PossibleEvolutions = new EvolutionMethod[0] };
+            for (int i = 0; i <= Legal.MaxSpeciesIndex_3; i++)
+            {
+                int g4species = PKX.getG4Species(i);
+                if (g4species == 0)
+                    continue;
+                
+                int offset = i * 40;
+                var m_list = new List<EvolutionMethod>();
+                for (int j = 0; j < 5; j++)
+                {
+                    EvolutionMethod m = getMethod(data,  offset);
+                    if(m!=null)
+                        m_list.Add(m);
+                    else
+                        break;
+                    offset += 8;
+                }
+                evos[g4species] = new EvolutionSet3 { PossibleEvolutions = m_list.ToArray() };
+            }
+            return evos.ToList();
+        }
+    }
+    public class EvolutionSet4 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, int offset)
+        {
+            int[] argEvos = { 6, 8, 16, 17, 18, 19, 20, 21, 22 };
+            int method = BitConverter.ToUInt16(data, offset + 0);
+            int arg = BitConverter.ToUInt16(data, offset + 2);
+            int species = BitConverter.ToUInt16(data, offset + 4);
+
+            if (method == 0)
+                return null;
+            // To have the same estructure as gen 6
+            // Gen 4 Method 6 is Gen 6 Method 7, G4 7 = G6 8, and so on
+            if (method > 6)
+                method++;
+
+            var evo = new EvolutionMethod
+            {
+                Method = method,
+                Argument = arg,
+                Species = species,
+                Level = arg,
+            };
+            
+            if (argEvos.Contains(evo.Method))
+                evo.Level = 0;
+            return evo;
+        }
+        public static List<EvolutionSet> getArray(byte[] data)
+        {
+            var evos = new List<EvolutionSet>();
+            for (int i = 0; i <= Legal.MaxSpeciesIndex_4_HGSSPt; i++)
+            {
+                /* 44 bytes per species, 
+                 * for every species 7 evolutions with 6 bytes per evolution, 
+                 * last 2 bytes of every specie is padding*/
+                int offset = i * 44;
+                var m_list = new List<EvolutionMethod>();
+                for (int j = 0; j < 7; j++)
+                {
+                    EvolutionMethod m = getMethod(data, offset);
+                    if (m != null)
+                        m_list.Add(m);
+                    else
+                        break;
+                    offset += 6;
+                }
+                evos.Add(new EvolutionSet4 { PossibleEvolutions = m_list.ToArray() });
+            }
+            return evos.ToList();
+        }
+    }
+    public class EvolutionSet5 : EvolutionSet
+    {
+        private static EvolutionMethod getMethod(byte[] data, int offset)
+        {
+            int[] argEvos = { 6, 8, 16, 17, 18, 19, 20, 21, 22 };
+            int method = BitConverter.ToUInt16(data, offset + 0);
+            int arg = BitConverter.ToUInt16(data, offset + 2);
+            int species = BitConverter.ToUInt16(data, offset + 4);
+
+            if (method == 0)
+                return null;
+
+            var evo = new EvolutionMethod
+            {
+                Method = method,
+                Argument = arg,
+                Species = species,
+                Level = arg,
+            };
+
+            if (argEvos.Contains(evo.Method))
+                evo.Level = 0;
+            return evo;
+        }
+        public static List<EvolutionSet> getArray(byte[] data)
+        {
+            var evos = new List<EvolutionSet>();
+            for (int i = 0; i <= Legal.MaxSpeciesIndex_5_B2W2; i++)
+            {
+                /* 42 bytes per species, 
+                 * for every species 7 evolutions with 6 bytes per evolution*/
+                int offset = i * 42;
+                var m_list = new List<EvolutionMethod>();
+                for (int j = 0; j < 7; j++)
+                {
+                    EvolutionMethod m = getMethod(data, offset);
+                    if (m != null)
+                        m_list.Add(m);
+                    else
+                        break;
+                    offset += 6;
+                }
+                evos.Add(new EvolutionSet5 { PossibleEvolutions = m_list.ToArray() });
+            }
+            return evos.ToList();
         }
     }
     public class EvolutionSet6 : EvolutionSet
