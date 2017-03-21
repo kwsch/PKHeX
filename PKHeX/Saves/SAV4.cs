@@ -1020,5 +1020,10 @@ namespace PKHeX.Core
             Forms[n1] = FormNum;
             return true;
         }
+        public bool DexUpgraded
+        {
+            get{ return (Data[0x1415 + GBO] & 1) != 0; }
+            set{ Data[0x1415 + GBO] = (byte)((Data[0x1415 + GBO] & 0xFE) | (value ? 1 : 0)); }
+        }
     }
 }

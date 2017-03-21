@@ -278,8 +278,8 @@ namespace PKHeX.Core
             }
             set { }
         }
-
-        public bool hasMetData => CaughtData != 0;
+        
+        public override bool HasOriginalMetLocation => CaughtData != 0;
 
         #region Future, Unused Attributes
         public override uint EncryptionConstant { get { return 0; } set { } }
