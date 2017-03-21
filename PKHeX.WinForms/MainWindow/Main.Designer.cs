@@ -306,6 +306,7 @@
             this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_LoadBoxes = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_DumpBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Database = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_MGDatabase = new System.Windows.Forms.ToolStripMenuItem();
@@ -3881,6 +3882,7 @@
             this.Menu_Data.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_LoadBoxes,
             this.Menu_DumpBoxes,
+            this.Menu_DumpBox,
             this.Menu_Report,
             this.Menu_Database,
             this.Menu_MGDatabase,
@@ -3905,6 +3907,14 @@
             this.Menu_DumpBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
             this.Menu_DumpBoxes.Click += new System.EventHandler(this.mainMenuBoxDump);
+            // 
+            // Menu_DumpBox
+            // 
+            this.Menu_DumpBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_DumpBoxes.Image")));
+            this.Menu_DumpBox.Name = "Menu_DumpBox";
+            this.Menu_DumpBox.Size = new System.Drawing.Size(182, 22);
+            this.Menu_DumpBox.Text = "Dump Box";
+            this.Menu_DumpBox.Click += new System.EventHandler(this.mainMenuBoxDumpSingle);
             // 
             // Menu_Report
             // 
@@ -6291,6 +6301,7 @@
         private System.Windows.Forms.MaskedTextBox Stat_ATK;
         private System.Windows.Forms.MaskedTextBox Stat_HP;
         private System.Windows.Forms.ToolStripMenuItem Menu_DumpBoxes;
+        private System.Windows.Forms.ToolStripMenuItem Menu_DumpBox;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportBAK;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportMAIN;
         private System.Windows.Forms.MaskedTextBox TB_PP1;
