@@ -489,12 +489,17 @@ namespace PKHeX.Core
                 else
                 {
                     var locs = pkm.FRLG ? Legal.ValidMet_FRLG : pkm.E ? Legal.ValidMet_E : Legal.ValidMet_RS;
-                    if (!locs.Contains(pkm.Met_Location))
-                        return new CheckResult(Severity.Invalid, "Invalid hatch (met) location.", CheckIdentifier.Encounter);
+                    if (locs.Contains(pkm.Met_Location))
+                        return new CheckResult(Severity.Valid, "Valid hatch (met) location.", CheckIdentifier.Encounter);
+                    if (Legal.ValidMet_FRLG.Contains(pkm.Met_Location) || Legal.ValidMet_E.Contains(pkm.Met_Location) || Legal.ValidMet_RS.Contains(pkm.Met_Location))
+                        return new CheckResult(Severity.Valid, "Trade egg valid hatch (met) location.", CheckIdentifier.Encounter);
+                    return new CheckResult(Severity.Invalid, "Invalid hatch (met) location.", CheckIdentifier.Encounter);
                 }
             }
             else
             {
+                if (pkm.IsEgg)
+                    return new CheckResult(Severity.Invalid, "Gen 3 unhatched egg can not be transfered via Pal Park.", CheckIdentifier.Encounter);
                 if (pkm.Met_Level < 5)
                     return new CheckResult(Severity.Invalid, "Invalid met level for transfer.", CheckIdentifier.Encounter);
                 if (pkm.Egg_Location != 0)
@@ -510,7 +515,8 @@ namespace PKHeX.Core
         {
             if (pkm.Format == 4)
                 return verifyEncounterEggLevelLoc(0, pkm.HGSS ? Legal.ValidMet_HGSS : pkm.Pt ? Legal.ValidMet_Pt : Legal.ValidMet_DP);
-
+            else if (pkm.IsEgg)
+                return new CheckResult(Severity.Invalid, "Gen 4 unhatched egg can not be transfered via Transporter", CheckIdentifier.Encounter);
             // transferred
             if (pkm.Met_Level < 1)
                 return new CheckResult(Severity.Invalid, "Invalid met level for transfer.", CheckIdentifier.Encounter);
