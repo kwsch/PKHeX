@@ -67,6 +67,7 @@
             this.LB_Form = new System.Windows.Forms.ListBox();
             this.L_Seen = new System.Windows.Forms.Label();
             this.L_NotSeen = new System.Windows.Forms.Label();
+            this.CB_DexUpgraded = new System.Windows.Forms.ToolStripComboBox();
             this.GB_Language.SuspendLayout();
             this.modifyMenu.SuspendLayout();
             this.SuspendLayout();
@@ -284,11 +285,11 @@
             // 
             // mnuUpgraded
             // 
-            this.mnuUpgraded.CheckOnClick = true;
+            this.mnuUpgraded.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CB_DexUpgraded});
             this.mnuUpgraded.Name = "mnuUpgraded";
             this.mnuUpgraded.Size = new System.Drawing.Size(148, 22);
-            this.mnuUpgraded.Text = "National Dex";
-            this.mnuUpgraded.Click += new System.EventHandler(this.mnuUpgraded_Click);
+            this.mnuUpgraded.Text = "Dex Upgrade";
             // 
             // CHK_Seen
             // 
@@ -431,6 +432,12 @@
             this.L_NotSeen.TabIndex = 58;
             this.L_NotSeen.Text = "Not Seen";
             // 
+            // CB_DexUpgraded
+            // 
+            this.CB_DexUpgraded.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_DexUpgraded.Name = "CB_DexUpgraded";
+            this.CB_DexUpgraded.Size = new System.Drawing.Size(112, 23);
+            // 
             // SAV_Pokedex4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -514,5 +521,6 @@
         private System.Windows.Forms.ListBox LB_Form;
         private System.Windows.Forms.Label L_Seen;
         private System.Windows.Forms.Label L_NotSeen;
+        private System.Windows.Forms.ToolStripComboBox CB_DexUpgraded;
     }
 }
