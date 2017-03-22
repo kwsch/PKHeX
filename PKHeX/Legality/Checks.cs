@@ -985,6 +985,17 @@ namespace PKHeX.Core
                         return;
                     }
                 }
+                if (pkm.GenNumber == 5)
+                {
+                    if (EncounterType == typeof(EncounterSlot[]) && !((EncounterSlot[])EncounterMatch).Any(slot => slot.Type != SlotType.HiddenGrotto)) //encounter only at HiddenGrotto
+                    {
+                        if (pkm.AbilityNumber != 4)
+                        {
+                            AddLine(Severity.Invalid, V217, CheckIdentifier.Ability);
+                            return;
+                        }
+                    }
+                }
                 if (pkm.GenNumber == 6)
                 {
                     if (EncounterIsMysteryGift)

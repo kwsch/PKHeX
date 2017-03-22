@@ -247,10 +247,7 @@ namespace PKHeX.Core
         private static void MarkG5HiddenGrottoSlots(ref EncounterArea[] Areas)
         {
             foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
-            {
                 s.Type = SlotType.HiddenGrotto; 
-                //todo: Ability marking and checking
-            }
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
