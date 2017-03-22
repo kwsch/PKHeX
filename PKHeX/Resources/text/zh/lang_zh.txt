@@ -122,7 +122,7 @@ Tab_Attacks = 招式
 GB_CurrentMoves = 招式
 Label_CurPP = PP
 Label_PPups = PP上升数
-GB_RelearnMoves = 遗传招式
+GB_RelearnMoves = 回忆招式
 -------------------OT/Misc Tab Data---------------------
 Tab_OTMisc = 初训家/杂项
 GB_OT = 相关信息
