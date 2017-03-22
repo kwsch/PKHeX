@@ -232,22 +232,16 @@ namespace PKHeX.Core
         }
         private static void MarkBWSwarmSlots(ref EncounterArea[] Areas)
         {
-            foreach (var area in Areas)
+            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
             {
-                foreach (var Slot in area.Slots)
-                {
-                    Slot.LevelMin = 15; Slot.LevelMax = 55; Slot.Type = SlotType.Swarm;
-                }
+                s.LevelMin = 15; s.LevelMax = 55; s.Type = SlotType.Swarm;
             }
         }
         private static void MarkB2W2SwarmSlots(ref EncounterArea[] Areas)
         {
-            foreach (var area in Areas)
+            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
             {
-                foreach (var Slot in area.Slots)
-                {
-                    Slot.LevelMin = 40; Slot.LevelMax = 55; Slot.Type = SlotType.Swarm;
-                }
+                s.LevelMin = 40; s.LevelMax = 55; s.Type = SlotType.Swarm;
             }
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
