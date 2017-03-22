@@ -302,6 +302,74 @@ namespace PKHeX.Core
             // Gift
             new EncounterTrade { Species = 570, Level = 25, Ability = 1, TID = 00002, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {30,30,30,30,30,30}, Nature = Nature.Hasty, Location = 10} //N's Zorua @ Driftveil City
         };
+        #region Alt Slots
+        private static readonly EncounterArea[] SlotsBW_Swarm =
+        {
+            //level range and Slottype will be marked later
+            new EncounterArea {Location = 14, Slots = new[]{new EncounterSlot {Species = 083},},},// Farfetch'd @ Route 1
+            new EncounterArea {Location = 15, Slots = new[]{new EncounterSlot {Species = 360},},},// Wynant @ Route 2
+            new EncounterArea {Location = 17, Slots = new[]{new EncounterSlot {Species = 449},},},// Hippopotas @ Route 4
+            new EncounterArea {Location = 18, Slots = new[]{new EncounterSlot {Species = 235},},},// Smeargle @ Route 5
+            new EncounterArea {Location = 20, Slots = new[]{new EncounterSlot {Species = 161},},},// Sentret @ Route 7
+            new EncounterArea {Location = 21, Slots = new[]{new EncounterSlot {Species = 453},},},// Croagunk @ Route 8
+            new EncounterArea {Location = 23, Slots = new[]{new EncounterSlot {Species = 236},},},// Tyrogue @ Route 10
+            new EncounterArea {Location = 25, Slots = new[]{new EncounterSlot {Species = 084},},},// Doduo @ Route 12
+            new EncounterArea {Location = 26, Slots = new[]{new EncounterSlot {Species = 353},},},// Shuppet @ Route 13
+            new EncounterArea {Location = 27, Slots = new[]{new EncounterSlot {Species = 193},},},// Yanma @ Route 14
+            new EncounterArea {Location = 28, Slots = new[]{new EncounterSlot {Species = 056},},},// Mankey @ Route 15
+            new EncounterArea {Location = 29, Slots = new[]{new EncounterSlot {Species = 204},},},// Pineco @ Route 16
+            new EncounterArea {Location = 30, Slots = new[]{new EncounterSlot {Species = 102},},},// Exeggcutes @ Route 18
+        };
+        private static readonly EncounterArea[] SlotsB_Swarm = SlotsBW_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea {Location = 14, Slots = new[]{new EncounterSlot {Species = 313},},},// Volbeat @ Route 3
+                new EncounterArea {Location = 19, Slots = new[]{new EncounterSlot {Species = 311},},},// Plusle @ Route 6
+                new EncounterArea {Location = 22, Slots = new[]{new EncounterSlot {Species = 228},},},// Houndour @ Route 9
+                new EncounterArea {Location = 24, Slots = new[]{new EncounterSlot {Species = 285},},},// Shroomish @ Route 11
+            }).ToArray();
+        private static readonly EncounterArea[] SlotsW_Swarm = SlotsBW_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea {Location = 14, Slots = new[]{new EncounterSlot {Species = 314},},},// Illumise @ Route 3
+                new EncounterArea {Location = 19, Slots = new[]{new EncounterSlot {Species = 312},},},// Minun @ Route 6
+                new EncounterArea {Location = 22, Slots = new[]{new EncounterSlot {Species = 261},},},// Poochyena @ Route 9
+                new EncounterArea {Location = 24, Slots = new[]{new EncounterSlot {Species = 048},},},// Paras @ Route 11
+            }).ToArray();
+
+
+        private static readonly EncounterArea[] SlotsB2W2_Swarm =
+        {
+            //level range and Slottype will be marked later
+            new EncounterArea {Location = 014, Slots = new[]{new EncounterSlot {Species = 083},},},// Farfetch'd @ Route 1
+            new EncounterArea {Location = 018, Slots = new[]{new EncounterSlot {Species = 177},},},// Natu @ Route 5
+            new EncounterArea {Location = 020, Slots = new[]{new EncounterSlot {Species = 162},},},// Furret @ Route 7
+            new EncounterArea {Location = 021, Slots = new[]{new EncounterSlot {Species = 195},},},// Quagsire @ Route 8
+            new EncounterArea {Location = 022, Slots = new[]{new EncounterSlot {Species = 317},},},// Swalot @ Route 9
+            new EncounterArea {Location = 024, Slots = new[]{new EncounterSlot {Species = 284},},},// Masquerain @ Route 11
+            new EncounterArea {Location = 025, Slots = new[]{new EncounterSlot {Species = 084},},},// Doduo @ Route 12
+            new EncounterArea {Location = 026, Slots = new[]{new EncounterSlot {Species = 277},},},// Swellow @ Route 13
+            new EncounterArea {Location = 028, Slots = new[]{new EncounterSlot {Species = 022},},},// Fearow @ Route 15
+            new EncounterArea {Location = 029, Slots = new[]{new EncounterSlot {Species = 204},},},// Pineco @ Route 16
+            new EncounterArea {Location = 030, Slots = new[]{new EncounterSlot {Species = 187},},},// Hoppip @ Route 18
+            new EncounterArea {Location = 032, Slots = new[]{new EncounterSlot {Species = 097},},},// Hypno @ Dreamyard
+            new EncounterArea {Location = 034, Slots = new[]{new EncounterSlot {Species = 450},},},// Hippowdon @ Desert Resort
+            new EncounterArea {Location = 070, Slots = new[]{new EncounterSlot {Species = 079},},},// Slowpoke @ Abundant shrine
+            new EncounterArea {Location = 132, Slots = new[]{new EncounterSlot {Species = 332},},},// Cacturne @ Reaversal Mountian
+        };
+        private static readonly EncounterArea[] SlotsB2_Swarm = SlotsB2W2_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea {Location = 014, Slots = new[]{new EncounterSlot {Species = 313},},},// Volbeat @ Route 3
+                new EncounterArea {Location = 019, Slots = new[]{new EncounterSlot {Species = 311},},},// Plusle @ Route 6
+                new EncounterArea {Location = 125, Slots = new[]{new EncounterSlot {Species = 184},},},// Sudowoodo @ Route 20
+                new EncounterArea {Location = 127, Slots = new[]{new EncounterSlot {Species = 168},},},// Ariados @ Route 22
+            }).ToArray();
+        private static readonly EncounterArea[] SlotsW2_Swarm = SlotsB2W2_Swarm.Concat(
+            new EncounterArea[] {
+                new EncounterArea {Location = 014, Slots = new[]{new EncounterSlot {Species = 314},},},// Illumise @ Route 3
+                new EncounterArea {Location = 019, Slots = new[]{new EncounterSlot {Species = 312},},},// Minun @ Route 6
+                new EncounterArea {Location = 125, Slots = new[]{new EncounterSlot {Species = 122},},},// Mr.Mime @ Route 20
+                new EncounterArea {Location = 127, Slots = new[]{new EncounterSlot {Species = 166},},},// Ledian @ Route 22
+            }).ToArray();
+        #endregion
 
         internal static readonly int[] ValidMet_BW =
         {

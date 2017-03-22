@@ -230,6 +230,26 @@ namespace PKHeX.Core
         {
             ReduceAreasSize(ref Areas);
         }
+        private static void MarkBWSwarmSlots(ref EncounterArea[] Areas)
+        {
+            foreach (var area in Areas)
+            {
+                foreach (var Slot in area.Slots)
+                {
+                    Slot.LevelMin = 15; Slot.LevelMax = 55; Slot.Type = SlotType.Swarm;
+                }
+            }
+        }
+        private static void MarkB2W2SwarmSlots(ref EncounterArea[] Areas)
+        {
+            foreach (var area in Areas)
+            {
+                foreach (var Slot in area.Slots)
+                {
+                    Slot.LevelMin = 40; Slot.LevelMax = 55; Slot.Type = SlotType.Swarm;
+                }
+            }
+        }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -469,14 +489,23 @@ namespace PKHeX.Core
                 StaticB2 = getStaticEncounters(GameVersion.B2);
                 StaticW2 = getStaticEncounters(GameVersion.W2);
 
-                SlotsB = getEncounterTables(GameVersion.B);
-                SlotsW = getEncounterTables(GameVersion.W);
-                SlotsB2 = getEncounterTables(GameVersion.B2);
-                SlotsW2 = getEncounterTables(GameVersion.W2);
-                MarkG5Slots(ref SlotsB);
-                MarkG5Slots(ref SlotsW);
-                MarkG5Slots(ref SlotsB2);
-                MarkG5Slots(ref SlotsW2);
+                var BSlots = getEncounterTables(GameVersion.B);
+                var WSlots = getEncounterTables(GameVersion.W);
+                MarkG5Slots(ref BSlots);
+                MarkG5Slots(ref WSlots);
+                MarkBWSwarmSlots(ref SlotsB_Swarm);
+                MarkBWSwarmSlots(ref SlotsW_Swarm);
+                SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm);
+                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm);
+
+                var B2Slots = getEncounterTables(GameVersion.B2);
+                var W2Slots = getEncounterTables(GameVersion.W2);
+                MarkG5Slots(ref B2Slots);
+                MarkG5Slots(ref W2Slots);
+                MarkB2W2SwarmSlots(ref SlotsB2_Swarm);
+                MarkB2W2SwarmSlots(ref SlotsW2_Swarm);
+                SlotsB2 = addExtraTableSlots(B2Slots, SlotsB2_Swarm);
+                SlotsW2 = addExtraTableSlots(W2Slots, SlotsW2_Swarm);
 
                 Evolves5 = new EvolutionTree(new[] { Resources.evos_g5 }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
             }
