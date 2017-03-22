@@ -334,7 +334,7 @@ namespace PKHeX.Core
             EncounterArea[] Slots = null;
             // Fishing
             var f = EncounterArea.getArray2_F(Resources.encounter_gsc_f);
-            if(Version == GameVersion.GS || Version == GameVersion.GSC)
+            if (Version == GameVersion.GS || Version == GameVersion.GSC)
             {
                 // Grass/Water
                 var g = EncounterArea.getArray2_GW(Resources.encounter_gold);
@@ -352,11 +352,8 @@ namespace PKHeX.Core
                 // Headbutt/Rock Smash
                 var h_c = EncounterArea.getArray2_H(Resources.encounter_crystal_h);
 
-                var SlotsC = addExtraTableSlots(addExtraTableSlots(c, h_c),f);
-                if (Version == GameVersion.C)
-                    Slots = SlotsC;
-                else
-                    Slots = addExtraTableSlots(Slots, SlotsC);
+                var extra = addExtraTableSlots(addExtraTableSlots(c, h_c),f);
+                return Version == GameVersion.C ? extra : addExtraTableSlots(Slots, extra);
             }
 
             return Slots;
@@ -1938,34 +1935,31 @@ namespace PKHeX.Core
             if (pkm.Format != 2)
                 // Gen 2 met location is lost outside gen 2 games
                 return SlotsGSC;
-            else
-            {
-                if (pkm.HasOriginalMetLocation)
-                    // Format 2 with met location, encounter should be from crystal
-                    return SlotsC;
-                else if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                    // Format 2 without met location but pokemon could not be tradeback to gen 1, 
-                    // encounter should be from gold or silver
-                    return SlotsGS;
-                else
-                    // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
-                    // or it can be a crystal pokemon that lost met location after being tradeback to gen 1 games
-                    return SlotsGSC;
-            }
+
+            if (pkm.HasOriginalMetLocation)
+                // Format 2 with met location, encounter should be from crystal
+                return SlotsC;
+
+            if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                // Format 2 without met location but pokemon could not be tradeback to gen 1, 
+                // encounter should be from gold or silver
+                return SlotsGS;
+            
+            // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
+            // or it can be a crystal pokemon that lost met location after being tradeback to gen 1 games
+            return SlotsGSC;
         }
         private static IEnumerable<EncounterStatic> getStaticTableGen2(PKM pkm)
         {
             if (pkm.Format != 2)
                 return StaticGSC;
-            else
-            {
-                if (pkm.HasOriginalMetLocation)
-                    return StaticC;
-                else if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                    return StaticGS;
-                else
-                    return StaticGSC;
-            }
+
+            if (pkm.HasOriginalMetLocation)
+                return StaticC;
+            if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                return StaticGS;
+
+            return StaticGSC;
         }
 
         private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
