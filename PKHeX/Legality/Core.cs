@@ -244,6 +244,14 @@ namespace PKHeX.Core
                 s.LevelMin = 40; s.LevelMax = 55; s.Type = SlotType.Swarm;
             }
         }
+        private static void MarkG5HiddenGrottoSlots(ref EncounterArea[] Areas)
+        {
+            foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
+            {
+                s.Type = SlotType.HiddenGrotto; 
+                //todo: Ability marking and checking
+            }
+        }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -495,8 +503,10 @@ namespace PKHeX.Core
                 MarkG5Slots(ref W2Slots);
                 MarkB2W2SwarmSlots(ref SlotsB2_Swarm);
                 MarkB2W2SwarmSlots(ref SlotsW2_Swarm);
-                SlotsB2 = addExtraTableSlots(B2Slots, SlotsB2_Swarm);
-                SlotsW2 = addExtraTableSlots(W2Slots, SlotsW2_Swarm);
+                MarkG5HiddenGrottoSlots(ref SlotsB2_HiddenGrotto);
+                MarkG5HiddenGrottoSlots(ref SlotsW2_HiddenGrotto);
+                SlotsB2 = addExtraTableSlots(B2Slots, SlotsB2_Swarm).Concat(SlotsB2_HiddenGrotto).ToArray();
+                SlotsW2 = addExtraTableSlots(W2Slots, SlotsW2_Swarm).Concat(SlotsW2_HiddenGrotto).ToArray();
 
                 Evolves5 = new EvolutionTree(new[] { Resources.evos_g5 }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
             }
