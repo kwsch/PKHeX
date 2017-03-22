@@ -2399,7 +2399,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 7:
-                    info = PersonalTable.SM[species];
+                    info = PersonalTable.SM.getFormeEntry(species, form);
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     // No special tutors in G7
                     break;
