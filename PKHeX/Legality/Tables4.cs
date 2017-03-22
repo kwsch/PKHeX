@@ -198,44 +198,6 @@ namespace PKHeX.Core
             new int[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 }
         };
 
-        internal static readonly EncounterStatic[] Encounter_HGSS_Swarm =
-        {
-            //Swarm 
-            //reference http://bulbapedia.bulbagarden.net/wiki/Pokémon_outbreak
-            new EncounterStatic { Species = 113, Level = 23, Location = 161, }, //Chansey @ Route 13
-            new EncounterStatic { Species = 132, Level = 34, Location = 195, }, //Ditto @ Route 47
-            new EncounterStatic { Species = 183, Level = 15, Location = 216, }, //Marill @ Mt. Mortar
-            new EncounterStatic { Species = 193, Level = 12, Location = 183, }, //Yanma @ Route 35
-            new EncounterStatic { Species = 206, Level = 2, Location = 220, }, //Dunsparce @ Dark Cave
-            new EncounterStatic { Species = 206, Level = 3, Location = 220, }, //Dunsparce @ Dark Cave
-            new EncounterStatic { Species = 209, Level = 16, Location = 186, }, //Snubbull @ Route 38
-            new EncounterStatic { Species = 211, Level = 40, Location = 180, }, //Qwilfish @ Route 32
-            new EncounterStatic { Species = 223, Level = 20, Location = 192, }, //Remoraid @ Route 44
-            new EncounterStatic { Species = 261, Level = 2, Location = 149, }, //Poochyena @ Route 1
-            new EncounterStatic { Species = 278, Level = 35, Location = 143, }, //Wingull @ Vermillion City
-            new EncounterStatic { Species = 280, Level = 10, Location = 182, }, //Ralts @ Route 34
-            new EncounterStatic { Species = 280, Level = 11, Location = 182, }, //Ralts @ Route 34
-            new EncounterStatic { Species = 302, Level = 13, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
-            new EncounterStatic { Species = 302, Level = 14, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
-            new EncounterStatic { Species = 302, Level = 15, Location = 157, Version = GameVersion.HG,}, //Sableye @ Route 9
-            new EncounterStatic { Species = 303, Level = 13, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
-            new EncounterStatic { Species = 303, Level = 14, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
-            new EncounterStatic { Species = 303, Level = 15, Location = 157, Version = GameVersion.SS,}, //Mawile @ Route 9
-            new EncounterStatic { Species = 316, Level = 5, Location = 151, Version = GameVersion.SS,}, //Gulpin @ Route 3
-            new EncounterStatic { Species = 333, Level = 23, Location = 193, }, //Swablu @ Route 45
-            new EncounterStatic { Species = 340, Level = 10, Location = 128, }, //Whiscash @ Violet City Old Rod
-            new EncounterStatic { Species = 340, Level = 20, Location = 128, }, //Whiscash @ Violet City Good Rod
-            new EncounterStatic { Species = 340, Level = 40, Location = 128, }, //Whiscash @ Violet City Super Rod
-            new EncounterStatic { Species = 343, Level = 5, Location = 151, Version = GameVersion.HG,}, //Baltoy @ Route 3
-            new EncounterStatic { Species = 366, Level = 35, Location = 167, }, //Clamperl @ Route 19
-            new EncounterStatic { Species = 369, Level = 40, Location = 160, }, //Relicanth @ Route 12
-            new EncounterStatic { Species = 370, Level = 20, Location = 175, }, //Luvdisc @ Route 27
-            new EncounterStatic { Species = 401, Level = 3, Location = 224, }, //Kricketot @ Viridian Forest
-            new EncounterStatic { Species = 427, Level = 8, Location = 173, }, //Buneary @ Route 25
-            new EncounterStatic { Species = 427, Level = 9, Location = 173, }, //Buneary @ Route 25
-            new EncounterStatic { Species = 427, Level = 10, Location = 173, }, //Buneary @ Route 25
-        };
-
         internal static readonly int[] Roaming_MetLocation_DPPt =
         {
             // Route 201-222 can be encountered in either grass or water
