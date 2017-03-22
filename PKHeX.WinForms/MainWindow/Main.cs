@@ -244,7 +244,8 @@ namespace PKHeX.WinForms
         public static string[] gendersymbols = { "♂", "♀", "-" };
         public static bool unicode;
 
-        public static volatile bool formInitialized, fieldsInitialized, fieldsLoaded;
+        public static volatile bool formInitialized;
+        private static bool fieldsInitialized, fieldsLoaded, loadingSAV;
         private static int colorizedbox = -1;
         private static Image colorizedcolor;
         private static int colorizedslot;
@@ -532,18 +533,13 @@ namespace PKHeX.WinForms
         }
         private void mainMenuBoxDumpSingle(object sender, EventArgs e)
         {
-            string path;
-
             // open folder dialog
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
-            path = fbd.SelectedPath;
-
             string result;
-            int currentBox = CB_BoxSelect.SelectedIndex;
-            SAV.dumpBox(path, out result, currentBox);
+            SAV.dumpBox(fbd.SelectedPath, out result, CB_BoxSelect.SelectedIndex);
             WinFormsUtil.Alert(result);
         }
         private void manMenuBatchEditor(object sender, EventArgs e)
@@ -964,6 +960,7 @@ namespace PKHeX.WinForms
 
                 sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
             }
+            loadingSAV = true;
 
             // clean fields
             bool WindowToggleRequired = SAV.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
@@ -1284,6 +1281,7 @@ namespace PKHeX.WinForms
             }
 
             TemplateFields();
+            loadingSAV = false;
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
@@ -1455,6 +1453,7 @@ namespace PKHeX.WinForms
             CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
             CB_Species.SelectedValue = SAV.MaxSpeciesID;
             CHK_Nicknamed.Checked = false;
+            lastData = null;
         }
         private void InitializeLanguage()
         {
@@ -1503,6 +1502,8 @@ namespace PKHeX.WinForms
         }
         private Action getFieldsfromPKM;
         private Func<PKM> getPKMfromFields;
+        private byte[] lastData;
+        private bool PKMIsUnsaved => fieldsInitialized && !loadingSAV && lastData != null && lastData.Any(b => b != 0) && !lastData.SequenceEqual(preparePKM().Data);
 
         private void setPKMFormatMode(int Format, GameVersion version)
         {
@@ -1635,6 +1636,7 @@ namespace PKHeX.WinForms
             dragout.Image = pk.Sprite();
             setMarkings();
             updateLegality();
+            lastData = preparePKM()?.Data;
         }
 
         // General Use Functions shared by other Forms // 
@@ -1819,7 +1821,6 @@ namespace PKHeX.WinForms
             else
                 TB_Friendship.Text = TB_Friendship.Text == "255" ? SAV.Personal[pkm.Species].BaseFriendship.ToString() : "255";
         }
-
         private void clickLevel(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Control)
@@ -1827,7 +1828,6 @@ namespace PKHeX.WinForms
                 ((MaskedTextBox)sender).Text = "100";
             }
         }
-
         private void clickGender(object sender, EventArgs e)
         {
             // Get Gender Threshold
@@ -3239,7 +3239,7 @@ namespace PKHeX.WinForms
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (SAV.Edited && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
+            if ((SAV.Edited || PKMIsUnsaved) && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Any unsaved changes will be lost.", "Are you sure you want to close PKHeX?"))
             {
                 e.Cancel = true;
                 return;
@@ -3438,6 +3438,8 @@ namespace PKHeX.WinForms
 
             if (SlotPictureBoxes[slot].Image == null)
             { SystemSounds.Exclamation.Play(); return; }
+            if (PKMIsUnsaved && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "PKM has been modified but has not been Set.", "Continue?"))
+                return;
             int offset = getPKXOffset(slot);
             if (offset < 0)
             {
@@ -3505,6 +3507,7 @@ namespace PKHeX.WinForms
                 getSlotColor(slot, Resources.slotSet);
             }
 
+            lastData = pk.Data;
             updateBoxViewers();
 
             RedoStack.Clear(); Menu_Redo.Enabled = false;
