@@ -189,10 +189,20 @@ namespace PKHeX.WinForms
                 len = err = ctr = 0;
                 if (RB_SAV.Checked)
                 {
-                    var data = Main.SAV.BoxData;
-                    setupProgressBar(data.Length);
-                    processSAV(data, Filters, Instructions);
-                    Main.SAV.BoxData = data;
+                    if (Main.SAV.HasParty)
+                    {
+                        var data = Main.SAV.PartyData;
+                        setupProgressBar(data.Length);
+                        processSAV(data, Filters, Instructions);
+                        Main.SAV.PartyData = data;
+                    }
+                    if (Main.SAV.HasBox)
+                    {
+                        var data = Main.SAV.BoxData;
+                        setupProgressBar(data.Length);
+                        processSAV(data, Filters, Instructions);
+                        Main.SAV.BoxData = data;
+                    }
                 }
                 else
                 {
