@@ -18135,6 +18135,15 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to V193 = testlel.
+        /// </summary>
+        public static string legality_en {
+            get {
+                return ResourceManager.GetString("legality_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap load {

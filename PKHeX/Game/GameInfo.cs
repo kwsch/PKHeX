@@ -9,28 +9,33 @@ namespace PKHeX.Core
         private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送", "ポケシフター" };
         public static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2", "pt" };
         private const string DefaultLanguage = "en";
+        private const string LegalityName = "legality_";
         private static readonly GameStrings[] Languages = new GameStrings[lang_val.Length];
+        private static readonly string[][] CheckStrings = new string[lang_val.Length][];
 
         // Lazy fetch implementation
-        public static GameStrings getStrings(string lang)
+        private static int DefaultLanguageIndex => Array.IndexOf(lang_val, DefaultLanguage);
+        private static int getLanguageIndex(string lang)
         {
             int l = Array.IndexOf(lang_val, lang);
-            if (l < 0)
-                l = 1;
-            return getIndex(l);
+            return l < 0 ? DefaultLanguageIndex : l;
         }
-        private static GameStrings getIndex(int index)
+        public static GameStrings getStrings(string lang)
         {
+            int index = getLanguageIndex(lang);
             return Languages[index] ?? (Languages[index] = new GameStrings(lang_val[index]));
         }
-
-        private static string getTransporterName(string Language)
+        public static IEnumerable<string> getCheckStrings(string lang)
         {
-            int lang = Array.IndexOf(lang_val, Language);
-            if (lang < 0 || lang >= ptransp.Length)
-                lang = Array.IndexOf(lang_val, DefaultLanguage);
-            
-            return  ptransp[lang < 0 ? 1 : lang];
+            int index = getLanguageIndex(lang);
+            return CheckStrings[index] ?? (CheckStrings[index] = Util.getStringList(LegalityName + lang_val[index]));
+        }
+        private static string getTransporterName(string lang)
+        {
+            int index = getLanguageIndex(lang);
+            if (index >= ptransp.Length)
+                index = DefaultLanguageIndex;
+            return ptransp[index];
         }
 
         // String providing

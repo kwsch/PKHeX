@@ -1414,6 +1414,10 @@ namespace PKHeX.WinForms
             string l = curlanguage;
             GameInfo.Strings = GameInfo.getStrings(l);
 
+            // Update Legality Strings
+            // Clipboard.SetText(string.Join(Environment.NewLine, CheckStrings.getLocalization()));
+            new Thread(() => { CheckStrings.setLocalization(GameInfo.getCheckStrings(l)); }).Start();
+
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;
 
