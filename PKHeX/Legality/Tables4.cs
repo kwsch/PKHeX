@@ -192,10 +192,10 @@ namespace PKHeX.Core
 
         internal static readonly int[][] SpecialTutors_Compatibility_4 =
         {
-            new int[] { 006, 157, 257, 392 },
-            new int[] { 009, 160, 260, 395 },
-            new int[] { 003, 154, 254, 389 },
-            new int[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 }
+            new[] { 006, 157, 257, 392 },
+            new[] { 009, 160, 260, 395 },
+            new[] { 003, 154, 254, 389 },
+            new[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 }
         };
 
         internal static readonly int[] Roaming_MetLocation_DPPt =
@@ -401,73 +401,16 @@ namespace PKHeX.Core
                      new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Super_Rod }, // Feebas
                 },},
             new EncounterArea {
-                Location = 53, //Solaceon Ruins
-                Slots = new[]
-                {
-                    //new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 0 }, // Unown A Loaded from encounters raw file
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 1 }, // Unown B
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 2 }, // Unown C
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 3 }, // Unown D
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 4 }, // Unown E
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 5 }, // Unown F
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 6 }, // Unown G
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 7 }, // Unown H
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 8 }, // Unown I
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 9 }, // Unown J
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 10 }, // Unown K
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 11 }, // Unown L
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 12 }, // Unown M
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 13 }, // Unown N
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 14 }, // Unown O
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 15 }, // Unown P
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 16 }, // Unown Q
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 17 }, // Unown R
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 18 }, // Unown S
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 19 }, // Unown T
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 20 }, // Unown U
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 21 }, // Unown V
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 22 }, // Unown W
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 23 }, // Unown X
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 24 }, // Unown Y
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 25 }, // Unown !
-                    new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = 26 }, // Unown ?
-                },},
+                Location = 53, // Solaceon Ruins
+                Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+            },
         };
-
         private static readonly EncounterArea[] SlotsHGSSAlt =
         {
             new EncounterArea {
                 Location = 209, // Ruins of Alph
-                Slots = new[]
-                {
-                    //new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 0 }, // Unown A Loaded from encounters raw file
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 1 }, // Unown B
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 2 }, // Unown C
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 3 }, // Unown D
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 4 }, // Unown E
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 5 }, // Unown F
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 6 }, // Unown G
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 7 }, // Unown H
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 8 }, // Unown I
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 9 }, // Unown J
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 10 }, // Unown K
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 11 }, // Unown L
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 12 }, // Unown M
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 13 }, // Unown N
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 14 }, // Unown O
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 15 }, // Unown P
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 16 }, // Unown Q
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 17 }, // Unown R
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 18 }, // Unown S
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 19 }, // Unown T
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 20 }, // Unown U
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 21 }, // Unown V
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 22 }, // Unown W
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 23 }, // Unown X
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 24 }, // Unown Y
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 25 }, // Unown !
-                    new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = 26 }, // Unown ?
-                },},
+                Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+            },
         };
 
         private static readonly EncounterArea SlotsPt_HoneyTree =
@@ -502,27 +445,27 @@ namespace PKHeX.Core
                 }).ToArray()
             };
 
-        private static readonly int[] Shellos_EastSeaLocation_DP = new[]
+        private static readonly int[] Shellos_EastSeaLocation_DP =
         {
             28, // Route 213
             34, // Route 224
         };
 
-        private static readonly int[] Shellos_EastSeaLocation_Pt = new[]
+        private static readonly int[] Shellos_EastSeaLocation_Pt =
         {
             11, // Pastoria City
             27, // Route 212
             28, // Route 213
         };
 
-        private static readonly int[] Gastrodon_EastSeaLocation_DP = new[]
+        private static readonly int[] Gastrodon_EastSeaLocation_DP =
         {
             37, // Route 222
             39, // Route 224
             45, // Route 230
         };
 
-        private static readonly int[] Gastrodon_EastSeaLocation_Pt = new[]
+        private static readonly int[] Gastrodon_EastSeaLocation_Pt =
         {
             11, // Pastoria City
             27, // Route 212
@@ -531,7 +474,7 @@ namespace PKHeX.Core
             45, // Route 230
         };
 
-        private static readonly int[] HoneyTreesLocation = new[]
+        private static readonly int[] HoneyTreesLocation =
         {
             20, // Route 205
             21, // Route 206
@@ -576,8 +519,7 @@ namespace PKHeX.Core
             new EncounterArea {Location = 048, Slots = new[]{new EncounterSlot {Species = 287, Type = SlotType.Grass }, },},// Slakoth @ Eterna Forest
         };
 
-        private static readonly EncounterArea[] SlotsDP_Swarm = SlotsDPPT_Swarm.Concat(
-            new EncounterArea[] {
+        private static readonly EncounterArea[] SlotsDP_Swarm = SlotsDPPT_Swarm.Concat(new[] {
                 new EncounterArea {Location = 021, Slots = new[]{new EncounterSlot {Species = 299, Type = SlotType.Grass }, },},// Nosepass @ Route 206
                 new EncounterArea {Location = 028, Slots = new[]{new EncounterSlot {Species = 359, Type = SlotType.Grass }, },},// Absol @ Route 213
                 new EncounterArea {Location = 031, Slots = new[]{new EncounterSlot {Species = 225, Type = SlotType.Grass }, },},// Delibird @ Route 216
@@ -589,8 +531,7 @@ namespace PKHeX.Core
                 new EncounterArea {Location = 078, Slots = new[]{new EncounterSlot {Species = 238, Type = SlotType.Grass }, },},// Smoochum @ Lake Acuity
             }).ToArray();
 
-        private static readonly EncounterArea[] SlotsPt_Swarm = SlotsDPPT_Swarm.Concat(
-            new EncounterArea[] {
+        private static readonly EncounterArea[] SlotsPt_Swarm = SlotsDPPT_Swarm.Concat(new[] {
                 new EncounterArea {Location = 021, Slots = new[]{new EncounterSlot {Species = 246, Type = SlotType.Grass }, },},// Larvitar @ Route 206
                 new EncounterArea {Location = 032, Slots = new[]{new EncounterSlot {Species = 225, Type = SlotType.Grass }, },},// Delibird @ Route 217
                 new EncounterArea {Location = 044, Slots = new[]{new EncounterSlot {Species = 127, Type = SlotType.Grass }, },},// Pinsir @ Route 229
@@ -620,13 +561,11 @@ namespace PKHeX.Core
             new EncounterArea {Location = 220, Slots = new[]{new EncounterSlot {Species = 206, Type = SlotType.Grass },},}, // Dunsparce @ Dark Cave
             new EncounterArea {Location = 224, Slots = new[]{new EncounterSlot {Species = 401, Type = SlotType.Grass },},}, // Kricketot @ Viridian Forest
         };
-        private static readonly EncounterArea[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(
-            new EncounterArea[] {
+        private static readonly EncounterArea[] SlotsHG_Swarm = SlotsHGSS_Swarm.Concat(new[] {
                 new EncounterArea {Location = 151, Slots = new[]{new EncounterSlot {Species = 343, Type = SlotType.Grass },},}, // Baltoy @ Route 3
                 new EncounterArea {Location = 157, Slots = new[]{new EncounterSlot {Species = 302, Type = SlotType.Grass },},}, // Sableye @ Route 9
         }).ToArray();
-        private static readonly EncounterArea[] SlotsSS_Swarm = SlotsHGSS_Swarm.Concat(
-            new EncounterArea[] {
+        private static readonly EncounterArea[] SlotsSS_Swarm = SlotsHGSS_Swarm.Concat(new[] {
                 new EncounterArea {Location = 151, Slots = new[]{new EncounterSlot {Species = 316, Type = SlotType.Grass },},}, // Gulpin @ Route 3
                 new EncounterArea {Location = 157, Slots = new[]{new EncounterSlot {Species = 303, Type = SlotType.Grass },},}, // Mawile @ Route 9
         }).ToArray();

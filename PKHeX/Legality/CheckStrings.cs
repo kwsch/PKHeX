@@ -9,13 +9,27 @@ namespace PKHeX.Core
 {
     public static class CheckStrings
     {
-        public const string splitter = " = ";
-        public static void RefreshStrings(IEnumerable<string> lines)
+        private const string splitter = " = ";
+        private static readonly Type t = typeof(CheckStrings);
+        private static string[] getProps(IEnumerable<string> input)
         {
-            var t = typeof (CheckStrings);
+            return input.Select(l => l.Substring(0, l.IndexOf(splitter, StringComparison.Ordinal))).ToArray();
+        }
+        private static IEnumerable<string> DumpStrings()
+        {
+            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
+            return props.Select(p => $"{p}{splitter}{ReflectUtil.GetValue(t, p).ToString()}");
+        }
+        
+        public static void setLocalization(IEnumerable<string> lines)
+        {
+            if (lines == null)
+                return;
             foreach (var line in lines.Where(l => l != null))
             {
                 var index = line.IndexOf(splitter, StringComparison.Ordinal);
+                if (index < 0)
+                    continue;
                 var prop = line.Substring(0, index);
                 var value = line.Substring(index + splitter.Length);
 
@@ -29,24 +43,20 @@ namespace PKHeX.Core
                 }
             }
         }
-        public static IEnumerable<string> DumpStrings()
+        public static string[] getLocalization(string[] existingLines = null)
         {
-            var t = typeof (CheckStrings);
-            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
-            return props.Select(p => $"{p}{splitter}{ReflectUtil.GetValue(t, p).ToString()}");
-        }
-        public static string[] UpdateLocalization(string[] lines)
-        {
-            List<string> list = new List<string>();
-            var current = DumpStrings();
-            foreach (var line in current)
+            existingLines = existingLines ?? new string[0];
+            var currentLines = DumpStrings().ToArray();
+            var existing = getProps(existingLines);
+            var current = getProps(currentLines);
+            
+            var result = new string[currentLines.Length];
+            for (int i = 0; i < current.Length; i++)
             {
-                int index = line.IndexOf(splitter, StringComparison.Ordinal);
-                string prop = line.Substring(0, index);
-                string match = lines.FirstOrDefault(l => l.StartsWith(prop));
-                list.Add(match ?? line);
+                int index = Array.IndexOf(existing, current[i]);
+                result[i] = index < 0 ? currentLines[i] : existingLines[index];
             }
-            return list.ToArray();
+            return result;
         }
 
         #region General Strings
