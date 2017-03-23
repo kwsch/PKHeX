@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
         {
             if (SAV.SM) // Ensure magearna event flag has magic constant
             {
-                BitConverter.GetBytes(flags[3100] ? MagearnaConst : 0).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
+                BitConverter.GetBytes(flags[3100] ? MagearnaConst : 0).CopyTo(SAV.Data, ((SAV7) SAV).QRSaveData + 0x168);
             }
 
         }
@@ -293,8 +293,8 @@ namespace PKHeX.WinForms
             if (editing)
                 return;
             editing = true;
-            int flagnum = getControlNum((CheckBox) sender);
-            flags[flagnum] = ((CheckBox)sender).Checked;
+            int flagnum = getControlNum(sender as CheckBox);
+            flags[flagnum] = ((CheckBox) sender).Checked;
             if (NUD_Flag.Value == flagnum)
                 c_CustomFlag.Checked = flags[flagnum];
             editing = false;
@@ -306,7 +306,7 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             
-            Constants[CB_Stats.SelectedIndex] = (ushort)(Util.ToUInt32(((MaskedTextBox)sender).Text) & 0xFFFF);
+            Constants[CB_Stats.SelectedIndex] = (ushort)(Util.ToUInt32((sender as MaskedTextBox)?.Text) & 0xFFFF);
             MaskedTextBox m = TLP_Flags.Controls[constTag + CB_Stats.SelectedIndex.ToString("0000")] as MaskedTextBox;
             if (m != null)
                 m.Text = MT_Stat.Text;
@@ -329,8 +329,8 @@ namespace PKHeX.WinForms
             int constnum = getControlNum((Control)sender);
             if (sender is ComboBox)
             {
-                var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow((Control)sender));
-                var sel_val = (int)((ComboBox)sender).SelectedValue;
+                var nud = (NumericUpDown)TLP_Const.GetControlFromPosition(2, TLP_Const.GetRow((Control) sender));
+                var sel_val = (int)(sender as ComboBox).SelectedValue;
                 editing = true;
                 nud.Enabled = sel_val == -1;
                 if (sel_val != -1)
@@ -341,7 +341,7 @@ namespace PKHeX.WinForms
             else if (sender is NumericUpDown)
             {
                 editing = true;
-                Constants[constnum] = (ushort)(Util.ToUInt32(((NumericUpDown)sender).Text) & 0xFFFF);
+                Constants[constnum] = (ushort)(Util.ToUInt32((sender as NumericUpDown).Text) & 0xFFFF);
                 if (constnum == CB_Stats.SelectedIndex)
                     MT_Stat.Text = Constants[constnum].ToString();
                 editing = false;

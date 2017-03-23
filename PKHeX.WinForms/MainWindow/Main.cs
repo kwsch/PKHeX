@@ -2624,7 +2624,7 @@ namespace PKHeX.WinForms
             if (CB_ExtraBytes.Items.Count == 0)
                 return;
             // Changed Extra Byte's Value
-            if (Util.ToInt32(((MaskedTextBox) sender).Text) > byte.MaxValue)
+            if (Util.ToInt32((sender as MaskedTextBox)?.Text) > byte.MaxValue)
                 ((MaskedTextBox) sender).Text = "255";
 
             int value = Util.ToInt32(TB_ExtraByte.Text);
@@ -4231,8 +4231,8 @@ namespace PKHeX.WinForms
             // and use that file to perform a drag drop operation.
 
             // Abort if there is no Pokemon in the given slot.
-            PictureBox pb = (PictureBox)sender;
-            if (pb.Image == null)
+            PictureBox pb = sender as PictureBox;
+            if (pb?.Image == null)
                 return;
 
             int slot = getSlot(pb);
@@ -4371,7 +4371,7 @@ namespace PKHeX.WinForms
                 else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid)
                 {
                     // Load data from destination
-                    PKM pk = ((PictureBox) sender).Image != null
+                    PKM pk = (sender as PictureBox)?.Image != null
                         ? DragInfo.getPKMfromDestination(SAV)
                         : SAV.BlankPKM;
 
