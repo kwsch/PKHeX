@@ -992,7 +992,7 @@ namespace PKHeX.Core
                         bool grotto = ((EncounterSlot[])EncounterMatch).All(slot => slot.Type == SlotType.HiddenGrotto); //encounter only at HiddenGrotto
                         if (pkm.AbilityNumber == 4 ^ grotto)
                         {
-                            AddLine(Severity.Invalid, grotto ? V217 : V218, CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
                             return;
                         }
                     }
@@ -1023,7 +1023,7 @@ namespace PKHeX.Core
 
                         if (!valid)
                         {
-                            AddLine(Severity.Invalid, "Hidden Ability on non-horde/friend safari wild encounter.", CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, V300, CheckIdentifier.Ability);
                             return;
                         }
                     }
@@ -1673,7 +1673,7 @@ namespace PKHeX.Core
                 if (pkm.HT_Memory == 0)
                 {
                     if (pkm.HT_TextVar != 0 || pkm.HT_Intensity != 0 || pkm.HT_Feeling != 0)
-                        AddLine(Severity.Invalid, "HT memory not cleared properly.", CheckIdentifier.Memory);
+                        AddLine(Severity.Invalid, V329, CheckIdentifier.Memory);
                     return;
                 }
 
@@ -1736,14 +1736,14 @@ namespace PKHeX.Core
                     pass = pkm.Country == 128;
                     break;
                 default:
-                    AddLine(new CheckResult(Severity.Invalid, "Invalid Console Region.", CheckIdentifier.Geography));
+                    AddLine(new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography));
                     return;
             }
 
             if (!pass)
-                AddLine(Severity.Invalid, "Geolocation: Country is not in 3DS region.", CheckIdentifier.Geography);
+                AddLine(Severity.Invalid, V302, CheckIdentifier.Geography);
             else
-                AddLine(Severity.Valid, "Geolocation: Country is in 3DS region.", CheckIdentifier.Geography);
+                AddLine(Severity.Valid, V303, CheckIdentifier.Geography);
         }
         private void verifyForm()
         {
@@ -1771,7 +1771,7 @@ namespace PKHeX.Core
                     valid = true;
 
                 if (!valid) // ignore list
-                { AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form); return; }
+                { AddLine(Severity.Invalid, string.Format(V304, pkm.PersonalInfo.FormeCount, pkm.AltForm), CheckIdentifier.Form); return; }
             }
 
             switch (pkm.Species)
@@ -1779,9 +1779,7 @@ namespace PKHeX.Core
                 case 25: // Pikachu
                     if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
                     {
-                        string msg = EncounterType == typeof (EncounterStatic)
-                            ? "Cosplay Pikachu cannot have the default form."
-                            : "Only Cosplay Pikachu can have this form.";
+                        string msg = EncounterType == typeof (EncounterStatic) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
@@ -1790,7 +1788,7 @@ namespace PKHeX.Core
                         var gift = EncounterMatch as WC7;
                         if (gift != null && gift.Form != pkm.AltForm)
                         {
-                            AddLine(Severity.Invalid, "Event Pikachu cannot have the default form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V307, CheckIdentifier.Form);
                             return;
                         }
                     }
@@ -1798,7 +1796,7 @@ namespace PKHeX.Core
                 case 487: // Giratina
                     if (pkm.AltForm == 1 ^ pkm.HeldItem == 112) // Origin form only with Griseous Orb
                     {
-                        AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1811,11 +1809,19 @@ namespace PKHeX.Core
                         else if (777 <= item && item <= 793)
                             form = Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
                         if (form != pkm.AltForm)
-                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else if (form != 0)
-                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                     }
                     break;
+                case 647: // Keldeo
+                    {
+                        int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
+                        bool noSword = index < 0;
+                        if (pkm.AltForm == 0 ^ noSword) // mismatch
+                            vMoves[noSword ? 0 : index] = new CheckResult(Severity.Invalid, V169, CheckIdentifier.Move);
+                        break;
+                    }
                 case 649: // Genesect
                     {
                         int item = pkm.HeldItem;
@@ -1824,15 +1830,15 @@ namespace PKHeX.Core
                             form = item - 115;
 
                         if (form != pkm.AltForm)
-                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else
-                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                     }
                     break;
                 case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1840,7 +1846,7 @@ namespace PKHeX.Core
                 case 665: // Spewpa
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
-                        AddLine(Severity.Invalid, "Event Vivillon pattern on pre-evolution.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V311, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1848,9 +1854,9 @@ namespace PKHeX.Core
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         if (!EncounterIsMysteryGift)
-                            AddLine(Severity.Invalid, "Invalid Vivillon pattern.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                         else
-                            AddLine(Severity.Valid, "Valid Vivillon pattern.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V313, CheckIdentifier.Form);
 
                         return;
                     }
@@ -1859,9 +1865,9 @@ namespace PKHeX.Core
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
                         if (!EncounterIsMysteryGift)
-                            AddLine(Severity.Invalid, "Invalid Eternal Flower encounter.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V314, CheckIdentifier.Form);
                         else
-                            AddLine(Severity.Valid, "Valid Eternal Flower encounter.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V315, CheckIdentifier.Form);
 
                         return;
                     }
@@ -1869,7 +1875,7 @@ namespace PKHeX.Core
                 case 718: // Zygarde
                     if (pkm.AltForm >= 4)
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1880,15 +1886,15 @@ namespace PKHeX.Core
                         if ((904 <= item && item <= 920) || item == 644)
                             form = item - 903;
                         if (form != pkm.AltForm)
-                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else if (form != 0)
-                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                         break;
                     }
                 case 774: // Minior
                     if (pkm.AltForm < 7)
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1899,7 +1905,7 @@ namespace PKHeX.Core
                 case 720: // Hoopa
                     if (pkm.AltForm != 0 && pkm.Box > -1) // has form but stored in box
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of Party.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V316, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1908,12 +1914,12 @@ namespace PKHeX.Core
             if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0)
             {
                 if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species))
-                { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+                { AddLine(Severity.Invalid, V317, CheckIdentifier.Form); return; }
             }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
-            { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
+            { AddLine(Severity.Invalid, V310, CheckIdentifier.Form); return; }
 
-            AddLine(Severity.Valid, "Form is Valid.", CheckIdentifier.Form);
+            AddLine(Severity.Valid, V318, CheckIdentifier.Form);
         }
         private void verifyMisc()
         {
@@ -1925,9 +1931,9 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
-                { AddLine(Severity.Invalid, "Cannot apply PP Ups to an Egg.", CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); return; }
                 if (pkm.CNTs.Any(stat => stat > 0))
-                { AddLine(Severity.Invalid, "Cannot increase Contest Stats of an Egg.", CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); return; }
             }
 
             if (Encounter.Valid)
@@ -1935,9 +1941,9 @@ namespace PKHeX.Core
                 if (EncounterIsMysteryGift)
                 {
                     if (pkm.FatefulEncounter)
-                        AddLine(Severity.Valid, "Mystery Gift Fateful Encounter.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
                     else
-                        AddLine(Severity.Invalid, "Mystery Gift Fateful Encounter flag missing.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
                 if (EncounterType == typeof (EncounterStatic))
@@ -1946,25 +1952,25 @@ namespace PKHeX.Core
                     if (enc.Fateful)
                     {
                         if (pkm.FatefulEncounter)
-                            AddLine(Severity.Valid, "Special ingame Fateful Encounter.", CheckIdentifier.Fateful);
+                            AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
                         else
-                            AddLine(Severity.Invalid, "Special ingame Fateful Encounter flag missing.", CheckIdentifier.Fateful);
+                            AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
                     }
                     else if (pkm.FatefulEncounter)
-                        AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                     return;
                 }
                 if (pkm.FatefulEncounter)
-                    AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
+                    AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                 if (pkm.Format == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     bool req = enc?.NSparkle ?? false;
                     bool has = ((PK5) pkm).NPokémon;
                     if (req && !has)
-                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag missing.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
                     if (!req && has)
-                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag should not be checked.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
                 }
             }
         }
@@ -1983,7 +1989,7 @@ namespace PKHeX.Core
                     if (pkm.AltForm == 0 && pkm.Version == 31 // Moon
                         || pkm.AltForm == 1 && pkm.Version == 30) // Sun
                         if (pkm.IsUntraded)
-                            AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                            AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     break;
 
                 case 791: // Solgaleo
@@ -1991,7 +1997,7 @@ namespace PKHeX.Core
                     {
                         if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
-                        AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                        AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
                     break;
                 case 792: // Lunala
@@ -1999,7 +2005,7 @@ namespace PKHeX.Core
                     {
                         if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
-                        AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                        AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
                     break;
             }
@@ -2007,63 +2013,71 @@ namespace PKHeX.Core
 
         private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
         {
-            int[] Moves = pkm.Moves;
-            CheckResult[] res = new CheckResult[4];
-            for (int i = 0; i < 4; i++)
-                res[i] = new CheckResult(CheckIdentifier.Move);
-            
             var validLevelMoves = Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: false, Machine: false).ToArray();
             var validTMHM = Legal.getValidMoves(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false).ToArray();
             var validTutor = Legal.getValidMoves(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false).ToArray();
-            if (pkm.Species == 235) // Smeargle
-            {
-                for (int i = 0; i < 4; i++)
-                    res[i] = Legal.InvalidSketch.Contains(Moves[i])
-                        ? new CheckResult(Severity.Invalid, V166, CheckIdentifier.Move)
-                        : new CheckResult(CheckIdentifier.Move);
-            }
-            else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched
-            {
-                int[] RelearnMoves = pkm.RelearnMoves;
-                foreach (MysteryGift mg in EventGiftMatch)
-                {
-                    int[] SpecialMoves = mg.Moves;
-                    res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0]);
-                    if (res.Any(r => !r.Valid))
-                        continue;
 
-                    EncounterMatch = mg;
-                    RelearnBase = mg.RelearnMoves;
-                    break;
-                }
-            }
-            else
-            {
-                int[] EggMoves = pkm.WasEgg ? Legal.getEggMoves(pkm, game).ToArray() : new int[0];
-                int[] RelearnMoves = pkm.RelearnMoves;
-                int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
-                                     (EncounterMatch as EncounterStatic)?.Moves ??
-                                     (EncounterMatch as EncounterTrade)?.Moves ??
-                                     new int[0];
-
-                res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, EggMoves);
-
-                if (pkm.GenNumber >= 6)
-                    for (int i = 0; i < 4; i++)
-                        if (res[i].Flag && !RelearnMoves.Contains(Moves[i]))
-                            res[i] = new CheckResult(Severity.Invalid, string.Format(V170, res[i].Comment), res[i].Identifier);
-            }
-            if (Moves[0] == 0) // None
-                res[0] = new CheckResult(Severity.Invalid, V167, CheckIdentifier.Move);
-
-            if (pkm.Species == 647) // Keldeo
-                if (pkm.AltForm == 1 ^ pkm.Moves.Contains(548))
-                    res[Math.Max(Array.IndexOf(pkm.Moves, 548), 0)] = new CheckResult(Severity.Invalid, V169, CheckIdentifier.Move);
+            CheckResult[] res;
+            int[] Moves = pkm.Moves;
+            if (pkm.Species == 235) // Smeargle can have any move except a few
+                res = parseMovesSketch(Moves);
+            else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
+                res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+            else // Everything else
+                res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, game);
 
             // Duplicate Moves Check
+            verifyNoEmptyDuplicates(Moves, res);
+            if (Moves[0] == 0) // Can't have an empty moveslot for the first move.
+                res[0] = new CheckResult(Severity.Invalid, V167, CheckIdentifier.Move);
+
+            return res;
+        }
+        private CheckResult[] parseMovesSketch(int[] Moves)
+        {
+            CheckResult[] res = new CheckResult[4];
             for (int i = 0; i < 4; i++)
-                if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
-                    res[i] = new CheckResult(Severity.Invalid, V168, CheckIdentifier.Move);
+                res[i] = Legal.InvalidSketch.Contains(Moves[i])
+                    ? new CheckResult(Severity.Invalid, V166, CheckIdentifier.Move)
+                    : new CheckResult(CheckIdentifier.Move);
+            return res;
+        }
+        private CheckResult[] parseMovesGetGift(int[] Moves, int[] validLevelMoves, int[] validTMHM, int[] validTutor)
+        {
+            int[] RelearnMoves = pkm.RelearnMoves;
+            foreach (MysteryGift mg in EventGiftMatch)
+            {
+                int[] SpecialMoves = mg.Moves;
+                CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0]);
+                if (res.Any(r => !r.Valid))
+                    continue;
+
+                // Match Found
+                EncounterMatch = mg;
+                RelearnBase = mg.RelearnMoves;
+                return res;
+            }
+
+            // no Mystery Gifts matched
+            return parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, new int[0], new int[0]);
+        }
+        private CheckResult[] parseMovesRegular(int[] Moves, int[] validLevelMoves, int[] validTMHM, int[] validTutor, GameVersion game)
+        {
+            int[] EggMoves = pkm.WasEgg ? Legal.getEggMoves(pkm, game).ToArray() : new int[0];
+            int[] RelearnMoves = pkm.RelearnMoves;
+            int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
+                                 (EncounterMatch as EncounterStatic)?.Moves ??
+                                 (EncounterMatch as EncounterTrade)?.Moves ??
+                                 new int[0];
+
+            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, EggMoves);
+
+            if (pkm.GenNumber < 6)
+                return res;
+
+            for (int i = 0; i < 4; i++)
+                if (res[i].Flag && !RelearnMoves.Contains(Moves[i]))
+                    res[i] = new CheckResult(Severity.Invalid, string.Format(V170, res[i].Comment), res[i].Identifier);
 
             return res;
         }
@@ -2091,176 +2105,236 @@ namespace PKHeX.Core
             }
             return res;
         }
+
         private CheckResult[] verifyRelearn()
         {
             RelearnBase = null;
-            CheckResult[] res = new CheckResult[4];
-            
-            int[] Moves = pkm.RelearnMoves;
+
             if (pkm.GenNumber < 6 || pkm.VC1)
-                goto noRelearn;
+                return verifyRelearnNone();
 
             if (pkm.WasLink)
-            {
-                var Link = Legal.getValidLinkGifts(pkm);
-                if (Link == null)
-                {
-                    for (int i = 0; i < 4; i++)
-                        res[i] = new CheckResult(CheckIdentifier.RelearnMove);
-                    return res;
-                }
-                EncounterMatch = Link;
+                return verifyRelearnLink();
 
-                int[] moves = ((EncounterLink)EncounterMatch).RelearnMoves;
-                RelearnBase = moves;
-                for (int i = 0; i < 4; i++)
-                    res[i] = moves[i] != Moves[i]
-                        ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-                return res;
-            }
             if (pkm.WasEvent || pkm.WasEventEgg)
-            {
-                // Get WC6's that match
-                EventGiftMatch = new List<MysteryGift>(Legal.getValidGifts(pkm));
-                foreach (MysteryGift mg in EventGiftMatch.ToArray())
-                {
-                    int[] moves = mg.RelearnMoves;
-                    for (int i = 0; i < 4; i++)
-                        res[i] = moves[i] != Moves[i]
-                            ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
-                            : new CheckResult(CheckIdentifier.RelearnMove);
-                    if (res.Any(r => !r.Valid))
-                        EventGiftMatch.Remove(mg);
-                }
-                if (EventGiftMatch.Count > 1)
-                    return res;
-                if (EventGiftMatch.Count == 1)
-                { EncounterMatch = EventGiftMatch[0]; RelearnBase = EventGiftMatch[0].RelearnMoves; return res; }
-
-                EncounterMatch = EncounterType = null;
-                goto noRelearn; // No WC match
-            }
+                return verifyRelearnMysteryGift();
 
             if (pkm.WasEgg && !Legal.NoHatchFromEgg.Contains(pkm.Species))
+                return verifyRelearnEgg();
+
+            if (pkm.RelearnMove1 != 0 && Legal.getDexNavValid(pkm))
+                return verifyRelearnDexNav();
+
+            return verifyRelearnNone();
+        }
+        private CheckResult[] verifyRelearnMysteryGift()
+        {
+            CheckResult[] res = new CheckResult[4];
+            int[] RelearnMoves = pkm.RelearnMoves;
+            // Get gifts that match
+
+            EventGiftMatch = new List<MysteryGift>(Legal.getValidGifts(pkm));
+            foreach (MysteryGift mg in EventGiftMatch.ToArray())
             {
-                GameVersion[] Games = {};
-                switch (pkm.GenNumber)
-                {
-                    case 6:
-                        Games = new[] {GameVersion.XY, GameVersion.ORAS};
-                        break;
-                    case 7:
-                        Games = new[] {GameVersion.SM};
-                        break;
-                }
-
-                bool checkAllGames = pkm.WasTradedEgg;
-                bool splitBreed = Legal.SplitBreed.Contains(pkm.Species);
-
-                int iterate = (checkAllGames ? Games.Length : 1) * (splitBreed ? 2 : 1);
-                for (int i = 0; i < iterate; i++)
-                {
-                    int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);
-                    int skipOption = splitBreed && iterate / 2 <= i ? 1 : 0;
-                    GameVersion ver = gameSource == -1 ? GameVersion.Any : Games[gameSource];
-
-                    // Obtain level1 moves
-                    List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, skipOption, ver));
-                    int baseCt = baseMoves.Count;
-                    if (baseCt > 4) baseCt = 4;
-
-                    // Obtain Nonstandard moves
-                    var relearnMoves = Legal.getValidRelearn(pkm, skipOption).ToList();
-                    var relearn = pkm.RelearnMoves.Where(move => move != 0 
-                        && (!baseMoves.Contains(move) || relearnMoves.Contains(move))
-                        ).ToArray();
-                    int relearnCt = relearn.Length;
-
-                    // Get Move Window
-                    List<int> window = new List<int>(baseMoves);
-                    window.AddRange(relearn);
-                    int[] moves = window.Skip(baseCt + relearnCt - 4).Take(4).ToArray();
-                    Array.Resize(ref moves, 4);
-
-                    int reqBase;
-                    int unique = baseMoves.Concat(relearn).Distinct().Count();
-                    if (relearnCt == 4)
-                        reqBase = 0;
-                    else if (baseCt + relearnCt > 4)
-                        reqBase = 4 - relearnCt;
-                    else
-                        reqBase = baseCt;
-
-                    if (pkm.RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
-                        reqBase = Math.Min(4, unique);
-
-                    // Movepool finalized! Check validity.
-                    
-                    int[] rl = pkm.RelearnMoves;
-                    string em = string.Join(", ", baseMoves.Select(r => r >= movelist.Length ? V190 : movelist[r]));
-                    RelearnBase = baseMoves.ToArray();
-                    // Base Egg Move
-                    for (int j = 0; j < reqBase; j++)
-                    {
-                        if (baseMoves.Contains(rl[j]))
-                            res[j] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
-                        else
-                        {
-                            res[j] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
-                            for (int f = j+1; f < reqBase; f++)
-                                res[f] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
-                            res[reqBase-1].Comment += string.Format(Environment.NewLine + V181, em);
-                            break;
-                        }
-                    }
-
-                    // Non-Base
-                    if (Legal.LightBall.Contains(pkm.Species))
-                        relearnMoves.Add(344);
-                    for (int j = reqBase; j < 4; j++)
-                        res[j] = !relearnMoves.Contains(rl[j])
-                            ? new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove)
-                            : new CheckResult(Severity.Valid, rl[j] == 0 ? V167 : V172, CheckIdentifier.RelearnMove);
-
-                    if (res.All(r => r.Valid))
-                        break;
-                }
-                
-                // Duplicate Moves Check
+                int[] moves = mg.RelearnMoves;
                 for (int i = 0; i < 4; i++)
-                    if (Moves.Count(m => m != 0 && m == Moves[i]) > 1)
-                        res[i] = new CheckResult(Severity.Invalid, V168, CheckIdentifier.RelearnMove);
-
-                return res;
+                    res[i] = moves[i] != RelearnMoves[i]
+                        ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
+                        : new CheckResult(CheckIdentifier.RelearnMove);
+                if (res.Any(r => !r.Valid))
+                    EventGiftMatch.Remove(mg);
             }
-            if (Moves[0] != 0) // DexNav only?
+            if (EventGiftMatch.Count > 1)
+                return res;
+
+            if (EventGiftMatch.Count == 1)
             {
-                // Check DexNav
-                if (!Legal.getDexNavValid(pkm))
-                    goto noRelearn;
-
-                res[0] = !Legal.getValidRelearn(pkm, 0).Contains(Moves[0])
-                        ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-                for (int i = 1; i < 4; i++)
-                    res[i] = Moves[i] != 0
-                        ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-
-                if (res[0].Valid)
-                    RelearnBase = new[] { Moves[0], 0, 0, 0 };
+                EncounterMatch = EventGiftMatch[0];
+                RelearnBase = EventGiftMatch[0].RelearnMoves;
                 return res;
             }
 
-            // Should have no relearn moves.
-            noRelearn:
-            for (int i = 0; i < 4; i++)
-                res[i] = Moves[i] != 0
+            // No gift match, thus no relearn moves
+            EncounterMatch = EncounterType = null;
+            return verifyRelearnNone(); 
+        }
+        private CheckResult[] verifyRelearnDexNav()
+        {
+            CheckResult[] res = new CheckResult[4];
+            int[] RelearnMoves = pkm.RelearnMoves;
+
+            // DexNav Pokémon can have 1 random egg move as a relearn move.
+            res[0] = !Legal.getValidRelearn(pkm, 0).Contains(RelearnMoves[0])
+                    ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
+                    : new CheckResult(CheckIdentifier.RelearnMove);
+
+            // All other relearn moves must be empty.
+            for (int i = 1; i < 4; i++)
+                res[i] = RelearnMoves[i] != 0
                     ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
+
+            // Update the relearn base moves if the first relearn move is okay.
+            if (res[0].Valid)
+                RelearnBase = new[] { RelearnMoves[0], 0, 0, 0 };
+
             return res;
         }
+        private CheckResult[] verifyRelearnNone()
+        {
+            CheckResult[] res = new CheckResult[4];
+            int[] RelearnMoves = pkm.RelearnMoves;
+            
+            // No relearn moves should be present.
+            for (int i = 0; i < 4; i++)
+                res[i] = RelearnMoves[i] != 0
+                    ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
+                    : new CheckResult(CheckIdentifier.RelearnMove);
+
+            return res;
+        }
+        private CheckResult[] verifyRelearnLink()
+        {
+            // The WasLink check indicated that it was from the Pokémon Link
+            var Link = Legal.getValidLinkGifts(pkm);
+
+            // But no encounter was able to be matched. Abort!
+            if (Link == null)
+                return verifyRelearnNone();
+
+            EncounterMatch = Link;
+            CheckResult[] res = new CheckResult[4];
+            int[] RelearnMoves = pkm.RelearnMoves;
+            int[] LinkRelearn = ((EncounterLink)EncounterMatch).RelearnMoves;
+            
+            // Pokémon Link encounters should have their relearn moves match exactly.
+            RelearnBase = LinkRelearn;
+            for (int i = 0; i < 4; i++)
+                res[i] = LinkRelearn[i] != RelearnMoves[i]
+                    ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[LinkRelearn[i]]), CheckIdentifier.RelearnMove)
+                    : new CheckResult(CheckIdentifier.RelearnMove);
+
+            return res;
+        }
+        private CheckResult[] verifyRelearnEgg()
+        {
+            CheckResult[] res = new CheckResult[4];
+            int[] RelearnMoves = pkm.RelearnMoves;
+
+            // Some games can have different egg movepools. Have to check all situations.
+            GameVersion[] Games = { };
+            switch (pkm.GenNumber)
+            {
+                case 6:
+                    Games = new[] { GameVersion.XY, GameVersion.ORAS };
+                    break;
+                case 7:
+                    Games = new[] { GameVersion.SM };
+                    break;
+            }
+
+            bool checkAllGames = pkm.WasTradedEgg;
+            bool splitBreed = Legal.SplitBreed.Contains(pkm.Species);
+            int iterate = (checkAllGames ? Games.Length : 1) * (splitBreed ? 2 : 1);
+
+            for (int i = 0; i < iterate; i++)
+            {
+                // Obtain parameters for the Egg's Base Moves
+                int gameSource = !checkAllGames ? -1 : i % iterate / (splitBreed ? 2 : 1);
+                int skipOption = splitBreed && iterate / 2 <= i ? 1 : 0;
+                GameVersion ver = gameSource == -1 ? GameVersion.Any : Games[gameSource];
+
+                // Generate & Analyze compatibility
+                res = verifyRelearnEggBase(RelearnMoves, skipOption, ver);
+                if (res.All(r => r.Valid)) // egg is satisfactory
+                    break;
+            }
+
+            verifyNoEmptyDuplicates(RelearnMoves, res);
+            return res;
+        }
+        private CheckResult[] verifyRelearnEggBase(int[] RelearnMoves, int skipOption, GameVersion ver)
+        {
+            CheckResult[] res = new CheckResult[4];
+
+            // Obtain level1 moves
+            List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, skipOption, ver));
+            int baseCt = baseMoves.Count;
+            if (baseCt > 4) baseCt = 4;
+
+            // Obtain Inherited moves
+            var inheritMoves = Legal.getValidRelearn(pkm, skipOption).ToList();
+            var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
+            int inheritCt = inherited.Count;
+
+            // Get Move Window
+            var window = new List<int>();
+            window.AddRange(baseMoves); // initial moves (levelup for current level of egg)
+            window.AddRange(inherited); // nonstandard (egg or higher levelup moves)
+
+            // Get required amount of base moves
+            int unique = baseMoves.Concat(inherited).Distinct().Count();
+            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
+            if (RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
+                reqBase = Math.Min(4, unique);
+            
+            // Store the base moves suggestion.
+            string em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
+
+            // Store the suggested relearn moves.
+            int[] moves = window.Skip(baseCt + inheritCt - 4).Take(4).ToArray();
+            Array.Resize(ref moves, 4);
+            RelearnBase = moves;
+
+            // Check if the required amount of Base Egg Moves are present.
+            for (int i = 0; i < reqBase; i++)
+            {
+                if (baseMoves.Contains(RelearnMoves[i]))
+                    res[i] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
+                else
+                {
+                    // mark remaining base egg moves missing
+                    for (int z = i; z < reqBase; z++)
+                        res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
+
+                    // provide the list of suggested base moves for the last required slot
+                    res[reqBase - 1].Comment += string.Format(Environment.NewLine + V181, em);
+                    break;
+                }
+            }
+
+            // Non-Base moves that can magically appear in the regular movepool
+            if (Legal.LightBall.Contains(pkm.Species))
+                inheritMoves.Add(344);
+
+            // Inherited moves appear after the required base moves.
+            for (int i = reqBase; i < 4; i++)
+            {
+                if (RelearnMoves[i] == 0) // empty
+                    res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.RelearnMove);
+                else if (inheritMoves.Contains(RelearnMoves[i])) // inherited
+                    res[i] = new CheckResult(Severity.Valid, V172, CheckIdentifier.RelearnMove);
+                else // not inheritable, flag
+                    res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
+            }
+
+            return res;
+        }
+
+        private void verifyNoEmptyDuplicates(int[] Moves, CheckResult[] res)
+        {
+            bool emptySlot = false;
+            for (int i = 0; i < 4; i++)
+            {
+                if (Moves[i] == 0)
+                    emptySlot = true;
+                else if (emptySlot)
+                    res[i] = new CheckResult(Severity.Invalid, V167, res[i].Identifier);
+                else if (Moves.Count(m => m == Moves[i]) > 1)
+                    res[i] = new CheckResult(Severity.Invalid, V168, res[i].Identifier);
+            }
+        }
+
         private CheckResult verifyEggMoves()
         {
             if (!pkm.WasEgg || vMoves.All(m => m.Valid))
