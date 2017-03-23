@@ -992,7 +992,7 @@ namespace PKHeX.Core
                         bool grotto = ((EncounterSlot[])EncounterMatch).All(slot => slot.Type == SlotType.HiddenGrotto); //encounter only at HiddenGrotto
                         if (pkm.AbilityNumber == 4 ^ grotto)
                         {
-                            AddLine(Severity.Invalid, grotto ? V217 : V218, CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
                             return;
                         }
                     }
@@ -1023,7 +1023,7 @@ namespace PKHeX.Core
 
                         if (!valid)
                         {
-                            AddLine(Severity.Invalid, "Hidden Ability on non-horde/friend safari wild encounter.", CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, V300, CheckIdentifier.Ability);
                             return;
                         }
                     }
@@ -1673,7 +1673,7 @@ namespace PKHeX.Core
                 if (pkm.HT_Memory == 0)
                 {
                     if (pkm.HT_TextVar != 0 || pkm.HT_Intensity != 0 || pkm.HT_Feeling != 0)
-                        AddLine(Severity.Invalid, "HT memory not cleared properly.", CheckIdentifier.Memory);
+                        AddLine(Severity.Invalid, V329, CheckIdentifier.Memory);
                     return;
                 }
 
@@ -1736,14 +1736,14 @@ namespace PKHeX.Core
                     pass = pkm.Country == 128;
                     break;
                 default:
-                    AddLine(new CheckResult(Severity.Invalid, "Invalid Console Region.", CheckIdentifier.Geography));
+                    AddLine(new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography));
                     return;
             }
 
             if (!pass)
-                AddLine(Severity.Invalid, "Geolocation: Country is not in 3DS region.", CheckIdentifier.Geography);
+                AddLine(Severity.Invalid, V302, CheckIdentifier.Geography);
             else
-                AddLine(Severity.Valid, "Geolocation: Country is in 3DS region.", CheckIdentifier.Geography);
+                AddLine(Severity.Valid, V303, CheckIdentifier.Geography);
         }
         private void verifyForm()
         {
@@ -1771,7 +1771,7 @@ namespace PKHeX.Core
                     valid = true;
 
                 if (!valid) // ignore list
-                { AddLine(Severity.Invalid, $"Form Count is out of range. Expected <= {pkm.PersonalInfo.FormeCount}, got {pkm.AltForm}", CheckIdentifier.Form); return; }
+                { AddLine(Severity.Invalid, string.Format(V304, pkm.PersonalInfo.FormeCount, pkm.AltForm), CheckIdentifier.Form); return; }
             }
 
             switch (pkm.Species)
@@ -1779,9 +1779,7 @@ namespace PKHeX.Core
                 case 25: // Pikachu
                     if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
                     {
-                        string msg = EncounterType == typeof (EncounterStatic)
-                            ? "Cosplay Pikachu cannot have the default form."
-                            : "Only Cosplay Pikachu can have this form.";
+                        string msg = EncounterType == typeof (EncounterStatic) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
@@ -1790,7 +1788,7 @@ namespace PKHeX.Core
                         var gift = EncounterMatch as WC7;
                         if (gift != null && gift.Form != pkm.AltForm)
                         {
-                            AddLine(Severity.Invalid, "Event Pikachu cannot have the default form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V307, CheckIdentifier.Form);
                             return;
                         }
                     }
@@ -1798,7 +1796,7 @@ namespace PKHeX.Core
                 case 487: // Giratina
                     if (pkm.AltForm == 1 ^ pkm.HeldItem == 112) // Origin form only with Griseous Orb
                     {
-                        AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1811,9 +1809,9 @@ namespace PKHeX.Core
                         else if (777 <= item && item <= 793)
                             form = Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
                         if (form != pkm.AltForm)
-                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else if (form != 0)
-                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                     }
                     break;
                 case 649: // Genesect
@@ -1824,15 +1822,15 @@ namespace PKHeX.Core
                             form = item - 115;
 
                         if (form != pkm.AltForm)
-                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else
-                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                     }
                     break;
                 case 658: // Greninja
                     if (pkm.AltForm > 1) // Ash Battle Bond active
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1840,7 +1838,7 @@ namespace PKHeX.Core
                 case 665: // Spewpa
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
-                        AddLine(Severity.Invalid, "Event Vivillon pattern on pre-evolution.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V311, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1848,9 +1846,9 @@ namespace PKHeX.Core
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
                         if (!EncounterIsMysteryGift)
-                            AddLine(Severity.Invalid, "Invalid Vivillon pattern.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                         else
-                            AddLine(Severity.Valid, "Valid Vivillon pattern.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V313, CheckIdentifier.Form);
 
                         return;
                     }
@@ -1859,9 +1857,9 @@ namespace PKHeX.Core
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
                         if (!EncounterIsMysteryGift)
-                            AddLine(Severity.Invalid, "Invalid Eternal Flower encounter.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V314, CheckIdentifier.Form);
                         else
-                            AddLine(Severity.Valid, "Valid Eternal Flower encounter.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V315, CheckIdentifier.Form);
 
                         return;
                     }
@@ -1869,7 +1867,7 @@ namespace PKHeX.Core
                 case 718: // Zygarde
                     if (pkm.AltForm >= 4)
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1880,15 +1878,15 @@ namespace PKHeX.Core
                         if ((904 <= item && item <= 920) || item == 644)
                             form = item - 903;
                         if (form != pkm.AltForm)
-                            AddLine(Severity.Invalid, "Held item does not match Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else if (form != 0)
-                            AddLine(Severity.Valid, "Held item matches Form.", CheckIdentifier.Form);
+                            AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                         break;
                     }
                 case 774: // Minior
                     if (pkm.AltForm < 7)
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1899,7 +1897,7 @@ namespace PKHeX.Core
                 case 720: // Hoopa
                     if (pkm.AltForm != 0 && pkm.Box > -1) // has form but stored in box
                     {
-                        AddLine(Severity.Invalid, "Form cannot exist outside of Party.", CheckIdentifier.Form);
+                        AddLine(Severity.Invalid, V316, CheckIdentifier.Form);
                         return;
                     }
                     break;
@@ -1908,12 +1906,12 @@ namespace PKHeX.Core
             if (pkm.Format >= 7 && pkm.GenNumber < 7 && pkm.AltForm != 0)
             {
                 if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species))
-                { AddLine(Severity.Invalid, "Form cannot be obtained for pre-Alola generation games.", CheckIdentifier.Form); return; }
+                { AddLine(Severity.Invalid, V317, CheckIdentifier.Form); return; }
             }
             if (pkm.AltForm > 0 && new[] {Legal.BattleForms, Legal.BattleMegas, Legal.BattlePrimals}.Any(arr => arr.Contains(pkm.Species)))
-            { AddLine(Severity.Invalid, "Form cannot exist outside of a battle.", CheckIdentifier.Form); return; }
+            { AddLine(Severity.Invalid, V310, CheckIdentifier.Form); return; }
 
-            AddLine(Severity.Valid, "Form is Valid.", CheckIdentifier.Form);
+            AddLine(Severity.Valid, V318, CheckIdentifier.Form);
         }
         private void verifyMisc()
         {
@@ -1925,9 +1923,9 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
-                { AddLine(Severity.Invalid, "Cannot apply PP Ups to an Egg.", CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); return; }
                 if (pkm.CNTs.Any(stat => stat > 0))
-                { AddLine(Severity.Invalid, "Cannot increase Contest Stats of an Egg.", CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); return; }
             }
 
             if (Encounter.Valid)
@@ -1935,9 +1933,9 @@ namespace PKHeX.Core
                 if (EncounterIsMysteryGift)
                 {
                     if (pkm.FatefulEncounter)
-                        AddLine(Severity.Valid, "Mystery Gift Fateful Encounter.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
                     else
-                        AddLine(Severity.Invalid, "Mystery Gift Fateful Encounter flag missing.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
                 if (EncounterType == typeof (EncounterStatic))
@@ -1946,25 +1944,25 @@ namespace PKHeX.Core
                     if (enc.Fateful)
                     {
                         if (pkm.FatefulEncounter)
-                            AddLine(Severity.Valid, "Special ingame Fateful Encounter.", CheckIdentifier.Fateful);
+                            AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
                         else
-                            AddLine(Severity.Invalid, "Special ingame Fateful Encounter flag missing.", CheckIdentifier.Fateful);
+                            AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
                     }
                     else if (pkm.FatefulEncounter)
-                        AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                     return;
                 }
                 if (pkm.FatefulEncounter)
-                    AddLine(Severity.Invalid, "Fateful Encounter should not be checked.", CheckIdentifier.Fateful);
+                    AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                 if (pkm.Format == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     bool req = enc?.NSparkle ?? false;
                     bool has = ((PK5) pkm).NPokémon;
                     if (req && !has)
-                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag missing.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
                     if (!req && has)
-                        AddLine(Severity.Invalid, "Special ingame N's Sparkle flag should not be checked.", CheckIdentifier.Fateful);
+                        AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
                 }
             }
         }
@@ -1983,7 +1981,7 @@ namespace PKHeX.Core
                     if (pkm.AltForm == 0 && pkm.Version == 31 // Moon
                         || pkm.AltForm == 1 && pkm.Version == 30) // Sun
                         if (pkm.IsUntraded)
-                            AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                            AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     break;
 
                 case 791: // Solgaleo
@@ -1991,7 +1989,7 @@ namespace PKHeX.Core
                     {
                         if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
-                        AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                        AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
                     break;
                 case 792: // Lunala
@@ -1999,7 +1997,7 @@ namespace PKHeX.Core
                     {
                         if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
-                        AddLine(Severity.Invalid, "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.", CheckIdentifier.Evolution);
+                        AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
                     break;
             }
