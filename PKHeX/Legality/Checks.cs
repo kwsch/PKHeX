@@ -1849,7 +1849,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V311, CheckIdentifier.Form);
                         return;
                     }
-                    else if (!Legal.CheckVivillonPatten(pkm.AltForm,pkm.Country,pkm.Region))
+                    else if (!Legal.CheckVivillonPattern(pkm.AltForm,pkm.Country,pkm.Region))
                     {
                         AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                     }
@@ -1864,7 +1864,7 @@ namespace PKHeX.Core
 
                         return;
                     }
-                    else if (!Legal.CheckVivillonPatten(pkm.AltForm, pkm.Country, pkm.Region))
+                    else if (!Legal.CheckVivillonPattern(pkm.AltForm, pkm.Country, pkm.Region))
                     {
                         AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                     }

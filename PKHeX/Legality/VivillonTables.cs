@@ -260,7 +260,7 @@ namespace PKHeX.Core
             },
         };
 
-        public static bool CheckVivillonPatten(int form, int pkmcountry, int pkmregion)
+        public static bool CheckVivillonPattern(int form, int pkmcountry, int pkmregion)
         {
             if (VivillonCountryTable[form].Contains(pkmcountry))
             {
