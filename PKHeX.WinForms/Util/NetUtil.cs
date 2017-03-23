@@ -12,8 +12,8 @@ namespace PKHeX.WinForms
             try
             {
                 HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
-                HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                var reader = new StreamReader(httpWebReponse.GetResponseStream());
+                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                var reader = new StreamReader(httpWebResponse.GetResponseStream());
                 return reader.ReadToEnd();
             }
             catch (Exception e)
@@ -27,8 +27,8 @@ namespace PKHeX.WinForms
             try
             {
                 HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
-                HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                Stream stream = httpWebReponse.GetResponseStream();
+                HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                Stream stream = httpWebResponse.GetResponseStream();
                 return stream != null ? Image.FromStream(stream) : null;
             }
             catch (Exception e)
