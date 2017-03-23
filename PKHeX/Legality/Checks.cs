@@ -987,11 +987,12 @@ namespace PKHeX.Core
                 }
                 if (pkm.GenNumber == 5)
                 {
-                    if (EncounterType == typeof(EncounterSlot[]) && !((EncounterSlot[])EncounterMatch).Any(slot => slot.Type != SlotType.HiddenGrotto)) //encounter only at HiddenGrotto
+                    if (EncounterType == typeof(EncounterSlot[]))
                     {
-                        if (pkm.AbilityNumber != 4)
+                        bool grotto = ((EncounterSlot[])EncounterMatch).All(slot => slot.Type == SlotType.HiddenGrotto); //encounter only at HiddenGrotto
+                        if (pkm.AbilityNumber == 4 ^ grotto)
                         {
-                            AddLine(Severity.Invalid, V217, CheckIdentifier.Ability);
+                            AddLine(Severity.Invalid, grotto ? V217 : V218, CheckIdentifier.Ability);
                             return;
                         }
                     }

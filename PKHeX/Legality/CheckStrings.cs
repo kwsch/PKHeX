@@ -242,6 +242,7 @@ namespace PKHeX.Core
         public static string V111 {get; set;} = "Hidden Ability on non-SOS wild encounter.";
         public static string V112 {get; set;} = "Hidden Ability not available.";
         public static string V217 {get; set;} = "Hidden Grotto captures should have Hidden Ability.";
+        public static string V218 {get; set;} = "Hidden Ability not available from Wild Encounter.";
 
         public static string V115 {get; set;} = "Ability matches ability number."; // Valid
         public static string V113 {get; set;} = "Ability does not match PID.";

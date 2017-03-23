@@ -583,7 +583,7 @@ namespace PKHeX.Core
             081, 082, 083, 084, 085,      087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099, 100, //086: Hall of Origin unreleased event
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 
         };
-        internal static readonly int[] ValidMet_Pt = ValidMet_DP.Concat(new int[]
+        internal static readonly int[] ValidMet_Pt = ValidMet_DP.Concat(new[]
         {
             112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 
         }).ToArray();
