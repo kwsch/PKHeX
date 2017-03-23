@@ -294,6 +294,7 @@ namespace PKHeX.WinForms
             SaveFile.SetUpdateDex = Menu_ModifyDex.Checked = Settings.SetUpdateDex;
             SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked = Settings.SetUpdatePKM;
             Menu_FlagIllegal.Checked = Settings.FlagIllegal;
+            Menu_ModifyUnset.Checked = Settings.ModifyUnset;
 
             // Select Language
             string l = Settings.Language;
@@ -465,6 +466,10 @@ namespace PKHeX.WinForms
         private void mainMenuModifyDex(object sender, EventArgs e)
         {
             Properties.Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
+        }
+        private void mainMenuModifyUnset(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.ModifyUnset = Menu_ModifyUnset.Checked;
         }
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
@@ -1503,7 +1508,7 @@ namespace PKHeX.WinForms
         private Action getFieldsfromPKM;
         private Func<PKM> getPKMfromFields;
         private byte[] lastData;
-        private bool PKMIsUnsaved => fieldsInitialized && !loadingSAV && lastData != null && lastData.Any(b => b != 0) && !lastData.SequenceEqual(preparePKM().Data);
+        private bool PKMIsUnsaved => fieldsInitialized && Menu_ModifyUnset.Checked && !loadingSAV && lastData != null && lastData.Any(b => b != 0) && !lastData.SequenceEqual(preparePKM().Data);
 
         private void setPKMFormatMode(int Format, GameVersion version)
         {
