@@ -712,10 +712,8 @@
     <None Include="Resources\text\en\text_EncounterType_en.txt" />
     <None Include="Resources\text\de\text_EncounterType_de.txt" />
     <None Include="Resources\text\locale\regions3ds.txt" />
-    <None Include="Resources\text\locale\3dsregions.txt" />
     <None Include="Resources\text\locale\languages.txt" />
     <None Include="Resources\text\locale\countries.txt" />
-    <None Include="Resources\text\locale\country.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_186.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_185.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_184.txt" />
@@ -838,7 +836,6 @@
     <None Include="Resources\text\locale\sr_ID\sr_009.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_008.txt" />
     <None Include="Resources\text\locale\sr_ID\sr_001.txt" />
-    <None Include="Resources\text\locale\text_country_all.txt" />
     <None Include="Resources\byte\PGLDings-NormalRegular.ttf" />
     <None Include="Resources\img\item\item_650.png" />
     <None Include="Resources\text\zh\text_xy_60000_zh.txt" />
