@@ -450,7 +450,7 @@ namespace PKHeX.Core
         private static readonly int[] Shellos_EastSeaLocation_DP =
         {
             28, // Route 213
-            34, // Route 224
+            39, // Route 224
         };
 
         private static readonly int[] Shellos_EastSeaLocation_Pt =
