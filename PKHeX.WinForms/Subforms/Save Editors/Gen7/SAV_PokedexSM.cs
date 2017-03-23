@@ -101,12 +101,8 @@ namespace PKHeX.WinForms
             setEntry();
 
             editing = true;
-            int bspecies;
             int fspecies = LB_Species.SelectedIndex + 1;
-            if (fspecies <= SAV.MaxSpeciesID)
-                bspecies = fspecies;
-            else
-                bspecies = baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
+            var bspecies = fspecies <= SAV.MaxSpeciesID ? fspecies : baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
             int form = LB_Forms.SelectedIndex;
             if (form > 0)
             {
@@ -135,41 +131,36 @@ namespace PKHeX.WinForms
             LB_Forms.DataSource = null;
             LB_Forms.Items.Clear();
 
-            int bspecies;
             int fspecies = LB_Species.SelectedIndex + 1;
-            if (fspecies <= SAV.MaxSpeciesID)
-                bspecies = fspecies;
-            else
-                bspecies = baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
+            var bspecies = fspecies <= SAV.MaxSpeciesID ? fspecies : baseSpecies[fspecies - SAV.MaxSpeciesID - 1];
             bool hasForms = SAV.Personal[bspecies].HasFormes || new[] { 201, 664, 665, 414 }.Contains(bspecies);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
-            var ds = PKX.getFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, new[] { "♂", "♀", "-" }, SAV.Generation).ToList();
+            var ds = PKX.getFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
-            { // empty (Alolan Totems)
+            { 
+                // empty (Alolan Totems)
                 LB_Forms.Enabled = false;
                 return false;
             }
+
+            LB_Forms.DataSource = ds;
+            if (fspecies <= SAV.MaxSpeciesID)
+                LB_Forms.SelectedIndex = 0;
             else
             {
-                LB_Forms.DataSource = ds;
-                if (fspecies <= SAV.MaxSpeciesID)
-                    LB_Forms.SelectedIndex = 0;
+                int fc = SAV.Personal[bspecies].FormeCount;
+                if (fc <= 1)
+                    return true;
+
+                int f = SaveUtil.getDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                if (f < 0)
+                    return true; // bit index valid
+
+                if (f > fspecies - LB_Forms.Items.Count - 1)
+                    LB_Forms.SelectedIndex = fspecies - f - 1;
                 else
-                {
-                    int fc = SAV.Personal[bspecies].FormeCount;
-                    if (fc > 1) // actually has forms
-                    {
-                        int f = SaveUtil.getDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
-                        if (f >= 0)
-                        { // bit index valid
-                            if (f > fspecies - LB_Forms.Items.Count - 1)
-                                LB_Forms.SelectedIndex = fspecies - f - 1;
-                            else
-                                LB_Forms.SelectedIndex = -1;
-                        }
-                    }
-                }
+                    LB_Forms.SelectedIndex = -1;
             }
             return true;
         }

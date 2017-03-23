@@ -232,9 +232,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 612, Level = 60, Location = 147, Shiny = true}, // Haxorus @ Nature Preserve
 
             //Stationary Lengerdary
-            new EncounterStatic { Species = 377, Level = 65, Location = 149,}, //Regirock @ Underground Ruins
-            new EncounterStatic { Species = 378, Level = 65, Location = 149,}, //Regice @ Underground Ruins
-            new EncounterStatic { Species = 379, Level = 65, Location = 149,}, //Registeel @ Underground Ruins
+            new EncounterStatic { Species = 377, Level = 65, Location = 150,}, //Regirock @ Rock Peak Chamber
+            new EncounterStatic { Species = 378, Level = 65, Location = 151,}, //Regice @ Iceberg Chamber
+            new EncounterStatic { Species = 379, Level = 65, Location = 152,}, //Registeel @ Iron Chamber
             new EncounterStatic { Species = 380, Level = 68, Location = 032, Version = GameVersion.W2, }, // Latias @ Dreamyard
             new EncounterStatic { Species = 381, Level = 68, Location = 032, Version = GameVersion.B2, }, // Latios @ Dreamyard
             new EncounterStatic { Species = 480, Level = 65, Location = 007,}, //Uxie @ Nacrene City
@@ -259,7 +259,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Modest, Version = GameVersion.B, }, // Petilil
             new EncounterTrade { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Modest, Version = GameVersion.W, }, // Cottonee
             new EncounterTrade { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Version = GameVersion.B, Form = 0, }, // Basculin-Red
-            new EncounterTrade { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20},  Nature = Nature.Adamant, Version = GameVersion.W, Form = 1, }, // Basculin-Blue
+            new EncounterTrade { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Version = GameVersion.W, Form = 1, }, // Basculin-Blue
             new EncounterTrade { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax, }, // Emolga
             new EncounterTrade { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Gentle, }, // Rotom
             new EncounterTrade { Species = 446, Level = 60, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious, }, // Munchlax
@@ -302,14 +302,208 @@ namespace PKHeX.Core
             // Gift
             new EncounterTrade { Species = 570, Level = 25, Ability = 1, TID = 00002, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {30,30,30,30,30,30}, Nature = Nature.Hasty, Location = 10} //N's Zorua @ Driftveil City
         };
+        #region Alt Slots
+        private static readonly EncounterArea[] SlotsBW_Swarm =
+        {
+            //level range and Slottype will be marked later
+            new EncounterArea {Location = 14, Slots = new[]{new EncounterSlot {Species = 083},},},// Farfetch'd @ Route 1
+            new EncounterArea {Location = 15, Slots = new[]{new EncounterSlot {Species = 360},},},// Wynant @ Route 2
+            new EncounterArea {Location = 17, Slots = new[]{new EncounterSlot {Species = 449},},},// Hippopotas @ Route 4
+            new EncounterArea {Location = 18, Slots = new[]{new EncounterSlot {Species = 235},},},// Smeargle @ Route 5
+            new EncounterArea {Location = 20, Slots = new[]{new EncounterSlot {Species = 161},},},// Sentret @ Route 7
+            new EncounterArea {Location = 21, Slots = new[]{new EncounterSlot {Species = 453},},},// Croagunk @ Route 8
+            new EncounterArea {Location = 23, Slots = new[]{new EncounterSlot {Species = 236},},},// Tyrogue @ Route 10
+            new EncounterArea {Location = 25, Slots = new[]{new EncounterSlot {Species = 084},},},// Doduo @ Route 12
+            new EncounterArea {Location = 26, Slots = new[]{new EncounterSlot {Species = 353},},},// Shuppet @ Route 13
+            new EncounterArea {Location = 27, Slots = new[]{new EncounterSlot {Species = 193},},},// Yanma @ Route 14
+            new EncounterArea {Location = 28, Slots = new[]{new EncounterSlot {Species = 056},},},// Mankey @ Route 15
+            new EncounterArea {Location = 29, Slots = new[]{new EncounterSlot {Species = 204},},},// Pineco @ Route 16
+            new EncounterArea {Location = 30, Slots = new[]{new EncounterSlot {Species = 102},},},// Exeggcutes @ Route 18
+        };
+        private static readonly EncounterArea[] SlotsB_Swarm = SlotsBW_Swarm.Concat(new[] {
+                new EncounterArea {Location = 16, Slots = new[]{new EncounterSlot {Species = 313},},},// Volbeat @ Route 3
+                new EncounterArea {Location = 19, Slots = new[]{new EncounterSlot {Species = 311},},},// Plusle @ Route 6
+                new EncounterArea {Location = 22, Slots = new[]{new EncounterSlot {Species = 228},},},// Houndour @ Route 9
+                new EncounterArea {Location = 24, Slots = new[]{new EncounterSlot {Species = 285},},},// Shroomish @ Route 11
+        }).ToArray();
+        private static readonly EncounterArea[] SlotsW_Swarm = SlotsBW_Swarm.Concat(new[] {
+                new EncounterArea {Location = 16, Slots = new[]{new EncounterSlot {Species = 314},},},// Illumise @ Route 3
+                new EncounterArea {Location = 19, Slots = new[]{new EncounterSlot {Species = 312},},},// Minun @ Route 6
+                new EncounterArea {Location = 22, Slots = new[]{new EncounterSlot {Species = 261},},},// Poochyena @ Route 9
+                new EncounterArea {Location = 24, Slots = new[]{new EncounterSlot {Species = 048},},},// Paras @ Route 11
+        }).ToArray();
+
+        private static readonly EncounterArea[] SlotsB2W2_Swarm =
+        {
+            //level range and Slottype will be marked later
+            new EncounterArea {Location = 014, Slots = new[]{new EncounterSlot {Species = 083},},},// Farfetch'd @ Route 1
+            new EncounterArea {Location = 018, Slots = new[]{new EncounterSlot {Species = 177},},},// Natu @ Route 5
+            new EncounterArea {Location = 020, Slots = new[]{new EncounterSlot {Species = 162},},},// Furret @ Route 7
+            new EncounterArea {Location = 021, Slots = new[]{new EncounterSlot {Species = 195},},},// Quagsire @ Route 8
+            new EncounterArea {Location = 022, Slots = new[]{new EncounterSlot {Species = 317},},},// Swalot @ Route 9
+            new EncounterArea {Location = 024, Slots = new[]{new EncounterSlot {Species = 284},},},// Masquerain @ Route 11
+            new EncounterArea {Location = 025, Slots = new[]{new EncounterSlot {Species = 084},},},// Doduo @ Route 12
+            new EncounterArea {Location = 026, Slots = new[]{new EncounterSlot {Species = 277},},},// Swellow @ Route 13
+            new EncounterArea {Location = 028, Slots = new[]{new EncounterSlot {Species = 022},},},// Fearow @ Route 15
+            new EncounterArea {Location = 029, Slots = new[]{new EncounterSlot {Species = 204},},},// Pineco @ Route 16
+            new EncounterArea {Location = 030, Slots = new[]{new EncounterSlot {Species = 187},},},// Hoppip @ Route 18
+            new EncounterArea {Location = 032, Slots = new[]{new EncounterSlot {Species = 097},},},// Hypno @ Dreamyard
+            new EncounterArea {Location = 034, Slots = new[]{new EncounterSlot {Species = 450},},},// Hippowdon @ Desert Resort
+            new EncounterArea {Location = 070, Slots = new[]{new EncounterSlot {Species = 079},},},// Slowpoke @ Abundant shrine
+            new EncounterArea {Location = 132, Slots = new[]{new EncounterSlot {Species = 332},},},// Cacturne @ Reaversal Mountian
+        };
+        private static readonly EncounterArea[] SlotsB2_Swarm = SlotsB2W2_Swarm.Concat(new[] {
+                new EncounterArea {Location = 016, Slots = new[]{new EncounterSlot {Species = 313},},},// Volbeat @ Route 3
+                new EncounterArea {Location = 019, Slots = new[]{new EncounterSlot {Species = 311},},},// Plusle @ Route 6
+                new EncounterArea {Location = 125, Slots = new[]{new EncounterSlot {Species = 184},},},// Sudowoodo @ Route 20
+                new EncounterArea {Location = 127, Slots = new[]{new EncounterSlot {Species = 168},},},// Ariados @ Route 22
+        }).ToArray();
+        private static readonly EncounterArea[] SlotsW2_Swarm = SlotsB2W2_Swarm.Concat(new[] {
+                new EncounterArea {Location = 016, Slots = new[]{new EncounterSlot {Species = 314},},},// Illumise @ Route 3
+                new EncounterArea {Location = 019, Slots = new[]{new EncounterSlot {Species = 312},},},// Minun @ Route 6
+                new EncounterArea {Location = 125, Slots = new[]{new EncounterSlot {Species = 122},},},// Mr.Mime @ Route 20
+                new EncounterArea {Location = 127, Slots = new[]{new EncounterSlot {Species = 166},},},// Ledian @ Route 22
+        }).ToArray();
+
+        private static readonly EncounterSlot[] SlotsB2W2_HiddenGrottoEncounterSlots =
+        {
+            // reference http://bulbapedia.bulbagarden.net/wiki/Hidden_Grotto
+            // Route 2
+            new EncounterSlot{ Species = 029, LevelMin = 55, LevelMax = 60, }, // Nidoran-f
+            new EncounterSlot{ Species = 032, LevelMin = 55, LevelMax = 60, }, // Nidoran-m
+            new EncounterSlot{ Species = 210, LevelMin = 55, LevelMax = 60, }, // Granbull
+            new EncounterSlot{ Species = 505, LevelMin = 55, LevelMax = 60, }, // Watchdog
+            // Route 3
+            new EncounterSlot{ Species = 310, LevelMin = 55, LevelMax = 60, }, // Manectric @ Dark grass
+            new EncounterSlot{ Species = 417, LevelMin = 55, LevelMax = 60, }, // Pachirisu @ Dark grass
+            new EncounterSlot{ Species = 523, LevelMin = 55, LevelMax = 60, }, // Zebstrika @ Dark grass
+            new EncounterSlot{ Species = 048, LevelMin = 55, LevelMax = 60, }, // Venonat @ Pond
+            new EncounterSlot{ Species = 271, LevelMin = 55, LevelMax = 60, }, // Lombre @ Pond
+            new EncounterSlot{ Species = 400, LevelMin = 55, LevelMax = 60, }, // Bibarel @ Pond
+            // Route 5
+            new EncounterSlot{ Species = 510, LevelMin = 20, LevelMax = 25, }, // Liepard
+            new EncounterSlot{ Species = 572, LevelMin = 20, LevelMax = 25, }, // Minccino 
+            new EncounterSlot{ Species = 590, LevelMin = 20, LevelMax = 25, }, // Foongus 
+            // Route 6
+            new EncounterSlot{ Species = 206, LevelMin = 25, LevelMax = 30, }, // Dunsparce @ Near PKM Breeder 
+            new EncounterSlot{ Species = 299, LevelMin = 25, LevelMax = 30, }, // Nospass @ Mistralton Cave
+            new EncounterSlot{ Species = 527, LevelMin = 25, LevelMax = 30, }, // Woobat @ Both
+            new EncounterSlot{ Species = 590, LevelMin = 25, LevelMax = 30, }, // Foongus @ Both
+            // Route 7
+            new EncounterSlot{ Species = 335, LevelMin = 30, LevelMax = 35, }, // Zangoose
+            new EncounterSlot{ Species = 336, LevelMin = 30, LevelMax = 35, }, // Seviper
+            new EncounterSlot{ Species = 505, LevelMin = 30, LevelMax = 35, }, // Watechdog
+            new EncounterSlot{ Species = 613, LevelMin = 30, LevelMax = 35, }, // Cubchoo
+            // Route 9
+            new EncounterSlot{ Species = 089, LevelMin = 35, LevelMax = 40, }, // Muk
+            new EncounterSlot{ Species = 510, LevelMin = 35, LevelMax = 40, }, // Liepard
+            new EncounterSlot{ Species = 569, LevelMin = 35, LevelMax = 40, }, // Garbodor
+            new EncounterSlot{ Species = 626, LevelMin = 35, LevelMax = 40, }, // Bouffalant
+            // Route 13
+            new EncounterSlot{ Species = 114, LevelMin = 35, LevelMax = 40, }, // Tangela @ Gaint Chasm
+            new EncounterSlot{ Species = 363, LevelMin = 35, LevelMax = 40, }, // Spheal @ Stairs
+            new EncounterSlot{ Species = 425, LevelMin = 35, LevelMax = 40, }, // Drifloon @ Stairs
+            new EncounterSlot{ Species = 451, LevelMin = 35, LevelMax = 40, }, // Skorupi @ Gaint Chasm
+            new EncounterSlot{ Species = 590, LevelMin = 35, LevelMax = 40, }, // Foongus @ Both
+            // Route 18
+            new EncounterSlot{ Species = 099, LevelMin = 55, LevelMax = 60, }, // Kingler
+            new EncounterSlot{ Species = 149, LevelMin = 55, LevelMax = 60, }, // Dragonite
+            new EncounterSlot{ Species = 222, LevelMin = 55, LevelMax = 60, }, // Corsola
+            new EncounterSlot{ Species = 441, LevelMin = 55, LevelMax = 60, }, // Chatot
+            // Pinwheel Forest
+            new EncounterSlot{ Species = 061, LevelMin = 55, LevelMax = 60, }, // Poliwhirl @ Outer
+            new EncounterSlot{ Species = 198, LevelMin = 55, LevelMax = 60, }, // Murkrow @ Inner
+            new EncounterSlot{ Species = 286, LevelMin = 55, LevelMax = 60, }, // Breloom @ Inner
+            new EncounterSlot{ Species = 297, LevelMin = 55, LevelMax = 60, }, // Hariyama @ Outer
+            new EncounterSlot{ Species = 308, LevelMin = 55, LevelMax = 60, }, // Medicham @ Outer
+            new EncounterSlot{ Species = 371, LevelMin = 55, LevelMax = 60, }, // Bagon @ Outer
+            new EncounterSlot{ Species = 591, LevelMin = 55, LevelMax = 60, }, // Amoonguss @ Inner
+            // Giant Chasm
+            new EncounterSlot{ Species = 035, LevelMin = 45, LevelMax = 50, }, // Clefairy
+            new EncounterSlot{ Species = 132, LevelMin = 45, LevelMax = 50, }, // Ditto
+            new EncounterSlot{ Species = 215, LevelMin = 45, LevelMax = 50, }, // Sneasel
+            new EncounterSlot{ Species = 375, LevelMin = 45, LevelMax = 50, }, // Metang
+            // Abundant Shrine
+            new EncounterSlot{ Species = 037, LevelMin = 35, LevelMax = 40, }, // Vulpix @ Near Youngster
+            new EncounterSlot{ Species = 055, LevelMin = 35, LevelMax = 40, }, // Golduck @ Shrine
+            new EncounterSlot{ Species = 333, LevelMin = 35, LevelMax = 40, }, // Swablu @ Shrine
+            new EncounterSlot{ Species = 436, LevelMin = 35, LevelMax = 40, }, // Bronzor @ Near Youngster
+            new EncounterSlot{ Species = 619, LevelMin = 35, LevelMax = 40, }, // Amoonguss @ Both
+            // Lostlorn Forest
+            new EncounterSlot{ Species = 127, LevelMin = 20, LevelMax = 25, }, // Pinsir
+            new EncounterSlot{ Species = 214, LevelMin = 20, LevelMax = 25, }, // Heracross
+            new EncounterSlot{ Species = 415, LevelMin = 20, LevelMax = 25, }, // Combee
+            new EncounterSlot{ Species = 542, LevelMin = 20, LevelMax = 25, }, // Leavanny
+            // Route 22
+            new EncounterSlot{ Species = 279, LevelMin = 40, LevelMax = 45, }, // Peplipper
+            new EncounterSlot{ Species = 591, LevelMin = 40, LevelMax = 45, }, // Amoonguss
+            new EncounterSlot{ Species = 619, LevelMin = 50, LevelMax = 55, }, // Mienfoo
+            // Route 23
+            new EncounterSlot{ Species = 055, LevelMin = 50, LevelMax = 55, }, // Golduck
+            new EncounterSlot{ Species = 207, LevelMin = 50, LevelMax = 55, }, // Gligar
+            new EncounterSlot{ Species = 335, LevelMin = 50, LevelMax = 55, }, // Zangoose
+            new EncounterSlot{ Species = 336, LevelMin = 50, LevelMax = 55, }, // Seviper
+            new EncounterSlot{ Species = 359, LevelMin = 50, LevelMax = 55, }, // Absol
+            // Floccesy Ranch
+            new EncounterSlot{ Species = 183, LevelMin = 10, LevelMax = 15, }, // Marill
+            new EncounterSlot{ Species = 206, LevelMin = 10, LevelMax = 15, }, // Dunsparce
+            new EncounterSlot{ Species = 507, LevelMin = 10, LevelMax = 15, }, // Herdier
+            // Funfest Missions
+            // todo : check the level
+            new EncounterSlot{Species = 133, LevelMin = 10, LevelMax = 60, }, //Eevee
+            new EncounterSlot{Species = 134, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 135, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 136, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 196, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 197, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 470, LevelMin = 10, LevelMax = 60, },
+            new EncounterSlot{Species = 471, LevelMin = 10, LevelMax = 60, }, 
+        };
+        private static readonly EncounterArea[] SlotsB2_HiddenGrotto =
+        {
+            new EncounterArea
+            {
+                Location = 143, // HiddenGrotto
+                Slots = SlotsB2W2_HiddenGrottoEncounterSlots.Concat(new[]{
+                    new EncounterSlot{Species = 015, LevelMin = 55, LevelMax = 60 }, // Beedrill @ Pinwheel Forest
+                    new EncounterSlot{Species = 434, LevelMin = 10, LevelMax = 60 }, // Stunky from Funfest Missions
+                }).ToArray(),
+            }
+        };
+        private static readonly EncounterArea[] SlotsW2_HiddenGrotto =
+        {
+            new EncounterArea
+            {
+                Location = 143, // HiddenGrotto
+                Slots = SlotsB2W2_HiddenGrottoEncounterSlots.Concat(new[]{
+                    new EncounterSlot{Species = 012, LevelMin = 55, LevelMax = 60 }, // Butterfree @ Pinwheel Forest
+                    new EncounterSlot{Species = 431, LevelMin = 10, LevelMax = 60 }, // Glameow from Funfest Missions
+                }).ToArray(),
+            }
+        };
+
+        #endregion
 
         internal static readonly int[] ValidMet_BW =
         {
-            // todo
+                           004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
+            021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040,
+            041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051, 052, 053, 054, 055, 056, 057, 058, 059, 060,
+            061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080,
+            081, 082, 083, 084, 085, 086, 087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099, 100,
+            101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
+            
         };
         internal static readonly int[] ValidMet_B2W2 =
         {
-            // todo
+                           004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
+            021, 022,      024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,      //023 Route 10, 040->134 Victory Road
+            041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051, 052, 053, 054, 055, 056, 057, 058,      060, //059 Challenger's cave
+            061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080,
+            081, 082, 083, 084, 085, 086, 087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099, 100,
+            101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120,
+            121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137,      139, 140, //138 ---
+            141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153,
         };
     }
 }

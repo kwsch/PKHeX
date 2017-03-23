@@ -20,6 +20,7 @@
         Swarm,
         Headbutt,
         Pokeradar,
-        HoneyTree
+        HoneyTree,
+        HiddenGrotto,
     }
 }

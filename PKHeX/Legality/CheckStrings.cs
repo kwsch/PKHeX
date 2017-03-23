@@ -9,19 +9,33 @@ namespace PKHeX.Core
 {
     public static class CheckStrings
     {
-        public const string splitter = " = ";
-        public static void RefreshStrings(IEnumerable<string> lines)
+        private const string splitter = " = ";
+        private static readonly Type t = typeof(CheckStrings);
+        private static string[] getProps(IEnumerable<string> input)
         {
-            var t = typeof (CheckStrings);
+            return input.Select(l => l.Substring(0, l.IndexOf(splitter, StringComparison.Ordinal))).ToArray();
+        }
+        private static IEnumerable<string> DumpStrings()
+        {
+            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
+            return props.Select(p => $"{p}{splitter}{ReflectUtil.GetValue(t, p).ToString()}");
+        }
+        
+        public static void setLocalization(IEnumerable<string> lines)
+        {
+            if (lines == null)
+                return;
             foreach (var line in lines.Where(l => l != null))
             {
                 var index = line.IndexOf(splitter, StringComparison.Ordinal);
+                if (index < 0)
+                    continue;
                 var prop = line.Substring(0, index);
                 var value = line.Substring(index + splitter.Length);
 
                 try
                 {
-                    ReflectUtil.SetValue(t, prop, value);
+                    ReflectUtil.SetValue(t, prop.ToUpper(), value);
                 }
                 catch
                 {
@@ -29,24 +43,20 @@ namespace PKHeX.Core
                 }
             }
         }
-        public static IEnumerable<string> DumpStrings()
+        public static string[] getLocalization(string[] existingLines = null)
         {
-            var t = typeof (CheckStrings);
-            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
-            return props.Select(p => $"{p}{splitter}{ReflectUtil.GetValue(t, p).ToString()}");
-        }
-        public static string[] UpdateLocalization(string[] lines)
-        {
-            List<string> list = new List<string>();
-            var current = DumpStrings();
-            foreach (var line in current)
+            existingLines = existingLines ?? new string[0];
+            var currentLines = DumpStrings().ToArray();
+            var existing = getProps(existingLines);
+            var current = getProps(currentLines);
+            
+            var result = new string[currentLines.Length];
+            for (int i = 0; i < current.Length; i++)
             {
-                int index = line.IndexOf(splitter, StringComparison.Ordinal);
-                string prop = line.Substring(0, index);
-                string match = lines.FirstOrDefault(l => l.StartsWith(prop));
-                list.Add(match ?? line);
+                int index = Array.IndexOf(existing, current[i]);
+                result[i] = index < 0 ? currentLines[i] : existingLines[index];
             }
-            return list.ToArray();
+            return result;
         }
 
         #region General Strings
@@ -136,7 +146,7 @@ namespace PKHeX.Core
         public static string V32 {get; set;} = "All IVs are equal."; // Fishy
 
         public static string V28 {get; set;} = "Should have at least {0} IVs {get; set;} = 31."; // Invalid
-        public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs {get; set;} = 31."; // Invalid
+        public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs = 31."; // Invalid
         public static string V30 {get; set;} = "IVs do not match Mystery Gift Data."; // Invalid
 
         public static string V38 {get; set;} = "OT Name too long."; // Invalid
@@ -230,7 +240,9 @@ namespace PKHeX.Core
         public static string V109 {get; set;} = "Ability modified with Ability Capsule.";
         public static string V110 {get; set;} = "Ability does not match Mystery Gift.";
         public static string V111 {get; set;} = "Hidden Ability on non-SOS wild encounter.";
+        public static string V300 {get; set;} = "Hidden Ability on non-horde/friend safari wild encounter.";
         public static string V112 {get; set;} = "Hidden Ability not available.";
+        public static string V217 {get; set;} = "Hidden Grotto captures should have Hidden Ability.";
 
         public static string V115 {get; set;} = "Ability matches ability number."; // Valid
         public static string V113 {get; set;} = "Ability does not match PID.";
@@ -260,6 +272,9 @@ namespace PKHeX.Core
         public static string V133 {get; set;} = "Event OT Affection should be zero.";
         public static string V134 {get; set;} = "Current handler should not be Event OT.";
         public static string V138 {get; set;} = "Contest Stats should be 0.";
+        public static string V301 {get; set;} = "Invalid Console Region.";
+        public static string V302 {get; set;} = "Geolocation: Country is not in 3DS region.";
+        public static string V303 {get; set;} = "Geolocation: Country is in 3DS region.";
         public static string V137 {get; set;} = "GeoLocation Memory: Memories should be present.";
         public static string V135 {get; set;} = "GeoLocation Memory: Gap/Blank present.";
         public static string V136 {get; set;} = "GeoLocation Memory: Region without Country.";
@@ -274,6 +289,7 @@ namespace PKHeX.Core
         public static string V148 {get; set;} = "Memory: Handling Trainer Memory present with no Handling Trainer name.";
         public static string V150 {get; set;} = "Memory: Handling Trainer Memory missing.";
         public static string V152 {get; set;} = "Memory: Original Trainer Memory missing.";
+        public static string V329 {get; set;} = "Memory: Not cleared properly.";
         public static string V149 {get; set;} = "Memory: Can't have Handling Trainer Memory as egg.";
         public static string V151 {get; set;} = "Memory: Can't have Original Trainer Memory as egg.";
         public static string V164 {get; set;} = "{0} Memory: Species can be captured in game.";
@@ -309,6 +325,33 @@ namespace PKHeX.Core
         public static string V157 {get; set;} = "Should have a HT Memory TextVar value (somewhere).";
         public static string V158 {get; set;} = "Should have a HT Memory Intensity value (1st).";
         public static string V159 {get; set;} = "Should have a HT Memory Feeling value 0-9.";
+
+        public static string V318 {get; set;} = "Form is Valid.";
+        public static string V304 {get; set;} = "Form Count is out of range. Expected <= {0}, got {1}.";
+        public static string V305 {get; set;} = "Cosplay Pikachu cannot have the default form.";
+        public static string V306 {get; set;} = "Only Cosplay Pikachu can have this form.";
+        public static string V307 {get; set;} = "Event Pikachu cannot have the default form.";
+        public static string V308 {get; set;} = "Held item does not match Form.";
+        public static string V309 {get; set;} = "Held item matches Form.";
+        public static string V310 {get; set;} = "Form cannot exist outside of a battle.";
+        public static string V311 {get; set;} = "Event Vivillon pattern on pre-evolution.";
+        public static string V312 {get; set;} = "Invalid Vivillon pattern.";
+        public static string V313 {get; set;} = "Valid Vivillon pattern.";
+        public static string V314 {get; set;} = "Invalid Eternal Flower encounter.";
+        public static string V315 {get; set;} = "Valid Eternal Flower encounter.";
+        public static string V316 {get; set;} = "Form cannot exist outside of Party.";
+        public static string V317 {get; set;} = "Form cannot be obtained for pre-Alola generation games.";
+
+        public static string V319 {get; set;} = "Cannot apply PP Ups to an Egg.";
+        public static string V320 {get; set;} = "Cannot increase Contest Stats of an Egg.";
+        public static string V321 {get; set;} = "Mystery Gift Fateful Encounter.";
+        public static string V322 {get; set;} = "Mystery Gift Fateful Encounter flag missing.";
+        public static string V323 {get; set;} = "Special ingame Fateful Encounter.";
+        public static string V324 {get; set;} = "Special ingame Fateful Encounter flag missing.";
+        public static string V325 {get; set;} = "Fateful Encounter should not be checked.";
+        public static string V326 {get; set;} = "Special ingame N's Sparkle flag missing.";
+        public static string V327 {get; set;} = "Special ingame N's Sparkle flag should not be checked.";
+        public static string V328 {get; set;} = "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.";
 
         #endregion
 
