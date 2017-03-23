@@ -159,14 +159,14 @@ namespace PKHeX.Core
         {
             return EncounterArea.getArray(Data.unpackMini(mini, ident));
         }
-        private static EncounterArea[] addExtraTableSlots(EncounterArea[] GameSlots, EncounterArea[] SpecialSlots)
+        private static IEnumerable<EncounterArea> addExtraTableSlots(IEnumerable<EncounterArea> GameSlots, IEnumerable<EncounterArea> SpecialSlots)
         {
             foreach (EncounterArea g in GameSlots)
             {
                 foreach (var slots in SpecialSlots.Where(l => l.Location == g.Location))
                     g.Slots = g.Slots.Concat(slots.Slots).ToArray();
             }
-            return GameSlots;
+            return GameSlots.Concat(SpecialSlots.Where(s => !GameSlots.Any(g => g.Location == s.Location))).ToArray();
         }
         private static void ReduceAreasSize(ref EncounterArea[] Areas)
         {
@@ -318,17 +318,17 @@ namespace PKHeX.Core
         }
         private static EncounterArea[] getTables1()
         {
-            var red = EncounterArea.getArray1_GW(Resources.encounter_red);
-            var blu = EncounterArea.getArray1_GW(Resources.encounter_blue);
-            var ylw = EncounterArea.getArray1_GW(Resources.encounter_yellow);
+            var red_gw = EncounterArea.getArray1_GW(Resources.encounter_red);
+            var blu_gw = EncounterArea.getArray1_GW(Resources.encounter_blue);
+            var ylw_gw = EncounterArea.getArray1_GW(Resources.encounter_yellow);
             var rb_fish = EncounterArea.getArray1_F(Resources.encounter_rb_f);
             var ylw_fish = EncounterArea.getArray1_FY(Resources.encounter_yellow_f);
 
-            red = addExtraTableSlots(red, rb_fish);
-            blu = addExtraTableSlots(blu, rb_fish);
-            ylw = addExtraTableSlots(ylw, ylw_fish);
+            var red = addExtraTableSlots(red_gw, rb_fish);
+            var blu = addExtraTableSlots(blu_gw, rb_fish);
+            var ylw = addExtraTableSlots(ylw_gw, ylw_fish);
 
-            var table = addExtraTableSlots(addExtraTableSlots(red, blu), ylw);
+            var table = addExtraTableSlots(addExtraTableSlots(red, blu), ylw).ToArray();
             Array.Resize(ref table, table.Length + 1);
             table[table.Length - 1] = FishOldGood_RBY;
 
@@ -348,7 +348,7 @@ namespace PKHeX.Core
                 var h_g = EncounterArea.getArray2_H(Resources.encounter_gold_h);
                 var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
 
-                Slots = addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(g, s), h_g), h_s),f);
+                Slots = addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(g, s), h_g), h_s),f).ToArray();
             }
             if (Version == GameVersion.C || Version == GameVersion.GSC)
             {
@@ -358,7 +358,7 @@ namespace PKHeX.Core
                 var h_c = EncounterArea.getArray2_H(Resources.encounter_crystal_h);
 
                 var extra = addExtraTableSlots(addExtraTableSlots(c, h_c),f);
-                return Version == GameVersion.C ? extra : addExtraTableSlots(Slots, extra);
+                return Version == GameVersion.C ? extra.ToArray() : addExtraTableSlots(Slots, extra).ToArray();
             }
 
             return Slots;
@@ -406,11 +406,11 @@ namespace PKHeX.Core
                 MarkG3Slots_FRLG(ref FR_Slots);
                 MarkG3Slots_FRLG(ref LG_Slots);
 
-                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
-                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
-                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt);
-                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt);
-                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt);
+                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt).ToArray();
+                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt).ToArray();
+                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt).ToArray();
+                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt).ToArray();
+                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt).ToArray();
 
                 Evolves3 = new EvolutionTree(new[] { Resources.evos_g3 }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
@@ -465,11 +465,11 @@ namespace PKHeX.Core
                 MarkG4Slots(ref HG_Headbutt_Slots);
                 MarkG4Slots(ref SS_Headbutt_Slots);
 
-                SlotsD = addExtraTableSlots(addExtraTableSlots(D_Slots, D_HoneyTrees_Slots), SlotsDPPPtAlt);
-                SlotsP = addExtraTableSlots(addExtraTableSlots(P_Slots, P_HoneyTrees_Slots), SlotsDPPPtAlt);
-                SlotsPt = addExtraTableSlots(addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots), SlotsDPPPtAlt);
-                SlotsHG = addExtraTableSlots(addExtraTableSlots(HG_Slots, HG_Headbutt_Slots), SlotsHGSSAlt);
-                SlotsSS = addExtraTableSlots(addExtraTableSlots(SS_Slots, SS_Headbutt_Slots), SlotsHGSSAlt);
+                SlotsD = addExtraTableSlots(addExtraTableSlots(D_Slots, D_HoneyTrees_Slots), SlotsDPPPtAlt).ToArray();
+                SlotsP = addExtraTableSlots(addExtraTableSlots(P_Slots, P_HoneyTrees_Slots), SlotsDPPPtAlt).ToArray();
+                SlotsPt = addExtraTableSlots(addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots), SlotsDPPPtAlt).ToArray();
+                SlotsHG = addExtraTableSlots(addExtraTableSlots(HG_Slots, HG_Headbutt_Slots), SlotsHGSSAlt).ToArray();
+                SlotsSS = addExtraTableSlots(addExtraTableSlots(SS_Slots, SS_Headbutt_Slots), SlotsHGSSAlt).ToArray();
 
                 Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
@@ -491,8 +491,8 @@ namespace PKHeX.Core
                 MarkG5Slots(ref WSlots);
                 MarkBWSwarmSlots(ref SlotsB_Swarm);
                 MarkBWSwarmSlots(ref SlotsW_Swarm);
-                SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm);
-                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm);
+                SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm).ToArray();
+                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm).ToArray();
 
                 var B2Slots = getEncounterTables(GameVersion.B2);
                 var W2Slots = getEncounterTables(GameVersion.W2);
@@ -518,8 +518,8 @@ namespace PKHeX.Core
                 var YSlots = getEncounterTables(GameVersion.Y);
                 MarkG6XYSlots(ref XSlots);
                 MarkG6XYSlots(ref YSlots);
-                SlotsX = addExtraTableSlots(XSlots, SlotsXYAlt);
-                SlotsY = addExtraTableSlots(YSlots, SlotsXYAlt);
+                SlotsX = addExtraTableSlots(XSlots, SlotsXYAlt).ToArray();
+                SlotsY = addExtraTableSlots(YSlots, SlotsXYAlt).ToArray();
 
                 SlotsA = getEncounterTables(GameVersion.AS);
                 SlotsO = getEncounterTables(GameVersion.OR);
