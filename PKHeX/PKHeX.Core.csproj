@@ -175,6 +175,7 @@
     <Compile Include="Legality\Tables5.cs" />
     <Compile Include="Legality\Tables4.cs" />
     <Compile Include="Game\GameInfo.cs" />
+    <Compile Include="Legality\VivillonTables.cs" />
     <Compile Include="MysteryGifts\MysteryGift.cs" />
     <Compile Include="MysteryGifts\PL6.cs" />
     <Compile Include="MysteryGifts\WC7.cs" />

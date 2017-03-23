@@ -1849,6 +1849,10 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V311, CheckIdentifier.Form);
                         return;
                     }
+                    else if (!Legal.CheckVivillonPatten(pkm.AltForm,pkm.Country,pkm.Region))
+                    {
+                        AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
+                    }
                     break;
                 case 666: // Vivillon
                     if (pkm.AltForm > 17) // Fancy & Pokéball
@@ -1859,6 +1863,10 @@ namespace PKHeX.Core
                             AddLine(Severity.Valid, V313, CheckIdentifier.Form);
 
                         return;
+                    }
+                    else if (!Legal.CheckVivillonPatten(pkm.AltForm, pkm.Country, pkm.Region))
+                    {
+                        AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                     }
                     break;
                 case 670: // Floette
