@@ -1963,9 +1963,9 @@ namespace PKHeX.WinForms
                 CB_Language.SelectedValue = SAV.Language;
             if (SAV.HasGeolocation)
             {
-                CB_SubRegion.SelectedValue = SAV.SubRegion;
-                CB_Country.SelectedValue = SAV.Country;
                 CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
+                CB_Country.SelectedValue = SAV.Country;
+                CB_SubRegion.SelectedValue = SAV.SubRegion;
             }
             updateNickname(null, null);
         }
