@@ -72,7 +72,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override int Species { get { return Gift.Species; } set { Gift.Species = value; } }
+        public override int Species { get { return Gift.IsManaphyEgg ? 490 : Gift.Species; } set { Gift.Species = value; } }
         public override int[] Moves { get { return Gift.Moves; } set { Gift.Moves = value; } }
         public override int HeldItem { get { return Gift.HeldItem; } set { Gift.HeldItem = value; } }
         public override bool IsShiny => Gift.IsShiny;
@@ -192,7 +192,7 @@ namespace PKHeX.Core
         public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) PGTGiftType = GiftType.Item; } }
         public override bool IsPokémon { get { return PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; } set { } }
 
-        public override int Species { get { return PK.Species; } set { PK.Species = value; } }
+        public override int Species { get { return IsManaphyEgg ? 490 : PK.Species; } set { PK.Species = value; } }
         public override int[] Moves { get { return PK.Moves; } set { PK.Moves = value; } }
         public override int HeldItem { get { return PK.HeldItem; } set { PK.HeldItem = value; } }
         public override bool IsShiny => PK.IsShiny;
@@ -209,6 +209,7 @@ namespace PKHeX.Core
                 pk4.TID = SAV.TID;
                 pk4.SID = SAV.SID;
                 pk4.OT_Gender = SAV.Gender;
+                pk4.Language = SAV.Language;
             }
             if (IsManaphyEgg)
             {
@@ -218,6 +219,7 @@ namespace PKHeX.Core
                 pk4.Move1 = 294;
                 pk4.Move2 = 145;
                 pk4.Move3 = 346;
+                pk4.Ability = pk4.PersonalInfo.Abilities[0];
                 pk4.FatefulEncounter = true;
                 pk4.Ball = 4;
                 pk4.Version = 10; // Diamond
@@ -228,7 +230,7 @@ namespace PKHeX.Core
 
             // Generate IV
             uint seed = Util.rnd32();
-            if (pk4.PID == 1 || IsManaphyEgg) // Create Nonshiny
+            if (pk4.PID == 1) // Create Nonshiny
             {
                 uint pid1 = PKX.LCRNG(ref seed) >> 16;
                 uint pid2 = PKX.LCRNG(ref seed) >> 16;
@@ -255,7 +257,7 @@ namespace PKHeX.Core
             }
 
             // Generate Met Info
-            if (!IsEgg)
+            if (!IsEgg && !IsManaphyEgg)
             {
                 pk4.Met_Location = pk4.Egg_Location + 3000;
                 pk4.Egg_Location = 0;
@@ -264,15 +266,25 @@ namespace PKHeX.Core
             }
             else
             {
-                pk4.Egg_Location = pk4.Egg_Location + 3000;
-                pk4.MetDate = DateTime.Now;
-                pk4.IsEgg = false;
-                // Met Location is modified when transferred to pk5; don't worry about it.
+                if (SAV.Generation == 4)
+                {
+                    pk4.IsEgg = true;
+                    pk4.Met_Location = pk4.Egg_Location + 3000;
+                    pk4.Egg_Location = 0;
+                    pk4.IsNicknamed = true;
+                    pk4.Nickname = PKX.getSpeciesName(0, pk4.Language).ToUpper();
+                    pk4.MetDate = DateTime.Now;
+                }
+                else
+                {
+                    pk4.IsEgg = false;
+                    // Met Location is modified when transferred to pk5; don't worry about it.
+                    pk4.Egg_Location = pk4.Egg_Location + 3000;
+                    pk4.EggMetDate = DateTime.Now;
+                }
             }
             if (pk4.Species == 201) // Never will be true; Unown was never distributed.
                 pk4.AltForm = PKX.getUnownForm(pk4.PID);
-            if (IsEgg || IsManaphyEgg)
-                pk4.IsEgg = true;
 
             pk4.RefreshChecksum();
             return pk4;

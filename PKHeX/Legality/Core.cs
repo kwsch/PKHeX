@@ -1014,7 +1014,16 @@ namespace PKHeX.Core
             if (DB == null)
                 return validPCD;
 
-            // todo
+            if (pkm.Species == 490 && (pkm.WasEgg || pkm.IsEgg)) // Manaphy
+            {
+                int loc = pkm.IsEgg ? pkm.Met_Location : pkm.Egg_Location;
+                bool valid = loc == 2001; // Link Trade Egg
+                valid |= loc == 3001 && !pkm.IsShiny; // Ranger & notShiny
+                if (valid)
+                    validPCD.Add(new PGT { Data = { [0] = 7, [8] = 1 } });
+                return validPCD;
+            }
+            
             var vs = getValidPreEvolutions(pkm).ToArray();
             foreach (PCD mg in DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
@@ -1029,8 +1038,16 @@ namespace PKHeX.Core
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
                 if (wc.AltForm != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
-                if (wc.Met_Location != pkm.Met_Location) continue;
-                if (wc.Egg_Location != pkm.Egg_Location) continue;
+                
+                if (wc.IsEgg)
+                {
+                    if (wc.Egg_Location + 3000 != pkm.Egg_Location) continue;
+                }
+                else
+                {
+                    if (wc.Egg_Location + 3000 != pkm.Met_Location) continue;
+                }
+
                 if (wc.CurrentLevel != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;

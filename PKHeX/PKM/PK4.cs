@@ -311,7 +311,7 @@ namespace PKHeX.Core
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
                     // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
                 else

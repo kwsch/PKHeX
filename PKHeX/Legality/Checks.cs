@@ -891,13 +891,13 @@ namespace PKHeX.Core
             };
             if (MatchedGift != null) // Wonder Card
             {
-                var mgRibbons = ReflectUtil.getPropertiesStartWithPrefix(MatchedGift.Content.GetType(), "Ribbon");
+                var mgRibbons = MatchedGift.Format == 4 ? EventRib : ReflectUtil.getPropertiesStartWithPrefix(MatchedGift.Content.GetType(), "Ribbon");
                 var commonRibbons = mgRibbons.Intersect(RibbonData).ToArray();
 
                 foreach (string r in commonRibbons)
                 {
                     bool? pk = ReflectUtil.getBooleanState(pkm, r);
-                    bool? mg = ReflectUtil.getBooleanState(MatchedGift, r);
+                    bool? mg = ReflectUtil.getBooleanState(MatchedGift.Content, r);
                     if (pk != mg) // Mismatch
                     {
                         if (pk ?? false)
@@ -1798,13 +1798,12 @@ namespace PKHeX.Core
                 int species = pkm.Species;
                 if (species == 201) // Unown
                 {
-                    if (pkm.GenNumber == 2 && pkm.AltForm < 26) // A-Z
-                        valid = true;
-                    else if (pkm.GenNumber >= 3 && pkm.AltForm >= 28) // A-Z?!
+                    int maxCount = pkm.GenNumber == 2 ? 26 : 28; // A-Z : A-Z?!
+                    if (pkm.AltForm < maxCount)
                         valid = true;
                 }
                 if (species == 414 && pkm.AltForm < 3) // Wormadam base form kept
-                        valid = true;
+                    valid = true;
 
                 if ((species == 664 || species == 665) && pkm.AltForm < 18) // Vivillon Pre-evolutions
                     valid = true;

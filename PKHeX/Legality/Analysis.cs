@@ -75,7 +75,15 @@ namespace PKHeX.Core
                 else
                     return;
             }
-            catch { Valid = false; }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Valid = false;
+                Parsed = true;
+                AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
+                AllSuggestedMoves = AllSuggestedRelearnMoves = AllSuggestedMovesAndRelearn = new int[0];
+                return;
+            }
             AllSuggestedMoves = !pkm.IsOriginValid ? new int[4] : getSuggestedMoves(true, true, true);
             AllSuggestedRelearnMoves = !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
             AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
