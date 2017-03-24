@@ -328,7 +328,7 @@ namespace PKHeX.Core
             int sum = evs.Sum();
             if (pkm.IsEgg && sum > 0)
                 AddLine(Severity.Invalid, V22, CheckIdentifier.EVs);
-            else if (sum == 0 && pkm.Stat_Level - pkm.Met_Level > 0)
+            else if (sum == 0 && pkm.CurrentLevel - Math.Max(1, pkm.Met_Level) > 0)
                 AddLine(Severity.Fishy, V23, CheckIdentifier.EVs);
             else if (sum == 508)
                 AddLine(Severity.Fishy, V24, CheckIdentifier.EVs);
