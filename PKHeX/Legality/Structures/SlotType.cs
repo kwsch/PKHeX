@@ -19,5 +19,8 @@
         SOS,
         Swarm,
         Headbutt,
+        Pokeradar,
+        HoneyTree,
+        HiddenGrotto,
     }
 }

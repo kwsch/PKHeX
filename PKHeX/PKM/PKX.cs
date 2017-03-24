@@ -1395,7 +1395,7 @@ namespace PKHeX.Core
             }
         }
         #region Gen 3 Species Table
-        public static int[] newindex => new[]
+        private static readonly int[] newindex =
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1417,7 +1417,7 @@ namespace PKHeX.Core
             385,386,358,
         };
 
-        public static int[] oldindex => new[]
+        private static readonly int[] oldindex =
         {
             0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,
             31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,
@@ -1910,7 +1910,7 @@ namespace PKHeX.Core
             return ekm;
         }
 
-        /// <summary>Unused item, placeholder for sprite finding</summary>
+        /// <summary>Unused item, placeholder for item/sprite finding</summary>
         private const ushort ITEM_UNK = 128;
 
         /// <summary>
@@ -2011,7 +2011,7 @@ namespace PKHeX.Core
         /// <returns>True if transferrable, False if not transferrable.</returns>
         public static bool isTransferrable34(ushort item)
         {
-            return item == ITEM_UNK && item > 0;
+            return item != ITEM_UNK && item > 0;
         }
 
         #region Gen 1 Character Tables
@@ -2635,6 +2635,20 @@ namespace PKHeX.Core
                 .PadRight(value.Length + 1, (char)0); // Null Terminator
             return Encoding.BigEndianUnicode.GetBytes(TempNick);
         }
+
+        /// <summary>
+        /// Gets the Main Series language ID from a GameCube (C/XD) language ID. Re-maps Spanish 6->7.
+        /// </summary>
+        /// <param name="value">GameCube (C/XD) language ID.</param>
+        /// <returns>Main Series language ID.</returns>
+        public static byte getMainLangIDfromGC(byte value) => value == 6 ? (byte)7 : value;
+
+        /// <summary>
+        /// Gets the GameCube (C/XD) language ID from a Main Series language ID. Re-maps Spanish 7->6.
+        /// </summary>
+        /// <param name="value">Main Series language ID.</param>
+        /// <returns>GameCube (C/XD) language ID.</returns>
+        public static byte getGCLangIDfromMain(byte value) => value == 7 ? (byte)6 : value;
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.

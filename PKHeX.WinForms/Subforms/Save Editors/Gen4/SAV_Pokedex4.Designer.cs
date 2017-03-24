@@ -51,6 +51,7 @@
             this.mnuCaughtNone = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCaughtAll = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuComplete = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUpgraded = new System.Windows.Forms.ToolStripMenuItem();
             this.CHK_Seen = new System.Windows.Forms.CheckBox();
             this.LB_Gender = new System.Windows.Forms.ListBox();
             this.B_GUp = new System.Windows.Forms.Button();
@@ -66,6 +67,7 @@
             this.LB_Form = new System.Windows.Forms.ListBox();
             this.L_Seen = new System.Windows.Forms.Label();
             this.L_NotSeen = new System.Windows.Forms.Label();
+            this.CB_DexUpgraded = new System.Windows.Forms.ToolStripComboBox();
             this.GB_Language.SuspendLayout();
             this.modifyMenu.SuspendLayout();
             this.SuspendLayout();
@@ -241,7 +243,8 @@
             this.mnuSeenAll,
             this.mnuCaughtNone,
             this.mnuCaughtAll,
-            this.mnuComplete});
+            this.mnuComplete,
+            this.mnuUpgraded});
             this.modifyMenu.Name = "modifyMenu";
             this.modifyMenu.Size = new System.Drawing.Size(149, 114);
             // 
@@ -279,6 +282,14 @@
             this.mnuComplete.Size = new System.Drawing.Size(148, 22);
             this.mnuComplete.Text = "Complete Dex";
             this.mnuComplete.Click += new System.EventHandler(this.modifyAll);
+            // 
+            // mnuUpgraded
+            // 
+            this.mnuUpgraded.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CB_DexUpgraded});
+            this.mnuUpgraded.Name = "mnuUpgraded";
+            this.mnuUpgraded.Size = new System.Drawing.Size(148, 22);
+            this.mnuUpgraded.Text = "Dex Upgrade";
             // 
             // CHK_Seen
             // 
@@ -421,6 +432,12 @@
             this.L_NotSeen.TabIndex = 58;
             this.L_NotSeen.Text = "Not Seen";
             // 
+            // CB_DexUpgraded
+            // 
+            this.CB_DexUpgraded.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_DexUpgraded.Name = "CB_DexUpgraded";
+            this.CB_DexUpgraded.Size = new System.Drawing.Size(112, 23);
+            // 
             // SAV_Pokedex4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -488,6 +505,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuCaughtNone;
         private System.Windows.Forms.ToolStripMenuItem mnuCaughtAll;
         private System.Windows.Forms.ToolStripMenuItem mnuComplete;
+        private System.Windows.Forms.ToolStripMenuItem mnuUpgraded;
         private System.Windows.Forms.CheckBox CHK_Seen;
         private System.Windows.Forms.ListBox LB_Gender;
         private System.Windows.Forms.Button B_GUp;
@@ -503,5 +521,6 @@
         private System.Windows.Forms.ListBox LB_Form;
         private System.Windows.Forms.Label L_Seen;
         private System.Windows.Forms.Label L_NotSeen;
+        private System.Windows.Forms.ToolStripComboBox CB_DexUpgraded;
     }
 }

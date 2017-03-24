@@ -11,7 +11,7 @@ namespace PKHeX.WinForms
         public SAV_Pokedex4()
         {
             InitializeComponent();
-            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, };
+            CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
             editing = true;
@@ -26,9 +26,16 @@ namespace PKHeX.WinForms
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - " + GameInfo.Strings.specieslist[i]);
-            
+
             editing = false;
             LB_Species.SelectedIndex = 0;
+
+            string[] dexMode = new string[5] { "not given", "simple mode", "detect forms", "national dex", "other languages" };
+            if (SAV.HGSS) dexMode = dexMode.Where((t, i) => i != 2).ToArray();
+            for(int i = 0; i < dexMode.Length; i++)
+                CB_DexUpgraded.Items.Add(dexMode[i]);
+            if (SAV.DexUpgraded < CB_DexUpgraded.Items.Count)
+                CB_DexUpgraded.SelectedIndex = SAV.DexUpgraded;
         }
 
         private readonly SAV4 SAV = new SAV4(Main.SAV.Data);
@@ -69,32 +76,38 @@ namespace PKHeX.WinForms
         private const string GENDERLESS = "Genderless";
         private const string MALE = "Male";
         private const string FEMALE = "Female";
+        private static int[] DPLangSpecies = new int[14] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
         private void getEntry()
         {
             // Load Bools for the data
             int bit = species - 1;
-            byte mask = (byte) (1 << (bit & 7));
+            byte mask = (byte)(1 << (bit & 7));
             int ofs = SAV.PokeDex + (bit >> 3) + 0x4;
-
-            if (!SAV.DP)
+            int FormOffset1 = SAV.PokeDex + 4 + brSize * 4 + 4;
+            int PokeDexLanguageFlags = FormOffset1 + (SAV.HGSS ? 0x3C : 0x20);
+            int l_ofs = !SAV.DP ? species : (1 + Array.IndexOf(DPLangSpecies, species));
+            if (l_ofs > 0)
             {
-                int FormOffset1 = SAV.PokeDex + 4 + brSize*4 + 4;
-                int PokeDexLanguageFlags = FormOffset1 + (SAV.HGSS ? 0x3C : 0x20);
-                int l_ofs = PokeDexLanguageFlags + species;
+                l_ofs += PokeDexLanguageFlags;
                 for (int i = 0; i < LangCount; i++)
-                    CL[i].Checked = (SAV.Data[l_ofs] & (byte) (1 << i)) != 0;
+                {
+                    CL[i].Enabled = true;
+                    CL[i].Checked = (SAV.Data[l_ofs] & (byte)(1 << i)) != 0;
+                }
             }
+            else
+                for (int i = 0; i < LangCount; i++) CL[i].Enabled = CL[i].Checked = false;
 
-            bool bit2 = (SAV.Data[ofs + brSize*2] & mask) != 0;
-            bool bit3 = (SAV.Data[ofs + brSize*3] & mask) != 0;
+            bool bit2 = (SAV.Data[ofs + brSize * 2] & mask) != 0;
+            bool bit3 = (SAV.Data[ofs + brSize * 3] & mask) != 0;
 
-            CHK_Seen.Checked = (SAV.Data[ofs + brSize*1] & mask) != 0;
-            CHK_Caught.Checked = (SAV.Data[ofs + brSize*0] & mask) != 0;
+            CHK_Seen.Checked = (SAV.Data[ofs + brSize * 1] & mask) != 0;
+            CHK_Caught.Checked = (SAV.Data[ofs + brSize * 0] & mask) != 0;
 
             // Genders
             LB_Gender.Items.Clear();
             LB_NGender.Items.Clear();
-            
+
             var active = CHK_Seen.Checked ? LB_Gender : LB_NGender;
             var inactive = LB_NGender;
             var other = bit2 ^ bit3 ? active : inactive;
@@ -135,65 +148,67 @@ namespace PKHeX.WinForms
 
         private void setEntry()
         {
-            if (species < 0) 
+            if (species < 0)
                 return;
-            
+
             int bit = species - 1;
             byte mask = (byte)(1 << (bit & 7));
             int ofs = SAV.PokeDex + (bit >> 3) + 0x4;
-            
+
             // Check if already Seen
             if (!CHK_Seen.Checked || LB_Gender.Items.Count == 0)
             {
-                SAV.Data[ofs + brSize*0] &= (byte) ~mask;
-                SAV.Data[ofs + brSize*1] &= (byte) ~mask;
-                SAV.Data[ofs + brSize*2] &= (byte) ~mask;
-                SAV.Data[ofs + brSize*3] &= (byte) ~mask;
+                SAV.Data[ofs + brSize * 0] &= (byte)~mask;
+                SAV.Data[ofs + brSize * 1] &= (byte)~mask;
+                SAV.Data[ofs + brSize * 2] &= (byte)~mask;
+                SAV.Data[ofs + brSize * 3] &= (byte)~mask;
             }
             else // Is Seen
             {
                 // Set the Species Owned Flag
                 if (CHK_Caught.Checked)
-                    SAV.Data[ofs + brSize*0] |= mask;
+                    SAV.Data[ofs + brSize * 0] |= mask;
                 else
-                    SAV.Data[ofs + brSize*0] &= (byte) ~mask;
+                    SAV.Data[ofs + brSize * 0] &= (byte)~mask;
 
-                SAV.Data[ofs + brSize*1] |= mask;
-                switch ((string) LB_Gender.Items[0])
+                SAV.Data[ofs + brSize * 1] |= mask;
+                switch ((string)LB_Gender.Items[0])
                 {
                     case GENDERLESS:
-                        SAV.Data[ofs + brSize*2] &= (byte) ~mask;
-                        SAV.Data[ofs + brSize*3] &= (byte) ~mask;
+                        SAV.Data[ofs + brSize * 2] &= (byte)~mask;
+                        SAV.Data[ofs + brSize * 3] &= (byte)~mask;
                         break;
                     case FEMALE:
-                        SAV.Data[ofs + brSize*2] |= mask; // set
+                        SAV.Data[ofs + brSize * 2] |= mask; // set
                         if (LB_Gender.Items.Count != 1) // Male present
-                            SAV.Data[ofs + brSize*3] &= (byte) ~mask; // unset
+                            SAV.Data[ofs + brSize * 3] &= (byte)~mask; // unset
                         else
-                            SAV.Data[ofs + brSize*3] |= mask; // set
+                            SAV.Data[ofs + brSize * 3] |= mask; // set
                         break;
                     case MALE:
-                        SAV.Data[ofs + brSize*2] &= (byte) ~mask; // unset
+                        SAV.Data[ofs + brSize * 2] &= (byte)~mask; // unset
                         if (LB_Gender.Items.Count != 1) // Female present
-                            SAV.Data[ofs + brSize*3] |= mask; // set
+                            SAV.Data[ofs + brSize * 3] |= mask; // set
                         else
-                            SAV.Data[ofs + brSize*3] &= (byte) ~mask; // unset
+                            SAV.Data[ofs + brSize * 3] &= (byte)~mask; // unset
                         break;
                     default:
                         throw new ArgumentException("Invalid Gender???");
                 }
             }
 
-            if (!SAV.DP)
+            int FormOffset1 = SAV.PokeDex + 4 + 4 * brSize + 4;
+            int PokeDexLanguageFlags = FormOffset1 + (SAV.HGSS ? 0x3C : 0x20);
+            int l_ofs = !SAV.DP ? species : (1 + Array.IndexOf(DPLangSpecies, species));
+            if (l_ofs > 0)
             {
-                int FormOffset1 = SAV.PokeDex + 4 + 4*brSize + 4;
-                int PokeDexLanguageFlags = FormOffset1 + (SAV.HGSS ? 0x3C : 0x20);
+                l_ofs += PokeDexLanguageFlags;
                 for (int i = 0; i < LangCount; i++)
                 {
                     if (CL[i].Checked)
-                        SAV.Data[PokeDexLanguageFlags + species] |= (byte) (1 << i);
+                        SAV.Data[l_ofs] |= (byte)(1 << i);
                     else
-                        SAV.Data[PokeDexLanguageFlags + species] &= (byte) ~(1 << i);
+                        SAV.Data[l_ofs] &= (byte)~(1 << i);
                 }
             }
 
@@ -217,6 +232,8 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             setEntry();
+            int s = CB_DexUpgraded.SelectedIndex;
+            if (s >= 0) SAV.DexUpgraded = s;
 
             // Return back to the parent savefile
             Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
@@ -236,7 +253,7 @@ namespace PKHeX.WinForms
                 CHK_L6.Checked = ModifierKeys != Keys.Control;
             }
             CHK_Caught.Checked = CHK_Seen.Checked = ModifierKeys != Keys.Control;
-            
+
             if (ModifierKeys == Keys.Control)
                 seenNone();
             else
@@ -304,7 +321,7 @@ namespace PKHeX.WinForms
             setEntry();
             getEntry();
         }
-        
+
         private void CHK_Seen_CheckedChanged(object sender, EventArgs e)
         {
             if (!editing)

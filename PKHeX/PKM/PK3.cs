@@ -160,6 +160,10 @@ namespace PKHeX.Core
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => IsEgg || Language == 1;
+        public override bool WasEgg => Met_Level == 0;
+        public override bool WasEvent => Met_Location == 255; // Fateful
+        public override bool WasIngameTrade => Met_Location == 254; // Trade
+        public override bool WasEventEgg => Met_Location == 253; // Gift Egg
 
         public override byte[] Encrypt()
         {
@@ -298,10 +302,9 @@ namespace PKHeX.Core
             }
 
             // Remove HM moves
-            int[] banned = { 15, 19, 57, 70, 148, 249, 127, 291 };
             int[] newMoves = pk4.Moves;
             for (int i = 0; i < 4; i++)
-                if (banned.Contains(newMoves[i]))
+                if (Legal.HM_3.Contains(newMoves[i]))
                     newMoves[i] = 0;
             pk4.Moves = newMoves;
             pk4.FixMoves();

@@ -46,18 +46,21 @@
 
         protected static bool[] getBits(byte[] data)
         {
-            bool[] r = new bool[8 * data.Length];
+            bool[] r = new bool[data.Length<<3];
             for (int i = 0; i < r.Length; i++)
-                r[i] = (data[i/8] >> (i&7) & 0x1) == 1;
+                r[i] = (data[i>>3] >> (i&7) & 0x1) == 1;
             return r;
         }
         protected static byte[] setBits(bool[] bits)
         {
-            byte[] data = new byte[bits.Length/8];
+            byte[] data = new byte[bits.Length>>3];
             for (int i = 0; i < bits.Length; i++)
-                data[i / 8] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
+                data[i>>3] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
             return data;
         }
+
+        public void AddTMHM(byte[] data) => TMHM = getBits(data);
+        public void AddTypeTutors(byte[] data) => TypeTutors = getBits(data);
 
         // Data Manipulation
         public int FormeIndex(int species, int forme)

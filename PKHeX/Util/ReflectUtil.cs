@@ -27,6 +27,9 @@ namespace PKHeX.Core
             return pi.GetValue(obj, null);
         }
 
+        public static object GetValue(Type t, string propertyName) => t.GetProperty(propertyName).GetValue(null);
+        public static void SetValue(Type t, string propertyName, object value) => t.GetProperty(propertyName).SetValue(null, value);
+
         public static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix, BindingFlags flags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)
         {
             return type.GetProperties(flags)

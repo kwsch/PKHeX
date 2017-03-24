@@ -757,7 +757,7 @@ namespace PKHeX.Core
 
             const int brSize = 0x40;
             int bit = pkm.Species - 1;
-            byte mask = (byte) (1 << (bit & 7));
+            byte mask = (byte)(1 << (bit & 7));
             int ofs = PokeDex + (bit >> 3) + 0x4;
 
             /* 4 BitRegions with 0x40*8 bits
@@ -774,26 +774,26 @@ namespace PKHeX.Core
             */
 
             // Set the Species Owned Flag
-            Data[ofs + brSize*0] |= mask;
+            Data[ofs + brSize * 0] |= mask;
 
             // Check if already Seen
-            if ((Data[ofs + brSize*1] & mask) == 0) // Not seen
+            if ((Data[ofs + brSize * 1] & mask) == 0) // Not seen
             {
                 int gr = pkm.PersonalInfo.Gender;
                 switch (gr)
                 {
                     case 255: // Genderless
                     case 0: // Male Only
-                        Data[ofs + brSize*1] &= mask;
-                        Data[ofs + brSize*2] &= mask;
+                        Data[ofs + brSize * 1] &= mask;
+                        Data[ofs + brSize * 2] &= mask;
                         break;
                     case 254: // Female Only
-                        Data[ofs + brSize*1] |= mask;
-                        Data[ofs + brSize*2] |= mask;
+                        Data[ofs + brSize * 1] |= mask;
+                        Data[ofs + brSize * 2] |= mask;
                         break;
                     default: // Male or Female
-                        bool m = (Data[ofs + brSize*1] & mask) != 0;
-                        bool f = (Data[ofs + brSize*2] & mask) != 0;
+                        bool m = (Data[ofs + brSize * 1] & mask) != 0;
+                        bool f = (Data[ofs + brSize * 2] & mask) != 0;
                         if (!(m || f)) // Add both forms (not a single form == 00 or 11).
                         {
                             int gender = pkm.Gender & 1;
@@ -804,7 +804,7 @@ namespace PKHeX.Core
                 }
             }
 
-            int FormOffset1 = PokeDex + 4 + brSize*4 + 4;
+            int FormOffset1 = PokeDex + 4 + brSize * 4 + 4;
             var forms = getForms(pkm.Species);
             if (forms != null)
             {
@@ -829,8 +829,9 @@ namespace PKHeX.Core
                 }
             }
 
-            // DP stops here.
-            if (DP)
+            int[] DPLangSpecies = new int[14] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
+            int dpl = 1 + Array.IndexOf(DPLangSpecies, pkm.Species);
+            if (DP && dpl <= 0)
                 return;
 
             // Set the Language
@@ -838,7 +839,29 @@ namespace PKHeX.Core
             if (lang > 5) lang = 0; // no KOR
             if (lang < 0) lang = 1;
             int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
-            Data[PokeDexLanguageFlags + pkm.Species] |= (byte) (1 << lang);
+            Data[PokeDexLanguageFlags + (DP ? dpl : pkm.Species)] |= (byte)(1 << lang);
+        }
+
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x4; // Magic
+            return (1 << bm & Data[ofs + bd]) != 0;
+        }
+        public override bool getSeen(int species)
+        {
+            const int brSize = 0x40;
+
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x4; // Magic
+
+            return (1 << bm & Data[ofs + bd + brSize*1]) != 0;
         }
 
         public int[] getForms(int species)
@@ -851,14 +874,12 @@ namespace PKHeX.Core
             }
 
             int FormOffset1 = PokeDex + 4 + 4*brSize + 4;
-            if (HGSS)
-                FormOffset1 += 0x1C;
             switch (species)
             {
                 case 422: // Shellos
-                    return getDexFormValues(Data[FormOffset1 + 0], 2, 2);
+                    return getDexFormValues(Data[FormOffset1 + 0], 1, 2);
                 case 423: // Gastrodon
-                    return getDexFormValues(Data[FormOffset1 + 1], 2, 2);
+                    return getDexFormValues(Data[FormOffset1 + 1], 1, 2);
                 case 412: // Burmy
                     return getDexFormValues(Data[FormOffset1 + 2], 2, 3);
                 case 413: // Wormadam
@@ -866,7 +887,7 @@ namespace PKHeX.Core
                 case 201: // Unown
                     return getData(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
             }
-            if (!DP)
+            if (DP)
                 return null;
 
             int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
@@ -876,9 +897,9 @@ namespace PKHeX.Core
                 case 479: // Rotom
                     return getDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6);
                 case 492: // Shaymin
-                    return getDexFormValues(Data[FormOffset2 + 4], 2, 2);
+                    return getDexFormValues(Data[FormOffset2 + 4], 1, 2);
                 case 487: // Giratina
-                    return getDexFormValues(Data[FormOffset2 + 5], 2, 2);
+                    return getDexFormValues(Data[FormOffset2 + 5], 1, 2);
                 case 172:
                     if (!HGSS)
                         return null;
@@ -900,15 +921,13 @@ namespace PKHeX.Core
             }
 
             int FormOffset1 = PokeDex + 4 + 4*brSize + 4;
-            if (HGSS)
-                FormOffset1 += 0x1C;
             switch (spec)
             {
                 case 422: // Shellos
-                    Data[FormOffset1 + 0] = (byte)setDexFormValues(forms, 2, 2);
+                    Data[FormOffset1 + 0] = (byte)setDexFormValues(forms, 1, 2);
                     return;
                 case 423: // Gastrodon
-                    Data[FormOffset1 + 1] = (byte)setDexFormValues(forms, 2, 2);
+                    Data[FormOffset1 + 1] = (byte)setDexFormValues(forms, 1, 2);
                     return;
                 case 412: // Burmy
                     Data[FormOffset1 + 2] = (byte)setDexFormValues(forms, 2, 3);
@@ -937,10 +956,10 @@ namespace PKHeX.Core
                     BitConverter.GetBytes(setDexFormValues(forms, 3, 6)).CopyTo(Data, FormOffset2);
                     return;
                 case 492: // Shaymin
-                    Data[FormOffset2 + 4] = (byte)setDexFormValues(forms, 2, 2);
+                    Data[FormOffset2 + 4] = (byte)setDexFormValues(forms, 1, 2);
                     return;
                 case 487: // Giratina
-                    Data[FormOffset2 + 5] = (byte)setDexFormValues(forms, 2, 2);
+                    Data[FormOffset2 + 5] = (byte)setDexFormValues(forms, 1, 2);
                     return;
                 case 172: // Pichu
                     if (!HGSS)
@@ -956,8 +975,8 @@ namespace PKHeX.Core
             int n1 = 0xFF >> (8 - BitsPerForm);
             for (int i = 0; i < Forms.Length; i++)
             {
-                int val = (int)(Value >> (i*BitsPerForm))&n1;
-                if (n1 == val)
+                int val = (int)(Value >> (i * BitsPerForm)) & n1;
+                if (n1 == val && BitsPerForm > 1)
                     Forms[i] = -1;
                 else
                     Forms[i] = val;
@@ -997,6 +1016,48 @@ namespace PKHeX.Core
 
             Forms[n1] = FormNum;
             return true;
+        }
+        public int DexUpgraded
+        {
+            get
+            {
+                switch (Version)
+                {
+                    case GameVersion.DP:
+                        if ((Data[0x1413 + GBO] & 1) != 0) return 4;
+                        else if ((Data[0x1415 + GBO] & 1) != 0) return 3;
+                        else if ((Data[0x1404 + GBO] & 1) != 0) return 2;
+                        else if ((Data[0x1414 + GBO] & 1) != 0) return 1;
+                        else return 0;
+                    case GameVersion.HGSS:
+                        if ((Data[0x15ED + GBO] & 1) != 0) return 3;
+                        else if ((Data[0x15EF + GBO] & 1) != 0) return 2;
+                        else if ((Data[0x15EE + GBO] & 1) != 0 && (Data[0x10D1 + GBO] & 8) != 0) return 1;
+                        else return 0;
+                    // case GameVersion.Pt: break;
+                    default: return 0;
+                }
+            }
+            set
+            {
+                switch (Version)
+                {
+                    case GameVersion.DP:
+                        Data[0x1413 + GBO] = (byte)((Data[0x1413 + GBO] & 0xFE) | (value == 4 ? 1 : 0));
+                        Data[0x1415 + GBO] = (byte)((Data[0x1415 + GBO] & 0xFE) | (value >= 3 ? 1 : 0));
+                        Data[0x1404 + GBO] = (byte)((Data[0x1404 + GBO] & 0xFE) | (value >= 2 ? 1 : 0));
+                        Data[0x1414 + GBO] = (byte)((Data[0x1414 + GBO] & 0xFE) | (value >= 1 ? 1 : 0));
+                        break;
+                    case GameVersion.HGSS:
+                        Data[0x15ED + GBO] = (byte)((Data[0x15ED + GBO] & 0xFE) | (value == 3 ? 1 : 0));
+                        Data[0x15EF + GBO] = (byte)((Data[0x15EF + GBO] & 0xFE) | (value >= 2 ? 1 : 0));
+                        Data[0x15EE + GBO] = (byte)((Data[0x15EE + GBO] & 0xFE) | (value >= 1 ? 1 : 0));
+                        Data[0x10D1 + GBO] = (byte)((Data[0x10D1 + GBO] & 0xF7) | (value >= 1 ? 8 : 0));
+                        break;
+                    // case GameVersion.Pt: break;
+                    default: return;
+                }
+            }
         }
     }
 }

@@ -104,6 +104,7 @@ namespace PKHeX.WinForms
                 dgvIndex.DisplayIndex = c++;
                 dgvIndex.Width = 45;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                if (!Main.HaX)
                 ((DataGridViewTextBoxColumn) dgvIndex).MaxInputLength = (int)(Math.Log10(Math.Max(1, pouch.MaxCount)) + 1);
             }
 
@@ -121,7 +122,7 @@ namespace PKHeX.WinForms
                 };
                 dgv.Columns.Add(dgvFree);
             }
-            if (HasFreeSpace)
+            if (HasNew)
             {
                 DataGridViewCheckBoxColumn dgvNew = new DataGridViewCheckBoxColumn
                 {
@@ -242,7 +243,7 @@ namespace PKHeX.WinForms
                     NUD_Count.Maximum = byte.MaxValue;
                 else if (SAV.Generation >= 7)
                     NUD_Count.Maximum = pouch.MaxCount;
-                else if (SAV.Generation >= 3)
+                else // if (SAV.Generation >= 3)
                     NUD_Count.Maximum = ushort.MaxValue;
             }
             else
