@@ -251,6 +251,14 @@ namespace PKHeX.Core
             foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
                 s.Type = SlotType.HiddenGrotto; 
         }
+        private static void MarkG5DreamWorld(ref EncounterStatic[] t)
+        {
+            foreach (EncounterStatic s in t)
+            {
+                s.Location = 75;  //Entree Forest. Location can be a flag from dream world
+                s.Ability = 4;    //What if 1=2=HA?
+            }
+        }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
             foreach (var area in Areas)
@@ -482,10 +490,12 @@ namespace PKHeX.Core
             }
             // Gen 5
             {
-                StaticB = getStaticEncounters(GameVersion.B);
-                StaticW = getStaticEncounters(GameVersion.W);
-                StaticB2 = getStaticEncounters(GameVersion.B2);
-                StaticW2 = getStaticEncounters(GameVersion.W2);
+                MarkG5DreamWorld(ref BW_DreamWorld);
+                MarkG5DreamWorld(ref B2W2_DreamWorld);
+                StaticB = getStaticEncounters(GameVersion.B).Concat(BW_DreamWorld).ToArray();
+                StaticW = getStaticEncounters(GameVersion.W).Concat(BW_DreamWorld).ToArray();
+                StaticB2 = getStaticEncounters(GameVersion.B2).Concat(B2W2_DreamWorld).ToArray();
+                StaticW2 = getStaticEncounters(GameVersion.W2).Concat(B2W2_DreamWorld).ToArray();
 
                 var BSlots = getEncounterTables(GameVersion.B);
                 var WSlots = getEncounterTables(GameVersion.W);

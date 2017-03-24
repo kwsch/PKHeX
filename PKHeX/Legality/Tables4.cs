@@ -243,12 +243,18 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
             new EncounterStatic { Gift = true, Species = 447, Level = 01, EggLocation = 2010,}, //Riolu Egg from Riley
 
+            //Stationary
+            new EncounterStatic { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP, },// Drifloon @ Valley Windworks 
+            new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt, },// Drifloon @ Valley Windworks 
+            new EncounterStatic { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, },// Rotom @ Old Chateau 
+            new EncounterStatic { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, },// Rotom @ Old Chateau 
+
             //Stationary Lengerdary
             new EncounterStatic { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt,}, //Regirock @ Rock Peak Ruins
             new EncounterStatic { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt,}, //Regice @ Iceberg Ruins
             new EncounterStatic { Species = 379, Level = 30, Location = 123, Version = GameVersion.Pt,}, //Registeel @ Iron Ruins
-            new EncounterStatic { Species = 480, Level = 50, Location = 078,}, //Uxie @ Lake Acuity
-            new EncounterStatic { Species = 482, Level = 50, Location = 077,}, //Azelf @ Lake Valor
+            new EncounterStatic { Species = 480, Level = 50, Location = 089,}, //Uxie @ Acuity Cavern
+            new EncounterStatic { Species = 482, Level = 50, Location = 088,}, //Azelf @ Valor Cavern
             new EncounterStatic { Species = 483, Level = 47, Location = 051, Version = GameVersion.D,}, //Dialga @ Spear Pillar
             new EncounterStatic { Species = 483, Level = 70, Location = 051, Version = GameVersion.Pt,}, //Dialga @ Spear Pillar
             new EncounterStatic { Species = 484, Level = 47, Location = 051, Version = GameVersion.P,}, //Palkia @ Spear Pillar
@@ -332,9 +338,11 @@ namespace PKHeX.Core
             //Stationary
             new EncounterStatic { Species = 130, Level = 30, Location = 135, Shiny = true }, //Gyarados @ Lake of Rage
             new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave Friday Only
+            new EncounterStatic { Species = 101, Level = 23, Location = 213, }, //Electrode @ Team Rocket HQ
             new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
             new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
             new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36
+            new EncounterStatic { Species = 172, Level = 30, Location = 214, Gender = 1, Form = 1, Moves = new[]{344,270,207,220} },  //Spiky-eared Pichu @ Ilex forest
 
             //Stationary Lengerdary
             new EncounterStatic { Species = 144, Level = 50, Location = 203, }, //Articuno @ Seafoam Islands
@@ -352,9 +360,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 382, Level = 50, Location = 232, Version = GameVersion.HG, }, //Kyogre @ Embedded Tower
             new EncounterStatic { Species = 383, Level = 50, Location = 232, Version = GameVersion.SS, }, //Groudon @ Embedded Tower
             new EncounterStatic { Species = 384, Level = 50, Location = 232, }, //Rayquaza @ Embedded Tower
-            new EncounterStatic { Species = 483, Level = 01, Location = 231, }, //Dialga @ Sinjoh Ruins
-            new EncounterStatic { Species = 484, Level = 01, Location = 231, }, //Palkia @ Sinjoh Ruins
-            new EncounterStatic { Species = 487, Level = 01, Location = 231, Form = 1}, //Giratina @ Sinjoh Ruins
+            new EncounterStatic { Species = 483, Level = 01, Location = 231, Gift = true }, //Dialga @ Sinjoh Ruins
+            new EncounterStatic { Species = 484, Level = 01, Location = 231, Gift = true }, //Palkia @ Sinjoh Ruins
+            new EncounterStatic { Species = 487, Level = 01, Location = 231, Gift = true, Form = 1}, //Giratina @ Sinjoh Ruins
         };
 
         internal static readonly EncounterStatic[] Encounter_HGSS = Encounter_HGSS_KantoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto)).Concat(
