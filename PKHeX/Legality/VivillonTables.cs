@@ -63,7 +63,7 @@ namespace PKHeX.Core
                 mainform = 01, // Polar
                 otherforms = new[]
                 {
-                    new FormSubregionTable { form = 01, region = new[] {12,13,14} },
+                    new FormSubregionTable { form = 00, region = new[] {12,13,14} },
                     new FormSubregionTable { form = 07, region = new[] {05} },
                     new FormSubregionTable { form = 10, region = new[] {04} },
                 }
