@@ -1849,10 +1849,8 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V311, CheckIdentifier.Form);
                         return;
                     }
-                    else if (!Legal.CheckVivillonPattern(pkm.AltForm,pkm.Country,pkm.Region))
-                    {
-                        AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
-                    }
+                    if (!Legal.CheckVivillonPattern(pkm.AltForm, pkm.Country, pkm.Region))
+                        AddLine(Severity.Fishy, V312, CheckIdentifier.Form);
                     break;
                 case 666: // Vivillon
                     if (pkm.AltForm > 17) // Fancy & Pokéball
@@ -1864,10 +1862,8 @@ namespace PKHeX.Core
 
                         return;
                     }
-                    else if (!Legal.CheckVivillonPattern(pkm.AltForm, pkm.Country, pkm.Region))
-                    {
-                        AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
-                    }
+                    if (!Legal.CheckVivillonPattern(pkm.AltForm, pkm.Country, pkm.Region))
+                        AddLine(Severity.Fishy, V312, CheckIdentifier.Form);
                     break;
                 case 670: // Floette
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
