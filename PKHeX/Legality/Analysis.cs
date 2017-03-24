@@ -220,11 +220,11 @@ namespace PKHeX.Core
                 verifyHyperTraining();
                 verifyMedals();
                 verifyRegion();
+                verifyVersionEvolution();
             }
             if (pkm.GenNumber < 5)
                 verifyEggMoves();
 
-            verifyVersionEvolution();
             // SecondaryChecked = true;
         }
         private string getLegalityReport()
