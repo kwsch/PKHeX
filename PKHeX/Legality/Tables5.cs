@@ -124,6 +124,37 @@ namespace PKHeX.Core
             new[] { 388, 380, 270, 495, 478, 472, 180, 278, 271, 446, 200, 283, 214, 285, 289, } // Nacrene City
         };
 
+        #region Dream Radar Tables
+        internal static readonly EncounterStatic[] Encounter_DreamRadar =
+        {
+            new EncounterStatic { Species=120, Ability = 4 },
+            new EncounterStatic { Species=137, Ability = 4 },
+            new EncounterStatic { Species=174, Ability = 4 },
+            new EncounterStatic { Species=175, Ability = 4 },
+            new EncounterStatic { Species=213, Ability = 4 },
+            new EncounterStatic { Species=238, Ability = 4 },
+            new EncounterStatic { Species=280, Ability = 4 },
+            new EncounterStatic { Species=333, Ability = 4 },
+            new EncounterStatic { Species=425, Ability = 4 },
+            new EncounterStatic { Species=436, Ability = 4 },
+            new EncounterStatic { Species=442, Ability = 4 },
+            new EncounterStatic { Species=447, Ability = 4 },
+            new EncounterStatic { Species=479,},             // Rotom has no HA
+            new EncounterStatic { Species=517, Ability = 4 },
+            new EncounterStatic { Species=561, Ability = 4 },
+            new EncounterStatic { Species=641, Ability = 4, Form = 1}, //Tornadus-T
+            new EncounterStatic { Species=642, Ability = 4, Form = 1}, //Thunderus-T
+            new EncounterStatic { Species=645, Ability = 4, Form = 1}, //Landorus-T
+            new EncounterStatic { Species=249, Ability = 4 }, //SS
+            new EncounterStatic { Species=250, Ability = 4 }, //HG
+            new EncounterStatic { Species=483, Ability = 4 }, //D
+            new EncounterStatic { Species=484, Ability = 4 }, //P
+            new EncounterStatic { Species=487, Ability = 4 }, //Pt
+            new EncounterStatic { Species=079, Ability = 4 }, //Slowpoke
+            new EncounterStatic { Species=163, Ability = 4 }, //Hoothoot
+            new EncounterStatic { Species=374, Ability = 4 }, //Beldum
+        };
+        #endregion
         #region DreamWorld Encounter
         internal static readonly EncounterStatic[] DreamWorld_Common =
         {
@@ -443,7 +474,7 @@ namespace PKHeX.Core
              new EncounterStatic { Species=575, Level = 32, Moves = new[]{286}, Gender = 0, },   //Gothorita  
         }).ToArray();
         #endregion
-
+        #region Static Encounter/Gift Tables
         internal static readonly int[] Roaming_MetLocation_BW =
         {
             25,26,27,28, // Route 12,13,14,15 Night latter half
@@ -457,7 +488,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 641, Level = 40, Version = GameVersion.B, Roaming = true }, //Tornadus
             new EncounterStatic { Species = 642, Level = 40, Version = GameVersion.W, Roaming = true }, //Thundurus
         };
-
         internal static readonly EncounterStatic[] Encounter_BW_Regular =
         {
             //Starters @ Nuvema Town
@@ -507,10 +537,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 570, Level = 10, Location = 32, Gender = 0, }, // Zorua @ Castelia City
             new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
         };
-
         internal static readonly EncounterStatic[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
-
-        internal static readonly EncounterStatic[] Encounter_B2W2 =
+        internal static readonly EncounterStatic[] Encounter_B2W2_Regular =
         {
             //Starters @ Aspertia City
             new EncounterStatic { Gift = true, Species = 495, Level = 5, Location = 117, }, // Snivy
@@ -573,7 +601,27 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 643, Level = 70, Location = 039, Shiny = false, Version = GameVersion.W2, }, // Reshiram @ Dragonspiral Tower
             new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = false, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
             new EncounterStatic { Species = 646, Level = 70, Location = 061, Form = 0}, // Kyurem @ Giant Chasm
+
+            //N's Pokemon
+            new EncounterStatic { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, Nature = Nature.Timid }, //Purloin @ Route 2
+            new EncounterStatic { Species = 519, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Sassy }, //Pidove @ Pinwheel Forest
+            new EncounterStatic { Species = 532, Level = 13, Location = 33, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Timburr @ Pinwheel Forest
+            new EncounterStatic { Species = 535, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Modest }, //Tympole @ Pinwheel Forest
+            new EncounterStatic { Species = 527, Level = 55, Location = 53, NSparkle = true, Ability = 1, Nature = Nature.Timid }, //Woobat @ Wellspring Cave
+            new EncounterStatic { Species = 551, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Sandile @ Desert Resort
+            new EncounterStatic { Species = 554, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Darumaka @ Desert Resort
+            new EncounterStatic { Species = 555, Level = 35, Location = 34, NSparkle = true, Ability = 4, Nature = Nature.Calm }, //Darmanitan @ Desert Resort
+            new EncounterStatic { Species = 559, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Lax }, //Scaggy @ Desert Resort
+            new EncounterStatic { Species = 561, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Gentle }, //Sigilyph @ Desert Resort
+            new EncounterStatic { Species = 525, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Boldore @ Chargestone Cave
+            new EncounterStatic { Species = 595, Level = 28, Location = 37, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Joltik @ Chargestone Cave
+            new EncounterStatic { Species = 597, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Bashful }, //Ferroseed @ Chargestone Cave
+            new EncounterStatic { Species = 599, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Klink @ Chargestone Cave
+            new EncounterStatic { Species = 570, Level = 25, Location = 10, NSparkle = true, Ability = 1, Nature = Nature.Hasty, Gift = true} //N's Zorua @ Driftveil City
         };
+        internal static readonly EncounterStatic[] Encounter_B2W2 = Encounter_DreamRadar.SelectMany(e => e.DreamRadarClone()).Concat(Encounter_B2W2_Regular).ToArray();
+        #endregion
+        #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_BW =
         {
             new EncounterTrade { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Modest, Version = GameVersion.B, }, // Petilil
@@ -619,9 +667,8 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
-            // Gift
-            new EncounterTrade { Species = 570, Level = 25, Ability = 1, TID = 00002, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {30,30,30,30,30,30}, Nature = Nature.Hasty, Location = 10} //N's Zorua @ Driftveil City
         };
+        #endregion
         #region Alt Slots
         private static readonly EncounterArea[] SlotsBW_Swarm =
         {
