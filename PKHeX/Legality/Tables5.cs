@@ -285,6 +285,13 @@ namespace PKHeX.Core
              new EncounterStatic { Species=133, Level = 10, Moves = new[]{270, 204, 129}, },	//Eevee
              new EncounterStatic { Species=235, Level = 10, Moves = new[]{166, 445, 214}, },	//Smeargle
              new EncounterStatic { Species=412, Level = 10, Moves = new[]{182, 450, 173}, },	//Burmy
+             //PGL
+             new EncounterStatic { Species=212, Level = 10, Moves = new[]{211}, Gender = 0, },   //Scizor
+             new EncounterStatic { Species=445, Level = 48, Gender = 0, },                       //Garchomp
+             new EncounterStatic { Species=149, Level = 55, Moves = new[]{009}, Gender = 0, },   //Dragonite
+             new EncounterStatic { Species=248, Level = 55, Moves = new[]{069}, Gender = 0, },   //Tyranitar
+             new EncounterStatic { Species=149, Level = 55, Moves = new[]{245}, Gender = 0, },   //Dragonite
+             new EncounterStatic { Species=376, Level = 45, Moves = new[]{038}, Gender = 2, },   //Metagross
         };
 
         internal static readonly EncounterStatic[] BW_DreamWorld = DreamWorld_Common.Concat(new[]
@@ -348,7 +355,36 @@ namespace PKHeX.Core
              new EncounterStatic { Species=415, Level = 10, Moves = new[]{16, 366, 314}, },	    //Combee      
              new EncounterStatic { Species=015, Level = 10, Moves = new[]{31, 314, 210}, },	    //Beedrill    
              new EncounterStatic { Species=335, Level = 10, Moves = new[]{98, 458, 67}, },	    //Zangoose    
-             new EncounterStatic { Species=336, Level = 10, Moves = new[]{44, 34, 401}, },	    //Seviper     
+             new EncounterStatic { Species=336, Level = 10, Moves = new[]{44, 34, 401}, },	    //Seviper    
+             //PGL
+             new EncounterStatic { Species=134, Level = 10, Gender = 0, },   //Vaporeon
+             new EncounterStatic { Species=135, Level = 10, Gender = 0, },   //Jolteon
+             new EncounterStatic { Species=136, Level = 10, Gender = 0, },   //Flareon
+             new EncounterStatic { Species=196, Level = 10, Gender = 0, },   //Espeon
+             new EncounterStatic { Species=197, Level = 10, Gender = 0, },   //Umbreon
+             new EncounterStatic { Species=470, Level = 10, Gender = 0, },   //Leafeon
+             new EncounterStatic { Species=471, Level = 10, Gender = 0, },   //Glaceon
+             new EncounterStatic { Species=001, Level = 10, Gender = 0, },   //Bulbasaur
+             new EncounterStatic { Species=004, Level = 10, Gender = 0, },   //Charmander
+             new EncounterStatic { Species=007, Level = 10, Gender = 0, },   //Squirtle
+             new EncounterStatic { Species=453, Level = 10, Gender = 0, },   //Croagunk
+             new EncounterStatic { Species=387, Level = 10, Gender = 0, },   //Turtwig
+             new EncounterStatic { Species=390, Level = 10, Gender = 0, },   //Chimchar
+             new EncounterStatic { Species=393, Level = 10, Gender = 0, },   //Piplup
+             new EncounterStatic { Species=493, Level = 100 },               //Arceus
+             new EncounterStatic { Species=252, Level = 10, Gender = 0, },   //Treecko
+             new EncounterStatic { Species=255, Level = 10, Gender = 0, },   //Torchic
+             new EncounterStatic { Species=258, Level = 10, Gender = 0, },   //Mudkip
+             new EncounterStatic { Species=468, Level = 10, Moves = new[]{217}, Gender = 0, },   //Togekiss
+             new EncounterStatic { Species=473, Level = 34, Gender = 0, },   //Mamoswine
+             new EncounterStatic { Species=137, Level = 10 },                //Porygon
+             new EncounterStatic { Species=384, Level = 50 },                //Rayquaza
+             new EncounterStatic { Species=354, Level = 37, Moves = new[]{538}, Gender = 1, },   //Banette
+             new EncounterStatic { Species=453, Level = 10, Moves = new[]{398}, Gender = 0, },   //Croagunk
+             new EncounterStatic { Species=334, Level = 35, Moves = new[]{206}, Gender = 0,},   //Altaria
+             new EncounterStatic { Species=242, Level = 10 },                //Blissey
+             new EncounterStatic { Species=448, Level = 10, Moves = new[]{418}, Gender = 0, },   //Lucario
+             new EncounterStatic { Species=189, Level = 27, Moves = new[]{206}, Gender = 0, },   //Jumpluff 
         }).ToArray();
 
         internal static readonly EncounterStatic[] B2W2_DreamWorld = DreamWorld_Common.Concat(new[]
@@ -394,7 +430,17 @@ namespace PKHeX.Core
              new EncounterStatic { Species=538, Level = 10, Moves = new[]{20, 8, 276}, },	    //Throh       
              new EncounterStatic { Species=539, Level = 10, Moves = new[]{249, 9, 530}, },	    //Sawk        
              new EncounterStatic { Species=559, Level = 10, Moves = new[]{67, 252, 409}, },	    //Scraggy     
-             new EncounterStatic { Species=533, Level = 25, Moves = new[]{67, 183, 409}, },	    //Gurdurr     
+             new EncounterStatic { Species=533, Level = 25, Moves = new[]{67, 183, 409}, },	    //Gurdurr   
+             //PGL
+             new EncounterStatic { Species=575, Level = 32, Moves = new[]{243}, Gender = 0, },   //Gothorita
+             new EncounterStatic { Species=025, Level = 10, Moves = new[]{029}, Gender = 0, },   //Pikachu
+             new EncounterStatic { Species=511, Level = 10, Moves = new[]{437}, Gender = 0, },   //Pansage
+             new EncounterStatic { Species=513, Level = 10, Moves = new[]{257}, Gender = 0, },   //Pansear
+             new EncounterStatic { Species=515, Level = 10, Moves = new[]{056}, Gender = 0, },   //Panpour
+             new EncounterStatic { Species=387, Level = 10, Moves = new[]{254}, Gender = 0, },   //Turtwig
+             new EncounterStatic { Species=390, Level = 10, Moves = new[]{252}, Gender = 0, },   //Chimchar
+             new EncounterStatic { Species=393, Level = 10, Moves = new[]{297}, Gender = 0, },   //Piplup
+             new EncounterStatic { Species=575, Level = 32, Moves = new[]{286}, Gender = 0, },   //Gothorita  
         }).ToArray();
         #endregion
 

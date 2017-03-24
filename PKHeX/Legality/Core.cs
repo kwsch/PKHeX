@@ -254,7 +254,10 @@ namespace PKHeX.Core
         private static void MarkG5DreamWorld(ref EncounterStatic[] t)
         {
             foreach (EncounterStatic s in t)
-                s.Location = 75;  //Location can use a flag from dream world
+            {
+                s.Location = 75;  //Entree Forest. Location can be a flag from dream world
+                s.Ability = 4;    //What if 1=2=HA?
+            }
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
