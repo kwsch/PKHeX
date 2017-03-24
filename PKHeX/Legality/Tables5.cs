@@ -504,7 +504,7 @@ namespace PKHeX.Core
 
             //Event
             new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
-            new EncounterStatic { Species = 570, Level = 10, Location = 32, Gender = 0, Gift = true, }, // Zorua @ Castelia City
+            new EncounterStatic { Species = 570, Level = 10, Location = 32, Gender = 0, }, // Zorua @ Castelia City
             new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
         };
 
