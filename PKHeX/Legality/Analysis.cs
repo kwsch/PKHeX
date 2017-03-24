@@ -121,7 +121,8 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
+
+            verifyPreRelearn();
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();
@@ -133,7 +134,8 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
+
+            verifyPreRelearn();
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();

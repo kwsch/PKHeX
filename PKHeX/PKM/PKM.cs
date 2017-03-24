@@ -360,9 +360,10 @@ namespace PKHeX.Core
             {
                 if (GenNumber > 5 || Format > 5)
                     return -1;
-                if (GenNumber == 5)
-                    return (int)((PID >> 16) & 1);
-                return (int)(PID & 1);
+                
+                if (Version == (int) GameVersion.CXD)
+                    return Array.IndexOf(PersonalInfo.Abilities, Ability);
+                return (int)((GenNumber == 5 ? PID >> 16 : PID) & 1);
             }
         }
 

@@ -1071,13 +1071,13 @@ namespace PKHeX.Core
             {
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
-                    if (wc.CardID != pkm.SID) continue;
+                    if (wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
                     if (wc.OT != pkm.OT_Name) continue;
                     if (wc.OTGender != pkm.OT_Gender) continue;
-                    if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
+                    if (wc.PID != 0 && pkm.PID != wc.PID) continue;
+                    if (wc.PIDType == 0 && pkm.IsShiny) continue;
                     if (wc.PIDType == 2 && !pkm.IsShiny) continue;
-                    if (wc.PIDType == 3 && pkm.IsShiny) continue;
                     if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }

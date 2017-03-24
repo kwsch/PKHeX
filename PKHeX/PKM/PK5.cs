@@ -29,6 +29,7 @@ namespace PKHeX.Core
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
         public override int CurrentHandler { get { return 0; } set { } }
+        public override int AbilityNumber { get { return HiddenAbility ? 4 : 1 << PIDAbility; } set { } }
 
         // Structure
         public override uint PID { get { return BitConverter.ToUInt32(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
