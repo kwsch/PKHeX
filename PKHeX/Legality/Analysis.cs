@@ -293,14 +293,10 @@ namespace PKHeX.Core
                 return RelearnBase;
 
             List<int> window = new List<int>(RelearnBase);
-
-            for (int i = 0; i < 4; i++)
-                if (!vMoves[i].Valid || vMoves[i].Flag)
-                    window.Add(pkm.Moves[i]);
-
+            window.AddRange(pkm.Moves.Where((v, i) => !vMoves[i].Valid || vMoves[i].Flag));
             if (window.Count < 4)
                 window.AddRange(new int[4 - window.Count]);
-            return window.Skip(window.Count - 4).Take(4).ToArray();
+            return window.Skip(window.Count - 4).ToArray();
         }
         public int[] getSuggestedMoves(bool tm, bool tutor, bool reminder)
         {

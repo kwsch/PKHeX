@@ -2349,14 +2349,7 @@ namespace PKHeX.Core
                     res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
             }
 
-            // Store the suggested relearn moves with a moving window.
-            var window = new List<int>();
-            window.AddRange(baseMoves); // initial moves (levelup for current level of egg)
-            window.AddRange(inherited.Where(m => !baseMoves.Contains(m))); // nonstandard (egg or higher levelup moves)
-            int[] moves = window.Skip(baseCt + inheritCt - 4).Take(4).ToArray();
-            Array.Resize(ref moves, 4);
-            RelearnBase = moves;
-
+            RelearnBase = baseMoves.ToArray();
             return res;
         }
 
