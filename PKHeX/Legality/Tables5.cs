@@ -573,6 +573,23 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 643, Level = 70, Location = 039, Shiny = false, Version = GameVersion.W2, }, // Reshiram @ Dragonspiral Tower
             new EncounterStatic { Species = 644, Level = 70, Location = 039, Shiny = false, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
             new EncounterStatic { Species = 646, Level = 70, Location = 061, Form = 0}, // Kyurem @ Giant Chasm
+
+            //N's Pokemon
+            new EncounterStatic { Species = 509, Level = 07, Location = 15, NSparkle = true, Ability = 2, Nature = Nature.Timid }, //Purloin @ Route 2
+            new EncounterStatic { Species = 519, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Sassy }, //Pidove @ Pinwheel Forest
+            new EncounterStatic { Species = 532, Level = 13, Location = 33, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Timburr @ Pinwheel Forest
+            new EncounterStatic { Species = 535, Level = 13, Location = 33, NSparkle = true, Ability = 2, Nature = Nature.Modest }, //Tympole @ Pinwheel Forest
+            new EncounterStatic { Species = 527, Level = 55, Location = 53, NSparkle = true, Ability = 1, Nature = Nature.Timid }, //Woobat @ Wellspring Cave
+            new EncounterStatic { Species = 551, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Sandile @ Desert Resort
+            new EncounterStatic { Species = 554, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Darumaka @ Desert Resort
+            new EncounterStatic { Species = 555, Level = 35, Location = 34, NSparkle = true, Ability = 4, Nature = Nature.Calm }, //Darmanitan @ Desert Resort
+            new EncounterStatic { Species = 559, Level = 22, Location = 34, NSparkle = true, Ability = 1, Nature = Nature.Lax }, //Scaggy @ Desert Resort
+            new EncounterStatic { Species = 561, Level = 22, Location = 34, NSparkle = true, Ability = 2, Nature = Nature.Gentle }, //Sigilyph @ Desert Resort
+            new EncounterStatic { Species = 525, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Naive }, //Boldore @ Chargestone Cave
+            new EncounterStatic { Species = 595, Level = 28, Location = 37, NSparkle = true, Ability = 2, Nature = Nature.Docile }, //Joltik @ Chargestone Cave
+            new EncounterStatic { Species = 597, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Bashful }, //Ferroseed @ Chargestone Cave
+            new EncounterStatic { Species = 599, Level = 28, Location = 37, NSparkle = true, Ability = 1, Nature = Nature.Rash }, //Klink @ Chargestone Cave
+            new EncounterStatic { Species = 570, Level = 25, Location = 10, NSparkle = true, Ability = 1, Nature = Nature.Hasty, Gift = true} //N's Zorua @ Driftveil City
         };
         internal static readonly EncounterTrade[] TradeGift_BW =
         {
@@ -619,8 +636,6 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
             new EncounterTrade { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0,},
-            // Gift
-            new EncounterTrade { Species = 570, Level = 25, Ability = 1, TID = 00002, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {30,30,30,30,30,30}, Nature = Nature.Hasty, Location = 10} //N's Zorua @ Driftveil City
         };
         #region Alt Slots
         private static readonly EncounterArea[] SlotsBW_Swarm =
