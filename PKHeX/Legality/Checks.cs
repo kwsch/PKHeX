@@ -2275,24 +2275,11 @@ namespace PKHeX.Core
             var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
             int inheritCt = inherited.Count;
 
-            // Get Move Window
-            var window = new List<int>();
-            window.AddRange(baseMoves); // initial moves (levelup for current level of egg)
-            window.AddRange(inherited); // nonstandard (egg or higher levelup moves)
-
             // Get required amount of base moves
             int unique = baseMoves.Concat(inherited).Distinct().Count();
             int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
             if (RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
                 reqBase = Math.Min(4, unique);
-            
-            // Store the base moves suggestion.
-            string em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
-
-            // Store the suggested relearn moves.
-            int[] moves = window.Skip(baseCt + inheritCt - 4).Take(4).ToArray();
-            Array.Resize(ref moves, 4);
-            RelearnBase = moves;
 
             // Check if the required amount of Base Egg Moves are present.
             for (int i = 0; i < reqBase; i++)
@@ -2306,6 +2293,7 @@ namespace PKHeX.Core
                         res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
 
                     // provide the list of suggested base moves for the last required slot
+                    string em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
                     res[reqBase - 1].Comment += string.Format(Environment.NewLine + V181, em);
                     break;
                 }
@@ -2325,6 +2313,14 @@ namespace PKHeX.Core
                 else // not inheritable, flag
                     res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
             }
+
+            // Store the suggested relearn moves with a moving window.
+            var window = new List<int>();
+            window.AddRange(baseMoves); // initial moves (levelup for current level of egg)
+            window.AddRange(inherited.Where(m => !baseMoves.Contains(m))); // nonstandard (egg or higher levelup moves)
+            int[] moves = window.Skip(baseCt + inheritCt - 4).Take(4).ToArray();
+            Array.Resize(ref moves, 4);
+            RelearnBase = moves;
 
             return res;
         }
