@@ -152,7 +152,7 @@
     <Compile Include="Game\GameVersion.cs" />
     <Compile Include="Legality\Analysis.cs" />
     <Compile Include="Legality\Checks.cs" />
-    <Compile Include="Legality\CheckStrings.cs" />
+    <Compile Include="Legality\LegalityCheckStrings.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
     <Compile Include="Legality\Structures\DexLevel.cs" />
@@ -3521,8 +3521,8 @@
   <ItemGroup>
     <Content Include="Resources\img\misc\horohoro.png" />
     <Content Include="Resources\img\misc\vc.png" />
-    <None Include="Resources\text\en\legality_en.txt" />
-    <None Include="Resources\text\zh\legality_zh.txt" />
+    <None Include="Resources\text\en\LegalityCheckStrings_en.txt" />
+    <None Include="Resources\text\zh\LegalityCheckStrings_zh.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

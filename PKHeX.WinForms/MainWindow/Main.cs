@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Properties;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace PKHeX.WinForms
 {
@@ -1419,7 +1420,7 @@ namespace PKHeX.WinForms
 
             // Update Legality Strings
             // Clipboard.SetText(string.Join(Environment.NewLine, CheckStrings.getLocalization()));
-            new Thread(() => { CheckStrings.setLocalization(GameInfo.getCheckStrings(l)); }).Start();
+            Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings)));
 
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;

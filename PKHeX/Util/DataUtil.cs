@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace PKHeX.Core
 {
     public partial class Util
     {
+
+        private const string TranslationSplitter = " = ";
 
         #region String Lists        
 
@@ -127,7 +130,93 @@ namespace PKHeX.Core
             }
             catch { return null; }
         }
-        
+
+#region Non-Form Translation
+        /// <summary>
+        /// Gets the names of the properties defined in the given input
+        /// </summary>
+        /// <param name="input">Enumerable of translation definitions in the form "Property = Value".</param>
+        /// <returns></returns>
+        private static string[] getProps(IEnumerable<string> input)
+        {
+            return input.Select(l => l.Substring(0, l.IndexOf(TranslationSplitter, StringComparison.Ordinal))).ToArray();
+        }
+
+        private static IEnumerable<string> DumpStrings(Type t)
+        {
+            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
+            return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p).ToString()}");
+        }
+
+        /// <summary>
+        /// Gets the current localization in a static class containing language-specific strings
+        /// </summary>
+        public static string[] getLocalization(Type t, string[] existingLines = null)
+        {
+            existingLines = existingLines ?? new string[0];
+            var currentLines = DumpStrings(t).ToArray();
+            var existing = getProps(existingLines);
+            var current = getProps(currentLines);
+
+            var result = new string[currentLines.Length];
+            for (int i = 0; i < current.Length; i++)
+            {
+                int index = Array.IndexOf(existing, current[i]);
+                result[i] = index < 0 ? currentLines[i] : existingLines[index];
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Applies localization to a static class containing language-specific strings.
+        /// </summary>
+        /// <typeparam name="T">Type of the static class containing the desired strings.</typeparam>
+        /// <param name="lines">Lines containing the localized strings</param>
+        public static void setLocalization(Type t, IEnumerable<string> lines)
+        {            
+            if (lines == null)
+                return;
+            foreach (var line in lines.Where(l => l != null))
+            {
+                var index = line.IndexOf(TranslationSplitter, StringComparison.Ordinal);
+                if (index < 0)
+                    continue;
+                var prop = line.Substring(0, index);
+                var value = line.Substring(index + TranslationSplitter.Length);
+
+                try
+                {
+                    ReflectUtil.SetValue(t, prop.ToUpper(), value);
+                }
+                catch
+                {
+                    Console.WriteLine($"Property not present: {prop} || Value written: {value}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Applies localization to a static class containing language-specific strings.
+        /// </summary>
+        /// <typeparam name="T">Type of the static class containing the desired strings.</typeparam>
+        /// <param name="languageFilePrefix">Prefix of the language file to use.  Example: if the target is legality_en.txt, <paramref name="languageFilePrefix"/> should be "legality".</param>
+        public static void setLocalization(Type t, string languageFilePrefix)
+        {
+            setLocalization(t, getStringList($"{languageFilePrefix}_{Thread.CurrentThread.CurrentCulture.Name.Substring(0, 2)}"));
+        }
+
+        /// <summary>
+        /// Applies localization to a static class containing language-specific strings.
+        /// </summary>
+        /// <typeparam name="T">Type of the static class containing the desired strings.</typeparam>
+        /// <remarks>The values used to translate the given static class are retrieved from [TypeName]_[CurrentLangCode2].txt in the resource manager of PKHeX.Core.</remarks>
+        public static void setLocalization(Type t)
+        {
+            setLocalization(t, t.Name);
+        }
+
+#endregion
+
         #region DataSource Providing
         public static List<ComboItem> getCBList(string textfile, string lang)
         {
