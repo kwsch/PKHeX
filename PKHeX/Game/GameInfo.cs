@@ -9,9 +9,7 @@ namespace PKHeX.Core
         private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送", "ポケシフター" };
         public static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2", "pt" };
         private const string DefaultLanguage = "en";
-        private const string LegalityName = "legality_";
         private static readonly GameStrings[] Languages = new GameStrings[lang_val.Length];
-        private static readonly string[][] CheckStrings = new string[lang_val.Length][];
 
         // Lazy fetch implementation
         private static int DefaultLanguageIndex => Array.IndexOf(lang_val, DefaultLanguage);
@@ -24,11 +22,6 @@ namespace PKHeX.Core
         {
             int index = getLanguageIndex(lang);
             return Languages[index] ?? (Languages[index] = new GameStrings(lang_val[index]));
-        }
-        public static IEnumerable<string> getCheckStrings(string lang)
-        {
-            int index = getLanguageIndex(lang);
-            return CheckStrings[index] ?? (CheckStrings[index] = Util.getStringList(LegalityName + lang_val[index]));
         }
         private static string getTransporterName(string lang)
         {

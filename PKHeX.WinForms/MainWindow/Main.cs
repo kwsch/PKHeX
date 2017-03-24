@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Core.Properties;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace PKHeX.WinForms
 {
@@ -1390,6 +1391,14 @@ namespace PKHeX.WinForms
         // Language Translation
         private void changeMainLanguage(object sender, EventArgs e)
         {
+            if (CB_MainLanguage.SelectedIndex < 8)
+                curlanguage = GameInfo.lang_val[CB_MainLanguage.SelectedIndex];
+
+            // Set the culture (makes it easy to pass language to other forms)
+            Properties.Settings.Default.Language = curlanguage;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage.Substring(0, 2));
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+
             PKM pk = SAV.getPKM((fieldsInitialized ? preparePKM() : pkm).Data);
             bool alreadyInit = fieldsInitialized;
             fieldsInitialized = false;
@@ -1402,24 +1411,16 @@ namespace PKHeX.WinForms
             // Recenter PKM SubEditors
             FLP_PKMEditors.Location = new Point((Tab_OTMisc.Width - FLP_PKMEditors.Width)/2, FLP_PKMEditors.Location.Y);
             populateFields(pk); // put data back in form
-            fieldsInitialized |= alreadyInit;
-
-            // Set the culture (makes it easy to pass language to other forms)
-            Properties.Settings.Default.Language = curlanguage;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage.Substring(0, 2));
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            fieldsInitialized |= alreadyInit;            
         }
         private void InitializeStrings()
-        {
-            if (CB_MainLanguage.SelectedIndex < 8)
-                curlanguage = GameInfo.lang_val[CB_MainLanguage.SelectedIndex];
-            
+        {            
             string l = curlanguage;
             GameInfo.Strings = GameInfo.getStrings(l);
 
             // Update Legality Strings
             // Clipboard.SetText(string.Join(Environment.NewLine, CheckStrings.getLocalization()));
-            new Thread(() => { CheckStrings.setLocalization(GameInfo.getCheckStrings(l)); }).Start();
+            Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings)));
 
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;
