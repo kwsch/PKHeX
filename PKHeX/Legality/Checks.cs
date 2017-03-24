@@ -241,7 +241,7 @@ namespace PKHeX.Core
             {
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
                 bool match = PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
-                match |= (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
+                match |= (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && !PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
 
                 if (!match)
                 {
@@ -1107,7 +1107,7 @@ namespace PKHeX.Core
 
             if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
             {
-                if (pkm.Version != (int) GameVersion.CXD && abilities[0] != abilities[1] && pkm.PIDAbility != abilval)
+                if (pkm.Version != (int) GameVersion.CXD && abilities[0] != abilities[1] && pkm.AbilityNumber != 1 << abilval)
                 {
                     AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
                     return;
@@ -2149,6 +2149,16 @@ namespace PKHeX.Core
             return res;
         }
 
+        private void verifyPreRelearn()
+        {
+            // For origins prior to relearn moves, need to try to match a mystery gift if applicable.
+
+            if (pkm.WasEvent || pkm.WasEventEgg)
+            {
+                EventGiftMatch = new List<MysteryGift>(Legal.getValidGifts(pkm));
+                EncounterMatch = EventGiftMatch.FirstOrDefault();
+            }
+        }
         private CheckResult[] verifyRelearn()
         {
             RelearnBase = null;
