@@ -2339,15 +2339,13 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2:
-                    switch (Version)
-                    {
-                        case GameVersion.GS:
-                            return EggMovesGS[species].Moves;
-                        case GameVersion.C:
-                            return EggMovesC[species].Moves;
-                        default:
-                            return new List<int>();
-                    }
+                    if (pkm.Format != 2)
+                        return EggMovesC[species].Moves;
+                    if (pkm.HasOriginalMetLocation)
+                        return EggMovesC[species].Moves;
+                    if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                        return EggMovesGS[species].Moves;
+                    return new List<int>();
                 case 3:
                     return EggMovesRS[species].Moves;
                 case 4:
