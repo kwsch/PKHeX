@@ -99,14 +99,14 @@ namespace PKHeX.Core
                     table = Encounter_DPPt;
                     break;
                 case GameVersion.HG: case GameVersion.SS:
-                    table = Encounter_HGSS;
+                    table = Encounter_HGSS.Concat(Encounter_PokeWalker).ToArray();
                     break;
 
                 case GameVersion.B: case GameVersion.W:
-                    table = Encounter_BW;
+                    table = Encounter_BW.Concat(BW_DreamWorld).ToArray();
                     break;
                 case GameVersion.B2: case GameVersion.W2:
-                    table = Encounter_B2W2;
+                    table = Encounter_B2W2.Concat(B2W2_DreamWorld).ToArray();
                     break;
 
                 case GameVersion.X: case GameVersion.Y:
@@ -196,6 +196,14 @@ namespace PKHeX.Core
         private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
         {
             ReduceAreasSize(ref Areas);
+        }
+        private static void MarkG4PokeWalker(ref EncounterStatic[] t)
+        {
+            foreach (EncounterStatic s in t)
+            {
+                s.Location = 233;  //Pokéwalker
+                s.Gift = true;    //Pokeball only
+            }
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
@@ -436,6 +444,7 @@ namespace PKHeX.Core
             }
             // Gen 4
             {
+                MarkG4PokeWalker(ref Encounter_PokeWalker);
                 StaticD = getStaticEncounters(GameVersion.D);
                 StaticP = getStaticEncounters(GameVersion.P);
                 StaticPt = getStaticEncounters(GameVersion.Pt);
@@ -492,10 +501,10 @@ namespace PKHeX.Core
             {
                 MarkG5DreamWorld(ref BW_DreamWorld);
                 MarkG5DreamWorld(ref B2W2_DreamWorld);
-                StaticB = getStaticEncounters(GameVersion.B).Concat(BW_DreamWorld).ToArray();
-                StaticW = getStaticEncounters(GameVersion.W).Concat(BW_DreamWorld).ToArray();
-                StaticB2 = getStaticEncounters(GameVersion.B2).Concat(B2W2_DreamWorld).ToArray();
-                StaticW2 = getStaticEncounters(GameVersion.W2).Concat(B2W2_DreamWorld).ToArray();
+                StaticB = getStaticEncounters(GameVersion.B);
+                StaticW = getStaticEncounters(GameVersion.W);
+                StaticB2 = getStaticEncounters(GameVersion.B2);
+                StaticW2 = getStaticEncounters(GameVersion.W2);
 
                 var BSlots = getEncounterTables(GameVersion.B);
                 var WSlots = getEncounterTables(GameVersion.W);
