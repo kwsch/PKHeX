@@ -198,6 +198,180 @@ namespace PKHeX.Core
             new[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 }
         };
 
+        #region Pokéwalker Encounter
+        // all pkm are in Poke Ball and have a met location of "PokeWalker"
+        internal static readonly EncounterStatic[] Encounter_PokeWalker =
+        {
+            // Some pkm has a pre-level move, an egg move or even a special move, it might be also available via HM/TM/Tutor
+            // Johto/Kanto Courses
+            new EncounterStatic{ Species = 084, Gender = 1, Level = 08, }, // Doduo
+            new EncounterStatic{ Species = 115, Gender = 1, Level = 08, }, // Kangaskhan
+            new EncounterStatic{ Species = 029, Gender = 1, Level = 05, }, // Nidoran1
+            new EncounterStatic{ Species = 032, Gender = 0, Level = 05, }, // Nidoran0
+            new EncounterStatic{ Species = 016, Gender = 0, Level = 05, }, // Pidgey
+            new EncounterStatic{ Species = 161, Gender = 1, Level = 05, }, // Sentret
+            new EncounterStatic{ Species = 202, Gender = 1, Level = 15, }, // Wobbuffet
+            new EncounterStatic{ Species = 069, Gender = 1, Level = 08, }, // Bellsprout
+            new EncounterStatic{ Species = 046, Gender = 1, Level = 06, }, // Paras
+            new EncounterStatic{ Species = 048, Gender = 0, Level = 06, }, // Venonat
+            new EncounterStatic{ Species = 021, Gender = 0, Level = 05, }, // Spearow
+            new EncounterStatic{ Species = 043, Gender = 1, Level = 05, }, // Oddish
+            new EncounterStatic{ Species = 095, Gender = 0, Level = 09, }, // Onix
+            new EncounterStatic{ Species = 240, Gender = 0, Level = 09, Moves = new[]{241},}, // Magby: Sunny Day 
+            new EncounterStatic{ Species = 066, Gender = 1, Level = 07, }, // Machop
+            new EncounterStatic{ Species = 077, Gender = 1, Level = 07, }, // Ponyta
+            new EncounterStatic{ Species = 074, Gender = 1, Level = 08, Moves = new[]{189},}, // Geodude: Mud-Slap
+            new EncounterStatic{ Species = 163, Gender = 1, Level = 06, }, // Hoothoot
+            new EncounterStatic{ Species = 054, Gender = 1, Level = 10, }, // Psyduck
+            new EncounterStatic{ Species = 120, Gender = 2, Level = 10, }, // Staryu
+            new EncounterStatic{ Species = 060, Gender = 0, Level = 08, }, // Poliwag
+            new EncounterStatic{ Species = 079, Gender = 0, Level = 08, }, // Slowpoke
+            new EncounterStatic{ Species = 191, Gender = 1, Level = 06, }, // Sunkern
+            new EncounterStatic{ Species = 194, Gender = 0, Level = 06, }, // Wooper
+            new EncounterStatic{ Species = 081, Gender = 2, Level = 11, }, // Magnemite
+            new EncounterStatic{ Species = 239, Gender = 0, Level = 11, Moves = new[]{009},}, // Elekid: Thunder Punch
+            new EncounterStatic{ Species = 081, Gender = 2, Level = 08, }, // Magnemite
+            new EncounterStatic{ Species = 198, Gender = 1, Level = 11, }, // Murkrow
+            new EncounterStatic{ Species = 019, Gender = 1, Level = 07, }, // Rattata
+            new EncounterStatic{ Species = 163, Gender = 1, Level = 07, }, // Hoothoot
+            new EncounterStatic{ Species = 092, Gender = 1, Level = 15, Moves = new[]{194},}, // Gastly: Destiny Bond
+            new EncounterStatic{ Species = 238, Gender = 1, Level = 12, Moves = new[]{419},}, // Smoochum: Avalanche
+            new EncounterStatic{ Species = 092, Gender = 1, Level = 10, }, // Gastly
+            new EncounterStatic{ Species = 095, Gender = 0, Level = 10, }, // Onix
+            new EncounterStatic{ Species = 041, Gender = 0, Level = 08, }, // Zubat
+            new EncounterStatic{ Species = 066, Gender = 0, Level = 08, }, // Machop
+            new EncounterStatic{ Species = 060, Gender = 1, Level = 15, Moves = new[]{187}, }, // Poliwag: Belly Drum
+            new EncounterStatic{ Species = 147, Gender = 1, Level = 10, }, // Dratini
+            new EncounterStatic{ Species = 090, Gender = 1, Level = 12, }, // Shellder
+            new EncounterStatic{ Species = 098, Gender = 0, Level = 12, Moves = new[]{152}, }, // Krabby: Crabhammer
+            new EncounterStatic{ Species = 072, Gender = 1, Level = 09, }, // Tentacool
+            new EncounterStatic{ Species = 118, Gender = 1, Level = 09, }, // Goldeen
+            new EncounterStatic{ Species = 063, Gender = 1, Level = 15, }, // Abra
+            new EncounterStatic{ Species = 100, Gender = 2, Level = 15, }, // Voltorb
+            new EncounterStatic{ Species = 088, Gender = 0, Level = 13, }, // Grimer
+            new EncounterStatic{ Species = 109, Gender = 1, Level = 13, Moves = new[]{120}, }, // Koffing: Self-Destruct
+            new EncounterStatic{ Species = 019, Gender = 1, Level = 16, }, // Rattata
+            new EncounterStatic{ Species = 162, Gender = 0, Level = 15, }, // Furret
+            // Hoenn Courses
+            new EncounterStatic{ Species = 264, Gender = 1, Level = 30, }, // Linoone
+            new EncounterStatic{ Species = 300, Gender = 1, Level = 30, }, // Skitty
+            new EncounterStatic{ Species = 313, Gender = 0, Level = 25, }, // Volbeat
+            new EncounterStatic{ Species = 314, Gender = 1, Level = 25, }, // Illumise
+            new EncounterStatic{ Species = 263, Gender = 1, Level = 17, }, // Zigzagoon
+            new EncounterStatic{ Species = 265, Gender = 1, Level = 15, }, // Wurmple
+            new EncounterStatic{ Species = 298, Gender = 1, Level = 20, }, // Azurill
+            new EncounterStatic{ Species = 320, Gender = 1, Level = 31, }, // Wailmer
+            new EncounterStatic{ Species = 116, Gender = 1, Level = 20, }, // Horsea
+            new EncounterStatic{ Species = 318, Gender = 1, Level = 26, }, // Carvanha
+            new EncounterStatic{ Species = 118, Gender = 1, Level = 22, Moves = new[]{401}, }, // Goldeen: Aqua Tail
+            new EncounterStatic{ Species = 129, Gender = 1, Level = 15, }, // Magikarp
+            new EncounterStatic{ Species = 218, Gender = 1, Level = 31, }, // Slugma
+            new EncounterStatic{ Species = 307, Gender = 0, Level = 32, }, // Meditite
+            new EncounterStatic{ Species = 111, Gender = 0, Level = 25, }, // Rhyhorn
+            new EncounterStatic{ Species = 228, Gender = 0, Level = 27, }, // Houndour
+            new EncounterStatic{ Species = 074, Gender = 0, Level = 29, }, // Geodude
+            new EncounterStatic{ Species = 077, Gender = 1, Level = 19, }, // Ponyta
+            new EncounterStatic{ Species = 351, Gender = 1, Level = 30, }, // Castform
+            new EncounterStatic{ Species = 352, Gender = 0, Level = 30, }, // Kecleon
+            new EncounterStatic{ Species = 203, Gender = 1, Level = 28, }, // Girafarig
+            new EncounterStatic{ Species = 234, Gender = 1, Level = 28, }, // Stantler
+            new EncounterStatic{ Species = 044, Gender = 1, Level = 14, }, // Gloom
+            new EncounterStatic{ Species = 070, Gender = 0, Level = 13, }, // Weepinbell
+            new EncounterStatic{ Species = 105, Gender = 1, Level = 30, Moves = new[]{037}, }, // Marowak: Tharsh
+            new EncounterStatic{ Species = 128, Gender = 0, Level = 30, }, // Tauros
+            new EncounterStatic{ Species = 042, Gender = 0, Level = 33, }, // Golbat
+            new EncounterStatic{ Species = 177, Gender = 1, Level = 24, }, // Natu
+            new EncounterStatic{ Species = 066, Gender = 0, Level = 13, Moves = new[]{418}, }, // Machop: Bullet Punch
+            new EncounterStatic{ Species = 092, Gender = 1, Level = 15, }, // Gastly
+            // Sinnoh Courses
+            new EncounterStatic{ Species = 415, Gender = 0, Level = 30, }, // Combee
+            new EncounterStatic{ Species = 439, Gender = 0, Level = 29, }, // Mime Jr.
+            new EncounterStatic{ Species = 403, Gender = 1, Level = 33, }, // Shinx
+            new EncounterStatic{ Species = 406, Gender = 0, Level = 30, }, // Budew
+            new EncounterStatic{ Species = 399, Gender = 1, Level = 13, }, // Bidoof
+            new EncounterStatic{ Species = 401, Gender = 0, Level = 15, }, // Kricketot
+            new EncounterStatic{ Species = 361, Gender = 1, Level = 28, }, // Snorunt
+            new EncounterStatic{ Species = 459, Gender = 0, Level = 31, Moves = new[]{452}, }, // Snover: Wood Hammer
+            new EncounterStatic{ Species = 215, Gender = 0, Level = 28, Moves = new[]{306}, }, // Sneasel: Crash Claw
+            new EncounterStatic{ Species = 436, Gender = 2, Level = 20, }, // Bronzor
+            new EncounterStatic{ Species = 179, Gender = 1, Level = 15, }, // Mareep
+            new EncounterStatic{ Species = 220, Gender = 1, Level = 16, }, // Swinub
+            new EncounterStatic{ Species = 357, Gender = 1, Level = 35, }, // Tropius
+            new EncounterStatic{ Species = 438, Gender = 0, Level = 30, }, // Bonsly
+            new EncounterStatic{ Species = 114, Gender = 1, Level = 30, }, // Tangela
+            new EncounterStatic{ Species = 400, Gender = 1, Level = 30, }, // Bibarel
+            new EncounterStatic{ Species = 102, Gender = 1, Level = 17, }, // Exeggcute
+            new EncounterStatic{ Species = 179, Gender = 0, Level = 19, }, // Mareep
+            new EncounterStatic{ Species = 200, Gender = 1, Level = 32, Moves = new[]{194},}, // Misdreavus: Destiny Bond
+            new EncounterStatic{ Species = 433, Gender = 0, Level = 22, Moves = new[]{105},}, // Chingling: Recover
+            new EncounterStatic{ Species = 093, Gender = 0, Level = 25, }, // Haunter
+            new EncounterStatic{ Species = 418, Gender = 0, Level = 28, Moves = new[]{226},}, // Buizel: Baton Pass
+            new EncounterStatic{ Species = 170, Gender = 1, Level = 17, }, // Chinchou
+            new EncounterStatic{ Species = 223, Gender = 1, Level = 19, }, // Remoraid
+            new EncounterStatic{ Species = 422, Gender = 1, Level = 30, }, // Shellos
+            new EncounterStatic{ Species = 456, Gender = 1, Level = 26, }, // Finneon
+            new EncounterStatic{ Species = 086, Gender = 1, Level = 27, }, // Seel
+            new EncounterStatic{ Species = 129, Gender = 1, Level = 30, }, // Magikarp
+            new EncounterStatic{ Species = 054, Gender = 1, Level = 22, }, // Psyduck
+            new EncounterStatic{ Species = 090, Gender = 0, Level = 20, }, // Shellder
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 30, }, // Pikachu
+            new EncounterStatic{ Species = 417, Gender = 1, Level = 33, }, // Pachirisu
+            new EncounterStatic{ Species = 035, Gender = 1, Level = 31, }, // Clefairy
+            new EncounterStatic{ Species = 039, Gender = 1, Level = 30, }, // Jigglypuff
+            new EncounterStatic{ Species = 183, Gender = 1, Level = 25, }, // Marill
+            new EncounterStatic{ Species = 187, Gender = 1, Level = 25, }, // Hoppip
+            new EncounterStatic{ Species = 442, Gender = 0, Level = 31, }, // Spiritomb
+            new EncounterStatic{ Species = 446, Gender = 0, Level = 33, }, // Munchlax
+            new EncounterStatic{ Species = 349, Gender = 0, Level = 30, }, // Feebas
+            new EncounterStatic{ Species = 433, Gender = 1, Level = 26, }, // Chingling
+            new EncounterStatic{ Species = 042, Gender = 0, Level = 33, }, // Golbat
+            new EncounterStatic{ Species = 164, Gender = 1, Level = 30, }, // Noctowl
+            // Special Courses
+            new EncounterStatic{ Species = 120, Gender = 2, Level = 18, Moves = new[]{113}, }, // Staryu: Light Screen
+            new EncounterStatic{ Species = 224, Gender = 1, Level = 19, Moves = new[]{324}, }, // Octillery: Signal Beam
+            new EncounterStatic{ Species = 116, Gender = 0, Level = 15, }, // Horsea
+            new EncounterStatic{ Species = 222, Gender = 1, Level = 16, }, // Corsola
+            new EncounterStatic{ Species = 170, Gender = 1, Level = 12, }, // Chinchou
+            new EncounterStatic{ Species = 223, Gender = 0, Level = 14, }, // Remoraid
+            new EncounterStatic{ Species = 035, Gender = 0, Level = 08, Moves = new[]{236}, }, // Clefairy: Moonlight
+            new EncounterStatic{ Species = 039, Gender = 0, Level = 10, }, // Jigglypuff
+            new EncounterStatic{ Species = 041, Gender = 0, Level = 09, }, // Zubat
+            new EncounterStatic{ Species = 163, Gender = 1, Level = 06, }, // Hoothoot
+            new EncounterStatic{ Species = 074, Gender = 0, Level = 05, }, // Geodude
+            new EncounterStatic{ Species = 095, Gender = 1, Level = 05, Moves = new[]{088}, }, // Onix: Rock Throw
+            new EncounterStatic{ Species = 025, Gender = 0, Level = 15, Moves = new[]{019}, }, // Pikachu: Fly
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 14, Moves = new[]{057}, }, // Pikachu: Surf
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 12, Moves = new[]{344}, }, // Pikachu: Volt Tackle
+            new EncounterStatic{ Species = 025, Gender = 0, Level = 13, Moves = new[]{175}, }, // Pikachu: Flail
+            new EncounterStatic{ Species = 025, Gender = 0, Level = 10, }, // Pikachu
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 10, }, // Pikachu
+            new EncounterStatic{ Species = 302, Gender = 1, Level = 15, }, // Sableye
+            new EncounterStatic{ Species = 441, Gender = 0, Level = 15, }, // Chatot
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 10, }, // Pikachu
+            new EncounterStatic{ Species = 453, Gender = 0, Level = 10, }, // Croagunk
+            new EncounterStatic{ Species = 417, Gender = 0, Level = 05, }, // Pachirisu
+            new EncounterStatic{ Species = 427, Gender = 1, Level = 05, }, // Buneary
+            new EncounterStatic{ Species = 133, Gender = 0, Level = 10, }, // Eevee
+            new EncounterStatic{ Species = 255, Gender = 0, Level = 10, }, // Torchic
+            new EncounterStatic{ Species = 061, Gender = 1, Level = 15, Moves = new[]{003}, }, // Poliwhirl: Double Slap
+            new EncounterStatic{ Species = 279, Gender = 0, Level = 15, }, // Pelipper
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 08, }, // Pikachu
+            new EncounterStatic{ Species = 052, Gender = 0, Level = 10, }, // Meowth
+            new EncounterStatic{ Species = 374, Gender = 2, Level = 05, Moves = new[]{428,334,442}, }, // Beldum: Zen Headbutt, Iron Defense & Iron Head.
+            new EncounterStatic{ Species = 446, Gender = 0, Level = 05, Moves = new[]{120}, }, // Munchlax: Self-Destruct
+            new EncounterStatic{ Species = 116, Gender = 0, Level = 05, Moves = new[]{330}, }, // Horsea: Muddy Water 
+            new EncounterStatic{ Species = 355, Gender = 0, Level = 05, Moves = new[]{286}, }, // Duskull: Imprison
+            new EncounterStatic{ Species = 129, Gender = 0, Level = 05, Moves = new[]{340}, }, // Magikarp: Bounce
+            new EncounterStatic{ Species = 436, Gender = 2, Level = 05, Moves = new[]{433}, }, // Bronzor: Trick Room
+            new EncounterStatic{ Species = 239, Gender = 0, Level = 05, }, // Elekid
+            new EncounterStatic{ Species = 240, Gender = 0, Level = 05, }, // Magby
+            new EncounterStatic{ Species = 238, Gender = 1, Level = 05, }, // Smoochum
+            new EncounterStatic{ Species = 440, Gender = 1, Level = 05, }, // Happiny
+            new EncounterStatic{ Species = 173, Gender = 1, Level = 05, }, // Cleffa
+            new EncounterStatic{ Species = 174, Gender = 0, Level = 05, }, // Igglybuff
+        };
+        #endregion
+        #region Static Encounter/Gift Tables
         internal static readonly int[] Roaming_MetLocation_DPPt =
         {
             // Route 201-222 can be encountered in either grass or water
@@ -225,7 +399,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Turtwig @ Route 201
             new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Chimchar
             new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Piplup
-
             //Fossil @ Mining Museum
             new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 094, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 094, }, // Kabuto
@@ -234,7 +407,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 094, }, // Anorith
             new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 094, }, // Cranidos
             new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 094, }, // Shieldon
-
             //Gift
             new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 010, Version = GameVersion.DP,}, //Eevee @ Hearthome City 
             new EncounterStatic { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt,}, //Eevee @ Hearthome City 
@@ -242,13 +414,11 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2011, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
             new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
             new EncounterStatic { Gift = true, Species = 447, Level = 01, EggLocation = 2010,}, //Riolu Egg from Riley
-
             //Stationary
             new EncounterStatic { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP, },// Drifloon @ Valley Windworks 
             new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt, },// Drifloon @ Valley Windworks 
             new EncounterStatic { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, },// Rotom @ Old Chateau 
             new EncounterStatic { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, },// Rotom @ Old Chateau 
-
             //Stationary Lengerdary
             new EncounterStatic { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt,}, //Regirock @ Rock Peak Ruins
             new EncounterStatic { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt,}, //Regice @ Iceberg Ruins
@@ -266,7 +436,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 487, Level = 70, Location = 062, Version = GameVersion.DP, Form = 0, }, //Giratina @ Turnback Cave
             new EncounterStatic { Species = 487, Level = 47, Location = 117, Version = GameVersion.Pt, Form = 1, }, //Giratina @ Distortion World
             new EncounterStatic { Species = 487, Level = 47, Location = 062, Version = GameVersion.Pt, Form = 0, }, //Giratina @ Turnback Cave
-
             //Event
             new EncounterStatic { Species = 490, Level = 01, EggLocation = 3001, Fateful = true, Gift = true }, //Manaphy from Pokemon Ranger
             new EncounterStatic { Species = 491, Level = 40, Location = 079, Version = GameVersion.DP,}, //Darkrai @ Newmoon Island
@@ -274,7 +443,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063,}, //Shaymin @ Flower Paradise
             //new EncounterStatic { Species = 493, Level = 80, Location = 086,}, //Arceus @ Hall of Origin
         };
-
         internal static readonly EncounterStatic[] Encounter_DPPt = Encounter_DPPt_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt)).Concat(Encounter_DPPt_Regular).ToArray();
 
         internal static readonly int[] Roaming_MetLocation_HGSS_Johto =
@@ -288,7 +456,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 243, Level = 40, Roaming = true }, // Raikou
             new EncounterStatic { Species = 244, Level = 40, Roaming = true }, // Entei
         };
-
         internal static readonly int[] Roaming_MetLocation_HGSS_Kanto =
         {
             // Route 01-28 can be encountered in either grass or water
@@ -301,7 +468,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 380, Level = 35, Version = GameVersion.HG, Roaming = true }, //Latias
             new EncounterStatic { Species = 381, Level = 35, Version = GameVersion.SS, Roaming = true }, //Latios
         };
-
         internal static readonly EncounterStatic[] Encounter_HGSS_Regular =
         {
             //Starters
@@ -314,7 +480,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 252, Level = 05, Location = 148, }, // Treecko @ Saffron City
             new EncounterStatic { Gift = true, Species = 255, Level = 05, Location = 148, }, // Torchic
             new EncounterStatic { Gift = true, Species = 258, Level = 05, Location = 148, }, // Mudkip
-
             //Fossil @ Pewter City
             new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 140, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 140, }, // Kabuto
@@ -323,7 +488,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 140, }, // Anorith
             new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 140, }, // Cranidos
             new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 140, }, // Shieldon
-
             //Gift
             new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 131, }, // Eevee @ Goldenrod City
             new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 222, Moves = new[] {245, 086, 239, 082}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
@@ -334,7 +498,6 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 194, Level = 01, EggLocation = 2014,}, // Wooper Egg from Primo
             new EncounterStatic { Gift = true, Species = 218, Level = 01, EggLocation = 2014,}, // Slugma Egg from Primo
             new EncounterStatic { Gift = true, Species = 490, Level = 01, EggLocation = 3001, Fateful = true, }, //Manaphy from Pokemon Ranger
-
             //Stationary
             new EncounterStatic { Species = 130, Level = 30, Location = 135, Shiny = true }, //Gyarados @ Lake of Rage
             new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave Friday Only
@@ -343,7 +506,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
             new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36
             new EncounterStatic { Species = 172, Level = 30, Location = 214, Gender = 1, Form = 1, Moves = new[]{344,270,207,220} },  //Spiky-eared Pichu @ Ilex forest
-
             //Stationary Lengerdary
             new EncounterStatic { Species = 144, Level = 50, Location = 203, }, //Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 158, }, //Zapdos @ Route 10
@@ -364,11 +526,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 484, Level = 01, Location = 231, Gift = true }, //Palkia @ Sinjoh Ruins
             new EncounterStatic { Species = 487, Level = 01, Location = 231, Gift = true, Form = 1}, //Giratina @ Sinjoh Ruins
         };
-
         internal static readonly EncounterStatic[] Encounter_HGSS = Encounter_HGSS_KantoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto)).Concat(
                                                                     Encounter_HGSS_JohtoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto))).Concat(
                                                                     Encounter_HGSS_Regular).ToArray();
-
+        #endregion
+        #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
             new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,25,25,20}, Nature = Nature.Quiet,}, // Abra
@@ -388,11 +550,11 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 374, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,24,25,23}, Nature = Nature.Brave,}, // Beldum
             new EncounterTrade { Species = 111, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,22,09,00}, Nature = Nature.Relaxed, Moves= new[]{422,-1,-1,-1} }, // Rhyhorn
             new EncounterTrade { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,18,20,06}, Nature = Nature.Brave,}, // Steelix
-
             //Gift
             new EncounterTrade { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Hasty,   Level = 20, Location = 183, Moves= new[]{043,031,228,332}},//Webster's Spearow
             new EncounterTrade { Species = 213, Ability = 2, TID = 04336, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Relaxed, Level = 20, Location = 130, Moves= new[]{132,117,227,219}},//Kirk's Shuckle
         };
+        #endregion
 
         // Encounter Slots that are replaced
         internal static readonly int[] Slot4_Time = {2, 3};
