@@ -574,21 +574,41 @@ namespace PKHeX.Core
             if (pkm.Format >= 3)
             {
                 var FutureMoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]);
-                for (int i = pkm.Format - 1; i >= pkm.GenNumber; i--)
+                if(pkm.VC1)
                 {
-                    validLevelMoves[i] = validLevelMoves[i].Except(FutureMoves).ToArray();
-                    validTMHM[i] = validTMHM[i].Except(FutureMoves).ToArray();
-                    validTutor[i] = validTutor[i].Except(FutureMoves).ToArray();
-                    FutureMoves = FutureMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                    validLevelMoves[1] = validLevelMoves[1].Except(FutureMoves).ToArray();
+                    validTMHM[1] = validTMHM[1].Except(FutureMoves).ToArray();
+                    validTutor[1] = validTutor[1].Except(FutureMoves).ToArray();
+                }
+                else  if (pkm.VC2)
+                {
+                    for (int i = 2; i >= 1; i--)
+                    {
+                        validLevelMoves[i] = validLevelMoves[i]?.Except(FutureMoves).ToArray();
+                        validTMHM[i] = validTMHM[i]?.Except(FutureMoves).ToArray();
+                        validTutor[i] = validTutor[i]?.Except(FutureMoves).ToArray();
+                        if(validLevelMoves[i]!=null && validTMHM[i]!= null && validTutor[i]!= null)
+                            FutureMoves = FutureMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                    }
+                }
+                else
+                {
+                    for (int i = pkm.Format - 1; i >= pkm.GenNumber; i--)
+                    {
+                        validLevelMoves[i] = validLevelMoves[i].Except(FutureMoves).ToArray();
+                        validTMHM[i] = validTMHM[i].Except(FutureMoves).ToArray();
+                        validTutor[i] = validTutor[i].Except(FutureMoves).ToArray();
+                        FutureMoves = FutureMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                    }
                 }
             }
             else
             {
                 int tradeback = (pkm.Format == 2) ? 1 : 2;
                 var formatmoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]);
-                validLevelMoves[tradeback] = validLevelMoves[tradeback].Except(formatmoves).ToArray();
-                validTMHM[tradeback] = validTMHM[tradeback].Except(formatmoves).ToArray();
-                validTutor[tradeback] = validTutor[tradeback].Except(formatmoves).ToArray();
+                validLevelMoves[tradeback] = validLevelMoves[tradeback]?.Except(formatmoves).ToArray();
+                validTMHM[tradeback] = validTMHM[tradeback]?.Except(formatmoves).ToArray();
+                validTutor[tradeback] = validTutor[tradeback]?.Except(formatmoves).ToArray();
             }
         }
         internal static int[][] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
