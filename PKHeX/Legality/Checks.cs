@@ -241,7 +241,10 @@ namespace PKHeX.Core
             {
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
                 bool match = PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
-                match |= (pkm.WasTradedEgg || Legal.getHasEvolved(pkm)) && !PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
+                if (pkm.WasTradedEgg || Legal.getHasEvolved(pkm))
+                    match |= !PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
+                if (pkm.Format == 5 && !pkm.IsNative) // transfer
+                    match |= PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
 
                 if (!match)
                 {
@@ -2063,6 +2066,8 @@ namespace PKHeX.Core
                 res = parseMovesSketch(Moves);
             else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
                 res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+            else if (pkm.WasEgg && pkm.GenNumber < 6)
+                res = verifyMovesEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
             else // Everything else
                 res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, game);
 
@@ -2071,6 +2076,38 @@ namespace PKHeX.Core
             if (Moves[0] == 0) // Can't have an empty moveslot for the first move.
                 res[0] = new CheckResult(Severity.Invalid, V167, CheckIdentifier.Move);
 
+            return res;
+        }
+        private CheckResult[] verifyMovesEggPreRelearn(int[] Moves, int[] validLevelMoves, int[] validTMHM, int[] validTutor)
+        {
+            CheckResult[] res = new CheckResult[4];
+
+            // Some games can have different egg movepools. Have to check all situations.
+            GameVersion[] Games = { };
+            switch (pkm.GenNumber)
+            {
+                case 3:
+                    Games = new[] { GameVersion.RS, GameVersion.E, GameVersion.FRLG };
+                    break;
+                case 4:
+                    Games = new[] { GameVersion.DP, GameVersion.Pt, GameVersion.HGSS };
+                    break;
+                case 5:
+                    Games = new[] { GameVersion.BW, GameVersion.B2W2 };
+                    break;
+            }
+            
+            int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
+            foreach (var ver in Games)
+            {
+                for (int i = 0; i <= splitctr; i++)
+                {
+                    var lvlMoves = validLevelMoves.Concat(Legal.getBaseEggMoves(pkm, i, ver, 100)).ToArray();
+                    res = parseMovesRegular(Moves, lvlMoves, validTMHM, validTutor, ver);
+                    if (res.All(r => r.Valid)) // moves is satisfactory
+                        return res;
+                }
+            }
             return res;
         }
         private CheckResult[] parseMovesSketch(int[] Moves)
@@ -2308,7 +2345,7 @@ namespace PKHeX.Core
             CheckResult[] res = new CheckResult[4];
 
             // Obtain level1 moves
-            List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, skipOption, ver));
+            List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, skipOption, ver, 1));
             int baseCt = baseMoves.Count;
             if (baseCt > 4) baseCt = 4;
 

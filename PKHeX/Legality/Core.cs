@@ -591,7 +591,7 @@ namespace PKHeX.Core
             r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
-        internal static IEnumerable<int> getBaseEggMoves(PKM pkm, int skipOption, GameVersion gameSource)
+        internal static IEnumerable<int> getBaseEggMoves(PKM pkm, int skipOption, GameVersion gameSource, int lvl)
         {
             int species = getBaseSpecies(pkm, skipOption);
 
@@ -604,49 +604,63 @@ namespace PKHeX.Core
                 case GameVersion.S:
                 case GameVersion.RS:
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpRS[species].getMoves(1);
+                        return LevelUpRS[species].getMoves(lvl);
                     break;
                 case GameVersion.E:
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpE[species].getMoves(1);
+                        return LevelUpE[species].getMoves(lvl);
                     break;
                 case GameVersion.FR:
                 case GameVersion.LG:
                 case GameVersion.FRLG:
                     // only difference in FR/LG is deoxys which doesn't breed.
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpFR[species].getMoves(1);
+                        return LevelUpFR[species].getMoves(lvl);
                     break;
 
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.DP:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpDP[species].getMoves(1);
+                        return LevelUpDP[species].getMoves(lvl);
                     break;
                 case GameVersion.Pt:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpPt[species].getMoves(1);
+                        return LevelUpPt[species].getMoves(lvl);
                     break;
                 case GameVersion.HG:
                 case GameVersion.SS:
                 case GameVersion.HGSS:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpHGSS[species].getMoves(1);
+                        return LevelUpHGSS[species].getMoves(lvl);
+                    break;
+
+                case GameVersion.B:
+                case GameVersion.W:
+                case GameVersion.BW:
+                    if (pkm.InhabitedGeneration(5))
+                        return LevelUpBW[species].getMoves(lvl);
+                    break;
+
+                case GameVersion.B2:
+                case GameVersion.W2:
+                case GameVersion.B2W2:
+                    if (pkm.InhabitedGeneration(5))
+                        return LevelUpBW[species].getMoves(lvl);
                     break;
 
                 case GameVersion.X:
                 case GameVersion.Y:
                 case GameVersion.XY:
                     if (pkm.InhabitedGeneration(6))
-                        return LevelUpXY[species].getMoves(1);
+                        return LevelUpXY[species].getMoves(lvl);
                     break;
 
                 case GameVersion.AS:
                 case GameVersion.OR:
                 case GameVersion.ORAS:
                     if (pkm.InhabitedGeneration(6))
-                        return LevelUpAO[species].getMoves(1);
+                        return LevelUpAO[species].getMoves(lvl);
                     break;
 
                 case GameVersion.SN:
@@ -654,7 +668,7 @@ namespace PKHeX.Core
                 case GameVersion.SM:
                     int index = PersonalTable.SM.getFormeIndex(species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
-                        return LevelUpSM[index].getMoves(1);
+                        return LevelUpSM[index].getMoves(lvl);
                     break;
             }
             return null;
