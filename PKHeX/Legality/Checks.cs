@@ -75,7 +75,15 @@ namespace PKHeX.Core
             if (!PIDGender)
                 return;
 
-            if (pkm.getGenderIsValid())
+            bool genderValid = pkm.getGenderIsValid();
+            if (!genderValid && pkm.Format > 5 && (pkm.Species == 183 || pkm.Species == 184))
+            {
+                var gv = pkm.PID & 0xFF;
+                if (gv > 63 && pkm.Gender == 1) // evolved from azurill after transferring to keep gender
+                    genderValid = true;
+            }
+
+            if (genderValid)
                 AddLine(Severity.Valid, V250, CheckIdentifier.Gender);
             else
                 AddLine(Severity.Invalid, V251, CheckIdentifier.Gender);
