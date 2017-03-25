@@ -100,7 +100,7 @@ namespace PKHeX.Core
         public static string V31 {get; set;} = "All IVs are 0."; // Fishy
         public static string V32 {get; set;} = "All IVs are equal."; // Fishy
 
-        public static string V28 {get; set;} = "Should have at least {0} IVs {get; set;} = 31."; // Invalid
+        public static string V28 {get; set;} = "Should have at least {0} IVs = 31."; // Invalid
         public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs = 31."; // Invalid
         public static string V30 {get; set;} = "IVs do not match Mystery Gift Data."; // Invalid
 

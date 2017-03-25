@@ -417,19 +417,17 @@ namespace PKHeX.Core
         {
             if (pkm.Format == 1)
                 return new [] { 1, 2 };
-            else if (pkm.Format == 2)
+            if (pkm.Format == 2)
                 return new [] { 2, 1 };
-            else if (pkm.Format == 7 && pkm.VC1)
+            if (pkm.Format == 7 && pkm.VC1)
                 return new [] { 7, 1 };
-            else if (pkm.Format == 7 && pkm.VC2)
+            if (pkm.Format == 7 && pkm.VC2)
                 return new [] { 7, 2, 1 };
-            else
-            {
-                var order = new int[pkm.Format - pkm.GenNumber + 1];
-                for (int i = 0; i < order.Length; i++)
-                    order[i] = pkm.Format - i;
-                return order;
-            }
+
+            var order = new int[pkm.Format - pkm.GenNumber + 1];
+            for (int i = 0; i < order.Length; i++)
+                order[i] = pkm.Format - i;
+            return order;
         }
     }
 }

@@ -569,54 +569,62 @@ namespace PKHeX.Core
         }
 
         // Moves
-        internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref int[][] validLevelMoves, ref int[][] validTMHM, ref int[][] validTutor)
+        internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref List<int>[] validLevelMoves, ref List<int>[] validTMHM, ref List<int>[] validTutor)
         {
             if (pkm.Format >= 3)
             {
-                var FutureMoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]);
-                if(pkm.VC1)
+                var FutureMoves = new List<int>();
+                FutureMoves.AddRange(validLevelMoves[pkm.Format]);
+                FutureMoves.AddRange(validTMHM[pkm.Format]);
+                FutureMoves.AddRange(validTutor[pkm.Format]);
+                if (pkm.VC1)
                 {
-                    validLevelMoves[1] = validLevelMoves[1].Except(FutureMoves).ToArray();
-                    validTMHM[1] = validTMHM[1].Except(FutureMoves).ToArray();
-                    validTutor[1] = validTutor[1].Except(FutureMoves).ToArray();
+                    validLevelMoves[1]?.RemoveAll(x => FutureMoves.Contains(x));
+                    validTMHM[1]?.RemoveAll(x => FutureMoves.Contains(x));
+                    validTutor[1]?.RemoveAll(x => FutureMoves.Contains(x));
                 }
                 else  if (pkm.VC2)
                 {
                     for (int i = 2; i >= 1; i--)
                     {
-                        validLevelMoves[i] = validLevelMoves[i]?.Except(FutureMoves).ToArray();
-                        validTMHM[i] = validTMHM[i]?.Except(FutureMoves).ToArray();
-                        validTutor[i] = validTutor[i]?.Except(FutureMoves).ToArray();
-                        if(validLevelMoves[i]!=null && validTMHM[i]!= null && validTutor[i]!= null)
-                            FutureMoves = FutureMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                        validLevelMoves[i]?.RemoveAll(x => FutureMoves.Contains(x));
+                        validTMHM[i]?.RemoveAll(x => FutureMoves.Contains(x));
+                        validTutor[i]?.RemoveAll(x => FutureMoves.Contains(x));
+
+                        if (validLevelMoves[i] == null || validTMHM[i] == null || validTutor[i] == null)
+                            continue;
+                        FutureMoves.AddRange(validLevelMoves[i].Concat(validTMHM[i]).Concat(validTutor[i]));
                     }
                 }
                 else
                 {
                     for (int i = pkm.Format - 1; i >= pkm.GenNumber; i--)
                     {
-                        validLevelMoves[i] = validLevelMoves[i].Except(FutureMoves).ToArray();
-                        validTMHM[i] = validTMHM[i].Except(FutureMoves).ToArray();
-                        validTutor[i] = validTutor[i].Except(FutureMoves).ToArray();
-                        FutureMoves = FutureMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                        validLevelMoves[i]?.RemoveAll(x => FutureMoves.Contains(x));
+                        validTMHM[i]?.RemoveAll(x => FutureMoves.Contains(x));
+                        validTutor[i]?.RemoveAll(x => FutureMoves.Contains(x));
+
+                        if (validLevelMoves[i] == null || validTMHM[i] == null || validTutor[i] == null)
+                            continue;
+                        FutureMoves.AddRange(validLevelMoves[i].Concat(validTMHM[i]).Concat(validTutor[i]));
                     }
                 }
             }
             else
             {
-                int tradeback = (pkm.Format == 2) ? 1 : 2;
-                var formatmoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]);
-                validLevelMoves[tradeback] = validLevelMoves[tradeback]?.Except(formatmoves).ToArray();
-                validTMHM[tradeback] = validTMHM[tradeback]?.Except(formatmoves).ToArray();
-                validTutor[tradeback] = validTutor[tradeback]?.Except(formatmoves).ToArray();
+                int tradeback = pkm.Format == 2 ? 1 : 2;
+                var formatmoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]).ToList();
+                validLevelMoves[tradeback]?.RemoveAll(x => formatmoves.Contains(x));
+                validTMHM[tradeback]?.RemoveAll(x => formatmoves.Contains(x));
+                validTutor[tradeback]?.RemoveAll(x => formatmoves.Contains(x));
             }
         }
-        internal static int[][] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static List<int>[] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
-            int[][] Moves = new int[evoChains.Length][];
+            List<int>[] Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Any())
-                    Moves[i] = getValidMoves(pkm, evoChains[i], i, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToArray();
+                    Moves[i] = getValidMoves(pkm, evoChains[i], i, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
             return Moves;
         }
         internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
@@ -2432,7 +2440,7 @@ namespace PKHeX.Core
             {
                 case 3:
                     {
-                        var boxencounter = Encounter_Box.Where(e => e.Species == species).FirstOrDefault();
+                        var boxencounter = Encounter_Box.FirstOrDefault(e => e.Species == species);
                         if (boxencounter != null)
                             return boxencounter.Moves;
                         break;
