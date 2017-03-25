@@ -550,15 +550,15 @@ namespace PKHeX.Core
         // Moves
         internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref int[][] validLevelMoves, ref int[][] validTMHM, ref int[][] validTutor)
         {
-            IEnumerable<int> AllMoves = new List<int>();
-            if (pkm.Format > 3)
+            if (pkm.Format >= 3)
             {
-                for (int i = evoChains.Length - 1; i > 0; i--)
+                var FutureMoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]);
+                for (int i = pkm.Format - 1; i >= pkm.GenNumber; i--)
                 {
-                    validLevelMoves[i] = validLevelMoves[i].Except(AllMoves).ToArray();
-                    validTMHM[i] = validTMHM[i].Except(AllMoves).ToArray();
-                    validTutor[i] = validTutor[i].Except(AllMoves).ToArray();
-                    AllMoves = AllMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                    validLevelMoves[i] = validLevelMoves[i].Except(FutureMoves).ToArray();
+                    validTMHM[i] = validTMHM[i].Except(FutureMoves).ToArray();
+                    validTutor[i] = validTutor[i].Except(FutureMoves).ToArray();
+                    FutureMoves = FutureMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
                 }
             }
             else
@@ -574,7 +574,8 @@ namespace PKHeX.Core
         {
             int[][] Moves = new int[evoChains.Length][];
             for (int i = 1; i < evoChains.Length; i++)
-                Moves[i] = getValidMoves(pkm, evoChains[i], i, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToArray();
+                if (evoChains[i].Any())
+                    Moves[i] = getValidMoves(pkm, evoChains[i], i, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToArray();
             return Moves;
         }
         internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
@@ -589,7 +590,7 @@ namespace PKHeX.Core
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, evoChain, generation, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM : RemoveTransferHM); 
+            return getValidMoves(pkm, version, evoChain, generation, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
         internal static IEnumerable<int> getValidRelearn(PKM pkm, int skipOption)
         {

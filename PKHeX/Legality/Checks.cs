@@ -2096,6 +2096,7 @@ namespace PKHeX.Core
             var Gen1MovesLearned = new List<int>();
             var EggMovesLearned = new List<int>();
             var EventEggMovesLearned = new List<int>();
+            var IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
             // Check none moves and relearn moves before generation moves
             for (int m = 0; m < 4; m++)
             {
@@ -2105,7 +2106,7 @@ namespace PKHeX.Core
                     res[m] = new CheckResult(Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
             }
 
-            if (res.All(r => r.Valid))
+            if (res.All(r => r != null))
                 return res;
 
             bool MixedGen1NonTradebackGen2= false;
@@ -2117,34 +2118,35 @@ namespace PKHeX.Core
                 if (!pkm.InhabitedGeneration(gen))
                     continue;
 
-                IEnumerable<int> HMLearned = new List<int>();
+                var HMLearned = new int[0];
                 // Check if pokemon knows HM moves from generation 3 and 4 but are not valid yet, that means it cant learn the HMs in future generations
                 bool KnowDefogWhirlpool = false;
                 if (gen == 4 && pkm.Format > 4)
                 {
-                    HMLearned = moves.Where((m,i) => !(res[i]?.Valid ?? false) && Legal.HM_4_RemovePokeTransfer.Any(l => l == m)).Select((m, i) => i);
+                    // Copy to array the hm found or else the list will be emptied when the legal status of moves changes in the current generation
+                    HMLearned = moves.Where((m,i) => !(res[i]?.Valid ?? false) && Legal.HM_4_RemovePokeTransfer.Any(l => l == m)).Select((m, i) => i).ToArray();
                     // Defog and Whirlpool at the same time, also both can't be learned in future generations or else they will be valid
-                    KnowDefogWhirlpool = moves.Where((m, i) => (m == 250 && m == 432) && !(res[i]?.Valid ?? false)).Count() == 2;
+                    KnowDefogWhirlpool = moves.Where((m, i) => (m == 250 || m == 432) && !(res[i]?.Valid ?? false)).Count() == 2;
                 }
                 else if (gen == 3 && pkm.Format > 3)
-                    HMLearned = moves.Where((m, i) => !(res[i]?.Valid ?? false) && Legal.HM_3.Any(l => l == m)).Select((m, i) => i);
+                    HMLearned = moves.Select((m, i) => i).Where(i => !(res[i]?.Valid ?? false) && Legal.HM_3.Any(l => l == moves[i])).ToArray();
 
                 for (int m = 0; m < 4; m++)
                 {
                     if (res[m]?.Valid ?? false)
                         continue;
 
-                    if (learn[m].Contains(moves[m]))
+                    if (learn[gen].Contains(moves[m]))
                     {
                         res[m] = new CheckResult(Severity.Valid, (gen == pkm.Format)? V177 : String.Format(V330, gen), CheckIdentifier.Move);
                         if (gen == 1) Gen1MovesLearned.Add(m);
                     }
-                    else if (tmhm[m].Contains(moves[m]))
+                    else if (tmhm[gen].Contains(moves[m]))
                     {
                         res[m] = new CheckResult(Severity.Valid, (gen == pkm.Format) ? V173 : String.Format(V331, gen), CheckIdentifier.Move);
                         if (gen == 1) Gen1MovesLearned.Add(m);
                     }
-                    else if (tutor[m].Contains(moves[m]))
+                    else if (tutor[gen].Contains(moves[m]))
                     {
                         res[m] = new CheckResult(Severity.Valid, (gen == pkm.Format) ? V173 : String.Format(V332, gen), CheckIdentifier.Move);
                         if (gen == 1) Gen1MovesLearned.Add(m);
@@ -2166,7 +2168,7 @@ namespace PKHeX.Core
                             continue;
                         if (egg.Contains(moves[m]))
                         {
-                            if (Gen1MovesLearned.Any() && moves[m] > Legal.MaxMoveID_1)
+                            if (IsGen2Pkm && Gen1MovesLearned.Any() && moves[m] > Legal.MaxMoveID_1)
                             {
                                 // To learn exclusive generation 1 moves the pokemon was tradeback, but it can be trade to generation 1
                                 // without removing moves above MaxMoveID_1, egg moves above MaxMoveID_1 and gen 1 moves are incompatible
@@ -2181,7 +2183,7 @@ namespace PKHeX.Core
                         {
                             if(!egg.Contains(moves[m]))
                             {
-                                if (Gen1MovesLearned.Any() && moves[m] > Legal.MaxMoveID_1)
+                                if (IsGen2Pkm && Gen1MovesLearned.Any() && moves[m] > Legal.MaxMoveID_1)
                                 {
                                     res[m] = new CheckResult(Severity.Invalid, V334, CheckIdentifier.Move) { Flag = true };
                                     MixedGen1NonTradebackGen2 = true;
@@ -2193,33 +2195,37 @@ namespace PKHeX.Core
                         }
                     }
 
-                    // A pokemon could have normal egg moves and regular egg moves only if all the event egg moves are also regular egg moves
-                    if (!EggMovesLearned.All(e=> EventEggMovesLearned.Contains(e)))
+                    // A pokemon could have normal egg moves and regular egg moves
+                    // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
+                    if (EggMovesLearned.Any() && EventEggMovesLearned.Any())
                     {
-                        for (int m = 0; m < 4; m++)
+                        // Moves that are egg moves or event egg moves but not both
+                        var IncompatibleEggMoves = EggMovesLearned.Except(EventEggMovesLearned).Union(EventEggMovesLearned.Except(EggMovesLearned));
+                        if (IncompatibleEggMoves.Any())
                         {
-                            if (EventEggMovesLearned.Contains(m) && !EggMovesLearned.Contains(m))
-                                res[m] = new CheckResult(Severity.Invalid, V337, CheckIdentifier.Move);
-                            else if (!EventEggMovesLearned.Contains(m) && EggMovesLearned.Contains(m))
-                                res[m] = new CheckResult(Severity.Invalid, V336, CheckIdentifier.Move);
+                            foreach(int m in IncompatibleEggMoves)
+                            {
+                                if (!EventEggMovesLearned.Contains(m) && !EggMovesLearned.Contains(m))
+                                    res[m] = new CheckResult(Severity.Invalid, V337, CheckIdentifier.Move);
+                                else if (!EventEggMovesLearned.Contains(m) && EggMovesLearned.Contains(m))
+                                    res[m] = new CheckResult(Severity.Invalid, V336, CheckIdentifier.Move);
+                            }
                         }
                     }
-
                 }
                 
-                if (3 <= gen && gen <= 4 && gen > pkm.Format)
+                if (3 <= gen && gen <= 4 && pkm.Format > gen)
                 {
                     // After all the moves from the generations 3 and 4, 
                     // including egg moves if is the origin generation because some hidden moves are also special egg moves in gen 3
                     // Check if the marked hidden moves that were invalid at the start are now marked as valid, that means 
                     // the hidden move was learned in gen 3 or 4 but was not removed when transfer to 4 or 5
                     if (KnowDefogWhirlpool)
-                        KnowDefogWhirlpool = moves.Where((m,i) => (m == 250 && m == 432) && (res[i]?.Valid ?? false)).Count() == 2;
+                        KnowDefogWhirlpool = moves.Where((m,i) => (m == 250 || m == 432) && (res[i]?.Valid ?? false)).Count() == 2;
                     
                     if (KnowDefogWhirlpool)
                     {
-                        KnowDefogWhirlpool = moves.Where((m, i) => (m == 250 && m == 432) && (res[i]?.Valid ?? false)).Count() == 2;
-                        foreach (int index in moves.Where(m => (m == 250 && m == 432)).Select((move, index) => index))
+                        foreach (int index in moves.Select((m, i) => i).Where(i => (moves[i] == 250 || moves[i] == 432)))
                         {
                             res[index] = new CheckResult(Severity.Invalid, V338, CheckIdentifier.Move);
                         }
@@ -2240,13 +2246,13 @@ namespace PKHeX.Core
                     }
                 }
 
-                if (res.All(r => r.Valid))
+                if (res.All(r => r != null))
                     return res;
             }
 
-            if (res.All(r => r.Valid))
+            if (res.All(r => r != null))
                 return res;
-            
+
             for (int m = 0; m < 4; m++)
             {
                 if (res[m] == null)
