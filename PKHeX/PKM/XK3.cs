@@ -193,22 +193,5 @@ namespace PKHeX.Core
         {
             return (byte[])Data.Clone();
         }
-        public override bool getGenderIsValid()
-        {
-            int gv = PersonalTable.RS[Species].Gender;
-
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 0;
-            if (gv == 0)
-                return Gender == 1;
-            if (gv <= (PID & 0xFF))
-                return Gender == 0;
-            if ((PID & 0xFF) < gv)
-                return Gender == 1;
-
-            return false;
-        }
     }
 }

@@ -512,7 +512,26 @@ namespace PKHeX.Core
         /// Checks if the current <see cref="Gender"/> is valid.
         /// </summary>
         /// <returns>True if valid, False if invalid.</returns>
-        public abstract bool getGenderIsValid();
+        public virtual bool getGenderIsValid()
+        {
+            int gv = PersonalInfo.Gender;
+            if (gv == 255)
+                return Gender == 2;
+            if (gv == 254)
+                return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
+
+            if (GenNumber >= 6)
+                return true;
+
+            if ((PID & 0xFF) < gv)
+                return Gender == 1;
+            if (gv <= (PID & 0xFF))
+                return Gender == 0;
+
+            return false;
+        }
 
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.

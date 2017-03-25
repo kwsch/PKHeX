@@ -301,23 +301,6 @@ namespace PKHeX.Core
         }
         
         // Methods
-        public override bool getGenderIsValid()
-        {
-            int gv = PersonalInfo.Gender;
-
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 1;
-            if (gv == 0)
-                return Gender == 0;
-            if ((PID & 0xFF) <= gv)
-                return Gender == 1;
-            if (gv < (PID & 0xFF))
-                return Gender == 0;
-
-            return false;
-        }
         public override byte[] Encrypt()
         {
             RefreshChecksum();
