@@ -2585,5 +2585,22 @@ namespace PKHeX.Core
             "Premier", "Event", "Birthday", "Special", "Souvenir",
             "Wishing", "Battle Champ", "Regional Champ", "National Champ", "World Champ"
         };
+
+        /// <summary>
+        /// Converts a Check result Severity determination (Valid/Invalid/etc) to the localized string.
+        /// </summary>
+        /// <param name="s"><see cref="Severity"/> value to convert to string.</param>
+        /// <returns>Localized <see cref="string"/>.</returns>
+        private static string getString(Severity s)
+        {
+            switch (s)
+            {
+                case Severity.Indeterminate: return V500;
+                case Severity.Invalid: return V501;
+                case Severity.Fishy: return V502;
+                case Severity.Valid: return V503;
+                default: return V504;
+            }
+        }
     }
 }

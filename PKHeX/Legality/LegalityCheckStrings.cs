@@ -25,6 +25,17 @@ namespace PKHeX.Core
         /// <summary>Format text for exporting the type of Encounter that was matched for the the <see cref="PKM"/></summary>
         public static string V195 {get; set;} = "Encounter Type: {0}";
 
+        /// <summary>Severity string for <see cref="Severity.Indeterminate"/></summary>
+        public static string V500 { get; set; } = "Indeterminate";
+        /// <summary>Severity string for <see cref="Severity.Invalid"/></summary>
+        public static string V501 { get; set; } = "Invalid";
+        /// <summary>Severity string for <see cref="Severity.Fishy"/></summary>
+        public static string V502 { get; set; } = "Fishy";
+        /// <summary>Severity string for <see cref="Severity.Valid"/></summary>
+        public static string V503 { get; set; } = "Valid";
+        /// <summary>Severity string for <see cref="Severity.NotImplemented"/></summary>
+        public static string V504 { get; set; } = "Not Implemented";
+
         /// <summary>Original Trainer string used in various string formats such as Memories.</summary>
         public static string V205 { get; set; } = "OT";
         /// <summary>Handling Trainer string used in various string formats such as Memories.</summary>

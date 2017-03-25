@@ -257,7 +257,7 @@ namespace PKHeX.Core
             
             // Build result string...
             var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
-            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, chk.Judgement, chk.Comment)));
+            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, getString(chk.Judgement), chk.Comment)));
 
             if (r.Length == 0)
                 r = V190;
@@ -285,7 +285,7 @@ namespace PKHeX.Core
                 r += Environment.NewLine;
             
             var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, chk.Judgement, chk.Comment)));
+            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, getString(chk.Judgement), chk.Comment)));
 
             r += Environment.NewLine;
             r += "===" + Environment.NewLine + Environment.NewLine;
