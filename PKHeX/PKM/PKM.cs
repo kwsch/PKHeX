@@ -422,7 +422,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (HasOriginalMetLocation)
+                if (Format > 2 && HasOriginalMetLocation)
                     return Egg_Location > 0;
                 return _WasEgg;
             } set { _WasEgg = value; }
