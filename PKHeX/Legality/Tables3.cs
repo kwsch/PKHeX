@@ -202,6 +202,13 @@ namespace PKHeX.Core
               36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
               46, 47, 48, 49,
         };
+        internal static readonly EncounterStatic[] Encounter_Box =
+        {
+            new EncounterStatic { Species = 333, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{206} }, // Swablu Egg with False Swipe
+            new EncounterStatic { Species = 263, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{245} }, // Zigzagoon Egg with Extreme Speed
+            new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{6} }, // Skitty Egg with Pay Day
+            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{57} }, // Pichu Egg with Surf
+        };
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
@@ -303,8 +310,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2 }, // Deoxys @ Birth Island
         };
 
-        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
-        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
+        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(Encounter_Box).ToArray();
+        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(Encounter_Box).ToArray();
 
         private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
         private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};
@@ -480,7 +487,18 @@ namespace PKHeX.Core
                 },}
         };
         #endregion
-
+        internal static readonly int[] ValidEggMet_RSE =
+        {
+            32, //Route 117 
+            253, //Ingame egg gift
+            255 // event/pokemon box
+        };
+        internal static readonly int[] ValidEggMet_FRLG =
+        {
+            146, //Four Island
+            253, //Ingame egg gift
+            255 // event/pokemon box
+        };
         // 064 is an unused location for metor falls
         // 084 is Inside of a truck, no possible pokemon can be hatched there
         internal static readonly int[] ValidMet_RS =

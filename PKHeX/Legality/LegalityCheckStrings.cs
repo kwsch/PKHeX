@@ -37,6 +37,10 @@ namespace PKHeX.Core
         public static string V174 { get; set; } = "Learned by Move Tutor.";
         public static string V175 { get; set; } = "Special Non-Relearn Move.";
         public static string V177 { get; set; } = "Learned by Level-up.";
+        public static string V330 { get; set; } = "Learned by Level-up in generation {0}.";
+        public static string V331 { get; set; } = "Learned by TM/HM in generation {0}.";
+        public static string V332 { get; set; } = "Learned by Move Tutor in generation {0}.";
+        public static string V333 { get; set; } = "Event Egg Move.";
 
         #endregion
 
@@ -304,6 +308,12 @@ namespace PKHeX.Core
         public static string V327 {get; set;} = "Special ingame N's Sparkle flag should not be checked.";
         public static string V328 {get; set;} = "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.";
 
+        public static string V334 {get; set;} = "Non-tradeback egg move. Incompatible with generation 1 exclusive moves.";
+        public static string V335 {get; set;} = "Generation 1 exclusive move. Incompatible with Non-tradeback egg moves.";
+        public static string V336 {get; set;} = "Egg Move. Incompatible with event egg moves.";
+        public static string V337 {get; set;} = "Event Egg Move. Incompatible with normal egg moves.";
+        public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to generation 5.";
+        public static string V339 {get; set;} = "Generation {0} HM. Should have been removed before transfered to generation {1}.";
         #endregion
 
     }
