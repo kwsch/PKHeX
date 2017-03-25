@@ -50,7 +50,7 @@ namespace PKHeX.Core
                 if (!Parse.Any())
                 switch (pk.GenNumber)
                 {
-                    case 3: parsePK3(pk); break;
+                    case 3: if (pk.Version != 15) parsePK3(pk); break;
                     case 4: parsePK4(pk); break;
                     case 5: parsePK5(pk); break;
                     case 6: parsePK6(pk); break;
@@ -324,12 +324,19 @@ namespace PKHeX.Core
 
             int loc = getSuggestedTransferLocation(pkm);
             if (pkm.WasEgg)
+            {
+                int lvl = 1; // gen5+
+                if (!pkm.IsNative)
+                    lvl = pkm.CurrentLevel; // be generous with transfer conditions
+                else if (pkm.Format < 5) // and native
+                    lvl = 0;
                 return new EncounterStatic
                 {
                     Species = Legal.getBaseSpecies(pkm),
                     Location = loc != -1 ? loc : getSuggestedEggMetLocation(pkm),
-                    Level = 1,
+                    Level = lvl,
                 };
+            }
 
             var area = Legal.getCaptureLocation(pkm);
             if (area != null)
@@ -353,6 +360,21 @@ namespace PKHeX.Core
             // Return one of legal hatch locations for game
             switch ((GameVersion)pkm.Version)
             {
+                case GameVersion.R:
+                case GameVersion.S:
+                case GameVersion.E:
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    switch (pkm.Format)
+                    {
+                        case 3:
+                            return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
+                        case 4:
+                            return 0x37; // Pal Park
+                        default:
+                            return 30001; // Transporter
+                    }
+
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.Pt:

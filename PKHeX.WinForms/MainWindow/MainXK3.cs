@@ -29,7 +29,8 @@ namespace PKHeX.WinForms
             Label_OTGender.ForeColor = xk3.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = xk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = xk3.HeldItem;
-            CB_Ability.SelectedIndex = xk3.AbilityNumber > CB_Ability.Items.Count ? 0 : xk3.AbilityNumber;
+            int abil = xk3.AbilityNumber >> 1;
+            CB_Ability.SelectedIndex = abil > CB_Ability.Items.Count ? 0 : abil;
             CB_Nature.SelectedValue = xk3.Nature;
             TB_TID.Text = xk3.TID.ToString("00000");
             TB_SID.Text = xk3.SID.ToString("00000");
@@ -136,7 +137,7 @@ namespace PKHeX.WinForms
             xk3.SID = Util.ToInt32(TB_SID.Text);
             xk3.EXP = Util.ToUInt32(TB_EXP.Text);
             xk3.PID = Util.getHEXval(TB_PID.Text);
-            xk3.AbilityNumber = CB_Ability.SelectedIndex; // 0/1 (stored in IVbits)
+            xk3.AbilityNumber = 1 << CB_Ability.SelectedIndex; // to match gen6+
 
             xk3.FatefulEncounter = CHK_Fateful.Checked;
             xk3.Gender = PKX.getGender(Label_Gender.Text);

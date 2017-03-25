@@ -1069,13 +1069,25 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    if (wc.Egg_Location + 3000 != pkm.Met_Location) continue;
+                    if (pkm.Format != 4) // transferred
+                    {
+                        bool valid = false;
+                        if (pkm.Met_Location == 30001)
+                            valid = true;
+                        else if (CrownBeasts[0] == pkm.Species) // 251 = Celebi
+                            valid = pkm.Met_Location == 30010 || pkm.Met_Location == 30011; // unused || used
+                        else if (CrownBeasts.Skip(1).Any(x => x == pkm.Species)) // Raikou, Entei, Suicune
+                            valid = pkm.Met_Location == 30012 || pkm.Met_Location == 30013; // unused || used
+                        if (!valid)
+                            continue;
+                    }
+                    else if (wc.Egg_Location + 3000 != pkm.Met_Location) continue;
                 }
 
                 if (wc.CurrentLevel != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
-                if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) continue;
+                if (wc.PID == 1 && pkm.IsShiny) continue;
                 if (wc.Gender != 3 && wc.Gender != pkm.Gender) continue;
 
                 if (wc.CNT_Cool > pkm.CNT_Cool) continue;
@@ -1108,7 +1120,6 @@ namespace PKHeX.Core
                     if (wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
                     if (wc.OT != pkm.OT_Name) continue;
-                    if (wc.OTGender != pkm.OT_Gender) continue;
                     if (wc.PID != 0 && pkm.PID != wc.PID) continue;
                     if (wc.PIDType == 0 && pkm.IsShiny) continue;
                     if (wc.PIDType == 2 && !pkm.IsShiny) continue;
