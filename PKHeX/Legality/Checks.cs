@@ -521,8 +521,8 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, string.Format(V52, 0), CheckIdentifier.Encounter);
             if (pkm.IsEgg)
             {
-                var loc = pkm.FRLG ? 146 /* Four Island */ : 32; /* RSE: Route 117 */
-                if (pkm.Met_Location != loc)
+                var loc = pkm.FRLG ? Legal.ValidEggMet_FRLG : Legal.ValidEggMet_RSE;
+                if (!loc.Contains(pkm.Met_Location)) 
                     return new CheckResult(Severity.Invalid, V55, CheckIdentifier.Encounter);
             }
             else
@@ -2149,7 +2149,7 @@ namespace PKHeX.Core
         private CheckResult[] parseMovesRegular(int[] Moves, int[][] validLevelMoves, int[][] validTMHM, int[][] validTutor, int[] baseEggMoves, GameVersion game)
         {
             int[] EggMoves = pkm.WasEgg ? Legal.getEggMoves(pkm, game).ToArray() : new int[0];
-            int[] EventEggMoves = new int[0];
+            int[] EventEggMoves = pkm.WasEgg ? Legal.getSpecialEggMoves(pkm, game).ToArray() : new int[0];
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
                                  (EncounterMatch as EncounterStatic)?.Moves ??
@@ -2240,7 +2240,7 @@ namespace PKHeX.Core
                     }
                 }
 
-                if (gen == generations.Length - 1)
+                if (gen == generations.Last())
                 {
                     // Check egg moves after all the generations and all the moves, every move that can be learned in another source should have preference
                     // the moves that can only be learned from egg moves should in the future check if the move combinations can be breed in gens 2 to 5

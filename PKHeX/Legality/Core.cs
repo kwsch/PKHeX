@@ -715,7 +715,12 @@ namespace PKHeX.Core
         internal static IEnumerable<int> getEggMoves(PKM pkm, GameVersion Version)
         {
             return getEggMoves(pkm, getBaseSpecies(pkm), 0, Version);
-        } 
+        }
+
+        internal static IEnumerable<int> getSpecialEggMoves(PKM pkm, GameVersion Version)
+        {
+            return getSpecialEggMoves(pkm, getBaseSpecies(pkm), 0, Version);
+        }
 
         // Encounter
         internal static EncounterLink getValidLinkGifts(PKM pkm)
@@ -2393,6 +2398,22 @@ namespace PKHeX.Core
                     return r;
             }
             return r;
+        }
+        private static IEnumerable<int> getSpecialEggMoves(PKM pkm, int species, int alform, GameVersion Version = GameVersion.Any)
+        {
+            if (!pkm.InhabitedGeneration(pkm.GenNumber, species))
+                return new List<int>();
+            switch (pkm.GenNumber)
+            {
+                case 3:
+                    {
+                        var boxencounter = Encounter_Box.Where(e => e.Species == species).FirstOrDefault();
+                        if (boxencounter != null)
+                            return boxencounter.Moves;
+                        break;
+                    }
+            }
+            return new List<int>();
         }
         private static IEnumerable<int> getEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
         {
