@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static PKHeX.Core.CheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -50,7 +50,7 @@ namespace PKHeX.Core
                 if (!Parse.Any())
                 switch (pk.GenNumber)
                 {
-                    case 3: parsePK3(pk); break;
+                    case 3: if (pk.Version != 15) parsePK3(pk); break;
                     case 4: parsePK4(pk); break;
                     case 5: parsePK5(pk); break;
                     case 6: parsePK6(pk); break;
@@ -75,7 +75,15 @@ namespace PKHeX.Core
                 else
                     return;
             }
-            catch { Valid = false; }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Valid = false;
+                Parsed = true;
+                AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
+                AllSuggestedMoves = AllSuggestedRelearnMoves = AllSuggestedMovesAndRelearn = new int[0];
+                return;
+            }
             AllSuggestedMoves = !pkm.IsOriginValid ? new int[4] : getSuggestedMoves(true, true, true);
             AllSuggestedRelearnMoves = !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
             AllSuggestedMovesAndRelearn = AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
@@ -121,7 +129,8 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
+
+            verifyPreRelearn();
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();
@@ -133,7 +142,8 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
+
+            verifyPreRelearn();
             updateEncounterChain();
             updateMoveLegality();
             updateEncounterInfo();
@@ -220,11 +230,11 @@ namespace PKHeX.Core
                 verifyHyperTraining();
                 verifyMedals();
                 verifyRegion();
+                verifyVersionEvolution();
             }
             if (pkm.GenNumber < 5)
                 verifyEggMoves();
 
-            verifyVersionEvolution();
             // SecondaryChecked = true;
         }
         private string getLegalityReport()
@@ -293,14 +303,10 @@ namespace PKHeX.Core
                 return RelearnBase;
 
             List<int> window = new List<int>(RelearnBase);
-
-            for (int i = 0; i < 4; i++)
-                if (!vMoves[i].Valid || vMoves[i].Flag)
-                    window.Add(pkm.Moves[i]);
-
+            window.AddRange(pkm.Moves.Where((v, i) => !vMoves[i].Valid || vMoves[i].Flag));
             if (window.Count < 4)
                 window.AddRange(new int[4 - window.Count]);
-            return window.Skip(window.Count - 4).Take(4).ToArray();
+            return window.Skip(window.Count - 4).ToArray();
         }
         public int[] getSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
@@ -318,12 +324,19 @@ namespace PKHeX.Core
 
             int loc = getSuggestedTransferLocation(pkm);
             if (pkm.WasEgg)
+            {
+                int lvl = 1; // gen5+
+                if (!pkm.IsNative)
+                    lvl = pkm.CurrentLevel; // be generous with transfer conditions
+                else if (pkm.Format < 5) // and native
+                    lvl = 0;
                 return new EncounterStatic
                 {
                     Species = Legal.getBaseSpecies(pkm),
                     Location = loc != -1 ? loc : getSuggestedEggMetLocation(pkm),
-                    Level = 1,
+                    Level = lvl,
                 };
+            }
 
             var area = Legal.getCaptureLocation(pkm);
             if (area != null)
@@ -347,6 +360,21 @@ namespace PKHeX.Core
             // Return one of legal hatch locations for game
             switch ((GameVersion)pkm.Version)
             {
+                case GameVersion.R:
+                case GameVersion.S:
+                case GameVersion.E:
+                case GameVersion.FR:
+                case GameVersion.LG:
+                    switch (pkm.Format)
+                    {
+                        case 3:
+                            return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
+                        case 4:
+                            return 0x37; // Pal Park
+                        default:
+                            return 30001; // Transporter
+                    }
+
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.Pt:

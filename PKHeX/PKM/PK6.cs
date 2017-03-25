@@ -411,18 +411,6 @@ namespace PKHeX.Core
             Checksum = CalculateChecksum();
             return PKX.encryptArray(Data);
         }
-        public override bool getGenderIsValid()
-        {
-            int gv = PersonalInfo.Gender;
-
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 1;
-            if (gv == 0)
-                return Gender == 0;
-            return true;
-        }
 
         // General User-error Fixes
         public void FixRelearn()

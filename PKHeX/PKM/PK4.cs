@@ -29,6 +29,7 @@ namespace PKHeX.Core
         public override int Nature { get { return (int)(PID%25); } set { } }
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
         public override int CurrentHandler { get { return 0; } set { } }
+        public override int AbilityNumber { get { return 1 << PIDAbility; } set { } }
 
         // Structure
         public override uint PID { get { return BitConverter.ToUInt32(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
@@ -310,7 +311,7 @@ namespace PKHeX.Core
                 else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
                 {
                     // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
                 else
@@ -384,23 +385,6 @@ namespace PKHeX.Core
         }
         
         // Methods
-        public override bool getGenderIsValid()
-        {
-            int gv = PersonalInfo.Gender;
-            
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 1;
-            if (gv == 0)
-                return Gender == 0;
-            if ((PID & 0xFF) <= gv)
-                return Gender == 1;
-            if (gv < (PID & 0xFF))
-                return Gender == 0;
-
-            return false;
-        }
         public override byte[] Encrypt()
         {
             RefreshChecksum();

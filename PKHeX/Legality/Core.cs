@@ -99,14 +99,14 @@ namespace PKHeX.Core
                     table = Encounter_DPPt;
                     break;
                 case GameVersion.HG: case GameVersion.SS:
-                    table = Encounter_HGSS;
+                    table = Encounter_HGSS.Concat(Encounter_PokeWalker).ToArray();
                     break;
 
                 case GameVersion.B: case GameVersion.W:
-                    table = Encounter_BW;
+                    table = Encounter_BW.Concat(BW_DreamWorld).ToArray();
                     break;
                 case GameVersion.B2: case GameVersion.W2:
-                    table = Encounter_B2W2;
+                    table = Encounter_B2W2.Concat(B2W2_DreamWorld).ToArray();
                     break;
 
                 case GameVersion.X: case GameVersion.Y:
@@ -159,14 +159,16 @@ namespace PKHeX.Core
         {
             return EncounterArea.getArray(Data.unpackMini(mini, ident));
         }
-        private static IEnumerable<EncounterArea> addExtraTableSlots(IEnumerable<EncounterArea> GameSlots, IEnumerable<EncounterArea> SpecialSlots)
+        private static EncounterArea[] addExtraTableSlots(EncounterArea[] GameSlots, EncounterArea[] SpecialSlots)
         {
             foreach (EncounterArea g in GameSlots)
             {
-                foreach (var slots in SpecialSlots.Where(l => l.Location == g.Location))
-                    g.Slots = g.Slots.Concat(slots.Slots).ToArray();
+                var tables = SpecialSlots.Where(l => l.Location == g.Location).ToList();
+                if (tables.Any())
+                    g.Slots = g.Slots.Concat(tables.SelectMany(t => t.Slots)).ToArray();
             }
-            return GameSlots.Concat(SpecialSlots.Where(s => !GameSlots.Any(g => g.Location == s.Location))).ToArray();
+            var notInserted = SpecialSlots.Where(s => GameSlots.All(g => g.Location != s.Location));
+            return GameSlots.Concat(notInserted).ToArray();
         }
         private static void ReduceAreasSize(ref EncounterArea[] Areas)
         {
@@ -194,6 +196,14 @@ namespace PKHeX.Core
         private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
         {
             ReduceAreasSize(ref Areas);
+        }
+        private static void MarkG4PokeWalker(ref EncounterStatic[] t)
+        {
+            foreach (EncounterStatic s in t)
+            {
+                s.Location = 233;  //Pokéwalker
+                s.Gift = true;    //Pokeball only
+            }
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
@@ -248,6 +258,14 @@ namespace PKHeX.Core
         {
             foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
                 s.Type = SlotType.HiddenGrotto; 
+        }
+        private static void MarkG5DreamWorld(ref EncounterStatic[] t)
+        {
+            foreach (EncounterStatic s in t)
+            {
+                s.Location = 75;  //Entree Forest. Location can be a flag from dream world
+                s.Ability = 4;    //What if 1=2=HA?
+            }
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {
@@ -348,7 +366,7 @@ namespace PKHeX.Core
                 var h_g = EncounterArea.getArray2_H(Resources.encounter_gold_h);
                 var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
 
-                Slots = addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(g, s), h_g), h_s),f).ToArray();
+                Slots = addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(addExtraTableSlots(g, s), h_g), h_s),f);
             }
             if (Version == GameVersion.C || Version == GameVersion.GSC)
             {
@@ -358,7 +376,7 @@ namespace PKHeX.Core
                 var h_c = EncounterArea.getArray2_H(Resources.encounter_crystal_h);
 
                 var extra = addExtraTableSlots(addExtraTableSlots(c, h_c),f);
-                return Version == GameVersion.C ? extra.ToArray() : addExtraTableSlots(Slots, extra).ToArray();
+                return Version == GameVersion.C ? extra : addExtraTableSlots(Slots, extra);
             }
 
             return Slots;
@@ -406,11 +424,11 @@ namespace PKHeX.Core
                 MarkG3Slots_FRLG(ref FR_Slots);
                 MarkG3Slots_FRLG(ref LG_Slots);
 
-                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt).ToArray();
-                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt).ToArray();
-                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt).ToArray();
-                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt).ToArray();
-                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt).ToArray();
+                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
+                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
+                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt);
+                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt);
+                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt);
 
                 Evolves3 = new EvolutionTree(new[] { Resources.evos_g3 }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
@@ -426,6 +444,7 @@ namespace PKHeX.Core
             }
             // Gen 4
             {
+                MarkG4PokeWalker(ref Encounter_PokeWalker);
                 StaticD = getStaticEncounters(GameVersion.D);
                 StaticP = getStaticEncounters(GameVersion.P);
                 StaticPt = getStaticEncounters(GameVersion.Pt);
@@ -465,11 +484,11 @@ namespace PKHeX.Core
                 MarkG4Slots(ref HG_Headbutt_Slots);
                 MarkG4Slots(ref SS_Headbutt_Slots);
 
-                SlotsD = addExtraTableSlots(addExtraTableSlots(D_Slots, D_HoneyTrees_Slots), SlotsDPPPtAlt).ToArray();
-                SlotsP = addExtraTableSlots(addExtraTableSlots(P_Slots, P_HoneyTrees_Slots), SlotsDPPPtAlt).ToArray();
-                SlotsPt = addExtraTableSlots(addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots), SlotsDPPPtAlt).ToArray();
-                SlotsHG = addExtraTableSlots(addExtraTableSlots(HG_Slots, HG_Headbutt_Slots), SlotsHGSSAlt).ToArray();
-                SlotsSS = addExtraTableSlots(addExtraTableSlots(SS_Slots, SS_Headbutt_Slots), SlotsHGSSAlt).ToArray();
+                SlotsD = addExtraTableSlots(addExtraTableSlots(D_Slots, D_HoneyTrees_Slots), SlotsDPPPtAlt);
+                SlotsP = addExtraTableSlots(addExtraTableSlots(P_Slots, P_HoneyTrees_Slots), SlotsDPPPtAlt);
+                SlotsPt = addExtraTableSlots(addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots), SlotsDPPPtAlt);
+                SlotsHG = addExtraTableSlots(addExtraTableSlots(HG_Slots, HG_Headbutt_Slots), SlotsHGSSAlt);
+                SlotsSS = addExtraTableSlots(addExtraTableSlots(SS_Slots, SS_Headbutt_Slots), SlotsHGSSAlt);
 
                 Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
@@ -480,6 +499,8 @@ namespace PKHeX.Core
             }
             // Gen 5
             {
+                MarkG5DreamWorld(ref BW_DreamWorld);
+                MarkG5DreamWorld(ref B2W2_DreamWorld);
                 StaticB = getStaticEncounters(GameVersion.B);
                 StaticW = getStaticEncounters(GameVersion.W);
                 StaticB2 = getStaticEncounters(GameVersion.B2);
@@ -491,8 +512,8 @@ namespace PKHeX.Core
                 MarkG5Slots(ref WSlots);
                 MarkBWSwarmSlots(ref SlotsB_Swarm);
                 MarkBWSwarmSlots(ref SlotsW_Swarm);
-                SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm).ToArray();
-                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm).ToArray();
+                SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm);
+                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm);
 
                 var B2Slots = getEncounterTables(GameVersion.B2);
                 var W2Slots = getEncounterTables(GameVersion.W2);
@@ -518,8 +539,8 @@ namespace PKHeX.Core
                 var YSlots = getEncounterTables(GameVersion.Y);
                 MarkG6XYSlots(ref XSlots);
                 MarkG6XYSlots(ref YSlots);
-                SlotsX = addExtraTableSlots(XSlots, SlotsXYAlt).ToArray();
-                SlotsY = addExtraTableSlots(YSlots, SlotsXYAlt).ToArray();
+                SlotsX = addExtraTableSlots(XSlots, SlotsXYAlt);
+                SlotsY = addExtraTableSlots(YSlots, SlotsXYAlt);
 
                 SlotsA = getEncounterTables(GameVersion.AS);
                 SlotsO = getEncounterTables(GameVersion.OR);
@@ -609,7 +630,7 @@ namespace PKHeX.Core
             r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
-        internal static IEnumerable<int> getBaseEggMoves(PKM pkm, int skipOption, GameVersion gameSource)
+        internal static IEnumerable<int> getBaseEggMoves(PKM pkm, int skipOption, GameVersion gameSource, int lvl)
         {
             int species = getBaseSpecies(pkm, skipOption);
 
@@ -622,49 +643,63 @@ namespace PKHeX.Core
                 case GameVersion.S:
                 case GameVersion.RS:
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpRS[species].getMoves(1);
+                        return LevelUpRS[species].getMoves(lvl);
                     break;
                 case GameVersion.E:
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpE[species].getMoves(1);
+                        return LevelUpE[species].getMoves(lvl);
                     break;
                 case GameVersion.FR:
                 case GameVersion.LG:
                 case GameVersion.FRLG:
                     // only difference in FR/LG is deoxys which doesn't breed.
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpFR[species].getMoves(1);
+                        return LevelUpFR[species].getMoves(lvl);
                     break;
 
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.DP:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpDP[species].getMoves(1);
+                        return LevelUpDP[species].getMoves(lvl);
                     break;
                 case GameVersion.Pt:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpPt[species].getMoves(1);
+                        return LevelUpPt[species].getMoves(lvl);
                     break;
                 case GameVersion.HG:
                 case GameVersion.SS:
                 case GameVersion.HGSS:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpHGSS[species].getMoves(1);
+                        return LevelUpHGSS[species].getMoves(lvl);
+                    break;
+
+                case GameVersion.B:
+                case GameVersion.W:
+                case GameVersion.BW:
+                    if (pkm.InhabitedGeneration(5))
+                        return LevelUpBW[species].getMoves(lvl);
+                    break;
+
+                case GameVersion.B2:
+                case GameVersion.W2:
+                case GameVersion.B2W2:
+                    if (pkm.InhabitedGeneration(5))
+                        return LevelUpBW[species].getMoves(lvl);
                     break;
 
                 case GameVersion.X:
                 case GameVersion.Y:
                 case GameVersion.XY:
                     if (pkm.InhabitedGeneration(6))
-                        return LevelUpXY[species].getMoves(1);
+                        return LevelUpXY[species].getMoves(lvl);
                     break;
 
                 case GameVersion.AS:
                 case GameVersion.OR:
                 case GameVersion.ORAS:
                     if (pkm.InhabitedGeneration(6))
-                        return LevelUpAO[species].getMoves(1);
+                        return LevelUpAO[species].getMoves(lvl);
                     break;
 
                 case GameVersion.SN:
@@ -672,7 +707,7 @@ namespace PKHeX.Core
                 case GameVersion.SM:
                     int index = PersonalTable.SM.getFormeIndex(species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
-                        return LevelUpSM[index].getMoves(1);
+                        return LevelUpSM[index].getMoves(lvl);
                     break;
             }
             return null;
@@ -1042,7 +1077,16 @@ namespace PKHeX.Core
             if (DB == null)
                 return validPCD;
 
-            // todo
+            if (pkm.Species == 490 && (pkm.WasEgg || pkm.IsEgg)) // Manaphy
+            {
+                int loc = pkm.IsEgg ? pkm.Met_Location : pkm.Egg_Location;
+                bool valid = loc == 2001; // Link Trade Egg
+                valid |= loc == 3001 && !pkm.IsShiny; // Ranger & notShiny
+                if (valid)
+                    validPCD.Add(new PGT { Data = { [0] = 7, [8] = 1 } });
+                return validPCD;
+            }
+            
             var vs = getValidPreEvolutions(pkm).ToArray();
             foreach (PCD mg in DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
@@ -1057,12 +1101,32 @@ namespace PKHeX.Core
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
                 if (wc.AltForm != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
-                if (wc.Met_Location != pkm.Met_Location) continue;
-                if (wc.Egg_Location != pkm.Egg_Location) continue;
+                
+                if (wc.IsEgg)
+                {
+                    if (wc.Egg_Location + 3000 != pkm.Egg_Location) continue;
+                }
+                else
+                {
+                    if (pkm.Format != 4) // transferred
+                    {
+                        bool valid = false;
+                        if (pkm.Met_Location == 30001)
+                            valid = true;
+                        else if (CrownBeasts[0] == pkm.Species) // 251 = Celebi
+                            valid = pkm.Met_Location == 30010 || pkm.Met_Location == 30011; // unused || used
+                        else if (CrownBeasts.Skip(1).Any(x => x == pkm.Species)) // Raikou, Entei, Suicune
+                            valid = pkm.Met_Location == 30012 || pkm.Met_Location == 30013; // unused || used
+                        if (!valid)
+                            continue;
+                    }
+                    else if (wc.Egg_Location + 3000 != pkm.Met_Location) continue;
+                }
+
                 if (wc.CurrentLevel != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
-                if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) continue;
+                if (wc.PID == 1 && pkm.IsShiny) continue;
                 if (wc.Gender != 3 && wc.Gender != pkm.Gender) continue;
 
                 if (wc.CNT_Cool > pkm.CNT_Cool) continue;
@@ -1092,13 +1156,12 @@ namespace PKHeX.Core
             {
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
-                    if (wc.CardID != pkm.SID) continue;
+                    if (wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
                     if (wc.OT != pkm.OT_Name) continue;
-                    if (wc.OTGender != pkm.OT_Gender) continue;
-                    if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
+                    if (wc.PID != 0 && pkm.PID != wc.PID) continue;
+                    if (wc.PIDType == 0 && pkm.IsShiny) continue;
                     if (wc.PIDType == 2 && !pkm.IsShiny) continue;
-                    if (wc.PIDType == 3 && pkm.IsShiny) continue;
                     if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }

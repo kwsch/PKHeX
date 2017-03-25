@@ -18,42 +18,24 @@ namespace PKHeX.Core
         private static readonly int[][] VivillonCountryTable =
         {
                //missing ID 051,068,102,127,160,186
-               // 0-Icy Snow
-               new[] { 018, 076, 096, 100, 107 },    
-               // 1-Polar            
-               new[] { 010, 018, 020, 049, 076, 096, 100, 107 },   
-               // 2-Tundra         
-               new[] { 001, 081, 096, },    
-               // 3-Continental            
-               new[] { 010, 067, 073, 074, 075, 077, 078, 084, 087, 094, 096, 097, 100, 107, 136},         
-               // 4-Garden                 
-               new[] { 065, 082, 095, 097, 101, 110, 125},       
-               // 5-Elegant                   
-               new[] { 001 },              
-               // 6-Meadow            
-               new[] { 066, 077, 078, 083, 086, 088, 105, 108, 122},       
-               // 7-Modern                   
-               new[] { 018, 049},                    
-               // 8-Marine   
-               new[] { 020, 064, 066, 070, 071, 073, 077, 078, 079, 080, 083, 089, 090, 091, 098, 099, 103, 105, 123, 124, 126, 184, 185},             
-               // 9-Archipelago             
-               new[] { 008, 009, 011, 012, 013, 017, 021, 023, 024, 028, 029, 032, 034, 035, 036, 037, 038, 043, 044, 045, 047, 048, 049, 052, 085, 104,},
-               // 10-High-Plains   
-               new[] { 018, 036, 049, 100, 113},                
-               // 11-Sandstorm       
-               new[] { 072, 109, 118, 119, 120, 121, 168, 174},                       
-               // 12-River     
-               new[] { 065, 069, 085, 093, 104, 105, 114, 115, 116, 117},                      
-               // 13-Monsoon      
-               new[] { 001, 128, 144, 169},            
-               // 14-Savanna                     
-               new[] { 010, 015, 016, 041, 042, 050},      
-               // 15-Sun           
-               new[] { 036, 014, 019, 026, 030, 033, 036, 039, 065, 092, 106, 111, 112},
-               // 16-Ocean
-               new[] { 049, 077},                     
-               // 17-Jungle       
-               new[] { 016, 021, 022, 025, 027, 031, 040, 046, 052, 169, 153, 156},
+               /* 0 Icy Snow    */ new[] { 018, 076, 096, 100, 107 },    
+               /* 1 Polar       */ new[] { 010, 018, 020, 049, 076, 096, 100, 107 },   
+               /* 2 Tundra      */ new[] { 001, 081, 096, },    
+               /* 3 Continental */ new[] { 010, 067, 073, 074, 075, 077, 078, 084, 087, 094, 096, 097, 100, 107, 136},         
+               /* 4 Garden      */ new[] { 065, 082, 095, 097, 101, 110, 125},       
+               /* 5 Elegant     */ new[] { 001 },              
+               /* 6 Meadow      */ new[] { 066, 077, 078, 083, 086, 088, 105, 108, 122},       
+               /* 7 Modern      */ new[] { 018, 049},                    
+               /* 8 Marine      */ new[] { 020, 064, 066, 070, 071, 073, 077, 078, 079, 080, 083, 089, 090, 091, 098, 099, 103, 105, 123, 124, 126, 184, 185},             
+               /* 9 Archipelago */ new[] { 008, 009, 011, 012, 013, 017, 021, 023, 024, 028, 029, 032, 034, 035, 036, 037, 038, 043, 044, 045, 047, 048, 049, 052, 085, 104,},
+               /*10 High Plains */ new[] { 018, 036, 049, 100, 113},                
+               /*11 Sandstorm   */ new[] { 072, 109, 118, 119, 120, 121, 168, 174},                       
+               /*12 River       */ new[] { 065, 069, 085, 093, 104, 105, 114, 115, 116, 117},                      
+               /*13 Monsoon     */ new[] { 001, 128, 144, 169},
+               /*14-Savanna     */ new[] { 010, 015, 016, 041, 042, 050},      
+               /*15 Sun         */ new[] { 036, 014, 019, 026, 030, 033, 036, 039, 065, 092, 106, 111, 112},
+               /*16 Ocean       */ new[] { 049, 077},                     
+               /*17 Jungle      */ new[] { 016, 021, 022, 025, 027, 031, 040, 046, 052, 169, 153, 156},
         };
         private static readonly CountryTable[] RegionFormTable =
         {
@@ -81,7 +63,7 @@ namespace PKHeX.Core
                 mainform = 01, // Polar
                 otherforms = new[]
                 {
-                    new FormSubregionTable { form = 01, region = new[] {12,13,14} },
+                    new FormSubregionTable { form = 00, region = new[] {12,13,14} },
                     new FormSubregionTable { form = 07, region = new[] {05} },
                     new FormSubregionTable { form = 10, region = new[] {04} },
                 }
@@ -262,21 +244,16 @@ namespace PKHeX.Core
 
         public static bool CheckVivillonPattern(int form, int pkmcountry, int pkmregion)
         {
-            if (VivillonCountryTable[form].Contains(pkmcountry))
-            {
-                if (RegionFormTable.Any(ct => ct.countryID == pkmcountry))
-                {
-                    CountryTable ct = RegionFormTable.Where(t => t.countryID == pkmcountry).ToArray()[0];
-                    if (ct.mainform == form)
-                        return !(ct.otherforms.SelectMany(e => e.region).Contains(pkmregion)); //true if Mainform not in other specific region
-                    else
-                        return ct.otherforms.Any(e => e.form == form && e.region.Contains(pkmregion));
-                }
-                else
-                    return true; // No subregion
-            }
-            else
+            if (!VivillonCountryTable[form].Contains(pkmcountry))
                 return false; // Country mismatch
+            if (RegionFormTable.All(c => c.countryID != pkmcountry))
+                return true; // No subregion table
+
+            CountryTable ct = RegionFormTable.Where(t => t.countryID == pkmcountry).ToArray()[0];
+            if (ct.mainform == form)
+                return !ct.otherforms.SelectMany(e => e.region).Contains(pkmregion); //true if Mainform not in other specific region
+
+            return ct.otherforms.Any(e => e.form == form && e.region.Contains(pkmregion));
         }
     }
 }

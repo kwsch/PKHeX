@@ -1,63 +1,10 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace PKHeX.Core
 {
-    public static class CheckStrings
+    public static class LegalityCheckStrings
     {
-        private const string splitter = " = ";
-        private static readonly Type t = typeof(CheckStrings);
-        private static string[] getProps(IEnumerable<string> input)
-        {
-            return input.Select(l => l.Substring(0, l.IndexOf(splitter, StringComparison.Ordinal))).ToArray();
-        }
-        private static IEnumerable<string> DumpStrings()
-        {
-            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
-            return props.Select(p => $"{p}{splitter}{ReflectUtil.GetValue(t, p).ToString()}");
-        }
-        
-        public static void setLocalization(IEnumerable<string> lines)
-        {
-            if (lines == null)
-                return;
-            foreach (var line in lines.Where(l => l != null))
-            {
-                var index = line.IndexOf(splitter, StringComparison.Ordinal);
-                if (index < 0)
-                    continue;
-                var prop = line.Substring(0, index);
-                var value = line.Substring(index + splitter.Length);
-
-                try
-                {
-                    ReflectUtil.SetValue(t, prop.ToUpper(), value);
-                }
-                catch
-                {
-                    Console.WriteLine($"Property not present: {prop} || Value written: {value}");
-                }
-            }
-        }
-        public static string[] getLocalization(string[] existingLines = null)
-        {
-            existingLines = existingLines ?? new string[0];
-            var currentLines = DumpStrings().ToArray();
-            var existing = getProps(existingLines);
-            var current = getProps(currentLines);
-            
-            var result = new string[currentLines.Length];
-            for (int i = 0; i < current.Length; i++)
-            {
-                int index = Array.IndexOf(existing, current[i]);
-                result[i] = index < 0 ? currentLines[i] : existingLines[index];
-            }
-            return result;
-        }
 
         #region General Strings
 
@@ -99,6 +46,10 @@ namespace PKHeX.Core
 
         #region Legality Check Result Strings
 
+        public static string V250 {get; set;} = "Gender matches PID.";
+        public static string V251 {get; set;} = "PID-Gender mismatch.";
+        public static string V252 {get; set;} = "Nature matches PID.";
+        public static string V253 {get; set;} = "PID-Nature mismatch.";
         public static string V203 {get; set;} = "Genderless Pokémon should not have a gender.";
         public static string V201 {get; set;} = "Encryption Constant is not set.";
         public static string V204 {get; set;} = "Held item is unreleased.";

@@ -360,9 +360,10 @@ namespace PKHeX.Core
             {
                 if (GenNumber > 5 || Format > 5)
                     return -1;
-                if (GenNumber == 5)
-                    return (int)((PID >> 16) & 1);
-                return (int)(PID & 1);
+                
+                if (Version == (int) GameVersion.CXD)
+                    return Array.IndexOf(PersonalInfo.Abilities, Ability);
+                return (int)((GenNumber == 5 ? PID >> 16 : PID) & 1);
             }
         }
 
@@ -422,10 +423,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (Format > 2 && HasOriginalMetLocation)
-                    return Egg_Location > 0;
-                return _WasEgg;
-            } set { _WasEgg = value; }
+                return Egg_Location > 0 || _WasEgg;
+            }
+            set { _WasEgg = value; }
         }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
@@ -512,7 +512,26 @@ namespace PKHeX.Core
         /// Checks if the current <see cref="Gender"/> is valid.
         /// </summary>
         /// <returns>True if valid, False if invalid.</returns>
-        public abstract bool getGenderIsValid();
+        public virtual bool getGenderIsValid()
+        {
+            int gv = PersonalInfo.Gender;
+            if (gv == 255)
+                return Gender == 2;
+            if (gv == 254)
+                return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
+
+            if (GenNumber >= 6)
+                return true;
+
+            if ((PID & 0xFF) < gv)
+                return Gender == 1;
+            if (gv <= (PID & 0xFF))
+                return Gender == 0;
+
+            return false;
+        }
 
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.
