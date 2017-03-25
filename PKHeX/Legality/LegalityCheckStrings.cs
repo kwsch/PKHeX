@@ -1,10 +1,6 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace PKHeX.Core
 {
     public static class LegalityCheckStrings

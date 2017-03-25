@@ -423,10 +423,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (HasOriginalMetLocation)
-                    return Egg_Location > 0;
-                return _WasEgg;
-            } set { _WasEgg = value; }
+                return Egg_Location > 0 || _WasEgg;
+            }
+            set { _WasEgg = value; }
         }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;

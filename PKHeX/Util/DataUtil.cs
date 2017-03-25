@@ -7,7 +7,6 @@ namespace PKHeX.Core
 {
     public partial class Util
     {
-
         private const string TranslationSplitter = " = ";
 
         #region String Lists        
@@ -131,7 +130,7 @@ namespace PKHeX.Core
             catch { return null; }
         }
 
-#region Non-Form Translation
+        #region Non-Form Translation
         /// <summary>
         /// Gets the names of the properties defined in the given input
         /// </summary>
@@ -170,9 +169,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies localization to a static class containing language-specific strings.
         /// </summary>
-        /// <typeparam name="T">Type of the static class containing the desired strings.</typeparam>
+        /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="lines">Lines containing the localized strings</param>
-        public static void setLocalization(Type t, IEnumerable<string> lines)
+        private static void setLocalization(Type t, IEnumerable<string> lines)
         {            
             if (lines == null)
                 return;
@@ -198,9 +197,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies localization to a static class containing language-specific strings.
         /// </summary>
-        /// <typeparam name="T">Type of the static class containing the desired strings.</typeparam>
+        /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="languageFilePrefix">Prefix of the language file to use.  Example: if the target is legality_en.txt, <paramref name="languageFilePrefix"/> should be "legality".</param>
-        public static void setLocalization(Type t, string languageFilePrefix)
+        private static void setLocalization(Type t, string languageFilePrefix)
         {
             setLocalization(t, getStringList($"{languageFilePrefix}_{Thread.CurrentThread.CurrentCulture.Name.Substring(0, 2)}"));
         }
@@ -208,14 +207,14 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies localization to a static class containing language-specific strings.
         /// </summary>
-        /// <typeparam name="T">Type of the static class containing the desired strings.</typeparam>
+        /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <remarks>The values used to translate the given static class are retrieved from [TypeName]_[CurrentLangCode2].txt in the resource manager of PKHeX.Core.</remarks>
         public static void setLocalization(Type t)
         {
             setLocalization(t, t.Name);
         }
 
-#endregion
+        #endregion
 
         #region DataSource Providing
         public static List<ComboItem> getCBList(string textfile, string lang)

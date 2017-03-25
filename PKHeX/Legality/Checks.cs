@@ -318,8 +318,6 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
             else
                 AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
-
-            return;
         }
 
         private void verifyEVs()
