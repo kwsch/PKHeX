@@ -258,10 +258,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 384, Level = 70, Location = 085, }, // Rayquaza @ Sky Pillar
 
             // Event
-            new EncounterStatic { Species = 151, Level = 30, Location = 201, Version = GameVersion.E, }, // Mew @ Faraway Island
+            new EncounterStatic { Species = 151, Level = 30, Location = 201, Version = GameVersion.E, Fateful = true }, // Mew @ Faraway Island
             new EncounterStatic { Species = 249, Level = 70, Location = 211, Version = GameVersion.E, }, // Lugia @ Navel Rock
             new EncounterStatic { Species = 250, Level = 70, Location = 211, Version = GameVersion.E, }, // Ho-Oh @ Navel Rock
-            new EncounterStatic { Species = 386, Level = 30, Location = 200, Version = GameVersion.E, Form = 3 }, // Deoxys @ Birth Island
+            new EncounterStatic { Species = 386, Level = 30, Location = 200, Version = GameVersion.E, Form = 3, Fateful = true }, // Deoxys @ Birth Island
         };
 
 
@@ -306,8 +306,8 @@ namespace PKHeX.Core
             // Event
             new EncounterStatic { Species = 249, Level = 70, Location = 174, }, // Lugia @ Navel Rock
             new EncounterStatic { Species = 250, Level = 70, Location = 174, }, // Ho-Oh @ Navel Rock
-            new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.FR, Form = 1 }, // Deoxys @ Birth Island
-            new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2 }, // Deoxys @ Birth Island
+            new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.FR, Form = 1, Fateful = true }, // Deoxys @ Birth Island
+            new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
         internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(Encounter_Box).ToArray();

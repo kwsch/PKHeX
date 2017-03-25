@@ -520,9 +520,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 555, Level = 35, Location = 34, Ability = 4, }, //Darmanitan @ Desert Resort
             new EncounterStatic { Species = 637, Level = 70, Location = 35, }, //Volcarona @ Relic Castle
             //Stationary Lengerdary
-            new EncounterStatic { Species = 638, Level = 42, Location = 54,}, //Cobalion @ Mistralton Cave
-            new EncounterStatic { Species = 639, Level = 42, Location = 40,}, //Terrakion @ Victory Road
-            new EncounterStatic { Species = 640, Level = 42, Location = 33,}, //Virizion @ Pinwheel Forest
+            new EncounterStatic { Species = 638, Level = 42, Location = 74,}, //Cobalion @ Guidance Chamber
+            new EncounterStatic { Species = 639, Level = 42, Location = 73,}, //Terrakion @ Trial Chamber
+            new EncounterStatic { Species = 640, Level = 42, Location = 55,}, //Virizion @ Rumination Field
             new EncounterStatic { Species = 643, Level = 50, Location = 45, Shiny = false, Version = GameVersion.B, }, //Reshiram @ N'Castle
             new EncounterStatic { Species = 643, Level = 50, Location = 39, Shiny = false, Version = GameVersion.B, }, //Reshiram @ Dragonspiral Tower
             new EncounterStatic { Species = 644, Level = 50, Location = 45, Shiny = false, Version = GameVersion.W, }, //Zekrom @ N'Castle

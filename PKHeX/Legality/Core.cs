@@ -1130,6 +1130,7 @@ namespace PKHeX.Core
                 if (wc.IsEgg)
                 {
                     if (wc.Egg_Location + 3000 != pkm.Egg_Location) continue;
+                    if (wc.CurrentLevel != pkm.Met_Level) continue;
                 }
                 else
                 {
@@ -1144,11 +1145,15 @@ namespace PKHeX.Core
                             valid = pkm.Met_Location == 30012 || pkm.Met_Location == 30013; // unused || used
                         if (!valid)
                             continue;
+                        if (wc.CurrentLevel > pkm.Met_Level) continue;
                     }
-                    else if (wc.Egg_Location + 3000 != pkm.Met_Location) continue;
+                    else
+                    {
+                        if (wc.Egg_Location + 3000 != pkm.Met_Location) continue;
+                        if (wc.CurrentLevel != pkm.Met_Level) continue;
+                    }
                 }
 
-                if (wc.CurrentLevel != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
                 if (wc.PID == 1 && pkm.IsShiny) continue;
