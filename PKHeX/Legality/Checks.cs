@@ -618,7 +618,7 @@ namespace PKHeX.Core
                     break;
                 case 710: // Pumpkaboo
                 case 711: // Goregeist
-                    if (pkm.AltForm != 1) // Average
+                    if (pkm.AltForm != 0) // Average
                         return new CheckResult(Severity.Invalid, V6, CheckIdentifier.Encounter);
                     break;
                 case 586: // Sawsbuck
