@@ -548,6 +548,28 @@ namespace PKHeX.Core
         }
 
         // Moves
+        internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref int[][] validLevelMoves, ref int[][] validTMHM, ref int[][] validTutor)
+        {
+            IEnumerable<int> AllMoves = new List<int>();
+            if (pkm.Format > 3)
+            {
+                for (int i = evoChains.Length - 1; i > 0; i--)
+                {
+                    validLevelMoves[i] = validLevelMoves[i].Except(AllMoves).ToArray();
+                    validTMHM[i] = validTMHM[i].Except(AllMoves).ToArray();
+                    validTutor[i] = validTutor[i].Except(AllMoves).ToArray();
+                    AllMoves = AllMoves.Concat(validLevelMoves[i]).Concat(validTMHM[i]).Concat(validTutor[i]);
+                }
+            }
+            else
+            {
+                int tradeback = (pkm.Format == 2) ? 1 : 2;
+                var formatmoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]);
+                validLevelMoves[tradeback] = validLevelMoves[tradeback].Except(formatmoves).ToArray();
+                validTMHM[tradeback] = validTMHM[tradeback].Except(formatmoves).ToArray();
+                validTutor[tradeback] = validTutor[tradeback].Except(formatmoves).ToArray();
+            }
+        }
         internal static int[][] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             int[][] Moves = new int[evoChains.Length][];
