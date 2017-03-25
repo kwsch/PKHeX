@@ -548,6 +548,13 @@ namespace PKHeX.Core
         }
 
         // Moves
+        internal static int[][] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        {
+            int[][] Moves = new int[evoChains.Length][];
+            for (int i = 1; i < evoChains.Length; i++)
+                Moves[i] = getValidMoves(pkm, evoChains[i], i, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToArray();
+            return Moves;
+        }
         internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
