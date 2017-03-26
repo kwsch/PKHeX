@@ -1371,6 +1371,25 @@ namespace PKHeX.Core
                     return null;
             }
         }
+
+        internal static int[] getSplitBreedGeneration(PKM pkm)
+        {
+            return getSplitBreedGeneration(pkm.GenNumber);
+        }
+        internal static int[] getSplitBreedGeneration(int generation)
+        {
+            switch (generation)
+            {
+                case 1: return new int[0];
+                case 2: return new int[0];
+                case 3: return SplitBreed_3;
+                case 4: return SplitBreed;
+                case 5: return SplitBreed;
+                case 6: return SplitBreed;
+                case 7: return SplitBreed;
+                default: return new int[0];
+            }
+        }
         internal static int getMaxSpeciesOrigin(PKM pkm)
         {
             if (pkm.Format == 1 || pkm.VC1) // Gen1 VC could not trade with gen 2 yet
@@ -1472,7 +1491,7 @@ namespace PKHeX.Core
             var curr = getValidPreEvolutions(pkm);
             var poss = getValidPreEvolutions(pkm, 100, skipChecks: true);
 
-            if (SplitBreed.Contains(getBaseSpecies(pkm, 1)))
+            if (getSplitBreedGeneration(pkm).Contains(getBaseSpecies(pkm, 1)))
                 return curr.Count() >= poss.Count() - 1;
             return curr.Count() >= poss.Count();
         }

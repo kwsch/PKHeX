@@ -325,7 +325,11 @@ namespace PKHeX.Core
         public static string V337 {get; set;} = "Event Egg Move. Incompatible with normal egg moves.";
         public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to generation 5.";
         public static string V339 {get; set;} = "Generation {0} HM. Should have been removed before transfered to generation {1}.";
+        public static string V340 {get; set;} = "Not an expected egg move.";
+        public static string V341 {get; set;} = "Egg Move.Not expected in an event egg.";
+        public static string V342 {get; set;} = "Event egg move missing.";
+        public static string V343 {get; set;} = "Expected the following Moves: { 0}";
         #endregion
 
-    }
+        }
 }
