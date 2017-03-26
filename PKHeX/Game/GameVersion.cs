@@ -52,19 +52,21 @@
             switch (g1)
             {
                 case GameVersion.RBY:
-                case GameVersion.Gen1:
                     return (g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.YW || g2 == GameVersion.GN);
+                case GameVersion.Gen1:
+                    return ( GameVersion.RBY.Contains(g2) || g2 == GameVersion.SPECIAL);
 
                 case GameVersion.GS: return (g2 == GameVersion.GD || g2 == GameVersion.SV);
                 case GameVersion.GSC:
-                case GameVersion.Gen2:
                     return (GameVersion.GS.Contains(g2) || g2 == GameVersion.C);
+                case GameVersion.Gen2:
+                    return (GameVersion.GSC.Contains(g2) || g2 == GameVersion.SPECIAL);
 
                 case GameVersion.RS: return (g2 == GameVersion.R || g2 == GameVersion.S);
                 case GameVersion.FRLG: return (g2 == GameVersion.FR || g2 == GameVersion.LG);
                 case GameVersion.CXD: return (g2 == GameVersion.COLO || g2 == GameVersion.XD);
                 case GameVersion.Gen3:
-                    return (GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2) || GameVersion.CXD.Contains(g2));
+                    return (GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2) || GameVersion.CXD.Contains(g2) || g2 == GameVersion.RSBOX);
 
                 case GameVersion.DP: return (g2 == GameVersion.D || g2 == GameVersion.P);
                 case GameVersion.HGSS: return (g2 == GameVersion.HG || g2 == GameVersion.SS);
