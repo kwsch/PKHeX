@@ -729,7 +729,7 @@ namespace PKHeX.Core
 
             if (pkm.Gen4 && !pkm.HasOriginalMetLocation)
             {
-                return verifyEncounterG3Transfer();
+                return verifyEncounterG4Transfer();
             }
 
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
@@ -839,7 +839,7 @@ namespace PKHeX.Core
                 CrownLocation = pkm.Species == 251 ? 30010 : 30012; // Celebi : Beast
             
             if (pkm.Met_Location != 30001 && (!AllowCrownLocation || pkm.Met_Location != CrownLocation))
-                InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
+                InvalidTransferResult = new CheckResult(Severity.Invalid, AllowCrownLocation ? V351 : V61, CheckIdentifier.Encounter);
 
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)

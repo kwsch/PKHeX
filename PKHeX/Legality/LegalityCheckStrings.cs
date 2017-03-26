@@ -336,7 +336,8 @@ namespace PKHeX.Core
         public static string V347 {get; set;} = "Inherited move learned by Level-up.Not expected in an event egg.";
         public static string V348 {get; set;} = "Inherited tutor move. Not expected in an event egg.";
         public static string V350 {get; set;} = "Inherited TM/HM move. Not expected in an event egg.";
+        public static string V351 {get; set;} = "Invalid Met Location, expected Transporter or Crown."; // Invalid
         #endregion
 
-        }
+    }
 }
