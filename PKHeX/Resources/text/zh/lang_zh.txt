@@ -80,7 +80,7 @@ Label_SubRegion = 地区:
 Label_3DSRegion = 3DS区域:
 ---------------------Met Tab Data-----------------------
 Tab_Met = 相遇
-Label_OriginGame = 原始版本:
+Label_OriginGame = 来源版本:
 Label_MetLocation = 地点:
 Label_Ball = 精灵球种类:
 Label_MetLevel = 相遇时等级:
