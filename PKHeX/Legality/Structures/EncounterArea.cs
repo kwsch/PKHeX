@@ -380,7 +380,7 @@ namespace PKHeX.Core
                 if (baseSlot.LevelMin <= 0)
                     continue;
 
-                int species = BitConverter.ToInt32(data, ofs + i * slotSize);
+                int species = BitConverter.ToUInt16(data, ofs + i * slotSize);
                 if (species <= 0)
                     continue;
 
