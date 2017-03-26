@@ -194,12 +194,54 @@ namespace PKHeX.Core
         {
             ReduceAreasSize(ref Areas);
         }
+        private static void MarkG3SlotsSafariZones(ref EncounterArea[] Areas, int location)
+        {
+            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    SlotType t;
+                    switch (Slot.Type)
+                    {
+                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
+                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
+                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
+                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
+                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
+                        case SlotType.Rock_Smash: t = SlotType.Rock_Smash_Safari; break;
+                        default: continue;
+                    }
+                    Slot.Type = t;
+                }
+            }
+        }
         private static void MarkG4PokeWalker(ref EncounterStatic[] t)
         {
             foreach (EncounterStatic s in t)
             {
                 s.Location = 233;  //Pokéwalker
                 s.Gift = true;    //Pokeball only
+            }
+        }
+        private static void MarkG4SlotsGreatMarsh(ref EncounterArea[] Areas, int location)
+        {
+            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    SlotType t;
+                    switch (Slot.Type)
+                    {
+                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
+                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
+                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
+                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
+                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
+                        case SlotType.Pokeradar: t = SlotType.Pokeradar_Safari; break;
+                        default: continue;
+                    }
+                    Slot.Type = t;
+                }
             }
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
@@ -416,6 +458,11 @@ namespace PKHeX.Core
                 MarkG3Slots_RSE(ref E_Slots);
                 MarkG3Slots_FRLG(ref FR_Slots);
                 MarkG3Slots_FRLG(ref LG_Slots);
+                MarkG3SlotsSafariZones(ref R_Slots, 57);
+                MarkG3SlotsSafariZones(ref S_Slots, 57);
+                MarkG3SlotsSafariZones(ref E_Slots, 57);
+                MarkG3SlotsSafariZones(ref FR_Slots, 136);
+                MarkG3SlotsSafariZones(ref LG_Slots, 136);
 
                 SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
                 SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
@@ -478,6 +525,10 @@ namespace PKHeX.Core
                 MarkG4Slots(ref SS_Slots);
                 MarkG4Slots(ref HG_Headbutt_Slots);
                 MarkG4Slots(ref SS_Headbutt_Slots);
+
+                MarkG4SlotsGreatMarsh(ref D_Slots, 52);
+                MarkG4SlotsGreatMarsh(ref P_Slots, 52);
+                MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
                 SlotsD = addExtraTableSlots(D_Slots, D_HoneyTrees_Slots, SlotsDPPPtAlt, DP_Trophy);
                 SlotsP = addExtraTableSlots(P_Slots, P_HoneyTrees_Slots, SlotsDPPPtAlt, DP_Trophy);
@@ -766,6 +817,14 @@ namespace PKHeX.Core
                     return null;
             }
         }
+        internal static bool IsSafariSlot(SlotType t)
+        {
+            if (t == SlotType.Grass_Safari || t == SlotType.Surf_Safari || 
+                t == SlotType.Rock_Smash_Safari || t == SlotType.Pokeradar_Safari ||
+                t == SlotType.Old_Rod_Safari || t == SlotType.Good_Rod_Safari || t == SlotType.Super_Rod_Safari)
+                return true;
+            return false;
+        }
         internal static EncounterSlot[] getValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -775,6 +834,27 @@ namespace PKHeX.Core
 
             foreach (var area in getEncounterAreas(pkm, gameSource))
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
+
+            if(s.Count() > 1 && 3 <= pkm.GenNumber && pkm.GenNumber <= 4 && !pkm.HasOriginalMetLocation)
+            {
+                // If has original met location or there is only one possible slot does not check safari zone nor bug contest
+                // defer to ball legality
+                var IsSafariBall = pkm.Ball == 5;
+                var s_Safari = IsSafariBall ? s.Where(slot => IsSafariSlot(slot.Type)) : s.Where(slot => !IsSafariSlot(slot.Type));
+                if (s_Safari.Any())
+                    // safari ball only in safari zones and non safari ball only outside safari zones
+                    s = s_Safari.ToList();
+
+                if (s.Count() > 1 && pkm.GenNumber == 4)
+                {
+                    var IsSportsBall = pkm.Ball == 0x18;
+                    var s_BugContest = IsSportsBall ? s.Where(slot => slot.Type == SlotType.BugContest) : s.Where(slot => slot.Type != SlotType.BugContest);
+                    if (s_BugContest.Any())
+                        // sport ball only in bug contest and non sport balls only outside bug contest
+                        return s_BugContest.ToArray();
+                }
+            }
+
             return s.Any() ? s.ToArray() : null;
         }
         internal static EncounterStatic getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)

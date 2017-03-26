@@ -22,5 +22,13 @@
         Pokeradar,
         HoneyTree,
         HiddenGrotto,
+        BugContest,
+        Grass_Safari,
+        Surf_Safari,
+        Old_Rod_Safari,
+        Good_Rod_Safari,
+        Super_Rod_Safari,
+        Rock_Smash_Safari,
+        Pokeradar_Safari
     }
 }
