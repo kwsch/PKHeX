@@ -2112,7 +2112,7 @@ namespace PKHeX.Core
 
             return new[] { GameVersion.GS, GameVersion.C };
         }
-        private GameVersion getBaseGamesWasEgg()
+        private GameVersion getBaseGamesIsEgg()
         {
             switch (pkm.GenNumber)
             {
@@ -2165,7 +2165,7 @@ namespace PKHeX.Core
             CheckResult[] res = new CheckResult[4];
             var ValidSpecialMoves = SpecialMoves.Where(m => m > 0);
             // Some games can have different egg movepools. Have to check all situations.
-            GameVersion ver = getBaseGamesWasEgg();
+            GameVersion ver = getBaseGamesIsEgg();
             int splitctr = Legal.getSplitBreedGeneration(pkm).Contains(pkm.Species) ? 1 : 0;
             for (int i = 0; i <= splitctr; i++)
             {
@@ -2208,7 +2208,7 @@ namespace PKHeX.Core
                     Games = getBaseGamesWasEggGen2();
                     break;
                 case 3: // Generation 3 does not overwrite source game after pokemon hatched
-                    Games = new[] { getBaseGamesWasEgg() };
+                    Games = new[] { getBaseGamesIsEgg() };
                     break;
                 case 4:
                     Games = new[] { GameVersion.DP, GameVersion.Pt, GameVersion.HGSS };

@@ -1665,7 +1665,7 @@ namespace PKHeX.Core
             if (pkm.Species == 700 && generation == 5)
                 return pkm.CurrentLevel - 1;
 
-            if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUp.Contains(pkm.Species))
+            if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUpGen4.Contains(pkm.Species))
                 return pkm.Met_Level - 1;
 
             if (!pkm.HasOriginalMetLocation)
