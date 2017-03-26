@@ -2094,6 +2094,10 @@ namespace PKHeX.Core
             GameVersion[] Games = { };
             switch (pkm.GenNumber)
             {
+                case 1:
+                case 2:
+                    Games = new[] { GameVersion.GS, GameVersion.C };
+                    break;
                 case 3:
                     Games = new[] { GameVersion.RS, GameVersion.E, GameVersion.FRLG };
                     break;
@@ -2110,7 +2114,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i <= splitctr; i++)
                 {
-                    var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100).ToArray();
+                    var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
                     res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, baseEggMoves, ver);
                     if (res.All(r => r.Valid)) // moves is satisfactory
                         return res;

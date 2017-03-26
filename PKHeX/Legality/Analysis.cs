@@ -232,7 +232,7 @@ namespace PKHeX.Core
                 verifyRegion();
                 verifyVersionEvolution();
             }
-            if (pkm.GenNumber < 5)
+            if (pkm.GenNumber <= 5)
                 verifyEggMoves();
 
             // SecondaryChecked = true;

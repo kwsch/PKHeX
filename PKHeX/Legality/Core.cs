@@ -667,6 +667,15 @@ namespace PKHeX.Core
 
             switch (gameSource)
             {
+                case GameVersion.GS:
+                    if (pkm.InhabitedGeneration(2))
+                        return LevelUpGS[species].getMoves(lvl);
+                    break;
+                case GameVersion.C:
+                    if (pkm.InhabitedGeneration(2))
+                        return LevelUpC[species].getMoves(lvl);
+                    break;
+
                 case GameVersion.R:
                 case GameVersion.S:
                 case GameVersion.RS:

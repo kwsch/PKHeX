@@ -3027,8 +3027,9 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 4; i++)
                 movePB[i].Visible = !Legality.vMoves[i].Valid;
             
+            if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
-                relearnPB[i].Visible = !Legality.vRelearn[i].Valid && pkm.Format >= 6;
+                relearnPB[i].Visible = !Legality.vRelearn[i].Valid;
 
             if (skipMoveRepop)
                 return;
