@@ -738,8 +738,19 @@ namespace PKHeX.Core
 
                 EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
             }
-            
-            if (pkm.WasEgg)
+
+            if(pkm.Gen3 && !pkm.HasOriginalMetLocation)
+            {
+                bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
+                if(WasEgg)
+                {
+                    pkm.WasEgg = true;
+                    var v = verifyEncounterEgg();
+                    if (v.Valid)
+                        return v;
+                }
+            }
+            else if (pkm.WasEgg)
                 return verifyEncounterEgg();
             
             if (null != (EncounterMatch = Legal.getValidFriendSafari(pkm)))
@@ -2201,6 +2212,16 @@ namespace PKHeX.Core
         private CheckResult[] verifyMovesWasEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
             CheckResult[] res = new CheckResult[4];
+
+            if(pkm.GenNumber == 3 && !pkm.HasOriginalMetLocation && EncounterMatch !=null)
+            {
+                if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
+                    res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+                else // Everything else
+                    res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], GameVersion.Any);
+                if (res.All(r => r.Valid)) // moves is satisfactory
+                    return res;
+            }
 
             // Some games can have different egg movepools. Have to check all situations.
             GameVersion[] Games = { };
