@@ -22,5 +22,6 @@
         Pokeradar,
         HoneyTree,
         HiddenGrotto,
+        BugContest,
     }
 }

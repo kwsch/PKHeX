@@ -562,6 +562,11 @@ namespace PKHeX.Core
         internal static readonly int[] Slot4_Radar = {6, 7, 10, 11};
         internal static readonly int[] Slot4_Dual = {8, 9};
         #region Alt Slots
+        internal static readonly int[] SafariZoneLocation_4 =
+        {
+            52, 202
+        };
+
         private static readonly EncounterArea[] SlotsDPPPtAlt =
         {
             new EncounterArea {
@@ -582,6 +587,52 @@ namespace PKHeX.Core
             new EncounterArea {
                 Location = 209, // Ruins of Alph
                 Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+            },
+            new EncounterArea
+            {
+                // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon
+                Location = 207, // National Park Catching Contest
+                Slots = new[]
+                {
+                    // Bug Contest Pre-National Pokédex
+                    new EncounterSlot { Species = 010, LevelMin = 07, LevelMax = 08, Type = SlotType.BugContest }, // Caterpie
+                    new EncounterSlot { Species = 011, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest }, // Metapod
+                    new EncounterSlot { Species = 012, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest }, // Butterfree
+                    new EncounterSlot { Species = 013, LevelMin = 07, LevelMax = 08, Type = SlotType.BugContest }, // Weedle
+                    new EncounterSlot { Species = 014, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest }, // Kakuna
+                    new EncounterSlot { Species = 015, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest }, // Beedrill
+                    new EncounterSlot { Species = 046, LevelMin = 10, LevelMax = 17, Type = SlotType.BugContest }, // Paras
+                    new EncounterSlot { Species = 048, LevelMin = 10, LevelMax = 16, Type = SlotType.BugContest }, // Venonat
+                    new EncounterSlot { Species = 123, LevelMin = 13, LevelMax = 14, Type = SlotType.BugContest }, // Scyther
+                    new EncounterSlot { Species = 127, LevelMin = 13, LevelMax = 14, Type = SlotType.BugContest }, // Pinsir
+                    // Bug Contest Tuesday Post-National Pokédex
+                    new EncounterSlot { Species = 010, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Caterpie
+                    new EncounterSlot { Species = 011, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Metapod
+                    new EncounterSlot { Species = 012, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Butterfree
+                    new EncounterSlot { Species = 013, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Weedle
+                    new EncounterSlot { Species = 014, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Kakuna
+                    new EncounterSlot { Species = 015, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Beedrill
+                    new EncounterSlot { Species = 046, LevelMin = 27, LevelMax = 34, Type = SlotType.BugContest }, // Paras
+                    new EncounterSlot { Species = 048, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest }, // Venonat
+                    new EncounterSlot { Species = 123, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Scyther
+                    new EncounterSlot { Species = 127, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Pinsir
+                    // Bug Contest Thursday and Saturday Post-National Pokédex
+                    new EncounterSlot { Species = 123, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Scyther
+                    new EncounterSlot { Species = 127, LevelMin = 27, LevelMax = 28, Type = SlotType.BugContest }, // Pinsir
+                    new EncounterSlot { Species = 265, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Wurmple
+                    new EncounterSlot { Species = 401, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Kricketot
+                    new EncounterSlot { Species = 402, LevelMin = 27, LevelMax = 30, Type = SlotType.BugContest }, // Kricketune
+                    new EncounterSlot { Species = 415, LevelMin = 27, LevelMax = 34, Type = SlotType.BugContest }, // Combee
+                    new EncounterSlot { Species = 290, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Nincada
+                    // Bug Contest Thursday Post-National Pokédex
+                    new EncounterSlot { Species = 266, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Silcoon
+                    new EncounterSlot { Species = 269, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest }, // Dustox
+                    new EncounterSlot { Species = 313, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Volbear
+                    // Bug Contest Saturday Post-National Pokédex
+                    new EncounterSlot { Species = 268, LevelMin = 24, LevelMax = 36, Type = SlotType.BugContest }, // Cascoon
+                    new EncounterSlot { Species = 267, LevelMin = 25, LevelMax = 32, Type = SlotType.BugContest }, // Beautifly
+                    new EncounterSlot { Species = 314, LevelMin = 26, LevelMax = 36, Type = SlotType.BugContest }, // Illumise
+                }
             },
             new EncounterArea
             {

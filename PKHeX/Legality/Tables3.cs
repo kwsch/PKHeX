@@ -353,6 +353,10 @@ namespace PKHeX.Core
         };
 
         #region AltSlots
+        internal static readonly int[] SafariZoneLocation_3 =
+        {
+            57, 136
+        };
         private static readonly EncounterArea[] SlotsRSEAlt =
         {
             // Swarm can be passed from one game to another via mixing records, that means emerald swarms can occurs in r/s and r/s swarms in emerald
