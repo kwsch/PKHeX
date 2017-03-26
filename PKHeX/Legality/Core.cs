@@ -625,6 +625,8 @@ namespace PKHeX.Core
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Any())
                     Moves[i] = getValidMoves(pkm, evoChains[i], i, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
+                else
+                    Moves[i] = new List<int>();
             return Moves;
         }
         internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
