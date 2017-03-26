@@ -637,6 +637,7 @@ namespace PKHeX.Core
             new EncounterArea
             {
                 // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon
+                // Commented encounters are document in bulbapedia but level values are uknown
                 Location = 202, // Johto Safari Zone
                 Slots = new[]
                 {
@@ -863,7 +864,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 118, LevelMin = 22, LevelMax = 22, Type = SlotType.Good_Rod_Safari }, // Goldeen
                     new EncounterSlot { Species = 118, LevelMin = 35, LevelMax = 38, Type = SlotType.Super_Rod_Safari }, // Goldeen
                     new EncounterSlot { Species = 119, LevelMin = 36, LevelMax = 37, Type = SlotType.Super_Rod_Safari }, // Seaking
-                    new EncounterSlot { Species = 129, LevelMin = 41974, LevelMax = 41974, Type = SlotType.Old_Rod_Safari }, // Magikarp
+                    new EncounterSlot { Species = 129, LevelMin = 12, LevelMax = 14, Type = SlotType.Old_Rod_Safari }, // Magikarp
                     new EncounterSlot { Species = 129, LevelMin = 22, LevelMax = 22, Type = SlotType.Good_Rod_Safari }, // Magikarp
                     new EncounterSlot { Species = 129, LevelMin = 15, LevelMax = 16, Type = SlotType.Surf_Safari }, // Magikarp
                     new EncounterSlot { Species = 131, LevelMin = 15, LevelMax = 16, Type = SlotType.Surf_Safari }, // Lapras
