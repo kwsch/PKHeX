@@ -729,7 +729,12 @@ namespace PKHeX.Core
                 if (result != null)
                     return result;
             }
-            
+
+            if (pkm.Gen3 && !pkm.HasOriginalMetLocation)
+            {
+                return verifyEncounterG3Transfer();
+            }
+
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 var result = verifyEncounterStatic();
@@ -739,18 +744,7 @@ namespace PKHeX.Core
                 EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
             }
 
-            if(pkm.Gen3 && !pkm.HasOriginalMetLocation)
-            {
-                bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
-                if(WasEgg)
-                {
-                    pkm.WasEgg = true;
-                    var v = verifyEncounterEgg();
-                    if (v.Valid)
-                        return v;
-                }
-            }
-            else if (pkm.WasEgg)
+            if (pkm.WasEgg)
                 return verifyEncounterEgg();
             
             if (null != (EncounterMatch = Legal.getValidFriendSafari(pkm)))
@@ -765,6 +759,52 @@ namespace PKHeX.Core
             return wasEvent
                 ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter) 
                 : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+        }
+
+        private CheckResult verifyEncounterG3Transfer()
+        {
+            CheckResult EggResult = null;
+            CheckResult NonEggResult = null;
+            bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
+            if (WasEgg)
+            {
+                pkm.WasEgg = true;
+                EggResult = verifyEncounterEgg3Transfer();
+            }
+
+            if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            {
+                NonEggResult = verifyEncounterStatic();
+            }
+
+            if (NonEggResult !=null)
+            {
+                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
+                if (null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+                    NonEggResult = verifyEncounterWild();
+
+                if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+                    NonEggResult = verifyEncounterTrade();
+            }
+
+            // Even if EggResult is not returned WasEgg is keep true to check in verifymoves first the 
+            // non egg encounter moves and after that egg encounter moves, because there is no way to tell 
+            // what of the two encounters was the real origin
+            if (EggResult != null && NonEggResult!=null)
+            {
+                // Return the valid result of both, with non egg preference, 
+                // there is more data in the pkm for non egg encounters
+                if (NonEggResult.Valid)
+                    return NonEggResult;
+                if (EggResult.Valid)
+                    return EggResult;
+                // if both are invalid returns non egg information, because 
+                // there is more data in the pokemon to found normal encounter
+                return NonEggResult;
+            }
+
+            return NonEggResult ?? EggResult;
+
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
