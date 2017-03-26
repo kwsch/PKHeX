@@ -2084,10 +2084,10 @@ namespace PKHeX.Core
                     res = verifyMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
                 }
             }
-            else if (pkm.WasEgg && pkm.GenNumber < 6)
-                res = verifyMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
             else if (pkm.Species == 235) // Smeargle can have any move except a few
                 res = parseMovesSketch(Moves);
+            else if (pkm.WasEgg && pkm.GenNumber < 6)
+                res = verifyMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
             else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
                 res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
             else // Everything else
