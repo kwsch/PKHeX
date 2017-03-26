@@ -337,6 +337,8 @@ namespace PKHeX.Core
         public static string V348 {get; set;} = "Inherited tutor move. Not expected in an event egg.";
         public static string V350 {get; set;} = "Inherited TM/HM move. Not expected in an event egg.";
         public static string V351 {get; set;} = "Invalid Met Location, expected Transporter or Crown."; // Invalid
+        public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
+        public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         #endregion
 
     }

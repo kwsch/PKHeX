@@ -659,6 +659,15 @@ namespace PKHeX.Core
         {
             var s = (EncounterStatic)EncounterMatch;
 
+            if (pkm.GenNumber == 4 && pkm.Species == 493 && s.Location == 086)
+            {
+                  return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
+            }
+            if (pkm.GenNumber == 3 && pkm.Species == 151 && s.Location == 201 && pkm.Language != 1)
+            {
+                return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
+            }
+
             // Re-parse relearn moves
             if (s.EggLocation != 60002 || vRelearn.Any(rl => !rl.Valid))
             {
