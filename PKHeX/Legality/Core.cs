@@ -194,12 +194,54 @@ namespace PKHeX.Core
         {
             ReduceAreasSize(ref Areas);
         }
+        private static void MarkG3SlotsSafariZones(ref EncounterArea[] Areas, int location)
+        {
+            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    SlotType t;
+                    switch (Slot.Type)
+                    {
+                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
+                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
+                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
+                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
+                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
+                        case SlotType.Rock_Smash: t = SlotType.Rock_Smash_Safari; break;
+                        default: continue;
+                    }
+                    Slot.Type = t;
+                }
+            }
+        }
         private static void MarkG4PokeWalker(ref EncounterStatic[] t)
         {
             foreach (EncounterStatic s in t)
             {
                 s.Location = 233;  //Pokéwalker
                 s.Gift = true;    //Pokeball only
+            }
+        }
+        private static void MarkG4SlotsGreatMarsh(ref EncounterArea[] Areas, int location)
+        {
+            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    SlotType t;
+                    switch (Slot.Type)
+                    {
+                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
+                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
+                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
+                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
+                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
+                        case SlotType.Pokeradar: t = SlotType.Pokeradar_Safari; break;
+                        default: continue;
+                    }
+                    Slot.Type = t;
+                }
             }
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
@@ -416,6 +458,11 @@ namespace PKHeX.Core
                 MarkG3Slots_RSE(ref E_Slots);
                 MarkG3Slots_FRLG(ref FR_Slots);
                 MarkG3Slots_FRLG(ref LG_Slots);
+                MarkG3SlotsSafariZones(ref R_Slots, 57);
+                MarkG3SlotsSafariZones(ref S_Slots, 57);
+                MarkG3SlotsSafariZones(ref E_Slots, 57);
+                MarkG3SlotsSafariZones(ref FR_Slots, 136);
+                MarkG3SlotsSafariZones(ref LG_Slots, 136);
 
                 SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
                 SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
@@ -478,6 +525,10 @@ namespace PKHeX.Core
                 MarkG4Slots(ref SS_Slots);
                 MarkG4Slots(ref HG_Headbutt_Slots);
                 MarkG4Slots(ref SS_Headbutt_Slots);
+
+                MarkG4SlotsGreatMarsh(ref D_Slots, 52);
+                MarkG4SlotsGreatMarsh(ref P_Slots, 52);
+                MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
                 SlotsD = addExtraTableSlots(D_Slots, D_HoneyTrees_Slots, SlotsDPPPtAlt, DP_Trophy);
                 SlotsP = addExtraTableSlots(P_Slots, P_HoneyTrees_Slots, SlotsDPPPtAlt, DP_Trophy);
@@ -768,7 +819,9 @@ namespace PKHeX.Core
         }
         internal static bool IsSafariSlot(SlotType t)
         {
-            if (t == SlotType.Grass_Safari || t == SlotType.Surf_Safari || t == SlotType.Old_Rod_Safari || t == SlotType.Good_Rod_Safari || t == SlotType.Super_Rod_Safari)
+            if (t == SlotType.Grass_Safari || t == SlotType.Surf_Safari || 
+                t == SlotType.Rock_Smash_Safari || t == SlotType.Pokeradar_Safari ||
+                t == SlotType.Old_Rod_Safari || t == SlotType.Good_Rod_Safari || t == SlotType.Super_Rod_Safari)
                 return true;
             return false;
         }
