@@ -590,7 +590,7 @@ namespace PKHeX.Core
             },
             new EncounterArea
             {
-                // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon
+                // Source http://bulbapedia.bulbagarden.net/wiki/Bug-Catching_Contest#Generation_IV
                 Location = 207, // National Park Catching Contest
                 Slots = new[]
                 {
