@@ -121,7 +121,8 @@ namespace PKHeX.Core
 
                 default: return null;
             }
-            return table?.Where(s => s.Version == GameVersion.Any || s.Version == Game).ToArray();
+            // Temp until wwwwwwzx Contains extension is merged into the master branch
+            return table?.Where(s => s.Version == GameVersion.Any || s.Version == Game || s.Version == GameVersion.RSBOX).ToArray();
         }
         private static EncounterArea[] getEncounterTables(GameVersion Game)
         {
@@ -1674,6 +1675,8 @@ namespace PKHeX.Core
         }
         internal static int getMinLevelEncounter(PKM pkm)
         {
+            if (pkm.Format == 3 && pkm.WasEgg)
+                return 5;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : getMaxLevelGeneration(pkm);
         }
         internal static int getMinLevelGeneration(PKM pkm)
