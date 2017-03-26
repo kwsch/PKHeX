@@ -2070,12 +2070,26 @@ namespace PKHeX.Core
             Legal.RemoveFutureMoves(pkm, EvoChainsAllGens, ref validLevelMoves, ref validTMHM, ref validTutor);
             CheckResult[] res;
             int[] Moves = pkm.Moves;
-            if (pkm.Species == 235) // Smeargle can have any move except a few
+            if (pkm.IsEgg && pkm.GenNumber < 6)
+            {
+                if(EventGiftMatch?.Count > 0)
+                    res = verifyMovesEggPreRelearnEvent(Moves);
+                else
+                {
+                    var SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
+                                       (EncounterMatch as EncounterStatic)?.Moves ??
+                                       (EncounterMatch as EncounterTrade)?.Moves ??
+                                       null;
+                    var allowinherited = SpecialMoves == null;
+                    res = verifyMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
+                }
+            }
+            else if (pkm.Species == 235) // Smeargle can have any move except a few
                 res = parseMovesSketch(Moves);
+            else if (pkm.WasEgg && pkm.GenNumber < 6)
+                res = verifyMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
             else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
                 res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
-            else if (pkm.WasEgg && pkm.GenNumber < 6)
-                res = verifyMovesEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
             else // Everything else
                 res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], game);
 
@@ -2086,7 +2100,105 @@ namespace PKHeX.Core
 
             return res;
         }
-        private CheckResult[] verifyMovesEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
+        private GameVersion[] getBaseMovesIsEggGames()
+        {
+            GameVersion[] Games = { };
+            switch (pkm.GenNumber)
+            {
+                case 1:
+                case 2:
+                    Games = new[] { GameVersion.GS, GameVersion.C };
+                    break;
+                case 3:
+                    switch((GameVersion)pkm.Version)
+                    {
+                        case GameVersion.R:
+                        case GameVersion.S:
+                            Games = new[] { GameVersion.RS};
+                            break;
+                        case GameVersion.E:
+                            Games = new[] { GameVersion.E };
+                            break;
+                        case GameVersion.FR:
+                        case GameVersion.LG:
+                            Games = new[] { GameVersion.FRLG };
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch ((GameVersion)pkm.Version)
+                    {
+                        case GameVersion.D:
+                        case GameVersion.P:
+                            Games = new[] { GameVersion.DP };
+                            break;
+                        case GameVersion.Pt:
+                            Games = new[] { GameVersion.Pt };
+                            break;
+                        case GameVersion.HG:
+                        case GameVersion.SS:
+                            Games = new[] { GameVersion.HGSS };
+                            break;
+                    }
+                    break;
+                case 5:
+                    switch ((GameVersion)pkm.Version)
+                    {
+                        case GameVersion.B:
+                        case GameVersion.W:
+                            Games = new[] { GameVersion.BW };
+                            break;
+                        case GameVersion.Pt:
+                            Games = new[] { GameVersion.Pt };
+                            break;
+                        case GameVersion.B2:
+                        case GameVersion.W2:
+                            Games = new[] { GameVersion.B2W2 };
+                            break;
+                    }
+                    break;
+            }
+            return Games;
+        }
+        private CheckResult[] verifyMovesIsEggPreRelearn(int[] Moves, int[] SpecialMoves, bool allowinherited)
+        {
+            CheckResult[] res = new CheckResult[4];
+            var ValidSpecialMoves = SpecialMoves.Where(m => m > 0);
+            // Some games can have different egg movepools. Have to check all situations.
+            GameVersion[] Games = getBaseMovesIsEggGames();
+            int splitctr = Legal.getSplitBreedGeneration(pkm).Contains(pkm.Species) ? 1 : 0;
+            foreach (var ver in Games)
+            {
+                for (int i = 0; i <= splitctr; i++)
+                {
+                    var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, pkm.GenNumber < 4 ? 5 : 1)?.ToList() ?? new List<int>();
+                    var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, i, ver, 100) ?? new List<int>();
+                    var EggMoves = Legal.getEggMoves(pkm, ver)?.ToList() ?? new List<int>();
+                    var InheritedTutorMoves = (ver == GameVersion.C) ? Legal.getTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2) : new int[0];
+                    // Only TM Hm moves from the source game of the egg, not any other games from the same generation
+                    var InheritedTMHMMoves = Legal.getTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, ver, false);
+                    InheritedLvlMoves = InheritedLvlMoves.Except(baseEggMoves);
+
+                    if (pkm.Format > 2 || SpecialMoves.Any()) 
+                    {
+                        // For gen 2 is not possible to difference normal eggs from event eggs
+                        // If there is no special moves assume normal egg
+                        res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, ValidSpecialMoves, allowinherited, ver);
+                        if (res.All(r => r.Valid)) // moves is satisfactory
+                            return res;
+                    }
+                    if(pkm.Format == 2)
+                    {
+                        // For gen 2 if does not match special egg check for normal egg too
+                        res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, new List<int>(), true, ver);
+                        if (res.All(r => r.Valid)) // moves is satisfactory
+                            return res;
+                    }
+                }
+            }
+            return res;
+        }
+        private CheckResult[] verifyMovesWasEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
             CheckResult[] res = new CheckResult[4];
 
@@ -2098,8 +2210,8 @@ namespace PKHeX.Core
                 case 2:
                     Games = new[] { GameVersion.GS, GameVersion.C };
                     break;
-                case 3:
-                    Games = new[] { GameVersion.RS, GameVersion.E, GameVersion.FRLG };
+                case 3: // Generation 3 does not overwrite source game after pokemon hatched
+                    Games = getBaseMovesIsEggGames();
                     break;
                 case 4:
                     Games = new[] { GameVersion.DP, GameVersion.Pt, GameVersion.HGSS };
@@ -2108,7 +2220,6 @@ namespace PKHeX.Core
                     Games = new[] { GameVersion.BW, GameVersion.B2W2 };
                     break;
             }
-            
             int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
             foreach (var ver in Games)
             {
@@ -2121,6 +2232,22 @@ namespace PKHeX.Core
                 }
             }
             return res;
+        }
+        private CheckResult[] verifyMovesEggPreRelearnEvent(int[] Moves)
+        {
+            foreach (MysteryGift mg in EventGiftMatch)
+            {
+                int[] SpecialMoves = mg.Moves;
+                CheckResult[] res = verifyMovesIsEggPreRelearn(Moves, SpecialMoves, false);
+                if (res.Any(r => !r.Valid))
+                    continue;
+
+                // Match Found
+                EncounterMatch = mg;
+                return res;
+            }
+            // no Mystery Gifts matched
+            return verifyMovesIsEggPreRelearn(Moves, new int[0], false);
         }
         private CheckResult[] parseMovesSketch(int[] Moves)
         {
@@ -2225,8 +2352,6 @@ namespace PKHeX.Core
                         res[m] = new CheckResult(Severity.Valid, native ? V173 : string.Format(V332, gen), CheckIdentifier.Move);
                     else if (gen == pkm.GenNumber && special.Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, V175, CheckIdentifier.Move);
-                    else if (gen == pkm.GenNumber && baseegg.Contains(moves[m]))
-                        res[m] = new CheckResult(Severity.Valid, V177, CheckIdentifier.Move);
 
                     if (res[m] == null)
                         continue;
@@ -2236,6 +2361,22 @@ namespace PKHeX.Core
 
                 if (gen == generations.Last())
                 {
+                    // Check base egg moves after all the moves but just before egg moves to different it from normal level up moves
+                    // Also check if the base egg moves is a non tradeback move
+                    for (int m = 0; m < 4; m++)
+                    {
+                        if (baseegg.Contains(moves[m]))
+                        {
+                            if (IsGen2Pkm && Gen1MovesLearned.Any() && moves[m] > Legal.MaxMoveID_1)
+                            {
+                                res[m] = new CheckResult(Severity.Invalid, V334, CheckIdentifier.Move);
+                                MixedGen1NonTradebackGen2 = true;
+                            }
+                            else
+                                res[m] = new CheckResult(Severity.Valid, V345, CheckIdentifier.Move);
+                        }
+                    }
+
                     // Check egg moves after all the generations and all the moves, every move that can be learned in another source should have preference
                     // the moves that can only be learned from egg moves should in the future check if the move combinations can be breed in gens 2 to 5
                     for (int m = 0; m < 4; m++)
@@ -2461,7 +2602,7 @@ namespace PKHeX.Core
             }
 
             bool checkAllGames = pkm.WasTradedEgg;
-            bool splitBreed = Legal.SplitBreed.Contains(pkm.Species);
+            bool splitBreed = Legal.getSplitBreedGeneration(pkm).Contains(pkm.Species);
             int iterate = (checkAllGames ? Games.Length : 1) * (splitBreed ? 2 : 1);
 
             for (int i = 0; i < iterate; i++)
@@ -2534,6 +2675,94 @@ namespace PKHeX.Core
             }
 
             RelearnBase = baseMoves.ToArray();
+            return res;
+        }
+
+        /* Similar to verifyRelearnEgg but in pre relearn generation is the moves what should match the expected order
+         but only if the pokemon is inside an egg */
+        private CheckResult[] verifyPreRelearnEggBase(int[] Moves, List<int> baseMoves, List<int> eggmoves, IEnumerable<int> lvlmoves, IEnumerable<int> tmhmmoves, IEnumerable<int> tutormoves, IEnumerable<int> specialmoves, bool AllowInherited, GameVersion ver)
+        {
+            CheckResult[] res = new CheckResult[4];
+
+            // Obtain level1 moves
+            int baseCt = baseMoves.Count;
+            if (baseCt > 4) baseCt = 4;
+
+            // Obtain Inherited moves
+            var inherited = Moves.Where(m => m != 0 && (!baseMoves.Contains(m) || specialmoves.Contains(m) || eggmoves.Contains(m) || lvlmoves.Contains(m) || tmhmmoves.Contains(m) || tutormoves.Contains(m))).ToList();
+            int inheritCt = inherited.Count;
+
+            // Get required amount of base moves
+            int unique = baseMoves.Concat(inherited).Distinct().Count();
+            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
+            if (Moves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
+                reqBase = Math.Min(4, unique);
+
+            var em = string.Empty;
+            var moveoffset = 0;
+            // Check if the required amount of Base Egg Moves are present.
+            for (int i = moveoffset; i < reqBase; i++)
+            {
+                if (baseMoves.Contains(Moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, V179, CheckIdentifier.Move);
+                else
+                {
+                    // mark remaining base egg moves missing
+                    for (int z = i; z < reqBase; z++)
+                        res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.Move);
+
+                    // provide the list of suggested base moves for the last required slot
+                    em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
+                    break;
+                }
+            }
+
+            moveoffset += reqBase;
+
+            // Check also if the required amount of Special Egg Moves are present, ir are after base moves
+            for (int i = moveoffset; i < moveoffset + specialmoves.Count(); i++)
+            {
+                if (specialmoves.Contains(Moves[i]))
+                    res[i] = new CheckResult(Severity.Valid, V333, CheckIdentifier.Move);
+                else
+                {
+                    // mark remaining special egg moves missing
+                    for (int z = i; z < moveoffset + specialmoves.Count(); z++)
+                        res[z] = new CheckResult(Severity.Invalid, V342, CheckIdentifier.Move);
+
+                    // provide the list of suggested base moves and specia moves for the last required slot
+                    if (!string.IsNullOrEmpty(em)) em += ",";
+                    else
+                        em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m])) + ",";
+                    em += string.Join(", ", specialmoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
+                    break;
+                }
+            }
+
+            if(!string.IsNullOrEmpty(em))
+                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + V343, em);
+            // Non-Base moves that can magically appear in the regular movepool
+            if (pkm.GenNumber >=3 && Legal.LightBall.Contains(pkm.Species))
+                eggmoves.Add(344);
+
+            // Inherited moves appear after the required base moves.
+            var AllowInheritedSeverity = AllowInherited ? Severity.Valid : Severity.Invalid;
+            for (int i = reqBase + specialmoves.Count(); i < 4; i++)
+            {
+                if (Moves[i] == 0) // empty
+                    res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.Move);
+                else if (eggmoves.Contains(Moves[i])) // inherited egg move
+                    res[i] = new CheckResult(AllowInheritedSeverity, AllowInherited ? V344 : V341, CheckIdentifier.Move);
+                else if (lvlmoves.Contains(Moves[i])) // inherited lvl moves
+                    res[i] = new CheckResult(AllowInheritedSeverity, AllowInherited ? V345 : V347, CheckIdentifier.Move);
+                else if (tmhmmoves.Contains(Moves[i])) // inherited TMHM moves
+                    res[i] = new CheckResult(AllowInheritedSeverity, AllowInherited ? V349 : V350, CheckIdentifier.Move);
+                else if (tutormoves.Contains(Moves[i])) // inherited tutor moves
+                    res[i] = new CheckResult(AllowInheritedSeverity, AllowInherited ? V346 : V348, CheckIdentifier.Move);
+                else // not inheritable, flag
+                    res[i] = new CheckResult(Severity.Invalid, V340, CheckIdentifier.Move);
+            }
+            
             return res;
         }
 
