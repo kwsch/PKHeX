@@ -766,6 +766,12 @@ namespace PKHeX.Core
                     return null;
             }
         }
+        internal static bool IsSafariSlot(SlotType t)
+        {
+            if (t == SlotType.Grass_Safari || t == SlotType.Surf_Safari || t == SlotType.Old_Rod_Safari || t == SlotType.Good_Rod_Safari || t == SlotType.Super_Rod_Safari)
+                return true;
+            return false;
+        }
         internal static EncounterSlot[] getValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -775,6 +781,27 @@ namespace PKHeX.Core
 
             foreach (var area in getEncounterAreas(pkm, gameSource))
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
+
+            if(s.Count() > 1 && 3 <= pkm.GenNumber && pkm.GenNumber <= 4 && !pkm.HasOriginalMetLocation)
+            {
+                // If has original met location or there is only one possible slot does not check safari zone nor bug contest
+                // defer to ball legality
+                var IsSafariBall = pkm.Ball == 5;
+                var s_Safari = IsSafariBall ? s.Where(slot => IsSafariSlot(slot.Type)) : s.Where(slot => !IsSafariSlot(slot.Type));
+                if (s_Safari.Any())
+                    // safari ball only in safari zones and non safari ball only outside safari zones
+                    s = s_Safari.ToList();
+
+                if (s.Count() > 1 && !IsSafariBall && pkm.GenNumber == 4)
+                {
+                    var IsSportsBall = pkm.Ball == 0x18;
+                    var s_BugContest = IsSportsBall ? s.Where(slot => slot.Type == SlotType.BugContest) : s.Where(slot => slot.Type != SlotType.BugContest);
+                    if (s_BugContest.Any())
+                        // sport ball only in bug contest and non sport balls only outside bug contest
+                        return s_BugContest.ToArray();
+                }
+            }
+
             return s.Any() ? s.ToArray() : null;
         }
         internal static EncounterStatic getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
@@ -2031,24 +2058,6 @@ namespace PKHeX.Core
                 return slotdata;
             int gen = pkm.GenNumber;
 
-            var IsSportBall = false;
-            if (3 <= gen && gen <= 4)
-            {
-                var IsSafariBall = pkm.Ball == 5;
-                var IsSafariZone = gen == 3 ? SafariZoneLocation_3.Contains(loc.Location) : SafariZoneLocation_4.Contains(loc.Location);
-                if (IsSafariZone != IsSafariBall)
-                    // Safari Ball outside a Safari Zone or Safari Zone with non-Safari Ball, invalid
-                    return slotdata;
-
-                if( gen == 4)
-                {
-                    IsSportBall = pkm.Ball == 0x18;
-                    var IsBugContest = loc.Location == 207 ; /*National Park*/
-                    if (IsSportBall && !IsBugContest)
-                        return slotdata; // Sports Ball outside National Park, invalid
-                }
-            }
-
             List<EncounterSlot> encounterSlots;
             if (ignoreLevel)
                 encounterSlots = slots.ToList();
@@ -2056,11 +2065,6 @@ namespace PKHeX.Core
                 encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
             else // check for any less than current level
                 encounterSlots = slots.Where(slot => slot.LevelMin <= lvl).ToList();
-
-            if(gen == 4 && IsSportBall) // Discart encounters from National Park when there is no contest
-            {
-                encounterSlots = slots.Where(slot => slot.Type == SlotType.BugContest).ToList();
-            }
 
             if (gen <= 2)
             {   
