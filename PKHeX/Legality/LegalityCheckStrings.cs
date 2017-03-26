@@ -339,6 +339,7 @@ namespace PKHeX.Core
         public static string V351 {get; set;} = "Invalid Met Location, expected Transporter or Crown."; // Invalid
         public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
+        public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
         #endregion
 
     }

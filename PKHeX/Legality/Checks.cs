@@ -659,13 +659,17 @@ namespace PKHeX.Core
         {
             var s = (EncounterStatic)EncounterMatch;
 
+            if (pkm.GenNumber == 3 && pkm.Species == 151 && s.Location == 201 && pkm.Language != 1)
+            {
+                return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
+            }
             if (pkm.GenNumber == 4 && pkm.Species == 493 && s.Location == 086)
             {
                   return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
             }
-            if (pkm.GenNumber == 3 && pkm.Species == 151 && s.Location == 201 && pkm.Language != 1)
+            if (pkm.GenNumber == 4 && pkm.Species == 492 && s.Location == 063 && pkm.Version != (int)GameVersion.Pt)
             {
-                return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
             }
 
             // Re-parse relearn moves
@@ -797,7 +801,7 @@ namespace PKHeX.Core
             // TODO: Include also gen 3 events
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
-                NonEggResult = new CheckResult(Severity.Valid, V75, CheckIdentifier.Encounter);
+                NonEggResult = verifyEncounterStatic();
             }
 
             if (NonEggResult !=null)
