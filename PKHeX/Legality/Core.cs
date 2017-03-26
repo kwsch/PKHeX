@@ -2031,6 +2031,24 @@ namespace PKHeX.Core
                 return slotdata;
             int gen = pkm.GenNumber;
 
+            var IsSportBall = false;
+            if (3 <= gen && gen <= 4)
+            {
+                var IsSafariBall = pkm.Ball == 5;
+                var IsSafariZone = gen == 3 ? SafariZoneLocation_3.Contains(loc.Location) : SafariZoneLocation_4.Contains(loc.Location);
+                if (IsSafariZone != IsSafariBall)
+                    // Safari Ball outside a Safari Zone or Safari Zone with non-Safari Ball, invalid
+                    return slotdata;
+
+                if( gen == 4)
+                {
+                    IsSportBall = pkm.Ball == 0x18;
+                    var IsBugContest = loc.Location == 207 ; /*National Park*/
+                    if (IsSportBall && !IsBugContest)
+                        return slotdata; // Sports Ball outside National Park, invalid
+                }
+            }
+
             List<EncounterSlot> encounterSlots;
             if (ignoreLevel)
                 encounterSlots = slots.ToList();
@@ -2038,6 +2056,11 @@ namespace PKHeX.Core
                 encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.AllowDexNav ? dn : df)).ToList();
             else // check for any less than current level
                 encounterSlots = slots.Where(slot => slot.LevelMin <= lvl).ToList();
+
+            if(gen == 4 && IsSportBall) // Discart encounters from National Park when there is no contest
+            {
+                encounterSlots = slots.Where(slot => slot.Type == SlotType.BugContest).ToList();
+            }
 
             if (gen <= 2)
             {   
