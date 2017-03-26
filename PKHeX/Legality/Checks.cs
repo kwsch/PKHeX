@@ -727,6 +727,11 @@ namespace PKHeX.Core
                 return verifyEncounterG3Transfer();
             }
 
+            if (pkm.Gen4 && !pkm.HasOriginalMetLocation)
+            {
+                return verifyEncounterG3Transfer();
+            }
+
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)
             {
@@ -822,6 +827,57 @@ namespace PKHeX.Core
             }
 
             return NonEggResult ?? InvalidTransferResult;
+        }
+        private CheckResult verifyEncounterG4Transfer()
+        {
+            CheckResult Gen4Result = null;
+            CheckResult InvalidTransferResult = null;
+
+            var CrownLocation = -1;
+            var AllowCrownLocation = pkm.Gen4 && pkm.FatefulEncounter && Legal.CrownBeasts.Contains(pkm.Species);
+            if (AllowCrownLocation)
+                CrownLocation = pkm.Species == 251 ? 30010 : 30012; // Celebi : Beast
+            
+            if (pkm.Met_Location != 30001 && (!AllowCrownLocation || pkm.Met_Location != CrownLocation))
+                InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
+
+            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
+            if (wasEvent)
+            {
+                var result = verifyEncounterEvent();
+                if (result != null)
+                    Gen4Result = result;
+            }
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            {
+                var result = verifyEncounterStatic();
+                if (result != null)
+                    return result.Valid && InvalidTransferResult != null ? InvalidTransferResult : result;
+
+                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
+            }
+
+            if (pkm.WasEgg) // Invalid transfer is already checked in encounter egg
+                return verifyEncounterEgg();
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidFriendSafari(pkm)))
+                Gen4Result = verifyEncounterSafari();
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+                Gen4Result = verifyEncounterWild();
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+                Gen4Result = verifyEncounterTrade();
+
+            if (Gen4Result != null && InvalidTransferResult != null)
+                return Gen4Result.Valid ? InvalidTransferResult : Gen4Result;
+            if (Gen4Result != null || InvalidTransferResult != null)
+                return Gen4Result ?? InvalidTransferResult;
+
+            return wasEvent
+                ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
