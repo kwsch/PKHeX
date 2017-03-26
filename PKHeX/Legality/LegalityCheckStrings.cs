@@ -52,6 +52,10 @@ namespace PKHeX.Core
         public static string V331 { get; set; } = "Learned by TM/HM in generation {0}.";
         public static string V332 { get; set; } = "Learned by Move Tutor in generation {0}.";
         public static string V333 { get; set; } = "Event Egg Move.";
+        public static string V344 { get; set; } = "Inherited egg move.";
+        public static string V345 { get; set; } = "Inherited move learned by Level-up.";
+        public static string V346 { get; set; } = "Inherited tutor move.";
+        public static string V349 { get; set; } = "Inherited TM/HM move.";
 
         #endregion
 
@@ -325,7 +329,14 @@ namespace PKHeX.Core
         public static string V337 {get; set;} = "Event Egg Move. Incompatible with normal egg moves.";
         public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to generation 5.";
         public static string V339 {get; set;} = "Generation {0} HM. Should have been removed before transfered to generation {1}.";
+        public static string V340 {get; set;} = "Not an expected egg move.";
+        public static string V341 {get; set;} = "Egg Move.Not expected in an event egg.";
+        public static string V342 {get; set;} = "Event egg move missing.";
+        public static string V343 {get; set;} = "Expected the following Moves: { 0}";
+        public static string V347 {get; set;} = "Inherited move learned by Level-up.Not expected in an event egg.";
+        public static string V348 {get; set;} = "Inherited tutor move. Not expected in an event egg.";
+        public static string V350 {get; set;} = "Inherited TM/HM move. Not expected in an event egg.";
         #endregion
 
-    }
+        }
 }

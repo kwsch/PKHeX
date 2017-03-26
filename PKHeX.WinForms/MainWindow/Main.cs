@@ -2904,7 +2904,7 @@ namespace PKHeX.WinForms
             if (cb == null) 
                 return;
             
-            if (cb.Text == "")
+            if (cb.Text == "" && cb.Items.Count > 0)
             { cb.SelectedIndex = 0; return; }
             if (cb.SelectedValue == null)
                 cb.BackColor = Color.DarkSalmon;
