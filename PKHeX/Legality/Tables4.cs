@@ -558,7 +558,7 @@ namespace PKHeX.Core
 
         // Encounter Slots that are replaced
         internal static readonly int[] Slot4_Time = {2, 3};
-        internal static readonly int[] Slot4_Sound = {4, 5};
+        internal static readonly int[] Slot4_Sound = {2, 3, 4, 5};
         internal static readonly int[] Slot4_Radar = {6, 7, 10, 11};
         internal static readonly int[] Slot4_Dual = {8, 9};
         #region Alt Slots

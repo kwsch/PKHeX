@@ -371,6 +371,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterSlot> getSlots4_G_Replace(byte[] data, ref int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
             //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
+            //for dppt slotSize = 4, for hgss slotSize = 2
             var slots = new List<EncounterSlot>();
 
             int numslots = slotnums.Length;
@@ -380,7 +381,7 @@ namespace PKHeX.Core
                 if (baseSlot.LevelMin <= 0)
                     continue;
 
-                int species = BitConverter.ToUInt16(data, ofs + i * slotSize);
+                int species = BitConverter.ToUInt16(data, ofs + i / (4 / slotSize) * slotSize);
                 if (species <= 0)
                     continue;
 
@@ -390,7 +391,7 @@ namespace PKHeX.Core
                 slots.Add(slot);
             }
 
-            ofs += numslots * slotSize;
+            ofs += numslots * slotSize * slotSize / 4;
             return slots;
         }
         
