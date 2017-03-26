@@ -566,12 +566,12 @@ namespace PKHeX.Core
         // Moves
         internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref List<int>[] validLevelMoves, ref List<int>[] validTMHM, ref List<int>[] validTutor)
         {
+            var FutureMoves = new List<int>();
+            FutureMoves.AddRange(validLevelMoves[pkm.Format]);
+            FutureMoves.AddRange(validTMHM[pkm.Format]);
+            FutureMoves.AddRange(validTutor[pkm.Format]);
             if (pkm.Format >= 3)
             {
-                var FutureMoves = new List<int>();
-                FutureMoves.AddRange(validLevelMoves[pkm.Format]);
-                FutureMoves.AddRange(validTMHM[pkm.Format]);
-                FutureMoves.AddRange(validTutor[pkm.Format]);
                 if (pkm.VC1)
                 {
                     validLevelMoves[1]?.RemoveAll(x => FutureMoves.Contains(x));
@@ -608,10 +608,9 @@ namespace PKHeX.Core
             else
             {
                 int tradeback = pkm.Format == 2 ? 1 : 2;
-                var formatmoves = validLevelMoves[pkm.Format].Concat(validTMHM[pkm.Format]).Concat(validTutor[pkm.Format]).ToList();
-                validLevelMoves[tradeback]?.RemoveAll(x => formatmoves.Contains(x));
-                validTMHM[tradeback]?.RemoveAll(x => formatmoves.Contains(x));
-                validTutor[tradeback]?.RemoveAll(x => formatmoves.Contains(x));
+                validLevelMoves[tradeback]?.RemoveAll(x => FutureMoves.Contains(x));
+                validTMHM[tradeback]?.RemoveAll(x => FutureMoves.Contains(x));
+                validTutor[tradeback]?.RemoveAll(x => FutureMoves.Contains(x));
             }
         }
         internal static List<int>[] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
