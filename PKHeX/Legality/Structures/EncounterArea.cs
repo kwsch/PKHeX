@@ -319,8 +319,8 @@ namespace PKHeX.Core
             
             for (int i = 0; i < numslots; i++)
             {
-                int level = BitConverter.ToInt32(data, ofs + i * 8);
-                int species = BitConverter.ToInt32(data, ofs + i * 8);
+                int level = data[ofs + i*8];
+                int species = BitConverter.ToInt32(data, ofs + i*8 + 4);
                 slots[i] = new EncounterSlot
                 {
                     LevelMax = level,
