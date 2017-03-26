@@ -763,6 +763,7 @@ namespace PKHeX.Core
 
         private CheckResult verifyEncounterG3Transfer()
         {
+            CheckResult InvalidTransferResult = null;
             CheckResult EggResult = null;
             CheckResult NonEggResult = null;
             bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
@@ -773,11 +774,16 @@ namespace PKHeX.Core
                 if (pkm.IsEgg)
                     return EggResult;
             }
+            
+            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+                InvalidTransferResult = new CheckResult(Severity.Invalid, V60, CheckIdentifier.Encounter);
+            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+                InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
 
             // TODO: Include also gen 3 events
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
-                NonEggResult = verifyEncounterStatic();
+                NonEggResult = new CheckResult(Severity.Valid, V75, CheckIdentifier.Encounter);
             }
 
             if (NonEggResult !=null)
@@ -790,13 +796,16 @@ namespace PKHeX.Core
                     NonEggResult = verifyEncounterTrade();
             }
 
+            // InvalidTransferResult have preference, because is invalid that from the current generation
+            if (InvalidTransferResult != null)
+                return InvalidTransferResult;
+
             // Even if EggResult is not returned WasEgg is keep true to check in verifymoves first the 
             // non egg encounter moves and after that egg encounter moves, because there is no way to tell 
             // what of the two encounters was the real origin
             if (EggResult != null && NonEggResult!=null)
             {
-                // Return the valid result of both, with non egg preference, 
-                // there is more data in the pkm for non egg encounters
+                // InvalidTransferResult have preference, because is invalid data from the current generation
                 if (NonEggResult.Valid)
                     return NonEggResult;
                 if (EggResult.Valid)
@@ -806,8 +815,13 @@ namespace PKHeX.Core
                 return NonEggResult;
             }
 
-            return NonEggResult ?? EggResult;
+            // No egg result then it can be from egg, no non egg result then return there is no valid encounter found
+            if (EggResult == null && NonEggResult == null)
+            {
+                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+            }
 
+            return NonEggResult ?? InvalidTransferResult;
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
