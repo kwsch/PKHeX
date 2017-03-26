@@ -299,7 +299,10 @@ namespace PKHeX.Core
                 return pm6stat * 5 + maxIV % 5;
             }
         }
-        
+
+        // Legality Extensions
+        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : GenNumber == 4 ? Egg_Location > 0 : Legal.EggLocations.Contains(Egg_Location);
+
         // Methods
         public override byte[] Encrypt()
         {
