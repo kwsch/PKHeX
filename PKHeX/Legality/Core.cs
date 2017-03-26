@@ -121,7 +121,7 @@ namespace PKHeX.Core
 
                 default: return null;
             }
-            return table?.Where(s => s.Version == GameVersion.Any || s.Version == Game).ToArray();
+            return table?.Where(s => s.Version.Contains(Game)).ToArray();
         }
         private static EncounterArea[] getEncounterTables(GameVersion Game)
         {
