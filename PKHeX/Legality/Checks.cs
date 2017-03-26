@@ -722,17 +722,17 @@ namespace PKHeX.Core
             if (pkm.WasLink)
                 return verifyEncounterLink();
 
+            if (pkm.Gen3 && !pkm.HasOriginalMetLocation)
+            {
+                return verifyEncounterG3Transfer();
+            }
+
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)
             {
                 var result = verifyEncounterEvent();
                 if (result != null)
                     return result;
-            }
-
-            if (pkm.Gen3 && !pkm.HasOriginalMetLocation)
-            {
-                return verifyEncounterG3Transfer();
             }
 
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
@@ -770,8 +770,11 @@ namespace PKHeX.Core
             {
                 pkm.WasEgg = true;
                 EggResult = verifyEncounterEgg3Transfer();
+                if (pkm.IsEgg)
+                    return EggResult;
             }
 
+            // TODO: Include also gen 3 events
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 NonEggResult = verifyEncounterStatic();
