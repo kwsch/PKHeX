@@ -371,6 +371,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterSlot> getSlots4_G_Replace(byte[] data, ref int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
             //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
+            //for dppt slotSize = 4, for hgss slotSize = 2
             var slots = new List<EncounterSlot>();
 
             int numslots = slotnums.Length;
@@ -380,7 +381,7 @@ namespace PKHeX.Core
                 if (baseSlot.LevelMin <= 0)
                     continue;
 
-                int species = BitConverter.ToInt32(data, ofs + i * slotSize);
+                int species = BitConverter.ToUInt16(data, ofs + i / (4 / slotSize) * slotSize);
                 if (species <= 0)
                     continue;
 
@@ -390,7 +391,7 @@ namespace PKHeX.Core
                 slots.Add(slot);
             }
 
-            ofs += numslots * slotSize;
+            ofs += numslots * slotSize * slotSize / 4;
             return slots;
         }
         
@@ -624,13 +625,6 @@ namespace PKHeX.Core
                 Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 5, SlotType.Super_Rod));
             else
                 ofs += 20;
-
-            if (GrassRatio > 0)
-            { 
-                // National Radio replaces slots 4 and 5
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 2, GrassSlots, Legal.Slot4_Sound)); // Radio
-            }
-            // 4 bytes padding
 
             Area4.Slots = Slots.ToArray();
             return Area4;

@@ -121,8 +121,7 @@ namespace PKHeX.Core
 
                 default: return null;
             }
-            // Temp until wwwwwwzx Contains extension is merged into the master branch
-            return table?.Where(s => s.Version == GameVersion.Any || s.Version == Game || s.Version == GameVersion.RSBOX).ToArray();
+            return table?.Where(s => s.Version.Contains(Game)).ToArray();
         }
         private static EncounterArea[] getEncounterTables(GameVersion Game)
         {

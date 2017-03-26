@@ -419,6 +419,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt, },// Drifloon @ Valley Windworks 
             new EncounterStatic { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, },// Rotom @ Old Chateau 
             new EncounterStatic { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, },// Rotom @ Old Chateau 
+            new EncounterStatic { Species = 442, Level = 25, Location = 24, },                          // Spiritomb @ Route 209            
             //Stationary Lengerdary
             new EncounterStatic { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt,}, //Regirock @ Rock Peak Ruins
             new EncounterStatic { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt,}, //Regice @ Iceberg Ruins
@@ -557,7 +558,7 @@ namespace PKHeX.Core
 
         // Encounter Slots that are replaced
         internal static readonly int[] Slot4_Time = {2, 3};
-        internal static readonly int[] Slot4_Sound = {4, 5};
+        internal static readonly int[] Slot4_Sound = {2, 3, 4, 5};
         internal static readonly int[] Slot4_Radar = {6, 7, 10, 11};
         internal static readonly int[] Slot4_Dual = {8, 9};
         #region Alt Slots
