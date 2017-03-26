@@ -432,8 +432,8 @@ namespace PKHeX.Core
         }
         public int BallThrowType
         {
-            get { return Data[0x7A]; }
-            set { Data[0x7A] = (byte)(value > 8 ? 0 : value); }
+            get { return Data[TrainerCard + 0x7A]; }
+            set { Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value); }
         }
         public int M
         {
@@ -1281,6 +1281,20 @@ namespace PKHeX.Core
         {
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
+        }
+        public byte BallThrowTypeUnlocked
+        {
+            get { return (byte)(((Data[0x23F5] & 0x0F) << 4) | ((Data[0x23F4] & 0xC0) >> 4)); }
+            set
+            {
+                Data[0x23F4] = (byte)((Data[0x23F4] & 0x3F) | ((value & 0x0C) << 4));
+                Data[0x23F5] = (byte)((Data[0x23F5] & 0xF0) | ((value & 0xF0) >> 4));
+            }
+        }
+        public byte BallThrowTypeLearned
+        {
+            get { return (byte)((Data[0x2583] & 0x7F) << 1); }
+            set { Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1)); }
         }
 
         public override bool RequiresMemeCrypto => true;
