@@ -245,12 +245,12 @@ namespace PKHeX.Core
             string r = "";
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
-                    r += string.Format(V191, vMoves[i].Judgement, i + 1, vMoves[i].Comment) + Environment.NewLine;
+                    r += string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment) + Environment.NewLine;
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (!vRelearn[i].Valid)
-                    r += string.Format(V192, vRelearn[i].Judgement, i + 1, vRelearn[i].Comment) + Environment.NewLine;
+                    r += string.Format(V192, getString(vRelearn[i].Judgement), i + 1, vRelearn[i].Comment) + Environment.NewLine;
 
             if (r.Length == 0 && Parse.All(chk => chk.Valid) && Valid)
                 return V193;
@@ -274,12 +274,12 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 4; i++)
                 if (vMoves[i].Valid)
-                    r += string.Format(V191, vMoves[i].Judgement, i + 1, vMoves[i].Comment) + Environment.NewLine;
+                    r += string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment) + Environment.NewLine;
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (vRelearn[i].Valid)
-                    r += string.Format(V192, vRelearn[i].Judgement, i + 1, vRelearn[i].Comment) + Environment.NewLine;
+                    r += string.Format(V192, getString(vRelearn[i].Judgement), i + 1, vRelearn[i].Comment) + Environment.NewLine;
 
             if (rl != r.Length) // move info added, break for next section
                 r += Environment.NewLine;
