@@ -2100,45 +2100,29 @@ namespace PKHeX.Core
 
             return res;
         }
-        private GameVersion[] getBaseGamesWasEggGen2()
+        private GameVersion[] getBaseMovesIsEggGames()
         {
-            if (pkm.Format != 2)
-                return new[] { GameVersion.GS, GameVersion.C };
-
-            if (pkm.HasOriginalMetLocation)
-                return new[] { GameVersion.C };
-            if (pkm.Species > 151 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species))
-                return new[] { GameVersion.GS };
-
-            return new[] { GameVersion.GS, GameVersion.C };
-        }
-        private GameVersion getBaseGamesIsEgg()
-        {
+            GameVersion[] Games = { };
             switch (pkm.GenNumber)
             {
                 case 1:
                 case 2:
-                    // Every egg move from Gold/Silver is included in Crystal
-                    if (pkm.Format != 2)
-                        return GameVersion.C;
-        
-                    if (pkm.HasOriginalMetLocation)
-                        return GameVersion.C;
-                    if (pkm.Species > 151 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species))
-                        return GameVersion.GS;
-
-                    return GameVersion.C;
+                    Games = new[] { GameVersion.GS, GameVersion.C };
+                    break;
                 case 3:
-                    switch ((GameVersion)pkm.Version)
+                    switch((GameVersion)pkm.Version)
                     {
                         case GameVersion.R:
                         case GameVersion.S:
-                            return GameVersion.RS;
+                            Games = new[] { GameVersion.RS};
+                            break;
                         case GameVersion.E:
-                            return GameVersion.E;
+                            Games = new[] { GameVersion.E };
+                            break;
                         case GameVersion.FR:
                         case GameVersion.LG:
-                            return GameVersion.FRLG;
+                            Games = new[] { GameVersion.FRLG };
+                            break;
                     }
                     break;
                 case 4:
@@ -2146,12 +2130,15 @@ namespace PKHeX.Core
                     {
                         case GameVersion.D:
                         case GameVersion.P:
-                            return GameVersion.DP;
+                            Games = new[] { GameVersion.DP };
+                            break;
                         case GameVersion.Pt:
-                            return GameVersion.Pt;
+                            Games = new[] { GameVersion.Pt };
+                            break;
                         case GameVersion.HG:
                         case GameVersion.SS:
-                            return GameVersion.HGSS;
+                            Games = new[] { GameVersion.HGSS };
+                            break;
                     }
                     break;
                 case 5:
@@ -2159,46 +2146,54 @@ namespace PKHeX.Core
                     {
                         case GameVersion.B:
                         case GameVersion.W:
-                            return GameVersion.BW;
+                            Games = new[] { GameVersion.BW };
+                            break;
+                        case GameVersion.Pt:
+                            Games = new[] { GameVersion.Pt };
+                            break;
                         case GameVersion.B2:
                         case GameVersion.W2:
-                            return GameVersion.B2W2;
+                            Games = new[] { GameVersion.B2W2 };
+                            break;
                     }
                     break;
             }
-            return GameVersion.Any;
+            return Games;
         }
         private CheckResult[] verifyMovesIsEggPreRelearn(int[] Moves, int[] SpecialMoves, bool allowinherited)
         {
             CheckResult[] res = new CheckResult[4];
             var ValidSpecialMoves = SpecialMoves.Where(m => m > 0);
             // Some games can have different egg movepools. Have to check all situations.
-            GameVersion ver = getBaseGamesIsEgg();
+            GameVersion[] Games = getBaseMovesIsEggGames();
             int splitctr = Legal.getSplitBreedGeneration(pkm).Contains(pkm.Species) ? 1 : 0;
-            for (int i = 0; i <= splitctr; i++)
+            foreach (var ver in Games)
             {
-                var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, pkm.GenNumber < 4 ? 5 : 1)?.ToList() ?? new List<int>();
-                var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, i, ver, 100) ?? new List<int>();
-                var EggMoves = Legal.getEggMoves(pkm, ver)?.ToList() ?? new List<int>();
-                var InheritedTutorMoves = (ver == GameVersion.C) ? Legal.getTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2) : new int[0];
-                // Only TM Hm moves from the source game of the egg, not any other games from the same generation
-                var InheritedTMHMMoves = Legal.getTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, ver, false);
-                InheritedLvlMoves = InheritedLvlMoves.Except(baseEggMoves);
+                for (int i = 0; i <= splitctr; i++)
+                {
+                    var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, pkm.GenNumber < 4 ? 5 : 1)?.ToList() ?? new List<int>();
+                    var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, i, ver, 100) ?? new List<int>();
+                    var EggMoves = Legal.getEggMoves(pkm, ver)?.ToList() ?? new List<int>();
+                    var InheritedTutorMoves = (ver == GameVersion.C) ? Legal.getTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2) : new int[0];
+                    // Only TM Hm moves from the source game of the egg, not any other games from the same generation
+                    var InheritedTMHMMoves = Legal.getTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, ver, false);
+                    InheritedLvlMoves = InheritedLvlMoves.Except(baseEggMoves);
 
-                if (pkm.Format > 2 || SpecialMoves.Any()) 
-                {
-                    // For gen 2 is not possible to difference normal eggs from event eggs
-                    // If there is no special moves assume normal egg
-                    res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, ValidSpecialMoves, allowinherited, ver);
-                    if (res.All(r => r.Valid)) // moves is satisfactory
-                        return res;
-                }
-                if(pkm.Format == 2)
-                {
-                    // For gen 2 if does not match special egg check for normal egg too
-                    res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, new List<int>(), true, ver);
-                    if (res.All(r => r.Valid)) // moves is satisfactory
-                        return res;
+                    if (pkm.Format > 2 || SpecialMoves.Any()) 
+                    {
+                        // For gen 2 is not possible to difference normal eggs from event eggs
+                        // If there is no special moves assume normal egg
+                        res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, ValidSpecialMoves, allowinherited, ver);
+                        if (res.All(r => r.Valid)) // moves is satisfactory
+                            return res;
+                    }
+                    if(pkm.Format == 2)
+                    {
+                        // For gen 2 if does not match special egg check for normal egg too
+                        res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, new List<int>(), true, ver);
+                        if (res.All(r => r.Valid)) // moves is satisfactory
+                            return res;
+                    }
                 }
             }
             return res;
@@ -2213,10 +2208,10 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2:
-                    Games = getBaseGamesWasEggGen2();
+                    Games = new[] { GameVersion.GS, GameVersion.C };
                     break;
                 case 3: // Generation 3 does not overwrite source game after pokemon hatched
-                    Games = new[] { getBaseGamesIsEgg() };
+                    Games = getBaseMovesIsEggGames();
                     break;
                 case 4:
                     Games = new[] { GameVersion.DP, GameVersion.Pt, GameVersion.HGSS };
