@@ -626,13 +626,6 @@ namespace PKHeX.Core
             else
                 ofs += 20;
 
-            if (GrassRatio > 0)
-            { 
-                // National Radio replaces slots 4 and 5
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 2, GrassSlots, Legal.Slot4_Sound)); // Radio
-            }
-            // 4 bytes padding
-
             Area4.Slots = Slots.ToArray();
             return Area4;
         }
