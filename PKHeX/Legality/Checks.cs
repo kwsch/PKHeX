@@ -784,7 +784,7 @@ namespace PKHeX.Core
             if (pkm.Egg_Location != ematch.EggLocation)
                 return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
 
-            if (species == 150 && pkm.Moves.Contains(6))
+            if (species == 150 && pkm.Moves.Contains(6)) // pay day
                 return new CheckResult(Severity.Invalid, V82, CheckIdentifier.Encounter);
 
             return new CheckResult(CheckIdentifier.Encounter);
@@ -795,7 +795,7 @@ namespace PKHeX.Core
             MysteryGift MatchedGift = EncounterMatch as MysteryGift;
             if (MatchedGift != null && MatchedGift.Level != pkm.Met_Level)
             {
-                if (!(MatchedGift is WC7) || ((WC7) MatchedGift).MetLevel != pkm.Met_Level)
+                if (pkm.HasOriginalMetLocation && (!(MatchedGift is WC7) || ((WC7) MatchedGift).MetLevel != pkm.Met_Level))
                 {
                     AddLine(new CheckResult(Severity.Invalid, V83, CheckIdentifier.Level));
                     return;

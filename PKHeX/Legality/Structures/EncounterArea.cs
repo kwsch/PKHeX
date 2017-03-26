@@ -869,6 +869,33 @@ namespace PKHeX.Core
             return entries?.Select(getArea4HGSS_Headbutt).Where(Area => Area.Slots.Any()).ToArray();
         }
 
+        /// <summary>
+        /// Gets the encounter areas for the Trophy Garden
+        /// </summary>
+        /// <param name="species">List of special species that can exist in the garden.</param>
+        /// <param name="lvls">Levels of the two encounter slots they can replace. <see cref="GameVersion.DP"/> differs from <see cref="GameVersion.Pt"/></param>
+        /// <returns></returns>
+        public static EncounterArea[] getTrophyArea(IEnumerable<int> species, int[] lvls)
+        {
+            int[] slotnums = {6, 7};
+            var l = new List<EncounterSlot>();
+            foreach (var s in species)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    l.Add(new EncounterSlot
+                    {
+                        LevelMax = lvls[i],
+                        LevelMin = lvls[i],
+                        Species = s,
+                        SlotNumber = slotnums[i],
+                        Type = SlotType.Grass
+                    });
+                }
+            }
+            return new[] { new EncounterArea { Location = 68, Slots = l.ToArray() } };
+        }
+
         public static EncounterArea[] getArray(byte[][] entries)
         {
             if (entries == null)
