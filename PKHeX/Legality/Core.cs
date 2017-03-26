@@ -2516,7 +2516,120 @@ namespace PKHeX.Core
                     return new List<int>();
             }
         }
-        private static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
+        internal static IEnumerable<int> getTMHM(PKM pkm, int species, int form, int generation, GameVersion Version = GameVersion.Any, bool RemoveTransferHM = true)
+        {
+            List<int> moves = new List<int>();
+            int index;
+            switch (generation)
+            {
+                case 1:
+                    index = PersonalTable.RB.getFormeIndex(species, 0);
+                    if (index == 0)
+                        return moves;
+                    var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
+                    var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
+                    moves.AddRange(TMHM_RBY.Where((t, m) => pi_rb.TMHM[m]));
+                    moves.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
+                    break;
+                case 2:
+                    index = PersonalTable.C.getFormeIndex(species, 0);
+                    if (index == 0)
+                        return moves;
+                    var pi_c = (PersonalInfoG2)PersonalTable.C[index];
+                    moves.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
+                    if (Version == GameVersion.Any)
+                        goto case 1;
+                    break;
+                case 3:
+                    index = PersonalTable.E.getFormeIndex(species, 0);
+                    var pi_e = PersonalTable.E[index];
+                    moves.AddRange(TM_3.Where((t, m) => pi_e.TMHM[m]));
+                    if (!RemoveTransferHM || pkm.Format == 3) // HM moves must be removed for 3->4, only give if current format.
+                        moves.AddRange(HM_3.Where((t, m) => pi_e.TMHM[m + 50]));
+                    break;
+                case 4:
+                    index = PersonalTable.HGSS.getFormeIndex(species, 0);
+                    if (index == 0)
+                        return moves;
+                    var pi_hgss = PersonalTable.HGSS[index];
+                    var pi_dppt = PersonalTable.Pt[index];
+                    moves.AddRange(TM_4.Where((t, m) => pi_hgss.TMHM[m]));
+                    // The combination of both these moves is illegal, it should be checked that the pokemon only learn one
+                    // except if it can learn any of these moves in gen 5 or later
+                    if (Version == GameVersion.Any || Version == GameVersion.DP || Version == GameVersion.D || Version == GameVersion.P || Version == GameVersion.Pt)
+                    {
+                        if (RemoveTransferHM && pkm.Format > 4)
+                        {
+                            if (pi_dppt.TMHM[96])
+                                moves.Add(432); // Defog
+                        }
+                        else
+                        {
+                            moves.AddRange(HM_DPPt.Where((t, m) => pi_dppt.TMHM[m + 92]));
+                        }
+                    }
+                    if (Version == GameVersion.Any || Version == GameVersion.HGSS || Version == GameVersion.HG || Version == GameVersion.SS)
+                    {
+                        if (RemoveTransferHM && pkm.Format > 4)
+                        {
+                            if (pi_hgss.TMHM[96])
+                                moves.Add(432); // Defog
+                        }
+                        else
+                        {
+                            moves.AddRange(HM_HGSS.Where((t, m) => pi_dppt.TMHM[m + 92]));
+                        }
+                    }
+                    break;
+                case 5:
+                    index = PersonalTable.B2W2.getFormeIndex(species, 0);
+                    if (index == 0)
+                        return moves;
+
+                    var pi_bw = PersonalTable.B2W2[index];
+                    moves.AddRange(TMHM_BW.Where((t, m) => pi_bw.TMHM[m]));
+                    break;
+                case 6:
+                    switch (Version)
+                    {
+                        case GameVersion.Any: // Start at the top, hit every table
+                        case GameVersion.X:
+                        case GameVersion.Y:
+                        case GameVersion.XY:
+                            {
+                                index = PersonalTable.XY.getFormeIndex(species, form);
+                                if (index == 0)
+                                    return moves;
+
+                                PersonalInfo pi_xy = PersonalTable.XY[index];
+                                moves.AddRange(TMHM_XY.Where((t, m) => pi_xy.TMHM[m]));
+                                
+                                if (Version == GameVersion.Any) // Fall Through
+                                    goto case GameVersion.ORAS;
+                                break;
+                            }
+                        case GameVersion.AS:
+                        case GameVersion.OR:
+                        case GameVersion.ORAS:
+                            {
+                                index = PersonalTable.AO.getFormeIndex(species, form);
+                                if (index == 0)
+                                    return moves;
+                                PersonalInfo pi_oras = PersonalTable.AO[index];
+                                moves.AddRange(TMHM_AO.Where((t, m) => pi_oras.TMHM[m]));
+                                break;
+                            }
+                    }
+                    break;
+                case 7:
+                    index = PersonalTable.SM.getFormeIndex(species, form);
+                    PersonalInfo pi_sm = PersonalTable.SM.getFormeEntry(species, form);
+                    moves.AddRange(TMHM_SM.Where((t, m) => pi_sm.TMHM[m]));
+                    break;
+            }
+            return moves.Distinct();
+        }
+        internal static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
             List<int> moves = new List<int>();
             PersonalInfo info;
