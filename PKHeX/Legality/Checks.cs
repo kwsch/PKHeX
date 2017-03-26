@@ -2119,6 +2119,14 @@ namespace PKHeX.Core
                 case 1:
                 case 2:
                     // Every egg move from Gold/Silver is included in Crystal
+                    if (pkm.Format != 2)
+                        return GameVersion.C;
+        
+                    if (pkm.HasOriginalMetLocation)
+                        return GameVersion.C;
+                    if (pkm.Species > 151 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species))
+                        return GameVersion.GS;
+
                     return GameVersion.C;
                 case 3:
                     switch ((GameVersion)pkm.Version)
