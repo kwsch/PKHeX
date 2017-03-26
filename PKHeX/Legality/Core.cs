@@ -845,7 +845,7 @@ namespace PKHeX.Core
                     // safari ball only in safari zones and non safari ball only outside safari zones
                     s = s_Safari.ToList();
 
-                if (s.Count() > 1 && !IsSafariBall && pkm.GenNumber == 4)
+                if (s.Count() > 1 && pkm.GenNumber == 4)
                 {
                     var IsSportsBall = pkm.Ball == 0x18;
                     var s_BugContest = IsSportsBall ? s.Where(slot => slot.Type == SlotType.BugContest) : s.Where(slot => slot.Type != SlotType.BugContest);
