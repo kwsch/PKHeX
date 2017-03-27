@@ -992,6 +992,20 @@ namespace PKHeX.Core
         private static int[] TrophyDP = {035, 039, 052, 113, 133, 137, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440}; // Porygon
         private static int[] TrophyPt = {035, 039, 052, 113, 133, 132, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440}; // Ditto
 
+        private static readonly int[] DP_GreatMarshAlt_Speices =
+        {
+            // Daily changing Pokemon are not in the raw data http://bulbapedia.bulbagarden.net/wiki/Great_Marsh
+            055,315,397,451,453,455,
+            183,194,195,298,399,400,        // Pre-National Pokédex
+            046,102,115,193,285,316,452,454 // Post-National Pokédex
+        };
+        private static readonly int[] Pt_GreatMarshAlt_Speices =
+        {
+            114,193,195,357,451,453,455,
+            194,                            // Pre-National Pokédex
+            046,102,115,285,316,352,452,454 // Post-National Pokédex
+        };
+
         private static readonly int[] Shellos_EastSeaLocation_DP =
         {
             28, // Route 213
