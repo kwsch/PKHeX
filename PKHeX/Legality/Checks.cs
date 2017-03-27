@@ -821,10 +821,11 @@ namespace PKHeX.Core
                 G3Result = verifyEncounterEvent() ?? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter);
             }
 
-            // Now check Mew and Deoxys, return only Event Result if a valid gen 3 event is found, if not return static encounter result
-            if (pkm.Species != 151 || pkm.Species != 386)
+            // Now check Mew and Deoxys, they can be event or static encounters both with fatefull encounter
+            if (pkm.Species == 151 || pkm.Species == 386)
             {
                 var EventResult = verifyEncounterEvent();
+                // Only return event if is valid, if not return result from static encounter
                 if (EventResult?.Valid ?? false)
                     G3Result = EventResult;
             }
