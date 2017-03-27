@@ -1090,7 +1090,7 @@ namespace PKHeX.Core
         }
         internal static Tuple<object, int, byte> getEncounter12(PKM pkm, bool gen2)
         {
-            var g1 = getEncounter12(pkm, GameVersion.RBY);
+            var g1 = pkm.IsEgg ? null :getEncounter12(pkm, GameVersion.RBY);
             var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
 
             if (g1 == null || g2 == null)
@@ -1139,13 +1139,20 @@ namespace PKHeX.Core
 
             return slots.Any() ? slots.ToArray() : null;
         }
-        private static bool getWasEgg23(PKM pkm)
+        internal static bool getWasEgg23(PKM pkm)
         {
+            if (pkm.IsEgg)
+                return true;
             if (pkm.Format > 2 && pkm.Ball != 4)
                 return false;
+            if (pkm.Format == 3)
+                return pkm.WasEgg;
 
             int lvl = pkm.CurrentLevel;
             if (lvl < 5)
+                return false;
+
+            if(pkm.Format > 3 && pkm.Met_Level <5)
                 return false;
 
             return getEvolutionValid(pkm);

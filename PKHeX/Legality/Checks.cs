@@ -494,7 +494,7 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterEgg()
         {
             // Check Species
-            if (Legal.NoHatchFromEgg.Contains(pkm.Species))
+            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && (pkm.GenNumber != 4 || pkm.Species == 490))
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
@@ -659,6 +659,19 @@ namespace PKHeX.Core
         {
             var s = (EncounterStatic)EncounterMatch;
 
+            if (pkm.GenNumber == 3 && pkm.Species == 151 && s.Location == 201 && pkm.Language != 1)
+            {
+                return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
+            }
+            if (pkm.GenNumber == 4 && pkm.Species == 493 && s.Location == 086)
+            {
+                  return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
+            }
+            if (pkm.GenNumber == 4 && pkm.Species == 492 && s.Location == 063 && pkm.Version != (int)GameVersion.Pt)
+            {
+                return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
+            }
+
             // Re-parse relearn moves
             if (s.EggLocation != 60002 || vRelearn.Any(rl => !rl.Valid))
             {
@@ -722,6 +735,16 @@ namespace PKHeX.Core
             if (pkm.WasLink)
                 return verifyEncounterLink();
 
+            if (pkm.Gen3 && !pkm.HasOriginalMetLocation)
+            {
+                return verifyEncounterG3Transfer();
+            }
+
+            if (pkm.Gen4 && !pkm.HasOriginalMetLocation)
+            {
+                return verifyEncounterG4Transfer();
+            }
+
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)
             {
@@ -729,7 +752,7 @@ namespace PKHeX.Core
                 if (result != null)
                     return result;
             }
-            
+
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 var result = verifyEncounterStatic();
@@ -738,7 +761,7 @@ namespace PKHeX.Core
 
                 EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
             }
-            
+
             if (pkm.WasEgg)
                 return verifyEncounterEgg();
             
@@ -753,6 +776,120 @@ namespace PKHeX.Core
 
             return wasEvent
                 ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter) 
+                : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+        }
+
+        private CheckResult verifyEncounterG3Transfer()
+        {
+            CheckResult InvalidTransferResult = null;
+            CheckResult EggResult = null;
+            CheckResult NonEggResult = null;
+            bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
+            if (WasEgg)
+            {
+                pkm.WasEgg = true;
+                EggResult = verifyEncounterEgg3Transfer();
+                if (pkm.IsEgg)
+                    return EggResult;
+            }
+            
+            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+                InvalidTransferResult = new CheckResult(Severity.Invalid, V60, CheckIdentifier.Encounter);
+            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+                InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
+
+            // TODO: Include also gen 3 events
+            if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            {
+                NonEggResult = verifyEncounterStatic();
+            }
+
+            if (NonEggResult !=null)
+            {
+                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
+                if (null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+                    NonEggResult = verifyEncounterWild();
+
+                if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+                    NonEggResult = verifyEncounterTrade();
+            }
+
+            // InvalidTransferResult have preference, because is invalid that from the current generation
+            if (InvalidTransferResult != null)
+                return InvalidTransferResult;
+
+            // Even if EggResult is not returned WasEgg is keep true to check in verifymoves first the 
+            // non egg encounter moves and after that egg encounter moves, because there is no way to tell 
+            // what of the two encounters was the real origin
+            if (EggResult != null && NonEggResult!=null)
+            {
+                // InvalidTransferResult have preference, because is invalid data from the current generation
+                if (NonEggResult.Valid)
+                    return NonEggResult;
+                if (EggResult.Valid)
+                    return EggResult;
+                // if both are invalid returns non egg information, because 
+                // there is more data in the pokemon to found normal encounter
+                return NonEggResult;
+            }
+
+            // No egg result then it can be from egg, no non egg result then return there is no valid encounter found
+            if (EggResult == null && NonEggResult == null)
+            {
+                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+            }
+
+            return NonEggResult ?? InvalidTransferResult;
+        }
+        private CheckResult verifyEncounterG4Transfer()
+        {
+            CheckResult Gen4Result = null;
+            CheckResult InvalidTransferResult = null;
+
+            var CrownLocation = -1;
+            var AllowCrownLocation = pkm.Gen4 && pkm.FatefulEncounter && Legal.CrownBeasts.Contains(pkm.Species);
+            if (AllowCrownLocation)
+                CrownLocation = pkm.Species == 251 ? 30010 : 30012; // Celebi : Beast
+            
+            if (pkm.Met_Location != 30001 && (!AllowCrownLocation || pkm.Met_Location != CrownLocation))
+                InvalidTransferResult = new CheckResult(Severity.Invalid, AllowCrownLocation ? V351 : V61, CheckIdentifier.Encounter);
+
+            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
+            if (wasEvent)
+            {
+                var result = verifyEncounterEvent();
+                if (result != null)
+                    Gen4Result = result;
+            }
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            {
+                var result = verifyEncounterStatic();
+                if (result != null)
+                    return result.Valid && InvalidTransferResult != null ? InvalidTransferResult : result;
+
+                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
+            }
+
+            if (pkm.WasEgg) // Invalid transfer is already checked in encounter egg
+                return verifyEncounterEgg();
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidFriendSafari(pkm)))
+                Gen4Result = verifyEncounterSafari();
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+                Gen4Result = verifyEncounterWild();
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+                Gen4Result = verifyEncounterTrade();
+
+            if (Gen4Result != null && InvalidTransferResult != null)
+                return Gen4Result.Valid ? InvalidTransferResult : Gen4Result;
+            if (Gen4Result != null || InvalidTransferResult != null)
+                return Gen4Result ?? InvalidTransferResult;
+
+            return wasEvent
+                ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
@@ -2201,6 +2338,16 @@ namespace PKHeX.Core
         private CheckResult[] verifyMovesWasEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
             CheckResult[] res = new CheckResult[4];
+
+            if(pkm.GenNumber == 3 && !pkm.HasOriginalMetLocation && EncounterMatch !=null)
+            {
+                if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
+                    res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+                else // Everything else
+                    res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], GameVersion.Any);
+                if (res.All(r => r.Valid)) // moves is satisfactory
+                    return res;
+            }
 
             // Some games can have different egg movepools. Have to check all situations.
             GameVersion[] Games = { };

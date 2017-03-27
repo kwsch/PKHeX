@@ -271,3 +271,7 @@ V343 = Expected the following Moves: {0}
 V347 = Inherited move learned by Level-up. Not expected in an event egg.
 V348 = Inherited tutor move. Not expected in an event egg.
 V350 = Inherited TM/HM move. Not expected in an event egg.
+V351 = Invalid Met Location, expected Transporter or Crown.
+V352 = Arceus from Hall of Origin. Unreleased event.
+V353 = Non japanese Mew from Faraway Island. Unreleased event.
+V354 = Non Platinum Shaymin from Flower Paradise. Unreleased event.

@@ -383,7 +383,9 @@ namespace PKHeX.Core
                 return pm6stat * 5 + maxIV % 5;
             }
         }
-        
+        // Legality Extensions
+        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : Egg_Location > 0;
+        public override bool WasEvent => Met_Location >= 3000 && Met_Location <= 3076 || FatefulEncounter && Species != 386;
         // Methods
         public override byte[] Encrypt()
         {
