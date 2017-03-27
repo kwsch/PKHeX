@@ -2410,9 +2410,14 @@ namespace PKHeX.Core
                                     case 3: r.AddRange(LevelUpE[index].getMoves(lvl)); break;
                                 }
                             }
-                            else //Add only emerald moves, all the gen 3 level up tables are equal except deoxys level up tables
+                            else
+                            {
+                                // Emerald level up table are equals to R/S level up tables
                                 r.AddRange(LevelUpE[index].getMoves(lvl));
-                            
+                                // fire red and leaf green are equals between each other but different than RSE
+                                // Do not use FR Levelup table. It have 67 moves for charmander but Leaf Green moves table is correct
+                                r.AddRange(LevelUpLG[index].getMoves(lvl));
+                            }
                         }
                         if (Machine)
                         {

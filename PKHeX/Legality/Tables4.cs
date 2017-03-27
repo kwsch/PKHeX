@@ -498,6 +498,16 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 179, Level = 01, EggLocation = 2014,}, // Mareep Egg from Primo
             new EncounterStatic { Gift = true, Species = 194, Level = 01, EggLocation = 2014,}, // Wooper Egg from Primo
             new EncounterStatic { Gift = true, Species = 218, Level = 01, EggLocation = 2014,}, // Slugma Egg from Primo
+            // Celadon City Game Corner
+            new EncounterStatic { Gift = true, Species = 122, Level = 15, Location = 144 }, // Mr. Mime
+            new EncounterStatic { Gift = true, Species = 133, Level = 15, Location = 144 }, // Eevee
+            new EncounterStatic { Gift = true, Species = 137, Level = 15, Location = 144 }, // Porygon
+            // Goldenrod City Game Corner
+            new EncounterStatic { Gift = true, Species = 063, Level = 15, Location = 131 }, // Abra
+            new EncounterStatic { Gift = true, Species = 023, Level = 15, Location = 131, Version = GameVersion.HG }, // Ekans
+            new EncounterStatic { Gift = true, Species = 027, Level = 15, Location = 131, Version = GameVersion.SS }, // Sandshrew
+            new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 131 }, // Dratini
+
             //Stationary
             new EncounterStatic { Species = 130, Level = 30, Location = 135, Shiny = true }, //Gyarados @ Lake of Rage
             new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave Friday Only
