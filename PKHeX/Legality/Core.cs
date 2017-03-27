@@ -1163,6 +1163,8 @@ namespace PKHeX.Core
 
             if(pkm.Format > 3 && pkm.Met_Level <5)
                 return false;
+            if (pkm.Format > 3 && pkm.FatefulEncounter)
+                return false;
 
             return getEvolutionValid(pkm);
         }
