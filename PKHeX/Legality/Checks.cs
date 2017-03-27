@@ -2215,8 +2215,7 @@ namespace PKHeX.Core
                 {
                     var SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
                                        (EncounterMatch as EncounterStatic)?.Moves ??
-                                       (EncounterMatch as EncounterTrade)?.Moves ??
-                                       null;
+                                       (EncounterMatch as EncounterTrade)?.Moves;
                     var allowinherited = SpecialMoves == null;
                     res = verifyMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
                 }
@@ -2300,7 +2299,7 @@ namespace PKHeX.Core
         private CheckResult[] verifyMovesIsEggPreRelearn(int[] Moves, int[] SpecialMoves, bool allowinherited)
         {
             CheckResult[] res = new CheckResult[4];
-            var ValidSpecialMoves = SpecialMoves.Where(m => m > 0);
+            var ValidSpecialMoves = SpecialMoves.Where(m => m != 0).ToList();
             // Some games can have different egg movepools. Have to check all situations.
             GameVersion[] Games = getBaseMovesIsEggGames();
             int splitctr = Legal.getSplitBreedGeneration(pkm).Contains(pkm.Species) ? 1 : 0;
@@ -2309,12 +2308,12 @@ namespace PKHeX.Core
                 for (int i = 0; i <= splitctr; i++)
                 {
                     var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, pkm.GenNumber < 4 ? 5 : 1)?.ToList() ?? new List<int>();
-                    var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, i, ver, 100) ?? new List<int>();
+                    var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToList() ?? new List<int>();
                     var EggMoves = Legal.getEggMoves(pkm, ver)?.ToList() ?? new List<int>();
-                    var InheritedTutorMoves = (ver == GameVersion.C) ? Legal.getTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2) : new int[0];
+                    var InheritedTutorMoves = ver == GameVersion.C ? Legal.getTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2)?.ToList() : new List<int>();
                     // Only TM Hm moves from the source game of the egg, not any other games from the same generation
-                    var InheritedTMHMMoves = Legal.getTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, ver, false);
-                    InheritedLvlMoves = InheritedLvlMoves.Except(baseEggMoves);
+                    var InheritedTMHMMoves = Legal.getTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, ver, false)?.ToList();
+                    InheritedLvlMoves.RemoveAll(x => baseEggMoves.Contains(x));
 
                     if (pkm.Format > 2 || SpecialMoves.Any()) 
                     {
@@ -2324,13 +2323,13 @@ namespace PKHeX.Core
                         if (res.All(r => r.Valid)) // moves is satisfactory
                             return res;
                     }
-                    if(pkm.Format == 2)
-                    {
-                        // For gen 2 if does not match special egg check for normal egg too
-                        res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, new List<int>(), true, ver);
-                        if (res.All(r => r.Valid)) // moves is satisfactory
-                            return res;
-                    }
+                    if (pkm.Format != 2)
+                        continue;
+                    
+                    // For gen 2 if does not match special egg check for normal egg too
+                    res = verifyPreRelearnEggBase(Moves, baseEggMoves, EggMoves, InheritedLvlMoves, InheritedTMHMMoves, InheritedTutorMoves, new List<int>(), true, ver);
+                    if (res.All(r => r.Valid)) // moves are satisfactory
+                        return res;
                 }
             }
             return res;
@@ -2827,7 +2826,7 @@ namespace PKHeX.Core
 
         /* Similar to verifyRelearnEgg but in pre relearn generation is the moves what should match the expected order
          but only if the pokemon is inside an egg */
-        private CheckResult[] verifyPreRelearnEggBase(int[] Moves, List<int> baseMoves, List<int> eggmoves, IEnumerable<int> lvlmoves, IEnumerable<int> tmhmmoves, IEnumerable<int> tutormoves, IEnumerable<int> specialmoves, bool AllowInherited, GameVersion ver)
+        private CheckResult[] verifyPreRelearnEggBase(int[] Moves, List<int> baseMoves, List<int> eggmoves, List<int> lvlmoves, List<int> tmhmmoves, List<int> tutormoves, List<int> specialmoves, bool AllowInherited, GameVersion ver)
         {
             CheckResult[] res = new CheckResult[4];
 
@@ -2867,14 +2866,14 @@ namespace PKHeX.Core
             moveoffset += reqBase;
 
             // Check also if the required amount of Special Egg Moves are present, ir are after base moves
-            for (int i = moveoffset; i < moveoffset + specialmoves.Count(); i++)
+            for (int i = moveoffset; i < moveoffset + specialmoves.Count; i++)
             {
                 if (specialmoves.Contains(Moves[i]))
                     res[i] = new CheckResult(Severity.Valid, V333, CheckIdentifier.Move);
                 else
                 {
                     // mark remaining special egg moves missing
-                    for (int z = i; z < moveoffset + specialmoves.Count(); z++)
+                    for (int z = i; z < moveoffset + specialmoves.Count; z++)
                         res[z] = new CheckResult(Severity.Invalid, V342, CheckIdentifier.Move);
 
                     // provide the list of suggested base moves and specia moves for the last required slot
@@ -2894,7 +2893,7 @@ namespace PKHeX.Core
 
             // Inherited moves appear after the required base moves.
             var AllowInheritedSeverity = AllowInherited ? Severity.Valid : Severity.Invalid;
-            for (int i = reqBase + specialmoves.Count(); i < 4; i++)
+            for (int i = reqBase + specialmoves.Count; i < 4; i++)
             {
                 if (Moves[i] == 0) // empty
                     res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.Move);

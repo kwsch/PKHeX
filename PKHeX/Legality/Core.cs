@@ -828,32 +828,36 @@ namespace PKHeX.Core
         internal static EncounterSlot[] getValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
+                gameSource = (GameVersion) pkm.Version;
 
             List<EncounterSlot> s = new List<EncounterSlot>();
 
             foreach (var area in getEncounterAreas(pkm, gameSource))
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
 
-            if(s.Count() > 1 && 3 <= pkm.GenNumber && pkm.GenNumber <= 4 && !pkm.HasOriginalMetLocation)
-            {
-                // If has original met location or there is only one possible slot does not check safari zone nor bug contest
-                // defer to ball legality
-                var IsSafariBall = pkm.Ball == 5;
-                var s_Safari = IsSafariBall ? s.Where(slot => IsSafariSlot(slot.Type)) : s.Where(slot => !IsSafariSlot(slot.Type));
-                if (s_Safari.Any())
-                    // safari ball only in safari zones and non safari ball only outside safari zones
-                    s = s_Safari.ToList();
+            if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || pkm.HasOriginalMetLocation)
+                return s.Any() ? s.ToArray() : null;
 
-                if (s.Count() > 1 && pkm.GenNumber == 4)
-                {
-                    var IsSportsBall = pkm.Ball == 0x18;
-                    var s_BugContest = IsSportsBall ? s.Where(slot => slot.Type == SlotType.BugContest) : s.Where(slot => slot.Type != SlotType.BugContest);
-                    if (s_BugContest.Any())
-                        // sport ball only in bug contest and non sport balls only outside bug contest
-                        return s_BugContest.ToArray();
-                }
-            }
+            // If has original met location or there is only one possible slot does not check safari zone nor BCC
+            // defer to ball legality
+            var IsSafariBall = pkm.Ball == 5;
+            var s_Safari = IsSafariBall
+                ? s.Where(slot => IsSafariSlot(slot.Type)).ToList()
+                : s.Where(slot => !IsSafariSlot(slot.Type)).ToList();
+            if (s_Safari.Any())
+                // safari ball only in safari zones and non safari ball only outside safari zones
+                s = s_Safari.ToList();
+
+            if (s.Count <= 1 || pkm.GenNumber != 4)
+                return s.Any() ? s.ToArray() : null;
+
+            var IsSportsBall = pkm.Ball == 0x18;
+            var s_BugContest = IsSportsBall
+                ? s.Where(slot => slot.Type == SlotType.BugContest).ToList()
+                : s.Where(slot => slot.Type != SlotType.BugContest).ToList();
+            if (s_BugContest.Any())
+                // sport ball only in BCC and non sport balls only outside BCC
+                return s_BugContest.ToArray();
 
             return s.Any() ? s.ToArray() : null;
         }
