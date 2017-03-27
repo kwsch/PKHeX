@@ -781,9 +781,11 @@ namespace PKHeX.Core
 
         private CheckResult verifyEncounterG3Transfer()
         {
+            // WasEventEgg is not possible in gen 3 pal park pokemon, are indistinguible from normal eggs
+            bool wasEvent = pkm.WasEvent;
             CheckResult InvalidTransferResult = null;
             CheckResult EggResult = null;
-            CheckResult NonEggResult = null;
+            CheckResult G3Result = null;
             bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
             {
@@ -792,54 +794,66 @@ namespace PKHeX.Core
                 if (pkm.IsEgg)
                     return EggResult;
             }
-            
+
             if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
                 InvalidTransferResult = new CheckResult(Severity.Invalid, V60, CheckIdentifier.Encounter);
             if (pkm.Format != 4 && pkm.Met_Location != 30001)
                 InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
-
-            // TODO: Include also gen 3 events
+            
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
-                NonEggResult = verifyEncounterStatic();
+                G3Result = verifyEncounterStatic();
             }
 
-            if (NonEggResult !=null)
+            if (G3Result !=null)
             {
                 EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
                 if (null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
-                    NonEggResult = verifyEncounterWild();
+                    G3Result = verifyEncounterWild();
 
                 if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
-                    NonEggResult = verifyEncounterTrade();
+                    G3Result = verifyEncounterTrade();
             }
 
-            // InvalidTransferResult have preference, because is invalid that from the current generation
-            if (InvalidTransferResult != null)
-                return InvalidTransferResult;
+            // Check events after static, to match Mew/Deoxys static encounters
+            if (wasEvent && G3Result == null && pkm.Species != 151 && pkm.Species != 386)
+            {
+                G3Result = verifyEncounterEvent() ?? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter);
+            }
+
+            // Now check Mew and Deoxys, return only Event Result if a valid gen 3 event is found, if not return static encounter result
+            if (pkm.Species != 151 || pkm.Species != 386)
+            {
+                var EventResult = verifyEncounterEvent();
+                if (EventResult?.Valid ?? false)
+                    G3Result = EventResult;
+            }
 
             // Even if EggResult is not returned WasEgg is keep true to check in verifymoves first the 
             // non egg encounter moves and after that egg encounter moves, because there is no way to tell 
             // what of the two encounters was the real origin
-            if (EggResult != null && NonEggResult!=null)
+            if (EggResult != null && G3Result!=null)
             {
-                // InvalidTransferResult have preference, because is invalid data from the current generation
-                if (NonEggResult.Valid)
-                    return NonEggResult;
-                if (EggResult.Valid)
-                    return EggResult;
-                // if both are invalid returns non egg information, because 
+                // keep the valid encounter, also if both are valid returns non egg information, because 
                 // there is more data in the pokemon to found normal encounter
-                return NonEggResult;
+                if (EggResult.Valid && !G3Result.Valid)
+                    G3Result = EggResult;
             }
 
-            // No egg result then it can be from egg, no non egg result then return there is no valid encounter found
-            if (EggResult == null && NonEggResult == null)
+            // No gen 3 result
+            if (G3Result == null)
             {
-                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+                // Return both errors, invalid transfer and not a valid encounter found in G3
+                return InvalidTransferResult != null?
+                      new CheckResult(Severity.Invalid, V80 + Environment.NewLine + InvalidTransferResult.Comment, CheckIdentifier.Encounter)
+                    : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
             }
 
-            return NonEggResult ?? InvalidTransferResult;
+            // If Gen 3 encounter is invalid and transfer also invalid return both errors
+            if (!G3Result.Valid && InvalidTransferResult != null)
+                return new CheckResult(Severity.Invalid, G3Result.Comment + Environment.NewLine + InvalidTransferResult.Comment, CheckIdentifier.Encounter);
+
+            return InvalidTransferResult ?? G3Result;
         }
         private CheckResult verifyEncounterG4Transfer()
         {
@@ -883,14 +897,20 @@ namespace PKHeX.Core
             if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
                 Gen4Result = verifyEncounterTrade();
 
-            if (Gen4Result != null && InvalidTransferResult != null)
-                return Gen4Result.Valid ? InvalidTransferResult : Gen4Result;
-            if (Gen4Result != null || InvalidTransferResult != null)
-                return Gen4Result ?? InvalidTransferResult;
+            if (Gen4Result == null)
+                Gen4Result = wasEvent
+                           ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
+                           : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
-            return wasEvent
-                ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
-                : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+            if (InvalidTransferResult != null)
+            {
+                if (Gen4Result.Valid)
+                    return InvalidTransferResult;
+                // If there is an error in G5 transfer and G4 encounter return both erros
+                return new CheckResult(Severity.Invalid, Gen4Result.Comment + Environment.NewLine + InvalidTransferResult.Comment, CheckIdentifier.Encounter);
+            }
+
+            return Gen4Result;
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
