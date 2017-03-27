@@ -595,10 +595,10 @@ namespace PKHeX.Core
                 Slots = new[]
                 {
                     // Bug Contest Pre-National Pokédex
-                    new EncounterSlot { Species = 010, LevelMin = 07, LevelMax = 08, Type = SlotType.BugContest }, // Caterpie
+                    new EncounterSlot { Species = 010, LevelMin = 07, LevelMax = 18, Type = SlotType.BugContest }, // Caterpie
                     new EncounterSlot { Species = 011, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest }, // Metapod
                     new EncounterSlot { Species = 012, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest }, // Butterfree
-                    new EncounterSlot { Species = 013, LevelMin = 07, LevelMax = 08, Type = SlotType.BugContest }, // Weedle
+                    new EncounterSlot { Species = 013, LevelMin = 07, LevelMax = 18, Type = SlotType.BugContest }, // Weedle
                     new EncounterSlot { Species = 014, LevelMin = 09, LevelMax = 18, Type = SlotType.BugContest }, // Kakuna
                     new EncounterSlot { Species = 015, LevelMin = 12, LevelMax = 15, Type = SlotType.BugContest }, // Beedrill
                     new EncounterSlot { Species = 046, LevelMin = 10, LevelMax = 17, Type = SlotType.BugContest }, // Paras
@@ -711,7 +711,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 074, LevelMin = 45, LevelMax = 45, Type = SlotType.Grass_Safari }, // Geodude
                     new EncounterSlot { Species = 113, LevelMin = 42, LevelMax = 42, Type = SlotType.Grass_Safari }, // Chansey
                     new EncounterSlot { Species = 129, LevelMin = 15, LevelMax = 17, Type = SlotType.Surf_Safari }, // Magikarp
-                    new EncounterSlot { Species = 129, LevelMin = 15, LevelMax = 17, Type = SlotType.Old_Rod_Safari }, // Magikarp
+                    new EncounterSlot { Species = 129, LevelMin = 12, LevelMax = 15, Type = SlotType.Old_Rod_Safari }, // Magikarp
                     new EncounterSlot { Species = 129, LevelMin = 22, LevelMax = 24, Type = SlotType.Good_Rod_Safari }, // Magikarp
                     new EncounterSlot { Species = 130, LevelMin = 28, LevelMax = 28, Type = SlotType.Good_Rod_Safari }, // Gyarados
                     new EncounterSlot { Species = 130, LevelMin = 42, LevelMax = 42, Type = SlotType.Super_Rod_Safari }, // Gyarados
@@ -824,7 +824,6 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 455, LevelMin = 41, LevelMax = 41, Type = SlotType.Grass_Safari }, // Carnivine
                     // Mountain Zone
                     new EncounterSlot { Species = 019, LevelMin = 15, LevelMax = 16, Type = SlotType.Grass_Safari }, // Rattata
-                    new EncounterSlot { Species = 019, LevelMin = 15, LevelMax = 16, Type = SlotType.Grass_Safari }, // Rattata
                     new EncounterSlot { Species = 020, LevelMin = 15, LevelMax = 17, Type = SlotType.Grass_Safari }, // Raticate
                     new EncounterSlot { Species = 041, LevelMin = 15, LevelMax = 17, Type = SlotType.Grass_Safari }, // Zubat
                     new EncounterSlot { Species = 042, LevelMin = 15, LevelMax = 17, Type = SlotType.Grass_Safari }, // Golbat
@@ -854,12 +853,10 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 098, LevelMin = 16, LevelMax = 17, Type = SlotType.Grass_Safari }, // Krabby
                     new EncounterSlot { Species = 098, LevelMin = 13, LevelMax = 15, Type = SlotType.Old_Rod_Safari }, // Krabby
                     new EncounterSlot { Species = 098, LevelMin = 22, LevelMax = 25, Type = SlotType.Good_Rod_Safari }, // Krabby
-                    new EncounterSlot { Species = 098, LevelMin = 17, LevelMax = 17, Type = SlotType.Old_Rod_Safari }, // Krabby
-                    new EncounterSlot { Species = 098, LevelMin = 18, LevelMax = 18, Type = SlotType.Old_Rod_Safari }, // Krabby
+                    new EncounterSlot { Species = 098, LevelMin = 17, LevelMax = 18, Type = SlotType.Old_Rod_Safari }, // Krabby
                     new EncounterSlot { Species = 099, LevelMin = 38, LevelMax = 39, Type = SlotType.Super_Rod_Safari }, // Kingler
                     new EncounterSlot { Species = 099, LevelMin = 40, LevelMax = 40, Type = SlotType.Grass_Safari }, // Kingler
-                    // new EncounterSlot { Species = 099, Type = SlotType.Good_Rod_Safari }, // Kingler Unknown level
-                    // new EncounterSlot { Species = 099, Type = SlotType.Good_Rod_Safari }, // Kingler Unknown level
+                    new EncounterSlot { Species = 099, LevelMin = 26, LevelMax = 27, Type = SlotType.Good_Rod_Safari }, // Kingler *Serebii
                     new EncounterSlot { Species = 118, LevelMin = 13, LevelMax = 15, Type = SlotType.Old_Rod_Safari }, // Goldeen
                     new EncounterSlot { Species = 118, LevelMin = 22, LevelMax = 22, Type = SlotType.Good_Rod_Safari }, // Goldeen
                     new EncounterSlot { Species = 118, LevelMin = 35, LevelMax = 38, Type = SlotType.Super_Rod_Safari }, // Goldeen
@@ -869,8 +866,8 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 129, LevelMin = 15, LevelMax = 16, Type = SlotType.Surf_Safari }, // Magikarp
                     new EncounterSlot { Species = 131, LevelMin = 15, LevelMax = 16, Type = SlotType.Surf_Safari }, // Lapras
                     new EncounterSlot { Species = 131, LevelMin = 36, LevelMax = 36, Type = SlotType.Surf_Safari }, // Lapras
-                    // new EncounterSlot { Species = 131, Type = SlotType.Surf_Safari }, // Lapras Unknown level
-                    new EncounterSlot { Species = 131, LevelMin = 41, LevelMax = 46, Type = SlotType.Surf_Safari }, // Lapras
+                    new EncounterSlot { Species = 131, LevelMin = 37, LevelMax = 47, Type = SlotType.Surf_Safari }, // Lapras *Serebii
+                    // new EncounterSlot { Species = 131, LevelMin = 41, LevelMax = 46, Type = SlotType.Surf_Safari }, // Lapras *overlapped
                     new EncounterSlot { Species = 179, LevelMin = 43, LevelMax = 43, Type = SlotType.Grass_Safari }, // Mareep
                     new EncounterSlot { Species = 304, LevelMin = 45, LevelMax = 45, Type = SlotType.Grass_Safari }, // Aron
                     new EncounterSlot { Species = 309, LevelMin = 42, LevelMax = 42, Type = SlotType.Grass_Safari }, // Electrike
@@ -921,8 +918,8 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 054, LevelMin = 16, LevelMax = 17, Type = SlotType.Surf_Safari }, // Psyduck
                     new EncounterSlot { Species = 055, LevelMin = 17, LevelMax = 17, Type = SlotType.Grass_Safari }, // Golduck
                     new EncounterSlot { Species = 055, LevelMin = 40, LevelMax = 40, Type = SlotType.Grass_Safari }, // Golduck
-                    new EncounterSlot { Species = 055, LevelMin = 45, LevelMax = 45, Type = SlotType.Surf_Safari }, // Golduck
-                    // new EncounterSlot { Species = 055, Type = SlotType.Surf_Safari }, // Golduck Unknown level
+                    // new EncounterSlot { Species = 055, LevelMin = 45, LevelMax = 45, Type = SlotType.Surf_Safari }, // Golduck *overlapped
+                    new EncounterSlot { Species = 055, LevelMin = 37, LevelMax = 45, Type = SlotType.Surf_Safari }, // Golduck *Serebii
                     new EncounterSlot { Species = 060, LevelMin = 12, LevelMax = 15, Type = SlotType.Old_Rod_Safari }, // Poliwag
                     new EncounterSlot { Species = 060, LevelMin = 22, LevelMax = 24, Type = SlotType.Good_Rod_Safari }, // Poliwag
                     new EncounterSlot { Species = 060, LevelMin = 36, LevelMax = 37, Type = SlotType.Super_Rod_Safari }, // Poliwag
@@ -935,8 +932,8 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 000, LevelMin = 41, LevelMax = 41, Type = SlotType.Grass_Safari }, // Farfetch'd
                     new EncounterSlot { Species = 084, LevelMin = 45, LevelMax = 46, Type = SlotType.Grass_Safari }, // Doduo
                     new EncounterSlot { Species = 129, LevelMin = 12, LevelMax = 15, Type = SlotType.Old_Rod_Safari }, // Magikarp
-                    // new EncounterSlot { Species = 130, Type = SlotType.Super_Rod_Safari }, // Gyarados Unknown level
-                    new EncounterSlot { Species = 130, LevelMin = 47, LevelMax = 47, Type = SlotType.Super_Rod_Safari }, // Gyarados
+                    new EncounterSlot { Species = 130, LevelMin = 45, LevelMax = 48, Type = SlotType.Super_Rod_Safari }, // Gyarados *Serebii
+                    //new EncounterSlot { Species = 130, LevelMin = 47, LevelMax = 47, Type = SlotType.Super_Rod_Safari }, // Gyarados *overlapped
                     new EncounterSlot { Species = 132, LevelMin = 17, LevelMax = 17, Type = SlotType.Grass_Safari }, // Ditto
                     new EncounterSlot { Species = 132, LevelMin = 41, LevelMax = 41, Type = SlotType.Grass_Safari }, // Ditto
                     new EncounterSlot { Species = 161, LevelMin = 15, LevelMax = 17, Type = SlotType.Grass_Safari }, // Sentret
@@ -965,7 +962,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 190, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Aipom 
                     new EncounterSlot { Species = 214, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Heracross
                     new EncounterSlot { Species = 265, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Wurmple
-                    new EncounterSlot { Species = 412, LevelMin = 5, LevelMax = 15, Form = 0, Type = SlotType.HoneyTree }, // Burmy Plant Cloak
+                    new EncounterSlot { Species = 412, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree, Form = 0,  }, // Burmy Plant Cloak
                     new EncounterSlot { Species = 415, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Combee 
                     new EncounterSlot { Species = 420, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Cheruby
                     new EncounterSlot { Species = 446, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Munchlax 
@@ -1053,7 +1050,7 @@ namespace PKHeX.Core
             37, // Route 222
             47, // Valley Windworks 
             49, // Fuego Ironworks
-            58, //Floaroma Meadow
+            58, // Floaroma Meadow
         };
 
         private static readonly EncounterArea[] SlotsDPPT_Swarm =
