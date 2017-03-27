@@ -1284,17 +1284,23 @@ namespace PKHeX.Core
         }
         public byte BallThrowTypeUnlocked
         {
-            get { return (byte)(((Data[0x23F5] & 0x0F) << 4) | ((Data[0x23F4] & 0xC0) >> 4)); }
+            get { return (byte)(((BitConverter.ToUInt16(Data, 0x23F4) << 4) >> 10) << 2); }
             set
             {
-                Data[0x23F4] = (byte)((Data[0x23F4] & 0x3F) | ((value & 0x0C) << 4));
-                Data[0x23F5] = (byte)((Data[0x23F5] & 0xF0) | ((value & 0xF0) >> 4));
+                ushort flags = (ushort)(BitConverter.ToUInt16(Data, 0x23F4) & 0xF03F);
+                flags |= (ushort)((value & 0xFC) << 4);
+                BitConverter.GetBytes(flags).CopyTo(Data, 0x23F4);
             }
         }
         public byte BallThrowTypeLearned
         {
             get { return (byte)((Data[0x2583] & 0x7F) << 1); }
             set { Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1)); }
+        }
+        public byte BattleTreeSuperUnlocked
+        {
+            get { return (byte)(Data[0x23F9] >> 5); }
+            set { Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5)); }
         }
 
         public override bool RequiresMemeCrypto => true;

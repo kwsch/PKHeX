@@ -139,6 +139,10 @@ namespace PKHeX.WinForms
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
             this.Tab_BattleTree = new System.Windows.Forms.TabPage();
+            this.GB_UnlockSupers = new System.Windows.Forms.GroupBox();
+            this.CHK_UnlockSuperMulti = new System.Windows.Forms.CheckBox();
+            this.CHK_UnlockSuperDoubles = new System.Windows.Forms.CheckBox();
+            this.CHK_UnlockSuperSingles = new System.Windows.Forms.CheckBox();
             this.L_Super = new System.Windows.Forms.Label();
             this.L_Regular = new System.Windows.Forms.Label();
             this.NUD_SMStreak2 = new System.Windows.Forms.NumericUpDown();
@@ -202,6 +206,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
             this.Tab_BattleTree.SuspendLayout();
+            this.GB_UnlockSupers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak1)).BeginInit();
@@ -1294,6 +1299,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_BattleTree
             // 
+            this.Tab_BattleTree.Controls.Add(this.GB_UnlockSupers);
             this.Tab_BattleTree.Controls.Add(this.L_Super);
             this.Tab_BattleTree.Controls.Add(this.L_Regular);
             this.Tab_BattleTree.Controls.Add(this.NUD_SMStreak2);
@@ -1321,6 +1327,48 @@ namespace PKHeX.WinForms
             this.Tab_BattleTree.TabIndex = 5;
             this.Tab_BattleTree.Text = "Battle Tree";
             this.Tab_BattleTree.UseVisualStyleBackColor = true;
+            // 
+            // GB_UnlockSupers
+            // 
+            this.GB_UnlockSupers.Controls.Add(this.CHK_UnlockSuperMulti);
+            this.GB_UnlockSupers.Controls.Add(this.CHK_UnlockSuperDoubles);
+            this.GB_UnlockSupers.Controls.Add(this.CHK_UnlockSuperSingles);
+            this.GB_UnlockSupers.Location = new System.Drawing.Point(6, 240);
+            this.GB_UnlockSupers.Name = "GB_UnlockSupers";
+            this.GB_UnlockSupers.Size = new System.Drawing.Size(199, 40);
+            this.GB_UnlockSupers.TabIndex = 95;
+            this.GB_UnlockSupers.TabStop = false;
+            this.GB_UnlockSupers.Text = "Unlock Super*";
+            // 
+            // CHK_UnlockSuperMulti
+            // 
+            this.CHK_UnlockSuperMulti.AutoSize = true;
+            this.CHK_UnlockSuperMulti.Location = new System.Drawing.Point(144, 18);
+            this.CHK_UnlockSuperMulti.Name = "CHK_UnlockSuperMulti";
+            this.CHK_UnlockSuperMulti.Size = new System.Drawing.Size(49, 16);
+            this.CHK_UnlockSuperMulti.TabIndex = 2;
+            this.CHK_UnlockSuperMulti.Text = "Multi";
+            this.CHK_UnlockSuperMulti.UseVisualStyleBackColor = true;
+            // 
+            // CHK_UnlockSuperDoubles
+            // 
+            this.CHK_UnlockSuperDoubles.AutoSize = true;
+            this.CHK_UnlockSuperDoubles.Location = new System.Drawing.Point(73, 18);
+            this.CHK_UnlockSuperDoubles.Name = "CHK_UnlockSuperDoubles";
+            this.CHK_UnlockSuperDoubles.Size = new System.Drawing.Size(65, 16);
+            this.CHK_UnlockSuperDoubles.TabIndex = 1;
+            this.CHK_UnlockSuperDoubles.Text = "Doubles";
+            this.CHK_UnlockSuperDoubles.UseVisualStyleBackColor = true;
+            // 
+            // CHK_UnlockSuperSingles
+            // 
+            this.CHK_UnlockSuperSingles.AutoSize = true;
+            this.CHK_UnlockSuperSingles.Location = new System.Drawing.Point(6, 18);
+            this.CHK_UnlockSuperSingles.Name = "CHK_UnlockSuperSingles";
+            this.CHK_UnlockSuperSingles.Size = new System.Drawing.Size(61, 16);
+            this.CHK_UnlockSuperSingles.TabIndex = 0;
+            this.CHK_UnlockSuperSingles.Text = "Singles";
+            this.CHK_UnlockSuperSingles.UseVisualStyleBackColor = true;
             // 
             // L_Super
             // 
@@ -1964,6 +2012,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
             this.Tab_BattleTree.ResumeLayout(false);
+            this.GB_UnlockSupers.ResumeLayout(false);
+            this.GB_UnlockSupers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SCStreak2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SMStreak1)).EndInit();
@@ -2148,5 +2198,9 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ListBox LB_BallThrowTypeLearned;
         private System.Windows.Forms.Label L_Stamps;
         private System.Windows.Forms.ListBox LB_Stamps;
+        private System.Windows.Forms.GroupBox GB_UnlockSupers;
+        private System.Windows.Forms.CheckBox CHK_UnlockSuperMulti;
+        private System.Windows.Forms.CheckBox CHK_UnlockSuperDoubles;
+        private System.Windows.Forms.CheckBox CHK_UnlockSuperSingles;
     }
 }

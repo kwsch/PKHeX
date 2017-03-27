@@ -225,6 +225,10 @@ namespace PKHeX.WinForms
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
                 LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
+            byte btsu = SAV.BattleTreeSuperUnlocked;
+            CHK_UnlockSuperSingles.Checked = (btsu & 1) != 0;
+            CHK_UnlockSuperDoubles.Checked = (btsu & (1 << 1)) != 0;
+            CHK_UnlockSuperMulti.Checked = (btsu & (1 << 2)) != 0;
         }
         private void save()
         {
@@ -334,6 +338,11 @@ namespace PKHeX.WinForms
                     stampBits += (uint)(1 << i);
             }
             SAV.Stamps = stampBits;
+            byte btsu = 0;
+            if (CHK_UnlockSuperSingles.Checked) btsu |= 1;
+            if (CHK_UnlockSuperDoubles.Checked) btsu |= (1 << 1);
+            if (CHK_UnlockSuperMulti.Checked) btsu |= (1 << 2);
+            SAV.BattleTreeSuperUnlocked = btsu;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
