@@ -494,7 +494,7 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterEgg()
         {
             // Check Species
-            if (Legal.NoHatchFromEgg.Contains(pkm.Species))
+            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && (pkm.GenNumber != 4 || pkm.Species == 490))
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
