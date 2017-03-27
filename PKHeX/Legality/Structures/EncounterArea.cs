@@ -890,6 +890,37 @@ namespace PKHeX.Core
             return new[] { new EncounterArea { Location = 68, Slots = l.ToArray() } };
         }
 
+        /// <summary>
+        /// Gets the encounter areas for species with same level range and same slottype at same location
+        /// </summary>
+        /// <param name="species">List of species that exist in the Area.</param>
+        /// <param name="lvls">Paired LevelMins and LevelMaxs of the encounter slots.</param>
+        /// <param name="location">Location index of the encounter area.</param>
+        /// <param name="t">Encounter slot type of the encounter area.</param>
+        /// <returns></returns>
+        public static EncounterArea[] getSimpleEncounterArea(IEnumerable<int> species, int[] lvls, int location, SlotType t)
+        {
+            var l = new List<EncounterSlot>();
+            // levels data not paired
+            if ((lvls.Length & 1) == 1)
+                return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
+
+            foreach (var s in species)
+            {
+                for (int i = 0; i < lvls.Length;)
+                {
+                    l.Add(new EncounterSlot
+                    {
+                        LevelMin = lvls[i++],
+                        LevelMax = lvls[i++],
+                        Species = s,
+                        Type = t
+                    });
+                }
+            }
+            return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
+        }
+
         public static EncounterArea[] getArray(byte[][] entries)
         {
             if (entries == null)

@@ -246,15 +246,18 @@ namespace PKHeX.Core
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
-            // Swarm slots replace slots 0 and 1 from encounters data
+            // Grass Swarm slots replace slots 0 and 1 from encounters data
+            // for surfing only replace slots 0 from encounters data
+            // for fishing replace one or several random slots from encounters data, but all slots have the same level, it's ok to only replace the first
             // Species id are not included in encounter tables but levels can be copied from the encounter raw data
-            foreach(EncounterArea Area in Areas)
+            foreach (EncounterArea Area in Areas)
             {
                 var SwarmSlots = SwarmAreas.Where(a => a.Location == Area.Location).SelectMany(s => s.Slots);
                 var OutputSlots = new List<EncounterSlot>();
                 foreach (EncounterSlot SwarmSlot in SwarmSlots)
                 {
-                    foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(2).Select(slot => slot.Clone()))
+                    int slotsnum = SwarmSlot.Type == SlotType.Grass ? 2 : 1;
+                    foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(slotsnum).Select(slot => slot.Clone()))
                     {
                         swarmSlot.Species = SwarmSlot.Species;
                         OutputSlots.Add(swarmSlot);
@@ -496,6 +499,8 @@ namespace PKHeX.Core
                 var Pt_Slots = getEncounterTables(GameVersion.Pt);
                 var HG_Slots = getEncounterTables(GameVersion.HG);
                 var SS_Slots = getEncounterTables(GameVersion.SS);
+                var DP_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(DP_GreatMarshAlt_Speices, new[] {22,22, 24,24, 26,26}, 52, SlotType.Grass_Safari);
+                var Pt_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(Pt_GreatMarshAlt_Speices, new[] {27,30}, 52, SlotType.Grass_Safari);
                 var DP_Trophy = EncounterArea.getTrophyArea(TrophyDP, new[] {16, 18});
                 var Pt_Trophy = EncounterArea.getTrophyArea(TrophyPt, new[] {22, 22});
                 var HG_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Resources.encunters_hb_hg, "hg"));
@@ -530,9 +535,9 @@ namespace PKHeX.Core
                 MarkG4SlotsGreatMarsh(ref P_Slots, 52);
                 MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
-                SlotsD = addExtraTableSlots(D_Slots, D_HoneyTrees_Slots, SlotsDPPPtAlt, DP_Trophy);
-                SlotsP = addExtraTableSlots(P_Slots, P_HoneyTrees_Slots, SlotsDPPPtAlt, DP_Trophy);
-                SlotsPt = addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, SlotsDPPPtAlt, Pt_Trophy);
+                SlotsD = addExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
+                SlotsP = addExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
+                SlotsPt = addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, SlotsDPPPtAlt, Pt_Trophy);
                 SlotsHG = addExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
                 SlotsSS = addExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
