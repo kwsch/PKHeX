@@ -287,7 +287,7 @@ namespace PKHeX.Core
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
         }
-        public bool IsNicknamed => Nickname.Length > 0;
+        public bool IsNicknamed => Nickname.Length > 0 || IsEgg;
 
         public override int[] Moves
         {
@@ -464,6 +464,7 @@ namespace PKHeX.Core
             {
                 pk.IsEgg = true;
                 pk.EggMetDate = Date;
+                pk.Nickname = PKX.getSpeciesName(0, pk.Language);
             }
 
             pk.RefreshChecksum();
