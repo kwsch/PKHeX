@@ -505,10 +505,6 @@ namespace PKHeX.Core
             var Slots = new List<EncounterSlot>();
             Area4.Location = BitConverter.ToUInt16(data, 0);
 
-            if (Area4.Location == 0028)
-            {
-
-            }
             var GrassRatio = BitConverter.ToInt32(data, 2);
             var ofs = 6;
             if (GrassRatio > 0)
