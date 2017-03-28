@@ -777,25 +777,29 @@ namespace PKHeX.Core
             int origin = pkm.Version;
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
-            int shiftoff = shiny * brSize * 2 + gender * brSize + brSize;
-
-            // Set the [Species/Gender/Shiny] Owned Flag
-            Data[PokeDex + shiftoff + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
-
+            int shiftoff = brSize*(1 + gender + 2*shiny); // after the Owned region
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            byte mask = (byte)(1 << bm);
+            int ofs = PokeDex + 0x8 + bd;
+            
             // Owned quality flag
             if (origin < 0x18 && bit < 649 && !ORAS) // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
-                Data[PokeDex + 0x64C + bit / 8] |= (byte)(1 << (bit % 8));
+                Data[ofs + 0x644] |= mask;
             else if (origin >= 0x18 || ORAS) // Set Native Owned Flag (should always happen)
-                Data[PokeDex + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+                Data[ofs + brSize * 0] |= mask;
+
+            // Set the [Species/Gender/Shiny] Seen Flag
+            Data[ofs + shiftoff] |= mask;
 
             // Set the Display flag if none are set
             bool Displayed = false;
-            Displayed |= (Data[PokeDex + brSize * 5 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 6 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 7 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
-            Displayed |= (Data[PokeDex + brSize * 8 + bit / 8 + 0x8] & (byte)(1 << (bit % 8))) != 0;
+            Displayed |= (Data[ofs + brSize * 5] & mask) != 0;
+            Displayed |= (Data[ofs + brSize * 6] & mask) != 0;
+            Displayed |= (Data[ofs + brSize * 7] & mask) != 0;
+            Displayed |= (Data[ofs + brSize * 8] & mask) != 0;
             if (!Displayed) // offset is already biased by brSize, reuse shiftoff but for the display flags.
-                Data[PokeDex + shiftoff + brSize * 4 + bit / 8 + 0x8] |= (byte)(1 << (bit % 8));
+                Data[ofs + brSize * 4 + shiftoff] |= mask;
 
             // Set the Language
             if (lang < 0) lang = 1;
@@ -828,6 +832,39 @@ namespace PKHeX.Core
             }
             bit = f + pkm.AltForm;
             Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
+        }
+
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x08; // Magic + Flags
+
+            if ((1 << bm & Data[ofs + bd]) != 0)
+                return true; // Owned Native
+
+            if (ORAS || bit >= 649) // no Foreign flag
+                return false;
+            return (1 << bm & Data[ofs + bd + 0x644]) != 0;
+        }
+
+        public override bool getSeen(int species)
+        {
+            const int brSize = 0x60;
+
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            byte mask = (byte)(1 << bm);
+            int ofs = PokeDex // Raw Offset
+                      + 0x08; // Magic + Flags
+
+            for (int i = 1; i <= 4; i++) // check all 4 seen flags (gender/shiny)
+                if ((Data[ofs + bd + i * brSize] & mask) != 0)
+                    return true;
+            return false;
         }
         public override byte[] decryptPKM(byte[] data)
         {

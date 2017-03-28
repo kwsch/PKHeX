@@ -305,8 +305,7 @@ namespace PKHeX.WinForms
             if (editing)
                 return;
             editing = true;
-
-            editing = true;
+            
             Constants[CB_Stats.SelectedIndex] = (ushort)(Util.ToUInt32(((MaskedTextBox)sender).Text) & 0xFFFF);
             MaskedTextBox m = TLP_Flags.Controls[constTag + CB_Stats.SelectedIndex.ToString("0000")] as MaskedTextBox;
             if (m != null)
@@ -422,6 +421,12 @@ namespace PKHeX.WinForms
             {
                 WinFormsUtil.Error("An unexpected error has occurred.", e);
                 Console.Write(e);
+            }
+
+            if (string.IsNullOrEmpty(r))
+            {
+                WinFormsUtil.Alert("No Event Constant diff found.");
+                return;
             }
 
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))

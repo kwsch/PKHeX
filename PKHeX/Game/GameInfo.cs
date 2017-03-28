@@ -12,25 +12,23 @@ namespace PKHeX.Core
         private static readonly GameStrings[] Languages = new GameStrings[lang_val.Length];
 
         // Lazy fetch implementation
-        public static GameStrings getStrings(string lang)
+        private static int DefaultLanguageIndex => Array.IndexOf(lang_val, DefaultLanguage);
+        private static int getLanguageIndex(string lang)
         {
             int l = Array.IndexOf(lang_val, lang);
-            if (l < 0)
-                l = 1;
-            return getIndex(l);
+            return l < 0 ? DefaultLanguageIndex : l;
         }
-        private static GameStrings getIndex(int index)
+        public static GameStrings getStrings(string lang)
         {
+            int index = getLanguageIndex(lang);
             return Languages[index] ?? (Languages[index] = new GameStrings(lang_val[index]));
         }
-
-        private static string getTransporterName(string Language)
+        private static string getTransporterName(string lang)
         {
-            int lang = Array.IndexOf(lang_val, Language);
-            if (lang < 0 || lang >= ptransp.Length)
-                lang = Array.IndexOf(lang_val, DefaultLanguage);
-            
-            return  ptransp[lang < 0 ? 1 : lang];
+            int index = getLanguageIndex(lang);
+            if (index >= ptransp.Length)
+                index = DefaultLanguageIndex;
+            return ptransp[index];
         }
 
         // String providing

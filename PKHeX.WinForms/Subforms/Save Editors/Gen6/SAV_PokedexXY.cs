@@ -373,9 +373,8 @@ namespace PKHeX.WinForms
                     {
                         if (mnuComplete == sender)
                         {
-                            // Seen All
-                            foreach (var chk in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
-                                chk.Checked = true;
+                            CHK_P2.Checked = CHK_P4.Checked = gt != 254; // not female only
+                            CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255; // not male only or genderless
                         }
                         else
                         {

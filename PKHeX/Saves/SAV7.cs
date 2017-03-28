@@ -432,8 +432,8 @@ namespace PKHeX.Core
         }
         public int BallThrowType
         {
-            get { return Data[0x7A]; }
-            set { Data[0x7A] = (byte)(value > 8 ? 0 : value); }
+            get { return Data[TrainerCard + 0x7A]; }
+            set { Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value); }
         }
         public int M
         {
@@ -486,6 +486,19 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x4);
             }
         }
+        public uint Stamps
+        {
+            get // 15 stamps
+            {
+                return (BitConverter.ToUInt32(Data, Misc + 0x08) << 13) >> 17; // discard top13, lowest4
+            }
+            set
+            {
+                uint flags = BitConverter.ToUInt32(Data, Misc + 0x08) & 0xFFF8000F;
+                flags |= (value & 0x7FFF) << 4;
+                BitConverter.GetBytes(flags).CopyTo(Data, Misc + 0x08);
+            }
+        }
         public uint BP
         {
             get { return BitConverter.ToUInt32(Data, Misc + 0x11C); }
@@ -494,6 +507,16 @@ namespace PKHeX.Core
                 if (value > 9999) value = 9999;
                 BitConverter.GetBytes(value).CopyTo(Data, Misc + 0x11C);
             }
+        }
+        public int Vivillon
+        {
+            get { return Data[Misc + 0x130] & 0x1F; }
+            set { Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F)); }
+        }
+        public int DaysFromRefreshed
+        {
+            get { return Data[Misc + 0x123]; }
+            set { Data[Misc + 0x123] = (byte)value; }
         }
         public uint UsedFestaCoins
         {
@@ -532,6 +555,25 @@ namespace PKHeX.Core
                 const int max = 20;
                 if (value.Length > max) value = value.Substring(0, max);
                 Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, JoinFestaData + 0x510);
+            }
+        }
+        public struct FashionItem
+        {
+            public bool IsOwned;
+            public bool IsNew;
+        }
+        public FashionItem[] Wardrobe
+        {
+            get
+            {
+                var data = getData(Fashion, 0x5A8);
+                return data.Select(b => new FashionItem {IsOwned = (b & 1) != 0, IsNew = (b & 2) != 0}).ToArray();
+            }
+            set
+            {
+                if (value.Length != 0x5A8)
+                    throw new ArgumentOutOfRangeException($"Unexpected size: 0x{value.Length:X}");
+                setData(value.Select(t => (byte) ((t.IsOwned ? 1 : 0) | (t.IsNew ? 2 : 0))).ToArray(), Fashion);
             }
         }
 
@@ -613,18 +655,13 @@ namespace PKHeX.Core
         public void setRecord(int recordID, int value)
         {
             int ofs = getRecordOffset(recordID);
+            int max = getRecordMax(recordID);
+            if (value > max)
+                value = max;
             if (recordID < 100)
                 BitConverter.GetBytes(value).CopyTo(Data, ofs);
             if (recordID < 200)
-                BitConverter.GetBytes((short)value).CopyTo(Data, ofs);
-        }
-        public int getRecordMax(int recordID)
-        {
-            if (recordID < 100)
-                return int.MaxValue;
-            if (recordID < 200)
-                return short.MaxValue;
-            return 0;
+                BitConverter.GetBytes((ushort)value).CopyTo(Data, ofs);
         }
         public int getRecordOffset(int recordID)
         {
@@ -634,6 +671,33 @@ namespace PKHeX.Core
                 return Record + recordID*2 + 200; // first 100 are 4bytes, so bias the difference
             return -1;
         }
+
+        public int getRecordMax(int recordID) => recordID < 200 ? RecordMax[RecordMaxType[recordID]] : 0;
+        private static readonly int[] RecordMax = {999999999, 9999999, 999999, 99999, 65535, 9999, 999};
+        private static readonly int[] RecordMaxType =
+        {
+            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
+            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        };
 
         public ushort PokeFinderCameraVersion
         {
@@ -971,6 +1035,34 @@ namespace PKHeX.Core
             // Set the Display flag if none are set
             Data[ofs + (4 + shift) * brSize + bd] |= (byte)(1 << bm);
         }
+
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            int ofs = PokeDex // Raw Offset
+                      + 0x08 // Magic + Flags
+                      + 0x80; // Misc Data (1024 bits)
+            return (1 << bm & Data[ofs + bd]) != 0;
+        }
+        public override bool getSeen(int species)
+        {
+            const int brSize = 0x8C;
+
+            int bit = species - 1;
+            int bd = bit >> 3; // div8
+            int bm = bit & 7; // mod8
+            byte mask = (byte)(1 << bm);
+            int ofs = PokeDex // Raw Offset
+                      + 0x08 // Magic + Flags
+                      + 0x80; // Misc Data (1024 bits)
+
+            for (int i = 1; i <= 4; i++) // check all 4 seen flags (gender/shiny)
+                if ((Data[ofs + bd + i * brSize] & mask) != 0)
+                    return true;
+            return false;
+        }
         public override byte[] decryptPKM(byte[] data)
         {
             return PKX.decryptArray(data);
@@ -1189,6 +1281,26 @@ namespace PKHeX.Core
         {
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
+        }
+        public byte BallThrowTypeUnlocked
+        {
+            get { return (byte)(((BitConverter.ToUInt16(Data, 0x23F4) << 4) >> 10) << 2); }
+            set
+            {
+                ushort flags = (ushort)(BitConverter.ToUInt16(Data, 0x23F4) & 0xF03F);
+                flags |= (ushort)((value & 0xFC) << 4);
+                BitConverter.GetBytes(flags).CopyTo(Data, 0x23F4);
+            }
+        }
+        public byte BallThrowTypeLearned
+        {
+            get { return (byte)((Data[0x2583] & 0x7F) << 1); }
+            set { Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1)); }
+        }
+        public byte BattleTreeSuperUnlocked
+        {
+            get { return (byte)(Data[0x23F9] >> 5); }
+            set { Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5)); }
         }
 
         public override bool RequiresMemeCrypto => true;

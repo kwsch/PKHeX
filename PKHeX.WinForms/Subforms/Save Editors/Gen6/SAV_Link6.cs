@@ -23,6 +23,7 @@ namespace PKHeX.WinForms
             {
                 WinFormsUtil.Alert("Invalid save file / Link Information");
                 Close();
+                return;
             }
             data = data.Skip(0x1FF).Take(PL6.Size).ToArray();
             loadLinkData(data);

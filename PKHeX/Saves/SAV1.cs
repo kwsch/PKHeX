@@ -436,69 +436,62 @@ namespace PKHeX.Core
         }
 
         // Pokédex
-        public override bool getSeen(PKM pkm)
+        private int PokedexSeenOffset => Japanese ? 0x25B1 : 0x25B6;
+        private int PokedexCaughtOffset => Japanese ? 0x259E : 0x25A3;
+        protected override void setDex(PKM pkm)
         {
-            if (pkm.Species == 0)
-                return false;
-            if (pkm.Species > MaxSpeciesID)
-                return false;
-            if (Version == GameVersion.Unknown)
-                return false;
+            int species = pkm.Species;
+            if (!canSetDex(species))
+                return;
 
-            int bit = pkm.Species - 1;
-            int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            // Get the Seen Flag
-            return (Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] & bitval) != 0;
+            setCaught(pkm.Species, true);
+            setSeen(pkm.Species, true);
         }
-        public override bool getCaught(PKM pkm)
+        private bool canSetDex(int species)
         {
-            if (pkm.Species == 0)
+            if (species <= 0)
                 return false;
-            if (pkm.Species > MaxSpeciesID)
+            if (species > MaxSpeciesID)
                 return false;
             if (Version == GameVersion.Unknown)
                 return false;
-
-            int bit = pkm.Species - 1;
-            int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            // Get the Caught Flag
-            return (Data[(Japanese ? 0x259E : 0x25A3) + ofs] & bitval) != 0;
+            return true;
         }
-        public override void setSeen(PKM pkm, bool seen = true)
+        public override void setSeen(int species, bool seen)
         {
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > MaxSpeciesID)
-                return;
-            if (Version == GameVersion.Unknown)
-                return;
-
-            int bit = pkm.Species - 1;
+            int bit = species - 1;
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
-            // Set the Seen Flag
-            Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] &= (byte)~bitval;
+            
             if (seen)
-                Data[(Japanese ? 0x25B1 : 0x25B6) + ofs] |= bitval;
+                Data[PokedexSeenOffset + ofs] |= bitval;
+            else
+                Data[PokedexSeenOffset + ofs] &= (byte)~bitval;
         }
-        public override void setCaught(PKM pkm, bool caught = true)
+        public override void setCaught(int species, bool caught)
         {
-            if (pkm.Species == 0)
-                return;
-            if (pkm.Species > MaxSpeciesID)
-                return;
-            if (Version == GameVersion.Unknown)
-                return;
-
-            int bit = pkm.Species - 1;
+            int bit = species - 1;
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
-            // Set the Captured Flag
-            Data[(Japanese ? 0x259E : 0x25A3) + ofs] &= (byte)~bitval;
+
             if (caught)
-                Data[(Japanese ? 0x259E : 0x25A3) + ofs] |= bitval;
+                Data[PokedexCaughtOffset + ofs] |= bitval;
+            else
+                Data[PokedexCaughtOffset + ofs] &= (byte)~bitval;
+        }
+        public override bool getSeen(int species)
+        {
+            int bit = species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            return (Data[PokedexSeenOffset + ofs] & bitval) != 0;
+        }
+        public override bool getCaught(int species)
+        {
+            int bit = species - 1;
+            int ofs = bit >> 3;
+            byte bitval = (byte)(1 << (bit & 7));
+            return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
         }
     }
 }

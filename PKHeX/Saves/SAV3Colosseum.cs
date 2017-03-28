@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace PKHeX.Core
 {
-    public sealed class SAV3Colosseum : SaveFile
+    public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
         public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
@@ -25,7 +25,7 @@ namespace PKHeX.Core
         private readonly int SaveCount = -1;
         private readonly int SaveIndex = -1;
         private readonly StrategyMemo StrategyMemo;
-        public override int MaxShadowID => 0x30; // 48
+        public override int MaxShadowID => 0x80; // 128
         private readonly int Memo;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne;
         private readonly int OFS_PouchCologne;
@@ -145,6 +145,7 @@ namespace PKHeX.Core
 
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();
+        public void Dispose() => sha1.Dispose();
         private byte[] EncryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)

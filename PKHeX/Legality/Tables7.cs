@@ -425,11 +425,12 @@ namespace PKHeX.Core
             548, 551, 568, 582, 587, 594, 627, 629, 661, 674,
             703, 704, 707, 708,
 
-            731, 734, 737, 739, 741, 742, 744, 746, 747, 749,
+            731, 734, 736, 739, 741, 742, 744, 746, 747, 749,
             751, 753, 755, 757, 759, 761, 764, 765, 766, 767,
             769, 771, 774, 775, 776, 777, 778, 779, 780, 781,
             782
         };
+        internal static readonly int[] AlolanCaptureNoHeavyBall = {374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly int[] Inherit_ApricornMale7 =
         {
             100, // Voltorb
@@ -522,8 +523,6 @@ namespace PKHeX.Core
 
             // No HMs
         };
-
-        internal static readonly int[] TypeTutor7 = {520, 519, 518, 338, 307, 308, 434, 620};
 
         internal static readonly int[] MovePP_SM =
         {
@@ -1328,8 +1327,6 @@ namespace PKHeX.Core
             590, // Relic Crown
             657, // Gardevoirite
             658, // Ampharosite
-            662, // Mewtwonite X
-            663, // Mewtwonite Y
             664, // Blazikenite
             665, // Medichamite
             666, // Houndoominite
@@ -1338,7 +1335,6 @@ namespace PKHeX.Core
             669, // Tyranitarite
             674, // Abomasite
             680, // Heracronite
-            681, // Mawilite
             682, // Manectite
             684, // Latiasite
             685, // Latiosite
@@ -1355,7 +1351,6 @@ namespace PKHeX.Core
             764, // Diancite
             767, // Cameruptite
             768, // Lopunnite
-            770, // Beeddrillite
             802, // Marshadium Z
             836, // Pikashunium Z
         };

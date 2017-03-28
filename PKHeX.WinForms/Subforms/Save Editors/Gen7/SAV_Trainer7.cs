@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
 
             Loading = false;
         }
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
+        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip();
         private readonly bool Loading;
         private bool MapUpdated;
         private bool editing;
@@ -97,6 +97,24 @@ namespace PKHeX.WinForms
                 CB_SkinColor.Items.Add($"{Main.gendersymbols[0]} - {c}"); // M
                 CB_SkinColor.Items.Add($"{Main.gendersymbols[1]} - {c}"); // F
             }
+
+            L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
+            CB_Vivillon.DisplayMember = "Text";
+            CB_Vivillon.ValueMember = "Value";
+            CB_Vivillon.DataSource = PKX.getFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols).ToList();
+
+            string[] BattleStyles = new string[8] { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
+            for (int i = 0; i < BattleStyles.Length; i++)
+            {
+                CB_BallThrowType.Items.Add(BattleStyles[i]);
+                LB_BallThrowTypeUnlocked.Items.Add(BattleStyles[i]);
+                LB_BallThrowTypeLearned.Items.Add(BattleStyles[i]);
+            }
+
+            string[] TrainerStampTitle = new string[15] { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
+            for (int i = 0; i < TrainerStampTitle.Length; i++)
+                LB_Stamps.Items.Add(TrainerStampTitle[i]);
+
         }
         private void getTextBoxes()
         {
@@ -160,8 +178,8 @@ namespace PKHeX.WinForms
 
             // Poké Finder
             NUD_SnapCount.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderSnapCount);
-            NUD_ThumbsTotal.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsTotalValue);
-            NUD_ThumbsRecord.Value = Math.Min(NUD_SnapCount.Maximum, SAV.PokeFinderThumbsHighValue);
+            NUD_ThumbsTotal.Value = Math.Min(NUD_ThumbsTotal.Maximum, SAV.PokeFinderThumbsTotalValue);
+            NUD_ThumbsRecord.Value = Math.Min(NUD_ThumbsRecord.Maximum, SAV.PokeFinderThumbsHighValue);
 
             CB_CameraVersion.SelectedIndex = Math.Min(CB_CameraVersion.Items.Count - 1, SAV.PokeFinderCameraVersion);
             CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
@@ -183,6 +201,34 @@ namespace PKHeX.WinForms
 
             CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
             TB_PlazaName.Text = SAV.FestivalPlazaName;
+
+            CB_Vivillon.SelectedIndex = (SAV.Vivillon < CB_Vivillon.Items.Count) ? SAV.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.DaysFromRefreshed);
+
+            if (SAV.BallThrowType >= 0 && SAV.BallThrowType < CB_BallThrowType.Items.Count)
+                CB_BallThrowType.SelectedIndex = SAV.BallThrowType;
+
+            byte bttu = SAV.BallThrowTypeUnlocked;
+            LB_BallThrowTypeUnlocked.SetSelected(0, true);
+            LB_BallThrowTypeUnlocked.SetSelected(1, true);
+            for (int i = 2; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
+                LB_BallThrowTypeUnlocked.SetSelected(i, (bttu & (1 << i)) != 0);
+
+            byte bttl = SAV.BallThrowTypeLearned;
+            LB_BallThrowTypeLearned.SetSelected(0, true);
+            for (int i = 1; i < LB_BallThrowTypeLearned.Items.Count; i++)
+                LB_BallThrowTypeLearned.SetSelected(i, (bttl & (1 << i)) != 0);
+
+            CB_BallThrowTypeListMode.SelectedIndex = 0;
+
+            uint stampBits = SAV.Stamps;
+            for (int i = 0; i < LB_Stamps.Items.Count; i++)
+                LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
+
+            byte btsu = SAV.BattleTreeSuperUnlocked;
+            CHK_UnlockSuperSingles.Checked = (btsu & 1) != 0;
+            CHK_UnlockSuperDoubles.Checked = (btsu & (1 << 1)) != 0;
+            CHK_UnlockSuperMulti.Checked = (btsu & (1 << 2)) != 0;
         }
         private void save()
         {
@@ -265,6 +311,38 @@ namespace PKHeX.WinForms
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
+
+            // Vivillon
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
+            
+            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
+            SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
+            byte bttu = 0;
+            for(int i = 0; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
+            {
+                if (LB_BallThrowTypeUnlocked.GetSelected(i))
+                    bttu += (byte)(1 << i);
+            }
+            SAV.BallThrowTypeUnlocked = bttu;
+            byte bttl = 0;
+            for(int i = 0; i < LB_BallThrowTypeLearned.Items.Count; i++)
+            {
+                if (LB_BallThrowTypeLearned.GetSelected(i))
+                    bttl += (byte)(1 << i);
+            }
+            SAV.BallThrowTypeLearned = bttl;
+            uint stampBits = 0;
+            for(int i = 0; i < LB_Stamps.Items.Count; i++)
+            {
+                if (LB_Stamps.GetSelected(i))
+                    stampBits += (uint)(1 << i);
+            }
+            SAV.Stamps = stampBits;
+            byte btsu = 0;
+            if (CHK_UnlockSuperSingles.Checked) btsu |= 1;
+            if (CHK_UnlockSuperDoubles.Checked) btsu |= (1 << 1);
+            if (CHK_UnlockSuperMulti.Checked) btsu |= (1 << 2);
+            SAV.BattleTreeSuperUnlocked = btsu;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -334,6 +412,7 @@ namespace PKHeX.WinForms
             new byte[SAV.FashionLength].CopyTo(SAV.Data, SAV.Fashion);
             
             // Write Payload
+            // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
 
             switch (CB_Fashion.SelectedIndex)
             {
@@ -381,6 +460,7 @@ namespace PKHeX.WinForms
 
             int offset = SAV.getRecordOffset(index);
             L_Offset.Text = "Offset: 0x" + offset.ToString("X3");
+            updateTip(index, true);
             editing = false;
         }
         private void changeStatVal(object sender, EventArgs e)
@@ -388,6 +468,69 @@ namespace PKHeX.WinForms
             if (editing) return;
             int index = CB_Stats.SelectedIndex;
             SAV.setRecord(index, (int)NUD_Stat.Value);
+            updateTip(index, false);
+        }
+        private void updateTip(int index, bool updateStats)
+        {
+            switch (index)
+            {
+                case 2: // Storyline Completed Time
+                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    seconds -= seconds % 86400;
+                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
+                    Tip3.SetToolTip(NUD_Stat, dateval2str(SAV.getRecord(index), seconds));
+                    break;
+                default:
+                    Tip3.RemoveAll();
+                    break;
+            }
+            if (!updateStats)
+                return;
+
+            string tip;
+            if (RecordList.TryGetValue(index, out tip))
+                Tip3.SetToolTip(CB_Stats, tip);
+        }
+        private static string dateval2str(int value, int refval = -1)
+        {
+            string tip = "";
+            if (value >= 86400)
+                tip += value / 86400 + "d ";
+            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
+            if (refval >= 0)
+                tip += Environment.NewLine + "Date: " + new DateTime(2000, 1, 1).AddSeconds(refval + value);
+            return tip;
+        }
+
+        private void CB_BattleStyleListMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CB_BallThrowTypeListMode.SelectedIndex == 0)
+            {
+                LB_BallThrowTypeUnlocked.Visible = true;
+                LB_BallThrowTypeLearned.Visible = false;
+            }
+            else
+            {
+                LB_BallThrowTypeUnlocked.Visible = false;
+                LB_BallThrowTypeLearned.Visible = true;
+            }
+        }
+
+        private void LB_BallThrowTypeLearned_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Loading) return;
+            if (!LB_BallThrowTypeLearned.GetSelected(0))
+                LB_BallThrowTypeLearned.SetSelected(0, true);
+        }
+
+        private void LB_BallThrowTypeUnlocked_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Loading) return;
+            for (int i = 0; i < 2; i++)
+            {
+                if (!LB_BallThrowTypeUnlocked.GetSelected(i))
+                    LB_BallThrowTypeUnlocked.SetSelected(i, true);
+            }
         }
 
         private void B_GenTID_Click(object sender, EventArgs e)
@@ -401,6 +544,7 @@ namespace PKHeX.WinForms
         {
             {000, "Steps Taken"},
             {001, "Times Saved"},
+            {002, "Storyline Completed Time"},
             {003, "Total Battles"},
             {004, "Wild Pokémon Battles"},
             {005, "Trainer Battles"},
@@ -412,9 +556,13 @@ namespace PKHeX.WinForms
             {011, "Link Trades"},
             {012, "Link Battles"},
             {013, "Link Battle Wins"},
+            {014, "Link Battle Losses"},
             {015, "Battle Spot Battles"},
+            {016, "Battle Spot Wins"},
+            {017, "Battle Spot Losses"},
             {018, "Mart Stack Purchases"},
             {019, "Money Spent"},
+            {020, "Pokémon deposited at Nursery"},
             {021, "Pokémon Defeated"},
             {022, "Exp. Points Collected (Highest)"},
             {023, "Exp. Points Collected (Today)"},
@@ -424,6 +572,7 @@ namespace PKHeX.WinForms
             {027, "Battle Points Earned"},
             {028, "Battle Points Spent"},
             {029, "Super Effective Moves Used"},
+            {031, "Salon Uses"},
             {032, "Berry Harvests"},
             {033, "Trades at the GTS"},
             {034, "Wonder Trades"},
@@ -432,16 +581,33 @@ namespace PKHeX.WinForms
             {037, "Beans Given"},
             {038, "Festival Coins Spent"},
             {039, "Poke Beans Collected"},
-            {040, "Battles at the Battle Tree"},
+            {040, "Battle Tree Challenges"},
             {041, "Z-Moves Used"},
+            {042, "Balls Used"},
+            {044, "Moves Used"},
             {046, "Ran From Battles"},
+            {047, "Rock Smash Items"},
+            {048, "Medicine Used"},
             {050, "Total Thumbs-Ups"},
+            {051, "Times Twirled (Pirouette)"},
             {052, "Record Thumbs-ups"},
             {053, "Pokemon Petted"},
+            {054, "Poké Pelago Visits"},
+            {055, "Poké Bean Trades"},
+            {056, "Poké Pelago Tapped Pokémon"},
+            {057, "Poké Pelago Bean Stacks put in Crate"},
+            {063, "Battle Videos Watched"},
+            {064, "Battle Videos Rebattled"},
+            {065, "RotomDex Interactions"},
             {066, "Guests Interacted With"},
-            {067, "Berry Piles Collected"},
+            {067, "Berry Piles (not full) Collected"},
+            {068, "Berry Piles (full) Collected"},
+            {069, "Items Reeled In"},
 
             {100, "Champion Title Defense"},
+            {104, "Moves used with No Effect"},
+            {105, "Own Fainted Pokémon"},
+            {107, "Failed Run Attempts"},
             {110, "Pokemon Defeated (Highest)"},
             {111, "Pokemon Defeated (Today)"},
             {112, "Pokemon Caught (Highest)"},
@@ -451,21 +617,53 @@ namespace PKHeX.WinForms
             {116, "Pokemon Evolved (Highest)"},
             {117, "Pokemon Evolved (Today)"},
             {118, "Fossils Restored"},
-            {119, "Photos Taken"},
+            {119, "Photos Rated"},
+            {120, "Best (Super) Singles Streak"},
+            {121, "Best (Super) Doubles Streak"},
+            {122, "Best (Super) Multi Streak"},
             {123, "Loto-ID Wins"},
             {124, "PP Raised"},
             {127, "Shiny Pokemon Encountered"},
             {128, "Missions Participated In"},
             {129, "Facilities Hosted"},
             {130, "QR Code Scans"},
+            {131, "Moves learned with TMs"},
             {132, "Café Drinks Bought"},
+            {133, "Trainer Card Photos Taken"},
+            {134, "Evolutions Cancelled"},
+            {135, "SOS Battle Allies Called"},
             {137, "Battle Royal Dome Battles"},
+            {139, "Ate in Malasadas Shop"},
+            {141, "Dishes eaten in Battle Buffet"},
+            {142, "Pokémon Refresh Accessed"},
+            {143, "Pokémon Storage System Log-outs"},
+            {144, "Lomi Lomi Massages"},
+            {145, "Times laid down in Ilima's Bed"},
+            {146, "Times laid down in Guzma's Bed"},
+            {147, "Times laid down in Kiawe's Bed"},
+            {148, "Times laid down in Lana's Bed"},
+            {149, "Times laid down in Mallow's Bed"},
+            {150, "Times laid down in Olivia's Bed"},
+            {151, "Times laid down in Hapu's Bed"},
+            {152, "Times laid down in Lusamine's Bed"},
+            {153, "Ambush/Smash post-battle items received"},
+            {154, "Rustling Tree Encounters"},
+            {155, "Ledges Jumped Down"},
+            {156, "Water Splash Encounters"},
+            {157, "Sand Cloud Encounters"},
             {158, "Outfit Changes"},
             {159, "Battle Royal Dome Wins"},
             {161, "Pelago Training Sessions"},
             {162, "Pelago Hot Spring Sessions"},
             {166, "Island Scans"},
-            {172, "Berry Tree Battles"},
+            {167, "Rustling Bush Encounters"},
+            {168, "Fly Shadow Encounters"},
+            {169, "Rustling Grass Encounters"},
+            {170, "Dirt Cloud Encounters"},
+            {171, "Wimpod Chases"},
+            {172, "Berry Tree Battles won"},
+            {173, "Bubbling Spot Encounters/Items"},
+            {174, "Times laid down in Own Bed"},
         };
     }
 }

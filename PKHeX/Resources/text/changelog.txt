@@ -1,7 +1,57 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/02/25 - New Update:
+17/03/18 - New Update:
+ - Legality:
+ - - Added: Heavy Ball legality check. Thanks SciresM!
+ - - Added: Loading Gen1 save file now asks if it is a Virtual Console save for separation of GenII legality.
+ - Fixed: Exporting boxes to folders now has the correct box names (was previously shifted by 1). Thanks RoC!
+ - Fixed: Colosseum/XD Purification value editing. Thanks ArcticLoveBunny!
+ - Fixed: Joyful Game Corner now editable by Emerald saves.
+
+17/03/11 - New Update: (18794) [427623]
+ - Legality:
+ - - Fixed: More edge cases (mystery gift ability capsule, gen1/2 evo chain & static encounter suggestions).
+ - Added: Gen7 More trainer stat records and precise maximum value fetching. Thanks tastymeatball & Holla!
+ - Added: Gen3 Misc Record editor. Thanks Aladore384!
+ - Added: Alternate shiny icon for red box backgrounds (more visible with a halo). Thanks pokecal!
+ - Fixed: Gen3 E/FRLG dex editing bitflag set no longer invalidates the save file.
+ - Fixed: Gen3 C/XD Spanish pkm no longer invalidated when editing. Thanks javierhimura!
+
+17/03/08 - New Update: (11343) [408829]
+ - Legality:
+ - - Added: WC6/WC7 ability legality check.
+ - - Added: Gen2 move tutors and remainder of encounter tables.
+ - - Fixed: Gen2 edge cases and enhanced matched encounter determination.
+ - Added: Gen5 Pokedex Editor
+ - Added: Gen4 Pokedex Editor
+ - Added: Gen3 Pokedex Editor
+ - Fixed: Gen3 Egg nickname handling. Thanks Sabresite!
+ - Fixed: Ribbons should now appear in the Ribbons editor.
+ - Changed: Beedrillite and Mawilite removed removed from unreleased items list (now legal).
+ - Changed: Batch Editor Any/All swapped position; red Type color indicates property is not present for tabs pkm.
+
+17/03/05 - New Update: (8420) [397486]
+ - Legality:
+ - - Added: Legality checking for GSC Pokémon as pk2 (as well as traded pk1).
+ - - Added: Held Item availability checks for Gen7 format files.
+ - - Fixed: More edge cases for legality checks.
+ - Added: Control-Click the current level textbox to set to level 100. Thanks RoC!
+ - Added: Legality column to Report's data table.
+ - Added: Gen7: 50+ trainer stat records have been identified. Thanks tastymeatball!
+ - Added: Gen7: Vivillon Form editing for Sun/Moon (via Trainer Editor)
+ - Added: Gen3: Version detection prompt can be forced to appear by holding control when opening the file.
+ - Added: Gen3: PCItem pouch can now be edited via the Inventory Editor.
+ - Fixed: Gen7: Free Space index is now treated correctly. Thanks pokecal!
+ - Fixed: Gen6: Complete Pokédex button now sets the correct seen flags for single gender species.
+ - Fixed: Gen5->6 trash bytes are kept on transfer. Thanks Sabresite!
+ - Fixed: Gen3/4: GameCube/Wii format (xk3/ck3/bk4) transfers no longer incorrectly transfer IVs.
+ - Fixed: Gen2: Money/Coin editing now shows the correct value.
+ - Fixed: Gen2: Hidden Power type calculation now calculates the correct type. Thanks SciresM!
+ - Fixed: Editing Pumpkaboo forms with the PKHeX German Language translation no longer throw errors.
+ - Fixed: Importing a shiny showdown from a tab other than Main now sets the shiny status correctly.
+
+17/02/25 - New Update: (28838) [389066]
  - Legality:
  - - Added: Legality checking for RBY Pokémon as pk1 and pk7+.
  - - Fixed: More edge cases for legality checks.

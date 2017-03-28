@@ -25,6 +25,84 @@
         public bool Fateful = false;
         public bool RibbonWishing = false;
         public bool SkipFormCheck = false;
+        public bool NSparkle = false;
+        public bool Roaming = false;
+
+        public EncounterStatic[] Clone(int[] locations)
+        {
+            EncounterStatic[] Encounters = new EncounterStatic[locations.Length];
+            for (int i = 0; i < locations.Length; i++)
+                Encounters[i] = Clone(locations[i]);
+            return Encounters;
+        }
+
+        public EncounterStatic Clone(int location)
+        {
+            return new EncounterStatic()
+            {
+                Species = Species,
+                Level = Level,
+                Location = location,
+                Ability = Ability,
+                Form = Form,
+                Shiny = Shiny,
+                Relearn = Relearn,
+                Moves = Moves,
+                Gender = Gender,
+                EggLocation = EggLocation,
+                Nature = Nature,
+                Gift = Gift,
+                Ball = Ball,
+                Version = Version,
+                IVs = IVs,
+                IV3 = IV3,
+                Contest = Contest,
+                HeldItem = HeldItem,
+                Fateful = Fateful,
+                RibbonWishing = RibbonWishing,
+                SkipFormCheck = SkipFormCheck,
+                NSparkle = NSparkle,
+                Roaming = Roaming
+            };
+        }
+
+        public EncounterStatic[] DreamRadarClone()
+        {
+            EncounterStatic[] Encounters = new EncounterStatic[8];
+            for (int i = 0; i < 8; i++)
+                Encounters[i] = DreamRadarClone(5 * i + 5);  //Level from 5->40 depends on the number of badage
+            return Encounters;
+        }
+
+        public EncounterStatic DreamRadarClone(int level)
+        {
+            return new EncounterStatic()
+            {
+                Species = Species,
+                Level = level,
+                Location = 30015, //Pokemon Dream Radar
+                Ability = Ability,
+                Form = Form,
+                Shiny = Shiny,
+                Relearn = Relearn,
+                Moves = Moves,
+                Gender = Gender,
+                EggLocation = EggLocation,
+                Nature = Nature,
+                Gift = Gift,
+                Ball = 25,      //Dream Ball
+                Version = Version,
+                IVs = IVs,
+                IV3 = IV3,
+                Contest = Contest,
+                HeldItem = HeldItem,
+                Fateful = Fateful,
+                RibbonWishing = RibbonWishing,
+                SkipFormCheck = SkipFormCheck,
+                NSparkle = NSparkle,
+                Roaming = Roaming
+            };
+        }
 
         public string Name
         {

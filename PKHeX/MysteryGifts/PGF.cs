@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     public sealed class PGF : MysteryGift
     {
-        internal const int Size = 0xCC;
+        public const int Size = 0xCC;
         public override int Format => 5;
 
         public PGF(byte[] data = null)

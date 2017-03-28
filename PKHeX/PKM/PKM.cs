@@ -263,11 +263,15 @@ namespace PKHeX.Core
         public bool VC2 => Version >= 39 && Version <= 41;
         public bool VC1 => Version >= 35 && Version <= 38;
         public bool Horohoro => Version == 34;
+        public bool E => Version == (int)GameVersion.E;
+        public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
+        public bool Pt => (int)GameVersion.Pt == Version;
+        public bool HGSS => Version == (int)GameVersion.HG || Version == (int)GameVersion.SS;
+        public bool B2W2 => Version == (int)GameVersion.B2 || Version == (int)GameVersion.W2;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
-        protected bool PtHGSS => GameVersion.Pt == (GameVersion)Version || HGSS;
-        public bool HGSS => new[] {GameVersion.HG, GameVersion.SS}.Contains((GameVersion)Version);
+        protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;
         public bool Gen6 => Version >= 24 && Version <= 29;
@@ -356,9 +360,10 @@ namespace PKHeX.Core
             {
                 if (GenNumber > 5 || Format > 5)
                     return -1;
-                if (GenNumber == 5)
-                    return (int)((PID >> 16) & 1);
-                return (int)(PID & 1);
+                
+                if (Version == (int) GameVersion.CXD)
+                    return Array.IndexOf(PersonalInfo.Abilities, Ability);
+                return (int)((GenNumber == 5 ? PID >> 16 : PID) & 1);
             }
         }
 
@@ -387,9 +392,19 @@ namespace PKHeX.Core
             get { return new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen }; }
             set { if (value?.Length != 6) return; CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2]; CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5]; }
         }
+
+        protected static int getHiddenPowerBitVal(int[] ivs)
+        {
+            int sum = 0;
+            for (int i = 0; i < ivs.Length; i++)
+                sum |= (ivs[i] & 1) << i;
+            return sum;
+        }
+        private int HPVal => getHiddenPowerBitVal(new[] {IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD});
+        public virtual int HPPower => Format < 6 ? 40*HPVal/63 + 30 : 60;
         public virtual int HPType
         {
-            get { return 0xF * ((IV_HP & 1) << 0 | (IV_ATK & 1) << 1 | (IV_DEF & 1) << 2 | (IV_SPE & 1) << 3 | (IV_SPA & 1) << 4 | (IV_SPD & 1) << 5) / 0x3F; }
+            get { return 15*HPVal/63; }
             set
             {
                 IV_HP = (IV_HP & ~1) + PKX.hpivs[value, 0];
@@ -408,15 +423,14 @@ namespace PKHeX.Core
         {
             get
             {
-                if (HasOriginalMetLocation)
-                    return Egg_Location > 0;
-                return _WasEgg;
-            } set { _WasEgg = value; }
+                return Egg_Location > 0 || _WasEgg;
+            }
+            set { _WasEgg = value; }
         }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
-        public virtual bool WasTradedEgg => Egg_Location == 30002;
-        public virtual bool WasIngameTrade => Met_Location == 30001;
+        public virtual bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;
+        public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.getMaxSpeciesOrigin(Format);
@@ -492,13 +506,32 @@ namespace PKHeX.Core
         /// Checks if the PKM has its original met location.
         /// </summary>
         /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
-        public bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
+        public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || GenNumber <= 4 && Format != GenNumber);
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.
         /// </summary>
         /// <returns>True if valid, False if invalid.</returns>
-        public abstract bool getGenderIsValid();
+        public virtual bool getGenderIsValid()
+        {
+            int gv = PersonalInfo.Gender;
+            if (gv == 255)
+                return Gender == 2;
+            if (gv == 254)
+                return Gender == 1;
+            if (gv == 0)
+                return Gender == 0;
+
+            if (GenNumber >= 6)
+                return true;
+
+            if ((PID & 0xFF) < gv)
+                return Gender == 1;
+            if (gv <= (PID & 0xFF))
+                return Gender == 0;
+
+            return false;
+        }
 
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.
@@ -767,11 +800,10 @@ namespace PKHeX.Core
         /// <param name="Destination"><see cref="PKM"/> that receives property values.</param>
         protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
-            var SourceProperties = ReflectUtil.getPropertiesCanWritePublic(Source.GetType());
-            var DestinationProperties = ReflectUtil.getPropertiesCanWritePublic(Destination.GetType());
-
-            // Skip Data property when applying all individual properties. Let the setters do the updates for Data.
-            foreach (string property in SourceProperties.Intersect(DestinationProperties).Where(prop => prop != nameof(Data)))
+            // Only transfer declared properties not defined in PKM.cs but in the actual type
+            var SourceProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Source.GetType());
+            var DestinationProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Destination.GetType());
+            foreach (string property in SourceProperties.Intersect(DestinationProperties))
             {
                 var prop = ReflectUtil.GetValue(this, property);
                 if (prop != null)
