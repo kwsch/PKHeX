@@ -18135,6 +18135,70 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to V = Valid.
+        ///V193 = Legal!
+        ///V190 = Internal error.
+        ///V189 = Analysis not available for this Pokémon.
+        ///V196 = {0}: {1}
+        ///V191 = {0} Move {1}: {2}
+        ///V192 = {0} Relearn Move {1}: {2}
+        ///V195 = Encounter Type: {0}
+        ///V205 = OT
+        ///V206 = HT
+        ///V167 = Empty Move.
+        ///V171 = Egg Move.
+        ///V172 = Relearnable Move.
+        ///V173 = Learned by TM/HM.
+        ///V174 = Learned by Move Tutor.
+        ///V175 = Special Non-Relearn Move.
+        ///V177 = Learned by Level-up.
+        ///V203 = Genderless Pokémon should not have a gender.
+        ///V201 = Encryption Constant is not set.
+        ///V204 = H [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string LegalityCheckStrings_en {
+            get {
+                return ResourceManager.GetString("LegalityCheckStrings_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to V = 有效。
+        ///V193 = 合法。
+        ///V190 = 内部错误。
+        ///V189 = 无法对该宝可梦分析。
+        ///V196 = {0}: {1}
+        ///V191 = {0} 招式 {1}: {2}
+        ///V192 = {0} 回忆招式 {1}: {2}
+        ///V195 = 相遇方式: {0}
+        ///V205 = 初训家
+        ///V206 = 持有人
+        ///V167 = 空招式。
+        ///V171 = 遗传招式。
+        ///V172 = 可回忆招式。
+        ///V173 = 通过TM/HM习得。
+        ///V174 = 通过招式教学习得。
+        ///V175 = 特殊不可回忆招式。
+        ///V177 = 通过升级习得。
+        ///V203 = 无性别宝可梦不能有性别。
+        ///V201 = 未设置加密常数。
+        ///V204 = 持有物未解禁。
+        ///V187 = 该种宝可梦在原始版本中不存在。
+        ///V188 = 没有匹配的“命中注定遇见”的数据。 该神秘礼物有被共享吗?
+        ///V194 = 太阳月亮游戏内交换宝可梦的功能尚未开发。
+        ///V207 = 未设置PID。
+        ///V208 = 加密常数与PID一致。
+        ///V209 = 定点相遇闪光条件不匹配。
+        ///V210 = 刺尾虫进化形态与加密常数不一致。
+        ///V211 = 加密 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string LegalityCheckStrings_zh {
+            get {
+                return ResourceManager.GetString("LegalityCheckStrings_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap load {
@@ -27584,10 +27648,10 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///Go
-        ///紅
-        ///藍色[INT]/綠色[JP]
-        ///藍色[JP]
-        ///黃色.
+        ///红
+        ///蓝[国际]/绿[日]
+        ///蓝[日]
+        ///黄.
         /// </summary>
         public static string text_games_zh {
             get {

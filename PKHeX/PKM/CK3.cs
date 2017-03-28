@@ -36,7 +36,7 @@ namespace PKHeX.Core
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
-        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber]; } set { } }
+        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
 
@@ -167,7 +167,7 @@ namespace PKHeX.Core
 
         public override int PKRS_Strain { get { return Data[0xCA] & 0xF; } set { Data[0xCA] = (byte)(value & 0xF); } }
         public override bool IsEgg { get { return Data[0xCB] == 1; } set { Data[0xCB] = (byte)(value ? 1 : 0); } }
-        public override int AbilityNumber { get { return Data[0xCC]; } set { Data[0xCC] = (byte)(value & 1); } }
+        public override int AbilityNumber { get { return 1 << Data[0xCC]; } set { Data[0xCC] = (byte)((value >> 1) & 1); } }
         public override bool Valid { get { return Data[0xCD] == 0; } set { if (value) Data[0xCD] = 0; } }
         // 0xCE unknown
         public override int MarkValue { get { return Data[0xCF]; } protected set { Data[0xCF] = (byte)value; } }
@@ -186,23 +186,6 @@ namespace PKHeX.Core
         public override byte[] Encrypt()
         {
             return (byte[])Data.Clone();
-        }
-        public override bool getGenderIsValid()
-        {
-            int gv = PersonalTable.RS[Species].Gender;
-
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 0;
-            if (gv == 0)
-                return Gender == 1;
-            if (gv <= (PID & 0xFF))
-                return Gender == 0;
-            if ((PID & 0xFF) < gv)
-                return Gender == 1;
-
-            return false;
         }
     }
 }

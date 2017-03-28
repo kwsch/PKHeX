@@ -106,5 +106,17 @@ namespace PKHeX.WinForms.Properties {
                 this["FlagIllegal"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ModifyUnset {
+            get {
+                return ((bool)(this["ModifyUnset"]));
+            }
+            set {
+                this["ModifyUnset"] = value;
+            }
+        }
     }
 }

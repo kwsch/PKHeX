@@ -29,6 +29,7 @@ namespace PKHeX.Core
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
         public override int CurrentHandler { get { return 0; } set { } }
+        public override int AbilityNumber { get { return HiddenAbility ? 4 : 1 << PIDAbility; } set { } }
 
         // Structure
         public override uint PID { get { return BitConverter.ToUInt32(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
@@ -298,25 +299,11 @@ namespace PKHeX.Core
                 return pm6stat * 5 + maxIV % 5;
             }
         }
-        
+
+        // Legality Extensions
+        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : GenNumber == 4 ? Egg_Location > 0 : Legal.EggLocations.Contains(Egg_Location);
+
         // Methods
-        public override bool getGenderIsValid()
-        {
-            int gv = PersonalInfo.Gender;
-
-            if (gv == 255)
-                return Gender == 2;
-            if (gv == 254)
-                return Gender == 1;
-            if (gv == 0)
-                return Gender == 0;
-            if ((PID & 0xFF) <= gv)
-                return Gender == 1;
-            if (gv < (PID & 0xFF))
-                return Gender == 0;
-
-            return false;
-        }
         public override byte[] Encrypt()
         {
             RefreshChecksum();

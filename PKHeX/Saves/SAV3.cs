@@ -514,7 +514,7 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit / 8;
-            int bitval = caught ? 1 << (bit&7) : 0;
+            int bitval = 1 << (bit&7);
             int caughtOffset = BlockOfs[0] + 0x28 + ofs;
 
             if (caught)
@@ -536,7 +536,7 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit / 8;
-            int bitval = seen ? 1 << (bit&7) : 0;
+            int bitval = 1 << (bit&7);
 
             if (seen)
             {

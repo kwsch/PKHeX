@@ -432,8 +432,8 @@ namespace PKHeX.Core
         }
         public int BallThrowType
         {
-            get { return Data[0x7A]; }
-            set { Data[0x7A] = (byte)(value > 8 ? 0 : value); }
+            get { return Data[TrainerCard + 0x7A]; }
+            set { Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value); }
         }
         public int M
         {
@@ -1281,6 +1281,26 @@ namespace PKHeX.Core
         {
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
+        }
+        public byte BallThrowTypeUnlocked
+        {
+            get { return (byte)(((BitConverter.ToUInt16(Data, 0x23F4) << 4) >> 10) << 2); }
+            set
+            {
+                ushort flags = (ushort)(BitConverter.ToUInt16(Data, 0x23F4) & 0xF03F);
+                flags |= (ushort)((value & 0xFC) << 4);
+                BitConverter.GetBytes(flags).CopyTo(Data, 0x23F4);
+            }
+        }
+        public byte BallThrowTypeLearned
+        {
+            get { return (byte)((Data[0x2583] & 0x7F) << 1); }
+            set { Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1)); }
+        }
+        public byte BattleTreeSuperUnlocked
+        {
+            get { return (byte)(Data[0x23F9] >> 5); }
+            set { Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5)); }
         }
 
         public override bool RequiresMemeCrypto => true;

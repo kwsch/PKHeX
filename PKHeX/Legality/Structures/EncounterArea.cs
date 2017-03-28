@@ -319,8 +319,8 @@ namespace PKHeX.Core
             
             for (int i = 0; i < numslots; i++)
             {
-                int level = BitConverter.ToInt32(data, ofs + i * 8);
-                int species = BitConverter.ToInt32(data, ofs + i * 8);
+                int level = data[ofs + i*8];
+                int species = BitConverter.ToInt32(data, ofs + i*8 + 4);
                 slots[i] = new EncounterSlot
                 {
                     LevelMax = level,
@@ -371,6 +371,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterSlot> getSlots4_G_Replace(byte[] data, ref int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
             //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
+            //for dppt slotSize = 4, for hgss slotSize = 2
             var slots = new List<EncounterSlot>();
 
             int numslots = slotnums.Length;
@@ -380,7 +381,7 @@ namespace PKHeX.Core
                 if (baseSlot.LevelMin <= 0)
                     continue;
 
-                int species = BitConverter.ToInt32(data, ofs + i * slotSize);
+                int species = BitConverter.ToUInt16(data, ofs + i / (4 / slotSize) * slotSize);
                 if (species <= 0)
                     continue;
 
@@ -390,7 +391,7 @@ namespace PKHeX.Core
                 slots.Add(slot);
             }
 
-            ofs += numslots * slotSize;
+            ofs += numslots * slotSize * slotSize / 4;
             return slots;
         }
         
@@ -624,13 +625,6 @@ namespace PKHeX.Core
                 Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 5, SlotType.Super_Rod));
             else
                 ofs += 20;
-
-            if (GrassRatio > 0)
-            { 
-                // National Radio replaces slots 4 and 5
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 2, GrassSlots, Legal.Slot4_Sound)); // Radio
-            }
-            // 4 bytes padding
 
             Area4.Slots = Slots.ToArray();
             return Area4;
@@ -867,6 +861,64 @@ namespace PKHeX.Core
         public static EncounterArea[] getArray4HGSS_Headbutt(byte[][] entries)
         {
             return entries?.Select(getArea4HGSS_Headbutt).Where(Area => Area.Slots.Any()).ToArray();
+        }
+
+        /// <summary>
+        /// Gets the encounter areas for the Trophy Garden
+        /// </summary>
+        /// <param name="species">List of special species that can exist in the garden.</param>
+        /// <param name="lvls">Levels of the two encounter slots they can replace. <see cref="GameVersion.DP"/> differs from <see cref="GameVersion.Pt"/></param>
+        /// <returns></returns>
+        public static EncounterArea[] getTrophyArea(IEnumerable<int> species, int[] lvls)
+        {
+            int[] slotnums = {6, 7};
+            var l = new List<EncounterSlot>();
+            foreach (var s in species)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    l.Add(new EncounterSlot
+                    {
+                        LevelMax = lvls[i],
+                        LevelMin = lvls[i],
+                        Species = s,
+                        SlotNumber = slotnums[i],
+                        Type = SlotType.Grass
+                    });
+                }
+            }
+            return new[] { new EncounterArea { Location = 68, Slots = l.ToArray() } };
+        }
+
+        /// <summary>
+        /// Gets the encounter areas for species with same level range and same slottype at same location
+        /// </summary>
+        /// <param name="species">List of species that exist in the Area.</param>
+        /// <param name="lvls">Paired LevelMins and LevelMaxs of the encounter slots.</param>
+        /// <param name="location">Location index of the encounter area.</param>
+        /// <param name="t">Encounter slot type of the encounter area.</param>
+        /// <returns></returns>
+        public static EncounterArea[] getSimpleEncounterArea(IEnumerable<int> species, int[] lvls, int location, SlotType t)
+        {
+            var l = new List<EncounterSlot>();
+            // levels data not paired
+            if ((lvls.Length & 1) == 1)
+                return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
+
+            foreach (var s in species)
+            {
+                for (int i = 0; i < lvls.Length;)
+                {
+                    l.Add(new EncounterSlot
+                    {
+                        LevelMin = lvls[i++],
+                        LevelMax = lvls[i++],
+                        Species = s,
+                        Type = t
+                    });
+                }
+            }
+            return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
         }
 
         public static EncounterArea[] getArray(byte[][] entries)

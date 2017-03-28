@@ -306,6 +306,7 @@
             this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_LoadBoxes = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_DumpBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Report = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Database = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_MGDatabase = new System.Windows.Forms.ToolStripMenuItem();
@@ -322,6 +323,7 @@
             this.Menu_FlagIllegal = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyUnset = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
@@ -3881,6 +3883,7 @@
             this.Menu_Data.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_LoadBoxes,
             this.Menu_DumpBoxes,
+            this.Menu_DumpBox,
             this.Menu_Report,
             this.Menu_Database,
             this.Menu_MGDatabase,
@@ -3905,6 +3908,14 @@
             this.Menu_DumpBoxes.Size = new System.Drawing.Size(182, 22);
             this.Menu_DumpBoxes.Text = "Dump Boxes";
             this.Menu_DumpBoxes.Click += new System.EventHandler(this.mainMenuBoxDump);
+            // 
+            // Menu_DumpBox
+            // 
+            this.Menu_DumpBox.Image = ((System.Drawing.Image)(resources.GetObject("Menu_DumpBox.Image")));
+            this.Menu_DumpBox.Name = "Menu_DumpBox";
+            this.Menu_DumpBox.Size = new System.Drawing.Size(182, 22);
+            this.Menu_DumpBox.Text = "Dump Box";
+            this.Menu_DumpBox.Click += new System.EventHandler(this.mainMenuBoxDumpSingle);
             // 
             // Menu_Report
             // 
@@ -3989,7 +4000,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Language.Image")));
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -4005,11 +4016,12 @@
             this.Menu_ModifyDex,
             this.Menu_ModifyPKM,
             this.Menu_FlagIllegal,
+            this.Menu_ModifyUnset,
             this.Menu_Undo,
             this.Menu_Redo});
             this.Menu_Modify.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Modify.Image")));
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -4018,7 +4030,7 @@
             this.Menu_ModifyDex.CheckOnClick = true;
             this.Menu_ModifyDex.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_ModifyDex.Name = "Menu_ModifyDex";
-            this.Menu_ModifyDex.Size = new System.Drawing.Size(164, 22);
+            this.Menu_ModifyDex.Size = new System.Drawing.Size(189, 22);
             this.Menu_ModifyDex.Text = "Modify Pokédex";
             this.Menu_ModifyDex.Click += new System.EventHandler(this.mainMenuModifyDex);
             // 
@@ -4028,7 +4040,7 @@
             this.Menu_ModifyPKM.CheckOnClick = true;
             this.Menu_ModifyPKM.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_ModifyPKM.Name = "Menu_ModifyPKM";
-            this.Menu_ModifyPKM.Size = new System.Drawing.Size(164, 22);
+            this.Menu_ModifyPKM.Size = new System.Drawing.Size(189, 22);
             this.Menu_ModifyPKM.Text = "Modify PKM Info";
             this.Menu_ModifyPKM.Click += new System.EventHandler(this.mainMenuModifyPKM);
             // 
@@ -4036,7 +4048,7 @@
             // 
             this.Menu_FlagIllegal.CheckOnClick = true;
             this.Menu_FlagIllegal.Name = "Menu_FlagIllegal";
-            this.Menu_FlagIllegal.Size = new System.Drawing.Size(164, 22);
+            this.Menu_FlagIllegal.Size = new System.Drawing.Size(189, 22);
             this.Menu_FlagIllegal.Text = "Flag Legality";
             this.Menu_FlagIllegal.Click += new System.EventHandler(this.mainMenuFlagIllegal);
             // 
@@ -4046,7 +4058,7 @@
             this.Menu_Undo.Name = "Menu_Undo";
             this.Menu_Undo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
             this.Menu_Undo.ShowShortcutKeys = false;
-            this.Menu_Undo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Undo.Size = new System.Drawing.Size(189, 22);
             this.Menu_Undo.Text = "Undo Last Change";
             this.Menu_Undo.Click += new System.EventHandler(this.clickUndo);
             // 
@@ -4056,9 +4068,17 @@
             this.Menu_Redo.Name = "Menu_Redo";
             this.Menu_Redo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.Menu_Redo.ShowShortcutKeys = false;
-            this.Menu_Redo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Redo.Size = new System.Drawing.Size(189, 22);
             this.Menu_Redo.Text = "Redo Last Change";
             this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
+            // 
+            // Menu_ModifyUnset
+            // 
+            this.Menu_ModifyUnset.CheckOnClick = true;
+            this.Menu_ModifyUnset.Name = "Menu_ModifyUnset";
+            this.Menu_ModifyUnset.Size = new System.Drawing.Size(189, 22);
+            this.Menu_ModifyUnset.Text = "Notify Unset Changes";
+            this.Menu_ModifyUnset.Click += new System.EventHandler(this.mainMenuModifyUnset);
             // 
             // Menu_Unicode
             // 
@@ -4066,7 +4086,7 @@
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -4076,7 +4096,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(139, 22);
+            this.Menu_About.Size = new System.Drawing.Size(152, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -6291,6 +6311,7 @@
         private System.Windows.Forms.MaskedTextBox Stat_ATK;
         private System.Windows.Forms.MaskedTextBox Stat_HP;
         private System.Windows.Forms.ToolStripMenuItem Menu_DumpBoxes;
+        private System.Windows.Forms.ToolStripMenuItem Menu_DumpBox;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportBAK;
         private System.Windows.Forms.ToolStripMenuItem Menu_ExportMAIN;
         private System.Windows.Forms.MaskedTextBox TB_PP1;
@@ -6423,6 +6444,7 @@
         private System.Windows.Forms.PictureBox PB_MarkVC;
         internal System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
         private System.Windows.Forms.Button B_OpenMiscEditor;
+        private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
     }
 }
 
