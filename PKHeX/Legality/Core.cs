@@ -927,7 +927,7 @@ namespace PKHeX.Core
 
             if (!pkm.WasIngameTrade)
             {
-                if (!pkm.HasOriginalMetLocation)
+                if (pkm.HasOriginalMetLocation)
                     return null;
             }
             int lang = pkm.Language;
@@ -959,6 +959,7 @@ namespace PKHeX.Core
                 return null;
             if (pkm.HasOriginalMetLocation)
             {
+                z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefalutMetLocation[pkm.GenNumber - 3];
                 if (z.Location != pkm.Met_Location)
                     return null;
                 if (pkm.Format < 5)

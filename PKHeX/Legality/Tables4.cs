@@ -543,23 +543,23 @@ namespace PKHeX.Core
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_DPPt =
         {
-            new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,25,25,20}, Nature = Nature.Quiet,}, // Abra
-            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,15,25}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
-            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,15,15,25}, Nature = Nature.Hasty,}, // Haunter
-            new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,25,15,20}, Nature = Nature.Mild}, // Magikarp
+            new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25}, Nature = Nature.Quiet,}, // Abra
+            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
+            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter
+            new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15}, Nature = Nature.Mild}, // Magikarp
         };
         internal static readonly EncounterTrade[] TradeGift_HGSS =
         {
             new EncounterTrade { Species = 095, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15}, Nature = Nature.Hasty,}, // Onix
-            new EncounterTrade { Species = 066, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,15,15,20}, Nature = Nature.Lonely,}, // Machop
-            new EncounterTrade { Species = 100, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,15,25}, Nature = Nature.Hardy,}, // Voltorb
+            new EncounterTrade { Species = 066, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15}, Nature = Nature.Lonely,}, // Machop
+            new EncounterTrade { Species = 100, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Hardy,}, // Voltorb
             new EncounterTrade { Species = 085, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15}, Nature = Nature.Impish,}, // Dodrio
             new EncounterTrade { Species = 082, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20}, Nature = Nature.Impish,}, // Magneton
             new EncounterTrade { Species = 178, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, Nature = Nature.Modest,}, // Xatu
-            new EncounterTrade { Species = 025, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,25,13,31}, Nature = Nature.Jolly,}, // Pikachu
-            new EncounterTrade { Species = 374, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,24,25,23}, Nature = Nature.Brave,}, // Beldum
-            new EncounterTrade { Species = 111, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,22,09,00}, Nature = Nature.Relaxed, Moves= new[]{422,-1,-1,-1} }, // Rhyhorn
-            new EncounterTrade { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,18,20,06}, Nature = Nature.Brave,}, // Steelix
+            new EncounterTrade { Species = 025, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13}, Nature = Nature.Jolly,}, // Pikachu
+            new EncounterTrade { Species = 374, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,23,24,25}, Nature = Nature.Brave,}, // Beldum
+            new EncounterTrade { Species = 111, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,00,22,09}, Nature = Nature.Relaxed, Moves= new[]{422,-1,-1,-1} }, // Rhyhorn
+            new EncounterTrade { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}, Nature = Nature.Brave,}, // Steelix
             //Gift
             new EncounterTrade { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Hasty,   Level = 20, Location = 183, Moves= new[]{043,031,228,332}},//Webster's Spearow
             new EncounterTrade { Species = 213, Ability = 2, TID = 04336, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Relaxed, Level = 20, Location = 130, Moves= new[]{132,117,227,219}},//Kirk's Shuckle
