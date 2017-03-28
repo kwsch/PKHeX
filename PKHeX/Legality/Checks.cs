@@ -309,6 +309,14 @@ namespace PKHeX.Core
                 return;
             }
 
+            // Insert Gen 3 Checks Here
+            if (pkm.Format == 3)
+            {
+                // Suppressing this temporarily
+                return;
+            }
+            // End Gen 3 Checks
+
             if (validOT.Length == 0)
             {
                 AddLine(Severity.Indeterminate, V7, CheckIdentifier.Trainer);
