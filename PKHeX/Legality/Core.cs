@@ -927,7 +927,7 @@ namespace PKHeX.Core
 
             if (!pkm.WasIngameTrade)
             {
-                if (pkm.HasOriginalMetLocation)
+                if (!pkm.HasOriginalMetLocation)
                     return null;
             }
             int lang = pkm.Language;
