@@ -503,7 +503,7 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 23 }, // Unown X
                 },},
             new EncounterArea {
-                Location = 193, // Viapois Chamber
+                Location = 194, // Viapois Chamber
                 Slots = new[]
                 {
                     new EncounterSlot { Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass, Form = 25 }, // Unown Z
