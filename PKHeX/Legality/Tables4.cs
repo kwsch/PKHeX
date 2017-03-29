@@ -474,7 +474,7 @@ namespace PKHeX.Core
             //Starters
             new EncounterStatic { Gift = true, Species = 001, Level = 05, Location = 138, }, // Bulbasaur @ Pallet Town
             new EncounterStatic { Gift = true, Species = 004, Level = 05, Location = 138, }, // Charmander
-            new EncounterStatic { Gift = true, Species = 009, Level = 05, Location = 138, }, // Squirtle
+            new EncounterStatic { Gift = true, Species = 007, Level = 05, Location = 138, }, // Squirtle
             new EncounterStatic { Gift = true, Species = 152, Level = 05, Location = 126, }, // Chikorita @ New Bark Town
             new EncounterStatic { Gift = true, Species = 155, Level = 05, Location = 126, }, // Cyndaquil
             new EncounterStatic { Gift = true, Species = 158, Level = 05, Location = 126, }, // Totodile
