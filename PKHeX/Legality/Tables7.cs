@@ -1346,8 +1346,6 @@ namespace PKHeX.Core
             755, // Altarianite
             756, // Galladite
             757, // Audinite
-            761, // Steelixite
-            762, // Pidgeotite
             764, // Diancite
             767, // Cameruptite
             768, // Lopunnite
