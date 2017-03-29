@@ -633,6 +633,7 @@ namespace PKHeX.WinForms
             {134, "Evolutions Cancelled"},
             {135, "SOS Battle Allies Called"},
             {137, "Battle Royal Dome Battles"},
+            {138, "Items Picked Up after Battle"},
             {139, "Ate in Malasadas Shop"},
             {141, "Dishes eaten in Battle Buffet"},
             {142, "Pokémon Refresh Accessed"},
