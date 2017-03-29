@@ -1454,7 +1454,8 @@ namespace PKHeX.WinForms
             TB_SID.Text = 54321.ToString();
             int curlang = Array.IndexOf(GameInfo.lang_val, curlanguage);
             CB_Language.SelectedIndex = curlang > CB_Language.Items.Count - 1 ? 1 : curlang;
-            CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
+            if(CB_Ball.Items.Count > 0)
+                CB_Ball.SelectedIndex = Math.Min(0, CB_Ball.Items.Count - 1);
             CB_Country.SelectedIndex = Math.Min(0, CB_Country.Items.Count - 1);
             CAL_MetDate.Value = CAL_EggDate.Value = DateTime.Today;
             CB_Species.SelectedValue = SAV.MaxSpeciesID;
@@ -1510,6 +1511,7 @@ namespace PKHeX.WinForms
         private Func<PKM> getPKMfromFields;
         private byte[] lastData;
         private bool PKMIsUnsaved => fieldsInitialized && Menu_ModifyUnset.Checked && !loadingSAV && lastData != null && lastData.Any(b => b != 0) && !lastData.SequenceEqual(preparePKM().Data);
+        protected ComboBox[] VerifyComboBox;
 
         private void setPKMFormatMode(int Format, GameVersion version)
         {
@@ -1572,7 +1574,7 @@ namespace PKHeX.WinForms
                     extraBytes = PK7.ExtraBytes;
                     break;
             }
-
+            VerifyComboBox = Format < 3 ? GetVerifyComboBoxGB : GetVerifyComboBox;
             // Load Extra Byte List
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Length != 0;
             if (GB_ExtraBytes.Enabled)
@@ -3138,20 +3140,29 @@ namespace PKHeX.WinForms
             new MemoryAmie().ShowDialog();
             TB_Friendship.Text = pkm.CurrentFriendship.ToString();
         }
+        public ComboBox[] GetVerifyComboBox => new[]
+        {
+            CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
+            CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
+            CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
+            CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
+        };
+
+        public ComboBox[] GetVerifyComboBoxGB => new[]
+{
+            CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
+            CB_MetLocation, CB_EggLocation,   // Met Tab
+            CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
+            CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
+        };
         // Open/Save Array Manipulation //
         public bool verifiedPKM()
         {
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
             // Make sure the PKX Fields are filled out properly (color check)
-            ComboBox[] cba = {
-                                 CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
-                                 CB_MetLocation, CB_EggLocation, CB_Ball,   // Met Tab
-                                 CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
-                                 CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
-                             };
 
-            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
+            ComboBox cb = VerifyComboBox.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
             if (cb != null)
             {
                 Control c = cb.Parent;
