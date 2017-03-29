@@ -5,7 +5,7 @@
         public int Species { get; set; }
         public int Level;
 
-        public int Location = 30001;
+        public int Location = -1;
         public int Ability = 0;
         public Nature Nature = Nature.Random;
         public int TID;
@@ -20,10 +20,16 @@
         public int OTGender = -1;
 
         public string Name => "In-game Trade";
+
+        public static int[] DefalutMetLocation = new[]
+        {
+           254, 2001, 30002, 30001, 30001,
+        };
     }
 
     public class EncounterTradePID : EncounterTrade
     {
         public uint PID;
     }
+
 }

@@ -216,6 +216,8 @@ namespace PKHeX.Core
                 }
                 metSM_00000_good.CopyTo(metSM_00000, 0);
 
+                metSM_30000[0] += " (NPC)";                // Anything from an NPC
+                metSM_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
                 for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
                     metSM_30000[i] += " (-)";
 

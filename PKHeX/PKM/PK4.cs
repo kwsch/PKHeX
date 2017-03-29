@@ -386,6 +386,8 @@ namespace PKHeX.Core
         // Legality Extensions
         public override bool WasEgg => GenNumber < 4 ? base.WasEgg : Egg_Location > 0;
         public override bool WasEvent => Met_Location >= 3000 && Met_Location <= 3076 || FatefulEncounter;
+        public override bool WasIngameTrade => Met_Location == 2001; // Trade
+        public override bool WasEventEgg => Met_Location == 2002; // Gift Egg
         // Methods
         public override byte[] Encrypt()
         {
