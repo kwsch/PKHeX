@@ -312,17 +312,6 @@ namespace PKHeX.Core
             
             return cbList;
         }
-        public static List<ComboItem> getEmptyCBList()
-        {
-            List<ComboItem> newlist = new List<ComboItem>();
-            ComboItem ncbi = new ComboItem
-            {
-                Text = string.Empty,
-                Value = 0
-            };
-            newlist.Add(ncbi);
-            return newlist;
-        }
         public static List<ComboItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // Set up
