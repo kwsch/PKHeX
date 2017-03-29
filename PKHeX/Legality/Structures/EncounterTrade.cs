@@ -23,7 +23,7 @@
 
         public static int[] DefalutMetLocation = new[]
         {
-           254, 2001, 30001, 30001, 30001,
+           254, 2001, 30002, 30001, 30001,
         };
     }
 

@@ -975,7 +975,7 @@ namespace PKHeX.Core
                 }
                 if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
                     continue;
-                if (z.Gender != pkm.Gender)
+                if (z.Gender != -1 && z.Gender != pkm.Gender)
                     continue;
                 if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
                     continue;
