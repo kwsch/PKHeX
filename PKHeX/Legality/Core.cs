@@ -937,9 +937,9 @@ namespace PKHeX.Core
 
             EncounterTrade[] table = getEncounterTradeTable(pkm);
 
-            IEnumerable<EncounterTrade> poss = table?.Where(f => p.Any(r => r.Species == f.Species));
+            var poss = table?.Where(f => p.Any(r => r.Species == f.Species)).ToList();
 
-            if (poss == null || poss.Count() == 0)
+            if (poss == null || poss.Count == 0)
                 return null;
 
             foreach (EncounterTrade z in poss)
