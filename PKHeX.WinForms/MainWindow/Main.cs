@@ -3149,7 +3149,7 @@ namespace PKHeX.WinForms
         };
 
         public ComboBox[] GetVerifyComboBoxGB => new[]
-{
+        {
             CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
             CB_MetLocation, CB_EggLocation,   // Met Tab
             CB_Move1, CB_Move2, CB_Move3, CB_Move4,    // Moves
