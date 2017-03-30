@@ -2290,6 +2290,9 @@ namespace PKHeX.Core
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
+                if (species == 386 && pkm.Format == 3)
+                    // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
+                    formcount = 4;
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(getMoves(pkm, species, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
