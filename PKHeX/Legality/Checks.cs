@@ -499,7 +499,7 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterEgg()
         {
             // Check Species
-            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && (pkm.GenNumber != 4 || pkm.Species == 490))
+            if ((Legal.NoHatchFromEgg.Contains(pkm.Species) && pkm.Species != 490) || (pkm.GenNumber != 4 && pkm.Species == 490))
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
@@ -1315,7 +1315,11 @@ namespace PKHeX.Core
 
             if (EncounterIsMysteryGift)
             {
-                verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
+                if (pkm.Species == 490 && pkm.Gen4 && ((MysteryGift)EncounterMatch).Ball == 0)
+                    // there is no ball data in Manaphy Mystery Gift
+                    verifyBallEquals(4); // Pokeball
+                else
+                    verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
                 return;
             }
             if (EncounterType == typeof (EncounterLink))
@@ -2184,7 +2188,12 @@ namespace PKHeX.Core
                     return;
                 }
                 if (pkm.FatefulEncounter)
-                    AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                {
+                    if(pkm.Gen3 && (pkm.Species==386 || pkm.Species==151))
+                        AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
+                    else
+                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                }
                 if (pkm.Format == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
