@@ -524,7 +524,7 @@ namespace PKHeX.Core
             //Stationary Lengerdary
             new EncounterStatic { Species = 144, Level = 50, Location = 203, }, //Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 158, }, //Zapdos @ Route 10
-            new EncounterStatic { Species = 146, Level = 50, Location = 137, }, //Moltres @ Mt. Silver
+            new EncounterStatic { Species = 146, Level = 50, Location = 219, }, //Moltres @ Mt. Silver Cave
             new EncounterStatic { Species = 150, Level = 70, Location = 199, }, //Mewtwo @ Cerulean Cave
             new EncounterStatic { Species = 245, Level = 40, Location = 173, }, //Suicune @ Route 25
             new EncounterStatic { Species = 245, Level = 40, Location = 206, }, //Suicune @ Burned Tower
@@ -1011,12 +1011,15 @@ namespace PKHeX.Core
             183,194,195,298,399,400,        // Pre-National Pokédex
             046,102,115,193,285,316,452,454 // Post-National Pokédex
         };
+        private static readonly EncounterArea[] DP_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(DP_GreatMarshAlt_Speices, new[] { 22, 22, 24, 24, 26, 26 }, 52, SlotType.Grass_Safari);
+
         private static readonly int[] Pt_GreatMarshAlt_Speices =
         {
             114,193,195,357,451,453,455,
             194,                            // Pre-National Pokédex
             046,102,115,285,316,352,452,454 // Post-National Pokédex
         };
+        private static readonly EncounterArea[] Pt_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(Pt_GreatMarshAlt_Speices, new[] { 27, 30 }, 52, SlotType.Grass_Safari);
 
         private static readonly int[] Shellos_EastSeaLocation_DP =
         {

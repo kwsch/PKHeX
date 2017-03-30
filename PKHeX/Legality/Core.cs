@@ -305,8 +305,8 @@ namespace PKHeX.Core
         {
             foreach (EncounterStatic s in t)
             {
-                s.Location = 75;  //Entree Forest. Location can be a flag from dream world
-                s.Ability = 4;    //What if 1=2=HA?
+                s.Location = 75;  //Entree Forest
+                s.Ability = (PersonalTable.B2W2.getAbilities(s.Species, s.Form)[2] == 0) ? 1 : 4; // Check if has HA
             }
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
@@ -499,8 +499,6 @@ namespace PKHeX.Core
                 var Pt_Slots = getEncounterTables(GameVersion.Pt);
                 var HG_Slots = getEncounterTables(GameVersion.HG);
                 var SS_Slots = getEncounterTables(GameVersion.SS);
-                var DP_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(DP_GreatMarshAlt_Speices, new[] {22,22, 24,24, 26,26}, 52, SlotType.Grass_Safari);
-                var Pt_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(Pt_GreatMarshAlt_Speices, new[] {27,30}, 52, SlotType.Grass_Safari);
                 var DP_Trophy = EncounterArea.getTrophyArea(TrophyDP, new[] {16, 18});
                 var Pt_Trophy = EncounterArea.getTrophyArea(TrophyPt, new[] {22, 22});
                 var HG_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Resources.encunters_hb_hg, "hg"));
@@ -564,7 +562,7 @@ namespace PKHeX.Core
                 MarkBWSwarmSlots(ref SlotsB_Swarm);
                 MarkBWSwarmSlots(ref SlotsW_Swarm);
                 SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm);
-                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm);
+                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
 
                 var B2Slots = getEncounterTables(GameVersion.B2);
                 var W2Slots = getEncounterTables(GameVersion.W2);
@@ -937,7 +935,7 @@ namespace PKHeX.Core
 
             EncounterTrade[] table = getEncounterTradeTable(pkm);
 
-            var poss = table?.Where(f => p.Any(r => r.Species == f.Species)).ToList();
+            var poss = table?.Where(f => p.Any(r => r.Species == f.Species) && f.Version.Contains((GameVersion)pkm.Version)).ToList();
 
             if (poss == null || poss.Count == 0)
                 return null;
