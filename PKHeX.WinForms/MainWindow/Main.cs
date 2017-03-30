@@ -3151,7 +3151,7 @@ namespace PKHeX.WinForms
                                  CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
                              };
 
-            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
+            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
             if (cb != null)
             {
                 Control c = cb.Parent;

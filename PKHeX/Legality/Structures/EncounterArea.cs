@@ -398,35 +398,27 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterSlot> getSlots4_G_TimeReplace(byte[] data, ref int ofs, EncounterSlot[] GrassSlots, SlotType t, int[] slotnums)
         {
             var slots = new List<EncounterSlot>();
-
-            int[] CountReplaced = new int[2];
-
             // Slots for day, morning and night slots in DPPt. Only contain species data, level is copy from grass slot
             for (int i = 0; i < 3; i++)
             {
-                int species = BitConverter.ToInt32(data, ofs + i * 4);
-                if (species <= 0)
-                    continue;
-
                 for (int j = 0; j < 2; j++)
                 {
+                    int species = BitConverter.ToInt32(data, ofs + j * 4);
+                    if (species <= 0)
+                        continue;
+
                     var slot = GrassSlots[slotnums[j]].Clone();
-                    slot.Species = species;
+                    slot.Species = j;
                     slot.Type = t;
                     slots.Add(slot);
-                    CountReplaced[j]++;
                 }
                 ofs += 8;
             }
 
-            // If the grass slot is replaced by all the time slots that means the species in the grass slot will never be used
-            // Unlike radio slot and gba dual slot the time of the day is always day, morning or night
-            if (CountReplaced[0] == 3)
-                GrassSlots[2].Species = 0;
-            if (CountReplaced[1] == 3)
-                GrassSlots[3].Species = 0;
+            // Even if the three time replacer slots overwrite the original grass slot it still possible for that encounter to happen
+            // Original encounter should not be removed
 
-            //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
+            // Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
             return GrassSlots.Concat(slots);
         }
         private static IEnumerable<EncounterSlot> getSlots4DPPt_WFR(byte[] data, ref int ofs, int numslots, SlotType t)
@@ -434,7 +426,7 @@ namespace PKHeX.Core
             var slots = new List<EncounterSlot>();
             for (int i = 0; i < numslots; i++)
             {
-                // min, max, unused, unused, [32bit species]
+                // max, min, unused, unused, [32bit species]
                 int Species = BitConverter.ToInt32(data, ofs + 4 + i * 8);
                 if (Species <= 0)
                     continue;
@@ -442,8 +434,8 @@ namespace PKHeX.Core
                 // DPPt does not have fishing or surf swarms
                 slots.Add(new EncounterSlot
                 {
-                    LevelMin = data[ofs + 0 + i * 8],
-                    LevelMax = data[ofs + 1 + i * 8],
+                    LevelMax = data[ofs + 0 + i * 8],
+                    LevelMin = data[ofs + 1 + i * 8],
                     Species = Species,
                     Type = t
                 });
