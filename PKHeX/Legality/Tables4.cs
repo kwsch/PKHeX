@@ -507,7 +507,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 023, Level = 15, Location = 131, Version = GameVersion.HG }, // Ekans
             new EncounterStatic { Gift = true, Species = 027, Level = 15, Location = 131, Version = GameVersion.SS }, // Sandshrew
             new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 131 }, // Dratini
-            //Team_Rocket_HQ Trap Floor
+            // Team Rocket HQ Trap Floor
             // new EncounterStatic { Species = 101, Level = 23, Location = 213, }, // Electrode Overlaps stationary 
             new EncounterStatic { Species = 100, Level = 23, Location = 213, }, // Voltorb
             new EncounterStatic { Species = 074, Level = 23, Location = 213, }, // Geodude

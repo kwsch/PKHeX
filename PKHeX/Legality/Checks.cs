@@ -1356,7 +1356,7 @@ namespace PKHeX.Core
 
                 if (pkm.Met_Location == 30016 && pkm.Gen7) // Poké Pelago
                     verifyBallEquals(4); // Pokeball
-                // For gen3/4 safari zones and BCC verify encounter already filter to not return
+                // For gen3/4 safari zones and BCC getValidWildEncounters already filter to not return
                 // mixed possible encounters between safari, BCC and other encounters
                 // That means is the first encounter is not safari then there is no safari encounter in the array
                 else if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && Legal.IsSafariSlot(enc.First().Type))
