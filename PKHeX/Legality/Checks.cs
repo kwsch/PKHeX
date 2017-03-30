@@ -308,14 +308,11 @@ namespace PKHeX.Core
                 }
                 return;
             }
-
-            // Insert Gen 3 Checks Here
-            if (pkm.Format == 3)
-            {
-                // Suppressing this temporarily
+            else if (3 <= pkm.Format && pkm.Format <= 5)
+            { 
+                // Suppressing temporarily
                 return;
             }
-            // End Gen 3 Checks
 
             if (validOT.Length == 0)
             {
@@ -1312,8 +1309,6 @@ namespace PKHeX.Core
         {
             if (pkm.Format < 3)
                 return; // no ball info saved
-            if (pkm.GenNumber < 6)
-                return; // not implemented
 
             if (!Encounter.Valid)
                 return;
@@ -1349,6 +1344,8 @@ namespace PKHeX.Core
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
                 if (enc?.Gift ?? false)
                     verifyBallEquals(enc.Ball);
+                else if (pkm.Met_Location == 75 && pkm.Gen5) // DreamWorld
+                    verifyBallEquals(Legal.DreamWorldBalls);
                 else
                     verifyBallEquals(Legal.getWildBalls(pkm));
                 return;

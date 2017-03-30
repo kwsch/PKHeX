@@ -89,7 +89,7 @@
                 Gender = Gender,
                 EggLocation = EggLocation,
                 Nature = Nature,
-                Gift = Gift,
+                Gift = true,    //Only
                 Ball = 25,      //Dream Ball
                 Version = Version,
                 IVs = IVs,

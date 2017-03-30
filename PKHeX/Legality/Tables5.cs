@@ -106,6 +106,7 @@ namespace PKHeX.Core
             // HGSS balls not usable
             // Dream ball not usable in wild
         };
+        internal static readonly int[] DreamWorldBalls = WildPokeBalls5.Concat(new[] { 25 }).ToArray();
 
         internal static readonly int[] FutureEvolutionsGen5 =
         {
@@ -531,7 +532,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 646, Level = 75, Location = 61,}, //Kyurem @ Giant Chasm
             //Event
             new EncounterStatic { Species = 494, Level = 15, Location = 62, Shiny = false}, // Victini @ Liberty Garden
-            new EncounterStatic { Species = 570, Level = 10, Location = 32, Gender = 0, }, // Zorua @ Castelia City
+            new EncounterStatic { Species = 570, Level = 10, Location = 08, Gender = 0, }, // Zorua @ Castelia City
             new EncounterStatic { Species = 571, Level = 25, Location = 72, Gender = 1, }, // Zoroark @ Lostlorn Forest
         };
         internal static readonly EncounterStatic[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
@@ -662,6 +663,20 @@ namespace PKHeX.Core
         };
         #endregion
         #region Alt Slots
+
+        // White forest white version only
+        private static readonly int[] WhiteForest_GrassSpecies =
+        {
+            016,029,032,043,063,066,069,081,092,111,
+            137,175,179,187,239,240,265,270,273,280,
+            287,293,298,304,328,371,396,403,406,440,
+        };
+        private static readonly int[] WhiteForest_SurfSpecies =
+        {
+            194,270,283,341,
+        };
+        private static readonly EncounterArea[] WhiteForestSlot = EncounterArea.getSimpleEncounterArea(WhiteForest_GrassSpecies, new[] { 5, 5 }, 51, SlotType.Grass).Concat(
+                                                                  EncounterArea.getSimpleEncounterArea(WhiteForest_SurfSpecies, new[] { 5, 5 }, 51, SlotType.Surf)).ToArray();
         private static readonly EncounterArea[] SlotsBW_Swarm =
         {
             //level range and Slottype will be marked later
@@ -689,7 +704,7 @@ namespace PKHeX.Core
                 new EncounterArea {Location = 16, Slots = new[]{new EncounterSlot {Species = 314},},},// Illumise @ Route 3
                 new EncounterArea {Location = 19, Slots = new[]{new EncounterSlot {Species = 312},},},// Minun @ Route 6
                 new EncounterArea {Location = 22, Slots = new[]{new EncounterSlot {Species = 261},},},// Poochyena @ Route 9
-                new EncounterArea {Location = 24, Slots = new[]{new EncounterSlot {Species = 048},},},// Paras @ Route 11
+                new EncounterArea {Location = 24, Slots = new[]{new EncounterSlot {Species = 046},},},// Paras @ Route 11
         }).ToArray();
 
         private static readonly EncounterArea[] SlotsB2W2_Swarm =
@@ -705,7 +720,7 @@ namespace PKHeX.Core
             new EncounterArea {Location = 026, Slots = new[]{new EncounterSlot {Species = 277},},},// Swellow @ Route 13
             new EncounterArea {Location = 028, Slots = new[]{new EncounterSlot {Species = 022},},},// Fearow @ Route 15
             new EncounterArea {Location = 029, Slots = new[]{new EncounterSlot {Species = 204},},},// Pineco @ Route 16
-            new EncounterArea {Location = 030, Slots = new[]{new EncounterSlot {Species = 187},},},// Hoppip @ Route 18
+            new EncounterArea {Location = 031, Slots = new[]{new EncounterSlot {Species = 187},},},// Hoppip @ Route 18
             new EncounterArea {Location = 032, Slots = new[]{new EncounterSlot {Species = 097},},},// Hypno @ Dreamyard
             new EncounterArea {Location = 034, Slots = new[]{new EncounterSlot {Species = 450},},},// Hippowdon @ Desert Resort
             new EncounterArea {Location = 070, Slots = new[]{new EncounterSlot {Species = 079},},},// Slowpoke @ Abundant shrine
@@ -714,7 +729,7 @@ namespace PKHeX.Core
         private static readonly EncounterArea[] SlotsB2_Swarm = SlotsB2W2_Swarm.Concat(new[] {
                 new EncounterArea {Location = 016, Slots = new[]{new EncounterSlot {Species = 313},},},// Volbeat @ Route 3
                 new EncounterArea {Location = 019, Slots = new[]{new EncounterSlot {Species = 311},},},// Plusle @ Route 6
-                new EncounterArea {Location = 125, Slots = new[]{new EncounterSlot {Species = 184},},},// Sudowoodo @ Route 20
+                new EncounterArea {Location = 125, Slots = new[]{new EncounterSlot {Species = 185},},},// Sudowoodo @ Route 20
                 new EncounterArea {Location = 127, Slots = new[]{new EncounterSlot {Species = 168},},},// Ariados @ Route 22
         }).ToArray();
         private static readonly EncounterArea[] SlotsW2_Swarm = SlotsB2W2_Swarm.Concat(new[] {

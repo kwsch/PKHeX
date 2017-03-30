@@ -21,7 +21,7 @@
 
         public string Name => "In-game Trade";
 
-        public static int[] DefalutMetLocation = new[]
+        public static int[] DefalutMetLocation = 
         {
            254, 2001, 30002, 30001, 30001,
         };
@@ -31,5 +31,4 @@
     {
         public uint PID;
     }
-
 }
