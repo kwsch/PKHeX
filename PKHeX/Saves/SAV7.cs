@@ -1302,6 +1302,15 @@ namespace PKHeX.Core
             get { return (byte)(Data[0x23F9] >> 5); }
             set { Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5)); }
         }
+        public bool MegaUnlocked
+        {
+            get { return (Data[0x1278] & 0x01) != 0; }
+            set
+            {
+                Data[0x1278] = (byte)((Data[0x1278] & 0xFE) | (value ? 1 : 0)); // in battle
+                // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
+            }
+        }
 
         public override bool RequiresMemeCrypto => true;
     }
