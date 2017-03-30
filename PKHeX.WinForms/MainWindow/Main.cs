@@ -176,7 +176,6 @@ namespace PKHeX.WinForms
             CB_MainLanguage.SelectedIndex = languageID;
 
             InitializeFields();
-            formInitialized = true;
             
             #endregion
             #region Load Initial File(s)
@@ -220,7 +219,7 @@ namespace PKHeX.WinForms
             if (pkmArg != null)
                 openQuick(pkmArg, force: true);
 
-            // Splash Screen closes on its own.
+            formInitialized = true; // Splash Screen closes on its own.
             BringToFront();
             WindowState = FormWindowState.Minimized;
             Show();
@@ -3038,13 +3037,14 @@ namespace PKHeX.WinForms
             fieldsLoaded = false;
             var cb = new[] {CB_Move1, CB_Move2, CB_Move3, CB_Move4};
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToArray();
             foreach (ComboBox c in cb)
             {
                 var index = WinFormsUtil.getIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
                 c.SelectedValue = index;
-                c.SelectionLength = 0; // flicker hack
+                if (c.Visible)
+                    c.SelectionLength = 0; // flicker hack
             }
             fieldsLoaded |= tmp;
         }
