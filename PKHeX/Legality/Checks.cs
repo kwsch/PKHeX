@@ -2205,12 +2205,8 @@ namespace PKHeX.Core
                     return;
                 }
                 if (pkm.FatefulEncounter)
-                {
-                    if(pkm.Gen3 && (pkm.Species==386 || pkm.Species==151))
-                        AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
-                    else
-                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
-                }
+                    AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                
                 if (pkm.Format == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
