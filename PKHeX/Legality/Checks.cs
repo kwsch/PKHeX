@@ -1352,8 +1352,17 @@ namespace PKHeX.Core
             }
             if (EncounterType == typeof (EncounterSlot[]))
             {
+                EncounterSlot[] enc = EncounterMatch as EncounterSlot[];
+
                 if (pkm.Met_Location == 30016 && pkm.Gen7) // Poké Pelago
                     verifyBallEquals(4); // Pokeball
+                // For gen3/4 safari zones and BCC verify encounter already filter to not return
+                // mixed possible encounters between safari, BCC and other encounters
+                // That means is the first encounter is not safari then there is no safari encounter in the array
+                else if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && Legal.IsSafariSlot(enc.First().Type))
+                    verifyBallEquals(5); // Safariball
+                else if (pkm.GenNumber == 4 && pkm.HGSS && enc.First().Type == SlotType.BugContest)
+                    verifyBallEquals(0x18); // Sportball
                 else
                     verifyBallEquals(Legal.getWildBalls(pkm));
                 return;
