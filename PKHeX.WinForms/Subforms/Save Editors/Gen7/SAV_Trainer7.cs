@@ -229,6 +229,8 @@ namespace PKHeX.WinForms
             CHK_UnlockSuperSingles.Checked = (btsu & 1) != 0;
             CHK_UnlockSuperDoubles.Checked = (btsu & (1 << 1)) != 0;
             CHK_UnlockSuperMulti.Checked = (btsu & (1 << 2)) != 0;
+
+            CHK_UnlockMega.Checked = SAV.MegaUnlocked;
         }
         private void save()
         {
@@ -343,6 +345,8 @@ namespace PKHeX.WinForms
             if (CHK_UnlockSuperDoubles.Checked) btsu |= (1 << 1);
             if (CHK_UnlockSuperMulti.Checked) btsu |= (1 << 2);
             SAV.BattleTreeSuperUnlocked = btsu;
+
+            SAV.MegaUnlocked = CHK_UnlockMega.Checked;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
