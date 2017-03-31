@@ -934,55 +934,47 @@ namespace PKHeX.Core
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
 
             EncounterTrade[] table = getEncounterTradeTable(pkm);
+            var poss = table?.Where(f => p.Any(r => r.Species == f.Species) && f.Version.Contains((GameVersion)pkm.Version));
+            return poss?.FirstOrDefault(z => getEncounterTradeValid(pkm, z, lvl));
+        }
+        private static bool getEncounterTradeValid(PKM pkm, EncounterTrade z, int lvl)
+        {
+            for (int i = 0; i < 6; i++)
+                if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
+                    return false;
 
-            var poss = table?.Where(f => p.Any(r => r.Species == f.Species) && f.Version.Contains((GameVersion)pkm.Version)).ToList();
-
-            if (poss == null || poss.Count == 0)
-                return null;
-
-            foreach (EncounterTrade z in poss)
+            if (z.Shiny ^ pkm.IsShiny) // Are PIDs static?
+                return false;
+            if (z.TID != pkm.TID)
+                return false;
+            if (z.SID != pkm.SID)
+                return false;
+            if (pkm.HasOriginalMetLocation)
             {
-
-                for (int i = 0; i < 6; i++)
-                    if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
-                        continue;
-
-                if (z.Shiny ^ pkm.IsShiny) // Are PIDs static?
-                    continue;
-                if (z.TID != pkm.TID)
-                    continue;
-                if (z.SID != pkm.SID)
-                    continue;
-                if (pkm.HasOriginalMetLocation)
-                {
-                    z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefalutMetLocation[pkm.GenNumber - 3];
-                    if (z.Location != pkm.Met_Location)
-                        continue;
-                    if (pkm.Format < 5)
-                    {
-                        if (z.Level > lvl)
-                            continue;
-                    }
-                    else if (z.Level != lvl)
-                        continue;
-                }
-                else
+                z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefalutMetLocation[pkm.GenNumber - 3];
+                if (z.Location != pkm.Met_Location)
+                    return false;
+                if (pkm.Format < 5)
                 {
                     if (z.Level > lvl)
-                        continue;
+                        return false;
                 }
-                if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
-                    continue;
-                if (z.Gender != -1 && z.Gender != pkm.Gender)
-                    continue;
-                if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
-                    continue;
-                // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
-                //    countinue;
-
-                return z;
+                else if (z.Level != lvl)
+                    return false;
             }
-            return null;
+            else if (z.Level > lvl)
+                return false;
+
+            if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
+                return false;
+            if (z.Gender != -1 && z.Gender != pkm.Gender)
+                return false;
+            if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
+                return false;
+            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
+            //    countinue;
+
+            return true;
         }
         private static EncounterTrade[] getEncounterTradeTable(PKM pkm)
         {
