@@ -497,7 +497,7 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterEgg()
         {
             // Check Species
-            if ((Legal.NoHatchFromEgg.Contains(pkm.Species) && pkm.Species != 490) || (pkm.GenNumber != 4 && pkm.Species == 490))
+            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && !EncounterIsMysteryGift)
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
@@ -1316,7 +1316,7 @@ namespace PKHeX.Core
 
             if (EncounterIsMysteryGift)
             {
-                if (pkm.Species == 490 && pkm.Gen4 && ((MysteryGift)EncounterMatch).Ball == 0)
+                if (pkm.Species == 490 && ((MysteryGift)EncounterMatch).Ball == 0)
                     // there is no ball data in Manaphy Mystery Gift
                     verifyBallEquals(4); // Pokeball
                 else
@@ -1365,9 +1365,9 @@ namespace PKHeX.Core
                 // mixed possible encounters between safari, BCC and other encounters
                 // That means is the first encounter is not safari then there is no safari encounter in the array
                 else if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && Legal.IsSafariSlot(enc.First().Type))
-                    verifyBallEquals(5); // Safariball
-                else if (pkm.GenNumber == 4 && pkm.HGSS && enc.First().Type == SlotType.BugContest)
-                    verifyBallEquals(0x18); // Sportball
+                    verifyBallEquals(5); // Safari Ball
+                else if (pkm.GenNumber == 4 && enc.First().Type == SlotType.BugContest)
+                    verifyBallEquals(0x18); // Sport Ball
                 else
                     verifyBallEquals(Legal.getWildBalls(pkm));
                 return;

@@ -45,6 +45,9 @@ namespace PKHeX.WinForms
         private bool MapUpdated;
         private bool editing;
 
+        private static readonly string[] TrainerStampTitle = { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
+        private static readonly string[] BattleStyles = { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
+
         private void getComboBoxes()
         {
             var dsregion_list = new[] {
@@ -103,18 +106,15 @@ namespace PKHeX.WinForms
             CB_Vivillon.ValueMember = "Value";
             CB_Vivillon.DataSource = PKX.getFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols).ToList();
 
-            string[] BattleStyles = new string[8] { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
-            for (int i = 0; i < BattleStyles.Length; i++)
+            foreach (string t in BattleStyles)
             {
-                CB_BallThrowType.Items.Add(BattleStyles[i]);
-                LB_BallThrowTypeUnlocked.Items.Add(BattleStyles[i]);
-                LB_BallThrowTypeLearned.Items.Add(BattleStyles[i]);
+                CB_BallThrowType.Items.Add(t);
+                LB_BallThrowTypeUnlocked.Items.Add(t);
+                LB_BallThrowTypeLearned.Items.Add(t);
             }
 
-            string[] TrainerStampTitle = new string[15] { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
-            for (int i = 0; i < TrainerStampTitle.Length; i++)
-                LB_Stamps.Items.Add(TrainerStampTitle[i]);
-
+            foreach (string t in TrainerStampTitle)
+                LB_Stamps.Items.Add(t);
         }
         private void getTextBoxes()
         {
@@ -319,34 +319,25 @@ namespace PKHeX.WinForms
             
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
-            byte bttu = 0;
-            for(int i = 0; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
-            {
-                if (LB_BallThrowTypeUnlocked.GetSelected(i))
-                    bttu += (byte)(1 << i);
-            }
-            SAV.BallThrowTypeUnlocked = bttu;
-            byte bttl = 0;
-            for(int i = 0; i < LB_BallThrowTypeLearned.Items.Count; i++)
-            {
-                if (LB_BallThrowTypeLearned.GetSelected(i))
-                    bttl += (byte)(1 << i);
-            }
-            SAV.BallThrowTypeLearned = bttl;
-            uint stampBits = 0;
-            for(int i = 0; i < LB_Stamps.Items.Count; i++)
-            {
-                if (LB_Stamps.GetSelected(i))
-                    stampBits += (uint)(1 << i);
-            }
-            SAV.Stamps = stampBits;
+            SAV.BallThrowTypeUnlocked = (byte)getBits(LB_BallThrowTypeUnlocked);
+            SAV.BallThrowTypeLearned = (byte)getBits(LB_BallThrowTypeLearned);
+            SAV.Stamps = getBits(LB_Stamps);
+
             byte btsu = 0;
             if (CHK_UnlockSuperSingles.Checked) btsu |= 1;
-            if (CHK_UnlockSuperDoubles.Checked) btsu |= (1 << 1);
-            if (CHK_UnlockSuperMulti.Checked) btsu |= (1 << 2);
+            if (CHK_UnlockSuperDoubles.Checked) btsu |= 1 << 1;
+            if (CHK_UnlockSuperMulti.Checked) btsu |= 1 << 2;
             SAV.BattleTreeSuperUnlocked = btsu;
 
             SAV.MegaUnlocked = CHK_UnlockMega.Checked;
+        }
+        private static uint getBits(ListBox listbox)
+        {
+            uint bits = 0;
+            for (int i = 0; i < listbox.Items.Count; i++)
+                if (listbox.GetSelected(i))
+                    bits |= (uint)(1 << i);
+            return bits;
         }
 
         private void clickOT(object sender, MouseEventArgs e)
@@ -519,14 +510,12 @@ namespace PKHeX.WinForms
                 LB_BallThrowTypeLearned.Visible = true;
             }
         }
-
         private void LB_BallThrowTypeLearned_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Loading) return;
             if (!LB_BallThrowTypeLearned.GetSelected(0))
                 LB_BallThrowTypeLearned.SetSelected(0, true);
         }
-
         private void LB_BallThrowTypeUnlocked_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Loading) return;
