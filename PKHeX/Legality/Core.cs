@@ -708,6 +708,40 @@ namespace PKHeX.Core
             r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
+        internal static List<int>[] getShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
+        {
+            List<int>[] r = new List<int>[pkm.Format + 1];
+            for (int i = 1; i <= pkm.Format; i++)
+                r[i] = new List<int>();
+            if (lvl == -1)
+                lvl = pkm.CurrentLevel;
+            if (pkm.Species != 292 || lvl < 20)
+                return r;
+            // If nincada evolves into Ninjask an learn in the evolution a move from ninjask learnset pool
+            // Shedinja would appear with that move learned. Only one move above level 20 allowed, only in generations 3 and 4
+            switch(generation)
+            {
+                case 0:
+                case 3:
+                    {
+                        if(pkm.InhabitedGeneration(3))
+                            // Ninjask have the same learnset in every gen 3 games
+                            r[3] = LevelUpE[291].getMoves(20, lvl).ToList();
+                        
+                        if (generation == 0)
+                            goto case 4;
+                        break;
+                    }
+                case 4:
+                    {
+                        if (pkm.InhabitedGeneration(4))
+                            // Ninjask have the same learnset in every gen 4 games
+                            r[4] = LevelUpPt[291].getMoves(20, lvl).ToList();
+                        break;
+                    }
+            }
+            return r;
+        }
         internal static IEnumerable<int> getBaseEggMoves(PKM pkm, int skipOption, GameVersion gameSource, int lvl)
         {
             int species = getBaseSpecies(pkm, skipOption);
