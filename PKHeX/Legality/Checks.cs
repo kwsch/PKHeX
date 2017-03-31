@@ -2484,6 +2484,7 @@ namespace PKHeX.Core
             CheckResult[] res = new CheckResult[4];
             var Gen1MovesLearned = new List<int>();
             var EggMovesLearned = new List<int>();
+            var BaseEggMovesLearned = new List<int>();
             var EventEggMovesLearned = new List<int>();
             var IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
             // Check none moves and relearn moves before generation moves
@@ -2555,7 +2556,7 @@ namespace PKHeX.Core
                             }
                             else
                                 res[m] = new CheckResult(Severity.Valid, V345, CheckIdentifier.Move);
-                            EggMovesLearned.Add(m);
+                            BaseEggMovesLearned.Add(m);
                         }
                     }
 
@@ -2596,23 +2597,21 @@ namespace PKHeX.Core
 
                     // A pokemon could have normal egg moves and regular egg moves
                     // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
-                    if (EggMovesLearned.Any() && EventEggMovesLearned.Any())
+                    var RegularEggMovesLearned = EggMovesLearned.Union(BaseEggMovesLearned);
+                    if (RegularEggMovesLearned.Any() && EventEggMovesLearned.Any())
                     {
                         // Moves that are egg moves or event egg moves but not both
-                        var IncompatibleEggMoves = EggMovesLearned.Except(EventEggMovesLearned).Union(EventEggMovesLearned.Except(EggMovesLearned)).ToList();
+                        var IncompatibleEggMoves = RegularEggMovesLearned.Except(EventEggMovesLearned).Union(EventEggMovesLearned.Except(RegularEggMovesLearned)).ToList();
                         if (IncompatibleEggMoves.Any())
                         {
                             foreach(int m in IncompatibleEggMoves)
                             {
                                 if (EventEggMovesLearned.Contains(m) && !EggMovesLearned.Contains(m))
-                                    res[m] = new CheckResult(Severity.Invalid, V337, CheckIdentifier.Move); 
+                                    res[m] = new CheckResult(Severity.Invalid, V337, CheckIdentifier.Move);
                                 else if (!EventEggMovesLearned.Contains(m) && EggMovesLearned.Contains(m))
-                                {
-                                    if (egg.Contains(moves[m]))
-                                        res[m] = new CheckResult(Severity.Invalid, V336, CheckIdentifier.Move);
-                                    else // base egg move
-                                        res[m] = new CheckResult(Severity.Invalid, V358, CheckIdentifier.Move);
-                                } 
+                                    res[m] = new CheckResult(Severity.Invalid, V336, CheckIdentifier.Move);
+                                else if (!EventEggMovesLearned.Contains(m) && BaseEggMovesLearned.Contains(m))
+                                    res[m] = new CheckResult(Severity.Invalid, V358, CheckIdentifier.Move);
                             }
                         }
                     }
