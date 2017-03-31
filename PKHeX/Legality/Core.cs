@@ -834,9 +834,9 @@ namespace PKHeX.Core
             }
             return null;
         }
-        internal static IEnumerable<int> getEggMoves(PKM pkm, GameVersion Version)
+        internal static IEnumerable<int> getEggMoves(PKM pkm, int skipOption, GameVersion Version)
         {
-            return getEggMoves(pkm, getBaseSpecies(pkm), 0, Version);
+            return getEggMoves(pkm, getBaseSpecies(pkm, skipOption), 0, Version);
         }
 
         internal static IEnumerable<int> getSpecialEggMoves(PKM pkm, GameVersion Version)
@@ -2626,7 +2626,7 @@ namespace PKHeX.Core
                         return EggMovesC[species].Moves;
                     if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
                         return EggMovesGS[species].Moves;
-                    return new List<int>();
+                    return EggMovesC[species].Moves;
                 case 3:
                     return EggMovesRS[species].Moves;
                 case 4:

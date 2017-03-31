@@ -343,6 +343,7 @@ namespace PKHeX.Core
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
         public static string V357 {get; set;} = "Only one Ninjask move allowed.";
+        public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
         #endregion
 
     }

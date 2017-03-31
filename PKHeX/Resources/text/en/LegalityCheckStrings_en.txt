@@ -278,3 +278,5 @@ V352 = Arceus from Hall of Origin. Unreleased event.
 V353 = Non japanese Mew from Faraway Island. Unreleased event.
 V354 = Non Platinum Shaymin from Flower Paradise. Unreleased event.
 V357 = Only one Ninjask move allowed.
+V358 = Inherited move learned by Level-up. Incompatible with event egg moves.
+        
