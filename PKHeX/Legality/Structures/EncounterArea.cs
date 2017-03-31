@@ -408,7 +408,7 @@ namespace PKHeX.Core
                         continue;
 
                     var slot = GrassSlots[slotnums[j]].Clone();
-                    slot.Species = j;
+                    slot.Species = species;
                     slot.Type = t;
                     slots.Add(slot);
                 }

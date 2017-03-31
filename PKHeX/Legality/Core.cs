@@ -1215,7 +1215,7 @@ namespace PKHeX.Core
             if (pkm.Species == 490 && (pkm.WasEgg || pkm.IsEgg)) // Manaphy
             {
                 int loc = pkm.IsEgg ? pkm.Met_Location : pkm.Egg_Location;
-                bool valid = loc == 2001; // Link Trade Egg
+                bool valid = loc == 2002; // Link Trade Egg
                 valid |= loc == 3001 && !pkm.IsShiny; // Ranger & notShiny
                 if (valid)
                     validPCD.Add(new PGT { Data = { [0] = 7, [8] = 1 } });
@@ -1749,7 +1749,7 @@ namespace PKHeX.Core
         internal static int getMaxLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))
-                return 0;
+                return -1;
 
             if (pkm.Format <= 2)
             {
@@ -1772,7 +1772,11 @@ namespace PKHeX.Core
         internal static int getMinLevelEncounter(PKM pkm)
         {
             if (pkm.Format == 3 && pkm.WasEgg)
+                // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
                 return 5;
+            if (pkm.Format == 4 && pkm.GenNumber == 4 && pkm.WasEgg) 
+                // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
+                return 1;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : getMaxLevelGeneration(pkm);
         }
         internal static int getMinLevelGeneration(PKM pkm)
@@ -2286,6 +2290,9 @@ namespace PKHeX.Core
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
+                if (species == 386 && pkm.Format == 3)
+                    // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
+                    formcount = 4;
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(getMoves(pkm, species, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
