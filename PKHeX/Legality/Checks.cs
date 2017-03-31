@@ -499,7 +499,7 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterEgg()
         {
             // Check Species
-            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && (pkm.GenNumber != 4 || pkm.Species == 490))
+            if ((Legal.NoHatchFromEgg.Contains(pkm.Species) && pkm.Species != 490) || (pkm.GenNumber != 4 && pkm.Species == 490))
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
@@ -791,6 +791,7 @@ namespace PKHeX.Core
             CheckResult InvalidTransferResult = null;
             CheckResult EggResult = null;
             CheckResult G3Result = null;
+            object G3Encounter = null;
             bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
             {
@@ -804,20 +805,30 @@ namespace PKHeX.Core
                 InvalidTransferResult = new CheckResult(Severity.Invalid, V60, CheckIdentifier.Encounter);
             if (pkm.Format != 4 && pkm.Met_Location != 30001)
                 InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
-            
+
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 G3Result = verifyEncounterStatic();
+                if (G3Result?.Valid ?? false)
+                    G3Encounter = EncounterMatch;
             }
 
-            if (G3Result !=null)
+            if (G3Result != null)
             {
                 EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
                 if (null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+                {
                     G3Result = verifyEncounterWild();
+                    if (G3Result?.Valid ?? false)
+                        G3Encounter = EncounterMatch;
+                }
 
                 if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+                {
                     G3Result = verifyEncounterTrade();
+                    if (G3Result?.Valid ?? false)
+                        G3Encounter = EncounterMatch;
+                }
             }
 
             // Check events after static, to match Mew/Deoxys static encounters
@@ -838,19 +849,25 @@ namespace PKHeX.Core
             // Even if EggResult is not returned WasEgg is keep true to check in verifymoves first the 
             // non egg encounter moves and after that egg encounter moves, because there is no way to tell 
             // what of the two encounters was the real origin
-            if (EggResult != null && G3Result!=null)
+            if (EggResult != null && G3Result != null)
             {
                 // keep the valid encounter, also if both are valid returns non egg information, because 
                 // there is more data in the pokemon to found normal encounter
                 if (EggResult.Valid && !G3Result.Valid)
+                {
                     G3Result = EggResult;
+                    G3Encounter = null;
+                }
             }
+
+            if (G3Result?.Valid ?? false)
+                EncounterMatch = G3Encounter;
 
             // No gen 3 result
             if (G3Result == null)
             {
                 // Return both errors, invalid transfer and not a valid encounter found in G3
-                return InvalidTransferResult != null?
+                return InvalidTransferResult != null ?
                       new CheckResult(Severity.Invalid, V80 + Environment.NewLine + InvalidTransferResult.Comment, CheckIdentifier.Encounter)
                     : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
             }
@@ -1315,7 +1332,11 @@ namespace PKHeX.Core
 
             if (EncounterIsMysteryGift)
             {
-                verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
+                if (pkm.Species == 490 && pkm.Gen4 && ((MysteryGift)EncounterMatch).Ball == 0)
+                    // there is no ball data in Manaphy Mystery Gift
+                    verifyBallEquals(4); // Pokeball
+                else
+                    verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
                 return;
             }
             if (EncounterType == typeof (EncounterLink))
@@ -2185,6 +2206,7 @@ namespace PKHeX.Core
                 }
                 if (pkm.FatefulEncounter)
                     AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                
                 if (pkm.Format == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
