@@ -2595,17 +2595,6 @@ namespace PKHeX.Core
                         EventEggMovesLearned.Add(m);
                     }
 
-                    if (pkm.Species == 292)
-                    {
-                        // Check Shedinja evolved moves from Ninjask after egg moves
-                        // Those moves could also be inherited egg moves
-                        var shedinjamove = ParseShedinjaEvolveMoves(moves, BaseEggMovesLearned, ref res);
-                        if (shedinjamove > 0)
-                        {
-                            BaseEggMovesLearned.Remove(shedinjamove);
-                        }
-                    }
-
                     // A pokemon could have normal egg moves and regular egg moves
                     // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
                     var RegularEggMovesLearned = EggMovesLearned.Union(BaseEggMovesLearned);
@@ -2654,6 +2643,13 @@ namespace PKHeX.Core
                     return res;
             }
 
+            if (pkm.Species == 292)
+            {
+                // Check Shedinja evolved moves from Ninjask after egg moves
+                // Those moves could also be inherited egg moves
+                ParseShedinjaEvolveMoves(moves, ref res);
+            }
+
             for (int m = 0; m < 4; m++)
             {
                 if (res[m] == null)
@@ -2661,52 +2657,31 @@ namespace PKHeX.Core
             }
             return res;
         }
-        private int ParseShedinjaEvolveMoves(int[] moves, List<int> BaseEggMovesLearned, ref CheckResult[] res)
+        private void ParseShedinjaEvolveMoves(int[] moves, ref CheckResult[] res)
         {
             List<int>[] ShedinjaEvoMoves = Legal.getShedinjaEvolveMoves(pkm);
             var ShedinjaEvoMovesLearned = new List<int>();
-            var genfound = 0;
             for (int gen = 4; gen >= 3; gen--)
             {
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
-                    if (res[m]?.Valid ?? false || BaseEggMovesLearned.Contains(m))
+                    if (res[m]?.Valid ?? false)
                         continue;
 
                     if (ShedinjaEvoMoves[gen].Contains(moves[m]))
                     {
-                        if(!BaseEggMovesLearned.Contains(m))
-                            res[m] = new CheckResult(Severity.Valid, native ? V355 : string.Format(V356, gen), CheckIdentifier.Move);
+                        res[m] = new CheckResult(Severity.Valid, native ? V355 : string.Format(V356, gen), CheckIdentifier.Move);
                         ShedinjaEvoMovesLearned.Add(m);
-                        // store the generation of the last move found, if there are two or more moves genfound wont be used
-                        genfound = gen;
                     }
                 }
             }
 
-            // Only one move is legal
-            var shedinjanotbase = ShedinjaEvoMovesLearned.Except(BaseEggMovesLearned);
-            if (shedinjanotbase.Count() > 1)
+            if (ShedinjaEvoMovesLearned.Count() > 1)
             {
-                // Have more than one move that are also not base egg moves
-                // shedinjanotbase moves are illegal, base egg moves could be illegal if it is an event egg
-                foreach (int m in shedinjanotbase)
+                foreach (int m in ShedinjaEvoMovesLearned)
                     res[m] = new CheckResult(Severity.Invalid, V357, CheckIdentifier.Move);
-                return 0;
             }
-            if (ShedinjaEvoMovesLearned.Count() == 1 && BaseEggMovesLearned.Count() == 1)
-            {
-                // there is only one evolve move that is also a base egg moves, changes the move result to evolve move
-                // to avoid flag it illegal if it is an event egg
-                var evolvemove = ShedinjaEvoMovesLearned.First();
-                var native = pkm.Format > 4 ? false : genfound == pkm.Format;
-                res[evolvemove] = new CheckResult(Severity.Valid, native ? V355 : string.Format(V356, genfound), CheckIdentifier.Move);
-                return evolvemove;
-            }
-            // Multiple base egg moves but only one non-base egg move
-            // that is the evolve move
-            return shedinjanotbase.FirstOrDefault();
         }
 
         private void verifyPreRelearn()
