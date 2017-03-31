@@ -191,6 +191,7 @@ namespace PKHeX.WinForms
             this.LB_BallThrowTypeLearned = new System.Windows.Forms.ListBox();
             this.L_Stamps = new System.Windows.Forms.Label();
             this.LB_Stamps = new System.Windows.Forms.ListBox();
+            this.CHK_UnlockMega = new System.Windows.Forms.CheckBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -1648,6 +1649,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.CHK_UnlockMega);
             this.Tab_Misc.Controls.Add(this.L_BallThrowType);
             this.Tab_Misc.Controls.Add(this.CB_BallThrowType);
             this.Tab_Misc.Controls.Add(this.CB_BallThrowTypeListMode);
@@ -1979,6 +1981,16 @@ namespace PKHeX.WinForms
             this.LB_Stamps.Size = new System.Drawing.Size(159, 52);
             this.LB_Stamps.TabIndex = 71;
             // 
+            // CHK_UnlockMega
+            // 
+            this.CHK_UnlockMega.AutoSize = true;
+            this.CHK_UnlockMega.Location = new System.Drawing.Point(6, 256);
+            this.CHK_UnlockMega.Name = "CHK_UnlockMega";
+            this.CHK_UnlockMega.Size = new System.Drawing.Size(90, 17);
+            this.CHK_UnlockMega.TabIndex = 72;
+            this.CHK_UnlockMega.Text = "Unlock Mega";
+            this.CHK_UnlockMega.UseVisualStyleBackColor = true;
+            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2202,5 +2214,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_UnlockSuperMulti;
         private System.Windows.Forms.CheckBox CHK_UnlockSuperDoubles;
         private System.Windows.Forms.CheckBox CHK_UnlockSuperSingles;
+        private System.Windows.Forms.CheckBox CHK_UnlockMega;
     }
 }
