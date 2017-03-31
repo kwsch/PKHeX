@@ -438,7 +438,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 487, Level = 47, Location = 117, Version = GameVersion.Pt, Form = 1, }, //Giratina @ Distortion World
             new EncounterStatic { Species = 487, Level = 47, Location = 062, Version = GameVersion.Pt, Form = 0, }, //Giratina @ Turnback Cave
             //Event
-            new EncounterStatic { Species = 490, Level = 01, EggLocation = 3001, Fateful = true, Gift = true }, //Manaphy from Pokemon Ranger
             new EncounterStatic { Species = 491, Level = 40, Location = 079, Version = GameVersion.DP,}, //Darkrai @ Newmoon Island
             new EncounterStatic { Species = 491, Level = 50, Location = 079, Version = GameVersion.Pt,}, //Darkrai @ Newmoon Island
             new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = true,}, //Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
@@ -507,7 +506,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 023, Level = 15, Location = 131, Version = GameVersion.HG }, // Ekans
             new EncounterStatic { Gift = true, Species = 027, Level = 15, Location = 131, Version = GameVersion.SS }, // Sandshrew
             new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 131 }, // Dratini
-            //Team_Rocket_HQ Trap Floor
+            // Team Rocket HQ Trap Floor
             // new EncounterStatic { Species = 101, Level = 23, Location = 213, }, // Electrode Overlaps stationary 
             new EncounterStatic { Species = 100, Level = 23, Location = 213, }, // Voltorb
             new EncounterStatic { Species = 074, Level = 23, Location = 213, }, // Geodude

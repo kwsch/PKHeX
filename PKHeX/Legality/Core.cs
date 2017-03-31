@@ -934,55 +934,47 @@ namespace PKHeX.Core
             IEnumerable<DexLevel> p = getValidPreEvolutions(pkm);
 
             EncounterTrade[] table = getEncounterTradeTable(pkm);
+            var poss = table?.Where(f => p.Any(r => r.Species == f.Species) && f.Version.Contains((GameVersion)pkm.Version));
+            return poss?.FirstOrDefault(z => getEncounterTradeValid(pkm, z, lvl));
+        }
+        private static bool getEncounterTradeValid(PKM pkm, EncounterTrade z, int lvl)
+        {
+            for (int i = 0; i < 6; i++)
+                if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
+                    return false;
 
-            var poss = table?.Where(f => p.Any(r => r.Species == f.Species) && f.Version.Contains((GameVersion)pkm.Version)).ToList();
-
-            if (poss == null || poss.Count == 0)
-                return null;
-
-            foreach (EncounterTrade z in poss)
+            if (z.Shiny ^ pkm.IsShiny) // Are PIDs static?
+                return false;
+            if (z.TID != pkm.TID)
+                return false;
+            if (z.SID != pkm.SID)
+                return false;
+            if (pkm.HasOriginalMetLocation)
             {
-
-                for (int i = 0; i < 6; i++)
-                    if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
-                        continue;
-
-                if (z.Shiny ^ pkm.IsShiny) // Are PIDs static?
-                    continue;
-                if (z.TID != pkm.TID)
-                    continue;
-                if (z.SID != pkm.SID)
-                    continue;
-                if (pkm.HasOriginalMetLocation)
-                {
-                    z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefalutMetLocation[pkm.GenNumber - 3];
-                    if (z.Location != pkm.Met_Location)
-                        continue;
-                    if (pkm.Format < 5)
-                    {
-                        if (z.Level > lvl)
-                            continue;
-                    }
-                    else if (z.Level != lvl)
-                        continue;
-                }
-                else
+                z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefalutMetLocation[pkm.GenNumber - 3];
+                if (z.Location != pkm.Met_Location)
+                    return false;
+                if (pkm.Format < 5)
                 {
                     if (z.Level > lvl)
-                        continue;
+                        return false;
                 }
-                if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
-                    continue;
-                if (z.Gender != -1 && z.Gender != pkm.Gender)
-                    continue;
-                if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
-                    continue;
-                // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
-                //    countinue;
-
-                return z;
+                else if (z.Level != lvl)
+                    return false;
             }
-            return null;
+            else if (z.Level > lvl)
+                return false;
+
+            if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
+                return false;
+            if (z.Gender != -1 && z.Gender != pkm.Gender)
+                return false;
+            if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
+                return false;
+            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
+            //    countinue;
+
+            return true;
         }
         private static EncounterTrade[] getEncounterTradeTable(PKM pkm)
         {
@@ -1215,7 +1207,7 @@ namespace PKHeX.Core
             if (pkm.Species == 490 && (pkm.WasEgg || pkm.IsEgg)) // Manaphy
             {
                 int loc = pkm.IsEgg ? pkm.Met_Location : pkm.Egg_Location;
-                bool valid = loc == 2001; // Link Trade Egg
+                bool valid = loc == 2002; // Link Trade Egg
                 valid |= loc == 3001 && !pkm.IsShiny; // Ranger & notShiny
                 if (valid)
                     validPCD.Add(new PGT { Data = { [0] = 7, [8] = 1 } });
@@ -1749,7 +1741,7 @@ namespace PKHeX.Core
         internal static int getMaxLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))
-                return 0;
+                return -1;
 
             if (pkm.Format <= 2)
             {
@@ -1772,7 +1764,11 @@ namespace PKHeX.Core
         internal static int getMinLevelEncounter(PKM pkm)
         {
             if (pkm.Format == 3 && pkm.WasEgg)
+                // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
                 return 5;
+            if (pkm.Format == 4 && pkm.GenNumber == 4 && pkm.WasEgg) 
+                // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
+                return 1;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : getMaxLevelGeneration(pkm);
         }
         internal static int getMinLevelGeneration(PKM pkm)
@@ -2286,6 +2282,9 @@ namespace PKHeX.Core
             if (FormChangeMoves.Contains(species)) // Deoxys & Shaymin & Giratina (others don't have extra but whatever)
             {
                 int formcount = pkm.PersonalInfo.FormeCount;
+                if (species == 386 && pkm.Format == 3)
+                    // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
+                    formcount = 4;
                 for (int i = 0; i < formcount; i++)
                     r.AddRange(getMoves(pkm, species, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);

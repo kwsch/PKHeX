@@ -5,16 +5,16 @@
         public int Species { get; set; }
         public int Level;
 
-        public int Location = 0;
-        public int Ability = 0;
-        public int Form = 0;
-        public bool? Shiny = null; // false = never, true = always, null = possible
+        public int Location;
+        public int Ability;
+        public int Form;
+        public bool? Shiny; // false = never, true = always, null = possible
         public int[] Relearn = new int[4];
         public int[] Moves = new int[4];
         public int Gender = -1;
-        public int EggLocation = 0;
+        public int EggLocation;
         public Nature Nature = Nature.Random;
-        public bool Gift = false;
+        public bool Gift;
         public int Ball = 4; // Gift Only
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = { -1, -1, -1, -1, -1, -1 };
@@ -22,11 +22,11 @@
         public int[] Contest = { 0, 0, 0, 0, 0, 0 };
         public int HeldItem { get; set; }
 
-        public bool Fateful = false;
-        public bool RibbonWishing = false;
-        public bool SkipFormCheck = false;
-        public bool NSparkle = false;
-        public bool Roaming = false;
+        public bool Fateful;
+        public bool RibbonWishing;
+        public bool SkipFormCheck;
+        public bool NSparkle;
+        public bool Roaming;
 
         public EncounterStatic[] Clone(int[] locations)
         {
@@ -38,7 +38,7 @@
 
         public EncounterStatic Clone(int location)
         {
-            return new EncounterStatic()
+            return new EncounterStatic
             {
                 Species = Species,
                 Level = Level,
@@ -76,7 +76,7 @@
 
         public EncounterStatic DreamRadarClone(int level)
         {
-            return new EncounterStatic()
+            return new EncounterStatic
             {
                 Species = Species,
                 Level = level,

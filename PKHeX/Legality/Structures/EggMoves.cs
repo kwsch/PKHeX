@@ -24,7 +24,7 @@ namespace PKHeX.Core
             for (int i = 1; i < ptrs.Length; i++)
                 ptrs[i] = (data[(i - 1)*2 + 1] << 8 | data[(i - 1)*2]) - baseOffset;
 
-            EggMoves2[] entries = new EggMoves2[count + 1];
+            EggMoves[] entries = new EggMoves[count + 1];
             entries[0] = new EggMoves2(new byte[0]);
             for (int i = 1; i < entries.Length; i++)
                 entries[i] = new EggMoves2(data.Skip(ptrs[i]).TakeWhile(b => b != 0xFF).ToArray());
@@ -47,7 +47,7 @@ namespace PKHeX.Core
         }
         public static EggMoves[] getArray(byte[][] entries)
         {
-            EggMoves6[] data = new EggMoves6[entries.Length];
+            EggMoves[] data = new EggMoves[entries.Length];
             for (int i = 0; i < data.Length; i++)
                 data[i] = new EggMoves6(entries[i]);
             return data;
@@ -70,7 +70,7 @@ namespace PKHeX.Core
         }
         public static EggMoves[] getArray(byte[][] entries)
         {
-            EggMoves7[] data = new EggMoves7[entries.Length];
+            EggMoves[] data = new EggMoves[entries.Length];
             for (int i = 0; i < data.Length; i++)
                 data[i] = new EggMoves7(entries[i]);
             return data;

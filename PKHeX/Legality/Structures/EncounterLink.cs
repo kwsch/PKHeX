@@ -18,7 +18,6 @@
 
         public bool XY = false;
         public bool ORAS = false;
-        public bool SM = false;
 
         public string Name => "Pokémon Link Gift";
     }

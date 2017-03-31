@@ -478,8 +478,6 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, V44, CheckIdentifier.Encounter);
             if (pkm.AO && !enc.ORAS)
                 return new CheckResult(Severity.Invalid, V45, CheckIdentifier.Encounter);
-            if (pkm.SM && !enc.SM)
-                return new CheckResult(Severity.Invalid, V46, CheckIdentifier.Encounter);
 
             if (enc.Shiny != null && (bool)enc.Shiny ^ pkm.IsShiny)
                 return new CheckResult(Severity.Invalid, V47, CheckIdentifier.Encounter);
@@ -499,7 +497,7 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterEgg()
         {
             // Check Species
-            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && (pkm.GenNumber != 4 || pkm.Species == 490))
+            if (Legal.NoHatchFromEgg.Contains(pkm.Species) && !EncounterIsMysteryGift)
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
@@ -664,29 +662,33 @@ namespace PKHeX.Core
         {
             var s = (EncounterStatic)EncounterMatch;
 
-            if (pkm.GenNumber == 3 && pkm.Species == 151 && s.Location == 201 && pkm.Language != 1)
+            // Check for Unreleased Encounters / Collisions
+            switch (pkm.GenNumber)
             {
-                return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
-            }
-            if (pkm.GenNumber == 4 && pkm.Species == 493 && s.Location == 086)
-            {
-                  return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
-            }
-            if (pkm.GenNumber == 4 && pkm.Species == 492 && s.Location == 063 && pkm.Version != (int)GameVersion.Pt)
-            {
-                return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
+                case 3:
+                    if (pkm.Species == 151 && s.Location == 201 && pkm.Language != 1) // Non-JP Mew (Old Sea Map)
+                        return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
+                    break;
+                case 4:
+                    if (pkm.Species == 493 && s.Location == 086) // Azure Flute Arceus
+                        return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
+                    if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
+                        return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
+                    break;
+                case 7:
+                    if (s.EggLocation == 60002 && vRelearn.All(rl => rl.Valid))
+                        return null; // not gift egg
+                    break;
             }
 
             // Re-parse relearn moves
-            if (s.EggLocation != 60002 || vRelearn.Any(rl => !rl.Valid))
-            {
-                for (int i = 0; i < 4; i++)
-                    vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
-                        ? new CheckResult(Severity.Invalid, V74, CheckIdentifier.RelearnMove)
-                        : new CheckResult(CheckIdentifier.RelearnMove);
-                return new CheckResult(Severity.Valid, V75, CheckIdentifier.Encounter);
-            }
-            return null;
+            if (pkm.Format >= 6)
+            for (int i = 0; i < 4; i++)
+                vRelearn[i] = pkm.RelearnMoves[i] != s.Relearn[i]
+                    ? new CheckResult(Severity.Invalid, V74, CheckIdentifier.RelearnMove)
+                    : new CheckResult(CheckIdentifier.RelearnMove);
+
+            return new CheckResult(Severity.Valid, V75, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterTrade()
         {
@@ -734,21 +736,22 @@ namespace PKHeX.Core
         }
         private CheckResult verifyEncounter()
         {
+            // Special considerations have to be applied when encounter info is lost on transfer.
+            // Generation 1/2 PKM do not reliably store met location or original version.
             if (pkm.VC || pkm.Format < 3)
                 return verifyEncounterVC();
             
+            // Generation 3/4 PKM do not retain met location when transferred.
+            if (!pkm.HasOriginalMetLocation)
+            {
+                if (pkm.Gen3)
+                    return verifyEncounterG3Transfer();
+                if (pkm.Gen4)
+                    return verifyEncounterG4Transfer();
+            }
+
             if (pkm.WasLink)
                 return verifyEncounterLink();
-
-            if (pkm.Gen3 && !pkm.HasOriginalMetLocation)
-            {
-                return verifyEncounterG3Transfer();
-            }
-
-            if (pkm.Gen4 && !pkm.HasOriginalMetLocation)
-            {
-                return verifyEncounterG4Transfer();
-            }
 
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)
@@ -788,9 +791,9 @@ namespace PKHeX.Core
         {
             // WasEventEgg is not possible in gen 3 pal park pokemon, are indistinguible from normal eggs
             bool wasEvent = pkm.WasEvent;
-            CheckResult InvalidTransferResult = null;
             CheckResult EggResult = null;
             CheckResult G3Result = null;
+            object G3Encounter = null;
             bool WasEgg = Legal.getWasEgg23(pkm) && !Legal.NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
             {
@@ -800,24 +803,24 @@ namespace PKHeX.Core
                     return EggResult;
             }
 
-            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
-                InvalidTransferResult = new CheckResult(Severity.Invalid, V60, CheckIdentifier.Encounter);
-            if (pkm.Format != 4 && pkm.Met_Location != 30001)
-                InvalidTransferResult = new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
-            
+            EncounterMatch = null;
             if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 G3Result = verifyEncounterStatic();
+                if (G3Result?.Valid ?? false)
+                    G3Encounter = EncounterMatch;
             }
-
-            if (G3Result !=null)
+            else if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
             {
-                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
-                if (null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
-                    G3Result = verifyEncounterWild();
-
-                if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
-                    G3Result = verifyEncounterTrade();
+                G3Result = verifyEncounterTrade();
+                if (G3Result?.Valid ?? false)
+                    G3Encounter = EncounterMatch;
+            }
+            else if (null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+            {
+                G3Result = verifyEncounterWild();
+                if (G3Result?.Valid ?? false)
+                    G3Encounter = EncounterMatch;
             }
 
             // Check events after static, to match Mew/Deoxys static encounters
@@ -838,28 +841,26 @@ namespace PKHeX.Core
             // Even if EggResult is not returned WasEgg is keep true to check in verifymoves first the 
             // non egg encounter moves and after that egg encounter moves, because there is no way to tell 
             // what of the two encounters was the real origin
-            if (EggResult != null && G3Result!=null)
+            if (EggResult != null && G3Result != null)
             {
                 // keep the valid encounter, also if both are valid returns non egg information, because 
                 // there is more data in the pokemon to found normal encounter
                 if (EggResult.Valid && !G3Result.Valid)
+                {
                     G3Result = EggResult;
+                    G3Encounter = null;
+                }
             }
 
-            // No gen 3 result
-            if (G3Result == null)
-            {
-                // Return both errors, invalid transfer and not a valid encounter found in G3
-                return InvalidTransferResult != null?
-                      new CheckResult(Severity.Invalid, V80 + Environment.NewLine + InvalidTransferResult.Comment, CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
-            }
+            if (G3Result?.Valid ?? false)
+                EncounterMatch = G3Encounter;
 
-            // If Gen 3 encounter is invalid and transfer also invalid return both errors
-            if (!G3Result.Valid && InvalidTransferResult != null)
-                return new CheckResult(Severity.Invalid, G3Result.Comment + Environment.NewLine + InvalidTransferResult.Comment, CheckIdentifier.Encounter);
+            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+                AddLine(Severity.Invalid, V60, CheckIdentifier.Encounter);
+            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+                AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
 
-            return InvalidTransferResult ?? G3Result;
+            return G3Result ?? new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterG4Transfer()
         {
@@ -1315,7 +1316,11 @@ namespace PKHeX.Core
 
             if (EncounterIsMysteryGift)
             {
-                verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
+                if (pkm.Species == 490 && ((MysteryGift)EncounterMatch).Ball == 0)
+                    // there is no ball data in Manaphy Mystery Gift
+                    verifyBallEquals(4); // Pokeball
+                else
+                    verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
                 return;
             }
             if (EncounterType == typeof (EncounterLink))
@@ -1352,8 +1357,17 @@ namespace PKHeX.Core
             }
             if (EncounterType == typeof (EncounterSlot[]))
             {
+                EncounterSlot[] enc = EncounterMatch as EncounterSlot[];
+
                 if (pkm.Met_Location == 30016 && pkm.Gen7) // Poké Pelago
                     verifyBallEquals(4); // Pokeball
+                // For gen3/4 safari zones and BCC getValidWildEncounters already filter to not return
+                // mixed possible encounters between safari, BCC and other encounters
+                // That means is the first encounter is not safari then there is no safari encounter in the array
+                else if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && Legal.IsSafariSlot(enc.First().Type))
+                    verifyBallEquals(5); // Safari Ball
+                else if (pkm.GenNumber == 4 && enc.First().Type == SlotType.BugContest)
+                    verifyBallEquals(0x18); // Sport Ball
                 else
                     verifyBallEquals(Legal.getWildBalls(pkm));
                 return;
@@ -2176,6 +2190,7 @@ namespace PKHeX.Core
                 }
                 if (pkm.FatefulEncounter)
                     AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                
                 if (pkm.Format == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
@@ -2364,13 +2379,12 @@ namespace PKHeX.Core
         {
             CheckResult[] res = new CheckResult[4];
 
-            if(pkm.GenNumber == 3 && !pkm.HasOriginalMetLocation && EncounterMatch !=null)
+            if (pkm.GenNumber == 3 && !pkm.HasOriginalMetLocation && EncounterMatch !=null)
             {
-                if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
-                    res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
-                else // Everything else
-                    res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], GameVersion.Any);
-                if (res.All(r => r.Valid)) // moves is satisfactory
+                res = EventGiftMatch?.Count > 1 
+                    ? parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor) // Multiple possible Mystery Gifts matched, get the best match too
+                    : parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], GameVersion.Any); // Everything else
+                if (res.All(r => r.Valid)) // moves are satisfactory
                     return res;
             }
 

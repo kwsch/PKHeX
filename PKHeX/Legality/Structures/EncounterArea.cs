@@ -408,7 +408,7 @@ namespace PKHeX.Core
                         continue;
 
                     var slot = GrassSlots[slotnums[j]].Clone();
-                    slot.Species = j;
+                    slot.Species = species;
                     slot.Type = t;
                     slots.Add(slot);
                 }
@@ -576,13 +576,11 @@ namespace PKHeX.Core
             // 2 bytes padding
             var ofs = 10;
 
-            EncounterSlot[] GrassSlots = null;
-
             if (GrassRatio > 0)
             {
                 // First 36 slots are morning, day and night grass slots
                 // The order is 12 level values, 12 morning species, 12 day species and 12 night species
-                GrassSlots = getSlots4_HGSS_G(data, ref ofs, 12, SlotType.Grass);
+                var GrassSlots = getSlots4_HGSS_G(data, ref ofs, 12, SlotType.Grass);
                 //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
                 Slots.AddRange(GrassSlots);
 

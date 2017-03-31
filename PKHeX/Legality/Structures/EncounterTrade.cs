@@ -21,9 +21,9 @@
 
         public string Name => "In-game Trade";
 
-        public static int[] DefalutMetLocation = 
+        public static readonly int[] DefalutMetLocation = 
         {
-           254, 2001, 30002, 30001, 30001,
+            254, 2001, 30002, 30001, 30001,
         };
     }
 
