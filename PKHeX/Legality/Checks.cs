@@ -2638,6 +2638,13 @@ namespace PKHeX.Core
                     return res;
             }
 
+            if (pkm.Species == 292)
+            {
+                // Check Shedinja evolved moves from Ninjask after egg moves
+                // Those moves could also be inherited egg moves
+                ParseShedinjaEvolveMoves(moves, ref res);
+            }
+
             for (int m = 0; m < 4; m++)
             {
                 if (res[m] == null)
@@ -2645,6 +2652,33 @@ namespace PKHeX.Core
             }
             return res;
         }
+        private void ParseShedinjaEvolveMoves(int[] moves, ref CheckResult[] res)
+        {
+            List<int>[] ShedinjaEvoMoves = Legal.getShedinjaEvolveMoves(pkm);
+            var ShedinjaEvoMovesLearned = new List<int>();
+            for (int gen = 4; gen >= 3; gen--)
+            {
+                bool native = gen == pkm.Format;
+                for (int m = 0; m < 4; m++)
+                {
+                    if (res[m]?.Valid ?? false)
+                        continue;
+
+                    if (ShedinjaEvoMoves[gen].Contains(moves[m]))
+                    {
+                        res[m] = new CheckResult(Severity.Valid, native ? V355 : string.Format(V356, gen), CheckIdentifier.Move);
+                        ShedinjaEvoMovesLearned.Add(m);
+                    }
+                }
+            }
+
+            if (ShedinjaEvoMovesLearned.Count() > 1)
+            {
+                foreach (int m in ShedinjaEvoMovesLearned)
+                    res[m] = new CheckResult(Severity.Invalid, V357, CheckIdentifier.Move);
+            }
+        }
+
         private void verifyPreRelearn()
         {
             // For origins prior to relearn moves, need to try to match a mystery gift if applicable.

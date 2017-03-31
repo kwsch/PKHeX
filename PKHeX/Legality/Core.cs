@@ -710,8 +710,9 @@ namespace PKHeX.Core
         }
         internal static List<int>[] getShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
         {
-            List<int>[] r = new List<int>[pkm.Format + 1];
-            for (int i = 1; i <= pkm.Format; i++)
+            var size = pkm.Format > 3 ? 4 : 3;
+            List<int>[] r = new List<int>[size + 1];
+            for (int i = 1; i <= size; i++)
                 r[i] = new List<int>();
             if (lvl == -1)
                 lvl = pkm.CurrentLevel;
