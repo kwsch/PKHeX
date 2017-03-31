@@ -2383,7 +2383,7 @@ namespace PKHeX.Core
             {
                 res = EventGiftMatch?.Count > 1 
                     ? parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor) // Multiple possible Mystery Gifts matched, get the best match too
-                    : parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], GameVersion.Any); // Everything else
+                    : parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], 0, GameVersion.Any); // Everything else
                 if (res.All(r => r.Valid)) // moves are satisfactory
                     return res;
             }
