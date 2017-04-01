@@ -102,7 +102,7 @@ namespace PKHeX.Core
             
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
-            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.SPECIAL }, // Celebi @ Ilex Forest
+            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.GBCartEraOnly }, // Celebi @ Ilex Forest
         };
 
         internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();

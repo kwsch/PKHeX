@@ -921,7 +921,7 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
             var s = EncounterMatch as EncounterStatic;
-            if (s != null && s.Version == GameVersion.SPECIAL)
+            if (s != null && s.Version == GameVersion.GBCartEraOnly)
             {
                 bool exceptions = false;
                 exceptions |= baseSpecies == 151 && pkm.TID == 22796;

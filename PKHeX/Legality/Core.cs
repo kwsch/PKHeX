@@ -942,6 +942,9 @@ namespace PKHeX.Core
                 // if (e.Gift && pkm.Ball != 4) // PokéBall
                     // continue;
 
+                if (!AllowGBCartEra && e.Version == GameVersion.GBCartEraOnly)
+                    continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
+
                 return e;
             }
             return null;
@@ -1120,7 +1123,7 @@ namespace PKHeX.Core
         }
         internal static Tuple<object, int, byte> getEncounter12(PKM pkm, bool gen2)
         {
-            var g1 = pkm.IsEgg ? null :getEncounter12(pkm, GameVersion.RBY);
+            var g1 = pkm.IsEgg ? null : getEncounter12(pkm, GameVersion.RBY);
             var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
 
             if (g1 == null || g2 == null)
