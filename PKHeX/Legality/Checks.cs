@@ -499,8 +499,10 @@ namespace PKHeX.Core
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species) && EncounterMatch == null)
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
-            if(pkm.WasGiftEgg && EncounterMatch == null)
+            if (pkm.WasGiftEgg && EncounterMatch == null)
                 return new CheckResult(Severity.Invalid, V359, CheckIdentifier.Encounter);
+            if (pkm.WasEventEgg && EncounterMatch == null)
+                return new CheckResult(Severity.Invalid, V360, CheckIdentifier.Encounter);
             switch (pkm.GenNumber)
             {
                 case 1:
@@ -528,13 +530,6 @@ namespace PKHeX.Core
                 var loc = pkm.FRLG ? Legal.ValidEggMet_FRLG : Legal.ValidEggMet_RSE;
                 if (!loc.Contains(pkm.Met_Location)) 
                     return new CheckResult(Severity.Invalid, V55, CheckIdentifier.Encounter);
-                if (EncounterMatch == null)
-                {
-                    if (pkm.Met_Location == 253)
-                        return new CheckResult(Severity.Invalid, V359, CheckIdentifier.Encounter);
-                    if (pkm.Met_Location == 255)
-                        return new CheckResult(Severity.Invalid, V360, CheckIdentifier.Encounter);
-                }
             }
             else
             {
