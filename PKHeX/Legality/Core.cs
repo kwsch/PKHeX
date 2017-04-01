@@ -1264,7 +1264,8 @@ namespace PKHeX.Core
                 
                 if (wc.IsEgg)
                 {
-                    if (wc.Egg_Location + 3000 != pkm.Egg_Location) continue;
+                    if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != 2002) // traded
+                        continue;
                     if (wc.CurrentLevel != pkm.Met_Level) continue;
                 }
                 else
@@ -1331,13 +1332,23 @@ namespace PKHeX.Core
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
                 if (wc.Form != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
-                if (wc.MetLocation != pkm.Met_Location) continue;
-                if (wc.EggLocation != pkm.Egg_Location) continue;
+
+                if (wc.IsEgg)
+                {
+                    if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
+                        continue;
+                }
+                else
+                {
+                    if (wc.EggLocation != pkm.Egg_Location) continue;
+                    if (wc.MetLocation != pkm.Met_Location) continue;
+                }
+
                 if (wc.Level != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
                 if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) continue;
-                if (wc.Gender != 3 && wc.Gender != pkm.Gender) continue;
+                if (wc.Gender != 2 && wc.Gender != pkm.Gender) continue;
 
                 if (wc.CNT_Cool > pkm.CNT_Cool) continue;
                 if (wc.CNT_Beauty > pkm.CNT_Beauty) continue;
@@ -1376,8 +1387,18 @@ namespace PKHeX.Core
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
                 if (wc.Form != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
-                if (wc.MetLocation != pkm.Met_Location) continue;
-                if (wc.EggLocation != pkm.Egg_Location) continue;
+
+                if (wc.IsEgg)
+                {
+                    if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
+                        continue;
+                }
+                else
+                {
+                    if (wc.EggLocation != pkm.Egg_Location) continue;
+                    if (wc.MetLocation != pkm.Met_Location) continue;
+                }
+
                 if (wc.Level != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
@@ -1424,8 +1445,18 @@ namespace PKHeX.Core
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
                 if (wc.Form != pkm.AltForm && vs.All(dl => !getCanFormChange(pkm, dl.Species))) continue;
-                if (wc.MetLocation != pkm.Met_Location) continue;
-                if (wc.EggLocation != pkm.Egg_Location) continue;
+
+                if (wc.IsEgg)
+                {
+                    if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
+                        continue;
+                }
+                else
+                {
+                    if (wc.EggLocation != pkm.Egg_Location) continue;
+                    if (wc.MetLocation != pkm.Met_Location) continue;
+                }
+
                 if (wc.MetLevel != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
