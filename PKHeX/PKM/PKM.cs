@@ -445,7 +445,6 @@ namespace PKHeX.Core
                     case 4: return Legal.GiftEggLocation4.Contains(Egg_Location);
                     case 5: return Egg_Location == 60003;
                     case 6: return Egg_Location == 60004;
-                    case 7: return Egg_Location == 60002;
                 }
                 return false;
             }
