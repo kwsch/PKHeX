@@ -527,6 +527,13 @@ namespace PKHeX.Core
                 var loc = pkm.FRLG ? Legal.ValidEggMet_FRLG : Legal.ValidEggMet_RSE;
                 if (!loc.Contains(pkm.Met_Location)) 
                     return new CheckResult(Severity.Invalid, V55, CheckIdentifier.Encounter);
+                if (EncounterMatch == null)
+                {
+                    if (pkm.Met_Location == 253)
+                        return new CheckResult(Severity.Invalid, V359, CheckIdentifier.Encounter);
+                    if (pkm.Met_Location == 255)
+                        return new CheckResult(Severity.Invalid, V360, CheckIdentifier.Encounter);
+                }
             }
             else
             {

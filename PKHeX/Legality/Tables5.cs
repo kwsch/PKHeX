@@ -880,7 +880,7 @@ namespace PKHeX.Core
         };
         internal static int[] EggLocations5 =
         {
-            60002, 60003
+            30002, 60002, 60003
         };
     }
 }
