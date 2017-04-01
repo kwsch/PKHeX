@@ -499,7 +499,8 @@ namespace PKHeX.Core
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species) && EncounterMatch == null)
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
-
+            if(pkm.WasGiftEgg && EncounterMatch == null)
+                return new CheckResult(Severity.Invalid, V359, CheckIdentifier.Encounter);
             switch (pkm.GenNumber)
             {
                 case 1:
