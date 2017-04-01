@@ -102,8 +102,8 @@ namespace PKHeX.Core
          // new EncounterStatic { Species = 004, Level = 10, Version = GameVersion.YW }, // Charmander (Route 24)
          // new EncounterStatic { Species = 007, Level = 10, Version = GameVersion.YW }, // Squirtle (Vermillion City)
 
-            new EncounterStatic { Species = 054, Level = 15, Moves = new [] { 133, 10 }, Version = GameVersion.SPECIAL }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic { Species = 151, Level = 5, IVs = new [] {15,15,15,15,15,15}, Version = GameVersion.SPECIAL }, // Event Mew
+            new EncounterStatic { Species = 054, Level = 15, Moves = new [] { 133, 10 }, Version = GameVersion.GBCartEraOnly }, // Stadium Psyduck (Amnesia)
+            new EncounterStatic { Species = 151, Level = 5, IVs = new [] {15,15,15,15,15,15}, Version = GameVersion.GBCartEraOnly }, // Event Mew
         };
         internal static readonly EncounterTrade[] TradeGift_RBY =
         {
