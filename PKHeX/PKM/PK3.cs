@@ -163,7 +163,8 @@ namespace PKHeX.Core
         public override bool WasEgg => Met_Level == 0;
         public override bool WasEvent => Met_Location == 255; // Fateful
         public override bool WasIngameTrade => Met_Location == 254; // Trade
-        public override bool WasEventEgg => Met_Location == 253; // Gift Egg
+        public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
+        public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
         public override byte[] Encrypt()
         {

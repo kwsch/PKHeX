@@ -301,7 +301,7 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
-        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : GenNumber == 4 ? Egg_Location > 0 : Legal.EggLocations.Contains(Egg_Location);
+        public override bool WasEgg => GenNumber < 5 ? base.WasEgg : Legal.EggLocations5.Contains(Egg_Location);
 
         // Methods
         public override byte[] Encrypt()

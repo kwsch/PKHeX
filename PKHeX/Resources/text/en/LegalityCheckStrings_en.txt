@@ -279,4 +279,6 @@ V353 = Non japanese Mew from Faraway Island. Unreleased event.
 V354 = Non Platinum Shaymin from Flower Paradise. Unreleased event.
 V357 = Only one Ninjask move allowed.
 V358 = Inherited move learned by Level-up. Incompatible with event egg moves.
+V359 = Unable to match an gift egg encounter from origin game.;
+V360 = Unable to match an event egg encounter from origin game.;
         
