@@ -2246,8 +2246,6 @@ namespace PKHeX.Core
             int[] Moves = pkm.Moves;
             if (!pkm.IsEgg && pkm.Species == 235) // Smeargle can have any move except a few
                 res = parseMovesSketch(Moves);
-            else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
-                res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
             else if (pkm.GenNumber < 6)
             {
                 if (pkm.IsEgg)
@@ -2265,9 +2263,13 @@ namespace PKHeX.Core
                 }
                 else if (pkm.WasEgg)
                     res = parseMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
+                else if (EventGiftMatch?.Count > 1) // Multiple possible non-egg Mystery Gifts matched, get the best match too
+                    res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
                 else
                     res = parseMovesPreRelearnEncounter(Moves, validLevelMoves, validTMHM, validTutor, game);
             }
+            else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
+                res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
             else if (pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species))
                 res = parseMovesRelearnSplitBreed(Moves, validLevelMoves, validTMHM, validTutor, game);
             else // Everything else
