@@ -56,6 +56,8 @@ namespace PKHeX.Core
         public static string V345 { get; set; } = "Inherited move learned by Level-up.";
         public static string V346 { get; set; } = "Inherited tutor move.";
         public static string V349 { get; set; } = "Inherited TM/HM move.";
+        public static string V355 { get; set; } = "Learned by evolving Nincada into Ninjask.";
+        public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in generation {0}.";
 
         #endregion
 
@@ -340,6 +342,8 @@ namespace PKHeX.Core
         public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
+        public static string V357 {get; set;} = "Only one Ninjask move allowed.";
+        public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
         #endregion
 
     }
