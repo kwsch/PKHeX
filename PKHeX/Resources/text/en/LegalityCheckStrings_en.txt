@@ -27,6 +27,8 @@ V344 = Inherited egg move.
 V345 = Inherited move learned by Level-up.
 V346 = Inherited tutor move.
 V349 = Inherited TM/HM move.
+V355 = Learned by evolving Nincada into Ninjask.;
+V356 = Learned by evolving Nincada into Ninjask in generation {0}.
 V203 = Genderless Pokémon should not have a gender.
 V201 = Encryption Constant is not set.
 V204 = Held item is unreleased.
@@ -275,3 +277,6 @@ V351 = Invalid Met Location, expected Transporter or Crown.
 V352 = Arceus from Hall of Origin. Unreleased event.
 V353 = Non japanese Mew from Faraway Island. Unreleased event.
 V354 = Non Platinum Shaymin from Flower Paradise. Unreleased event.
+V357 = Only one Ninjask move allowed.
+V358 = Inherited move learned by Level-up. Incompatible with event egg moves.
+        
