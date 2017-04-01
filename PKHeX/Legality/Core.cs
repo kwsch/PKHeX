@@ -1272,15 +1272,7 @@ namespace PKHeX.Core
                 {
                     if (pkm.Format != 4) // transferred
                     {
-                        bool valid = false;
-                        if (pkm.Met_Location == 30001)
-                            valid = true;
-                        else if (CrownBeasts[0] == pkm.Species) // 251 = Celebi
-                            valid = pkm.Met_Location == 30010 || pkm.Met_Location == 30011; // unused || used
-                        else if (CrownBeasts.Skip(1).Any(x => x == pkm.Species)) // Raikou, Entei, Suicune
-                            valid = pkm.Met_Location == 30012 || pkm.Met_Location == 30013; // unused || used
-                        if (!valid)
-                            continue;
+                        // met location: deferred to general transfer check
                         if (wc.CurrentLevel > pkm.Met_Level) continue;
                     }
                     else
