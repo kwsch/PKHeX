@@ -342,6 +342,7 @@ namespace PKHeX.Core
             pk6.CNT_Cute = CNT_Cute;
             pk6.CNT_Smart = CNT_Smart;
             pk6.CNT_Tough = CNT_Tough;
+            pk6.CNT_Sheen = CNT_Sheen;
 
             // Cap EVs
             pk6.EV_HP = EV_HP > 252 ? 252 : EV_HP;
