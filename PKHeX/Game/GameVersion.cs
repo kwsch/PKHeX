@@ -40,7 +40,7 @@
 
         // Extra Game Groupings (Generation)
         Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,
-        SPECIAL, // Stadium
+        GBCartEraOnly, // Stadium
     }
 
     public static class Extension
@@ -54,13 +54,13 @@
                 case GameVersion.RBY:
                     return (g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.YW || g2 == GameVersion.GN);
                 case GameVersion.Gen1:
-                    return ( GameVersion.RBY.Contains(g2) || g2 == GameVersion.SPECIAL);
+                    return ( GameVersion.RBY.Contains(g2) || g2 == GameVersion.GBCartEraOnly);
 
                 case GameVersion.GS: return (g2 == GameVersion.GD || g2 == GameVersion.SV);
                 case GameVersion.GSC:
                     return (GameVersion.GS.Contains(g2) || g2 == GameVersion.C);
                 case GameVersion.Gen2:
-                    return (GameVersion.GSC.Contains(g2) || g2 == GameVersion.SPECIAL);
+                    return (GameVersion.GSC.Contains(g2) || g2 == GameVersion.GBCartEraOnly);
 
                 case GameVersion.RS: return (g2 == GameVersion.R || g2 == GameVersion.S);
                 case GameVersion.FRLG: return (g2 == GameVersion.FR || g2 == GameVersion.LG);
