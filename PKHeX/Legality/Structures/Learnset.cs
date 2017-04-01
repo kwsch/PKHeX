@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -21,24 +20,11 @@ namespace PKHeX.Core
             return Moves;
         }
 
-        public int[] getMoves(int minlevel,int maxlevel)
+        public int[] getMoves(int minLevel, int maxLevel)
         {
-            if (minlevel <= 1)
-                return getMoves(maxlevel);
-            int i = 0;
-            int skipmoves = 0;
-            for (; i < Levels.Length; i++)
-                if (Levels[i] == minlevel)
-                {
-                    skipmoves = Math.Min(0, i - 1);
-                    continue;
-                }
-            if (maxlevel >= 100)
-                return Moves.Skip(skipmoves).ToArray();
-            for (; i < Levels.Length; i++)
-                if (Levels[i] > maxlevel)
-                    return Moves.Take(i).Skip(skipmoves).ToArray();
-            return Moves.Skip(skipmoves).ToArray();
+            return Moves
+                .SkipWhile((m, i) => Levels[i] < minLevel)
+                .TakeWhile((m, i) => Levels[i] <= maxLevel).ToArray();
         }
     }
 

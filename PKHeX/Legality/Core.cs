@@ -718,28 +718,23 @@ namespace PKHeX.Core
                 lvl = pkm.CurrentLevel;
             if (pkm.Species != 292 || lvl < 20)
                 return r;
+
             // If nincada evolves into Ninjask an learn in the evolution a move from ninjask learnset pool
             // Shedinja would appear with that move learned. Only one move above level 20 allowed, only in generations 3 and 4
-            switch(generation)
+            switch (generation)
             {
-                case 0:
-                case 3:
-                    {
-                        if(pkm.InhabitedGeneration(3))
-                            // Ninjask have the same learnset in every gen 3 games
-                            r[3] = LevelUpE[291].getMoves(20, lvl).ToList();
-                        
-                        if (generation == 0)
-                            goto case 4;
-                        break;
-                    }
-                case 4:
-                    {
-                        if (pkm.InhabitedGeneration(4))
-                            // Ninjask have the same learnset in every gen 4 games
-                            r[4] = LevelUpPt[291].getMoves(20, lvl).ToList();
-                        break;
-                    }
+                case 0: // Default (both)
+                case 3: // Ninjask have the same learnset in every gen 3 games
+                    if (pkm.InhabitedGeneration(3))
+                        r[3] = LevelUpE[291].getMoves(20, lvl).ToList();
+
+                    if (generation == 0)
+                        goto case 4;
+                    break;
+                case 4: // Ninjask have the same learnset in every gen 4 games
+                    if (pkm.InhabitedGeneration(4))
+                        r[4] = LevelUpPt[291].getMoves(20, lvl).ToList();
+                    break;
             }
             return r;
         }
