@@ -1698,7 +1698,22 @@ namespace PKHeX.Core
 
                 return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
             }
-            if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
+
+            // Determine if we should check for Handling Trainer Memories
+            // A Pokémon is untraded if...
+            bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
+            if (EncounterIsMysteryGift)
+            {
+                untraded |= !pkm.WasEventEgg;
+                untraded &= pkm.WasEgg;
+            }
+
+            if (pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false)
+                untraded = false;
+            else if (pkm.GenNumber < 6)
+                untraded = false;
+
+            if (untraded) // Is not Traded
             {
                 if (pkm.HT_Name.Length != 0)
                     return new CheckResult(Severity.Invalid, V146, CheckIdentifier.History);
