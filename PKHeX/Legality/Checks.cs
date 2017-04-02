@@ -122,6 +122,14 @@ namespace PKHeX.Core
                     return;
                 }
             }
+            if (EncounterType == typeof(EncounterSlot[]))
+            {
+                if (pkm.IsShiny && (EncounterMatch as EncounterSlot[]).All(slot => slot.Type == SlotType.HiddenGrotto))
+                {
+                    AddLine(Severity.Invalid, V221, CheckIdentifier.Shiny);
+                    return;
+                }
+            }
 
             int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species);
             if (pkm.GenNumber >= 6)
@@ -2213,20 +2221,31 @@ namespace PKHeX.Core
                     }
                     else if (pkm.FatefulEncounter)
                         AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
-                    return;
                 }
-                if (pkm.FatefulEncounter)
+                else if (pkm.FatefulEncounter)
                     AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                 
-                if (pkm.Format == 5)
+                if (pkm.GenNumber == 5)
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     bool req = enc?.NSparkle ?? false;
-                    bool has = ((PK5) pkm).NPokémon;
-                    if (req && !has)
-                        AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
-                    if (!req && has)
-                        AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
+                    if (pkm.Format == 5)
+                    {
+                        bool has = ((PK5)pkm).NPokémon;
+                        if (req && !has)
+                            AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
+                        if (!req && has)
+                            AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
+                    }
+                    if (req)
+                    {
+                        if (pkm.IVs.Any(iv => iv != 30))
+                            AddLine(Severity.Invalid, V218, CheckIdentifier.IVs);
+                        if (pkm.OT_Name != "N" || pkm.TID != 00002 || pkm.SID != 00000)
+                            AddLine(Severity.Invalid, V219, CheckIdentifier.Trainer);
+                        if (pkm.IsShiny)
+                            AddLine(Severity.Invalid, V220, CheckIdentifier.Shiny);
+                    }
                 }
             }
         }
