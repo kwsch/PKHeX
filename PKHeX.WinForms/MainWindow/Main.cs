@@ -2975,7 +2975,7 @@ namespace PKHeX.WinForms
             if (!fieldsLoaded)
                 return;
             fieldsLoaded = false;
-            CHK_Shadow.Checked = NUD_Purification.Value == 0;
+            CHK_Shadow.Checked = NUD_Purification.Value > 0;
             fieldsLoaded = true;
         }
         private void updateShadowCHK(object sender, EventArgs e)

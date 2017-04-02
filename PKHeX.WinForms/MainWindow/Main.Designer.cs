@@ -1597,16 +1597,8 @@
             // 
             this.NUD_Purification.Location = new System.Drawing.Point(110, 1);
             this.NUD_Purification.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.NUD_Purification.Maximum = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.NUD_Purification.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
+            this.NUD_Purification.Maximum = new decimal(int.MaxValue);
+            this.NUD_Purification.Minimum = new decimal(0);
             this.NUD_Purification.Name = "NUD_Purification";
             this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
             this.NUD_Purification.TabIndex = 103;
