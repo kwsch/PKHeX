@@ -12,7 +12,7 @@ namespace PKHeX.Core
             get
             {
                 if (IsMemoryCardSave)
-                    return "Memory Card File|*.raw,*.bin|GameCube Save File|*.gci|All Files|*.*";
+                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
                 return "GameCube Save File|*.gci|All Files|*.*";
             }
         }

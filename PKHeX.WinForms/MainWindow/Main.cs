@@ -918,7 +918,6 @@ namespace PKHeX.WinForms
         }
         private GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard MC)
         {
-            //SaveGameCount
             if (MC.SaveGameCount == 1)
                 return MC.SelectedGameVersion;
 
