@@ -894,11 +894,12 @@ namespace PKHeX.Core
 
             return s.Any() ? s.ToArray() : null;
         }
-        internal static EncounterStatic getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        internal static List<EncounterStatic> getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
+            var enc = new List<EncounterStatic>();
             // Get possible encounters
             IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm, gameSource: gameSource);
 
@@ -945,9 +946,9 @@ namespace PKHeX.Core
                 if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
 
-                return e;
+                enc.Add(e);
             }
-            return null;
+            return enc.Any() ? enc : null;
         }
         internal static EncounterTrade getValidIngameTrade(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -1100,12 +1101,12 @@ namespace PKHeX.Core
                 return null;
 
             const byte invalid = 255;
-            var sm = s?.Species ?? invalid;
+            var sm = s?.Min(slot => slot.Species) ?? invalid;
             var em = e?.Min(slot => slot.Species) ?? invalid;
             var tm = t?.Species ?? invalid;
 
-            if (s != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
-                return new Tuple<object, int, byte>(s, s.Level, 20); // special move 
+            if (s != null && (s?.Any(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0])) ?? false))
+                return new Tuple<object, int, byte>(s, s.Where(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0])).First().Level, 20); // special move 
             if (game == GameVersion.GSC)
             {
                 if (t != null && t.TID != 0)
@@ -1116,7 +1117,7 @@ namespace PKHeX.Core
             if (em <= sm && em <= tm)
                 return new Tuple<object, int, byte>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin), 3);
             if (sm <= em && sm <= tm)
-                return new Tuple<object, int, byte>(s, s.Level, 2);
+                return new Tuple<object, int, byte>(s, s.Where(slot => slot.Species == em).Min(slot => slot.Level), 2);
             if (tm <= sm && tm <= em)
                 return new Tuple<object, int, byte>(t, t.Level, 1);
             return null;

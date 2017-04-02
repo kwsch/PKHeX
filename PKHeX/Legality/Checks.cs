@@ -719,8 +719,12 @@ namespace PKHeX.Core
             }
             if (EncounterMatch is EncounterSlot[])
                 return verifyEncounterWild();
-            if (EncounterMatch is EncounterStatic)
+            if (EncounterMatch is List<EncounterStatic>)
+            {
+                EncounterStaticMatch = (List<EncounterStatic>)EncounterMatch;
+                EncounterMatch = EncounterStaticMatch.First();
                 return verifyEncounterStatic();
+            }
             if (EncounterMatch is EncounterTrade)
                 return verifyEncounterTrade();
 
@@ -772,8 +776,9 @@ namespace PKHeX.Core
                     return result;
             }
 
-            if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            if (null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
+                EncounterMatch = EncounterStaticMatch.First();
                 var result = verifyEncounterStatic();
                 if (result != null)
                     return result;
@@ -825,8 +830,9 @@ namespace PKHeX.Core
                 if ((G3Result = verifyEncounterWild())?.Valid ?? false)
                     G3Encounter = EncounterMatch;
             }
-            else if (null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            else if (null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
+                EncounterMatch = EncounterStaticMatch.First();
                 if ((G3Result = verifyEncounterStatic())?.Valid ?? false)
                     G3Encounter = EncounterMatch;
             }
@@ -882,8 +888,9 @@ namespace PKHeX.Core
                     Gen4Result = result;
             }
 
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidStaticEncounter(pkm)))
+            if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
+                EncounterMatch = EncounterStaticMatch.First();
                 var result = verifyEncounterStatic();
                 if (result != null)
                     return result;
@@ -2298,12 +2305,8 @@ namespace PKHeX.Core
                 res = parseMovesSketch(Moves);
             else if (pkm.GenNumber < 6)
                 res = parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves);
-            else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
-                res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
-            else if (pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species))
-                res = parseMovesRelearnSplitBreed(Moves, validLevelMoves, validTMHM, validTutor, game);
-            else // Everything else
-                res = parseMovesRelearn(Moves, validLevelMoves, validTMHM, validTutor, 0, game);
+            else
+                res = parseMoves3DS(game, validLevelMoves, validTMHM, validTutor, Moves);
 
             // Duplicate Moves Check
             verifyNoEmptyDuplicates(Moves, res);
@@ -2383,6 +2386,10 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i <= splitctr; i++)
                 {
+                    var baseSpecies = Legal.getBaseSpecies(pkm, i);
+                    if (baseSpecies != pkm.Species)
+                        continue;
+
                     var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, pkm.GenNumber < 4 ? 5 : 1)?.ToList() ?? new List<int>();
                     var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToList() ?? new List<int>();
                     var EggMoves = Legal.getEggMoves(pkm, i, ver)?.ToList() ?? new List<int>();
@@ -2417,7 +2424,9 @@ namespace PKHeX.Core
             // Gen 3 could have an egg origin and a non-egg origin, check first non-egg origin
             if (pkm.GenNumber == 3 && !pkm.HasOriginalMetLocation && EncounterMatch !=null)
             {
-                res = EventGiftMatch?.Count > 1 
+                res = EncounterStaticMatch?.Count > 1
+                    ? parseMovesStaticEncounter(Moves, validLevelMoves, validTMHM, validTutor)
+                    : EventGiftMatch?.Count > 1 
                     ? parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor) // Multiple possible Mystery Gifts matched, get the best match too
                     : parseMovesPreRelearnEncounter(Moves, validLevelMoves, validTMHM, validTutor, GameVersion.Any); // Everything else, non-egg encounters only
                 if (res.All(r => r.Valid)) // moves are satisfactory
@@ -2446,7 +2455,7 @@ namespace PKHeX.Core
             int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
             foreach (var ver in Games)
             {
-                var EventEggMoves = pkm.WasEgg && !pkm.WasGiftEgg ? Legal.getSpecialEggMoves(pkm, ver).ToArray() : new int[0];
+                var EventEggMoves = pkm.WasEgg && !pkm.WasGiftEgg? Legal.getSpecialEggMoves(pkm, ver).ToArray() : new int[0];
                 for (int i = 0; i <= splitctr; i++)
                 {
                     var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
@@ -2485,6 +2494,17 @@ namespace PKHeX.Core
                     : new CheckResult(CheckIdentifier.Move);
             return res;
         }
+        private CheckResult[] parseMoves3DS(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
+        {
+            if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
+                return parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+            else if (EncounterStaticMatch?.Count > 1) // Multiple possible Static Encounters matched, get the best match too
+                return parseMovesStaticEncounter(Moves, validLevelMoves, validTMHM, validTutor);
+            else if (pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species))
+                return parseMovesRelearnSplitBreed(Moves, validLevelMoves, validTMHM, validTutor, game);
+            else // Everything else
+                return parseMovesRelearn(Moves, validLevelMoves, validTMHM, validTutor, 0, game);
+        }
         private CheckResult[] parseMovesPre3DS(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
         {
             if (pkm.IsEgg)
@@ -2504,12 +2524,15 @@ namespace PKHeX.Core
             if (EventGiftMatch?.Count > 1)
                 // Multiple possible non-egg Mystery Gifts matched, get the best match too
                 return parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+            if (EncounterStaticMatch?.Count > 1)
+                // Multiple possible Static Encounters matched, get the best match too
+                return parseMovesStaticEncounter(Moves, validLevelMoves, validTMHM, validTutor);
 
             return parseMovesPreRelearnEncounter(Moves, validLevelMoves, validTMHM, validTutor, game);
         }
         private CheckResult[] parseMovesGetGift(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
-            int[] RelearnMoves = pkm.RelearnMoves;
+            int[] RelearnMoves = pkm.GenNumber < 6 ? new int[0] : pkm.RelearnMoves;
             foreach (MysteryGift mg in EventGiftMatch)
             {
                 int[] SpecialMoves = mg.Moves;
@@ -2519,12 +2542,29 @@ namespace PKHeX.Core
 
                 // Match Found
                 EncounterMatch = mg;
-                RelearnBase = mg.RelearnMoves;
+                if(pkm.GenNumber >= 6)
+                    RelearnBase = mg.RelearnMoves;
                 return res;
             }
 
             // no Mystery Gifts matched
             return parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, new int[0], new int[0], new int[0], new int[0]);
+        }
+        private CheckResult[] parseMovesStaticEncounter(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
+        {
+            CheckResult[] res = null;
+            foreach (EncounterStatic stenc in EncounterStaticMatch)
+            {
+                int[] SpecialMoves = stenc.Moves;
+                res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, new int[0], new int[0], new int[0]);
+                if (res.Any(r => !r.Valid))
+                    continue;
+
+                // Match Found
+                EncounterMatch = stenc;
+                return res;
+            }
+            return res;
         }
         private CheckResult[] parseMovesPreRelearnEncounter(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, GameVersion game)
         {
@@ -2551,15 +2591,14 @@ namespace PKHeX.Core
         }
         private CheckResult[] parseMovesRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int SkipOption, GameVersion game)
         {
-            int[] EggMoves = pkm.WasEgg && !pkm.WasGiftEgg? Legal.getEggMoves(pkm, SkipOption, game).ToArray() : new int[0];
-            int[] EventEggMoves =  pkm.WasEgg && !pkm.WasGiftEgg ? Legal.getSpecialEggMoves(pkm, game).ToArray() : new int[0];
+            int[] EggMoves = pkm.WasEgg && !pkm.WasGiftEgg && !pkm.WasEventEgg? Legal.getEggMoves(pkm, SkipOption, game).ToArray() : new int[0];
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
                                  (EncounterMatch as EncounterStatic)?.Moves ??
                                  (EncounterMatch as EncounterTrade)?.Moves ??
                                  new int[0];
 
-            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], EggMoves, EventEggMoves);
+            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], EggMoves, new int[0]);
 
             for (int i = 0; i < 4; i++)
                 if ((pkm.IsEgg || res[i].Flag) && !RelearnMoves.Contains(Moves[i]))
