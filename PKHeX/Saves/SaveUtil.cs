@@ -274,12 +274,16 @@ namespace PKHeX.Core
             // Check the intro bytes for each save slot
             byte[] slotintroXD = { 0x01, 0x01, 0x01, 0x00 };
             int offset = data.Length - SIZE_G3XD;
+            // For XD savegames inside a memory card only the firs sequence is equal to slotintroXD
+            bool valid = false;
             for (int i = 0; i < 2; i++)
             {
                 var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4);
-                if (!ident.SequenceEqual(slotintroXD))
-                    return GameVersion.Invalid;
+                if (ident.SequenceEqual(slotintroXD))
+                    valid = true;
             }
+            if(!valid)
+                return GameVersion.Invalid;
             return GameVersion.XD;
         }
         /// <summary>Determines the type of 4th gen save</summary>
@@ -411,6 +415,28 @@ namespace PKHeX.Core
                 case GameVersion.RSBOX:     sav = new SAV3RSBox(data); break;
                 case GameVersion.BATREV:    sav = new SAV4BR(data); break;
                 
+                // No pattern matched
+                default: return null;
+            }
+            sav.Header = header;
+            sav.Footer = footer;
+            return sav;
+        }
+        public static SaveFile getVariantSAV(SAV3GCMemoryCard MC)
+        {
+            // Pre-check for header/footer signatures
+            SaveFile sav;
+            byte[] header = new byte[0], footer = new byte[0];
+            byte[] data = MC.ReadSaveGameData();
+            CheckHeaderFooter(ref data, ref header, ref footer);
+
+            switch (MC.SelectedGameVersion)
+            {
+                // Side Games
+                case GameVersion.COLO: sav = new SAV3Colosseum(data,MC); break;
+                case GameVersion.XD: sav = new SAV3XD(data, MC); break;
+                case GameVersion.RSBOX: sav = new SAV3RSBox(data, MC); break;
+
                 // No pattern matched
                 default: return null;
             }

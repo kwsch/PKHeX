@@ -73,6 +73,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 100, Level = 23, Location = 036, Version = GameVersion.GSC }, // Voltorb @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 101, Level = 23, Location = 036, Version = GameVersion.GSC }, // Electrode @ Rocket Hideout (Mahogany Town)
             new EncounterStatic { Species = 143, Level = 50, Location = 061, Version = GameVersion.GSC }, // Snorlax @ Vermillion City
+            
+            new EncounterStatic { Species = 083, Level = 05, Moves = new [] { 226, 14, 97, 37 }, Version = GameVersion.Stadium2 }, // Stadium 2 Baton Pass Farfetch'd
+            new EncounterStatic { Species = 207, Level = 05, Moves = new [] { 89, 68, 17 }, Version = GameVersion.Stadium2 }, // Stadium 2 Earthquake Gligar
         };
 
         internal static readonly EncounterStatic[] Encounter_GS_Exclusive = 
@@ -102,7 +105,7 @@ namespace PKHeX.Core
             
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
-            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.GBCartEraOnly }, // Celebi @ Ilex Forest
+            new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.EventsGen2 }, // Celebi @ Ilex Forest
         };
 
         internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();

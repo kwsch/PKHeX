@@ -31,7 +31,7 @@ namespace PKHeX.Core
             int gen = f.Last() - 0x30;
             return 3 <= gen && gen <= Generation;
         }).ToArray();
-
+        public virtual bool IsMemoryCardSave => false;
         // General PKM Properties
         public abstract Type PKMType { get; }
         public abstract PKM getPKM(byte[] data);
@@ -44,6 +44,10 @@ namespace PKHeX.Core
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
+        public virtual byte[] Write(bool DSV, bool GCI = false)
+        {
+            return Write(DSV);
+        }
         public virtual byte[] Write(bool DSV)
         {
             setChecksums();

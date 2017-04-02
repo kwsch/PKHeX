@@ -211,6 +211,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Saves\SAV3GCMemoryCard.cs" />
     <Compile Include="Saves\SAV7.cs" />
     <Compile Include="Saves\Substructures\BattleVideo.cs" />
     <Compile Include="Saves\Substructures\BlockInfo.cs" />
