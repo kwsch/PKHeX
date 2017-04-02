@@ -37,9 +37,9 @@ namespace PKHeX.Core
         public const int SIZE_G1BAT = 0x802C;
 
         public static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
-        public static readonly byte[] HEADER_BOX = Encoding.ASCII.GetBytes("GPX");
-        public static readonly byte[] HEADER_COLO = Encoding.ASCII.GetBytes("GC6");
-        public static readonly byte[] HEADER_XD = Encoding.ASCII.GetBytes("GXX");
+        public static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
+        public static readonly string[] HEADER_XD =     { "GXXJ","GXXE","GXXP" }; // NTSC-J, NTSC-U, PAL
+        public static readonly string[] HEADER_RSBOX =  { "GPXJ","GPXE","GPXP" }; // NTSC-J, NTSC-U, PAL
 
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
@@ -427,7 +427,7 @@ namespace PKHeX.Core
             // Pre-check for header/footer signatures
             SaveFile sav;
             byte[] header = new byte[0], footer = new byte[0];
-            byte[] data = MC.ReadSaveGameData();
+            byte[] data = MC.SelectedSaveData;
             CheckHeaderFooter(ref data, ref header, ref footer);
 
             switch (MC.SelectedGameVersion)
@@ -698,10 +698,8 @@ namespace PKHeX.Core
                 new byte[0x80].CopyTo(data, 0x100);
 
             ushort chk = (ushort)~initial;
-            for (int i = 0; i < data.Length; i++)
-            {
-                chk = (ushort)(crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
-            }
+            foreach (byte b in data)
+                chk = (ushort) (crc16[(b ^ chk) & 0xFF] ^ chk >> 8);
 
             return (ushort)~chk;
         }
@@ -732,8 +730,8 @@ namespace PKHeX.Core
             }
             if (input.Length == SIZE_G3BOXGCI)
             {
-                bool gci = HEADER_BOX.SequenceEqual(input.Take(HEADER_BOX.Length));
-                if (gci)
+                string game = Encoding.ASCII.GetString(input, 0, 4);
+                if (HEADER_RSBOX.Any(id => id == game)) // gci
                 {
                     header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
                     input = input.Skip(header.Length).ToArray();
@@ -741,8 +739,8 @@ namespace PKHeX.Core
             }
             if (input.Length == SIZE_G3COLOGCI)
             {
-                bool gci = HEADER_COLO.SequenceEqual(input.Take(HEADER_COLO.Length));
-                if (gci)
+                string game = Encoding.ASCII.GetString(input, 0, 4);
+                if (HEADER_COLO.Any(id => id == game)) // gci
                 {
                     header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
                     input = input.Skip(header.Length).ToArray();
@@ -750,8 +748,8 @@ namespace PKHeX.Core
             }
             if (input.Length == SIZE_G3XDGCI)
             {
-                bool gci = HEADER_XD.SequenceEqual(input.Take(HEADER_XD.Length));
-                if (gci)
+                string game = Encoding.ASCII.GetString(input, 0, 4);
+                if (HEADER_XD.Any(id => id == game)) // gci
                 {
                     header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
                     input = input.Skip(header.Length).ToArray();

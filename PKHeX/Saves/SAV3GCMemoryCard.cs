@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace PKHeX.Core
@@ -14,47 +12,37 @@ namespace PKHeX.Core
     {
         Invalid,
         NoPkmSaveGame,
-        ColloseumSaveGame,
-        XDSaveGame,
-        RSBoxSaveGame,
+        SaveGameCOLO,
+        SaveGameXD,
+        SaveGameRSBOX,
         MultipleSaveGame,
-        ColloseumSaveGameDuplicated,
-        XDSaveGameDuplicated,
-        RSBoxSaveGameDuplicated,
+        DuplicateCOLO,
+        DuplicateXD,
+        DuplicateRSBOX,
     }
 
     public sealed class SAV3GCMemoryCard
     {
-        const int BLOCK_SIZE = 0x2000;
-        const int MBIT_TO_BLOCKS = 0x10;
-        const int DENTRY_STRLEN = 0x20;
-        const int DENTRY_SIZE = 0x40;
-        int NumEntries_Directory { get { return BLOCK_SIZE / DENTRY_SIZE; } }
+        private const int BLOCK_SIZE = 0x2000;
+        private const int MBIT_TO_BLOCKS = 0x10;
+        private const int DENTRY_STRLEN = 0x20;
+        private const int DENTRY_SIZE = 0x40;
+        private static int NumEntries_Directory => BLOCK_SIZE / DENTRY_SIZE;
 
-        internal readonly string[] Colloseum_GameCode = new[]
+        private static readonly int[] validMCSizes =
         {
-            "GC6J","GC6E","GC6P" // NTSC-J, NTSC-U, PAL
+            0x80000, // 512KB 59 Blocks Memory Card
+            0x100000, // 1MB
+            0x200000, // 2MB
+            0x400000, // 4MB 251 Blocks Memory Card
+            0x800000, // 8MB
+            0x1000000, // 16MB 1019 Blocks Default Dolphin Memory Card
+            0x2000000, // 64MB 
+            0x4000000 // 128 MB
         };
-        internal readonly string[] XD_GameCode = new[]
-        {
-            "GXXJ","GXXE","GXXP" // NTSC-J, NTSC-U, PAL
-        };
-        internal readonly string[] Box_GameCode = new[]
-        {
-            "GPXJ","GPXE","GPXP" // NTSC-J, NTSC-U, PAL
-        };
-        internal static readonly int[] validMCSizes = new[]
-        {
-            524288, // 512KB 59 Blocks Memory Card
-            1048576, // 1MB
-            2097152, // 2MB
-            4194304, // 4MB 251 Blocks Memory Card
-            8388608, // 8MB
-            16777216, // 16MB 1019 Blocks Default Dolphin Memory Card
-            33554432, // 64MB 
-            67108864 // 128 MB
-        };
-        internal readonly byte[] RawEmpty_DEntry = new byte[] { 0xFF, 0xFF, 0xFF, 0xFF };
+        public static bool IsMemoryCardSize(long Size) => validMCSizes.Contains((int)Size);
+        public static bool IsMemoryCardSize(byte[] Data) => IsMemoryCardSize(Data.Length);
+        private readonly byte[] RawEmpty_DEntry = { 0xFF, 0xFF, 0xFF, 0xFF };
 
         // Control blocks
         private const int Header_Block = 0;
@@ -63,308 +51,266 @@ namespace PKHeX.Core
         private const int BlockAlloc_Block = 3;
         private const int BlockAllocBackup_Block = 4;
 
-        // BigEndian treatment
-        private ushort SwapEndian(ushort x)
-        {
-            return (ushort)((ushort)((x & 0xff) << 8) | ((x >> 8) & 0xff));
-        }
-        private ushort BigEndianToUint16(byte[] value, int startIndex)
-        {
-            ushort x = BitConverter.ToUInt16(value, startIndex);
-            if (!BitConverter.IsLittleEndian)
-                return x;
-            return SwapEndian(x);
-        }
-
-        private void calc_checksumsBE(int blockoffset, int offset, int length, ref ushort csum, ref ushort inv_csum)
+        private static int Header => BLOCK_SIZE * Header_Block;
+        private static int Directory => BLOCK_SIZE * Directory_Block;
+        private static int DirectoryBAK => BLOCK_SIZE * DirectoryBackup_Block;
+        private static int BlockAlloc => BLOCK_SIZE * BlockAlloc_Block;
+        private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
+        
+        // Checksums
+        private void getChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
         {
             csum = inv_csum = 0;
-            var ofs = blockoffset * BLOCK_SIZE + offset;
+            var ofs = block * BLOCK_SIZE + offset;
 
-            for (int i = 0; i < length; ++i)
+            for (int i = 0; i < length; i++)
             {
-                csum += BigEndianToUint16(RawData, ofs + i * 2);
-                inv_csum += SwapEndian((ushort)(BitConverter.ToUInt16(RawData, ofs + i * 2) ^ 0xffff));
+                var val = BigEndian.ToUInt16(Data, ofs + i*2);
+                csum += val;
+                inv_csum += (ushort)(val ^ 0xffff);
             }
             if (csum == 0xffff)
-            {
                 csum = 0;
-            }
             if (inv_csum == 0xffff)
-            {
                 inv_csum = 0;
-            }
         }
-        
-        private uint TestChecksums()
+        private uint verifyChecksums()
         {
-            ushort csum = 0, csum_inv = 0;
-
+            ushort csum, csum_inv;
             uint results = 0;
 
-            calc_checksumsBE(Header_Block, 0, 0xFE, ref csum, ref csum_inv);
-            if ((Header_Checksum != csum) || (Header_Checksum_Inv != csum_inv))
+            getChecksum(Header_Block, 0, 0xFE, out csum, out csum_inv);
+            if (Header_Checksum != csum || (Header_Checksum_Inv != csum_inv))
                 results |= 1;
 
-            calc_checksumsBE(Directory_Block, 0, 0xFFE, ref csum, ref csum_inv);
-            if ((Directory_Checksum != csum) || (Directory_Checksum_Inv != csum_inv))
+            getChecksum(Directory_Block, 0, 0xFFE, out csum, out csum_inv);
+            if (Directory_Checksum != csum || (Directory_Checksum_Inv != csum_inv))
                 results |= 2;
 
-            calc_checksumsBE(DirectoryBackup_Block, 0, 0xFFE, ref csum, ref csum_inv);
-            if ((DirectoryBck_Checksum != csum) || (DirectoryBck_Checksum_Inv != csum_inv))
+            getChecksum(DirectoryBackup_Block, 0, 0xFFE, out csum, out csum_inv);
+            if (DirectoryBAK_Checksum != csum || (DirectoryBAK_Checksum_Inv != csum_inv))
                 results |= 4;
 
-            calc_checksumsBE(BlockAlloc_Block, 4, 0xFFE, ref csum, ref csum_inv);
-            if ((BlockAlloc_Checksum != csum) || (BlockAlloc_Checksum_Inv != csum_inv))
+            getChecksum(BlockAlloc_Block, 4, 0xFFE, out csum, out csum_inv);
+            if (BlockAlloc_Checksum != csum || (BlockAlloc_Checksum_Inv != csum_inv))
                 results |= 8;
 
-            calc_checksumsBE(BlockAllocBackup_Block, 4, 0xFFE, ref csum, ref csum_inv);
-            if ((BlockAllocBck_Checksum != csum) || (BlockAllocBck_Checksum_Inv != csum_inv))
+            getChecksum(BlockAllocBackup_Block, 4, 0xFFE, out csum, out csum_inv);
+            if ((BlockAllocBAK_Checksum != csum) || BlockAllocBAK_Checksum_Inv != csum_inv)
                 results |= 16;
 
             return results;
         }
 
-        int Header_Size { get { return BigEndianToUint16(RawData, Header_Block * BLOCK_SIZE + 0x0022); } }
-        ushort Header_Checksum { get { return BigEndianToUint16(RawData, Header_Block * BLOCK_SIZE + 0x01fc); } }
-        ushort Header_Checksum_Inv { get { return BigEndianToUint16(RawData, Header_Block * BLOCK_SIZE + 0x01fe); } }
+        // Structure
+        private int Header_Size => BigEndian.ToUInt16(Data, Header + 0x0022);
+        private ushort Header_Checksum => BigEndian.ToUInt16(Data, Header + 0x01fc);
+        private ushort Header_Checksum_Inv => BigEndian.ToUInt16(Data, Header + 0x01fe);
 
-        //Encoding (Windows-1252 or Shift JIS)
-        int Header_Encoding { get { return BigEndianToUint16(RawData, Header_Block * BLOCK_SIZE + 0x0024); } }
-        bool Header_Japanese { get { return Header_Encoding == 1; } }
-        Encoding Header_EncodingType { get { return Header_Japanese ? Encoding.GetEncoding(1252) : Encoding.GetEncoding(932); } }
+        // Encoding (Windows-1252 or Shift JIS)
+        private int Header_Encoding => BigEndian.ToUInt16(Data, Header + 0x0024);
+        private bool Header_Japanese => Header_Encoding == 1;
+        private Encoding EncodingType => Header_Japanese ? Encoding.GetEncoding(1252) : Encoding.GetEncoding(932);
 
-        int Directory_UpdateCounter { get { return BigEndianToUint16(RawData, Directory_Block * BLOCK_SIZE + 0x1ffa); } }
-        int Directory_Checksum { get { return BigEndianToUint16(RawData, Directory_Block * BLOCK_SIZE + 0x1ffc); } }
-        int Directory_Checksum_Inv { get { return BigEndianToUint16(RawData, Directory_Block * BLOCK_SIZE + 0x1ffe); } }
-
-        int DirectoryBck_UpdateCounter { get { return BigEndianToUint16(RawData, DirectoryBackup_Block * BLOCK_SIZE + 0x1ffa); } }
-        int DirectoryBck_Checksum { get { return BigEndianToUint16(RawData, DirectoryBackup_Block * BLOCK_SIZE + 0x1ffc); } }
-        int DirectoryBck_Checksum_Inv { get { return BigEndianToUint16(RawData, DirectoryBackup_Block * BLOCK_SIZE + 0x1ffe); } }
-
-        int BlockAlloc_Checksum { get { return BigEndianToUint16(RawData, BlockAlloc_Block * BLOCK_SIZE + 0x0000); } }
-        int BlockAlloc_Checksum_Inv { get { return BigEndianToUint16(RawData, BlockAlloc_Block * BLOCK_SIZE + 0x0002); } }
-
-        int BlockAllocBck_Checksum { get { return BigEndianToUint16(RawData, BlockAllocBackup_Block * BLOCK_SIZE + 0x0000); } }
-        int BlockAllocBck_Checksum_Inv { get { return BigEndianToUint16(RawData, BlockAllocBackup_Block * BLOCK_SIZE + 0x0002); } }
-
-        byte[] RawData;
-        int DirectoryBlock_Used;
-        int NumBlocks => RawData.Length / BLOCK_SIZE - 5;
+        private int Directory_UpdateCounter => BigEndian.ToUInt16(Data, Directory + 0x1ffa);
+        private int Directory_Checksum => BigEndian.ToUInt16(Data, Directory + 0x1ffc);
+        private int Directory_Checksum_Inv => BigEndian.ToUInt16(Data, Directory + 0x1ffe);
         
-        int Colloseum_Entry = -1;
-        int XD_Entry = -1;
-        int RSBox_Entry = -1;
-        int Selected_Entry = -1;
-        public int SaveGameCount = 0;
-        public bool HaveColloseumSaveGame => Colloseum_Entry > -1;
-        public bool HaveXDSaveGame => XD_Entry > -1;
-        public bool HaveRSBoxSaveGame => RSBox_Entry > -1;
+        private int DirectoryBAK_UpdateCounter => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffa);
+        private int DirectoryBAK_Checksum => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffc);
+        private int DirectoryBAK_Checksum_Inv => BigEndian.ToUInt16(Data, DirectoryBAK + 0x1ffe);
+        
+        private int BlockAlloc_Checksum => BigEndian.ToUInt16(Data, BlockAlloc + 0x0000);
+        private int BlockAlloc_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAlloc + 0x0002);
+
+        private int BlockAllocBAK_Checksum => BigEndian.ToUInt16(Data, BlockAllocBAK + 0x0000);
+        private int BlockAllocBAK_Checksum_Inv => BigEndian.ToUInt16(Data, BlockAllocBAK + 0x0002);
+
+        private int DirectoryBlock_Used;
+        private int NumBlocks => Data.Length/BLOCK_SIZE - 5;
+        
+        private int EntryCOLO = -1;
+        private int EntryXD = -1;
+        private int EntryRSBOX = -1;
+        private int EntrySelected = -1;
+        public bool HasCOLO => EntryCOLO > -1;
+        public bool HasXD => EntryXD > -1;
+        public bool HasRSBOX => EntryRSBOX > -1;
+        public int SaveGameCount;
 
         private bool IsCorruptedMemoryCard()
         {
-            uint csums = TestChecksums();
+            uint csums = verifyChecksums();
 
-            if ((csums & 0x1) == 1)
-            {
-                // Header checksum failed
-                // invalid files do not always get here
+            if ((csums & 0x1) == 1) // Header checksum failed
                 return true;
-            }
 
             if ((csums & 0x2) == 1)  // directory checksum error!
             {
-                if ((csums & 0x4) == 1) // backup is also wrong!
-                {
-                    // Directory checksum and directory backup checksum failed
-                    return true;
-                }
-                else
-                {
-                    // backup is correct, restore
-                    Array.Copy(RawData, DirectoryBackup_Block * BLOCK_SIZE, RawData, Directory_Block * BLOCK_SIZE, BLOCK_SIZE);
-                    Array.Copy(RawData, BlockAlloc_Block * BLOCK_SIZE, RawData, BlockAllocBackup_Block * BLOCK_SIZE, BLOCK_SIZE);
+                if ((csums & 0x4) == 1) // backup is also wrong 
+                    return true; // Directory checksum and directory backup checksum failed
 
-                    // update checksums
-                    csums = TestChecksums();
-                }
+                restoreBackup(); // backup is correct, restore
+                csums = verifyChecksums(); // update checksums
             }
 
-            if ((csums & 0x8) == 1)  // BAT checksum error!
-            {
-                if ((csums & 0x10) == 1)  // backup is also wrong!
-                {
-                    // Block Allocation Table checksum failed
-                    return true;
-                }
-                else
-                {
-                    // backup is correct, restore
-                    Array.Copy(RawData, DirectoryBackup_Block * BLOCK_SIZE, RawData, Directory_Block * BLOCK_SIZE, BLOCK_SIZE);
-                    Array.Copy(RawData, BlockAlloc_Block * BLOCK_SIZE, RawData, BlockAllocBackup_Block * BLOCK_SIZE, BLOCK_SIZE);
-                }
-            }
+            if ((csums & 0x8) != 1)
+                return false;
+            if ((csums & 0x10) == 1) // backup is also wrong
+                return true;
+
+            // backup is correct, restore
+            restoreBackup();
             return false;
         }
-
-        public static bool IsMemoryCardSize(long Size)
+        private void restoreBackup()
         {
-            if (Size > int.MaxValue)
-                return false;
-            return validMCSizes.Contains(((int)Size));
+            Array.Copy(Data, DirectoryBackup_Block*BLOCK_SIZE, Data, Directory_Block*BLOCK_SIZE, BLOCK_SIZE);
+            Array.Copy(Data, BlockAlloc_Block*BLOCK_SIZE, Data, BlockAllocBackup_Block*BLOCK_SIZE, BLOCK_SIZE);
         }
 
-        public static bool IsMemoryCardSize(byte[] Data)
+        public GCMemoryCardState LoadMemoryCardFile(byte[] data)
         {
-            return validMCSizes.Contains(Data.Length);
-        }
-
-        public GCMemoryCardState LoadMemoryCardFile(byte[] Data)
-        {
-            RawData = Data;
-            if (!IsMemoryCardSize(RawData))
+            Data = data;
+            if (!IsMemoryCardSize(Data))
                 // Invalid size
                 return GCMemoryCardState.Invalid;
 
             // Size in megabits, not megabytes
-            int m_sizeMb = ((RawData.Length / BLOCK_SIZE) / MBIT_TO_BLOCKS);
-            if (m_sizeMb != Header_Size)
-                //Memory card file size does not match the header size
+            int m_sizeMb = Data.Length / BLOCK_SIZE / MBIT_TO_BLOCKS;
+            if (m_sizeMb != Header_Size) // Memory card file size does not match the header size
                 return GCMemoryCardState.Invalid;
 
             if (IsCorruptedMemoryCard())
                 return GCMemoryCardState.Invalid;
 
             // Use the most recent directory block
-            if (DirectoryBck_UpdateCounter > Directory_UpdateCounter)
-                DirectoryBlock_Used = DirectoryBackup_Block;
-            else
-                DirectoryBlock_Used = Directory_Block;
+            DirectoryBlock_Used = DirectoryBAK_UpdateCounter > Directory_UpdateCounter 
+                ? DirectoryBackup_Block 
+                : Directory_Block;
 
-            string Empty_DEntry = Header_EncodingType.GetString(RawEmpty_DEntry, 0, 4);
+            string Empty_DEntry = EncodingType.GetString(RawEmpty_DEntry, 0, 4);
             // Search for pokemon savegames in the directory
             for (int i = 0; i < NumEntries_Directory; i++)
             {
-                string GameCode = Header_EncodingType.GetString(RawData, DirectoryBlock_Used * BLOCK_SIZE + i * DENTRY_SIZE, 4);
+                int offset = DirectoryBlock_Used*BLOCK_SIZE + i*DENTRY_SIZE;
+                string GameCode = EncodingType.GetString(Data, offset, 4);
                 if (GameCode == Empty_DEntry)
                     continue;
-                int FirstBlock = BigEndianToUint16(RawData, DirectoryBlock_Used * BLOCK_SIZE + i * DENTRY_SIZE + 0x36);
-                int BlockCount = BigEndianToUint16(RawData, DirectoryBlock_Used * BLOCK_SIZE + i * DENTRY_SIZE + 0x38);
+                
+                int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
+                int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
+
                 // Memory card directory contains info for deleted files with boundaries beyond memory card size, ignore
                 if (FirstBlock + BlockCount > NumBlocks)
                     continue;
-                if (Colloseum_GameCode.Contains(GameCode))
+
+                if (SaveUtil.HEADER_COLO.Contains(GameCode))
                 {
-                    if (Colloseum_Entry > -1)
-                        // Memory Card contains more than 1 Pokémon Colloseum save data.
-                        // It is not possible with a real GC nor with Dolphin to have multiple savegames in the same MC
-                        // If two are found assume corrupted memory card, it wont work with the games after all
-                        return GCMemoryCardState.ColloseumSaveGameDuplicated;
-                    
-                    Colloseum_Entry = i;
+                    if (EntryCOLO > -1) // another entry already exists
+                        return GCMemoryCardState.DuplicateCOLO;
+                    EntryCOLO = i;
                     SaveGameCount++;
                 }
-                if (XD_GameCode.Contains(GameCode))
+                if (SaveUtil.HEADER_XD.Contains(GameCode))
                 {
-                    if (XD_Entry > -1)
-                        // Memory Card contains more than 1 Pokémon XD save data.
-                        return GCMemoryCardState.XDSaveGameDuplicated;
-                    XD_Entry = i;
+                    if (EntryXD > -1) // another entry already exists
+                        return GCMemoryCardState.DuplicateXD;
+                    EntryXD = i;
                     SaveGameCount++;
                 }
-                if (Box_GameCode.Contains(GameCode))
+                if (SaveUtil.HEADER_RSBOX.Contains(GameCode))
                 {
-                    if (RSBox_Entry > -1)
-                        // Memory Card contains more than 1 Pokémon RS Box save data.
-                        return GCMemoryCardState.RSBoxSaveGameDuplicated;
-                    RSBox_Entry = i;
+                    if (EntryRSBOX > -1) // another entry already exists
+                        return GCMemoryCardState.DuplicateRSBOX;
+                    EntryRSBOX = i;
                     SaveGameCount++;
                 }
             }
             if (SaveGameCount == 0)
-                // There is no savedata from a Pokémon GameCube game.
                 return GCMemoryCardState.NoPkmSaveGame;
             
             if (SaveGameCount > 1)
                 return GCMemoryCardState.MultipleSaveGame;
             
-            if (Colloseum_Entry > -1)
+            if (EntryCOLO > -1)
             {
-                Selected_Entry = Colloseum_Entry;
-                return GCMemoryCardState.ColloseumSaveGame;
+                EntrySelected = EntryCOLO;
+                return GCMemoryCardState.SaveGameCOLO;
             }
-            if(XD_Entry > -1)
+            if (EntryXD > -1)
             {
-                Selected_Entry = XD_Entry;
-                return GCMemoryCardState.XDSaveGame;
+                EntrySelected = EntryXD;
+                return GCMemoryCardState.SaveGameXD;
             }
-            Selected_Entry = RSBox_Entry;
-            return GCMemoryCardState.RSBoxSaveGame;
+            EntrySelected = EntryRSBOX;
+            return GCMemoryCardState.SaveGameRSBOX;
         }
 
         public GameVersion SelectedGameVersion
         {
             get
             {
-                if(Colloseum_Entry > -1 && Selected_Entry == Colloseum_Entry)
+                if(EntryCOLO > -1 && EntrySelected == EntryCOLO)
                     return GameVersion.COLO;
-                if (XD_Entry > -1 && Selected_Entry == XD_Entry)
+                if (EntryXD > -1 && EntrySelected == EntryXD)
                     return GameVersion.XD;
-                if (RSBox_Entry > -1 && Selected_Entry == RSBox_Entry)
+                if (EntryRSBOX > -1 && EntrySelected == EntryRSBOX)
                     return GameVersion.RSBOX;
-                return GameVersion.CXD; //Default for no game selected
+                return GameVersion.Any; //Default for no game selected
             } 
         }
-
         public void SelectSaveGame(GameVersion Game)
         {
-            switch(Game)
+            switch (Game)
             {
-                case GameVersion.COLO: if (Colloseum_Entry > -1) Selected_Entry = Colloseum_Entry; break;
-                case GameVersion.XD: if (XD_Entry > -1) Selected_Entry = XD_Entry; break;
-                case GameVersion.RSBOX: if (RSBox_Entry > -1) Selected_Entry = RSBox_Entry; break;
+                case GameVersion.COLO: if (EntryCOLO > -1) EntrySelected = EntryCOLO; break;
+                case GameVersion.XD: if (EntryXD > -1) EntrySelected = EntryXD; break;
+                case GameVersion.RSBOX: if (EntryRSBOX > -1) EntrySelected = EntryRSBOX; break;
             }
         }
 
-        public string getGCISaveGameName()
+        public string GCISaveName => getGCISaveGameName();
+        public byte[] SelectedSaveData { get { return ReadSaveGameData(); } set { WriteSaveGameData(value); } }
+        public byte[] Data { get; private set; }
+
+        private string getGCISaveGameName()
         {
-            string GameCode = Header_EncodingType.GetString(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE, 4);
-            string Makercode = Header_EncodingType.GetString(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE + 0x04, 2);
-            string FileName = Header_EncodingType.GetString(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE + 0x08, DENTRY_STRLEN);
+            int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
+            string GameCode = EncodingType.GetString(Data, offset, 4);
+            string Makercode = EncodingType.GetString(Data, offset + 0x04, 2);
+            string FileName = EncodingType.GetString(Data, offset + 0x08, DENTRY_STRLEN);
 
             return Makercode + "-" + GameCode + "-" + FileName.Replace("\0", "") + ".gci";
         }
-
-        public byte[] ReadSaveGameData()
+        private byte[] ReadSaveGameData()
         {
-            if (Selected_Entry == -1)
+            if (EntrySelected == -1)
                 // Not selected any entry
                 return null;
 
-            int FirstBlock = BigEndianToUint16(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE + 0x36);
-            int BlockCount = BigEndianToUint16(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE + 0x38);
+            int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
+            int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
+            int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 
             byte[] SaveData = new byte[BlockCount * BLOCK_SIZE];
-            Array.Copy(RawData, FirstBlock * BLOCK_SIZE, SaveData, 0, BlockCount * BLOCK_SIZE);
+            Array.Copy(Data, FirstBlock * BLOCK_SIZE, SaveData, 0, BlockCount * BLOCK_SIZE);
 
             return SaveData;
         }
-
-        public byte[] WriteSaveGameData(byte[] SaveData)
+        private void WriteSaveGameData(byte[] SaveData)
         {
-            if (Selected_Entry == -1)
-                // Not selected any entry
-                return RawData;
+            if (EntrySelected == -1) // Can't write anywhere
+                return;
 
-            int FirstBlock = BigEndianToUint16(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE + 0x36);
-            int BlockCount = BigEndianToUint16(RawData, DirectoryBlock_Used * BLOCK_SIZE + Selected_Entry * DENTRY_SIZE + 0x38);
+            int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
+            int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
+            int BlockCount = BigEndian.ToUInt16(Data, offset + 0x38);
 
-            if (SaveData.Length != BlockCount * BLOCK_SIZE)
-                // Invalid File Size
-                return null;
+            if (SaveData.Length != BlockCount * BLOCK_SIZE) // Invalid File Size
+                return;
 
-            Array.Copy(SaveData, 0, RawData, FirstBlock * BLOCK_SIZE, BlockCount * BLOCK_SIZE);
-            return RawData;
+            Array.Copy(SaveData, 0, Data, FirstBlock * BLOCK_SIZE, BlockCount * BLOCK_SIZE);
         }
     }
 }
