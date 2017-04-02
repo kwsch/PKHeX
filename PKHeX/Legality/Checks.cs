@@ -1504,7 +1504,7 @@ namespace PKHeX.Core
             {
                 if (Legal.Ban_Gen3Ball.Contains(pkm.Species))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
-                else if (pkm.AbilityNumber == 4 && 152 <= pkm.Species && pkm.Species <= 160)
+                else if (pkm.AbilityNumber == 4 && Legal.Ban_Gen3BallHidden.Contains(pkm.SpecForm))
                     AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
                 else
                     AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
