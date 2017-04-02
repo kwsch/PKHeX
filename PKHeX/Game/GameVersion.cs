@@ -43,8 +43,9 @@
         GBCartEraOnly,
         Stadium,
         Stadium2,
-        EventsGen1,
-        EventsGen2,
+        EventsGBGen1,
+        EventsGBGen2,
+        VCEvents
     }
 
     public static class Extension
@@ -58,21 +59,22 @@
                 case GameVersion.RBY:
                     return (g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.YW || g2 == GameVersion.GN);
                 case GameVersion.Gen1:
-                    return ( GameVersion.RBY.Contains(g2) || g2 == GameVersion.Stadium|| g2 == GameVersion.EventsGen1);
+                    return ( GameVersion.RBY.Contains(g2) || g2 == GameVersion.Stadium || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.VCEvents);
                 case GameVersion.Stadium:
-                case GameVersion.EventsGen1:
+                case GameVersion.EventsGBGen1:
+                case GameVersion.VCEvents:
                     return GameVersion.RBY.Contains(g2);
 
                 case GameVersion.GS: return (g2 == GameVersion.GD || g2 == GameVersion.SV);
                 case GameVersion.GSC:
                     return (GameVersion.GS.Contains(g2) || g2 == GameVersion.C);
                 case GameVersion.Gen2:
-                    return (GameVersion.GSC.Contains(g2) || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGen2);
+                    return (GameVersion.GSC.Contains(g2) || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen2);
                 case GameVersion.Stadium2:
-                case GameVersion.EventsGen2:
+                case GameVersion.EventsGBGen2:
                     return GameVersion.GSC.Contains(g2);
                 case GameVersion.GBCartEraOnly:
-                    return g2 == GameVersion.Stadium || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGen1 || g2 == GameVersion.EventsGen2;
+                    return g2 == GameVersion.Stadium || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.EventsGBGen2;
 
                 case GameVersion.RS: return (g2 == GameVersion.R || g2 == GameVersion.S);
                 case GameVersion.FRLG: return (g2 == GameVersion.FR || g2 == GameVersion.LG);
