@@ -22,8 +22,8 @@ namespace PKHeX.WinForms
             else
                 TB_OTName.Visible = L_TrainerName.Visible = false;
             
-            NUD_BP.Value = SAV.BP;
-            NUD_Coins.Value = SAV.Coin;
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {

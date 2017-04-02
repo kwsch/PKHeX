@@ -916,78 +916,43 @@ namespace PKHeX.WinForms
             openSAV(s, s.FileName);
             return true;
         }
-        private GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard MC)
+        private static GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard MC)
         {
             if (MC.SaveGameCount == 1)
                 return MC.SelectedGameVersion;
 
-            GameVersion[] Options = new GameVersion[2];
-            string[] Names = new string[2];
-            if (MC.SaveGameCount == 3)
-            {
-                var drGC3Select = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"Pokémon Colloseum, Pokémon XD and Pokémon RS Box Save Files detected. Select game to edit.",
-                    "Yes: Pokémon Colloseum/XD" + Environment.NewLine + "No: Pokémon RS Box");
-                if (drGC3Select == DialogResult.Cancel)
-                    return GameVersion.CXD;
-                if(drGC3Select == DialogResult.No)
-                    return GameVersion.RSBOX;
-                Options = new[] { GameVersion.COLO, GameVersion.XD };
-                Names = new[] { "Pokémon Colloseum", "Pokémon XD" };
-            }
-   
-            // 2 games only
-            if (MC.SaveGameCount == 2 && MC.HaveRSBoxSaveGame)
-            {
-                if( MC.HaveColloseumSaveGame)
-                {
-                    Options[0] = GameVersion.COLO;
-                    Names[0] = "Pokémon Colloseum";
-                }
-                else //XD
-                {
-                    Options[0] = GameVersion.XD;
-                    Names[0] = "Pokémon XD";
-                }
-                Options[1] = GameVersion.RSBOX;
-                Names[1] = "Pokémon RS Box";
-            }
-            else // RXBox discarted
-            {
-                Options = new[] { GameVersion.COLO, GameVersion.XD };
-                Names = new[] { "Pokémon Colloseum", "Pokémon XD" };
-            }
-            
-            var drGCSelect = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"{Names[0]} and {Names[1]} Save Files detected. Select game to edit.",
-                $"Yes: {Names[0]}" + Environment.NewLine + $"No: {Names[1]}");
-            if (drGCSelect == DialogResult.Cancel)
-                return GameVersion.CXD;
-            if (drGCSelect == DialogResult.Yes)
-                return Options[0];
-            return Options[1];
-        }
+            var games = new List<ComboItem>();
+            if (MC.HasCOLO) games.Add(new ComboItem { Text = "Colosseum", Value = (int)GameVersion.COLO });
+            if (MC.HasXD) games.Add(new ComboItem { Text = "XD", Value = (int)GameVersion.XD });
+            if (MC.HasRSBOX) games.Add(new ComboItem { Text = "RS Box", Value = (int)GameVersion.RSBOX });
 
-        private SAV3GCMemoryCard CheckGCMemoryCard(byte[] Data, string path)
+            WinFormsUtil.Alert("Multiple games detected", "Select a game to edit.");
+            var dialog = new SAV_GameSelect(games.ToArray());
+            dialog.ShowDialog();
+            return dialog.Result;
+        }
+        private static SAV3GCMemoryCard CheckGCMemoryCard(byte[] Data, string path)
         {
             SAV3GCMemoryCard MC = new SAV3GCMemoryCard();
             GCMemoryCardState MCState = MC.LoadMemoryCardFile(Data);
-            switch(MCState)
+            switch (MCState)
             {
-                case GCMemoryCardState.Invalid: { WinFormsUtil.Error("Invalid or corrupted GC Memory Card. Aborting.", path); return null; }
+                default: { WinFormsUtil.Error("Invalid or corrupted GC Memory Card. Aborting.", path); return null; }
                 case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error("GC Memory Card without any Pokémon save file. Aborting.", path); return null; }
-                case GCMemoryCardState.ColloseumSaveGameDuplicated: { WinFormsUtil.Error("GC Memory Card with multiple Pokémon Colloseum save files. Aborting.", path); return null; }
-                case GCMemoryCardState.XDSaveGameDuplicated: { WinFormsUtil.Error("GC Memory Card with multiple Pokémon XD save files. Aborting.", path); return null; }
-                case GCMemoryCardState.RSBoxSaveGameDuplicated: { WinFormsUtil.Error("GC Memory Card with multiple Pokémon RS Box save files. Aborting.", path); return null; }
+                case GCMemoryCardState.DuplicateCOLO:
+                case GCMemoryCardState.DuplicateXD:
+                case GCMemoryCardState.DuplicateRSBOX: { WinFormsUtil.Error("GC Memory Card with duplicated game save files. Aborting.", path); return null; }
                 case GCMemoryCardState.MultipleSaveGame:
                     {
                         GameVersion Game = SelectMemoryCardSaveGame(MC);
-                        if (Game == GameVersion.CXD) //Cancel
+                        if (Game == GameVersion.Invalid) //Cancel
                             return null;
                         MC.SelectSaveGame(Game);
                         break;
                     }
-                case GCMemoryCardState.ColloseumSaveGame: { MC.SelectSaveGame(GameVersion.COLO); break; }
-                case GCMemoryCardState.XDSaveGame: { MC.SelectSaveGame(GameVersion.XD); break; }
-                case GCMemoryCardState.RSBoxSaveGame: { MC.SelectSaveGame(GameVersion.RSBOX); break; }
+                case GCMemoryCardState.SaveGameCOLO:    { MC.SelectSaveGame(GameVersion.COLO); break; }
+                case GCMemoryCardState.SaveGameXD:      { MC.SelectSaveGame(GameVersion.XD); break; }
+                case GCMemoryCardState.SaveGameRSBOX:   { MC.SelectSaveGame(GameVersion.RSBOX); break; }
             }
             return MC;
         }
@@ -1021,21 +986,44 @@ namespace PKHeX.WinForms
 
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
-                // Hacky cheats invalidated the Game Code value.
-                var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    "Gen3 Game Detected. Select Origins:",
-                    "Yes: Ruby / Sapphire" + Environment.NewLine +
-                    "No: Emerald" + Environment.NewLine +
-                    "Cancel: FireRed / LeafGreen");
-
-                switch (drGame) // Reset save file info
+                WinFormsUtil.Alert("Gen3 Game Detected.", "Select version.");
+                ComboItem[] games =
                 {
-                    case DialogResult.Yes: sav = new SAV3(sav.BAK, GameVersion.RS); break;
-                    case DialogResult.No: sav = new SAV3(sav.BAK, GameVersion.E); break;
-                    case DialogResult.Cancel: sav = new SAV3(sav.BAK, GameVersion.FRLG); break;
+                    new ComboItem {Text = "Ruby", Value = (int) GameVersion.R},
+                    new ComboItem {Text = "Sapphire", Value = (int) GameVersion.S},
+                    new ComboItem {Text = "Emerald", Value = (int) GameVersion.E},
+                    new ComboItem {Text = "FireRed", Value = (int) GameVersion.FR},
+                    new ComboItem {Text = "LeafGreen", Value = (int) GameVersion.LG}
+                };
+                var dialog = new SAV_GameSelect(games);
+                dialog.ShowDialog();
+
+                switch (dialog.Result) // Reset save file info
+                {
+                    case GameVersion.R:
+                    case GameVersion.S: sav = new SAV3(sav.BAK, GameVersion.RS); break;
+                    case GameVersion.E: sav = new SAV3(sav.BAK, GameVersion.E); break;
+                    case GameVersion.FR:
+                    case GameVersion.LG: sav = new SAV3(sav.BAK, GameVersion.FRLG); break;
                     default: return;
                 }
+                if (sav.Version == GameVersion.FRLG)
+                    sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
             }
+            else if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
+            {
+                WinFormsUtil.Alert("FireRed/LeafGreen detected. Select version.");
+                ComboItem[] games =
+                {
+                    new ComboItem {Text = "FireRed", Value = (int) GameVersion.FR},
+                    new ComboItem {Text = "LeafGreen", Value = (int) GameVersion.LG}
+                };
+                
+                var dialog = new SAV_GameSelect(games.ToArray());
+                dialog.ShowDialog();
+                sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
+            }
+
             if (sav.IndeterminateLanguage)
             {
                 // Japanese Save files are different. Get isJapanese
@@ -1045,15 +1033,6 @@ namespace PKHeX.WinForms
                     return;
 
                 sav.Japanese = drJP == DialogResult.No;
-            }
-            if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
-            {
-                var drFRLG = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...",
-                    "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
-                if (drFRLG == DialogResult.Cancel)
-                    return;
-
-                sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
             }
             loadingSAV = true;
 
