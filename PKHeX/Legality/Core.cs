@@ -866,7 +866,7 @@ namespace PKHeX.Core
             List<EncounterSlot> s = new List<EncounterSlot>();
 
             foreach (var area in getEncounterAreas(pkm, gameSource))
-                s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
+                s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO, gameSource: gameSource));
 
             if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || pkm.HasOriginalMetLocation)
                 return s.Any() ? s.ToArray() : null;
@@ -2163,7 +2163,7 @@ namespace PKHeX.Core
             bool noMet = !pkm.HasOriginalMetLocation;
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
         }
-        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false)
+        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false, GameVersion gameSource = GameVersion.Any)
         {
             int fluteBoost = pkm.Format < 3 ? 0 : 4;
             const int dexnavBoost = 30;
@@ -2172,8 +2172,12 @@ namespace PKHeX.Core
             int dn = DexNav ? fluteBoost + dexnavBoost : 0;
             List<EncounterSlot> slotdata = new List<EncounterSlot>();
 
+            var maxspeciesorigin = -1;
+            if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
+            if (gameSource == GameVersion.GSC) maxspeciesorigin = MaxSpeciesID_2;
+
             // Get Valid levels
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, ignoreLevel ? 100 : -1, ignoreLevel);
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks:ignoreLevel);
 
             // Get slots where pokemon can exist
             bool ignoreSlotLevel = ignoreLevel;
