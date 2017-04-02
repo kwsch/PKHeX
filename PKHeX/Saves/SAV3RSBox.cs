@@ -6,9 +6,23 @@ namespace PKHeX.Core
     public sealed class SAV3RSBox : SaveFile
     {
         public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
-        public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
-        public override string Extension => ".gci";
-
+        public override string Filter
+        {
+            get
+            {
+                if (IsMemoryCardSave)
+                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
+                return "GameCube Save File|*.gci|All Files|*.*";
+            }
+        }
+        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
+        private SAV3GCMemoryCard MC;
+        public override bool IsMemoryCardSave => MC != null;
+        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC)
+            : this(data)
+        {
+            this.MC = MC;
+        }
         public SAV3RSBox(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
@@ -53,6 +67,10 @@ namespace PKHeX.Core
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
         public override byte[] Write(bool DSV)
         {
+            return Write(DSV, false);
+        }
+        public override byte[] Write(bool DSV, bool GCI = false)
+        {
             // Copy Box data back to block
             foreach (RSBOX_Block b in Blocks)
                 Array.Copy(Data, Box + b.BlockNumber * (BLOCK_SIZE - 0x10), b.Data, 0xC, b.Data.Length - 0x10);
@@ -63,6 +81,9 @@ namespace PKHeX.Core
             foreach (RSBOX_Block b in Blocks)
                 b.Data.CopyTo(Data, b.Offset);
             byte[] newFile = getData(0, Data.Length - SIZE_RESERVED);
+            //Return the complete memory card only if the save was loaded from a memory card and gci output was not selecte
+            if (IsMemoryCardSave && !GCI)
+                return MC.WriteSaveGameData(newFile.ToArray());
             return Header.Concat(newFile).ToArray();
         }
 

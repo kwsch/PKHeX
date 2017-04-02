@@ -942,7 +942,7 @@ namespace PKHeX.Core
                 // if (e.Gift && pkm.Ball != 4) // PokéBall
                     // continue;
 
-                if (!AllowGBCartEra && e.Version == GameVersion.GBCartEraOnly)
+                if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
 
                 return e;
