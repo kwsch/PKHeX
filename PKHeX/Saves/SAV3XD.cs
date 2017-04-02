@@ -6,8 +6,16 @@ namespace PKHeX.Core
     public sealed class SAV3XD : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) #{SaveCount:0000}].bak";
-        public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
-        public override string Extension => ".gci";
+        public override string Filter
+        {
+            get
+            {
+                if (IsMemoryCardSave)
+                    return "Memory Card File|*.raw|GameCube Save File|*.gci|All Files|*.*";
+                return "GameCube Save File|*.gci|All Files|*.*";
+            }
+        }
+        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -22,6 +30,13 @@ namespace PKHeX.Core
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne, LegalDisc;
         private readonly int OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
+        private SAV3GCMemoryCard MC;
+        public override bool IsMemoryCardSave => MC != null;
+        public SAV3XD(byte[] data, SAV3GCMemoryCard MC)
+            : this(data)
+        {
+            this.MC = MC;
+        }
         public SAV3XD(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3XD] : (byte[])data.Clone();
@@ -110,6 +125,10 @@ namespace PKHeX.Core
         private readonly byte[] OriginalData;
         public override byte[] Write(bool DSV)
         {
+            return Write(DSV, false);
+        }
+        public override byte[] Write(bool DSV, bool GCI = false)
+        {
             // Set Memo Back
             StrategyMemo.FinalData.CopyTo(Data, Memo);
             ShadowInfo.FinalData.CopyTo(Data, Shadow);
@@ -124,6 +143,9 @@ namespace PKHeX.Core
             // Put save slot back in original save data
             byte[] newFile = (byte[])OriginalData.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex * SLOT_SIZE, newSAV.Length);
+            //Return the complete memory card only if the save was loaded from a memory card and gci output was not selected
+            if (IsMemoryCardSave && !GCI)
+                return MC.WriteSaveGameData(newFile.ToArray());
             return Header.Concat(newFile).ToArray();
         }
 

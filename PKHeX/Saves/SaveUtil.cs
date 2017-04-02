@@ -418,6 +418,28 @@ namespace PKHeX.Core
             sav.Footer = footer;
             return sav;
         }
+        public static SaveFile getVariantSAV(SAV3GCMemoryCard MC)
+        {
+            // Pre-check for header/footer signatures
+            SaveFile sav;
+            byte[] header = new byte[0], footer = new byte[0];
+            byte[] data = MC.ReadSaveGameData();
+            CheckHeaderFooter(ref data, ref header, ref footer);
+
+            switch (MC.SelectedGameVersion)
+            {
+                // Side Games
+                case GameVersion.COLO: sav = new SAV3Colosseum(data,MC); break;
+                case GameVersion.XD: sav = new SAV3XD(data, MC); break;
+                case GameVersion.RSBOX: sav = new SAV3RSBox(data, MC); break;
+
+                // No pattern matched
+                default: return null;
+            }
+            sav.Header = header;
+            sav.Footer = footer;
+            return sav;
+        }
 
         /// <summary>
         /// Creates an instance of a SaveFile with a blank base.

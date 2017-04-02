@@ -725,7 +725,7 @@ namespace PKHeX.WinForms
 
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
-            if (fi.Length > 0x10009C && fi.Length != 0x380000)
+            if (fi.Length > 0x10009C && fi.Length != 0x380000 && ! SAV3GCMemoryCard.IsMemoryCardSize(fi.Length))
                 WinFormsUtil.Error("Input file is too large." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
             else if (fi.Length < 32)
                 WinFormsUtil.Error("Input file is too small." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
@@ -781,6 +781,20 @@ namespace PKHeX.WinForms
             else if ((sav = SaveUtil.getVariantSAV(input)) != null)
             {
                 openSAV(sav, path);
+            }
+            else if ((SAV3GCMemoryCard.IsMemoryCardSize(input)))
+            {
+                SAV3GCMemoryCard MC = CheckGCMemoryCard(input, path);
+                if (MC == null)
+                    return;
+                if ((sav = SaveUtil.getVariantSAV(MC)) != null)
+                {
+                    openSAV(sav, path);
+                }
+                else
+                    WinFormsUtil.Error("Attempted to load an unsupported file type/size.",
+                        $"File Loaded:{Environment.NewLine}{path}",
+                        $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
             }
             else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30)&7 : SAV.Generation)) != null)
             {
@@ -902,6 +916,83 @@ namespace PKHeX.WinForms
             openSAV(s, s.FileName);
             return true;
         }
+        private GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard MC)
+        {
+            //SaveGameCount
+            if (MC.SaveGameCount == 1)
+                return MC.SelectedGameVersion;
+
+            GameVersion[] Options = new GameVersion[2];
+            string[] Names = new string[2];
+            if (MC.SaveGameCount == 3)
+            {
+                var drGC3Select = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"Pokémon Colloseum, Pokémon XD and Pokémon RS Box Save Files detected. Select game to edit.",
+                    "Yes: Pokémon Colloseum/XD" + Environment.NewLine + "No: Pokémon RS Box");
+                if (drGC3Select == DialogResult.Cancel)
+                    return GameVersion.CXD;
+                if(drGC3Select == DialogResult.No)
+                    return GameVersion.RSBOX;
+                Options = new[] { GameVersion.COLO, GameVersion.XD };
+                Names = new[] { "Pokémon Colloseum", "Pokémon XD" };
+            }
+   
+            // 2 games only
+            if (MC.SaveGameCount == 2 && MC.HaveRSBoxSaveGame)
+            {
+                if( MC.HaveColloseumSaveGame)
+                {
+                    Options[0] = GameVersion.COLO;
+                    Names[0] = "Pokémon Colloseum";
+                }
+                else //XD
+                {
+                    Options[0] = GameVersion.XD;
+                    Names[0] = "Pokémon XD";
+                }
+                Options[1] = GameVersion.RSBOX;
+                Names[1] = "Pokémon RS Box";
+            }
+            else // RXBox discarted
+            {
+                Options = new[] { GameVersion.COLO, GameVersion.XD };
+                Names = new[] { "Pokémon Colloseum", "Pokémon XD" };
+            }
+            
+            var drGCSelect = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"{Names[0]} and {Names[1]} Save Files detected. Select game to edit.",
+                $"Yes: {Names[0]}" + Environment.NewLine + $"No: {Names[1]}");
+            if (drGCSelect == DialogResult.Cancel)
+                return GameVersion.CXD;
+            if (drGCSelect == DialogResult.Yes)
+                return Options[0];
+            return Options[1];
+        }
+
+        private SAV3GCMemoryCard CheckGCMemoryCard(byte[] Data, string path)
+        {
+            SAV3GCMemoryCard MC = new SAV3GCMemoryCard();
+            GCMemoryCardState MCState = MC.LoadMemoryCardFile(Data);
+            switch(MCState)
+            {
+                case GCMemoryCardState.Invalid: { WinFormsUtil.Error("Invalid or corrupted GC Memory Card. Aborting.", path); return null; }
+                case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error("GC Memory Card without any Pokémon save file. Aborting.", path); return null; }
+                case GCMemoryCardState.ColloseumSaveGameDuplicated: { WinFormsUtil.Error("GC Memory Card with multiple Pokémon Colloseum save files. Aborting.", path); return null; }
+                case GCMemoryCardState.XDSaveGameDuplicated: { WinFormsUtil.Error("GC Memory Card with multiple Pokémon XD save files. Aborting.", path); return null; }
+                case GCMemoryCardState.RSBoxSaveGameDuplicated: { WinFormsUtil.Error("GC Memory Card with multiple Pokémon RS Box save files. Aborting.", path); return null; }
+                case GCMemoryCardState.MultipleSaveGame:
+                    {
+                        GameVersion Game = SelectMemoryCardSaveGame(MC);
+                        if (Game == GameVersion.CXD) //Cancel
+                            return null;
+                        MC.SelectSaveGame(Game);
+                        break;
+                    }
+                case GCMemoryCardState.ColloseumSaveGame: { MC.SelectSaveGame(GameVersion.COLO); break; }
+                case GCMemoryCardState.XDSaveGame: { MC.SelectSaveGame(GameVersion.XD); break; }
+                case GCMemoryCardState.RSBoxSaveGame: { MC.SelectSaveGame(GameVersion.RSBOX); break; }
+            }
+            return MC;
+        }
+
         private void openSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
@@ -3319,9 +3410,10 @@ namespace PKHeX.WinForms
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
 
             bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
+            bool gci = Path.GetExtension(main.FileName)?.ToLower() == ".gci";
             try
             {
-                File.WriteAllBytes(main.FileName, SAV.Write(dsv));
+                File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
                 SAV.Edited = false;
                 WinFormsUtil.Alert("SAV exported to:", main.FileName);
             }
