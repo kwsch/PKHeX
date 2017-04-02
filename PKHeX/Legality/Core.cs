@@ -2314,7 +2314,7 @@ namespace PKHeX.Core
                 };
 
             var et = getEvolutionTable(pkm);
-            return et.getValidPreEvolutions(pkm, maxspeciesorigin, lvl, skipChecks: skipChecks);
+            return et.getValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
         private static IEnumerable<EncounterStatic> getStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin =-1, int lvl = -1)
         {
