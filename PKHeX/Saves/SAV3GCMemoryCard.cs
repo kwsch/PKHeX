@@ -166,7 +166,7 @@ namespace PKHeX.Core
         private void restoreBackup()
         {
             Array.Copy(Data, DirectoryBackup_Block*BLOCK_SIZE, Data, Directory_Block*BLOCK_SIZE, BLOCK_SIZE);
-            Array.Copy(Data, BlockAlloc_Block*BLOCK_SIZE, Data, BlockAllocBackup_Block*BLOCK_SIZE, BLOCK_SIZE);
+            Array.Copy(Data, BlockAllocBackup_Block*BLOCK_SIZE, Data, BlockAlloc_Block*BLOCK_SIZE, BLOCK_SIZE);
         }
 
         public GCMemoryCardState LoadMemoryCardFile(byte[] data)
