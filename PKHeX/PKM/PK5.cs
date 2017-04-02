@@ -301,7 +301,7 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
-        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : GenNumber == 4 ? Egg_Location > 0 : Legal.EggLocations.Contains(Egg_Location);
+        public override bool WasEgg => GenNumber < 5 ? base.WasEgg : Legal.EggLocations5.Contains(Egg_Location);
 
         // Methods
         public override byte[] Encrypt()
@@ -342,6 +342,7 @@ namespace PKHeX.Core
             pk6.CNT_Cute = CNT_Cute;
             pk6.CNT_Smart = CNT_Smart;
             pk6.CNT_Tough = CNT_Tough;
+            pk6.CNT_Sheen = CNT_Sheen;
 
             // Cap EVs
             pk6.EV_HP = EV_HP > 252 ? 252 : EV_HP;

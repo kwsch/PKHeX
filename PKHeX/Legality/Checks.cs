@@ -499,7 +499,10 @@ namespace PKHeX.Core
             // Check Species
             if (Legal.NoHatchFromEgg.Contains(pkm.Species) && EncounterMatch == null)
                 return new CheckResult(Severity.Invalid, V50, CheckIdentifier.Encounter);
-
+            if (pkm.WasGiftEgg && EncounterMatch == null)
+                return new CheckResult(Severity.Invalid, V359, CheckIdentifier.Encounter);
+            if (pkm.WasEventEgg && EncounterMatch == null)
+                return new CheckResult(Severity.Invalid, V360, CheckIdentifier.Encounter);
             switch (pkm.GenNumber)
             {
                 case 1:
@@ -898,15 +901,30 @@ namespace PKHeX.Core
                            : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
             // Transfer Legality
-            var CrownLocation = -1;
-            var AllowCrownLocation = pkm.Gen4 && pkm.FatefulEncounter && Legal.CrownBeasts.Contains(pkm.Species);
-            if (AllowCrownLocation)
-                CrownLocation = pkm.Species == 251 ? 30010 : 30012; // Celebi : Beast
 
-            if (pkm.Met_Location != 30001 && (!AllowCrownLocation || pkm.Met_Location != CrownLocation))
-                AddLine(Severity.Invalid, AllowCrownLocation ? V351 : V61, CheckIdentifier.Encounter);
+            // PokéTransfer
+            int loc = pkm.Met_Location;
+            if (loc == 30001)
+                return Gen4Result;
 
-            return Gen4Result;
+            // Crown
+            switch (pkm.Species)
+            {
+                case 251: // Celebi
+                    if (pkm.Met_Location == 30010 || pkm.Met_Location == 30011) // unused || used
+                        return Gen4Result;
+                    return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                    
+                case 243: // Raikou
+                case 244: // Entei
+                case 245: // Suicune
+                    if (pkm.Met_Location == 30012 || pkm.Met_Location == 30013) // unused || used
+                        return Gen4Result;
+                    return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
+            }
+
+            // No Match
+            return new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
@@ -1695,7 +1713,22 @@ namespace PKHeX.Core
 
                 return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
             }
-            if (!pkm.WasEvent && !(pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false) && (pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0)) // Is not Traded
+
+            // Determine if we should check for Handling Trainer Memories
+            // A Pokémon is untraded if...
+            bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
+            if (EncounterIsMysteryGift)
+            {
+                untraded |= !pkm.WasEventEgg;
+                untraded &= pkm.WasEgg;
+            }
+
+            if (pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false)
+                untraded = false;
+            else if (pkm.GenNumber < 6)
+                untraded = false;
+
+            if (untraded) // Is not Traded
             {
                 if (pkm.HT_Name.Length != 0)
                     return new CheckResult(Severity.Invalid, V146, CheckIdentifier.History);
@@ -2237,27 +2270,16 @@ namespace PKHeX.Core
             Legal.RemoveFutureMoves(pkm, EvoChainsAllGens, ref validLevelMoves, ref validTMHM, ref validTutor);
             CheckResult[] res;
             int[] Moves = pkm.Moves;
-            if (pkm.IsEgg && pkm.GenNumber < 6)
-            {
-                if(EventGiftMatch?.Count > 0)
-                    res = verifyMovesEggPreRelearnEvent(Moves);
-                else
-                {
-                    var SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
-                                       (EncounterMatch as EncounterStatic)?.Moves ??
-                                       (EncounterMatch as EncounterTrade)?.Moves;
-                    var allowinherited = SpecialMoves == null;
-                    res = verifyMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
-                }
-            }
-            else if (pkm.Species == 235) // Smeargle can have any move except a few
+            if (!pkm.IsEgg && pkm.Species == 235) // Smeargle can have any move except a few
                 res = parseMovesSketch(Moves);
-            else if (pkm.WasEgg && pkm.GenNumber < 6)
-                res = verifyMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
+            else if (pkm.GenNumber < 6)
+                res = parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves);
             else if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched, get the best match too
                 res = parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+            else if (pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species))
+                res = parseMovesRelearnSplitBreed(Moves, validLevelMoves, validTMHM, validTutor, game);
             else // Everything else
-                res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], 0, game);
+                res = parseMovesRelearn(Moves, validLevelMoves, validTMHM, validTutor, 0, game);
 
             // Duplicate Moves Check
             verifyNoEmptyDuplicates(Moves, res);
@@ -2276,7 +2298,7 @@ namespace PKHeX.Core
                     Games = new[] { GameVersion.GS, GameVersion.C };
                     break;
                 case 3:
-                    switch((GameVersion)pkm.Version)
+                    switch ((GameVersion)pkm.Version)
                     {
                         case GameVersion.R:
                         case GameVersion.S:
@@ -2326,7 +2348,7 @@ namespace PKHeX.Core
             }
             return Games;
         }
-        private CheckResult[] verifyMovesIsEggPreRelearn(int[] Moves, int[] SpecialMoves, bool allowinherited)
+        private CheckResult[] parseMovesIsEggPreRelearn(int[] Moves, int[] SpecialMoves, bool allowinherited)
         {
             CheckResult[] res = new CheckResult[4];
             var ValidSpecialMoves = SpecialMoves.Where(m => m != 0).ToList();
@@ -2364,17 +2386,19 @@ namespace PKHeX.Core
             }
             return res;
         }
-        private CheckResult[] verifyMovesWasEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
+        private CheckResult[] parseMovesWasEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
             CheckResult[] res = new CheckResult[4];
 
+            // Gen 3 could have an egg origin and a non-egg origin, check first non-egg origin
             if (pkm.GenNumber == 3 && !pkm.HasOriginalMetLocation && EncounterMatch !=null)
             {
                 res = EventGiftMatch?.Count > 1 
                     ? parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor) // Multiple possible Mystery Gifts matched, get the best match too
-                    : parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, new int[0], 0, GameVersion.Any); // Everything else
+                    : parseMovesPreRelearnEncounter(Moves, validLevelMoves, validTMHM, validTutor, GameVersion.Any); // Everything else, non-egg encounters only
                 if (res.All(r => r.Valid)) // moves are satisfactory
                     return res;
+                // If non-egg encounter is not valid check egg-encounter with eggmoves and without special moves
             }
 
             // Some games can have different egg movepools. Have to check all situations.
@@ -2398,22 +2422,26 @@ namespace PKHeX.Core
             int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
             foreach (var ver in Games)
             {
+                var EventEggMoves = pkm.WasEgg && !pkm.WasGiftEgg ? Legal.getSpecialEggMoves(pkm, ver).ToArray() : new int[0];
                 for (int i = 0; i <= splitctr; i++)
                 {
                     var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
-                    res = parseMovesRegular(Moves, validLevelMoves, validTMHM, validTutor, baseEggMoves, i, ver);
+                    var EggMoves = pkm.WasEgg && !pkm.WasGiftEgg ? Legal.getEggMoves(pkm, i, ver).ToArray() : new int[0];
+
+                    res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, new int[0], baseEggMoves, EggMoves, EventEggMoves);
+
                     if (res.All(r => r.Valid)) // moves is satisfactory
                         return res;
                 }
             }
             return res;
         }
-        private CheckResult[] verifyMovesEggPreRelearnEvent(int[] Moves)
+        private CheckResult[] parseMovesIsEggPreRelearnEvent(int[] Moves)
         {
             foreach (MysteryGift mg in EventGiftMatch)
             {
                 int[] SpecialMoves = mg.Moves;
-                CheckResult[] res = verifyMovesIsEggPreRelearn(Moves, SpecialMoves, false);
+                CheckResult[] res = parseMovesIsEggPreRelearn(Moves, SpecialMoves, false);
                 if (res.Any(r => !r.Valid))
                     continue;
 
@@ -2422,7 +2450,7 @@ namespace PKHeX.Core
                 return res;
             }
             // no Mystery Gifts matched
-            return verifyMovesIsEggPreRelearn(Moves, new int[0], false);
+            return parseMovesIsEggPreRelearn(Moves, new int[0], false);
         }
         private CheckResult[] parseMovesSketch(int[] Moves)
         {
@@ -2432,6 +2460,28 @@ namespace PKHeX.Core
                     ? new CheckResult(Severity.Invalid, V166, CheckIdentifier.Move)
                     : new CheckResult(CheckIdentifier.Move);
             return res;
+        }
+        private CheckResult[] parseMovesPre3DS(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
+        {
+            if (pkm.IsEgg)
+            {
+                if (EventGiftMatch?.Count > 0)
+                    return parseMovesIsEggPreRelearnEvent(Moves);
+
+                int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
+                                   (EncounterMatch as EncounterStatic)?.Moves ??
+                                   (EncounterMatch as EncounterTrade)?.Moves;
+                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && !pkm.WasEventEgg;
+                return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
+            }
+            if (pkm.WasEgg)
+                return parseMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
+
+            if (EventGiftMatch?.Count > 1)
+                // Multiple possible non-egg Mystery Gifts matched, get the best match too
+                return parseMovesGetGift(Moves, validLevelMoves, validTMHM, validTutor);
+
+            return parseMovesPreRelearnEncounter(Moves, validLevelMoves, validTMHM, validTutor, game);
         }
         private CheckResult[] parseMovesGetGift(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
@@ -2452,23 +2502,43 @@ namespace PKHeX.Core
             // no Mystery Gifts matched
             return parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, new int[0], new int[0], new int[0], new int[0]);
         }
-        private CheckResult[] parseMovesRegular(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] baseEggMoves, int SkipOption, GameVersion game)
+        private CheckResult[] parseMovesPreRelearnEncounter(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, GameVersion game)
         {
-            int[] EggMoves = pkm.WasEgg ? Legal.getEggMoves(pkm, SkipOption, game).ToArray() : new int[0];
-            int[] EventEggMoves = pkm.WasEgg ? Legal.getSpecialEggMoves(pkm, game).ToArray() : new int[0];
+            int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
+                                 (EncounterMatch as EncounterStatic)?.Moves ??
+                                 (EncounterMatch as EncounterTrade)?.Moves ??
+                                 new int[0];
+
+            return parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, new int[0], new int[0], new int[0]);
+        }
+        private CheckResult[] parseMovesRelearnSplitBreed(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, GameVersion game)
+        {
+            CheckResult[] res = new CheckResult[4];
+            int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
+        
+            for (int i = 0; i <= splitctr; i++)
+            {
+                res = parseMovesRelearn(Moves, validLevelMoves, validTMHM, validTutor, i, game);
+                if (res.All(r => r.Valid)) // moves are satisfactory
+                    break;
+            }
+           
+            return res;
+        }
+        private CheckResult[] parseMovesRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int SkipOption, GameVersion game)
+        {
+            int[] EggMoves = pkm.WasEgg && !pkm.WasGiftEgg? Legal.getEggMoves(pkm, SkipOption, game).ToArray() : new int[0];
+            int[] EventEggMoves =  pkm.WasEgg && !pkm.WasGiftEgg ? Legal.getSpecialEggMoves(pkm, game).ToArray() : new int[0];
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
                                  (EncounterMatch as EncounterStatic)?.Moves ??
                                  (EncounterMatch as EncounterTrade)?.Moves ??
                                  new int[0];
 
-            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, baseEggMoves, EggMoves, EventEggMoves);
-
-            if (pkm.GenNumber < 6)
-                return res;
+            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], EggMoves, EventEggMoves);
 
             for (int i = 0; i < 4; i++)
-                if (res[i].Flag && !RelearnMoves.Contains(Moves[i]))
+                if ((pkm.IsEgg || res[i].Flag) && !RelearnMoves.Contains(Moves[i]))
                     res[i] = new CheckResult(Severity.Invalid, string.Format(V170, res[i].Comment), res[i].Identifier);
 
             return res;

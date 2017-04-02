@@ -423,12 +423,34 @@ namespace PKHeX.Core
         {
             get
             {
-                return Egg_Location > 0 || _WasEgg;
+                switch (GenNumber)
+                {
+                    case 4: return Species == 490 && Egg_Location == 3001 || Legal.EggLocations4.Contains(Egg_Location);
+                    case 5: return Legal.EggLocations5.Contains(Egg_Location);
+                    case 6: 
+                    case 7: return Legal.EggLocations.Contains(Egg_Location);
+                }
+                // Gen 1/2 and pal park Gen 3
+                return _WasEgg;
             }
             set { _WasEgg = value; }
         }
+        public virtual bool WasGiftEgg
+        {
+            get
+            {
+                if (!WasEgg) return false;
+                switch(GenNumber)
+                {
+                    case 4: return Legal.GiftEggLocation4.Contains(Egg_Location);
+                    case 5: return Egg_Location == 60003;
+                    case 6: return Egg_Location == 60004;
+                }
+                return false;
+            }
+        }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
-        public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
+        public virtual bool WasEventEgg => GenNumber == 4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public virtual bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;
         public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;

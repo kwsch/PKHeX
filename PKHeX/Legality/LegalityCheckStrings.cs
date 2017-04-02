@@ -344,6 +344,8 @@ namespace PKHeX.Core
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
         public static string V357 {get; set;} = "Only one Ninjask move allowed.";
         public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
+        public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
+        public static string V360 {get; set;} = "Unable to match an event egg encounter from origin game.";
         #endregion
 
     }
