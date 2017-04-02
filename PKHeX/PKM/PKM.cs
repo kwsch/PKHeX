@@ -256,6 +256,7 @@ namespace PKHeX.Core
         public abstract int CurrentHandler { get; set; }
 
         // Derived
+        public int SpecForm { get { return Species + (AltForm << 11); } set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
         public virtual bool Locked { get { return false; } set { } }

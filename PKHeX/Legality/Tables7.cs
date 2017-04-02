@@ -565,6 +565,19 @@ namespace PKHeX.Core
             729, // Brionne
             730, // Primarina
             774, // Minior
+
+            //Pre-Gen
+            669 + (2 << 11), //Flabébé-Orange
+            670 + (2 << 11), //Floette-Orange
+            671 + (2 << 11), //Florges-Orange
+            669 + (4 << 11), //Flabébé-White
+            670 + (4 << 11), //Floette-White
+            671 + (4 << 11), //Florges-White
+
+            710 + (1 << 11), //Pumpkaboo-Small
+            711 + (1 << 11), //Gourgeist-Small
+            710 + (2 << 11), //Pumpkaboo-Large
+            711 + (2 << 11), //Gourgeist-Large
         };
         #region Pre-Bank Illegality
         internal static readonly int[] Bank_NoHidden7 =

@@ -569,6 +569,22 @@ namespace PKHeX.Core
         };
 
         #endregion
+        internal static readonly int[] Ban_NoHidden6 =
+        {
+            //Not avaliable at Friend Safari or Horde Encounter
+            669 + (2 << 11), //Flabébé-Orange
+            670 + (2 << 11), //Floette-Orange
+            671 + (2 << 11), //Florges-Orange
+            669 + (4 << 11), //Flabébé-White
+            670 + (4 << 11), //Floette-White
+            671 + (4 << 11), //Florges-White
+
+            710 + (1 << 11), //Pumpkaboo-Small
+            711 + (1 << 11), //Gourgeist-Small
+            710 + (2 << 11), //Pumpkaboo-Large
+            711 + (2 << 11), //Gourgeist-Large
+            //Super Size can be obtained as a Pumpkaboo from event distributions
+        };
         #region Ball Table
         internal static readonly int[] Inherit_Sport =
         {

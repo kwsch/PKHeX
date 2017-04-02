@@ -1247,6 +1247,11 @@ namespace PKHeX.Core
                             return;
                         }
                     }
+                    if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+                    {
+                        AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
+                        return;
+                    }
                 }
                 if (pkm.GenNumber == 7)
                 {
@@ -1276,7 +1281,7 @@ namespace PKHeX.Core
                             return;
                         }
                     }
-                    if (Legal.Ban_NoHidden7.Contains(pkm.Species) && pkm.AbilityNumber == 4)
+                    if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                     {
                         AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
                         return;
