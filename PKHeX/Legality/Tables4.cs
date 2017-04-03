@@ -966,6 +966,12 @@ namespace PKHeX.Core
                     new EncounterSlot { Species = 418, LevelMin = 44, LevelMax = 45, Type = SlotType.Grass_Safari }, // Buizel
                 }
             },
+            //Some edge cases
+            new EncounterArea
+            {
+                Location = 219, // Mt. Silver Cave 1F
+                Slots = new[]{new EncounterSlot { Species = 130, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod },}, // Gyarados at night
+            },
         };
 
         private static readonly EncounterArea SlotsPt_HoneyTree =
