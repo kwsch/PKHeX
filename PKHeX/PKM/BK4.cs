@@ -187,6 +187,7 @@ namespace PKHeX.Core
             get
             {
                 return PKX.array2strG4BE(Data.Skip(0x48).Take(22).ToArray())
+                    .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
                     .Replace("\uE08F", "\u2640") // nidoran
                     .Replace("\uE08E", "\u2642") // nidoran
                     .Replace("\u2019", "\u0027"); // farfetch'd
@@ -196,6 +197,7 @@ namespace PKHeX.Core
                 if (value.Length > 11)
                     value = value.Substring(0, 11); // Hard cap
                 string TempNick = value // Replace Special Characters and add Terminator
+                    .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
                     .Replace("\u2640", "\uE08F") // nidoran
                     .Replace("\u2642", "\uE08E") // nidoran
                     .Replace("\u0027", "\u2019"); // farfetch'd
@@ -249,6 +251,7 @@ namespace PKHeX.Core
             get
             {
                 return PKX.array2strG4BE(Data.Skip(0x68).Take(16).ToArray())
+                    .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
                     .Replace("\uE08F", "\u2640") // Nidoran ♂
                     .Replace("\uE08E", "\u2642") // Nidoran ♀
                     .Replace("\u2019", "\u0027"); // Farfetch'd
@@ -258,6 +261,7 @@ namespace PKHeX.Core
                 if (value.Length > 7)
                     value = value.Substring(0, 7); // Hard cap
                 string TempNick = value // Replace Special Characters and add Terminator
+                .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
                 .Replace("\u2640", "\uE08F") // Nidoran ♂
                 .Replace("\u2642", "\uE08E") // Nidoran ♀
                 .Replace("\u0027", "\u2019"); // Farfetch'd
