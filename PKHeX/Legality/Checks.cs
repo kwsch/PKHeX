@@ -1544,19 +1544,23 @@ namespace PKHeX.Core
             }
             if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e))) // past gen
-                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
-                else
+                if (!Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && (Lineage.Contains(029) || Lineage.Contains(032))) // Nido
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
             if (ball == 0x18) // Sport Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Sport.Contains(e)))
-                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
-                else
+                if (!Lineage.Any(e => Legal.Inherit_Sport.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && (Lineage.Contains(313) || Lineage.Contains(314))) // Volbeat/Illumise
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
