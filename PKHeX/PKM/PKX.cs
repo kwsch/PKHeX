@@ -1051,6 +1051,7 @@ namespace PKHeX.Core
             var s = str.Replace("\u2019", "\u0027"); // farfetch'd
             s = s.Replace("\uE08F", "\u2640"); // ♀
             s = s.Replace("\uE08E", "\u2642"); // ♂
+            s = bin2strG7_zh(s);
             return s;
         }
 
@@ -1064,6 +1065,7 @@ namespace PKHeX.Core
         public static string UnSanitizeString(string str, int species = -1, bool nicknamed = true)
         {
             var s = str.Replace("\u0027", "\u2019"); // farfetch'd
+            s = str2binG7_zh(s);
 
             bool foreign = true;
             if ((species == 029 || species == 032) && !nicknamed)
@@ -1073,7 +1075,6 @@ namespace PKHeX.Core
 
             if (foreign)
                 return s;
-
             // Convert back to half width
             s = s.Replace("\u2640", "\uE08F"); // ♀
             s = s.Replace("\u2642", "\uE08E"); // ♂
@@ -1187,6 +1188,43 @@ namespace PKHeX.Core
         {
             byte[] data = BitConverter.GetBytes(PID);
             return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
+        }
+
+        /// <summary>
+        /// Converts a Unicode string to Generation 7 in-game chinese string.
+        /// </summary>
+        /// <param name="inputstr">Unicode string.</param>
+        /// <returns>In-game chinese string.</returns>
+        public static string str2binG7_zh(string inputstr)
+        {
+            int index; string resultstr = "";
+            foreach (char chr in inputstr)
+            {
+                index = Array.IndexOf(Gen7_CHS, chr);
+                if (index > -1)
+                { resultstr += (char)(index + Gen7_CHS_Ofs); continue; }
+                index = Array.IndexOf(Gen7_CHT, chr);
+                resultstr += index > -1 ? (char)(index + Gen7_CHT_Ofs) : chr;
+            }
+            return resultstr;
+        }
+        /// <summary>
+        /// Converts a Generation 7 in-game chinese string to Unicode string.
+        /// </summary>
+        /// <param name="inputstr">In-game chinese string.</param>
+        /// <returns>Unicode string.</returns>
+        public static string bin2strG7_zh(string inputstr)
+        {
+            string resultstr = "";
+            foreach (ushort val in inputstr)
+            {
+                if (Gen7_CHS_Ofs <= val && val < Gen7_CHS_Ofs + Gen7_CHS.Length)
+                { resultstr += Gen7_CHS[val - Gen7_CHS_Ofs]; continue; }
+                if (Gen7_CHT_Ofs <= val && val < Gen7_CHT_Ofs + Gen7_CHT.Length)
+                { resultstr += Gen7_CHT[val - Gen7_CHT_Ofs]; continue; }
+                resultstr += (char)val;
+            }
+            return resultstr;
         }
 
         /// <summary>
@@ -1831,7 +1869,12 @@ namespace PKHeX.Core
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
         #endregion
-
+        #region Gen7 Chinese Character Tables
+        public static readonly char[] Gen7_CHS = Util.getStringList("Char", "zh")[0].ToCharArray();
+        public static readonly ushort Gen7_CHS_Ofs = 0xE800;
+        public static readonly char[] Gen7_CHT = Util.getStringList("Char", "zh2")[0].ToCharArray();
+        public static readonly ushort Gen7_CHT_Ofs = 0xEB09;
+        #endregion
         /// <summary>
         /// Trash Bytes for Generation 3->4
         /// </summary>
