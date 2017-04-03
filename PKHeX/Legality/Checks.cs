@@ -1535,10 +1535,12 @@ namespace PKHeX.Core
             int ball = pkm.Ball;
             if (ball == 0x05) // Safari Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e) || Legal.Inherit_SafariMale.Contains(e)))
-                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
-                else
+                if (!Lineage.Any(e => Legal.Inherit_Safari.Contains(e) || Legal.Inherit_SafariMale.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && Lineage.Any(e => Legal.Ban_SafariBallHidden_7.Contains(e)))
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
