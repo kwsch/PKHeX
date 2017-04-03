@@ -1354,6 +1354,12 @@ namespace PKHeX.Core
                 return;
             }
 
+            if (pkm.Species == 292) // Shedinja
+            {
+                verifyBallEquals(4); // Pokeball
+                return;
+            }
+
             if (pkm.Ball == 0x14 && pkm.Gen7) // Heavy Ball
             {
                 var lineage = Legal.getLineage(pkm);
