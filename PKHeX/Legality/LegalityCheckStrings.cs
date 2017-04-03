@@ -85,6 +85,8 @@ namespace PKHeX.Core
         public static string V214 {get; set;} = "Cascoon";
         public static string V215 {get; set;} = "PID should be equal to EC [with top bit flipped]!";
         public static string V216 {get; set;} = "PID should be equal to EC!";
+        public static string V220 {get; set;} = "N's Pokemon cannot be shiny.";
+        public static string V221 {get; set;} = "Hidden Grotto captures cannot be shiny.";
 
         public static string V14 {get; set;} = "Egg matches language Egg name."; // Valid
         public static string V17 {get; set;} = "Nickname does not match another species name."; // Valid
@@ -116,6 +118,7 @@ namespace PKHeX.Core
         public static string V27 {get; set;} = "EVs are all equal."; // Fishy
         public static string V31 {get; set;} = "All IVs are 0."; // Fishy
         public static string V32 {get; set;} = "All IVs are equal."; // Fishy
+        public static string V218 {get; set;} = "All IVs of N's Pokemon should be 30."; // Invalid
 
         public static string V28 {get; set;} = "Should have at least {0} IVs = 31."; // Invalid
         public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs = 31."; // Invalid
@@ -124,6 +127,7 @@ namespace PKHeX.Core
         public static string V38 {get; set;} = "OT Name too long."; // Invalid
         public static string V39 {get; set;} = "Incorrect RBY event OT Name."; // Invalid
         public static string V34 {get; set;} = "SID should be 0."; // Invalid
+        public static string V219 {get; set;} = "The Name/TID/SID of N is incorrect."; // Invalid
         public static string V33 {get; set;} = "TID and SID are 0."; // Fishy
         public static string V35 {get; set;} = "TID and SID are equal."; // Fishy
         public static string V36 {get; set;} = "TID is zero."; // Fishy

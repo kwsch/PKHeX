@@ -6,9 +6,19 @@ namespace PKHeX.Core
     public sealed class SAV3RSBox : SaveFile
     {
         public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
-        public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
-        public override string Extension => ".gci";
-
+        public override string Filter
+        {
+            get
+            {
+                if (IsMemoryCardSave)
+                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
+                return "GameCube Save File|*.gci|All Files|*.*";
+            }
+        }
+        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
+        private readonly SAV3GCMemoryCard MC;
+        public override bool IsMemoryCardSave => MC != null;
+        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3RSBox(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
@@ -51,7 +61,7 @@ namespace PKHeX.Core
         private const int BLOCK_COUNT = 23;
         private const int BLOCK_SIZE = 0x2000;
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
-        public override byte[] Write(bool DSV)
+        public override byte[] Write(bool DSV, bool GCI = false)
         {
             // Copy Box data back to block
             foreach (RSBOX_Block b in Blocks)
@@ -63,7 +73,13 @@ namespace PKHeX.Core
             foreach (RSBOX_Block b in Blocks)
                 b.Data.CopyTo(Data, b.Offset);
             byte[] newFile = getData(0, Data.Length - SIZE_RESERVED);
-            return Header.Concat(newFile).ToArray();
+
+            // Return the gci if Memory Card is not being exported
+            if (!IsMemoryCardSave || GCI)
+                return Header.Concat(newFile).ToArray();
+
+            MC.SelectedSaveData = newFile.ToArray();
+            return MC.Data;
         }
 
         // Configuration

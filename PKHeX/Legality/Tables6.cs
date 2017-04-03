@@ -569,6 +569,22 @@ namespace PKHeX.Core
         };
 
         #endregion
+        internal static readonly int[] Ban_NoHidden6 =
+        {
+            //Not avaliable at Friend Safari or Horde Encounter
+            669 + (2 << 11), //Flabébé-Orange
+            670 + (2 << 11), //Floette-Orange
+            671 + (2 << 11), //Florges-Orange
+            669 + (4 << 11), //Flabébé-White
+            670 + (4 << 11), //Floette-White
+            671 + (4 << 11), //Florges-White
+
+            710 + (1 << 11), //Pumpkaboo-Small
+            711 + (1 << 11), //Gourgeist-Small
+            710 + (2 << 11), //Pumpkaboo-Large
+            711 + (2 << 11), //Gourgeist-Large
+            //Super Size can be obtained as a Pumpkaboo from event distributions
+        };
         #region Ball Table
         internal static readonly int[] Inherit_Sport =
         {
@@ -650,6 +666,21 @@ namespace PKHeX.Core
             496, 499, 502, //2
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
+        };
+        internal static readonly int[] Ban_Gen3BallHidden =
+        {
+            // can have HA and can be in gen 3 ball as eggs but can not at same time.
+            152, 155, 158, //1 - Gen2 Starters
+            153, 156, 159, //2
+            154, 157, 160, //3
+            585 + (1 << 11), //Deerling-Summer
+            586 + (1 << 11), //Sawsbuck-Summer
+            585 + (2 << 11), //Deerling-Autumn
+            586 + (2 << 11), //Sawsbuck-Autumn
+            585 + (3 << 11), //Deerling-Winter
+            586 + (3 << 11), //Sawsbuck-Winter
+            710 + (3 << 11), //Pumpkaboo-Super
+            711 + (3 << 11), //Gourgeist-Super
         };
         internal static readonly int[] Ban_Gen4Ball_6 =
         {

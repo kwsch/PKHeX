@@ -45,6 +45,8 @@ V213 = Silcoon
 V214 = Cascoon
 V215 = PID should be equal to EC [with top bit flipped]!
 V216 = PID should be equal to EC!
+V220 = N's Pokemon cannot be shiny.
+V221 = Hidden Grotto captures cannot be shiny.
 V14 = Egg matches language Egg name.
 V17 = Nickname does not match another species name.
 V18 = Nickname matches species name.
@@ -73,12 +75,14 @@ V26 = EVs cannot go above 252.
 V27 = EVs are all equal.
 V31 = All IVs are 0.
 V32 = All IVs are equal.
+V218 = All IVs of N's Pokemon should be 30.
 V28 = Should have at least {0} IVs = 31.
 V29 = Friend Safari captures should have at least 2 IVs = 31.
 V30 = IVs do not match Mystery Gift Data.
 V38 = OT Name too long.
 V39 = Incorrect RBY event OT Name.
 V34 = SID should be 0.
+V219 = The Name/TID/SID of N is incorrect.
 V33 = TID and SID are 0.
 V35 = TID and SID are equal.
 V36 = TID is zero.
@@ -281,4 +285,3 @@ V357 = Only one Ninjask move allowed.
 V358 = Inherited move learned by Level-up. Incompatible with event egg moves.
 V359 = Unable to match a gift egg encounter from origin game.
 V360 = Unable to match an event egg encounter from origin game.
-        

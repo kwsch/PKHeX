@@ -7,8 +7,17 @@ namespace PKHeX.Core
     public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
-        public override string Filter => "GameCube Save File|*.gci|All Files|*.*";
-        public override string Extension => ".gci";
+        public override string Filter
+        {
+            get
+            {
+                if (IsMemoryCardSave)
+                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
+                return "GameCube Save File|*.gci|All Files|*.*";
+            }
+        }
+
+        public override string Extension => IsMemoryCardSave ? ".raw" : ".gci";
 
         // 3 Save files are stored
         // 0x0000-0x6000 contains memory card data
@@ -29,6 +38,9 @@ namespace PKHeX.Core
         private readonly int Memo;
         private readonly ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries, LegalCologne;
         private readonly int OFS_PouchCologne;
+        private readonly SAV3GCMemoryCard MC;
+        public override bool IsMemoryCardSave => MC != null;
+        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
         public SAV3Colosseum(byte[] data = null)
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3COLO] : (byte[])data.Clone();
@@ -99,7 +111,7 @@ namespace PKHeX.Core
         }
 
         private readonly byte[] OriginalData;
-        public override byte[] Write(bool DSV)
+        public override byte[] Write(bool DSV, bool GCI = false)
         {
             StrategyMemo.FinalData.CopyTo(Data, Memo);
             setChecksums();
@@ -111,7 +123,13 @@ namespace PKHeX.Core
             // Put save slot back in original save data
             byte[] newFile = (byte[])OriginalData.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + SaveIndex*SLOT_SIZE, newSAV.Length);
-            return Header.Concat(newFile).ToArray();
+
+            // Return the gci if Memory Card is not being exported
+            if (!IsMemoryCardSave || GCI)
+                return Header.Concat(newFile).ToArray();
+
+            MC.SelectedSaveData = newFile.ToArray();
+            return MC.Data;
         }
 
         // Configuration
