@@ -899,7 +899,6 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var enc = new List<EncounterStatic>();
             // Get possible encounters
             IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm, gameSource: gameSource);
 
@@ -907,13 +906,18 @@ namespace PKHeX.Core
             if (lvl <= 0)
                 return null;
             // Back Check against pkm
+            var enc = getMatchingStaticEncounters(pkm, poss, lvl).ToList();
+            return enc.Any() ? enc : null;
+        }
+        private static IEnumerable<EncounterStatic> getMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
+        {
             foreach (EncounterStatic e in poss)
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
-                if(pkm.Gen3 && e.EggLocation != 0)
-                {   
-                    //Hartched gen 3 gift egg can not be differentiated form normal eggs 
+                if (pkm.Gen3 && e.EggLocation != 0)
+                {
+                    // Hatched gen 3 gift egg can not be differentiated from normal eggs 
                     if (!pkm.IsEgg || pkm.Format > 3)
                         continue;
                     if (e.EggLocation != pkm.Met_Location)
@@ -946,9 +950,8 @@ namespace PKHeX.Core
                 if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
 
-                enc.Add(e);
+                yield return e;
             }
-            return enc.Any() ? enc : null;
         }
         internal static EncounterTrade getValidIngameTrade(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
