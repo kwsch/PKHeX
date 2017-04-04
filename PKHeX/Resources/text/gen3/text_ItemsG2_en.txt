@@ -1,0 +1,255 @@
+(None)
+Master Ball
+Ultra Ball
+BrightPowder
+Great Ball
+Poké Ball
+Teru-sama (0)
+Bicycle
+Moon Stone
+Antidote
+Burn Heal
+Ice Heal
+Awakening
+Parlyz Heal
+Full Restore
+Max Potion
+Hyper Potion
+Super Potion
+Potion
+Escape Rope
+Repel
+Max Elixer
+Fire Stone
+Thunder Stone
+Water Stone
+Teru-sama (1)
+HP Up
+Protein
+Iron
+Carbos
+Lucky Punch
+Calcium
+Rare Candy
+X Accuracy
+Leaf Stone
+Metal Powder
+Nugget
+Poké Doll
+Full Heal
+Revive
+Max Revive
+Guard Spec.
+Super Repel
+Max Repel
+Dire Hit
+Teru-sama (2)
+Fresh Water
+Soda Pop
+Lemonade
+X Attack
+Teru-sama (3)
+X Defend
+X Speed
+X Special
+Coin Case
+Itemfinder
+Teru-sama (4)
+Exp Share
+Old Rod
+Good Rod
+Silver Leaf
+Super Rod
+PP Up
+Ether
+Max Ether
+Elixer
+Red Scale
+SecretPotion
+S.S. Ticket
+Mystery Egg
+Clear Bell*
+Silver Wing
+Moomoo Milk
+Quick Claw
+PSNCureBerry
+Gold Leaf
+Soft Sand
+Sharp Beak
+PRZCureBerry
+Burnt Berry
+Ice Berry
+Poison Barb
+King's Rock
+Bitter Berry
+Mint Berry
+Red Apricorn
+TinyMushroom
+Big Mushroom
+SilverPowder
+Blu Apricorn
+Teru-sama (5)
+Amulet Coin
+Ylw Apricorn
+Grn Apricorn
+Cleanse Tag
+Mystic Water
+TwistedSpoon
+Wht Apricorn
+Black Belt
+Blk Apricorn
+Teru-sama (6)
+Pnk Apricorn
+BlackGlasses
+SlowpokeTail
+Pink Bow
+Stick
+Smoke Ball
+NeverMeltIce
+Magnet
+MiracleBerry
+Pearl
+Big Pearl
+Everstone
+Spell Tag
+RageCandyBar
+GS Ball*
+Blue Card*
+Miracle Seed
+Thick Club
+Focus Band
+Teru-sama (7)
+EnergyPowder
+Energy Root
+Heal Powder
+Revival Herb
+Hard Stone
+Lucky Egg
+Card Key
+Machine Part
+Egg Ticket*
+Lost Item
+Stardust
+Star Piece
+Basement Key
+Pass
+Teru-sama (8)
+Teru-sama (9)
+Teru-sama (10)
+Charcoal
+Berry Juice
+Scope Lens
+Teru-sama (11)
+Teru-sama (12)
+Metal Coat
+Dragon Fang
+Teru-sama (13)
+Leftovers
+Teru-sama (14)
+Teru-sama (15)
+Teru-sama (16)
+MysteryBerry
+Dragon Scale
+Berserk Gene
+Teru-sama (17)
+Teru-sama (18)
+Teru-sama (19)
+Sacred Ash
+Heavy Ball
+Flower Mail
+Level Ball
+Lure Ball
+Fast Ball
+Teru-sama (20)
+Light Ball
+Friend Ball
+Moon Ball
+Love Ball
+Normal Box
+Gorgeous Box
+Sun Stone
+Polkadot Bow
+Teru-sama (21)
+Up-Grade
+Berry
+Gold Berry
+SquirtBottle
+Teru-sama (22)
+Park Ball
+Rainbow Wing
+Teru-sama (23)
+Brick Piece
+Surf Mail
+Litebluemail
+Portraitmail
+Lovely Mail
+Eon Mail
+Morph Mail
+Bluesky Mail
+Music Mail
+Mirage Mail
+Teru-sama (24)
+TM01
+TM02
+TM03
+TM04
+TM04 (Unused)
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM28 (Unused)
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+HM01
+HM02
+HM03
+HM04
+HM05
+HM06
+HM07
+HM08 (Unused)
+HM09 (Unused)
+HM10 (Unused)
+HM11 (Unused)
+HM12 (Unused)
