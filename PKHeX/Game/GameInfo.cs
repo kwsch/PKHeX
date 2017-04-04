@@ -231,11 +231,6 @@ namespace PKHeX.Core
                 if (data == null || data.Length == 0)
                     data = Util.getStringList(ident, DefaultLanguage);
 
-                // Use alternate (Fan Translated) species names since GameFreak decided to use non-Unicode characters which are now game-font dependent.
-                // PKX still fetches nickname with the actual string
-                if (ident == "species" && new[] {"zh", "zh2"}.Contains(Language))
-                    return Util.getSpeciesList(Language + "_alt");
-
                 return data;
             }
 

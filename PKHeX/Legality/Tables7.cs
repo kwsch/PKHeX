@@ -488,6 +488,11 @@ namespace PKHeX.Core
         {
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+        internal static readonly int[] Ban_SafariBallHidden_7 =
+        {
+            029, 030, 031, 032, 033, 034, // Nidos
+            313, 314, // Volbeat/Illumise
+        };
 
         internal static readonly int[] ZygardeMoves =
         {

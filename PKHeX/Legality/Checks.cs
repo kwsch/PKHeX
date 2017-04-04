@@ -246,6 +246,11 @@ namespace PKHeX.Core
                         : V16, CheckIdentifier.Nickname);
                     return;
                 }
+                if (nickname.Any(c => 0x4E00 <= c && c <= 0x9FFF)) // East Asian Scripts
+                {
+                    AddLine(Severity.Invalid, V222, CheckIdentifier.Nickname);
+                    return;
+                }
                 AddLine(Severity.Valid, V17, CheckIdentifier.Nickname);
             }
             else if (pkm.Format < 3)
@@ -1362,6 +1367,12 @@ namespace PKHeX.Core
                 return;
             }
 
+            if (pkm.Species == 292) // Shedinja
+            {
+                verifyBallEquals(4); // Pokeball
+                return;
+            }
+
             if (pkm.Ball == 0x14 && pkm.Gen7) // Heavy Ball
             {
                 var lineage = Legal.getLineage(pkm);
@@ -1543,28 +1554,34 @@ namespace PKHeX.Core
             int ball = pkm.Ball;
             if (ball == 0x05) // Safari Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Safari.Contains(e) || Legal.Inherit_SafariMale.Contains(e)))
-                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
-                else
+                if (!Lineage.Any(e => Legal.Inherit_Safari.Contains(e) || Legal.Inherit_SafariMale.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && Lineage.Any(e => Legal.Ban_SafariBallHidden_7.Contains(e)))
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
             if (0x10 < ball && ball < 0x18) // Apricorn Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e))) // past gen
-                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
-                else
+                if (!Lineage.Any(e => Legal.Inherit_Apricorn7.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && (Lineage.Contains(029) || Lineage.Contains(032))) // Nido
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }
             if (ball == 0x18) // Sport Ball
             {
-                if (Lineage.Any(e => Legal.Inherit_Sport.Contains(e)))
-                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
-                else
+                if (!Lineage.Any(e => Legal.Inherit_Sport.Contains(e)))
                     AddLine(Severity.Invalid, V121, CheckIdentifier.Ball);
+                else if (pkm.AbilityNumber == 4 && (Lineage.Contains(313) || Lineage.Contains(314))) // Volbeat/Illumise
+                    AddLine(Severity.Invalid, V122, CheckIdentifier.Ball);
+                else
+                    AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
 
                 return;
             }

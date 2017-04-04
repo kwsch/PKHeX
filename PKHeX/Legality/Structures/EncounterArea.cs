@@ -616,9 +616,17 @@ namespace PKHeX.Core
             else
                 ofs += 20;
 
+            if (data[194] == 120) //Location = 182, 127, 130, 132, 167, 188, 210
+                Slots.AddRange(SlotsHGSS_Staryu);
+
             Area4.Slots = Slots.ToArray();
             return Area4;
         }
+        private static readonly EncounterSlot[] SlotsHGSS_Staryu =
+        {
+           new EncounterSlot { Species = 120, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod },
+           new EncounterSlot { Species = 120, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod },
+        };
 
         private static EncounterArea getArea4HGSS_Headbutt(byte[] data)
         {

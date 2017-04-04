@@ -56,6 +56,7 @@ V1 = Nickname too long.
 V2 = Nickname is empty.
 V4 = Language ID > 8.
 V5 = Language ID > 10.
+V222 = Cannot be given this Nickname.
 V3 = Species index invalid for Nickname comparison.
 V20 = Nickname does not match species name.
 V13 = Egg name does not match language Egg name.

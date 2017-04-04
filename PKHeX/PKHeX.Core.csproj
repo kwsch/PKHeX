@@ -853,7 +853,6 @@
     <None Include="Resources\text\zh\text_Types_zh.txt" />
     <None Include="Resources\text\zh\text_xy_00000_zh.txt" />
     <None Include="Resources\text\zh\text_Moves_zh.txt" />
-    <None Include="Resources\text\zh\text_Species_zh.txt" />
     <None Include="Resources\text\zh\text_xy_30000_zh.txt" />
     <None Include="Resources\text\zh\text_hgss_02000_zh.txt" />
     <None Include="Resources\text\zh\text_bw2_30000_zh.txt" />
@@ -3346,9 +3345,6 @@
     <None Include="Resources\img\item\item_920.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text\zh\text_Species_zh2.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\img\Pokemon Sprites\25-1c.png" />
   </ItemGroup>
   <ItemGroup>
@@ -3427,10 +3423,10 @@
     <None Include="Resources\text\other\flags_sm.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text\zh\text_Species_zh_alt.txt" />
+    <None Include="Resources\text\zh\text_Species_zh.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text\zh\text_Species_zh2_alt.txt" />
+    <None Include="Resources\text\zh\text_Species_zh2.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\img\ball\_ball16.png" />
@@ -3522,6 +3518,8 @@
   <ItemGroup>
     <Content Include="Resources\img\misc\horohoro.png" />
     <Content Include="Resources\img\misc\vc.png" />
+    <None Include="Resources\text\zh\text_Char_zh2.txt" />
+    <None Include="Resources\text\zh\text_Char_zh.txt" />
     <None Include="Resources\text\en\LegalityCheckStrings_en.txt" />
     <None Include="Resources\text\zh\LegalityCheckStrings_zh.txt" />
   </ItemGroup>

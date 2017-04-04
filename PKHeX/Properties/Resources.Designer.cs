@@ -18143,6 +18143,11 @@ namespace PKHeX.Core.Properties {
         ///V191 = {0} Move {1}: {2}
         ///V192 = {0} Relearn Move {1}: {2}
         ///V195 = Encounter Type: {0}
+        ///V500 = Indeterminate
+        ///V501 = Invalid
+        ///V502 = Fishy
+        ///V503 = Valid
+        ///V504 = Not Implemented
         ///V205 = OT
         ///V206 = HT
         ///V167 = Empty Move.
@@ -18152,9 +18157,7 @@ namespace PKHeX.Core.Properties {
         ///V174 = Learned by Move Tutor.
         ///V175 = Special Non-Relearn Move.
         ///V177 = Learned by Level-up.
-        ///V203 = Genderless Pokémon should not have a gender.
-        ///V201 = Encryption Constant is not set.
-        ///V204 = H [rest of string was truncated]&quot;;.
+        ///V330 = Lear [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LegalityCheckStrings_en {
             get {
@@ -18166,11 +18169,16 @@ namespace PKHeX.Core.Properties {
         ///   Looks up a localized string similar to V = 有效。
         ///V193 = 合法。
         ///V190 = 内部错误。
-        ///V189 = 无法对该宝可梦分析。
+        ///V189 = 无法分析该宝可梦。
         ///V196 = {0}: {1}
-        ///V191 = {0} 招式 {1}: {2}
-        ///V192 = {0} 回忆招式 {1}: {2}
+        ///V191 = {0}招式 {1} : {2}
+        ///V192 = {0}回忆招式 {1}: {2}
         ///V195 = 相遇方式: {0}
+        ///V500 = 无法确定
+        ///V501 = 不合法
+        ///V502 = 可疑
+        ///V503 = 合法
+        ///V504 = 功能未实现
         ///V205 = 初训家
         ///V206 = 持有人
         ///V167 = 空招式。
@@ -18180,17 +18188,15 @@ namespace PKHeX.Core.Properties {
         ///V174 = 通过招式教学习得。
         ///V175 = 特殊不可回忆招式。
         ///V177 = 通过升级习得。
-        ///V203 = 无性别宝可梦不能有性别。
-        ///V201 = 未设置加密常数。
-        ///V204 = 持有物未解禁。
-        ///V187 = 该种宝可梦在原始版本中不存在。
-        ///V188 = 没有匹配的“命中注定遇见”的数据。 该神秘礼物有被共享吗?
-        ///V194 = 太阳月亮游戏内交换宝可梦的功能尚未开发。
-        ///V207 = 未设置PID。
-        ///V208 = 加密常数与PID一致。
-        ///V209 = 定点相遇闪光条件不匹配。
-        ///V210 = 刺尾虫进化形态与加密常数不一致。
-        ///V211 = 加密 [rest of string was truncated]&quot;;.
+        ///V330 = 在第{0}世代通过升级习得。
+        ///V332 = 在第{0}世代通过招式教学习得。
+        ///V333 = 配信蛋招式。
+        ///V344 = 遗传了蛋招式。
+        ///V345 = 遗传了升级招式。
+        ///V346 = 遗传了教学招式。
+        ///V349 = 遗传了TM/HM招式。
+        ///V355 = 通过土居忍士进化为铁面忍者习得。
+        ///V356 = 通过土居忍士在第{0}世 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LegalityCheckStrings_zh {
             get {
@@ -23846,6 +23852,24 @@ namespace PKHeX.Core.Properties {
         public static string text_bw2_60000_zh {
             get {
                 return ResourceManager.GetString("text_bw2_60000_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 蛋妙蛙种子草花小火龙恐喷杰尼龟卡咪水箭绿毛虫铁甲蛹巴大蝶独角壳针蜂波比鸟拉达烈雀嘴阿柏蛇怪皮丘雷穿山鼠王多兰娜后朗力诺可西六尾九胖丁超音蝠走路臭霸派斯特球摩鲁蛾地三喵猫老鸭哥猴暴蒂狗风速蚊香蝌蚪君泳士凯勇基胡腕豪喇叭芽口呆食玛瑙母毒刺拳石隆岩马焰兽磁合一葱嘟利海狮白泥舌贝鬼通耿催眠貘引梦人钳蟹巨霹雳电顽弹椰树嘎啦飞腿郎快头瓦双犀牛钻吉蔓藤袋墨金鱼星宝魔墙偶天螳螂迷唇姐击罗肯泰鲤普百变伊布边菊化盔镰刀翼急冻闪你哈克幻叶月桂竺葵锯鳄蓝立咕夜鹰芭瓢安圆丝蛛叉字灯笼古然咩羊茸美丽露才皇毽棉长手向日蜻蜓乌沼太阳亮黑暗鸦妖未知图腾果翁麒麟奇榛佛托土弟蝎钢千壶赫狃熊圈熔蜗猪珊瑚炮章桶信使翅戴加象顿Ⅱ惊鹿犬无畏战舞娃奶罐幸福公炎帝幼沙班洛亚凤时木守宫森林蜥蜴稚鸡壮跃狼纹直冲茧狩猎盾粉莲童帽乐河橡实鼻狡猾傲骨燕鸥莉奈朵溜糖雨蘑菇斗笠懒獭过动猿请假居忍面者脱妞吼爆幕下掌朝北优雅勾魂眼那恰姆落正拍负萤甜蔷薇溶吞牙鲨鲸驼煤炭跳噗晃斑颚蚁漠仙歌青绵七夕鼬斩饭匙鳅鲶虾兵螯秤念触摇篮羽丑纳飘浮泡隐怨影诅咒巡灵彷徨热带铃勃梭雪冰护豹珍珠樱空棘爱心哑属艾欧盖固坐祈代希苗台猛曼拿儿狸法师箱蟀勒伦琴含羞苞槌城结贵妇绅蜜女帕兹潜兔随卷耳魅东施铛响坦 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string text_Char_zh {
+            get {
+                return ResourceManager.GetString("text_Char_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 蛋妙蛙種子草花小火龍恐噴傑尼龜卡咪水箭綠毛蟲鐵甲蛹巴大蝶獨角殼針蜂波比鳥拉達烈雀嘴阿柏蛇怪皮丘雷穿山鼠王多蘭娜后朗力諾可西六尾九胖丁超音蝠走路臭霸派斯特球摩魯蛾地三喵貓老鴨哥猴爆蒂狗風速蚊香蝌蚪君泳士凱勇基胡腕豪喇叭芽口呆食瑪瑙母毒刺拳石隆岩馬焰獸磁合一蔥嘟利海獅白泥舌貝鬼通耿催眠貘引夢人鉗蟹巨霹靂電頑彈椰樹嘎啦飛腿郎快頭瓦雙犀牛鑽吉蔓藤袋墨金魚星寶魔牆偶天螳螂迷唇姐擊羅肯泰鯉暴普百變伊布邊菊化盔鐮刀翼急凍閃你哈克幻葉月桂竺葵鋸鱷藍立咕夜鷹芭瓢安圓絲蛛叉字燈籠古然咩羊茸美麗露才皇毽棉長手向日蜻蜓烏沼太陽亮黑暗鴉妖未知圖騰果翁麒麟奇榛佛托土弟蠍鋼千壺赫狃熊圈熔蝸豬珊瑚炮章桶信使翅戴加象頓Ⅱ驚鹿犬無畏戰舞娃奶罐幸福公炎帝幼沙班洛亞鳳時木守宮森林蜥蜴稚雞壯躍狼紋直衝繭狩獵盾粉蓮童帽樂河橡實鼻狡猾傲骨燕鷗莉奈朵溜糖雨蘑菇斗笠懶獺過動猿請假居忍面者脫妞吼幕下掌朝北優雅勾魂眼那恰姆落正拍負螢甜薔薇溶吞牙鯊鯨駝煤炭跳噗晃斑顎蟻漠仙歌青綿七夕鼬斬飯匙鰍鯰蝦兵螯秤念觸搖籃羽醜納飄浮泡隱怨影詛咒巡靈彷徨熱帶鈴勃梭雪冰護豹珍珠櫻空棘愛心啞屬艾歐蓋固坐祈代希苗台猛曼拿兒狸法師箱蟀勒倫琴含羞苞槌城結貴婦紳蜜女帕茲潛兔隨捲耳魅東施鐺響坦 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string text_Char_zh2 {
+            get {
+                return ResourceManager.GetString("text_Char_zh2", resourceCulture);
             }
         }
         
@@ -34396,119 +34420,6 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string text_species_zh {
-            get {
-                return ResourceManager.GetString("text_species_zh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 蛋
         ///妙蛙种子
         ///妙蛙草
@@ -34615,122 +34526,9 @@ namespace PKHeX.Core.Properties {
         ///椰蛋树
         ///卡拉卡拉 [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string text_species_zh_alt {
+        public static string text_species_zh {
             get {
-                return ResourceManager.GetString("text_species_zh_alt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string text_species_zh2 {
-            get {
-                return ResourceManager.GetString("text_species_zh2", resourceCulture);
+                return ResourceManager.GetString("text_species_zh", resourceCulture);
             }
         }
         
@@ -34841,9 +34639,9 @@ namespace PKHeX.Core.Properties {
         ///椰蛋樹
         ///卡拉卡拉 [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string text_species_zh2_alt {
+        public static string text_species_zh2 {
             get {
-                return ResourceManager.GetString("text_species_zh2_alt", resourceCulture);
+                return ResourceManager.GetString("text_species_zh2", resourceCulture);
             }
         }
         
