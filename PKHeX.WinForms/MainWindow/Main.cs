@@ -2733,19 +2733,6 @@ namespace PKHeX.WinForms
             { clickShowdownExportPKM(sender, e); return; }
 
             int lang = WinFormsUtil.getIndex(CB_Language);
-            if (sender == CB_Language || sender == CHK_Nicknamed)
-            {
-                switch (lang)
-                {
-                    case 9:
-                    case 10:
-                        TB_Nickname.Visible = CHK_Nicknamed.Checked;
-                        break;
-                    default:
-                        TB_Nickname.Visible = true;
-                        break;
-                }
-            }
 
             if (!fieldsInitialized || CHK_Nicknamed.Checked)
                 return;
