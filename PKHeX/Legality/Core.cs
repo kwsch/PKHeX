@@ -1108,8 +1108,11 @@ namespace PKHeX.Core
             var em = e != null ? vs.Reverse().First(evo => e.Any(slot => slot.Species == evo.Species)).Species : invalid;
             var tm = t?.Species ?? invalid;
 
-            if (s != null && (s?.Any(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0])) ?? false))
-                return new Tuple<object, int, byte>(s, s.Where(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0])).First().Level, 20); // special move 
+            // check for special move static encounter
+            var special = s?.FirstOrDefault(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0]));
+            if (special != null) // return with high priority
+                return new Tuple<object, int, byte>(s, special.Level, 20);
+
             if (game == GameVersion.GSC)
             {
                 if (t != null && t.TID != 0)
@@ -1120,7 +1123,7 @@ namespace PKHeX.Core
             if (em <= sm && em <= tm)
                 return new Tuple<object, int, byte>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin), 3);
             if (sm <= em && sm <= tm)
-                return new Tuple<object, int, byte>(s, s.Where(slot => slot.Species == em).Min(slot => slot.Level), 2);
+                return new Tuple<object, int, byte>(s, s.Where(slot => slot.Species == sm).Min(slot => slot.Level), 2);
             if (tm <= sm && tm <= em)
                 return new Tuple<object, int, byte>(t, t.Level, 1);
             return null;

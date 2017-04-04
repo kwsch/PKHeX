@@ -959,7 +959,7 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
             var s = EncounterMatch as List<EncounterStatic>;
-            var sgb = s?.Where(v => GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents).FirstOrDefault();
+            var sgb = s?.FirstOrDefault(v => GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents);
             if (sgb != null)
             {
                 bool exceptions = false;
