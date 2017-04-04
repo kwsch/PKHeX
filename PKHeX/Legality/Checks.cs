@@ -246,6 +246,11 @@ namespace PKHeX.Core
                         : V16, CheckIdentifier.Nickname);
                     return;
                 }
+                if (nickname.Any(c => 0x4E00 <= c && c <= 0x9FFF)) // East Asian Scripts
+                {
+                    AddLine(Severity.Invalid, V222, CheckIdentifier.Nickname);
+                    return;
+                }
                 AddLine(Severity.Valid, V17, CheckIdentifier.Nickname);
             }
             else if (pkm.Format < 3)
