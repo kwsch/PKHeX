@@ -209,7 +209,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species=397, Level = 14, Moves = new[]{017, 297, 366}, },	//Staravia
             new EncounterStatic { Species=227, Level = 10, Moves = new[]{064, 065, 355}, },	//Skarmory
             new EncounterStatic { Species=357, Level = 10, Moves = new[]{016, 073, 318}, },	//Tropius
-	        // Sprakling Sea
+	        // Sparkling Sea
             new EncounterStatic { Species=086, Level = 10, Moves = new[]{029, 333, 214}, },	//Seel
             new EncounterStatic { Species=090, Level = 10, Moves = new[]{110, 112, 196}, },	//Shellder
             new EncounterStatic { Species=116, Level = 10, Moves = new[]{145, 190, 362}, },	//Horsea
@@ -320,9 +320,8 @@ namespace PKHeX.Core
             //PGL
             new EncounterStatic { Species=212, Level = 10, Moves = new[]{211}, Gender = 0, }, //Scizor
             new EncounterStatic { Species=445, Level = 48, Gender = 0, },                     //Garchomp
-            new EncounterStatic { Species=149, Level = 55, Moves = new[]{009}, Gender = 0, }, //Dragonite
-            new EncounterStatic { Species=248, Level = 55, Moves = new[]{069}, Gender = 0, }, //Tyranitar
             new EncounterStatic { Species=149, Level = 55, Moves = new[]{245}, Gender = 0, }, //Dragonite
+            new EncounterStatic { Species=248, Level = 55, Moves = new[]{069}, Gender = 0, }, //Tyranitar
             new EncounterStatic { Species=376, Level = 45, Moves = new[]{038}, Gender = 2, }, //Metagross
         };
 
@@ -345,7 +344,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species=333, Level = 10, Moves = new[]{064, 297, 355}, },	//Swablu      
             new EncounterStatic { Species=425, Level = 10, Moves = new[]{107, 095, 285}, },	//Drifloon    
             new EncounterStatic { Species=441, Level = 10, Moves = new[]{119, 417, 272}, },	//Chatot      
-            // Sprakling Sea
+            // Sparkling Sea
             new EncounterStatic { Species=079, Level = 10, Moves = new[]{281, 335, 362}, },	//Slowpoke    
             new EncounterStatic { Species=098, Level = 10, Moves = new[]{011, 133, 290}, },	//Krabby      
             new EncounterStatic { Species=119, Level = 33, Moves = new[]{352, 214, 203}, },	//Seaking     
@@ -434,7 +433,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species=561, Level = 10, Moves = new[]{095, 500, 257}, },	//Sigilyph    
             new EncounterStatic { Species=580, Level = 10, Moves = new[]{432, 362, 382}, },	//Ducklett    
             new EncounterStatic { Species=587, Level = 10, Moves = new[]{098, 403, 204}, },	//Emolga      
-            // Sprakling Sea
+            // Sparkling Sea
             new EncounterStatic { Species=550, Level = 10, Moves = new[]{029, 097, 428}, Form = 0 },//Basculin
             new EncounterStatic { Species=550, Level = 10, Moves = new[]{029, 097, 428}, Form = 1 },
             new EncounterStatic { Species=594, Level = 10, Moves = new[]{392, 243, 220}, },	//Alomomola   
