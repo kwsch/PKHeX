@@ -16,6 +16,7 @@ namespace PKHeX.Core
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginal ?? EncounterMatch);
         private List<MysteryGift> EventGiftMatch;
+        private List<EncounterStatic> EncounterStaticMatch;
         private CheckResult Encounter, History;
         private int[] RelearnBase;
         // private bool SecondaryChecked;

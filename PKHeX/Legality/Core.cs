@@ -866,7 +866,7 @@ namespace PKHeX.Core
             List<EncounterSlot> s = new List<EncounterSlot>();
 
             foreach (var area in getEncounterAreas(pkm, gameSource))
-                s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO));
+                s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO, gameSource: gameSource));
 
             if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || pkm.HasOriginalMetLocation)
                 return s.Any() ? s.ToArray() : null;
@@ -894,11 +894,12 @@ namespace PKHeX.Core
 
             return s.Any() ? s.ToArray() : null;
         }
-        internal static EncounterStatic getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        internal static List<EncounterStatic> getValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
+            var enc = new List<EncounterStatic>();
             // Get possible encounters
             IEnumerable<EncounterStatic> poss = getStaticEncounters(pkm, gameSource: gameSource);
 
@@ -945,9 +946,9 @@ namespace PKHeX.Core
                 if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
 
-                return e;
+                enc.Add(e);
             }
-            return null;
+            return enc.Any() ? enc : null;
         }
         internal static EncounterTrade getValidIngameTrade(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -1092,6 +1093,9 @@ namespace PKHeX.Core
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
+            var maxspeciesorigin = game == GameVersion.GSC ? MaxSpeciesID_2 : MaxSpeciesID_1;
+            DexLevel[] vs = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin).ToArray();
+
             var s = getValidStaticEncounter(pkm, game);
             var e = getValidWildEncounters(pkm, game);
             var t = getValidIngameTrade(pkm, game);
@@ -1100,12 +1104,12 @@ namespace PKHeX.Core
                 return null;
 
             const byte invalid = 255;
-            var sm = s?.Species ?? invalid;
-            var em = e?.Min(slot => slot.Species) ?? invalid;
+            var sm = s != null ? vs.Reverse().First(evo => s.Any(slot => slot.Species == evo.Species)).Species : invalid;
+            var em = e != null ? vs.Reverse().First(evo => e.Any(slot => slot.Species == evo.Species)).Species : invalid;
             var tm = t?.Species ?? invalid;
 
-            if (s != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
-                return new Tuple<object, int, byte>(s, s.Level, 20); // special move 
+            if (s != null && (s?.Any(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0])) ?? false))
+                return new Tuple<object, int, byte>(s, s.Where(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0])).First().Level, 20); // special move 
             if (game == GameVersion.GSC)
             {
                 if (t != null && t.TID != 0)
@@ -1116,7 +1120,7 @@ namespace PKHeX.Core
             if (em <= sm && em <= tm)
                 return new Tuple<object, int, byte>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin), 3);
             if (sm <= em && sm <= tm)
-                return new Tuple<object, int, byte>(s, s.Level, 2);
+                return new Tuple<object, int, byte>(s, s.Where(slot => slot.Species == em).Min(slot => slot.Level), 2);
             if (tm <= sm && tm <= em)
                 return new Tuple<object, int, byte>(t, t.Level, 1);
             return null;
@@ -2095,12 +2099,12 @@ namespace PKHeX.Core
                 case GameVersion.RBY:
                 case GameVersion.RD: case GameVersion.BU:
                 case GameVersion.GN: case GameVersion.YW:
-                    return getStatic(pkm, StaticRBY, lvl);
+                    return getStatic(pkm, StaticRBY, maxspeciesorigin:MaxSpeciesID_1, lvl: lvl);
 
                 case GameVersion.GSC:
                 case GameVersion.GD: case GameVersion.SV:
                 case GameVersion.C:
-                    return getStatic(pkm, getStaticTableGen2(pkm), lvl);
+                    return getStatic(pkm, getStaticTableGen2(pkm), maxspeciesorigin: MaxSpeciesID_2, lvl: lvl);
 
                 case GameVersion.R:
                     return getStatic(pkm, StaticR, lvl);
@@ -2159,7 +2163,7 @@ namespace PKHeX.Core
             bool noMet = !pkm.HasOriginalMetLocation;
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
         }
-        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false)
+        private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false, GameVersion gameSource = GameVersion.Any)
         {
             int fluteBoost = pkm.Format < 3 ? 0 : 4;
             const int dexnavBoost = 30;
@@ -2168,8 +2172,12 @@ namespace PKHeX.Core
             int dn = DexNav ? fluteBoost + dexnavBoost : 0;
             List<EncounterSlot> slotdata = new List<EncounterSlot>();
 
+            var maxspeciesorigin = -1;
+            if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
+            if (gameSource == GameVersion.GSC) maxspeciesorigin = MaxSpeciesID_2;
+
             // Get Valid levels
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, ignoreLevel ? 100 : -1, ignoreLevel);
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks:ignoreLevel);
 
             // Get slots where pokemon can exist
             bool ignoreSlotLevel = ignoreLevel;
@@ -2289,7 +2297,7 @@ namespace PKHeX.Core
             }
             return slotLocations;
         }
-        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl = -1, bool skipChecks = false)
+        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin =-1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
@@ -2306,11 +2314,11 @@ namespace PKHeX.Core
                 };
 
             var et = getEvolutionTable(pkm);
-            return et.getValidPreEvolutions(pkm, lvl, skipChecks: skipChecks);
+            return et.getValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
-        private static IEnumerable<EncounterStatic> getStatic(PKM pkm, IEnumerable<EncounterStatic> table, int lvl = -1)
+        private static IEnumerable<EncounterStatic> getStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin =-1, int lvl = -1)
         {
-            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, lvl);
+            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: lvl);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
         private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<DexLevel[]> vs, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)

@@ -165,10 +165,11 @@ namespace PKHeX.Core
 
             return Personal.getFormeIndex(evolvesToSpecies, evolvesToForm);
         }
-        public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, bool skipChecks = false)
+        public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, int maxSpeciesOrigin =-1 ,bool skipChecks = false)
         {
             int index = getIndex(pkm);
-            int maxSpeciesOrigin = Legal.getMaxSpeciesOrigin(pkm);
+            if(maxSpeciesOrigin <= 0)
+                maxSpeciesOrigin = Legal.getMaxSpeciesOrigin(pkm);
             return Lineage[index].getExplicitLineage(pkm, lvl, skipChecks, MaxSpeciesTree, maxSpeciesOrigin);
         }
     }
