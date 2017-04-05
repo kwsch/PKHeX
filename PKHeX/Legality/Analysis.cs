@@ -13,6 +13,7 @@ namespace PKHeX.Core
 
         private object EncounterMatch, EncounterOriginal;
         private Type EncounterType;
+        private bool MatchIsMysteryGift => EncounterMatch.GetType().IsSubclassOf(typeof(MysteryGift));
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginal ?? EncounterMatch);
         private List<MysteryGift> EventGiftMatch;

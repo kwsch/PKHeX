@@ -988,7 +988,7 @@ namespace PKHeX.Core
                 return false;
             if (pkm.HasOriginalMetLocation)
             {
-                z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefalutMetLocation[pkm.GenNumber - 3];
+                z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[pkm.GenNumber - 3];
                 if (z.Location != pkm.Met_Location)
                     return false;
                 if (pkm.Format < 5)
@@ -1252,6 +1252,8 @@ namespace PKHeX.Core
                 int loc = pkm.IsEgg ? pkm.Met_Location : pkm.Egg_Location;
                 bool valid = loc == 2002; // Link Trade Egg
                 valid |= loc == 3001 && !pkm.IsShiny; // Ranger & notShiny
+                if (pkm.IsEgg && !pkm.IsNative) // transferred
+                    valid = false;
                 if (valid)
                     validPCD.Add(new PGT { Data = { [0] = 7, [8] = 1 } });
                 return validPCD;
@@ -1277,6 +1279,8 @@ namespace PKHeX.Core
                     if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != 2002) // traded
                         continue;
                     if (wc.CurrentLevel != pkm.Met_Level) continue;
+                    if (!pkm.IsNative)
+                        continue;
                 }
                 else
                 {
@@ -1339,6 +1343,8 @@ namespace PKHeX.Core
                 {
                     if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
                         continue;
+                    if (!pkm.IsNative)
+                        continue;
                 }
                 else
                 {
@@ -1393,6 +1399,8 @@ namespace PKHeX.Core
                 if (wc.IsEgg)
                 {
                     if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
+                        continue;
+                    if (!pkm.IsNative)
                         continue;
                 }
                 else
@@ -1451,6 +1459,8 @@ namespace PKHeX.Core
                 if (wc.IsEgg)
                 {
                     if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
+                        continue;
+                    if (!pkm.IsNative)
                         continue;
                 }
                 else

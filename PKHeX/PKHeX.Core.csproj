@@ -164,6 +164,7 @@
     <Compile Include="Legality\Structures\EncounterStatic.cs" />
     <Compile Include="Legality\Structures\EncounterTrade.cs" />
     <Compile Include="Legality\Structures\EvolutionTree.cs" />
+    <Compile Include="Legality\Structures\IMoveset.cs" />
     <Compile Include="Legality\Structures\Learnset.cs" />
     <Compile Include="Legality\Structures\Nature.cs" />
     <Compile Include="Legality\Structures\SlotType.cs" />
