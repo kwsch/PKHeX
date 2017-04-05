@@ -1051,7 +1051,6 @@ namespace PKHeX.Core
             var s = str.Replace("\u2019", "\u0027"); // farfetch'd
             s = s.Replace("\uE08F", "\u2640"); // ♀
             s = s.Replace("\uE08E", "\u2642"); // ♂
-            s = bin2strG7_zh(s);
             return s;
         }
 
@@ -1065,7 +1064,6 @@ namespace PKHeX.Core
         public static string UnSanitizeString(string str, int species = -1, bool nicknamed = true)
         {
             var s = str.Replace("\u0027", "\u2019"); // farfetch'd
-            s = str2binG7_zh(s);
 
             bool foreign = true;
             if ((species == 029 || species == 032) && !nicknamed)
@@ -1194,17 +1192,19 @@ namespace PKHeX.Core
         /// Converts a Unicode string to Generation 7 in-game chinese string.
         /// </summary>
         /// <param name="inputstr">Unicode string.</param>
+        /// <param name="cht">Pkm language is Traditional Chinese.</param>
         /// <returns>In-game chinese string.</returns>
-        public static string str2binG7_zh(string inputstr)
+        public static string str2binG7_zh(string inputstr, bool cht = false)
         {
             int index; string resultstr = "";
+            bool IsCHT = inputstr.Any(chr => Gen7_CHT.Contains(chr) && !Gen7_CHS.Contains(chr));
+            IsCHT |= cht && !inputstr.Any(chr => Gen7_CHT.Contains(chr) ^ Gen7_CHS.Contains(chr)); // CHS and CHT have the same display name
+            var table = IsCHT ? Gen7_CHT : Gen7_CHS;
+            ushort ofs = IsCHT ? Gen7_CHT_Ofs : Gen7_CHS_Ofs;
             foreach (char chr in inputstr)
             {
-                index = Array.IndexOf(Gen7_CHS, chr);
-                if (index > -1)
-                { resultstr += (char)(index + Gen7_CHS_Ofs); continue; }
-                index = Array.IndexOf(Gen7_CHT, chr);
-                resultstr += index > -1 ? (char)(index + Gen7_CHT_Ofs) : chr;
+                index = Array.IndexOf(table, chr);
+                resultstr += index > -1 ? (char)(ofs + index) : chr;
             }
             return resultstr;
         }
