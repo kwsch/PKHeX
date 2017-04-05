@@ -179,6 +179,8 @@ namespace PKHeX.Core
                 metHGSS_02000[1] += " (NPC)";         // Anything from an NPC
                 metHGSS_02000[2] += " (" + eggname + ")"; // Egg From Link Trade
                 metBW2_00000[36] = metBW2_00000[84] + "/" + metBW2_00000[36]; // Cold Storage in BW = PWT in BW2
+                metBW2_00000[40] += "(B/W)"; // Victory Road in BW 
+                metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
 
                 // BW2 Entries from 76 to 105 are for Entralink in BW
                 for (int i = 76; i < 106; i++)
