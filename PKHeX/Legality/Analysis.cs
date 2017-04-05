@@ -306,6 +306,7 @@ namespace PKHeX.Core
 
             List<int> window = new List<int>(RelearnBase);
             window.AddRange(pkm.Moves.Where((v, i) => !vMoves[i].Valid || vMoves[i].Flag));
+            window = window.Distinct().ToList();
             if (window.Count < 4)
                 window.AddRange(new int[4 - window.Count]);
             return window.Skip(window.Count - 4).ToArray();

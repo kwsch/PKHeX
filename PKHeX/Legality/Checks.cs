@@ -282,7 +282,7 @@ namespace PKHeX.Core
         {
             if (!pkm.IsNicknamed && (pkm.Format != 7))
                 AddLine(Severity.Invalid, V12, CheckIdentifier.Egg);
-            else if (PKX.SpeciesLang[pkm.Language][0] != pkm.Nickname)
+            else if (PKX.getSpeciesNameGeneration(0, pkm.Language, pkm.GenNumber) != pkm.Nickname)
                 AddLine(Severity.Invalid, V13, CheckIdentifier.Egg);
             else
                 AddLine(Severity.Valid, V14, CheckIdentifier.Egg);
@@ -2511,11 +2511,11 @@ namespace PKHeX.Core
             int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
             foreach (var ver in Games)
             {
-                var EventEggMoves = pkm.WasEgg && !pkm.WasGiftEgg? Legal.getSpecialEggMoves(pkm, ver).ToArray() : new int[0];
+                var EventEggMoves = !pkm.WasGiftEgg? Legal.getSpecialEggMoves(pkm, ver).ToArray() : new int[0];
                 for (int i = 0; i <= splitctr; i++)
                 {
                     var baseEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
-                    var EggMoves = pkm.WasEgg && !pkm.WasGiftEgg ? Legal.getEggMoves(pkm, i, ver).ToArray() : new int[0];
+                    var EggMoves = pkm.WasGiftEgg ? (EncounterMatch as EncounterStatic)?.Moves ?? new int[0] : Legal.getEggMoves(pkm, i, ver).ToArray();
 
                     res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, new int[0], baseEggMoves, EggMoves, EventEggMoves);
 
