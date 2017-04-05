@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public abstract class MysteryGift : IEncounterable
+    public abstract class MysteryGift : IEncounterable, IMoveset
     {
 
         /// <summary>
