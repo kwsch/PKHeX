@@ -490,10 +490,9 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 140, }, // Shieldon
             //Gift
             new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 131, }, // Eevee @ Goldenrod City
-            new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 222, Moves = new[] {245, 086, 239, 082}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
-            new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 222, Moves = new[] {043, 086, 239, 082}, }, // Dratini @ Dragon's Den (Non-ExtremeSpeed)
+            new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 222, Moves = new[] {245}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
             new EncounterStatic { Gift = true, Species = 236, Level = 10, Location = 216, }, // Tyrogue @ Mt. Mortar
-            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {045, 204, 326},}, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
+            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326},}, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
             new EncounterStatic { Gift = true, Species = 179, Level = 01, EggLocation = 2014,}, // Mareep Egg from Primo
             new EncounterStatic { Gift = true, Species = 194, Level = 01, EggLocation = 2014,}, // Wooper Egg from Primo
             new EncounterStatic { Gift = true, Species = 218, Level = 01, EggLocation = 2014,}, // Slugma Egg from Primo
