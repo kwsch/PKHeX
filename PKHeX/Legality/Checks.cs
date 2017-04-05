@@ -2531,7 +2531,7 @@ namespace PKHeX.Core
                     return parseMovesIsEggPreRelearnEvent(Moves);
 
                 int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
-                                     (EncounterMatch as EncounterStatic)?.Moves ??
+                                     (EncounterMatch as List<EncounterStatic>)?.First().Moves ??
                                      (EncounterMatch as EncounterTrade)?.Moves;
                 var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && !pkm.WasEventEgg;
                 return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
@@ -2587,7 +2587,7 @@ namespace PKHeX.Core
         private CheckResult[] parseMovesPreRelearnEncounter(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, GameVersion game)
         {
             int[] SpecialMoves = (EncounterMatch as MysteryGift)?.Moves ??
-                                 (EncounterMatch as EncounterStatic)?.Moves ??
+                                 (EncounterMatch as List<EncounterStatic>)?.First().Moves ??
                                  (EncounterMatch as EncounterTrade)?.Moves ??
                                  new int[0];
 

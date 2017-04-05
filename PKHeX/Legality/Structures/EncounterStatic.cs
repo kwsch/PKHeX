@@ -10,7 +10,7 @@
         public int Form;
         public bool? Shiny; // false = never, true = always, null = possible
         public int[] Relearn = new int[4];
-        public int[] Moves = new int[0];
+        public int[] Moves = new int[4];
         public int Gender = -1;
         public int EggLocation;
         public Nature Nature = Nature.Random;
