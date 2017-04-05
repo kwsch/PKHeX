@@ -321,9 +321,9 @@
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_FlagIllegal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyUnset = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ModifyUnset = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
@@ -449,6 +449,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.B_OpenFriendSafari = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -1597,8 +1598,11 @@
             // 
             this.NUD_Purification.Location = new System.Drawing.Point(110, 1);
             this.NUD_Purification.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.NUD_Purification.Maximum = new decimal(int.MaxValue);
-            this.NUD_Purification.Minimum = new decimal(0);
+            this.NUD_Purification.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
             this.NUD_Purification.Name = "NUD_Purification";
             this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
             this.NUD_Purification.TabIndex = 103;
@@ -3992,7 +3996,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Language.Image")));
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -4013,7 +4017,7 @@
             this.Menu_Redo});
             this.Menu_Modify.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Modify.Image")));
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -4044,6 +4048,14 @@
             this.Menu_FlagIllegal.Text = "Flag Legality";
             this.Menu_FlagIllegal.Click += new System.EventHandler(this.mainMenuFlagIllegal);
             // 
+            // Menu_ModifyUnset
+            // 
+            this.Menu_ModifyUnset.CheckOnClick = true;
+            this.Menu_ModifyUnset.Name = "Menu_ModifyUnset";
+            this.Menu_ModifyUnset.Size = new System.Drawing.Size(189, 22);
+            this.Menu_ModifyUnset.Text = "Notify Unset Changes";
+            this.Menu_ModifyUnset.Click += new System.EventHandler(this.mainMenuModifyUnset);
+            // 
             // Menu_Undo
             // 
             this.Menu_Undo.Enabled = false;
@@ -4064,21 +4076,13 @@
             this.Menu_Redo.Text = "Redo Last Change";
             this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
             // 
-            // Menu_ModifyUnset
-            // 
-            this.Menu_ModifyUnset.CheckOnClick = true;
-            this.Menu_ModifyUnset.Name = "Menu_ModifyUnset";
-            this.Menu_ModifyUnset.Size = new System.Drawing.Size(189, 22);
-            this.Menu_ModifyUnset.Text = "Notify Unset Changes";
-            this.Menu_ModifyUnset.Click += new System.EventHandler(this.mainMenuModifyUnset);
-            // 
             // Menu_Unicode
             // 
             this.Menu_Unicode.Checked = true;
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -4088,7 +4092,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -5516,6 +5520,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
             this.FLP_SAVtools.Controls.Add(this.B_OpenZygardeCells);
             this.FLP_SAVtools.Controls.Add(this.B_OpenMiscEditor);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -5781,6 +5786,16 @@
             this.L_UpdateAvailable.Text = "New Update Available!";
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
+            // 
+            // B_OpenFriendSafari
+            // 
+            this.B_OpenFriendSafari.Location = new System.Drawing.Point(96, 177);
+            this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
+            this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenFriendSafari.TabIndex = 28;
+            this.B_OpenFriendSafari.Text = "Friend Safari";
+            this.B_OpenFriendSafari.UseVisualStyleBackColor = true;
+            this.B_OpenFriendSafari.Click += new System.EventHandler(this.B_OpenFriendSafari_Click);
             // 
             // Main
             // 
@@ -6437,6 +6452,7 @@
         internal System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
         private System.Windows.Forms.Button B_OpenMiscEditor;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
+        private System.Windows.Forms.Button B_OpenFriendSafari;
     }
 }
 

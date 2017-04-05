@@ -1141,6 +1141,7 @@ namespace PKHeX.WinForms
                 B_OpenOPowers.Enabled = SAV.HasOPower;
                 B_OpenPokedex.Enabled = SAV.HasPokeDex;
                 B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
+                B_OpenFriendSafari.Enabled = SAV.XY;
                 B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
                 B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Enabled = SAV.HasEvents;
@@ -4125,6 +4126,19 @@ namespace PKHeX.WinForms
             }
             else if (SAV.XY)
                 new SAV_OPower().ShowDialog();
+        }
+        private void B_OpenFriendSafari_Click(object sender, EventArgs e)
+        {
+            if (!SAV.XY)
+                return;
+
+            DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "No editing support for Friend Safari :(", "Unlock all 3 slots for each friend?");
+            if (dr != DialogResult.Yes) return;
+
+            // Unlock + reveal all safari slots if friend data is present
+            for (int i = 1; i < 101; i++)
+                if (SAV.Data[0x1E7FF + 0x15*i] != 0x00) // no friend data == 0x00
+                    SAV.Data[0x1E7FF + 0x15*i] = 0x3D;
         }
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
