@@ -2329,8 +2329,8 @@ namespace PKHeX.Core
         }
         private CheckResult[] parseMovesForEncounters(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
         {
-            if (pkm.Species == 235) // special handling for smeargle
-                return parseMovesForSmeargle(Moves, validLevelMoves); // smeargle can have any moves except a few
+            if (pkm.Species == 235) // special handling for Smeargle
+                return parseMovesForSmeargle(Moves, validLevelMoves); // Smeargle can have any moves except a few
 
             // Gather Encounters
             var encounters = new List<object>();
@@ -2338,20 +2338,16 @@ namespace PKHeX.Core
                 encounters.AddRange(EventGiftMatch);
             if (null != EncounterStaticMatch)
                 encounters.AddRange(EncounterStaticMatch);
-            if (null != EncounterMatch)
-                encounters.Add(EncounterMatch);
-
-            if (!encounters.Any())
-                return parseMoves(pkm.Moves, validLevelMoves, pkm.RelearnMoves, validTMHM, validTutor, new int[0], new int[0], new int[0], new int[0]);
+            encounters.Add(EncounterMatch); // can be null
+            
             // Iterate over encounters
-            CheckResult[] res = new CheckResult[4];
-
             bool pre3DS = pkm.GenNumber < 6;
+            CheckResult[] res = new CheckResult[4];
             foreach (var enc in encounters)
             {
                 EncounterMatch = enc;
                 res = pre3DS
-                    ? parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves) 
+                    ? parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves)
                     : parseMoves3DS(game, validLevelMoves, validTMHM, validTutor, Moves);
 
                 if (res.All(x => x.Valid))
