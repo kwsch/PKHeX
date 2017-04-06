@@ -833,10 +833,19 @@ namespace PKHeX.Core
         {
             return getEggMoves(pkm, getBaseSpecies(pkm, skipOption), 0, Version);
         }
-
-        internal static IEnumerable<int> getSpecialEggMoves(PKM pkm, GameVersion Version)
+        internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
-            return getSpecialEggMoves(pkm, getBaseSpecies(pkm), 0, Version);
+            foreach (EncounterStatic e in Encounter_Box)
+            {
+                if (e.Species != pkm.Species)
+                    continue;
+                if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
+                    continue;
+                if (e.Gender != -1 && e.Gender != pkm.Gender)
+                    continue;
+
+                yield return e;
+            }
         }
 
         // Encounter
@@ -2638,22 +2647,6 @@ namespace PKHeX.Core
                     return r;
             }
             return r;
-        }
-        private static IEnumerable<int> getSpecialEggMoves(PKM pkm, int species, int alform, GameVersion Version = GameVersion.Any)
-        {
-            if (!pkm.InhabitedGeneration(pkm.GenNumber, species))
-                return new List<int>();
-            switch (pkm.GenNumber)
-            {
-                case 3:
-                    {
-                        var boxencounter = Encounter_Box.FirstOrDefault(e => e.Species == species);
-                        if (boxencounter != null)
-                            return boxencounter.Moves;
-                        break;
-                    }
-            }
-            return new List<int>();
         }
         private static IEnumerable<int> getEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
         {

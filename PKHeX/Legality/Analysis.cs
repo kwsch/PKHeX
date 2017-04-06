@@ -112,7 +112,6 @@ namespace PKHeX.Core
             verifyNickname();
             verifyDVs();
             verifyG1OT();
-            AddLine(verifyEggMoves());
         }
         private void parsePK3(PKM pk)
         {
@@ -124,7 +123,6 @@ namespace PKHeX.Core
             updateMoveLegality();
             updateEncounterInfo();
             updateChecks();
-            AddLine(verifyEggMoves());
         }
         private void parsePK4(PKM pk)
         {
@@ -137,7 +135,6 @@ namespace PKHeX.Core
             updateMoveLegality();
             updateEncounterInfo();
             updateChecks();
-            AddLine(verifyEggMoves());
         }
         private void parsePK5(PKM pk)
         {
@@ -150,7 +147,6 @@ namespace PKHeX.Core
             updateMoveLegality();
             updateEncounterInfo();
             updateChecks();
-            AddLine(verifyEggMoves());
         }
         private void parsePK6(PKM pk)
         {
@@ -234,8 +230,6 @@ namespace PKHeX.Core
                 verifyRegion();
                 verifyVersionEvolution();
             }
-            if (pkm.GenNumber <= 5)
-                verifyEggMoves();
 
             // SecondaryChecked = true;
         }
