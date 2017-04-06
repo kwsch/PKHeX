@@ -2503,7 +2503,7 @@ namespace PKHeX.Core
                 for (int i = 0; i <= splitctr; i++)
                 {
                     var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
-                    var EggMoves = !pkm.WasEventEgg && !pkm.WasGiftEgg ? Legal.getEggMoves(pkm, i, ver).ToArray() : new int[0];
+                    var EggMoves = Legal.getEggMoves(pkm, i, ver).ToArray();
 
                     res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, new int[0], LvlupEggMoves, EggMoves, EventEggMoves);
 
