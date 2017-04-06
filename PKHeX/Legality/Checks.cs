@@ -2478,6 +2478,14 @@ namespace PKHeX.Core
         {
             CheckResult[] res = new CheckResult[4];
 
+            // Gen 1-3 could have an egg origin and a non-egg origin, check first non-egg origin
+            if (pkm.GenNumber <= 3 && !pkm.HasOriginalMetLocation && EncounterMatch != null)
+            {
+                res = parseMovesSpecialMoveset(Moves, validLevelMoves, validTMHM, validTutor);
+                if (res.All(r => r.Valid)) // moves are satisfactory
+                     return res;
+            }
+
             // Some games can have different egg movepools. Have to check all situations.
             GameVersion[] Games = { };
             switch (pkm.GenNumber)
@@ -2557,11 +2565,6 @@ namespace PKHeX.Core
             if (pkm.GenNumber >= 6 && MatchIsMysteryGift)
                 RelearnBase = (EncounterMatch as MysteryGift).RelearnMoves;
             return res;
-        }
-        private CheckResult[] parseMovesPreRelearnEncounter(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
-        {
-            int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
-            return parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, new int[0], new int[0], new int[0]);
         }
         private CheckResult[] parseMovesRelearnSplitBreed(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, GameVersion game)
         {
