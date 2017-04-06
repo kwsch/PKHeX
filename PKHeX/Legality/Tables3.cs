@@ -218,7 +218,7 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterStatic[] EventEgg_G3 = Encounter_Box.Concat(new[]
         {
-            //PokePark Eggs
+            // PokePark Eggs
             new EncounterStatic { Species = 054, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Psyduck with Mud Sport
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{266} }, // Pichu with Follow me
             new EncounterStatic { Species = 174, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{321} }, // Igglybuff with Tickle
@@ -234,6 +234,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 331, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{227} }, // Cacnea with Encore
             new EncounterStatic { Species = 341, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{346} }, // Corphish with Water Sport
             new EncounterStatic { Species = 360, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{321} }, // Wynaut with Tickle
+            // Egg Pokémon Present Eggs
+            new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
+            new EncounterStatic { Species = 052, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
+            new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
         }).ToArray();
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =

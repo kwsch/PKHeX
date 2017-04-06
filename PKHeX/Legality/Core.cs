@@ -839,6 +839,8 @@ namespace PKHeX.Core
             {
                 if (e.Species != pkm.Species)
                     continue;
+                if (pkm.Moves.All(m => !e.Moves.Contains(m)))  // No special move
+                    continue;
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
