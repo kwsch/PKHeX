@@ -1149,6 +1149,8 @@ namespace PKHeX.WinForms
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
                 B_OpenMiscEditor.Enabled = SAV is SAV3;
+
+                B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -4161,6 +4163,15 @@ namespace PKHeX.WinForms
             {
                 case 3:
                     new SAV_Misc3().ShowDialog(); break;
+            }
+        }
+        private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Version)
+            {
+                case GameVersion.DP:
+                case GameVersion.Pt:
+                    new SAV_HoneyTree().ShowDialog(); break;
             }
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
