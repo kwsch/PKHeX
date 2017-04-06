@@ -881,7 +881,7 @@ namespace PKHeX.Core
             if (pkm.Format != 4 && pkm.Met_Location != 30001)
                 AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
 
-            return G3Result ?? new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+            return G3Result ?? EggResult ?? new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterG4Transfer()
         {
@@ -931,14 +931,14 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 251: // Celebi
-                    if (pkm.Met_Location == 30010 || pkm.Met_Location == 30011) // unused || used
+                    if (loc == 30010 || loc == 30011) // unused || used
                         return Gen4Result;
                     return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
                     
                 case 243: // Raikou
                 case 244: // Entei
                 case 245: // Suicune
-                    if (pkm.Met_Location == 30012 || pkm.Met_Location == 30013) // unused || used
+                    if (loc == 30012 || loc == 30013) // unused || used
                         return Gen4Result;
                     return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
             }
