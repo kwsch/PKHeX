@@ -835,7 +835,7 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
-            foreach (EncounterStatic e in Encounter_Box)
+            foreach (EncounterStatic e in EventEgg_G3)
             {
                 if (e.Species != pkm.Species)
                     continue;
