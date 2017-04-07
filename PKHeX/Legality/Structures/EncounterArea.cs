@@ -313,7 +313,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot[] getSlots4_DPPt_G(byte[] data, ref int ofs, int numslots, SlotType t)
+        private static EncounterSlot[] getSlots4_DPPt_G(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new EncounterSlot[numslots];
             
@@ -330,11 +330,9 @@ namespace PKHeX.Core
                     Type = t
                 };
             }
-            
-            ofs += numslots * 8;
             return slots;
         }
-        private static EncounterSlot[] getSlots4_HGSS_G(byte[] data, ref int ofs, int numslots, SlotType t)
+        private static EncounterSlot[] getSlots4_HGSS_G(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new EncounterSlot[numslots * 3];
             // First 36 slots are morning, day and night grass slots
@@ -351,24 +349,17 @@ namespace PKHeX.Core
                     SlotNumber = i,
                     Type = t
                 };
-            }
-            for (int i = 0; i < numslots; i++)
-            {
                 slots[numslots + i] = slots[i].Clone();
                 slots[numslots + i].Species = BitConverter.ToUInt16(data, ofs + numslots * 3 + i * 2);
                 slots[numslots + i].Type = t;
-            }
-            for (int i = 0; i < numslots; i++)
-            {
                 slots[numslots * 2 + i] = slots[i].Clone();
                 slots[numslots * 2 + i].Species = BitConverter.ToUInt16(data, ofs + numslots * 5 + i * 2);
                 slots[numslots * 2 + i].Type = t;
             }
 
-            ofs += numslots * 7;
             return slots;
         }
-        private static IEnumerable<EncounterSlot> getSlots4_G_Replace(byte[] data, ref int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
+        private static IEnumerable<EncounterSlot> getSlots4_G_Replace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
             //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
             //for dppt slotSize = 4, for hgss slotSize = 2
@@ -382,7 +373,7 @@ namespace PKHeX.Core
                     continue;
 
                 int species = BitConverter.ToUInt16(data, ofs + i / (4 / slotSize) * slotSize);
-                if (species <= 0)
+                if (species <= 0 || baseSlot.Species == species) // Empty or duplicate
                     continue;
 
                 var slot = baseSlot.Clone();
@@ -390,38 +381,9 @@ namespace PKHeX.Core
                 slot.Type = t;
                 slots.Add(slot);
             }
-
-            ofs += numslots * slotSize * slotSize / 4;
             return slots;
         }
-        
-        private static IEnumerable<EncounterSlot> getSlots4_G_TimeReplace(byte[] data, ref int ofs, EncounterSlot[] GrassSlots, SlotType t, int[] slotnums)
-        {
-            var slots = new List<EncounterSlot>();
-            // Slots for day, morning and night slots in DPPt. Only contain species data, level is copy from grass slot
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    int species = BitConverter.ToInt32(data, ofs + j * 4);
-                    if (species <= 0)
-                        continue;
-
-                    var slot = GrassSlots[slotnums[j]].Clone();
-                    slot.Species = species;
-                    slot.Type = t;
-                    slots.Add(slot);
-                }
-                ofs += 8;
-            }
-
-            // Even if the three time replacer slots overwrite the original grass slot it still possible for that encounter to happen
-            // Original encounter should not be removed
-
-            // Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
-            return GrassSlots.Concat(slots);
-        }
-        private static IEnumerable<EncounterSlot> getSlots4DPPt_WFR(byte[] data, ref int ofs, int numslots, SlotType t)
+        private static IEnumerable<EncounterSlot> getSlots4DPPt_WFR(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new List<EncounterSlot>();
             for (int i = 0; i < numslots; i++)
@@ -439,12 +401,10 @@ namespace PKHeX.Core
                     Species = Species,
                     Type = t
                 });
-
             }
-            ofs += numslots * 8;
             return slots;
         }
-        private static IEnumerable<EncounterSlot> getSlots4HGSS_WFR(byte[] data, ref int ofs, int numslots, SlotType t)
+        private static IEnumerable<EncounterSlot> getSlots4HGSS_WFR(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new List<EncounterSlot>();
             for (int i = 0; i < numslots; i++)
@@ -464,7 +424,6 @@ namespace PKHeX.Core
                     Type = t
                 });
             }
-            ofs += numslots * 4;
             return slots;
         }
 
@@ -498,61 +457,51 @@ namespace PKHeX.Core
         private static EncounterArea getArea4DPPt(byte[] data)
         {
             EncounterArea Area4 = new EncounterArea();
-            if (data.Length != 426)
+            if (data.Length != 0x1AA) // 426 Bytes
             { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
 
             var Slots = new List<EncounterSlot>();
-            Area4.Location = BitConverter.ToUInt16(data, 0);
+            Area4.Location = BitConverter.ToUInt16(data, 0x00);
 
-            var GrassRatio = BitConverter.ToInt32(data, 2);
-            var ofs = 6;
+            var GrassRatio = BitConverter.ToInt32(data, 0x02);
             if (GrassRatio > 0)
             {
-                EncounterSlot[] GrassSlots = getSlots4_DPPt_G(data, ref ofs, 12, SlotType.Grass);
-                //Morning, Day and Night slots replace slots 2 and 3
-                Slots.AddRange(getSlots4_G_TimeReplace(data, ref ofs, GrassSlots, SlotType.Grass, Legal.Slot4_Time));
-                //Pokéradar slots replace slots 6,7,10 and 11
+                EncounterSlot[] GrassSlots = getSlots4_DPPt_G(data, 0x06, 12, SlotType.Grass);
+                Slots.AddRange(GrassSlots);
+                //Swarming slots replace slots 0 and 1
+                Slots.AddRange(getSlots4_G_Replace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm));
+                //Morning and Night slots replace slots 2 and 3
+                Slots.AddRange(getSlots4_G_Replace(data, 0x6E, 4, GrassSlots, Legal.Slot4_Time)); // Morning
+                Slots.AddRange(getSlots4_G_Replace(data, 0x76, 4, GrassSlots, Legal.Slot4_Time)); // Night
+                //Pokéradar slots replace slots 4,5,10 and 11
                 //Pokéradar is marked with different slot type because it have different PID-IV generationn
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar));
-                ofs += 24; //24 bytes padding
+                Slots.AddRange(getSlots4_G_Replace(data, 0x7E, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar));
+                //24 bytes padding
                 //Dual Slots replace slots 8 and 9
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Dual)); // Ruby
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Dual)); // Sapphire
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Dual)); // Emerald
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Dual)); // FireRed
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 4, GrassSlots, Legal.Slot4_Dual)); // LeafGreen
+                Slots.AddRange(getSlots4_G_Replace(data, 0xA6, 4, GrassSlots, Legal.Slot4_Dual)); // Ruby
+                Slots.AddRange(getSlots4_G_Replace(data, 0xAE, 4, GrassSlots, Legal.Slot4_Dual)); // Sapphire
+                Slots.AddRange(getSlots4_G_Replace(data, 0xB6, 4, GrassSlots, Legal.Slot4_Dual)); // Emerald
+                Slots.AddRange(getSlots4_G_Replace(data, 0xBE, 4, GrassSlots, Legal.Slot4_Dual)); // FireRed
+                Slots.AddRange(getSlots4_G_Replace(data, 0xC6, 4, GrassSlots, Legal.Slot4_Dual)); // LeafGreen
             }
-            else
-                ofs = 206;
 
-            var SurfRatio = BitConverter.ToInt32(data, ofs);
-            ofs += 4;
+            var SurfRatio = BitConverter.ToInt32(data, 0xCE);
             if (SurfRatio > 0)
-                Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Surf));
-            else
-                ofs += 40;
+                Slots.AddRange(getSlots4DPPt_WFR(data, 0xD2, 5, SlotType.Surf));
 
-            ofs += 44; //44 bytes padding
-            var OldRodRatio = BitConverter.ToInt32(data, 294);
-            ofs += 4;
+            //44 bytes padding
+
+            var OldRodRatio = BitConverter.ToInt32(data, 0x126);
             if (OldRodRatio > 0)
-                Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Old_Rod));
-            else
-                ofs += 40;
+                Slots.AddRange(getSlots4DPPt_WFR(data, 0x12A, 5, SlotType.Old_Rod));
 
-            var GoodRodRatio = BitConverter.ToInt32(data, 338);
-            ofs += 4;
+            var GoodRodRatio = BitConverter.ToInt32(data, 0x152);
             if (GoodRodRatio > 0)
-                Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Good_Rod));
-            else
-                ofs += 40;
+                Slots.AddRange(getSlots4DPPt_WFR(data, 0x156, 5, SlotType.Good_Rod));
 
-            var SuperRodRatio = BitConverter.ToInt32(data, 382);
-            ofs += 4;
+            var SuperRodRatio = BitConverter.ToInt32(data, 0x17E);
             if (SuperRodRatio > 0)
-                Slots.AddRange(getSlots4DPPt_WFR(data, ref ofs, 5, SlotType.Super_Rod));
-            else
-                ofs += 40;
+                Slots.AddRange(getSlots4DPPt_WFR(data, 0x182, 5, SlotType.Super_Rod));
 
             Area4.Slots = Slots.ToArray();
             return Area4;
@@ -561,62 +510,50 @@ namespace PKHeX.Core
         private static EncounterArea getArea4HGSS(byte[] data)
         {
             EncounterArea Area4 = new EncounterArea();
-            if (data.Length != 198)
+            if (data.Length != 0xC6)
             { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
 
             var Slots = new List<EncounterSlot>();
-            Area4.Location = BitConverter.ToUInt16(data, 0);
+            Area4.Location = BitConverter.ToUInt16(data, 0x00);
 
-            var GrassRatio = data[2];
-            var SurfRatio = data[3];
-            var RockSmashRatio = data[4];
-            var OldRodRatio = data[5];
-            var GoodRodRatio = data[6];
-            var SuperRodRatio = data[7];
+            var GrassRatio = data[0x02];
+            var SurfRatio = data[0x03];
+            var RockSmashRatio = data[0x04];
+            var OldRodRatio = data[0x05];
+            var GoodRodRatio = data[0x06];
+            var SuperRodRatio = data[0x07];
             // 2 bytes padding
-            var ofs = 10;
 
             if (GrassRatio > 0)
             {
                 // First 36 slots are morning, day and night grass slots
                 // The order is 12 level values, 12 morning species, 12 day species and 12 night species
-                var GrassSlots = getSlots4_HGSS_G(data, ref ofs, 12, SlotType.Grass);
+                var GrassSlots = getSlots4_HGSS_G(data, 0x0A, 12, SlotType.Grass);
                 //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
                 Slots.AddRange(GrassSlots);
 
                 // Hoenn Sound and Sinnoh Sound replace slots 4 and 5
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 2, GrassSlots, Legal.Slot4_Sound)); // Hoenn
-                Slots.AddRange(getSlots4_G_Replace(data, ref ofs, 2, GrassSlots, Legal.Slot4_Sound)); // Sinnoh
+                Slots.AddRange(getSlots4_G_Replace(data, 0x5E, 2, GrassSlots, Legal.Slot4_Sound)); // Hoenn
+                Slots.AddRange(getSlots4_G_Replace(data, 0x62, 2, GrassSlots, Legal.Slot4_Sound)); // Sinnoh
             }
-            else
-                ofs = 102;
 
             if (SurfRatio > 0)
-                Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 5, SlotType.Surf));
-            else
-                ofs += 20;
+                Slots.AddRange(getSlots4HGSS_WFR(data, 0x66, 5, SlotType.Surf));
 
             if (RockSmashRatio > 0)
-                Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 2, SlotType.Rock_Smash));
-            else
-                ofs += 8;
+                Slots.AddRange(getSlots4HGSS_WFR(data, 0x7A, 2, SlotType.Rock_Smash));
 
             if (OldRodRatio > 0)
-                Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 5, SlotType.Old_Rod));
-            else
-                ofs += 20;
+                Slots.AddRange(getSlots4HGSS_WFR(data, 0x82, 5, SlotType.Old_Rod));
 
             if (GoodRodRatio > 0)
-                Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 5, SlotType.Good_Rod));
-            else
-                ofs += 20;
+                Slots.AddRange(getSlots4HGSS_WFR(data, 0x96, 5, SlotType.Good_Rod));
 
             if (SuperRodRatio > 0)
-                Slots.AddRange(getSlots4HGSS_WFR(data, ref ofs, 5, SlotType.Super_Rod));
-            else
-                ofs += 20;
+                Slots.AddRange(getSlots4HGSS_WFR(data, 0xAA, 5, SlotType.Super_Rod));
 
-            if (data[194] == 120) //Location = 182, 127, 130, 132, 167, 188, 210
+            // Last 6 bytes only have species ID info
+            if (data[0xC2] == 120) // Location = 182, 127, 130, 132, 167, 188, 210
                 Slots.AddRange(SlotsHGSS_Staryu);
 
             Area4.Slots = Slots.ToArray();
