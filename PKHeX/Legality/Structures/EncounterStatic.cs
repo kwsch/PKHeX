@@ -3,7 +3,7 @@
     public class EncounterStatic : IEncounterable, IMoveset
     {
         public int Species { get; set; }
-        public int[] Moves { get; set; } = new int[4];
+        public int[] Moves { get; set; }
         public int Level;
 
         public int Location;

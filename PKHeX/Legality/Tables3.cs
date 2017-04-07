@@ -216,6 +216,30 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{6} }, // Skitty Egg with Pay Day
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{57} }, // Pichu Egg with Surf
         };
+        internal static readonly EncounterStatic[] EventEgg_G3 = Encounter_Box.Concat(new[]
+        {
+            // PokePark Eggs
+            new EncounterStatic { Species = 054, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Psyduck with Mud Sport
+            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{266} }, // Pichu with Follow me
+            new EncounterStatic { Species = 174, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{321} }, // Igglybuff with Tickle
+            new EncounterStatic { Species = 222, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Corsola with Mud Sport
+            new EncounterStatic { Species = 276, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{294} }, // Taillow with Feather Dance
+            new EncounterStatic { Species = 283, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Surskit with Mud Sport
+            new EncounterStatic { Species = 293, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{298} }, // Whismur with Teeter Dance
+            new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{205} }, // Skitty with Rollout
+            new EncounterStatic { Species = 311, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{346} }, // Plusle with Water Sport
+            new EncounterStatic { Species = 312, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Minun with Mud Sport
+            new EncounterStatic { Species = 325, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{253} }, // Spoink with Uproar
+            new EncounterStatic { Species = 327, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{047} }, // Spinda with Sing
+            new EncounterStatic { Species = 331, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{227} }, // Cacnea with Encore
+            new EncounterStatic { Species = 341, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{346} }, // Corphish with Water Sport
+            new EncounterStatic { Species = 360, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{321} }, // Wynaut with Tickle
+            // Egg Pokémon Present Eggs
+            new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
+            new EncounterStatic { Species = 052, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
+            new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+        }).ToArray();
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
@@ -330,8 +354,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(Encounter_Box).ToArray();
-        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(Encounter_Box).ToArray();
+        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(EventEgg_G3).ToArray();
+        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(EventEgg_G3).ToArray();
 
         private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
         private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};
