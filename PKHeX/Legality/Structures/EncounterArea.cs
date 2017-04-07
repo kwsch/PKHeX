@@ -383,32 +383,6 @@ namespace PKHeX.Core
             }
             return slots;
         }
-        
-        private static IEnumerable<EncounterSlot> getSlots4_G_TimeReplace(byte[] data, int ofs, EncounterSlot[] GrassSlots, SlotType t, int[] slotnums)
-        {
-            var slots = new List<EncounterSlot>();
-            // Slots for day, morning and night slots in DPPt. Only contain species data, level is copy from grass slot
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    int species = BitConverter.ToInt32(data, ofs + i * 8 + j * 4);
-                    if (species <= 0)
-                        continue;
-
-                    var slot = GrassSlots[slotnums[j]].Clone();
-                    slot.Species = species;
-                    slot.Type = t;
-                    slots.Add(slot);
-                }
-            }
-
-            // Even if the three time replacer slots overwrite the original grass slot it still possible for that encounter to happen
-            // Original encounter should not be removed
-
-            // Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
-            return GrassSlots.Concat(slots);
-        }
         private static IEnumerable<EncounterSlot> getSlots4DPPt_WFR(byte[] data, int ofs, int numslots, SlotType t)
         {
             var slots = new List<EncounterSlot>();
@@ -493,10 +467,12 @@ namespace PKHeX.Core
             if (GrassRatio > 0)
             {
                 EncounterSlot[] GrassSlots = getSlots4_DPPt_G(data, 0x06, 12, SlotType.Grass);
+                Slots.AddRange(GrassSlots);
                 //Swarming slots replace slots 0 and 1
                 Slots.AddRange(getSlots4_G_Replace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm));
                 //Morning and Night slots replace slots 2 and 3
-                Slots.AddRange(getSlots4_G_TimeReplace(data, 0x6E, GrassSlots, SlotType.Grass, Legal.Slot4_Time));
+                Slots.AddRange(getSlots4_G_Replace(data, 0x6E, 4, GrassSlots, Legal.Slot4_Time)); // Morning
+                Slots.AddRange(getSlots4_G_Replace(data, 0x76, 4, GrassSlots, Legal.Slot4_Time)); // Night
                 //Pokéradar slots replace slots 4,5,10 and 11
                 //Pokéradar is marked with different slot type because it have different PID-IV generationn
                 Slots.AddRange(getSlots4_G_Replace(data, 0x7E, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar));
