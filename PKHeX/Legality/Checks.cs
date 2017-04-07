@@ -2544,9 +2544,9 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg)
             {
-                int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
-                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && !pkm.WasEventEgg && !MatchIsMysteryGift;
-                return parseMovesIsEggPreRelearn(Moves, SpecialMoves, allowinherited);
+                int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves;
+                var allowinherited = SpecialMoves == null;
+                return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
             }
             if (pkm.WasEgg)
                 return parseMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
