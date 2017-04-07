@@ -507,10 +507,7 @@ namespace PKHeX.Core
                 var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
                 var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
                 var Pt_HoneyTrees_Slots = SlotsPt_HoneyTree.Clone(HoneyTreesLocation);
-
-                MarkG4SwarmSlots(ref D_Slots, SlotsDP_Swarm);
-                MarkG4SwarmSlots(ref P_Slots, SlotsDP_Swarm);
-                MarkG4SwarmSlots(ref Pt_Slots, SlotsPt_Swarm);
+                
                 MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
                 MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
 
