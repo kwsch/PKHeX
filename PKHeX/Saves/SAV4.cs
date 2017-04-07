@@ -831,7 +831,7 @@ namespace PKHeX.Core
                 }
             }
 
-            int[] DPLangSpecies = new int[14] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
+            int[] DPLangSpecies = { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
             int dpl = 1 + Array.IndexOf(DPLangSpecies, pkm.Species);
             if (DP && dpl <= 0)
                 return;
@@ -1059,6 +1059,57 @@ namespace PKHeX.Core
                     // case GameVersion.Pt: break;
                     default: return;
                 }
+            }
+        }
+
+        // Honey Trees
+        private const int HONEY_DP = 0x72E4;
+        private const int HONEY_PT = 0x7F38;
+        private const int HONEY_SIZE = 8;
+        public HoneyTree getHoneyTree(int index)
+        {
+            if (index > 21)
+                return null;
+            switch (Version)
+            {
+                case GameVersion.DP:
+                    return new HoneyTree(getData(HONEY_DP + HONEY_SIZE*index, HONEY_SIZE));
+                case GameVersion.Pt:
+                    return new HoneyTree(getData(HONEY_PT + HONEY_SIZE*index, HONEY_SIZE));
+            }
+            return null;
+        }
+        public void setHoneyTree(HoneyTree tree, int index)
+        {
+            if (index > 21)
+                return;
+            switch (Version)
+            {
+                case GameVersion.DP:
+                    setData(tree.Data, HONEY_DP + HONEY_SIZE*index);
+                    break;
+                case GameVersion.Pt:
+                    setData(tree.Data, HONEY_PT + HONEY_SIZE*index);
+                    break;
+            }
+        }
+        public int[] MunchlaxTrees
+        {
+            get
+            {
+                int A = (TID >> 8) % 21;
+                int B = (TID & 0x00FF) % 21;
+                int C = (SID >> 8) % 21;
+                int D = (SID & 0x00FF) % 21;
+
+                if (A == B) B = (B + 1) % 21;
+                if (A == C) C = (C + 1) % 21;
+                if (B == C) C = (C + 1) % 21;
+                if (A == D) D = (D + 1) % 21;
+                if (B == D) D = (D + 1) % 21;
+                if (C == D) D = (D + 1) % 21;
+
+                return new[] { A, B, C, D };
             }
         }
     }
