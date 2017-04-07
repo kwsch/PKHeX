@@ -442,6 +442,7 @@
             this.B_OpenPokeBeans = new System.Windows.Forms.Button();
             this.B_OpenZygardeCells = new System.Windows.Forms.Button();
             this.B_OpenMiscEditor = new System.Windows.Forms.Button();
+            this.B_OpenHoneyTreeEditor = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -5520,6 +5521,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
             this.FLP_SAVtools.Controls.Add(this.B_OpenZygardeCells);
             this.FLP_SAVtools.Controls.Add(this.B_OpenMiscEditor);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenHoneyTreeEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
@@ -5718,6 +5720,16 @@
             this.B_OpenMiscEditor.Text = "Misc Edits";
             this.B_OpenMiscEditor.UseVisualStyleBackColor = true;
             this.B_OpenMiscEditor.Click += new System.EventHandler(this.B_OpenMiscEditor_Click);
+            // 
+            // B_OpenHoneyTreeEditor
+            // 
+            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(96, 177);
+            this.B_OpenHoneyTreeEditor.Name = "B_OpenHoneyTreeEditor";
+            this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenHoneyTreeEditor.TabIndex = 28;
+            this.B_OpenHoneyTreeEditor.Text = "Honey Tree";
+            this.B_OpenHoneyTreeEditor.UseVisualStyleBackColor = true;
+            this.B_OpenHoneyTreeEditor.Click += new System.EventHandler(this.B_OpenHoneyTreeEditor_Click);
             // 
             // dragout
             // 
@@ -6452,6 +6464,7 @@
         internal System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
         private System.Windows.Forms.Button B_OpenMiscEditor;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
+        private System.Windows.Forms.Button B_OpenHoneyTreeEditor;
         private System.Windows.Forms.Button B_OpenFriendSafari;
     }
 }
