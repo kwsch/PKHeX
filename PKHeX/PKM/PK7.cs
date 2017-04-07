@@ -217,12 +217,12 @@ namespace PKHeX.Core
         #region Block B
         public override string Nickname
         {
-            get { return PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x40, 24))); }
+            get { return PKX.bin2strG7_zh(PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x40, 24)))); }
             set
             {
                 if (value.Length > 12)
                     value = value.Substring(0, 12); // Hard cap
-                string TempNick = PKX.UnSanitizeString(value)
+                string TempNick = PKX.str2binG7_zh(PKX.UnSanitizeString(value),Language == 10)
                     .PadRight(value.Length + 1, '\0'); // Null Terminator
                 Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x40);
             }

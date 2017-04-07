@@ -542,6 +542,7 @@ namespace PKHeX.Core
             string path3DS = Path.GetPathRoot(Util.get3DSLocation());
             List<string> possiblePaths = new List<string>();
             List<string> foldersToCheck = new List<string>(extra.Where(f => f?.Length > 0));
+            path = null;
 
             // Homebrew/CFW
             if (path3DS != null)
@@ -568,9 +569,25 @@ namespace PKHeX.Core
                 }
                 possiblePaths.AddRange(files);
             }
-
-            // return newest save file path that is valid (oh man)
-            path = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p))?.ChecksumsValid ?? false);
+            
+            // return newest save file path that is valid
+            foreach (var file in possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime))
+            {
+                try
+                {
+                    var data = File.ReadAllBytes(file);
+                    var sav = getVariantSAV(data);
+                    if (sav?.ChecksumsValid != true)
+                        continue;
+                    
+                    path = file;
+                }
+                catch (Exception e)
+                {
+                    path = e.Message + Environment.NewLine + file;
+                    return false;
+                }
+            }
             return true;
         }
         /// <summary>

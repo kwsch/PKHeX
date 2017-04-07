@@ -1,8 +1,9 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterTrade : IEncounterable
+    public class EncounterTrade : IEncounterable, IMoveset
     {
         public int Species { get; set; }
+        public int[] Moves { get; set; }
         public int Level;
 
         public int Location = -1;
@@ -13,7 +14,6 @@
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = { -1, -1, -1, -1, -1, -1 };
         public int[] Contest = { 0, 0, 0, 0, 0, 0 };
-        public int[] Moves;
         public int Form = 0;
         public bool Shiny = false;
         public int Gender = -1;
@@ -21,7 +21,7 @@
 
         public string Name => "In-game Trade";
 
-        public static readonly int[] DefalutMetLocation = 
+        public static readonly int[] DefaultMetLocation = 
         {
             254, 2001, 30002, 30001, 30001,
         };
