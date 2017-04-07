@@ -22,9 +22,8 @@ namespace PKHeX.Core
 
         public int[] getMoves(int minLevel, int maxLevel)
         {
-            return Moves
-                .SkipWhile((m, i) => Levels[i] < minLevel)
-                .TakeWhile((m, i) => Levels[i] <= maxLevel).ToArray();
+            var skip = Levels.Select((m, i) => i).SkipWhile(i => Levels[i] < minLevel).FirstOrDefault();
+            return Moves.Skip(skip).TakeWhile((m, i) => Levels[i + skip] <= maxLevel).ToArray();
         }
     }
 
