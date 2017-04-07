@@ -1346,7 +1346,6 @@ namespace PKHeX.Core
             657, // Gardevoirite
             658, // Ampharosite
             664, // Blazikenite
-            665, // Medichamite
             666, // Houndoominite
             667, // Aggronite
             668, // Banettite
@@ -1363,7 +1362,6 @@ namespace PKHeX.Core
             753, // Sceptilite
             755, // Altarianite
             756, // Galladite
-            757, // Audinite
             764, // Diancite
             767, // Cameruptite
             768, // Lopunnite
