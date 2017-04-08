@@ -2646,7 +2646,7 @@ namespace PKHeX.Core
                     else if (tmhm[gen].Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V173 : string.Format(V331, gen), CheckIdentifier.Move);
                     else if (tutor[gen].Contains(moves[m]))
-                        res[m] = new CheckResult(Severity.Valid, native ? V173 : string.Format(V332, gen), CheckIdentifier.Move);
+                        res[m] = new CheckResult(Severity.Valid, native ? V174 : string.Format(V332, gen), CheckIdentifier.Move);
                     else if (gen == pkm.GenNumber && special.Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, V175, CheckIdentifier.Move);
 
