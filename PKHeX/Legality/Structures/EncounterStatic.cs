@@ -27,6 +27,7 @@
         public bool SkipFormCheck;
         public bool NSparkle;
         public bool Roaming;
+        public bool EggEncounter => EggLocation > 0;
 
         public EncounterStatic[] Clone(int[] locations)
         {

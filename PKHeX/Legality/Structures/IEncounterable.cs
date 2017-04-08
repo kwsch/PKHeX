@@ -4,5 +4,6 @@
     {
         int Species { get; }
         string Name { get; }
+        bool EggEncounter { get; }
     }
 }

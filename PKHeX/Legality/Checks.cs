@@ -2338,10 +2338,24 @@ namespace PKHeX.Core
                 encounters.AddRange(EventGiftMatch);
             if (null != EncounterStaticMatch)
                 encounters.AddRange(EncounterStaticMatch);
-            encounters.Add(EncounterMatch); // can be null
+            if (null != EncounterMatch)
+                encounters.Add(EncounterMatch);
 
-            if (pkm.Gen3 && pkm.WasEgg) //Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
-                encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
+            if (pkm.WasEgg && !encounters.Any() && pkm.GenNumber > 3)
+                encounters.Add(null); // use null encounter for player hatched eggs
+
+            // Gen 1 to 3 eggs, can be also a non-egg encounter, that has been already added if exits
+            // Gen 1 only have WasEgg true if it can be a gen2 hatched transfer to gen 1 games, not possible in VC
+            if (pkm.GenNumber <= 3 && pkm.WasEgg) 
+            {
+                if(pkm.Gen3 && !pkm.IsEgg)
+                    //Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
+                    encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
+                encounters.Add(null);
+            }
+
+            if (!encounters.Any()) // There isn't any valid encounter and wasnt an egg
+                return parseMoves(pkm.Moves, validLevelMoves, pkm.RelearnMoves, validTMHM, validTutor, new int[0], new int[0], new int[0], new int[0]);
 
             // Iterate over encounters
             bool pre3DS = pkm.GenNumber < 6;
@@ -2349,6 +2363,8 @@ namespace PKHeX.Core
             foreach (var enc in encounters)
             {
                 EncounterMatch = enc;
+                if(pkm.GenNumber <= 3)
+                    pkm.WasEgg = EncounterMatch == null || ((EncounterMatch as IEncounterable)?.EggEncounter ?? false);
                 res = pre3DS
                     ? parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves)
                     : parseMoves3DS(game, validLevelMoves, validTMHM, validTutor, Moves);
@@ -2477,14 +2493,6 @@ namespace PKHeX.Core
         private CheckResult[] parseMovesWasEggPreRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
             CheckResult[] res = new CheckResult[4];
-
-            // Gen 1-3 could have an egg origin and a non-egg origin, check first non-egg origin
-            if (pkm.GenNumber <= 3 && !pkm.HasOriginalMetLocation && EncounterMatch != null)
-            {
-                res = parseMovesSpecialMoveset(Moves, validLevelMoves, validTMHM, validTutor);
-                if (res.All(r => r.Valid)) // moves are satisfactory
-                     return res;
-            }
 
             // Some games can have different egg movepools. Have to check all situations.
             GameVersion[] Games = { };

@@ -18,6 +18,7 @@
         public bool Shiny = false;
         public int Gender = -1;
         public int OTGender = -1;
+        public bool EggEncounter => false;
 
         public string Name => "In-game Trade";
 

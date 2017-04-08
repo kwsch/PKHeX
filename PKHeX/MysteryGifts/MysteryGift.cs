@@ -130,5 +130,6 @@ namespace PKHeX.Core
         public bool Gen5 => Format == 5;
         public bool Gen4 => Format == 4;
         public bool Gen3 => Format == 3;
+        public virtual bool EggEncounter => IsEgg;
     }
 }

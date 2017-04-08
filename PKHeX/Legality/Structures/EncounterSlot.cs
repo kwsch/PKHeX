@@ -14,6 +14,8 @@
         public bool BlackFlute;
         public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
         public int SlotNumber;
+        public bool EggEncounter => false;
+
         public EncounterSlot() { }
         public virtual EncounterSlot Clone()
         {

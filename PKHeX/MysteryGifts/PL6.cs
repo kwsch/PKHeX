@@ -327,6 +327,7 @@ namespace PKHeX.Core
                 if (value.Length > 3) RelearnMove4 = value[3];
             }
         }
+        public bool EggEncounter => IsEgg;
 
         public string Name => "Pokémon Link";
     }
