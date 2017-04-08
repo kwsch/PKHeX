@@ -2307,6 +2307,61 @@ namespace PKHeX.Core
             }
         }
         #region verifyMoves
+        private List<object> GetEncounterMoves()
+        {
+            var encounters = new List<object>();
+            if (null != EventGiftMatch)
+                encounters.AddRange(EventGiftMatch);
+            if (null != EncounterStaticMatch)
+                encounters.AddRange(EncounterStaticMatch);
+            if (null != EncounterMatch)
+                encounters.Add(EncounterMatch);
+
+            if (pkm.WasEgg && !encounters.Any())
+                encounters.Add(null); // use null encounter for player hatched eggs
+            return encounters;
+        }
+        private List<object> GetEncounterMovesGen3Egg()
+        {
+            // Gen 3 eggs can be also a non-egg encounter,
+            // Ignore gen 3 non-egg encounters without special moves, egg encounter will return valid for this moves combinations
+            var encounters = new List<object>();
+            if (null != EventGiftMatch)
+                encounters.AddRange(EventGiftMatch.Where(x => (x as IMoveset)?.Moves != null));
+            if (null != EncounterStaticMatch)
+                encounters.AddRange(EncounterStaticMatch.Where(x => (x as IMoveset)?.Moves != null));
+            if (null != EncounterMatch && (EncounterMatch as IMoveset)?.Moves != null)
+                encounters.Add(EncounterMatch);
+
+            if (pkm.WasEgg && !encounters.Any())
+                encounters.Add(null); // use null encounter for player hatched eggs
+
+     
+            if (!pkm.IsEgg)
+            {
+                encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
+                encounters.Add(null);
+            }
+            else if (!pkm.Gen3 || !encounters.Any()) // IsEgg
+                // Do not add player hatched egg if there is a gen 3 gift egg or event egg encounter
+                encounters.Add(null);
+            
+            return encounters;
+        }
+        private List<object> GetEncounterMovesGBEra()
+        {
+            var encounters = new List<object>();
+            // Gen 1 only have WasEgg true if it can be a gen2 hatched transfer to gen 1 games, not possible in VC
+            if (pkm.WasEgg)
+                encounters.Add(null);
+            if (EncountersGBMatch != null)
+            {
+                // Add non egg encounters, start with generation 2
+                // generation 1 will change valid gen 1 lvl moves for every encounter
+                encounters.AddRange(EncountersGBMatch.Where(t=> t.Type != GBEncounterType.EggEncounter).OrderByDescending(t=>t.Generation).Select(e => e.Encounter));
+            }
+            return encounters;
+        }
         private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
         {
             int minLvLG1 = 0;
@@ -2332,48 +2387,9 @@ namespace PKHeX.Core
                 return parseMovesForSmeargle(Moves, validLevelMoves); // Smeargle can have any moves except a few
 
             // Gather Encounters
-            var encounters = new List<object>();
-
-            if(pkm.GenNumber <= 2 )
-            {
-                if(EncountersGBMatch!=null) 
-                    // Add non egg encounters
-                    encounters.AddRange(EncountersGBMatch.SelectMany(e => e.GetEncounters()));
-                if (pkm.WasEgg)
-                    encounters.Add(null);
-            }
-            else
-            {
-                if (null != EventGiftMatch)
-                    encounters.AddRange(EventGiftMatch);
-                if (null != EncounterStaticMatch)
-                    encounters.AddRange(EncounterStaticMatch);
-                if (null != EncounterMatch)
-                    encounters.Add(EncounterMatch);
-
-                if (pkm.WasEgg && !encounters.Any() && pkm.GenNumber > 3)
-                    encounters.Add(null); // use null encounter for player hatched eggs
-            }
-
-            // Gen 1 to 3 eggs, can be also a non-egg encounter, that has been already added if exits
-            // Gen 1 only have WasEgg true if it can be a gen2 hatched transfer to gen 1 games, not possible in VC
-            if (pkm.GenNumber <= 3 && pkm.WasEgg)
-            {
-                if (!pkm.IsEgg)
-                {
-                    if(pkm.Gen3)
-                    {
-                        // Ignore gen 3 non-egg encounters without special moves, egg encounter will return valid for this moves combinations
-                        encounters = encounters.Where(x => (x as IMoveset)?.Moves != null).ToList();
-                        // Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
-                        encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
-                    }
-                    encounters.Add(null);
-                }
-                else if(!pkm.Gen3 || !encounters.Any()) // IsEgg
-                    // Do not add player hatched egg if there is a gen 3 gift egg or event egg encounter
-                    encounters.Add(null);
-            }
+            var encounters = pkm.GenNumber <= 2 ? GetEncounterMovesGBEra() :
+                             pkm.GenNumber == 3 && pkm.WasEgg ? GetEncounterMovesGen3Egg() :
+                             GetEncounterMoves();
 
             // it could be duplicated between EncounterMatch and EncounterStaticMatch or EncounterMatch and EventGiftMatch
             encounters = encounters.Distinct().ToList();
