@@ -2566,7 +2566,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves;
-                var allowinherited = SpecialMoves == null;
+                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg;
                 return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
             }
             if (pkm.WasEgg)
