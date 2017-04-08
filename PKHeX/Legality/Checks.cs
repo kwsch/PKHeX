@@ -956,7 +956,7 @@ namespace PKHeX.Core
 
             // Check existing EncounterMatch
             if ((EncounterOriginal ?? EncounterMatch) == null)
-                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+                return new CheckResult(CheckIdentifier.Encounter); // Avoid duplicate invaild message
 
             var s = EncounterMatch as List<EncounterStatic>;
             var sgb = s?.FirstOrDefault(v => GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents);
