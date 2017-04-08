@@ -1302,6 +1302,15 @@ namespace PKHeX.Core
             // The order for the pokemon default moves are first moves from personal table and then moves from  level up table
             return InitialMoves.Union(LevelUpMoves).ToArray();
         }
+        internal static int getMoveMinLevelGBEncounter(int species, int lvl, GameVersion[] versions)
+        {
+            int movelvl = 100;
+            foreach(GameVersion ver in versions)
+            {
+                movelvl = Math.Min(movelvl, getMoveMinLevelGBEncounter(species, lvl, ver));
+            }
+            return movelvl;
+        }
         internal static int getMoveMinLevelGBEncounter(int species, int lvl, GameVersion ver = GameVersion.Any)
         {
             int movelvl = 100;
@@ -1539,7 +1548,7 @@ namespace PKHeX.Core
                 return new List<GBEncounterData> { g1 };
 
             // Both generations can provide an encounter. Return highest preference
-            g1.MoveLevel = getMoveMinLevelGBEncounter(g1.Species, g1.Level, ver: GameVersion.RBY);
+            g1.MoveLevel = getMoveMinLevelGBEncounter(g1.Species, g1.Level, getGen1GameEncounter(pkm));
             if (g1.Type > g2.Type)
                 return new List<GBEncounterData> { g1 };
             if (g1.Type <= g2.Type ||
