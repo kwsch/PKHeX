@@ -1112,5 +1112,47 @@ namespace PKHeX.Core
                 return new[] { A, B, C, D };
             }
         }
+        public int PoketchApps
+        {
+            get
+            {
+                int ret = 0;
+                int ofs = 0;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x114F; break;
+                    default: return ret;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 25; i++)
+                {
+                    if (Data[ofs + i] != 0) ret |= 1 << i;
+                }
+                return ret;
+            }
+            set
+            {
+                int c = 0;
+                int ofs = 0;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x114F; break;
+                    default: return;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 25; i++)
+                {
+                    if ((value & 1 << i) != 0)
+                    {
+                        c++;
+                        if (Data[ofs + i] == 0)
+                            Data[ofs + i] = 1;
+                    }
+                    else Data[ofs + i] = 0;
+                }
+                Data[ofs - 2] = (byte)c;
+                Data[ofs - 1] = 0; // current used, force set for first App.
+            }
+        }
     }
 }

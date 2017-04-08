@@ -952,7 +952,7 @@ namespace PKHeX.Core
 
             // Check existing EncounterMatch
             if ((EncountersGBMatch ?? EncounterMatch) == null)
-                return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+                return new CheckResult(CheckIdentifier.Encounter); // Avoid duplicate invaild message
 
             var s = EncounterMatch as List<EncounterStatic>;
             var sgb = s?.FirstOrDefault(v => GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents);
@@ -1363,9 +1363,9 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.Species == 292) // Shedinja
+            if (pkm.Species == 292 && pkm.GenNumber > 3) // Shedinja. For gen3, copy the ball from Nincada
             {
-                verifyBallEquals(4); // Pokeball
+                verifyBallEquals(4); // Pokeball Only
                 return;
             }
 
@@ -2726,7 +2726,7 @@ namespace PKHeX.Core
                     else if (tmhm[gen].Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V173 : string.Format(V331, gen), CheckIdentifier.Move);
                     else if (tutor[gen].Contains(moves[m]))
-                        res[m] = new CheckResult(Severity.Valid, native ? V173 : string.Format(V332, gen), CheckIdentifier.Move);
+                        res[m] = new CheckResult(Severity.Valid, native ? V174 : string.Format(V332, gen), CheckIdentifier.Move);
                     else if (gen == pkm.GenNumber && special.Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, V175, CheckIdentifier.Move);
 

@@ -3122,7 +3122,7 @@ namespace PKHeX.Core
                     var pi_c = (PersonalInfoG2)PersonalTable.C[index];
                     moves.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
                     if (Version == GameVersion.Any)
-                        goto case 1;
+                        goto case 1; // rby
                     break;
                 case 3:
                     index = PersonalTable.E.getFormeIndex(species, 0);
@@ -3199,15 +3199,19 @@ namespace PKHeX.Core
                                 index = PersonalTable.AO.getFormeIndex(species, form);
                                 if (index == 0)
                                     return moves;
-                                PersonalInfo pi_oras = PersonalTable.AO[index];
-                                moves.AddRange(TMHM_AO.Where((t, m) => pi_oras.TMHM[m]));
+
+                                PersonalInfo pi_ao = PersonalTable.AO[index];
+                                moves.AddRange(TMHM_AO.Where((t, m) => pi_ao.TMHM[m]));
                                 break;
                             }
                     }
                     break;
                 case 7:
                     index = PersonalTable.SM.getFormeIndex(species, form);
-                    PersonalInfo pi_sm = PersonalTable.SM.getFormeEntry(species, form);
+                    if (index == 0)
+                        return moves;
+
+                    PersonalInfo pi_sm = PersonalTable.SM[index];
                     moves.AddRange(TMHM_SM.Where((t, m) => pi_sm.TMHM[m]));
                     break;
             }
