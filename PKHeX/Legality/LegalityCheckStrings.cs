@@ -354,6 +354,8 @@ namespace PKHeX.Core
         public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
         public static string V360 {get; set;} = "Unable to match an event egg encounter from origin game.";
         public static string V363 {get; set;} = "Incompatible moves. Learned at the same level in Red/Blue and Yellow.";
+        public static string V365 {get; set;} = "Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.";
+        public static string V366 {get; set;} = "Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.";
         #endregion
 
     }

@@ -2849,6 +2849,8 @@ namespace PKHeX.Core
                     // Check moves learned at the same level in red/blue and yellow, illegal because there is no move reminder
                     // Only two incompatibilites and only there are no illegal combination if generation 2 or 7 are included in the analysis
                     ParseRedYellowIncompatibleMoves(moves, ref res);
+
+                    ParseEvolutionsIncompatibleMoves(moves, tmhm[1], ref res);
                 }
 
                 if (res.All(r => r != null))
@@ -2894,6 +2896,65 @@ namespace PKHeX.Core
             {
                 if (incompatible.Contains(moves[m]))
                     res[m] = new CheckResult(Severity.Invalid, V363, CheckIdentifier.Move);
+            }
+        }
+        private void ParseEvolutionsIncompatibleMoves(int[] moves, List<int> tmhm, ref CheckResult[] res)
+        {
+            var species = Util.getSpeciesList("en");
+            var currentspecies = species[pkm.Species];
+            var previousspecies = string.Empty;
+            var incompatible_previous = new List<int>();
+            var incompatible_current = new List<int>();
+            if (pkm.Species == 34 && moves.Contains(31) && moves.Contains(37))
+            {
+                // Nidoking learns Thrash at level 23
+                // Nidorino learns Fury Attack at level 36, Nidoran♂ at level 30
+                // Other moves are either learned by Nidoran♂ up to level 23 or by TM
+                incompatible_current.Add(31);
+                incompatible_previous.Add(37);
+                previousspecies = species[33];
+            }
+            if (pkm.Species == 103 && moves.Contains(23) && moves.Any(m => Legal.G1Exeggcute_IncompatibleMoves.Contains(moves[m])))
+            {
+                // Exeggutor learns stomp at level 28
+                // Exeggcute learns Stun Spore at 32, PoisonPowder at 37, SolarBeam at 42 and Sleep Powder at 48
+                incompatible_current.Add(23);
+                incompatible_previous.AddRange(Legal.G1Exeggcute_IncompatibleMoves);
+                previousspecies = species[103];
+            }
+            if (134 <= pkm.Species && pkm.Species <= 136)
+            {
+                previousspecies = species[133];
+                var ExclusiveMoves = Legal.getExclusiveMoves(133, pkm.SpecForm, 1, tmhm, moves);
+                var EeveeLevels = Legal.getMinLevelLearnMove(133, 1, ExclusiveMoves[0]);
+                var EvoLevels = Legal.getMaxLevelLearnMove(133, 1, ExclusiveMoves[0]);
+               
+                for (int i = 0; i < ExclusiveMoves[0].Count; i++)
+                { 
+                    // There is a evolution move with a lower level that current eevee move
+                    if (EvoLevels.Any(ev => ev < EeveeLevels[i]))
+                        incompatible_previous.Add(ExclusiveMoves[0][i]);
+                }
+                for (int i = 0; i < ExclusiveMoves[1].Count; i++)
+                {
+                    // There is a eevee move with a greather level that current evolution move
+                    if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
+                        incompatible_current.Add(ExclusiveMoves[1][i]);
+                }
+                // Vaporeon Mist and Eevee Take Down, special case, they are learned at the same level, but mist only in daycare
+                if (pkm.Species ==134 && moves.Contains(36) && moves.Contains(54)) 
+                {
+                    incompatible_current.Add(54);
+                    incompatible_previous.Add(36);
+                }
+            }
+
+            for (int m = 0; m < 4; m++)
+            {
+                if (incompatible_current.Contains(moves[m]))
+                    res[m] = new CheckResult(Severity.Invalid, string.Format( V365, currentspecies, previousspecies), CheckIdentifier.Move);
+                if (incompatible_previous.Contains(moves[m]))
+                    res[m] = new CheckResult(Severity.Invalid, string.Format(V366, currentspecies, previousspecies), CheckIdentifier.Move);
             }
         }
         private void ParseShedinjaEvolveMoves(int[] moves, ref CheckResult[] res)

@@ -289,3 +289,5 @@ V358 = Inherited move learned by Level-up. Incompatible with event egg moves.
 V359 = Unable to match a gift egg encounter from origin game.
 V360 = Unable to match an event egg encounter from origin game.;
 V363 = Incompatible moves. Learned at the same level in Red/Blue and Yellow.
+V364 = Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.
+V364 = Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.

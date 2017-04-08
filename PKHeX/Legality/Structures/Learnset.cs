@@ -62,6 +62,10 @@ namespace PKHeX.Core
             }
             return Levels.Length < 4 ? 1 : Levels.Skip(Levels.Length - 4).First();
         }
+        public int getLevelLearnMove(int move)
+        {
+            return Moves.Select((m, i) => new { move = m, level = Levels[i] }).Where(m => m.move == move).Select(l => l.level).FirstOrDefault();
+        }
     }
 
     public class Learnset1 : Learnset

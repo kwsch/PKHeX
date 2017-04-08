@@ -638,6 +638,199 @@ namespace PKHeX.Core
         }
 
         // Moves
+        internal static int[] getMinLevelLearnMove(int species, int Generation, List<int> moves, GameVersion Version = GameVersion.Any)
+        {
+            var r = new int[moves.Count];
+            switch (Generation)
+            {
+                case 1:
+                    {
+                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+
+                        var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
+                        var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
+
+                        for (int m = 0; m < moves.Count; m++)
+                        {
+                            if (pi_rb.Moves.Contains(moves[m]) || pi_y.Moves.Contains(moves[m]))
+                                r[m] = 1;
+                            else
+                            {
+                                var rb_level = LevelUpRB[index].getLevelLearnMove(moves[m]);
+                                var y_level = LevelUpY[index].getLevelLearnMove(moves[m]);
+                                // 0 means it is not learned in that game, select the other game
+                                r[m] = rb_level == 0 ? y_level :
+                                       y_level == 0 ? rb_level :
+                                       Math.Min(rb_level, y_level);
+                            }
+                        }
+                        break;
+                    }
+            }
+            return r;
+        }
+        internal static int[] getMaxLevelLearnMove(int species, int Generation, List<int> moves, GameVersion Version = GameVersion.Any)
+        {
+            var r = new int[moves.Count];
+            switch (Generation)
+            {
+                case 1:
+                    {
+                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+
+                        var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
+                        var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
+
+                        for (int m = 0; m < moves.Count; m++)
+                        {
+                            if (pi_rb.Moves.Contains(moves[m]) && pi_y.Moves.Contains(moves[m]))
+                                r[m] = 1;
+                            else
+                                r[m] = Math.Max(LevelUpRB[index].getLevelLearnMove(moves[m]), LevelUpY[index].getLevelLearnMove(moves[m]));
+                        }
+                        break;
+                    }
+            }
+            return r;
+        }
+        internal static List<int>[] getExclusiveMoves(int species1, int species2, int Generation, List<int> tmhm,int[] moves)
+        {
+            // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
+            var moves1 = getLvlMoves(species1, 0, Generation, 1, 100).ToList();
+            var moves2 = getLvlMoves(species1, 0, Generation, 1, 100).ToList();
+            var common = moves1.Intersect(moves2).ToList();
+            moves1.RemoveAll(x => !moves.Contains(x) && (common.Contains(x) || tmhm.Contains(x)));
+            moves2.RemoveAll(x => !moves.Contains(x) && (common.Contains(x) || tmhm.Contains(x)));
+            return new[] { moves1, moves2 };
+        }
+        internal static IEnumerable<int> getLvlMoves(int species, int form, int Generation, int minlvl, int lvl, GameVersion Version = GameVersion.Any)
+        {
+            var r = new List<int>();
+            var ver = Version;
+            switch (Generation)
+            {
+                case 1:
+                    {
+                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+
+                        var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
+                        var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
+                        if (minlvl == 1)
+                        {
+                            r.AddRange(pi_rb.Moves);
+                            r.AddRange(pi_y.Moves);
+                        }
+                        r.AddRange(LevelUpRB[index].getMoves(minlvl, lvl));
+                        r.AddRange(LevelUpY[index].getMoves(minlvl, lvl));
+                        break;
+                    }
+                case 2:
+                    {
+                        int index = PersonalTable.C.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+                        r.AddRange(LevelUpGS[index].getMoves(lvl));
+                        r.AddRange(LevelUpC[index].getMoves(lvl));
+                        break;
+                    }
+                case 3:
+                    {
+                        int index = PersonalTable.E.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+                        if (index == 386)
+                        {
+                            switch (form)
+                            {
+                                case 0: r.AddRange(LevelUpRS[index].getMoves(lvl)); break;
+                                case 1: r.AddRange(LevelUpFR[index].getMoves(lvl)); break;
+                                case 2: r.AddRange(LevelUpLG[index].getMoves(lvl)); break;
+                                case 3: r.AddRange(LevelUpE[index].getMoves(lvl)); break;
+                            }
+                        }
+                        else
+                        {
+                            // Emerald level up table are equals to R/S level up tables
+                            r.AddRange(LevelUpE[index].getMoves(lvl));
+                            // fire red and leaf green are equals between each other but different than RSE
+                            // Do not use FR Levelup table. It have 67 moves for charmander but Leaf Green moves table is correct
+                            r.AddRange(LevelUpLG[index].getMoves(lvl));
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        int index = PersonalTable.HGSS.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+                        r.AddRange(LevelUpDP[index].getMoves(lvl));
+                        r.AddRange(LevelUpPt[index].getMoves(lvl));
+                        r.AddRange(LevelUpHGSS[index].getMoves(lvl));
+                        break;
+                    }
+                case 5:
+                    {
+                        int index = PersonalTable.B2W2.getFormeIndex(species, 0);
+                        if (index == 0)
+                            return r;
+                        r.AddRange(LevelUpBW[index].getMoves(lvl));
+                        r.AddRange(LevelUpB2W2[index].getMoves(lvl));
+                        break;
+                    }
+                case 6:
+                    switch (ver)
+                    {
+                        case GameVersion.Any: // Start at the top, hit every table
+                        case GameVersion.X:
+                        case GameVersion.Y:
+                        case GameVersion.XY:
+                            {
+                                int index = PersonalTable.XY.getFormeIndex(species, form);
+                                if (index == 0)
+                                    return r;
+                                r.AddRange(LevelUpXY[index].getMoves(lvl));
+                                if (ver == GameVersion.Any) // Fall Through
+                                    goto case GameVersion.ORAS;
+                                break;
+                            }
+
+                        case GameVersion.AS:
+                        case GameVersion.OR:
+                        case GameVersion.ORAS:
+                            {
+                                int index = PersonalTable.AO.getFormeIndex(species, form);
+                                if (index == 0)
+                                    return r;
+                                r.AddRange(LevelUpAO[index].getMoves(lvl));
+                                break;
+                            }
+                    }
+                    break;
+                case 7:
+                    switch (ver)
+                    {
+                        case GameVersion.Any:
+                        case GameVersion.SN:
+                        case GameVersion.MN:
+                        case GameVersion.SM:
+                            {
+                                int index = PersonalTable.SM.getFormeIndex(species, form);
+                                r.AddRange(LevelUpSM[index].getMoves(lvl));
+                                break;
+                            }
+                    }
+                    break;
+                default:
+                    return r;
+            }
+            return r;
+        } 
         internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref List<int>[] validLevelMoves, ref List<int>[] validTMHM, ref List<int>[] validTutor)
         {
             var FutureMoves = new List<int>();
@@ -1190,10 +1383,42 @@ namespace PKHeX.Core
                         // Captured as Kakuna without Beedril moves
                         usedslots = learn[1].Where(lm => !Legal.G1WeedleMoves.Contains(lm)).Count();
                 }
+                if (pk.Species == 17)
+                {
+                    // Yellow under leveled Pidgeotto
+                    if (!moves.Contains(18) && pk.CurrentLevel < 21)
+                        usedslots--;
+                }
+                if(pk.Species == 103) // Exeguttor
+                {
+                    usedslots = 2;
+                    if (moves.Contains(115)) // Reflect is optional
+                        usedslots++;
+                    if(pk.Species >= 28) // Learn only Exeggutor level or 4th Exeggutte level
+                        usedslots++;
+                }
+                if (pk.Species == 130 && pk.CurrentLevel < 32)
+                {   
+                    // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle
+                    usedslots = 3;
+                }
+                // Nidoran species without yellow double kick
+                if (29 <= pk.Species && pk.Species <= 34 && moves.Contains(24))
+                    usedslots--;
+                if(pk.Species == 25)
+                    // Pikachu have so different level tables between red/blue and yellow that all possible level moves could be avoided except the level 33 move
+                    usedslots = (pk.CurrentLevel < 33) ? 2 : 3;
+                    
+                // Stone evolution for lower level pokemon species, they level up to 100 with only the initial moves
+                if (new int[] { 26, 36, 38, 59 }.Contains(pk.Species))
+                    usedslots = 2;
+                if (new int[] { 40, 121 }.Contains(pk.Species))
+                    usedslots = 1;
                 if (usedslots >= 4)
                     return 4;
                 // tm, hm and tutor moves replace a free slots if the pokemon have less than 4 moves
-                usedslots += moves.Where(m => !learn[1].Any(l => l == m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
+                // Ignore tm, hm and tutor moves already in the learnset table
+                usedslots += moves.Where(m => m != 0 && !initialmoves.Union(learn[1]).Any(l => l == m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
                 if (usedslots >= 4)
                     return 4;
                 return usedslots;
