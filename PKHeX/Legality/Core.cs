@@ -1327,7 +1327,7 @@ namespace PKHeX.Core
                 case GameVersion.GS:
                 case GameVersion.GSC:
                     {
-                        movelvl = LevelUpGS[species].getMinMoveLevel(lvl);
+                        movelvl = Math.Min(movelvl, LevelUpGS[species].getMinMoveLevel(lvl));
                         if (ver.Contains(GameVersion.C))
                             goto case GameVersion.C;
                         return movelvl;

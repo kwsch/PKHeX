@@ -2597,6 +2597,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves;
+                // Gift do not have special moves but also should not have normal egg moves
                 var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg;
                 return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
             }
