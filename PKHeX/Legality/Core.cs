@@ -1120,7 +1120,7 @@ namespace PKHeX.Core
             var tm = t?.Species ?? invalid;
 
             // check for special move static encounter
-            var special = s?.FirstOrDefault(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0]));
+            var special = s?.FirstOrDefault(m => m.Moves != null && m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0]));
             if (special != null) // return with high priority
                 return new Tuple<object, int, byte>(s, special.Level, 20);
 
