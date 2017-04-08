@@ -1370,9 +1370,6 @@ namespace PKHeX.Core
                     if (pk.Species == 11 && !moves.Any(m => Legal.G1MetapodMoves.Contains(m)))
                         // Captured as Metapod without Caterpie moves
                         usedslots = learn[1].Where(lm => !Legal.G1MetapodMoves.Contains(lm)).Count();
-                    else if (!moves.Any(m => Legal.G1CaterpieMoves.Contains(m)))
-                        // Captured as Baterfree without Caterpie and Metapod moves
-                        usedslots = learn[1].Where(lm => !Legal.G1CaterpieMoves.Contains(lm)).Count();
 
                 }
                 if (14 <= pk.Species && pk.Species <= 15)
