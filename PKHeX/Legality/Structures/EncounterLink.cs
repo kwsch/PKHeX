@@ -4,6 +4,8 @@
     {
         public int Species { get; set; }
         public int Level;
+        public int LevelMin { get { return Level; } }
+        public int LevelMax { get { return Level; } }
         public int Location = 30011;
         public int Ability = 1;
         public int Ball = 4; // Pokéball

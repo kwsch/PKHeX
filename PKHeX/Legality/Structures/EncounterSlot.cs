@@ -1,11 +1,11 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterSlot : IEncounterable
+    public class EncounterSlot : IEncounterable, IGeneration
     {
         public int Species { get; set; }
         public int Form;
-        public int LevelMin;
-        public int LevelMax;
+        public int LevelMin { get; set; }
+        public int LevelMax { get; set; }
         public SlotType Type = SlotType.Any;
         public bool AllowDexNav;
         public bool Pressure;
@@ -15,6 +15,7 @@
         public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
         public int SlotNumber;
         public bool EggEncounter => false;
+        public int Generation { get; set; } = -1;
 
         public EncounterSlot() { }
         public virtual EncounterSlot Clone()

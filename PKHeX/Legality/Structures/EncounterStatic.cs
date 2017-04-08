@@ -1,11 +1,14 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterStatic : IEncounterable, IMoveset
+    public class EncounterStatic : IEncounterable, IMoveset, IGeneration
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
         public int Level;
 
+        public int LevelMin { get { return Level; } }
+        public int LevelMax { get { return Level; } }
+        public int Generation { get; set; } = -1;
         public int Location;
         public int Ability;
         public int Form;
