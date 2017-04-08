@@ -1047,14 +1047,14 @@ namespace PKHeX.Core
         internal static GameVersion[] getGen1GameEncounter(PKM pk)
         {
             if (pk.Format != 2 || AllowGBCartEra)
-                return new[] { GameVersion.RD, GameVersion.Y };
+                return new[] { GameVersion.RD, GameVersion.YW };
             if (25 <= pk.Species && pk.Species <= 26)
                 // Yellow Pikachu detected by its special catch rate
-                return new[] { (((PK1)pk).Catch_Rate == 163) ? GameVersion.Y : GameVersion.RD };
+                return new[] { (((PK1)pk).Catch_Rate == 163) ? GameVersion.YW : GameVersion.RD };
             if (64 <= pk.Species && pk.Species <= 65)
                 // Yellow Kadabra detected by its special catch rate
-                return new[] { (((PK1)pk).Catch_Rate == 96) ? GameVersion.Y : GameVersion.RD };
-            return new[] { GameVersion.RD, GameVersion.Y };
+                return new[] { (((PK1)pk).Catch_Rate == 96) ? GameVersion.YW : GameVersion.RD };
+            return new[] { GameVersion.RD, GameVersion.YW };
         }
         internal static IEnumerable<int> getInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
         {
@@ -1162,6 +1162,45 @@ namespace PKHeX.Core
             }
             return null;
         }
+        internal static int getUsedMoveSlots(PKM pk, int[] moves, List<int>[] learn, List<int>[] tmhm, List<int>[] tutor, int[] initialmoves)
+        {
+            if (pk.Format == 1 && !AllowGBCartEra) // No MoveDeleter
+            {
+                // A pokemon is captured with initial moves and cant forget any until have all 4 slots used
+                // If it has learn a move before having 4 it will be in one of the free slots
+                var usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
+                // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
+                // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
+                if (10 <= pk.Species && pk.Species <= 11)
+                {
+                    if (pk.Species == 11 && !moves.Any(m => Legal.G1MetapodMoves.Contains(m)))
+                        // Captured as Metapod without Caterpie moves
+                        usedslots = learn[1].Where(lm => !Legal.G1MetapodMoves.Contains(lm)).Count();
+                    else if (!moves.Any(m => Legal.G1CaterpieMoves.Contains(m)))
+                        // Captured as Baterfree without Caterpie and Metapod moves
+                        usedslots = learn[1].Where(lm => !Legal.G1CaterpieMoves.Contains(lm)).Count();
+
+                }
+                if (14 <= pk.Species && pk.Species <= 15)
+                {
+                    if (pk.Species == 15 && !moves.Any(m => Legal.G1KakunaMoves.Contains(m)))
+                        // Captured as Beedril
+                        usedslots = learn[1].Where(lm => !Legal.G1KakunaMoves.Contains(lm)).Count();
+                    else if (!moves.Any(m => Legal.G1WeedleMoves.Contains(m)))
+                        // Captured as Kakuna without Beedril moves
+                        usedslots = learn[1].Where(lm => !Legal.G1WeedleMoves.Contains(lm)).Count();
+                }
+                if (usedslots >= 4)
+                    return 4;
+                // tm, hm and tutor moves replace a free slots if the pokemon have less than 4 moves
+                usedslots += moves.Where(m => !learn[1].Any(l => l == m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
+                if (usedslots >= 4)
+                    return 4;
+                return usedslots;
+            }
+            // Move deleter exits, slots from 2 onwards can allways be empty
+            return 1;
+        }
         private static EncounterTrade getValidEncounterTradeVC(PKM pkm, GameVersion gameSource)
         {
             var p = getValidPreEvolutions(pkm).ToArray();
@@ -1214,7 +1253,6 @@ namespace PKHeX.Core
         private static GBEncounterData getEncounter12(PKM pkm, GameVersion game)
         {
             var gen = game == GameVersion.GSC ? 2 : 1;
-            // Tuple: Encounter, Level, Preference (higher = more preferred)
             bool WasEgg = game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
             {
@@ -1249,7 +1287,6 @@ namespace PKHeX.Core
             if (special != null) // return with high priority
                 return new GBEncounterData(pkm, gen, special);
             
-
             if (game == GameVersion.GSC)
             {
                 if (t != null && t.TID != 0)
@@ -1258,7 +1295,6 @@ namespace PKHeX.Core
                     return new GBEncounterData(getBaseSpecies(pkm, maxSpeciesOrigin: MaxSpeciesID_2)); // gen2 egg
             }
             if (em <= sm && em <= tm)
-                // All the code is addepted to have wild encounters in slot array
                 return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).First());
             if (sm <= em && sm <= tm)
                 return new GBEncounterData(pkm, gen, s.Where(slot => slot.Species == sm).OrderBy(slot => slot.Level).First());

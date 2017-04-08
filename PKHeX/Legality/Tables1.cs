@@ -41,6 +41,12 @@ namespace PKHeX.Core
 
             015, 019, 057, 070, 148
         };
+
+        internal static readonly int[] G1CaterpieMoves = new[] { 33, 81};
+        internal static readonly int[] G1WeedleMoves = new[] { 40, 81 };
+        internal static readonly int[] G1MetapodMoves = G1CaterpieMoves.Concat(new[] { 106 }).ToArray();
+        internal static readonly int[] G1KakunaMoves = G1WeedleMoves.Concat(new[] { 106 }).ToArray();
+
         internal static readonly int[] WildPokeBalls1 = {4};
 
         internal static readonly EncounterStatic[] Encounter_RBY =

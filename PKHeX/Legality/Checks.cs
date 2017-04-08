@@ -2677,11 +2677,12 @@ namespace PKHeX.Core
             var LvlupEggMovesLearned = new List<int>();
             var EventEggMovesLearned = new List<int>();
             var IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
+            var usedslots = Legal.getUsedMoveSlots(pkm, moves, learn, tmhm, tutor, initialmoves);
             // Check none moves and relearn moves before generation moves
             for (int m = 0; m < 4; m++)
             {
                 if (moves[m] == 0)
-                    res[m] = new CheckResult(Severity.Valid, V167, CheckIdentifier.Move);
+                    res[m] = new CheckResult(m < usedslots ? Severity.Invalid : Severity.Valid, V167, CheckIdentifier.Move);
                 else if (relearn.Contains(moves[m]))
                     res[m] = new CheckResult(Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
             }
@@ -2715,6 +2716,9 @@ namespace PKHeX.Core
                 {
                     if (res[m]?.Valid ?? false)
                         continue;
+                    if (moves[m] == 0)
+                        continue;
+
                     if (gen ==1 && initialmoves.Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V361 : string.Format(V362, gen), CheckIdentifier.Move);
                     else if (learn[gen].Contains(moves[m]))
@@ -2740,6 +2744,8 @@ namespace PKHeX.Core
                     {
                         if (res[m]?.Valid ?? false) // Skip valid move
                             continue;
+                        if (moves[m] == 0)
+                            continue;
                         if (!lvlupegg.Contains(moves[m])) // Check if contains level-up egg moves from parents
                             continue;
 
@@ -2759,6 +2765,9 @@ namespace PKHeX.Core
                     {
                         if (res[m]?.Valid ?? false)
                             continue;
+                        if (moves[m] == 0)
+                            continue;
+
                         if (egg.Contains(moves[m]))
                         {
                             if (IsGen2Pkm && Gen1MovesLearned.Any() && moves[m] > Legal.MaxMoveID_1)
