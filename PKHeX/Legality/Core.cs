@@ -1044,6 +1044,18 @@ namespace PKHeX.Core
 
             return true;
         }
+        internal static GameVersion[] getGen1GameEncounter(PKM pk)
+        {
+            if (pk.Format != 2 || AllowGBCartEra)
+                return new[] { GameVersion.RD, GameVersion.Y };
+            if (25 <= pk.Species && pk.Species <= 26)
+                // Yellow Pikachu detected by its special catch rate
+                return new[] { (((PK1)pk).Catch_Rate == 163) ? GameVersion.Y : GameVersion.RD };
+            if (64 <= pk.Species && pk.Species <= 65)
+                // Yellow Kadabra detected by its special catch rate
+                return new[] { (((PK1)pk).Catch_Rate == 96) ? GameVersion.Y : GameVersion.RD };
+            return new[] { GameVersion.RD, GameVersion.Y };
+        }
         internal static IEnumerable<int> getInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
         {
             IEnumerable<int> InitialMoves = new List<int>();
@@ -1247,7 +1259,7 @@ namespace PKHeX.Core
             }
             if (em <= sm && em <= tm)
                 // All the code is addepted to have wild encounters in slot array
-                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).Take(1).ToArray());
+                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).First());
             if (sm <= em && sm <= tm)
                 return new GBEncounterData(pkm, gen, s.Where(slot => slot.Species == sm).OrderBy(slot => slot.Level).First());
             if (tm <= sm && tm <= em)

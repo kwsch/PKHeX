@@ -58,6 +58,8 @@ namespace PKHeX.Core
         public static string V349 { get; set; } = "Inherited TM/HM move.";
         public static string V355 { get; set; } = "Learned by evolving Nincada into Ninjask.";
         public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in generation {0}.";
+        public static string V361 { get; set; } = "Default move.";
+        public static string V362 { get; set; } = "Default move in generation {0}.";
 
         #endregion
 

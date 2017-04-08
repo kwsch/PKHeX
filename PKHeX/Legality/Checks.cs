@@ -723,8 +723,8 @@ namespace PKHeX.Core
                 return verifyEncounterEgg();
             }
             EncounterMatch = EncounterOriginalGB;
-            if (EncounterMatch is EncounterSlot[])
-                return verifyEncounterWild();
+            if (EncounterMatch is EncounterSlot)
+                return new CheckResult(Severity.Valid, V73, CheckIdentifier.Encounter);
             if (EncounterMatch is EncounterStatic)
                 return verifyEncounterStatic();
 
@@ -2309,7 +2309,10 @@ namespace PKHeX.Core
         #region verifyMoves
         private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
         {
-            var validLevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, Tutor: false, Machine: false, RemoveTransferHM:false);
+            int minLvLG1 = 0;
+            if (pkm.GenNumber <= 2)
+                minLvLG1 = pkm.WasEgg ? 6 : (EncounterMatch as IEncounterable)?.LevelMin + 1 ?? 0;
+            var validLevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, Tutor: false, Machine: false, RemoveTransferHM: false);
             var validTMHM = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
             var validTutor = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
             Legal.RemoveFutureMoves(pkm, EvoChainsAllGens, ref validLevelMoves, ref validTMHM, ref validTutor);
@@ -2330,15 +2333,27 @@ namespace PKHeX.Core
 
             // Gather Encounters
             var encounters = new List<object>();
-            if (null != EventGiftMatch)
-                encounters.AddRange(EventGiftMatch);
-            if (null != EncounterStaticMatch)
-                encounters.AddRange(EncounterStaticMatch);
-            if (null != EncounterMatch)
-                encounters.Add(EncounterMatch);
 
-            if (pkm.WasEgg && !encounters.Any() && pkm.GenNumber > 3)
-                encounters.Add(null); // use null encounter for player hatched eggs
+            if(pkm.GenNumber <= 2 )
+            {
+                if(EncountersGBMatch!=null) 
+                    // Add non egg encounters
+                    encounters.AddRange(EncountersGBMatch.SelectMany(e => e.GetEncounters()));
+                if (pkm.WasEgg)
+                    encounters.Add(null);
+            }
+            else
+            {
+                if (null != EventGiftMatch)
+                    encounters.AddRange(EventGiftMatch);
+                if (null != EncounterStaticMatch)
+                    encounters.AddRange(EncounterStaticMatch);
+                if (null != EncounterMatch)
+                    encounters.Add(EncounterMatch);
+
+                if (pkm.WasEgg && !encounters.Any() && pkm.GenNumber > 3)
+                    encounters.Add(null); // use null encounter for player hatched eggs
+            }
 
             // Gen 1 to 3 eggs, can be also a non-egg encounter, that has been already added if exits
             // Gen 1 only have WasEgg true if it can be a gen2 hatched transfer to gen 1 games, not possible in VC
@@ -2364,7 +2379,7 @@ namespace PKHeX.Core
             encounters = encounters.Distinct().ToList();
 
             if (!encounters.Any()) // There isn't any valid encounter and wasnt an egg
-                return parseMoves(pkm.Moves, validLevelMoves, pkm.RelearnMoves, validTMHM, validTutor, new int[0], new int[0], new int[0], new int[0]);
+                return parseMoves(pkm.Moves, validLevelMoves, pkm.RelearnMoves, validTMHM, validTutor, new int[0], new int[0], new int[0], new int[0], new int[0]);
 
             // Iterate over encounters
             bool pre3DS = pkm.GenNumber < 6;
@@ -2391,7 +2406,7 @@ namespace PKHeX.Core
             var empty = new List<int>[EvoChainsAllGens.Length];
             for (int i = 0; i < empty.Length; i++)
                 empty[i] = new List<int>();
-            return parseMoves(pkm.Moves, validLevelMoves, new int[0], empty, empty, new int[0], new int[0], new int[0], new int[0]);
+            return parseMoves(pkm.Moves, validLevelMoves, new int[0], empty, empty, new int[0], new int[0], new int[0], new int[0], new int[0]);
         }
         private GameVersion[] getBaseMovesIsEggGames()
         {
@@ -2530,7 +2545,7 @@ namespace PKHeX.Core
                     var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
                     var EggMoves = Legal.getEggMoves(pkm, i, ver).ToArray();
 
-                    res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, new int[0], LvlupEggMoves, EggMoves, EventEggMoves);
+                    res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, new int[0], LvlupEggMoves, EggMoves, EventEggMoves, new int[0]);
 
                     if (res.All(r => r.Valid)) // moves is satisfactory
                         return res;
@@ -2565,17 +2580,44 @@ namespace PKHeX.Core
                 var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg;
                 return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
             }
+            if (pkm.GenNumber <= 2 && (EncounterMatch as IGeneration)?.Generation == 1)
+                return parseMovesGen1(Moves, validLevelMoves, validTMHM, validTutor);
             if (pkm.WasEgg)
                 return parseMovesWasEggPreRelearn(Moves, validLevelMoves, validTMHM, validTutor);
             
             return parseMovesSpecialMoveset(Moves, validLevelMoves, validTMHM, validTutor);
+        }
+        private CheckResult[] parseMovesGen1(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
+        {
+            GameVersion[] games = Legal.getGen1GameEncounter(pkm);
+            CheckResult[] res = new CheckResult[4];
+            var G1Encounter = (EncounterMatch as IEncounterable);
+            if (G1Encounter == null)
+                return parseMovesSpecialMoveset(Moves, validLevelMoves, validTMHM, validTutor);
+            var InitialMoves = new int[0];
+            int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
+            // validLevelMoves[1] could have the same moves if pokemon could be only from gen 1 encounter or the validlevelmoves with the gen 2 level encounter
+            // If gen2 is allowed get againt the gen 1 valid moves
+            if(Legal.AllowGBCartEra)
+                validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: G1Encounter.LevelMin, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+            foreach(GameVersion ver in games)
+            {
+                var VerInitialMoves = Legal.getInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();
+                if (VerInitialMoves.SequenceEqual(InitialMoves))
+                    return res;
+                res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, new int[0], new int[0], new int[0], VerInitialMoves);
+                if (res.All(r => r.Valid))
+                    return res;
+                InitialMoves = VerInitialMoves;
+            }
+            return res;
         }
         private CheckResult[] parseMovesSpecialMoveset(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor)
         {
             int[] RelearnMoves = pkm.GenNumber >= 6 ? pkm.RelearnMoves : new int[0];
             var mg = EncounterMatch as IMoveset;
             int[] SpecialMoves = mg?.Moves ?? new int[0];
-            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], new int[0], new int[0]);
+            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], new int[0], new int[0], new int[0]);
             if (res.Any(r => !r.Valid))
                 return res;
             
@@ -2603,7 +2645,7 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
 
-            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], EggMoves, new int[0]);
+            CheckResult[] res = parseMoves(Moves, validLevelMoves, RelearnMoves, validTMHM, validTutor, SpecialMoves, new int[0], EggMoves, new int[0], new int[0]);
 
             for (int i = 0; i < 4; i++)
                 if ((pkm.IsEgg || res[i].Flag) && !RelearnMoves.Contains(Moves[i]))
@@ -2611,7 +2653,7 @@ namespace PKHeX.Core
 
             return res;
         }
-        private CheckResult[] parseMoves(int[] moves, List<int>[] learn, int[] relearn, List<int>[] tmhm, List<int>[] tutor, int[] special, int[] lvlupegg, int[] egg, int[] eventegg)
+        private CheckResult[] parseMoves(int[] moves, List<int>[] learn, int[] relearn, List<int>[] tmhm, List<int>[] tutor, int[] special, int[] lvlupegg, int[] egg, int[] eventegg, int[] initialmoves)
         {
             CheckResult[] res = new CheckResult[4];
             var Gen1MovesLearned = new List<int>();
@@ -2657,8 +2699,9 @@ namespace PKHeX.Core
                 {
                     if (res[m]?.Valid ?? false)
                         continue;
-
-                    if (learn[gen].Contains(moves[m]))
+                    if (gen ==1 && initialmoves.Contains(moves[m]))
+                        res[m] = new CheckResult(Severity.Valid, native ? V361 : string.Format(V362, gen), CheckIdentifier.Move);
+                    else if (learn[gen].Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V177 : string.Format(V330, gen), CheckIdentifier.Move);
                     else if (tmhm[gen].Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V173 : string.Format(V331, gen), CheckIdentifier.Move);

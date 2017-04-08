@@ -37,7 +37,7 @@ namespace PKHeX.Core
         // for generation 1 is not possible to learn any moves bellow this encounter moves
         public IEnumerable<int> getEncounterMoves(int level, int moveslots)
         {
-            if (moveslots == 0)
+            if (moveslots == 0 || !Levels.Any())
                 return new int[0];
             var num = Math.Min(moveslots, 4);
             if (level < Levels.Last())
@@ -52,6 +52,8 @@ namespace PKHeX.Core
         // For generation 1 it should be used this level to compare to generation 2 encounter level to choose the lower encounter
         public int getMinMoveLevel(int level)
         {
+            if (!Levels.Any())
+                return 1;
             if (level < Levels.Last())
             {
                 for (int i = 0; i < Levels.Length; i++)
