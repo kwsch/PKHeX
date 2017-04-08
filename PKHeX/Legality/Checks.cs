@@ -2332,18 +2332,13 @@ namespace PKHeX.Core
                 encounters.AddRange(EncounterStaticMatch.Where(x => (x as IMoveset)?.Moves != null));
             if (null != EncounterMatch && (EncounterMatch as IMoveset)?.Moves != null)
                 encounters.Add(EncounterMatch);
-
-            if (pkm.WasEgg && !encounters.Any())
-                encounters.Add(null); // use null encounter for player hatched eggs
-
      
             if (!pkm.IsEgg)
-            {
+                //Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
                 encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
-                encounters.Add(null);
-            }
-            else if (!pkm.Gen3 || !encounters.Any()) // IsEgg
-                // Do not add player hatched egg if there is a gen 3 gift egg or event egg encounter
+
+            // add player hatched egg except if there is a gen 3 gift egg or event egg encounter adn the pokemon is inside an egg
+            if (!encounters.Any() || !pkm.IsEgg)
                 encounters.Add(null);
             
             return encounters;
@@ -2355,11 +2350,9 @@ namespace PKHeX.Core
             if (pkm.WasEgg)
                 encounters.Add(null);
             if (EncountersGBMatch != null)
-            {
                 // Add non egg encounters, start with generation 2
                 // generation 1 will change valid gen 1 lvl moves for every encounter
                 encounters.AddRange(EncountersGBMatch.Where(t=> t.Type != GBEncounterType.EggEncounter).OrderByDescending(t=>t.Generation).Select(e => e.Encounter));
-            }
             return encounters;
         }
         private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
