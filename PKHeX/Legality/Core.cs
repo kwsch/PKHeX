@@ -700,11 +700,12 @@ namespace PKHeX.Core
         internal static List<int>[] getExclusiveMoves(int species1, int species2, int Generation, List<int> tmhm,int[] moves)
         {
             // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
-            var moves1 = getLvlMoves(species1, 0, Generation, 1, 100).ToList();
-            var moves2 = getLvlMoves(species1, 0, Generation, 1, 100).ToList();
+            var moves1 = getLvlMoves(species1, 0, Generation, 1, 100).Distinct().ToList();
+            var moves2 = getLvlMoves(species2, 0, Generation, 1, 100).Distinct().ToList();
             var common = moves1.Intersect(moves2).ToList();
-            moves1.RemoveAll(x => !moves.Contains(x) && (common.Contains(x) || tmhm.Contains(x)));
-            moves2.RemoveAll(x => !moves.Contains(x) && (common.Contains(x) || tmhm.Contains(x)));
+            // Remove common moves, remove not learned moves and remove tmhm
+            moves1.RemoveAll(x => !moves.Contains(x) || common.Contains(x) || tmhm.Contains(x));
+            moves2.RemoveAll(x => !moves.Contains(x) || common.Contains(x) || tmhm.Contains(x));
             return new[] { moves1, moves2 };
         }
         internal static IEnumerable<int> getLvlMoves(int species, int form, int Generation, int minlvl, int lvl, GameVersion Version = GameVersion.Any)

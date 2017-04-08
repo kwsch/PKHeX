@@ -2925,9 +2925,9 @@ namespace PKHeX.Core
             if (134 <= pkm.Species && pkm.Species <= 136)
             {
                 previousspecies = species[133];
-                var ExclusiveMoves = Legal.getExclusiveMoves(133, pkm.SpecForm, 1, tmhm, moves);
+                var ExclusiveMoves = Legal.getExclusiveMoves(133, pkm.Species, 1, tmhm, moves);
                 var EeveeLevels = Legal.getMinLevelLearnMove(133, 1, ExclusiveMoves[0]);
-                var EvoLevels = Legal.getMaxLevelLearnMove(133, 1, ExclusiveMoves[0]);
+                var EvoLevels = Legal.getMaxLevelLearnMove(pkm.Species, 1, ExclusiveMoves[1]);
                
                 for (int i = 0; i < ExclusiveMoves[0].Count; i++)
                 { 
