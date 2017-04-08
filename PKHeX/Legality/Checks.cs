@@ -1367,9 +1367,9 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.Species == 292) // Shedinja
+            if (pkm.Species == 292 && pkm.GenNumber > 3) // Shedinja. For gen3, copy the ball from Nincada
             {
-                verifyBallEquals(4); // Pokeball
+                verifyBallEquals(4); // Pokeball Only
                 return;
             }
 
