@@ -167,6 +167,21 @@ namespace PKHeX.Core
                     : new EncounterArea {Location = t.First().Location, Slots = t.SelectMany(s => s.Slots).ToArray()})
                 .ToArray();
         }
+        private static void MarkEncountersGeneration(ref EncounterStatic[] Encounters, int Generation)
+        {
+            foreach (EncounterStatic Encounter in Encounters)
+            {
+                Encounter.Generation = Generation;
+            }
+        }
+        private static void MarkEncountersGeneration(ref EncounterArea[] Areas, int Generation)
+        {
+            foreach(EncounterArea Area in Areas)
+            {
+                foreach(EncounterSlot Slot in Area.Slots)
+                    Slot.Generation = Generation;
+            }
+        }
         private static void ReduceAreasSize(ref EncounterArea[] Areas)
         {
             // Group areas by location id, the raw data have areas with different slots but the same location id
@@ -427,6 +442,8 @@ namespace PKHeX.Core
                 StaticRBY = getStaticEncounters(GameVersion.RBY);
                 SlotsRBY = getTables1();
                 // Gen 1 is the only gen where ReduceAreasSize is not needed
+                MarkEncountersGeneration(ref SlotsRBY, 1);
+                MarkEncountersGeneration(ref StaticRBY, 1);
                 Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
             }
             // Gen 2
@@ -440,6 +457,12 @@ namespace PKHeX.Core
                 MarkG2Slots(ref SlotsGS);
                 MarkG2Slots(ref SlotsC);
                 MarkG2Slots(ref SlotsGSC);
+                MarkEncountersGeneration(ref SlotsGS, 2);
+                MarkEncountersGeneration(ref SlotsC, 2);
+                MarkEncountersGeneration(ref SlotsGSC, 2);
+                MarkEncountersGeneration(ref StaticGS, 2);
+                MarkEncountersGeneration(ref StaticC, 2);
+                MarkEncountersGeneration(ref StaticGSC, 2);
                 Evolves2 = new EvolutionTree(new[] { Resources.evos_gsc }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
             }
             // Gen3
