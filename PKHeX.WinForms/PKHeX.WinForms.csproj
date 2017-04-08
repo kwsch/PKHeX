@@ -264,6 +264,12 @@
     <Compile Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.Designer.cs">
       <DependentUpon>SAV_HoneyTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_Misc4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_Misc4.Designer.cs">
+      <DependentUpon>SAV_Misc4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -506,6 +512,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.resx">
       <DependentUpon>SAV_HoneyTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Misc4.resx">
+      <DependentUpon>SAV_Misc4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.resx">
       <DependentUpon>SAV_Pokedex4.cs</DependentUpon>
