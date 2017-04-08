@@ -2374,6 +2374,13 @@ namespace PKHeX.Core
 
             return res;
         }
+        private void UptateGen1LevelUpMoves(ref List<int>[] validLevelMoves, List<int> DefaultMoves, int generation)
+        {
+            if (generation == 1)
+                validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: (EncounterMatch as IEncounterable).LevelMin, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+            else if (generation == 2)
+                validLevelMoves[1] = DefaultMoves;
+        }
         private CheckResult[] parseMovesForEncounters(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
         {
             if (pkm.Species == 235) // special handling for Smeargle
@@ -2393,10 +2400,14 @@ namespace PKHeX.Core
             // Iterate over encounters
             bool pre3DS = pkm.GenNumber < 6;
             CheckResult[] res = new CheckResult[4];
+            var defaultGen1Moves = validLevelMoves[1];
             foreach (var enc in encounters)
             {
                 EncounterMatch = enc;
-                if(pkm.GenNumber <= 3)
+                var EncounterMatchGen = EncounterMatch as IGeneration;
+                if(EncounterMatchGen != null)
+                    UptateGen1LevelUpMoves(ref validLevelMoves, defaultGen1Moves, EncounterMatchGen.Generation);
+                if (pkm.GenNumber <= 3)
                     pkm.WasEgg = EncounterMatch == null || ((EncounterMatch as IEncounterable)?.EggEncounter ?? false);
                 res = pre3DS
                     ? parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves)
@@ -2605,10 +2616,6 @@ namespace PKHeX.Core
                 return parseMovesSpecialMoveset(Moves, validLevelMoves, validTMHM, validTutor);
             var InitialMoves = new int[0];
             int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
-            // validLevelMoves[1] could have the same moves if pokemon could be only from gen 1 encounter or the validlevelmoves with the gen 2 level encounter
-            // If gen2 is allowed get againt the gen 1 valid moves
-            if(Legal.AllowGBCartEra)
-                validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: G1Encounter.LevelMin, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
             foreach(GameVersion ver in games)
             {
                 var VerInitialMoves = Legal.getInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();
