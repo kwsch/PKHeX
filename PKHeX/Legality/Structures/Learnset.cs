@@ -23,9 +23,9 @@ namespace PKHeX.Core
 
         public int[] getMoves(int minLevel, int maxLevel)
         {
-            if (minLevel > Levels.Last()) return new int[0];
+            if (minLevel > Levels.LastOrDefault()) return new int[0];
             var skip = Levels.Select((m, i) => i).SkipWhile(i => Levels[i] < minLevel).FirstOrDefault();
-            if (maxLevel > Levels.Last()) return Moves.Skip(skip).ToArray();
+            if (maxLevel > Levels.LastOrDefault()) return Moves.Skip(skip).ToArray();
             return Moves.Skip(skip).TakeWhile((m, i) => Levels[i + skip] <= maxLevel).ToArray();
         }
         public IEnumerable<int> getEncounterMoves(int level)
