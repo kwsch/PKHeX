@@ -1246,7 +1246,8 @@ namespace PKHeX.Core
                     return new GBEncounterData(getBaseSpecies(pkm, maxSpeciesOrigin: MaxSpeciesID_2)); // gen2 egg
             }
             if (em <= sm && em <= tm)
-                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).First());
+                // All the code is addepted to have wild encounters in slot array
+                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).Take(1).ToArray());
             if (sm <= em && sm <= tm)
                 return new GBEncounterData(pkm, gen, s.Where(slot => slot.Species == sm).OrderBy(slot => slot.Level).First());
             if (tm <= sm && tm <= em)

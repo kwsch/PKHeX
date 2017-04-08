@@ -722,7 +722,7 @@ namespace PKHeX.Core
                 pkm.WasEgg = true;
                 return verifyEncounterEgg();
             }
-            EncounterMatch = EncounterOriginalGB; ;
+            EncounterMatch = EncounterOriginalGB;
             if (EncounterMatch is EncounterSlot[])
                 return verifyEncounterWild();
             if (EncounterMatch is EncounterStatic)
