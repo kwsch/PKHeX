@@ -2844,6 +2844,13 @@ namespace PKHeX.Core
                     foreach (int m in Gen1MovesLearned)
                         res[m] = new CheckResult(Severity.Invalid, V335, CheckIdentifier.Move);
 
+                if (gen == 1 && pkm.Format == 1 && !Legal.AllowGBCartEra)
+                {
+                    // Check moves learned at the same level in red/blue and yellow, illegal because there is no move reminder
+                    // Only two incompatibilites and only there are no illegal combination if generation 2 or 7 are included in the analysis
+                    ParseRedYellowIncompatibleMoves(moves, ref res);
+                }
+
                 if (res.All(r => r != null))
                     return res;
             }
@@ -2861,6 +2868,33 @@ namespace PKHeX.Core
                     res[m] = new CheckResult(Severity.Invalid, V176, CheckIdentifier.Move);
             }
             return res;
+        }
+        private void ParseRedYellowIncompatibleMoves(int[] moves, ref CheckResult[] res)
+        {
+            var incompatible = new List<int>();
+            if(pkm.Species == 134 && moves.Contains(151) && pkm.CurrentLevel < 47)
+            {
+                // Vaporeon in Yellow learn Mist and Acid Armor at level 42, Mist only if level up in day-care
+                // Vaporeon in Red Blue learn Acid Armor at level 42 and level 47 in Yellow
+                if (moves.Contains(54))
+                    incompatible.Add(54);
+                if (moves.Contains(114))
+                    incompatible.Add(114);
+                if(incompatible.Any())
+                    incompatible.Add(151);
+            }
+            if (pkm.Species == 136 && moves.Contains(43) && moves.Contains(123) && pkm.CurrentLevel < 47)
+            {
+                // Flareon in Yellow learn Smog at level 42
+                // Flareon in Red Blue learn Leer at level 42 and level 47 in Yellow
+                incompatible.Add(43);
+                incompatible.Add(123);
+            }
+            for(int m = 0; m < 4; m++)
+            {
+                if (incompatible.Contains(moves[m]))
+                    res[m] = new CheckResult(Severity.Invalid, V363, CheckIdentifier.Move);
+            }
         }
         private void ParseShedinjaEvolveMoves(int[] moves, ref CheckResult[] res)
         {
