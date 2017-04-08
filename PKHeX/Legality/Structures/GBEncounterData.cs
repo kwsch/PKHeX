@@ -60,7 +60,7 @@ namespace PKHeX.Core
                 var statc = (EncounterStatic)Encounter;
                 Species = statc.Species;
                 Level = statc.Level;
-                if (statc.Moves[0] != 0 && pkm.Moves.Contains(statc.Moves[0]))
+                if (statc.Moves != null && statc.Moves[0] != 0 && pkm.Moves.Contains(statc.Moves[0]))
                     Type = GBEncounterType.SpecialEncounter;
                 else
                     Type = GBEncounterType.StaticEncounter;

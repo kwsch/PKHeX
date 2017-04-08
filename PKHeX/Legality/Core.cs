@@ -1233,7 +1233,7 @@ namespace PKHeX.Core
             var tm = t?.Species ?? invalid;
 
             // check for special move static encounter
-            var special = s?.FirstOrDefault(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0]));
+            var special = s?.FirstOrDefault(m => m.Moves != null && m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0]));
             if (special != null) // return with high priority
                 return new GBEncounterData(pkm, gen, special);
             
@@ -1246,18 +1246,19 @@ namespace PKHeX.Core
                     return new GBEncounterData(getBaseSpecies(pkm, maxSpeciesOrigin: MaxSpeciesID_2)); // gen2 egg
             }
             if (em <= sm && em <= tm)
-                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin));
+                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).First());
             if (sm <= em && sm <= tm)
-                return new GBEncounterData(pkm, gen, s.Where(slot => slot.Species == sm).Min(slot => slot.Level));
+                return new GBEncounterData(pkm, gen, s.Where(slot => slot.Species == sm).OrderBy(slot => slot.Level).First());
             if (tm <= sm && tm <= em)
                 return new GBEncounterData(pkm, gen, t);
             return null;
         }
         internal static List<GBEncounterData> getEncounter12(PKM pkm, bool gen2)
         {
-            var g1 = pkm.IsEgg ? null : getEncounter12(pkm, GameVersion.RBY);
+            var g1 = pkm.IsEgg || pkm.HasOriginalMetLocation ? null : getEncounter12(pkm, GameVersion.RBY);
             var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
-
+            if (g1 == null && g2 == null)
+                return null;
             if (g1 == null || g2 == null)
                 return new List<GBEncounterData> { g1 ?? g2 };
 
@@ -1928,7 +1929,7 @@ namespace PKHeX.Core
                 return 113;
 
             var table = getEvolutionTable(pkm);
-            var evos = table.getValidPreEvolutions(pkm, 100, maxSpeciesOrigin = maxSpeciesOrigin, skipChecks:true).ToArray();
+            var evos = table.getValidPreEvolutions(pkm, 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
 
             switch (skipOption)
             {
