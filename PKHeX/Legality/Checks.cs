@@ -309,7 +309,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Format <= 2 || pkm.VC)
             {
-                var et = EncounterOriginal as EncounterTrade;
+                var et = EncounterOriginalGB as EncounterTrade;
                 if (et?.TID == 0) // Gen1 Trade
                 {
                     if (!Legal.getEncounterTrade1Valid(pkm))
@@ -713,24 +713,21 @@ namespace PKHeX.Core
         }
         private CheckResult verifyEncounterG12()
         {
-            var obj = Legal.getEncounter12(pkm, Legal.AllowGBCartEra && pkm.Format < 3);
-            if (obj == null)
+            EncountersGBMatch = Legal.getEncounter12(pkm, Legal.AllowGBCartEra && pkm.Format < 3);
+            if (EncountersGBMatch == null)
                 return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
-            EncounterMatch = obj.Item1;
-            if (EncounterMatch is bool)
+            if (EncountersGBMatch.First().Type == GBEncounterType.EggEncounter)
             {
                 pkm.WasEgg = true;
                 return verifyEncounterEgg();
             }
+            EncounterMatch = EncounterOriginalGB; ;
             if (EncounterMatch is EncounterSlot[])
                 return verifyEncounterWild();
-            if (EncounterMatch is List<EncounterStatic>)
-            {
-                EncounterStaticMatch = (List<EncounterStatic>)EncounterMatch;
-                EncounterMatch = EncounterStaticMatch.First();
+            if (EncounterMatch is EncounterStatic)
                 return verifyEncounterStatic();
-            }
+
             if (EncounterMatch is EncounterTrade)
                 return verifyEncounterTrade();
 
@@ -748,7 +745,6 @@ namespace PKHeX.Core
 
             // Get EncounterMatch prior to parsing transporter legality
             var result = verifyEncounterG12();
-            EncounterOriginal = EncounterMatch;
 
             if (pkm.Format > 2) // transported to 7+
                 AddLine(verifyVCEncounter(baseSpecies));
@@ -955,7 +951,7 @@ namespace PKHeX.Core
                 species = baseSpecies;
 
             // Check existing EncounterMatch
-            if ((EncounterOriginal ?? EncounterMatch) == null)
+            if ((EncountersGBMatch ?? EncounterMatch) == null)
                 return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
             var s = EncounterMatch as List<EncounterStatic>;

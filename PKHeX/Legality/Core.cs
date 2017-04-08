@@ -1113,7 +1113,10 @@ namespace PKHeX.Core
                     }
                 case GameVersion.YW:
                     {
-                        return Math.Min(movelvl, LevelUpY[species].getMinMoveLevel(lvl));
+                        movelvl = Math.Min(movelvl, LevelUpY[species].getMinMoveLevel(lvl));
+                        if (ver.Contains(GameVersion.GS))
+                            goto case GameVersion.GS;
+                        return movelvl;
                     }
                 case GameVersion.GS:
                 case GameVersion.GSC:
@@ -1196,8 +1199,9 @@ namespace PKHeX.Core
                 return null;
             return z;
         }
-        private static Tuple<object, int, byte> getEncounter12(PKM pkm, GameVersion game)
+        private static GBEncounterData getEncounter12(PKM pkm, GameVersion game)
         {
+            var gen = game == GameVersion.GSC ? 2 : 1;
             // Tuple: Encounter, Level, Preference (higher = more preferred)
             bool WasEgg = game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
@@ -1231,42 +1235,48 @@ namespace PKHeX.Core
             // check for special move static encounter
             var special = s?.FirstOrDefault(m => m.Moves[0] != 0 && pkm.Moves.Contains(m.Moves[0]));
             if (special != null) // return with high priority
-                return new Tuple<object, int, byte>(s, special.Level, 20);
+                return new GBEncounterData(pkm, gen, special);
+            
 
             if (game == GameVersion.GSC)
             {
                 if (t != null && t.TID != 0)
-                    return new Tuple<object, int, byte>(t, t.Level, 10); // gen2 trade
+                    return new GBEncounterData(pkm, 2, t); // gen2 trade
                 if (WasEgg && new[] { sm, em, tm }.Min(a => a) >= 5)
-                    return new Tuple<object, int, byte>(true, 5, 9); // gen2 egg
+                    return new GBEncounterData(getBaseSpecies(pkm, maxSpeciesOrigin: MaxSpeciesID_2)); // gen2 egg
             }
             if (em <= sm && em <= tm)
-                return new Tuple<object, int, byte>(e, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin), 3);
+                return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).Min(slot => slot.LevelMin));
             if (sm <= em && sm <= tm)
-                return new Tuple<object, int, byte>(s, s.Where(slot => slot.Species == sm).Min(slot => slot.Level), 2);
+                return new GBEncounterData(pkm, gen, s.Where(slot => slot.Species == sm).Min(slot => slot.Level));
             if (tm <= sm && tm <= em)
-                return new Tuple<object, int, byte>(t, t.Level, 1);
+                return new GBEncounterData(pkm, gen, t);
             return null;
         }
-        internal static Tuple<object, int, byte> getEncounter12(PKM pkm, bool gen2)
+        internal static List<GBEncounterData> getEncounter12(PKM pkm, bool gen2)
         {
             var g1 = pkm.IsEgg ? null : getEncounter12(pkm, GameVersion.RBY);
             var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
 
             if (g1 == null || g2 == null)
-                return g1 ?? g2;
-            
-            var t = g1.Item1 as EncounterTrade;
+                return new List<GBEncounterData> { g1 ?? g2 };
+
+            var t = g1.Encounter as EncounterTrade;
             if (t != null && getEncounterTrade1Valid(pkm))
-                return g1;
+                return new List<GBEncounterData> { g1 };
 
             // Both generations can provide an encounter. Return highest preference
-            if (g1.Item3 > g2.Item3)
-                return g1;
-            if (g1.Item3 < g2.Item3)
-                return g2;
-            // Return lowest level encounter
-            return g1.Item2 < g2.Item2 ? g1 : g2;
+            g1.MoveLevel = getMoveMinLevelGBEncounter(g1.Species, g1.Level, ver: GameVersion.RBY);
+            if (g1.Type > g2.Type)
+                return new List<GBEncounterData> { g1 };
+            if (g1.Type <= g2.Type ||
+                // Return lowest level encounter
+                g2.MoveLevel < g1.MoveLevel)
+            {
+                // Return also generation 1 moves, it could have different encounter moves
+                return new List<GBEncounterData> { g2, g1 };
+            }
+            return new List<GBEncounterData> { g1 };
         }
         internal static bool getEncounterTrade1Valid(PKM pkm)
         {
@@ -1910,7 +1920,7 @@ namespace PKHeX.Core
             return getValidMoves(pkm, version, getValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
-        internal static int getBaseSpecies(PKM pkm, int skipOption = 0)
+        internal static int getBaseSpecies(PKM pkm, int skipOption = 0, int maxSpeciesOrigin = -1)
         {
             if (pkm.Species == 292)
                 return 290;
@@ -1918,7 +1928,7 @@ namespace PKHeX.Core
                 return 113;
 
             var table = getEvolutionTable(pkm);
-            var evos = table.getValidPreEvolutions(pkm, 100, skipChecks:true).ToArray();
+            var evos = table.getValidPreEvolutions(pkm, 100, maxSpeciesOrigin = maxSpeciesOrigin, skipChecks:true).ToArray();
 
             switch (skipOption)
             {
