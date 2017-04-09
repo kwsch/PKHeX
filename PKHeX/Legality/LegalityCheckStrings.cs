@@ -58,6 +58,8 @@ namespace PKHeX.Core
         public static string V349 { get; set; } = "Inherited TM/HM move.";
         public static string V355 { get; set; } = "Learned by evolving Nincada into Ninjask.";
         public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in generation {0}.";
+        public static string V361 { get; set; } = "Default move.";
+        public static string V362 { get; set; } = "Default move in generation {0}.";
 
         #endregion
 
@@ -351,6 +353,9 @@ namespace PKHeX.Core
         public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
         public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
         public static string V360 {get; set;} = "Unable to match an event egg encounter from origin game.";
+        public static string V363 {get; set;} = "Incompatible moves. Learned at the same level in Red/Blue and Yellow.";
+        public static string V365 {get; set;} = "Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.";
+        public static string V366 {get; set;} = "Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.";
         #endregion
 
     }

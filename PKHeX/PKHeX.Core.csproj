@@ -158,12 +158,14 @@
     <Compile Include="Legality\Structures\DexLevel.cs" />
     <Compile Include="Legality\Structures\EggMoves.cs" />
     <Compile Include="Legality\Structures\EncounterArea.cs" />
+    <Compile Include="Legality\Structures\GBEncounterData.cs" />
     <Compile Include="Legality\Structures\IEncounterable.cs" />
     <Compile Include="Legality\Structures\EncounterLink.cs" />
     <Compile Include="Legality\Structures\EncounterSlot.cs" />
     <Compile Include="Legality\Structures\EncounterStatic.cs" />
     <Compile Include="Legality\Structures\EncounterTrade.cs" />
     <Compile Include="Legality\Structures\EvolutionTree.cs" />
+    <Compile Include="Legality\Structures\iGeneration.cs" />
     <Compile Include="Legality\Structures\IMoveset.cs" />
     <Compile Include="Legality\Structures\Learnset.cs" />
     <Compile Include="Legality\Structures\Nature.cs" />

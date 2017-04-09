@@ -189,6 +189,7 @@ namespace PKHeX.Core
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
         public override bool IsEgg { get { return PGTGiftType == GiftType.PokémonEgg; } set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
         public bool IsManaphyEgg { get { return PGTGiftType == GiftType.ManaphyEgg; } set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
+        public override bool EggEncounter => IsEgg || IsManaphyEgg;
         public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) PGTGiftType = GiftType.Item; } }
         public override bool IsPokémon { get { return PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; } set { } }
 

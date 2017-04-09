@@ -1,10 +1,13 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterTrade : IEncounterable, IMoveset
+    public class EncounterTrade : IEncounterable, IMoveset, IGeneration
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
         public int Level;
+        public int LevelMin { get { return Level; } set { } }
+        public int LevelMax { get { return 100; } set { } }
+        public int Generation { get; set; } = -1;
 
         public int Location = -1;
         public int Ability = 0;
@@ -18,6 +21,7 @@
         public bool Shiny = false;
         public int Gender = -1;
         public int OTGender = -1;
+        public bool EggEncounter => false;
 
         public string Name => "In-game Trade";
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -22,9 +23,48 @@ namespace PKHeX.Core
 
         public int[] getMoves(int minLevel, int maxLevel)
         {
-            return Moves
-                .SkipWhile((m, i) => Levels[i] < minLevel)
-                .TakeWhile((m, i) => Levels[i] <= maxLevel).ToArray();
+            if (minLevel > Levels.LastOrDefault()) return new int[0];
+            var skip = Levels.Select((m, i) => i).SkipWhile(i => Levels[i] < minLevel).FirstOrDefault();
+            if (maxLevel > Levels.LastOrDefault()) return Moves.Skip(skip).ToArray();
+            return Moves.Skip(skip).TakeWhile((m, i) => Levels[i + skip] <= maxLevel).ToArray();
+        }
+        public IEnumerable<int> getEncounterMoves(int level)
+        {
+            return getEncounterMoves(level, 4);
+        }
+        // Return the default moves a pokemon learn at the moment of its encounter level, 
+        // the last 4 moves of its learned, or less if there is any special move
+        // for generation 1 is not possible to learn any moves bellow this encounter moves
+        public IEnumerable<int> getEncounterMoves(int level, int moveslots)
+        {
+            if (moveslots == 0 || !Levels.Any())
+                return new int[0];
+            var num = Math.Min(moveslots, 4);
+            if (level < Levels.Last())
+            {
+                for (int i = 0; i < Levels.Length; i++)
+                    if (Levels[i] > level)
+                        return i <= num ? Moves.Take(i) : Moves.Skip(i - num).Take(num);
+            }
+            return Moves.Length <= num ? Moves: Moves.Skip(Moves.Length - num);
+        }
+        // Return for a pokemon with a given level encounter, the min level of the moves in the getEncounterMoves array
+        // For generation 1 it should be used this level to compare to generation 2 encounter level to choose the lower encounter
+        public int getMinMoveLevel(int level)
+        {
+            if (!Levels.Any())
+                return 1;
+            if (level < Levels.Last())
+            {
+                for (int i = 0; i < Levels.Length; i++)
+                    if (Levels[i] > level)
+                        return i < 4 ? 1 : Levels.Skip(i - 4).First();
+            }
+            return Levels.Length < 4 ? 1 : Levels.Skip(Levels.Length - 4).First();
+        }
+        public int getLevelLearnMove(int move)
+        {
+            return Moves.Select((m, i) => new { move = m, level = Levels[i] }).Where(m => m.move == move).Select(l => l.level).FirstOrDefault();
         }
     }
 

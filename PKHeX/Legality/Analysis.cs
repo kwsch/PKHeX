@@ -11,11 +11,13 @@ namespace PKHeX.Core
         private DexLevel[][] EvoChainsAllGens;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
-        private object EncounterMatch, EncounterOriginal;
+        private List<GBEncounterData> EncountersGBMatch;
+        private object EncounterOriginalGB => EncountersGBMatch?.FirstOrDefault()?.Encounter;
+        private object EncounterMatch;
         private Type EncounterType;
         private bool MatchIsMysteryGift => EncounterMatch.GetType().IsSubclassOf(typeof(MysteryGift));
         private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
-        private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginal ?? EncounterMatch);
+        private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginalGB ?? EncounterMatch);
         private List<MysteryGift> EventGiftMatch;
         private List<EncounterStatic> EncounterStaticMatch;
         private CheckResult Encounter, History;
@@ -193,13 +195,13 @@ namespace PKHeX.Core
 
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
-            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginal ?? EncounterMatch);
+            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
         }
         private void updateEncounterInfo()
         {
             EncounterMatch = EncounterMatch ?? pkm.Species;
 
-            EncounterType = (EncounterOriginal ?? EncounterMatch)?.GetType();
+            EncounterType = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
             if (EncounterType == typeof (MysteryGift))
                 EncounterType = EncounterType?.BaseType;
         }
