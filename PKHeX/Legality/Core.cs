@@ -1434,12 +1434,12 @@ namespace PKHeX.Core
                 }
                 if (pk.Species == 113) // Chansey 
                 {
-                    if (!moves.Contains(39))// Yellow Tail Whip 
+                    if (!moves.Contains(39))// Yellow Initial Tail Whip 
                         usedslots--;
-                    if (!moves.Contains(3))// Yellow Double Slap
+                    if (!moves.Contains(3))// Yellow Lvl 12 and Initial Red/Blue Double Slap
                         usedslots--;
                 }
-                if (pk.Species == 127 && !moves.Contains(20)) // Pinsir Yellow Bind
+                if (pk.Species == 127 && pk.CurrentLevel >=21 && !moves.Contains(20)) // Pinsir Yellow Bind
                     usedslots--;
 
                 if (SpecialMinMoveSlots.Contains(pk.Species))
@@ -1459,7 +1459,7 @@ namespace PKHeX.Core
                         maxlevel = pk.CurrentLevel;
                     }
                     var mandatorymoves = minlevel <= pk.CurrentLevel ? getLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList(): new List<int>();
-                    if (pk.Species == 103 && pk.Species >= 28) // Exeggutor
+                    if (pk.Species == 103 && pk.CurrentLevel >= 28) // Exeggutor
                     {
                         // At level 28 learn different move if is a Exeggute or Exeggutor
                         if (moves.Contains(73))
@@ -1470,7 +1470,7 @@ namespace PKHeX.Core
                     if (pk.Species == 25 && pk.CurrentLevel >= 33)
                         mandatorymoves.Add(97); // Pikachu always learn Agility
                     if (pk.Species == 114)
-                        mandatorymoves.Add(132); // Tangela always learn Constrict
+                        mandatorymoves.Add(132); // Tangela always learn Constrict as Initial Move
                     // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
                     usedslots = mandatorymoves.Count + moves.Where(m => m != 0 && mandatorymoves.All(l => l != m) && learn[1].Any(t => t == m)).Count();
                 }
