@@ -1375,16 +1375,16 @@ namespace PKHeX.Core
                 {
                     if (pk.Species == 11 && !moves.Any(m => G1MetapodMoves.Contains(m)))
                         // Captured as Metapod without Caterpie moves
-                        usedslots = initialmoves.Union(learn[1]).Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
+                        usedslots = initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
                 }
                 if (14 <= pk.Species && pk.Species <= 15)
                 {
                     if (pk.Species == 15 && !moves.Any(m => G1KakunaMoves.Contains(m)))
                         // Captured as Beedril without Weedle and Kakuna moves
-                        usedslots = initialmoves.Union(learn[1]).Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
+                        usedslots = initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
                     else if (!moves.Any(m => G1WeedleMoves.Contains(m)))
                         // Captured as Kakuna without Weedle moves
-                        usedslots = initialmoves.Union(learn[1]).Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
+                        usedslots = initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
                 }
                 // Species that evolve and learn the 4th move as evolved species at a greather level than base species
                 // The 4th move is included in the level up table set as a preevolution move, 
