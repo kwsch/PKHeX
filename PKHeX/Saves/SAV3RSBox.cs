@@ -166,17 +166,14 @@ namespace PKHeX.Core
             int offset = Box + 0x1EC38 + 9 * box;
             if (Data[offset] == 0 || Data[offset] == 0xFF)
                 boxName += $"BOX {box + 1}";
-            boxName += PKX.getG3Str(getData(offset, 9), Japanese);
+            boxName += getString(offset, 9);
 
             return boxName;
         }
         public override void setBoxName(int box, string value)
         {
             int offset = Box + 0x1EC38 + 9 * box;
-            if (value.Length > 8)
-                value = value.Substring(0, 8); // Hard cap
-
-            byte[] data = value == $"BOX {box + 1}" ? new byte[9] : PKX.setG3Str(value, Japanese); 
+            byte[] data = value == $"BOX {box + 1}" ? new byte[9] : setString(value, 8); 
             setData(data, offset);
         }
         public override PKM getPKM(byte[] data)
@@ -205,6 +202,14 @@ namespace PKHeX.Core
             BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + data.Length + 0);
             BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + data.Length + 2);
             Edited = true;
+        }
+
+        public override string getString(int Offset, int Count) => PKX.getString3(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString3(value, maxLength, Japanese, PadToSize, PadWith);
         }
     }
 }

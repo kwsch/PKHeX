@@ -281,13 +281,11 @@ namespace PKHeX.Core
         }
         public override string getBoxName(int box)
         {
-            return PKX.getColoStr(Data, Box + 0x24A4*box, 8);
+            return getString(Box + 0x24A4*box, 16);
         }
         public override void setBoxName(int box, string value)
         {
-            if (value.Length > 8)
-                value = value.Substring(0, 8); // Hard cap
-            PKX.setColoStr(value, 8).CopyTo(Data, Box + 0x24A4*box);
+            setString(value, 8).CopyTo(Data, Box + 0x24A4*box);
         }
         public override PKM getPKM(byte[] data)
         {
@@ -350,15 +348,15 @@ namespace PKHeX.Core
         }
 
         // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
-        public override string OT { get { return PKX.getColoStr(Data, 0x78, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
-        private string OT2 { get { return PKX.getColoStr(Data, 0x8C, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x8C); } }
+        public override string OT { get { return getString(0x78, 20); } set { setString(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
+        private string OT2 { get { return getString(0x8C, 20); } set { setString(value, 10).CopyTo(Data, 0x8C); } }
         public override ushort SID { get { return BigEndian.ToUInt16(Data, 0xA4); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xA4); } }
         public override ushort TID { get { return BigEndian.ToUInt16(Data, 0xA6); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xA6); } }
 
         public override int Gender { get { return Data[0xAF8]; } set { Data[0xAF8] = (byte)value; } }
         public override uint Money { get { return BigEndian.ToUInt32(Data, 0xAFC); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xAFC); } }
         public uint Coupons { get { return BigEndian.ToUInt32(Data, 0xB00); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xB00); } }
-        public string RUI_Name { get { return PKX.getColoStr(Data, 0xB3A, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0xB3A); } }
+        public string RUI_Name { get { return getString(0xB3A, 20); } set { setString(value, 10).CopyTo(Data, 0xB3A); } }
 
         public override InventoryPouch[] Inventory
         {
@@ -394,5 +392,13 @@ namespace PKHeX.Core
         public override bool? getDaycareOccupied(int loc, int slot) { return null; }
         public override void setDaycareEXP(int loc, int slot, uint EXP) { }
         public override void setDaycareOccupied(int loc, int slot, bool occupied) { }
+
+        public override string getString(int Offset, int Count) => PKX.getBEString3(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setBEString3(value, maxLength, PadToSize, PadWith);
+        }
     }
 }

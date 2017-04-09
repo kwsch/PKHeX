@@ -238,8 +238,6 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
-        private int StringLength => Japanese ? PK2.STRLEN_J : PK2.STRLEN_U;
-
 
         // Offsets
         private int OptionsOffset { get; set; } = int.MinValue;
@@ -303,14 +301,8 @@ namespace PKHeX.Core
 
         public override string OT
         {
-            get { return PKX.getG1Str(getData(0x200B, StringLength), Japanese); }
-            set
-            {
-                byte[] strdata = PKX.setG1Str(value, Japanese);
-                if (strdata.Length > StringLength)
-                    throw new ArgumentException("OT Name too long for given save file.");
-                strdata.CopyTo(Data, 0x200B);
-            }
+            get { return getString(0x200B, OTLength); }
+            set { setString(value, OTLength).CopyTo(Data, 0x200B); }
         }
         public override int Gender
         {
@@ -513,7 +505,7 @@ namespace PKHeX.Core
         }
         public override string getBoxName(int box)
         {
-            return PKX.getG1Str(getData(BoxNamesOffset + box*9, 9), Japanese);
+            return PKX.getString1(Data, BoxNamesOffset + box*9, 9, Japanese);
         }
         public override void setBoxName(int box, string value)
         {
@@ -600,5 +592,8 @@ namespace PKHeX.Core
             // Get the Caught Flag
             return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
         }
+
+        public override string getString(int Offset, int Count) => PKX.getString1(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => PKX.setString1(value, maxLength, Japanese);
     }
 }

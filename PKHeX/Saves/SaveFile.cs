@@ -626,6 +626,9 @@ namespace PKHeX.Core
             Edited = true;
         }
 
+        public abstract string getString(int Offset, int Length);
+        public abstract byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
+
         public virtual bool RequiresMemeCrypto => false;
     }
 }

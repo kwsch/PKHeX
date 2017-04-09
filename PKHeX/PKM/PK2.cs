@@ -20,6 +20,13 @@ namespace PKHeX.Core
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
 
+        public override string getString(int Offset, int Count) => PKX.getString1(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength) => PKX.setString1(value, maxLength, Japanese);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return nick; } set { if (value?.Length == nick.Length) nick = value; } }
+        public override byte[] OT_Trash { get { return otname; } set { if (value?.Length == otname.Length) otname = value; } }
+
         public override int Format => 2;
 
         public bool Japanese => otname.Length == STRLEN_J;
@@ -56,12 +63,10 @@ namespace PKHeX.Core
         }
         public override string Nickname
         {
-            get { return PKX.getG1Str(nick, Japanese); }
+            get { return PKX.getString1(nick, 0, nick.Length, Japanese); }
             set
             {
-                byte[] strdata = PKX.setG1Str(value, Japanese);
-                if (strdata.Length > StringLength)
-                    throw new ArgumentOutOfRangeException($"Nickname {value} too long for given PK2");
+                byte[] strdata = setString(value, StringLength);
                 if (nick.Any(b => b == 0) && nick[StringLength - 1] == 0x50 && Array.FindIndex(nick, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
                 {
                     int firstInd = Array.FindIndex(nick, b => b == 0);
@@ -76,12 +81,10 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get { return PKX.getG1Str(otname, Japanese); }
+            get { return PKX.getString1(otname, 0, otname.Length, Japanese); }
             set
             {
-                byte[] strdata = PKX.setG1Str(value, Japanese);
-                if (strdata.Length > StringLength)
-                    throw new ArgumentOutOfRangeException($"OT Name {value} too long for given PK1");
+                byte[] strdata = setString(value, StringLength);
                 if (otname.Any(b => b == 0) && otname[StringLength - 1] == 0x50 && Array.FindIndex(otname, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
                 {
                     int firstInd = Array.FindIndex(otname, b => b == 0);
@@ -112,8 +115,7 @@ namespace PKHeX.Core
             get
             {
                 string spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
-                return !nick.SequenceEqual(
-                        PKX.setG1Str(spName, Japanese)
+                return !nick.SequenceEqual(setString(spName, StringLength)
                             .Concat(Enumerable.Repeat((byte) 0x50, StringLength - spName.Length - 1))
                             .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)));
             }
@@ -126,7 +128,7 @@ namespace PKHeX.Core
         public void setNotNicknamed()
         {
             string spName = PKX.getSpeciesNameGeneration(Species, Japanese ? 1 : 2, Format);
-            nick = PKX.setG1Str(spName, Japanese)
+            nick = setString(spName, StringLength)
                       .Concat(Enumerable.Repeat((byte)0x50, StringLength - spName.Length - 1))
                       .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)) // Decimal point<->period fix
                       .ToArray();

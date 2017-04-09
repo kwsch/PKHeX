@@ -234,7 +234,7 @@ namespace PKHeX.Core
         }
         // Trainer Info
         public override GameVersion Version { get { return GameVersion.XD; } protected set { } }
-        public override string OT { get { return PKX.getColoStr(Data, Trainer1 + 0x00, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, Trainer1 + 0x00);  } }
+        public override string OT { get { return getString(Trainer1 + 0x00, 20); } set { setString(value, 10).CopyTo(Data, Trainer1 + 0x00);  } }
         public override ushort SID { get { return BigEndian.ToUInt16(Data, Trainer1 + 0x2C); } set { BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2C); } }
         public override ushort TID { get { return BigEndian.ToUInt16(Data, Trainer1 + 0x2E); } set { BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2E); } }
 
@@ -253,13 +253,13 @@ namespace PKHeX.Core
         }
         public override string getBoxName(int box)
         {
-            return PKX.getColoStr(Data, Box + (30 * SIZE_STORED + 0x14)*box, 8);
+            return getString(Box + (30 * SIZE_STORED + 0x14)*box, 16);
         }
         public override void setBoxName(int box, string value)
         {
             if (value.Length > 8)
                 value = value.Substring(0, 8); // Hard cap
-            PKX.setColoStr(value, 8).CopyTo(Data, Box + 0x24A4*box);
+            setString(value, 8).CopyTo(Data, Box + 0x24A4*box);
         }
         public override PKM getPKM(byte[] data)
         {
@@ -358,5 +358,13 @@ namespace PKHeX.Core
         public override bool? getDaycareOccupied(int loc, int slot) { return null; }
         public override void setDaycareEXP(int loc, int slot, uint EXP) { }
         public override void setDaycareOccupied(int loc, int slot, bool occupied) { }
-    }
+
+        public override string getString(int Offset, int Count) => PKX.getBEString3(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setBEString3(value, maxLength, PadToSize, PadWith);
+        }
+}
 }

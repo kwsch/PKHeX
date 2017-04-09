@@ -23,6 +23,23 @@ namespace PKHeX.Core
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         public virtual bool Valid { get { return ChecksumValid && Sanity == 0; } set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
+        public abstract string getString(int Offset, int Length);
+        public abstract byte[] setString(string value, int maxLength);
+
+        // Trash Bytes
+        public abstract byte[] Nickname_Trash { get; set; }
+        public abstract byte[] OT_Trash { get; set; }
+        public virtual byte[] HT_Trash { get; set; }
+        public byte[] getData(int Offset, int Length)
+        {
+            if (Offset + Length > Data.Length)
+                return null;
+
+            byte[] data = new byte[Length];
+            Array.Copy(Data, Offset, data, 0, Length);
+            return data;
+        }
+
         protected virtual ushort CalculateChecksum()
         {
             ushort chk = 0;
