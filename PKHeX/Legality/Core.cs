@@ -1412,8 +1412,8 @@ namespace PKHeX.Core
                     if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
                         usedslots--;
                 }
-                if (pk.Species == 056 && pk.CurrentLevel >= 9 && !moves.Contains(67)) 
-                    //Mankey Yellow Supersonic, Primeape will always have 4 moves
+                if (pk.Species == 056 && pk.CurrentLevel >= 9 && !moves.Contains(67))
+                    //Mankey Yellow Low Kick, Primeape will always have 4 moves
                     usedslots--;
 
                 if(64 <= pk.Species && pk.Species <= 065)
