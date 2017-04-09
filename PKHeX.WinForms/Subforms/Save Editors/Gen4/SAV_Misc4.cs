@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < Apps.Length; i++)
                 Apps[i].Checked = (ret & 1 << i) != 0;
             DotArtistByte = SAV.PoketchDotArtist;
-            ColorTable = new byte[4] { 248, 168, 88, 8 };
+            ColorTable = new byte[] { 248, 168, 88, 8 };
             setPictureBoxFromFlags(DotArtistByte);
             string tip = "Guide about D&D ImageFile Format";
             tip += Environment.NewLine + " width = 24px";
@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly CheckBox[] Apps;
-        private byte[] DotArtistByte;
+        private readonly byte[] DotArtistByte;
         private readonly byte[] ColorTable;
         private readonly ToolTip tip1 = new ToolTip();
 
@@ -46,17 +46,16 @@ namespace PKHeX.WinForms
         {
             if (inp.Length != 120) return;
             byte[] dupbyte = new byte[23040];
-            byte ict;
-            for (int iy = 0, iz, ib; iy < 20; iy++)
+            for (int iy = 0; iy < 20; iy++)
                 for (int ix = 0; ix < 24; ix++)
                 {
-                    ib = ix + 24 * iy;
-                    ict = ColorTable[inp[ib >> 2] >> (ib % 4 << 1) & 3];
-                    iz = 12 * ix + 1152 * iy;
+                    var ib = ix + 24 * iy;
+                    var ict = ColorTable[inp[ib >> 2] >> (ib % 4 << 1) & 3];
+                    var iz = 12 * ix + 0x480 * iy;
                     for (int izy = 0; izy < 4; izy++)
                         for (int izx = 0; izx < 4; izx++)
                             for (int ic = 0; ic < 3; ic++)
-                                dupbyte[ic + 3 * izx + 288 * izy + iz] = ict;
+                                dupbyte[ic + 3 * izx + 0x120 * izy + iz] = ict;
                 }
             Bitmap dabmp = new Bitmap(96, 80);
             BitmapData dabdata = dabmp.LockBits(new Rectangle(0, 0, dabmp.Width, dabmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
@@ -83,18 +82,17 @@ namespace PKHeX.WinForms
             byte[] BrightMap = new byte[480];
             byte[] BrightCount = new byte[0x100];
             byte[] iBrightCount = new byte[0x100];
-            byte ig;
             for (int iy = 0; iy < 20; iy++)
                 for (int ix = 0; ix < 24; ix++)
                 {
-                    ig = (byte)(0xFF * bmp.GetPixel(ix, iy).GetBrightness());
+                    var ig = (byte)(0xFF * bmp.GetPixel(ix, iy).GetBrightness());
                     BrightMap[ix + 24 * iy] = ig;
                     BrightCount[ig]++;
                 }
 
             int ColorCount = BrightCount.Count(v => v > 0);
             if (ColorCount > 4 || ColorCount == 0) return;
-            int errtot, errmin = int.MaxValue;
+            int errmin = int.MaxValue;
             byte[] LCT = new byte[4];
             byte[] mLCT = new byte[4];
             for (int i = 0; i < 4; i++)
@@ -106,7 +104,7 @@ namespace PKHeX.WinForms
                 for (int i = 0, j = 0; i < 0x100; i++)
                     if (iBrightCount[i] > 0)
                         iBrightCount[i] = LCT[j++];
-                errtot = 0;
+                var errtot = 0;
                 for (int i = 0; i < 480; i++)
                     errtot += Math.Abs(BrightMap[i] - ColorTable[iBrightCount[BrightMap[i]]]);
                 if (errmin > errtot)
@@ -134,28 +132,24 @@ namespace PKHeX.WinForms
         {
             while (true)
             {
-                if (++inp[0] >= 4)
-                {
-                    inp[0] = 0;
-                    if (++inp[1] >= 4)
-                    {
-                        inp[1] = 0;
-                        if (++inp[2] >= 4)
-                        {
-                            inp[2] = 0;
-                            if (++inp[3] >= 4)
-                            {
-                                inp[0] = 4;
-                                return inp;
-                            }
-                        }
-                    }
-                }
-                if (inp[1] < 4 && inp[1] >= inp[0]) continue;
-                if (inp[2] < 4 && inp[2] >= inp[1]) continue;
-                if (inp[3] < 4 && inp[3] >= inp[2]) continue;
+                if (++inp[0] < 4)
+                    continue;
+
+                inp[0] = 0;
+                if (++inp[1] < 4)
+                    continue;
+
+                inp[1] = 0;
+                if (++inp[2] < 4)
+                    continue;
+
+                inp[2] = 0;
+                if (++inp[3] < 4)
+                    continue;
+
+                inp[0] = 4;
+                return inp;
             }
-            return inp;
         }
 
         private void setFlagsFromClickPoint(int inpX, int inpY)
@@ -205,10 +199,7 @@ namespace PKHeX.WinForms
 
         private void TAB_Poketch_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
         }
 
         private void TAB_Poketch_DragDrop(object sender, DragEventArgs e)
