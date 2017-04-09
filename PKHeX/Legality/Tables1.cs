@@ -193,5 +193,9 @@ namespace PKHeX.Core
             169,196,197,242
         };
         //Crobat Espeon Umbreon Blissey
+        internal static readonly int[] SpecialMinMoveSlots =
+        {
+            25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
+        };
     }
 }
