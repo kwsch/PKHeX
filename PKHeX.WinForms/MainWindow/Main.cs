@@ -1490,7 +1490,7 @@ namespace PKHeX.WinForms
             GameInfo.Strings = GameInfo.getStrings(l);
 
             // Update Legality Strings
-            // Clipboard.SetText(string.Join(Environment.NewLine, CheckStrings.getLocalization()));
+            // Clipboard.SetText(string.Join(Environment.NewLine, Util.getLocalization(typeof(LegalityCheckStrings))));
             Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings)));
 
             // Force an update to the met locations

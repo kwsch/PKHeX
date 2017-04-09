@@ -204,6 +204,11 @@ namespace PKHeX.Core
                 if (pk.Length > (lang == 2 ? 10 : 5))
                     AddLine(Severity.Invalid, V1, CheckIdentifier.Nickname);
             }
+            else if (EncounterIsMysteryGift)
+            {
+                if (pkm.IsNicknamed && (!(EncounterMatch as MysteryGift)?.IsEgg ?? false))
+                    AddLine(Severity.Fishy, V0, CheckIdentifier.Nickname);
+            }
 
             if (!Encounter.Valid)
                 return;
