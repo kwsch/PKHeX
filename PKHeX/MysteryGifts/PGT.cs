@@ -60,7 +60,7 @@ namespace PKHeX.Core
         }
         public override string CardTitle
         {
-            get { return PKX.array2strG4(Data.Skip(0x104).Take(0x48).ToArray()); }
+            get { return PKX.array2strG4(Data, 0x104, 0x48); }
             set
             {
                 byte[] data = PKX.str2arrayG4(value);

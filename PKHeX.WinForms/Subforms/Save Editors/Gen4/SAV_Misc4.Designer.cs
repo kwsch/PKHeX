@@ -33,6 +33,7 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
             this.TAB_Poketch = new System.Windows.Forms.TabPage();
+            this.PB_DotArtist = new System.Windows.Forms.PictureBox();
             this.B_GiveAll = new System.Windows.Forms.Button();
             this.CHK_App25 = new System.Windows.Forms.CheckBox();
             this.CHK_App24 = new System.Windows.Forms.CheckBox();
@@ -61,6 +62,7 @@
             this.CHK_App01 = new System.Windows.Forms.CheckBox();
             this.TC_Misc.SuspendLayout();
             this.TAB_Poketch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_DotArtist)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -96,6 +98,8 @@
             // 
             // TAB_Poketch
             // 
+            this.TAB_Poketch.AllowDrop = true;
+            this.TAB_Poketch.Controls.Add(this.PB_DotArtist);
             this.TAB_Poketch.Controls.Add(this.B_GiveAll);
             this.TAB_Poketch.Controls.Add(this.CHK_App25);
             this.TAB_Poketch.Controls.Add(this.CHK_App24);
@@ -129,6 +133,18 @@
             this.TAB_Poketch.TabIndex = 0;
             this.TAB_Poketch.Text = "Poketch";
             this.TAB_Poketch.UseVisualStyleBackColor = true;
+            this.TAB_Poketch.DragDrop += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragDrop);
+            this.TAB_Poketch.DragEnter += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragEnter);
+            // 
+            // PB_DotArtist
+            // 
+            this.PB_DotArtist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PB_DotArtist.Location = new System.Drawing.Point(277, 145);
+            this.PB_DotArtist.Name = "PB_DotArtist";
+            this.PB_DotArtist.Size = new System.Drawing.Size(96, 80);
+            this.PB_DotArtist.TabIndex = 26;
+            this.PB_DotArtist.TabStop = false;
+            this.PB_DotArtist.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PB_DotArtist_MouseClick);
             // 
             // B_GiveAll
             // 
@@ -215,9 +231,9 @@
             this.CHK_App18.AutoSize = true;
             this.CHK_App18.Location = new System.Drawing.Point(151, 160);
             this.CHK_App18.Name = "CHK_App18";
-            this.CHK_App18.Size = new System.Drawing.Size(91, 16);
+            this.CHK_App18.Size = new System.Drawing.Size(117, 16);
             this.CHK_App18.TabIndex = 17;
-            this.CHK_App18.Text = "18 Dot Artist";
+            this.CHK_App18.Text = "18 Dot Artist  -->";
             this.CHK_App18.UseVisualStyleBackColor = true;
             // 
             // CHK_App17
@@ -401,10 +417,11 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SAV_Misc4";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "SAV_Misc4";
+            this.Text = "Misc Editor";
             this.TC_Misc.ResumeLayout(false);
             this.TAB_Poketch.ResumeLayout(false);
             this.TAB_Poketch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_DotArtist)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -441,5 +458,6 @@
         private System.Windows.Forms.CheckBox CHK_App07;
         private System.Windows.Forms.CheckBox CHK_App06;
         private System.Windows.Forms.Button B_GiveAll;
+        private System.Windows.Forms.PictureBox PB_DotArtist;
     }
 }

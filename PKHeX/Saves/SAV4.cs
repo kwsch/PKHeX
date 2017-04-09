@@ -318,25 +318,8 @@ namespace PKHeX.Core
         // Trainer Info
         public override string OT
         {
-            get
-            {
-                return PKX.array2strG4(getData(Trainer1, 16))
-                    .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // Farfetch'd
-            }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019"); // Farfetch'd
-                setData(PKX.str2arrayG4(TempNick), Trainer1);
-            }
+            get { return getString(Trainer1, 16); }
+            set { setString(value, OTLength).CopyTo(Data, Trainer1); }
         }
         public override ushort TID
         {
@@ -536,7 +519,7 @@ namespace PKHeX.Core
         {
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            return PKX.array2strG4(getData(offset + box*0x28, 0x28));
+            return PKX.array2strG4(Data, offset + box*0x28, 0x28);
         }
         public override void setBoxName(int box, string value)
         {
@@ -1117,7 +1100,7 @@ namespace PKHeX.Core
             get
             {
                 int ret = 0;
-                int ofs = 0;
+                int ofs;
                 switch (Version)
                 {
                     case GameVersion.DP: ofs = 0x114F; break;
@@ -1133,7 +1116,7 @@ namespace PKHeX.Core
             set
             {
                 int c = 0;
-                int ofs = 0;
+                int ofs;
                 switch (Version)
                 {
                     case GameVersion.DP: ofs = 0x114F; break;
@@ -1153,6 +1136,44 @@ namespace PKHeX.Core
                 Data[ofs - 2] = (byte)c;
                 Data[ofs - 1] = 0; // current used, force set for first App.
             }
+        }
+        public byte[] PoketchDotArtist
+        {
+            get
+            {
+                byte[] ret = new byte[120]; // 2bit*24px*20px
+                int ofs = 0;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x1176; break;
+                    default: return ret;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 120; i++)
+                    ret[i] = Data[ofs + i];
+                return ret;
+            }
+            set
+            {
+                int ofs = 0;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x1176; break;
+                    default: return;
+                }
+                ofs += GBO;
+                for(int i = 0; i < 120; i++)
+                    Data[ofs + i] = value[i];
+                Data[ofs - 0x2A] |= 0x04; // 0x114C "Touch!"
+            }
+        }
+        
+        public override string getString(int Offset, int Count) => PKX.getString4(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

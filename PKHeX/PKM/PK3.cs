@@ -24,6 +24,13 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new PK3(Data); }
 
+        public override string getString(int Offset, int Count) => PKX.getString3(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength) => PKX.setString3(value, maxLength, Japanese);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x08, 10); } set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }
+        public override byte[] OT_Trash { get { return getData(0x14, 7); } set { if (value?.Length == 7) value.CopyTo(Data, 0x14); } }
+
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID % 25); } set { } }
@@ -41,20 +48,9 @@ namespace PKHeX.Core
         public override uint PID { get { return BitConverter.ToUInt32(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
         public override int TID { get { return BitConverter.ToUInt16(Data, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04); } }
         public override int SID { get { return BitConverter.ToUInt16(Data, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); } }
-        public override string Nickname { 
-            get { return PKX.getG3Str(Data.Skip(0x08).Take(10).ToArray(), Japanese); } 
-            set { byte[] strdata = PKX.setG3Str(IsEgg ? "タマゴ" : value, Japanese);
-                if (strdata.Length > 10) 
-                    Array.Resize(ref strdata, 10);
-                strdata.CopyTo(Data, 0x08); } }
+        public override string Nickname { get { return getString(0x08, 10); } set { setString(IsEgg ? "タマゴ" : value, 10).CopyTo(Data, 0x08); } }
         public override int Language { get { return BitConverter.ToUInt16(Data, 0x12) & 0xFF; } set { BitConverter.GetBytes((ushort)(IsEgg ? 0x601 : value | 0x200)).CopyTo(Data, 0x12); } }
-        public override string OT_Name { 
-            get { return PKX.getG3Str(Data.Skip(0x14).Take(7).ToArray(), Japanese); } 
-            set { byte[] strdata = PKX.setG3Str(value, Japanese);
-                if (strdata.Length > 7) 
-                    Array.Resize(ref strdata, 7);
-                strdata.CopyTo(Data, 0x14); } }
-
+        public override string OT_Name { get { return getString(0x14, 7); } set { setString(value, 7).CopyTo(Data, 0x14); } }
         public override int MarkValue { get { return Data[0x1B]; } protected set { Data[0x1B] = (byte)value; } }
         public override ushort Checksum { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C); } }
         public override ushort Sanity { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1E); } }

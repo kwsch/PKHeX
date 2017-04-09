@@ -27,17 +27,20 @@ namespace PKHeX.Core
             Data = PKX.shuffleArray45(Data, sv);
             Identifier = ident;
             if (Sanity != 0 && Species <= 493 && !ChecksumValid) // We can only hope
-            {
                 RefreshChecksum();
-            }
             if (Valid && Sanity == 0)
-            {
                 Sanity = 0x4000;
-            }
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new BK4(Encrypt()); }
+
+        public override string getString(int Offset, int Count) => PKX.getBEString4(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength) => PKX.setBEString4(value, maxLength);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x48, 24); } set { if (value?.Length == 24) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get { return getData(0x68, 16); } set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
@@ -182,28 +185,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname
-        {
-            get
-            {
-                return PKX.array2strG4BE(Data.Skip(0x48).Take(22).ToArray())
-                    .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
-                    .Replace("\uE08F", "\u2640") // nidoran
-                    .Replace("\uE08E", "\u2642") // nidoran
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
-            set
-            {
-                if (value.Length > 11)
-                    value = value.Substring(0, 11); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                    .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
-                    .Replace("\u2640", "\uE08F") // nidoran
-                    .Replace("\u2642", "\uE08E") // nidoran
-                    .Replace("\u0027", "\u2019"); // farfetch'd
-                PKX.str2arrayG4BE(TempNick).CopyTo(Data, 0x48);
-            }
-        }
+        public override string Nickname { get { return getString(0x48, 24); } set { setString(value, 11).CopyTo(Data, 0x48); } }
         // 0x5E unused
         public override int Version { get { return Data[0x5F]; } set { Data[0x5F] = (byte)value; } }
         private byte RIB8 { get { return Data[0x60]; } set { Data[0x60] = value; } } // Sinnoh 3
@@ -246,28 +228,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name
-        {
-            get
-            {
-                return PKX.array2strG4BE(Data.Skip(0x68).Take(16).ToArray())
-                    .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // Farfetch'd
-            }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019"); // Farfetch'd
-                PKX.str2arrayG4BE(TempNick).CopyTo(Data, 0x68);
-            }
-        }
+        public override string OT_Name { get { return getString(0x68, 16); } set { setString(value, 7).CopyTo(Data, 0x68); } }
         public override int Egg_Year { get { return Data[0x78]; } set { Data[0x78] = (byte)value; } }
         public override int Egg_Month { get { return Data[0x79]; } set { Data[0x79] = (byte)value; } }
         public override int Egg_Day { get { return Data[0x7A]; } set { Data[0x7A] = (byte)value; } }

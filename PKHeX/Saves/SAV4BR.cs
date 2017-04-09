@@ -246,5 +246,13 @@ namespace PKHeX.Core
                 BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + i * 4);
             }
         }
+
+        public override string getString(int Offset, int Count) => PKX.getBEString4(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setBEString4(value, maxLength, PadToSize, PadWith);
+        }
     }
 }

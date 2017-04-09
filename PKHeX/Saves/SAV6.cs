@@ -395,8 +395,8 @@ namespace PKHeX.Core
         }
         public override string OT
         {
-            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x48, 0x1A)); }
-            set { Encoding.Unicode.GetBytes(value.PadRight(13, '\0')).CopyTo(Data, TrainerCard + 0x48); }
+            get { return getString(TrainerCard + 0x48, 0x1A); }
+            set { setString(value, OTLength).CopyTo(Data, TrainerCard + 0x48); }
         }
         public string OT_Nick
         {
@@ -1017,6 +1017,14 @@ namespace PKHeX.Core
         {
             return Blocks.Aggregate("", (current, b) => current +
                 $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
+        }
+
+        public override string getString(int Offset, int Count) => PKX.getString6(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString6(value, maxLength, PadToSize, PadWith);
         }
     }
 }
