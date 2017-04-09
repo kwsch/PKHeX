@@ -4,9 +4,9 @@ using PKHeX.Core;
 namespace PKHeX.Tests.PKM
 {
     /// <summary>
-    /// A <see cref="PKM"/> implementation designed to test <see cref="PKM.MetDate"/> and <see cref="PKM.EggDate"/>.
+    /// A <see cref="PKM"/> implementation designed to test <see cref="PKM.MetDate"/> and <see cref="PKM.EggMetDate"/>.
     /// </summary>
-    class DateTestPKM : Core.PKM
+    internal class DateTestPKM : Core.PKM
     {
         public int MetYear { get; set; }
         public int MetMonth { get; set; }
@@ -15,6 +15,20 @@ namespace PKHeX.Tests.PKM
         public int EggMetMonth { get; set; }
         public int EggMetDay { get; set; }
         public override PersonalInfo PersonalInfo => null;
+
+        public override string getString(int Offset, int Count) { throw new NotImplementedException(); }
+        public override byte[] setString(string value, int maxLength) { throw new NotImplementedException(); }
+
+        public override byte[] Nickname_Trash
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+        public override byte[] OT_Trash
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
 
         public override int Met_Year
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -26,6 +25,14 @@ namespace PKHeX.Core
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new PK7(Data); }
+
+        public override string getString(int Offset, int Count) => PKX.getString7(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength) => PKX.setString7(value, maxLength, Language);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x40, 24); } set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }
+        public override byte[] HT_Trash { get { return getData(0x78, 24); } set { if (value?.Length == 24) value.CopyTo(Data, 0x78); } }
+        public override byte[] OT_Trash { get { return getData(0xB0, 24); } set { if (value?.Length == 24) value.CopyTo(Data, 0xB0); } }
 
         // Structure
         #region Block A
@@ -215,18 +222,7 @@ namespace PKHeX.Core
         public byte _0x3F { get { return Data[0x3F]; } set { Data[0x3F] = value; } }
         #endregion
         #region Block B
-        public override string Nickname
-        {
-            get { return PKX.bin2strG7_zh(PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x40, 24)))); }
-            set
-            {
-                if (value.Length > 12)
-                    value = value.Substring(0, 12); // Hard cap
-                string TempNick = PKX.str2binG7_zh(PKX.UnSanitizeString(value),Language == 10)
-                    .PadRight(value.Length + 1, '\0'); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x40);
-            }
-        }
+        public override string Nickname { get { return getString(0x40, 24); } set { setString(value, 12).CopyTo(Data, 0x40); } }
         public override int Move1
         {
             get { return BitConverter.ToUInt16(Data, 0x5A); }
@@ -289,18 +285,7 @@ namespace PKHeX.Core
         public override bool IsNicknamed { get { return ((IV32 >> 31) & 1) == 1; } set { IV32 = (IV32 & 0x7FFFFFFF) | (value ? 0x80000000 : 0); } }
         #endregion
         #region Block C
-        public override string HT_Name
-        {
-            get { return PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x78, 24))); }
-            set
-            {
-                if (value.Length > 12)
-                    value = value.Substring(0, 12); // Hard cap
-                string TempNick = PKX.UnSanitizeString(value)
-                    .PadRight(value.Length + 1, '\0'); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x78);
-            }
-        }
+        public override string HT_Name { get { return getString(0x78, 24); } set { setString(value, 12).CopyTo(Data, 0x78); } }
         public override int HT_Gender { get { return Data[0x92]; } set { Data[0x92] = (byte)value; } }
         public override int CurrentHandler { get { return Data[0x93]; } set { Data[0x93] = (byte)value; } }
         public override int Geo1_Region { get { return Data[0x94]; } set { Data[0x94] = (byte)value; } }
@@ -332,18 +317,7 @@ namespace PKHeX.Core
         public override byte Enjoyment { get { return Data[0xAF]; } set { Data[0xAF] = value; } }
         #endregion
         #region Block D
-        public override string OT_Name
-        {
-            get { return PKX.SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB0, 24))); }
-            set
-            {
-                if (value.Length > 12)
-                    value = value.Substring(0, 12); // Hard cap
-                string TempNick = PKX.UnSanitizeString(value)
-                .PadRight(value.Length + 1, '\0'); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0xB0);
-            }
-        }
+        public override string OT_Name { get { return getString(0xB0, 24); } set { setString(value, 12).CopyTo(Data, 0xB0); } }
         public override int OT_Friendship { get { return Data[0xCA]; } set { Data[0xCA] = (byte)value; } }
         public override int OT_Affection { get { return Data[0xCB]; } set { Data[0xCB] = (byte)value; } }
         public override int OT_Intensity { get { return Data[0xCC]; } set { Data[0xCC] = (byte)value; } }

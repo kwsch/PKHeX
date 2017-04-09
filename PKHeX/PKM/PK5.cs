@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -24,6 +23,13 @@ namespace PKHeX.Core
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new PK5(Data); }
+
+        public override string getString(int Offset, int Count) => PKX.getString5(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength) => PKX.setString5(value, maxLength);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x48, 22); } set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get { return getData(0x68, 16); } set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
@@ -167,27 +173,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname
-        {
-            get
-            {
-                return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x48, 22))
-                    .Replace("\uE08F", "\u2640") // nidoran
-                    .Replace("\uE08E", "\u2642") // nidoran
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
-            set
-            {
-                if (value.Length > 11)
-                    value = value.Substring(0, 11); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                    .Replace("\u2640", "\uE08F") // nidoran
-                    .Replace("\u2642", "\uE08E") // nidoran
-                    .Replace("\u0027", "\u2019") // farfetch'd
-                    .PadRight(value.Length + 1, (char)0xFFFF); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x48);
-            }
-        }
+        public override string Nickname { get { return getString(0x48, 22); } set { setString(value, 11).CopyTo(Data, 0x48); } }
         // 0x5E unused
         public override int Version { get { return Data[0x5F]; } set { Data[0x5F] = (byte)value; } }
         private byte RIB8 { get { return Data[0x60]; } set { Data[0x60] = value; } } // Sinnoh 3
@@ -230,27 +216,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name
-        {
-            get
-            {
-                return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x68, 16))
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019") // Farfetch'd
-                .PadRight(value.Length + 1, (char)0xFFFF); // Null Terminator
-                Encoding.Unicode.GetBytes(TempNick).CopyTo(Data, 0x68);
-            }
-        }
+        public override string OT_Name { get { return getString(0x68, 0x16); } set { setString(value, 7).CopyTo(Data, 0x68); } }
         public override int Egg_Year { get { return Data[0x78]; } set { Data[0x78] = (byte)value; } }
         public override int Egg_Month { get { return Data[0x79]; } set { Data[0x79] = (byte)value; } }
         public override int Egg_Day { get { return Data[0x7A]; } set { Data[0x7A] = (byte)value; } }

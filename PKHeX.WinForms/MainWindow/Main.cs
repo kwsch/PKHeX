@@ -1070,7 +1070,7 @@ namespace PKHeX.WinForms
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
 
             // Close subforms that are save dependent
-            Type[] f = { typeof(SAV_BoxViewer), typeof(f2_Text) };
+            Type[] f = { typeof(SAV_BoxViewer) };
             foreach (var form in Application.OpenForms.Cast<Form>().Where(form => f.Contains(form.GetType())).ToArray())
                 form.Close();
 
@@ -2765,10 +2765,30 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(f2_Text)) as f2_Text;
-            if (z != null)
-            { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
-            new f2_Text(tb).Show();
+            if (tb == TB_Nickname)
+            {
+                pkm.Nickname = tb.Text;
+                var d = new f2_Text(tb, pkm.Nickname_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.Nickname_Trash = d.FinalBytes;
+            }
+            else if (tb == TB_OT)
+            {
+                pkm.OT_Name = tb.Text;
+                var d = new f2_Text(tb, pkm.OT_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.OT_Trash = d.FinalBytes;
+            }
+            else if (tb == TB_OTt2)
+            {
+                pkm.HT_Name = tb.Text;
+                var d = new f2_Text(tb, pkm.HT_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.HT_Trash = d.FinalBytes;
+            }
         }
         private void updateNotOT(object sender, EventArgs e)
         {
