@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -11,60 +10,64 @@ namespace PKHeX.Core
         protected int[] Moves;
         protected int[] Levels;
 
-        public int[] getMoves(int level)
+        /// <summary>
+        /// Returns the moves a Pokémon can learn between the specified level range.
+        /// </summary>
+        /// <param name="maxLevel">Maximum level</param>
+        /// <param name="minLevel">Minimum level</param>
+        /// <returns>Array of Move IDs</returns>
+        public int[] getMoves(int maxLevel, int minLevel = 0)
         {
-            if (level >= 100)
+            if (maxLevel >= 100)
                 return Moves;
-            for (int i = 0; i < Levels.Length; i++)
-                if (Levels[i] > level)
-                    return Moves.Take(i).ToArray();
-            return Moves;
-        }
-
-        public int[] getMoves(int minLevel, int maxLevel)
-        {
-            if (minLevel > Levels.LastOrDefault()) return new int[0];
-            var skip = Levels.Select((m, i) => i).SkipWhile(i => Levels[i] < minLevel).FirstOrDefault();
-            if (maxLevel > Levels.LastOrDefault()) return Moves.Skip(skip).ToArray();
-            return Moves.Skip(skip).TakeWhile((m, i) => Levels[i + skip] <= maxLevel).ToArray();
-        }
-        public IEnumerable<int> getEncounterMoves(int level)
-        {
-            return getEncounterMoves(level, 4);
-        }
-        // Return the default moves a pokemon learn at the moment of its encounter level, 
-        // the last 4 moves of its learned, or less if there is any special move
-        // for generation 1 is not possible to learn any moves bellow this encounter moves
-        public IEnumerable<int> getEncounterMoves(int level, int moveslots)
-        {
-            if (moveslots == 0 || !Levels.Any())
+            int start = Array.FindIndex(Levels, z => z >= minLevel);
+            if (start < 0)
                 return new int[0];
-            var num = Math.Min(moveslots, 4);
-            if (level < Levels.Last())
-            {
-                for (int i = 0; i < Levels.Length; i++)
-                    if (Levels[i] > level)
-                        return i <= num ? Moves.Take(i) : Moves.Skip(i - num).Take(num);
-            }
-            return Moves.Length <= num ? Moves: Moves.Skip(Moves.Length - num);
+            int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
+            if (end < 0)
+                return new int[0];
+            int[] result = new int[end - start + 1];
+            Array.Copy(Moves, start, result, 0, result.Length);
+            return result;
         }
-        // Return for a pokemon with a given level encounter, the min level of the moves in the getEncounterMoves array
-        // For generation 1 it should be used this level to compare to generation 2 encounter level to choose the lower encounter
+        /// <summary>Returns the moves a Pokémon would have if it were encountered at the specified level.</summary>
+        /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
+        /// <param name="level">The level the Pokémon was encountered at.</param>
+        /// <param name="count">The amount of move slots to return.</param>
+        /// <returns>Array of Move IDs</returns>
+        public int[] getEncounterMoves(int level, int count = 4)
+        {
+            if (count == 0 || Moves.Length == 0)
+                return new int[0];
+            int end = Array.FindLastIndex(Levels, z => z <= level);
+            if (end < 0)
+                return new int[0];
+            count = Math.Min(count, 4);
+            int start = Math.Max(end - count, 0);
+            int[] result = new int[end - start + 1];
+            Array.Copy(Moves, start, result, 0, result.Length);
+            return result;
+        }
+        /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
+        /// <remarks>Helps determine the minimum level an encounter can be at.</remarks>
+        /// <param name="level">The level the Pokémon was encountered at.</param>
+        /// <returns>Array of Move IDs</returns>
         public int getMinMoveLevel(int level)
         {
-            if (!Levels.Any())
+            if (Levels.Length == 0)
                 return 1;
-            if (level < Levels.Last())
-            {
-                for (int i = 0; i < Levels.Length; i++)
-                    if (Levels[i] > level)
-                        return i < 4 ? 1 : Levels.Skip(i - 4).First();
-            }
-            return Levels.Length < 4 ? 1 : Levels.Skip(Levels.Length - 4).First();
+
+            int end = Array.FindLastIndex(Levels, z => z <= level);
+            return Math.Max(end - 4, 1);
         }
+
+        /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
+        /// <param name="move">Move ID</param>
+        /// <returns>Level the move is learned at. If the result is below 0, it cannot be learned by levelup.</returns>
         public int getLevelLearnMove(int move)
         {
-            return Moves.Select((m, i) => new { move = m, level = Levels[i] }).Where(m => m.move == move).Select(l => l.level).FirstOrDefault();
+            int index = Array.IndexOf(Moves, move);
+            return index < 0 ? index : Levels[index];
         }
     }
 

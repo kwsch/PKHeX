@@ -801,9 +801,7 @@ namespace PKHeX.Core
             if (null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
                 return verifyEncounterTrade();
 
-            return wasEvent
-                ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter) 
-                : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Invalid, wasEvent ? V78 : V80, CheckIdentifier.Encounter);
         }
 
         private CheckResult verifyEncounterG3Transfer()
@@ -2330,7 +2328,7 @@ namespace PKHeX.Core
                 encounters.AddRange(EventGiftMatch.Where(x => (x as IMoveset)?.Moves != null));
             if (null != EncounterStaticMatch)
                 encounters.AddRange(EncounterStaticMatch.Where(x => (x as IMoveset)?.Moves != null));
-            if (null != EncounterMatch && (EncounterMatch as IMoveset)?.Moves != null)
+            if (null != (EncounterMatch as IMoveset)?.Moves)
                 encounters.Add(EncounterMatch);
      
             if (!pkm.IsEgg)
@@ -2352,7 +2350,7 @@ namespace PKHeX.Core
             if (EncountersGBMatch != null)
                 // Add non egg encounters, start with generation 2
                 // generation 1 will change valid gen 1 lvl moves for every encounter
-                encounters.AddRange(EncountersGBMatch.Where(t=> t.Type != GBEncounterType.EggEncounter).OrderByDescending(t=>t.Generation).Select(e => e.Encounter));
+                encounters.AddRange(EncountersGBMatch.Where(t => t.Type != GBEncounterType.EggEncounter).OrderByDescending(t => t.Generation).Select(e => e.Encounter));
             return encounters;
         }
         private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
@@ -2363,7 +2361,7 @@ namespace PKHeX.Core
             var validLevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, Tutor: false, Machine: false, RemoveTransferHM: false);
             var validTMHM = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
             var validTutor = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
-            Legal.RemoveFutureMoves(pkm, EvoChainsAllGens, ref validLevelMoves, ref validTMHM, ref validTutor);
+            Legal.RemoveFutureMoves(pkm, ref validLevelMoves, ref validTMHM, ref validTutor);
             int[] Moves = pkm.Moves;
             var res = parseMovesForEncounters(game, validLevelMoves, validTMHM, validTutor, Moves);
 
@@ -2376,10 +2374,15 @@ namespace PKHeX.Core
         }
         private void UptateGen1LevelUpMoves(ref List<int>[] validLevelMoves, List<int> DefaultMoves, int generation)
         {
-            if (generation == 1)
-                validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: (EncounterMatch as IEncounterable).LevelMin, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
-            else if (generation == 2)
-                validLevelMoves[1] = DefaultMoves;
+            switch (generation)
+            {
+                case 1:
+                    validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: (EncounterMatch as IEncounterable).LevelMin, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+                    break;
+                case 2:
+                    validLevelMoves[1] = DefaultMoves;
+                    break;
+            }
         }
         private CheckResult[] parseMovesForEncounters(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
         {

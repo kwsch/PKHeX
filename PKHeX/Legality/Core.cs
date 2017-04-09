@@ -170,17 +170,13 @@ namespace PKHeX.Core
         private static void MarkEncountersGeneration(ref EncounterStatic[] Encounters, int Generation)
         {
             foreach (EncounterStatic Encounter in Encounters)
-            {
                 Encounter.Generation = Generation;
-            }
         }
         private static void MarkEncountersGeneration(ref EncounterArea[] Areas, int Generation)
         {
-            foreach(EncounterArea Area in Areas)
-            {
-                foreach(EncounterSlot Slot in Area.Slots)
+            foreach (EncounterArea Area in Areas)
+                foreach (EncounterSlot Slot in Area.Slots)
                     Slot.Generation = Generation;
-            }
         }
         private static void ReduceAreasSize(ref EncounterArea[] Areas)
         {
@@ -638,7 +634,7 @@ namespace PKHeX.Core
         }
 
         // Moves
-        internal static int[] getMinLevelLearnMove(int species, int Generation, List<int> moves, GameVersion Version = GameVersion.Any)
+        internal static int[] getMinLevelLearnMove(int species, int Generation, List<int> moves)
         {
             var r = new int[moves.Count];
             switch (Generation)
@@ -671,7 +667,7 @@ namespace PKHeX.Core
             }
             return r;
         }
-        internal static int[] getMaxLevelLearnMove(int species, int Generation, List<int> moves, GameVersion Version = GameVersion.Any)
+        internal static int[] getMaxLevelLearnMove(int species, int Generation, List<int> moves)
         {
             var r = new int[moves.Count];
             switch (Generation)
@@ -697,7 +693,7 @@ namespace PKHeX.Core
             }
             return r;
         }
-        internal static List<int>[] getExclusiveMoves(int species1, int species2, int Generation, List<int> tmhm,int[] moves)
+        internal static List<int>[] getExclusiveMoves(int species1, int species2, int Generation, List<int> tmhm, int[] moves)
         {
             // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
             var moves1 = getLvlMoves(species1, 0, Generation, 1, 100).Distinct().ToList();
@@ -727,8 +723,8 @@ namespace PKHeX.Core
                             r.AddRange(pi_rb.Moves);
                             r.AddRange(pi_y.Moves);
                         }
-                        r.AddRange(LevelUpRB[index].getMoves(minlvl, lvl));
-                        r.AddRange(LevelUpY[index].getMoves(minlvl, lvl));
+                        r.AddRange(LevelUpRB[index].getMoves(lvl, minlvl));
+                        r.AddRange(LevelUpY[index].getMoves(lvl, minlvl));
                         break;
                     }
                 case 2:
@@ -832,7 +828,7 @@ namespace PKHeX.Core
             }
             return r;
         } 
-        internal static void RemoveFutureMoves(PKM pkm, DexLevel[][] evoChains, ref List<int>[] validLevelMoves, ref List<int>[] validTMHM, ref List<int>[] validTutor)
+        internal static void RemoveFutureMoves(PKM pkm, ref List<int>[] validLevelMoves, ref List<int>[] validTMHM, ref List<int>[] validTutor)
         {
             var FutureMoves = new List<int>();
             FutureMoves.AddRange(validLevelMoves[pkm.Format]);
@@ -940,14 +936,14 @@ namespace PKHeX.Core
                 case 0: // Default (both)
                 case 3: // Ninjask have the same learnset in every gen 3 games
                     if (pkm.InhabitedGeneration(3))
-                        r[3] = LevelUpE[291].getMoves(20, lvl).ToList();
+                        r[3] = LevelUpE[291].getMoves(lvl, 20).ToList();
 
                     if (generation == 0)
                         goto case 4;
                     break;
                 case 4: // Ninjask have the same learnset in every gen 4 games
                     if (pkm.InhabitedGeneration(4))
-                        r[4] = LevelUpPt[291].getMoves(20, lvl).ToList();
+                        r[4] = LevelUpPt[291].getMoves(lvl, 20).ToList();
                     break;
             }
             return r;
@@ -1252,9 +1248,9 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<int> getInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
         {
-            IEnumerable<int> InitialMoves = new List<int>();
-            IEnumerable<int> LevelUpMoves = new List<int>();
-            var diff = 0;
+            int[] InitialMoves;
+            int[] LevelUpMoves;
+            int diff;
             switch (ver)
             {
                 case GameVersion.YW:
@@ -1267,7 +1263,7 @@ namespace PKHeX.Core
                         if (index == 0)
                             return new int[0];
                         LevelUpMoves = LevelTable[species].getEncounterMoves(lvl);
-                        diff = 4 - LevelUpMoves.Count();
+                        diff = 4 - LevelUpMoves.Length;
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
                         InitialMoves = ver == GameVersion.YW ? ((PersonalInfoG1)PersonalTable.Y[index]).Moves : ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
@@ -1283,7 +1279,7 @@ namespace PKHeX.Core
                         if (index == 0)
                             return new int[0];
                         LevelUpMoves = LevelTable[species].getEncounterMoves(2, lvl);
-                        diff = 4 - LevelUpMoves.Count();
+                        diff = 4 - LevelUpMoves.Length;
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
                         // Level Up 1 moves are initial moves, it can be duplicated in levels 2-100
@@ -1295,12 +1291,13 @@ namespace PKHeX.Core
             }
             // Initial Moves could be duplicated in the level up table
             // level up table moves have preferences
-            InitialMoves = InitialMoves.Where(p => p != 0 && !LevelUpMoves.Any(m => m == p));
+            var moves = InitialMoves.Where(p => p != 0 && !LevelUpMoves.Any(m => m == p)).ToList();
             // If not all the personal table move cant be included the last moves have preference
-            if (InitialMoves.Count() > diff)
-                InitialMoves = InitialMoves.Skip(InitialMoves.Count() - diff);
+            int pop = moves.Count - diff;
+            if (pop > 0)
+                moves.RemoveRange(0, pop);
             // The order for the pokemon default moves are first moves from personal table and then moves from  level up table
-            return InitialMoves.Union(LevelUpMoves).ToArray();
+            return moves.Union(LevelUpMoves).ToArray();
         }
         internal static int getMoveMinLevelGBEncounter(int species, int lvl, GameVersion[] versions)
         {
@@ -1376,19 +1373,19 @@ namespace PKHeX.Core
                 // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
                 if (10 <= pk.Species && pk.Species <= 11)
                 {
-                    if (pk.Species == 11 && !moves.Any(m => Legal.G1MetapodMoves.Contains(m)))
+                    if (pk.Species == 11 && !moves.Any(m => G1MetapodMoves.Contains(m)))
                         // Captured as Metapod without Caterpie moves
-                        usedslots = learn[1].Where(lm => !Legal.G1MetapodMoves.Contains(lm)).Count();
+                        usedslots = learn[1].Count(lm => !G1MetapodMoves.Contains(lm));
 
                 }
                 if (14 <= pk.Species && pk.Species <= 15)
                 {
-                    if (pk.Species == 15 && !moves.Any(m => Legal.G1KakunaMoves.Contains(m)))
+                    if (pk.Species == 15 && !moves.Any(m => G1KakunaMoves.Contains(m)))
                         // Captured as Beedril
-                        usedslots = learn[1].Where(lm => !Legal.G1KakunaMoves.Contains(lm)).Count();
-                    else if (!moves.Any(m => Legal.G1WeedleMoves.Contains(m)))
+                        usedslots = learn[1].Count(lm => !G1KakunaMoves.Contains(lm));
+                    else if (!moves.Any(m => G1WeedleMoves.Contains(m)))
                         // Captured as Kakuna without Beedril moves
-                        usedslots = learn[1].Where(lm => !Legal.G1WeedleMoves.Contains(lm)).Count();
+                        usedslots = learn[1].Count(lm => !G1WeedleMoves.Contains(lm));
                 }
                 if (pk.Species == 17)
                 {
@@ -1414,21 +1411,20 @@ namespace PKHeX.Core
                     usedslots--;
                 if(pk.Species == 25)
                     // Pikachu have so different level tables between red/blue and yellow that all possible level moves could be avoided except the level 33 move
-                    usedslots = (pk.CurrentLevel < 33) ? 2 : 3;
+                    usedslots = pk.CurrentLevel < 33 ? 2 : 3;
                     
                 // Stone evolution for lower level pokemon species, they level up to 100 with only the initial moves
-                if (new int[] { 26, 36, 38, 59 }.Contains(pk.Species))
+                if (new[] { 26, 36, 38, 59 }.Contains(pk.Species))
                     usedslots = 2;
-                if (new int[] { 40, 121 }.Contains(pk.Species))
+                if (new[] { 40, 121 }.Contains(pk.Species))
                     usedslots = 1;
                 if (usedslots >= 4)
                     return 4;
                 // tm, hm and tutor moves replace a free slots if the pokemon have less than 4 moves
                 // Ignore tm, hm and tutor moves already in the learnset table
-                usedslots += moves.Where(m => m != 0 && !initialmoves.Union(learn[1]).Any(l => l == m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
-                if (usedslots >= 4)
-                    return 4;
-                return usedslots;
+                usedslots += moves.Where(m => m != 0 && initialmoves.Union(learn[1]).All(l => l != m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
+
+                return usedslots >= 4 ? 4 : usedslots;
             }
             // Move deleter exits, slots from 2 onwards can allways be empty
             return 1;
@@ -2861,8 +2857,8 @@ namespace PKHeX.Core
                                 r.AddRange(pi_rb.Moves);
                                 r.AddRange(pi_y.Moves);
                             }
-                            r.AddRange(LevelUpRB[index].getMoves(minlvlG1,lvl));
-                            r.AddRange(LevelUpY[index].getMoves(minlvlG1,lvl));
+                            r.AddRange(LevelUpRB[index].getMoves(lvl, minlvlG1));
+                            r.AddRange(LevelUpY[index].getMoves(lvl, minlvlG1));
                         }
                         if (Machine)
                         {
