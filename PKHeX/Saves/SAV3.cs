@@ -586,9 +586,11 @@ namespace PKHeX.Core
         }
 
         #region eBerry
-        public const int SIZE_EBERRY = 0x530;
-        public const int OFFSET_EBERRY = 0x2E0;
+        private const int SIZE_EBERRY = 0x530;
+        private const int OFFSET_EBERRY = 0x2E0;
 
+        // Offset and checksum code based from
+        // https://github.com/suloku/wc-tool by Suloku
         private uint eBerryChecksum
         {
             get { return !GameVersion.RS.Contains(Version) ? 0 : BitConverter.ToUInt32(Data, BlockOfs[4] + OFFSET_EBERRY + SIZE_EBERRY - 4); }
