@@ -144,6 +144,13 @@ namespace PKHeX.WinForms
             byte[] data = PKX.setString(species, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length, Main.SAV.Language);
             if (data.Length <= current.Length)
             {
+                WinFormsUtil.Alert("Trash byte layer is hidden by current text.",
+                    $"Current Bytes: {current.Length}" + Environment.NewLine + $"Layer Bytes: {data.Length}");
+                return;
+            }
+            if (data.Length > Bytes.Count)
+            {
+                WinFormsUtil.Alert("Trash byte layer is too long to apply.");
                 return;
             }
             for (int i = current.Length; i < data.Length; i++)

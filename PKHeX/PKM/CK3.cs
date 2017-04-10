@@ -31,7 +31,7 @@ namespace PKHeX.Core
         public override byte[] setString(string value, int maxLength) => PKX.setBEString3(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get { return getData(0x1E, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x1E); } }
+        public override byte[] Nickname_Trash { get { return getData(0x2E, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
         public override byte[] OT_Trash { get { return getData(0x18, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x18); } }
 
         // Future Attributes
