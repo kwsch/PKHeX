@@ -114,7 +114,23 @@ namespace PKHeX.Core
         };
         internal static readonly int[] UnreleasedItems_5 =
         {
-            // todo
+            005, // Safari Ball
+            016, // Cherish Ball
+            260, // Red Scarf
+            261, // Blue Scarf
+            262, // Pink Scarf
+            263, // Green Scarf
+            264, // Yellow Scarf
+            492, // Fast Ball
+            493, // Level Ball
+            494, // Lure Ball
+            495, // Heavy Ball
+            496, // Love Ball
+            497, // Friend Ball
+            498, // Moon Ball
+            499, // Sport Ball
+            500, // Park Ball
+            576, // Dream Ball
         };
         internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2 + 1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
         internal static readonly int[][] Tutors_B2W2 =

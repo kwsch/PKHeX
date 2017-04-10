@@ -104,7 +104,8 @@ namespace PKHeX.Core
         // Yanmega Leafeon Glaceon Mamoswine Gliscor Probopass
         internal static readonly int[] UnreleasedItems_3 =
         {
-            // todo
+            005, // Safari Ball
+            175, // Enigma Berry
         };
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
         internal static readonly int[] TM_3 =
