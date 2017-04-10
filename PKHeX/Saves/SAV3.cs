@@ -129,6 +129,7 @@ namespace PKHeX.Core
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     break;
             }
+            LoadEReaderBerryData();
             LegalItems = Legal.Pouch_Items_RS;
             LegalBalls = Legal.Pouch_Ball_RS;
             LegalTMHMs = Legal.Pouch_TMHM_RS;
@@ -583,5 +584,43 @@ namespace PKHeX.Core
                 PadToSize = maxLength + 1;
             return PKX.setString3(value, maxLength, Japanese, PadToSize, PadWith);
         }
+
+        #region eBerry
+        // Offset and checksum code based from
+        // https://github.com/suloku/wc-tool by Suloku
+        private const int SIZE_EBERRY = 0x530;
+        private const int OFFSET_EBERRY = 0x2E0;
+
+        private uint eBerryChecksum => BitConverter.ToUInt32(Data, BlockOfs[4] + OFFSET_EBERRY + SIZE_EBERRY - 4);
+        private bool eBerryChecksumValid { get; set; }
+
+        public override string eBerryName
+        {
+            get
+            {
+                if (!GameVersion.RS.Contains(Version) || !eBerryChecksumValid)
+                    return string.Empty;
+                return PKX.getString3(Data, BlockOfs[4] + OFFSET_EBERRY, 7, Japanese).Trim();
+            }
+        }
+        public override bool eBerryIsEnigma => string.IsNullOrEmpty(eBerryName.Trim());
+
+        private void LoadEReaderBerryData()
+        {
+            if (!GameVersion.RS.Contains(Version))
+                return;
+
+            byte[] chk = getData(BlockOfs[4] + OFFSET_EBERRY, SIZE_EBERRY - 4);
+            for (int i = 0; i < 8; i++) 
+                //These 8 bytes are taken as 0x00 for chk calculation
+                chk[0xC + i] = 0x00;
+
+            var calc_cksum = 0;
+            for (int i = 0; i < chk.Length; i++)
+                calc_cksum = unchecked(calc_cksum + chk[i]);
+
+            eBerryChecksumValid = calc_cksum == eBerryChecksum;
+        }
+        #endregion
     }
 }

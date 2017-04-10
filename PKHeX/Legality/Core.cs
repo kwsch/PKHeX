@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using PKHeX.Core.Properties;
+using System.Globalization;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -37,7 +39,13 @@ namespace PKHeX.Core
         private static readonly EggMoves[] EggMovesRS = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_rs, "rs"));
         private static readonly EvolutionTree Evolves3;
         private static readonly EncounterArea[] SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG;
-        private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;
+        private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;        
+        
+        /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
+        public static bool EReaderBerryIsEnigma = true;
+        public static string EReaderBerryName = string.Empty;
+        public static string EReaderBerryDisplayName => string.Format(V372, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(EReaderBerryName.ToLower()));
+        public static bool SavegameJapanese = false;
 
         // Gen 4
         private static readonly Learnset[] LevelUpDP = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_dp, "dp"));

@@ -1034,6 +1034,9 @@ namespace PKHeX.WinForms
 
                 sav.Japanese = drJP == DialogResult.No;
             }
+            Legal.SavegameJapanese = sav.Japanese;
+            Legal.EReaderBerryIsEnigma = sav.eBerryIsEnigma;
+            Legal.EReaderBerryName = sav.eBerryName;
             loadingSAV = true;
 
             // clean fields
@@ -3016,7 +3019,7 @@ namespace PKHeX.WinForms
                     pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
                 }
-                if (sender == CB_HeldItem && SAV.Generation == 7)
+                if (sender == CB_HeldItem || sender == CB_Ability)
                     updateLegality();
             }
             updateNatureModification(sender, null);
