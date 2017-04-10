@@ -169,7 +169,9 @@ namespace PKHeX.Core
         };
         internal static readonly int[] UnreleasedItems_4 =
         {
-            // todo
+            005, // Safari Ball
+            016, // Cherish Ball
+            147, // Mosaic Mail
         };
         internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
         internal static readonly int[] CrownBeasts = {251, 243, 244, 245};

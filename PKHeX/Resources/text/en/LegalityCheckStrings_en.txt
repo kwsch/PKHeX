@@ -166,6 +166,7 @@ V105 = Battle Memory Ribbon
 V106 = Contest Memory Ribbon
 V107 = Ability is not valid for species/form.
 V108 = Hidden Ability mismatch for encounter type.
+V223 = Ability mismatch for encounter.
 V109 = Ability modified with Ability Capsule.
 V110 = Ability does not match Mystery Gift.
 V111 = Hidden Ability on non-SOS wild encounter.

@@ -199,6 +199,8 @@ namespace PKHeX.Core
         }
         private void updateEncounterInfo()
         {
+            if (pkm.VC && pkm.Format == 7)
+                EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
             EncounterMatch = EncounterMatch ?? pkm.Species;
 
             EncounterType = (EncounterOriginalGB ?? EncounterMatch)?.GetType();

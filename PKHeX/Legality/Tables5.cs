@@ -114,7 +114,23 @@ namespace PKHeX.Core
         };
         internal static readonly int[] UnreleasedItems_5 =
         {
-            // todo
+            005, // Safari Ball
+            016, // Cherish Ball
+            260, // Red Scarf
+            261, // Blue Scarf
+            262, // Pink Scarf
+            263, // Green Scarf
+            264, // Yellow Scarf
+            492, // Fast Ball
+            493, // Level Ball
+            494, // Lure Ball
+            495, // Heavy Ball
+            496, // Love Ball
+            497, // Friend Ball
+            498, // Moon Ball
+            499, // Sport Ball
+            500, // Park Ball
+            576, // Dream Ball
         };
         internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2 + 1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
         internal static readonly int[][] Tutors_B2W2 =
@@ -560,7 +576,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 443, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
             new EncounterStatic { Gift = true, Species = 147, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
             new EncounterStatic { Gift = true, Species = 129, Level = 05, Location = 68, }, // Magikarp @ Marvelous Bridge
-            new EncounterStatic { Gift = true, Species = 440, Level = 01, Ability = 1, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
+            new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
             //Stationary
             new EncounterStatic { Species = 590, Level = 29, Location = 19, }, // Foongus @ Route 6
             new EncounterStatic { Species = 591, Level = 47, Location = 24, }, // Amoonguss @ Route 11
