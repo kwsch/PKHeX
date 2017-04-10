@@ -1498,6 +1498,7 @@ namespace PKHeX.WinForms
 
             // Update Legality Analysis strings
             LegalityAnalysis.movelist = GameInfo.Strings.movelist;
+            LegalityAnalysis.specieslist = GameInfo.Strings.specieslist;
 
             if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics

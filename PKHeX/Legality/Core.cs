@@ -1319,7 +1319,7 @@ namespace PKHeX.Core
                 case GameVersion.RBY:
                     {
                         movelvl =  LevelUpRB[species].getMinMoveLevel(lvl);
-                        if(ver.Contains(GameVersion.YW))
+                        if (ver.Contains(GameVersion.YW))
                             goto case GameVersion.YW;
                         return movelvl;
                     }
@@ -1362,130 +1362,149 @@ namespace PKHeX.Core
             }
             return null;
         }
-        internal static int getUsedMoveSlots(PKM pk, int[] moves, List<int>[] learn, List<int>[] tmhm, List<int>[] tutor, int[] initialmoves)
+        internal static int getRequiredMoveCount(PKM pk, int[] moves, List<int>[] learn, List<int>[] tmhm, List<int>[] tutor, int[] initialmoves)
         {
-            if (pk.Format == 1 && !AllowGBCartEra) // No MoveDeleter
-            {
-                // A pokemon is captured with initial moves and cant forget any until have all 4 slots used
-                // If it has learn a move before having 4 it will be in one of the free slots
-                var usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
-                // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
-                // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
-                if (10 <= pk.Species && pk.Species <= 11)
-                {
-                    if (pk.Species == 11 && !moves.Any(m => G1MetapodMoves.Contains(m)))
-                        // Captured as Metapod without Caterpie moves
-                        usedslots = initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
-                }
-                if (14 <= pk.Species && pk.Species <= 15)
-                {
-                    if (pk.Species == 15 && !moves.Any(m => G1KakunaMoves.Contains(m)))
-                        // Captured as Beedril without Weedle and Kakuna moves
-                        usedslots = initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
-                    else if (!moves.Any(m => G1WeedleMoves.Contains(m)))
-                        // Captured as Kakuna without Weedle moves
-                        usedslots = initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
-                }
-                // Species that evolve and learn the 4th move as evolved species at a greather level than base species
-                // The 4th move is included in the level up table set as a preevolution move, 
-                // it should be removed from the used slots count if is not the learn move
-                if ( (pk.Species == 017 && pk.CurrentLevel < 21 && !moves.Contains(18)) || // Pidgeotto without Whirlwind
-                     (pk.Species == 028 && pk.CurrentLevel < 27 && !moves.Contains(40)) || // Sandslash without Poison Sting
-                     (pk.Species == 047 && pk.CurrentLevel < 30 && !moves.Contains(147)) || // Parasect without Spore
-                     (pk.Species == 055 && pk.CurrentLevel < 39 && !moves.Contains(93)) || // Golduck without Confusion
-                     (pk.Species == 087 && pk.CurrentLevel < 44 && !moves.Contains(156)) || // Dewgong without Rest
-                     (93 <= pk.Species && pk.Species <= 94 && pk.CurrentLevel < 29 && !moves.Contains(95)) || // Haunter/Gengar without Hypnosis
-                     (pk.Species == 110 && pk.CurrentLevel < 39 && !moves.Contains(108)) || // Weezing without Smoke Screen
-                     (pk.Species == 130 && pk.CurrentLevel < 32 )  // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle
-                   )  
-                {
-                    usedslots = 3;
-                }
+            if (pk.Format != 1 || AllowGBCartEra) // No MoveDeleter
+                return 1; // Move deleter exits, slots from 2 onwards can allways be empty
 
-                // Yellow optional moves, reduce usedslots if the yellow move is not present
-                // The count wont go bellow 1 because the yellow moves were already counted and are not the only initial or level up moves
-                if (pk.Species == 031) //Venonat
-                { 
-                    //ignore Venomoth, by the time Venonat evolved it will always have 4 moves
-                    if (pk.CurrentLevel >= 11 && !moves.Contains(48)) // Supersonic
-                        usedslots--;
-                    if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
-                        usedslots--;
-                }
-                if (pk.Species == 056 && pk.CurrentLevel >= 9 && !moves.Contains(67))
-                    //Mankey Yellow Low Kick, Primeape will always have 4 moves
-                    usedslots--;
+            int required = getRequiredMoveCount(pk, moves, learn, initialmoves);
+            if (required >= 4)
+                return 4;
 
-                if(64 <= pk.Species && pk.Species <= 065)
-                {
-                    if(!moves.Contains(134))// Initial Yellow Kadabra Kinesis 
-                        usedslots--;
-                    if (pk.CurrentLevel <10 && !moves.Contains(50))// Kadabra Disable, not learned until 20 if captured as Abra
-                        usedslots--;
-                }
-                if (104 <= pk.Species && pk.Species <= 105) //Cubone and Marowak
-                {
-                    if (!moves.Contains(39))// Initial Yellow Tail Whip 
-                        usedslots--;
-                    if (!moves.Contains(125))// Initial Yellow Bone Club
-                        usedslots--;
-                    if (pk.Species == 105 && pk.CurrentLevel < 33 && !moves.Contains(116)) // Marowak evolved without Focus Energy
-                        usedslots--;
-                }
-                if (pk.Species == 113) // Chansey 
-                {
-                    if (!moves.Contains(39))// Yellow Initial Tail Whip 
-                        usedslots--;
-                    if (!moves.Contains(3))// Yellow Lvl 12 and Initial Red/Blue Double Slap
-                        usedslots--;
-                }
-                if (pk.Species == 127 && pk.CurrentLevel >=21 && !moves.Contains(20)) // Pinsir Yellow Bind
-                    usedslots--;
+            // tm, hm and tutor moves replace a free slots if the pokemon have less than 4 moves
+            // Ignore tm, hm and tutor moves already in the learnset table
+            required += moves.Where(m => m != 0 && initialmoves.Union(learn[1]).All(l => l != m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
 
-                if (SpecialMinMoveSlots.Contains(pk.Species))
-                {
-                    // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
-                    // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves, 
-                    // every other move could be avoided switching game or evolving
-                    var basespecies = getBaseSpecies(pk);
-                    var maxlevel = 1;
-                    var minlevel = 1;
-                    if (29 <= pk.Species && pk.Species <= 34 && pk.CurrentLevel >= 8)
-                        maxlevel = 8; // Allways lean a third move at level 8
-                    if(pk.Species == 114)
-                    {   
-                        //Tangela moves before level 32 are different in red/blue and yellow
-                        minlevel = 32;
-                        maxlevel = pk.CurrentLevel;
-                    }
-                    var mandatorymoves = minlevel <= pk.CurrentLevel ? getLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList(): new List<int>();
-                    if (pk.Species == 103 && pk.CurrentLevel >= 28) // Exeggutor
-                    {
-                        // At level 28 learn different move if is a Exeggute or Exeggutor
-                        if (moves.Contains(73))
-                            mandatorymoves.Add(73);// Leech Seed level 28 Exeggute
-                        if (moves.Contains(23))
-                            mandatorymoves.Add(23);// Stomp level 28 Exeggutor
-                    }
-                    if (pk.Species == 25 && pk.CurrentLevel >= 33)
-                        mandatorymoves.Add(97); // Pikachu always learn Agility
-                    if (pk.Species == 114)
-                        mandatorymoves.Add(132); // Tangela always learn Constrict as Initial Move
-                    // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
-                    usedslots = mandatorymoves.Count + moves.Where(m => m != 0 && mandatorymoves.All(l => l != m) && learn[1].Any(t => t == m)).Count();
-                }
-
-                if (usedslots >= 4)
-                    return 4;
-                // tm, hm and tutor moves replace a free slots if the pokemon have less than 4 moves
-                // Ignore tm, hm and tutor moves already in the learnset table
-                usedslots += moves.Where(m => m != 0 && initialmoves.Union(learn[1]).All(l => l != m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
-
-                return usedslots >= 4 ? 4 : usedslots;
-            }
-            // Move deleter exits, slots from 2 onwards can allways be empty
-            return 1;
+            return Math.Min(4, required);
         }
+        private static int getRequiredMoveCount(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        {
+            if (SpecialMinMoveSlots.Contains(pk.Species))
+                return getRequiredMoveCountSpecial(pk, moves, learn);
+
+            // A pokemon is captured with initial moves and can't forget any until have all 4 slots used
+            // If it has learn a move before having 4 it will be in one of the free slots
+            int required = getRequiredMoveSlotsRegular(pk, moves, learn, initialmoves);
+            return required != 0 ? required : getRequiredMoveCountDecrement(pk, moves, learn, initialmoves);
+        }
+        private static int getRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        {
+            int species = pk.Species;
+            // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
+            // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
+            if (010 == species || species == 011)
+            {
+                if (species == 11 && !moves.Any(m => G1MetapodMoves.Contains(m))) // Captured as Metapod without Caterpie moves
+                    return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
+            }
+            if (species == 014 || species == 015)
+            {
+                if (species == 15 && !moves.Any(m => G1KakunaMoves.Contains(m))) // Captured as Beedril without Weedle and Kakuna moves
+                    return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
+
+                if (!moves.Any(m => G1WeedleMoves.Contains(m))) // Captured as Kakuna without Weedle moves
+                    return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
+            }
+
+            return getRequiredMoveCountSpecies3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
+        }
+        private static bool getRequiredMoveCountSpecies3(int species, int level, int[] moves)
+        {
+            // Species that evolve and learn the 4th move as evolved species at a greather level than base species
+            // The 4th move is included in the level up table set as a preevolution move, 
+            // it should be removed from the used slots count if is not the learn move
+            switch (species)
+            {
+                case 017: return level < 21 && !moves.Contains(018); // Pidgeotto without Whirlwind
+                case 028: return level < 27 && !moves.Contains(040); // Sandslash without Poison Sting
+                case 047: return level < 30 && !moves.Contains(147); // Parasect without Spore
+                case 055: return level < 39 && !moves.Contains(093); // Golduck without Confusion
+                case 087: return level < 44 && !moves.Contains(156); // Dewgong without Rest
+                case 093:
+                case 094: return level < 29 && !moves.Contains(095); // Haunter/Gengar without Hypnosis
+                case 110: return level < 39 && !moves.Contains(108); // Weezing without Smoke Screen
+                case 130: return level < 32; // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle
+            }
+            return false;
+        }
+        private static int getRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        {
+            int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
+            // Yellow optional moves, reduce usedslots if the yellow move is not present
+            // The count wont go bellow 1 because the yellow moves were already counted and are not the only initial or level up moves
+            if (pk.Species == 031) //Venonat
+            {
+                // ignore Venomoth, by the time Venonat evolved it will always have 4 moves
+                if (pk.CurrentLevel >= 11 && !moves.Contains(48)) // Supersonic
+                    usedslots--;
+                if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
+                    usedslots--;
+            }
+            if (pk.Species == 056 && pk.CurrentLevel >= 9 && !moves.Contains(67)) // Mankey Yellow Low Kick, Primeape will always have 4 moves
+                usedslots--;
+
+            if (064 == pk.Species || pk.Species == 065)
+            {
+                if (!moves.Contains(134))// Initial Yellow Kadabra Kinesis 
+                    usedslots--;
+                if (pk.CurrentLevel < 10 && !moves.Contains(50)) // Kadabra Disable, not learned until 20 if captured as Abra
+                    usedslots--;
+            }
+            if (104 == pk.Species || pk.Species == 105) // Cubone and Marowak
+            {
+                if (!moves.Contains(39)) // Initial Yellow Tail Whip 
+                    usedslots--;
+                if (!moves.Contains(125)) // Initial Yellow Bone Club
+                    usedslots--;
+                if (pk.Species == 105 && pk.CurrentLevel < 33 && !moves.Contains(116)) // Marowak evolved without Focus Energy
+                    usedslots--;
+            }
+            if (pk.Species == 113) // Chansey 
+            {
+                if (!moves.Contains(39)) // Yellow Initial Tail Whip 
+                    usedslots--;
+                if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
+                    usedslots--;
+            }
+            if (pk.Species == 127 && pk.CurrentLevel >= 21 && !moves.Contains(20)) // Pinsir Yellow Bind
+                usedslots--;
+            return usedslots;
+        }
+
+        private static int getRequiredMoveCountSpecial(PKM pk, int[] moves, List<int>[] learn)
+        {
+            // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
+            // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves, 
+            // every other move could be avoided switching game or evolving
+            var basespecies = getBaseSpecies(pk);
+            var maxlevel = 1;
+            var minlevel = 1;
+            if (029 <= pk.Species && pk.Species <= 034 && pk.CurrentLevel >= 8)
+                maxlevel = 8; // Always lean a third move at level 8
+            if (pk.Species == 114)
+            {
+                //Tangela moves before level 32 are different in red/blue and yellow
+                minlevel = 32;
+                maxlevel = pk.CurrentLevel;
+            }
+            var mandatory = minlevel <= pk.CurrentLevel ? getLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList() : new List<int>();
+            if (pk.Species == 103 && pk.CurrentLevel >= 28) // Exeggutor
+            {
+                // At level 28 learn different move if is a Exeggute or Exeggutor
+                if (moves.Contains(73))
+                    mandatory.Add(73); // Leech Seed level 28 Exeggute
+                if (moves.Contains(23))
+                    mandatory.Add(23); // Stomp level 28 Exeggutor
+            }
+            if (pk.Species == 25 && pk.CurrentLevel >= 33)
+                mandatory.Add(97); // Pikachu always learn Agility
+            if (pk.Species == 114)
+                mandatory.Add(132); // Tangela always learn Constrict as Initial Move
+
+            // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
+            return mandatory.Count + moves.Where(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m)).Count();
+        }
+
         private static EncounterTrade getValidEncounterTradeVC(PKM pkm, GameVersion gameSource)
         {
             var p = getValidPreEvolutions(pkm).ToArray();
@@ -1657,7 +1676,7 @@ namespace PKHeX.Core
             if (lvl < 5)
                 return false;
 
-            if(pkm.Format > 3 && pkm.Met_Level <5)
+            if (pkm.Format > 3 && pkm.Met_Level <5)
                 return false;
             if (pkm.Format > 3 && pkm.FatefulEncounter)
                 return false;
@@ -2787,7 +2806,7 @@ namespace PKHeX.Core
             if (pkm.Species == 292 && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
                 return new List<DexLevel>
                 {
-                    new DexLevel { Species = 292, Level = lvl, MinLevel =20 },
+                    new DexLevel { Species = 292, Level = lvl, MinLevel = 20 },
                     new DexLevel { Species = 290, Level = lvl-1, MinLevel = 1 }
                 };
 
@@ -2954,7 +2973,7 @@ namespace PKHeX.Core
                             return r;
                         if (LVL)
                         {
-                            if(index == 386)
+                            if (index == 386)
                             {
                                 switch(form)
                                 {

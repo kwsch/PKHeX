@@ -2413,7 +2413,7 @@ namespace PKHeX.Core
             {
                 EncounterMatch = enc;
                 var EncounterMatchGen = EncounterMatch as IGeneration;
-                if(EncounterMatchGen != null)
+                if (EncounterMatchGen != null)
                     UptateGen1LevelUpMoves(ref validLevelMoves, defaultGen1Moves, EncounterMatchGen.Generation);
                 if (pkm.GenNumber <= 3)
                     pkm.WasEgg = EncounterMatch == null || ((EncounterMatch as IEncounterable)?.EggEncounter ?? false);
@@ -2686,12 +2686,12 @@ namespace PKHeX.Core
             var LvlupEggMovesLearned = new List<int>();
             var EventEggMovesLearned = new List<int>();
             var IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
-            var usedslots = Legal.getUsedMoveSlots(pkm, moves, learn, tmhm, tutor, initialmoves);
+            var required = Legal.getRequiredMoveCount(pkm, moves, learn, tmhm, tutor, initialmoves);
             // Check none moves and relearn moves before generation moves
             for (int m = 0; m < 4; m++)
             {
                 if (moves[m] == 0)
-                    res[m] = new CheckResult(m < usedslots ? Severity.Invalid : Severity.Valid, V167, CheckIdentifier.Move);
+                    res[m] = new CheckResult(m < required ? Severity.Invalid : Severity.Valid, V167, CheckIdentifier.Move);
                 else if (relearn.Contains(moves[m]))
                     res[m] = new CheckResult(Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
             }
@@ -2728,7 +2728,7 @@ namespace PKHeX.Core
                     if (moves[m] == 0)
                         continue;
 
-                    if (gen ==1 && initialmoves.Contains(moves[m]))
+                    if (gen == 1 && initialmoves.Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V361 : string.Format(V362, gen), CheckIdentifier.Move);
                     else if (learn[gen].Contains(moves[m]))
                         res[m] = new CheckResult(Severity.Valid, native ? V177 : string.Format(V330, gen), CheckIdentifier.Move);
@@ -2883,7 +2883,7 @@ namespace PKHeX.Core
         private void ParseRedYellowIncompatibleMoves(int[] moves, ref CheckResult[] res)
         {
             var incompatible = new List<int>();
-            if(pkm.Species == 134 && moves.Contains(151) && pkm.CurrentLevel < 47)
+            if (pkm.Species == 134 && moves.Contains(151) && pkm.CurrentLevel < 47)
             {
                 // Vaporeon in Yellow learn Mist and Acid Armor at level 42, Mist only if level up in day-care
                 // Vaporeon in Red Blue learn Acid Armor at level 42 and level 47 in Yellow
@@ -2891,7 +2891,7 @@ namespace PKHeX.Core
                     incompatible.Add(54);
                 if (moves.Contains(114))
                     incompatible.Add(114);
-                if(incompatible.Any())
+                if (incompatible.Any())
                     incompatible.Add(151);
             }
             if (pkm.Species == 136 && moves.Contains(43) && moves.Contains(123) && pkm.CurrentLevel < 47)
@@ -2901,7 +2901,7 @@ namespace PKHeX.Core
                 incompatible.Add(43);
                 incompatible.Add(123);
             }
-            for(int m = 0; m < 4; m++)
+            for (int m = 0; m < 4; m++)
             {
                 if (incompatible.Contains(moves[m]))
                     res[m] = new CheckResult(Severity.Invalid, V363, CheckIdentifier.Move);
@@ -2909,7 +2909,7 @@ namespace PKHeX.Core
         }
         private void ParseEvolutionsIncompatibleMoves(int[] moves, List<int> tmhm, ref CheckResult[] res)
         {
-            var species = Util.getSpeciesList("en");
+            var species = specieslist;
             var currentspecies = species[pkm.Species];
             var previousspecies = string.Empty;
             var incompatible_previous = new List<int>();
@@ -2950,8 +2950,8 @@ namespace PKHeX.Core
                     if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
                         incompatible_current.Add(ExclusiveMoves[1][i]);
                 }
-                // Vaporeon Mist and Eevee Take Down, special case, they are learned at the same level, but mist only in daycare
-                if (pkm.Species ==134 && moves.Contains(36) && moves.Contains(54)) 
+                // Vaporeon Mist and Eevee Take Down, special case, they are learned at the same level, but Mist only in daycare
+                if (pkm.Species == 134 && moves.Contains(36) && moves.Contains(54)) 
                 {
                     incompatible_current.Add(54);
                     incompatible_previous.Add(36);
@@ -2961,7 +2961,7 @@ namespace PKHeX.Core
             for (int m = 0; m < 4; m++)
             {
                 if (incompatible_current.Contains(moves[m]))
-                    res[m] = new CheckResult(Severity.Invalid, string.Format( V365, currentspecies, previousspecies), CheckIdentifier.Move);
+                    res[m] = new CheckResult(Severity.Invalid, string.Format(V365, currentspecies, previousspecies), CheckIdentifier.Move);
                 if (incompatible_previous.Contains(moves[m]))
                     res[m] = new CheckResult(Severity.Invalid, string.Format(V366, currentspecies, previousspecies), CheckIdentifier.Move);
             }
@@ -2996,7 +2996,6 @@ namespace PKHeX.Core
         private void verifyPreRelearn()
         {
             // For origins prior to relearn moves, need to try to match a mystery gift if applicable.
-
             if (pkm.WasEvent || pkm.WasEventEgg)
             {
                 EventGiftMatch = new List<MysteryGift>(Legal.getValidGifts(pkm));
@@ -3259,19 +3258,19 @@ namespace PKHeX.Core
                     for (int z = i; z < moveoffset + specialmoves.Count; z++)
                         res[z] = new CheckResult(Severity.Invalid, V342, CheckIdentifier.Move);
 
-                    // provide the list of suggested base moves and specia moves for the last required slot
-                    if (!string.IsNullOrEmpty(em)) em += ",";
+                    // provide the list of suggested base moves and species moves for the last required slot
+                    if (!string.IsNullOrEmpty(em)) em += ", ";
                     else
-                        em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m])) + ",";
+                        em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m])) + ", ";
                     em += string.Join(", ", specialmoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
                     break;
                 }
             }
 
-            if(!string.IsNullOrEmpty(em))
+            if (!string.IsNullOrEmpty(em))
                 res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + V343, em);
             // Non-Base moves that can magically appear in the regular movepool
-            if (pkm.GenNumber >=3 && Legal.LightBall.Contains(pkm.Species))
+            if (pkm.GenNumber >= 3 && Legal.LightBall.Contains(pkm.Species))
                 eggmoves.Add(344);
 
             // Inherited moves appear after the required base moves.
@@ -3310,6 +3309,7 @@ namespace PKHeX.Core
         }
         #endregion
         public static string[] movelist = Util.getMovesList("en");
+        public static string[] specieslist = Util.getMovesList("en");
         private static readonly string[] EventRibName =
         {
             "Country", "National", "Earth", "World", "Classic",
