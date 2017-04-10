@@ -86,7 +86,7 @@ namespace PKHeX.Core
         public override int MaxEV => 255;
         public override int Generation => 4;
         protected override int GiftCountMax => 1;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
 

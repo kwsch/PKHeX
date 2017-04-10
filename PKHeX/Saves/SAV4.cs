@@ -52,7 +52,7 @@ namespace PKHeX.Core
         protected override int EventFlagMax => int.MinValue;
         protected override int EventConstMax => int.MinValue;
         protected override int GiftCountMax => 11;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
 
@@ -519,7 +519,7 @@ namespace PKHeX.Core
         {
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            return PKX.array2strG4(Data, offset + box*0x28, 0x28);
+            return getString(offset + box*0x28, 0x28);
         }
         public override void setBoxName(int box, string value)
         {
@@ -527,7 +527,7 @@ namespace PKHeX.Core
                 value = value.Substring(0, 13); // Hard cap
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            setData(PKX.str2arrayG4(value), offset + box*0x28);
+            setData(setString(value, 13), offset + box*0x28);
         }
         public override PKM getPKM(byte[] data)
         {
