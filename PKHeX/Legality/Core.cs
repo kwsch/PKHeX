@@ -1055,6 +1055,8 @@ namespace PKHeX.Core
                     continue;
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
                     continue;
+                if (!e.Version.Contains((GameVersion)pkm.Version))
+                    continue;
 
                 yield return e;
             }
