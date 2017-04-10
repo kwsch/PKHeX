@@ -1394,7 +1394,7 @@ namespace PKHeX.Core
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
             if (010 == species || species == 011)
             {
-                if (species == 11 && !moves.Any(m => G1MetapodMoves.Contains(m))) // Captured as Metapod without Caterpie moves
+                if (!moves.Any(m => G1MetapodMoves.Contains(m))) // Captured as Metapod without Caterpie moves
                     return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
             }
             if (species == 014 || species == 015)
@@ -1423,7 +1423,6 @@ namespace PKHeX.Core
                 case 093:
                 case 094: return level < 29 && !moves.Contains(095); // Haunter/Gengar without Hypnosis
                 case 110: return level < 39 && !moves.Contains(108); // Weezing without Smoke Screen
-                case 130: return level < 32; // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle
             }
             return false;
         }
@@ -1466,6 +1465,8 @@ namespace PKHeX.Core
                 if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
                     usedslots--;
             }
+            if (pk.Species == 130 && pk.CurrentLevel <= 32) // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle 
+                usedslots--;
             if (pk.Species == 127 && pk.CurrentLevel >= 21 && !moves.Contains(20)) // Pinsir Yellow Bind
                 usedslots--;
             return usedslots;
