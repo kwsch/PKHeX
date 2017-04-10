@@ -298,3 +298,5 @@ V360 = 无法在来源版本中匹配到相应的配信蛋。
 V363 = 不共存招式。 在四色中同一等级的升级招式。
 V365 = 不共存进化招式。招式 {0} 比其他招式 {1} 习得等级低。
 V366 = 不共存进化招式。招式 {1} 比其他招式 {0} 习得等级高。
+V367 = Individual EV for a level 100 encounter in generation 4 cannot be greater than 100.
+V368 = Eggs can not be infected with Pokérus.
