@@ -69,7 +69,7 @@ namespace PKHeX.WinForms
             GB_Trash.Visible = true;
             NUD_Generation.Value = Main.SAV.Generation;
             int charct = length;
-            int bytesperchar = Main.SAV.Generation > 2 ? 2 : 1;
+            int bytesperchar = bigendian || Main.SAV.Generation > 3 ? 2 : 1;
             Font courier = new Font("Courier New", 8);
             for (int i = 0; i < charct * bytesperchar; i++)
             {
