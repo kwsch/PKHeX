@@ -60,6 +60,7 @@ namespace PKHeX.Core
         public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in generation {0}.";
         public static string V361 { get; set; } = "Default move.";
         public static string V362 { get; set; } = "Default move in generation {0}.";
+        public static string V372 { get; set; } = "{0} Berry";
 
         #endregion
 
@@ -360,6 +361,9 @@ namespace PKHeX.Core
         public static string V366 {get; set;} = "Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.";
         public static string V367 {get; set;} = "Individual EV for a level 100 encounter in generation 4 cannot be greater than 100.";
         public static string V368 {get; set;} = "Eggs can not be infected with Pokérus."; // Invalid
+        public static string V369 {get; set;} = "Invalid E-Reader Berry.";
+        public static string V370 {get; set;} = "Japanese E-Reader Berry in international savegame.";
+        public static string V371 {get; set;} = "American E-Reader Berry in japanese savegame.";
         #endregion
 
     }

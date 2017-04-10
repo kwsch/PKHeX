@@ -101,6 +101,35 @@ namespace PKHeX.Core
         {
             if (!Legal.getHeldItemAllowed(pkm.Format, pkm.HeldItem))
                 AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
+            if (pkm.Format == 3 && pkm.HeldItem == 175)
+                verifyEReaderBerry();
+        }
+        private void verifyEReaderBerry()
+        {
+            if (Legal.EReaderBerryIsEnigma)
+            {
+                AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
+                return;
+            }
+            var matchUSA = Legal.EReaderBerriesNames_USA.Contains(Legal.EReaderBerryName);
+            var matchJP = Legal.EReaderBerriesNames_JP.Contains(Legal.EReaderBerryName);
+            // Do not match any released e-reader berry
+            if (!matchJP && !matchUSA)
+            {
+                AddLine(Severity.Invalid, V369, CheckIdentifier.Form);
+                return;
+            }
+            // Ereader is region locked
+            if (matchJP && !Legal.SavegameJapanese)
+            {
+                AddLine(Severity.Invalid, V370, CheckIdentifier.Form);
+                return;
+            }
+            if (matchUSA && Legal.SavegameJapanese)
+            {
+                AddLine(Severity.Invalid, V371, CheckIdentifier.Form);
+                return;
+            }
         }
         private void verifyECPID()
         {
