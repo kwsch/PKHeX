@@ -2226,6 +2226,8 @@ namespace PKHeX.Core
                 { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); return; }
                 if (pkm.CNTs.Any(stat => stat > 0))
                 { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); return; }
+                if( pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
+                { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); return; }
             }
 
             if (Encounter.Valid)
