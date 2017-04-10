@@ -1283,7 +1283,7 @@ namespace PKHeX.Core
                 ushort chr = str[i];
                 ushort val = char2valG4(chr);
                 if (val == 0xFFFF || chr == 0xFFFF)
-                { Array.Resize(ref strdata, i * 2); break; }
+                { Array.Resize(ref strdata, i * 2 + 2); break; }
                 BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
             }
             BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
@@ -1329,7 +1329,7 @@ namespace PKHeX.Core
                 ushort chr = value[i];
                 ushort val = char2valG4(chr);
                 if (val == 0xFFFF || chr == 0xFFFF)
-                { Array.Resize(ref strdata, i * 2); break; }
+                { Array.Resize(ref strdata, i * 2 + 2); break; }
                 BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
             }
             BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
@@ -1910,7 +1910,7 @@ namespace PKHeX.Core
         public static readonly char[] Gen7_CHS = Util.getStringList("Char", "zh")[0].ToCharArray();
         public const ushort Gen7_CHS_Ofs = 0xE800;
         public static readonly char[] Gen7_CHT = Util.getStringList("Char", "zh2")[0].ToCharArray();
-        public const ushort Gen7_CHT_Ofs = 0xEB09;
+        public const ushort Gen7_CHT_Ofs = 0xEB0F;
         #endregion
         /// <summary>
         /// Trash Bytes for Generation 3->4
