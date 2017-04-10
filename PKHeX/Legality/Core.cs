@@ -1466,7 +1466,7 @@ namespace PKHeX.Core
                 if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
                     usedslots--;
             }
-            if (pk.Species == 130 && pk.CurrentLevel <= 32) // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle 
+            if (pk.Species == 130 && pk.CurrentLevel < 32) // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle 
                 usedslots--;
             if (pk.Species == 127 && pk.CurrentLevel >= 21 && !moves.Contains(20)) // Pinsir Yellow Bind
                 usedslots--;
