@@ -397,6 +397,7 @@ namespace PKHeX.Core
             SaveFile sav;
             byte[] header = new byte[0], footer = new byte[0];
             CheckHeaderFooter(ref data, ref header, ref footer);
+
             switch (getSAVGeneration(data))
             {
                 // Main Games
@@ -428,6 +429,7 @@ namespace PKHeX.Core
             byte[] header = new byte[0], footer = new byte[0];
             byte[] data = MC.SelectedSaveData;
             CheckHeaderFooter(ref data, ref header, ref footer);
+
             switch (MC.SelectedGameVersion)
             {
                 // Side Games
