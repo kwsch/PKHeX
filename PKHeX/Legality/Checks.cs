@@ -847,9 +847,14 @@ namespace PKHeX.Core
             }
             else if (null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
-                EncounterMatch = EncounterStaticMatch.First();
-                if ((G3Result = verifyEncounterStatic())?.Valid ?? false)
-                    G3Encounter = EncounterMatch;
+                if (new[] {380, 381}.Contains(pkm.Species))
+                    EncounterStaticMatch = EncounterStaticMatch.Where(z => z.Fateful == pkm.FatefulEncounter).ToList();
+                if (null != EncounterStaticMatch && EncounterStaticMatch.Any())
+                {
+                    EncounterMatch = EncounterStaticMatch.First();
+                    if ((G3Result = verifyEncounterStatic())?.Valid ?? false)
+                        G3Encounter = EncounterMatch;
+                }
             }
 
             // Check events after static, to match Mew/Deoxys static encounters
