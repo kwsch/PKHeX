@@ -27,6 +27,13 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new CK3(Data); }
 
+        public override string getString(int Offset, int Count) => PKX.getBEString3(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength) => PKX.setBEString3(value, maxLength);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x2E, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
+        public override byte[] OT_Trash { get { return getData(0x18, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x18); } }
+
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID % 25); } set { } }
@@ -57,9 +64,9 @@ namespace PKHeX.Core
         public override int OT_Gender { get { return Data[0x10]; } set { Data[0x10] = (byte)value; } }
         public override int SID { get { return BigEndian.ToUInt16(Data, 0x14); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x14); } }
         public override int TID { get { return BigEndian.ToUInt16(Data, 0x16); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x16); } }
-        public override string OT_Name { get { return PKX.getColoStr(Data, 0x18, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x18); } } // +2 terminator
-        public override string Nickname { get { return PKX.getColoStr(Data, 0x2E, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x2E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get { return PKX.getColoStr(Data, 0x44, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x44); } } // +2 terminator
+        public override string OT_Name { get { return getString(0x18, 20); } set { setString(value, 10).CopyTo(Data, 0x18); } } // +2 terminator
+        public override string Nickname { get { return getString(0x2E, 20); } set { setString(value, 10).CopyTo(Data, 0x2E); Nickname2 = value; } } // +2 terminator
+        private string Nickname2 { get { return getString(0x44, 20); } set { setString(value, 10).CopyTo(Data, 0x44); } } // +2 terminator
         public override uint EXP { get { return BigEndian.ToUInt32(Data, 0x5C); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x5C);} }
         public override int Stat_Level { get { return Data[0x60]; } set { Data[0x60] = (byte)value; } }
 

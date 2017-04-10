@@ -245,6 +245,8 @@ namespace PKHeX.Core
         public int MetLevel  {
             get { return Data[0x40]; } 
             set { Data[0x40] = (byte)value; } }
+        public int LevelMin { get { return MetLevel; } }
+        public int LevelMax { get { return MetLevel; } }
 
         public int CNT_Cool { get { return Data[0x41]; } set { Data[0x41] = (byte)value; } }
         public int CNT_Beauty { get { return Data[0x42]; } set { Data[0x42] = (byte)value; } }
@@ -327,6 +329,7 @@ namespace PKHeX.Core
                 if (value.Length > 3) RelearnMove4 = value[3];
             }
         }
+        public bool EggEncounter => IsEgg;
 
         public string Name => "Pokémon Link";
     }

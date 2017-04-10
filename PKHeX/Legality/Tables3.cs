@@ -216,6 +216,30 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{6} }, // Skitty Egg with Pay Day
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{57} }, // Pichu Egg with Surf
         };
+        internal static readonly EncounterStatic[] EventEgg_G3 = Encounter_Box.Concat(new[]
+        {
+            // PokePark Eggs
+            new EncounterStatic { Species = 054, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Psyduck with Mud Sport
+            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{266} }, // Pichu with Follow me
+            new EncounterStatic { Species = 174, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{321} }, // Igglybuff with Tickle
+            new EncounterStatic { Species = 222, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Corsola with Mud Sport
+            new EncounterStatic { Species = 276, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{294} }, // Taillow with Feather Dance
+            new EncounterStatic { Species = 283, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Surskit with Mud Sport
+            new EncounterStatic { Species = 293, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{298} }, // Whismur with Teeter Dance
+            new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{205} }, // Skitty with Rollout
+            new EncounterStatic { Species = 311, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{346} }, // Plusle with Water Sport
+            new EncounterStatic { Species = 312, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{300} }, // Minun with Mud Sport
+            new EncounterStatic { Species = 325, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{253} }, // Spoink with Uproar
+            new EncounterStatic { Species = 327, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{047} }, // Spinda with Sing
+            new EncounterStatic { Species = 331, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{227} }, // Cacnea with Encore
+            new EncounterStatic { Species = 341, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{346} }, // Corphish with Water Sport
+            new EncounterStatic { Species = 360, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{321} }, // Wynaut with Tickle
+            // Egg Pokémon Present Eggs
+            new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
+            new EncounterStatic { Species = 052, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
+            new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+        }).ToArray();
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
@@ -330,8 +354,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(Encounter_Box).ToArray();
-        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(Encounter_Box).ToArray();
+        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(EventEgg_G3).ToArray();
+        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(EventEgg_G3).ToArray();
 
         private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
         private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};
@@ -340,28 +364,28 @@ namespace PKHeX.Core
         private static readonly int[] TradeContest_Tough =  {05, 05, 05, 05, 30, 10};
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
-            new EncounterTrade { Species = 296, Location = 254, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Level = 05, Nature = Nature.Hardy, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Slakoth (Level 5 Breeding) -> Makuhita
-            new EncounterTrade { Species = 300, Location = 254, Ability = 1, TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {5,4,4,5,4,4}, Level = 03, Nature = Nature.Timid, Contest = TradeContest_Cute, Version = GameVersion.RS, }, // Pikachu (Level 3 Viridiam Forest) -> Skitty
-            new EncounterTrade { Species = 222, Location = 254, Ability = 2, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {4,4,5,4,4,5}, Level = 21, Nature = Nature.Calm, Contest = TradeContest_Beauty, Version = GameVersion.RS, }, // Bellossom (Level 21 Odish -> Gloom -> Bellossom) -> Corsola
-            new EncounterTrade { Species = 273, Location = 254, Ability = 2, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,5,4,4,4}, Level = 04, Nature = Nature.Relaxed, Contest = TradeContest_Cool, Version = GameVersion.E, }, // Ralts (Level 4 Route 102) -> Seedot
-            new EncounterTrade { Species = 311, Location = 254, Ability = 1, TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new[] {4,4,4,5,5,4}, Level = 05, Nature = Nature.Hasty, Contest = TradeContest_Cute, Version = GameVersion.E, }, // Volbeat (Level 5 Breeding) -> Plusle
-            new EncounterTrade { Species = 116, Location = 254, Ability = 1, TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,4,4,5,4}, Level = 05, Nature = Nature.Brave, Contest = TradeContest_Tough, Version = GameVersion.E, }, // Bagon 	Bagon (Level 5 Breeding) -> Horsea*
-            new EncounterTrade { Species = 052, Location = 254, Ability = 1, TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Level = 03, Nature = Nature.Naive, Contest = TradeContest_Clever, Version = GameVersion.E, }, // Skitty (Level 3 Trade)-> Meowth*
+            new EncounterTrade { Species = 296, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Level = 05, Nature = Nature.Hardy, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Slakoth (Level 5 Breeding) -> Makuhita
+            new EncounterTrade { Species = 300, Ability = 1, TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {5,4,4,5,4,4}, Level = 03, Nature = Nature.Timid, Contest = TradeContest_Cute, Version = GameVersion.RS, }, // Pikachu (Level 3 Viridiam Forest) -> Skitty
+            new EncounterTrade { Species = 222, Ability = 2, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {4,4,5,4,4,5}, Level = 21, Nature = Nature.Calm, Contest = TradeContest_Beauty, Version = GameVersion.RS, }, // Bellossom (Level 21 Odish -> Gloom -> Bellossom) -> Corsola
+            new EncounterTrade { Species = 273, Ability = 2, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,5,4,4,4}, Level = 04, Nature = Nature.Relaxed, Contest = TradeContest_Cool, Version = GameVersion.E, }, // Ralts (Level 4 Route 102) -> Seedot
+            new EncounterTrade { Species = 311, Ability = 1, TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new[] {4,4,4,5,5,4}, Level = 05, Nature = Nature.Hasty, Contest = TradeContest_Cute, Version = GameVersion.E, }, // Volbeat (Level 5 Breeding) -> Plusle
+            new EncounterTrade { Species = 116, Ability = 1, TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,4,4,5,4}, Level = 05, Nature = Nature.Brave, Contest = TradeContest_Tough, Version = GameVersion.E, }, // Bagon 	Bagon (Level 5 Breeding) -> Horsea*
+            new EncounterTrade { Species = 052, Ability = 1, TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Level = 03, Nature = Nature.Naive, Contest = TradeContest_Clever, Version = GameVersion.E, }, // Skitty (Level 3 Trade)-> Meowth*
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
         internal static readonly EncounterTrade[] TradeGift_FRLG =
         {
-            new EncounterTrade { Species = 122, Location = 254, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, Nature = Nature.Timid, Contest = TradeContest_Clever,}, // Mr. Mime
-            new EncounterTrade { Species = 029, Location = 254, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {22,18,25,19,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.FR, }, // Nidoran♀
-            new EncounterTrade { Species = 032, Location = 254, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cool, Version = GameVersion.LG, }, // Nidoran♂ *
-            new EncounterTrade { Species = 030, Location = 254, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cute, Version = GameVersion.FR,}, // Nidorina *
-            new EncounterTrade { Species = 033, Location = 254, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
-            new EncounterTrade { Species = 108, Location = 254, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, Contest = TradeContest_Tough, }, // Lickitung  * 
-            new EncounterTrade { Species = 124, Location = 254, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, Contest = TradeContest_Beauty, }, // Jynx
-            new EncounterTrade { Species = 083, Location = 254, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
-            new EncounterTrade { Species = 101, Location = 254, Ability = 1, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
-            new EncounterTrade { Species = 114, Location = 254, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, Contest = TradeContest_Cute, }, // Tangela
-            new EncounterTrade { Species = 086, Location = 254, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
+            new EncounterTrade { Species = 122, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, Nature = Nature.Timid, Contest = TradeContest_Clever,}, // Mr. Mime
+            new EncounterTrade { Species = 029, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {22,18,25,19,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.FR, }, // Nidoran♀
+            new EncounterTrade { Species = 032, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cool, Version = GameVersion.LG, }, // Nidoran♂ *
+            new EncounterTrade { Species = 030, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cute, Version = GameVersion.FR,}, // Nidorina *
+            new EncounterTrade { Species = 033, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
+            new EncounterTrade { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, Contest = TradeContest_Tough, }, // Lickitung  * 
+            new EncounterTrade { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, Contest = TradeContest_Beauty, }, // Jynx
+            new EncounterTrade { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
+            new EncounterTrade { Species = 101, Ability = 1, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
+            new EncounterTrade { Species = 114, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, Contest = TradeContest_Cute, }, // Tangela
+            new EncounterTrade { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
 

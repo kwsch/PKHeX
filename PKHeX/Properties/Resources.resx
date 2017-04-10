@@ -7252,12 +7252,6 @@
   <data name="flags_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\flags_sm.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="text_species_zh2_alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\zh\text_Species_zh2_alt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
-  </data>
-  <data name="text_species_zh_alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\zh\text_Species_zh_alt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="wc7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\byte\wc7.pkl;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -7566,5 +7560,11 @@
   </data>
   <data name="LegalityCheckStrings_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\LegalityCheckStrings_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Char_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\zh\text_Char_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_Char_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\zh\text_Char_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

@@ -40,52 +40,69 @@
 
         // Extra Game Groupings (Generation)
         Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,
-        SPECIAL, // Stadium
+        GBCartEraOnly,
+        Stadium,
+        Stadium2,
+        EventsGBGen1,
+        EventsGBGen2,
+        VCEvents
     }
 
     public static class Extension
     {
         public static bool Contains(this GameVersion g1, GameVersion g2)
         {
-            if (g1 == g2 || g1 == GameVersion.Any) return true;
+            if (g1 == g2 || g1 == GameVersion.Any)
+                return true;
 
             switch (g1)
             {
                 case GameVersion.RBY:
-                    return (g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.YW || g2 == GameVersion.GN);
+                    return g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.YW || g2 == GameVersion.GN;
                 case GameVersion.Gen1:
-                    return ( GameVersion.RBY.Contains(g2) || g2 == GameVersion.SPECIAL);
+                    return GameVersion.RBY.Contains(g2) || g2 == GameVersion.Stadium || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.VCEvents;
+                case GameVersion.Stadium:
+                case GameVersion.EventsGBGen1:
+                case GameVersion.VCEvents:
+                    return GameVersion.RBY.Contains(g2);
 
-                case GameVersion.GS: return (g2 == GameVersion.GD || g2 == GameVersion.SV);
+                case GameVersion.GS: return g2 == GameVersion.GD || g2 == GameVersion.SV;
                 case GameVersion.GSC:
-                    return (GameVersion.GS.Contains(g2) || g2 == GameVersion.C);
+                    return GameVersion.GS.Contains(g2) || g2 == GameVersion.C;
                 case GameVersion.Gen2:
-                    return (GameVersion.GSC.Contains(g2) || g2 == GameVersion.SPECIAL);
+                    return GameVersion.GSC.Contains(g2) || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen2;
+                case GameVersion.Stadium2:
+                case GameVersion.EventsGBGen2:
+                    return GameVersion.GSC.Contains(g2);
+                case GameVersion.GBCartEraOnly:
+                    return g2 == GameVersion.Stadium || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.EventsGBGen2;
 
-                case GameVersion.RS: return (g2 == GameVersion.R || g2 == GameVersion.S);
-                case GameVersion.FRLG: return (g2 == GameVersion.FR || g2 == GameVersion.LG);
-                case GameVersion.CXD: return (g2 == GameVersion.COLO || g2 == GameVersion.XD);
+                case GameVersion.RS: return g2 == GameVersion.R || g2 == GameVersion.S;
+                case GameVersion.FRLG: return g2 == GameVersion.FR || g2 == GameVersion.LG;
+                case GameVersion.CXD: return g2 == GameVersion.COLO || g2 == GameVersion.XD;
+                case GameVersion.RSBOX: return GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2);
                 case GameVersion.Gen3:
-                    return (GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2) || GameVersion.CXD.Contains(g2) || g2 == GameVersion.RSBOX);
+                    return GameVersion.RS.Contains(g2) || g2 == GameVersion.E || GameVersion.FRLG.Contains(g2) || GameVersion.CXD.Contains(g2) || g2 == GameVersion.RSBOX;
 
-                case GameVersion.DP: return (g2 == GameVersion.D || g2 == GameVersion.P);
-                case GameVersion.HGSS: return (g2 == GameVersion.HG || g2 == GameVersion.SS);
+                case GameVersion.DP: return g2 == GameVersion.D || g2 == GameVersion.P;
+                case GameVersion.HGSS: return g2 == GameVersion.HG || g2 == GameVersion.SS;
+                case GameVersion.BATREV: return GameVersion.DP.Contains(g2) || g2 == GameVersion.Pt || GameVersion.HGSS.Contains(g2);
                 case GameVersion.Gen4:
-                    return (GameVersion.DP.Contains(g2) || g2 == GameVersion.Pt || GameVersion.HGSS.Contains(g2));
+                    return GameVersion.DP.Contains(g2) || g2 == GameVersion.Pt || GameVersion.HGSS.Contains(g2) || g2 == GameVersion.BATREV;
 
-                case GameVersion.BW: return (g2 == GameVersion.B || g2 == GameVersion.W);
-                case GameVersion.B2W2: return (g2 == GameVersion.B2 || g2 == GameVersion.W2);
+                case GameVersion.BW: return g2 == GameVersion.B || g2 == GameVersion.W;
+                case GameVersion.B2W2: return g2 == GameVersion.B2 || g2 == GameVersion.W2;
                 case GameVersion.Gen5:
-                    return (GameVersion.BW.Contains(g2) || GameVersion.B2W2.Contains(g2));
+                    return GameVersion.BW.Contains(g2) || GameVersion.B2W2.Contains(g2);
 
-                case GameVersion.XY: return (g2 == GameVersion.X || g2 == GameVersion.Y);
-                case GameVersion.ORAS: return (g2 == GameVersion.OR || g2 == GameVersion.AS);
+                case GameVersion.XY: return g2 == GameVersion.X || g2 == GameVersion.Y;
+                case GameVersion.ORAS: return g2 == GameVersion.OR || g2 == GameVersion.AS;
                 case GameVersion.Gen6:
-                    return (GameVersion.XY.Contains(g2) || GameVersion.ORAS.Contains(g2));
+                    return GameVersion.XY.Contains(g2) || GameVersion.ORAS.Contains(g2);
 
                 case GameVersion.SM:
                 case GameVersion.Gen7:
-                    return (g2 == GameVersion.SN || g2 == GameVersion.MN);
+                    return g2 == GameVersion.SN || g2 == GameVersion.MN;
 
                 default: return false;
             }

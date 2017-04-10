@@ -179,6 +179,8 @@ namespace PKHeX.Core
                 metHGSS_02000[1] += " (NPC)";         // Anything from an NPC
                 metHGSS_02000[2] += " (" + eggname + ")"; // Egg From Link Trade
                 metBW2_00000[36] = metBW2_00000[84] + "/" + metBW2_00000[36]; // Cold Storage in BW = PWT in BW2
+                metBW2_00000[40] += "(B/W)"; // Victory Road in BW 
+                metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
 
                 // BW2 Entries from 76 to 105 are for Entralink in BW
                 for (int i = 76; i < 106; i++)
@@ -216,6 +218,8 @@ namespace PKHeX.Core
                 }
                 metSM_00000_good.CopyTo(metSM_00000, 0);
 
+                metSM_30000[0] += " (NPC)";                // Anything from an NPC
+                metSM_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
                 for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
                     metSM_30000[i] += " (-)";
 
@@ -228,11 +232,6 @@ namespace PKHeX.Core
                 string[] data = Util.getStringList(ident, Language);
                 if (data == null || data.Length == 0)
                     data = Util.getStringList(ident, DefaultLanguage);
-
-                // Use alternate (Fan Translated) species names since GameFreak decided to use non-Unicode characters which are now game-font dependent.
-                // PKX still fetches nickname with the actual string
-                if (ident == "species" && new[] {"zh", "zh2"}.Contains(Language))
-                    return Util.getSpeciesList(Language + "_alt");
 
                 return data;
             }

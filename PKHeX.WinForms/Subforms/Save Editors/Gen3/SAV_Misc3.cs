@@ -18,19 +18,19 @@ namespace PKHeX.WinForms
                 tabControl1.Controls.Remove(TAB_Joyful);
 
             if (SAV.FRLG)
-                TB_OTName.Text = PKX.getG3Str(SAV.getData(SAV.getBlockOffset(4) + 0xBCC, 8), SAV.Japanese);
+                TB_OTName.Text = PKX.getString3(SAV.Data, SAV.getBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
             else
                 TB_OTName.Visible = L_TrainerName.Visible = false;
             
-            NUD_BP.Value = SAV.BP;
-            NUD_Coins.Value = SAV.Coin;
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
+            NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (tabControl1.Controls.Contains(TAB_Joyful))
                 saveJoyful();
             if (SAV.FRLG)
-                SAV.setData(PKX.setG3Str(TB_OTName.Text, SAV.Japanese), SAV.getBlockOffset(4) + 0xBCC);
+                SAV.setData(SAV.setString(TB_OTName.Text, TB_OTName.MaxLength), SAV.getBlockOffset(4) + 0xBCC);
 
             SAV.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;

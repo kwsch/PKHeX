@@ -488,6 +488,11 @@ namespace PKHeX.Core
         {
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
+        internal static readonly int[] Ban_SafariBallHidden_7 =
+        {
+            029, 030, 031, 032, 033, 034, // Nidos
+            313, 314, // Volbeat/Illumise
+        };
 
         internal static readonly int[] ZygardeMoves =
         {
@@ -565,6 +570,19 @@ namespace PKHeX.Core
             729, // Brionne
             730, // Primarina
             774, // Minior
+
+            //Pre-Gen
+            669 + (2 << 11), //Flabébé-Orange
+            670 + (2 << 11), //Floette-Orange
+            671 + (2 << 11), //Florges-Orange
+            669 + (4 << 11), //Flabébé-White
+            670 + (4 << 11), //Floette-White
+            671 + (4 << 11), //Florges-White
+
+            710 + (1 << 11), //Pumpkaboo-Small
+            711 + (1 << 11), //Gourgeist-Small
+            710 + (2 << 11), //Pumpkaboo-Large
+            711 + (2 << 11), //Gourgeist-Large
         };
         #region Pre-Bank Illegality
         internal static readonly int[] Bank_NoHidden7 =
@@ -1328,7 +1346,6 @@ namespace PKHeX.Core
             657, // Gardevoirite
             658, // Ampharosite
             664, // Blazikenite
-            665, // Medichamite
             666, // Houndoominite
             667, // Aggronite
             668, // Banettite
@@ -1345,9 +1362,6 @@ namespace PKHeX.Core
             753, // Sceptilite
             755, // Altarianite
             756, // Galladite
-            757, // Audinite
-            761, // Steelixite
-            762, // Pidgeotite
             764, // Diancite
             767, // Cameruptite
             768, // Lopunnite

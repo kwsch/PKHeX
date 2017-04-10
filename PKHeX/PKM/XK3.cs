@@ -25,6 +25,13 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new XK3(Data) {Purification = Purification}; }
 
+        public override string getString(int Offset, int Count) => PKX.getBEString3(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength) => PKX.setBEString3(value, maxLength);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x4E, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x4E); } }
+        public override byte[] OT_Trash { get { return getData(0x38, 20); } set { if (value?.Length == 20) value.CopyTo(Data, 0x38); } }
+
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID % 25); } set { } }
@@ -82,9 +89,9 @@ namespace PKHeX.Core
         public int CurrentRegion { get { return Data[0x35]; } set { Data[0x35] = (byte)value; } }
         public int OriginalRegion { get { return Data[0x36]; } set { Data[0x36] = (byte)value; } }
         public override int Language { get { return PKX.getMainLangIDfromGC(Data[0x37]); } set { Data[0x37] = PKX.getGCLangIDfromMain((byte)value); } }
-        public override string OT_Name { get { return PKX.getColoStr(Data, 0x38, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x38); } } // +2 terminator
-        public override string Nickname { get { return PKX.getColoStr(Data, 0x4E, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get { return PKX.getColoStr(Data, 0x64, 10); } set { PKX.setColoStr(value, 10).CopyTo(Data, 0x64); } } // +2 terminator
+        public override string OT_Name { get { return getString(0x38, 20); } set { setString(value, 10).CopyTo(Data, 0x38); } } // +2 terminator
+        public override string Nickname { get { return getString(0x4E, 20); } set { setString(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
+        private string Nickname2 { get { return getString(0x64, 20); } set { setString(value, 10).CopyTo(Data, 0x64); } } // +2 terminator
         // 0x7A-0x7B Unknown
         private ushort RIB0 { get { return BigEndian.ToUInt16(Data, 0x7C); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x7C); } }
         public bool RibbonChampionG3Hoenn   { get { return (RIB0 & (1 << 15)) == 1 << 15; } set { RIB0 = (ushort)(RIB0 & ~(1 << 15) | (ushort)(value ? 1 << 15 : 0)); } }

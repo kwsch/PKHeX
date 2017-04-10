@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public abstract class MysteryGift : IEncounterable
+    public abstract class MysteryGift : IEncounterable, IMoveset
     {
 
         /// <summary>
@@ -124,11 +124,14 @@ namespace PKHeX.Core
         public virtual object Content => this;
 
         public abstract int Level { get; set; }
+        public int LevelMin { get { return Level; } }
+        public int LevelMax { get { return Level; } }
         public abstract int Ball { get; set; }
         public bool Gen7 => Format == 7;
         public bool Gen6 => Format == 6;
         public bool Gen5 => Format == 5;
         public bool Gen4 => Format == 4;
         public bool Gen3 => Format == 3;
+        public virtual bool EggEncounter => IsEgg;
     }
 }

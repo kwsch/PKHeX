@@ -24,6 +24,13 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new PK4(Data); }
 
+        public override string getString(int Offset, int Count) => PKX.getString4(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength) => PKX.setString4(value, maxLength);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x48, 22); } set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get { return getData(0x68, 16); } set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
+
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID%25); } set { } }
@@ -164,26 +171,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname
-        {
-            get
-            {
-                return PKX.array2strG4(Data.Skip(0x48).Take(22).ToArray())
-                    .Replace("\uE08F", "\u2640") // nidoran
-                    .Replace("\uE08E", "\u2642") // nidoran
-                    .Replace("\u2019", "\u0027"); // farfetch'd
-            }
-            set
-            {
-                if (value.Length > 11)
-                    value = value.Substring(0, 11); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                    .Replace("\u2640", "\uE08F") // nidoran
-                    .Replace("\u2642", "\uE08E") // nidoran
-                    .Replace("\u0027", "\u2019"); // farfetch'd
-                PKX.str2arrayG4(TempNick).CopyTo(Data, 0x48);
-            }
-        }
+        public override string Nickname { get { return getString(0x48, 22); } set { setString(value, 11).CopyTo(Data, 0x48); } }
         // 0x5E unused
         public override int Version { get { return Data[0x5F]; } set { Data[0x5F] = (byte)value; } }
         private byte RIB8 { get { return Data[0x60]; } set { Data[0x60] = value; } } // Sinnoh 3
@@ -226,26 +214,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name
-        {
-            get
-            {
-                return PKX.array2strG4(Data.Skip(0x68).Take(16).ToArray())
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // Farfetch'd
-            }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019"); // Farfetch'd
-                PKX.str2arrayG4(TempNick).CopyTo(Data, 0x68);
-            }
-        }
+        public override string OT_Name { get { return getString(0x68, 16); } set { setString(value, 7).CopyTo(Data, 0x68); } }
         public override int Egg_Year { get { return Data[0x78]; } set { Data[0x78] = (byte)value; } }
         public override int Egg_Month { get { return Data[0x79]; } set { Data[0x79] = (byte)value; } }
         public override int Egg_Day { get { return Data[0x7A]; } set { Data[0x7A] = (byte)value; } }
@@ -384,8 +353,10 @@ namespace PKHeX.Core
             }
         }
         // Legality Extensions
-        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : Egg_Location > 0;
+        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : Species == 490 && Egg_Location == 3001 || Legal.EggLocations4.Contains(Egg_Location);
         public override bool WasEvent => Met_Location >= 3000 && Met_Location <= 3076 || FatefulEncounter;
+        public override bool WasIngameTrade => Met_Location == 2001; // Trade
+        public override bool WasEventEgg => WasEgg && Species == 490; // Manaphy was the only generation 4 released event egg
         // Methods
         public override byte[] Encrypt()
         {

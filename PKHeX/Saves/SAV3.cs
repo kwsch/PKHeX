@@ -184,7 +184,7 @@ namespace PKHeX.Core
         public override int MaxEV => 255;
         public override int Generation => 3;
         protected override int GiftCountMax => 1;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
 
@@ -248,23 +248,8 @@ namespace PKHeX.Core
         }
         public override string OT
         {
-            get
-            {
-                return PKX.getG3Str(Data.Skip(BlockOfs[0]).Take(0x10).ToArray(), Japanese)
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // Farfetch'd
-            }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019"); // Farfetch'd
-                PKX.setG3Str(TempNick, Japanese).CopyTo(Data, BlockOfs[0]);
-            }
+            get { return getString(BlockOfs[0], 0x10); }
+            set { setString(value, 7).CopyTo(Data, BlockOfs[0]); }
         }
         public override int Gender
         {
@@ -457,14 +442,12 @@ namespace PKHeX.Core
         public override string getBoxName(int box)
         {
             int offset = getBoxOffset(BoxCount);
-            return PKX.getG3Str(Data.Skip(offset + box * 9).Take(9).ToArray(), Japanese);
+            return PKX.getString3(Data, offset + box * 9, 9, Japanese);
         }
         public override void setBoxName(int box, string value)
         {
-            if (value.Length > 8)
-                value = value.Substring(0, 8); // Hard cap
             int offset = getBoxOffset(BoxCount);
-            PKX.setG3Str(value, Japanese).CopyTo(Data, offset + box * 9);
+            setString(value, 8).CopyTo(Data, offset + box * 9);
         }
         public override PKM getPKM(byte[] data)
         {
@@ -592,6 +575,13 @@ namespace PKHeX.Core
                         break;
                 }
             }
+        }
+        public override string getString(int Offset, int Count) => PKX.getString3(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString3(value, maxLength, Japanese, PadToSize, PadWith);
         }
     }
 }

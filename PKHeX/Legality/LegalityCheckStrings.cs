@@ -56,15 +56,15 @@ namespace PKHeX.Core
         public static string V345 { get; set; } = "Inherited move learned by Level-up.";
         public static string V346 { get; set; } = "Inherited tutor move.";
         public static string V349 { get; set; } = "Inherited TM/HM move.";
+        public static string V355 { get; set; } = "Learned by evolving Nincada into Ninjask.";
+        public static string V356 { get; set; } = "Learned by evolving Nincada into Ninjask in generation {0}.";
+        public static string V361 { get; set; } = "Default move.";
+        public static string V362 { get; set; } = "Default move in generation {0}.";
 
         #endregion
 
         #region Legality Check Result Strings
 
-        public static string V250 {get; set;} = "Gender matches PID.";
-        public static string V251 {get; set;} = "PID-Gender mismatch.";
-        public static string V252 {get; set;} = "Nature matches PID.";
-        public static string V253 {get; set;} = "PID-Nature mismatch.";
         public static string V203 {get; set;} = "Genderless Pokémon should not have a gender.";
         public static string V201 {get; set;} = "Encryption Constant is not set.";
         public static string V204 {get; set;} = "Held item is unreleased.";
@@ -73,6 +73,10 @@ namespace PKHeX.Core
         public static string V188 {get; set;} = "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?";
         public static string V194 { get; set;} = "Ingame Trade for Sun/Moon not implemented."; // Valid
 
+        public static string V250 {get; set;} = "Gender matches PID.";
+        public static string V251 {get; set;} = "PID-Gender mismatch.";
+        public static string V252 {get; set;} = "Nature matches PID.";
+        public static string V253 {get; set;} = "PID-Nature mismatch.";
         public static string V207 {get; set;} = "PID is not set.";
         public static string V208 {get; set;} = "Encryption Constant matches PID.";
         public static string V209 {get; set;} = "Static Encounter shiny mismatch.";
@@ -83,6 +87,8 @@ namespace PKHeX.Core
         public static string V214 {get; set;} = "Cascoon";
         public static string V215 {get; set;} = "PID should be equal to EC [with top bit flipped]!";
         public static string V216 {get; set;} = "PID should be equal to EC!";
+        public static string V220 {get; set;} = "N's Pokemon cannot be shiny.";
+        public static string V221 {get; set;} = "Hidden Grotto captures cannot be shiny.";
 
         public static string V14 {get; set;} = "Egg matches language Egg name."; // Valid
         public static string V17 {get; set;} = "Nickname does not match another species name."; // Valid
@@ -93,6 +99,7 @@ namespace PKHeX.Core
         public static string V2 {get; set;} = "Nickname is empty."; // Invalid
         public static string V4 {get; set;} = "Language ID > 8."; // Invalid
         public static string V5 {get; set;} = "Language ID > 10."; // Invalid
+        public static string V222 { get; set; } = "Cannot be given this Nickname."; // Invalid
         public static string V3 {get; set;} = "Species index invalid for Nickname comparison."; // Invalid
         public static string V20 {get; set;} = "Nickname does not match species name."; // Invalid
         public static string V13 {get; set;} = "Egg name does not match language Egg name."; // Invalid
@@ -103,6 +110,7 @@ namespace PKHeX.Core
         public static string V9 {get; set;} = "Ingame Trade Nickname has been altered."; // Fishy
         public static string V15 {get; set;} = "Nickname matches another species name (+language)."; // Fishy
         public static string V16 {get; set;} = "Nickname flagged, matches species name."; // Fishy
+        public static string V0 {get; set;} = "Event gift has been nicknamed."; // Fishy
 
         public static string V21 {get; set;} = "Matches: {0} {1}"; // Valid
 
@@ -114,6 +122,7 @@ namespace PKHeX.Core
         public static string V27 {get; set;} = "EVs are all equal."; // Fishy
         public static string V31 {get; set;} = "All IVs are 0."; // Fishy
         public static string V32 {get; set;} = "All IVs are equal."; // Fishy
+        public static string V218 {get; set;} = "All IVs of N's Pokemon should be 30."; // Invalid
 
         public static string V28 {get; set;} = "Should have at least {0} IVs = 31."; // Invalid
         public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs = 31."; // Invalid
@@ -122,6 +131,7 @@ namespace PKHeX.Core
         public static string V38 {get; set;} = "OT Name too long."; // Invalid
         public static string V39 {get; set;} = "Incorrect RBY event OT Name."; // Invalid
         public static string V34 {get; set;} = "SID should be 0."; // Invalid
+        public static string V219 {get; set;} = "The Name/TID/SID of N is incorrect."; // Invalid
         public static string V33 {get; set;} = "TID and SID are 0."; // Fishy
         public static string V35 {get; set;} = "TID and SID are equal."; // Fishy
         public static string V36 {get; set;} = "TID is zero."; // Fishy
@@ -330,16 +340,23 @@ namespace PKHeX.Core
         public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to generation 5.";
         public static string V339 {get; set;} = "Generation {0} HM. Should have been removed before transfered to generation {1}.";
         public static string V340 {get; set;} = "Not an expected egg move.";
-        public static string V341 {get; set;} = "Egg Move.Not expected in an event egg.";
+        public static string V341 {get; set;} = "Egg Move. Not expected in an event egg.";
         public static string V342 {get; set;} = "Event egg move missing.";
-        public static string V343 {get; set;} = "Expected the following Moves: { 0}";
-        public static string V347 {get; set;} = "Inherited move learned by Level-up.Not expected in an event egg.";
+        public static string V343 {get; set;} = "Expected the following Moves: {0}";
+        public static string V347 {get; set;} = "Inherited move learned by Level-up. Not expected in an event egg.";
         public static string V348 {get; set;} = "Inherited tutor move. Not expected in an event egg.";
         public static string V350 {get; set;} = "Inherited TM/HM move. Not expected in an event egg.";
         public static string V351 {get; set;} = "Invalid Met Location, expected Transporter or Crown."; // Invalid
         public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
+        public static string V357 {get; set;} = "Only one Ninjask move allowed.";
+        public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
+        public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
+        public static string V360 {get; set;} = "Unable to match an event egg encounter from origin game.";
+        public static string V363 {get; set;} = "Incompatible moves. Learned at the same level in Red/Blue and Yellow.";
+        public static string V365 {get; set;} = "Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.";
+        public static string V366 {get; set;} = "Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.";
         #endregion
 
     }

@@ -1073,7 +1073,6 @@ namespace PKHeX.Core
 
             if (foreign)
                 return s;
-
             // Convert back to half width
             s = s.Replace("\u2640", "\uE08F"); // ♀
             s = s.Replace("\u2642", "\uE08E"); // ♂
@@ -1190,6 +1189,45 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Converts a Unicode string to Generation 7 in-game chinese string.
+        /// </summary>
+        /// <param name="inputstr">Unicode string.</param>
+        /// <param name="cht">Pkm language is Traditional Chinese.</param>
+        /// <returns>In-game chinese string.</returns>
+        public static string str2binG7_zh(string inputstr, bool cht = false)
+        {
+            string resultstr = "";
+            bool IsCHT = inputstr.Any(chr => Gen7_CHT.Contains(chr) && !Gen7_CHS.Contains(chr));
+            IsCHT |= cht && !inputstr.Any(chr => Gen7_CHT.Contains(chr) ^ Gen7_CHS.Contains(chr)); // CHS and CHT have the same display name
+            var table = IsCHT ? Gen7_CHT : Gen7_CHS;
+            ushort ofs = IsCHT ? Gen7_CHT_Ofs : Gen7_CHS_Ofs;
+            foreach (char chr in inputstr)
+            {
+                var index = Array.IndexOf(table, chr);
+                resultstr += index > -1 ? (char)(ofs + index) : chr;
+            }
+            return resultstr;
+        }
+        /// <summary>
+        /// Converts a Generation 7 in-game chinese string to Unicode string.
+        /// </summary>
+        /// <param name="inputstr">In-game chinese string.</param>
+        /// <returns>Unicode string.</returns>
+        public static string bin2strG7_zh(string inputstr)
+        {
+            string resultstr = "";
+            foreach (var val in inputstr)
+            {
+                if (Gen7_CHS_Ofs <= val && val < Gen7_CHS_Ofs + Gen7_CHS.Length)
+                    resultstr += Gen7_CHS[val - Gen7_CHS_Ofs];
+                else if (Gen7_CHT_Ofs <= val && val < Gen7_CHT_Ofs + Gen7_CHT.Length)
+                    resultstr += Gen7_CHT[val - Gen7_CHT_Ofs];
+                else resultstr += val;
+            }
+            return resultstr;
+        }
+
+        /// <summary>
         /// Converts a Generation 4 value to Unicode character.
         /// </summary>
         /// <param name="val">Encoded value.</param>
@@ -1215,13 +1253,15 @@ namespace PKHeX.Core
         /// Converts Generation 4 Little Endian encoded character data to string.
         /// </summary>
         /// <param name="strdata">Byte array containing encoded character data.</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
         /// <returns>Converted string.</returns>
-        public static string array2strG4(byte[] strdata)
+        public static string array2strG4(byte[] strdata, int offset, int count)
         {
             string s = "";
-            for (int i = 0; i < strdata.Length; i += 2)
+            for (int i = 0; i < count; i += 2)
             {
-                ushort val = BitConverter.ToUInt16(strdata, i);
+                ushort val = BitConverter.ToUInt16(strdata, offset + i);
                 if (val == 0xFFFF) break;
                 ushort chr = val2charG4(val);
                 if (chr == 0xFFFF) break;
@@ -1254,13 +1294,15 @@ namespace PKHeX.Core
         /// Converts Generation 4 Big Endian encoded character data to string.
         /// </summary>
         /// <param name="strdata">Byte array containing encoded character data.</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
         /// <returns>Converted string.</returns>
-        public static string array2strG4BE(byte[] strdata)
+        public static string getBEString4(byte[] strdata, int offset, int count)
         {
             string s = "";
-            for (int i = 0; i < strdata.Length; i += 2)
+            for (int i = 0; i < count; i += 2)
             {
-                ushort val = BigEndian.ToUInt16(strdata, i);
+                ushort val = BigEndian.ToUInt16(strdata, offset + i);
                 if (val == 0xFFFF) break;
                 ushort chr = val2charG4(val);
                 if (chr == 0xFFFF) break;
@@ -1272,20 +1314,32 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts a string to Generation 4 Big Endian encoded character data.
         /// </summary>
-        /// <param name="str">String to be converted.</param>
+        /// <param name="value">String to be converted.</param>
+        /// <param name="maxLength">Maximum length of string</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
         /// <returns>Byte array containing encoded character data</returns>
-        public static byte[] str2arrayG4BE(string str)
+        public static byte[] setBEString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
-            for (int i = 0; i < str.Length; i++)
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+            byte[] strdata = new byte[value.Length * 2 + 2]; // +2 for 0xFFFF
+            for (int i = 0; i < value.Length; i++)
             {
-                ushort chr = str[i];
+                ushort chr = value[i];
                 ushort val = char2valG4(chr);
                 if (val == 0xFFFF || chr == 0xFFFF)
                 { Array.Resize(ref strdata, i * 2); break; }
                 BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
             }
             BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
+            if (padTo > strdata.Length)
+            {
+                int start = strdata.Length;
+                Array.Resize(ref strdata, padTo);
+                for (int i = start; i < padTo; i += 2)
+                    BitConverter.GetBytes(padWith).CopyTo(strdata, i);
+            }
             return strdata;
         }
 
@@ -1321,29 +1375,43 @@ namespace PKHeX.Core
         /// Converts a Generation 3 encoded value array to string.
         /// </summary>
         /// <param name="strdata">Byte array containing string data.</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
         /// <param name="jp">Value source is Japanese font.</param>
         /// <returns>Decoded string.</returns>
-        public static string getG3Str(byte[] strdata, bool jp)
+        public static string getString3(byte[] strdata, int offset, int count, bool jp)
         {
-            return strdata
-                .TakeWhile(val => val < 247) // Take valid values
-                .Select(val => getG3Char(val, jp)) // Convert to Unicode
-                .TakeWhile(chr => chr != 0xFF) // Stop if Terminator
-                .Aggregate("", (current, chr) => current + (char)chr);
+            StringBuilder s = new StringBuilder();
+            for (int i = 0; i < count; i++)
+            {
+                byte val = strdata[offset + i];
+                if (val >= 247) // Take valid values
+                    break;
+                var c = getG3Char(val, jp); // Convert to Unicode
+                if (c == 0xFF) // Stop if Terminator
+                    break;
+                s.Append((char)c);
+            }
+            return SanitizeString(s.ToString());
         }
 
         /// <summary>
         /// Converts a string to a Generation 3 encoded value array.
         /// </summary>
-        /// <param name="str">Decoded string.</param>
+        /// <param name="value">Decoded string.</param>
         /// <param name="jp">String destination is Japanese font.</param>
+        /// <param name="maxLength">Maximum length of string</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
         /// <returns></returns>
-        public static byte[] setG3Str(string str, bool jp)
+        public static byte[] setString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
-            byte[] strdata = new byte[str.Length + 1]; // +1 for 0xFF
-            for (int i = 0; i < str.Length; i++)
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+            byte[] strdata = new byte[value.Length + 1]; // +1 for 0xFF
+            for (int i = 0; i < value.Length; i++)
             {
-                ushort chr = str[i];
+                ushort chr = value[i];
                 byte val = setG3Char(chr, jp);
                 if (val == 0xFF || chr == 0xFF)
                 { Array.Resize(ref strdata, i); break; }
@@ -1351,6 +1419,13 @@ namespace PKHeX.Core
             }
             if (strdata.Length > 0)
                 strdata[strdata.Length - 1] = 0xFF;
+            if (strdata.Length < padTo)
+            {
+                int start = strdata.Length;
+                Array.Resize(ref strdata, padTo);
+                for (int i = start; i < strdata.Length; i++)
+                    strdata[i] = (byte)padWith;
+            }
             return strdata;
         }
 
@@ -1831,7 +1906,12 @@ namespace PKHeX.Core
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
         #endregion
-
+        #region Gen7 Chinese Character Tables
+        public static readonly char[] Gen7_CHS = Util.getStringList("Char", "zh")[0].ToCharArray();
+        public const ushort Gen7_CHS_Ofs = 0xE800;
+        public static readonly char[] Gen7_CHT = Util.getStringList("Char", "zh2")[0].ToCharArray();
+        public const ushort Gen7_CHT_Ofs = 0xEB09;
+        #endregion
         /// <summary>
         /// Trash Bytes for Generation 3->4
         /// </summary>
@@ -2550,16 +2630,26 @@ namespace PKHeX.Core
         /// Converts Generation 1 encoded data into a string.
         /// </summary>
         /// <param name="strdata">Encoded data.</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count"></param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string getG1Str(byte[] strdata, bool jp)
+        public static string getString1(byte[] strdata, int offset, int count, bool jp)
         {
             Dictionary<byte, string> dict = jp ? RBY2U_J : RBY2U_U;
-            return strdata
-                .TakeWhile(b => dict.ContainsKey(b))
-                .Select(b => dict[b])
-                .TakeWhile(s => s != "\0")
-                .Aggregate("", (current, cur) => current + cur);
+
+            StringBuilder s = new StringBuilder();
+            for (int i = 0; i < count; i++)
+            {
+                byte val = strdata[offset + i];
+                if (!dict.ContainsKey(val)) // Take valid values
+                    break;
+                string c = dict[val]; // Convert to Unicode
+                if (c == "\0") // Stop if Terminator
+                    break;
+                s.Append(c);
+            }
+            return SanitizeString(s.ToString());
         }
 
         /// <summary>
@@ -2591,49 +2681,225 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts a string to Generation 1 encoded data.
         /// </summary>
-        /// <param name="str">Decoded string.</param>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
         /// <param name="jp">Data destination is Japanese.</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setG1Str(string str, bool jp)
+        public static byte[] setString1(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+
             Dictionary<string, byte> dict = jp ? U2RBY_J : U2RBY_U;
-            if (dict.ContainsKey(str)) // Handle "[TRAINER]"
-                return new[] {dict[str], dict["\0"]};
-            return str
-                .TakeWhile(c => dict.ContainsKey(c.ToString()))
-                .Select(c => dict[c.ToString()])
-                .Concat(new[] {dict["\0"]})
-                .ToArray();
+            if (dict.ContainsKey(value)) // Handle "[TRAINER]"
+                return new[] {dict[value], dict["\0"]};
+
+            List<byte> arr = new List<byte>();
+            foreach (char c in value)
+            {
+                byte val;
+                if (!dict.TryGetValue(c.ToString(), out val))
+                    break;
+                arr.Add(val);
+            }
+            var term = dict["\0"]; // terminator
+            arr.Add(term);
+            while (arr.Count < padTo)
+                arr.Add((byte)padWith);
+            return arr.ToArray();
         }
 
-        /// <summary>
-        /// Converts Big Endian encoded data to decoded string.
-        /// </summary>
+        /// <summary>Converts Big Endian encoded data to decoded string.</summary>
         /// <param name="data">Encoded data</param>
         /// <param name="offset">Offset to read from</param>
-        /// <param name="length">Length of data to read.</param>
+        /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string getColoStr(byte[] data, int offset, int length)
+        public static string getBEString3(byte[] data, int offset, int count)
         {
-            return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length * 2));
+            return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, count));
+        }
+
+        /// <summary>Gets the bytes for a BigEndian string.</summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <returns>Encoded data.</returns>
+        public static byte[] setBEString3(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        {
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+            string temp = SanitizeString(value)
+                .PadRight(value.Length + 1, (char)0) // Null Terminator
+                .PadRight(padTo, (char)padWith);
+            return Encoding.BigEndianUnicode.GetBytes(temp);
+        }
+
+        /// <summary>Converts Generation 4 encoded data to decoded string.</summary>
+        /// <param name="data">Encoded data</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Decoded string.</returns>
+        public static string getString4(byte[] data, int offset, int count)
+        {
+            string value = array2strG4(data, offset, count);
+            return SanitizeString(value)
+                .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
+                ;
+        }
+
+        /// <summary>Gets the bytes for a 4th Generation String</summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <returns>Encoded data.</returns>
+        public static byte[] setString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        {
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+            string temp = UnSanitizeString(value) // Replace Special Characters and add Terminator
+                .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
+                .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
+                .PadRight(padTo, (char)padWith); // Padding
+            return str2arrayG4(temp);
+        }
+
+        /// <summary>Converts Generation 5 encoded data to decoded string.</summary>
+        /// <param name="data">Encoded data</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Decoded string.</returns>
+        public static string getString5(byte[] data, int offset, int count)
+        {
+            return SanitizeString(TrimFromFFFF(Encoding.Unicode.GetString(data, offset, count)));
+        }
+
+        /// <summary>Gets the bytes for a Generation 5 string.</summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <returns>Encoded data.</returns>
+        public static byte[] setString5(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        {
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+            string temp = UnSanitizeString(value)
+                .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
+                .PadRight(padTo, (char)padWith); // Padding
+            return Encoding.Unicode.GetBytes(temp);
+        }
+
+        /// <summary>Converts Generation 6 encoded data to decoded string.</summary>
+        /// <param name="data">Encoded data</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Decoded string.</returns> 
+        public static string getString6(byte[] data, int offset, int count)
+        {
+            return SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count)));
+        }
+
+        /// <summary>Gets the bytes for a Generation 6 string.</summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <returns>Encoded data.</returns> 
+        public static byte[] setString6(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        {
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+            string temp = UnSanitizeString(value)
+                .PadRight(value.Length + 1, '\0') // Null Terminator
+                .PadRight(padTo, (char)padWith);
+            return Encoding.Unicode.GetBytes(temp);
+        }
+
+        /// <summary>Converts Generation 7 encoded data to decoded string.</summary>
+        /// <param name="data">Encoded data</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Decoded string.</returns>
+        public static string getString7(byte[] data, int offset, int count)
+        {
+            return bin2strG7_zh(SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count))));
+        }
+
+        /// <summary>Gets the bytes for a Generation 7 string.</summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="maxLength">Maximum length</param>
+        /// <param name="language">Language specific conversion (Chinese)</param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <returns>Encoded data.</returns>
+        public static byte[] setString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0)
+        {
+            if (value.Length > maxLength)
+                value = value.Substring(0, 12); // Hard cap
+            string temp = str2binG7_zh(UnSanitizeString(value), language == 10)
+                .PadRight(value.Length + 1, '\0') // Null Terminator
+                .PadRight(padTo, (char)padWith);
+            return Encoding.Unicode.GetBytes(temp);
         }
 
         /// <summary>
-        /// Gets the bytes for a BigEndian string.
+        /// Converts bytes to a string according to the input parameters.
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static byte[] setColoStr(string value, int length)
+        /// <param name="data">Encoded data</param>
+        /// <param name="generation">Generation string format</param>
+        /// <param name="jp">Encoding is Japanese</param>
+        /// <param name="bigendian">Encoding is BigEndian</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Decoded string.</returns>
+        public static string getString(byte[] data, int generation, bool jp, bool bigendian, int count, int offset = 0)
         {
-            if (value.Length > length)
-                value = value.Substring(0, length); // Hard cap
-            string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // nidoran
-                .Replace("\u2642", "\uE08E") // nidoran
-                .Replace("\u0027", "\u2019") // farfetch'd
-                .PadRight(value.Length + 1, (char)0); // Null Terminator
-            return Encoding.BigEndianUnicode.GetBytes(TempNick);
+            if (bigendian)
+                return generation == 3 ? getBEString3(data, offset, count) : getBEString4(data, offset, count);
+
+            switch (generation)
+            {
+                case 1:
+                case 2: return getString1(data, offset, count, jp);
+                case 3: return getString3(data, offset, count, jp);
+                case 4: return getString4(data, offset, count);
+                case 5: return getString5(data, offset, count);
+                case 6: return getString6(data, offset, count);
+                default: return getString7(data, offset, count);
+            }
+        }
+
+        /// <summary>
+        /// Gets the bytes for a Generation specific string according to the input parameters.
+        /// </summary>
+        /// <param name="value">Decoded string.</param>
+        /// <param name="generation">Generation string format</param>
+        /// <param name="jp">Encoding is Japanese</param>
+        /// <param name="bigendian">Encoding is BigEndian</param>
+        /// <param name="maxLength"></param>
+        /// <param name="language"></param>
+        /// <param name="padTo">Pad to given length</param>
+        /// <param name="padWith">Pad with value</param>
+        /// <returns>Encoded data.</returns>
+        public static byte[] setString(string value, int generation, bool jp, bool bigendian, int maxLength, int language = 0, int padTo = 0, ushort padWith = 0)
+        {
+            if (bigendian)
+                return generation == 3 ? setBEString3(value, maxLength, padTo, padWith) : setBEString4(value, maxLength, padTo, padWith);
+
+            switch (generation)
+            {
+                case 1:
+                case 2: return setString1(value, maxLength, jp, padTo, padWith);
+                case 3: return setString3(value, maxLength, jp, padTo, padWith);
+                case 4: return setString4(value, maxLength, padTo, padWith);
+                case 5: return setString5(value, maxLength, padTo, padWith);
+                case 6: return setString6(value, maxLength, padTo, padWith);
+                default: return setString7(value, maxLength, language, padTo, padWith);
+            }
         }
 
         /// <summary>

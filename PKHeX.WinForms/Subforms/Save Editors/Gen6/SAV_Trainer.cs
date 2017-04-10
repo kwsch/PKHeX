@@ -578,10 +578,9 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.Name == typeof(f2_Text).Name) as f2_Text;
-            if (z != null)
-            { z.Location = Location; z.BringToFront(); return; }
-            new f2_Text(tb).Show();
+            var d = new f2_Text(tb, null);
+            d.ShowDialog();
+            tb.Text = d.FinalString;
         }
         private void showTSV(object sender, EventArgs e)
         {

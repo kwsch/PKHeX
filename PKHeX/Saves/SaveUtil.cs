@@ -37,9 +37,9 @@ namespace PKHeX.Core
         public const int SIZE_G1BAT = 0x802C;
 
         public static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
-        public static readonly byte[] HEADER_BOX = Encoding.ASCII.GetBytes("GPX");
-        public static readonly byte[] HEADER_COLO = Encoding.ASCII.GetBytes("GC6");
-        public static readonly byte[] HEADER_XD = Encoding.ASCII.GetBytes("GXX");
+        public static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
+        public static readonly string[] HEADER_XD =     { "GXXJ","GXXE","GXXP" }; // NTSC-J, NTSC-U, PAL
+        public static readonly string[] HEADER_RSBOX =  { "GPXJ","GPXE","GPXP" }; // NTSC-J, NTSC-U, PAL
 
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
@@ -274,12 +274,16 @@ namespace PKHeX.Core
             // Check the intro bytes for each save slot
             byte[] slotintroXD = { 0x01, 0x01, 0x01, 0x00 };
             int offset = data.Length - SIZE_G3XD;
+            // For XD savegames inside a memory card only the firs sequence is equal to slotintroXD
+            bool valid = false;
             for (int i = 0; i < 2; i++)
             {
                 var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4);
-                if (!ident.SequenceEqual(slotintroXD))
-                    return GameVersion.Invalid;
+                if (ident.SequenceEqual(slotintroXD))
+                    valid = true;
             }
+            if(!valid)
+                return GameVersion.Invalid;
             return GameVersion.XD;
         }
         /// <summary>Determines the type of 4th gen save</summary>
@@ -418,6 +422,28 @@ namespace PKHeX.Core
             sav.Footer = footer;
             return sav;
         }
+        public static SaveFile getVariantSAV(SAV3GCMemoryCard MC)
+        {
+            // Pre-check for header/footer signatures
+            SaveFile sav;
+            byte[] header = new byte[0], footer = new byte[0];
+            byte[] data = MC.SelectedSaveData;
+            CheckHeaderFooter(ref data, ref header, ref footer);
+
+            switch (MC.SelectedGameVersion)
+            {
+                // Side Games
+                case GameVersion.COLO: sav = new SAV3Colosseum(data,MC); break;
+                case GameVersion.XD: sav = new SAV3XD(data, MC); break;
+                case GameVersion.RSBOX: sav = new SAV3RSBox(data, MC); break;
+
+                // No pattern matched
+                default: return null;
+            }
+            sav.Header = header;
+            sav.Footer = footer;
+            return sav;
+        }
 
         /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
@@ -516,6 +542,7 @@ namespace PKHeX.Core
             string path3DS = Path.GetPathRoot(Util.get3DSLocation());
             List<string> possiblePaths = new List<string>();
             List<string> foldersToCheck = new List<string>(extra.Where(f => f?.Length > 0));
+            path = null;
 
             // Homebrew/CFW
             if (path3DS != null)
@@ -542,9 +569,25 @@ namespace PKHeX.Core
                 }
                 possiblePaths.AddRange(files);
             }
-
-            // return newest save file path that is valid (oh man)
-            path = possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime).FirstOrDefault(p => getVariantSAV(File.ReadAllBytes(p))?.ChecksumsValid ?? false);
+            
+            // return newest save file path that is valid
+            foreach (var file in possiblePaths.OrderByDescending(f => new FileInfo(f).LastWriteTime))
+            {
+                try
+                {
+                    var data = File.ReadAllBytes(file);
+                    var sav = getVariantSAV(data);
+                    if (sav?.ChecksumsValid != true)
+                        continue;
+                    
+                    path = file;
+                }
+                catch (Exception e)
+                {
+                    path = e.Message + Environment.NewLine + file;
+                    return false;
+                }
+            }
             return true;
         }
         /// <summary>
@@ -672,10 +715,8 @@ namespace PKHeX.Core
                 new byte[0x80].CopyTo(data, 0x100);
 
             ushort chk = (ushort)~initial;
-            for (int i = 0; i < data.Length; i++)
-            {
-                chk = (ushort)(crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
-            }
+            foreach (byte b in data)
+                chk = (ushort) (crc16[(b ^ chk) & 0xFF] ^ chk >> 8);
 
             return (ushort)~chk;
         }
@@ -706,8 +747,8 @@ namespace PKHeX.Core
             }
             if (input.Length == SIZE_G3BOXGCI)
             {
-                bool gci = HEADER_BOX.SequenceEqual(input.Take(HEADER_BOX.Length));
-                if (gci)
+                string game = Encoding.ASCII.GetString(input, 0, 4);
+                if (HEADER_RSBOX.Any(id => id == game)) // gci
                 {
                     header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
                     input = input.Skip(header.Length).ToArray();
@@ -715,8 +756,8 @@ namespace PKHeX.Core
             }
             if (input.Length == SIZE_G3COLOGCI)
             {
-                bool gci = HEADER_COLO.SequenceEqual(input.Take(HEADER_COLO.Length));
-                if (gci)
+                string game = Encoding.ASCII.GetString(input, 0, 4);
+                if (HEADER_COLO.Any(id => id == game)) // gci
                 {
                     header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
                     input = input.Skip(header.Length).ToArray();
@@ -724,8 +765,8 @@ namespace PKHeX.Core
             }
             if (input.Length == SIZE_G3XDGCI)
             {
-                bool gci = HEADER_XD.SequenceEqual(input.Take(HEADER_XD.Length));
-                if (gci)
+                string game = Encoding.ASCII.GetString(input, 0, 4);
+                if (HEADER_XD.Any(id => id == game)) // gci
                 {
                     header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
                     input = input.Skip(header.Length).ToArray();
