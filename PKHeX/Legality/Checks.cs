@@ -735,7 +735,7 @@ namespace PKHeX.Core
             }
             EncounterMatch = EncounterOriginalGB;
             if (EncounterMatch is EncounterSlot)
-                return new CheckResult(Severity.Valid, V73, CheckIdentifier.Encounter);
+                return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
             if (EncounterMatch is EncounterStatic)
                 return verifyEncounterStatic();
 
@@ -1206,31 +1206,16 @@ namespace PKHeX.Core
 
             if (EncounterMatch != null)
             {
-                // Check Hidden Ability Mismatches
-                if (pkm.GenNumber >= 5)
+                // Check Ability Mismatches
+                int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
+                                        (EncounterMatch as EncounterTrade)?.Ability ??
+                                        (EncounterMatch as EncounterLink)?.Ability;
+                if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
                 {
-                    bool valid = true;
-                    if (EncounterType == typeof(EncounterStatic))
-                    {
-                        if (pkm.AbilityNumber == 4 ^ ((EncounterStatic) EncounterMatch).Ability == 4)
-                            valid = false;
-                    }
-                    else if (EncounterType == typeof(EncounterTrade))
-                    {
-                        if (pkm.AbilityNumber == 4 ^ ((EncounterTrade) EncounterMatch).Ability == 4)
-                            valid = false;
-                    }
-                    else if (EncounterType == typeof(EncounterLink))
-                    {
-                        if (pkm.AbilityNumber != ((EncounterLink)EncounterMatch).Ability)
-                            valid = false;
-                    }
-                    if (!valid)
-                    {
-                        AddLine(Severity.Invalid, V108, CheckIdentifier.Ability);
-                        return;
-                    }
+                    AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
+                    return;
                 }
+
                 if (pkm.GenNumber == 5)
                 {
                     if (EncounterType == typeof(EncounterSlot[]))

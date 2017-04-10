@@ -576,7 +576,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 443, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.B2, }, //Shiny Gible @ Floccesy Town
             new EncounterStatic { Gift = true, Species = 147, Level = 01, Shiny = true, Location = 122, Gender = 0, Version = GameVersion.W2, }, //Shiny Dratini @ Floccesy Town
             new EncounterStatic { Gift = true, Species = 129, Level = 05, Location = 68, }, // Magikarp @ Marvelous Bridge
-            new EncounterStatic { Gift = true, Species = 440, Level = 01, Ability = 1, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
+            new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
             //Stationary
             new EncounterStatic { Species = 590, Level = 29, Location = 19, }, // Foongus @ Route 6
             new EncounterStatic { Species = 591, Level = 47, Location = 24, }, // Amoonguss @ Route 11
