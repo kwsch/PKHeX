@@ -1033,8 +1033,10 @@ namespace PKHeX.WinForms
                     return;
 
                 sav.Japanese = drJP == DialogResult.No;
-                Legal.SavegameJapanese = SAV.Japanese;
             }
+            Legal.SavegameJapanese = sav.Japanese;
+            Legal.EReaderBerryIsEnigma = sav.eBerryIsEnigma;
+            Legal.EReaderBerryName = sav.eBerryName;
             loadingSAV = true;
 
             // clean fields

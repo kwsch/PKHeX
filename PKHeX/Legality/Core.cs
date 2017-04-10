@@ -3371,10 +3371,5 @@ namespace PKHeX.Core
             }
             return moves.Distinct();
         }
-        internal static void ClearEBerryData()
-        {
-            EReaderBerryIsEnigma = true;
-            EReaderBerryName = string.Empty;
-        }
     }
 }

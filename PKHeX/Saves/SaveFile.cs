@@ -630,5 +630,8 @@ namespace PKHeX.Core
         public abstract byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
 
         public virtual bool RequiresMemeCrypto => false;
+
+        public virtual string eBerryName => string.Empty;
+        public virtual bool eBerryIsEnigma => true;
     }
 }

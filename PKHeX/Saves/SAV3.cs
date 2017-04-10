@@ -586,42 +586,40 @@ namespace PKHeX.Core
         }
 
         #region eBerry
+        // Offset and checksum code based from
+        // https://github.com/suloku/wc-tool by Suloku
         private const int SIZE_EBERRY = 0x530;
         private const int OFFSET_EBERRY = 0x2E0;
 
-        // Offset and checksum code based from
-        // https://github.com/suloku/wc-tool by Suloku
-        private uint eBerryChecksum
-        {
-            get { return !GameVersion.RS.Contains(Version) ? 0 : BitConverter.ToUInt32(Data, BlockOfs[4] + OFFSET_EBERRY + SIZE_EBERRY - 4); }
-        }
-        private bool eBerryChecksumValid
+        private uint eBerryChecksum => BitConverter.ToUInt32(Data, BlockOfs[4] + OFFSET_EBERRY + SIZE_EBERRY - 4);
+        private bool eBerryChecksumValid { get; set; }
+
+        public override string eBerryName
         {
             get
             {
-                byte[] chk = getData(BlockOfs[4] + OFFSET_EBERRY, SIZE_EBERRY - 4);
-                for (int i = 0; i < 8; i++) //These 8 bytes are taken as 0x00 for chk calculation
-                    chk[0xC + i] = 0x00;
-                
-                var calc_cksum = 0;
-                for (int i = 0; i < chk.Length; i++)
-                    calc_cksum = unchecked(calc_cksum + chk[i]);
-                
-                return calc_cksum == eBerryChecksum;
+                if (!GameVersion.RS.Contains(Version) || !eBerryChecksumValid)
+                    return string.Empty;
+                return PKX.getString3(Data, BlockOfs[4] + OFFSET_EBERRY, 7, Japanese).Trim();
             }
         }
+        public override bool eBerryIsEnigma => string.IsNullOrEmpty(eBerryName.Trim());
 
         private void LoadEReaderBerryData()
         {
-            if (!GameVersion.RS.Contains(Version) || !eBerryChecksumValid)
-            {
-                Legal.EReaderBerryIsEnigma = true;
-                Legal.EReaderBerryName = string.Empty;
+            if (!GameVersion.RS.Contains(Version))
                 return;
-            }
-            var ereadername = PKX.getString3(Data, BlockOfs[4] + OFFSET_EBERRY , 7, Japanese).Trim();
-            Legal.EReaderBerryIsEnigma = string.IsNullOrEmpty(ereadername);
-            Legal.EReaderBerryName = Legal.EReaderBerryIsEnigma ? string.Empty : ereadername;
+
+            byte[] chk = getData(BlockOfs[4] + OFFSET_EBERRY, SIZE_EBERRY - 4);
+            for (int i = 0; i < 8; i++) 
+                //These 8 bytes are taken as 0x00 for chk calculation
+                chk[0xC + i] = 0x00;
+
+            var calc_cksum = 0;
+            for (int i = 0; i < chk.Length; i++)
+                calc_cksum = unchecked(calc_cksum + chk[i]);
+
+            eBerryChecksumValid = calc_cksum == eBerryChecksum;
         }
         #endregion
     }

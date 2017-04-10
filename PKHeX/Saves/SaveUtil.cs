@@ -397,7 +397,6 @@ namespace PKHeX.Core
             SaveFile sav;
             byte[] header = new byte[0], footer = new byte[0];
             CheckHeaderFooter(ref data, ref header, ref footer);
-            Legal.ClearEBerryData();
             switch (getSAVGeneration(data))
             {
                 // Main Games
@@ -420,7 +419,6 @@ namespace PKHeX.Core
             }
             sav.Header = header;
             sav.Footer = footer;
-            Legal.SavegameJapanese = sav.Japanese;
             return sav;
         }
         public static SaveFile getVariantSAV(SAV3GCMemoryCard MC)
@@ -430,7 +428,6 @@ namespace PKHeX.Core
             byte[] header = new byte[0], footer = new byte[0];
             byte[] data = MC.SelectedSaveData;
             CheckHeaderFooter(ref data, ref header, ref footer);
-            Legal.ClearEBerryData();
             switch (MC.SelectedGameVersion)
             {
                 // Side Games
@@ -443,7 +440,6 @@ namespace PKHeX.Core
             }
             sav.Header = header;
             sav.Footer = footer;
-            Legal.SavegameJapanese = sav.Japanese;
             return sav;
         }
 
