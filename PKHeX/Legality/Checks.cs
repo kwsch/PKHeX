@@ -376,6 +376,12 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, V26, CheckIdentifier.EVs);
             else if (evs.All(ev => pkm.EVs[0] == ev) && evs[0] != 0)
                 AddLine(Severity.Fishy, V27, CheckIdentifier.EVs);
+            if (pkm.Format == 4 && pkm.Gen4 && (EncounterMatch as IEncounterable)?.LevelMin == 100)
+            {
+                // Generation 4 do not allow to EV train at level 100, for level 100 encounter pokemon (like events) EV only can be trained with vitamins, with a maximum value of 100
+                if (evs.Any(ev => ev > 100))
+                    AddLine(Severity.Invalid, V367, CheckIdentifier.EVs);
+            }
         }
         private void verifyIVs()
         {
