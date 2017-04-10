@@ -3006,7 +3006,7 @@ namespace PKHeX.Core
         {
             List<int>[] ShedinjaEvoMoves = Legal.getShedinjaEvolveMoves(pkm);
             var ShedinjaEvoMovesLearned = new List<int>();
-            for (int gen = Math.Min(pkm.Format,4); gen >= 3; gen--)
+            for (int gen = Math.Min(pkm.Format, 4); gen >= 3; gen--)
             {
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)

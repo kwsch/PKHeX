@@ -254,14 +254,12 @@ namespace PKHeX.Core
                             case GameVersion.XD:
                                 return g3xditems;
                             default:
-                                if (!Legal.EReaderBerryIsEnigma)
-                                {
-                                    var g3itemsEBerry = new string[g3items.Length];
-                                    Array.Copy(g3items, g3itemsEBerry, g3items.Length);
-                                    g3itemsEBerry[175] = Legal.EReaderBerryDisplayName;
-                                    return g3itemsEBerry;
-                                }
-                                return g3items;
+                                if (Legal.EReaderBerryIsEnigma)
+                                    return g3items;
+
+                                var g3itemsEBerry = (string[])g3items.Clone();
+                                g3itemsEBerry[175] = Legal.EReaderBerryDisplayName;
+                                return g3itemsEBerry;
                         }
                     default:
                         return itemlist;

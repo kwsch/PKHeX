@@ -303,4 +303,4 @@ V367 = Individual EV for a level 100 encounter in generation 4 cannot be greater
 V368 = Eggs can not be infected with Pokérus.
 V369 = Invalid E-Reader Berry.
 V370 = Japanese E-Reader Berry in international savegame.
-V371 = American E-Reader Berry in japanese savegame.
+V371 = American E-Reader Berry in Japanese savegame.

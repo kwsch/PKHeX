@@ -15,6 +15,12 @@ namespace PKHeX.Core
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra = false;
 
+        /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
+        public static bool EReaderBerryIsEnigma = true;
+        public static string EReaderBerryName = string.Empty;
+        public static string EReaderBerryDisplayName => string.Format(V372, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(EReaderBerryName.ToLower()));
+        public static bool SavegameJapanese = false;
+
         // Gen 1
         private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rb, MaxSpeciesID_1);
         private static readonly Learnset[] LevelUpY = Learnset1.getArray(Resources.lvlmove_y, MaxSpeciesID_1);
@@ -39,13 +45,7 @@ namespace PKHeX.Core
         private static readonly EggMoves[] EggMovesRS = EggMoves6.getArray(Data.unpackMini(Resources.eggmove_rs, "rs"));
         private static readonly EvolutionTree Evolves3;
         private static readonly EncounterArea[] SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG;
-        private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;        
-        
-        /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
-        public static bool EReaderBerryIsEnigma = true;
-        public static string EReaderBerryName = string.Empty;
-        public static string EReaderBerryDisplayName => string.Format(V372, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(EReaderBerryName.ToLower()));
-        public static bool SavegameJapanese = false;
+        private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;
 
         // Gen 4
         private static readonly Learnset[] LevelUpDP = Learnset6.getArray(Data.unpackMini(Resources.lvlmove_dp, "dp"));

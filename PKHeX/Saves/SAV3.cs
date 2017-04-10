@@ -610,16 +610,13 @@ namespace PKHeX.Core
             if (!GameVersion.RS.Contains(Version))
                 return;
 
-            byte[] chk = getData(BlockOfs[4] + OFFSET_EBERRY, SIZE_EBERRY - 4);
-            for (int i = 0; i < 8; i++) 
-                //These 8 bytes are taken as 0x00 for chk calculation
-                chk[0xC + i] = 0x00;
+            byte[] data = getData(BlockOfs[4] + OFFSET_EBERRY, SIZE_EBERRY - 4);
 
-            var calc_cksum = 0;
-            for (int i = 0; i < chk.Length; i++)
-                calc_cksum = unchecked(calc_cksum + chk[i]);
-
-            eBerryChecksumValid = calc_cksum == eBerryChecksum;
+            // 8 bytes are 0x00 for chk calculation
+            for (int i = 0; i < 8; i++)
+                data[0xC + i] = 0x00;
+            uint chk = (uint)data.Sum(z => z);
+            eBerryChecksumValid = eBerryChecksum == chk;
         }
         #endregion
     }

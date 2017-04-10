@@ -107,7 +107,7 @@ namespace PKHeX.Core
             005, // Safari Ball
         };
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
-        internal static readonly string[] EReaderBerriesNames_USA = new[]
+        internal static readonly string[] EReaderBerriesNames_USA =
         {
             // USA Series 1
             "PUMKIN",
@@ -117,7 +117,7 @@ namespace PKHeX.Core
             "CHILAN",
             "NUTPEA",
         };
-        internal static readonly string[] EReaderBerriesNames_JP = new[]
+        internal static readonly string[] EReaderBerriesNames_JP =
         {
             // JP Series 1
             "カチャ", // PUMKIN
