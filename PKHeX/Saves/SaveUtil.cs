@@ -581,6 +581,7 @@ namespace PKHeX.Core
                         continue;
                     
                     path = file;
+                    return true;
                 }
                 catch (Exception e)
                 {
