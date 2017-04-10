@@ -1046,7 +1046,8 @@ namespace PKHeX.Core
         internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
             IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm,MaxSpeciesID_3);
-            var table = EventEgg_G3.Where(e => dl.Any(d => d.Species == e.Species));
+            var sttctable = pkm.E ? EventEgg_G3_Common : pkm.FRLG ? EventEgg_FRLG : EventEgg_RS;
+            var table = sttctable.Where(e => dl.Any(d => d.Species == e.Species));
             foreach (EncounterStatic e in table)
             {
                 if (pkm.Moves.All(m => !e.Moves.Contains(m)))  // No special move
@@ -1054,8 +1055,6 @@ namespace PKHeX.Core
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
-                    continue;
-                if (!e.Version.Contains((GameVersion)pkm.Version))
                     continue;
 
                 yield return e;

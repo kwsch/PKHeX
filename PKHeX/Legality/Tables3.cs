@@ -211,7 +211,7 @@ namespace PKHeX.Core
               46, 47, 48, 49,
         };
 
-        internal static readonly EncounterStatic[] EventEgg_FRLG = new[]
+        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive = new[]
         {
             // Egg Pokémon Present Eggs
             new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
@@ -227,7 +227,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Kangaskhan with Wish
         };
 
-        internal static readonly EncounterStatic[] EventEgg_RS = new[]
+        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive = new[]
         {   
             // Pokémon Center 5th Anniversary Eggs
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
@@ -240,7 +240,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
         };
 
-        internal static readonly EncounterStatic[] EventEgg_G3_All = new[]
+        internal static readonly EncounterStatic[] EventEgg_G3_Common = new[]
         {
             // Pokémon Box
             new EncounterStatic { Species = 333, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{206} }, // Swablu Egg with False Swipe
@@ -265,7 +265,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 360, Level = 05, EggLocation = 255, Moves = new[]{321} }, // Wynaut with Tickle
         };
 
-        internal static readonly EncounterStatic[] EventEgg_G3 = EventEgg_FRLG.Concat(EventEgg_RS).Concat(EventEgg_G3_All).ToArray();
+        internal static readonly EncounterStatic[] EventEgg_FRLG = EventEgg_FRLG_Exclusive.Concat(EventEgg_G3_Common).ToArray();
+        internal static readonly EncounterStatic[] EventEgg_RS = EventEgg_RS_Exclusive.Concat(EventEgg_G3_Common).ToArray();
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
@@ -379,8 +380,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(EventEgg_RS).Concat(EventEgg_G3_All).ToArray();
-        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(EventEgg_FRLG).Concat(EventEgg_G3_All).ToArray();
+        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(EventEgg_RS).ToArray();
+        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(EventEgg_FRLG).ToArray();
 
         private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
         private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};
