@@ -38,18 +38,19 @@
             this.CB_Language = new System.Windows.Forms.ComboBox();
             this.B_ApplyTrash = new System.Windows.Forms.Button();
             this.GB_Trash = new System.Windows.Forms.GroupBox();
+            this.B_ClearTrash = new System.Windows.Forms.Button();
+            this.L_Generation = new System.Windows.Forms.Label();
+            this.NUD_Generation = new System.Windows.Forms.NumericUpDown();
             this.L_Language = new System.Windows.Forms.Label();
             this.L_Species = new System.Windows.Forms.Label();
-            this.NUD_Generation = new System.Windows.Forms.NumericUpDown();
-            this.L_Generation = new System.Windows.Forms.Label();
-            this.B_ClearTrash = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.GB_Trash.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Generation)).BeginInit();
             this.SuspendLayout();
             // 
             // TB_Text
             // 
-            this.TB_Text.Location = new System.Drawing.Point(76, 12);
+            this.TB_Text.Location = new System.Drawing.Point(92, 12);
             this.TB_Text.Name = "TB_Text";
             this.TB_Text.Size = new System.Drawing.Size(136, 20);
             this.TB_Text.TabIndex = 35;
@@ -90,6 +91,7 @@
             this.FLP_Characters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_Characters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.FLP_Characters.Location = new System.Drawing.Point(12, 126);
             this.FLP_Characters.Name = "FLP_Characters";
             this.FLP_Characters.Size = new System.Drawing.Size(305, 82);
@@ -100,6 +102,7 @@
             this.FLP_Hex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Hex.AutoScroll = true;
+            this.FLP_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.FLP_Hex.Location = new System.Drawing.Point(12, 38);
             this.FLP_Hex.Name = "FLP_Hex";
             this.FLP_Hex.Size = new System.Drawing.Size(305, 82);
@@ -148,6 +151,36 @@
             this.GB_Trash.Text = "Trash Byte Layers";
             this.GB_Trash.Visible = false;
             // 
+            // B_ClearTrash
+            // 
+            this.B_ClearTrash.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_ClearTrash.Location = new System.Drawing.Point(6, 100);
+            this.B_ClearTrash.Name = "B_ClearTrash";
+            this.B_ClearTrash.Size = new System.Drawing.Size(156, 23);
+            this.B_ClearTrash.TabIndex = 47;
+            this.B_ClearTrash.Text = "Clear Trash";
+            this.B_ClearTrash.UseVisualStyleBackColor = true;
+            this.B_ClearTrash.Click += new System.EventHandler(this.B_ClearTrash_Click);
+            // 
+            // L_Generation
+            // 
+            this.L_Generation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Generation.Location = new System.Drawing.Point(6, 67);
+            this.L_Generation.Name = "L_Generation";
+            this.L_Generation.Size = new System.Drawing.Size(103, 23);
+            this.L_Generation.TabIndex = 46;
+            this.L_Generation.Text = "Generation";
+            this.L_Generation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Generation
+            // 
+            this.NUD_Generation.Location = new System.Drawing.Point(115, 70);
+            this.NUD_Generation.Name = "NUD_Generation";
+            this.NUD_Generation.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Generation.TabIndex = 45;
+            // 
             // L_Language
             // 
             this.L_Language.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -170,41 +203,23 @@
             this.L_Species.Text = "Species";
             this.L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NUD_Generation
+            // label1
             // 
-            this.NUD_Generation.Location = new System.Drawing.Point(115, 70);
-            this.NUD_Generation.Name = "NUD_Generation";
-            this.NUD_Generation.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Generation.TabIndex = 45;
-            // 
-            // L_Generation
-            // 
-            this.L_Generation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Generation.Location = new System.Drawing.Point(6, 67);
-            this.L_Generation.Name = "L_Generation";
-            this.L_Generation.Size = new System.Drawing.Size(103, 23);
-            this.L_Generation.TabIndex = 46;
-            this.L_Generation.Text = "Generation";
-            this.L_Generation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // B_ClearTrash
-            // 
-            this.B_ClearTrash.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_ClearTrash.Location = new System.Drawing.Point(6, 100);
-            this.B_ClearTrash.Name = "B_ClearTrash";
-            this.B_ClearTrash.Size = new System.Drawing.Size(156, 23);
-            this.B_ClearTrash.TabIndex = 47;
-            this.B_ClearTrash.Text = "Clear Trash";
-            this.B_ClearTrash.UseVisualStyleBackColor = true;
-            this.B_ClearTrash.Click += new System.EventHandler(this.B_ClearTrash_Click);
+            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 23);
+            this.label1.TabIndex = 44;
+            this.label1.Text = "String";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // f2_Text
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(503, 219);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.GB_Trash);
             this.Controls.Add(this.FLP_Hex);
             this.Controls.Add(this.FLP_Characters);
@@ -240,5 +255,6 @@
         private System.Windows.Forms.NumericUpDown NUD_Generation;
         private System.Windows.Forms.Label L_Generation;
         private System.Windows.Forms.Button B_ClearTrash;
+        private System.Windows.Forms.Label label1;
     }
 }

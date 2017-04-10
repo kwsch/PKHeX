@@ -26,6 +26,17 @@ namespace PKHeX.WinForms
             TB_Text.Text = TB_NN.Text;
             TB_Text.Font = pkxFont;
 
+            if (FLP_Characters.Controls.Count == 0)
+            {
+                FLP_Characters.Visible = false;
+                FLP_Hex.Height *= 2;
+            }
+            else if (FLP_Hex.Controls.Count == 0)
+            {
+                FLP_Characters.Location = FLP_Hex.Location;
+                FLP_Characters.Height *= 2;
+            }
+
             editing = false;
             CenterToParent();
         }
@@ -80,7 +91,7 @@ namespace PKHeX.WinForms
                 {
                     switch (ModifierKeys)
                     {
-                        case Keys.Control: n.Value = n.Maximum; break;
+                        case Keys.Shift: n.Value = n.Maximum; break;
                         case Keys.Alt: n.Value = n.Minimum; break;
                     }
                 };

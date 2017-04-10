@@ -1248,48 +1248,7 @@ namespace PKHeX.Core
             int index = Array.IndexOf(G4Chars, chr);
             return index > -1 ? G4Values[index] : (ushort)0xFFFF;
         }
-
-        /// <summary>
-        /// Converts Generation 4 Little Endian encoded character data to string.
-        /// </summary>
-        /// <param name="strdata">Byte array containing encoded character data.</param>
-        /// <param name="offset">Offset to read from</param>
-        /// <param name="count">Length of data to read.</param>
-        /// <returns>Converted string.</returns>
-        public static string array2strG4(byte[] strdata, int offset, int count)
-        {
-            string s = "";
-            for (int i = 0; i < count; i += 2)
-            {
-                ushort val = BitConverter.ToUInt16(strdata, offset + i);
-                if (val == 0xFFFF) break;
-                ushort chr = val2charG4(val);
-                if (chr == 0xFFFF) break;
-                s += (char)chr;
-            }
-            return s;
-        }
-
-        /// <summary>
-        /// Converts a string to Generation 4 Little Endian encoded character data.
-        /// </summary>
-        /// <param name="str">String to be converted.</param>
-        /// <returns>Byte array containing encoded character data</returns>
-        public static byte[] str2arrayG4(string str)
-        {
-            byte[] strdata = new byte[str.Length * 2 + 2]; // +2 for 0xFFFF
-            for (int i = 0; i < str.Length; i++)
-            {
-                ushort chr = str[i];
-                ushort val = char2valG4(chr);
-                if (val == 0xFFFF || chr == 0xFFFF)
-                { Array.Resize(ref strdata, i * 2); break; }
-                BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
-            }
-            BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
-            return strdata;
-        }
-
+        
         /// <summary>
         /// Converts Generation 4 Big Endian encoded character data to string.
         /// </summary>
@@ -2744,8 +2703,16 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string getString4(byte[] data, int offset, int count)
         {
-            string value = array2strG4(data, offset, count);
-            return SanitizeString(value)
+            StringBuilder s = new StringBuilder();
+            for (int i = 0; i < count; i += 2)
+            {
+                ushort val = BitConverter.ToUInt16(data, offset + i);
+                if (val == 0xFFFF) break;
+                ushort chr = val2charG4(val);
+                if (chr == 0xFFFF) break;
+                s.Append((char)chr);
+            }
+            return s.ToString()
                 .Replace("\uFF0D", "\u30FC") // Japanese chōonpu 
                 ;
         }
@@ -2764,7 +2731,15 @@ namespace PKHeX.Core
                 .Replace("\u30FC", "\uFF0D") // Japanese chōonpu
                 .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
                 .PadRight(padTo, (char)padWith); // Padding
-            return str2arrayG4(temp);
+
+            byte[] strdata = new byte[temp.Length * 2];
+            for (int i = 0; i < temp.Length; i++)
+            {
+                ushort chr = temp[i];
+                ushort val = char2valG4(chr);
+                BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
+            }
+            return strdata;
         }
 
         /// <summary>Converts Generation 5 encoded data to decoded string.</summary>

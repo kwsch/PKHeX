@@ -103,7 +103,7 @@ namespace PKHeX.Core
         public override int BoxCount => 24;
         public override int MaxEV => 255;
         public override int Generation => 5;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         protected override int EventConstMax => 0x35E/2;
         protected override int GiftCountMax => 12;
