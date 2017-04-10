@@ -266,11 +266,17 @@ namespace PKHeX.Core
             else
             {
                 // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
+                bool evolved = Legal.getHasEvolved(pkm);
                 bool match = PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname;
-                if (pkm.WasTradedEgg || Legal.getHasEvolved(pkm))
+                if (pkm.WasTradedEgg || evolved)
                     match |= !PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format);
-                if (pkm.Format == 5 && !pkm.IsNative) // transfer
-                    match |= PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
+                if (!match && pkm.Format == 5 && !pkm.IsNative) // transfer
+                {
+                    if (evolved)
+                        match |= !PKX.getIsNicknamedAnyLanguage(pkm.Species, nickname, 4);
+                    else
+                        match |= PKX.getSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
+                }
 
                 if (!match)
                 {
