@@ -987,14 +987,8 @@ namespace PKHeX.WinForms
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
                 WinFormsUtil.Alert("Gen3 Game Detected.", "Select version.");
-                ComboItem[] games =
-                {
-                    new ComboItem {Text = "Ruby", Value = (int) GameVersion.R},
-                    new ComboItem {Text = "Sapphire", Value = (int) GameVersion.S},
-                    new ComboItem {Text = "Emerald", Value = (int) GameVersion.E},
-                    new ComboItem {Text = "FireRed", Value = (int) GameVersion.FR},
-                    new ComboItem {Text = "LeafGreen", Value = (int) GameVersion.LG}
-                };
+                var g = new[] {GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG};
+                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
                 var dialog = new SAV_GameSelect(games);
                 dialog.ShowDialog();
 
@@ -1012,15 +1006,15 @@ namespace PKHeX.WinForms
             }
             else if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
             {
-                WinFormsUtil.Alert("FireRed/LeafGreen detected. Select version.");
-                ComboItem[] games =
-                {
-                    new ComboItem {Text = "FireRed", Value = (int) GameVersion.FR},
-                    new ComboItem {Text = "LeafGreen", Value = (int) GameVersion.LG}
-                };
-                
-                var dialog = new SAV_GameSelect(games.ToArray());
+                string fr = GameInfo.VersionDataSource.First(r => r.Value == (int)GameVersion.FR).Text;
+                string lg = GameInfo.VersionDataSource.First(l => l.Value == (int)GameVersion.LG).Text;
+                const string dual = "{0}/{1} Game Detected.";
+                WinFormsUtil.Alert(string.Format(dual, fr, lg), "Select version.");
+                var g = new[] {GameVersion.FR, GameVersion.LG};
+                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                var dialog = new SAV_GameSelect(games);
                 dialog.ShowDialog();
+
                 sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
             }
 
@@ -1046,7 +1040,7 @@ namespace PKHeX.WinForms
             populateFields(SAV.BlankPKM);
             SAV = sav;
 
-            string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"SAV{SAV.Generation}: ";
+            string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"{SAV.GetType().Name}: ";
             if (path != null) // Actual save file
             {
                 SAV.FilePath = Path.GetDirectoryName(path);
