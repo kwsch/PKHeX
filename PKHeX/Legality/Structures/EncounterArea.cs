@@ -627,6 +627,32 @@ namespace PKHeX.Core
             return slots;
         }
 
+        private static EncounterSlot1[] readSlots_FY(byte[] data, ref int ofs, int count, SlotType t, int rate)
+        {
+            // Convert byte to actual number
+            int[] Levelbytelist = { 0xFF, 0x15, 0x67, 0x1D, 0x3B, 0x5C, 0x72, 0x16, 0x71, 0x18, 0x00, 0x6D, 0x80, };
+            int[] dexbytelist = { 0x47, 0x6E, 0x18, 0x9B, 0x17, 0x4E, 0x8A, 0x5C, 0x5D, 0x9D, 0x9E, 0x1B, 0x85, 0x16, 0x58, 0x59, };
+            int[] specieslist = { 060, 061, 072, 073, 090, 098, 099, 116, 117, 118, 119, 120, 129, 130, 147, 148, };
+
+            EncounterSlot1[] slots = new EncounterSlot1[count];
+            for (int i = 0; i < count; i++)
+            {
+                int spec = specieslist[Array.IndexOf(dexbytelist, data[ofs++])];
+                int lvl = Array.IndexOf(Levelbytelist, data[ofs++]) * 5;
+
+                slots[i] = new EncounterSlot1
+                {
+                    LevelMax = lvl,
+                    LevelMin = lvl,
+                    Species = spec,
+                    Type = t,
+                    Rate = rate,
+                    SlotNumber = i,
+                };
+            }
+            return slots;
+        }
+
         /// <summary>
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 1 Grass/Water data.
         /// </summary>
@@ -676,7 +702,7 @@ namespace PKHeX.Core
                 areas[i] = new EncounterArea
                 {
                     Location = data[i*size + 0],
-                    Slots = readSlots(data, ref ofs, 4, SlotType.Super_Rod, -1)
+                    Slots = readSlots_FY(data, ref ofs, 4, SlotType.Super_Rod, -1)
                 };
             }
             return areas;
