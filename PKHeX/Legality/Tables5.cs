@@ -893,9 +893,12 @@ namespace PKHeX.Core
             121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137,      139, 140, //138 ---
             141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153,
         };
-        internal static int[] EggLocations5 =
+        internal static readonly int[] EggLocations5 =
         {
-            30002, 60002, 60003
+            30002, // Link Trade (NPC)
+            30003, // Link Trade
+            60002, // Daycare
+            60003, // Breeder (NPC)
         };
     }
 }
