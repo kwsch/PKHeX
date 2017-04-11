@@ -270,7 +270,7 @@ namespace PKHeX.Core
 
                     pk.PID = (uint)((gb ^ pk.TID ^ pk.SID) << 16) | gb;
 
-                    if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
+                    if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
                 }
                 else if (PIDType != 1) // Force Not Shiny
                 {
