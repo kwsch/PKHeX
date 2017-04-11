@@ -1412,12 +1412,12 @@ namespace PKHeX.Core
             if (abilities_g3.Length == 2)
             {
                 // Shadow Colloseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
-                // For non-GB, it has 2 abilities in gen 3, must match PID
+                // For non-GC, it has 2 abilities in gen 3, must match PID
                 return pkm.Version != (int)GameVersion.CXD;
             }
             var Species_g45 = Math.Max(EvoChainsAllGens[4].LastOrDefault()?.Species ?? 0, (pkm.Format == 5) ? EvoChainsAllGens[5].LastOrDefault()?.Species ?? 0 : 0);
             if (Species_g45 > Species_g3)
-                // Species_g45 > Species_g3 means it have evolved in gen 4 or 5 games, ability must match PID
+                // it have evolved in gen 4 or 5 games, ability must match PID
                 return true;
 
             var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, (pkm.Format == 5) ? EvoChainsAllGens[5].Length : 0);
@@ -1436,11 +1436,8 @@ namespace PKHeX.Core
             // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games, 
             // ability do not need to match PID, but only generation 3 ability is allowed
             if (pkm.Ability != abilities_g3[0]) 
-            {
                 // Not evolved in gen4-5 but do not have generation 3 only ability
-                AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
-                return false;
-            }
+                AddLine(Severity.Invalid, V373, CheckIdentifier.Ability);
             return false;
         }
         #region verifyBall
