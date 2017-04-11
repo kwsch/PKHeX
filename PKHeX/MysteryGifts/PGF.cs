@@ -258,8 +258,6 @@ namespace PKHeX.Core
             else
             {
                 pk.PID = Util.rnd32();
-                // Force Ability
-                if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
 
                 // Force Gender
                 do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
@@ -267,16 +265,16 @@ namespace PKHeX.Core
                 if (PIDType == 2) // Force Shiny
                 {
                     uint gb = pk.PID & 0xFF;
-
                     pk.PID = (uint)((gb ^ pk.TID ^ pk.SID) << 16) | gb;
-
-                    if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
                 }
                 else if (PIDType != 1) // Force Not Shiny
                 {
                     if (((pk.PID >> 16) ^ (pk.PID & 0xffff) ^ pk.SID ^ pk.TID) < 8)
-                        pk.PID ^= 0x80000000;
+                        pk.PID ^= 0x10000000;
                 }
+
+                // Force Ability
+                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
             }
 
             if (IsEgg)
