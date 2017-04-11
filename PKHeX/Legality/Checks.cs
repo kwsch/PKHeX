@@ -106,91 +106,89 @@ namespace PKHeX.Core
         }
         private void verifyEReaderBerry()
         {
-            if (Legal.EReaderBerryIsEnigma)
+            if (Legal.EReaderBerryIsEnigma) // no E-Reader berry data provided, can't hold berry.
             {
                 AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
                 return;
             }
+
             var matchUSA = Legal.EReaderBerriesNames_USA.Contains(Legal.EReaderBerryName);
             var matchJP = Legal.EReaderBerriesNames_JP.Contains(Legal.EReaderBerryName);
-            // Do not match any released e-reader berry
-            if (!matchJP && !matchUSA)
-            {
+            if (!matchJP && !matchUSA) // Does not match any released E-Reader berry
                 AddLine(Severity.Invalid, V369, CheckIdentifier.Form);
-                return;
-            }
-            // Ereader is region locked
-            if (matchJP && !Legal.SavegameJapanese)
-            {
+            else if (matchJP && !Legal.SavegameJapanese) // E-Reader is region locked
                 AddLine(Severity.Invalid, V370, CheckIdentifier.Form);
-                return;
-            }
-            if (matchUSA && Legal.SavegameJapanese)
-            {
+            else if (matchUSA && Legal.SavegameJapanese) // E-Reader is region locked
                 AddLine(Severity.Invalid, V371, CheckIdentifier.Form);
-                return;
-            }
         }
         private void verifyECPID()
         {
-            if (pkm.EncryptionConstant == 0)
-                AddLine(Severity.Fishy, V201, CheckIdentifier.EC);
+            if (pkm.Format >= 6)
+                verifyEC();
+            if (265 <= pkm.Species && pkm.Species <= 269)
+                verifyECPIDWurmple();
 
             if (pkm.PID == 0)
                 AddLine(Severity.Fishy, V207, CheckIdentifier.PID);
 
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
-                AddLine(Severity.Fishy, V208, CheckIdentifier.PID);
+                AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
             if (EncounterType == typeof (EncounterStatic))
             {
-                var enc = (EncounterStatic) EncounterMatch;
+                var enc = (EncounterStatic)EncounterMatch;
                 if (enc.Shiny != null && (bool) enc.Shiny ^ pkm.IsShiny)
-                {
                     AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
-                    return;
-                }
             }
-            if (EncounterType == typeof(EncounterSlot[]))
+            else if (EncounterType == typeof(EncounterSlot[]))
             {
-                if (pkm.IsShiny && (EncounterMatch as EncounterSlot[]).All(slot => slot.Type == SlotType.HiddenGrotto))
-                {
+                var slots = (EncounterSlot[])EncounterMatch;
+                if (pkm.IsShiny && slots.All(slot => slot.Type == SlotType.HiddenGrotto))
                     AddLine(Severity.Invalid, V221, CheckIdentifier.Shiny);
-                    return;
-                }
+            }
+        }
+        private void verifyECPIDWurmple()
+        {
+            uint evoVal;
+            switch (pkm.GenNumber)
+            {
+                case 3: evoVal = pkm.PID & 0xFFFF; break;
+                case 4:
+                case 5: evoVal = pkm.PID >> 16; break;
+                default: evoVal = pkm.EncryptionConstant >> 16; break;
+            }
+            evoVal = evoVal%10/2;
+
+            if (pkm.Species == 265)
+            {
+                AddLine(Severity.Valid, string.Format(V212, evoVal == 0 ? specieslist[267] : specieslist[269]), CheckIdentifier.EC);
+                return;
             }
 
-            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species);
-            if (pkm.GenNumber >= 6)
-            {
-                // Wurmple -> Silcoon/Cascoon
-                if (wIndex > -1)
-                {
-                    // Check if Wurmple was the origin (only Egg and Wild Encounter)
-                    if (pkm.WasEgg || (EncounterType == typeof(EncounterSlot[]) && (EncounterMatch as EncounterSlot[]).All(slot => slot.Species == 265)))
-                        if ((pkm.EncryptionConstant >> 16)%10/5 != wIndex/2)
-                        {
-                            AddLine(Severity.Invalid, V210, CheckIdentifier.EC);
-                            return;
-                        }
-                }
-                else if (pkm.Species == 265)
-                {
-                    AddLine(Severity.Valid, string.Format(V212, (pkm.EncryptionConstant >> 16)%10/5 == 0 ? V213 : V214), CheckIdentifier.EC);
-                }
-                
-                int xor = pkm.TSV ^ pkm.PSV;
-                if (xor < 16 && xor >= 8 && (pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
-                {
-                    AddLine(Severity.Fishy, V211, CheckIdentifier.EC);
-                    return;
-                }
-            }
-            
-            // abort if specimen wasn't transferred x->6
-            if (pkm.Format < 6 || !(3 <= pkm.GenNumber && pkm.GenNumber <= 5))
+            // Check if Wurmple was the origin (only Egg and Wild Encounter)
+            bool wasWurmple = pkm.WasEgg || (EncounterType == typeof (EncounterSlot[]) && ((EncounterSlot[])EncounterMatch).Any(slot => slot.Species == 265));
+            if (!wasWurmple)
                 return;
 
+            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species)/2;
+            if (evoVal != wIndex)
+                AddLine(Severity.Invalid, V210, CheckIdentifier.EC);
+        }
+        private void verifyEC()
+        {
+            if (pkm.EncryptionConstant == 0)
+                AddLine(Severity.Fishy, V201, CheckIdentifier.EC);
+            if (3 <= pkm.GenNumber && pkm.GenNumber <= 5)
+                verifyTransferEC();
+            else
+            {
+                int xor = pkm.TSV ^ pkm.PSV;
+                if (xor < 16 && xor >= 8 && (pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
+                    AddLine(Severity.Fishy, V211, CheckIdentifier.EC);
+            }
+        }
+        private void verifyTransferEC()
+        {
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.
             // The PID is then checked to see if it becomes shiny with the new Shiny rules (>>4 instead of >>3)
             // If the PID is nonshiny->shiny, the top bit is flipped.
@@ -202,12 +200,7 @@ namespace PKHeX.Core
                 : pkm.EncryptionConstant == pkm.PID;
 
             if (!valid)
-            {
-                AddLine(Severity.Invalid,
-                    xorPID 
-                    ? V215
-                    : V216, CheckIdentifier.ECPID);
-            }
+                AddLine(Severity.Invalid, xorPID ? V215 : V216, CheckIdentifier.ECPID);
         }
         #region verifyNickname
         private void verifyNickname()

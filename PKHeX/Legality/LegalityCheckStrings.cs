@@ -84,8 +84,6 @@ namespace PKHeX.Core
         public static string V210 {get; set;} = "Wurmple evolution Encryption Constant mismatch.";
         public static string V211 {get; set;} = "Encryption Constant matches shinyxored PID.";
         public static string V212 {get; set;} = "Wurmple Evolution: {0}";
-        public static string V213 {get; set;} = "Silcoon";
-        public static string V214 {get; set;} = "Cascoon";
         public static string V215 {get; set;} = "PID should be equal to EC [with top bit flipped]!";
         public static string V216 {get; set;} = "PID should be equal to EC!";
         public static string V220 {get; set;} = "N's Pokemon cannot be shiny.";
