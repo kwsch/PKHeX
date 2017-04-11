@@ -1353,13 +1353,15 @@ namespace PKHeX.Core
                 }
             }
 
+            if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && pkm.AbilityNumber == 4)
+            {
+                AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
+                return;
+            }
+
             if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
             {
-                if (pkm.Version != (int) GameVersion.CXD && abilities[0] != abilities[1] && pkm.AbilityNumber != 1 << abilval)
-                {
-                    AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
-                    return;
-                }
+                verifyAbilityPreCapsule(abilities, abilval);
             }
             else
             {
@@ -1371,6 +1373,75 @@ namespace PKHeX.Core
             }
 
             AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+        }
+        private void verifyAbilityPreCapsule(int[] abilities, int abilval)
+        {
+            if (pkm.Format == 3 && pkm.Version == (int)GameVersion.CXD)
+            {
+                // TODO: Check if origin is Colloseum or XD when GameCube analysis is implemented. 
+                // Only Shadow Colloseum  pokemon could have any of the two gen 3 abilities without matching PID.
+                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+                return;
+            }
+
+            var abilities_count = abilities.Where(a => a != 0).Distinct().Count();
+            var AbilityMatchPID = abilities_count == 2;
+            if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
+            {
+                // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
+                // Do not check for gen 3 pokemon that has evolved into gen 4 species, 
+                // those have evolved in generation 4 or 5 and ability must match PID, not need to check gen 3 data
+                var gen3Species = EvoChainsAllGens[3].LastOrDefault()?.Species ?? 0;
+                if(gen3Species > 0)
+                    AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species, abilities_count);
+            }
+            
+            // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
+            if (AbilityMatchPID && abilities_count == 2 && pkm.AbilityNumber != 1 << abilval)
+            {
+                AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
+                return;
+            }
+        }
+        private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3, int abilities_count)
+        {
+            if (abilities_count == 1)
+                // Only one ability in generation 4-5
+                return false;
+            var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
+            if (abilities_g3.Length == 2)
+            {
+                // Shadow Colloseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
+                // For non-GB, it has 2 abilities in gen 3, must match PID
+                return pkm.Version != (int)GameVersion.CXD;
+            }
+            var Species_g45 = Math.Max(EvoChainsAllGens[4].LastOrDefault()?.Species ?? 0, (pkm.Format == 5) ? EvoChainsAllGens[5].LastOrDefault()?.Species ?? 0 : 0);
+            if (Species_g45 > Species_g3)
+                // Species_g45 > Species_g3 means it have evolved in gen 4 or 5 games, ability must match PID
+                return true;
+
+            var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, (pkm.Format == 5) ? EvoChainsAllGens[5].Length : 0);
+            if (Evolutions_g45 > 1)
+            {
+                // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
+                if (pkm.Ability == abilities_g3[0])
+                    // It could evolve in gen 4-5 an have generation 3 only ability
+                    // that means it have not actually evolved in gen 4-5, ability do not need to match PID
+                    return false;
+                if (pkm.Ability == abilities[1])
+                    // It could evolve in gen4-5 an have generation 4 second ability
+                    // that means it have actually evolved in gen 4-5, ability must match PID
+                    return true;
+            }
+            // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games, 
+            // ability do not need to match PID, but only generation 3 ability is allowed
+            if (pkm.Ability != abilities_g3[0]) 
+            {
+                // Not evolved in gen4-5 but do not have generation 3 only ability
+                AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
+                return false;
+            }
+            return false;
         }
         #region verifyBall
         private void verifyBallEquals(params int[] balls)
