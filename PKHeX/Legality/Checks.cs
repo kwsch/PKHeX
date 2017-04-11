@@ -2584,7 +2584,8 @@ namespace PKHeX.Core
 
             // Some games can have different egg movepools. Have to check all situations.
             GameVersion[] Games = { };
-            switch (pkm.GenNumber)
+            int gen = pkm.GenNumber;
+            switch (gen)
             {
                 case 1:
                 case 2:
@@ -2608,8 +2609,10 @@ namespace PKHeX.Core
                 {
                     var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
                     var EggMoves = Legal.getEggMoves(pkm, i, ver).ToArray();
+                    bool volt = (gen > 3 || ver == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
+                    var SpecialMoves = volt && EventEggMoves.Length == 0 ? new[] {344} : new int[0]; // Volt Tackle for bred Pichu line
 
-                    res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, new int[0], LvlupEggMoves, EggMoves, EventEggMoves, new int[0]);
+                    res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, LvlupEggMoves, EggMoves, EventEggMoves, new int[0]);
 
                     if (res.All(r => r.Valid)) // moves is satisfactory
                         return res;
