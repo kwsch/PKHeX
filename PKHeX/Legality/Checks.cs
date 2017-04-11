@@ -1397,7 +1397,7 @@ namespace PKHeX.Core
             }
             
             // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
-            if (AbilityMatchPID && abilities_count == 2 && pkm.AbilityNumber != 1 << abilval)
+            if (AbilityMatchPID && pkm.AbilityNumber != 1 << abilval)
             {
                 AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
                 return;
