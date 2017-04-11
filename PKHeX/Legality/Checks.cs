@@ -2329,11 +2329,16 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
-                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); }
                 if (pkm.CNTs.Any(stat => stat > 0))
-                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); }
                 if( pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
-                { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); }
+                var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
+                if (HatchCycles == 0)
+                    HatchCycles = pkm.PersonalInfo.HatchCycles;
+                if( pkm.CurrentFriendship > HatchCycles)
+                { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
             }
 
             if (Encounter.Valid)

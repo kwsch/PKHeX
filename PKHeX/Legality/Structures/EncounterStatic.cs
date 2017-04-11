@@ -24,6 +24,7 @@
         public bool IV3;
         public int[] Contest = { 0, 0, 0, 0, 0, 0 };
         public int HeldItem { get; set; }
+        public int EggCycles;
 
         public bool Fateful;
         public bool RibbonWishing;
@@ -66,7 +67,8 @@
                 RibbonWishing = RibbonWishing,
                 SkipFormCheck = SkipFormCheck,
                 NSparkle = NSparkle,
-                Roaming = Roaming
+                Roaming = Roaming,
+                EggCycles = EggCycles
             };
         }
 
@@ -104,7 +106,8 @@
                 RibbonWishing = RibbonWishing,
                 SkipFormCheck = SkipFormCheck,
                 NSparkle = NSparkle,
-                Roaming = Roaming
+                Roaming = Roaming,
+                EggCycles = EggCycles
             };
         }
 
