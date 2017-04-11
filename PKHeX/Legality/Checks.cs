@@ -2600,7 +2600,8 @@ namespace PKHeX.Core
                 var EventEggMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
                 for (int i = 0; i <= splitctr; i++)
                 {
-                    var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
+                    var BaseLvlMoves = 489 <= pkm.Species && pkm.Species <= 490 ? 1 : 100;
+                    var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, BaseLvlMoves)?.ToArray() ?? new int[0];
                     var EggMoves = Legal.getEggMoves(pkm, i, ver).ToArray();
                     bool volt = (gen > 3 || ver == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
                     var SpecialMoves = volt && EventEggMoves.Length == 0 ? new[] {344} : new int[0]; // Volt Tackle for bred Pichu line
@@ -2638,7 +2639,7 @@ namespace PKHeX.Core
             {
                 int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves;
                 // Gift do not have special moves but also should not have normal egg moves
-                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg;
+                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
                 return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
             }
             if (pkm.GenNumber <= 2 && (EncounterMatch as IGeneration)?.Generation == 1)
