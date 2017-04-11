@@ -1425,7 +1425,7 @@ namespace PKHeX.Core
                 case 255: return 2;
                 case 254: return 1;
                 case 0: return 0;
-                default: return (PID & 0xFF) <= genderratio ? 1 : 0;
+                default: return (PID & 0xFF) < genderratio ? 1 : 0;
             }
         }
         #region Gen 3 Species Table
