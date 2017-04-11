@@ -1263,6 +1263,22 @@ namespace PKHeX.Core
                             return;
                         }
                     }
+                    if (EncounterIsMysteryGift)
+                    {
+                        var wc = EncounterMatch as PGF;
+                        var type = wc?.AbilityType;
+                        int abilNumber = pkm.AbilityNumber;
+                        if (type < 3 && abilNumber != 1 << type) // set number
+                        {
+                            // ability capsule only available from gen 6 onwards
+                            if (pkm.Format >=6 && type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
+                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+                            else
+                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
+                        }
+                        else if (type == 3 && abilNumber == 4) // 1/2 only
+                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
+                    }
                 }
                 if (pkm.GenNumber == 6)
                 {
