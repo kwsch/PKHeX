@@ -17,6 +17,11 @@ namespace PKHeX.WinForms
             else
                 tabControl1.Controls.Remove(TAB_Joyful);
 
+            if (SAV.E)
+                readFerry();
+            else
+                tabControl1.Controls.Remove(TAB_Ferry);
+
             if (SAV.FRLG)
                 TB_OTName.Text = PKX.getString3(SAV.Data, SAV.getBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
             else
@@ -29,6 +34,11 @@ namespace PKHeX.WinForms
         {
             if (tabControl1.Controls.Contains(TAB_Joyful))
                 saveJoyful();
+            if (tabControl1.Controls.Contains(TAB_Ferry))
+            {
+                saveFerry();
+                if (Pouches != null) SAV.Inventory = Pouches;
+            }
             if (SAV.FRLG)
                 SAV.setData(SAV.setString(TB_OTName.Text, TB_OTName.MaxLength), SAV.getBlockOffset(4) + 0xBCC);
 
@@ -85,6 +95,118 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B1.Text)).CopyTo(SAV.Data, BERRIES_IN_ROW);
             BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B2.Text)).CopyTo(SAV.Data, BERRIES_SCORE);
             BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B3.Text)).CopyTo(SAV.Data, BERRIES_5_IN_ROW);
+        }
+        #endregion
+
+        #region Ferry
+        private int ofsFerry;
+        private InventoryPouch[] Pouches = null;
+        private void B_GetTickets_Click(object sender, EventArgs e)
+        {
+            Pouches = SAV.Inventory;
+            string[] itemlist = GameInfo.Strings.getItemStrings(SAV.Generation, SAV.Version);
+            bool b = false;
+            int[] targetItems = new int[5] { 0x109, 0x113, 0x172, 0x173, 0x178 };
+            int ai;
+            string AlertMessage = "";
+            foreach (InventoryPouch p in Pouches)
+            {
+                if (p.Type != InventoryType.KeyItems) continue;
+                foreach (InventoryItem i in p.Items)
+                {
+                    ai = Array.IndexOf(targetItems, i.Index);
+                    if (ai < 0) continue;
+                    if (i.Count <= 0) i.Count = 1;
+                    targetItems[ai] = 0;
+                    if (!Array.Exists(targetItems, v => v > 0))
+                    {
+                        b = true;
+                        break;
+                    }
+                }
+                if (b)
+                {
+                    B_GetTickets.Text = "Already have";
+                    B_GetTickets.Enabled = false;
+                    return;
+                }
+                for (int i = 0; i < itemlist.Length; i++)
+                    if (itemlist[i] == "")
+                        itemlist[i] = $"(Item #{i:000})";
+                for (int t = 0, i = -1; t < targetItems.Length; t++)
+                {
+                    if (targetItems[t] == 0) continue;
+                    for (i++; i < p.Items.Length; i++)
+                    {
+                        if (p.Items[i].Index > 0) continue;
+                        p.Items[i].Index = targetItems[t];
+                        p.Items[i].Count = 1;
+                        p.Items[i].New = true;
+                        AlertMessage += Environment.NewLine + " " + itemlist[targetItems[t]];
+                        targetItems[t] = 0;
+                        break;
+                    }
+                    if (!Array.Exists(targetItems, v => v > 0))
+                        break;
+                }
+                break;
+            }
+            B_GetTickets.Enabled = false;
+            if (AlertMessage.Length == 0)
+            {
+                B_GetTickets.Text = "Failed";
+                WinFormsUtil.Alert("Failed. Please use the InventoryEditor.");
+            }
+            else
+            {
+                if (Array.Exists(targetItems, v => v > 0))
+                {
+                    AlertMessage += Environment.NewLine;
+                    AlertMessage += "Failed to get some items. Please use the InventoryEditor.";
+                    foreach (int u in targetItems)
+                    {
+                        if (u == 0) continue;
+                        AlertMessage += Environment.NewLine + " " + itemlist[u];
+                    }
+                }
+                B_GetTickets.Text = "Ready";
+                WinFormsUtil.Alert("Ready to get new items." + AlertMessage);
+            }
+        }
+        private void readFerry()
+        {
+            ofsFerry = SAV.getBlockOffset(2) + 0x2F0;
+            CHK_Catchable.Checked = getFerryFlagFromNum(0x864);
+            CHK_ReachSouthern.Checked = getFerryFlagFromNum(0x8B3);
+            CHK_ReachBirth.Checked = getFerryFlagFromNum(0x8D5);
+            CHK_ReachFaraway.Checked = getFerryFlagFromNum(0x8D6);
+            CHK_ReachNavel.Checked = getFerryFlagFromNum(0x8E0);
+            CHK_ReachBF.Checked = getFerryFlagFromNum(0x1D0);
+            CHK_InitialSouthern.Checked = getFerryFlagFromNum(0x1AE);
+            CHK_InitialBirth.Checked = getFerryFlagFromNum(0x1AF);
+            CHK_InitialFaraway.Checked = getFerryFlagFromNum(0x1B0);
+            CHK_InitialNavel.Checked = getFerryFlagFromNum(0x1DB);
+        }
+        private bool getFerryFlagFromNum(int n)
+        {
+            return (SAV.Data[ofsFerry + (n >> 3)] >> (n & 7) & 1) != 0;
+        }
+        private void setFerryFlagFromNum(int n, bool b)
+        {
+            SAV.Data[ofsFerry + (n >> 3)] = (byte)(SAV.Data[ofsFerry + (n >> 3)] & ~(1 << (n & 7)) | (b ? 1 : 0) << (n & 7));
+        }
+        private void saveFerry()
+        {
+            setFerryFlagFromNum(0x864, CHK_Catchable.Checked);
+            setFerryFlagFromNum(0x8B3, CHK_ReachSouthern.Checked);
+            setFerryFlagFromNum(0x8D5, CHK_ReachBirth.Checked);
+            setFerryFlagFromNum(0x8D6, CHK_ReachFaraway.Checked);
+            setFerryFlagFromNum(0x8E0, CHK_ReachNavel.Checked);
+            setFerryFlagFromNum(0x1D0, CHK_ReachBF.Checked);
+            setFerryFlagFromNum(0x1AE, CHK_InitialSouthern.Checked);
+            setFerryFlagFromNum(0x1AF, CHK_InitialBirth.Checked);
+            setFerryFlagFromNum(0x1B0, CHK_InitialFaraway.Checked);
+            setFerryFlagFromNum(0x1DB, CHK_InitialNavel.Checked);
         }
         #endregion
     }
