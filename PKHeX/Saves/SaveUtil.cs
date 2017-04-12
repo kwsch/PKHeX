@@ -206,6 +206,8 @@ namespace PKHeX.Core
                 // Real 0th block comes before block1.
                 if (BlockOrder[0] == 1 && Block0 != BlockOrder.Length - 1)
                     continue;
+                if (BlockOrder.Count(v => v == 0) == BlockOrder.Length)
+                    continue;
                 uint GameCode = BitConverter.ToUInt32(data, Block0 * 0x1000 + 0xAC + ofs);
                 if (GameCode == uint.MaxValue)
                     return GameVersion.Unknown; // what a hack
