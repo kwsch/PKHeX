@@ -386,24 +386,26 @@ namespace PKHeX.Core
         {
             var evs = pkm.EVs;
             int sum = evs.Sum();
-            if (pkm.IsEgg && sum > 0)
+            if (sum > 0 && pkm.IsEgg)
                 AddLine(Severity.Invalid, V22, CheckIdentifier.EVs);
-            else if (sum == 0 && pkm.CurrentLevel - Math.Max(1, pkm.Met_Level) > 0)
+            if (sum > 510)
+                AddLine(Severity.Invalid, V25, CheckIdentifier.EVs);
+            if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
+                AddLine(Severity.Invalid, V26, CheckIdentifier.EVs);
+            if (pkm.Format == 4 && pkm.Gen4 && (EncounterMatch as IEncounterable)?.LevelMin == 100)
+            {
+                // Cannot EV train at level 100 -- Certain events are distributed at level 100.
+                if (evs.Any(ev => ev > 100)) // EVs can only be increased by vitamins to a max of 100.
+                    AddLine(Severity.Invalid, V367, CheckIdentifier.EVs);
+            }
+
+            // Only one of the following can be true: 0, 508, and x%6!=0
+            if (sum == 0 && pkm.CurrentLevel - Math.Max(1, pkm.Met_Level) > 0)
                 AddLine(Severity.Fishy, V23, CheckIdentifier.EVs);
             else if (sum == 508)
                 AddLine(Severity.Fishy, V24, CheckIdentifier.EVs);
-            else if (sum > 510)
-                AddLine(Severity.Invalid, V25, CheckIdentifier.EVs);
-            else if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
-                AddLine(Severity.Invalid, V26, CheckIdentifier.EVs);
-            else if (evs.All(ev => pkm.EVs[0] == ev) && evs[0] != 0)
+            else if (evs[0] != 0 && evs.All(ev => evs[0] == ev))
                 AddLine(Severity.Fishy, V27, CheckIdentifier.EVs);
-            if (pkm.Format == 4 && pkm.Gen4 && (EncounterMatch as IEncounterable)?.LevelMin == 100)
-            {
-                // Generation 4 do not allow to EV train at level 100, for level 100 encounter pokemon (like events) EV only can be trained with vitamins, with a maximum value of 100
-                if (evs.Any(ev => ev > 100))
-                    AddLine(Severity.Invalid, V367, CheckIdentifier.EVs);
-            }
         }
         private void verifyIVs()
         {
@@ -1246,145 +1248,40 @@ namespace PKHeX.Core
                 int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
                                         (EncounterMatch as EncounterTrade)?.Ability ??
                                         (EncounterMatch as EncounterLink)?.Ability;
+
                 if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
                 {
                     AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
                     return;
                 }
 
-                if (pkm.GenNumber == 5)
+                switch (pkm.GenNumber)
                 {
-                    if (EncounterType == typeof(EncounterSlot[]))
-                    {
-                        bool grotto = ((EncounterSlot[])EncounterMatch).All(slot => slot.Type == SlotType.HiddenGrotto); //encounter only at HiddenGrotto
-                        if (pkm.AbilityNumber == 4 ^ grotto)
-                        {
-                            AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
-                            return;
-                        }
-                    }
-                    if (EncounterIsMysteryGift)
-                    {
-                        var wc = EncounterMatch as PGF;
-                        var type = wc?.AbilityType;
-                        int abilNumber = pkm.AbilityNumber;
-                        if (type < 3 && abilNumber != 1 << type) // set number
-                        {
-                            // ability capsule only available from gen 6 onwards
-                            if (pkm.Format >=6 && type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
-                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
-                            else
-                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
-                        }
-                        else if (type == 3 && abilNumber == 4) // 1/2 only
-                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
-                    }
-                }
-                if (pkm.GenNumber == 6)
-                {
-                    if (EncounterIsMysteryGift)
-                    {
-                        var wc = EncounterMatch as WC6;
-                        var type = wc?.AbilityType;
-                        int abilNumber = pkm.AbilityNumber;
-                        if (type < 3 && abilNumber != 1 << type) // set number
-                        {
-                            if (type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
-                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
-                            else
-                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
-                        }
-                        else if (type == 3 && abilNumber == 4) // 1/2 only
-                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
-                    }
-                    if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
-                    {
-                        var slots = (EncounterSlot[])EncounterMatch;
-                        bool valid = slots.Any(slot => slot.DexNav ||
-                            slot.Type == SlotType.FriendSafari ||
-                            slot.Type == SlotType.Horde);
-
-                        if (!valid)
-                        {
-                            AddLine(Severity.Invalid, V300, CheckIdentifier.Ability);
-                            return;
-                        }
-                    }
-                    if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
-                    {
-                        AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
-                        return;
-                    }
-                }
-                if (pkm.GenNumber == 7)
-                {
-                    if (EncounterIsMysteryGift)
-                    {
-                        var wc = EncounterMatch as WC7;
-                        var type = wc?.AbilityType;
-                        int abilNumber = pkm.AbilityNumber;
-                        if (type < 3 && abilNumber != 1 << type) // set number
-                        {
-                            if (type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
-                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
-                            else
-                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
-                        }
-                        else if (type == 3 && abilNumber == 4) // 1/2 only
-                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
-                    }
-                    if (EncounterType == typeof(EncounterSlot[]) && pkm.AbilityNumber == 4)
-                    {
-                        var slots = (EncounterSlot[])EncounterMatch;
-                        bool valid = slots.Any(slot => slot.Type == SlotType.SOS);
-
-                        if (!valid)
-                        {
-                            AddLine(Severity.Invalid, V111, CheckIdentifier.Ability);
-                            return;
-                        }
-                    }
-                    if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
-                    {
-                        AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
-                        return;
-                    }
-
+                    case 5: verifyAbility5(abilities); break;
+                    case 6: verifyAbility6(abilities); break;
+                    case 7: verifyAbility7(abilities); break;
                 }
             }
+            if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
+                verifyAbilityPreCapsule(abilities, abilval);
 
             if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && pkm.AbilityNumber == 4)
-            {
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
-                return;
-            }
-
-            if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
-            {
-                verifyAbilityPreCapsule(abilities, abilval);
-            }
+            else if (abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
+                AddLine(Severity.Invalid, V114, CheckIdentifier.Ability);
             else
-            {
-                if (abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
-                {
-                    AddLine(Severity.Invalid, V114, CheckIdentifier.Ability);
-                    return;
-                }
-            }
-
-            AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
         }
         private void verifyAbilityPreCapsule(int[] abilities, int abilval)
         {
-            if (pkm.Format == 3 && pkm.Version == (int)GameVersion.CXD)
+            if (pkm.Version == (int)GameVersion.CXD)
             {
-                // TODO: Check if origin is Colloseum or XD when GameCube analysis is implemented. 
-                // Only Shadow Colloseum  pokemon could have any of the two gen 3 abilities without matching PID.
+                // TODO for GameCube analysis
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
                 return;
             }
 
-            var abilities_count = abilities.Where(a => a != 0).Distinct().Count();
+            var abilities_count = abilities.Distinct().Count();
             var AbilityMatchPID = abilities_count == 2;
             if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
             {
@@ -1392,16 +1289,13 @@ namespace PKHeX.Core
                 // Do not check for gen 3 pokemon that has evolved into gen 4 species, 
                 // those have evolved in generation 4 or 5 and ability must match PID, not need to check gen 3 data
                 var gen3Species = EvoChainsAllGens[3].LastOrDefault()?.Species ?? 0;
-                if(gen3Species > 0)
+                if (gen3Species > 0)
                     AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species, abilities_count);
             }
             
             // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
             if (AbilityMatchPID && pkm.AbilityNumber != 1 << abilval)
-            {
                 AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
-                return;
-            }
         }
         private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3, int abilities_count)
         {
@@ -1415,12 +1309,12 @@ namespace PKHeX.Core
                 // For non-GC, it has 2 abilities in gen 3, must match PID
                 return pkm.Version != (int)GameVersion.CXD;
             }
-            var Species_g45 = Math.Max(EvoChainsAllGens[4].LastOrDefault()?.Species ?? 0, (pkm.Format == 5) ? EvoChainsAllGens[5].LastOrDefault()?.Species ?? 0 : 0);
+            var Species_g45 = Math.Max(EvoChainsAllGens[4].LastOrDefault()?.Species ?? 0, pkm.Format == 5 ? EvoChainsAllGens[5].LastOrDefault()?.Species ?? 0 : 0);
             if (Species_g45 > Species_g3)
                 // it have evolved in gen 4 or 5 games, ability must match PID
                 return true;
 
-            var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, (pkm.Format == 5) ? EvoChainsAllGens[5].Length : 0);
+            var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, pkm.Format == 5 ? EvoChainsAllGens[5].Length : 0);
             if (Evolutions_g45 > 1)
             {
                 // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
@@ -1439,6 +1333,63 @@ namespace PKHeX.Core
                 // Not evolved in gen4-5 but do not have generation 3 only ability
                 AddLine(Severity.Invalid, V373, CheckIdentifier.Ability);
             return false;
+        }
+        private void verifyAbility5(int[] abilities)
+        {
+            if (EncounterType == typeof (EncounterSlot[]))
+            {
+                // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
+                bool grotto = ((EncounterSlot[]) EncounterMatch).All(slot => slot.Type == SlotType.HiddenGrotto);
+                if (pkm.AbilityNumber == 4 ^ grotto)
+                    AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
+            }
+            else if (EncounterIsMysteryGift)
+                verifyAbilityMG456(abilities, ((PGF)EncounterMatch).AbilityType);
+        }
+        private void verifyAbility6(int[] abilities)
+        {
+            if (EncounterType == typeof (EncounterSlot[]) && pkm.AbilityNumber == 4)
+            {
+                var slots = (EncounterSlot[]) EncounterMatch;
+                bool valid = slots.Any(slot => slot.DexNav ||
+                                               slot.Type == SlotType.FriendSafari ||
+                                               slot.Type == SlotType.Horde);
+                if (!valid)
+                    AddLine(Severity.Invalid, V300, CheckIdentifier.Ability);
+            }
+            else if (EncounterIsMysteryGift)
+                verifyAbilityMG456(abilities, ((WC6)EncounterMatch).AbilityType);
+            else if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+                AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
+        }
+        private void verifyAbility7(int[] abilities)
+        {
+            if (EncounterType == typeof (EncounterSlot[]) && pkm.AbilityNumber == 4)
+            {
+                var slots = (EncounterSlot[]) EncounterMatch;
+                bool valid = slots.Any(slot => slot.Type == SlotType.SOS);
+
+                if (!valid)
+                    AddLine(Severity.Invalid, V111, CheckIdentifier.Ability);
+            }
+            else if(EncounterIsMysteryGift)
+                verifyAbilityMG456(abilities, ((WC7)EncounterMatch).AbilityType);
+            else if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+                AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
+        }
+        private void verifyAbilityMG456(int[] abilities, int cardtype)
+        {
+            int abilNumber = pkm.AbilityNumber;
+            if (cardtype < 3 && abilNumber != 1 << cardtype) // set number
+            {
+                // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
+                if (pkm.Format >= 6 && cardtype < 2 && abilNumber < 3 && abilities[0] != abilities[1])
+                    AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+                else
+                    AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
+            }
+            else if (cardtype == 3 && abilNumber == 4) // 1/2 only
+                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
         }
         #region verifyBall
         private void verifyBallEquals(params int[] balls)

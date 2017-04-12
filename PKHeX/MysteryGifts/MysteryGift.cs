@@ -124,8 +124,8 @@ namespace PKHeX.Core
         public virtual object Content => this;
 
         public abstract int Level { get; set; }
-        public int LevelMin { get { return Level; } }
-        public int LevelMax { get { return Level; } }
+        public int LevelMin => Level;
+        public int LevelMax => Level;
         public abstract int Ball { get; set; }
         public bool Gen7 => Format == 7;
         public bool Gen6 => Format == 6;
