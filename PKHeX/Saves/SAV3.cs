@@ -134,8 +134,8 @@ namespace PKHeX.Core
             LegalBalls = Legal.Pouch_Ball_RS;
             LegalTMHMs = Legal.Pouch_TMHM_RS;
             LegalBerries = Legal.Pouch_Berries_RS;
-
             HeldItems = Legal.HeldItems_RS;
+            Japanese = Legal.SavegameJapanese;
 
             if (!Exportable)
                 resetBoxes();
