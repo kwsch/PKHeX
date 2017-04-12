@@ -362,6 +362,8 @@ namespace PKHeX.Core
         public static string V369 {get; set;} = "Invalid E-Reader Berry.";
         public static string V370 {get; set;} = "Japanese E-Reader Berry in international savegame.";
         public static string V371 {get; set;} = "American E-Reader Berry in Japanese savegame.";
+        public static string V373 {get; set;} = "Ability does not match generation 3 species ability.";
+        public static string V374 {get; set;} = "Invalid egg hatch cycles.";
         #endregion
 
     }

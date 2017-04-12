@@ -302,3 +302,5 @@ V368 = Eggs can not be infected with Pokérus.
 V369 = Invalid E-Reader Berry.
 V370 = Japanese E-Reader Berry in international savegame.
 V371 = American E-Reader Berry in Japanese savegame.
+V373 = Ability does not match generation 3 species ability.
+V374 = Invalid egg hatch cycles.

@@ -1263,6 +1263,22 @@ namespace PKHeX.Core
                             return;
                         }
                     }
+                    if (EncounterIsMysteryGift)
+                    {
+                        var wc = EncounterMatch as PGF;
+                        var type = wc?.AbilityType;
+                        int abilNumber = pkm.AbilityNumber;
+                        if (type < 3 && abilNumber != 1 << type) // set number
+                        {
+                            // ability capsule only available from gen 6 onwards
+                            if (pkm.Format >=6 && type < 2 && abilNumber < 3 && abilities[0] != abilities[1]) // 0/1 required, not hidden, and ability can be changed
+                                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+                            else
+                                AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
+                        }
+                        else if (type == 3 && abilNumber == 4) // 1/2 only
+                            AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
+                    }
                 }
                 if (pkm.GenNumber == 6)
                 {
@@ -1337,13 +1353,15 @@ namespace PKHeX.Core
                 }
             }
 
+            if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && pkm.AbilityNumber == 4)
+            {
+                AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
+                return;
+            }
+
             if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
             {
-                if (pkm.Version != (int) GameVersion.CXD && abilities[0] != abilities[1] && pkm.AbilityNumber != 1 << abilval)
-                {
-                    AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
-                    return;
-                }
+                verifyAbilityPreCapsule(abilities, abilval);
             }
             else
             {
@@ -1355,6 +1373,72 @@ namespace PKHeX.Core
             }
 
             AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+        }
+        private void verifyAbilityPreCapsule(int[] abilities, int abilval)
+        {
+            if (pkm.Format == 3 && pkm.Version == (int)GameVersion.CXD)
+            {
+                // TODO: Check if origin is Colloseum or XD when GameCube analysis is implemented. 
+                // Only Shadow Colloseum  pokemon could have any of the two gen 3 abilities without matching PID.
+                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+                return;
+            }
+
+            var abilities_count = abilities.Where(a => a != 0).Distinct().Count();
+            var AbilityMatchPID = abilities_count == 2;
+            if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
+            {
+                // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
+                // Do not check for gen 3 pokemon that has evolved into gen 4 species, 
+                // those have evolved in generation 4 or 5 and ability must match PID, not need to check gen 3 data
+                var gen3Species = EvoChainsAllGens[3].LastOrDefault()?.Species ?? 0;
+                if(gen3Species > 0)
+                    AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species, abilities_count);
+            }
+            
+            // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
+            if (AbilityMatchPID && pkm.AbilityNumber != 1 << abilval)
+            {
+                AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
+                return;
+            }
+        }
+        private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3, int abilities_count)
+        {
+            if (abilities_count == 1)
+                // Only one ability in generation 4-5
+                return false;
+            var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
+            if (abilities_g3.Length == 2)
+            {
+                // Shadow Colloseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
+                // For non-GC, it has 2 abilities in gen 3, must match PID
+                return pkm.Version != (int)GameVersion.CXD;
+            }
+            var Species_g45 = Math.Max(EvoChainsAllGens[4].LastOrDefault()?.Species ?? 0, (pkm.Format == 5) ? EvoChainsAllGens[5].LastOrDefault()?.Species ?? 0 : 0);
+            if (Species_g45 > Species_g3)
+                // it have evolved in gen 4 or 5 games, ability must match PID
+                return true;
+
+            var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, (pkm.Format == 5) ? EvoChainsAllGens[5].Length : 0);
+            if (Evolutions_g45 > 1)
+            {
+                // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
+                if (pkm.Ability == abilities_g3[0])
+                    // It could evolve in gen 4-5 an have generation 3 only ability
+                    // that means it have not actually evolved in gen 4-5, ability do not need to match PID
+                    return false;
+                if (pkm.Ability == abilities[1])
+                    // It could evolve in gen4-5 an have generation 4 second ability
+                    // that means it have actually evolved in gen 4-5, ability must match PID
+                    return true;
+            }
+            // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games, 
+            // ability do not need to match PID, but only generation 3 ability is allowed
+            if (pkm.Ability != abilities_g3[0]) 
+                // Not evolved in gen4-5 but do not have generation 3 only ability
+                AddLine(Severity.Invalid, V373, CheckIdentifier.Ability);
+            return false;
         }
         #region verifyBall
         private void verifyBallEquals(params int[] balls)
@@ -2245,11 +2329,16 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
-                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); }
                 if (pkm.CNTs.Any(stat => stat > 0))
-                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); }
                 if( pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
-                { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); return; }
+                { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); }
+                var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
+                if (HatchCycles == 0)
+                    HatchCycles = pkm.PersonalInfo.HatchCycles;
+                if( pkm.CurrentFriendship > HatchCycles)
+                { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
             }
 
             if (Encounter.Valid)
@@ -2600,7 +2689,8 @@ namespace PKHeX.Core
                 var EventEggMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
                 for (int i = 0; i <= splitctr; i++)
                 {
-                    var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, 100)?.ToArray() ?? new int[0];
+                    var BaseLvlMoves = 489 <= pkm.Species && pkm.Species <= 490 ? 1 : 100;
+                    var LvlupEggMoves = Legal.getBaseEggMoves(pkm, i, ver, BaseLvlMoves)?.ToArray() ?? new int[0];
                     var EggMoves = Legal.getEggMoves(pkm, i, ver).ToArray();
                     bool volt = (gen > 3 || ver == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
                     var SpecialMoves = volt && EventEggMoves.Length == 0 ? new[] {344} : new int[0]; // Volt Tackle for bred Pichu line
@@ -2638,7 +2728,7 @@ namespace PKHeX.Core
             {
                 int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves;
                 // Gift do not have special moves but also should not have normal egg moves
-                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg;
+                var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
                 return parseMovesIsEggPreRelearn(Moves, SpecialMoves ?? new int[0], allowinherited);
             }
             if (pkm.GenNumber <= 2 && (EncounterMatch as IGeneration)?.Generation == 1)
@@ -2898,8 +2988,9 @@ namespace PKHeX.Core
                     return res;
             }
 
-            if (pkm.Species == 292)
+            if (pkm.Species == 292 && (EncounterMatch as IEncounterable)?.Species != 292)
             {
+                // Ignore Shedinja if the Encounter was also a Shedinja, assume null Encounter as a Nincada egg
                 // Check Shedinja evolved moves from Ninjask after egg moves
                 // Those moves could also be inherited egg moves
                 ParseShedinjaEvolveMoves(moves, ref res);
