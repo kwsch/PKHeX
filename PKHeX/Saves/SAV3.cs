@@ -135,7 +135,6 @@ namespace PKHeX.Core
             LegalTMHMs = Legal.Pouch_TMHM_RS;
             LegalBerries = Legal.Pouch_Berries_RS;
             HeldItems = Legal.HeldItems_RS;
-            Japanese = Legal.SavegameJapanese;
 
             if (!Exportable)
                 resetBoxes();
@@ -164,7 +163,7 @@ namespace PKHeX.Core
         public int getBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
-        public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version); }
+        public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
         public override bool IndeterminateGame => Version == GameVersion.Unknown;
         public override bool IndeterminateLanguage => true; // Unknown JP/International
         public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
