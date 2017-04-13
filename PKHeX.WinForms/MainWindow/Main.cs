@@ -2414,12 +2414,6 @@ namespace PKHeX.WinForms
         {
             if (pkm.Format < 6)
                 return;
-            pkm.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            if (pkm.GenNumber < 6)
-            {
-                TB_EC.Text = TB_PID.Text;
-                WinFormsUtil.Alert("EC should match PID.");
-            }
             
             int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, WinFormsUtil.getIndex(CB_Species));
             if (wIndex < 0)
@@ -2429,9 +2423,24 @@ namespace PKHeX.WinForms
             else
             {
                 uint EC;
-                do { EC = Util.rnd32(); } while ((EC >> 16)%10/5 != wIndex/2);
+                bool valid;
+                do
+                {
+                    EC = Util.rnd32();
+                    uint evoVal;
+                    switch (pkm.GenNumber)
+                    {
+                        case 3: evoVal = pkm.PID & 0xFFFF; break;
+                        case 4:
+                        case 5: evoVal = pkm.PID >> 16; break;
+                        default: evoVal = pkm.EncryptionConstant >> 16; break;
+                    }
+                    evoVal = evoVal%10/5;
+                    valid = evoVal == wIndex/2;
+                } while (!valid);
                 TB_EC.Text = EC.ToString("X8");
             }
+            updateLegality();
         }
         private void updateHackedStats(object sender, EventArgs e)
         {

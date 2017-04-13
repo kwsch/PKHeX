@@ -157,7 +157,7 @@ namespace PKHeX.Core
                 case 5: evoVal = pkm.PID >> 16; break;
                 default: evoVal = pkm.EncryptionConstant >> 16; break;
             }
-            evoVal = evoVal%10/2;
+            evoVal = evoVal%10/5;
 
             if (pkm.Species == 265)
             {
