@@ -1244,7 +1244,7 @@ namespace PKHeX.Core
 
             if (EncounterMatch != null && (!pkm.Gen3 || pkm.Format ==3))
             {
-                // Gen 3 transfered to 4 could change ability, defer tp verifyAbilityPreCapsule
+                // Gen 3 transfered to 4 could change ability, defer to verifyAbilityPreCapsule
                 // Check Ability Mismatches
                 int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
                                         (EncounterMatch as EncounterTrade)?.Ability ??
@@ -1306,12 +1306,11 @@ namespace PKHeX.Core
                 // Only one ability in generation 4-5
                 return false;
             var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
-            var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, pkm.Format == 5 ? EvoChainsAllGens[5].Length : 0);
             if (abilities_g3.Length == 2)
             {
                 int? EncounterAbility = (EncounterMatch as EncounterTrade)?.Ability ?? null;
-                // Ability should match encounter only if pokemon have not evolved in generations 4-5, because ability will change to match PID on evolution
-                if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility && Evolutions_g45 == 1)
+                // If there were two abilities in generation 3 then ability match PID in gen 3 (is impossible not to do it) and will be the same ability if evolved in gen 4-5
+                if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
                 {
                     AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
                 }
@@ -1324,6 +1323,7 @@ namespace PKHeX.Core
                 // it have evolved in gen 4 or 5 games, ability must match PID
                 return true;
 
+            var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, pkm.Format == 5 ? EvoChainsAllGens[5].Length : 0);
             if (Evolutions_g45 > 1)
             {
                 // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
