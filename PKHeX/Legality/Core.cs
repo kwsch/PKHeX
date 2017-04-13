@@ -1049,7 +1049,7 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<int> getEggMoves(PKM pkm, int skipOption, GameVersion Version)
         {
-            return getEggMoves(pkm, getBaseEggSpecies(pkm), 0, Version);
+            return getEggMoves(pkm, getBaseEggSpecies(pkm, skipOption), 0, Version);
         }
         internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
