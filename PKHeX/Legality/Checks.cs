@@ -1242,7 +1242,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (EncounterMatch != null)
+            if (EncounterMatch != null && !pkm.Gen3)
             {
                 // Check Ability Mismatches
                 int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
@@ -2576,7 +2576,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i <= splitctr; i++)
                 {
-                    var baseSpecies = Legal.getBaseSpecies(pkm, i);
+                    var baseSpecies = Legal.getBaseEggSpecies(pkm, i);
                     if (baseSpecies != pkm.Species)
                         continue;
 
