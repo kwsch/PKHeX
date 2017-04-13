@@ -2360,7 +2360,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 2)
                 return 2;
             
-            if (!pkm.HasOriginalMetLocation)
+            if (!pkm.HasOriginalMetLocation && generation != pkm.GenNumber)
                 return pkm.Met_Level;
 
             if (pkm.GenNumber <= 3)
@@ -2402,7 +2402,7 @@ namespace PKHeX.Core
                     continue;
                 if ((pkm.Gen2 || pkm.VC2) && 3 <= gen && gen <= 6)
                     continue;
-                if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen <= 4 && lvl > pkm.Met_Level)
+                if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen < pkm.Format && gen <= 4 && lvl > pkm.Met_Level)
                 {
                     // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
                     lvl = pkm.Met_Level;
@@ -2440,7 +2440,7 @@ namespace PKHeX.Core
                     //Remove previous evolutions bellow transfer level
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
                     //chain level for charmander is 35, is bellow met level
-                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= lvl).ToArray();
+                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm,gen)).ToArray();
             }
             return GensEvoChains;
         }
