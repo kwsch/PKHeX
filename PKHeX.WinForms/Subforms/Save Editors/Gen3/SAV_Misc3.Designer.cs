@@ -54,17 +54,34 @@
             this.L_JRow = new System.Windows.Forms.Label();
             this.NUD_Coins = new System.Windows.Forms.NumericUpDown();
             this.L_Coins = new System.Windows.Forms.Label();
+            this.TAB_Ferry = new System.Windows.Forms.TabPage();
+            this.CHK_Catchable = new System.Windows.Forms.CheckBox();
+            this.GB_Reachable = new System.Windows.Forms.GroupBox();
+            this.CHK_ReachSouthern = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachNavel = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachBirth = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachFaraway = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachBF = new System.Windows.Forms.CheckBox();
+            this.GB_InitialEvent = new System.Windows.Forms.GroupBox();
+            this.CHK_InitialSouthern = new System.Windows.Forms.CheckBox();
+            this.CHK_InitialNavel = new System.Windows.Forms.CheckBox();
+            this.CHK_InitialBirth = new System.Windows.Forms.CheckBox();
+            this.CHK_InitialFaraway = new System.Windows.Forms.CheckBox();
+            this.B_GetTickets = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.TAB_Joyful.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).BeginInit();
+            this.TAB_Ferry.SuspendLayout();
+            this.GB_Reachable.SuspendLayout();
+            this.GB_InitialEvent.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(178, 164);
+            this.B_Save.Location = new System.Drawing.Point(178, 209);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 73;
@@ -75,7 +92,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(97, 164);
+            this.B_Cancel.Location = new System.Drawing.Point(97, 209);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 72;
@@ -90,10 +107,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.TAB_Main);
             this.tabControl1.Controls.Add(this.TAB_Joyful);
+            this.tabControl1.Controls.Add(this.TAB_Ferry);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(239, 146);
+            this.tabControl1.Size = new System.Drawing.Size(239, 191);
             this.tabControl1.TabIndex = 74;
             // 
             // TAB_Main
@@ -107,7 +125,7 @@
             this.TAB_Main.Location = new System.Drawing.Point(4, 22);
             this.TAB_Main.Name = "TAB_Main";
             this.TAB_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Main.Size = new System.Drawing.Size(231, 120);
+            this.TAB_Main.Size = new System.Drawing.Size(231, 165);
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
@@ -177,7 +195,7 @@
             this.TAB_Joyful.Location = new System.Drawing.Point(4, 22);
             this.TAB_Joyful.Name = "TAB_Joyful";
             this.TAB_Joyful.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Joyful.Size = new System.Drawing.Size(231, 120);
+            this.TAB_Joyful.Size = new System.Drawing.Size(231, 165);
             this.TAB_Joyful.TabIndex = 1;
             this.TAB_Joyful.Text = "Joyful";
             this.TAB_Joyful.UseVisualStyleBackColor = true;
@@ -334,11 +352,162 @@
             this.L_Coins.Text = "Coins:";
             this.L_Coins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // TAB_Ferry
+            // 
+            this.TAB_Ferry.Controls.Add(this.B_GetTickets);
+            this.TAB_Ferry.Controls.Add(this.GB_InitialEvent);
+            this.TAB_Ferry.Controls.Add(this.GB_Reachable);
+            this.TAB_Ferry.Controls.Add(this.CHK_Catchable);
+            this.TAB_Ferry.Location = new System.Drawing.Point(4, 22);
+            this.TAB_Ferry.Name = "TAB_Ferry";
+            this.TAB_Ferry.Padding = new System.Windows.Forms.Padding(3);
+            this.TAB_Ferry.Size = new System.Drawing.Size(225, 165);
+            this.TAB_Ferry.TabIndex = 2;
+            this.TAB_Ferry.Text = "Ferry";
+            this.TAB_Ferry.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Catchable
+            // 
+            this.CHK_Catchable.AutoSize = true;
+            this.CHK_Catchable.Location = new System.Drawing.Point(6, 140);
+            this.CHK_Catchable.Name = "CHK_Catchable";
+            this.CHK_Catchable.Size = new System.Drawing.Size(85, 16);
+            this.CHK_Catchable.TabIndex = 0;
+            this.CHK_Catchable.Text = "can get ride";
+            this.CHK_Catchable.UseVisualStyleBackColor = true;
+            // 
+            // GB_Reachable
+            // 
+            this.GB_Reachable.Controls.Add(this.CHK_ReachBF);
+            this.GB_Reachable.Controls.Add(this.CHK_ReachFaraway);
+            this.GB_Reachable.Controls.Add(this.CHK_ReachBirth);
+            this.GB_Reachable.Controls.Add(this.CHK_ReachNavel);
+            this.GB_Reachable.Controls.Add(this.CHK_ReachSouthern);
+            this.GB_Reachable.Location = new System.Drawing.Point(6, 6);
+            this.GB_Reachable.Name = "GB_Reachable";
+            this.GB_Reachable.Size = new System.Drawing.Size(111, 128);
+            this.GB_Reachable.TabIndex = 2;
+            this.GB_Reachable.TabStop = false;
+            this.GB_Reachable.Text = "Reachable";
+            // 
+            // CHK_ReachSouthern
+            // 
+            this.CHK_ReachSouthern.AutoSize = true;
+            this.CHK_ReachSouthern.Location = new System.Drawing.Point(6, 18);
+            this.CHK_ReachSouthern.Name = "CHK_ReachSouthern";
+            this.CHK_ReachSouthern.Size = new System.Drawing.Size(84, 16);
+            this.CHK_ReachSouthern.TabIndex = 0;
+            this.CHK_ReachSouthern.Text = "Southern Is.";
+            this.CHK_ReachSouthern.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ReachNavel
+            // 
+            this.CHK_ReachNavel.AutoSize = true;
+            this.CHK_ReachNavel.Location = new System.Drawing.Point(6, 40);
+            this.CHK_ReachNavel.Name = "CHK_ReachNavel";
+            this.CHK_ReachNavel.Size = new System.Drawing.Size(83, 16);
+            this.CHK_ReachNavel.TabIndex = 1;
+            this.CHK_ReachNavel.Text = "Navel Rock";
+            this.CHK_ReachNavel.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ReachBirth
+            // 
+            this.CHK_ReachBirth.AutoSize = true;
+            this.CHK_ReachBirth.Location = new System.Drawing.Point(6, 62);
+            this.CHK_ReachBirth.Name = "CHK_ReachBirth";
+            this.CHK_ReachBirth.Size = new System.Drawing.Size(64, 16);
+            this.CHK_ReachBirth.TabIndex = 2;
+            this.CHK_ReachBirth.Text = "Birth Is.";
+            this.CHK_ReachBirth.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ReachFaraway
+            // 
+            this.CHK_ReachFaraway.AutoSize = true;
+            this.CHK_ReachFaraway.Location = new System.Drawing.Point(6, 84);
+            this.CHK_ReachFaraway.Name = "CHK_ReachFaraway";
+            this.CHK_ReachFaraway.Size = new System.Drawing.Size(82, 16);
+            this.CHK_ReachFaraway.TabIndex = 3;
+            this.CHK_ReachFaraway.Text = "Faraway Is.";
+            this.CHK_ReachFaraway.UseVisualStyleBackColor = true;
+            // 
+            // CHK_ReachBF
+            // 
+            this.CHK_ReachBF.AutoSize = true;
+            this.CHK_ReachBF.Location = new System.Drawing.Point(6, 106);
+            this.CHK_ReachBF.Name = "CHK_ReachBF";
+            this.CHK_ReachBF.Size = new System.Drawing.Size(99, 16);
+            this.CHK_ReachBF.TabIndex = 4;
+            this.CHK_ReachBF.Text = "Battle Frontier";
+            this.CHK_ReachBF.UseVisualStyleBackColor = true;
+            // 
+            // GB_InitialEvent
+            // 
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialSouthern);
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialNavel);
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialBirth);
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialFaraway);
+            this.GB_InitialEvent.Location = new System.Drawing.Point(123, 6);
+            this.GB_InitialEvent.Name = "GB_InitialEvent";
+            this.GB_InitialEvent.Size = new System.Drawing.Size(96, 106);
+            this.GB_InitialEvent.TabIndex = 3;
+            this.GB_InitialEvent.TabStop = false;
+            this.GB_InitialEvent.Text = "Initial Event";
+            // 
+            // CHK_InitialSouthern
+            // 
+            this.CHK_InitialSouthern.AutoSize = true;
+            this.CHK_InitialSouthern.Location = new System.Drawing.Point(6, 18);
+            this.CHK_InitialSouthern.Name = "CHK_InitialSouthern";
+            this.CHK_InitialSouthern.Size = new System.Drawing.Size(84, 16);
+            this.CHK_InitialSouthern.TabIndex = 4;
+            this.CHK_InitialSouthern.Text = "Southern Is.";
+            this.CHK_InitialSouthern.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InitialNavel
+            // 
+            this.CHK_InitialNavel.AutoSize = true;
+            this.CHK_InitialNavel.Location = new System.Drawing.Point(6, 40);
+            this.CHK_InitialNavel.Name = "CHK_InitialNavel";
+            this.CHK_InitialNavel.Size = new System.Drawing.Size(83, 16);
+            this.CHK_InitialNavel.TabIndex = 5;
+            this.CHK_InitialNavel.Text = "Navel Rock";
+            this.CHK_InitialNavel.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InitialBirth
+            // 
+            this.CHK_InitialBirth.AutoSize = true;
+            this.CHK_InitialBirth.Location = new System.Drawing.Point(6, 62);
+            this.CHK_InitialBirth.Name = "CHK_InitialBirth";
+            this.CHK_InitialBirth.Size = new System.Drawing.Size(64, 16);
+            this.CHK_InitialBirth.TabIndex = 6;
+            this.CHK_InitialBirth.Text = "Birth Is.";
+            this.CHK_InitialBirth.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InitialFaraway
+            // 
+            this.CHK_InitialFaraway.AutoSize = true;
+            this.CHK_InitialFaraway.Location = new System.Drawing.Point(6, 84);
+            this.CHK_InitialFaraway.Name = "CHK_InitialFaraway";
+            this.CHK_InitialFaraway.Size = new System.Drawing.Size(82, 16);
+            this.CHK_InitialFaraway.TabIndex = 7;
+            this.CHK_InitialFaraway.Text = "Faraway Is.";
+            this.CHK_InitialFaraway.UseVisualStyleBackColor = true;
+            // 
+            // B_GetTickets
+            // 
+            this.B_GetTickets.Location = new System.Drawing.Point(123, 133);
+            this.B_GetTickets.Name = "B_GetTickets";
+            this.B_GetTickets.Size = new System.Drawing.Size(96, 23);
+            this.B_GetTickets.TabIndex = 4;
+            this.B_GetTickets.Text = "Get Tickets";
+            this.B_GetTickets.UseVisualStyleBackColor = true;
+            this.B_GetTickets.Click += new System.EventHandler(this.B_GetTickets_Click);
+            // 
             // SAV_Misc3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(263, 199);
+            this.ClientSize = new System.Drawing.Size(263, 244);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -384,5 +553,19 @@
         private System.Windows.Forms.Label L_BP;
         private System.Windows.Forms.NumericUpDown NUD_Coins;
         private System.Windows.Forms.Label L_Coins;
+        private System.Windows.Forms.TabPage TAB_Ferry;
+        private System.Windows.Forms.GroupBox GB_InitialEvent;
+        private System.Windows.Forms.CheckBox CHK_InitialSouthern;
+        private System.Windows.Forms.CheckBox CHK_InitialNavel;
+        private System.Windows.Forms.CheckBox CHK_InitialBirth;
+        private System.Windows.Forms.CheckBox CHK_InitialFaraway;
+        private System.Windows.Forms.GroupBox GB_Reachable;
+        private System.Windows.Forms.CheckBox CHK_ReachBF;
+        private System.Windows.Forms.CheckBox CHK_ReachFaraway;
+        private System.Windows.Forms.CheckBox CHK_ReachBirth;
+        private System.Windows.Forms.CheckBox CHK_ReachNavel;
+        private System.Windows.Forms.CheckBox CHK_ReachSouthern;
+        private System.Windows.Forms.CheckBox CHK_Catchable;
+        private System.Windows.Forms.Button B_GetTickets;
     }
 }
