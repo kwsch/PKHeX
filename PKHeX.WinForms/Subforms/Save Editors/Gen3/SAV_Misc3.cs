@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -35,10 +36,7 @@ namespace PKHeX.WinForms
             if (tabControl1.Controls.Contains(TAB_Joyful))
                 saveJoyful();
             if (tabControl1.Controls.Contains(TAB_Ferry))
-            {
                 saveFerry();
-                if (Pouches != null) SAV.Inventory = Pouches;
-            }
             if (SAV.FRLG)
                 SAV.setData(SAV.setString(TB_OTName.Text, TB_OTName.MaxLength), SAV.getBlockOffset(4) + 0xBCC);
 
@@ -100,78 +98,58 @@ namespace PKHeX.WinForms
 
         #region Ferry
         private int ofsFerry;
-        private InventoryPouch[] Pouches = null;
         private void B_GetTickets_Click(object sender, EventArgs e)
         {
-            Pouches = SAV.Inventory;
+            var Pouches = SAV.Inventory;
             string[] itemlist = GameInfo.Strings.getItemStrings(SAV.Generation, SAV.Version);
-            bool b = false;
-            int[] targetItems = new int[5] { 0x109, 0x113, 0x172, 0x173, 0x178 };
-            int ai;
-            string AlertMessage = "";
-            foreach (InventoryPouch p in Pouches)
+            for (int i = 0; i < itemlist.Length; i++)
+                if (string.IsNullOrEmpty(itemlist[i]))
+                    itemlist[i] = $"(Item #{i:000})";
+
+            int[] tickets = {0x109, 0x113, 0x172, 0x173, 0x178}; // item IDs
+
+            var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
+            if (p == null)
+                return;
+            
+            // check for missing tickets
+            var missing = tickets.Where(z => !p.Items.Any(item => item.Index == z && item.Count == 1)).ToList();
+            var have = tickets.Except(missing).ToList();
+            if (missing.Count == 0)
             {
-                if (p.Type != InventoryType.KeyItems) continue;
-                foreach (InventoryItem i in p.Items)
-                {
-                    ai = Array.IndexOf(targetItems, i.Index);
-                    if (ai < 0) continue;
-                    if (i.Count <= 0) i.Count = 1;
-                    targetItems[ai] = 0;
-                    if (!Array.Exists(targetItems, v => v > 0))
-                    {
-                        b = true;
-                        break;
-                    }
-                }
-                if (b)
-                {
-                    B_GetTickets.Text = "Already have";
-                    B_GetTickets.Enabled = false;
-                    return;
-                }
-                for (int i = 0; i < itemlist.Length; i++)
-                    if (itemlist[i] == "")
-                        itemlist[i] = $"(Item #{i:000})";
-                for (int t = 0, i = -1; t < targetItems.Length; t++)
-                {
-                    if (targetItems[t] == 0) continue;
-                    for (i++; i < p.Items.Length; i++)
-                    {
-                        if (p.Items[i].Index > 0) continue;
-                        p.Items[i].Index = targetItems[t];
-                        p.Items[i].Count = 1;
-                        p.Items[i].New = true;
-                        AlertMessage += Environment.NewLine + " " + itemlist[targetItems[t]];
-                        targetItems[t] = 0;
-                        break;
-                    }
-                    if (!Array.Exists(targetItems, v => v > 0))
-                        break;
-                }
-                break;
+                WinFormsUtil.Alert("Already have all tickets.");
+                B_GetTickets.Enabled = false;
+                return;
             }
+
+            // check for space
+            int end = Array.FindIndex(p.Items, z => z.Index == 0);
+            if (end + missing.Count >= p.Items.Length)
+            {
+                WinFormsUtil.Alert("Not enough space in pouch.", "Please use the InventoryEditor.");
+                B_GetTickets.Enabled = false;
+                return;
+            }
+
+            // insert items at the end
+            for (int i = 0; i < missing.Count; i++)
+            {
+                var item = p.Items[end + i];
+                item.Index = missing[i];
+                item.Count = 1;
+            }
+
+            var added = string.Join(", ", missing.Select(u => itemlist[u]));
+            string alert = "Inserted the following items to the Key Items Pouch:" + Environment.NewLine + added;
+            if (have.Any())
+            {
+                string had = string.Join(", ", have.Select(u => itemlist[u]));
+                alert += string.Format("{0}{0}Already had the following items:{0}{1}", Environment.NewLine, had);
+            }
+            WinFormsUtil.Alert(alert);
+            SAV.Inventory = Pouches;
+
             B_GetTickets.Enabled = false;
-            if (AlertMessage.Length == 0)
-            {
-                B_GetTickets.Text = "Failed";
-                WinFormsUtil.Alert("Failed. Please use the InventoryEditor.");
-            }
-            else
-            {
-                if (Array.Exists(targetItems, v => v > 0))
-                {
-                    AlertMessage += Environment.NewLine;
-                    AlertMessage += "Failed to get some items. Please use the InventoryEditor.";
-                    foreach (int u in targetItems)
-                    {
-                        if (u == 0) continue;
-                        AlertMessage += Environment.NewLine + " " + itemlist[u];
-                    }
-                }
-                B_GetTickets.Text = "Ready";
-                WinFormsUtil.Alert("Ready to get new items." + AlertMessage);
-            }
         }
         private void readFerry()
         {
