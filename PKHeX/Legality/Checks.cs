@@ -1242,8 +1242,9 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (EncounterMatch != null)
+            if (EncounterMatch != null && (!pkm.Gen3 || pkm.Format ==3))
             {
+                // Gen 3 transfered to 4 could change ability, defer to verifyAbilityPreCapsule
                 // Check Ability Mismatches
                 int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
                                         (EncounterMatch as EncounterTrade)?.Ability ??
@@ -1262,23 +1263,24 @@ namespace PKHeX.Core
                     case 7: verifyAbility7(abilities); break;
                 }
             }
+            var AbilityMatchPID = true;
             if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
-                verifyAbilityPreCapsule(abilities, abilval);
+                AbilityMatchPID = verifyAbilityPreCapsule(abilities, abilval);
 
             if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
-            else if (abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
+            else if (AbilityMatchPID && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
                 AddLine(Severity.Invalid, V114, CheckIdentifier.Ability);
             else
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
         }
-        private void verifyAbilityPreCapsule(int[] abilities, int abilval)
+        private bool verifyAbilityPreCapsule(int[] abilities, int abilval)
         {
             if (pkm.Version == (int)GameVersion.CXD)
             {
                 // TODO for GameCube analysis
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
-                return;
+                return false;
             }
 
             var abilities_count = abilities.Distinct().Count();
@@ -1288,7 +1290,7 @@ namespace PKHeX.Core
                 // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
                 // Do not check for gen 3 pokemon that has evolved into gen 4 species, 
                 // those have evolved in generation 4 or 5 and ability must match PID, not need to check gen 3 data
-                var gen3Species = EvoChainsAllGens[3].LastOrDefault()?.Species ?? 0;
+                var gen3Species = EvoChainsAllGens[3].FirstOrDefault()?.Species ?? 0;
                 if (gen3Species > 0)
                     AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species, abilities_count);
             }
@@ -1296,6 +1298,7 @@ namespace PKHeX.Core
             // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
             if (AbilityMatchPID && pkm.AbilityNumber != 1 << abilval)
                 AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
+            return AbilityMatchPID;
         }
         private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3, int abilities_count)
         {
@@ -1305,11 +1308,17 @@ namespace PKHeX.Core
             var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
             if (abilities_g3.Length == 2)
             {
+                int? EncounterAbility = (EncounterMatch as EncounterTrade)?.Ability ?? null;
+                // If there were two abilities in generation 3 then ability match PID in gen 3 (is impossible not to do it) and will be the same ability if evolved in gen 4-5
+                if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
+                {
+                    AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
+                }
                 // Shadow Colloseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
                 // For non-GC, it has 2 abilities in gen 3, must match PID
                 return pkm.Version != (int)GameVersion.CXD;
             }
-            var Species_g45 = Math.Max(EvoChainsAllGens[4].LastOrDefault()?.Species ?? 0, pkm.Format == 5 ? EvoChainsAllGens[5].LastOrDefault()?.Species ?? 0 : 0);
+            var Species_g45 = Math.Max(EvoChainsAllGens[4].FirstOrDefault()?.Species ?? 0, pkm.Format == 5 ? EvoChainsAllGens[5].FirstOrDefault()?.Species ?? 0 : 0);
             if (Species_g45 > Species_g3)
                 // it have evolved in gen 4 or 5 games, ability must match PID
                 return true;
@@ -2402,7 +2411,9 @@ namespace PKHeX.Core
                 encounters.AddRange(EventGiftMatch.Where(x => (x as IMoveset)?.Moves != null));
             if (null != EncounterStaticMatch)
                 encounters.AddRange(EncounterStaticMatch.Where(x => (x as IMoveset)?.Moves != null));
-            if (null != (EncounterMatch as IMoveset)?.Moves)
+            if (null != (EncounterMatch as EncounterTrade))
+                encounters.Add(EncounterMatch);
+            else if (null != (EncounterMatch as IMoveset)?.Moves)
                 encounters.Add(EncounterMatch);
      
             if (!pkm.IsEgg)
@@ -2576,7 +2587,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i <= splitctr; i++)
                 {
-                    var baseSpecies = Legal.getBaseSpecies(pkm, i);
+                    var baseSpecies = Legal.getBaseEggSpecies(pkm, i);
                     if (baseSpecies != pkm.Species)
                         continue;
 

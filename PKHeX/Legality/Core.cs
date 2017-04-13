@@ -958,7 +958,7 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<int> getBaseEggMoves(PKM pkm, int skipOption, GameVersion gameSource, int lvl)
         {
-            int species = getBaseSpecies(pkm, skipOption);
+            int species = getBaseEggSpecies(pkm, skipOption);
 
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion) pkm.Version;
@@ -1049,7 +1049,7 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<int> getEggMoves(PKM pkm, int skipOption, GameVersion Version)
         {
-            return getEggMoves(pkm, getBaseSpecies(pkm, skipOption), 0, Version);
+            return getEggMoves(pkm, getBaseEggSpecies(pkm, skipOption), 0, Version);
         }
         internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
@@ -1606,7 +1606,7 @@ namespace PKHeX.Core
                 if (t != null && t.TID != 0)
                     return new GBEncounterData(pkm, 2, t); // gen2 trade
                 if (WasEgg && new[] { sm, em, tm }.Min(a => a) >= 5)
-                    return new GBEncounterData(getBaseSpecies(pkm, maxSpeciesOrigin: MaxSpeciesID_2)); // gen2 egg
+                    return new GBEncounterData(getBaseEggSpecies(pkm)); // gen2 egg
             }
             if (em <= sm && em <= tm)
                 return new GBEncounterData(pkm, gen, e.Where(slot => slot.Species == em).OrderBy(slot => slot.LevelMin).First());
@@ -1697,7 +1697,11 @@ namespace PKHeX.Core
         // Generation Specific Fetching
         private static EvolutionTree getEvolutionTable(PKM pkm)
         {
-            switch (pkm.Format)
+            return getEvolutionTable(pkm.Format);
+        }
+        private static EvolutionTree getEvolutionTable(int generation)
+        {
+            switch (generation)
             {
                 case 1:
                     return Evolves1;
@@ -2283,15 +2287,21 @@ namespace PKHeX.Core
                 return true;
             return getValidMoves(pkm, version, getValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
-
-        internal static int getBaseSpecies(PKM pkm, int skipOption = 0, int maxSpeciesOrigin = -1)
+        internal static int getBaseEggSpecies(PKM pkm, int skipOption = 0)
+        {
+            if (pkm.Format == 1)
+                return getBaseSpecies(pkm, skipOption : skipOption, generation : 2);
+            return getBaseSpecies(pkm, skipOption);
+        }
+        internal static int getBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
         {
             if (pkm.Species == 292)
                 return 290;
             if (pkm.Species == 242 && pkm.CurrentLevel < 3) // Never Cleffa
                 return 113;
 
-            var table = getEvolutionTable(pkm);
+            var table = generation != -1 ? getEvolutionTable(generation): getEvolutionTable(pkm);
+            int maxSpeciesOrigin = generation != -1 ? getMaxSpeciesOrigin(generation) : - 1;
             var evos = table.getValidPreEvolutions(pkm, 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
 
             switch (skipOption)
@@ -2350,7 +2360,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 2)
                 return 2;
             
-            if (!pkm.HasOriginalMetLocation)
+            if (!pkm.HasOriginalMetLocation && generation != pkm.GenNumber)
                 return pkm.Met_Level;
 
             if (pkm.GenNumber <= 3)
@@ -2392,7 +2402,7 @@ namespace PKHeX.Core
                     continue;
                 if ((pkm.Gen2 || pkm.VC2) && 3 <= gen && gen <= 6)
                     continue;
-                if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen <= 4 && lvl > pkm.Met_Level)
+                if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen < pkm.Format && gen <= 4 && lvl > pkm.Met_Level)
                 {
                     // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
                     lvl = pkm.Met_Level;
@@ -2430,7 +2440,7 @@ namespace PKHeX.Core
                     //Remove previous evolutions bellow transfer level
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
                     //chain level for charmander is 35, is bellow met level
-                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= lvl).ToArray();
+                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm,gen)).ToArray();
             }
             return GensEvoChains;
         }
