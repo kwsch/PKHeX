@@ -1276,13 +1276,6 @@ namespace PKHeX.Core
         }
         private bool verifyAbilityPreCapsule(int[] abilities, int abilval)
         {
-            if (pkm.Version == (int)GameVersion.CXD)
-            {
-                // TODO for GameCube analysis
-                AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
-                return false;
-            }
-
             var abilities_count = abilities.Distinct().Count();
             var AbilityMatchPID = abilities_count == 2;
             if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
@@ -1308,13 +1301,13 @@ namespace PKHeX.Core
             var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
             if (abilities_g3.Length == 2)
             {
-                int? EncounterAbility = (EncounterMatch as EncounterTrade)?.Ability ?? null;
+                int? EncounterAbility = (EncounterMatch as EncounterTrade)?.Ability;
                 // If there were two abilities in generation 3 then ability match PID in gen 3 (is impossible not to do it) and will be the same ability if evolved in gen 4-5
                 if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
                 {
                     AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
                 }
-                // Shadow Colloseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
+                // Shadow Colosseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
                 // For non-GC, it has 2 abilities in gen 3, must match PID
                 return pkm.Version != (int)GameVersion.CXD;
             }
