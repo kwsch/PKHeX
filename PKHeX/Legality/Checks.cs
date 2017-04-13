@@ -1283,7 +1283,7 @@ namespace PKHeX.Core
                 return false;
             }
 
-            var abilities_count = abilities.Distinct().Count();
+            var abilities_count = abilities.Where(a => a != 0).Distinct().Count();
             var AbilityMatchPID = abilities_count == 2;
             if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
             {
