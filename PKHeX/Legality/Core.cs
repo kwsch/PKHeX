@@ -1148,10 +1148,10 @@ namespace PKHeX.Core
             foreach (var area in getEncounterAreas(pkm, gameSource))
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO, gameSource: gameSource));
 
-            if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || pkm.HasOriginalMetLocation)
+            if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || (pkm.Gen3 && pkm.HasOriginalMetLocation))
                 return s.Any() ? s.ToArray() : null;
 
-            // If has original met location or there is only one possible slot does not check safari zone nor BCC
+            // If has original met location or there is only one possible slot does not check safari zone
             // defer to ball legality
             var IsSafariBall = pkm.Ball == 5;
             var s_Safari = IsSafariBall
@@ -1164,6 +1164,8 @@ namespace PKHeX.Core
             if (s.Count <= 1 || pkm.GenNumber != 4)
                 return s.Any() ? s.ToArray() : null;
 
+            // BCC should be checked even if the pokemon have original met location, there are encounters of the same species
+            // in the national park as both normal wild encounters and contest encounters
             var IsSportsBall = pkm.Ball == 0x18;
             var s_BugContest = IsSportsBall
                 ? s.Where(slot => slot.Type == SlotType.BugContest).ToList()
