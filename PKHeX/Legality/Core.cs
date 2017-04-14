@@ -2455,9 +2455,7 @@ namespace PKHeX.Core
 
             // Evolution chain is in reverse order (devolution)
 
-            if (Encounter is int)
-                minspec = (int)Encounter;
-            else if (Encounter is IEncounterable[])
+            if (Encounter is IEncounterable[])
                 minspec = vs.Reverse().First(s => ((IEncounterable[]) Encounter).Any(slot => slot.Species == s.Species)).Species;
             else if (Encounter is IEncounterable)
                 minspec = vs.Reverse().First(s => ((IEncounterable) Encounter).Species == s.Species).Species;

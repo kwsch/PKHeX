@@ -195,7 +195,7 @@ namespace PKHeX.Core
 
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
-            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch ?? pkm.Species);
+            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
         }
         private void updateEncounterInfo()
         {

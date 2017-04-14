@@ -1242,7 +1242,6 @@ namespace PKHeX.Core
                 return;
             }
 
-
             bool? AbilityUnchanged = true;
             // 3 states flag: true for unchanged, false for changed, null for uncertain/allowing PID mismatch
             // if true, check encounter ability
