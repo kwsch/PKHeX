@@ -368,6 +368,7 @@ namespace PKHeX.Core
         public static string V376 {get; set;} = "{0} Exclusive Move. Incompatible with {1} egg moves.";
         public static string V377 {get; set;} = "Egg Move. Not expected in a gift egg.";
         public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift egg.";
+        public static string V379 {get; set;} = "{0} Inherited Move. Incompatible with {1} inherited moves.";
         #endregion
 
     }

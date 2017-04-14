@@ -3284,7 +3284,7 @@ namespace PKHeX.Core
                 GameVersion ver = gameSource == -1 ? GameVersion.Any : Games[gameSource];
 
                 // Generate & Analyze compatibility
-                res = verifyRelearnEggBase(RelearnMoves, skipOption, ver);
+                res = verifyRelearnEggBase(RelearnMoves, skipOption, splitBreed, ver);
                 if (res.All(r => r.Valid)) // egg is satisfactory
                     break;
             }
@@ -3292,7 +3292,7 @@ namespace PKHeX.Core
             verifyNoEmptyDuplicates(RelearnMoves, res);
             return res;
         }
-        private CheckResult[] verifyRelearnEggBase(int[] RelearnMoves, int skipOption, GameVersion ver)
+        private CheckResult[] verifyRelearnEggBase(int[] RelearnMoves, int skipOption, bool splitBreed, GameVersion ver)
         {
             CheckResult[] res = new CheckResult[4];
 
@@ -3305,6 +3305,12 @@ namespace PKHeX.Core
             var inheritMoves = Legal.getValidRelearn(pkm, skipOption).ToList();
             var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
             int inheritCt = inherited.Count;
+
+
+            //  Obtain alternate split breed species inherited move
+            var splitbreedinvalid = false;
+            var skipOption_alt = !splitBreed ? 0 : skipOption == 1 ? 0 : 1;
+            var inheritMoves_alt =  splitBreed ? Legal.getValidRelearn(pkm, skipOption_alt).ToList() : new List<int>();
 
             // Get required amount of base moves
             int unique = baseMoves.Concat(inherited).Distinct().Count();
@@ -3341,8 +3347,24 @@ namespace PKHeX.Core
                     res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.RelearnMove);
                 else if (inheritMoves.Contains(RelearnMoves[i])) // inherited
                     res[i] = new CheckResult(Severity.Valid, V172, CheckIdentifier.RelearnMove);
+                else if (inheritMoves_alt.Contains(RelearnMoves[i])) // inherited
+                    splitbreedinvalid = true;
                 else // not inheritable, flag
                     res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
+            }
+
+            if(splitbreedinvalid)
+            {
+                var species = specieslist;
+                var splitbreedspecies0 = species[Legal.getBaseEggSpecies(pkm, skipOption)];
+                var splitbreedspecies1 = species[Legal.getBaseEggSpecies(pkm, skipOption_alt)];
+                for (int i = reqBase; i < 4; i++)
+                {
+                    if (inheritMoves.Contains(RelearnMoves[i]) && !inheritMoves_alt.Contains(RelearnMoves[i]))
+                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, splitbreedspecies0, splitbreedspecies1), CheckIdentifier.RelearnMove);
+                    if (!inheritMoves.Contains(RelearnMoves[i]) && inheritMoves_alt.Contains(RelearnMoves[i]))
+                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, splitbreedspecies1, splitbreedspecies0), CheckIdentifier.RelearnMove);
+                }
             }
 
             RelearnBase = baseMoves.ToArray();

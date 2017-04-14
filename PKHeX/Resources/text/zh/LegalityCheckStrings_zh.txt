@@ -308,3 +308,4 @@ V375 = {0} Egg Move. Incompatible with {1} egg moves.
 V376 = {0} Exclusive Move. Incompatible with {1} egg moves.
 V377 = Egg Move. Not expected in a gift egg.
 V378 = Inherited move learned by Level-up. Not expected in a gift egg.
+V379 = {0} Inherited Move. Incompatible with {1} inherited moves.
