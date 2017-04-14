@@ -46,7 +46,7 @@ namespace PKHeX.Core
         internal static readonly int[] G1WeedleMoves = new[] { 40, 81 };
         internal static readonly int[] G1MetapodMoves = G1CaterpieMoves.Concat(new[] { 106 }).ToArray();
         internal static readonly int[] G1KakunaMoves = G1WeedleMoves.Concat(new[] { 106 }).ToArray();
-        internal static readonly int[] G1Exeggcute_IncompatibleMoves = new[] { 78, 77, 76, 79 };
+        internal static readonly int[] G1Exeggcute_IncompatibleMoves = new[] { 78, 77, 79 };
 
         internal static readonly int[] WildPokeBalls1 = {4};
 
