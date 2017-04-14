@@ -443,6 +443,7 @@
             this.B_OpenZygardeCells = new System.Windows.Forms.Button();
             this.B_OpenMiscEditor = new System.Windows.Forms.Button();
             this.B_OpenHoneyTreeEditor = new System.Windows.Forms.Button();
+            this.B_OpenFriendSafari = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -450,7 +451,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.B_OpenFriendSafari = new System.Windows.Forms.Button();
+            this.B_OpenRTCEditor = new System.Windows.Forms.Button();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -5523,6 +5524,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenMiscEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenHoneyTreeEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenRTCEditor);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -5731,6 +5733,16 @@
             this.B_OpenHoneyTreeEditor.UseVisualStyleBackColor = true;
             this.B_OpenHoneyTreeEditor.Click += new System.EventHandler(this.B_OpenHoneyTreeEditor_Click);
             // 
+            // B_OpenFriendSafari
+            // 
+            this.B_OpenFriendSafari.Location = new System.Drawing.Point(189, 177);
+            this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
+            this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenFriendSafari.TabIndex = 28;
+            this.B_OpenFriendSafari.Text = "Friend Safari";
+            this.B_OpenFriendSafari.UseVisualStyleBackColor = true;
+            this.B_OpenFriendSafari.Click += new System.EventHandler(this.B_OpenFriendSafari_Click);
+            // 
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
@@ -5799,15 +5811,15 @@
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
-            // B_OpenFriendSafari
+            // B_OpenRTCEditor
             // 
-            this.B_OpenFriendSafari.Location = new System.Drawing.Point(96, 177);
-            this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
-            this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenFriendSafari.TabIndex = 28;
-            this.B_OpenFriendSafari.Text = "Friend Safari";
-            this.B_OpenFriendSafari.UseVisualStyleBackColor = true;
-            this.B_OpenFriendSafari.Click += new System.EventHandler(this.B_OpenFriendSafari_Click);
+            this.B_OpenRTCEditor.Location = new System.Drawing.Point(3, 206);
+            this.B_OpenRTCEditor.Name = "B_OpenRTCEditor";
+            this.B_OpenRTCEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenRTCEditor.TabIndex = 29;
+            this.B_OpenRTCEditor.Text = "Clock (RTC)";
+            this.B_OpenRTCEditor.UseVisualStyleBackColor = true;
+            this.B_OpenRTCEditor.Click += new System.EventHandler(this.B_OpenRTCEditor_Click);
             // 
             // Main
             // 
@@ -6466,6 +6478,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
         private System.Windows.Forms.Button B_OpenHoneyTreeEditor;
         private System.Windows.Forms.Button B_OpenFriendSafari;
+        private System.Windows.Forms.Button B_OpenRTCEditor;
     }
 }
 

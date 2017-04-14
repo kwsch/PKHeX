@@ -1149,6 +1149,7 @@ namespace PKHeX.WinForms
                 B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP;
 
                 B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
+                B_OpenRTCEditor.Enabled = SAV.RS || SAV.E;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -4206,6 +4207,14 @@ namespace PKHeX.WinForms
                     new SAV_Misc3().ShowDialog(); break;
                 case 4:
                     new SAV_Misc4().ShowDialog(); break;
+            }
+        }
+        private void B_OpenRTCEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Generation)
+            {
+                case 3:
+                    new SAV_RTC3().ShowDialog(); break;
             }
         }
         private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e)
