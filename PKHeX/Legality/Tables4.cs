@@ -200,8 +200,29 @@ namespace PKHeX.Core
             new[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 }
         };
 
+        #region Encounter Types
+        internal static readonly int[] DPPt_CaveLocations =
+        {
+            46, // Oreburgh Mine
+            50, // Mt. Coronet
+            53, // Solaceon Ruins
+            54, // Sinnoh Victory Road
+            57, // Ravaged Path
+            59, // Oreburgh Gate
+            62, // Turnback Cave
+            64, // Snowpoint Temple
+            65, // Wayward Cave
+            66, // Ruin Maniac Cave
+            69, // Iron Island
+            84, // Stark Mountain
+        };
+        internal static readonly int[] DPPt_BuildingLocations =
+        {
+            70, // Old Chateau
+        };
+        #endregion
         #region Pokéwalker Encounter
-        // all pkm are in Poke Ball and have a met location of "PokeWalker"
+            // all pkm are in Poke Ball and have a met location of "PokeWalker"
         internal static readonly EncounterStatic[] Encounter_PokeWalker =
         {
             // Some pkm has a pre-level move, an egg move or even a special move, it might be also available via HM/TM/Tutor
