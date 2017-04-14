@@ -1242,17 +1242,28 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (EncounterMatch != null && (!pkm.Gen3 || pkm.Format ==3))
+            bool? AbilityUnchanged = true;
+            // 3 states flag: true for unchanged, false for changed, null for uncertain/allowing PID mismatch
+            // if true, check encounter ability
+            // if true or false, check PID/AbilityNumber
+            if (3 <= pkm.Format && pkm.Format <= 5 && abilities[0] != abilities[1]) // 3-5 and have 2 distinct ability now
+                AbilityUnchanged = verifyAbilityPreCapsule(abilities, abilval);
+
+            if (EncounterMatch != null)
             {
-                // Gen 3 transfered to 4 could change ability, defer to verifyAbilityPreCapsule
                 // Check Ability Mismatches
                 int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
                                         (EncounterMatch as EncounterTrade)?.Ability ??
                                         (EncounterMatch as EncounterLink)?.Ability;
 
-                if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
+                if ((AbilityUnchanged ?? false) && EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
                 {
-                    AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
+                    if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) //Ability Capsule
+                        AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+                    else if (pkm.Gen3 && EncounterMatch is EncounterTrade && EncounterAbility == 1 << abilval) // Edge case (Static PID?)
+                        AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+                    else
+                        AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
                     return;
                 }
 
@@ -1263,58 +1274,47 @@ namespace PKHeX.Core
                     case 7: verifyAbility7(abilities); break;
                 }
             }
-            var AbilityMatchPID = true;
-            if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
-                AbilityMatchPID = verifyAbilityPreCapsule(abilities, abilval);
 
             if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
-            else if (AbilityMatchPID && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
-                AddLine(Severity.Invalid, V114, CheckIdentifier.Ability);
+            else if (AbilityUnchanged != null && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
+                AddLine(Severity.Invalid, pkm.Format < 6 ? V113 : V114, CheckIdentifier.Ability);
             else
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
         }
-        private bool verifyAbilityPreCapsule(int[] abilities, int abilval)
+        private bool? verifyAbilityPreCapsule(int[] abilities, int abilval)
         {
-            var abilities_count = abilities.Distinct().Count();
-            var AbilityMatchPID = abilities_count == 2;
-            if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
-            {
-                // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
-                // Do not check for gen 3 pokemon that has evolved into gen 4 species, 
-                // those have evolved in generation 4 or 5 and ability must match PID, not need to check gen 3 data
-                var gen3Species = EvoChainsAllGens[3].FirstOrDefault()?.Species ?? 0;
-                if (gen3Species > 0)
-                    AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species, abilities_count);
-            }
-            
-            // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
-            if (AbilityMatchPID && pkm.AbilityNumber != 1 << abilval)
-                AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
-            return AbilityMatchPID;
-        }
-        private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3, int abilities_count)
-        {
-            if (abilities_count == 1)
-                // Only one ability in generation 4-5
+            // Shadow Colosseum pokemon could habe any PID without maching PID
+            if (pkm.Version == (int)GameVersion.CXD && pkm.Format == 3)
+                return null;
+
+            // gen3 native or gen4/5 origin
+            if (pkm.Format == 3 || !pkm.InhabitedGeneration(3))
+                return true;
+
+            // Evovled in gen4/5
+            if (pkm.Species > Legal.MaxSpeciesID_3)
                 return false;
-            var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
+
+            // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
+            var gen3Species = EvoChainsAllGens[3].FirstOrDefault()?.Species ?? 0;
+            if (gen3Species == 0)
+                return true;
+
+            // Fall through when gen3 pkm transferred to gen4/5
+            return verifyAbilityGen3Transfer(abilities, abilval, gen3Species);
+        }
+        private bool? verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3)
+        {
+            var abilities_g3 = PersonalTable.E[Species_g3].Abilities.Where(a => a != 0).Distinct().ToArray();
             if (abilities_g3.Length == 2)
-            {
-                int? EncounterAbility = (EncounterMatch as EncounterTrade)?.Ability;
-                // If there were two abilities in generation 3 then ability match PID in gen 3 (is impossible not to do it) and will be the same ability if evolved in gen 4-5
-                if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
-                {
-                    AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
-                }
-                // Shadow Colosseum pokemon could habe any PID without maching PID if has 2 abilities in generation 3
                 // For non-GC, it has 2 abilities in gen 3, must match PID
                 return pkm.Version != (int)GameVersion.CXD;
-            }
+
             var Species_g45 = Math.Max(EvoChainsAllGens[4].FirstOrDefault()?.Species ?? 0, pkm.Format == 5 ? EvoChainsAllGens[5].FirstOrDefault()?.Species ?? 0 : 0);
             if (Species_g45 > Species_g3)
                 // it have evolved in gen 4 or 5 games, ability must match PID
-                return true;
+                return false;
 
             var Evolutions_g45 = Math.Max(EvoChainsAllGens[4].Length, pkm.Format == 5 ? EvoChainsAllGens[5].Length : 0);
             if (Evolutions_g45 > 1)
@@ -1323,18 +1323,18 @@ namespace PKHeX.Core
                 if (pkm.Ability == abilities_g3[0])
                     // It could evolve in gen 4-5 an have generation 3 only ability
                     // that means it have not actually evolved in gen 4-5, ability do not need to match PID
-                    return false;
+                    return null;
                 if (pkm.Ability == abilities[1])
                     // It could evolve in gen4-5 an have generation 4 second ability
                     // that means it have actually evolved in gen 4-5, ability must match PID
-                    return true;
+                    return false;
             }
             // Evolutions_g45 == 1 means it have not evolved in gen 4-5 games, 
             // ability do not need to match PID, but only generation 3 ability is allowed
             if (pkm.Ability != abilities_g3[0]) 
                 // Not evolved in gen4-5 but do not have generation 3 only ability
                 AddLine(Severity.Invalid, V373, CheckIdentifier.Ability);
-            return false;
+            return null;
         }
         private void verifyAbility5(int[] abilities)
         {
