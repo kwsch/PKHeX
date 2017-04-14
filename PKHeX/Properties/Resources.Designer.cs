@@ -12354,7 +12354,7 @@ namespace PKHeX.Core.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to 148	Starter	00:Rowlet,01:Litten,02:Popplio
-        ///432	Tapu Koku	03:Battleable,04:Defeated,05:Captured
+        ///432	Tapu Koko	03:Battleable,04:Defeated,05:Captured
         ///433	Tapu Lele	01:Battleable,02:Defeated,03:Captured
         ///434	Tapu Bulu	01:Battleable,02:Defeated,03:Captured
         ///404	Tapu Fini	03:Battleable,04:Defeated,05:Captured.
@@ -18189,14 +18189,14 @@ namespace PKHeX.Core.Properties {
         ///V175 = 特殊不可回忆招式。
         ///V177 = 通过升级习得。
         ///V330 = 在第{0}世代通过升级习得。
+        ///V331 = 在第{0}世代通过TM/HM习得。
         ///V332 = 在第{0}世代通过招式教学习得。
         ///V333 = 配信蛋招式。
         ///V344 = 遗传了蛋招式。
         ///V345 = 遗传了升级招式。
         ///V346 = 遗传了教学招式。
         ///V349 = 遗传了TM/HM招式。
-        ///V355 = 通过土居忍士进化为铁面忍者习得。
-        ///V356 = 通过土居忍士在第{0}世 [rest of string was truncated]&quot;;.
+        ///V355 = 通过土居忍士进化为铁面 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LegalityCheckStrings_zh {
             get {
@@ -19760,9 +19760,9 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap slotDel1 {
+        public static System.Drawing.Bitmap slotDrag {
             get {
-                object obj = ResourceManager.GetObject("slotDel1", resourceCulture);
+                object obj = ResourceManager.GetObject("slotDrag", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -19770,9 +19770,9 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap slotDrag {
+        public static System.Drawing.Bitmap slotHover {
             get {
-                object obj = ResourceManager.GetObject("slotDrag", resourceCulture);
+                object obj = ResourceManager.GetObject("slotHover", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -19790,16 +19790,6 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap slotSet1 {
-            get {
-                object obj = ResourceManager.GetObject("slotSet1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap slotTrans {
             get {
                 object obj = ResourceManager.GetObject("slotTrans", resourceCulture);
@@ -19810,29 +19800,9 @@ namespace PKHeX.Core.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap slotTrans1 {
-            get {
-                object obj = ResourceManager.GetObject("slotTrans1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap slotView {
             get {
                 object obj = ResourceManager.GetObject("slotView", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap slotView1 {
-            get {
-                object obj = ResourceManager.GetObject("slotView1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -23151,7 +23121,7 @@ namespace PKHeX.Core.Properties {
         ///迷幻森林
         ///试炼之室
         ///引导之间
-        ///潜入连接
+        ///连入之森
         ///雷文市
         ///帆巴市
         /// [rest of string was truncated]&quot;;.

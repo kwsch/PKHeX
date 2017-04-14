@@ -6364,18 +6364,6 @@
   <data name="box_wp24xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\box\xy\box_wp24xy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="slotDel1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\slotDel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotSet1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\slotSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotTrans1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\slotTrans.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotView1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\box\slotView.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="item_tm" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\item\item_tm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -7566,5 +7554,8 @@
   </data>
   <data name="text_Char_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_Char_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="slotHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\slotHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -258,6 +258,12 @@
     <Compile Include="Subforms\Save Editors\Gen3\SAV_Misc3.Designer.cs">
       <DependentUpon>SAV_Misc3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen3\SAV_RTC3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen3\SAV_RTC3.Designer.cs">
+      <DependentUpon>SAV_RTC3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -509,6 +515,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen3\SAV_Misc3.resx">
       <DependentUpon>SAV_Misc3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen3\SAV_RTC3.resx">
+      <DependentUpon>SAV_RTC3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.resx">
       <DependentUpon>SAV_HoneyTree.cs</DependentUpon>

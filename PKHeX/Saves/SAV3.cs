@@ -618,5 +618,57 @@ namespace PKHeX.Core
             eBerryChecksumValid = eBerryChecksum == chk;
         }
         #endregion
+
+        // RTC
+        public class RTC3
+        {
+            public readonly byte[] Data;
+            private const int Size = 8;
+            public RTC3(byte[] data = null)
+            {
+                if (data == null || data.Length != Size)
+                    data = new byte[8];
+                Data = data;
+            }
+
+            public int Day { get { return BitConverter.ToUInt16(Data, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); } }
+            public int Hour { get { return Data[2]; } set { Data[2] = (byte)value; } }
+            public int Minute { get { return Data[3]; } set { Data[3] = (byte)value; } }
+            public int Second { get { return Data[4]; } set { Data[4] = (byte)value; } }
+        }
+        public RTC3 ClockInitial
+        {
+            get
+            {
+                if (FRLG)
+                    return null;
+                int block0 = getBlockOffset(0);
+                return new RTC3(getData(block0 + 0x98, 8));
+            }
+            set
+            {
+                if (value?.Data == null || FRLG)
+                    return;
+                int block0 = getBlockOffset(0);
+                setData(value.Data, block0 + 0x98);
+            }
+        }
+        public RTC3 ClockElapsed
+        {
+            get
+            {
+                if (FRLG)
+                    return null;
+                int block0 = getBlockOffset(0);
+                return new RTC3(getData(block0 + 0xA0, 8));
+            }
+            set
+            {
+                if (value?.Data == null || FRLG)
+                    return;
+                int block0 = getBlockOffset(0);
+                setData(value.Data, block0 + 0xA0);
+            }
+        }
     }
 }

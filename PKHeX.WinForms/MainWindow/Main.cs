@@ -1149,6 +1149,7 @@ namespace PKHeX.WinForms
                 B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP;
 
                 B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
+                B_OpenRTCEditor.Enabled = SAV.RS || SAV.E;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -3313,13 +3314,16 @@ namespace PKHeX.WinForms
             e.Effect = DragDropEffects.Move;
         }
         // Dragout Display
-        private void dragoutHover(object sender, EventArgs e)
+        private void dragoutEnter(object sender, EventArgs e)
         {
             dragout.BackgroundImage = WinFormsUtil.getIndex(CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
+            Cursor = Cursors.Hand;
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
             dragout.BackgroundImage = Resources.slotTrans;
+            if (Cursor == Cursors.Hand)
+                Cursor = Cursors.Default;
         }
         private void dragoutDrop(object sender, DragEventArgs e)
         {
@@ -4208,6 +4212,14 @@ namespace PKHeX.WinForms
                     new SAV_Misc4().ShowDialog(); break;
             }
         }
+        private void B_OpenRTCEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Generation)
+            {
+                case 3:
+                    new SAV_RTC3().ShowDialog(); break;
+            }
+        }
         private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e)
         {
             switch (SAV.Version)
@@ -4313,6 +4325,25 @@ namespace PKHeX.WinForms
         }
 
         // Drag and drop related functions
+        private static Image OriginalBackground;
+        private static Image CurrentBackground;
+        private void pbBoxSlot_MouseEnter(object sender, EventArgs e)
+        {
+            var pb = (PictureBox) sender;
+            if (pb.Image == null)
+                return;
+            OriginalBackground = pb.BackgroundImage;
+            pb.BackgroundImage = CurrentBackground = Resources.slotHover;
+            Cursor = Cursors.Hand;
+        }
+        private void pbBoxSlot_MouseLeave(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            if (pb.BackgroundImage != CurrentBackground)
+                return;
+            pb.BackgroundImage = OriginalBackground;
+            Cursor = Cursors.Default;
+        }
         private void pbBoxSlot_MouseClick(object sender, MouseEventArgs e)
         {
             if (!DragInfo.slotDragDropInProgress)
