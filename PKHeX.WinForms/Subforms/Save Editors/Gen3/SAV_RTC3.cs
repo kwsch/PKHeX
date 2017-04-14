@@ -12,7 +12,6 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
-            int block0 = SAV.getBlockOffset(0);
             ClockInitial = SAV.ClockInitial;
             ClockElapsed = SAV.ClockElapsed;
             loadData();
