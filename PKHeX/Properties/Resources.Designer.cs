@@ -18166,6 +18166,37 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to V = Valid.
+        ///V193 = 존재 가능합니다!
+        ///V190 = 내부 오류입니다.
+        ///V189 = 이 포켓몬을 분석할 수 없습니다.
+        ///V196 = {0}: {1}
+        ///V191 = {0} 기술 {1}: {2}
+        ///V192 = {0} 다시 배운 기술 {1}: {2}
+        ///V195 = 인카운터 유형: {0}
+        ///V500 = 판단 불가능
+        ///V501 = 사용 불가능
+        ///V502 = 의심
+        ///V503 = 사용 가능
+        ///V504 = 미구현
+        ///V205 = 어버이 (OT)
+        ///V206 = 소유했던 트레이너 (HT)
+        ///V167 = 비어 있는 기술입니다.
+        ///V171 = 자력기입니다.
+        ///V172 = 기술 떠올리기 기술입니다.
+        ///V173 = 기술머신/비전머신 기술입니다.
+        ///V174 = 기술 가르침 기술입니다.
+        ///V175 = 다시 배울 수 없는 특별한 기술입니다.
+        ///V177 = 레벨업 기술입니다.
+        ///V330 = {0}세대 레[생략]&quot;;.
+        /// </summary>
+        public static string LegalityCheckStrings_ko {
+            get {
+                return ResourceManager.GetString("LegalityCheckStrings_ko", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to V = 有效。
         ///V193 = 合法。
         ///V190 = 内部错误。

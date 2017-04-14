@@ -1047,6 +1047,56 @@ namespace PKHeX.Core
             }
             return null;
         }
+        internal static List<int>[] getExclusiveEvolutionMoves(PKM pkm, int Species,DexLevel[][] evoChains, GameVersion Version)
+        {
+            // Return moves that the pokemon could only learn throught the preevolution Species
+            List<int>[] Moves = new List<int>[evoChains.Length];
+            for (int i = 1; i < evoChains.Length; i++)
+                if (evoChains[i].Any())
+                    Moves[i] = getExclusiveEvolutionMoves(pkm, Species, evoChains[i], i, Version).ToList();
+                else
+                    Moves[i] = new List<int>();
+            return Moves;
+        }
+        internal static IEnumerable<int> getExclusiveEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        {
+            var preevomoves = new List<int>();
+            var evomoves = new List<int>();
+            var index = Array.FindIndex(evoChain, e => e.Species == Species);
+            for(int i =0; i < evoChain.Length; i++)
+            {
+                var evo = evoChain[i];
+                var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: false, RemoveTransferHM: false, Generation: Generation);
+                if (i >= index)
+                    // Moves from Species or any species bellow in the evolution phase
+                    preevomoves.AddRange(moves);
+                else
+                    // Moves in phase evolutions after the limit species, this moves should be removed
+                    evomoves.AddRange(moves);
+            }
+            preevomoves.RemoveAll(x => evomoves.Contains(x));
+            return preevomoves.Distinct().ToList();
+        }
+        internal static List<int>[] getBaseEggMoves(PKM pkm, GameVersion gameSource, int lvl)
+        {
+            if (SplitBreed.Contains(pkm.Species))
+                return new[]
+                {
+                     getBaseEggMoves(pkm, 0, gameSource,lvl).ToList(),
+                     getBaseEggMoves(pkm, 1, gameSource,lvl).ToList(),
+                };
+            return new[] { getBaseEggMoves(pkm, 0, gameSource, lvl).ToList(), };
+        }
+        internal static List<int>[] getEggMoves(PKM pkm, GameVersion Version)
+        {
+            if (SplitBreed.Contains(pkm.Species))
+                return new[]
+                {
+                     getEggMoves(pkm, getBaseEggSpecies(pkm, 0), 0, Version).ToList(),
+                     getEggMoves(pkm, getBaseEggSpecies(pkm, 1), 0, Version).ToList()
+                };
+            return new[] { getEggMoves(pkm, getBaseEggSpecies(pkm, 0), 0, Version).ToList() };
+        }
         internal static IEnumerable<int> getEggMoves(PKM pkm, int skipOption, GameVersion Version)
         {
             return getEggMoves(pkm, getBaseEggSpecies(pkm, skipOption), 0, Version);
@@ -3378,6 +3428,20 @@ namespace PKHeX.Core
                     break;
             }
             return moves.Distinct();
+        }
+        internal static List<int>[] GetEmptyMovesList(DexLevel[][] EvoChainsAllGens)
+        {
+            var empty = new List<int>[EvoChainsAllGens.Length];
+            for (int i = 0; i < empty.Length; i++)
+                empty[i] = new List<int>();
+            return empty;
+        }
+
+        internal static List<int>[] GetEmptyEggMovesList()
+        {
+            var emptyegg = new List<int>[1];
+            emptyegg[0] = new List<int>();
+            return emptyegg;
         }
     }
 }
