@@ -923,7 +923,8 @@ namespace PKHeX.Core
                 form = 0;
 
             r.AddRange(getEggMoves(pkm, species, form));
-            r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
+            if(pkm.Species != 489)
+                r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
         internal static List<int>[] getShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
