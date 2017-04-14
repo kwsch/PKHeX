@@ -3526,6 +3526,7 @@
     <None Include="Resources\text\zh\text_Char_zh2.txt" />
     <None Include="Resources\text\zh\text_Char_zh.txt" />
     <None Include="Resources\text\en\LegalityCheckStrings_en.txt" />
+    <None Include="Resources\text\ko\LegalityCheckStrings_ko.txt" />
     <None Include="Resources\text\zh\LegalityCheckStrings_zh.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

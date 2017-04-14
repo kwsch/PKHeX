@@ -81,16 +81,16 @@ Label_3DSRegion = 3DS 국적:
 ---------------------Met Tab Data-----------------------
 Tab_Met = 만남
 Label_OriginGame = 만난 게임:
-Label_MetLocation = 만난 위치:
+Label_MetLocation = 만난 장소:
 Label_Ball = 볼 종류:
 Label_MetLevel = 만난 레벨:
 Label_MetDate = 만난 날짜:
-Label_EncounterType = 조우:
+Label_EncounterType = 인카운터:
 CHK_Fateful = 운명적인 만남
 ---------------------Egg Met Data-----------------------
 CHK_AsEgg = 알에서 태어남
 GB_EggConditions = 알을 만난 조건
-Label_EggLocation = 위치:
+Label_EggLocation = 장소:
 Label_EggDate = 날짜:
 --------------------Stats Tab Data----------------------
 Tab_Stats = 능력치
@@ -110,7 +110,7 @@ Label_HiddenPowerPrefix = 잠재파워 속성:
 Label_CharacteristicPrefix = 특징:
 BTN_RandomIVs = IV 무작위 분배
 BTN_RandomEVs = EV 무작위 분배
-Label_ContestStats = 콘테스트 능력치
+Label_ContestStats = 컨디션
 Label_Cool = 근사함
 Label_Beauty = 아름다움
 Label_Cute = 귀여움
