@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
             Label_OTGender.ForeColor = pk3.OT_Gender == 1 ? Color.Red : Color.Blue;
             TB_PID.Text = pk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk3.HeldItem;
-            int abil = pk3.AbilityNumber >> 1;
+            int abil = pk3.AbilityBit;
             CB_Ability.SelectedIndex = abil > CB_Ability.Items.Count ? 0 : abil;
             CB_Nature.SelectedValue = pk3.Nature;
             TB_TID.Text = pk3.TID.ToString("00000");
