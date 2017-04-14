@@ -1252,7 +1252,10 @@ namespace PKHeX.Core
 
                 if (EncounterAbility != null && EncounterAbility != 0 && pkm.AbilityNumber != EncounterAbility)
                 {
-                    AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
+                    if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) //Ability Capsule
+                        AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+                    else
+                        AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
                     return;
                 }
 
@@ -1264,20 +1267,19 @@ namespace PKHeX.Core
                 }
             }
             var AbilityMatchPID = true;
-            if (3 <= pkm.Format && pkm.Format <= 5) // 3-5
+            if (3 <= pkm.Format && pkm.Format <= 5 && abilities[0] != abilities[1]) // 3-5 and have 2 distinct ability now
                 AbilityMatchPID = verifyAbilityPreCapsule(abilities, abilval);
 
             if (3 <= pkm.GenNumber && pkm.GenNumber <= 4 && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
             else if (AbilityMatchPID && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
-                AddLine(Severity.Invalid, V114, CheckIdentifier.Ability);
+                AddLine(Severity.Invalid, pkm.Format < 6 ? V113 : V114, CheckIdentifier.Ability);
             else
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
         }
         private bool verifyAbilityPreCapsule(int[] abilities, int abilval)
         {
-            var abilities_count = abilities.Distinct().Count();
-            var AbilityMatchPID = abilities_count == 2;
+            bool AbilityMatchPID = true;
             if (pkm.Format >= 4 && pkm.InhabitedGeneration(3) && pkm.Species <= Legal.MaxSpeciesID_3)
             {
                 // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
@@ -1285,20 +1287,14 @@ namespace PKHeX.Core
                 // those have evolved in generation 4 or 5 and ability must match PID, not need to check gen 3 data
                 var gen3Species = EvoChainsAllGens[3].FirstOrDefault()?.Species ?? 0;
                 if (gen3Species > 0)
-                    AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species, abilities_count);
+                    AbilityMatchPID = verifyAbilityGen3Transfer(abilities, abilval, gen3Species);
             }
             
-            // Gen 4,5 pokemon or gen 3 pokemon evolved in gen 4,5 games, ability must match PID
-            if (AbilityMatchPID && pkm.AbilityNumber != 1 << abilval)
-                AddLine(Severity.Invalid, V113, CheckIdentifier.Ability);
             return AbilityMatchPID;
         }
-        private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3, int abilities_count)
+        private bool verifyAbilityGen3Transfer(int[] abilities, int abilval, int Species_g3)
         {
-            if (abilities_count == 1)
-                // Only one ability in generation 4-5
-                return false;
-            var abilities_g3 = PersonalTable.E.getAbilities(Species_g3, pkm.AltForm).Where(a => a != 0).Distinct().ToArray();
+            var abilities_g3 = PersonalTable.E[Species_g3].Abilities.Where(a => a != 0).Distinct().ToArray();
             if (abilities_g3.Length == 2)
             {
                 int? EncounterAbility = (EncounterMatch as EncounterTrade)?.Ability;
