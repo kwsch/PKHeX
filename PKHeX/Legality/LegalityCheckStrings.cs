@@ -364,6 +364,10 @@ namespace PKHeX.Core
         public static string V371 {get; set;} = "American E-Reader Berry in Japanese savegame.";
         public static string V373 {get; set;} = "Ability does not match generation 3 species ability.";
         public static string V374 {get; set;} = "Invalid egg hatch cycles.";
+        public static string V375 {get; set;} = "{0} Egg Move. Incompatible with {1} egg moves.";
+        public static string V376 {get; set;} = "{0} Exclusive Move. Incompatible with {1} egg moves.";
+        public static string V377 {get; set;} = "Egg Move. Not expected in a gift egg.";
+        public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift egg.";
         #endregion
 
     }

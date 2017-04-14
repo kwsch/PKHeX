@@ -3431,5 +3431,19 @@ namespace PKHeX.Core
             }
             return moves.Distinct();
         }
+        internal static List<int>[] GetEmptyMovesList(DexLevel[][] EvoChainsAllGens)
+        {
+            var empty = new List<int>[EvoChainsAllGens.Length];
+            for (int i = 0; i < empty.Length; i++)
+                empty[i] = new List<int>();
+            return empty;
+        }
+
+        internal static List<int>[] GetEmptyEggMovesList()
+        {
+            var emptyegg = new List<int>[1];
+            emptyegg[0] = new List<int>();
+            return emptyegg;
+        }
     }
 }
