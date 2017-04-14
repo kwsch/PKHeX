@@ -1261,6 +1261,8 @@ namespace PKHeX.Core
                 {
                     if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) //Ability Capsule
                         AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
+                    else if (pkm.Gen3 && EncounterMatch is EncounterTrade && EncounterAbility == 1 << abilval) // Edge case (Static PID?)
+                        AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
                     else
                         AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
                     return;
