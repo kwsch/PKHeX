@@ -195,15 +195,14 @@ namespace PKHeX.Core
 
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
-            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
+            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch ?? pkm.Species);
         }
         private void updateEncounterInfo()
         {
             if (pkm.VC && pkm.Format == 7)
                 EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
-            EncounterMatch = EncounterMatch ?? pkm.Species;
 
-            EncounterType = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
+            EncounterType = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
             if (EncounterType == typeof (MysteryGift))
                 EncounterType = EncounterType?.BaseType;
         }
