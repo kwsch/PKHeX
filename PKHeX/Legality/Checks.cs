@@ -2642,10 +2642,10 @@ namespace PKHeX.Core
                     Games = getBaseMovesIsEggGames();
                     break;
                 case 4:
-                    Games = new[] { GameVersion.DP, GameVersion.Pt, GameVersion.HGSS };
+                    Games = new[] { GameVersion.HGSS };
                     break;
                 case 5:
-                    Games = new[] { GameVersion.BW, GameVersion.B2W2 };
+                    Games = new[] { GameVersion.B2W2 };
                     break;
             }
             int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
