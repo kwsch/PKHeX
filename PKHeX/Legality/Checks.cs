@@ -3026,9 +3026,9 @@ namespace PKHeX.Core
         private void ParseRedYellowIncompatibleMoves(int[] moves, ref CheckResult[] res)
         {
             var incompatible = new List<int>();
-            if (pkm.Species == 134 && moves.Contains(151) && pkm.CurrentLevel < 47)
+            if (pkm.Species == 134 && pkm.CurrentLevel < 47 && moves.Contains(151))
             {
-                // Vaporeon in Yellow learn Mist and Acid Armor at level 42, Mist only if level up in day-care
+                // Vaporeon in Yellow learn Mist and Haze at level 42, Mist only if level up in day-care
                 // Vaporeon in Red Blue learn Acid Armor at level 42 and level 47 in Yellow
                 if (moves.Contains(54))
                     incompatible.Add(54);
@@ -3037,7 +3037,7 @@ namespace PKHeX.Core
                 if (incompatible.Any())
                     incompatible.Add(151);
             }
-            if (pkm.Species == 136 && moves.Contains(43) && moves.Contains(123) && pkm.CurrentLevel < 47)
+            if (pkm.Species == 136 &&  pkm.CurrentLevel < 47 && moves.Contains(43) && moves.Contains(123))
             {
                 // Flareon in Yellow learn Smog at level 42
                 // Flareon in Red Blue learn Leer at level 42 and level 47 in Yellow
@@ -3069,7 +3069,7 @@ namespace PKHeX.Core
             if (pkm.Species == 103 && moves.Contains(23) && moves.Any(m => Legal.G1Exeggcute_IncompatibleMoves.Contains(moves[m])))
             {
                 // Exeggutor learns stomp at level 28
-                // Exeggcute learns Stun Spore at 32, PoisonPowder at 37, SolarBeam at 42 and Sleep Powder at 48
+                // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
                 incompatible_current.Add(23);
                 incompatible_previous.AddRange(Legal.G1Exeggcute_IncompatibleMoves);
                 previousspecies = species[103];
@@ -3092,12 +3092,6 @@ namespace PKHeX.Core
                     // There is a eevee move with a greather level that current evolution move
                     if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
                         incompatible_current.Add(ExclusiveMoves[1][i]);
-                }
-                // Vaporeon Mist and Eevee Take Down, special case, they are learned at the same level, but Mist only in daycare
-                if (pkm.Species == 134 && moves.Contains(36) && moves.Contains(54)) 
-                {
-                    incompatible_current.Add(54);
-                    incompatible_previous.Add(36);
                 }
             }
 
