@@ -1125,69 +1125,47 @@ namespace PKHeX.Core
             }
 
             // Check Event Ribbons
-            var RibbonData = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-            MysteryGift MatchedGift = EncounterMatch as MysteryGift;
-            string[] EventRib =
+            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
+            var set1 = pkm as IRibbonSet1;
+            if (set1 != null)
             {
-                nameof(PK6.RibbonCountry), nameof(PK6.RibbonNational), nameof(PK6.RibbonEarth), nameof(PK6.RibbonWorld), nameof(PK6.RibbonClassic),
-                nameof(PK6.RibbonPremier), nameof(PK6.RibbonEvent), nameof(PK6.RibbonBirthday), nameof(PK6.RibbonSpecial), nameof(PK6.RibbonSouvenir),
-                nameof(PK6.RibbonWishing), nameof(PK6.RibbonChampionBattle), nameof(PK6.RibbonChampionRegional), nameof(PK6.RibbonChampionNational), nameof(PK6.RibbonChampionWorld)
-            };
-            if (MatchedGift != null) // Wonder Card
-            {
-                var mgRibbons = MatchedGift.Format == 4 ? EventRib : ReflectUtil.getPropertiesStartWithPrefix(MatchedGift.Content.GetType(), "Ribbon");
-                var commonRibbons = mgRibbons.Intersect(RibbonData).ToArray();
+                var sb = RibbonSetHelper.getRibbonBits(set1);
+                var enc1 = encounterContent as IRibbonSet1;
+                var eb = RibbonSetHelper.getRibbonBits(enc1);
 
-                foreach (string r in commonRibbons)
+                if (pkm.Gen3)
+                    eb[0] = sb[0]; // permit Earth Ribbon
+                if (pkm.Version == 15)
+                    eb[1] = true; // require National Ribbon TODO: shadow pkm only
+
+                for (int i = 0; i < sb.Length; i++)
                 {
-                    bool? pk = ReflectUtil.getBooleanState(pkm, r);
-                    bool? mg = ReflectUtil.getBooleanState(MatchedGift.Content, r);
-                    if (pk != mg) // Mismatch
-                    {
-                        if (pk ?? false)
-                            missingRibbons.Add(r);
-                        else
-                            invalidRibbons.Add(r);
-                    }
-                }
-            }
-            else if (EncounterType == typeof(EncounterLink))
-            {
-                // No Event Ribbons except Classic (unless otherwise specified, ie not for Demo)
-                for (int i = 0; i < EventRib.Length; i++)
-                {
-                    if (i == 4)
+                    if (sb[i] == eb[i]) // valid
                         continue;
-
-                    if (ReflectUtil.getBooleanState(pkm, EventRib[i]) == true)
-                        invalidRibbons.Add(EventRibName[i]);
+                    var list = eb[i] ? missingRibbons : invalidRibbons;
+                    list.Add(RibbonSetHelper.getRibbonNames(set1, i));
                 }
-
-                bool classic = ReflectUtil.getBooleanState(pkm, EventRib[4]) == true;
-                if (classic ^ ((EncounterLink)EncounterMatch).Classic)
-                    (classic ? invalidRibbons : missingRibbons).Add(EventRibName[4]);
             }
-            else if (EncounterType == typeof(EncounterStatic))
+
+            var set2 = pkm as IRibbonSet2;
+            if (set2 != null)
             {
-                // No Event Ribbons except Wishing (which is only for Magearna)
-                for (int i = 0; i < EventRib.Length; i++)
+                var sb = RibbonSetHelper.getRibbonBits(set2);
+                var enc2 = encounterContent as IRibbonSet2;
+                var eb = RibbonSetHelper.getRibbonBits(enc2);
+
+                if (EncounterMatch is EncounterLink)
+                    eb[0] = true; // require Classic Ribbon
+                if ((EncounterMatch as EncounterStatic)?.RibbonWishing ?? false)
+                    eb[1] = true; // require Wishing Ribbon
+
+                for (int i = 0; i < sb.Length; i++)
                 {
-                    if (i == 10)
+                    if (sb[i] == eb[i]) // valid
                         continue;
-
-                    if (ReflectUtil.getBooleanState(pkm, EventRib[i]) == true)
-                        invalidRibbons.Add(EventRibName[i]);
+                    var list = eb[i] ? missingRibbons : invalidRibbons;
+                    list.Add(RibbonSetHelper.getRibbonNames(set2, i));
                 }
-
-                bool wishing = ReflectUtil.getBooleanState(pkm, EventRib[10]) == true;
-                if (wishing ^ ((EncounterStatic)EncounterMatch).RibbonWishing)
-                    (wishing ? invalidRibbons : missingRibbons).Add(EventRibName[10]);
-            }
-            else // No ribbons
-            {
-                for (int i = 0; i < EventRib.Length; i++)
-                    if (ReflectUtil.getBooleanState(pkm, EventRib[i]) == true)
-                        invalidRibbons.Add(EventRibName[i]);
             }
             
             // Unobtainable ribbons for Gen Origin
@@ -1197,8 +1175,6 @@ namespace PKHeX.Core
                     invalidRibbons.Add(V96); // RSE HoF
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonArtist)) == true)
                     invalidRibbons.Add(V97); // RSE Master Rank Portrait
-                if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonNational)) == true && pkm.Version != (int)GameVersion.CXD)
-                    invalidRibbons.Add(V98); // RSE HoF
             }
             if (pkm.GenNumber > 4)
             {
@@ -1225,9 +1201,9 @@ namespace PKHeX.Core
 
             string[] result = new string[2];
             if (missingRibbons.Count > 0)
-                result[0] = string.Format(V101, string.Join(", ", missingRibbons));
+                result[0] = string.Format(V101, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", ""))));
             if (invalidRibbons.Count > 0)
-                result[1] = string.Format(V102, string.Join(", ", invalidRibbons));
+                result[1] = string.Format(V102, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", ""))));
             AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
         }
         private void verifyAbility()

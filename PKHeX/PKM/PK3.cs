@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class PK3 : PKM // 3rd Generation PKM File
+    public class PK3 : PKM, IRibbonSet1
     {
         public static readonly byte[] ExtraBytes =
         {
