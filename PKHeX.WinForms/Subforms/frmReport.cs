@@ -17,6 +17,7 @@ namespace PKHeX.WinForms
         public class Preview
         {
             private readonly PKM pkm;
+            private readonly ushort[] Stats;
             public string Position => pkm.Identifier;
             public Image Sprite => pkm.Sprite();
             public string Nickname => pkm.Nickname;
@@ -31,6 +32,12 @@ namespace PKHeX.WinForms
             public string Move3 => get(GameInfo.Strings.movelist, pkm.Move3);
             public string Move4 => get(GameInfo.Strings.movelist, pkm.Move4);
             public string HeldItem => get(GameInfo.Strings.itemlist, pkm.HeldItem);
+            public string HP => Stats[0].ToString();
+            public string ATK => Stats[1].ToString();
+            public string DEF => Stats[2].ToString();
+            public string SPA => Stats[4].ToString();
+            public string SPD => Stats[5].ToString();
+            public string SPE => Stats[3].ToString();
             public string MetLoc => pkm.getLocation(eggmet: false);
             public string EggLoc => pkm.getLocation(eggmet: true);
             public string Ball => get(GameInfo.Strings.balllist, pkm.Ball);
@@ -109,7 +116,12 @@ namespace PKHeX.WinForms
             public int Encounter => pkm.EncounterType;
 
             #endregion
-            public Preview(PKM p) { pkm = p; }
+
+            public Preview(PKM p)
+            {
+                pkm = p;
+                Stats = pkm.getStats(pkm.PersonalInfo);
+            }
 
             private static string get(IReadOnlyList<string> arr, int val) => arr?.Count > val ? arr[val] : null;
         }
