@@ -1069,8 +1069,19 @@ namespace PKHeX.Core
         }
         private void verifyMedalsRegular()
         {
-            var TrainNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "SuperTrain").ToArray();
-            var TrainCount = TrainNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true);
+            uint data = BitConverter.ToUInt32(pkm.Data, 0x2C);
+            if ((data & 3) != 0) // 2 unused flags
+                AddLine(Severity.Invalid, V98, CheckIdentifier.Training);
+
+            int TrainCount = 0;
+            data >>= 2;
+            for (int i = 2; i < 32; i++)
+            {
+                if ((data & 1) != 0)
+                    TrainCount++;
+                data >>= 1;
+            }
+
             if (pkm.IsEgg && TrainCount > 0)
             { AddLine(Severity.Invalid, V89, CheckIdentifier.Training); }
             else if (TrainCount > 0 && pkm.GenNumber > 6)
@@ -1093,13 +1104,22 @@ namespace PKHeX.Core
         }
         private void verifyMedalsEvent()
         {
-            var DistNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "DistSuperTrain");
-            var DistCount = DistNames.Count(MissionName => ReflectUtil.GetValue(pkm, MissionName) as bool? == true);
-            if (pkm.IsEgg && DistCount > 0)
+            byte data = pkm.Data[0x3A];
+            if ((data & 0xC0) != 0) // 2 unused flags highest bits
+                AddLine(Severity.Invalid, V98, CheckIdentifier.Training);
+
+            int TrainCount = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                if ((data & 1) != 0)
+                    TrainCount++;
+                data >>= 1;
+            }
+            if (pkm.IsEgg && TrainCount > 0)
             { AddLine(Severity.Invalid, V89, CheckIdentifier.Training); }
-            else if (DistCount > 0 && pkm.GenNumber > 6)
+            else if (TrainCount > 0 && pkm.GenNumber > 6)
             { AddLine(Severity.Invalid, V90, CheckIdentifier.Training); }
-            else if (DistCount > 0)
+            else if (TrainCount > 0)
             { AddLine(Severity.Fishy, V94, CheckIdentifier.Training); }
         }
         #endregion
