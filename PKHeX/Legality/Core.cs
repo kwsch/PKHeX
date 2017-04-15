@@ -1045,7 +1045,7 @@ namespace PKHeX.Core
                         return LevelUpSM[index].getMoves(lvl);
                     break;
             }
-            return null;
+            return new int[0];
         }
         internal static List<int>[] getExclusiveEvolutionMoves(PKM pkm, int Species,DexLevel[][] evoChains, GameVersion Version)
         {
