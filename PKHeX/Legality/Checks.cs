@@ -2254,7 +2254,7 @@ namespace PKHeX.Core
                 case 492: // Shaymin
                 case 676: // Furfrou
                 case 720: // Hoopa
-                    if (pkm.AltForm != 0 && pkm.Box > -1) // has form but stored in box
+                    if (pkm.AltForm != 0 && pkm.Box > -1 && pkm.Format <= 6) // has form but stored in box
                     {
                         AddLine(Severity.Invalid, V316, CheckIdentifier.Form);
                         return;
