@@ -1142,7 +1142,7 @@ namespace PKHeX.Core
             get
             {
                 byte[] ret = new byte[120]; // 2bit*24px*20px
-                int ofs = 0;
+                int ofs;
                 switch (Version)
                 {
                     case GameVersion.DP: ofs = 0x1176; break;
@@ -1155,14 +1155,14 @@ namespace PKHeX.Core
             }
             set
             {
-                int ofs = 0;
+                int ofs;
                 switch (Version)
                 {
                     case GameVersion.DP: ofs = 0x1176; break;
                     default: return;
                 }
                 ofs += GBO;
-                for(int i = 0; i < 120; i++)
+                for (int i = 0; i < 120; i++)
                     Data[ofs + i] = value[i];
                 Data[ofs - 0x2A] |= 0x04; // 0x114C "Touch!"
             }

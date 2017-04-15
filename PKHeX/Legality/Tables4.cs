@@ -993,7 +993,7 @@ namespace PKHeX.Core
 
         private static readonly EncounterArea SlotsD_HoneyTree =
             new EncounterArea {
-                Slots = SlotsPt_HoneyTree.Slots.Concat( new[]
+                Slots = SlotsPt_HoneyTree.Slots.Concat(new[]
                 {
                     new EncounterSlot { Species = 266, LevelMin = 5, LevelMax = 15, Type = SlotType.HoneyTree }, // Silcoon
                 }).ToArray()

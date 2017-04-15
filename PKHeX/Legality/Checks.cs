@@ -1284,7 +1284,7 @@ namespace PKHeX.Core
         }
         private bool? verifyAbilityPreCapsule(int[] abilities, int abilval)
         {
-            // Shadow Colosseum pokemon could habe any PID without maching PID
+            // CXD pokemon could have any ability without maching PID
             if (pkm.Version == (int)GameVersion.CXD && pkm.Format == 3)
                 return null;
 
@@ -1374,7 +1374,7 @@ namespace PKHeX.Core
                 if (!valid)
                     AddLine(Severity.Invalid, V111, CheckIdentifier.Ability);
             }
-            else if(EncounterIsMysteryGift)
+            else if (EncounterIsMysteryGift)
                 verifyAbilityMG456(abilities, ((WC7)EncounterMatch).AbilityType);
             else if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
@@ -2285,12 +2285,12 @@ namespace PKHeX.Core
                 { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); }
                 if (pkm.CNTs.Any(stat => stat > 0))
                 { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); }
-                if( pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
+                if (pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
                 { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); }
                 var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
                 if (HatchCycles == 0)
                     HatchCycles = pkm.PersonalInfo.HatchCycles;
-                if( pkm.CurrentFriendship > HatchCycles)
+                if (pkm.CurrentFriendship > HatchCycles)
                 { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
             }
 
@@ -2641,7 +2641,6 @@ namespace PKHeX.Core
                     Games = new[] { GameVersion.B2W2 };
                     break;
             }
-            int splitctr = Legal.SplitBreed.Contains(pkm.Species) ? 1 : 0;
             var issplitbreed = Legal.SplitBreed.Contains(pkm.Species);
             foreach (var ver in Games)
             {
@@ -2649,7 +2648,7 @@ namespace PKHeX.Core
                 var BaseLvlMoves = 489 <= pkm.Species && pkm.Species <= 490 ? 1 : 100;
                 var LvlupEggMoves = Legal.getBaseEggMoves(pkm, ver, BaseLvlMoves);
                 // Level up, TMHM or tutor moves exclusive to the incense egg species, like Azurill, incompatible with the non-incense species egg moves
-                var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusiveEvolutionMoves(pkm,Legal.getBaseEggSpecies(pkm,0), EvoChainsAllGens,  ver) : null;
+                var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusiveEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), EvoChainsAllGens,  ver) : null;
                 var EggMoves = Legal.getEggMoves(pkm, ver);
                 
                 bool volt = (gen > 3 || ver == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
@@ -2742,7 +2741,7 @@ namespace PKHeX.Core
             var issplitbreed = pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species);
             var EggMoves = pkm.WasEgg? Legal.getEggMoves(pkm, game): emptyegg;
             // Level up, TMHM or tutor moves exclusive to the incense egg species, like Azurill, incompatible with the non-incense species egg moves
-            var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusiveEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm, 0), EvoChainsAllGens, game) : empty;
+            var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusiveEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), EvoChainsAllGens, game) : empty;
 
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
@@ -2767,7 +2766,7 @@ namespace PKHeX.Core
             var LvlupEggMovesSplitLearned = new List<int>[egg.Length];
             var EggMovesSplitLearned = new List<int>[egg.Length];
             var IncenseMovesLearned = new List<int>();
-            for (int i=0;i < egg.Length; i++ )
+            for (int i= 0; i < egg.Length; i++)
             {
                 LvlupEggMovesSplitLearned[i] = new List<int>();
                 EggMovesSplitLearned[i] = new List<int>();
@@ -2855,7 +2854,7 @@ namespace PKHeX.Core
                         else
                             res[m] = new CheckResult(Severity.Valid, V345, CheckIdentifier.Move);
                         LvlupEggMovesLearned.Add(m);
-                        if(issplitbreed)
+                        if (issplitbreed)
                         {
                             // Only add to split breed lists learned moves that can be from one of the egg species, ignore common moves
                             if (lvlupegg[0].Contains(moves[m]) && !lvlupegg[1].Contains(moves[m]))
@@ -2936,7 +2935,7 @@ namespace PKHeX.Core
                     {
                         foreach (int m in RegularEggMovesLearned)
                         {
-                            if(EggMovesLearned.Contains(m))
+                            if (EggMovesLearned.Contains(m))
                                 res[m] = new CheckResult(Severity.Invalid, pkm.WasGiftEgg ? V377 : V341, CheckIdentifier.Move);
                             else if (LvlupEggMovesLearned.Contains(m))
                                 res[m] = new CheckResult(Severity.Invalid, pkm.WasGiftEgg ? V378 : V347, CheckIdentifier.Move);
@@ -2948,7 +2947,7 @@ namespace PKHeX.Core
                         if ((EggMovesSplitLearned[0].Any() || IncenseMovesLearned.Any()) && EggMovesSplitLearned[1].Any())
                         {
                             var species = specieslist;
-                            var splitbreedspecies0 = species[Legal.getBaseEggSpecies(pkm, 0)];
+                            var splitbreedspecies0 = species[Legal.getBaseEggSpecies(pkm)]; // 0
                             var splitbreedspecies1 = species[Legal.getBaseEggSpecies(pkm, 1)];
                             foreach (int m in EggMovesSplitLearned[0])
                                 // Example: Azurill Egg move, incompatible with Marill egg moves
@@ -3340,7 +3339,7 @@ namespace PKHeX.Core
                     res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
             }
 
-            if(splitbreedinvalid)
+            if (splitbreedinvalid)
             {
                 var species = specieslist;
                 var splitbreedspecies0 = species[Legal.getBaseEggSpecies(pkm, skipOption)];

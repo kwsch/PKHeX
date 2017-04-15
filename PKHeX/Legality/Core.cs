@@ -1063,7 +1063,7 @@ namespace PKHeX.Core
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
             var index = Array.FindIndex(evoChain, e => e.Species == Species);
-            for(int i =0; i < evoChain.Length; i++)
+            for (int i = 0; i < evoChain.Length; i++)
             {
                 var evo = evoChain[i];
                 var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: false, RemoveTransferHM: false, Generation: Generation);
@@ -3414,7 +3414,7 @@ namespace PKHeX.Core
                 case 6:
                     info = PersonalTable.AO[species];
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
-                    if ( pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
+                    if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
                     {
                         PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
                         for (int i = 0; i < Tutors_AO.Length; i++)
