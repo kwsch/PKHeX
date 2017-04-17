@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class PGF : MysteryGift
+    public sealed class PGF : MysteryGift, IRibbonSet1, IRibbonSet2
     {
         public const int Size = 0xCC;
         public override int Format => 5;

@@ -18,7 +18,7 @@ namespace PKHeX.Core
         /// <returns>Array of Move IDs</returns>
         public int[] getMoves(int maxLevel, int minLevel = 0)
         {
-            if (minLevel <=1 && maxLevel >= 100)
+            if (minLevel <= 1 && maxLevel >= 100)
                 return Moves;
             int start = Array.FindIndex(Levels, z => z >= minLevel);
             if (start < 0)

@@ -106,7 +106,8 @@ namespace PKHeX.WinForms
 
             if (flagIllegal)
             {
-                pkm.Box = box;
+                if (slot < 30)
+                    pkm.Box = box;
                 var la = new LegalityAnalysis(pkm);
                 if (la.Parsed && !la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);

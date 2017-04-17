@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class PK3 : PKM // 3rd Generation PKM File
+    public class PK3 : PKM, IRibbonSet1
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -40,7 +40,7 @@ namespace PKHeX.Core
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
-        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
+        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[AbilityBit && abils[1] != 0 ? 1 : 0]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
 
@@ -116,7 +116,7 @@ namespace PKHeX.Core
         public override int IV_SPA { get { return (int)(IV32 >> 20) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); } }
         public override int IV_SPD { get { return (int)(IV32 >> 25) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); } }
         public override bool IsEgg { get { return ((IV32 >> 30) & 1) == 1; } set { IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); } }
-        public override int AbilityNumber { get { return 1 << (int)((IV32 >> 31) & 1); } set { IV32 = (IV32 & 0x7FFFFFFF) | (value > 1 ? 0x80000000 : 0); } }
+        public bool AbilityBit { get { return (IV32 >> 31) == 1; } set { IV32 = (IV32 & 0x7FFFFFFF) | (uint)(value ? 1 << 31 : 0); } }
 
         private uint RIB0 { get { return BitConverter.ToUInt32(Data, 0x4C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
         public int RibbonCountG3Cool        { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7) << 00); } }
@@ -153,6 +153,7 @@ namespace PKHeX.Core
         public override int Stat_SPD { get { return BitConverter.ToUInt16(Data, 0x62); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); } }
 
         // Generated Attributes
+        public override int AbilityNumber { get { return 1 << PIDAbility; } set { AbilityBit = value > 1; } } // 1/2 -> 0/1
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => IsEgg || Language == 1;
