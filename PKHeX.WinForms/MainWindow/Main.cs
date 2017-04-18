@@ -1357,6 +1357,7 @@ namespace PKHeX.WinForms
 
             TemplateFields();
             loadingSAV = false;
+            SAV.Edited = false;
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
