@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -199,7 +200,7 @@ namespace PKHeX.WinForms
         #region BattleFrontier
         private int[] Symbols;
         private int ofsSymbols;
-        private System.Drawing.Color[] SymbolColorA;
+        private Color[] SymbolColorA;
         private Button[] SymbolButtonA;
         private bool editingcont;
         private bool editingval;
@@ -269,24 +270,25 @@ namespace PKHeX.WinForms
                 BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.getBlockOffset(0) + BFF[Facility][2 + SetValToSav] + 4 * BattleType + 2 * RBi);
                 return;
             }
-            else if (SetValToSav == -1)
+            if (SetValToSav == -1)
             {
                 int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
-                BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, SAV.getBlockOffset(0) + 0xCDC) & (uint)~(1 << p) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Data, SAV.getBlockOffset(0) + 0xCDC);
+                int offset = SAV.getBlockOffset(0) + 0xCDC;
+                BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, offset) & (uint)~(1 << p) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Data, offset);
                 return;
             }
-            if (SetSavToVal)
+            if (!SetSavToVal)
+                return;
+            
+            editingval = true;
+            for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
-                editingval = true;
-                for (int i = 0, vali; i < BFV[BFF[Facility][0]].Length; i++)
-                {
-                    vali = BitConverter.ToUInt16(SAV.Data, SAV.getBlockOffset(0) + BFF[Facility][2 + i] + 4 * BattleType + 2 * RBi);
-                    if (vali > 9999) vali = 9999;
-                    StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
-                }
-                CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Data, SAV.getBlockOffset(0) + 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
-                editingval = false;
+                int vali = BitConverter.ToUInt16(SAV.Data, SAV.getBlockOffset(0) + BFF[Facility][2 + i] + 4 * BattleType + 2 * RBi);
+                if (vali > 9999) vali = 9999;
+                StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
             }
+            CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Data, SAV.getBlockOffset(0) + 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
+            editingval = false;
         }
         private void ChangeStatVal(object sender, EventArgs e)
         {
@@ -333,7 +335,7 @@ namespace PKHeX.WinForms
             StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
             StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
             StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
-            SymbolColorA = new[] { System.Drawing.Color.Transparent, System.Drawing.Color.Silver, System.Drawing.Color.Silver, System.Drawing.Color.Gold };
+            SymbolColorA = new[] { Color.Transparent, Color.Silver, Color.Silver, Color.Gold };
             SymbolButtonA = new[] { BTN_SymbolA, BTN_SymbolT, BTN_SymbolS, BTN_SymbolG, BTN_SymbolK, BTN_SymbolL, BTN_SymbolB };
             ofsSymbols = SAV.getBlockOffset(2) + 0x408;
             int iSymbols = BitConverter.ToInt32(SAV.Data, ofsSymbols) >> 4 & 0x7FFF;
@@ -344,8 +346,8 @@ namespace PKHeX.WinForms
             setSymbols();
 
             CB_Stats1.Items.Clear();
-            for (int i = 0; i < BFN.Length; i++)
-                CB_Stats1.Items.Add(BFN[i]);
+            foreach (string t in BFN)
+                CB_Stats1.Items.Add(t);
 
             loading = false;
             CB_Stats1.SelectedIndex = 0;
