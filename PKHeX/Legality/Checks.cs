@@ -1131,9 +1131,24 @@ namespace PKHeX.Core
             List<string> missingRibbons = new List<string>();
             List<string> invalidRibbons = new List<string>();
             
+            // Check Event Ribbons
+            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
+            var set1 = pkm as IRibbonSet1;
+            var set2 = pkm as IRibbonSet2;
+            if (set1 != null)
+                verifyRibbonSet1(set1, encounterContent, missingRibbons, invalidRibbons);
+            if (set2 != null)
+                verifyRibbonSet2(set2, encounterContent, missingRibbons, invalidRibbons);
+
+            // Check Unobtainable Ribbons
             if (pkm.IsEgg)
             {
                 var RibbonNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
+                if (set1 != null)
+                    RibbonNames = RibbonNames.Except(RibbonSetHelper.getRibbonNames(set1));
+                if (set2 != null)
+                    RibbonNames = RibbonNames.Except(RibbonSetHelper.getRibbonNames(set2));
+
                 foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
                 {
                     if (RibbonValue as bool? == true) // Boolean
@@ -1144,50 +1159,6 @@ namespace PKHeX.Core
                 return;
             }
 
-            // Check Event Ribbons
-            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
-            var set1 = pkm as IRibbonSet1;
-            if (set1 != null)
-            {
-                var sb = RibbonSetHelper.getRibbonBits(set1);
-                var enc1 = encounterContent as IRibbonSet1;
-                var eb = RibbonSetHelper.getRibbonBits(enc1);
-
-                if (pkm.Gen3)
-                    eb[0] = sb[0]; // permit Earth Ribbon
-                if (pkm.Version == 15)
-                    eb[1] = true; // require National Ribbon TODO: shadow pkm only
-
-                for (int i = 0; i < sb.Length; i++)
-                {
-                    if (sb[i] == eb[i]) // valid
-                        continue;
-                    var list = eb[i] ? missingRibbons : invalidRibbons;
-                    list.Add(RibbonSetHelper.getRibbonNames(set1, i));
-                }
-            }
-
-            var set2 = pkm as IRibbonSet2;
-            if (set2 != null)
-            {
-                var sb = RibbonSetHelper.getRibbonBits(set2);
-                var enc2 = encounterContent as IRibbonSet2;
-                var eb = RibbonSetHelper.getRibbonBits(enc2);
-
-                if (EncounterMatch is EncounterLink)
-                    eb[0] = true; // require Classic Ribbon
-                if ((EncounterMatch as EncounterStatic)?.RibbonWishing ?? false)
-                    eb[1] = true; // require Wishing Ribbon
-
-                for (int i = 0; i < sb.Length; i++)
-                {
-                    if (sb[i] == eb[i]) // valid
-                        continue;
-                    var list = eb[i] ? missingRibbons : invalidRibbons;
-                    list.Add(RibbonSetHelper.getRibbonNames(set2, i));
-                }
-            }
-            
             // Unobtainable ribbons for Gen Origin
             if (pkm.GenNumber > 3)
             {
@@ -1196,7 +1167,7 @@ namespace PKHeX.Core
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK3.RibbonArtist)) == true)
                     invalidRibbons.Add(V97); // RSE Master Rank Portrait
             }
-            if (pkm.GenNumber > 4)
+            if (pkm.Format >= 4 && pkm.GenNumber > 4)
             {
                 if (ReflectUtil.getBooleanState(pkm, nameof(PK4.RibbonChampionSinnoh)) == true)
                     invalidRibbons.Add(V99); // DPPt HoF
@@ -1226,6 +1197,37 @@ namespace PKHeX.Core
                 result[1] = string.Format(V102, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", ""))));
             AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
         }
+        private void verifyRibbonSet1(IRibbonSet1 set1, object encounterContent, List<string> missingRibbons, List<string> invalidRibbons)
+        {
+            var names = RibbonSetHelper.getRibbonNames(set1);
+            var sb = RibbonSetHelper.getRibbonBits(set1);
+            var eb = RibbonSetHelper.getRibbonBits(encounterContent as IRibbonSet1);
+
+            if (pkm.Gen3)
+                eb[0] = sb[0]; // permit Earth Ribbon
+            if (pkm.Version == 15)
+                eb[1] = true; // require National Ribbon TODO: shadow pkm only
+            
+            for (int i = 0; i < sb.Length; i++)
+                if (sb[i] != eb[i])
+                    (eb[i] ? missingRibbons : invalidRibbons).Add(names[i]);
+        }
+        private void verifyRibbonSet2(IRibbonSet2 set2, object encounterContent, List<string> missingRibbons, List<string> invalidRibbons)
+        {
+            var names = RibbonSetHelper.getRibbonNames(set2);
+            var sb = RibbonSetHelper.getRibbonBits(set2);
+            var eb = RibbonSetHelper.getRibbonBits(encounterContent as IRibbonSet2);
+
+            if (EncounterMatch is EncounterLink)
+                eb[0] = true; // require Classic Ribbon
+            if ((EncounterMatch as EncounterStatic)?.RibbonWishing ?? false)
+                eb[1] = true; // require Wishing Ribbon
+
+            for (int i = 0; i < sb.Length; i++)
+                if (sb[i] != eb[i])
+                    (eb[i] ? missingRibbons : invalidRibbons).Add(names[i]);
+        }
+
         private void verifyAbility()
         {
             int[] abilities = pkm.PersonalInfo.Abilities;

@@ -69,5 +69,7 @@
 
         public static string getRibbonNames(IRibbonSet1 set, int index) => RibbonNames1[index];
         public static string getRibbonNames(IRibbonSet2 set, int index) => RibbonNames2[index];
+        public static string[] getRibbonNames(IRibbonSet1 set) => RibbonNames1;
+        public static string[] getRibbonNames(IRibbonSet2 set) => RibbonNames2;
     }
 }
