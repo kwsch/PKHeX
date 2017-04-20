@@ -1367,6 +1367,7 @@ namespace PKHeX.WinForms
             var g6 = getWC6DB(Resources.wc6, Resources.wc6full);
             var g7 = getWC7DB(Resources.wc7, Resources.wc7full);
 
+            if (Directory.Exists(MGDatabasePath))
             foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
             {
                 var fi = new FileInfo(file);
