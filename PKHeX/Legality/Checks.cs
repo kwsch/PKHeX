@@ -627,7 +627,7 @@ namespace PKHeX.Core
 
             if (pkm.Met_Location != 30001)
                 return new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
-            return new CheckResult(Severity.Valid, V63, CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, V53, CheckIdentifier.Encounter);
         }
         private CheckResult verifyEncounterEgg5()
         {

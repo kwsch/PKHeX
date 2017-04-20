@@ -443,7 +443,7 @@ namespace PKHeX.Core
             {
                 switch (GenNumber)
                 {
-                    case 4: return Legal.EggLocations4.Contains(Egg_Location) || (Species == 490 && Egg_Location == 3001) || (Egg_Location == 3002 && HGSS); // faraway
+                    case 4: return Legal.EggLocations4.Contains(Egg_Location) || (Species == 490 && Egg_Location == 3001) || (Egg_Location == 3002 && PtHGSS); // faraway
                     case 5: return Legal.EggLocations5.Contains(Egg_Location);
                     case 6: 
                     case 7: return Legal.EggLocations.Contains(Egg_Location);
