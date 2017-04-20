@@ -414,12 +414,16 @@ namespace PKHeX.Core
 
             int min = BoxSlotCount * box1;
             int max = BoxSlotCount * box1 + BoxSlotCount;
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within box
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
+                return false;
+            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
                 return false;
 
             min = BoxSlotCount * box2;
             max = BoxSlotCount * box2 + BoxSlotCount;
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within box
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
+                return false;
+            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
                 return false;
 
             // Data
