@@ -276,7 +276,11 @@ namespace PKHeX.WinForms
         private bool processPKM(PKM pkm, IEnumerable<StringInstruction> Filters, IEnumerable<StringInstruction> Instructions)
         {
             if (!pkm.Valid || pkm.Locked)
+            {
+                len++;
+                Console.WriteLine("Skipped a pkm due to disallowed input: " + (pkm.Locked ? "Locked." : "Not Valid."));
                 return false;
+            }
 
             ModifyResult r = tryModifyPKM(pkm, Filters, Instructions);
             if (r != ModifyResult.Invalid)
