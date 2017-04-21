@@ -119,7 +119,7 @@ namespace PKHeX.Core
         }
 
         private readonly byte[] OriginalData;
-        public override byte[] Write(bool DSV, bool GCI = false)
+        public override byte[] Write(bool DSV, bool GCI)
         {
             // Set Memo Back
             StrategyMemo.FinalData.CopyTo(Data, Memo);
@@ -147,7 +147,7 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone()
         {
-            byte[] data = Write(DSV: false).Skip(Header.Length).ToArray();
+            byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
             var sav = new SAV3XD(data) {Header = (byte[]) Header.Clone()};
             return sav;
         }

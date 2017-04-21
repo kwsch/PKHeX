@@ -61,7 +61,7 @@ namespace PKHeX.Core
         private const int BLOCK_COUNT = 23;
         private const int BLOCK_SIZE = 0x2000;
         private const int SIZE_RESERVED = BLOCK_COUNT * BLOCK_SIZE; // unpacked box data
-        public override byte[] Write(bool DSV, bool GCI = false)
+        public override byte[] Write(bool DSV, bool GCI)
         {
             // Copy Box data back to block
             foreach (RSBOX_Block b in Blocks)
@@ -85,7 +85,7 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone()
         {
-            byte[] data = Write(DSV: false).Skip(Header.Length).ToArray();
+            byte[] data = Write(DSV: false, GCI: true).Skip(Header.Length).ToArray();
             var sav = new SAV3RSBox(data) {Header = (byte[]) Header.Clone()};
             return sav;
         }

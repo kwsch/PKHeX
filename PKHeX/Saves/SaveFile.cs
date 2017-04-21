@@ -44,7 +44,7 @@ namespace PKHeX.Core
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
-        public virtual byte[] Write(bool DSV, bool GCI = false)
+        public virtual byte[] Write(bool DSV, bool GCI)
         {
             return Write(DSV);
         }
