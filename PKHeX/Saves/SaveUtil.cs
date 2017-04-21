@@ -433,7 +433,7 @@ namespace PKHeX.Core
             switch (MC.SelectedGameVersion)
             {
                 // Side Games
-                case GameVersion.COLO: sav = new SAV3Colosseum(data,MC); break;
+                case GameVersion.COLO: sav = new SAV3Colosseum(data, MC); break;
                 case GameVersion.XD: sav = new SAV3XD(data, MC); break;
                 case GameVersion.RSBOX: sav = new SAV3RSBox(data, MC); break;
 

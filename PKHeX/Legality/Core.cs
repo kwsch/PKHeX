@@ -1103,7 +1103,7 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
-            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm,MaxSpeciesID_3);
+            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, MaxSpeciesID_3);
             var sttctable = pkm.E ? EventEgg_G3_Common : pkm.FRLG ? EventEgg_FRLG : EventEgg_RS;
             var table = sttctable.Where(e => dl.Any(d => d.Species == e.Species));
             foreach (EncounterStatic e in table)
@@ -2201,7 +2201,7 @@ namespace PKHeX.Core
         internal static bool getEvolutionValid(PKM pkm)
         {
             var curr = getValidPreEvolutions(pkm);
-            var poss = getValidPreEvolutions(pkm, 100, skipChecks: true);
+            var poss = getValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (getSplitBreedGeneration(pkm).Contains(getBaseSpecies(pkm, 1)))
                 return curr.Count() >= poss.Count() - 1;
@@ -2852,7 +2852,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
         {
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, lvl);
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, lvl: lvl);
             List<EncounterArea> slotLocations = new List<EncounterArea>();
             foreach (var loc in tables)
             {
@@ -2864,7 +2864,7 @@ namespace PKHeX.Core
             }
             return slotLocations;
         }
-        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin =-1, int lvl = -1, bool skipChecks = false)
+        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
