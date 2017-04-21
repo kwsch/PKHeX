@@ -559,10 +559,11 @@ namespace PKHeX.WinForms
                     PKXBOXES[i].Image = null;
                 return;
             }
-            PKM[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
-            for (int i = 0; i < data.Length; i++)
-                PKXBOXES[i].Image = data[i].Sprite();
-            for (int i = data.Length; i < RES_MAX; i++)
+            int begin = start*RES_MIN;
+            int end = Math.Min(RES_MAX, Results.Count - start*RES_MIN);
+            for (int i = 0; i < end; i++)
+                PKXBOXES[i].Image = Results[i + begin].Sprite();
+            for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
