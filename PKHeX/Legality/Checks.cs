@@ -701,7 +701,7 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 4:
-                    if(pkm.HasOriginalMetLocation && pkm.Met_Location == 193 && enc.First().Type == SlotType.Surf)
+                    if(pkm.HasOriginalMetLocation && pkm.Met_Location == 193 && enc.All( t => t.Type == SlotType.Surf))
                     {
                         // Pokemon surfing in Jhoto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
