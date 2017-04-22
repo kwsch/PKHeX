@@ -1143,7 +1143,7 @@ namespace PKHeX.WinForms
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
-                B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP;
+                B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP || SAV.HGSS;
 
                 B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
                 B_OpenRTCEditor.Enabled = SAV.RS || SAV.E;
