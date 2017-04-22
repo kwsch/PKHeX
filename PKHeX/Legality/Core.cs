@@ -301,6 +301,108 @@ namespace PKHeX.Core
         {
             ReduceAreasSize(ref Areas);
         }
+        private static EncounterType GetEncounterTypeBySlotDPPt( SlotType Type, EncounterType GrassType)
+        {
+            switch (Type)
+            {
+                case SlotType.Pokeradar:
+                case SlotType.Grass: return GrassType;
+                case SlotType.Surf:
+                case SlotType.Old_Rod:
+                case SlotType.Good_Rod:
+                case SlotType.Super_Rod: return EncounterType.Surfing_Fishing;
+                case SlotType.Grass_Safari:
+                case SlotType.Surf_Safari:
+                case SlotType.Old_Rod_Safari:
+                case SlotType.Good_Rod_Safari:
+                case SlotType.Super_Rod_Safari: return EncounterType.MarshSafari;
+                case SlotType.HoneyTree: return EncounterType.None;
+            }
+            return EncounterType.None;
+        }
+        private static EncounterType GetEncounterTypeBySlotHGSS(SlotType Type, EncounterType GrassType)
+        {
+            switch (Type)
+            {
+                // HGSS Safari encounters have normal water/grass encounter type, not safari encounter type
+                case SlotType.Grass:
+                case SlotType.Grass_Safari: return GrassType;
+                case SlotType.Surf:
+                case SlotType.Old_Rod:
+                case SlotType.Good_Rod:
+                case SlotType.Super_Rod:
+                case SlotType.Surf_Safari:
+                case SlotType.Old_Rod_Safari:
+                case SlotType.Good_Rod_Safari:
+                case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
+                case SlotType.Rock_Smash:
+                case SlotType.Rock_Smash_Safari: return EncounterType.RockSmash;
+                case SlotType.Headbutt: return EncounterType.None;
+            }
+            return EncounterType.None;
+        }
+        private static void MarkDPPtEncounterTypeSlots_Route209(ref EncounterArea[] Areas)
+        {
+            // Route 209 have two different encounter type for grass encounters
+            // The first area with location 24 is the proper Route 209 with tall grass encounters
+            // The other areas with the same location in the raw file is the lost tower, all encounters inside the tower are buildiing encounter
+            bool FirstArea = true;
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == 24))
+            {
+                var GrassType = FirstArea ? EncounterType.TallGrass : EncounterType.Building_EnigmaStone;
+                if (FirstArea)
+                    FirstArea = false;
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
+                }
+            }
+        }
+        private static void MarkHGSSEncounterTypeSlots_RuinsofAlph(ref EncounterArea[] Areas)
+        {
+            // Ruins of Alph have two different encounter type for grass encounters
+            // The first area with location 209 is the outside area of the ruins with tall grass encounters
+            // The other areas with the same location in the raw file is the inside of the ruins, all encounters inside are cave encounters
+            bool FirstArea = true;
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == 209))
+            {
+                var GrassType = FirstArea ? EncounterType.TallGrass : EncounterType.Cave_HallOfOrigin;
+                if (FirstArea)
+                    FirstArea = false;
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType);
+                }
+            }
+        }
+        private static void MarkDPPtEncounterTypeSlots(ref EncounterArea[] Areas)
+        {
+            foreach(EncounterArea Area in Areas)
+            {
+                if (Area.Location == 24)
+                    continue;
+                var GrassType = (Area.Location == 70) ? EncounterType.Building_EnigmaStone :// Old Chateau
+                                DPPt_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin :
+                                EncounterType.TallGrass;
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
+                }
+            }
+        }
+        private static void MarkHGSSEncounterTypeSlots(ref EncounterArea[] Areas)
+        {
+            foreach (EncounterArea Area in Areas)
+            {
+                if (Area.Location == 209)
+                    continue;
+                var GrassType = HGSS_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin: EncounterType.TallGrass;
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType);
+                }
+            }
+        }
         private static void MarkBWSwarmSlots(ref EncounterArea[] Areas)
         {
             foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
@@ -545,6 +647,12 @@ namespace PKHeX.Core
                 MarkG4AltFormSlots(ref Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
                 MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
 
+                MarkDPPtEncounterTypeSlots_Route209(ref D_Slots);
+                MarkDPPtEncounterTypeSlots_Route209(ref P_Slots);
+                MarkDPPtEncounterTypeSlots_Route209(ref Pt_Slots);
+                MarkHGSSEncounterTypeSlots_RuinsofAlph(ref HG_Slots);
+                MarkHGSSEncounterTypeSlots_RuinsofAlph(ref SS_Slots);
+
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
                 MarkG4Slots(ref Pt_Slots);
@@ -562,6 +670,12 @@ namespace PKHeX.Core
                 SlotsPt = addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, SlotsDPPPtAlt, Pt_Trophy);
                 SlotsHG = addExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
                 SlotsSS = addExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
+
+                MarkDPPtEncounterTypeSlots(ref D_Slots);
+                MarkDPPtEncounterTypeSlots(ref P_Slots);
+                MarkDPPtEncounterTypeSlots(ref Pt_Slots);
+                MarkHGSSEncounterTypeSlots(ref HG_Slots);
+                MarkHGSSEncounterTypeSlots(ref SS_Slots);
 
                 Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
@@ -923,7 +1037,8 @@ namespace PKHeX.Core
                 form = 0;
 
             r.AddRange(getEggMoves(pkm, species, form));
-            r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
+            if(pkm.Species != 489)
+                r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
         internal static List<int>[] getShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
@@ -967,11 +1082,17 @@ namespace PKHeX.Core
             {
                 case GameVersion.GS:
                     if (pkm.InhabitedGeneration(2))
-                        return LevelUpGS[species].getMoves(lvl);
+                        if (pkm.Format == 1)
+                            return LevelUpGS[species].getMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
+                        else
+                            return LevelUpGS[species].getMoves(lvl);
                     break;
                 case GameVersion.C:
                     if (pkm.InhabitedGeneration(2))
-                        return LevelUpC[species].getMoves(lvl);
+                        if (pkm.Format == 1)
+                            return LevelUpC[species].getMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
+                        else
+                            return LevelUpC[species].getMoves(lvl);
                     break;
 
                 case GameVersion.R:
@@ -1172,7 +1293,15 @@ namespace PKHeX.Core
                 : s.Where(slot => slot.Type != SlotType.BugContest).ToList();
             if (s_BugContest.Any())
                 // sport ball only in BCC and non sport balls only outside BCC
-                return s_BugContest.ToArray();
+                s = s_BugContest.ToList();
+
+            // If there is only one valid encounter defer encountertype check to verify encounter type
+            if (s.Count <= 1 || pkm.Format == 7)
+                return s.Any() ? s.ToArray() : null;
+
+            var s_EncounterTypes = s.Where(slot => slot.TypeEncounter == (EncounterType)pkm.EncounterType).ToList();
+            if (s_EncounterTypes.Any())
+                return s_EncounterTypes.ToArray();
 
             return s.Any() ? s.ToArray() : null;
         }
@@ -1189,6 +1318,14 @@ namespace PKHeX.Core
                 return null;
             // Back Check against pkm
             var enc = getMatchingStaticEncounters(pkm, poss, lvl).ToList();
+
+            // If there is only one valid encounter defer encountertype check to verify encounter type
+            if(enc.Count > 1 && pkm.Gen4 && pkm.Format < 7)
+            {
+                var s_EncounterTypes = enc.Where(stc => stc.TypeEncounter == EncounterType.Any || stc.TypeEncounter == (EncounterType)pkm.EncounterType);
+                if (s_EncounterTypes.Any())
+                    return s_EncounterTypes.ToList();
+            }
             return enc.Any() ? enc : null;
         }
         private static IEnumerable<EncounterStatic> getMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)

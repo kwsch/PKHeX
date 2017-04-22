@@ -354,7 +354,7 @@ namespace PKHeX.Core
                 }
                 return;
             }
-            else if (3 <= pkm.Format && pkm.Format <= 5)
+            else if (3 <= pkm.GenNumber && pkm.GenNumber <= 5)
             { 
                 // Suppressing temporarily
                 return;
@@ -697,6 +697,18 @@ namespace PKHeX.Core
         {
             EncounterSlot[] enc = (EncounterSlot[])EncounterMatch;
 
+            // Check for Unreleased Encounters / Collisions
+            switch (pkm.GenNumber)
+            {
+                case 4:
+                    if(pkm.HasOriginalMetLocation && pkm.Met_Location == 193 && enc.All( t => t.Type == SlotType.Surf))
+                    {
+                        // Pokemon surfing in Jhoto Route 45
+                        return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
+                    }
+                    break;
+            }
+
             if (enc.Any(slot => slot.Normal))
                 return enc.All(slot => slot.Pressure)
                     ? new CheckResult(Severity.Valid, V67, CheckIdentifier.Encounter)
@@ -733,8 +745,12 @@ namespace PKHeX.Core
                 case 4:
                     if (pkm.Species == 493 && s.Location == 086) // Azure Flute Arceus
                         return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
+                    if (pkm.Species == 491 && s.Location == 079 && !pkm.Pt) // DP Darkrai
+                        return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
                     if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
                         return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
+                    if (s.Location == 193 && s.TypeEncounter == Core.EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Jhoto Route 45
+                        return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:
                     if (s.EggLocation == 60002 && vRelearn.All(rl => rl.Valid))
@@ -795,6 +811,34 @@ namespace PKHeX.Core
 
             return result;
         }
+        private void verifyEncounterType()
+        {
+            EncounterType Type = Core.EncounterType.None;
+            // Encounter type data is only stored for gen 4 encounters
+            // Gen 6 -> 7 transfer delete encounter type data
+            // All eggs have encounter type none, even if they are from static encounters
+            if (pkm.Format < 7 && pkm.Gen4 && !pkm.WasEgg)
+            {
+                if (EncounterMatch as EncounterSlot[] != null)
+                    // If there is more than one slot, the get wild encounter have filter for the pkm type encounter like safari/sports ball
+                    Type = (EncounterMatch as EncounterSlot[]).First().TypeEncounter;
+                if (EncounterMatch as EncounterStatic != null)
+                    Type = (EncounterMatch as EncounterStatic).TypeEncounter;
+            }
+            if (Type == Core.EncounterType.Any)
+            {
+                // Temp analysis until all generation 4 static encounters have defined their encounter type values
+                AddLine(Severity.NotImplemented, V382, CheckIdentifier.Encounter);
+                return;
+            }
+            if (Type != (EncounterType)pkm.EncounterType)
+            {
+                AddLine(Severity.Invalid, V381, CheckIdentifier.Encounter);
+                return;
+            }
+            AddLine(Severity.Valid, V380, CheckIdentifier.Encounter);
+        }
+
         private CheckResult verifyEncounter()
         {
             // Special considerations have to be applied when encounter info is lost on transfer.
@@ -929,7 +973,34 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterG4Transfer()
         {
             CheckResult Gen4Result = null;
-            
+            CheckResult Gen4WildResult = null;
+            EncounterSlot[] WildEncounter = null;
+
+            // Transfer Legality
+            int loc = pkm.Met_Location;
+            if (loc != 30001) // PokéTransfer
+            {
+                // Crown
+                switch (pkm.Species)
+                {
+                    case 251: // Celebi
+                        if (loc == 30010 || loc == 30011) // unused || used
+                            return Gen4Result;
+                        AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                        break;
+                    case 243: // Raikou
+                    case 244: // Entei
+                    case 245: // Suicune
+                        if (loc == 30012 || loc == 30013) // unused || used
+                            return Gen4Result;
+                        AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                        break;
+                    default:
+                        AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
+                        break;
+                }
+            }
+
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)
             {
@@ -938,11 +1009,19 @@ namespace PKHeX.Core
                     Gen4Result = result;
             }
 
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+            {
+                Gen4WildResult = verifyEncounterWild();
+                WildEncounter = (EncounterSlot[])EncounterMatch;
+            }
+
             if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 EncounterMatch = EncounterStaticMatch.First();
                 var result = verifyEncounterStatic();
-                if (result != null)
+                // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
+                // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
+                if (result != null && (pkm.WasEgg || Gen4WildResult == null || EncounterStaticMatch.Any(sttic => !sttic.Gift || pkm.Ball == sttic.Ball)))
                     return result;
 
                 EncounterStaticMatch = null;
@@ -952,8 +1031,11 @@ namespace PKHeX.Core
             if (pkm.WasEgg) // Invalid transfer is already checked in encounter egg
                 return verifyEncounterEgg();
 
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
-                Gen4Result = verifyEncounterWild();
+            if (Gen4Result == null && Gen4WildResult != null)
+            {
+                Gen4Result = Gen4WildResult;
+                EncounterMatch = WildEncounter;
+            }
 
             if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
                 Gen4Result = verifyEncounterTrade();
@@ -963,31 +1045,7 @@ namespace PKHeX.Core
                            ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
                            : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
-            // Transfer Legality
-
-            // PokéTransfer
-            int loc = pkm.Met_Location;
-            if (loc == 30001)
-                return Gen4Result;
-
-            // Crown
-            switch (pkm.Species)
-            {
-                case 251: // Celebi
-                    if (loc == 30010 || loc == 30011) // unused || used
-                        return Gen4Result;
-                    return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
-                    
-                case 243: // Raikou
-                case 244: // Entei
-                case 245: // Suicune
-                    if (loc == 30012 || loc == 30013) // unused || used
-                        return Gen4Result;
-                    return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
-            }
-
-            // No Match
-            return new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
+            return Gen4Result;
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
@@ -2406,13 +2464,21 @@ namespace PKHeX.Core
                 encounters.Add(EncounterMatch);
             else if (null != (EncounterMatch as IMoveset)?.Moves)
                 encounters.Add(EncounterMatch);
-     
+            
             if (!pkm.IsEgg)
+            {
+                // Add player hatched egg before special egg, this will allow to show correct legality erros if the pokemon have normal egg moves and event egg moves
+                encounters.Add(null);
                 //Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
-                encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
-
-            // add player hatched egg except if there is a gen 3 gift egg or event egg encounter adn the pokemon is inside an egg
-            if (!encounters.Any() || !pkm.IsEgg)
+                var specialeggs = Legal.getG3SpecialEggEncounter(pkm);
+                foreach (var specialegg in specialeggs)
+                {
+                    if (specialegg.Moves.Any(m => m != 0 && pkm.Moves.Contains(m)))
+                        encounters.Add(specialegg);
+                }
+            }
+            else if (!encounters.Any())
+                // add player hatched egg except if there is a gen 3 gift egg or event egg encounter adn the pokemon is inside an egg
                 encounters.Add(null);
             
             return encounters;

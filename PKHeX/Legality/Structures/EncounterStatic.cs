@@ -10,6 +10,7 @@
         public int LevelMax { get { return Level; } }
         public int Generation { get; set; } = -1;
         public int Location;
+        public EncounterType TypeEncounter = EncounterType.Any;
         public int Ability;
         public int Form;
         public bool? Shiny; // false = never, true = always, null = possible
@@ -68,7 +69,8 @@
                 SkipFormCheck = SkipFormCheck,
                 NSparkle = NSparkle,
                 Roaming = Roaming,
-                EggCycles = EggCycles
+                EggCycles = EggCycles,
+                TypeEncounter = TypeEncounter
             };
         }
 
@@ -107,7 +109,8 @@
                 SkipFormCheck = SkipFormCheck,
                 NSparkle = NSparkle,
                 Roaming = Roaming,
-                EggCycles = EggCycles
+                EggCycles = EggCycles,
+                TypeEncounter = TypeEncounter
             };
         }
 

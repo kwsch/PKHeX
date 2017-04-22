@@ -61,7 +61,8 @@ namespace PKHeX.Core
         public static string V361 { get; set; } = "Default move.";
         public static string V362 { get; set; } = "Default move in generation {0}.";
         public static string V372 { get; set; } = "{0} Berry";
-
+        public static string V380 { get; set; } = "Encounter Type match encounter.";
+        public static string V382 { get; set; } = "Encounter Type not implemented for pokemon encounter.";
         #endregion
 
         #region Legality Check Result Strings
@@ -350,6 +351,8 @@ namespace PKHeX.Core
         public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
+        public static string V383 {get; set;} = "Non Platinum Darkrai from Newmoon Island.Unreleased event.";
+        public static string V384 {get; set;} = "Johto Route 45 surfing encounter. Unreachable Water tiles.";
         public static string V357 {get; set;} = "Only one Ninjask move allowed.";
         public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
         public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
@@ -369,6 +372,7 @@ namespace PKHeX.Core
         public static string V377 {get; set;} = "Egg Move. Not expected in a gift egg.";
         public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift egg.";
         public static string V379 {get; set;} = "{0} Inherited Move. Incompatible with {1} inherited moves.";
+        public static string V381 {get; set;} = "Encounter Type does not match encounter.";
         #endregion
 
     }

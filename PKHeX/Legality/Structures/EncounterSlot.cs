@@ -7,6 +7,7 @@
         public int LevelMin { get; set; }
         public int LevelMax { get; set; }
         public SlotType Type = SlotType.Any;
+        public EncounterType TypeEncounter = EncounterType.None;
         public bool AllowDexNav;
         public bool Pressure;
         public bool DexNav;
