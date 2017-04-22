@@ -504,7 +504,7 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterStatic[] Encounter_DPPt = Encounter_DPPt_Roam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt_Grass)).Concat(Encounter_DPPt_Roam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt_Surf))).Concat(Encounter_DPPt_Regular).ToArray();
 
-        // Grass 29-39, 42-46 47, 48
+        // Grass 29-39, 42-46, 47, 48
         // Surf 30-32 34-35, 40-45, 47
         // Route 45 innacesible surf
         internal static readonly int[] Roaming_MetLocation_HGSS_Johto_Grass =
@@ -1201,16 +1201,20 @@ namespace PKHeX.Core
 
         internal static readonly int[] ValidMet_DP =
         {
+            // 063: Flower Paradise unreleased DP event
+            // 079: Newmoon Island unreleased DP event
+            // 085: Seabreak Path unreleased DP event
+            // 086: Hall of Origin unreleased event
             001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 
             021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040, 
             041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 
-            061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 
-            081, 082, 083, 084, 085,      087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099, 100, //086: Hall of Origin unreleased event
+            061, 062,      064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078,      080,
+            081, 082, 083, 084,           087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099, 100,
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 
         };
         internal static readonly int[] ValidMet_Pt = ValidMet_DP.Concat(new[]
         {
-            112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 
+            63, 79 , 85, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 
         }).ToArray();
         internal static readonly int[] ValidMet_HGSS =
         {

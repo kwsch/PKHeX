@@ -697,6 +697,18 @@ namespace PKHeX.Core
         {
             EncounterSlot[] enc = (EncounterSlot[])EncounterMatch;
 
+            // Check for Unreleased Encounters / Collisions
+            switch (pkm.GenNumber)
+            {
+                case 4:
+                    if(pkm.HasOriginalMetLocation && pkm.Met_Location == 193 && enc.First().Type == SlotType.Surf)
+                    {
+                        // Pokemon surfing in Jhoto Route 45
+                        return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
+                    }
+                    break;
+            }
+
             if (enc.Any(slot => slot.Normal))
                 return enc.All(slot => slot.Pressure)
                     ? new CheckResult(Severity.Valid, V67, CheckIdentifier.Encounter)
@@ -733,8 +745,12 @@ namespace PKHeX.Core
                 case 4:
                     if (pkm.Species == 493 && s.Location == 086) // Azure Flute Arceus
                         return new CheckResult(Severity.Invalid, V352, CheckIdentifier.Encounter);
+                    if (pkm.Species == 491 && s.Location == 079 && !pkm.Pt) // DP Darkrai
+                        return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
                     if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
                         return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
+                    if (s.Location == 193 && s.TypeEncounter == Core.EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Jhoto Route 45
+                        return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:
                     if (s.EggLocation == 60002 && vRelearn.All(rl => rl.Valid))

@@ -351,6 +351,8 @@ namespace PKHeX.Core
         public static string V352 {get; set;} = "Arceus from Hall of Origin. Unreleased event.";
         public static string V353 {get; set;} = "Non japanese Mew from Faraway Island. Unreleased event.";
         public static string V354 {get; set;} = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
+        public static string V383 {get; set;} = "Non Platinum Darkrai from Newmoon Island.Unreleased event.";
+        public static string V384 {get; set;} = "Johto Route 45 surfing encounter. Unreachable Water tiles.";
         public static string V357 {get; set;} = "Only one Ninjask move allowed.";
         public static string V358 {get; set;} = "Inherited move learned by Level-up. Incompatible with event egg moves.";
         public static string V359 {get; set;} = "Unable to match a gift egg encounter from origin game.";
