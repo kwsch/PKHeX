@@ -130,6 +130,7 @@ namespace PKHeX.Core
         private int SBO => 0x40000 * storageBlock;
         private int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
+        public int getGBO => GBO;
         private void getActiveGeneralBlock()
         {
             if (Version < 0)
