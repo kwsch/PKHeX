@@ -2450,8 +2450,7 @@ namespace PKHeX.Core
                 encounters.Add(EncounterMatch);
             else if (null != (EncounterMatch as IMoveset)?.Moves)
                 encounters.Add(EncounterMatch);
-
-            bool anyspecialegg = false;
+            
             if (!pkm.IsEgg)
             {
                 // Add player hatched egg before special egg, this will allow to show correct legality erros if the pokemon have normal egg moves and event egg moves
@@ -2461,10 +2460,7 @@ namespace PKHeX.Core
                 foreach (var specialegg in specialeggs)
                 {
                     if (specialegg.Moves.Any(m => m != 0 && pkm.Moves.Contains(m)))
-                    {
                         encounters.Add(specialegg);
-                        anyspecialegg = true;
-                    }
                 }
             }
             else if (!encounters.Any())
