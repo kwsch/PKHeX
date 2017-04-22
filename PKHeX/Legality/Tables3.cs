@@ -238,7 +238,7 @@ namespace PKHeX.Core
               46, 47, 48, 49,
         };
 
-        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive = new[]
+        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive =
         {
             // Egg Pokémon Present Eggs
             new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
@@ -246,15 +246,15 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
             new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
             // Wish Egg
-            new EncounterStatic { Species = 083, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Farfetch'd with Wish
-            new EncounterStatic { Species = 096, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Drowzee with Wish
-            new EncounterStatic { Species = 102, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Exeggcute with Wish
-            new EncounterStatic { Species = 108, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Lickitung with Wish
-            new EncounterStatic { Species = 113, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Chansey with Wish
-            new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Kangaskhan with Wish
+            new EncounterStatic { Species = 083, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
+            new EncounterStatic { Species = 096, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
+            new EncounterStatic { Species = 102, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
+            new EncounterStatic { Species = 108, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
+            new EncounterStatic { Species = 113, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
+            new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
         };
 
-        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive = new[]
+        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive =
         {   
             // Pokémon Center 5th Anniversary Eggs
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
@@ -267,7 +267,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
         };
 
-        internal static readonly EncounterStatic[] EventEgg_G3_Common = new[]
+        internal static readonly EncounterStatic[] EventEgg_G3_Common =
         {
             // Pokémon Box
             new EncounterStatic { Species = 333, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{206} }, // Swablu Egg with False Swipe
