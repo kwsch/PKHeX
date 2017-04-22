@@ -172,6 +172,8 @@ namespace PKHeX.Core
             005, // Safari Ball
             016, // Cherish Ball
             147, // Mosaic Mail
+            499, // Sport Ball
+            500, // Park Ball
         };
         internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
         internal static readonly int[] CrownBeasts = {251, 243, 244, 245};
@@ -216,9 +218,29 @@ namespace PKHeX.Core
             69, // Iron Island
             84, // Stark Mountain
         };
-        internal static readonly int[] DPPt_BuildingLocations =
+        internal static readonly int[] HGSS_CaveLocations =
         {
-            70, // Old Chateau
+            197, // DIGLETT's Cave
+            198, // Mt. Moon
+            199, // Cerulean Cave
+            200, // Rock Tunnel
+            201, // Power Plant
+            203, // Seafoam Islands
+            204, // Sprout Tower
+            205, // Bell Tower
+            206, // Burned Tower
+            209, // Ruins of Alph
+            210, // Union Cave
+            211, // SLOWPOKE Well
+            216, // Mt. Mortar
+            217, // Ice Path
+            218, // Whirl Islands
+            219, // Mt. Silver Cave
+            220, // Dark Cave
+            221, // Kanto Victory Road
+            223, // Tohjo Falls
+            228, // Cliff Cave
+            234, // Cliff Edge Gate
         };
         #endregion
         #region Pokéwalker Encounter
@@ -395,152 +417,193 @@ namespace PKHeX.Core
         };
         #endregion
         #region Static Encounter/Gift Tables
-        internal static readonly int[] Roaming_MetLocation_DPPt =
+        internal static readonly int[] Roaming_MetLocation_DPPt_Grass =
         {
-            // Route 201-222 can be encountered in either grass or water
+            // Routes 201-218, 221-222 can be encountered in grass
             16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-            26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-            36, 37, 
+            26, 27, 28, 29, 30, 31, 32, 33, 36, 37, 
             47,     // Valley Windworks
             49,     // Fuego Ironworks
         };
-        internal static readonly EncounterStatic[] Encounter_DPPt_Roam =
+        internal static readonly int[] Roaming_MetLocation_DPPt_Surf =
         {
-            new EncounterStatic { Species = 481, Level = 50, Roaming = true }, //Mesprit
-            new EncounterStatic { Species = 488, Level = 50, Roaming = true }, //Cresselia
-            new EncounterStatic { Species = 144, Level = 60, Version = GameVersion.Pt, Roaming = true }, //Articuno
-            new EncounterStatic { Species = 145, Level = 60, Version = GameVersion.Pt, Roaming = true }, //Zapdos
-            new EncounterStatic { Species = 146, Level = 60, Version = GameVersion.Pt, Roaming = true }, //Moltres
+            // Routes 203-205, 208-210, 212-214, 218-222 can be encountered in water
+            18, 19, 20, 23, 24, 25, 27, 28, 29, 33,
+            34, 35, 36, 37, 
+            47,     // Valley Windworks
+            49,     // Fuego Ironworks
         };
-
+        internal static readonly EncounterStatic[] Encounter_DPPt_Roam_Grass =
+        {
+            new EncounterStatic { Species = 481, Level = 50, Roaming = true, TypeEncounter = EncounterType.TallGrass }, //Mesprit
+            new EncounterStatic { Species = 488, Level = 50, Roaming = true, TypeEncounter = EncounterType.TallGrass }, //Cresselia
+            new EncounterStatic { Species = 144, Level = 60, Version = GameVersion.Pt, Roaming = true, TypeEncounter = EncounterType.TallGrass }, //Articuno
+            new EncounterStatic { Species = 145, Level = 60, Version = GameVersion.Pt, Roaming = true, TypeEncounter = EncounterType.TallGrass }, //Zapdos
+            new EncounterStatic { Species = 146, Level = 60, Version = GameVersion.Pt, Roaming = true, TypeEncounter = EncounterType.TallGrass }, //Moltres
+        };
+        internal static readonly EncounterStatic[] Encounter_DPPt_Roam_Surf =
+        {
+            new EncounterStatic { Species = 481, Level = 50, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, //Mesprit
+            new EncounterStatic { Species = 488, Level = 50, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, //Cresselia
+            new EncounterStatic { Species = 144, Level = 60, Version = GameVersion.Pt, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, //Articuno
+            new EncounterStatic { Species = 145, Level = 60, Version = GameVersion.Pt, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, //Zapdos
+            new EncounterStatic { Species = 146, Level = 60, Version = GameVersion.Pt, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, //Moltres
+        };
         internal static readonly EncounterStatic[] Encounter_DPPt_Regular =
         {
             //Starters
-            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 076, Version = GameVersion.DP,}, // Turtwig @ Lake Verity
-            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 076, Version = GameVersion.DP,}, // Chimchar
-            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 076, Version = GameVersion.DP,}, // Piplup
-            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Turtwig @ Route 201
-            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Chimchar
-            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 016, Version = GameVersion.Pt,}, // Piplup
+            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, Version = GameVersion.DP,}, // Turtwig @ Lake Verity
+            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, Version = GameVersion.DP,}, // Chimchar
+            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, Version = GameVersion.DP,}, // Piplup
+            new EncounterStatic { Gift = true, Species = 387, Level = 5, Location = 016, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Version = GameVersion.Pt,}, // Turtwig @ Route 201
+            new EncounterStatic { Gift = true, Species = 390, Level = 5, Location = 016, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Version = GameVersion.Pt,}, // Chimchar
+            new EncounterStatic { Gift = true, Species = 393, Level = 5, Location = 016, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Version = GameVersion.Pt,}, // Piplup
             //Fossil @ Mining Museum
-            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 094, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 094, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 094, }, // Aerodactyl
-            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 094, }, // Lileep
-            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 094, }, // Anorith
-            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 094, }, // Cranidos
-            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 094, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 094, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Shieldon
             //Gift
-            new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 010, Version = GameVersion.DP,}, //Eevee @ Hearthome City 
-            new EncounterStatic { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt,}, //Eevee @ Hearthome City 
-            new EncounterStatic { Gift = true, Species = 137, Level = 25, Location = 012, Version = GameVersion.Pt,}, //Porygon @ Veilstone City
-            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2011, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
-            new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
-            new EncounterStatic { Gift = true, Species = 447, Level = 01, EggLocation = 2010,}, //Riolu Egg from Riley
+            new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 010, Version = GameVersion.DP, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, //Eevee @ Hearthome City 
+            new EncounterStatic { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Eevee @ Hearthome City 
+            new EncounterStatic { Gift = true, Species = 137, Level = 25, Location = 012, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Porygon @ Veilstone City
+            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2011, TypeEncounter = EncounterType.None, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
+            new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 2009, TypeEncounter = EncounterType.None, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
+            new EncounterStatic { Gift = true, Species = 447, Level = 01, EggLocation = 2010, TypeEncounter = EncounterType.None, }, //Riolu Egg from Riley
             //Stationary
-            new EncounterStatic { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP, },// Drifloon @ Valley Windworks 
-            new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt, },// Drifloon @ Valley Windworks 
-            new EncounterStatic { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, },// Rotom @ Old Chateau 
-            new EncounterStatic { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, },// Rotom @ Old Chateau 
-            new EncounterStatic { Species = 442, Level = 25, Location = 24, },                          // Spiritomb @ Route 209            
+            new EncounterStatic { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP, TypeEncounter = EncounterType.TallGrass, },// Drifloon @ Valley Windworks 
+            new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt, TypeEncounter = EncounterType.TallGrass, },// Drifloon @ Valley Windworks 
+            new EncounterStatic { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau 
+            new EncounterStatic { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau 
+            new EncounterStatic { Species = 442, Level = 25, Location = 24, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Spiritomb @ Route 209            
             //Stationary Lengerdary
-            new EncounterStatic { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt,}, //Regirock @ Rock Peak Ruins
-            new EncounterStatic { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt,}, //Regice @ Iceberg Ruins
-            new EncounterStatic { Species = 379, Level = 30, Location = 123, Version = GameVersion.Pt,}, //Registeel @ Iron Ruins
-            new EncounterStatic { Species = 480, Level = 50, Location = 089,}, //Uxie @ Acuity Cavern
-            new EncounterStatic { Species = 482, Level = 50, Location = 088,}, //Azelf @ Valor Cavern
-            new EncounterStatic { Species = 483, Level = 47, Location = 051, Version = GameVersion.D,}, //Dialga @ Spear Pillar
+            new EncounterStatic { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Regirock @ Rock Peak Ruins
+            new EncounterStatic { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Regice @ Iceberg Ruins
+            new EncounterStatic { Species = 379, Level = 30, Location = 123, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Registeel @ Iron Ruins
+            new EncounterStatic { Species = 480, Level = 50, Location = 089, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Uxie @ Acuity Cavern
+            new EncounterStatic { Species = 482, Level = 50, Location = 088, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Azelf @ Valor Cavern
+            new EncounterStatic { Species = 483, Level = 47, Location = 051, Version = GameVersion.D, TypeEncounter = EncounterType.DialgaPalkia, }, //Dialga @ Spear Pillar
             new EncounterStatic { Species = 483, Level = 70, Location = 051, Version = GameVersion.Pt,}, //Dialga @ Spear Pillar
-            new EncounterStatic { Species = 484, Level = 47, Location = 051, Version = GameVersion.P,}, //Palkia @ Spear Pillar
+            new EncounterStatic { Species = 484, Level = 47, Location = 051, Version = GameVersion.P, TypeEncounter = EncounterType.DialgaPalkia, }, //Palkia @ Spear Pillar
             new EncounterStatic { Species = 484, Level = 70, Location = 051, Version = GameVersion.Pt,}, //Palkia @ Spear Pillar
-            new EncounterStatic { Species = 485, Level = 70, Location = 084, Version = GameVersion.DP,}, //Heatran @ Stark Mountain
-            new EncounterStatic { Species = 485, Level = 50, Location = 084, Version = GameVersion.Pt,}, //Heatran @ Stark Mountain
+            new EncounterStatic { Species = 485, Level = 70, Location = 084, Version = GameVersion.DP, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Heatran @ Stark Mountain
+            new EncounterStatic { Species = 485, Level = 50, Location = 084, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Heatran @ Stark Mountain
             new EncounterStatic { Species = 486, Level = 70, Location = 064, Version = GameVersion.DP,}, //Regigigas @ Snowpoint Temple
             new EncounterStatic { Species = 486, Level = 01, Location = 064, Version = GameVersion.Pt,}, //Regigigas @ Snowpoint Temple
-            new EncounterStatic { Species = 487, Level = 70, Location = 062, Version = GameVersion.DP, Form = 0, }, //Giratina @ Turnback Cave
-            new EncounterStatic { Species = 487, Level = 47, Location = 117, Version = GameVersion.Pt, Form = 1, }, //Giratina @ Distortion World
-            new EncounterStatic { Species = 487, Level = 47, Location = 062, Version = GameVersion.Pt, Form = 0, }, //Giratina @ Turnback Cave
+            new EncounterStatic { Species = 487, Level = 70, Location = 062, Version = GameVersion.DP, Form = 0, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Giratina @ Turnback Cave
+            new EncounterStatic { Species = 487, Level = 47, Location = 117, Version = GameVersion.Pt, Form = 1, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Giratina @ Distortion World
+            new EncounterStatic { Species = 487, Level = 47, Location = 062, Version = GameVersion.Pt, Form = 0, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Giratina @ Turnback Cave
             //Event
             new EncounterStatic { Species = 491, Level = 40, Location = 079, Version = GameVersion.DP,}, //Darkrai @ Newmoon Island
             new EncounterStatic { Species = 491, Level = 50, Location = 079, Version = GameVersion.Pt,}, //Darkrai @ Newmoon Island
             new EncounterStatic { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = true,}, //Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
             new EncounterStatic { Species = 493, Form = 0, Level = 80, Location = 086,}, //Arceus @ Hall of Origin (Unreleased)
         };
-        internal static readonly EncounterStatic[] Encounter_DPPt = Encounter_DPPt_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt)).Concat(Encounter_DPPt_Regular).ToArray();
+        internal static readonly EncounterStatic[] Encounter_DPPt = Encounter_DPPt_Roam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt_Grass)).Concat(Encounter_DPPt_Roam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt_Surf))).Concat(Encounter_DPPt_Regular).ToArray();
 
-        internal static readonly int[] Roaming_MetLocation_HGSS_Johto =
+        // Grass 29-39, 42-46 47, 48
+        // Surf 30-32 34-35, 40-45, 47
+        // Route 45 innacesible surf
+        internal static readonly int[] Roaming_MetLocation_HGSS_Johto_Grass =
         {
-            // Route 29-48 can be encountered in either grass or water
+            // Routes 29-48 can be encountered in grass
+            // Won't go to routes 40,41,47,48
             177,178,179,180,181,182,183,184,185,186,
-            187,        190,191,192,193,194,        // Won't go to route 40,41,47,48
+            187,        190,191,192,193,194,        
         };
-        internal static readonly EncounterStatic[] Encounter_HGSS_JohtoRoam =
+        internal static readonly int[] Roaming_MetLocation_HGSS_Johto_Surf =
         {
-            new EncounterStatic { Species = 243, Level = 40, Roaming = true }, // Raikou
-            new EncounterStatic { Species = 244, Level = 40, Roaming = true }, // Entei
+            // Routes 30-32,34-35,40-45 and 47 can be encountered in water
+            // Won't go to routes 40,41,47,48
+            178,179,180,182,183,190,191,192,193       
         };
-        internal static readonly int[] Roaming_MetLocation_HGSS_Kanto =
+        internal static readonly EncounterStatic[] Encounter_HGSS_JohtoRoam_Grass =
         {
-            // Route 01-28 can be encountered in either grass or water
+            new EncounterStatic { Species = 243, Level = 40, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, // Raikou
+            new EncounterStatic { Species = 244, Level = 40, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, // Entei
+        };
+        internal static readonly EncounterStatic[] Encounter_HGSS_JohtoRoam_Surf =
+        {
+            new EncounterStatic { Species = 243, Level = 40, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, // Raikou
+            new EncounterStatic { Species = 244, Level = 40, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, // Entei
+        };
+        internal static readonly int[] Roaming_MetLocation_HGSS_Kanto_Grass =
+        {
+            // Route 01-18,21,22,24,26 and 28 can be encountered in grass
+            // Won't go to route 23 25 27
             149,150,151,152,153,154,155,156,157,158,
-            159,160,161,162,163,164,165,166,167,168,
-            169,170,    172,    174,    176,        // Won't go to route 23 25 27
+            159,160,161,162,163,164,165,166,
+            169,170,    172,    174,    176,        
         };
-        internal static readonly EncounterStatic[] Encounter_HGSS_KantoRoam =
+        internal static readonly int[] Roaming_MetLocation_HGSS_Kanto_Surf =
         {
-            new EncounterStatic { Species = 380, Level = 35, Version = GameVersion.HG, Roaming = true }, //Latias
-            new EncounterStatic { Species = 381, Level = 35, Version = GameVersion.SS, Roaming = true }, //Latios
+            // Route 4,6,9,10,12,13,19-22,24,26 and 28 can be encountered in water
+            // Won't go to route 23 25 27
+            152,154,157,158,160,161,167,168,169,170,
+            172,174,176,        
+        };
+        internal static readonly EncounterStatic[] Encounter_HGSS_KantoRoam_Grass =
+        {
+            new EncounterStatic { Species = 380, Level = 35, Version = GameVersion.HG, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, //Latias
+            new EncounterStatic { Species = 381, Level = 35, Version = GameVersion.SS, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, //Latios
+        };
+        internal static readonly EncounterStatic[] Encounter_HGSS_KantoRoam_Surf =
+        {
+            new EncounterStatic { Species = 380, Level = 35, Version = GameVersion.HG, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, //Latias
+            new EncounterStatic { Species = 381, Level = 35, Version = GameVersion.SS, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, //Latios
         };
         internal static readonly EncounterStatic[] Encounter_HGSS_Regular =
         {
             //Starters
-            new EncounterStatic { Gift = true, Species = 001, Level = 05, Location = 138, }, // Bulbasaur @ Pallet Town
-            new EncounterStatic { Gift = true, Species = 004, Level = 05, Location = 138, }, // Charmander
-            new EncounterStatic { Gift = true, Species = 007, Level = 05, Location = 138, }, // Squirtle
-            new EncounterStatic { Gift = true, Species = 152, Level = 05, Location = 126, }, // Chikorita @ New Bark Town
-            new EncounterStatic { Gift = true, Species = 155, Level = 05, Location = 126, }, // Cyndaquil
-            new EncounterStatic { Gift = true, Species = 158, Level = 05, Location = 126, }, // Totodile
-            new EncounterStatic { Gift = true, Species = 252, Level = 05, Location = 148, }, // Treecko @ Saffron City
-            new EncounterStatic { Gift = true, Species = 255, Level = 05, Location = 148, }, // Torchic
-            new EncounterStatic { Gift = true, Species = 258, Level = 05, Location = 148, }, // Mudkip
+            new EncounterStatic { Gift = true, Species = 001, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Bulbasaur @ Pallet Town
+            new EncounterStatic { Gift = true, Species = 004, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Charmander
+            new EncounterStatic { Gift = true, Species = 007, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Squirtle
+            new EncounterStatic { Gift = true, Species = 152, Level = 05, Location = 126, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Chikorita @ New Bark Town
+            new EncounterStatic { Gift = true, Species = 155, Level = 05, Location = 126, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Cyndaquil
+            new EncounterStatic { Gift = true, Species = 158, Level = 05, Location = 126, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Totodile
+            new EncounterStatic { Gift = true, Species = 252, Level = 05, Location = 148, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Treecko @ Saffron City
+            new EncounterStatic { Gift = true, Species = 255, Level = 05, Location = 148, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Torchic
+            new EncounterStatic { Gift = true, Species = 258, Level = 05, Location = 148, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Mudkip
             //Fossil @ Pewter City
-            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 140, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 140, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 140, }, // Aerodactyl
-            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 140, }, // Lileep
-            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 140, }, // Anorith
-            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 140, }, // Cranidos
-            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 140, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 138, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 20, Location = 140, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Shieldon
             //Gift
-            new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 131, }, // Eevee @ Goldenrod City
+            new EncounterStatic { Gift = true, Species = 133, Level = 05, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,  }, // Eevee @ Goldenrod City
             new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 222, Moves = new[] {245}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
-            new EncounterStatic { Gift = true, Species = 236, Level = 10, Location = 216, }, // Tyrogue @ Mt. Mortar
-            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326},}, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
-            new EncounterStatic { Gift = true, Species = 179, Level = 01, EggLocation = 2014,}, // Mareep Egg from Primo
-            new EncounterStatic { Gift = true, Species = 194, Level = 01, EggLocation = 2014,}, // Wooper Egg from Primo
-            new EncounterStatic { Gift = true, Species = 218, Level = 01, EggLocation = 2014,}, // Slugma Egg from Primo
+            new EncounterStatic { Gift = true, Species = 236, Level = 10, Location = 216, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Tyrogue @ Mt. Mortar
+            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2013, TypeEncounter = EncounterType.None, Moves = new[] {326},}, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
+            new EncounterStatic { Gift = true, Species = 179, Level = 01, EggLocation = 2014, TypeEncounter = EncounterType.None, }, // Mareep Egg from Primo
+            new EncounterStatic { Gift = true, Species = 194, Level = 01, EggLocation = 2014, TypeEncounter = EncounterType.None, }, // Wooper Egg from Primo
+            new EncounterStatic { Gift = true, Species = 218, Level = 01, EggLocation = 2014, TypeEncounter = EncounterType.None, }, // Slugma Egg from Primo
             // Celadon City Game Corner
-            new EncounterStatic { Gift = true, Species = 122, Level = 15, Location = 144 }, // Mr. Mime
-            new EncounterStatic { Gift = true, Species = 133, Level = 15, Location = 144 }, // Eevee
-            new EncounterStatic { Gift = true, Species = 137, Level = 15, Location = 144 }, // Porygon
+            new EncounterStatic { Gift = true, Species = 122, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Mr. Mime
+            new EncounterStatic { Gift = true, Species = 133, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Eevee
+            new EncounterStatic { Gift = true, Species = 137, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Porygon
             // Goldenrod City Game Corner
-            new EncounterStatic { Gift = true, Species = 063, Level = 15, Location = 131 }, // Abra
-            new EncounterStatic { Gift = true, Species = 023, Level = 15, Location = 131, Version = GameVersion.HG }, // Ekans
-            new EncounterStatic { Gift = true, Species = 027, Level = 15, Location = 131, Version = GameVersion.SS }, // Sandshrew
-            new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 131 }, // Dratini
+            new EncounterStatic { Gift = true, Species = 063, Level = 15, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Abra
+            new EncounterStatic { Gift = true, Species = 023, Level = 15, Location = 131, Version = GameVersion.HG, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Ekans
+            new EncounterStatic { Gift = true, Species = 027, Level = 15, Location = 131, Version = GameVersion.SS, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Sandshrew
+            new EncounterStatic { Gift = true, Species = 147, Level = 15, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Dratini
             // Team Rocket HQ Trap Floor
-            // new EncounterStatic { Species = 101, Level = 23, Location = 213, }, // Electrode Overlaps stationary 
-            new EncounterStatic { Species = 100, Level = 23, Location = 213, }, // Voltorb
-            new EncounterStatic { Species = 074, Level = 23, Location = 213, }, // Geodude
-            new EncounterStatic { Species = 109, Level = 23, Location = 213, }, // Koffing 
+            new EncounterStatic { Species = 100, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Voltorb
+            new EncounterStatic { Species = 074, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Geodude
+            new EncounterStatic { Species = 109, Level = 21, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Koffing 
 
             //Stationary
-            new EncounterStatic { Species = 130, Level = 30, Location = 135, Shiny = true }, //Gyarados @ Lake of Rage
-            new EncounterStatic { Species = 131, Level = 20, Location = 210, }, //Lapras @ Union Cave Friday Only
-            new EncounterStatic { Species = 101, Level = 23, Location = 213, }, //Electrode @ Team Rocket HQ
+            new EncounterStatic { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = true }, //Gyarados @ Lake of Rage
+            new EncounterStatic { Species = 131, Level = 20, Location = 210, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Lapras @ Union Cave Friday Only
+            new EncounterStatic { Species = 101, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, //Electrode @ Team Rocket HQ
             new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
             new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
-            new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36
+            new EncounterStatic { Species = 185, Level = 20, Location = 184, TypeEncounter = EncounterType.None, }, //Sudowoodo @ Route 36
             new EncounterStatic { Species = 172, Level = 30, Location = 214, Gender = 1, Form = 1, Moves = new[]{344,270,207,220} },  //Spiky-eared Pichu @ Ilex forest
             //Stationary Lengerdary
             new EncounterStatic { Species = 144, Level = 50, Location = 203, }, //Articuno @ Seafoam Islands
@@ -551,8 +614,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 245, Level = 40, Location = 206, }, //Suicune @ Burned Tower
             new EncounterStatic { Species = 249, Level = 45, Location = 218, Version = GameVersion.SS, }, //Lugia @ Whirl Islands
             new EncounterStatic { Species = 249, Level = 70, Location = 218, Version = GameVersion.HG, }, //Lugia @ Whirl Islands
-            new EncounterStatic { Species = 250, Level = 45, Location = 205, Version = GameVersion.HG, }, //Ho-Oh @ Bell Tower
-            new EncounterStatic { Species = 250, Level = 70, Location = 205, Version = GameVersion.SS, }, //Ho-Oh @ Bell Tower
+            new EncounterStatic { Species = 250, Level = 45, Location = 205, Version = GameVersion.HG, TypeEncounter = EncounterType.Building_EnigmaStone, }, //Ho-Oh @ Bell Tower
+            new EncounterStatic { Species = 250, Level = 70, Location = 205, Version = GameVersion.SS, TypeEncounter = EncounterType.Building_EnigmaStone, }, //Ho-Oh @ Bell Tower
             new EncounterStatic { Species = 380, Level = 40, Location = 140, Version = GameVersion.SS, }, //Latias @ Pewter City
             new EncounterStatic { Species = 381, Level = 40, Location = 140, Version = GameVersion.HG, }, //Latios @ Pewter City
             new EncounterStatic { Species = 382, Level = 50, Location = 232, Version = GameVersion.HG, }, //Kyogre @ Embedded Tower
@@ -562,8 +625,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 484, Level = 01, Location = 231, Gift = true }, //Palkia @ Sinjoh Ruins
             new EncounterStatic { Species = 487, Level = 01, Location = 231, Gift = true, Form = 1}, //Giratina @ Sinjoh Ruins
         };
-        internal static readonly EncounterStatic[] Encounter_HGSS = Encounter_HGSS_KantoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto)).Concat(
-                                                                    Encounter_HGSS_JohtoRoam.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto))).Concat(
+        internal static readonly EncounterStatic[] Encounter_HGSS = Encounter_HGSS_KantoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Grass)).Concat(
+                                                                    Encounter_HGSS_KantoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Surf))).Concat(
+                                                                    Encounter_HGSS_JohtoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Grass))).Concat(
+                                                                    Encounter_HGSS_JohtoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Surf))).Concat(
                                                                     Encounter_HGSS_Regular).ToArray();
         #endregion
         #region Trade Tables

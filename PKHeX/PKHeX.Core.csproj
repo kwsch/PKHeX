@@ -158,6 +158,7 @@
     <Compile Include="Legality\Structures\DexLevel.cs" />
     <Compile Include="Legality\Structures\EggMoves.cs" />
     <Compile Include="Legality\Structures\EncounterArea.cs" />
+    <Compile Include="Legality\Structures\EncounterType.cs" />
     <Compile Include="Legality\Structures\GBEncounterData.cs" />
     <Compile Include="Legality\Structures\IEncounterable.cs" />
     <Compile Include="Legality\Structures\EncounterLink.cs" />

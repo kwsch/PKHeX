@@ -795,6 +795,34 @@ namespace PKHeX.Core
 
             return result;
         }
+        private void verifyEncounterType()
+        {
+            EncounterType Type = Core.EncounterType.None;
+            // Encounter type data is only stored for gen 4 encounters
+            // Gen 6 -> 7 transfer delete encounter type data
+            // All eggs have encounter type none, even if they are from static encounters
+            if (pkm.Format < 7 && pkm.Gen4 && !pkm.WasEgg)
+            {
+                if (EncounterMatch as EncounterSlot[] != null)
+                    // If there is more than one slot, the get wild encounter have filter for the pkm type encounter like safari/sports ball
+                    Type = (EncounterMatch as EncounterSlot[]).First().TypeEncounter;
+                if (EncounterMatch as EncounterStatic != null)
+                    Type = (EncounterMatch as EncounterStatic).TypeEncounter;
+            }
+            if (Type == Core.EncounterType.Any)
+            {
+                // Temp analysis until all generation 4 static encounters have defined their encounter type values
+                AddLine(Severity.NotImplemented, V382, CheckIdentifier.Encounter);
+                return;
+            }
+            if (Type != (EncounterType)pkm.EncounterType)
+            {
+                AddLine(Severity.Invalid, V381, CheckIdentifier.Encounter);
+                return;
+            }
+            AddLine(Severity.Valid, V380, CheckIdentifier.Encounter);
+        }
+
         private CheckResult verifyEncounter()
         {
             // Special considerations have to be applied when encounter info is lost on transfer.

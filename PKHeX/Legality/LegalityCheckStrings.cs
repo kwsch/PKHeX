@@ -61,7 +61,8 @@ namespace PKHeX.Core
         public static string V361 { get; set; } = "Default move.";
         public static string V362 { get; set; } = "Default move in generation {0}.";
         public static string V372 { get; set; } = "{0} Berry";
-
+        public static string V380 { get; set; } = "Encounter Type match encounter.";
+        public static string V382 { get; set; } = "Encounter Type not implemented for pokemon encounter.";
         #endregion
 
         #region Legality Check Result Strings
@@ -369,6 +370,7 @@ namespace PKHeX.Core
         public static string V377 {get; set;} = "Egg Move. Not expected in a gift egg.";
         public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift egg.";
         public static string V379 {get; set;} = "{0} Inherited Move. Incompatible with {1} inherited moves.";
+        public static string V381 {get; set;} = "Encounter Type does not match encounter.";
         #endregion
 
     }

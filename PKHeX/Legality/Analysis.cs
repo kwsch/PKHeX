@@ -222,7 +222,8 @@ namespace PKHeX.Core
             verifyMisc();
             verifyGender();
             verifyItem();
-
+            if (pkm.Format >= 4)
+                verifyEncounterType();
             if (pkm.Format >= 6)
             {
                 History = verifyHistory();
