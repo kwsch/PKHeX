@@ -973,7 +973,35 @@ namespace PKHeX.Core
         private CheckResult verifyEncounterG4Transfer()
         {
             CheckResult Gen4Result = null;
-            
+            CheckResult Gen4WildResult = null;
+            object WildEncounter = null;
+
+
+            // Transfer Legality
+            int loc = pkm.Met_Location;
+            if (loc != 30001) // PokéTransfer
+            {
+                // Crown
+                switch (pkm.Species)
+                {
+                    case 251: // Celebi
+                        if (loc == 30010 || loc == 30011) // unused || used
+                            return Gen4Result;
+                        AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                        break;
+                    case 243: // Raikou
+                    case 244: // Entei
+                    case 245: // Suicune
+                        if (loc == 30012 || loc == 30013) // unused || used
+                            return Gen4Result;
+                        AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                        break;
+                    default:
+                        AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
+                        break;
+                }
+            }
+
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
             if (wasEvent)
             {
@@ -982,11 +1010,19 @@ namespace PKHeX.Core
                     Gen4Result = result;
             }
 
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+            {
+                Gen4WildResult = verifyEncounterWild();
+                WildEncounter = EncounterMatch;
+            }
+
             if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 EncounterMatch = EncounterStaticMatch.First();
                 var result = verifyEncounterStatic();
-                if (result != null)
+                // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
+                // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
+                if (result != null && (Gen4WildResult == null || EncounterStaticMatch.Any(sttic => !sttic.Gift || pkm.Ball == sttic.Ball)))
                     return result;
 
                 EncounterStaticMatch = null;
@@ -996,8 +1032,11 @@ namespace PKHeX.Core
             if (pkm.WasEgg) // Invalid transfer is already checked in encounter egg
                 return verifyEncounterEgg();
 
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
-                Gen4Result = verifyEncounterWild();
+            if (Gen4Result == null && Gen4WildResult != null)
+            {
+                Gen4Result = Gen4WildResult;
+                EncounterMatch = WildEncounter;
+            }
 
             if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
                 Gen4Result = verifyEncounterTrade();
@@ -1007,31 +1046,7 @@ namespace PKHeX.Core
                            ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
                            : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
-            // Transfer Legality
-
-            // PokéTransfer
-            int loc = pkm.Met_Location;
-            if (loc == 30001)
-                return Gen4Result;
-
-            // Crown
-            switch (pkm.Species)
-            {
-                case 251: // Celebi
-                    if (loc == 30010 || loc == 30011) // unused || used
-                        return Gen4Result;
-                    return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
-                    
-                case 243: // Raikou
-                case 244: // Entei
-                case 245: // Suicune
-                    if (loc == 30012 || loc == 30013) // unused || used
-                        return Gen4Result;
-                    return new CheckResult(Severity.Invalid, V351, CheckIdentifier.Encounter);
-            }
-
-            // No Match
-            return new CheckResult(Severity.Invalid, V61, CheckIdentifier.Encounter);
+            return Gen4Result;
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
