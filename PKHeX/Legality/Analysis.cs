@@ -14,9 +14,9 @@ namespace PKHeX.Core
         private List<GBEncounterData> EncountersGBMatch;
         private object EncounterOriginalGB => EncountersGBMatch?.FirstOrDefault()?.Encounter;
         private object EncounterMatch;
-        private Type EncounterType;
+        private Type Type; // Encounter
         private bool MatchIsMysteryGift => EncounterMatch.GetType().IsSubclassOf(typeof(MysteryGift));
-        private bool EncounterIsMysteryGift => EncounterType.IsSubclassOf(typeof (MysteryGift));
+        private bool EncounterIsMysteryGift => Type.IsSubclassOf(typeof (MysteryGift));
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginalGB ?? EncounterMatch);
         private List<MysteryGift> EventGiftMatch;
         private List<EncounterStatic> EncounterStaticMatch;
@@ -110,7 +110,7 @@ namespace PKHeX.Core
             
             updateEncounterChain();
             updateMoveLegality();
-            updateEncounterInfo();
+            updateTypeInfo();
             verifyNickname();
             verifyDVs();
             verifyG1OT();
@@ -123,7 +123,7 @@ namespace PKHeX.Core
             
             updateEncounterChain();
             updateMoveLegality();
-            updateEncounterInfo();
+            updateTypeInfo();
             updateChecks();
         }
         private void parsePK4(PKM pk)
@@ -135,7 +135,7 @@ namespace PKHeX.Core
             verifyPreRelearn();
             updateEncounterChain();
             updateMoveLegality();
-            updateEncounterInfo();
+            updateTypeInfo();
             updateChecks();
         }
         private void parsePK5(PKM pk)
@@ -147,7 +147,7 @@ namespace PKHeX.Core
             verifyPreRelearn();
             updateEncounterChain();
             updateMoveLegality();
-            updateEncounterInfo();
+            updateTypeInfo();
             updateChecks();
         }
         private void parsePK6(PKM pk)
@@ -159,7 +159,7 @@ namespace PKHeX.Core
             updateRelearnLegality();
             updateEncounterChain();
             updateMoveLegality();
-            updateEncounterInfo();
+            updateTypeInfo();
             updateChecks();
         }
         private void parsePK7(PKM pk)
@@ -171,7 +171,7 @@ namespace PKHeX.Core
             updateRelearnLegality();
             updateEncounterChain();
             updateMoveLegality();
-            updateEncounterInfo();
+            updateTypeInfo();
             updateChecks();
         }
 
@@ -197,14 +197,14 @@ namespace PKHeX.Core
             Parse.Add(Encounter);
             EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
         }
-        private void updateEncounterInfo()
+        private void updateTypeInfo()
         {
             if (pkm.VC && pkm.Format == 7)
                 EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
 
-            EncounterType = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
-            if (EncounterType == typeof (MysteryGift))
-                EncounterType = EncounterType?.BaseType;
+            Type = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
+            if (Type == typeof (MysteryGift))
+                Type = Type?.BaseType;
         }
         private void updateChecks()
         {

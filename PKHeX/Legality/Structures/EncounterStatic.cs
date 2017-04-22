@@ -6,11 +6,10 @@
         public int[] Moves { get; set; }
         public int Level;
 
-        public int LevelMin { get { return Level; } }
-        public int LevelMax { get { return Level; } }
+        public int LevelMin => Level;
+        public int LevelMax => Level;
         public int Generation { get; set; } = -1;
         public int Location;
-        public EncounterType TypeEncounter = EncounterType.Any;
         public int Ability;
         public int Form;
         public bool? Shiny; // false = never, true = always, null = possible
@@ -42,7 +41,7 @@
             return Encounters;
         }
 
-        public EncounterStatic Clone(int location)
+        protected virtual EncounterStatic Clone(int location)
         {
             return new EncounterStatic
             {
@@ -70,7 +69,6 @@
                 NSparkle = NSparkle,
                 Roaming = Roaming,
                 EggCycles = EggCycles,
-                TypeEncounter = TypeEncounter
             };
         }
 
@@ -110,7 +108,6 @@
                 NSparkle = NSparkle,
                 Roaming = Roaming,
                 EggCycles = EggCycles,
-                TypeEncounter = TypeEncounter
             };
         }
 
@@ -123,6 +120,43 @@
                     return game;
                 return game + " " + $"({Version})";
             }
+        }
+    }
+
+    public class EncounterStaticTyped : EncounterStatic
+    {
+        public EncounterType TypeEncounter = EncounterType.None;
+
+        protected override EncounterStatic Clone(int location)
+        {
+            return new EncounterStaticTyped
+            {
+                Species = Species,
+                Level = Level,
+                Location = location,
+                Ability = Ability,
+                Form = Form,
+                Shiny = Shiny,
+                Relearn = Relearn,
+                Moves = Moves,
+                Gender = Gender,
+                EggLocation = EggLocation,
+                Nature = Nature,
+                Gift = Gift,
+                Ball = Ball,
+                Version = Version,
+                IVs = IVs,
+                IV3 = IV3,
+                Contest = Contest,
+                HeldItem = HeldItem,
+                Fateful = Fateful,
+                RibbonWishing = RibbonWishing,
+                SkipFormCheck = SkipFormCheck,
+                NSparkle = NSparkle,
+                Roaming = Roaming,
+                EggCycles = EggCycles,
+                TypeEncounter = TypeEncounter,
+            };
         }
     }
 }

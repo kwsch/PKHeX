@@ -134,13 +134,13 @@ namespace PKHeX.Core
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
                 AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
-            if (EncounterType == typeof (EncounterStatic))
+            if (Type == typeof (EncounterStatic))
             {
                 var enc = (EncounterStatic)EncounterMatch;
                 if (enc.Shiny != null && (bool) enc.Shiny ^ pkm.IsShiny)
                     AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
             }
-            else if (EncounterType == typeof(EncounterSlot[]))
+            else if (Type == typeof(EncounterSlot[]))
             {
                 var slots = (EncounterSlot[])EncounterMatch;
                 if (pkm.IsShiny && slots.All(slot => slot.Type == SlotType.HiddenGrotto))
@@ -166,7 +166,7 @@ namespace PKHeX.Core
             }
 
             // Check if Wurmple was the origin (only Egg and Wild Encounter)
-            bool wasWurmple = pkm.WasEgg || (EncounterType == typeof (EncounterSlot[]) && ((EncounterSlot[])EncounterMatch).Any(slot => slot.Species == 265));
+            bool wasWurmple = pkm.WasEgg || (Type == typeof (EncounterSlot[]) && ((EncounterSlot[])EncounterMatch).Any(slot => slot.Species == 265));
             if (!wasWurmple)
                 return;
 
@@ -246,7 +246,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (EncounterType == typeof(EncounterTrade))
+            if (Type == typeof(EncounterTrade))
             {
                 verifyNicknameTrade();
                 return;
@@ -466,7 +466,7 @@ namespace PKHeX.Core
         #region verifyOT
         private void verifyOT()
         {
-            if (EncounterType == typeof(EncounterTrade))
+            if (Type == typeof(EncounterTrade))
                 return; // Already matches Encounter Trade information
 
             if (pkm.TID == 0 && pkm.SID == 0)
@@ -749,7 +749,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
                     if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
                         return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
-                    if (s.Location == 193 && s.TypeEncounter == Core.EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Jhoto Route 45
+                    if (s.Location == 193 && (s as EncounterStaticTyped)?.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Jhoto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:
@@ -813,25 +813,25 @@ namespace PKHeX.Core
         }
         private void verifyEncounterType()
         {
-            EncounterType Type = Core.EncounterType.None;
+            EncounterType type = EncounterType.None;
             // Encounter type data is only stored for gen 4 encounters
             // Gen 6 -> 7 transfer delete encounter type data
             // All eggs have encounter type none, even if they are from static encounters
             if (pkm.Format < 7 && pkm.Gen4 && !pkm.WasEgg)
             {
-                if (EncounterMatch as EncounterSlot[] != null)
+                if (EncounterMatch is EncounterSlot[])
                     // If there is more than one slot, the get wild encounter have filter for the pkm type encounter like safari/sports ball
-                    Type = (EncounterMatch as EncounterSlot[]).First().TypeEncounter;
-                if (EncounterMatch as EncounterStatic != null)
-                    Type = (EncounterMatch as EncounterStatic).TypeEncounter;
+                    type = ((EncounterSlot[])EncounterMatch).First().TypeEncounter;
+                if (EncounterMatch is EncounterStaticTyped)
+                    type = ((EncounterStaticTyped)EncounterMatch).TypeEncounter;
             }
-            if (Type == Core.EncounterType.Any)
+            if (type == EncounterType.Any)
             {
                 // Temp analysis until all generation 4 static encounters have defined their encounter type values
                 AddLine(Severity.NotImplemented, V382, CheckIdentifier.Encounter);
                 return;
             }
-            if (Type != (EncounterType)pkm.EncounterType)
+            if (type != (EncounterType)pkm.EncounterType)
             {
                 AddLine(Severity.Invalid, V381, CheckIdentifier.Encounter);
                 return;
@@ -976,6 +976,45 @@ namespace PKHeX.Core
             CheckResult Gen4WildResult = null;
             EncounterSlot[] WildEncounter = null;
 
+            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
+            if (wasEvent)
+            {
+                var result = verifyEncounterEvent();
+                if (result != null)
+                    Gen4Result = result;
+            }
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+            {
+                Gen4WildResult = verifyEncounterWild();
+                WildEncounter = (EncounterSlot[])EncounterMatch;
+            }
+
+            if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
+            {
+                EncounterMatch = EncounterStaticMatch.First();
+                var result = verifyEncounterStatic();
+                // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
+                // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
+                if (result != null && (pkm.WasEgg || Gen4WildResult == null || EncounterStaticMatch.Any(s => !s.Gift || pkm.Ball == s.Ball)))
+                    return result;
+
+                EncounterStaticMatch = null;
+                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
+            }
+
+            if (pkm.WasEgg) // Invalid transfer is already checked in encounter egg
+                return verifyEncounterEgg();
+
+            if (Gen4Result == null && Gen4WildResult != null)
+            {
+                Gen4Result = Gen4WildResult;
+                EncounterMatch = WildEncounter;
+            }
+
+            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+                Gen4Result = verifyEncounterTrade();
+
             // Transfer Legality
             int loc = pkm.Met_Location;
             if (loc != 30001) // PokéTransfer
@@ -1001,51 +1040,9 @@ namespace PKHeX.Core
                 }
             }
 
-            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
-            if (wasEvent)
-            {
-                var result = verifyEncounterEvent();
-                if (result != null)
-                    Gen4Result = result;
-            }
-
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
-            {
-                Gen4WildResult = verifyEncounterWild();
-                WildEncounter = (EncounterSlot[])EncounterMatch;
-            }
-
-            if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
-            {
-                EncounterMatch = EncounterStaticMatch.First();
-                var result = verifyEncounterStatic();
-                // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
-                // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
-                if (result != null && (pkm.WasEgg || Gen4WildResult == null || EncounterStaticMatch.Any(sttic => !sttic.Gift || pkm.Ball == sttic.Ball)))
-                    return result;
-
-                EncounterStaticMatch = null;
-                EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
-            }
-
-            if (pkm.WasEgg) // Invalid transfer is already checked in encounter egg
-                return verifyEncounterEgg();
-
-            if (Gen4Result == null && Gen4WildResult != null)
-            {
-                Gen4Result = Gen4WildResult;
-                EncounterMatch = WildEncounter;
-            }
-
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
-                Gen4Result = verifyEncounterTrade();
-
-            if (Gen4Result == null)
-                Gen4Result = wasEvent
-                           ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
-                           : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
-
-            return Gen4Result;
+            return Gen4Result ?? (wasEvent
+                ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter));
         }
         private CheckResult verifyVCEncounter(int baseSpecies)
         {
@@ -1394,7 +1391,7 @@ namespace PKHeX.Core
         }
         private void verifyAbility5(int[] abilities)
         {
-            if (EncounterType == typeof (EncounterSlot[]))
+            if (Type == typeof (EncounterSlot[]))
             {
                 // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
                 bool grotto = ((EncounterSlot[]) EncounterMatch).All(slot => slot.Type == SlotType.HiddenGrotto);
@@ -1406,7 +1403,7 @@ namespace PKHeX.Core
         }
         private void verifyAbility6(int[] abilities)
         {
-            if (EncounterType == typeof (EncounterSlot[]) && pkm.AbilityNumber == 4)
+            if (Type == typeof (EncounterSlot[]) && pkm.AbilityNumber == 4)
             {
                 var slots = (EncounterSlot[]) EncounterMatch;
                 bool valid = slots.Any(slot => slot.DexNav ||
@@ -1422,7 +1419,7 @@ namespace PKHeX.Core
         }
         private void verifyAbility7(int[] abilities)
         {
-            if (EncounterType == typeof (EncounterSlot[]) && pkm.AbilityNumber == 4)
+            if (Type == typeof (EncounterSlot[]) && pkm.AbilityNumber == 4)
             {
                 var slots = (EncounterSlot[]) EncounterMatch;
                 bool valid = slots.Any(slot => slot.Type == SlotType.SOS);
@@ -1475,12 +1472,12 @@ namespace PKHeX.Core
                     verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
                 return;
             }
-            if (EncounterType == typeof (EncounterLink))
+            if (Type == typeof (EncounterLink))
             {
                 verifyBallEquals(((EncounterLink)EncounterMatch).Ball);
                 return;
             }
-            if (EncounterType == typeof (EncounterTrade))
+            if (Type == typeof (EncounterTrade))
             {
                 verifyBallEquals(4); // Pokeball
                 return;
@@ -1502,7 +1499,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (EncounterType == typeof(EncounterStatic))
+            if (Type == typeof(EncounterStatic))
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
                 if (enc?.Gift ?? false)
@@ -1513,7 +1510,7 @@ namespace PKHeX.Core
                     verifyBallEquals(Legal.getWildBalls(pkm));
                 return;
             }
-            if (EncounterType == typeof (EncounterSlot[]))
+            if (Type == typeof (EncounterSlot[]))
             {
                 EncounterSlot[] enc = EncounterMatch as EncounterSlot[];
 
@@ -1927,7 +1924,7 @@ namespace PKHeX.Core
                 if (pkm.OT_Memory != 0)
                     return new CheckResult(Severity.Invalid, V151, CheckIdentifier.History);
             }
-            else if (EncounterType != typeof(WC6))
+            else if (Type != typeof(WC6))
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
                     return new CheckResult(Severity.Invalid, V152, CheckIdentifier.History);
@@ -2001,18 +1998,18 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (EncounterType == typeof(EncounterTrade))
+            if (Type == typeof(EncounterTrade))
             {
                 // Undocumented, uncommon, and insignificant -- don't bother.
                 return;
             }
-            if (EncounterType == typeof(WC6))
+            if (Type == typeof(WC6))
             {
                 WC6 g = EncounterMatch as WC6;
                 verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
                 return;
             }
-            if (EncounterType == typeof(WC7))
+            if (Type == typeof(WC7))
             {
                 WC7 g = EncounterMatch as WC7;
                 verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
@@ -2180,9 +2177,9 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 25: // Pikachu
-                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterType == typeof(EncounterStatic))
+                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
                     {
-                        string msg = EncounterType == typeof (EncounterStatic) ? V305 : V306;
+                        string msg = Type == typeof (EncounterStatic) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
@@ -2360,7 +2357,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
-                if (EncounterType == typeof (EncounterStatic))
+                if (Type == typeof (EncounterStatic))
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     if (enc.Fateful)
@@ -3244,7 +3241,7 @@ namespace PKHeX.Core
             }
 
             // No gift match, thus no relearn moves
-            EncounterMatch = EncounterType = null;
+            EncounterMatch = Type = null;
             return verifyRelearnNone(); 
         }
         private CheckResult[] verifyRelearnDexNav()

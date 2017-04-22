@@ -1316,17 +1316,20 @@ namespace PKHeX.Core
             int lvl = getMinLevelEncounter(pkm);
             if (lvl <= 0)
                 return null;
-            // Back Check against pkm
-            var enc = getMatchingStaticEncounters(pkm, poss, lvl).ToList();
 
-            // If there is only one valid encounter defer encountertype check to verify encounter type
-            if(enc.Count > 1 && pkm.Gen4 && pkm.Format < 7)
+            // Back Check against pkm
+            var enc = getMatchingStaticEncounters(pkm, poss, lvl);
+
+            // Filter for encounter types
+            if (pkm.Gen4 && pkm.Format < 7) // type is cleared on 6->7
             {
-                var s_EncounterTypes = enc.Where(stc => stc.TypeEncounter == EncounterType.Any || stc.TypeEncounter == (EncounterType)pkm.EncounterType);
-                if (s_EncounterTypes.Any())
-                    return s_EncounterTypes.ToList();
+                int type = pkm.EncounterType;
+                enc = type == 0
+                    ? enc.Where(z => !(z is EncounterStaticTyped)) // no typed encounters
+                    : enc.Where(z => z is EncounterStaticTyped && (int) ((EncounterStaticTyped)z).TypeEncounter == type);
             }
-            return enc.Any() ? enc : null;
+            var result = enc.ToList();
+            return result.Count == 0 ? null : result;
         }
         private static IEnumerable<EncounterStatic> getMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
         {
