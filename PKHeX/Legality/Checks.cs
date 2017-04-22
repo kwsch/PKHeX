@@ -1022,7 +1022,7 @@ namespace PKHeX.Core
                 var result = verifyEncounterStatic();
                 // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
                 // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
-                if (result != null && (Gen4WildResult == null || EncounterStaticMatch.Any(sttic => !sttic.Gift || pkm.Ball == sttic.Ball)))
+                if (result != null && (pkm.WasEgg || Gen4WildResult == null || EncounterStaticMatch.Any(sttic => !sttic.Gift || pkm.Ball == sttic.Ball)))
                     return result;
 
                 EncounterStaticMatch = null;
