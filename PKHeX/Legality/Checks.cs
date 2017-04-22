@@ -354,7 +354,7 @@ namespace PKHeX.Core
                 }
                 return;
             }
-            else if (3 <= pkm.Format && pkm.Format <= 5)
+            else if (3 <= pkm.GenNumber && pkm.GenNumber <= 5)
             { 
                 // Suppressing temporarily
                 return;
