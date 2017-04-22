@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -35,6 +31,7 @@ namespace PKHeX.Core
             Type = GBEncounterType.EggEncounter;
             Level = 5;
             WasEgg = true;
+            Species = species;
         }
         
         public GBEncounterData(PKM pkm, int gen, object enc)
@@ -42,7 +39,7 @@ namespace PKHeX.Core
             Generation = gen;
             Encounter = enc;
             WasEgg = false;
-            if (Encounter as EncounterTrade != null)
+            if (Encounter is EncounterTrade)
             {
                 var trade = (EncounterTrade)Encounter;
                 Species = trade.Species;
@@ -50,12 +47,12 @@ namespace PKHeX.Core
                     Level = pkm.Met_Level; // Crystal
                 else
                     Level = trade.Level;
-                if ( Generation == 2)
+                if (Generation == 2)
                     Type = GBEncounterType.TradeEncounterG2;
                 else
                     Type = GBEncounterType.TradeEncounterG1;
             }
-            else if (Encounter as EncounterStatic != null)
+            else if (Encounter is EncounterStatic)
             {
                 var statc = (EncounterStatic)Encounter;
                 Species = statc.Species;
@@ -65,7 +62,7 @@ namespace PKHeX.Core
                 else
                     Type = GBEncounterType.StaticEncounter;
             }
-            else if (Encounter as EncounterSlot1 != null)
+            else if (Encounter is EncounterSlot1)
             {
                 var slot = (EncounterSlot1)Encounter;
                 Species = slot.Species;

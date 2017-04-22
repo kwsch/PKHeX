@@ -153,6 +153,7 @@ V91 = Can't have active Super Training unlocked flag for origins.
 V92 = Can't have active Super Training complete flag for origins.
 V93 = Super Training complete flag mismatch.
 V94 = Distribution Super Training missions are not released.
+V98 = Unused Super Training Flag is flagged.
 V95 = Can't receive Ribbon(s) as an egg.
 V96 = GBA Champion Ribbon
 V97 = Artist Ribbon

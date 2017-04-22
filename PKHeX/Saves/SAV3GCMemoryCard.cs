@@ -251,7 +251,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if(EntryCOLO > -1 && EntrySelected == EntryCOLO)
+                if (EntryCOLO > -1 && EntrySelected == EntryCOLO)
                     return GameVersion.COLO;
                 if (EntryXD > -1 && EntrySelected == EntryXD)
                     return GameVersion.XD;

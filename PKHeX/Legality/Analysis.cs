@@ -201,9 +201,8 @@ namespace PKHeX.Core
         {
             if (pkm.VC && pkm.Format == 7)
                 EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
-            EncounterMatch = EncounterMatch ?? pkm.Species;
 
-            EncounterType = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
+            EncounterType = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
             if (EncounterType == typeof (MysteryGift))
                 EncounterType = EncounterType?.BaseType;
         }

@@ -1166,7 +1166,7 @@ namespace PKHeX.Core
                         return LevelUpSM[index].getMoves(lvl);
                     break;
             }
-            return null;
+            return new int[0];
         }
         internal static List<int>[] getExclusiveEvolutionMoves(PKM pkm, int Species,DexLevel[][] evoChains, GameVersion Version)
         {
@@ -1184,7 +1184,7 @@ namespace PKHeX.Core
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
             var index = Array.FindIndex(evoChain, e => e.Species == Species);
-            for(int i =0; i < evoChain.Length; i++)
+            for (int i = 0; i < evoChain.Length; i++)
             {
                 var evo = evoChain[i];
                 var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: false, RemoveTransferHM: false, Generation: Generation);
@@ -1224,7 +1224,7 @@ namespace PKHeX.Core
         }
         internal static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
         {
-            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm,MaxSpeciesID_3);
+            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, MaxSpeciesID_3);
             var sttctable = pkm.E ? EventEgg_G3_Common : pkm.FRLG ? EventEgg_FRLG : EventEgg_RS;
             var table = sttctable.Where(e => dl.Any(d => d.Species == e.Species));
             foreach (EncounterStatic e in table)
@@ -1269,10 +1269,10 @@ namespace PKHeX.Core
             foreach (var area in getEncounterAreas(pkm, gameSource))
                 s.AddRange(getValidEncounterSlots(pkm, area, DexNav: pkm.AO, gameSource: gameSource));
 
-            if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || pkm.HasOriginalMetLocation)
+            if (s.Count <= 1 || 3 > pkm.GenNumber || pkm.GenNumber > 4 || (pkm.Gen3 && pkm.HasOriginalMetLocation))
                 return s.Any() ? s.ToArray() : null;
 
-            // If has original met location or there is only one possible slot does not check safari zone nor BCC
+            // If has original met location or there is only one possible slot does not check safari zone
             // defer to ball legality
             var IsSafariBall = pkm.Ball == 5;
             var s_Safari = IsSafariBall
@@ -1285,6 +1285,8 @@ namespace PKHeX.Core
             if (s.Count <= 1 || pkm.GenNumber != 4)
                 return s.Any() ? s.ToArray() : null;
 
+            // BCC should be checked even if the pokemon have original met location, there are encounters of the same species
+            // in the national park as both normal wild encounters and contest encounters
             var IsSportsBall = pkm.Ball == 0x18;
             var s_BugContest = IsSportsBall
                 ? s.Where(slot => slot.Type == SlotType.BugContest).ToList()
@@ -2336,7 +2338,7 @@ namespace PKHeX.Core
         internal static bool getEvolutionValid(PKM pkm)
         {
             var curr = getValidPreEvolutions(pkm);
-            var poss = getValidPreEvolutions(pkm, 100, skipChecks: true);
+            var poss = getValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (getSplitBreedGeneration(pkm).Contains(getBaseSpecies(pkm, 1)))
                 return curr.Count() >= poss.Count() - 1;
@@ -2642,9 +2644,7 @@ namespace PKHeX.Core
 
             // Evolution chain is in reverse order (devolution)
 
-            if (Encounter is int)
-                minspec = (int)Encounter;
-            else if (Encounter is IEncounterable[])
+            if (Encounter is IEncounterable[])
                 minspec = vs.Reverse().First(s => ((IEncounterable[]) Encounter).Any(slot => slot.Species == s.Species)).Species;
             else if (Encounter is IEncounterable)
                 minspec = vs.Reverse().First(s => ((IEncounterable) Encounter).Species == s.Species).Species;
@@ -2989,7 +2989,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
         {
-            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, lvl);
+            IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, lvl: lvl);
             List<EncounterArea> slotLocations = new List<EncounterArea>();
             foreach (var loc in tables)
             {
@@ -3001,7 +3001,7 @@ namespace PKHeX.Core
             }
             return slotLocations;
         }
-        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin =-1, int lvl = -1, bool skipChecks = false)
+        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
@@ -3551,7 +3551,7 @@ namespace PKHeX.Core
                 case 6:
                     info = PersonalTable.AO[species];
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
-                    if ( pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
+                    if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
                     {
                         PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
                         for (int i = 0; i < Tutors_AO.Length; i++)

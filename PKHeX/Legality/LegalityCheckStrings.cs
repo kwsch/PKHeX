@@ -201,11 +201,11 @@ namespace PKHeX.Core
         public static string V92 {get; set;} = "Can't have active Super Training complete flag for origins.";
         public static string V93 {get; set;} = "Super Training complete flag mismatch.";
         public static string V94 {get; set;} = "Distribution Super Training missions are not released."; // Fishy
+        public static string V98 {get; set;} = "Unused Super Training Flag is flagged.";
 
         public static string V95 {get; set;} = "Can't receive Ribbon(s) as an egg.";
         public static string V96 {get; set;} = "GBA Champion Ribbon";
         public static string V97 {get; set;} = "Artist Ribbon";
-        public static string V98 {get; set;} = "National Ribbon (Purified)";
         public static string V99 {get; set;} = "Sinnoh Champion Ribbon";
         public static string V100 {get; set;} = "Legend Ribbon";
         public static string V104 {get; set;} = "Record Ribbon";

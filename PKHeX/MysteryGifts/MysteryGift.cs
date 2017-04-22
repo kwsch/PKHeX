@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         public string Extension => GetType().Name.ToLower();
         public string FileName => getCardHeader() + "." + Extension;
-        public virtual byte[] Data { get; set; }
+        public byte[] Data { get; set; }
         public abstract PKM convertToPKM(SaveFile SAV);
         public abstract int Format { get; }
 
@@ -114,6 +114,14 @@ namespace PKHeX.Core
         public virtual int BeanCount { get { return 0; } set { } }
 
         public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            foreach (var b in Data)
+                hash = hash*31 + b;
+            return hash;
+        }
 
         // Search Properties
         public virtual int[] Moves { get { return new int[4]; } set { } }

@@ -135,65 +135,75 @@ namespace PKHeX.WinForms
         {
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(PKXBOXES, sender);
-
-            var dataArr = Results.Skip(SCR_Box.Value * RES_MIN).Take(RES_MAX).ToArray();
-            if (index >= dataArr.Length)
-                System.Media.SystemSounds.Exclamation.Play();
-            else
+            if (index >= RES_MAX)
             {
-                m_parent.populateFields(dataArr[index], false);
-                slotSelected = index + SCR_Box.Value * RES_MIN;
-                slotColor = Core.Properties.Resources.slotView;
-                FillPKXBoxes(SCR_Box.Value);
-                L_Viewed.Text = string.Format(Viewed, dataArr[index].Identifier);
+                System.Media.SystemSounds.Exclamation.Play();
+                return;
             }
+            index += SCR_Box.Value * RES_MIN;
+            if (index >= Results.Count)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                return;
+            }
+            
+            m_parent.populateFields(Results[index], false);
+            slotSelected = index;
+            slotColor = Core.Properties.Resources.slotView;
+            FillPKXBoxes(SCR_Box.Value);
+            L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
         }
         private void clickDelete(object sender, EventArgs e)
         {
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(PKXBOXES, sender);
-
-            var dataArr = Results.Skip(SCR_Box.Value * RES_MIN).Take(RES_MAX).ToArray();
-            if (index >= dataArr.Length)
+            if (index >= RES_MAX)
+            {
                 System.Media.SystemSounds.Exclamation.Play();
+                return;
+            }
+            index += SCR_Box.Value * RES_MIN;
+            if (index >= Results.Count)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                return;
+            }
+
+            var pk = Results[index];
+            string path = pk.Identifier;
+
+            if (path.Contains(Path.DirectorySeparatorChar))
+            {
+                // Data from Database: Delete file from disk
+                File.Delete(path);
+            }
             else
             {
-                var pk = dataArr[index];
-                string path = pk.Identifier;
+                // Data from Box: Delete from save file
+                int box = pk.Box-1;
+                int slot = pk.Slot-1;
+                int offset = Main.SAV.getBoxOffset(box) + slot*Main.SAV.SIZE_STORED;
+                PKM pkSAV = Main.SAV.getStoredSlot(offset);
 
-                if (path.Contains(Path.DirectorySeparatorChar))
+                if (pkSAV.Data.SequenceEqual(pk.Data))
                 {
-                    // Data from Database: Delete file from disk
-                    File.Delete(path);
+                    Main.SAV.setStoredSlot(Main.SAV.BlankPKM, offset);
+                    m_parent.setPKXBoxes();
                 }
                 else
                 {
-                    // Data from Box: Delete from save file
-                    int box = pk.Box-1;
-                    int slot = pk.Slot-1;
-                    int offset = Main.SAV.getBoxOffset(box) + slot*Main.SAV.SIZE_STORED;
-                    PKM pkSAV = Main.SAV.getStoredSlot(offset);
-
-                    if (pkSAV.Data.SequenceEqual(pk.Data))
-                    {
-                        Main.SAV.setStoredSlot(Main.SAV.BlankPKM, offset);
-                        m_parent.setPKXBoxes();
-                    }
-                    else
-                    {
-                        WinFormsUtil.Error("Database slot data does not match save data!", "Don't move Pokémon after initializing the Database, please re-open the Database viewer.");
-                        return;
-                    }
+                    WinFormsUtil.Error("Database slot data does not match save data!", "Don't move Pokémon after initializing the Database, please re-open the Database viewer.");
+                    return;
                 }
-                // Remove from database.
-                RawDB.Remove(pk);
-                Results.Remove(pk);
-                // Refresh database view.
-                L_Count.Text = string.Format(Counter, Results.Count);
-                slotSelected = -1;
-                FillPKXBoxes(SCR_Box.Value);
-                System.Media.SystemSounds.Asterisk.Play();
             }
+            // Remove from database.
+            RawDB.Remove(pk);
+            Results.Remove(pk);
+            // Refresh database view.
+            L_Count.Text = string.Format(Counter, Results.Count);
+            slotSelected = -1;
+            FillPKXBoxes(SCR_Box.Value);
+            System.Media.SystemSounds.Asterisk.Play();
         }
         private void clickSet(object sender, EventArgs e)
         {
@@ -218,7 +228,7 @@ namespace PKHeX.WinForms
 
             int pre = RawDB.Count;
             RawDB.Add(pk);
-            RawDB = new List<PKM>(RawDB.Distinct()); // just in case
+            RawDB = new List<PKM>(RawDB);
             int post = RawDB.Count;
             if (pre == post)
             { WinFormsUtil.Alert("Pokémon already exists in database."); return; }
@@ -549,10 +559,11 @@ namespace PKHeX.WinForms
                     PKXBOXES[i].Image = null;
                 return;
             }
-            PKM[] data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
-            for (int i = 0; i < data.Length; i++)
-                PKXBOXES[i].Image = data[i].Sprite();
-            for (int i = data.Length; i < RES_MAX; i++)
+            int begin = start*RES_MIN;
+            int end = Math.Min(RES_MAX, Results.Count - start*RES_MIN);
+            for (int i = 0; i < end; i++)
+                PKXBOXES[i].Image = Results[i + begin].Sprite();
+            for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)

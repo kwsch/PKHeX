@@ -276,7 +276,7 @@ namespace PKHeX.Core
             // Check the intro bytes for each save slot
             byte[] slotintroXD = { 0x01, 0x01, 0x01, 0x00 };
             int offset = data.Length - SIZE_G3XD;
-            // For XD savegames inside a memory card only the firs sequence is equal to slotintroXD
+            // For XD savegames inside a memory card only the first sequence is equal to slotintroXD
             bool valid = false;
             for (int i = 0; i < 2; i++)
             {
@@ -284,9 +284,7 @@ namespace PKHeX.Core
                 if (ident.SequenceEqual(slotintroXD))
                     valid = true;
             }
-            if(!valid)
-                return GameVersion.Invalid;
-            return GameVersion.XD;
+            return valid ? GameVersion.XD : GameVersion.Invalid;
         }
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -435,7 +433,7 @@ namespace PKHeX.Core
             switch (MC.SelectedGameVersion)
             {
                 // Side Games
-                case GameVersion.COLO: sav = new SAV3Colosseum(data,MC); break;
+                case GameVersion.COLO: sav = new SAV3Colosseum(data, MC); break;
                 case GameVersion.XD: sav = new SAV3XD(data, MC); break;
                 case GameVersion.RSBOX: sav = new SAV3RSBox(data, MC); break;
 

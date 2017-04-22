@@ -286,7 +286,29 @@ namespace PKHeX.Core
             get { return Data[BlockOfs[0] + 0x12]; }
             set { Data[BlockOfs[0] + 0x12] = (byte)value; }
         }
-
+        public int Badges
+        {
+            get
+            {
+                switch (Version)
+                {
+                    case GameVersion.E: return BitConverter.ToUInt16(Data, BlockOfs[2] + 0x3FC) >> 7 & 0xFF;
+                    case GameVersion.FRLG: return Data[BlockOfs[2] + 0x64];
+                    default: return 0; // RS
+                }
+            }
+            set
+            {
+                switch (Version)
+                {
+                    case GameVersion.E:
+                        BitConverter.GetBytes(BitConverter.ToUInt16(Data, BlockOfs[2] + 0x3FC) & ~(0xFF << 7) | (value << 7)).CopyTo(Data, BlockOfs[2] + 0x3FC);
+                        break;
+                    case GameVersion.FRLG: Data[BlockOfs[2] + 0x64] = (byte)value; break;
+                    default: return; // RS
+                }
+            }
+        }
         public override uint Money
         {
             get

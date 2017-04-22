@@ -238,7 +238,7 @@ namespace PKHeX.Core
               46, 47, 48, 49,
         };
 
-        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive = new[]
+        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive =
         {
             // Egg Pokémon Present Eggs
             new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
@@ -246,15 +246,15 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
             new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
             // Wish Egg
-            new EncounterStatic { Species = 083, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Farfetch'd with Wish
-            new EncounterStatic { Species = 096, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Drowzee with Wish
-            new EncounterStatic { Species = 102, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Exeggcute with Wish
-            new EncounterStatic { Species = 108, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Lickitung with Wish
-            new EncounterStatic { Species = 113, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Chansey with Wish
-            new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273} }, // Kangaskhan with Wish
+            new EncounterStatic { Species = 083, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
+            new EncounterStatic { Species = 096, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
+            new EncounterStatic { Species = 102, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
+            new EncounterStatic { Species = 108, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
+            new EncounterStatic { Species = 113, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
+            new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
         };
 
-        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive = new[]
+        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive =
         {   
             // Pokémon Center 5th Anniversary Eggs
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
@@ -267,7 +267,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
         };
 
-        internal static readonly EncounterStatic[] EventEgg_G3_Common = new[]
+        internal static readonly EncounterStatic[] EventEgg_G3_Common =
         {
             // Pokémon Box
             new EncounterStatic { Species = 333, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{206} }, // Swablu Egg with False Swipe
@@ -436,7 +436,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, Contest = TradeContest_Tough, }, // Lickitung  * 
             new EncounterTrade { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, Contest = TradeContest_Beauty, }, // Jynx
             new EncounterTrade { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
-            new EncounterTrade { Species = 101, Ability = 1, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
+            new EncounterTrade { Species = 101, Ability = 2, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
             new EncounterTrade { Species = 114, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, Contest = TradeContest_Cute, }, // Tangela
             new EncounterTrade { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.

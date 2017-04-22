@@ -145,10 +145,7 @@ namespace PKHeX.WinForms
             };
 
             // Load Event Databases
-            refreshPCDDB();
-            refreshPGFDB();
-            refreshWC6DB();
-            refreshWC7DB();
+            refreshMGDB();
 
             #endregion
             #region Localize & Populate Fields
@@ -1357,104 +1354,96 @@ namespace PKHeX.WinForms
 
             TemplateFields();
             loadingSAV = false;
+            SAV.Edited = false;
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
         }
 
-        private static void refreshPCDDB()
+        private static void refreshMGDB()
         {
-            List<MysteryGift> db = new List<MysteryGift>();
-            byte[] bin = Resources.pcd;
+            var g4 = getPCDDB(Resources.pcd);
+            var g5 = getPGFDB(Resources.pgf);
+            var g6 = getWC6DB(Resources.wc6, Resources.wc6full);
+            var g7 = getWC7DB(Resources.wc7, Resources.wc7full);
+
+            if (Directory.Exists(MGDatabasePath))
+            foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
+            {
+                var fi = new FileInfo(file);
+                if (!MysteryGift.getIsMysteryGift(fi.Length))
+                    continue;
+
+                var gift = MysteryGift.getMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                switch (gift?.Format)
+                {
+                    case 4: g4.Add(gift); continue;
+                    case 5: g5.Add(gift); continue;
+                    case 6: g6.Add(gift); continue;
+                    case 7: g7.Add(gift); continue;
+                }
+            }
+
+            Legal.MGDB_G4 = g4.ToArray();
+            Legal.MGDB_G5 = g5.ToArray();
+            Legal.MGDB_G6 = g6.ToArray();
+            Legal.MGDB_G7 = g7.ToArray();
+        }
+        private static HashSet<MysteryGift> getPCDDB(byte[] bin)
+        {
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < bin.Length; i += PCD.Size)
             {
                 byte[] data = new byte[PCD.Size];
                 Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
                 db.Add(new PCD(data));
             }
-            if (Directory.Exists(MGDatabasePath))
-            {
-                foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
-                {
-                    var fi = new FileInfo(file);
-                    if (fi.Length == PCD.Size && fi.Extension == ".pcd")
-                        db.Add(new PCD(File.ReadAllBytes(file)));
-                    else if (fi.Length == PGT.Size && fi.Extension == ".pgt")
-                        db.Add(new PCD {Gift = new PGT(File.ReadAllBytes(file)), CardTitle = "MGDB PGT"});
-                }
-            }
-
-            Legal.MGDB_G4 = db.Distinct().ToArray();
+            return db;
         }
-        private static void refreshPGFDB()
+        private static HashSet<MysteryGift> getPGFDB(byte[] bin)
         {
-            List<MysteryGift> db = new List<MysteryGift>();
-            byte[] bin = Resources.pgf;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < bin.Length; i += PGF.Size) 
             {
                 byte[] data = new byte[PGF.Size];
                 Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
                 db.Add(new PGF(data));
             }
-            if (Directory.Exists(MGDatabasePath))
-                db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
-                               let fi = new FileInfo(file)
-                               where ".pgf" == fi.Extension && PGF.Size == fi.Length
-                               select new PGF(File.ReadAllBytes(file)));
-
-            Legal.MGDB_G5 = db.Distinct().ToArray();
+            return db;
         }
-        private static void refreshWC6DB()
+        private static HashSet<MysteryGift> getWC6DB(byte[] wc6bin, byte[] wc6full)
         {
-            List<MysteryGift> wc6db = new List<MysteryGift>();
-            byte[] wc6bin = Resources.wc6;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
             {
                 byte[] data = new byte[WC6.Size];
-                Array.Copy(wc6bin, i, data, 0, WC6.Size);
-                wc6db.Add(new WC6(data));
+                Buffer.BlockCopy(wc6bin, i, data, 0, WC6.Size);
+                db.Add(new WC6(data));
             }
-            byte[] wc6full = Resources.wc6full;
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
             {
                 byte[] data = new byte[WC6.SizeFull];
-                Array.Copy(wc6full, i, data, 0, WC6.SizeFull);
-                wc6db.Add(new WC6(data));
+                Buffer.BlockCopy(wc6full, i, data, 0, WC6.SizeFull);
+                db.Add(new WC6(data));
             }
-
-            if (Directory.Exists(MGDatabasePath))
-                wc6db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
-                    let fi = new FileInfo(file)
-                    where new[] {".wc6full", ".wc6"}.Contains(fi.Extension) && new[] {WC6.Size, WC6.SizeFull}.Contains((int)fi.Length)
-                    select new WC6(File.ReadAllBytes(file)));
-
-            Legal.MGDB_G6 = wc6db.Distinct().ToArray();
+            return db;
         }
-        private static void refreshWC7DB()
+        private static HashSet<MysteryGift> getWC7DB(byte[] wc7bin, byte[] wc7full)
         {
-            List<MysteryGift> wc7db = new List<MysteryGift>();
-            byte[] wc7bin = Resources.wc7;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc7bin.Length; i += WC7.Size)
             {
                 byte[] data = new byte[WC7.Size];
-                Array.Copy(wc7bin, i, data, 0, WC7.Size);
-                wc7db.Add(new WC7(data));
+                Buffer.BlockCopy(wc7bin, i, data, 0, WC7.Size);
+                db.Add(new WC7(data));
             }
-            byte[] wc7full = Resources.wc7full;
             for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
             {
                 byte[] data = new byte[WC7.SizeFull];
-                Array.Copy(wc7full, i, data, 0, WC7.SizeFull);
-                wc7db.Add(new WC7(data));
+                Buffer.BlockCopy(wc7full, i, data, 0, WC7.SizeFull);
+                db.Add(new WC7(data));
             }
-
-            if (Directory.Exists(MGDatabasePath))
-                wc7db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
-                               let fi = new FileInfo(file)
-                               where new[] { ".wc7full", ".wc7" }.Contains(fi.Extension) && new[] { WC7.Size, WC7.SizeFull }.Contains((int)fi.Length)
-                               select new WC7(File.ReadAllBytes(file)));
-
-            Legal.MGDB_G7 = wc7db.Distinct().ToArray();
+            return db;
         }
 
         // Language Translation

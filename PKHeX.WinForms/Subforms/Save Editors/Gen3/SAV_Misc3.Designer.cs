@@ -68,6 +68,31 @@
             this.CHK_InitialBirth = new System.Windows.Forms.CheckBox();
             this.CHK_InitialFaraway = new System.Windows.Forms.CheckBox();
             this.B_GetTickets = new System.Windows.Forms.Button();
+            this.TAB_BF = new System.Windows.Forms.TabPage();
+            this.GB_Streaks = new System.Windows.Forms.GroupBox();
+            this.NUD_Stat3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Stat2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Stat1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Stat0 = new System.Windows.Forms.NumericUpDown();
+            this.L_Stat3 = new System.Windows.Forms.Label();
+            this.L_Stat2 = new System.Windows.Forms.Label();
+            this.L_Stat1 = new System.Windows.Forms.Label();
+            this.L_Stat0 = new System.Windows.Forms.Label();
+            this.CHK_Continue = new System.Windows.Forms.CheckBox();
+            this.RB_Stats3_02 = new System.Windows.Forms.RadioButton();
+            this.RB_Stats3_01 = new System.Windows.Forms.RadioButton();
+            this.CB_Stats2 = new System.Windows.Forms.ComboBox();
+            this.CB_Stats1 = new System.Windows.Forms.ComboBox();
+            this.GB_FrontierPass = new System.Windows.Forms.GroupBox();
+            this.GB_Icons = new System.Windows.Forms.GroupBox();
+            this.BTN_SymbolB = new System.Windows.Forms.Button();
+            this.BTN_SymbolL = new System.Windows.Forms.Button();
+            this.BTN_SymbolK = new System.Windows.Forms.Button();
+            this.BTN_SymbolG = new System.Windows.Forms.Button();
+            this.BTN_SymbolS = new System.Windows.Forms.Button();
+            this.BTN_SymbolT = new System.Windows.Forms.Button();
+            this.BTN_SymbolA = new System.Windows.Forms.Button();
+            this.CHK_ActivatePass = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
@@ -76,12 +101,20 @@
             this.TAB_Ferry.SuspendLayout();
             this.GB_Reachable.SuspendLayout();
             this.GB_InitialEvent.SuspendLayout();
+            this.TAB_BF.SuspendLayout();
+            this.GB_Streaks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).BeginInit();
+            this.GB_FrontierPass.SuspendLayout();
+            this.GB_Icons.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(178, 209);
+            this.B_Save.Location = new System.Drawing.Point(213, 262);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 73;
@@ -92,7 +125,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(97, 209);
+            this.B_Cancel.Location = new System.Drawing.Point(132, 262);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 72;
@@ -108,10 +141,11 @@
             this.tabControl1.Controls.Add(this.TAB_Main);
             this.tabControl1.Controls.Add(this.TAB_Joyful);
             this.tabControl1.Controls.Add(this.TAB_Ferry);
+            this.tabControl1.Controls.Add(this.TAB_BF);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(239, 191);
+            this.tabControl1.Size = new System.Drawing.Size(274, 244);
             this.tabControl1.TabIndex = 74;
             // 
             // TAB_Main
@@ -125,7 +159,7 @@
             this.TAB_Main.Location = new System.Drawing.Point(4, 22);
             this.TAB_Main.Name = "TAB_Main";
             this.TAB_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Main.Size = new System.Drawing.Size(231, 165);
+            this.TAB_Main.Size = new System.Drawing.Size(266, 218);
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
@@ -195,7 +229,7 @@
             this.TAB_Joyful.Location = new System.Drawing.Point(4, 22);
             this.TAB_Joyful.Name = "TAB_Joyful";
             this.TAB_Joyful.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Joyful.Size = new System.Drawing.Size(231, 165);
+            this.TAB_Joyful.Size = new System.Drawing.Size(266, 218);
             this.TAB_Joyful.TabIndex = 1;
             this.TAB_Joyful.Text = "Joyful";
             this.TAB_Joyful.UseVisualStyleBackColor = true;
@@ -361,7 +395,7 @@
             this.TAB_Ferry.Location = new System.Drawing.Point(4, 22);
             this.TAB_Ferry.Name = "TAB_Ferry";
             this.TAB_Ferry.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Ferry.Size = new System.Drawing.Size(225, 165);
+            this.TAB_Ferry.Size = new System.Drawing.Size(266, 218);
             this.TAB_Ferry.TabIndex = 2;
             this.TAB_Ferry.Text = "Ferry";
             this.TAB_Ferry.UseVisualStyleBackColor = true;
@@ -503,11 +537,328 @@
             this.B_GetTickets.UseVisualStyleBackColor = true;
             this.B_GetTickets.Click += new System.EventHandler(this.B_GetTickets_Click);
             // 
+            // TAB_BF
+            // 
+            this.TAB_BF.Controls.Add(this.GB_Streaks);
+            this.TAB_BF.Controls.Add(this.GB_FrontierPass);
+            this.TAB_BF.Location = new System.Drawing.Point(4, 22);
+            this.TAB_BF.Name = "TAB_BF";
+            this.TAB_BF.Size = new System.Drawing.Size(266, 218);
+            this.TAB_BF.TabIndex = 3;
+            this.TAB_BF.Text = "B.Frontier";
+            this.TAB_BF.UseVisualStyleBackColor = true;
+            // 
+            // GB_Streaks
+            // 
+            this.GB_Streaks.Controls.Add(this.NUD_Stat3);
+            this.GB_Streaks.Controls.Add(this.NUD_Stat2);
+            this.GB_Streaks.Controls.Add(this.NUD_Stat1);
+            this.GB_Streaks.Controls.Add(this.NUD_Stat0);
+            this.GB_Streaks.Controls.Add(this.L_Stat3);
+            this.GB_Streaks.Controls.Add(this.L_Stat2);
+            this.GB_Streaks.Controls.Add(this.L_Stat1);
+            this.GB_Streaks.Controls.Add(this.L_Stat0);
+            this.GB_Streaks.Controls.Add(this.CHK_Continue);
+            this.GB_Streaks.Controls.Add(this.RB_Stats3_02);
+            this.GB_Streaks.Controls.Add(this.RB_Stats3_01);
+            this.GB_Streaks.Controls.Add(this.CB_Stats2);
+            this.GB_Streaks.Controls.Add(this.CB_Stats1);
+            this.GB_Streaks.Location = new System.Drawing.Point(146, 6);
+            this.GB_Streaks.Name = "GB_Streaks";
+            this.GB_Streaks.Size = new System.Drawing.Size(114, 206);
+            this.GB_Streaks.TabIndex = 1;
+            this.GB_Streaks.TabStop = false;
+            this.GB_Streaks.Text = "Streaks";
+            // 
+            // NUD_Stat3
+            // 
+            this.NUD_Stat3.Location = new System.Drawing.Point(55, 183);
+            this.NUD_Stat3.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat3.Name = "NUD_Stat3";
+            this.NUD_Stat3.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Stat3.TabIndex = 12;
+            this.NUD_Stat3.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat3.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            // 
+            // NUD_Stat2
+            // 
+            this.NUD_Stat2.Location = new System.Drawing.Point(55, 157);
+            this.NUD_Stat2.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat2.Name = "NUD_Stat2";
+            this.NUD_Stat2.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Stat2.TabIndex = 11;
+            this.NUD_Stat2.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat2.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            // 
+            // NUD_Stat1
+            // 
+            this.NUD_Stat1.Location = new System.Drawing.Point(55, 131);
+            this.NUD_Stat1.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat1.Name = "NUD_Stat1";
+            this.NUD_Stat1.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Stat1.TabIndex = 10;
+            this.NUD_Stat1.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat1.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            // 
+            // NUD_Stat0
+            // 
+            this.NUD_Stat0.Location = new System.Drawing.Point(55, 105);
+            this.NUD_Stat0.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat0.Name = "NUD_Stat0";
+            this.NUD_Stat0.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Stat0.TabIndex = 6;
+            this.NUD_Stat0.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Stat0.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            // 
+            // L_Stat3
+            // 
+            this.L_Stat3.AutoSize = true;
+            this.L_Stat3.Location = new System.Drawing.Point(6, 185);
+            this.L_Stat3.Name = "L_Stat3";
+            this.L_Stat3.Size = new System.Drawing.Size(34, 12);
+            this.L_Stat3.TabIndex = 13;
+            this.L_Stat3.Text = "Trade";
+            // 
+            // L_Stat2
+            // 
+            this.L_Stat2.AutoSize = true;
+            this.L_Stat2.Location = new System.Drawing.Point(6, 159);
+            this.L_Stat2.Name = "L_Stat2";
+            this.L_Stat2.Size = new System.Drawing.Size(26, 12);
+            this.L_Stat2.TabIndex = 9;
+            this.L_Stat2.Text = "Max";
+            // 
+            // L_Stat1
+            // 
+            this.L_Stat1.AutoSize = true;
+            this.L_Stat1.Location = new System.Drawing.Point(6, 133);
+            this.L_Stat1.Name = "L_Stat1";
+            this.L_Stat1.Size = new System.Drawing.Size(34, 12);
+            this.L_Stat1.TabIndex = 8;
+            this.L_Stat1.Text = "Trade";
+            // 
+            // L_Stat0
+            // 
+            this.L_Stat0.AutoSize = true;
+            this.L_Stat0.Location = new System.Drawing.Point(6, 107);
+            this.L_Stat0.Name = "L_Stat0";
+            this.L_Stat0.Size = new System.Drawing.Size(43, 12);
+            this.L_Stat0.TabIndex = 7;
+            this.L_Stat0.Text = "Current";
+            // 
+            // CHK_Continue
+            // 
+            this.CHK_Continue.AutoSize = true;
+            this.CHK_Continue.Location = new System.Drawing.Point(6, 85);
+            this.CHK_Continue.Name = "CHK_Continue";
+            this.CHK_Continue.Size = new System.Drawing.Size(69, 16);
+            this.CHK_Continue.TabIndex = 5;
+            this.CHK_Continue.Text = "Continue";
+            this.CHK_Continue.UseVisualStyleBackColor = true;
+            this.CHK_Continue.CheckedChanged += new System.EventHandler(this.CHK_Continue_CheckedChanged);
+            // 
+            // RB_Stats3_02
+            // 
+            this.RB_Stats3_02.AutoSize = true;
+            this.RB_Stats3_02.Location = new System.Drawing.Point(59, 65);
+            this.RB_Stats3_02.Name = "RB_Stats3_02";
+            this.RB_Stats3_02.Size = new System.Drawing.Size(49, 16);
+            this.RB_Stats3_02.TabIndex = 4;
+            this.RB_Stats3_02.TabStop = true;
+            this.RB_Stats3_02.Text = "Open";
+            this.RB_Stats3_02.UseVisualStyleBackColor = true;
+            this.RB_Stats3_02.CheckedChanged += new System.EventHandler(this.ChangeStat);
+            // 
+            // RB_Stats3_01
+            // 
+            this.RB_Stats3_01.AutoSize = true;
+            this.RB_Stats3_01.Location = new System.Drawing.Point(6, 65);
+            this.RB_Stats3_01.Name = "RB_Stats3_01";
+            this.RB_Stats3_01.Size = new System.Drawing.Size(47, 16);
+            this.RB_Stats3_01.TabIndex = 3;
+            this.RB_Stats3_01.TabStop = true;
+            this.RB_Stats3_01.Text = "Lv50";
+            this.RB_Stats3_01.UseVisualStyleBackColor = true;
+            this.RB_Stats3_01.CheckedChanged += new System.EventHandler(this.ChangeStat);
+            // 
+            // CB_Stats2
+            // 
+            this.CB_Stats2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Stats2.FormattingEnabled = true;
+            this.CB_Stats2.Location = new System.Drawing.Point(6, 41);
+            this.CB_Stats2.Name = "CB_Stats2";
+            this.CB_Stats2.Size = new System.Drawing.Size(68, 20);
+            this.CB_Stats2.TabIndex = 1;
+            this.CB_Stats2.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
+            // 
+            // CB_Stats1
+            // 
+            this.CB_Stats1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Stats1.FormattingEnabled = true;
+            this.CB_Stats1.Location = new System.Drawing.Point(6, 17);
+            this.CB_Stats1.Name = "CB_Stats1";
+            this.CB_Stats1.Size = new System.Drawing.Size(68, 20);
+            this.CB_Stats1.TabIndex = 0;
+            this.CB_Stats1.SelectedIndexChanged += new System.EventHandler(this.ChangeStat1);
+            // 
+            // GB_FrontierPass
+            // 
+            this.GB_FrontierPass.Controls.Add(this.GB_Icons);
+            this.GB_FrontierPass.Controls.Add(this.CHK_ActivatePass);
+            this.GB_FrontierPass.Location = new System.Drawing.Point(6, 6);
+            this.GB_FrontierPass.Name = "GB_FrontierPass";
+            this.GB_FrontierPass.Size = new System.Drawing.Size(134, 121);
+            this.GB_FrontierPass.TabIndex = 0;
+            this.GB_FrontierPass.TabStop = false;
+            this.GB_FrontierPass.Text = "Frontier Pass";
+            // 
+            // GB_Icons
+            // 
+            this.GB_Icons.Controls.Add(this.BTN_SymbolB);
+            this.GB_Icons.Controls.Add(this.BTN_SymbolL);
+            this.GB_Icons.Controls.Add(this.BTN_SymbolK);
+            this.GB_Icons.Controls.Add(this.BTN_SymbolG);
+            this.GB_Icons.Controls.Add(this.BTN_SymbolS);
+            this.GB_Icons.Controls.Add(this.BTN_SymbolT);
+            this.GB_Icons.Controls.Add(this.BTN_SymbolA);
+            this.GB_Icons.Location = new System.Drawing.Point(6, 37);
+            this.GB_Icons.Name = "GB_Icons";
+            this.GB_Icons.Size = new System.Drawing.Size(122, 78);
+            this.GB_Icons.TabIndex = 1;
+            this.GB_Icons.TabStop = false;
+            this.GB_Icons.Text = "Symbol Icons";
+            // 
+            // BTN_SymbolB
+            // 
+            this.BTN_SymbolB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolB.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolB.Location = new System.Drawing.Point(93, 17);
+            this.BTN_SymbolB.Name = "BTN_SymbolB";
+            this.BTN_SymbolB.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolB.TabIndex = 6;
+            this.BTN_SymbolB.Text = "B";
+            this.BTN_SymbolB.UseVisualStyleBackColor = true;
+            this.BTN_SymbolB.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // BTN_SymbolL
+            // 
+            this.BTN_SymbolL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolL.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolL.Location = new System.Drawing.Point(79, 47);
+            this.BTN_SymbolL.Name = "BTN_SymbolL";
+            this.BTN_SymbolL.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolL.TabIndex = 5;
+            this.BTN_SymbolL.Text = "L";
+            this.BTN_SymbolL.UseVisualStyleBackColor = true;
+            this.BTN_SymbolL.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // BTN_SymbolK
+            // 
+            this.BTN_SymbolK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolK.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolK.Location = new System.Drawing.Point(64, 17);
+            this.BTN_SymbolK.Name = "BTN_SymbolK";
+            this.BTN_SymbolK.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolK.TabIndex = 4;
+            this.BTN_SymbolK.Text = "K";
+            this.BTN_SymbolK.UseVisualStyleBackColor = true;
+            this.BTN_SymbolK.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // BTN_SymbolG
+            // 
+            this.BTN_SymbolG.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolG.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolG.Location = new System.Drawing.Point(50, 47);
+            this.BTN_SymbolG.Name = "BTN_SymbolG";
+            this.BTN_SymbolG.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolG.TabIndex = 3;
+            this.BTN_SymbolG.Text = "G";
+            this.BTN_SymbolG.UseVisualStyleBackColor = true;
+            this.BTN_SymbolG.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // BTN_SymbolS
+            // 
+            this.BTN_SymbolS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolS.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolS.Location = new System.Drawing.Point(35, 17);
+            this.BTN_SymbolS.Name = "BTN_SymbolS";
+            this.BTN_SymbolS.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolS.TabIndex = 2;
+            this.BTN_SymbolS.Text = "S";
+            this.BTN_SymbolS.UseVisualStyleBackColor = true;
+            this.BTN_SymbolS.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // BTN_SymbolT
+            // 
+            this.BTN_SymbolT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolT.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolT.Location = new System.Drawing.Point(21, 47);
+            this.BTN_SymbolT.Name = "BTN_SymbolT";
+            this.BTN_SymbolT.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolT.TabIndex = 1;
+            this.BTN_SymbolT.Text = "T";
+            this.BTN_SymbolT.UseVisualStyleBackColor = true;
+            this.BTN_SymbolT.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // BTN_SymbolA
+            // 
+            this.BTN_SymbolA.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BTN_SymbolA.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.BTN_SymbolA.Location = new System.Drawing.Point(6, 17);
+            this.BTN_SymbolA.Name = "BTN_SymbolA";
+            this.BTN_SymbolA.Size = new System.Drawing.Size(23, 25);
+            this.BTN_SymbolA.TabIndex = 0;
+            this.BTN_SymbolA.Text = "A";
+            this.BTN_SymbolA.UseVisualStyleBackColor = true;
+            this.BTN_SymbolA.Click += new System.EventHandler(this.BTN_Symbol_Click);
+            // 
+            // CHK_ActivatePass
+            // 
+            this.CHK_ActivatePass.AutoSize = true;
+            this.CHK_ActivatePass.Location = new System.Drawing.Point(6, 17);
+            this.CHK_ActivatePass.Name = "CHK_ActivatePass";
+            this.CHK_ActivatePass.Size = new System.Drawing.Size(73, 16);
+            this.CHK_ActivatePass.TabIndex = 0;
+            this.CHK_ActivatePass.Text = "Activated";
+            this.CHK_ActivatePass.UseVisualStyleBackColor = true;
+            // 
             // SAV_Misc3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(263, 244);
+            this.ClientSize = new System.Drawing.Size(295, 297);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -523,6 +874,22 @@
             this.TAB_Joyful.ResumeLayout(false);
             this.TAB_Joyful.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).EndInit();
+            this.TAB_Ferry.ResumeLayout(false);
+            this.TAB_Ferry.PerformLayout();
+            this.GB_InitialEvent.ResumeLayout(false);
+            this.GB_InitialEvent.PerformLayout();
+            this.GB_Reachable.ResumeLayout(false);
+            this.GB_Reachable.PerformLayout();
+            this.TAB_BF.ResumeLayout(false);
+            this.GB_Streaks.ResumeLayout(false);
+            this.GB_Streaks.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).EndInit();
+            this.GB_FrontierPass.ResumeLayout(false);
+            this.GB_FrontierPass.PerformLayout();
+            this.GB_Icons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -567,5 +934,30 @@
         private System.Windows.Forms.CheckBox CHK_ReachSouthern;
         private System.Windows.Forms.CheckBox CHK_Catchable;
         private System.Windows.Forms.Button B_GetTickets;
+        private System.Windows.Forms.TabPage TAB_BF;
+        private System.Windows.Forms.GroupBox GB_FrontierPass;
+        private System.Windows.Forms.GroupBox GB_Icons;
+        private System.Windows.Forms.CheckBox CHK_ActivatePass;
+        private System.Windows.Forms.Button BTN_SymbolS;
+        private System.Windows.Forms.Button BTN_SymbolT;
+        private System.Windows.Forms.Button BTN_SymbolA;
+        private System.Windows.Forms.Button BTN_SymbolB;
+        private System.Windows.Forms.Button BTN_SymbolL;
+        private System.Windows.Forms.Button BTN_SymbolK;
+        private System.Windows.Forms.Button BTN_SymbolG;
+        private System.Windows.Forms.GroupBox GB_Streaks;
+        private System.Windows.Forms.ComboBox CB_Stats2;
+        private System.Windows.Forms.ComboBox CB_Stats1;
+        private System.Windows.Forms.RadioButton RB_Stats3_02;
+        private System.Windows.Forms.RadioButton RB_Stats3_01;
+        private System.Windows.Forms.NumericUpDown NUD_Stat3;
+        private System.Windows.Forms.NumericUpDown NUD_Stat2;
+        private System.Windows.Forms.NumericUpDown NUD_Stat1;
+        private System.Windows.Forms.NumericUpDown NUD_Stat0;
+        private System.Windows.Forms.Label L_Stat3;
+        private System.Windows.Forms.Label L_Stat2;
+        private System.Windows.Forms.Label L_Stat1;
+        private System.Windows.Forms.Label L_Stat0;
+        private System.Windows.Forms.CheckBox CHK_Continue;
     }
 }
