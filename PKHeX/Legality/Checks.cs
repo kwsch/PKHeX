@@ -974,8 +974,7 @@ namespace PKHeX.Core
         {
             CheckResult Gen4Result = null;
             CheckResult Gen4WildResult = null;
-            object WildEncounter = null;
-
+            EncounterSlot[] WildEncounter = null;
 
             // Transfer Legality
             int loc = pkm.Met_Location;
@@ -1013,7 +1012,7 @@ namespace PKHeX.Core
             if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
             {
                 Gen4WildResult = verifyEncounterWild();
-                WildEncounter = EncounterMatch;
+                WildEncounter = (EncounterSlot[])EncounterMatch;
             }
 
             if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
