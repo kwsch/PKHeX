@@ -2450,13 +2450,25 @@ namespace PKHeX.Core
                 encounters.Add(EncounterMatch);
             else if (null != (EncounterMatch as IMoveset)?.Moves)
                 encounters.Add(EncounterMatch);
-     
-            if (!pkm.IsEgg)
-                //Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
-                encounters.AddRange(Legal.getG3SpecialEggEncounter(pkm));
 
-            // add player hatched egg except if there is a gen 3 gift egg or event egg encounter adn the pokemon is inside an egg
-            if (!encounters.Any() || !pkm.IsEgg)
+            bool anyspecialegg = false;
+            if (!pkm.IsEgg)
+            {
+                // Add player hatched egg before special egg, this will allow to show correct legality erros if the pokemon have normal egg moves and event egg moves
+                encounters.Add(null);
+                //Can not distinguish event egg and normal egg after hatching, and not in the EncounterStaticMatch
+                var specialeggs = Legal.getG3SpecialEggEncounter(pkm);
+                foreach (var specialegg in specialeggs)
+                {
+                    if (specialegg.Moves.Any(m => m != 0 && pkm.Moves.Contains(m)))
+                    {
+                        encounters.Add(specialegg);
+                        anyspecialegg = true;
+                    }
+                }
+            }
+            else if (!encounters.Any())
+                // add player hatched egg except if there is a gen 3 gift egg or event egg encounter adn the pokemon is inside an egg
                 encounters.Add(null);
             
             return encounters;
