@@ -3204,7 +3204,7 @@ namespace PKHeX.Core
             if (EncounterMatch == null && pkm.WasEgg && Legal.BabyEvolutionWithMove.Contains(pkm.Species) && !IncenseMovesLearned.Any() && !EggMovesSplitLearned[0].Any())
                 return;
 
-            var ValidMoves = Legal.getExclusivePostEvolutionMoves(pkm, pkm.Species, EvoChainsAllGens, GameVersion.Any);
+            var ValidMoves = Legal.getValidPostEvolutionMoves(pkm, pkm.Species, EvoChainsAllGens, GameVersion.Any);
             // Add the evolution moves to valid moves in case some of this moves could not be learned after evolving
             switch(pkm.Species)
             {

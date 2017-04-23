@@ -1168,18 +1168,18 @@ namespace PKHeX.Core
             }
             return new int[0];
         }
-        internal static List<int> getExclusivePostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
+        internal static List<int> getValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could learn after evolving 
             var moves = new List<int>();
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Any())
-                    moves.AddRange(getExclusivePostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
+                    moves.AddRange(getValidPostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
             if (pkm.GenNumber >= 6)
                 moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
             return moves.Distinct().ToList();
         }
-        internal static IEnumerable<int> getExclusivePostEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        internal static IEnumerable<int> getValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
         {
             var evomoves = new List<int>();
             var index = Array.FindIndex(evoChain, e => e.Species == Species);
