@@ -315,3 +315,4 @@ V377 = Egg Move. Not expected in a gift egg.
 V378 = Inherited move learned by Level-up. Not expected in a gift egg.
 V379 = {0} Inherited Move. Incompatible with {1} inherited moves.
 V381 = Encounter Type does not match encounter.
+V385 = Moves combinations is not compatible with {0} evolution.

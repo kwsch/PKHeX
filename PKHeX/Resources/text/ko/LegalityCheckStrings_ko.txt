@@ -314,3 +314,4 @@ V377 = 자력기입니다. 이벤트 알에서 예상된 기술이 아닙니다.
 V378 = 유전받은 레벨업 기술입니다. 이벤트 알에서 예상된 기술이 아닙니다.
 V379 = 유전받은 {0} 기술입니다. 유전받은 {1} 기술과 함께 존재할 수 없습니다.
 V381 = Encounter Type does not match encounter.
+V385 = Moves combinations is not compatible with {0} evolution.

@@ -373,6 +373,7 @@ namespace PKHeX.Core
         public static string V378 {get; set;} = "Inherited move learned by Level-up. Not expected in a gift egg.";
         public static string V379 {get; set;} = "{0} Inherited Move. Incompatible with {1} inherited moves.";
         public static string V381 {get; set;} = "Encounter Type does not match encounter.";
+        public static string V385 {get; set;} = "Moves combinations is not compatible with {0} evolution.";
         #endregion
 
     }

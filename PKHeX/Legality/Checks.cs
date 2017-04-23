@@ -134,7 +134,7 @@ namespace PKHeX.Core
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
                 AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
-            if (Type == typeof (EncounterStatic))
+            if (Type.IsSubclassOf(typeof(EncounterStatic)))
             {
                 var enc = (EncounterStatic)EncounterMatch;
                 if (enc.Shiny != null && (bool) enc.Shiny ^ pkm.IsShiny)
@@ -1501,7 +1501,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Type == typeof(EncounterStatic))
+            if (Type.IsSubclassOf(typeof(EncounterStatic)))
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
                 if (enc?.Gift ?? false)
@@ -2179,9 +2179,9 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 25: // Pikachu
-                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
+                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type.IsSubclassOf(typeof(EncounterStatic)))
                     {
-                        string msg = Type == typeof (EncounterStatic) ? V305 : V306;
+                        string msg = Type.IsSubclassOf(typeof(EncounterStatic)) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
@@ -2359,7 +2359,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
-                if (Type == typeof (EncounterStatic))
+                if (Type.IsSubclassOf(typeof(EncounterStatic)))
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     if (enc.Fateful)
@@ -2711,7 +2711,7 @@ namespace PKHeX.Core
                 var BaseLvlMoves = 489 <= pkm.Species && pkm.Species <= 490 ? 1 : 100;
                 var LvlupEggMoves = Legal.getBaseEggMoves(pkm, ver, BaseLvlMoves);
                 // Level up, TMHM or tutor moves exclusive to the incense egg species, like Azurill, incompatible with the non-incense species egg moves
-                var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusiveEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), EvoChainsAllGens,  ver) : null;
+                var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusivePreEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), EvoChainsAllGens,  ver) : null;
                 var EggMoves = Legal.getEggMoves(pkm, ver);
                 
                 bool volt = (gen > 3 || ver == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
@@ -2804,7 +2804,7 @@ namespace PKHeX.Core
             var issplitbreed = pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species);
             var EggMoves = pkm.WasEgg? Legal.getEggMoves(pkm, game): emptyegg;
             // Level up, TMHM or tutor moves exclusive to the incense egg species, like Azurill, incompatible with the non-incense species egg moves
-            var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusiveEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), EvoChainsAllGens, game) : empty;
+            var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusivePreEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), EvoChainsAllGens, game) : empty;
 
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
@@ -3059,6 +3059,14 @@ namespace PKHeX.Core
                     ParseEvolutionsIncompatibleMoves(moves, tmhm[1], ref res);
                 }
 
+                if (Legal.EvolutionWithMove.Contains(pkm.Species))
+                {
+                    // Pokemon that evolved by leveling up while learning a specific move
+                    // This pokemon could only have 3 moves from preevolutions that are not the move used to evolved
+                    // including special and eggs moves before realearn generations
+                    ParseEvolutionLevelupMove(moves, EggMovesSplitLearned, IncenseMovesLearned, ref res);
+                }
+
                 if (res.All(r => r != null))
                     return res;
             }
@@ -3184,7 +3192,53 @@ namespace PKHeX.Core
             foreach (int m in ShedinjaEvoMovesLearned)
                 res[m] = new CheckResult(Severity.Invalid, V357, CheckIdentifier.Move);
         }
+        private void ParseEvolutionLevelupMove(int[] moves, List<int>[] EggMovesSplitLearned, List<int> IncenseMovesLearned, ref CheckResult[] res)
+        {
+            // Ignore if there is an invalid move or an empty move, this validtion is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
+            // Ignore Mr.Mime and Sodowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
+            // Ignore if encounter species is the evolution species, pokemon was not evolved by the player
+            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3) || (EncounterMatch as IEncounterable)?.Species == pkm.Species)
+                return;
 
+            // Mr.Mime and Sodowodoo from eggs that does not have any exclusive egg move or level up move from Mime Jr or Bonsly, egg can be assumed to be a non-incense egg, pokemon was not evolved by the player
+            if (EncounterMatch == null && pkm.WasEgg && Legal.BabyEvolutionWithMove.Contains(pkm.Species) && !IncenseMovesLearned.Any() && !EggMovesSplitLearned[0].Any())
+                return;
+
+            var ValidMoves = Legal.getValidPostEvolutionMoves(pkm, pkm.Species, EvoChainsAllGens, GameVersion.Any);
+            // Add the evolution moves to valid moves in case some of this moves could not be learned after evolving
+            switch(pkm.Species)
+            {
+                case 122: // Mr. Mime (Mime Jr with Mimic)
+                case 185: // Sudowoodo (Bonsly with Mimic)
+                    ValidMoves.Add(102);
+                    break;
+                case 424: // Ambipom (Aipom with Double Hit)
+                    ValidMoves.Add(458);
+                    break;
+                case 463: // Lickilicky (Lickitung with Rollout)
+                    ValidMoves.Add(205);
+                    break;
+                case 465: // Tangrowth (Tangela with Ancient Power)
+                case 469: // Yanmega (Yamma with Ancient Power)
+                case 473: // Mamoswine (Piloswine with Ancient Power)
+                    ValidMoves.Add(246);
+                    break;
+                case 700: // Sylveon (Eevee with Fairy Move)
+                    // Add every fairy moves without cheking if eevee learn it or not, pokemon moves are determined legal before this function
+                    ValidMoves.AddRange(Legal.FairyMoves);
+                    break;
+                case 763: // Tsareena (Steenee with Stomp)
+                    ValidMoves.Add(23);
+                    break;
+            }
+            if(!moves.Any(m => ValidMoves.Contains(m)))
+            {
+                for(int m = 0; m < 4; m++)
+                {
+                    res[m] = new CheckResult(Severity.Invalid, string.Format(V385, specieslist[pkm.Species]), CheckIdentifier.Move);
+                }
+            }
+        }
         private void verifyPreRelearn()
         {
             // For origins prior to relearn moves, need to try to match a mystery gift if applicable.

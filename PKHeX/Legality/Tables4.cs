@@ -449,7 +449,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 145, Level = 60, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, Version = GameVersion.Pt }, // Zapdos
             new EncounterStaticTyped { Species = 146, Level = 60, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, Version = GameVersion.Pt }, // Moltres
         };
-        internal static readonly EncounterStaticTyped[] Encounter_DPPt_Regular =
+        internal static readonly EncounterStatic[] Encounter_DPPt_Regular =
         {
             //Starters
             new EncounterStaticTyped { Gift = true, Species = 387, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, Version = GameVersion.DP }, // Turtwig @ Lake Verity
@@ -470,9 +470,9 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 05, Location = 010, Version = GameVersion.DP, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, //Eevee @ Hearthome City 
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 20, Location = 010, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Eevee @ Hearthome City 
             new EncounterStaticTyped { Gift = true, Species = 137, Level = 25, Location = 012, Version = GameVersion.Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, //Porygon @ Veilstone City
-            new EncounterStaticTyped { Gift = true, Species = 175, Level = 01, EggLocation = 2011, TypeEncounter = EncounterType.None, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
-            new EncounterStaticTyped { Gift = true, Species = 440, Level = 01, EggLocation = 2009, TypeEncounter = EncounterType.None, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
-            new EncounterStaticTyped { Gift = true, Species = 447, Level = 01, EggLocation = 2010, TypeEncounter = EncounterType.None, }, //Riolu Egg from Riley
+            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2011, Version = GameVersion.Pt,}, //Togepi Egg from Cynthia
+            new EncounterStatic { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = GameVersion.DP,}, //Happiny Egg from Traveling Man
+            new EncounterStatic { Gift = true, Species = 447, Level = 01, EggLocation = 2010, }, //Riolu Egg from Riley
             //Stationary
             new EncounterStaticTyped { Species = 425, Level = 22, Location = 47, Version = GameVersion.DP, TypeEncounter = EncounterType.TallGrass, },// Drifloon @ Valley Windworks 
             new EncounterStaticTyped { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt, TypeEncounter = EncounterType.TallGrass, },// Drifloon @ Valley Windworks 
@@ -557,7 +557,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 380, Level = 35, Version = GameVersion.HG, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, //Latias
             new EncounterStaticTyped { Species = 381, Level = 35, Version = GameVersion.SS, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, //Latios
         };
-        internal static readonly EncounterStaticTyped[] Encounter_HGSS_Regular =
+        internal static readonly EncounterStatic[] Encounter_HGSS_Regular =
         {
             //Starters
             new EncounterStaticTyped { Gift = true, Species = 001, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Bulbasaur @ Pallet Town
@@ -581,10 +581,10 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 05, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Eevee @ Goldenrod City
             new EncounterStaticTyped { Gift = true, Species = 147, Level = 15, Location = 222, Moves = new[] {245}, }, // Dratini @ Dragon's Den (ExtremeSpeed)
             new EncounterStaticTyped { Gift = true, Species = 236, Level = 10, Location = 216, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP,  }, // Tyrogue @ Mt. Mortar
-            new EncounterStaticTyped { Gift = true, Species = 175, Level = 01, EggLocation = 2013, TypeEncounter = EncounterType.None, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
-            new EncounterStaticTyped { Gift = true, Species = 179, Level = 01, EggLocation = 2014, TypeEncounter = EncounterType.None, }, // Mareep Egg from Primo
-            new EncounterStaticTyped { Gift = true, Species = 194, Level = 01, EggLocation = 2014, TypeEncounter = EncounterType.None, }, // Wooper Egg from Primo
-            new EncounterStaticTyped { Gift = true, Species = 218, Level = 01, EggLocation = 2014, TypeEncounter = EncounterType.None, }, // Slugma Egg from Primo
+            new EncounterStatic { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
+            new EncounterStatic { Gift = true, Species = 179, Level = 01, EggLocation = 2014, }, // Mareep Egg from Primo
+            new EncounterStatic { Gift = true, Species = 194, Level = 01, EggLocation = 2014, }, // Wooper Egg from Primo
+            new EncounterStatic { Gift = true, Species = 218, Level = 01, EggLocation = 2014, }, // Slugma Egg from Primo
             // Celadon City Game Corner
             new EncounterStaticTyped { Gift = true, Species = 122, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Mr. Mime
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Eevee
@@ -605,7 +605,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 101, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, //Electrode @ Team Rocket HQ
             new EncounterStaticTyped { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
             new EncounterStaticTyped { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
-            new EncounterStaticTyped { Species = 185, Level = 20, Location = 184, TypeEncounter = EncounterType.None, }, //Sudowoodo @ Route 36
+            new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36, Encounter does not have type
             new EncounterStaticTyped { Species = 172, Level = 30, Location = 214, Gender = 1, Form = 1, Moves = new[]{344,270,207,220} },  //Spiky-eared Pichu @ Ilex forest
             //Stationary Lengerdary
             new EncounterStaticTyped { Species = 144, Level = 50, Location = 203, }, //Articuno @ Seafoam Islands
