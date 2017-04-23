@@ -1186,7 +1186,7 @@ namespace PKHeX.Core
             for (int i = 0; i <= index; i++)
             {
                 var evo = evoChain[i];
-                var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: false, RemoveTransferHM: false, Generation: Generation);
+                var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
                 // Moves from Species or any species after in the evolution phase
                 evomoves.AddRange(moves);
             }
@@ -1211,7 +1211,7 @@ namespace PKHeX.Core
             for (int i = 0; i < evoChain.Length; i++)
             {
                 var evo = evoChain[i];
-                var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: false, RemoveTransferHM: false, Generation: Generation);
+                var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
                 if (i >= index)
                     // Moves from Species or any species bellow in the evolution phase
                     preevomoves.AddRange(moves);
