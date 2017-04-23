@@ -50,6 +50,7 @@
             this.NUD_IMinute = new System.Windows.Forms.NumericUpDown();
             this.NUD_IHour = new System.Windows.Forms.NumericUpDown();
             this.NUD_IDay = new System.Windows.Forms.NumericUpDown();
+            this.B_BerryFix = new System.Windows.Forms.Button();
             this.GB_Passed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ESecond)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_EMinute)).BeginInit();
@@ -329,11 +330,23 @@
             this.NUD_IDay.TabIndex = 14;
             this.NUD_IDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // B_BerryFix
+            // 
+            this.B_BerryFix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.B_BerryFix.Location = new System.Drawing.Point(93, 141);
+            this.B_BerryFix.Name = "B_BerryFix";
+            this.B_BerryFix.Size = new System.Drawing.Size(66, 23);
+            this.B_BerryFix.TabIndex = 78;
+            this.B_BerryFix.Text = "Berry Fix";
+            this.B_BerryFix.UseVisualStyleBackColor = true;
+            this.B_BerryFix.Click += new System.EventHandler(this.B_BerryFix_Click);
+            // 
             // SAV_RTC3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(331, 176);
+            this.Controls.Add(this.B_BerryFix);
             this.Controls.Add(this.B_Reset);
             this.Controls.Add(this.GB_Passed);
             this.Controls.Add(this.GB_Initial);
@@ -385,5 +398,6 @@
         private System.Windows.Forms.NumericUpDown NUD_IDay;
         private System.Windows.Forms.Label L_IDay;
         private System.Windows.Forms.Label L_IHour;
+        private System.Windows.Forms.Button B_BerryFix;
     }
 }
