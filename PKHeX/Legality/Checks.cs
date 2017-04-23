@@ -134,7 +134,7 @@ namespace PKHeX.Core
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
                 AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
-            if (Type.IsSubclassOf(typeof(EncounterStatic)))
+            if (EncounterIsStatic)
             {
                 var enc = (EncounterStatic)EncounterMatch;
                 if (enc.Shiny != null && (bool) enc.Shiny ^ pkm.IsShiny)
@@ -1501,7 +1501,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Type.IsSubclassOf(typeof(EncounterStatic)))
+            if (EncounterIsStatic)
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
                 if (enc?.Gift ?? false)
@@ -2179,9 +2179,9 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 25: // Pikachu
-                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type.IsSubclassOf(typeof(EncounterStatic)))
+                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ EncounterIsStatic)
                     {
-                        string msg = Type.IsSubclassOf(typeof(EncounterStatic)) ? V305 : V306;
+                        string msg = EncounterIsStatic ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
@@ -2359,7 +2359,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
-                if (Type.IsSubclassOf(typeof(EncounterStatic)))
+                if (EncounterIsStatic)
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     if (enc.Fateful)
