@@ -1168,18 +1168,43 @@ namespace PKHeX.Core
             }
             return new int[0];
         }
-        internal static List<int>[] getExclusiveEvolutionMoves(PKM pkm, int Species,DexLevel[][] evoChains, GameVersion Version)
+        internal static List<int> getExclusivePostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
+        {
+            // Return moves that the pokemon could learn after evolving 
+            var moves = new List<int>();
+            for (int i = 1; i < evoChains.Length; i++)
+                if (evoChains[i].Any())
+                    moves.AddRange(getExclusivePostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
+            if (pkm.GenNumber >= 6)
+                moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
+            return moves.Distinct().ToList();
+        }
+        internal static IEnumerable<int> getExclusivePostEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        {
+            var evomoves = new List<int>();
+            var index = Array.FindIndex(evoChain, e => e.Species == Species);
+            for (int i = 0; i < evoChain.Length; i++)
+            {
+                var evo = evoChain[i];
+                var moves = getMoves(pkm, evo.Species, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: false, RemoveTransferHM: false, Generation: Generation);
+                if (i <= index)
+                    // Moves from Species or any species after in the evolution phase
+                    evomoves.AddRange(moves);
+            }
+            return evomoves;
+        }
+        internal static List<int>[] getExclusivePreEvolutionMoves(PKM pkm, int Species,DexLevel[][] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could only learn throught the preevolution Species
             List<int>[] Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Any())
-                    Moves[i] = getExclusiveEvolutionMoves(pkm, Species, evoChains[i], i, Version).ToList();
+                    Moves[i] = getExclusivePreEvolutionMoves(pkm, Species, evoChains[i], i, Version).ToList();
                 else
                     Moves[i] = new List<int>();
             return Moves;
         }
-        internal static IEnumerable<int> getExclusiveEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        internal static IEnumerable<int> getExclusivePreEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
         {
             var preevomoves = new List<int>();
             var evomoves = new List<int>();

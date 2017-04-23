@@ -314,3 +314,4 @@ V377 = 遗传招式。礼物蛋不应有。
 V378 = 遗传升级招式。礼物蛋不应有。
 V379 = {0}的遗传招式。与遗传的招式{1}不共存。
 V381 = Encounter Type does not match encounter.
+V385 = Moves combinations is not compatible with {0} evolution.
