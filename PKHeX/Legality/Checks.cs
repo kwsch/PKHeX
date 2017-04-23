@@ -701,9 +701,9 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 4:
-                    if(pkm.HasOriginalMetLocation && pkm.Met_Location == 193 && enc.All( t => t.Type == SlotType.Surf))
+                    if (pkm.HasOriginalMetLocation && pkm.Met_Location == 193 && enc.All(t => t.Type == SlotType.Surf))
                     {
-                        // Pokemon surfing in Jhoto Route 45
+                        // Pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     }
                     break;
@@ -749,7 +749,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
                     if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
                         return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
-                    if (s.Location == 193 && (s as EncounterStaticTyped)?.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Jhoto Route 45
+                    if (s.Location == 193 && (s as EncounterStaticTyped)?.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Johto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:
@@ -813,11 +813,14 @@ namespace PKHeX.Core
         }
         private void verifyEncounterType()
         {
+            if (pkm.Format >= 7)
+                return;
+
             EncounterType type = EncounterType.None;
             // Encounter type data is only stored for gen 4 encounters
             // Gen 6 -> 7 transfer delete encounter type data
             // All eggs have encounter type none, even if they are from static encounters
-            if (pkm.Format < 7 && pkm.Gen4 && !pkm.WasEgg)
+            if (pkm.Gen4 && !pkm.WasEgg)
             {
                 if (EncounterMatch is EncounterSlot[])
                     // If there is more than one slot, the get wild encounter have filter for the pkm type encounter like safari/sports ball
@@ -831,12 +834,11 @@ namespace PKHeX.Core
                 AddLine(Severity.NotImplemented, V382, CheckIdentifier.Encounter);
                 return;
             }
+
             if (type != (EncounterType)pkm.EncounterType)
-            {
                 AddLine(Severity.Invalid, V381, CheckIdentifier.Encounter);
-                return;
-            }
-            AddLine(Severity.Valid, V380, CheckIdentifier.Encounter);
+            else
+                AddLine(Severity.Valid, V380, CheckIdentifier.Encounter);
         }
 
         private CheckResult verifyEncounter()
