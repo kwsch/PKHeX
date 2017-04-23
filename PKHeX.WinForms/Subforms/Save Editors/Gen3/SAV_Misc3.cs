@@ -364,7 +364,9 @@ namespace PKHeX.WinForms
                 iSymbols |= (uint)((Symbols[i] & 3) << i * 2);
             if (CHK_ActivatePass.Checked)
                 iSymbols |= 1 << 14;
-            BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, ofsSymbols) & ~(0x7FFF << 4) | (iSymbols & 0x7FFF) << 4).CopyTo(SAV.Data, ofsSymbols);
+            
+            uint val = (uint)(BitConverter.ToUInt32(SAV.Data, ofsSymbols) & ~(0x7FFF << 4) | (iSymbols & 0x7FFF) << 4);
+            BitConverter.GetBytes(val).CopyTo(SAV.Data, ofsSymbols);
         }
         private void BTN_Symbol_Click(object sender, EventArgs e)
         {
