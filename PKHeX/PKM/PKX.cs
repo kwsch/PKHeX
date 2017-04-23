@@ -60,20 +60,8 @@ namespace PKHeX.Core
             }.Contains((int)len);
         }
         
-        public static uint LCRNG(uint seed)
-        {
-            const uint a = 0x41C64E6D;
-            const uint c = 0x00006073;
-
-            return seed * a + c;
-        }
-        public static uint LCRNG(ref uint seed)
-        {
-            const uint a = 0x41C64E6D;
-            const uint c = 0x00006073;
-
-            return seed = seed * a + c;
-        }
+        public static uint LCRNG(uint seed) => RNG.LCRNG.Next(seed);
+        public static uint LCRNG(ref uint seed) => seed = RNG.LCRNG.Next(seed);
         #region ExpTable
         private static readonly uint[,] ExpTable =
         {

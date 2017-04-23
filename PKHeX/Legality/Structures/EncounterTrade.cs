@@ -5,8 +5,8 @@
         public int Species { get; set; }
         public int[] Moves { get; set; }
         public int Level;
-        public int LevelMin { get { return Level; } set { } }
-        public int LevelMax { get { return 100; } set { } }
+        public int LevelMin => Level;
+        public int LevelMax => 100;
         public int Generation { get; set; } = -1;
 
         public int Location = -1;

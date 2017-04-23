@@ -155,9 +155,11 @@
     <Compile Include="Legality\LegalityCheckStrings.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
+    <Compile Include="Legality\RNG\RNG.cs" />
     <Compile Include="Legality\Structures\DexLevel.cs" />
     <Compile Include="Legality\Structures\EggMoves.cs" />
     <Compile Include="Legality\Structures\EncounterArea.cs" />
+    <Compile Include="Legality\Structures\EncounterLock.cs" />
     <Compile Include="Legality\Structures\EncounterType.cs" />
     <Compile Include="Legality\Structures\GBEncounterData.cs" />
     <Compile Include="Legality\Structures\IEncounterable.cs" />
@@ -171,6 +173,7 @@
     <Compile Include="Legality\Structures\IRibbonSet.cs" />
     <Compile Include="Legality\Structures\Learnset.cs" />
     <Compile Include="Legality\Structures\Nature.cs" />
+    <Compile Include="Legality\Structures\PIDIV.cs" />
     <Compile Include="Legality\Structures\SlotType.cs" />
     <Compile Include="Legality\Tables.cs" />
     <Compile Include="Legality\Tables2.cs" />

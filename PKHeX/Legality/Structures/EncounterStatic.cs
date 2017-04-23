@@ -159,4 +159,13 @@
             };
         }
     }
+
+    public class EncounterStaticShadow : EncounterStatic
+    {
+        public EncounterLock[] Locks;
+        protected override EncounterStatic Clone(int location)
+        {
+            throw new System.Exception();
+        }
+    }
 }

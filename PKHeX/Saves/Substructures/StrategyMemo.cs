@@ -33,7 +33,7 @@ namespace PKHeX.Core
         }
         public void SetEntry(StrategyMemoEntry entry)
         {
-            int index = Array.FindIndex(Entries.ToArray(), ent => ent.Species == entry.Species);
+            int index = Entries.FindIndex(ent => ent.Species == entry.Species);
             if (index > 0)
                 Entries[index] = entry;
             else
