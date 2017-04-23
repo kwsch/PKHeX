@@ -18,8 +18,8 @@ namespace PKHeX.WinForms
             switch (SAV.Version)
             {
                 case GameVersion.DP:
-                    readMain(isPoketch: true, isFly: false, isBP: false, isTC: false, isMap: false);
-                    TC_Misc.Controls.Remove(TAB_BF);
+                    readMain(isPoketch: true, isFly: true, isBP: true, isTC: false, isMap: false);
+                    readBF();
                     break;
                 case GameVersion.HGSS:
                     readMain(isPoketch: false, isFly: true, isBP: true, isTC: true, isMap: true);
@@ -84,7 +84,23 @@ namespace PKHeX.WinForms
                             4, 6, 10, 7, 8
                         };
                         break;
-                        // case GameVersion.DP: break;
+                    case GameVersion.DP:
+                        ofsFly = GBO + 0x1112;
+                        FlyDestA = new[] {
+                            "Twinleaf Town", "Sandgem Town", "Jubilife City", "Oreburgh City",
+                            "Floaroma Town", "Eterna City", "Hearthome City", "Solaceon Town",
+                            "Veilstone City", "Pastoria City", "Celestic Town", "Canalave City",
+                            "Snowpoint City", "Sunyshore City",
+                            "Pokemon League", "Fight Area", "Survival Area", "Resort Area"
+                        };
+                        FlyDestC = new[] {
+                            0, 1, 7, 9,
+                            2, 10, 11, 3,
+                            13, 12, 4, 8,
+                            15, 14,
+                            68, 17, 5, 6
+                        };
+                        break;
                 }
                 uint val = BitConverter.ToUInt32(SAV.Data, ofsFly);
                 CLB_FlyDest.Items.Clear();
@@ -93,8 +109,8 @@ namespace PKHeX.WinForms
                 {
                     if (FlyDestC[i] < 32)
                         CLB_FlyDest.SetItemChecked(i, (val & (uint)1 << FlyDestC[i]) != 0);
-                    else if (FlyDestC[i] < 40)
-                        CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + 4] & 1 << (FlyDestC[i] - 32)) != 0);
+                    else
+                        CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] - (FlyDestC[i] >> 3 << 3))) != 0);
                 }
             }
             else GB_FlyDest.Visible = false;
@@ -104,7 +120,7 @@ namespace PKHeX.WinForms
                 switch (SAV.Version)
                 {
                     case GameVersion.HGSS: ofsBP = GBO + 0x5BB8; break;
-                        // case GameVersion.DP: break;
+                    case GameVersion.DP: ofsBP = GBO + 0x65F8; break;
                 }
                 uint val = BitConverter.ToUInt16(SAV.Data, ofsBP);
                 if (val > 9999) val = 9999;
@@ -145,8 +161,7 @@ namespace PKHeX.WinForms
                         else
                             val &= ~((uint)1 << FlyDestC[i]);
                     }
-                    else if (FlyDestC[i] < 40)
-                        SAV.Data[ofsFly + 4] = (byte)(SAV.Data[ofsFly + 4] & ~(1 << (FlyDestC[i] - 32)) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] - 32)));
+                    else SAV.Data[ofsFly + (FlyDestC[i] >> 3)] = (byte)(SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & ~(1 << (FlyDestC[i] - (FlyDestC[i] >> 3 << 3))) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] - (FlyDestC[i] >> 3 << 3))));
                 }
                 BitConverter.GetBytes(val).CopyTo(SAV.Data, ofsFly);
 
@@ -373,8 +388,6 @@ namespace PKHeX.WinForms
         private int ofsPrints;
         private Color[] PrintColorA;
         private Button[] PrintButtonA;
-        // private bool editingcont;
-        // private bool editingval;
         private bool editing;
         private RadioButton[] StatRBA;
         private NumericUpDown[] StatNUDA;
@@ -388,14 +401,25 @@ namespace PKHeX.WinForms
         private bool XBupdated = false;
         private void readBF()
         {
-            BFF = new[] {
-                // { BFV, BFT, addr, 1BFTlen, checkBit
-                new[] { 0, 1, 0x5264, 0x04, 0x5BC1 },
-                new[] { 1, 0, 0x5278, 0x10, 0x687C },
-                new[] { 0, 0, 0x52A8, 0x18, 0x6880 },
-                new[] { 2, 0, 0x52F0, 0x10, 0x6884 },
-                new[] { 0, 0, 0x5320, 0x04, 0x6888 },
-            };
+            switch (SAV.Version)
+            {
+                case GameVersion.DP:
+                    BFF = new[]
+                    {
+                        new[] { 0, 1, 0x5FCA, 0x04, 0x6601 },
+                    };
+                    break;
+                case GameVersion.HGSS:
+                    BFF = new[] {
+                        // { BFV, BFT, addr, 1BFTlen, checkBit
+                        new[] { 0, 1, 0x5264, 0x04, 0x5BC1 },
+                        new[] { 1, 0, 0x5278, 0x10, 0x687C },
+                        new[] { 0, 0, 0x52A8, 0x18, 0x6880 },
+                        new[] { 2, 0, 0x52F0, 0x10, 0x6884 },
+                        new[] { 0, 0, 0x5320, 0x04, 0x6888 },
+                    };
+                    break;
+            }
             BFV = new[]
             {
                 new[] { 2, 0 }, // Max, Current
@@ -413,23 +437,33 @@ namespace PKHeX.WinForms
             StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
             StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
             StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
-            PrintColorA = new[] { Color.Transparent, Color.Silver, Color.Gold };
-            PrintButtonA = new[] { BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade };
-            HallNUDA = new[] {
-                NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
-                NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
-                NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17
-            };
-            string[] TypeName = Util.getTypesList("en");
-            int[] typenameIndex = new[] { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
-            for (int i = 0; i < HallNUDA.Length; i++)
-                tip2.SetToolTip(HallNUDA[i], TypeName[typenameIndex[i]]);
 
-            ofsPrints = SAV.getGBO + 0xE7E;
-            Prints = new int[PrintButtonA.Length];
-            for (int i = 0; i < Prints.Length; i++)
-                Prints[i] = 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + i * 2) >> 1) - 1);
-            setPrints();
+            switch (SAV.Version)
+            {
+                case GameVersion.DP: BFN = BFN.Take(1).ToArray(); ofsPrints = -1; break;
+                case GameVersion.HGSS: ofsPrints = SAV.getGBO + 0xE7E; break;
+            }
+            if (ofsPrints > 0)
+            {
+                PrintColorA = new[] { Color.Transparent, Color.Silver, Color.Gold };
+                PrintButtonA = new[] { BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade };
+                Prints = new int[PrintButtonA.Length];
+                for (int i = 0; i < Prints.Length; i++)
+                    Prints[i] = 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + i * 2) >> 1) - 1);
+                setPrints();
+
+                HallNUDA = new[] {
+                        NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
+                        NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
+                        NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17
+                    };
+                string[] TypeName = Util.getTypesList("en");
+                int[] typenameIndex = new[] { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
+                for (int i = 0; i < HallNUDA.Length; i++)
+                    tip2.SetToolTip(HallNUDA[i], TypeName[typenameIndex[i]]);
+            }
+            else
+                GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
 
             editing = true;
             CB_Stats1.Items.Clear();
@@ -451,11 +485,12 @@ namespace PKHeX.WinForms
         }
         private void saveBF()
         {
-            for(int i = 0; i < Prints.Length; i++)
-            {
-                if (Prints[i] == 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + i * 2) >> 1) - 1)) continue;
-                BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.Data, ofsPrints + i * 2);
-            }
+            if(GB_Prints.Visible)
+                for(int i = 0; i < Prints.Length; i++)
+                {
+                    if (Prints[i] == 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + i * 2) >> 1) - 1)) continue;
+                    BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.Data, ofsPrints + i * 2);
+                }
             if (XBupdated) setXBChksum();
         }
 
@@ -482,8 +517,9 @@ namespace PKHeX.WinForms
             CB_Stats2.Items.Clear();
             CB_Stats2.Items.AddRange(BFT[BFF[facility][1]]);
 
+            StatRBA[0].Checked = true;
             foreach (RadioButton r in StatRBA)
-                r.Visible = facility == 1;
+                r.Visible = r.Enabled = facility == 1;
 
             for (int i = 0; i < StatLabelA.Length; i++)
                 StatLabelA[i].Visible = StatLabelA[i].Enabled = StatNUDA[i].Visible = StatNUDA[i].Enabled = Array.IndexOf(BFV[BFF[facility][0]], i) >= 0;
@@ -509,6 +545,7 @@ namespace PKHeX.WinForms
         private void ChangeStat(object sender, EventArgs e)
         {
             if (editing) return;
+            if (sender is RadioButton && ((RadioButton)sender).Checked == false) return;
             StatAddrControl(SetValToSav: -2, SetSavToVal: true);
             if (CB_Stats1.SelectedIndex == 2)
             {
@@ -529,10 +566,16 @@ namespace PKHeX.WinForms
         {
             int Facility = CB_Stats1.SelectedIndex;
             int BattleType = CB_Stats2.SelectedIndex;
-            int RBi = StatRBA.First().Checked ? 0 : 1;
+            int RBi = StatRBA[1].Checked ? 1 : 0;
             int addrVal = SAV.getGBO + BFF[Facility][2] + BFF[Facility][3] * BattleType + (RBi << 3);
             int addrFlag = SAV.getGBO + BFF[Facility][4];
             byte maskFlag = (byte)(1 << BattleType + (RBi << 2));
+            int TowerContinueCountOfs = 0;
+            switch (SAV.Version)
+            {
+                case GameVersion.DP: TowerContinueCountOfs = 3; break;
+                case GameVersion.HGSS: TowerContinueCountOfs = 1; break;
+            }
 
             if (SetSavToVal)
             {
@@ -546,8 +589,8 @@ namespace PKHeX.WinForms
                 }
                 CHK_Continue.Checked = (SAV.Data[addrFlag] & maskFlag) != 0;
 
-                if (Facility == 0)
-                    StatNUDA[1].Value = BitConverter.ToUInt16(SAV.Data, addrFlag + 1 + (BattleType << 1));
+                if (Facility == 0) // tower continue count
+                    StatNUDA[1].Value = BitConverter.ToUInt16(SAV.Data, addrFlag + TowerContinueCountOfs + (BattleType << 1));
 
                 editing = false;
                 return;
@@ -556,8 +599,8 @@ namespace PKHeX.WinForms
             {
                 ushort val = (ushort)StatNUDA[SetValToSav].Value;
 
-                if (Facility == 0 && SetValToSav == 1)
-                    BitConverter.GetBytes(val).CopyTo(SAV.Data, addrFlag + 1 + (BattleType << 1));
+                if (Facility == 0 && SetValToSav == 1) // tower continue count
+                    BitConverter.GetBytes(val).CopyTo(SAV.Data, addrFlag + TowerContinueCountOfs + (BattleType << 1));
 
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0) return;
@@ -672,7 +715,7 @@ namespace PKHeX.WinForms
             L_SumHall.Text = s.ToString();
 
             int XBO = getXBO();
-            NUD_HallStreaks.Visible = XBO > 0;
+            NUD_HallStreaks.Visible = NUD_HallStreaks.Enabled = XBO > 0;
             if (XBO <= 0) return;
             ushort v = BitConverter.ToUInt16(SAV.Data, XBO + 4 + 0x3DE * CB_Stats2.SelectedIndex + (species << 1));
             if (v > 9999) v = 9999;
