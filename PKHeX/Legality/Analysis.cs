@@ -14,9 +14,8 @@ namespace PKHeX.Core
         private List<GBEncounterData> EncountersGBMatch;
         private object EncounterOriginalGB => EncountersGBMatch?.FirstOrDefault()?.Encounter;
         private object EncounterMatch;
-        private Type Type; // Encounter
-        private bool MatchIsMysteryGift => EncounterMatch.GetType().IsSubclassOf(typeof(MysteryGift));
-        private bool EncounterIsMysteryGift => Type.IsSubclassOf(typeof (MysteryGift));
+        private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
+        private Type MatchedType; // Child class if applicable (WC6, PGF, etc)
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginalGB ?? EncounterMatch);
         private List<MysteryGift> EventGiftMatch;
         private List<EncounterStatic> EncounterStaticMatch;
@@ -218,9 +217,10 @@ namespace PKHeX.Core
             if (pkm.VC && pkm.Format == 7)
                 EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
 
-            Type = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
-            if (Type == typeof (MysteryGift))
-                Type = Type?.BaseType;
+            MatchedType = Type = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
+            var bt = Type.BaseType;
+            if (!(bt == typeof(Array) || bt == typeof(object) || bt.IsPrimitive)) // a parent exists
+                Type = bt; // use base type
         }
         private void updateChecks()
         {

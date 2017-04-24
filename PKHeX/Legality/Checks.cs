@@ -134,7 +134,7 @@ namespace PKHeX.Core
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
                 AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
-            if (Type.IsSubclassOf(typeof(EncounterStatic)))
+            if (Type == typeof(EncounterStatic))
             {
                 var enc = (EncounterStatic)EncounterMatch;
                 if (enc.Shiny != null && (bool) enc.Shiny ^ pkm.IsShiny)
@@ -226,7 +226,7 @@ namespace PKHeX.Core
                 if (pk.Length > (lang == 2 ? 10 : 5))
                     AddLine(Severity.Invalid, V1, CheckIdentifier.Nickname);
             }
-            else if (EncounterIsMysteryGift)
+            else if (Type == typeof(MysteryGift))
             {
                 if (pkm.IsNicknamed && (!(EncounterMatch as MysteryGift)?.IsEgg ?? false))
                     AddLine(Severity.Fishy, V0, CheckIdentifier.Nickname);
@@ -429,7 +429,7 @@ namespace PKHeX.Core
                     return;
                 }
             }
-            if (EncounterIsMysteryGift)
+            if (Type == typeof(MysteryGift))
             {
                 int[] IVs;
                 switch (((MysteryGift) EncounterMatch).Format)
@@ -816,6 +816,9 @@ namespace PKHeX.Core
             if (pkm.Format >= 7)
                 return;
 
+            if (!Encounter.Valid)
+                return;
+
             EncounterType type = EncounterType.None;
             // Encounter type data is only stored for gen 4 encounters
             // Gen 6 -> 7 transfer delete encounter type data
@@ -1014,8 +1017,12 @@ namespace PKHeX.Core
                 EncounterMatch = WildEncounter;
             }
 
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidIngameTrade(pkm)))
+            var trade = Legal.getValidIngameTrade(pkm);
+            if (trade != null)
+            {
                 Gen4Result = verifyEncounterTrade();
+                EncounterMatch = trade;
+            }
 
             // Transfer Legality
             int loc = pkm.Met_Location;
@@ -1400,7 +1407,7 @@ namespace PKHeX.Core
                 if (pkm.AbilityNumber == 4 ^ grotto)
                     AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
             }
-            else if (EncounterIsMysteryGift)
+            else if (Type == typeof(MysteryGift))
                 verifyAbilityMG456(abilities, ((PGF)EncounterMatch).AbilityType);
         }
         private void verifyAbility6(int[] abilities)
@@ -1414,7 +1421,7 @@ namespace PKHeX.Core
                 if (!valid)
                     AddLine(Severity.Invalid, V300, CheckIdentifier.Ability);
             }
-            else if (EncounterIsMysteryGift)
+            else if (Type == typeof(MysteryGift))
                 verifyAbilityMG456(abilities, ((WC6)EncounterMatch).AbilityType);
             else if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
@@ -1429,7 +1436,7 @@ namespace PKHeX.Core
                 if (!valid)
                     AddLine(Severity.Invalid, V111, CheckIdentifier.Ability);
             }
-            else if (EncounterIsMysteryGift)
+            else if (Type == typeof(MysteryGift))
                 verifyAbilityMG456(abilities, ((WC7)EncounterMatch).AbilityType);
             else if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
@@ -1465,7 +1472,7 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            if (EncounterIsMysteryGift)
+            if (Type == typeof(MysteryGift))
             {
                 if (pkm.Species == 490 && ((MysteryGift)EncounterMatch).Ball == 0)
                     // there is no ball data in Manaphy Mystery Gift
@@ -1501,7 +1508,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Type.IsSubclassOf(typeof(EncounterStatic)))
+            if (Type == typeof(EncounterStatic))
             {
                 EncounterStatic enc = EncounterMatch as EncounterStatic;
                 if (enc?.Gift ?? false)
@@ -1873,7 +1880,7 @@ namespace PKHeX.Core
             // Determine if we should check for Handling Trainer Memories
             // A Pokémon is untraded if...
             bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
-            if (EncounterIsMysteryGift)
+            if (Type == typeof(MysteryGift))
             {
                 untraded |= !pkm.WasEventEgg;
                 untraded &= pkm.WasEgg;
@@ -1926,7 +1933,7 @@ namespace PKHeX.Core
                 if (pkm.OT_Memory != 0)
                     return new CheckResult(Severity.Invalid, V151, CheckIdentifier.History);
             }
-            else if (Type != typeof(WC6))
+            else if (MatchedType != typeof(WC6))
             {
                 if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
                     return new CheckResult(Severity.Invalid, V152, CheckIdentifier.History);
@@ -2005,13 +2012,13 @@ namespace PKHeX.Core
                 // Undocumented, uncommon, and insignificant -- don't bother.
                 return;
             }
-            if (Type == typeof(WC6))
+            if (MatchedType == typeof(WC6))
             {
                 WC6 g = EncounterMatch as WC6;
                 verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
                 return;
             }
-            if (Type == typeof(WC7))
+            if (MatchedType == typeof(WC7))
             {
                 WC7 g = EncounterMatch as WC7;
                 verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
@@ -2179,13 +2186,13 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 25: // Pikachu
-                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type.IsSubclassOf(typeof(EncounterStatic)))
+                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
                     {
-                        string msg = Type.IsSubclassOf(typeof(EncounterStatic)) ? V305 : V306;
+                        string msg = Type == typeof(EncounterStatic) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
-                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ EncounterIsMysteryGift)
+                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ Type == typeof(MysteryGift))
                     {
                         var gift = EncounterMatch as WC7;
                         if (gift != null && gift.Form != pkm.AltForm)
@@ -2257,7 +2264,7 @@ namespace PKHeX.Core
                 case 666: // Vivillon
                     if (pkm.AltForm > 17) // Fancy & Pokéball
                     {
-                        if (!EncounterIsMysteryGift)
+                        if (Type != typeof(MysteryGift))
                             AddLine(Severity.Invalid, V312, CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, V313, CheckIdentifier.Form);
@@ -2270,7 +2277,7 @@ namespace PKHeX.Core
                 case 670: // Floette
                     if (pkm.AltForm == 5) // Eternal Flower -- Never Released
                     {
-                        if (!EncounterIsMysteryGift)
+                        if (Type != typeof(MysteryGift))
                             AddLine(Severity.Invalid, V314, CheckIdentifier.Form);
                         else
                             AddLine(Severity.Valid, V315, CheckIdentifier.Form);
@@ -2351,7 +2358,7 @@ namespace PKHeX.Core
 
             if (Encounter.Valid)
             {
-                if (EncounterIsMysteryGift)
+                if (Type == typeof(MysteryGift))
                 {
                     if (pkm.FatefulEncounter)
                         AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
@@ -2359,7 +2366,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
-                if (Type.IsSubclassOf(typeof(EncounterStatic)))
+                if (Type == typeof(EncounterStatic))
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     if (enc.Fateful)
@@ -2420,7 +2427,7 @@ namespace PKHeX.Core
                 case 791: // Solgaleo
                     if (pkm.Version == 31 && pkm.IsUntraded)
                     {
-                        if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
+                        if (Type == typeof(MysteryGift) && ((MysteryGift)EncounterMatch).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
                         AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
@@ -2428,7 +2435,7 @@ namespace PKHeX.Core
                 case 792: // Lunala
                     if (pkm.Version == 30 && pkm.IsUntraded)
                     {
-                        if (EncounterIsMysteryGift && (EncounterMatch as MysteryGift).Species == pkm.Species) // Gifted via Mystery Gift
+                        if (Type == typeof(MysteryGift) && ((MysteryGift)EncounterMatch).Species == pkm.Species) // Gifted via Mystery Gift
                             break;
                         AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
@@ -2792,8 +2799,8 @@ namespace PKHeX.Core
             if (res.Any(r => !r.Valid))
                 return res;
             
-            if (pkm.GenNumber >= 6 && MatchIsMysteryGift)
-                RelearnBase = (EncounterMatch as MysteryGift).RelearnMoves;
+            if (pkm.GenNumber >= 6 && EncounterMatch.GetType().IsSubclassOf(typeof(MysteryGift)))
+                RelearnBase = ((MysteryGift)EncounterMatch).RelearnMoves;
             return res;
         }
         private CheckResult[] parseMovesRelearn(int[] Moves, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int SkipOption, GameVersion game)
