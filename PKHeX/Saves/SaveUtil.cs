@@ -1113,5 +1113,37 @@ namespace PKHeX.Core
             }
             return null; // no xorpad compatible
         }
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="SaveFile"/>, and makes any necessary modifications to force compatibility.
+        /// </summary>
+        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format. 
+        /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
+        /// <param name="SAV">Save File target that the PKM will be injected.</param>
+        /// <param name="pk">PKM input that is to be injected into the Save File.</param>
+        /// <returns>Indication whether or not the PKM is compatible.</returns>
+        public static bool checkCompatible(SaveFile SAV, PKM pk)
+        {
+            if (pk.Species > SAV.MaxSpeciesID)
+                return false;
+
+            if (pk.HeldItem > SAV.MaxItemID)
+                pk.HeldItem = 0;
+            if (pk.Nickname.Length > SAV.NickLength)
+                pk.Nickname = pk.Nickname.Substring(0, SAV.NickLength);
+            if (pk.OT_Name.Length > SAV.OTLength)
+                pk.OT_Name = pk.OT_Name.Substring(0, SAV.OTLength);
+            if (pk.Moves.Any(move => move > SAV.MaxMoveID))
+            {
+                pk.Moves = pk.Moves.Select(move => move <= SAV.MaxMoveID ? move : 0).ToArray();
+                pk.FixMoves();
+            }
+            if (pk.EVs.Any(ev => ev > SAV.MaxEV))
+                pk.EVs = pk.EVs.Select(ev => Math.Min(SAV.MaxEV, ev)).ToArray();
+            if (pk.IVs.Any(ev => ev > SAV.MaxEV))
+                pk.IVs = pk.IVs.Select(iv => Math.Min(SAV.MaxIV, iv)).ToArray();
+
+            return true;
+        }
     }
 }

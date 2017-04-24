@@ -838,7 +838,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="Source"><see cref="PKM"/> that supplies property values.</param>
         /// <param name="Destination"><see cref="PKM"/> that receives property values.</param>
-        protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
+        public void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
             // Only transfer declared properties not defined in PKM.cs but in the actual type
             var SourceProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Source.GetType());

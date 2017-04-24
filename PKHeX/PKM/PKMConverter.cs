@@ -324,5 +324,17 @@ namespace PKHeX.Core
                     return; // bad!
             }
         }
+
+        /// <summary>
+        /// Gets a Blank <see cref="PKM"/> object of the specified type.
+        /// </summary>
+        /// <param name="t">Type of <see cref="PKM"/> instance desired.</param>
+        /// <returns>New instance of a blank <see cref="PKM"/> object.</returns>
+        public static PKM getBlank(Type t) => (PKM)Activator.CreateInstance(t, Enumerable.Repeat(null as PKM, t.GetConstructors()[0].GetParameters().Length).ToArray());
+
+        public static void transferProperties(PKM source, PKM dest)
+        {
+            source.TransferPropertiesWithReflection(source, dest);
+        }
     }
 }

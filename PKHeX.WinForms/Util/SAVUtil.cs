@@ -157,7 +157,7 @@ namespace PKHeX.WinForms
             }
 
             if (pkm.Species > GameInfo.Strings.specieslist.Length)
-                errata.Add($"Species Index beyond range: {pkm.HeldItem}");
+                errata.Add($"Species Index beyond range: {pkm.Species}");
             else if (SAV.MaxSpeciesID < pkm.Species)
                 errata.Add($"Game can't obtain species: {GameInfo.Strings.specieslist[pkm.Species]}");
 
