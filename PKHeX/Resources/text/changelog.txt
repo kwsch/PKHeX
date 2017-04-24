@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/03/18 - New Update:
+17/04/24 - New Update:
+ - Legality: Added Gen3, Gen4, Gen5 legality checking! Thanks javierhimura & wwwwwwzx!
+ - - Added: Legality Translations, currently supports English, Chinese, and Korean. Thanks wwwwwwzx & lilymaniac!
+ - - Note: Colosseum/XD is not supported at this time, and certain Gen3 events may not be detected.
+ - - Fixed: More edge cases
+ - Changed: Trash Byte & Special character editing window (added) now replaces the Text Entry window.
+ - Changed: Mystery Gift DB now has Gen 4 & 5 event files to select from.
+ - Changed: Mystery Gift DB and PKM DB browsing speed has been improved slightly.
+ - Changed: Hovering over a pkm storage slot now gives more visual feedback.
+ - - Useful for viewing/editing trash bytes of any generation string, like A-Save.
+ - Added: Can now load GameCube memory card files directly. Thanks javierhimura!
+ - Added: More Gen3 misc editing features, such as Ferry Pass (event gift) adding. Thanks pokecal!
+ - Added: Gen4 misc editing features, such as Poketch editing and Battle Frontier. Thanks pokecal!
+ - Added: Gen4 Honey Tree editing. Thanks suloku!
+ - Added: Gen6 Friend Safari slot unlocking macro. Thanks suloku!
+ - Added: Batch Editor can now edit party slots.
+ - Fixed: Past gen transfer accuracy improved. Thanks Sabresite!
+ - Fixed: Gen5 Mystery Gift PID generation. Thanks Sabresite & Kirzi!
+ - Fixed: Rerolling Wurmple family PID/EC now generates valid values.
+ - Fixed: Gen2 no longer cause data validation errors on load.
+
+17/03/18 - New Update: (73519) [501142]
  - Legality:
  - - Added: Heavy Ball legality check. Thanks SciresM!
  - - Added: Loading Gen1 save file now asks if it is a Virtual Console save for separation of GenII legality.

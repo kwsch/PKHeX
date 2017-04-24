@@ -138,8 +138,8 @@ namespace PKHeX.WinForms
             editing = true;
             // build bytes
             byte[] data = PKX.setString(TB_Text.Text, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length, Main.SAV.Language);
-            Array.Copy(data, Raw, data.Length);
-            for (int i = 0; i < data.Length; i++)
+            Array.Copy(data, Raw, Math.Min(data.Length, Raw.Length));
+            for (int i = 0; i < Raw.Length; i++)
                 Bytes[i].Value = Raw[i];
             editing = false;
         }
