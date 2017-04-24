@@ -326,7 +326,8 @@ namespace PKHeX.Core
             {
                 // HGSS Safari encounters have normal water/grass encounter type, not safari encounter type
                 case SlotType.Grass:
-                case SlotType.Grass_Safari: return GrassType;
+                case SlotType.Grass_Safari:
+                case SlotType.BugContest: return GrassType;
                 case SlotType.Surf:
                 case SlotType.Old_Rod:
                 case SlotType.Good_Rod:
@@ -671,12 +672,12 @@ namespace PKHeX.Core
                 SlotsHG = addExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
                 SlotsSS = addExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
-                MarkDPPtEncounterTypeSlots(ref D_Slots);
-                MarkDPPtEncounterTypeSlots(ref P_Slots);
-                MarkDPPtEncounterTypeSlots(ref Pt_Slots);
-                MarkHGSSEncounterTypeSlots(ref HG_Slots);
-                MarkHGSSEncounterTypeSlots(ref SS_Slots);
-
+                MarkDPPtEncounterTypeSlots(ref SlotsD);
+                MarkDPPtEncounterTypeSlots(ref SlotsP);
+                MarkDPPtEncounterTypeSlots(ref SlotsPt);
+                MarkHGSSEncounterTypeSlots(ref SlotsHG);
+                MarkHGSSEncounterTypeSlots(ref SlotsSS);
+                
                 Evolves4 = new EvolutionTree(new[] { Resources.evos_g4 }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
                 // Update Personal Entries with Tutor Data

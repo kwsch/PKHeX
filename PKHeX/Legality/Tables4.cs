@@ -232,6 +232,7 @@ namespace PKHeX.Core
             209, // Ruins of Alph
             210, // Union Cave
             211, // SLOWPOKE Well
+            214, // Ilex Forest
             216, // Mt. Mortar
             217, // Ice Path
             218, // Whirl Islands
