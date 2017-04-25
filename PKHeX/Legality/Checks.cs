@@ -975,6 +975,32 @@ namespace PKHeX.Core
 
             return G3Result ?? EggResult ?? new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
+        private void verifyTransferLegalityG4()
+        {
+            // Transfer Legality
+            int loc = pkm.Met_Location;
+            if (loc != 30001) // PokéTransfer
+            {
+                // Crown
+                switch (pkm.Species)
+                {
+                    case 251: // Celebi
+                        if (loc != 30010 && loc != 30011) // unused || used
+                            AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                        break;
+                    case 243: // Raikou
+                    case 244: // Entei
+                    case 245: // Suicune
+                        if (loc != 30012 && loc != 30013) // unused || used
+                            AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
+                        break;
+                    default:
+                        AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
+                        break;
+                }
+            }
+        }
+
         private CheckResult verifyEncounterG4Transfer()
         {
             CheckResult Gen4Result = null;
@@ -1002,7 +1028,10 @@ namespace PKHeX.Core
                 // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
                 // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
                 if (result != null && (pkm.WasEgg || Gen4WildResult == null || EncounterStaticMatch.Any(s => !s.Gift || pkm.Ball == s.Ball)))
+                {
+                    verifyTransferLegalityG4();
                     return result;
+                }
 
                 EncounterStaticMatch = null;
                 EncounterMatch = null; // Reset Encounter Object, test for remaining encounters
@@ -1024,31 +1053,7 @@ namespace PKHeX.Core
                 EncounterMatch = trade;
             }
 
-            // Transfer Legality
-            int loc = pkm.Met_Location;
-            if (loc != 30001) // PokéTransfer
-            {
-                // Crown
-                switch (pkm.Species)
-                {
-                    case 251: // Celebi
-                        if (loc == 30010 || loc == 30011) // unused || used
-                            return Gen4Result;
-                        AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
-                        break;
-                    case 243: // Raikou
-                    case 244: // Entei
-                    case 245: // Suicune
-                        if (loc == 30012 || loc == 30013) // unused || used
-                            return Gen4Result;
-                        AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
-                        break;
-                    default:
-                        AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
-                        break;
-                }
-            }
-
+            verifyTransferLegalityG4();
             return Gen4Result ?? (wasEvent
                 ? new CheckResult(Severity.Invalid, V78, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter));
