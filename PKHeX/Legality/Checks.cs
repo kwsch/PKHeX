@@ -1021,7 +1021,7 @@ namespace PKHeX.Core
                 WildEncounter = (EncounterSlot[])EncounterMatch;
             }
 
-            if (Gen4Result == null && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
+            if (Gen4Result == null && pkm.Ball != 5 && pkm.Ball != 0x18 && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
                 EncounterMatch = EncounterStaticMatch.First();
                 var result = verifyEncounterStatic();
