@@ -488,7 +488,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 15, Location = 47, Version = GameVersion.Pt },// Drifloon @ Valley Windworks 
             new EncounterStaticTyped { Species = 479, Level = 15, Location = 70, Version = GameVersion.DP, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau 
             new EncounterStaticTyped { Species = 479, Level = 20, Location = 70, Version = GameVersion.Pt, TypeEncounter = EncounterType.Building_EnigmaStone, },// Rotom @ Old Chateau 
-            new EncounterStaticTyped { Species = 442, Level = 25, Location = 24, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Spiritomb @ Route 209            
+            new EncounterStatic { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209            
             //Stationary Lengerdary
             new EncounterStaticTyped { Species = 377, Level = 30, Location = 125, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Regirock @ Rock Peak Ruins
             new EncounterStaticTyped { Species = 378, Level = 30, Location = 124, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Regice @ Iceberg Ruins
