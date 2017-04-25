@@ -1015,7 +1015,7 @@ namespace PKHeX.Core
                     Gen4Result = result;
             }
 
-            if (Gen4Result == null && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
+            if (Gen4Result == null && !pkm.WasEgg && null != (EncounterMatch = Legal.getValidWildEncounters(pkm)))
             {
                 Gen4WildResult = verifyEncounterWild();
                 WildEncounter = (EncounterSlot[])EncounterMatch;
