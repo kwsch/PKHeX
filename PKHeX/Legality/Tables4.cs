@@ -215,6 +215,8 @@ namespace PKHeX.Core
             64, // Snowpoint Temple
             65, // Wayward Cave
             66, // Ruin Maniac Cave
+            67, // Maniac Tunnel
+            66, // Ruin Maniac Cave
             69, // Iron Island
             84, // Stark Mountain
         };
