@@ -1640,7 +1640,7 @@ namespace PKHeX.Core
             if ((species == 011 || species == 012) && catch_rate == 120)
             {
                 // Captured as Metapod without Caterpie moves
-                return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
+                return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1CaterpieMoves.Contains(lm));
                 // There is no valid Butterfree encounter in generation 1 games
             }
             if ((species == 014 || species == 015) && (catch_rate == 45 || catch_rate == 120))
