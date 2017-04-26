@@ -219,7 +219,10 @@ namespace PKHeX.Core
             if (pkm.Format == 1)
             {
                 if (!Legal.AllowGen1Tradeback)
+                {
                     pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+                    (pkm as PK1).CatchRateIsItem = false;
+                }
                 else
                 {
                     var catch_rate = (pkm as PK1).Catch_Rate;
@@ -238,11 +241,10 @@ namespace PKHeX.Core
                     else
                         pkm.TradebackStatus = TradebackType.Any;
 
-                    // Set CatchRateIsItem to true to keep the held item stored when changed spcies
+                    // Set CatchRateIsItem to true to keep the held item stored when changed species
                     // only if catch rate match a valid held item and do not match the default catch rate from the species
                     // If pokemon have not been traded to gen 2 then catch rate could not be a held item
-                    if (!pkm.Gen1_NotTradeback)
-                        ((PK1)pkm).CatchRateIsItem = (HeldItemCatchRate && !RGBCatchRate && !YCatchRate);
+                    (pkm as PK1).CatchRateIsItem = pkm.Gen1_NotTradeback ? false : (HeldItemCatchRate && !RGBCatchRate && !YCatchRate);
                 }
             }
             else if (pkm.Format == 2 || pkm.VC2)

@@ -2615,9 +2615,8 @@ namespace PKHeX.Core
             var CompleteEvoChain = getEvolutionChain(pkm, Encounter).ToArray();
             int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
             int mingen = pkm.Format == 2 && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
-            int size = maxgen;
-            DexLevel[][] GensEvoChains = new DexLevel[size + 1][];
-            for (int i = 0; i <= size; i++)
+            DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
+            for (int i = 0; i <= maxgen; i++)
                 GensEvoChains[i] = new DexLevel[0];
 
             if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU) // Illegal origin or empty pokemon, return only chain for current format
@@ -2641,7 +2640,7 @@ namespace PKHeX.Core
             {
                 if (pkm.GenNumber == 1 && pkm.Gen1_NotTradeback && gen == 2)
                     continue;
-                if (pkm.GenNumber == 2 && 3 <= gen && gen <= 6)
+                if (pkm.GenNumber <= 2 && 3 <= gen && gen <= 6)
                     continue;
                 if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen < pkm.Format && gen <= 4 && lvl > pkm.Met_Level)
                 {
@@ -2683,7 +2682,7 @@ namespace PKHeX.Core
                     //chain level for charmander is 35, is bellow met level
                     GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm,gen)).ToArray();
 
-                if (gen == 1 && GensEvoChains[gen].Last().Species > MaxSpeciesID_1)
+                if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
                     // Remove generation 2 pre-evolutions
                     GensEvoChains[gen] = GensEvoChains[gen].Take(GensEvoChains[gen].Length - 1).ToArray();
             }
