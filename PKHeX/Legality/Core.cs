@@ -1389,6 +1389,18 @@ namespace PKHeX.Core
                 if (e.Form != pkm.AltForm && !e.SkipFormCheck && !getCanFormChange(pkm, e.Species))
                     continue;
 
+                if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
+                {
+                    var catch_rate = ((PK1)pkm).Catch_Rate;
+                    // Pure gen 1, trades can be filter by catch rate
+                    if ((pkm.Species == 25 || pkm.Species == 26) && catch_rate == 190)
+                        // Red Blue Pikachu, is not a static encounter
+                        continue;
+
+                    if (catch_rate != PersonalTable.RB[e.Species].CatchRate || catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                        continue;
+                }
+
                 // Defer to EC/PID check
                 // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
                     // continue;
@@ -1784,6 +1796,13 @@ namespace PKHeX.Core
                 return null;
             if (z.Level > pkm.CurrentLevel) // minimum required level
                 return null;
+            if(pkm.Format == 1 && pkm.Gen1_NotTradeback)
+            {
+                // Even if the in game trade use the tables with source pokemon allowing generaion 2 games, the traded pokemon could be a non-tradeback pokemon
+                var catch_rate = ((PK1)pkm).Catch_Rate;
+                if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
+                    return null;
+            }
             return z;
         }
         private static GBEncounterData getEncounter12(PKM pkm, GameVersion game)
@@ -2924,7 +2943,7 @@ namespace PKHeX.Core
             if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
             {
                 // Pure gen 1, slots can be filter by catch rate
-                if ((pkm.Species == 25 || pkm.Species == 26) && ((PK1)pkm).Catch_Rate == 166)
+                if ((pkm.Species == 25 || pkm.Species == 26) && ((PK1)pkm).Catch_Rate == 163)
                     // Yellow Pikachu, is not a wild encounter
                     return slotdata;
                 if ((pkm.Species == 64 || pkm.Species == 65) && ((PK1)pkm).Catch_Rate == 96)
