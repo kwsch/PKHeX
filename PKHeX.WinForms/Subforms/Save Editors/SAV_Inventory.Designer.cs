@@ -47,6 +47,7 @@
             this.L_Count = new System.Windows.Forms.Label();
             this.NUD_Count = new System.Windows.Forms.NumericUpDown();
             this.CHK_NEW = new System.Windows.Forms.CheckBox();
+            this.giveModify = new System.Windows.Forms.ToolStripMenuItem();
             this.sortMenu.SuspendLayout();
             this.giveMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
@@ -168,21 +169,22 @@
             // 
             this.giveMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.giveAll,
-            this.giveNone});
+            this.giveNone,
+            this.giveModify});
             this.giveMenu.Name = "modifyMenu";
-            this.giveMenu.Size = new System.Drawing.Size(104, 48);
+            this.giveMenu.Size = new System.Drawing.Size(153, 92);
             // 
             // giveAll
             // 
             this.giveAll.Name = "giveAll";
-            this.giveAll.Size = new System.Drawing.Size(103, 22);
+            this.giveAll.Size = new System.Drawing.Size(152, 22);
             this.giveAll.Text = "All";
             this.giveAll.Click += new System.EventHandler(this.giveAllItems);
             // 
             // giveNone
             // 
             this.giveNone.Name = "giveNone";
-            this.giveNone.Size = new System.Drawing.Size(103, 22);
+            this.giveNone.Size = new System.Drawing.Size(152, 22);
             this.giveNone.Text = "None";
             this.giveNone.Click += new System.EventHandler(this.removeAllItems);
             // 
@@ -226,6 +228,13 @@
             this.CHK_NEW.TabIndex = 22;
             this.CHK_NEW.Text = "Flag NEW";
             this.CHK_NEW.UseVisualStyleBackColor = true;
+            // 
+            // giveModify
+            // 
+            this.giveModify.Name = "giveModify";
+            this.giveModify.Size = new System.Drawing.Size(152, 22);
+            this.giveModify.Text = "Modify";
+            this.giveModify.Click += new System.EventHandler(this.modifyAllItems);
             // 
             // SAV_Inventory
             // 
@@ -273,5 +282,6 @@
         private System.Windows.Forms.Label L_Count;
         private System.Windows.Forms.NumericUpDown NUD_Count;
         private System.Windows.Forms.CheckBox CHK_NEW;
+        private System.Windows.Forms.ToolStripMenuItem giveModify;
     }
 }

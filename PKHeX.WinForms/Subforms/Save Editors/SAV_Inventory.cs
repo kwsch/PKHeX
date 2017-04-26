@@ -345,6 +345,25 @@ namespace PKHeX.WinForms
             }
             WinFormsUtil.Alert("Items cleared.");
         }
+        private void modifyAllItems(object sender, EventArgs e)
+        {
+            // Get Current Pouch
+            int pouch = CurrentPouch;
+            if (pouch < 0)
+                return;
+
+            DataGridView dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+
+            for (int i = 0; i < dgv.RowCount; i++)
+            {
+                string item = dgv.Rows[i].Cells[0].Value.ToString();
+                int itemindex = Array.IndexOf(itemlist, item);
+                if (itemindex > 0)
+                    dgv.Rows[i].Cells[1].Value = NUD_Count.Value;
+
+            }
+            WinFormsUtil.Alert("Item count modified.");
+        }
         private void B_Sort_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
