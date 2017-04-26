@@ -130,6 +130,7 @@ namespace PKHeX.Core
             verifyNickname();
             verifyDVs();
             verifyG1OT();
+            verifyMiscG1();
         }
         private void parsePK3(PKM pk)
         {
@@ -221,20 +222,27 @@ namespace PKHeX.Core
                     pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
                 else
                 {
+                    var catch_rate = ((PK1)pkm).Catch_Rate;
                     // If catch rate match a species catch rate from the evolution chain of the species but do not match a generation 2 item means it was not tradeback
                     // If match a held item but not a species catch rate then in means it was tradeback
-                    var TradebackCatchRate = ((PK1)pkm).Catch_Rate == 0 || Legal.HeldItems_GSC.Any(h => h == ((PK1)pkm).Catch_Rate);
+                    var HeldItemCatchRate = (catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate));
                     // For species catch rate discart species that have no valid encounters and different catch rate that their preevolutions
                     var Lineage = Legal.getLineage(pkm).Where(s => !Legal.Species_NotAvailable_CatchRate.Contains(s)).ToList();
-                    var RGBCatchRate = Lineage.Any(s => ((PK1)pkm).Catch_Rate == PersonalTable.RB[s].CatchRate);
+                    var RGBCatchRate = Lineage.Any(s => catch_rate == PersonalTable.RB[s].CatchRate);
                     // Dragonite Catch Rate is different than Dragonair in Yellow but there is not any Dragonite encounter
-                    var YCatchRate = Lineage.Any(s => s != 149 &&  ((PK1)pkm).Catch_Rate == PersonalTable.Y[s].CatchRate);
-                    if (TradebackCatchRate && !RGBCatchRate && !YCatchRate)
+                    var YCatchRate = Lineage.Any(s => s != 149 && catch_rate == PersonalTable.Y[s].CatchRate);
+                    if (HeldItemCatchRate && !RGBCatchRate && !YCatchRate)
                         pkm.TradebackStatus = TradebackType.WasTradeback;
-                    else if (!TradebackCatchRate && (RGBCatchRate || YCatchRate))
+                    else if (!HeldItemCatchRate && (RGBCatchRate || YCatchRate))
                         pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
                     else
                         pkm.TradebackStatus = TradebackType.Any;
+
+                    // Set CatchRateIsItem to true to keep the held item stored when changed spcies
+                    // only if catch rate match a valid held item and do not match the default catch rate from the species
+                    // If pokemon have not been traded to gen 2 then catch rate could not be a held item
+                    if (!pkm.Gen1_NotTradeback)
+                        ((PK1)pkm).CatchRateIsItem = (HeldItemCatchRate && !RGBCatchRate && !YCatchRate);
                 }
             }
             else if (pkm.Format == 2 || pkm.VC2)

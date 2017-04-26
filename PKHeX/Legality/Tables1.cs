@@ -190,6 +190,10 @@ namespace PKHeX.Core
         {
             25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
         };
+        internal static readonly int[] Types_Gen1 =
+        {
+            0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
+        };
         internal static readonly int[] Species_NotAvailable_CatchRate =
         {
             12, 18, 31, 34, 36, 38, 45, 53, 59, 62, 65, 68, 71, 76, 78, 91, 94, 103, 121

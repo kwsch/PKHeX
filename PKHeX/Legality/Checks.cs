@@ -2339,6 +2339,62 @@ namespace PKHeX.Core
 
             AddLine(Severity.Valid, V318, CheckIdentifier.Form);
         }
+        private void verifyMiscG1()
+        {
+            if (pkm.Format > 1)
+                return;
+
+            if (pkm.Species == 137)
+            {
+                // Porygon can have any type combination of any generation 1 species because of the move Conversion,
+                // that change Porygon type to match the oponent types
+                var Type_A_Match = Legal.Types_Gen1.Any(t => t == ((PK1)pkm).Type_A);
+                var Type_B_Match = Legal.Types_Gen1.Any(t => t == ((PK1)pkm).Type_B);
+                if (!Type_A_Match)
+                    AddLine(Severity.Invalid, V386, CheckIdentifier.Misc);
+                if (!Type_B_Match)
+                    AddLine(Severity.Invalid, V387, CheckIdentifier.Misc);
+                if (Type_A_Match && Type_B_Match)
+                {
+                    var TypesAB_Match = PersonalTable.RB.IsValidTypeCombination(((PK1)pkm).Type_A, ((PK1)pkm).Type_B);
+                    if (TypesAB_Match)
+                        AddLine(Severity.Valid, V391, CheckIdentifier.Misc);
+                    else
+                        AddLine(Severity.Invalid, V388, CheckIdentifier.Misc);
+                }
+            }
+            else // Types must match species types
+            {
+                var Type_A_Match = ((PK1)pkm).Type_A == PersonalTable.RB[pkm.Species].Types[0];
+                var Type_B_Match = ((PK1)pkm).Type_B == PersonalTable.RB[pkm.Species].Types[1];
+                
+                AddLine(Type_A_Match ? Severity.Valid : Severity.Invalid, Type_A_Match ? V392 : V389, CheckIdentifier.Misc);
+
+                AddLine(Type_B_Match ? Severity.Valid : Severity.Invalid, Type_B_Match ? V393 : V390, CheckIdentifier.Misc);
+            }
+            var catch_rate =((PK1)pkm).Catch_Rate;
+            switch (pkm.TradebackStatus)
+            {
+                case TradebackType.Any:
+                case TradebackType.WasTradeback:
+                    if (catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate))
+                    { AddLine(Severity.Valid, V394, CheckIdentifier.Misc); }
+                    else if (pkm.TradebackStatus == TradebackType.WasTradeback)
+                    { AddLine(Severity.Invalid, V395, CheckIdentifier.Misc); }
+                    else
+                        goto case TradebackType.Gen1_NotTradeback;
+                    break;
+                case TradebackType.Gen1_NotTradeback:
+                    if ( ((pkm.Species == 149) && (catch_rate == PersonalTable.Y[149].CatchRate)) ||
+                         (Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && (catch_rate == PersonalTable.RB[pkm.Species].CatchRate)))
+                    { AddLine(Severity.Invalid, V396, CheckIdentifier.Misc); }
+                    else if (!EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
+                    { AddLine(Severity.Invalid, pkm.Gen1_NotTradeback? V397: V399, CheckIdentifier.Misc); }
+                    else
+                    { AddLine(Severity.Valid, V398, CheckIdentifier.Misc); }
+                    break;
+            }
+        }
         private void verifyMisc()
         {
             if (pkm.Format == 7 && ((PK7)pkm).PelagoEventStatus != 0)
