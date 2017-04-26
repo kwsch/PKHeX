@@ -3085,7 +3085,7 @@ namespace PKHeX.Core
         {
             return (encounter as IEncounterable[])?.Min(e => e.LevelMin) ??
                    (encounter as IEncounterable)?.LevelMin ??
-                   (pkm.GenNumber <= 3 ? 5 : 1 );
+                   (pkm.GenNumber <= 3 ? 5 : 1 ); //egg
         }
         internal static int getEncounterSpecies(PKM pkm, DexLevel[] vs, object encounter)
         {
@@ -3093,10 +3093,10 @@ namespace PKHeX.Core
                 return (int)encounter;
             if (encounter is IEncounterable[])
                 return vs.Reverse().First(s => ((IEncounterable[])encounter).Any(slot => slot.Species == s.Species)).Species;
-            else if (encounter is IEncounterable)
+            if (encounter is IEncounterable)
                 return vs.Reverse().First(s => ((IEncounterable)encounter).Species == s.Species).Species;
-            else
-                return vs.Last().Species; // Egg speces
+            // encounter is null, is an egg or invalid origin, return base species
+            return vs.Last().Species;
         }
         internal static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {

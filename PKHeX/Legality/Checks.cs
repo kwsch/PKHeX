@@ -2580,7 +2580,7 @@ namespace PKHeX.Core
 
             return res;
         }
-        private void UptateGen1LevelUpMoves(ref ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation)
+        private void UptateGen1LevelUpMoves(ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation)
         {
             switch(generation)
             {
@@ -2671,7 +2671,7 @@ namespace PKHeX.Core
                 var defaultG1LevelMoves = EncounterMoves.validLevelUpMoves[1];
                 if (EncounterMatchGen != null)
                     // Generation 1 can have different minimun level in different encounter of the same species, update valid level moves
-                    UptateGen1LevelUpMoves(ref EncounterMoves, EncounterMoves.minLvlG1, EncounterMatchGen.Generation);
+                    UptateGen1LevelUpMoves(EncounterMoves, EncounterMoves.minLvlG1, EncounterMatchGen.Generation);
 
                 res = pre3DS
                     ? parseMovesPre3DS(game, EncounterMoves.validLevelUpMoves, EncounterMoves.validTMHMMoves, EncounterMoves.validTutorMoves, Moves)
