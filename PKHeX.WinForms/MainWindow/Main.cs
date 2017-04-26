@@ -983,6 +983,8 @@ namespace PKHeX.WinForms
                         "Yes: Generation 2 tradeback allow" + Environment.NewLine + "No: Only consider legal pokemon possible without generation 2 games");
                     Legal.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
                 }
+                else
+                    Legal.AllowGen1Tradeback = false;
             }
             else
                 Legal.AllowGBCartEra = Legal.AllowGen1Tradeback  = sav.Generation == 2;

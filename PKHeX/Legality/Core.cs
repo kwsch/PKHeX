@@ -555,6 +555,7 @@ namespace PKHeX.Core
                 MarkEncountersGeneration(ref SlotsRBY, 1);
                 MarkEncountersGeneration(ref StaticRBY, 1);
                 Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
+                FixPersonalTableY();
             }
             // Gen 2
             {
@@ -757,6 +758,13 @@ namespace PKHeX.Core
 
                 Evolves7 = new EvolutionTree(Data.unpackMini(Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
             }
+        }
+
+        private static void FixPersonalTableY()
+        {
+            // Personal Table from Yellow do not have yellow catch rate for Pikachu and Kadabra, have RedBlue instead
+            PersonalTable.Y[25].CatchRate = 163; // Pikachu
+            PersonalTable.Y[64].CatchRate = 96; // Kadabra
         }
 
         // Moves
@@ -1397,7 +1405,7 @@ namespace PKHeX.Core
                         // Red Blue Pikachu, is not a static encounter
                         continue;
 
-                    if (catch_rate != PersonalTable.RB[e.Species].CatchRate || catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                    if (catch_rate != PersonalTable.RB[e.Species].CatchRate && catch_rate != PersonalTable.Y[e.Species].CatchRate)
                         continue;
                 }
 
