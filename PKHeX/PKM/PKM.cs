@@ -310,7 +310,8 @@ namespace PKHeX.Core
                 if (Gen3) return 3;
                 if (Gen2) return Format; // 2
                 if (Gen1) return Format; // 1
-                if (VC) return 1;
+                if (VC1) return 1;
+                if (VC2) return 2;
                 return -1;
             } 
         }
@@ -435,6 +436,9 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
+        public TradebackType TradebackStatus { get; set; } = TradebackType.Any;
+        public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
+        public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
         public virtual bool WasLink => false;
         private bool _WasEgg;
         public virtual bool WasEgg
@@ -517,9 +521,6 @@ namespace PKHeX.Core
             if (Format == Generation)
                 return true;
 
-            if (Format < Generation)
-                return false; // Future
-
             if (!IsOriginValid)
                 return false;
 
@@ -527,11 +528,22 @@ namespace PKHeX.Core
             if (Legal.getMaxSpeciesOrigin(GenNumber) < species && !Legal.getFutureGenEvolutions(GenNumber).Contains(species))
                 return false;
 
+            // Trade generation 1 -> 2 
+            if (Format == 2 && Generation == 1 && !Gen2_NotTradeback)
+                return true;
+
+            // Trade generation 2 -> 1 
+            if (Format == 1 && Generation == 2 && !Gen1_NotTradeback)
+                return true;
+
+            if (Format < Generation)
+                return false; // Future
+
             int gen = GenNumber;
             switch (Generation)
             {
-                case 1:
-                case 2: return Format <= 2 || VC;
+                case 1: return Format == 1 || VC1;
+                case 2: return Format == 2 || VC2;
                 case 3: return Gen3;
                 case 4: return 3 <= gen && gen <= 4;
                 case 5: return 3 <= gen && gen <= 5;

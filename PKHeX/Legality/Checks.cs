@@ -773,7 +773,7 @@ namespace PKHeX.Core
         }
         private CheckResult verifyEncounterG12()
         {
-            EncountersGBMatch = Legal.getEncounter12(pkm, Legal.AllowGBCartEra && pkm.Format < 3);
+            EncountersGBMatch = Legal.getEncounter12(pkm);
             if (EncountersGBMatch == null)
                 return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
@@ -3126,7 +3126,7 @@ namespace PKHeX.Core
                     foreach (int m in Gen1MovesLearned)
                         res[m] = new CheckResult(Severity.Invalid, V335, CheckIdentifier.Move);
 
-                if (gen == 1 && pkm.Format == 1 && !Legal.AllowGBCartEra)
+                if (gen == 1 && pkm.Format == 1 && pkm.Gen1_NotTradeback)
                 {
                     // Check moves learned at the same level in red/blue and yellow, illegal because there is no move reminder
                     // Only two incompatibilites and only there are no illegal combination if generation 2 or 7 are included in the analysis

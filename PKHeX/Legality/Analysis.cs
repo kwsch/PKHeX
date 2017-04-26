@@ -123,7 +123,7 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
+            UpdateTradebackG12();
             updateEncounterChain();
             updateMoveLegality();
             updateTypeInfo();
@@ -212,6 +212,44 @@ namespace PKHeX.Core
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
             EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
+        }
+        private void UpdateTradebackG12()
+        {
+            if (pkm.Format == 1)
+            {
+                if (!Legal.AllowGen1Tradeback)
+                    pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+                else
+                {
+                    // If catch rate match a species catch rate from the evolution chain of the species but do not match a generation 2 item means it was not tradeback
+                    // If match a held item but not a species catch rate then in means it was tradeback
+                    var TradebackCatchRate = ((PK1)pkm).Catch_Rate == 0 || Legal.HeldItems_GSC.Any(h => h == ((PK1)pkm).Catch_Rate);
+                    // For species catch rate discart species that have no valid encounters and different catch rate that their preevolutions
+                    var Lineage = Legal.getLineage(pkm).Where(s => !Legal.Species_NotAvailable_CatchRate.Contains(s)).ToList();
+                    var RGBCatchRate = Lineage.Any(s => ((PK1)pkm).Catch_Rate == PersonalTable.RB[s].CatchRate);
+                    // Dragonite Catch Rate is different than Dragonair in Yellow but there is not any Dragonite encounter
+                    var YCatchRate = Lineage.Any(s => s != 149 &&  ((PK1)pkm).Catch_Rate == PersonalTable.Y[s].CatchRate);
+                    if (TradebackCatchRate && !RGBCatchRate && !YCatchRate)
+                        pkm.TradebackStatus = TradebackType.WasTradeback;
+                    else if (!TradebackCatchRate && (RGBCatchRate || YCatchRate))
+                        pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+                    else
+                        pkm.TradebackStatus = TradebackType.Any;
+                }
+            }
+            else if (pkm.Format == 2 || pkm.VC2)
+            {
+                // Eggs, pokemon with non-empty crystal met location and generation 2 species without generation 1 preevolutions can not be traded to generation 1 games
+                if (pkm.IsEgg || pkm.HasOriginalMetLocation || (pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species)))
+                    pkm.TradebackStatus = TradebackType.Gen2_NotTradeback;
+                else
+                    pkm.TradebackStatus = TradebackType.Any;
+            }
+            else // Gen 7 VC1
+            {
+                // Probably if VC2 is released VC1 pokemon with met date after VC2 Bank release date will be TradebackType.Any
+                pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+            }
         }
         private void updateTypeInfo()
         {
