@@ -12,8 +12,9 @@ namespace PKHeX.Core
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         private List<GBEncounterData> EncountersGBMatch;
-        private object EncounterOriginalGB => EncountersGBMatch?.FirstOrDefault()?.Encounter;
+        private object EncounterOriginalGB;
         private object EncounterMatch;
+        private int EncounterSpecies;
         private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
         private Type MatchedType; // Child class if applicable (WC6, PGF, etc)
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginalGB ?? EncounterMatch);

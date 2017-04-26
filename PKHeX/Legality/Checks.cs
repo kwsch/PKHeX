@@ -782,7 +782,7 @@ namespace PKHeX.Core
                 pkm.WasEgg = true;
                 return verifyEncounterEgg();
             }
-            EncounterMatch = EncounterOriginalGB;
+            EncounterMatch = EncounterOriginalGB = EncountersGBMatch?.FirstOrDefault()?.Encounter;
             if (EncounterMatch is EncounterSlot)
                 return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
             if (EncounterMatch is EncounterStatic)
@@ -2508,15 +2508,8 @@ namespace PKHeX.Core
         }
         private CheckResult[] verifyMoves(GameVersion game = GameVersion.Any)
         {
-            int minLvLG1 = 0;
-            if (pkm.GenNumber <= 2)
-                minLvLG1 = pkm.WasEgg ? 6 : (EncounterMatch as IEncounterable)?.LevelMin + 1 ?? 0;
-            var validLevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, Tutor: false, Machine: false, RemoveTransferHM: false);
-            var validTMHM = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
-            var validTutor = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
-            Legal.RemoveFutureMoves(pkm, ref validLevelMoves, ref validTMHM, ref validTutor);
             int[] Moves = pkm.Moves;
-            var res = parseMovesForEncounters(game, validLevelMoves, validTMHM, validTutor, Moves);
+            var res = parseMovesForEncounters(game, Moves);
 
             // Duplicate Moves Check
             verifyNoEmptyDuplicates(Moves, res);
@@ -2525,63 +2518,129 @@ namespace PKHeX.Core
 
             return res;
         }
-        private void UptateGen1LevelUpMoves(ref List<int>[] validLevelMoves, List<int> DefaultMoves, int generation)
+        private void UptateGen1LevelUpMoves(ref List<int>[] validLevelMoves, int defaultLvlG1, int generation)
         {
-            switch (generation)
+            switch(generation)
             {
                 case 1:
-                    validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: (EncounterMatch as IEncounterable).LevelMin, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
-                    break;
                 case 2:
-                    validLevelMoves[1] = DefaultMoves;
+                    var lvlG1 = EncounterMatch == null ? 6 : (EncounterMatch as IEncounterable).LevelMin + 1;
+                    if (lvlG1 != defaultLvlG1)
+                        validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
                     break;
             }
+
         }
-        private CheckResult[] parseMovesForEncounters(GameVersion game, List<int>[] validLevelMoves, List<int>[] validTMHM, List<int>[] validTutor, int[] Moves)
+        private ValidEncounterMoves getEncounterValidMoves(int defaultspecies, int encounterspecies, object encounter, int encounterlevel)
+        {
+            var minLvLG1 = pkm.GenNumber <= 2 ? encounterlevel : 0;
+            // If encounter species is the same species from the first match, the one in variable EncounterMatch, its evolution chains is already in EvoChainsAllGens
+            var EvolutionChains = defaultspecies == EncounterSpecies ? EvoChainsAllGens : Legal.getEvolutionChainsAllGens(pkm, encounter);
+            var LevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var TMHMMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
+            var TutorMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
+            return new ValidEncounterMoves()
+            {
+                EncounterSpecies = encounterspecies,
+                validLevelUpMoves = LevelMoves,
+                validTMHMMoves = TMHMMoves,
+                validTutorMoves = TutorMoves,
+                EvolutionChains = EvolutionChains,
+                minLvlG1 = minLvLG1
+            };
+        }
+        private List<ValidEncounterMoves> getEncountersValidMoves(List<object> encounters, DexLevel[] vs)
+        {
+            var defaultspecies = Legal.getEncounterSpecies(pkm, vs, EncounterMatch);
+            var r = new List<ValidEncounterMoves>();
+            foreach(DexLevel evo in vs)
+            {
+                // Store only one set of valid moves for species, using the minimun level encounter for that species
+                var encounters_evo = encounters.Where(e => Legal.getEncounterSpecies(pkm, vs, e) == evo.Species);
+                if (!encounters_evo.Any())
+                    continue;
+                // For every possible encounter species get valid moves using minimun encounter level for each species
+                // Generation 1 encounters will overwrite the valid level moves of gen 1 if encounter level is not the minimun
+                var minlevel = encounters_evo.Min(e => Legal.getEncounterLevel(pkm, e));
+                var encounter_minlevel = encounters_evo.First(e => Legal.getEncounterLevel(pkm, e) == minlevel);
+                r.Add(getEncounterValidMoves(defaultspecies, evo.Species, encounter_minlevel, minlevel));
+            }
+            return r;
+        }
+        private CheckResult[] parseMovesForEncounters(GameVersion game, int[] Moves)
         {
             if (pkm.Species == 235) // special handling for Smeargle
-                return parseMovesForSmeargle(Moves, validLevelMoves); // Smeargle can have any moves except a few
+                return parseMovesForSmeargle(Moves); // Smeargle can have any moves except a few
 
             // Gather Encounters
             var encounters = pkm.GenNumber <= 2 ? GetEncounterMovesGBEra() :
                              pkm.GenNumber == 3 && pkm.WasEgg ? GetEncounterMovesGen3Egg() :
                              GetEncounterMoves();
 
+
             // it could be duplicated between EncounterMatch and EncounterStaticMatch or EncounterMatch and EventGiftMatch
             encounters = encounters.Distinct().ToList();
 
             if (!encounters.Any()) // There isn't any valid encounter and wasnt an egg
             {
-                var empty = Legal.GetEmptyMovesList(EvoChainsAllGens);
-                var emptyegg = Legal.GetEmptyEggMovesList();
-                return parseMoves(pkm.Moves, validLevelMoves, pkm.RelearnMoves, validTMHM, validTutor, new int[0], emptyegg, emptyegg, empty, new int[0], new int[0], false);
+                return parseMovesNoEncounters(Moves);
             }
 
             // Iterate over encounters
             bool pre3DS = pkm.GenNumber < 6;
+            var vs = Legal.getValidPreEvolutions(pkm).ToArray();
+            // gather valid moves for encounter species
+            var EncountersMoves = getEncountersValidMoves(encounters, vs);
             CheckResult[] res = new CheckResult[4];
-            var defaultGen1Moves = validLevelMoves[1];
             foreach (var enc in encounters)
             {
                 EncounterMatch = enc;
-                var EncounterMatchGen = EncounterMatch as IGeneration;
-                if (EncounterMatchGen != null)
-                    UptateGen1LevelUpMoves(ref validLevelMoves, defaultGen1Moves, EncounterMatchGen.Generation);
+                if (pkm.GenNumber <= 2)
+                    EncounterOriginalGB = enc;
+               
+                EncounterSpecies = Legal.getEncounterSpecies(pkm, vs, EncounterMatch);
+                var EncounterMoves = EncountersMoves.First(e => e.EncounterSpecies == EncounterSpecies);
+                EvoChainsAllGens = EncounterMoves.EvolutionChains;
+
                 if (pkm.GenNumber <= 3)
-                    pkm.WasEgg = EncounterMatch == null || ((EncounterMatch as IEncounterable)?.EggEncounter ?? false);
+                    pkm.WasEgg = (EncounterMatch == null) || ((EncounterMatch as IEncounterable)?.EggEncounter ?? false);
+
+                var EncounterMatchGen = EncounterMatch as IGeneration;
+                var defaultG1LevelMoves = EncounterMoves.validLevelUpMoves[1];
+                if (EncounterMatchGen != null)
+                    // Generation 1 can have different minimun level in different encounter of the same species, update valid level moves
+                    UptateGen1LevelUpMoves(ref EncounterMoves.validLevelUpMoves, EncounterMoves.minLvlG1, EncounterMatchGen.Generation);
+
                 res = pre3DS
-                    ? parseMovesPre3DS(game, validLevelMoves, validTMHM, validTutor, Moves)
-                    : parseMoves3DS(game, validLevelMoves, validTMHM, validTutor, Moves);
+                    ? parseMovesPre3DS(game, EncounterMoves.validLevelUpMoves, EncounterMoves.validTMHMMoves, EncounterMoves.validTutorMoves, Moves)
+                    : parseMoves3DS(game, EncounterMoves.validLevelUpMoves, EncounterMoves.validTMHMMoves, EncounterMoves.validTutorMoves, Moves);
 
                 if (res.All(x => x.Valid))
                     break;
+
+                if (EncounterMatchGen?.Generation == 1)
+                    // If is not valid restore generation 1 moves
+                    EncounterMoves.validLevelUpMoves[1] = defaultG1LevelMoves;
             }
             return res;
         }
-        private CheckResult[] parseMovesForSmeargle(int[] Moves, List<int>[] validLevelMoves)
+        private CheckResult[] parseMovesNoEncounters(int[] Moves)
+        {
+            EncounterSpecies = pkm.Species;
+            var validLevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: 1, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var validTMHM = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
+            var validTutor = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
+            Legal.RemoveFutureMoves(pkm, ref validLevelMoves, ref validTMHM, ref validTutor);
+            
+            var empty = Legal.GetEmptyMovesList(EvoChainsAllGens);
+            var emptyegg = Legal.GetEmptyEggMovesList();
+            return parseMoves(pkm.Moves, validLevelMoves, pkm.RelearnMoves, validTMHM, validTutor, new int[0], emptyegg, emptyegg, empty, new int[0], new int[0], false);
+        }
+        private CheckResult[] parseMovesForSmeargle(int[] Moves)
         {
             if (!pkm.IsEgg)
                 return parseMovesSketch(Moves);
+            var validLevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: 1, Tutor: false, Machine: false, RemoveTransferHM: false);
             // can only know sketch as egg
             var empty = Legal.GetEmptyMovesList(EvoChainsAllGens);
             var emptyegg = Legal.GetEmptyEggMovesList();
@@ -2716,7 +2775,7 @@ namespace PKHeX.Core
                     Games = new[] { GameVersion.B2W2 };
                     break;
             }
-            var issplitbreed = Legal.SplitBreed.Contains(pkm.Species);
+            var issplitbreed = Legal.getSplitBreedGeneration(pkm).Contains(pkm.Species);
             foreach (var ver in Games)
             {
                 var EventEggMoves = (EncounterMatch as IMoveset)?.Moves ?? new int[0];
@@ -3033,6 +3092,11 @@ namespace PKHeX.Core
                             foreach (int m in IncenseMovesLearned)
                                 // Example: Azurill levelup/tmhm/tutor move, incompatible with Marill egg moves
                                 res[m] = new CheckResult(Severity.Invalid, string.Format(V376, splitbreedspecies0, splitbreedspecies1), CheckIdentifier.Move);
+                        }
+                        else if (EncounterMatch == null && !EggMovesSplitLearned[0].Any() && !IncenseMovesLearned.Any())
+                        {
+                            // Day care egg with no incense species exclusive moves, we can assume non-incense egg, that means there is no need to check if evolution from incense species is valid
+                            EncounterSpecies = Legal.getBaseEggSpecies(pkm, 1);
                         }
                     }
                 }

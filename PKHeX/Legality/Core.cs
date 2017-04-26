@@ -994,7 +994,7 @@ namespace PKHeX.Core
                     }
                 }
             }
-            else
+            else if (validLevelMoves.Length >= 3)
             {
                 int tradeback = pkm.Format == 2 ? 1 : 2;
                 validLevelMoves[tradeback]?.RemoveAll(x => FutureMoves.Contains(x));
@@ -1227,7 +1227,7 @@ namespace PKHeX.Core
         }
         internal static List<int>[] getBaseEggMoves(PKM pkm, GameVersion gameSource, int lvl)
         {
-            if (SplitBreed.Contains(pkm.Species))
+            if (getSplitBreedGeneration(pkm.GenNumber).Contains(pkm.Species))
                 return new[]
                 {
                      getBaseEggMoves(pkm, 0, gameSource,lvl).ToList(),
@@ -1237,7 +1237,7 @@ namespace PKHeX.Core
         }
         internal static List<int>[] getEggMoves(PKM pkm, GameVersion Version)
         {
-            if (SplitBreed.Contains(pkm.Species))
+            if (getSplitBreedGeneration(pkm.GenNumber).Contains(pkm.Species))
                 return new[]
                 {
                      getEggMoves(pkm, getBaseEggSpecies(pkm, 0), 0, Version).ToList(),
@@ -1464,7 +1464,7 @@ namespace PKHeX.Core
         }
         internal static GameVersion[] getGen1GameEncounter(PKM pk)
         {
-            if (pk.Format != 2 || AllowGBCartEra)
+            if (pk.Format != 1 || AllowGBCartEra)
                 return new[] { GameVersion.RD, GameVersion.YW };
             if (25 <= pk.Species && pk.Species <= 26)
                 // Yellow Pikachu detected by its special catch rate
@@ -3031,7 +3031,24 @@ namespace PKHeX.Core
             }
             return slotLocations;
         }
-        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
+        internal static int getEncounterLevel(PKM pkm, object encounter)
+        {
+            return (encounter as IEncounterable[])?.Min(e => e.LevelMin) ??
+                   (encounter as IEncounterable)?.LevelMin ??
+                   (pkm.GenNumber <= 3 ? 5 : 1 );
+        }
+        internal static int getEncounterSpecies(PKM pkm, DexLevel[] vs, object encounter)
+        {
+            if (encounter is int)
+                return (int)encounter;
+            if (encounter is IEncounterable[])
+                return vs.Reverse().First(s => ((IEncounterable[])encounter).Any(slot => slot.Species == s.Species)).Species;
+            else if (encounter is IEncounterable)
+                return vs.Reverse().First(s => ((IEncounterable)encounter).Species == s.Species).Species;
+            else
+                return vs.Last().Species; // Egg speces
+        }
+        internal static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
