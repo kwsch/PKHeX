@@ -2344,19 +2344,21 @@ namespace PKHeX.Core
             if (pkm.Format > 1)
                 return;
 
+            var Type_A = (pkm as PK1).Type_A;
+            var Type_B = (pkm as PK1).Type_B;
             if (pkm.Species == 137)
             {
                 // Porygon can have any type combination of any generation 1 species because of the move Conversion,
                 // that change Porygon type to match the oponent types
-                var Type_A_Match = Legal.Types_Gen1.Any(t => t == ((PK1)pkm).Type_A);
-                var Type_B_Match = Legal.Types_Gen1.Any(t => t == ((PK1)pkm).Type_B);
+                var Type_A_Match = Legal.Types_Gen1.Any(t => t == Type_A);
+                var Type_B_Match = Legal.Types_Gen1.Any(t => t == Type_B);
                 if (!Type_A_Match)
                     AddLine(Severity.Invalid, V386, CheckIdentifier.Misc);
                 if (!Type_B_Match)
                     AddLine(Severity.Invalid, V387, CheckIdentifier.Misc);
                 if (Type_A_Match && Type_B_Match)
                 {
-                    var TypesAB_Match = PersonalTable.RB.IsValidTypeCombination(((PK1)pkm).Type_A, ((PK1)pkm).Type_B);
+                    var TypesAB_Match = PersonalTable.RB.IsValidTypeCombination(Type_A, Type_B);
                     if (TypesAB_Match)
                         AddLine(Severity.Valid, V391, CheckIdentifier.Misc);
                     else
@@ -2365,8 +2367,8 @@ namespace PKHeX.Core
             }
             else // Types must match species types
             {
-                var Type_A_Match = ((PK1)pkm).Type_A == PersonalTable.RB[pkm.Species].Types[0];
-                var Type_B_Match = ((PK1)pkm).Type_B == PersonalTable.RB[pkm.Species].Types[1];
+                var Type_A_Match = Type_A == PersonalTable.RB[pkm.Species].Types[0];
+                var Type_B_Match = Type_B == PersonalTable.RB[pkm.Species].Types[1];
                 
                 AddLine(Type_A_Match ? Severity.Valid : Severity.Invalid, Type_A_Match ? V392 : V389, CheckIdentifier.Misc);
 
@@ -2430,7 +2432,11 @@ namespace PKHeX.Core
                 if (Type == typeof(EncounterStatic))
                 {
                     var enc = EncounterMatch as EncounterStatic;
-                    if (enc.Fateful)
+                    var fateful = enc.Fateful;
+                    if (pkm.Gen3 && pkm.WasEgg && !pkm.IsEgg)
+                        // Fatefull generation 3 eggs lost fatefull mark after hatch
+                        fateful = false;
+                    if (fateful)
                     {
                         if (pkm.FatefulEncounter)
                             AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
@@ -2589,7 +2595,7 @@ namespace PKHeX.Core
         }
         private ValidEncounterMoves getEncounterValidMoves(int defaultspecies, int encounterspecies, object encounter, int encounterlevel)
         {
-            var minLvLG1 = pkm.GenNumber <= 2 ? encounterlevel : 0;
+            var minLvLG1 = pkm.GenNumber <= 2 ? encounterlevel + 1 : 0;
             // If encounter species is the same species from the first match, the one in variable EncounterMatch, its evolution chains is already in EvoChainsAllGens
             var EvolutionChains = defaultspecies == EncounterSpecies ? EvoChainsAllGens : Legal.getEvolutionChainsAllGens(pkm, encounter);
             var LevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, Tutor: false, Machine: false, RemoveTransferHM: false);
