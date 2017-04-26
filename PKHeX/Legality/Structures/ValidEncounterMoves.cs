@@ -5,11 +5,11 @@ namespace PKHeX.Core
 {
     public class ValidEncounterMoves
     {
-        public int EncounterSpecies;
-        public DexLevel[][] EvolutionChains;
-        public List<int>[] validLevelUpMoves;
-        public List<int>[] validTMHMMoves;
-        public List<int>[] validTutorMoves;
-        public int minLvlG1;
+        public int EncounterSpecies { get; set; }
+        public DexLevel[][] EvolutionChains { get; set; }
+        public List<int>[] validLevelUpMoves { get; set; }
+        public List<int>[] validTMHMMoves { get; set; }
+        public List<int>[] validTutorMoves { get; set; }
+        public int minLvlG1 { get; set; }
     }
 }

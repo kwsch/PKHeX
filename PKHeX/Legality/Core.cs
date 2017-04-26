@@ -1391,7 +1391,7 @@ namespace PKHeX.Core
 
                 if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
                 {
-                    var catch_rate = ((PK1)pkm).Catch_Rate;
+                    var catch_rate = (pkm as PK1).Catch_Rate;
                     // Pure gen 1, trades can be filter by catch rate
                     if ((pkm.Species == 25 || pkm.Species == 26) && catch_rate == 190)
                         // Red Blue Pikachu, is not a static encounter
@@ -1481,11 +1481,11 @@ namespace PKHeX.Core
                 return new[] { GameVersion.RD, GameVersion.YW };
             if (25 <= pk.Species && pk.Species <= 26)
                 // Yellow Pikachu detected by its special catch rate
-                return new[] { (((PK1)pk).Catch_Rate == 163) ? GameVersion.YW : GameVersion.RD };
+                return new[] { ((pk as PK1).Catch_Rate == 163) ? GameVersion.YW : GameVersion.RD };
             if (64 <= pk.Species && pk.Species <= 65)
                 // Yellow Kadabra detected by its special catch rate
-                return new[] { (((PK1)pk).Catch_Rate == 96) ? GameVersion.YW : GameVersion.RD };
-            if (148 <= pk.Species && pk.Species <= 149 && ((PK1)pk).Catch_Rate == 27)
+                return new[] { ((pk as PK1).Catch_Rate == 96) ? GameVersion.YW : GameVersion.RD };
+            if (148 <= pk.Species && pk.Species <= 149 && ((pk as PK1).Catch_Rate == 27))
                 // Yellow Dragonair detected by its special catch rate, is have another catch rate could be red/blue dratini or yellow dratini
                 return new[] { GameVersion.YW };
             return new[] { GameVersion.RD, GameVersion.YW };
@@ -1634,7 +1634,7 @@ namespace PKHeX.Core
         private static int getRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             int species = pk.Species;
-            int catch_rate = ((PK1)pk).Catch_Rate;
+            int catch_rate = (pk as PK1).Catch_Rate;
             // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
             if ((species == 011 || species == 012) && catch_rate == 120)
@@ -1674,7 +1674,7 @@ namespace PKHeX.Core
         }
         private static int getRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
-            int catch_rate = ((PK1)pk).Catch_Rate;
+            int catch_rate = (pk as PK1).Catch_Rate;
             int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
             // Yellow optional moves, reduce usedslots if the yellow move is not present
             // The count wont go bellow 1 because the yellow moves were already counted and are not the only initial or level up moves
@@ -1799,7 +1799,7 @@ namespace PKHeX.Core
             if(pkm.Format == 1 && pkm.Gen1_NotTradeback)
             {
                 // Even if the in game trade use the tables with source pokemon allowing generaion 2 games, the traded pokemon could be a non-tradeback pokemon
-                var catch_rate = ((PK1)pkm).Catch_Rate;
+                var catch_rate = (pkm as PK1).Catch_Rate;
                 if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
                     return null;
             }
@@ -2943,19 +2943,19 @@ namespace PKHeX.Core
             if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
             {
                 // Pure gen 1, slots can be filter by catch rate
-                if ((pkm.Species == 25 || pkm.Species == 26) && ((PK1)pkm).Catch_Rate == 163)
+                if ((pkm.Species == 25 || pkm.Species == 26) && (pkm as PK1).Catch_Rate == 163)
                     // Yellow Pikachu, is not a wild encounter
                     return slotdata;
-                if ((pkm.Species == 64 || pkm.Species == 65) && ((PK1)pkm).Catch_Rate == 96)
+                if ((pkm.Species == 64 || pkm.Species == 65) && (pkm as PK1).Catch_Rate == 96)
                     // Yellow Kadabra, ignore Abra encounters
                     vs = vs.Where(s => s.Species == 64);
-                if ((pkm.Species == 148 || pkm.Species == 149) && ((PK1)pkm).Catch_Rate == 27)
+                if ((pkm.Species == 148 || pkm.Species == 149) && (pkm as PK1).Catch_Rate == 27)
                     // Yellow Dragonair, ignore Dratini encounters
                     vs = vs.Where(s => s.Species == 148);
                 else
                 {
-                    IsRGBKadabra = (pkm.Species == 64 || pkm.Species == 65) && ((PK1)pkm).Catch_Rate == 100;
-                    vs = vs.Where(s => ((PK1)pkm).Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                    IsRGBKadabra = (pkm.Species == 64 || pkm.Species == 65) && (pkm as PK1).Catch_Rate == 100;
+                    vs = vs.Where(s => (pkm as PK1).Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
                 }
             }
 

@@ -2372,7 +2372,7 @@ namespace PKHeX.Core
 
                 AddLine(Type_B_Match ? Severity.Valid : Severity.Invalid, Type_B_Match ? V393 : V390, CheckIdentifier.Misc);
             }
-            var catch_rate =((PK1)pkm).Catch_Rate;
+            var catch_rate =(pkm as PK1).Catch_Rate;
             switch (pkm.TradebackStatus)
             {
                 case TradebackType.Any:
@@ -2574,7 +2574,7 @@ namespace PKHeX.Core
 
             return res;
         }
-        private void UptateGen1LevelUpMoves(ref List<int>[] validLevelMoves, int defaultLvlG1, int generation)
+        private void UptateGen1LevelUpMoves(ref ValidEncounterMoves EncounterMoves, int defaultLvlG1, int generation)
         {
             switch(generation)
             {
@@ -2582,7 +2582,7 @@ namespace PKHeX.Core
                 case 2:
                     var lvlG1 = EncounterMatch == null ? 6 : (EncounterMatch as IEncounterable).LevelMin + 1;
                     if (lvlG1 != defaultLvlG1)
-                        validLevelMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+                        EncounterMoves.validLevelUpMoves[1] = Legal.getValidMoves(pkm, EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
                     break;
             }
 
@@ -2665,7 +2665,7 @@ namespace PKHeX.Core
                 var defaultG1LevelMoves = EncounterMoves.validLevelUpMoves[1];
                 if (EncounterMatchGen != null)
                     // Generation 1 can have different minimun level in different encounter of the same species, update valid level moves
-                    UptateGen1LevelUpMoves(ref EncounterMoves.validLevelUpMoves, EncounterMoves.minLvlG1, EncounterMatchGen.Generation);
+                    UptateGen1LevelUpMoves(ref EncounterMoves, EncounterMoves.minLvlG1, EncounterMatchGen.Generation);
 
                 res = pre3DS
                     ? parseMovesPre3DS(game, EncounterMoves.validLevelUpMoves, EncounterMoves.validTMHMMoves, EncounterMoves.validTutorMoves, Moves)

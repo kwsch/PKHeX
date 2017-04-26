@@ -222,7 +222,7 @@ namespace PKHeX.Core
                     pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
                 else
                 {
-                    var catch_rate = ((PK1)pkm).Catch_Rate;
+                    var catch_rate = (pkm as PK1).Catch_Rate;
                     // If catch rate match a species catch rate from the evolution chain of the species but do not match a generation 2 item means it was not tradeback
                     // If match a held item but not a species catch rate then in means it was tradeback
                     var HeldItemCatchRate = (catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate));
@@ -253,10 +253,14 @@ namespace PKHeX.Core
                 else
                     pkm.TradebackStatus = TradebackType.Any;
             }
-            else // Gen 7 VC1
+            else if (pkm.VC1)
             {
                 // Probably if VC2 is released VC1 pokemon with met date after VC2 Bank release date will be TradebackType.Any
                 pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+            }
+            else
+            {
+                pkm.TradebackStatus = TradebackType.Any;
             }
         }
         private void updateTypeInfo()

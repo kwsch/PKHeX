@@ -112,7 +112,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 054, Level = 15, Moves = new [] { 133, 10 }, Version = GameVersion.Stadium }, // Stadium Psyduck (Amnesia)
             new EncounterStatic { Species = 151, Level = 5, IVs = new [] {15,15,15,15,15,15}, Version = GameVersion.VCEvents }, // Event Mew
         };
-        internal static readonly EncounterTrade[] TradeGift_Common =
+        internal static readonly EncounterTrade[] TradeGift_RBY_Common =
           {
             // Species & Minimum level (legal) possible to acquire at.
           //new EncounterTrade { Species = 122, Generation = 1, Level = 06 }, // Mr. Mime - Game Corner Abra
@@ -131,7 +131,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 051, Generation = 1, Level = 15 }, // Dugtrio - Trade Lickitung
             new EncounterTrade { Species = 047, Generation = 1, Level = 13 }, // Parasect - Trade Tangela
         };
-        internal static readonly EncounterTrade[] TradeGift_RBY_NoTradeback = TradeGift_Common.Concat(new[]
+        internal static readonly EncounterTrade[] TradeGift_RBY_NoTradeback = TradeGift_RBY_Common.Concat(new[]
         {
             // Species & Minimum level (legal) possible to acquire at.
             new EncounterTrade { Species = 124, Generation = 1, Level = 15 }, // Jynx - Fish Poliwhirl (GSC: 10)
@@ -150,7 +150,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 087, Generation = 1, Level = 15 }, // Dewgong - Wild Growlithe (GSC: 5)
             new EncounterTrade { Species = 089, Generation = 1, Level = 25 }, // Muk - Wild Kangaskhan (GSC: 14)
         }).ToArray();
-        internal static readonly EncounterTrade[] TradeGift_RBY_Tradeback = TradeGift_Common.Concat(new[]
+        internal static readonly EncounterTrade[] TradeGift_RBY_Tradeback = TradeGift_RBY_Common.Concat(new[]
         {
             // Trade gifts that can be obtained at a lower level due to the requested Pokémon being a lower level in GSC
             new EncounterTrade { Species = 124, Generation = 1, Level = 10 }, // Jynx - Fish Poliwhirl (RBY: 15)
