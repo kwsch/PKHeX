@@ -306,6 +306,8 @@ namespace PKHeX.Core
             switch (Type)
             {
                 case SlotType.Pokeradar:
+                case SlotType.Pokeradar_Safari:
+                case SlotType.Swarm:
                 case SlotType.Grass: return GrassType;
                 case SlotType.Surf:
                 case SlotType.Old_Rod:
