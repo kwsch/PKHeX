@@ -3209,7 +3209,7 @@ namespace PKHeX.Core
                     return res;
             }
 
-            if (pkm.Species == 292 && (EncounterMatch as IEncounterable)?.Species != 292)
+            if (pkm.Species == 292 && EncounterSpecies != 292)
             {
                 // Ignore Shedinja if the Encounter was also a Shedinja, assume null Encounter as a Nincada egg
                 // Check Shedinja evolved moves from Ninjask after egg moves
@@ -3335,7 +3335,7 @@ namespace PKHeX.Core
             // Ignore if there is an invalid move or an empty move, this validtion is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
             // Ignore Mr.Mime and Sodowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
             // Ignore if encounter species is the evolution species, pokemon was not evolved by the player
-            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3) || (EncounterMatch as IEncounterable)?.Species == pkm.Species)
+            if (!res.All(r => r?.Valid ?? false) || moves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3) || EncounterSpecies == pkm.Species)
                 return;
 
             // Mr.Mime and Sodowodoo from eggs that does not have any exclusive egg move or level up move from Mime Jr or Bonsly, egg can be assumed to be a non-incense egg, pokemon was not evolved by the player
