@@ -124,9 +124,9 @@ namespace PKHeX.WinForms
         {
             switch (pk.Format)
             {
-                case 1: return ((PK1)pk).DV16.ToString("X4");
-                case 2: return ((PK2)pk).DV16.ToString("X4");
-                default: return pk.Species.ToString("000") + pk.PID.ToString("X8");
+                case 1: return pk.Species.ToString("000") + ((PK1)pk).DV16.ToString("X4");
+                case 2: return pk.Species.ToString("000") + ((PK2)pk).DV16.ToString("X4");
+                default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs);
             }
         };
 
@@ -517,11 +517,7 @@ namespace PKHeX.WinForms
             }
 
             if (Menu_SearchClones.Checked)
-            {
-                var r = res.ToArray();
-                var hashes = r.Select(hash).ToArray();
-                res = r.Where((t, i) => hashes.Count(x => x == hashes[i]) > 1).OrderBy(hash);
-            }
+                res = res.GroupBy(pk => hash(pk)).Where(group => group.Count() > 1).SelectMany(z => z);
 
             var results = res.ToArray();
             if (results.Length == 0)
@@ -638,16 +634,12 @@ namespace PKHeX.WinForms
             if (dr != DialogResult.Yes)
                 return;
 
-            var hashes = new List<string>();
             var deleted = 0;
             var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
                 .OrderByDescending(file => new FileInfo(file.Identifier).LastWriteTime);
-            foreach (var pk in db)
+            var clones = db.GroupBy(pk => hash(pk)).Where(group => group.Count() > 1).SelectMany(z => z.Skip(1));
+            foreach (var pk in clones)
             {
-                var h = hash(pk);
-                if (!hashes.Contains(h))
-                { hashes.Add(h); continue; }
-
                 try { File.Delete(pk.Identifier); ++deleted; }
                 catch { WinFormsUtil.Error("Unable to delete clone:" + Environment.NewLine + pk.Identifier); }
             }
