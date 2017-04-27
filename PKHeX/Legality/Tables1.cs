@@ -42,11 +42,11 @@ namespace PKHeX.Core
             015, 019, 057, 070, 148
         };
 
-        internal static readonly int[] G1CaterpieMoves = new[] { 33, 81};
-        internal static readonly int[] G1WeedleMoves = new[] { 40, 81 };
+        internal static readonly int[] G1CaterpieMoves = { 33, 81 };
+        internal static readonly int[] G1WeedleMoves = { 40, 81 };
         internal static readonly int[] G1MetapodMoves = G1CaterpieMoves.Concat(new[] { 106 }).ToArray();
         internal static readonly int[] G1KakunaMoves = G1WeedleMoves.Concat(new[] { 106 }).ToArray();
-        internal static readonly int[] G1Exeggcute_IncompatibleMoves = new[] { 78, 77, 79 };
+        internal static readonly int[] G1Exeggcute_IncompatibleMoves = { 78, 77, 79 };
 
         internal static readonly int[] WildPokeBalls1 = {4};
 
@@ -183,9 +183,9 @@ namespace PKHeX.Core
 
         internal static readonly int[] FutureEvolutionsGen1_Gen2LevelUp =
         {
+            // Crobat Espeon Umbreon Blissey
             169,196,197,242
         };
-        //Crobat Espeon Umbreon Blissey
         internal static readonly int[] SpecialMinMoveSlots =
         {
             25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
