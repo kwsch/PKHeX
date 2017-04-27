@@ -175,6 +175,8 @@
     <Compile Include="Legality\Structures\Nature.cs" />
     <Compile Include="Legality\Structures\PIDIV.cs" />
     <Compile Include="Legality\Structures\SlotType.cs" />
+    <Compile Include="Legality\Structures\TradebackType.cs" />
+    <Compile Include="Legality\Structures\ValidEncounterMoves.cs" />
     <Compile Include="Legality\Tables.cs" />
     <Compile Include="Legality\Tables2.cs" />
     <Compile Include="Legality\Tables1.cs" />

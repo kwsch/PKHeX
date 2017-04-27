@@ -141,12 +141,11 @@ namespace PKHeX.Core
             get { return PKX.getG1Species(Data[0]); }
             set
             {
-                int currentRate = PersonalInfo.CatchRate;
                 Data[0] = (byte)PKX.setG1Species(value);
 
                 // Before updating catch rate, check if non-standard
-                if (Catch_Rate == currentRate)
-                    Catch_Rate = PersonalInfo.CatchRate;
+                if (!CatchRateIsItem)
+                    Catch_Rate = PersonalTable.RB[Legal.getBaseSpecies(this)].CatchRate;
                 Type_A = PersonalInfo.Types[0];
                 Type_B = PersonalInfo.Types[1];
             }
@@ -273,6 +272,7 @@ namespace PKHeX.Core
         public override int CNT_Tough { get { return 0; } set { } }
         public override int CNT_Sheen { get { return 0; } set { } }
         #endregion
+        public bool CatchRateIsItem = false;
 
         public PK2 convertToPK2()
         {

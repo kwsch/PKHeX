@@ -12,8 +12,9 @@ namespace PKHeX.Core
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         private List<GBEncounterData> EncountersGBMatch;
-        private object EncounterOriginalGB => EncountersGBMatch?.FirstOrDefault()?.Encounter;
+        private object EncounterOriginalGB;
         private object EncounterMatch;
+        private int EncounterSpecies;
         private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
         private Type MatchedType; // Child class if applicable (WC6, PGF, etc)
         private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginalGB ?? EncounterMatch);
@@ -122,13 +123,14 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
+            UpdateTradebackG12();
             updateEncounterChain();
             updateMoveLegality();
             updateTypeInfo();
             verifyNickname();
             verifyDVs();
             verifyG1OT();
+            verifyMiscG1();
         }
         private void parsePK3(PKM pk)
         {
@@ -211,6 +213,57 @@ namespace PKHeX.Core
             Encounter = verifyEncounter();
             Parse.Add(Encounter);
             EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
+        }
+        private void UpdateTradebackG12()
+        {
+            if (pkm.Format == 1)
+            {
+                if (!Legal.AllowGen1Tradeback)
+                {
+                    pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+                    (pkm as PK1).CatchRateIsItem = false;
+                }
+                else
+                {
+                    var catch_rate = (pkm as PK1).Catch_Rate;
+                    // If catch rate match a species catch rate from the evolution chain of the species but do not match a generation 2 item means it was not tradeback
+                    // If match a held item but not a species catch rate then in means it was tradeback
+                    var HeldItemCatchRate = (catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate));
+                    // For species catch rate discart species that have no valid encounters and different catch rate that their preevolutions
+                    var Lineage = Legal.getLineage(pkm).Where(s => !Legal.Species_NotAvailable_CatchRate.Contains(s)).ToList();
+                    var RGBCatchRate = Lineage.Any(s => catch_rate == PersonalTable.RB[s].CatchRate);
+                    // Dragonite Catch Rate is different than Dragonair in Yellow but there is not any Dragonite encounter
+                    var YCatchRate = Lineage.Any(s => s != 149 && catch_rate == PersonalTable.Y[s].CatchRate);
+                    if (HeldItemCatchRate && !RGBCatchRate && !YCatchRate)
+                        pkm.TradebackStatus = TradebackType.WasTradeback;
+                    else if (!HeldItemCatchRate && (RGBCatchRate || YCatchRate))
+                        pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+                    else
+                        pkm.TradebackStatus = TradebackType.Any;
+
+                    // Set CatchRateIsItem to true to keep the held item stored when changed species
+                    // only if catch rate match a valid held item and do not match the default catch rate from the species
+                    // If pokemon have not been traded to gen 2 then catch rate could not be a held item
+                    (pkm as PK1).CatchRateIsItem = pkm.Gen1_NotTradeback ? false : (HeldItemCatchRate && !RGBCatchRate && !YCatchRate);
+                }
+            }
+            else if (pkm.Format == 2 || pkm.VC2)
+            {
+                // Eggs, pokemon with non-empty crystal met location and generation 2 species without generation 1 preevolutions can not be traded to generation 1 games
+                if (pkm.IsEgg || pkm.HasOriginalMetLocation || (pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species)))
+                    pkm.TradebackStatus = TradebackType.Gen2_NotTradeback;
+                else
+                    pkm.TradebackStatus = TradebackType.Any;
+            }
+            else if (pkm.VC1)
+            {
+                // Probably if VC2 is released VC1 pokemon with met date after VC2 Bank release date will be TradebackType.Any
+                pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
+            }
+            else
+            {
+                pkm.TradebackStatus = TradebackType.Any;
+            }
         }
         private void updateTypeInfo()
         {

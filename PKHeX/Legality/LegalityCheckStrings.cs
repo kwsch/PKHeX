@@ -63,6 +63,11 @@ namespace PKHeX.Core
         public static string V372 { get; set; } = "{0} Berry";
         public static string V380 { get; set; } = "Encounter Type match encounter.";
         public static string V382 { get; set; } = "Encounter Type not implemented for pokemon encounter.";
+        public static string V391 { get; set; } = "Porygon with valid Type A and B values.";
+        public static string V392 { get; set; } = "Valid Type A, match species type.";
+        public static string V393 { get; set; } = "Valid Type B, match species type.";
+        public static string V394 { get; set; } = "Catch rate match a valid held item from generation 2";
+        public static string V398 { get; set; } = "Catch Rate match a species from pokemon evolution chain.";
         #endregion
 
         #region Legality Check Result Strings
@@ -374,6 +379,15 @@ namespace PKHeX.Core
         public static string V379 {get; set;} = "{0} Inherited Move. Incompatible with {1} inherited moves.";
         public static string V381 {get; set;} = "Encounter Type does not match encounter.";
         public static string V385 {get; set;} = "Moves combinations is not compatible with {0} evolution.";
+        public static string V386 {get; set;} = "Porygon with invalid Type A value.";
+        public static string V387 {get; set;} = "Porygon with invalid Type B value.";
+        public static string V388 {get; set;} = "Porygon with invalid Type A and B values. Does not a match a valid type combination.";
+        public static string V389 {get; set;} = "Invalid Type A, does not match species type.";
+        public static string V390 {get; set;} = "Invalid Type B, does not match species type.";
+        public static string V395 {get; set;} = "Catch rate does not match a valid held item from generation 2";
+        public static string V396 {get; set;} = "Catch rate match species without encounters. Expected a preevolution catch rate.";
+        public static string V397 {get; set;} = "Catch rate does not match any species from pokemon evolution chain.";
+        public static string V399 {get; set;} = "Catch rate does not match any species from pokemon evolution chain or any generation 2 held items.";
         #endregion
 
     }

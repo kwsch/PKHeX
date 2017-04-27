@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -179,6 +180,10 @@ namespace PKHeX.Core
                 }
             }
             return result;
+        }
+        public bool IsValidTypeCombination(int Type1, int Type2)
+        {
+            return Table.Any(p => p.Types[0] == Type1 && p.Types[1] == Type2);
         }
     }
 }

@@ -977,9 +977,17 @@ namespace PKHeX.WinForms
                 if (drVC == DialogResult.Cancel)
                     return;
                 Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
+                if (Legal.AllowGBCartEra && sav.Generation == 1)
+                {
+                    var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, "Generation 1 Save File detected. Allow tradeback from generation 2 for legallity purpose?",
+                        "Yes: Generation 2 tradeback allow" + Environment.NewLine + "No: Only consider legal pokemon possible without generation 2 games");
+                    Legal.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
+                }
+                else
+                    Legal.AllowGen1Tradeback = false;
             }
             else
-                Legal.AllowGBCartEra = sav.Generation == 2;
+                Legal.AllowGBCartEra = Legal.AllowGen1Tradeback  = sav.Generation == 2;
 
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {

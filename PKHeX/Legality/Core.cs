@@ -14,6 +14,7 @@ namespace PKHeX.Core
 
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra = false;
+        public static bool AllowGen1Tradeback = false;
 
         /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
         public static bool EReaderBerryIsEnigma = true;
@@ -554,6 +555,7 @@ namespace PKHeX.Core
                 MarkEncountersGeneration(ref SlotsRBY, 1);
                 MarkEncountersGeneration(ref StaticRBY, 1);
                 Evolves1 = new EvolutionTree(new[] { Resources.evos_rby }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
+                FixPersonalTableY();
             }
             // Gen 2
             {
@@ -756,6 +758,13 @@ namespace PKHeX.Core
 
                 Evolves7 = new EvolutionTree(Data.unpackMini(Resources.evos_sm, "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
             }
+        }
+
+        private static void FixPersonalTableY()
+        {
+            // Personal Table from Yellow do not have yellow catch rate for Pikachu and Kadabra, have RedBlue instead
+            PersonalTable.Y[25].CatchRate = 163; // Pikachu
+            PersonalTable.Y[64].CatchRate = 96; // Kadabra
         }
 
         // Moves
@@ -994,7 +1003,7 @@ namespace PKHeX.Core
                     }
                 }
             }
-            else
+            else if (validLevelMoves.Length >= 3)
             {
                 int tradeback = pkm.Format == 2 ? 1 : 2;
                 validLevelMoves[tradeback]?.RemoveAll(x => FutureMoves.Contains(x));
@@ -1227,7 +1236,7 @@ namespace PKHeX.Core
         }
         internal static List<int>[] getBaseEggMoves(PKM pkm, GameVersion gameSource, int lvl)
         {
-            if (SplitBreed.Contains(pkm.Species))
+            if (getSplitBreedGeneration(pkm.GenNumber).Contains(pkm.Species))
                 return new[]
                 {
                      getBaseEggMoves(pkm, 0, gameSource,lvl).ToList(),
@@ -1237,7 +1246,7 @@ namespace PKHeX.Core
         }
         internal static List<int>[] getEggMoves(PKM pkm, GameVersion Version)
         {
-            if (SplitBreed.Contains(pkm.Species))
+            if (getSplitBreedGeneration(pkm.GenNumber).Contains(pkm.Species))
                 return new[]
                 {
                      getEggMoves(pkm, getBaseEggSpecies(pkm, 0), 0, Version).ToList(),
@@ -1388,6 +1397,18 @@ namespace PKHeX.Core
                 if (e.Form != pkm.AltForm && !e.SkipFormCheck && !getCanFormChange(pkm, e.Species))
                     continue;
 
+                if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
+                {
+                    var catch_rate = (pkm as PK1).Catch_Rate;
+                    // Pure gen 1, trades can be filter by catch rate
+                    if ((pkm.Species == 25 || pkm.Species == 26) && catch_rate == 190)
+                        // Red Blue Pikachu, is not a static encounter
+                        continue;
+
+                    if (catch_rate != PersonalTable.RB[e.Species].CatchRate && catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                        continue;
+                }
+
                 // Defer to EC/PID check
                 // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
                     // continue;
@@ -1464,14 +1485,17 @@ namespace PKHeX.Core
         }
         internal static GameVersion[] getGen1GameEncounter(PKM pk)
         {
-            if (pk.Format != 2 || AllowGBCartEra)
+            if (pk.Format != 1 || !pk.Gen1_NotTradeback)
                 return new[] { GameVersion.RD, GameVersion.YW };
             if (25 <= pk.Species && pk.Species <= 26)
                 // Yellow Pikachu detected by its special catch rate
-                return new[] { (((PK1)pk).Catch_Rate == 163) ? GameVersion.YW : GameVersion.RD };
+                return new[] { ((pk as PK1).Catch_Rate == 163) ? GameVersion.YW : GameVersion.RD };
             if (64 <= pk.Species && pk.Species <= 65)
                 // Yellow Kadabra detected by its special catch rate
-                return new[] { (((PK1)pk).Catch_Rate == 96) ? GameVersion.YW : GameVersion.RD };
+                return new[] { ((pk as PK1).Catch_Rate == 96) ? GameVersion.YW : GameVersion.RD };
+            if (148 <= pk.Species && pk.Species <= 149 && ((pk as PK1).Catch_Rate == 27))
+                // Yellow Dragonair detected by its special catch rate, is have another catch rate could be red/blue dratini or yellow dratini
+                return new[] { GameVersion.YW };
             return new[] { GameVersion.RD, GameVersion.YW };
         }
         internal static IEnumerable<int> getInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
@@ -1592,7 +1616,7 @@ namespace PKHeX.Core
         }
         internal static int getRequiredMoveCount(PKM pk, int[] moves, List<int>[] learn, List<int>[] tmhm, List<int>[] tutor, int[] initialmoves)
         {
-            if (pk.Format != 1 || AllowGBCartEra) // No MoveDeleter
+            if (pk.Format != 1 || !pk.Gen1_NotTradeback) // No MoveDeleter
                 return 1; // Move deleter exits, slots from 2 onwards can allways be empty
 
             int required = getRequiredMoveCount(pk, moves, learn, initialmoves);
@@ -1618,20 +1642,22 @@ namespace PKHeX.Core
         private static int getRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             int species = pk.Species;
+            int catch_rate = (pk as PK1).Catch_Rate;
             // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
-            if (010 == species || species == 011)
+            if ((species == 011 || species == 012) && catch_rate == 120)
             {
-                if (!moves.Any(m => G1MetapodMoves.Contains(m))) // Captured as Metapod without Caterpie moves
-                    return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1MetapodMoves.Contains(lm));
+                // Captured as Metapod without Caterpie moves
+                return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1CaterpieMoves.Contains(lm));
+                // There is no valid Butterfree encounter in generation 1 games
             }
-            if (species == 014 || species == 015)
+            if ((species == 014 || species == 015) && (catch_rate == 45 || catch_rate == 120))
             {
-                if (species == 15 && !moves.Any(m => G1KakunaMoves.Contains(m))) // Captured as Beedril without Weedle and Kakuna moves
+                if (species == 15 && catch_rate == 45) // Captured as Beedril without Weedle and Kakuna moves
                     return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
 
-                if (!moves.Any(m => G1WeedleMoves.Contains(m))) // Captured as Kakuna without Weedle moves
-                    return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
+                // Captured as Kakuna without Weedle moves
+                return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
             }
 
             return getRequiredMoveCountSpecies3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
@@ -1656,6 +1682,7 @@ namespace PKHeX.Core
         }
         private static int getRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
+            int catch_rate = (pk as PK1).Catch_Rate;
             int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
             // Yellow optional moves, reduce usedslots if the yellow move is not present
             // The count wont go bellow 1 because the yellow moves were already counted and are not the only initial or level up moves
@@ -1672,9 +1699,9 @@ namespace PKHeX.Core
 
             if (064 == pk.Species || pk.Species == 065)
             {
-                if (!moves.Contains(134))// Initial Yellow Kadabra Kinesis 
+                if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
                     usedslots--;
-                if (pk.CurrentLevel < 10 && !moves.Contains(50)) // Kadabra Disable, not learned until 20 if captured as Abra
+                if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
                     usedslots--;
             }
             if (104 == pk.Species || pk.Species == 105) // Cubone and Marowak
@@ -1741,7 +1768,8 @@ namespace PKHeX.Core
             switch (gameSource)
             {
                 case GameVersion.RBY:
-                    return getValidEncounterTradeVC1(pkm, p, TradeGift_RBY);
+                    var table = !AllowGen1Tradeback ? TradeGift_RBY_NoTradeback : TradeGift_RBY_Tradeback;
+                    return getValidEncounterTradeVC1(pkm, p, table);
                 case GameVersion.GSC:
                     return getValidEncounterTradeVC2(pkm, p);
                 default:
@@ -1750,13 +1778,8 @@ namespace PKHeX.Core
         }
         private static EncounterTrade getValidEncounterTradeVC2(PKM pkm, DexLevel[] p)
         {
-            // Check RBY trades with loosened level criteria.
-            var z = getValidEncounterTradeVC1(pkm, p, TradeGift_RBY_2);
-            if (z != null)
-                return z;
-
             // Check GSC trades. Reuse generic table fetch-match
-            z = getValidEncounterTradeVC1(pkm, p, TradeGift_GSC);
+            var z = getValidEncounterTradeVC1(pkm, p, TradeGift_GSC);
 
             // Filter Criteria
             if (z?.Gender != pkm.Gender)
@@ -1781,12 +1804,19 @@ namespace PKHeX.Core
                 return null;
             if (z.Level > pkm.CurrentLevel) // minimum required level
                 return null;
+            if(pkm.Format == 1 && pkm.Gen1_NotTradeback)
+            {
+                // Even if the in game trade use the tables with source pokemon allowing generaion 2 games, the traded pokemon could be a non-tradeback pokemon
+                var catch_rate = (pkm as PK1).Catch_Rate;
+                if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
+                    return null;
+            }
             return z;
         }
         private static GBEncounterData getEncounter12(PKM pkm, GameVersion game)
         {
             var gen = game == GameVersion.GSC ? 2 : 1;
-            bool WasEgg = game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
+            bool WasEgg = !pkm.Gen1_NotTradeback && game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
             if (WasEgg)
             {
                 // Further Filtering
@@ -1835,10 +1865,10 @@ namespace PKHeX.Core
                 return new GBEncounterData(pkm, gen, t);
             return null;
         }
-        internal static List<GBEncounterData> getEncounter12(PKM pkm, bool gen2)
+        internal static List<GBEncounterData> getEncounter12(PKM pkm)
         {
-            var g1 = pkm.IsEgg || pkm.HasOriginalMetLocation ? null : getEncounter12(pkm, GameVersion.RBY);
-            var g2 = gen2 ? getEncounter12(pkm, GameVersion.GSC) : null;
+            var g1 = pkm.Gen2_NotTradeback ? null : getEncounter12(pkm, GameVersion.RBY);
+            var g2 = pkm.Gen1_NotTradeback ? null : getEncounter12(pkm, GameVersion.GSC);
             if (g1 == null && g2 == null)
                 return null;
             if (g1 == null || g2 == null)
@@ -2591,9 +2621,10 @@ namespace PKHeX.Core
         internal static DexLevel[][] getEvolutionChainsAllGens(PKM pkm, object Encounter)
         {
             var CompleteEvoChain = getEvolutionChain(pkm, Encounter).ToArray();
-            int size = Math.Max(pkm.Format, 2);
-            DexLevel[][] GensEvoChains = new DexLevel[size + 1][];
-            for (int i = 0; i <= size; i++)
+            int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
+            int mingen = pkm.Format == 2 && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
+            DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
+            for (int i = 0; i <= maxgen; i++)
                 GensEvoChains[i] = new DexLevel[0];
 
             if (pkm.Species == 0 || pkm.Format > 2 && pkm.GenU) // Illegal origin or empty pokemon, return only chain for current format
@@ -2611,15 +2642,13 @@ namespace PKHeX.Core
             }
 
             int lvl = pkm.CurrentLevel;
-            int maxgen = pkm.Format <= 2 ? 2 : pkm.Format;
-            int mingen = pkm.VC2 || pkm.Format <= 2 ? 1 : pkm.GenNumber;
 
             // Iterate generations backwards because level will be decreased from current level in each generation
             for (int gen = maxgen; gen >= mingen; gen--)
             {
-                if ((pkm.Gen1 || pkm.VC1) && pkm.Format > 2 && 2 <= gen && gen <= 6)
+                if (pkm.GenNumber == 1 && pkm.Gen1_NotTradeback && gen == 2)
                     continue;
-                if ((pkm.Gen2 || pkm.VC2) && 3 <= gen && gen <= 6)
+                if (pkm.GenNumber <= 2 && 3 <= gen && gen <= 6)
                     continue;
                 if (!pkm.HasOriginalMetLocation && pkm.Format > 2 && gen < pkm.Format && gen <= 4 && lvl > pkm.Met_Level)
                 {
@@ -2660,6 +2689,10 @@ namespace PKHeX.Core
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
                     //chain level for charmander is 35, is bellow met level
                     GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm,gen)).ToArray();
+
+                if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
+                    // Remove generation 2 pre-evolutions
+                    GensEvoChains[gen] = GensEvoChains[gen].Take(GensEvoChains[gen].Length - 1).ToArray();
             }
             return GensEvoChains;
         }
@@ -2913,6 +2946,26 @@ namespace PKHeX.Core
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks:ignoreLevel);
 
+            bool IsRGBKadabra = false;
+            if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
+            {
+                // Pure gen 1, slots can be filter by catch rate
+                if ((pkm.Species == 25 || pkm.Species == 26) && (pkm as PK1).Catch_Rate == 163)
+                    // Yellow Pikachu, is not a wild encounter
+                    return slotdata;
+                if ((pkm.Species == 64 || pkm.Species == 65) && (pkm as PK1).Catch_Rate == 96)
+                    // Yellow Kadabra, ignore Abra encounters
+                    vs = vs.Where(s => s.Species == 64);
+                if ((pkm.Species == 148 || pkm.Species == 149) && (pkm as PK1).Catch_Rate == 27)
+                    // Yellow Dragonair, ignore Dratini encounters
+                    vs = vs.Where(s => s.Species == 148);
+                else
+                {
+                    IsRGBKadabra = (pkm.Species == 64 || pkm.Species == 65) && (pkm as PK1).Catch_Rate == 100;
+                    vs = vs.Where(s => (pkm as PK1).Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                }
+            }
+
             // Get slots where pokemon can exist
             bool ignoreSlotLevel = ignoreLevel;
             IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
@@ -2931,7 +2984,11 @@ namespace PKHeX.Core
                 encounterSlots = slots.Where(slot => slot.LevelMin <= lvl).ToList();
 
             if (gen <= 2)
-            {   
+            {
+                if (IsRGBKadabra)
+                    //Red Kadabra slots : Level 49 and 51 in RGB, but level 20 and 27 in Yellow
+                    encounterSlots = encounterSlots.Where(slot => slot.LevelMin >= 49).ToList();
+
                 // For gen 1 and 2 return Minimum level slot
                 // Minimum level is needed to check available moves, because there is no move reminder in gen 1,
                 // There are moves in the level up table that cant be legally obtained
@@ -3031,7 +3088,24 @@ namespace PKHeX.Core
             }
             return slotLocations;
         }
-        private static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
+        internal static int getEncounterLevel(PKM pkm, object encounter)
+        {
+            return (encounter as IEncounterable[])?.Min(e => e.LevelMin) ??
+                   (encounter as IEncounterable)?.LevelMin ??
+                   (pkm.GenNumber <= 3 ? 5 : 1 ); //egg
+        }
+        internal static int getEncounterSpecies(PKM pkm, DexLevel[] vs, object encounter)
+        {
+            if (encounter is int)
+                return (int)encounter;
+            if (encounter is IEncounterable[])
+                return vs.Reverse().First(s => ((IEncounterable[])encounter).Any(slot => slot.Species == s.Species)).Species;
+            if (encounter is IEncounterable)
+                return vs.Reverse().First(s => ((IEncounterable)encounter).Species == s.Species).Species;
+            // encounter is null, is an egg or invalid origin, return base species
+            return vs.Last().Species;
+        }
+        internal static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
@@ -3046,8 +3120,10 @@ namespace PKHeX.Core
                     new DexLevel { Species = 292, Level = lvl, MinLevel = 20 },
                     new DexLevel { Species = 290, Level = lvl-1, MinLevel = 1 }
                 };
+            if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
+                maxspeciesorigin = MaxSpeciesID_2;
 
-            var et = getEvolutionTable(pkm);
+            var et = maxspeciesorigin == MaxSpeciesID_2 ? getEvolutionTable(2) : getEvolutionTable(pkm);
             return et.getValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
         private static IEnumerable<EncounterStatic> getStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin =-1, int lvl = -1)
