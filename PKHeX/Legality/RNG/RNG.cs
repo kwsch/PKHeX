@@ -7,7 +7,7 @@
         public static readonly RNG ARNG  = new RNG(0x6C078965, 0x00000001, 0x9638806D, 0x69C77F93);
 
         private readonly uint Mult, Add, rMult, rAdd;
-        protected RNG(uint f_mult, uint f_add, uint r_mult, uint r_add)
+        private RNG(uint f_mult, uint f_add, uint r_mult, uint r_add)
         {
             Mult = f_mult;
             Add = f_add;
@@ -16,15 +16,15 @@
         }
 
         public uint Next(uint seed) => seed * Mult + Add;
-        private uint Prev(uint seed) => seed * rMult + rAdd;
+        public uint Prev(uint seed) => seed * rMult + rAdd;
 
-        private uint Advance(uint seed, int frames)
+        public uint Advance(uint seed, int frames)
         {
             for (int i = 0; i < frames; i++)
                 seed = Next(seed);
             return seed;
         }
-        private uint Reverse(uint seed, int frames)
+        public uint Reverse(uint seed, int frames)
         {
             for (int i = 0; i < frames; i++)
                 seed = Prev(seed);

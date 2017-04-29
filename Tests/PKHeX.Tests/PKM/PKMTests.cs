@@ -1,12 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using PKHeX.Core;
 
 namespace PKHeX.Tests.PKM
 {
     [TestClass]
     public class PKMTests
     {
-        const string DateTestCategory = "PKM Date Tests";
+        private const string DateTestCategory = "PKM Date Tests";
+        private const string PIDIVTestCategory = "PKM PIDIV Matching Tests";
 
         [TestMethod]
         [TestCategory(DateTestCategory)]
@@ -124,6 +126,61 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(now.Day, pk.EggMetDay, "Egg_Day was not correctly set");
             Assert.AreEqual(now.Month, pk.EggMetMonth, "Egg_Month was not correctly set");
             Assert.AreEqual(now.Year - 2000, pk.EggMetYear, "Egg_Year was not correctly set");
+        }
+
+        [TestMethod]
+        [TestCategory(PIDIVTestCategory)]
+        public void PIDIVMatchingTest()
+        {
+            // IVs are stored HP/ATK/DEF/SPE/SPA/SPD
+            var pk1 = new PK3
+            {
+                PID = 0xE97E0000,
+                IVs = new[] {17, 19, 20, 16, 13, 12}
+            };
+            Assert.AreEqual(PIDType.Method_1, MethodFinder.Analyze(pk1)?.Type, "Unable to match PID to Method 1 spread");
+            var pk2 = new PK3
+            {
+                PID = 0x5271E97E,
+                IVs = new[] {02, 18, 03, 12, 22, 24}
+            };
+            Assert.AreEqual(PIDType.Method_2, MethodFinder.Analyze(pk2)?.Type, "Unable to match PID to Method 2 spread");
+            var pk4 = new PK3
+            {
+                PID = 0x31B05271,
+                IVs = new[] {02, 18, 03, 05, 30, 11}
+            };
+            Assert.AreEqual(PIDType.Method_4, MethodFinder.Analyze(pk4)?.Type, "Unable to match PID to Method 4 spread");
+
+            var pk3 = new PK3
+            {
+                PID = 0x0985A297,
+                IVs = new[] {06, 01, 00, 07, 17, 07}
+            };
+            Assert.AreEqual(PIDType.XDC, MethodFinder.Analyze(pk3)?.Type, "Unable to match PID to XDC spread");
+
+            var pkC = new PK3
+            {
+                PID = 0x9E27D2F6,
+                IVs = new[] {04, 15, 21, 14, 18, 29}
+            };
+            Assert.AreEqual(PIDType.Channel, MethodFinder.Analyze(pkC)?.Type, "Unable to match PID to Channel spread");
+
+            var pkCC = new PK4
+            {
+                PID = 0x00000037,
+                IVs = new[] {16, 13, 12, 02, 18, 03},
+                Species = 1,
+                Gender = 0,
+            };
+            Assert.AreEqual(PIDType.CuteCharm, MethodFinder.Analyze(pkCC)?.Type, "Unable to match PID to Cute Charm spread");
+
+            var pkASR = new PK4
+            {
+                PID = 0x07578CB7, // 0x5271E97E rerolled
+                IVs = new[] {16, 13, 12, 02, 18, 03},
+            };
+            Assert.AreEqual(PIDType.G4AntiShiny, MethodFinder.Analyze(pkASR)?.Type, "Unable to match PID to Antishiny4 spread");
         }
     }
 }

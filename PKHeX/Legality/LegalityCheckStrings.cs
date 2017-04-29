@@ -18,9 +18,9 @@ namespace PKHeX.Core
         public static string V189 {get; set;} = "Analysis not available for this Pokémon.";
         /// <summary>Format text for exporting a legality check result.</summary>
         public static string V196 {get; set;} = "{0}: {1}";
-        /// <summary>Format text for exporting a legality check result for an invalid Move.</summary>
+        /// <summary>Format text for exporting a legality check result for a Move.</summary>
         public static string V191 {get; set;} = "{0} Move {1}: {2}";
-        /// <summary>Format text for exporting a legality check result for an invalid Relearn Move.</summary>
+        /// <summary>Format text for exporting a legality check result for a Relearn Move.</summary>
         public static string V192 {get; set;} = "{0} Relearn Move {1}: {2}";
         /// <summary>Format text for exporting the type of Encounter that was matched for the the <see cref="PKM"/></summary>
         public static string V195 {get; set;} = "Encounter Type: {0}";

@@ -173,7 +173,7 @@
     <Compile Include="Legality\Structures\IRibbonSet.cs" />
     <Compile Include="Legality\Structures\Learnset.cs" />
     <Compile Include="Legality\Structures\Nature.cs" />
-    <Compile Include="Legality\Structures\PIDIV.cs" />
+    <Compile Include="Legality\RNG\PIDIV.cs" />
     <Compile Include="Legality\Structures\SlotType.cs" />
     <Compile Include="Legality\Structures\TradebackType.cs" />
     <Compile Include="Legality\Structures\ValidEncounterMoves.cs" />
