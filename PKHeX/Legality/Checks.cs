@@ -782,7 +782,7 @@ namespace PKHeX.Core
                 pkm.WasEgg = true;
                 return verifyEncounterEgg();
             }
-            EncounterMatch = EncounterOriginalGB = EncountersGBMatch?.FirstOrDefault()?.Encounter;
+            EncounterMatch = EncounterOriginalGB = EncountersGBMatch.FirstOrDefault()?.Encounter;
             if (EncounterMatch is EncounterSlot)
                 return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
             if (EncounterMatch is EncounterStatic)

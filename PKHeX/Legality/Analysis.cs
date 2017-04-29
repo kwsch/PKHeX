@@ -273,9 +273,9 @@ namespace PKHeX.Core
             if (pkm.VC && pkm.Format == 7)
                 EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
 
-            MatchedType = Type = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
+            MatchedType = Type = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species).GetType();
             var bt = Type.BaseType;
-            if (!(bt == typeof(Array) || bt == typeof(object) || bt.IsPrimitive)) // a parent exists
+            if (bt != null && !(bt == typeof(Array) || bt == typeof(object) || bt.IsPrimitive)) // a parent exists
                 Type = bt; // use base type
         }
         private void updateChecks()
@@ -314,56 +314,58 @@ namespace PKHeX.Core
             if (!Parsed)
                 return V189;
             
-            string r = "";
+            var lines = new List<string>();
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
-                    r += string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment) + Environment.NewLine;
+                    lines.Add(string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment));
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (!vRelearn[i].Valid)
-                    r += string.Format(V192, getString(vRelearn[i].Judgement), i + 1, vRelearn[i].Comment) + Environment.NewLine;
+                    lines.Add(string.Format(V192, getString(vRelearn[i].Judgement), i + 1, vRelearn[i].Comment));
 
-            if (r.Length == 0 && Parse.All(chk => chk.Valid) && Valid)
+            if (lines.Count == 0 && Parse.All(chk => chk.Valid) && Valid)
                 return V193;
             
             // Build result string...
             var outputLines = Parse.Where(chk => !chk.Valid); // Only invalid
-            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, getString(chk.Judgement), chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => string.Format(V196, getString(chk.Judgement), chk.Comment)));
 
-            if (r.Length == 0)
-                r = V190;
+            if (lines.Count == 0)
+                return V190;
 
-            return r.TrimEnd();
+            return string.Join(Environment.NewLine, lines);
         }
         private string getVerboseLegalityReport()
         {
-            string r = getLegalityReport() + Environment.NewLine;
-            if (pkm == null)
-                return r;
-            r += "===" + Environment.NewLine + Environment.NewLine;
-            int rl = r.Length;
+            if (!Parsed)
+                return V189;
+
+            const string separator = "===";
+            string[] br = {separator, ""};
+            var lines = new List<string> {br[1]};
+            lines.AddRange(br);
+            int rl = lines.Count;
 
             for (int i = 0; i < 4; i++)
                 if (vMoves[i].Valid)
-                    r += string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment) + Environment.NewLine;
+                    lines.Add(string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment));
 
             if (pkm.Format >= 6)
             for (int i = 0; i < 4; i++)
                 if (vRelearn[i].Valid)
-                    r += string.Format(V192, getString(vRelearn[i].Judgement), i + 1, vRelearn[i].Comment) + Environment.NewLine;
+                    lines.Add(string.Format(V192, getString(vRelearn[i].Judgement), i + 1, vRelearn[i].Comment));
 
-            if (rl != r.Length) // move info added, break for next section
-                r += Environment.NewLine;
+            if (rl != lines.Count) // move info added, break for next section
+                lines.Add(br[1]);
             
             var outputLines = Parse.Where(chk => chk != null && chk.Valid && chk.Comment != V).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            r += string.Join(Environment.NewLine, outputLines.Select(chk => string.Format(V196, getString(chk.Judgement), chk.Comment)));
+            lines.AddRange(outputLines.Select(chk => string.Format(V196, getString(chk.Judgement), chk.Comment)));
 
-            r += Environment.NewLine;
-            r += "===" + Environment.NewLine + Environment.NewLine;
-            r += string.Format(V195, EncounterName);
-
-            return r.TrimEnd();
+            lines.AddRange(br);
+            lines.Add(string.Format(V195, EncounterName));
+            
+            return getLegalityReport() + string.Join(Environment.NewLine, lines);
         }
 
         public int[] getSuggestedRelearn()
