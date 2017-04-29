@@ -15,6 +15,9 @@ namespace PKHeX.Core
          * Blocks do not use all 0x1000 bytes allocated.
          * Via: http://bulbapedia.bulbagarden.net/wiki/Save_data_structure_in_Generation_III
          */
+        private const int SIZE_BLOCK = 0x1000;
+        private const int BLOCK_COUNT = 14;
+        private const int SIZE_RESERVED = 0x10000; // unpacked box data will start after the save data
         private readonly int[] chunkLength =
         {
             0xf2c, // 0 | Trainer info
@@ -47,16 +50,16 @@ namespace PKHeX.Core
             if (Version == GameVersion.Invalid)
                 return;
             
-            int[] BlockOrder1 = new int[14];
-            for (int i = 0; i < 14; i++)
-                BlockOrder1[i] = BitConverter.ToInt16(Data, i*0x1000 + 0xFF4);
+            int[] BlockOrder1 = new int[BLOCK_COUNT];
+            for (int i = 0; i < BLOCK_COUNT; i++)
+                BlockOrder1[i] = BitConverter.ToInt16(Data, i*SIZE_BLOCK + 0xFF4);
             int zeroBlock1 = Array.IndexOf(BlockOrder1, 0);
 
             if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
-                int[] BlockOrder2 = new int[14];
-                for (int i = 0; i < 14; i++)
-                    BlockOrder2[i] = BitConverter.ToInt16(Data, 0xE000 + i*0x1000 + 0xFF4);
+                int[] BlockOrder2 = new int[BLOCK_COUNT];
+                for (int i = 0; i < BLOCK_COUNT; i++)
+                    BlockOrder2[i] = BitConverter.ToInt16(Data, 0xE000 + i*SIZE_BLOCK + 0xFF4);
                 int zeroBlock2 = Array.IndexOf(BlockOrder2, 0);
 
                 if (zeroBlock2 < 0)
@@ -64,8 +67,8 @@ namespace PKHeX.Core
                 else if (zeroBlock1 < 0)
                     ActiveSAV = 1;
                 else
-                ActiveSAV = BitConverter.ToUInt32(Data, zeroBlock1*0x1000 + 0xFFC) >
-                            BitConverter.ToUInt32(Data, zeroBlock2*0x1000 + 0xEFFC)
+                ActiveSAV = BitConverter.ToUInt32(Data, zeroBlock1*SIZE_BLOCK + 0xFFC) >
+                            BitConverter.ToUInt32(Data, zeroBlock2*SIZE_BLOCK + 0xEFFC)
                     ? 0
                     : 1;
                 BlockOrder = ActiveSAV == 0 ? BlockOrder1 : BlockOrder2;
@@ -76,21 +79,24 @@ namespace PKHeX.Core
                 BlockOrder = BlockOrder1;
             }
 
-            BlockOfs = new int[14];
-            for (int i = 0; i < 14; i++)
-                BlockOfs[i] = Array.IndexOf(BlockOrder, i)*0x1000 + ABO;
+            BlockOfs = new int[BLOCK_COUNT];
+            for (int i = 0; i < BLOCK_COUNT; i++)
+            {
+                int index = Array.IndexOf(BlockOrder, i);
+                BlockOfs[i] = index < 0 ? int.MinValue : index*SIZE_BLOCK + ABO;
+            }
 
             // Set up PC data buffer beyond end of save file.
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
 
             // Copy chunk to the allocated location
-            for (int i = 5; i < 14; i++)
+            for (int i = 5; i < BLOCK_COUNT; i++)
             {
                 int blockIndex = Array.IndexOf(BlockOrder, i);
                 if (blockIndex == -1) // block empty
                     continue;
-                Array.Copy(Data, blockIndex * 0x1000 + ABO, Data, Box + (i - 5)*0xF80, chunkLength[i]);
+                Array.Copy(Data, blockIndex * SIZE_BLOCK + ABO, Data, Box + (i - 5)*0xF80, chunkLength[i]);
             }
 
             switch (Version)
@@ -136,20 +142,22 @@ namespace PKHeX.Core
             LegalBerries = Legal.Pouch_Berries_RS;
             HeldItems = Legal.HeldItems_RS;
 
+            // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
+            SeenFlagOffsets = SeenFlagOffsets.Where(z => z >= 0).ToArray();
+
             if (!Exportable)
                 resetBoxes();
         }
 
-        private const int SIZE_RESERVED = 0x10000; // unpacked box data
         public override byte[] Write(bool DSV)
         {
             // Copy Box data back
-            for (int i = 5; i < 14; i++)
+            for (int i = 5; i < BLOCK_COUNT; i++)
             {
                 int blockIndex = Array.IndexOf(BlockOrder, i);
                 if (blockIndex == -1) // block empty
                     continue;
-                Array.Copy(Data, Box + (i - 5) * 0xF80, Data, blockIndex * 0x1000 + ABO, chunkLength[i]);
+                Array.Copy(Data, Box + (i - 5) * 0xF80, Data, blockIndex * SIZE_BLOCK + ABO, chunkLength[i]);
             }
 
             setChecksums();
@@ -157,7 +165,7 @@ namespace PKHeX.Core
         }
 
         private readonly int ActiveSAV;
-        private int ABO => ActiveSAV*0xE000;
+        private int ABO => ActiveSAV*SIZE_BLOCK*0xE;
         private readonly int[] BlockOrder;
         private readonly int[] BlockOfs;
         public int getBlockOffset(int block) => BlockOfs[block];
@@ -193,22 +201,22 @@ namespace PKHeX.Core
         // Checksums
         protected override void setChecksums()
         {
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < BLOCK_COUNT; i++)
             {
-                byte[] chunk = Data.Skip(ABO + i*0x1000).Take(chunkLength[BlockOrder[i]]).ToArray();
+                byte[] chunk = Data.Skip(ABO + i*SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
                 ushort chk = SaveUtil.check32(chunk);
-                BitConverter.GetBytes(chk).CopyTo(Data, ABO + i*0x1000 + 0xFF6);
+                BitConverter.GetBytes(chk).CopyTo(Data, ABO + i*SIZE_BLOCK + 0xFF6);
             }
         }
         public override bool ChecksumsValid
         {
             get
             {
-                for (int i = 0; i < 14; i++)
+                for (int i = 0; i < BLOCK_COUNT; i++)
                 {
-                    byte[] chunk = Data.Skip(ABO + i * 0x1000).Take(chunkLength[BlockOrder[i]]).ToArray();
+                    byte[] chunk = Data.Skip(ABO + i * SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
                     ushort chk = SaveUtil.check32(chunk);
-                    if (chk != BitConverter.ToUInt16(Data, ABO + i*0x1000 + 0xFF6))
+                    if (chk != BitConverter.ToUInt16(Data, ABO + i*SIZE_BLOCK + 0xFF6))
                         return false;
                 }
                 return true;
@@ -219,13 +227,13 @@ namespace PKHeX.Core
             get
             {
                 string r = "";
-                for (int i = 0; i < 14; i++)
+                for (int i = 0; i < BLOCK_COUNT; i++)
                 {
-                    byte[] chunk = Data.Skip(ABO + i * 0x1000).Take(chunkLength[BlockOrder[i]]).ToArray();
+                    byte[] chunk = Data.Skip(ABO + i * SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
                     ushort chk = SaveUtil.check32(chunk);
-                    ushort old = BitConverter.ToUInt16(Data, ABO + i*0x1000 + 0xFF6);
+                    ushort old = BitConverter.ToUInt16(Data, ABO + i*SIZE_BLOCK + 0xFF6);
                     if (chk != old)
-                        r += $"Block {BlockOrder[i]:00} @ {i*0x1000:X5} invalid." + Environment.NewLine;
+                        r += $"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid." + Environment.NewLine;
                 }
                 return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
             }
@@ -545,13 +553,13 @@ namespace PKHeX.Core
 
             if (seen)
             {
-                for (int i = 0; i < 3; i++)
-                    Data[SeenFlagOffsets[i] + ofs] |= (byte)bitval;
+                foreach (int o in SeenFlagOffsets)
+                    Data[o + ofs] |= (byte)bitval;
             }
             else
             {
-                for (int i = 0; i < 3; i++)
-                    Data[SeenFlagOffsets[i] + ofs] &= (byte) ~bitval;
+                foreach (int o in SeenFlagOffsets)
+                    Data[o + ofs] &= (byte)~bitval;
             }
         }
 
