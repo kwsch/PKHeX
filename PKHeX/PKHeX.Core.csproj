@@ -155,6 +155,8 @@
     <Compile Include="Legality\LegalityCheckStrings.cs" />
     <Compile Include="Legality\Core.cs" />
     <Compile Include="Legality\Data.cs" />
+    <Compile Include="Legality\RNG\MethodFinder.cs" />
+    <Compile Include="Legality\RNG\PIDType.cs" />
     <Compile Include="Legality\RNG\RNG.cs" />
     <Compile Include="Legality\Structures\DexLevel.cs" />
     <Compile Include="Legality\Structures\EggMoves.cs" />
