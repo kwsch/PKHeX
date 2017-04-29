@@ -447,8 +447,6 @@ namespace PKHeX.Core
         }
         public void FixMemories()
         {
-            Enjoyment = Fullness = 0;
-
             if (IsEgg) // No memories if is egg.
             {
                 Geo1_Country = Geo2_Country = Geo3_Country = Geo4_Country = Geo5_Country =
