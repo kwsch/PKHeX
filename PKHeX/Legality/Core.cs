@@ -21,6 +21,11 @@ namespace PKHeX.Core
         public static string EReaderBerryName = string.Empty;
         public static string EReaderBerryDisplayName => string.Format(V372, CultureInfo.CurrentCulture.TextInfo.ToTitleCase(EReaderBerryName.ToLower()));
         public static bool SavegameJapanese = false;
+        public static string Savegame_OT = string.Empty;
+        public static int Savegame_TID = 0;
+        public static int Savegame_SID = 0;
+        public static int Savegame_Gender = 0;
+        public static GameVersion Savegame_Version = GameVersion.Any;
 
         // Gen 1
         private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Resources.lvlmove_rb, MaxSpeciesID_1);
@@ -1357,12 +1362,17 @@ namespace PKHeX.Core
             var enc = getMatchingStaticEncounters(pkm, poss, lvl);
 
             // Filter for encounter types
-            if (pkm.Gen4 && pkm.Format < 7) // type is cleared on 6->7
+            if (pkm.Gen4 && pkm.Format < 7 && enc.Count() > 1) // type is cleared on 6->7
             {
                 int type = pkm.EncounterType;
-                enc = type == 0
+                var enctype = type == 0
                     ? enc.Where(z => !(z is EncounterStaticTyped)) // no typed encounters
                     : enc.Where(z => z is EncounterStaticTyped && (int) ((EncounterStaticTyped)z).TypeEncounter == type);
+
+                // Filter only if there are encounters that match types and encounters that do not match types, like wild encounters
+                // IF there is only one of the two possibilities encounter type check will detect encounter type does not match encounter
+                if (enctype.Any())
+                    enc = enctype;
             }
             var result = enc.ToList();
             return result.Count == 0 ? null : result;
@@ -1400,12 +1410,23 @@ namespace PKHeX.Core
                 if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
                 {
                     var catch_rate = (pkm as PK1).Catch_Rate;
+                    var japanese = (pkm as PK1).Japanese;
                     // Pure gen 1, trades can be filter by catch rate
                     if ((pkm.Species == 25 || pkm.Species == 26) && catch_rate == 190)
                         // Red Blue Pikachu, is not a static encounter
                         continue;
 
-                    if (catch_rate != PersonalTable.RB[e.Species].CatchRate && catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                    if (e.Version == GameVersion.Stadium)
+                    {
+                        if (e.Species != 054 && !Stadium_CatchRate.Contains(catch_rate))
+                            continue;
+                        // Amnesia Psyduck have different catch rate in japanese stadium and international stadium
+                        if (e.Species == 054 && japanese && catch_rate != 167)
+                            continue;
+                        if (e.Species == 054 && !japanese && catch_rate != 168)
+                            continue;
+                    }
+                    else if (catch_rate != PersonalTable.RB[e.Species].CatchRate && catch_rate != PersonalTable.Y[e.Species].CatchRate)
                         continue;
                 }
 
@@ -1808,8 +1829,13 @@ namespace PKHeX.Core
             {
                 // Even if the in game trade use the tables with source pokemon allowing generaion 2 games, the traded pokemon could be a non-tradeback pokemon
                 var catch_rate = (pkm as PK1).Catch_Rate;
-                if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
-                    return null;
+                if (z is EncounterTradeCatchRate)
+                {
+                    if (catch_rate != ((EncounterTradeCatchRate)z).Catch_Rate)
+                        return null;
+                }
+                else if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
+                        return null;
             }
             return z;
         }
@@ -1834,6 +1860,11 @@ namespace PKHeX.Core
             DexLevel[] vs = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin).ToArray();
 
             var s = getValidStaticEncounter(pkm, game);
+
+            // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
+            if (game == GameVersion.RBY && s.Any(st => st.Species != 54 && st.Version == GameVersion.Stadium) && s.Any(st => st.Species != 54 && st.Version != GameVersion.Stadium))
+                s = s.Where(st => st.Version != GameVersion.Stadium).ToList();
+
             var e = getValidWildEncounters(pkm, game);
             var t = getValidIngameTrade(pkm, game);
 
@@ -1881,7 +1912,8 @@ namespace PKHeX.Core
             // Both generations can provide an encounter. Return highest preference
             g1.MoveLevel = getMoveMinLevelGBEncounter(g1.Species, g1.Level, getGen1GameEncounter(pkm));
             if (g1.Type > g2.Type)
-                return new List<GBEncounterData> { g1 };
+                // Return also generation 2 encounters, is only needed to determine that pokemon is not exclusive from generation 1
+                return new List<GBEncounterData> { g1, g2 };
             if (g1.Type <= g2.Type ||
                 // Return lowest level encounter
                 g2.MoveLevel < g1.MoveLevel)
@@ -1889,7 +1921,7 @@ namespace PKHeX.Core
                 // Return also generation 1 moves, it could have different encounter moves
                 return new List<GBEncounterData> { g2, g1 };
             }
-            return new List<GBEncounterData> { g1 };
+            return new List<GBEncounterData> { g1, g2 };
         }
         internal static bool getEncounterTrade1Valid(PKM pkm)
         {
@@ -3687,6 +3719,18 @@ namespace PKHeX.Core
             var emptyegg = new List<int>[1];
             emptyegg[0] = new List<int>();
             return emptyegg;
+        }
+
+        internal static bool IsOutsider(PKM pkm)
+        {
+            var Outsider = Savegame_TID != pkm.TID || Savegame_OT != pkm.OT_Name;
+            if (pkm.Format <= 2)
+                return Outsider;
+            Outsider |= Savegame_SID != pkm.SID;
+            if (pkm.Format == 3) // Generation 3 does not check ot geneder nor pokemon version
+                return Outsider;
+            Outsider |= Savegame_Gender != pkm.OT_Gender || Savegame_Version != (GameVersion) pkm.Version;
+            return Outsider;
         }
     }
 }

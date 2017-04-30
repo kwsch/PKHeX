@@ -648,7 +648,7 @@ namespace PKHeX.Core
         {
             new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25}, Nature = Nature.Quiet,}, // Abra
             new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
-            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter
+            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter with everstone, not evolve on trade
             new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15}, Nature = Nature.Mild}, // Magikarp
         };
         internal static readonly EncounterTrade[] TradeGift_HGSS =
