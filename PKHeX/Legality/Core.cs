@@ -103,6 +103,9 @@ namespace PKHeX.Core
                 case GameVersion.FR: case GameVersion.LG:
                     table = Encounter_FRLG;
                     break;
+                case GameVersion.CXD:
+                    table = Encounter_CXD;
+                    break;
 
                 case GameVersion.D: case GameVersion.P: case GameVersion.Pt:
                     table = Encounter_DPPt;
@@ -2819,6 +2822,8 @@ namespace PKHeX.Core
                     return getSlots(pkm, SlotsFR, lvl);
                 case GameVersion.LG:
                     return getSlots(pkm, SlotsLG, lvl);
+                case GameVersion.CXD:
+                    return getSlots(pkm, SlotsXD, lvl);
 
                 case GameVersion.D:
                     return getSlots(pkm, SlotsD, lvl);
@@ -2883,6 +2888,8 @@ namespace PKHeX.Core
                     return getStatic(pkm, StaticFR, lvl);
                 case GameVersion.LG:
                     return getStatic(pkm, StaticLG, lvl);
+                case GameVersion.CXD:
+                    return getStatic(pkm, Encounter_CXD, lvl);
 
                 case GameVersion.D:
                     return getStatic(pkm, StaticD, lvl);
