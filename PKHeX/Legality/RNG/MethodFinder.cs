@@ -17,7 +17,10 @@ namespace PKHeX.Core
         {
             if (pk.Format < 3)
                 return AnalyzeGB(pk);
-            var pid = pk.PID;
+            var pid = pk.Format >= 6 && pk.GenNumber >= 3 && pk.GenNumber < 6 
+                ? pk.EncryptionConstant // use unmodified PID, quicker than checking if bit was flipped
+                : pk.PID; // use actual PID
+            
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
 
@@ -37,9 +40,12 @@ namespace PKHeX.Core
                 return pidiv;
             if (getMG4Match(pid, IVs, out pidiv))
                 return pidiv;
-            if (getModifiedPID(pid, out pidiv))
+
+            if (getModifiedPID(pk, pid, out pidiv))
                 return pidiv;
             if (pid <= 0xFF && getCuteCharmMatch(pk, pid, out pidiv))
+                return pidiv;
+            if (pk.IsShiny && getChainShinyMatch(pk, pid, IVs, out pidiv))
                 return pidiv;
 
             return pidiv; // no match
@@ -125,16 +131,26 @@ namespace PKHeX.Core
                 if (!getIVs(C >> 16, D >> 16).SequenceEqual(IVs))
                     continue;
 
-                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.G4AntiShiny};
+                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.G4MGAntiShiny};
                 return true;
             }
             pidiv = null;
             return false;
         }
-        private static bool getModifiedPID(uint pid, out PIDIV pidiv)
+        private static bool getModifiedPID(PKM pk, uint pid, out PIDIV pidiv)
         {
+            var low = pid & 0xFFFF;
             // generation 5 shiny PIDs
-            // todo
+            if (low <= 0xFF)
+            {
+                var high = pid >> 16;
+                if ((pk.TID ^ pk.SID ^ low) == high)
+                {
+                    pidiv = new PIDIV {NoSeed = true, Type = PIDType.G5MGShiny};
+                    return true;
+                }
+            }
+
             pidiv = null;
             return false;
         }
@@ -153,7 +169,7 @@ namespace PKHeX.Core
                     if (pk.PID >= gr + 25)
                         break;
 
-                    pidiv = new PIDIV { OriginSeed = 0, RNG = RNG.LCRNG, Type = PIDType.CuteCharm };
+                    pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.CuteCharm};
                     return true;
                 case 1: // female
                     if (pk.PID >= 25)
@@ -161,9 +177,54 @@ namespace PKHeX.Core
                     if (254 <= pk.PersonalInfo.Gender) // no modification for PID
                         break;
 
-                    pidiv = new PIDIV { OriginSeed = 0, RNG = RNG.LCRNG, Type = PIDType.CuteCharm };
+                    pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.CuteCharm};
                     return true;
             }
+            pidiv = null;
+            return false;
+        }
+        private static bool getChainShinyMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        {
+            // 13 shiny bits
+            // PIDH & 7
+            // PIDL & 7
+            // IVs
+            var bot = getIVChunk(IVs, 0);
+            var top = getIVChunk(IVs, 3);
+            var reg = getSeedsFromIVs(RNG.LCRNG, top, bot);
+            foreach (var seed in reg)
+            {
+                // check the individual bits
+                var s = seed;
+                int i = 15;
+                while (true)
+                {
+                    var bit = s >> 16 & 1;
+                    if (bit != (pid >> i & 1))
+                        break;
+                    s = RNG.LCRNG.Prev(s);
+                    if (--i == 2)
+                        break;
+                }
+                if (i != 2) // bit failed
+                    break;
+                // Shiny Bits of PID validated
+                var upper = s;
+                if ((upper >> 16 & 7) != (pid >> 16 & 7))
+                    break;
+                var lower = RNG.LCRNG.Prev(upper);
+                if ((lower >> 16 & 7) != (pid & 7))
+                    break;
+
+                var upid = ((pid & 0xFFFF) ^ pk.TID ^ pk.SID) & 0xFFF8 | (upper >> 16) & 0x7;
+                if (upid != pid >> 16)
+                    break;
+
+                s = RNG.LCRNG.Reverse(lower, 2); // unroll one final time to get the origin seed
+                pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = PIDType.ChainShiny};
+                return true;
+            }
+
             pidiv = null;
             return false;
         }
@@ -231,6 +292,13 @@ namespace PKHeX.Core
                 ivs[i] = seed >> 27;
             }
             return ivs;
+        }
+        private static uint getIVChunk(uint[] IVs, int start)
+        {
+            uint val = 0;
+            for (int i = 0; i < 3; i++)
+                val |= IVs[i+start] << (5*i);
+            return val;
         }
     }
 }

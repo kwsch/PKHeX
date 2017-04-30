@@ -24,6 +24,10 @@ namespace PKHeX.Core
         public static string V192 {get; set;} = "{0} Relearn Move {1}: {2}";
         /// <summary>Format text for exporting the type of Encounter that was matched for the the <see cref="PKM"/></summary>
         public static string V195 {get; set;} = "Encounter Type: {0}";
+        /// <summary>Format text for exporting the <see cref="PIDIV.OriginSeed"/> that was matched for the the <see cref="PKM"/></summary>
+        public static string V248 {get; set;} = "Origin Seed: {0}";
+        /// <summary>Format text for exporting the <see cref="PIDIV.Type"/> that was matched for the the <see cref="PKM"/></summary>
+        public static string V249 {get; set;} = "PID Type: {0}";
 
         /// <summary>Severity string for <see cref="Severity.Indeterminate"/></summary>
         public static string V500 { get; set; } = "Indeterminate";

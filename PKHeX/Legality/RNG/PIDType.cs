@@ -35,10 +35,10 @@
         Channel,
 
         // ARNG Based
-        G4AntiShiny,
+        G4MGAntiShiny,
 
         // Formulaic
-        G5AntiShiny,
+        G5MGShiny,
 
         // Specified
         Static,

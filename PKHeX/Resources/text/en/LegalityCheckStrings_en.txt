@@ -162,7 +162,6 @@ V98 = Unused Super Training Flag is flagged.
 V95 = Can't receive Ribbon(s) as an egg.
 V96 = GBA Champion Ribbon
 V97 = Artist Ribbon
-V98 = National Ribbon (Purified)
 V99 = Sinnoh Champion Ribbon
 V100 = Legend Ribbon
 V104 = Record Ribbon

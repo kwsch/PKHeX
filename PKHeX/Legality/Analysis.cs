@@ -364,6 +364,13 @@ namespace PKHeX.Core
 
             lines.AddRange(br);
             lines.Add(string.Format(V195, EncounterName));
+            var pidiv = MethodFinder.Analyze(pkm);
+            if (pidiv != null)
+            {
+                if (!pidiv.NoSeed)
+                    lines.Add(string.Format(V248, pidiv.OriginSeed.ToString("X8")));
+                lines.Add(string.Format(V249, pidiv.Type));
+            }
             
             return getLegalityReport() + string.Join(Environment.NewLine, lines);
         }

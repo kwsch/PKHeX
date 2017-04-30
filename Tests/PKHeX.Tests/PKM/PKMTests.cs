@@ -180,7 +180,25 @@ namespace PKHeX.Tests.PKM
                 PID = 0x07578CB7, // 0x5271E97E rerolled
                 IVs = new[] {16, 13, 12, 02, 18, 03},
             };
-            Assert.AreEqual(PIDType.G4AntiShiny, MethodFinder.Analyze(pkASR)?.Type, "Unable to match PID to Antishiny4 spread");
+            Assert.AreEqual(PIDType.G4MGAntiShiny, MethodFinder.Analyze(pkASR)?.Type, "Unable to match PID to Antishiny4 spread");
+
+            var pkCS = new PK4
+            {
+                PID = 0xA9C1A9C6,
+                // TID = 0,
+                // SID = 0, // already default values, necessary for the forcing of a shiny PID
+                IVs = new[] {22, 14, 23, 24, 11, 04}
+            };
+            Assert.AreEqual(PIDType.ChainShiny, MethodFinder.Analyze(pkCS)?.Type, "Unable to match PID to Chain Shiny spread");
+
+            var pkS5 = new PK5
+            {
+                PID = 0xBEEF0037,
+                TID = 01337,
+                SID = 48097,
+                // IVs = new[] {22, 14, 23, 24, 11, 04} // unnecessary
+            };
+            Assert.AreEqual(PIDType.G5MGShiny, MethodFinder.Analyze(pkS5)?.Type, "Unable to match PID to PGF Shiny spread");
         }
     }
 }
