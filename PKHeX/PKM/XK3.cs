@@ -48,6 +48,7 @@ namespace PKHeX.Core
         // Silly Attributes
         public override ushort Sanity { get { return 0; } set { } } // valid flag set in pkm structure.
         public override ushort Checksum { get { return SaveUtil.ccitt16(Data); } set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override bool ChecksumValid => Valid;
 
         public override int Species { get { return PKX.getG4Species(BigEndian.ToUInt16(Data, 0x00)); } set { BigEndian.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x00); } }
         public override int SpriteItem => PKX.getG4Item((ushort)HeldItem);
