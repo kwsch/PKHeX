@@ -199,6 +199,42 @@ namespace PKHeX.Tests.PKM
                 // IVs = new[] {22, 14, 23, 24, 11, 04} // unnecessary
             };
             Assert.AreEqual(PIDType.G5MGShiny, MethodFinder.Analyze(pkS5)?.Type, "Unable to match PID to PGF Shiny spread");
+
+            var pkR = new PK3
+            {
+                PID = 0x0000E97E,
+                // TID = 0,
+                // SID = 0, // already default values, necessary for the forcing of a shiny PID
+                IVs = new[] {17, 19, 20, 16, 13, 12}
+            };
+            Assert.AreEqual(PIDType.BACD_R, MethodFinder.Analyze(pkR)?.Type, "Unable to match PID to BACD-R spread");
+
+            var pkRA = new PK3
+            {
+                PID = 0x0000E980, // +2 of 8 to flip first shiny bit
+                TID = 01337,
+                SID = 60486,
+                IVs = new[] {17, 19, 20, 16, 13, 12}
+            };
+            Assert.AreEqual(PIDType.BACD_R_A, MethodFinder.Analyze(pkRA)?.Type, "Unable to match PID to BACD-R antishiny spread");
+
+            var pkU = new PK3
+            {
+                PID = 0x67DBFC33,
+                // TID = 0,
+                // SID = 0, // already default values, necessary for the forcing of a shiny PID
+                IVs = new[] {12, 25, 27, 30, 02, 31}
+            };
+            Assert.AreEqual(PIDType.BACD_U, MethodFinder.Analyze(pkU)?.Type, "Unable to match PID to BACD-U spread");
+
+            var pkUA = new PK3
+            {
+                PID = 0x67DBFC38, // +5 of 8 to flip first shiny bit
+                TID = 01337,
+                SID = 40657,
+                IVs = new[] {12, 25, 27, 30, 02, 31}
+            };
+            Assert.AreEqual(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA)?.Type, "Unable to match PID to BACD-U antishiny spread");
         }
     }
 }

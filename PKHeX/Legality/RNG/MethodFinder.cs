@@ -41,11 +41,16 @@ namespace PKHeX.Core
             if (getMG4Match(pid, IVs, out pidiv))
                 return pidiv;
 
-            if (getModifiedPID(pk, pid, out pidiv))
-                return pidiv;
+            if (pk.IsShiny)
+            {
+                if (getChainShinyMatch(pk, pid, IVs, out pidiv))
+                    return pidiv;
+                if (getModifiedPID(pk, pid, out pidiv))
+                    return pidiv;
+            }
             if (pid <= 0xFF && getCuteCharmMatch(pk, pid, out pidiv))
                 return pidiv;
-            if (pk.IsShiny && getChainShinyMatch(pk, pid, IVs, out pidiv))
+            if (getBACDMatch(pk, pid, IVs, out pidiv))
                 return pidiv;
 
             return pidiv; // no match
@@ -164,15 +169,15 @@ namespace PKHeX.Core
                     var gr = pk.PersonalInfo.Gender;
                     if (254 <= gr) // no modification for PID
                         break;
-                    if (pk.PID < gr)
+                    if (pid < gr)
                         break;
-                    if (pk.PID >= gr + 25)
+                    if (pid >= gr + 25)
                         break;
 
                     pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.CuteCharm};
                     return true;
                 case 1: // female
-                    if (pk.PID >= 25)
+                    if (pid >= 25)
                         break; // nope
                     if (254 <= pk.PersonalInfo.Gender) // no modification for PID
                         break;
@@ -207,18 +212,18 @@ namespace PKHeX.Core
                         break;
                 }
                 if (i != 2) // bit failed
-                    break;
+                    continue;
                 // Shiny Bits of PID validated
                 var upper = s;
                 if ((upper >> 16 & 7) != (pid >> 16 & 7))
-                    break;
+                    continue;
                 var lower = RNG.LCRNG.Prev(upper);
                 if ((lower >> 16 & 7) != (pid & 7))
-                    break;
+                    continue;
 
                 var upid = ((pid & 0xFFFF) ^ pk.TID ^ pk.SID) & 0xFFF8 | (upper >> 16) & 0x7;
                 if (upid != pid >> 16)
-                    break;
+                    continue;
 
                 s = RNG.LCRNG.Reverse(lower, 2); // unroll one final time to get the origin seed
                 pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = PIDType.ChainShiny};
@@ -228,35 +233,79 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
+        private static bool getBACDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        {
+            var bot = getIVChunk(IVs, 0);
+            var top = getIVChunk(IVs, 3);
+            var reg = getSeedsFromIVs(RNG.LCRNG, top, bot);
+            foreach (var seed in reg)
+            {
+                var B = seed;
+                var A = RNG.LCRNG.Prev(B);
+
+                var PID = A & 0xFFFF0000 | (B >> 16);
+                bool isShiny = (pk.TID ^ pk.SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
+                if (PID != pid)
+                {
+                    if (!isShiny)
+                        continue;
+                    if (((PID + 8) & 0xFFFFFFF8) != pid)
+                        continue;
+                }
+                var s = RNG.LCRNG.Prev(A);
+
+                // Check for Restricted generation pattern
+                var sn = s;
+                for (int i = 0; i < 3; i++, sn = RNG.LCRNG.Prev(sn))
+                {
+                    if ((sn & 0xFFFF0000) != 0)
+                        continue;
+                    var type = isShiny ? PIDType.BACD_R_A : PIDType.BACD_R;
+                    pidiv = new PIDIV {OriginSeed = sn, RNG = RNG.LCRNG, Type = type};
+                    return true;
+                }
+
+                pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = isShiny ? PIDType.BACD_U_A : PIDType.BACD_U};
+                return true;
+            }
+            pidiv = null;
+            return false;
+        }
 
         private static PIDIV AnalyzeGB(PKM pk)
         {
             return null;
         }
 
-        private static IEnumerable<uint> getSeedsFromPID(RNG method, uint top, uint bot)
+        private static IEnumerable<uint> getSeedsFromPID(RNG method, uint a, uint b)
         {
-            uint cmp = top << 16;
-            uint start = bot << 16;
-            uint end = start | 0xFFFF;
-            for (uint i = start; i <= end; i++)
-                if ((method.Next(i) & 0xFFFF0000) == cmp)
-                    yield return method.Prev(i);
+            uint cmp = a << 16;
+            uint x = b << 16;
+            for (uint i = 0; i <= 0xFFFF; i++)
+            {
+                var seed = x | i;
+                if ((method.Next(seed) & 0xFFFF0000) == cmp)
+                    yield return method.Prev(seed);
+            }
         }
-        private static IEnumerable<uint> getSeedsFromIVs(RNG method, uint top, uint bot)
+        private static IEnumerable<uint> getSeedsFromIVs(RNG method, uint a, uint b)
         {
-            uint cmp = top << 16 & 0x7FFF0000;
-            uint start = bot << 16 & 0x7FFF0000;
-            uint end = start | 0xFFFF;
-            for (uint i = start; i <= end; i++)
-                if ((method.Next(i) & 0x7FFF0000) == cmp)
-                    yield return method.Prev(i);
+            uint cmp = a << 16 & 0x7FFF0000;
+            uint x = b << 16 & 0x7FFF0000;
+            for (uint i = 0; i <= 0xFFFF; i++)
+            {
+                var seed = x | i;
+                if ((method.Next(seed) & 0x7FFF0000) == cmp)
+                    yield return method.Prev(seed);
+            }
 
-            start |= 0x80000000;
-            end |= 0x80000000;
-            for (uint i = start; i <= end; i++)
-                if ((method.Next(i) & 0x7FFF0000) == cmp)
-                    yield return method.Prev(i);
+            x |= 0x80000000;
+            for (uint i = 0; i <= 0xFFFF; i++)
+            {
+                var seed = x | i;
+                if ((method.Next(seed) & 0x7FFF0000) == cmp)
+                    yield return method.Prev(seed);
+            }
         }
 
         /// <summary>

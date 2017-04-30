@@ -20,6 +20,14 @@
         /// Event Reversed Order PID without Origin Seed restrictions
         /// </summary>
         BACD_U,
+        /// <summary>
+        /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny.
+        /// </summary>
+        BACD_R_A,
+        /// <summary>
+        /// Event Reversed Order PID without Origin Seed restrictions, antishiny.
+        /// </summary>
+        BACD_U_A,
 
         /// <summary>
         /// Generation 4 Cute Charm forced 8 bit
