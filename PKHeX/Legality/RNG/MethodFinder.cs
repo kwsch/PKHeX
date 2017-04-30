@@ -349,5 +349,47 @@ namespace PKHeX.Core
                 val |= IVs[i+start] << (5*i);
             return val;
         }
+
+        public static IEnumerable<PIDIV> getPokeSpotSeeds(PKM pkm, int slot)
+        {
+            // Activate (rand % 3)
+            // Munchlax / Bonsly (10%/30%)
+            // Encounter Slot Value (ESV) = 50%/35%/15% rarity (0-49, 50-84, 85-99)
+            var pid = pkm.PID;
+            var top = pid >> 16;
+            var bot = pid & 0xFFFF;
+            var seeds = getSeedsFromPID(RNG.XDRNG, bot, top);
+            foreach (var seed in seeds)
+            {
+                // check for valid encounter slot info
+                var esv = (seed>>16)%100;
+                switch (slot)
+                {
+                    case 0:
+                        if (esv < 50) break; // valid
+                        continue;
+                    case 1:
+                        if (esv >= 50 && esv < 85) break; // valid
+                        continue;
+                    case 2:
+                        if (esv >= 85) break;
+                        continue;
+                    default:
+                        continue;
+                }
+
+                // check for valid activation
+                var s = RNG.XDRNG.Prev(seed);
+                if ((s>>16)%3 != 0)
+                {
+                    if ((s>>16)%100 < 10) // can't fail a munchlax/bonsly encounter check
+                        continue;
+                    s = RNG.XDRNG.Prev(s);
+                    if ((s>>16)%3 != 0) // can't activate even if generous
+                        continue;
+                }
+                yield return new PIDIV {OriginSeed = s, RNG = RNG.XDRNG, Type = PIDType.None};
+            }
+        }
     }
 }

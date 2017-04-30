@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using PKHeX.Core;
 
 namespace PKHeX.Tests.PKM
@@ -235,6 +236,13 @@ namespace PKHeX.Tests.PKM
                 IVs = new[] {12, 25, 27, 30, 02, 31}
             };
             Assert.AreEqual(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA)?.Type, "Unable to match PID to BACD-U antishiny spread");
+
+            var pkPS0 = new PK3 {PID = 0x7B2D9DA7}; // Zubat (Cave)
+            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
+            var pkPS1 = new PK3 {PID = 0x3EE9AF66}; // Gligar (Rock)
+            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
+            var pkPS2 = new PK3 {PID = 0x9B667F3C}; // Surskit (Oasis)
+            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
         }
     }
 }

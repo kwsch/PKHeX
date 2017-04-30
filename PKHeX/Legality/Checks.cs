@@ -1273,10 +1273,12 @@ namespace PKHeX.Core
             var eb = RibbonSetHelper.getRibbonBits(encounterContent as IRibbonSet1);
 
             if (pkm.Gen3)
+            {
                 eb[0] = sb[0]; // permit Earth Ribbon
-            if (pkm.Version == 15)
-                eb[1] = true; // require National Ribbon TODO: shadow pkm only
-            
+                if (pkm.Version == 15 && Type == typeof(EncounterStaticShadow)) // only require national ribbon if no longer on C/XD
+                    eb[1] = (pkm as CK3)?.RibbonNational ?? (pkm as XK3)?.RibbonNational ?? true;
+            }
+
             for (int i = 0; i < sb.Length; i++)
                 if (sb[i] != eb[i])
                     (eb[i] ? missingRibbons : invalidRibbons).Add(names[i]);
@@ -1295,6 +1297,30 @@ namespace PKHeX.Core
             for (int i = 0; i < sb.Length; i++)
                 if (sb[i] != eb[i])
                     (eb[i] ? missingRibbons : invalidRibbons).Add(names[i]);
+        }
+
+        private void verifyCXD()
+        {
+            if (Type == typeof (EncounterSlot[])) // pokespot
+            {
+                // find origin info, if nothing returned then the PID is unobtainable
+                var slot = ((EncounterSlot[])EncounterMatch)[0].SlotNumber;
+                var pidiv = MethodFinder.getPokeSpotSeeds(pkm, slot);
+                if (!pidiv.Any())
+                    AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
+            }
+            else if (Type == typeof (EncounterStatic))
+            {
+                // Starters have a correlation to the Trainer ID numbers
+                var spec = ((EncounterStatic) EncounterMatch).Species;
+                switch (spec)
+                {
+                    case 133: // Eevee
+                    case 196: // Espeon
+                    case 197: // Umbreon
+                        break; // todo
+                }
+            }
         }
 
         private void verifyAbility()

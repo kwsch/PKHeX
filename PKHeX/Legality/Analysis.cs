@@ -143,11 +143,8 @@ namespace PKHeX.Core
             updateTypeInfo();
             updateChecks();
 
-            if (pkm.Version != 15)
-                return;
-            
-            // todo: CXD specific checks?
-            // purified ribbon required if > 4 and matched type was shadow
+            if (pkm.Version == 15)
+                verifyCXD();
         }
         private void parsePK4(PKM pk)
         {
