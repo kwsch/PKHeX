@@ -162,7 +162,9 @@
 
     public class EncounterStaticShadow : EncounterStatic
     {
-        public EncounterLock[] Locks;
+        public EncounterLock[] Locks = new EncounterLock[0];
+        public int Gauge;
+
         protected override EncounterStatic Clone(int location)
         {
             throw new System.Exception();

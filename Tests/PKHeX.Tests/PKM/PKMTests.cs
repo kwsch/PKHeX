@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using PKHeX.Core;
 
 namespace PKHeX.Tests.PKM
@@ -157,7 +158,7 @@ namespace PKHeX.Tests.PKM
                 PID = 0x0985A297,
                 IVs = new[] {06, 01, 00, 07, 17, 07}
             };
-            Assert.AreEqual(PIDType.XDC, MethodFinder.Analyze(pk3)?.Type, "Unable to match PID to XDC spread");
+            Assert.AreEqual(PIDType.CXD, MethodFinder.Analyze(pk3)?.Type, "Unable to match PID to CXD spread");
 
             var pkC = new PK3
             {
@@ -235,6 +236,24 @@ namespace PKHeX.Tests.PKM
                 IVs = new[] {12, 25, 27, 30, 02, 31}
             };
             Assert.AreEqual(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA)?.Type, "Unable to match PID to BACD-U antishiny spread");
+
+            var pkRS = new PK3 // berry fix zigzagoon: seed 0x0020
+            {
+                PID = 0x38CA4EA0,
+                TID = 30317,
+                SID = 00000,
+                IVs = new[] { 00, 20, 28, 11, 19, 00 }
+            };
+            var a_pkRS = MethodFinder.Analyze(pkRS);
+            Assert.AreEqual(PIDType.BACD_R_S, a_pkRS?.Type, "Unable to match PID to BACD-R shiny spread");
+            Assert.AreEqual(true, 0x0020 == a_pkRS?.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
+
+            var pkPS0 = new PK3 {PID = 0x7B2D9DA7}; // Zubat (Cave)
+            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
+            var pkPS1 = new PK3 {PID = 0x3EE9AF66}; // Gligar (Rock)
+            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
+            var pkPS2 = new PK3 {PID = 0x9B667F3C}; // Surskit (Oasis)
+            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
         }
     }
 }

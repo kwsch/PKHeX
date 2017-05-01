@@ -394,9 +394,10 @@ namespace PKHeX.Core
         public static string V396 {get; set;} = "Catch rate match species without encounters. Expected a preevolution catch rate.";
         public static string V397 {get; set;} = "Catch rate does not match any species from pokemon evolution chain.";
         public static string V399 {get; set;} = "Catch rate does not match any species from pokemon evolution chain or any generation 2 held items.";
-        public static string V400 {get; set;} = "Outsider {0} should have evolved into {1}.";
+        public static string V400 {get; set;} = "Unable to match encounter conditions to a possible RNG frame.";
         public static string V401 {get; set;} = "In-game trade {0} should have evolved into {1}.";
         public static string V402 {get; set;} = "Incorrect Stadium OT.";
+        public static string V405 {get; set;} = "Outsider {0} should have evolved into {1}.";
         #endregion
 
     }

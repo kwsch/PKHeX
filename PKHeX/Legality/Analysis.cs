@@ -76,7 +76,7 @@ namespace PKHeX.Core
                 if (!Parse.Any())
                 switch (pk.GenNumber)
                 {
-                    case 3: if (pk.Version != 15) parsePK3(pk); break;
+                    case 3: parsePK3(pk); break;
                     case 4: parsePK4(pk); break;
                     case 5: parsePK5(pk); break;
                     case 6: parsePK6(pk); break;
@@ -142,6 +142,9 @@ namespace PKHeX.Core
             updateMoveLegality();
             updateTypeInfo();
             updateChecks();
+
+            if (pkm.Version == 15)
+                verifyCXD();
         }
         private void parsePK4(PKM pk)
         {
