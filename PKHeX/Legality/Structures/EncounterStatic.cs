@@ -125,7 +125,7 @@
 
     public class EncounterStaticTyped : EncounterStatic
     {
-        public EncounterType TypeEncounter = EncounterType.Any;
+        public EncounterType TypeEncounter = EncounterType.None;
 
         protected override EncounterStatic Clone(int location)
         {
@@ -164,6 +164,7 @@
     {
         public EncounterLock[] Locks = new EncounterLock[0];
         public int Gauge;
+        public bool EReader = false;
 
         protected override EncounterStatic Clone(int location)
         {

@@ -954,6 +954,18 @@ namespace PKHeX.WinForms
             return MC;
         }
 
+        private void StoreLegalSaveGameData(SaveFile sav)
+        {
+            Legal.SavegameJapanese = sav.Japanese;
+            Legal.EReaderBerryIsEnigma = sav.eBerryIsEnigma;
+            Legal.EReaderBerryName = sav.eBerryName;
+            Legal.Savegame_Gender = sav.Gender;
+            Legal.Savegame_TID = sav.TID;
+            Legal.Savegame_SID = sav.SID;
+            Legal.Savegame_OT = sav.OT;
+            Legal.Savegame_Version = sav.Version;
+        }
+
         private void openSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
@@ -1033,9 +1045,7 @@ namespace PKHeX.WinForms
 
                 sav.Japanese = drJP == DialogResult.No;
             }
-            Legal.SavegameJapanese = sav.Japanese;
-            Legal.EReaderBerryIsEnigma = sav.eBerryIsEnigma;
-            Legal.EReaderBerryName = sav.eBerryName;
+            StoreLegalSaveGameData(sav);
             loadingSAV = true;
 
             // clean fields

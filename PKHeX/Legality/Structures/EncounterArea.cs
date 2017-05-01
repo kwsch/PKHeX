@@ -586,7 +586,7 @@ namespace PKHeX.Core
                     Species = Species,
                     LevelMin = data[8 + i*4],
                     LevelMax = data[9 + i*4],
-                    Type = SlotType.Headbutt
+                    Type = i <= 11 ? SlotType.Headbutt : SlotType.Headbutt_Special
                 });
             }
 

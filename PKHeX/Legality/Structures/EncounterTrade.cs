@@ -22,6 +22,7 @@
         public int Gender = -1;
         public int OTGender = -1;
         public bool EggEncounter => false;
+        public bool EvolveOnTrade = false;
 
         public string Name => "In-game Trade";
 
@@ -34,5 +35,10 @@
     public class EncounterTradePID : EncounterTrade
     {
         public uint PID;
+    }
+
+    public class EncounterTradeCatchRate : EncounterTrade
+    {
+        public uint Catch_Rate;
     }
 }

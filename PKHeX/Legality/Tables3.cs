@@ -719,9 +719,9 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 217, Level = 45, Gauge = 07000, Moves = new[] {185,313,122,163}, Location = 132 }, // Ursaring: Team Snagem Agrev @ Snagem Hideout
             new EncounterStaticShadow { Species = 213, Level = 45, Gauge = 07000, Moves = new[] {219,227,156,117}, Location = 125 }, // Shuckle: Deep King Agnol @ Deep Colosseum
             new EncounterStaticShadow { Species = 176, Level = 20, Gauge = 05000, Moves = new[] {118,204,186,281}, Location = 001 }, // Togetic: Cipher Peon Fein @ Outskirt Stand
-            new EncounterStaticShadow { Species = 175, Level = 20, Gauge = 00000, Moves = new[] {118,204,186,281}, IVs = new[] {0,0,0,0,0,0} }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
-            new EncounterStaticShadow { Species = 179, Level = 37, Gauge = 00000, Moves = new[] {087,084,086,178}, IVs = new[] {0,0,0,0,0,0} }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)
-            new EncounterStaticShadow { Species = 212, Level = 50, Gauge = 00000, Moves = new[] {210,232,014,163}, IVs = new[] {0,0,0,0,0,0} }, // Scizor: Bodybuilder ワーバン @ Card e Room (Japanese games only)
+            new EncounterStaticShadow { Species = 175, Level = 20, Gauge = 00000, Moves = new[] {118,204,186,281}, IVs = new[] {0,0,0,0,0,0}, EReader = true }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
+            new EncounterStaticShadow { Species = 179, Level = 37, Gauge = 00000, Moves = new[] {087,084,086,178}, IVs = new[] {0,0,0,0,0,0}, EReader = true }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)
+            new EncounterStaticShadow { Species = 212, Level = 50, Gauge = 00000, Moves = new[] {210,232,014,163}, IVs = new[] {0,0,0,0,0,0}, EReader = true }, // Scizor: Bodybuilder ワーバン @ Card e Room (Japanese games only)
         };
         #endregion
 
