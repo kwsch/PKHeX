@@ -781,8 +781,8 @@ namespace PKHeX.Core
             var trade = (EncounterTrade)EncounterMatch;
             if (trade.Species == pkm.Species && trade.EvolveOnTrade)
             {
-                // Pokemon that evolve on trade can not be in the phase evolution as the trade
-                // If the trade holds an everstone EvolveOnTrade it is false for that encounter
+                // Pokemon that evolve on trade can not be in the phase evolution after the trade
+                // If the trade holds an everstone EvolveOnTrade will be false for the encounter
                 var species = specieslist;
                 var unevolved = species[pkm.Species];
                 var evolved = species[pkm.Species + 1];

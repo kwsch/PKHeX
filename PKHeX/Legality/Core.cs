@@ -357,7 +357,7 @@ namespace PKHeX.Core
         private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
         {
             // Area with two different encounter type for grass encounters
-            // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
+            // SpecialEncounterFile is tall grass encounter type, the other files have the normal encounter type for this location
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
@@ -386,6 +386,7 @@ namespace PKHeX.Core
         {
             // Area with two different encounter type for grass encounters
             // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
+            var HeadbuttType = getHeadbuttEncounter(Location);
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
@@ -393,12 +394,13 @@ namespace PKHeX.Core
                 var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, EncounterType.None);
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
                 }
             }
         }
         private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
         {
+            var HeadbuttType = getHeadbuttEncounter(Location);
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
@@ -406,7 +408,7 @@ namespace PKHeX.Core
                 var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, EncounterType.None);
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
                 }
             }
         }
