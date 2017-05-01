@@ -164,6 +164,7 @@
     {
         public EncounterLock[] Locks = new EncounterLock[0];
         public int Gauge;
+        public bool EReader = false;
 
         protected override EncounterStatic Clone(int location)
         {

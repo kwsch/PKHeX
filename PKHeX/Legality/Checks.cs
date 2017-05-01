@@ -748,6 +748,8 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 3:
+                    if ((( EncounterMatch as EncounterStaticShadow)?.EReader ?? false) && pkm.Language != 1) // Non-JP E-reader Pokemon 
+                        return new CheckResult(Severity.Invalid, V406, CheckIdentifier.Encounter);
                     if (pkm.Species == 151 && s.Location == 201 && pkm.Language != 1) // Non-JP Mew (Old Sea Map)
                         return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
                     break;
