@@ -220,6 +220,17 @@ namespace PKHeX.Core
             69, // Iron Island
             84, // Stark Mountain
         };
+        internal static readonly int[] DPPt_MixInteriorExteriorLocations =
+        {
+            24, // Route 209 (Lost Tower)
+            50, // Mt Coronet
+            70, // Old Chateau
+            84, // Stark Mountain
+        };
+        internal static readonly int[] DPPt_MtCoronetExteriorEncounters =
+        {
+            4, 5
+        };
         internal static readonly int[] HGSS_CaveLocations =
         {
             197, // DIGLETT's Cave
@@ -331,6 +342,15 @@ namespace PKHeX.Core
             196, // Route 48
             219, // Mt. Silver Cave
             224, // Viridian Forest
+        };
+        internal static readonly int[] HGSS_MtSilverCaveExteriorEncounters =
+        {
+            2, 3
+        };
+        internal static readonly int[] HGSS_MixInteriorExteriorLocations =
+        {
+            209, // Ruins of Alph
+            219, // Mt. Silver Cave
         };
         #endregion
         #region Pokéwalker Encounter
@@ -735,7 +755,7 @@ namespace PKHeX.Core
         {
             new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25}, Nature = Nature.Quiet,}, // Abra
             new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
-            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter with everstone, not evolve on trade
+            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter
             new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15}, Nature = Nature.Mild}, // Magikarp
         };
         internal static readonly EncounterTrade[] TradeGift_HGSS =

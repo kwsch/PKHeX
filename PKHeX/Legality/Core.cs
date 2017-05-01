@@ -351,34 +351,56 @@ namespace PKHeX.Core
             }
             return EncounterType.None;
         }
-        private static void MarkDPPtEncounterTypeSlots_Route209(ref EncounterArea[] Areas)
+        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
         {
-            // Route 209 have two different encounter type for grass encounters
-            // The first area with location 24 is the proper Route 209 with tall grass encounters
-            // The other areas with the same location in the raw file is the lost tower, all encounters inside the tower are buildiing encounter
-            bool FirstArea = true;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == 24))
+            // Area with two different encounter type for grass encounters
+            // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
+            var numfile = 0;
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
-                var GrassType = FirstArea ? EncounterType.TallGrass : EncounterType.Building_EnigmaStone;
-                if (FirstArea)
-                    FirstArea = false;
+                numfile++;
+                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
                     Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
                 }
             }
         }
-        private static void MarkHGSSEncounterTypeSlots_RuinsofAlph(ref EncounterArea[] Areas)
+        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
         {
-            // Ruins of Alph have two different encounter type for grass encounters
-            // The first area with location 209 is the outside area of the ruins with tall grass encounters
-            // The other areas with the same location in the raw file is the inside of the ruins, all encounters inside are cave encounters
-            bool FirstArea = true;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == 209))
+            var numfile = 0;
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
-                var GrassType = FirstArea ? EncounterType.TallGrass : EncounterType.Cave_HallOfOrigin;
-                if (FirstArea)
-                    FirstArea = false;
+                numfile++;
+                var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
+                }
+            }
+        }
+        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
+        {
+            // Area with two different encounter type for grass encounters
+            // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
+            var numfile = 0;
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
+            {
+                numfile++;
+                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, EncounterType.None);
+                }
+            }
+        }
+        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
+        {
+            var numfile = 0;
+            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
+            {
+                numfile++;
+                var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
                     Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, EncounterType.None);
@@ -389,7 +411,7 @@ namespace PKHeX.Core
         {
             foreach(EncounterArea Area in Areas)
             {
-                if (Area.Location == 24)
+                if (DPPt_MixInteriorExteriorLocations.Contains(Area.Location))
                     continue;
                 var GrassType = (Area.Location == 70) ? EncounterType.Building_EnigmaStone :// Old Chateau
                                 DPPt_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin :
@@ -409,8 +431,8 @@ namespace PKHeX.Core
             {
                 return allowsurf ? EncounterType.Headbutt_CitySurf : EncounterType.Building_EnigmaStone;
             }
-            // Caves
-            if (HGSS_CaveLocations.Contains(Location))
+            // Caves with no exterior zones
+            if (!HGSS_MixInteriorExteriorLocations.Contains(Location) && HGSS_CaveLocations.Contains(Location))
             {
                 return allowsurf ? EncounterType.Headbutt_CaveSurf : EncounterType.Cave_HallOfOrigin;
             }
@@ -427,7 +449,7 @@ namespace PKHeX.Core
         {
             foreach (EncounterArea Area in Areas)
             {
-                if (Area.Location == 209)
+                if (HGSS_MixInteriorExteriorLocations.Contains(Area.Location))
                     continue;
                 var GrassType = HGSS_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin: EncounterType.TallGrass;
                 var HeadbuttType = getHeadbuttEncounter(Area.Location);
@@ -682,11 +704,26 @@ namespace PKHeX.Core
                 MarkG4AltFormSlots(ref Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
                 MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
 
-                MarkDPPtEncounterTypeSlots_Route209(ref D_Slots);
-                MarkDPPtEncounterTypeSlots_Route209(ref P_Slots);
-                MarkDPPtEncounterTypeSlots_Route209(ref Pt_Slots);
-                MarkHGSSEncounterTypeSlots_RuinsofAlph(ref HG_Slots);
-                MarkHGSSEncounterTypeSlots_RuinsofAlph(ref SS_Slots);
+                // Route 209
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, 24, 1, EncounterType.Building_EnigmaStone);
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, 24, 1, EncounterType.Building_EnigmaStone);
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, 24, 1, EncounterType.Building_EnigmaStone);
+
+                // Stark Mountain
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, 84, 1, EncounterType.Cave_HallOfOrigin);
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, 84, 1, EncounterType.Cave_HallOfOrigin);
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, 84, 1, EncounterType.Cave_HallOfOrigin);
+                // Mt Coronet
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, 50, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, 50, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+                MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, 50, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+
+                // Ruins of Alph
+                MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, 209, 1, EncounterType.Cave_HallOfOrigin);
+                MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, 209, 1, EncounterType.Cave_HallOfOrigin);
+                // Mt Silver Cave
+                MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, 219, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+                MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, 219, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
 
                 MarkG4Slots(ref D_Slots);
                 MarkG4Slots(ref P_Slots);
