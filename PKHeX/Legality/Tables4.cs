@@ -245,9 +245,96 @@ namespace PKHeX.Core
             228, // Cliff Cave
             234, // Cliff Edge Gate
         };
+        internal static readonly int[] HGSS_CityLocations =
+        {
+            126, // New Bark Town
+            127, // Cherrygrove City
+            128, // Violet City
+            129, // Azalea Town
+            130, // Cianwood City
+            131, // Goldenrod City
+            132, // Olivine City
+            133, // Ecruteak City
+            134, // Mahogany Town
+            136, // Blackthorn City
+            138, // Pallet Town
+            139, // Viridian City
+            140, // Pewter City
+            141, // Cerulean City
+            142, // Lavender Town
+            143, // Vermilion City
+            144, // Celadon City
+            145, // Fuchsia City
+            146, // Cinnabar Island
+            147, // Indigo Plateau
+            148, // Saffron City
+            227, // Safari Zone Gate
+        };
+        internal static readonly int[] HGSS_SurfingHeadbutt_Locations =
+        {   // Locations with headbutt trees adjacent  to water tiles
+            126, // New Bark Town 
+            128, // Violet City 
+            133, // Ecruteak City 
+            135, // Lake of Rage 
+            138, // Pallet Town 
+            139, // Viridian City 
+            160, // Route 12 
+            169, // Route 21 
+            170, // Route 22 
+            174, // Route 26 
+            175, // Route 27 
+            176, // Route 28 
+            178, // Route 30 
+            179, // Route 31 
+            180, // Route 32 
+            182, // Route 34 
+            183, // Route 35 
+            190, // Route 42 
+            191, // Route 43 
+            192, // Route 44 
+            214, // Ilex Forest 
+        };
+        internal static readonly int[] HGSS_GrassHeadbutt_Locations =
+        {   // Locations with headbutt trees adjacent  to tall grass tiles
+            137, // Mt. Silver 
+            149, // Route 1
+            150, // Route 2
+            151, // Route 3
+            152, // Route 4
+            153, // Route 5
+            154, // Route 6
+            155, // Route 7
+            159, // Route 11
+            161, // Route 13
+            163, // Route 15
+            164, // Route 16
+            169, // Route 21 
+            170, // Route 22 
+            174, // Route 26 
+            175, // Route 27 
+            176, // Route 28 
+            177, // Route 29
+            178, // Route 30 
+            179, // Route 31 
+            180, // Route 32 
+            181, // Route 33
+            182, // Route 34 
+            183, // Route 35 
+            184, // Route 36
+            185, // Route 37
+            186, // Route 38
+            187, // Route 39
+            191, // Route 43 
+            192, // Route 44 
+            194, // Route 46
+            195, // Route 47
+            196, // Route 48
+            219, // Mt. Silver Cave
+            224, // Viridian Forest
+        };
         #endregion
         #region Pokéwalker Encounter
-            // all pkm are in Poke Ball and have a met location of "PokeWalker"
+        // all pkm are in Poke Ball and have a met location of "PokeWalker"
         internal static readonly EncounterStatic[] Encounter_PokeWalker =
         {
             // Some pkm has a pre-level move, an egg move or even a special move, it might be also available via HM/TM/Tutor

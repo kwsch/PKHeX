@@ -318,17 +318,17 @@ namespace PKHeX.Core
                 case SlotType.Surf:
                 case SlotType.Old_Rod:
                 case SlotType.Good_Rod:
-                case SlotType.Super_Rod: return EncounterType.Surfing_Fishing;
-                case SlotType.Grass_Safari:
+                case SlotType.Super_Rod:
                 case SlotType.Surf_Safari:
                 case SlotType.Old_Rod_Safari:
                 case SlotType.Good_Rod_Safari:
-                case SlotType.Super_Rod_Safari: return EncounterType.MarshSafari;
+                case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
+                case SlotType.Grass_Safari: return EncounterType.MarshSafari;
                 case SlotType.HoneyTree: return EncounterType.None;
             }
             return EncounterType.None;
         }
-        private static EncounterType GetEncounterTypeBySlotHGSS(SlotType Type, EncounterType GrassType)
+        private static EncounterType GetEncounterTypeBySlotHGSS(SlotType Type, EncounterType GrassType, EncounterType HeadbuttType)
         {
             switch (Type)
             {
@@ -346,7 +346,8 @@ namespace PKHeX.Core
                 case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
                 case SlotType.Rock_Smash:
                 case SlotType.Rock_Smash_Safari: return EncounterType.RockSmash;
-                case SlotType.Headbutt: return EncounterType.None;
+                case SlotType.Headbutt: return HeadbuttType;
+                case SlotType.Headbutt_Special: return EncounterType.None;
             }
             return EncounterType.None;
         }
@@ -380,7 +381,7 @@ namespace PKHeX.Core
                     FirstArea = false;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType);
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, EncounterType.None);
                 }
             }
         }
@@ -399,6 +400,29 @@ namespace PKHeX.Core
                 }
             }
         }
+        private static EncounterType getHeadbuttEncounter(int Location)
+        {
+            // Routes with trees adjacent to water tiles
+            var allowsurf= HGSS_SurfingHeadbutt_Locations.Contains(Location);
+            // Cities
+            if (HGSS_CityLocations.Contains(Location))
+            {
+                return allowsurf ? EncounterType.Headbutt_CitySurf : EncounterType.Building_EnigmaStone;
+            }
+            // Caves
+            if (HGSS_CaveLocations.Contains(Location))
+            {
+                return allowsurf ? EncounterType.Headbutt_CaveSurf : EncounterType.Cave_HallOfOrigin;
+            }
+            // Routes and exterior areas
+            // Routes with trees adjacent to grass tiles
+            var allowgrass = HGSS_GrassHeadbutt_Locations.Contains(Location);
+            return allowgrass && allowsurf ? EncounterType.Headbutt_GrassSurf :
+                   allowgrass ? EncounterType.Headbutt_Grass :
+                   allowsurf ?  EncounterType.Headbutt_Surf :
+                   EncounterType.None;
+        }
+
         private static void MarkHGSSEncounterTypeSlots(ref EncounterArea[] Areas)
         {
             foreach (EncounterArea Area in Areas)
@@ -406,9 +430,10 @@ namespace PKHeX.Core
                 if (Area.Location == 209)
                     continue;
                 var GrassType = HGSS_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin: EncounterType.TallGrass;
+                var HeadbuttType = getHeadbuttEncounter(Area.Location);
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType);
+                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
                 }
             }
         }
@@ -1340,7 +1365,7 @@ namespace PKHeX.Core
             if (s.Count <= 1 || pkm.Format == 7)
                 return s.Any() ? s.ToArray() : null;
 
-            var s_EncounterTypes = s.Where(slot => slot.TypeEncounter == (EncounterType)pkm.EncounterType).ToList();
+            var s_EncounterTypes = s.Where(slot => slot.TypeEncounter.Contains(pkm.EncounterType)).ToList();
             if (s_EncounterTypes.Any())
                 return s_EncounterTypes.ToArray();
 
@@ -1367,7 +1392,7 @@ namespace PKHeX.Core
                 int type = pkm.EncounterType;
                 var enctype = type == 0
                     ? enc.Where(z => !(z is EncounterStaticTyped)) // no typed encounters
-                    : enc.Where(z => z is EncounterStaticTyped && (int) ((EncounterStaticTyped)z).TypeEncounter == type);
+                    : enc.Where(z => z is EncounterStaticTyped &&  ((EncounterStaticTyped)z).TypeEncounter.Contains(type));
 
                 // Filter only if there are encounters that match types and encounters that do not match types, like wild encounters
                 // IF there is only one of the two possibilities encounter type check will detect encounter type does not match encounter
@@ -1862,7 +1887,7 @@ namespace PKHeX.Core
             var s = getValidStaticEncounter(pkm, game);
 
             // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
-            if (game == GameVersion.RBY && s.Any(st => st.Species != 54 && st.Version == GameVersion.Stadium) && s.Any(st => st.Species != 54 && st.Version != GameVersion.Stadium))
+            if (s != null && game == GameVersion.RBY && s.Any(st => st.Species != 54 && st.Version == GameVersion.Stadium) && s.Any(st => st.Species != 54 && st.Version != GameVersion.Stadium))
                 s = s.Where(st => st.Version != GameVersion.Stadium).ToList();
 
             var e = getValidWildEncounters(pkm, game);

@@ -125,7 +125,7 @@
 
     public class EncounterStaticTyped : EncounterStatic
     {
-        public EncounterType TypeEncounter = EncounterType.Any;
+        public EncounterType TypeEncounter = EncounterType.None;
 
         protected override EncounterStatic Clone(int location)
         {

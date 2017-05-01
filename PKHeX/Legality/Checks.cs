@@ -850,14 +850,8 @@ namespace PKHeX.Core
                 if (EncounterMatch is EncounterStaticTyped)
                     type = ((EncounterStaticTyped)EncounterMatch).TypeEncounter;
             }
-            if (type == EncounterType.Any)
-            {
-                // Temp analysis until all generation 4 static encounters have defined their encounter type values
-                AddLine(Severity.NotImplemented, V382, CheckIdentifier.Encounter);
-                return;
-            }
 
-            if (type != (EncounterType)pkm.EncounterType)
+            if (!type.Contains(pkm.EncounterType))
                 AddLine(Severity.Invalid, V381, CheckIdentifier.Encounter);
             else
                 AddLine(Severity.Valid, V380, CheckIdentifier.Encounter);
