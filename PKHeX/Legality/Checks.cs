@@ -1275,7 +1275,7 @@ namespace PKHeX.Core
             if (pkm.Gen3)
             {
                 eb[0] = sb[0]; // permit Earth Ribbon
-                if (pkm.Version == 15 && Type == typeof(EncounterStaticShadow)) // only require national ribbon if no longer on C/XD
+                if (pkm.Version == 15 && MatchedType == typeof(EncounterStaticShadow)) // only require national ribbon if no longer on C/XD
                     eb[1] = (pkm as CK3)?.RibbonNational ?? (pkm as XK3)?.RibbonNational ?? true;
             }
 

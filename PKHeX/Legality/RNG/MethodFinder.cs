@@ -103,7 +103,7 @@ namespace PKHeX.Core
                 if (!getIVs(D >> 16, E >> 16).SequenceEqual(IVs))
                     continue;
 
-                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.XDRNG, Type = PIDType.XDC};
+                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.XDRNG, Type = PIDType.CXD};
                 return true;
             }
             pidiv = null;
@@ -245,11 +245,31 @@ namespace PKHeX.Core
 
                 var PID = A & 0xFFFF0000 | (B >> 16);
                 bool isShiny = (pk.TID ^ pk.SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
+                bool forceShiny = false;
                 if (PID != pid)
                 {
                     if (!isShiny)
-                        continue;
-                    if (((PID + 8) & 0xFFFFFFF8) != pid)
+                    {
+                        // check for force shiny pkm
+                        if (!pk.IsShiny)
+                            continue; // obviously not force shiny
+                        
+                        // 0-Origin
+                        // 1-PIDH
+                        // 2-PIDL (ends up unused)
+                        // 3-FORCEBITS
+                        // PID = PIDH << 16 | (SID ^ TID ^ PIDH)
+                       
+                        var X = RNG.LCRNG.Prev(A);
+                        PID = X & 0xFFFF0000 | (uint)pk.SID ^ (uint)pk.TID ^ X >> 16;
+                        PID &= 0xFFFFFFF8;
+                        PID |= B >> 16 & 0x7; // lowest 3 bits
+
+                        if (PID != pid)
+                            continue;
+                        forceShiny = true;
+                    }
+                    if (!forceShiny && ((PID + 8) & 0xFFFFFFF8) != pid)
                         continue;
                 }
                 var s = RNG.LCRNG.Prev(A);
@@ -260,12 +280,13 @@ namespace PKHeX.Core
                 {
                     if ((sn & 0xFFFF0000) != 0)
                         continue;
-                    var type = isShiny ? PIDType.BACD_R_A : PIDType.BACD_R;
+                    var type = forceShiny ? PIDType.BACD_R_S : isShiny ? PIDType.BACD_R_A : PIDType.BACD_R;
                     pidiv = new PIDIV {OriginSeed = sn, RNG = RNG.LCRNG, Type = type};
                     return true;
                 }
 
-                pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = isShiny ? PIDType.BACD_U_A : PIDType.BACD_U};
+                var t = forceShiny ? PIDType.BACD_U_S : isShiny ? PIDType.BACD_U_A : PIDType.BACD_U;
+                pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = t};
                 return true;
             }
             pidiv = null;
