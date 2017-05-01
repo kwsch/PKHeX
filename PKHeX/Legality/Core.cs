@@ -1121,7 +1121,7 @@ namespace PKHeX.Core
                 form = 0;
 
             r.AddRange(getEggMoves(pkm, species, form));
-            if(pkm.Species != 489)
+            if (pkm.Species != 489)
                 r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
@@ -1426,23 +1426,24 @@ namespace PKHeX.Core
                 return null;
 
             // Back Check against pkm
-            var enc = getMatchingStaticEncounters(pkm, poss, lvl);
+            var enc = getMatchingStaticEncounters(pkm, poss, lvl).ToList();
 
-            // Filter for encounter types
-            if (pkm.Gen4 && pkm.Format < 7 && enc.Count() > 1) // type is cleared on 6->7
-            {
-                int type = pkm.EncounterType;
-                var enctype = type == 0
-                    ? enc.Where(z => !(z is EncounterStaticTyped)) // no typed encounters
-                    : enc.Where(z => z is EncounterStaticTyped &&  ((EncounterStaticTyped)z).TypeEncounter.Contains(type));
+            // Filter for encounter types; type is cleared on 6->7 transfer
+            if (!pkm.Gen4 || pkm.Format >= 7 || enc.Count <= 1)
+                return enc.Count == 0 ? null : enc;
 
-                // Filter only if there are encounters that match types and encounters that do not match types, like wild encounters
-                // IF there is only one of the two possibilities encounter type check will detect encounter type does not match encounter
-                if (enctype.Any())
-                    enc = enctype;
-            }
-            var result = enc.ToList();
-            return result.Count == 0 ? null : result;
+            int type = pkm.EncounterType;
+            var enctype = type == 0
+                ? enc.Where(z => !(z is EncounterStaticTyped)) // no typed encounters
+                : enc.Where(z => z is EncounterStaticTyped &&  ((EncounterStaticTyped)z).TypeEncounter.Contains(type));
+
+            // Filter only if there are encounters that match types and encounters that do not match types, like wild encounters
+            // IF there is only one of the two possibilities encounter type check will detect encounter type does not match encounter
+            var encList = enctype.ToList();
+            if (encList.Count > 0)
+                enc = encList;
+
+            return enc.Count == 0 ? null : enc;
         }
         private static IEnumerable<EncounterStatic> getMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
         {
@@ -1885,25 +1886,25 @@ namespace PKHeX.Core
             
             return z;
         }
-        private static EncounterTrade getValidEncounterTradeVC1(PKM pkm, DexLevel[] p, EncounterTrade[] table)
+        private static EncounterTrade getValidEncounterTradeVC1(PKM pkm, DexLevel[] p, IEnumerable<EncounterTrade> table)
         {
             var z = table.FirstOrDefault(f => p.Any(r => r.Species == f.Species));
             if (z == null)
                 return null;
             if (z.Level > pkm.CurrentLevel) // minimum required level
                 return null;
-            if(pkm.Format == 1 && pkm.Gen1_NotTradeback)
+            if (pkm.Format != 1 || !pkm.Gen1_NotTradeback)
+                return z;
+
+            // Even if the in game trade use the tables with source pokemon allowing generaion 2 games, the traded pokemon could be a non-tradeback pokemon
+            var catch_rate = (pkm as PK1)?.Catch_Rate;
+            if (z is EncounterTradeCatchRate)
             {
-                // Even if the in game trade use the tables with source pokemon allowing generaion 2 games, the traded pokemon could be a non-tradeback pokemon
-                var catch_rate = (pkm as PK1).Catch_Rate;
-                if (z is EncounterTradeCatchRate)
-                {
-                    if (catch_rate != ((EncounterTradeCatchRate)z).Catch_Rate)
-                        return null;
-                }
-                else if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
-                        return null;
+                if (catch_rate != ((EncounterTradeCatchRate)z).Catch_Rate)
+                    return null;
             }
+            else if (catch_rate != PersonalTable.RB[z.Species].CatchRate && catch_rate != PersonalTable.Y[z.Species].CatchRate)
+                return null;
             return z;
         }
         private static GBEncounterData getEncounter12(PKM pkm, GameVersion game)

@@ -500,9 +500,9 @@ namespace PKHeX.Core
                 if (tr != "GF" && tr != "ゲーフリ") // if there are more events with special OTs, may be worth refactoring
                     AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
-            if((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
+            if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
             {
-                if(tr == "STADIUM" && pkm.TID == 2000)
+                if (tr == "STADIUM" && pkm.TID == 2000)
                     AddLine(Severity.Valid, V403, CheckIdentifier.Trainer);
                 else if (tr == "スタジアム" && pkm.TID == 1999)
                     AddLine(Severity.Valid, V404, CheckIdentifier.Trainer);
@@ -748,7 +748,7 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 3:
-                    if ((( EncounterMatch as EncounterStaticShadow)?.EReader ?? false) && pkm.Language != 1) // Non-JP E-reader Pokemon 
+                    if (((EncounterMatch as EncounterStaticShadow)?.EReader ?? false) && pkm.Language != 1) // Non-JP E-reader Pokemon 
                         return new CheckResult(Severity.Invalid, V406, CheckIdentifier.Encounter);
                     if (pkm.Species == 151 && s.Location == 201 && pkm.Language != 1) // Non-JP Mew (Old Sea Map)
                         return new CheckResult(Severity.Invalid, V353, CheckIdentifier.Encounter);
@@ -803,7 +803,7 @@ namespace PKHeX.Core
                 pkm.WasEgg = true;
                 return verifyEncounterEgg();
             }
-            EncounterMatch = EncounterOriginalGB = EncountersGBMatch?.FirstOrDefault()?.Encounter;
+            EncounterMatch = EncounterOriginalGB = EncountersGBMatch.FirstOrDefault()?.Encounter;
             if (EncounterMatch is EncounterSlot)
                 return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
             if (EncounterMatch is EncounterStatic)
@@ -1142,19 +1142,20 @@ namespace PKHeX.Core
             else
                 AddLine(Severity.Valid, V88, CheckIdentifier.Level);
 
-            // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, exclude in-game trade, is already checked
-            if (Type != typeof(EncounterTrade) && pkm.Format <=2 && EncounterSpecies == pkm.Species && Legal.Trade_Evolution1.Contains(EncounterSpecies))
-            {
-                var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && Legal.IsOutsider(pkm));
-                if (mustevolve)
-                {
-                    // Pokemon have been traded but it is not evolved
-                    var species = specieslist;
-                    var unevolved = species[pkm.Species];
-                    var evolved = species[pkm.Species + 1];
-                    AddLine(Severity.Invalid, string.Format(V405, unevolved, evolved), CheckIdentifier.Level);
-                }
-            }
+            // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
+            // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked
+            if (pkm.Format <= 2 && Type != typeof (EncounterTrade) && EncounterSpecies == pkm.Species && Legal.Trade_Evolution1.Contains(EncounterSpecies))
+                verifyG1TradeEvo();
+        }
+        private void verifyG1TradeEvo()
+        {
+            var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && Legal.IsOutsider(pkm));
+            if (!mustevolve)
+                return;
+            // Pokemon have been traded but it is not evolved, trade evos are sequential dex numbers
+            var unevolved = specieslist[pkm.Species];
+            var evolved = specieslist[pkm.Species + 1];
+            AddLine(Severity.Invalid, string.Format(V405, unevolved, evolved), CheckIdentifier.Level);
         }
         #region verifyMedals
         private void verifyMedals()
@@ -2442,10 +2443,10 @@ namespace PKHeX.Core
                         goto case TradebackType.Gen1_NotTradeback;
                     break;
                 case TradebackType.Gen1_NotTradeback:
-                    if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium || EncounterMatch as EncounterTradeCatchRate != null)
+                    if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium || EncounterMatch is EncounterTradeCatchRate)
                     // Encounters detected by the catch rate, cant be invalid if match this encounters
                     { AddLine(Severity.Valid, V398, CheckIdentifier.Misc); }
-                    if ( ((pkm.Species == 149) && (catch_rate == PersonalTable.Y[149].CatchRate)) ||
+                    if (((pkm.Species == 149) && (catch_rate == PersonalTable.Y[149].CatchRate)) ||
                          (Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && (catch_rate == PersonalTable.RB[pkm.Species].CatchRate)))
                     { AddLine(Severity.Invalid, V396, CheckIdentifier.Misc); }
                     else if (!EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
@@ -2620,16 +2621,20 @@ namespace PKHeX.Core
             // Gen 1 only have WasEgg true if it can be a gen2 hatched transfer to gen 1 games, not possible in VC
             if (pkm.WasEgg)
                 encounters.Add(null);
-            if (EncountersGBMatch != null)
+            if (EncountersGBMatch == null)
+                return encounters;
+
+            if (EncountersGBMatch.First().Generation == 1)
             {
-                if (EncountersGBMatch.First().Generation == 1)
-                    // If the first encounter if from generation 1 that means encounter from generation 2 will not return any valid move that is not valid in gen1 encounter
-                    // but it is needed to determine if pokemon could be from only one generation to check tradeback status
-                    encounters.Add(EncountersGBMatch.First().Encounter);
-                else
-                    // Add non egg encounters, start with generation 2
-                    // generation 1 will change valid gen 1 lvl moves for every encounter
-                    encounters.AddRange(EncountersGBMatch.Where(t => t.Type != GBEncounterType.EggEncounter).Select(e => e.Encounter));
+                // If the first encounter is from generation 1, any encounter from generation 2 will not return any valid move that is not valid in gen1 encounter
+                // but it is needed to determine if pokemon could be from only one generation to check tradeback status
+                encounters.Add(EncountersGBMatch.First().Encounter);
+            }
+            else
+            {
+                // Add non egg encounters, start with generation 2
+                // generation 1 will change valid gen 1 lvl moves for every encounter
+                encounters.AddRange(EncountersGBMatch.Where(t => t.Type != GBEncounterType.EggEncounter).Select(e => e.Encounter));
             }
             return encounters;
         }
