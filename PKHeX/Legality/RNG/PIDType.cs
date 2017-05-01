@@ -11,6 +11,12 @@
         Method_2,
         /// <summary> Method H4 </summary>
         Method_4,
+        /// <summary> Method H1_Unown (FRLG) </summary>
+        Method_1_Unown,
+        /// <summary> Method H2_Unown (FRLG) </summary>
+        Method_2_Unown,
+        /// <summary> Method H4_Unown (FRLG) </summary>
+        Method_4_Unown,
 
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed

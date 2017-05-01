@@ -32,6 +32,8 @@ namespace PKHeX.Core
             PIDIV pidiv;
             if (getLCRNGMatch(top, bot, IVs, out pidiv))
                 return pidiv;
+            if (pk.Species == 201 && getLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
+                return pidiv;
             if (getXDRNGMatch(top, bot, IVs, out pidiv))
                 return pidiv;
 
@@ -84,6 +86,41 @@ namespace PKHeX.Core
                 if (getIVs(C >> 16, E >> 16).SequenceEqual(IVs)) // ABCE
                 {
                     pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4};
+                    return true;
+                }
+            }
+            pidiv = null;
+            return false;
+        }
+        private static bool getLCRNGUnownMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        {
+            // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
+            var reg = getSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
+            foreach (var seed in reg)
+            {
+                // A and B are already used by PID
+                var B = RNG.LCRNG.Advance(seed, 2);
+
+                // Method 1/2/4 can use 3 different RNG frames
+                var C = RNG.LCRNG.Next(B);
+                var D = RNG.LCRNG.Next(C);
+
+                if (getIVs(C >> 16, D >> 16).SequenceEqual(IVs)) // BACD
+                {
+                    pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1_Unown };
+                    return true;
+                }
+
+                var E = RNG.LCRNG.Next(D);
+                if (getIVs(D >> 16, E >> 16).SequenceEqual(IVs)) // BADE
+                {
+                    pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2_Unown };
+                    return true;
+                }
+
+                if (getIVs(C >> 16, E >> 16).SequenceEqual(IVs)) // BACE
+                {
+                    pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4_Unown };
                     return true;
                 }
             }

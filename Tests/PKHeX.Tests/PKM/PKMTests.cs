@@ -254,6 +254,28 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
             var pkPS2 = new PK3 {PID = 0x9B667F3C}; // Surskit (Oasis)
             Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
+            
+            var pk1U = new PK3
+            {
+                Species = 201, // Unown-C
+                PID = 0x815549A2,
+                IVs = new[] {02, 26, 30, 30, 11, 26}
+            };
+            Assert.AreEqual(PIDType.Method_1_Unown, MethodFinder.Analyze(pk1U)?.Type, "Unable to match PID to Method 1 Unown spread");
+            var pk2U = new PK3
+            {
+                Species = 201, // Unown-M
+                PID = 0x8A7B5190,
+                IVs = new[] {14, 02, 21, 30, 29, 15}
+            };
+            Assert.AreEqual(PIDType.Method_2_Unown, MethodFinder.Analyze(pk2U)?.Type, "Unable to match PID to Method 2 Unown spread");
+            var pk4U = new PK3
+            {
+                Species = 201, // Unown-C
+                PID = 0x5FA80D70,
+                IVs = new[] {02, 06, 03, 26, 04, 19}
+            };
+            Assert.AreEqual(PIDType.Method_4_Unown, MethodFinder.Analyze(pk4U)?.Type, "Unable to match PID to Method 4 Unown spread");
         }
     }
 }
