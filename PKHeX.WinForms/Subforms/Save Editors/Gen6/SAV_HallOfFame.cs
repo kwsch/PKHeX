@@ -412,9 +412,16 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            if (Application.OpenForms.Cast<Form>().Any(form => form.Name == typeof(f2_Text).Name))
-            { WinFormsUtil.Alert("Window is already open."); return; }
-            new f2_Text(tb).Show();
+            int offset = LB_DataEntry.SelectedIndex * 0x1B4;
+            var nicktrash = data.Skip(offset + 0x18).Take(24).ToArray();
+            SAV.setString(TB_Nickname.Text, 12).CopyTo(nicktrash, 0);
+            var d = new f2_Text(tb, nicktrash);
+            d.ShowDialog();
+            tb.Text = d.FinalString;
+            d.FinalBytes.CopyTo(data, offset + 0x18);
+
+            string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
+            TB_Nickname.Text = nickname;
         }
     }
 }

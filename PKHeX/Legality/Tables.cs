@@ -219,6 +219,52 @@ namespace PKHeX.Core
         public static readonly int[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};
         public static readonly int[] Arceus_ZCrystal = {782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793};
 
+        internal static int[] BabyEvolutionWithMove =
+        {
+            122, // Mr. Mime (Mime Jr with Mimic)
+            185, // Sudowoodo (Bonsly with Mimic)
+        };
+
+        internal static int[] EvolutionWithMove =
+        {
+            122, // Mr. Mime (Mime Jr with Mimic)
+            185, // Sudowoodo (Bonsly with Mimic)
+            424, // Ambipom (Aipom with Double Hit)
+            463, // Lickilicky (Lickitung with Rollout)
+            465, // Tangrowth (Tangela with Ancient Power)
+            469, // Yanmega (Yamma with Ancient Power)
+            473, // Mamoswine (Piloswine with Ancient Power)
+            700, // Sylveon (Eevee with Fairy Move)
+            763, // Tsareena (Steenee with Stomp)
+        };
+
+        internal static int[] FairyMoves =
+        {
+            186, //Sweet Kiss
+            204, //Charm
+            236, //Moonlight 
+            574, //Disarming Voice 
+            577, //Draining Kiss 
+            578, //Crafty Shield 
+            579, //Flower Shield 
+            581, //Misty Terrain 
+            583, //Play Rough 
+            584, //Fairy Wind 
+            585, //Moonblast 
+            587, //Fairy Lock 
+            597, //Aromatic Mist 
+            601, //Geomancy 
+            605, //Dazzling Gleam 
+            608, //Baby-Doll Eyes 
+            617, //Light of Ruin 
+            656, //Twinkle Tackle 
+            657, //Twinkle Tackle 
+            666, //Floral Healing 
+            698, //Guardian of Alola 
+            705, //Fleur Cannon 
+            717, //Nature's Madness 
+        };
+
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal

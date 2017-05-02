@@ -23,6 +23,23 @@ namespace PKHeX.Core
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         public virtual bool Valid { get { return ChecksumValid && Sanity == 0; } set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
+        public abstract string getString(int Offset, int Length);
+        public abstract byte[] setString(string value, int maxLength);
+
+        // Trash Bytes
+        public abstract byte[] Nickname_Trash { get; set; }
+        public abstract byte[] OT_Trash { get; set; }
+        public virtual byte[] HT_Trash { get; set; }
+        public byte[] getData(int Offset, int Length)
+        {
+            if (Offset + Length > Data.Length)
+                return null;
+
+            byte[] data = new byte[Length];
+            Array.Copy(Data, Offset, data, 0, Length);
+            return data;
+        }
+
         protected virtual ushort CalculateChecksum()
         {
             ushort chk = 0;
@@ -256,6 +273,7 @@ namespace PKHeX.Core
         public abstract int CurrentHandler { get; set; }
 
         // Derived
+        public int SpecForm { get { return Species + (AltForm << 11); } set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
         public virtual bool Locked { get { return false; } set { } }
@@ -292,7 +310,8 @@ namespace PKHeX.Core
                 if (Gen3) return 3;
                 if (Gen2) return Format; // 2
                 if (Gen1) return Format; // 1
-                if (VC) return 1;
+                if (VC1) return 1;
+                if (VC2) return 2;
                 return -1;
             } 
         }
@@ -417,18 +436,43 @@ namespace PKHeX.Core
         }
 
         // Legality Extensions
+        public TradebackType TradebackStatus { get; set; } = TradebackType.Any;
+        public bool Gen1_NotTradeback => TradebackStatus == TradebackType.Gen1_NotTradeback;
+        public bool Gen2_NotTradeback => TradebackStatus == TradebackType.Gen2_NotTradeback;
         public virtual bool WasLink => false;
         private bool _WasEgg;
         public virtual bool WasEgg
         {
             get
             {
-                return Egg_Location > 0 || _WasEgg;
+                switch (GenNumber)
+                {
+                    case 4: return Legal.EggLocations4.Contains(Egg_Location) || (Species == 490 && Egg_Location == 3001) || (Egg_Location == 3002 && PtHGSS); // faraway
+                    case 5: return Legal.EggLocations5.Contains(Egg_Location);
+                    case 6: 
+                    case 7: return Legal.EggLocations.Contains(Egg_Location);
+                }
+                // Gen 1/2 and pal park Gen 3
+                return _WasEgg;
             }
             set { _WasEgg = value; }
         }
+        public virtual bool WasGiftEgg
+        {
+            get
+            {
+                if (!WasEgg) return false;
+                switch (GenNumber)
+                {
+                    case 4: return Legal.GiftEggLocation4.Contains(Egg_Location) || (Egg_Location == 3002 && HGSS); // faraway
+                    case 5: return Egg_Location == 60003;
+                    case 6: return Egg_Location == 60004;
+                }
+                return false;
+            }
+        }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
-        public virtual bool WasEventEgg => ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
+        public virtual bool WasEventEgg => GenNumber == 4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public virtual bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;
         public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
@@ -477,9 +521,6 @@ namespace PKHeX.Core
             if (Format == Generation)
                 return true;
 
-            if (Format < Generation)
-                return false; // Future
-
             if (!IsOriginValid)
                 return false;
 
@@ -487,11 +528,22 @@ namespace PKHeX.Core
             if (Legal.getMaxSpeciesOrigin(GenNumber) < species && !Legal.getFutureGenEvolutions(GenNumber).Contains(species))
                 return false;
 
+            // Trade generation 1 -> 2 
+            if (Format == 2 && Generation == 1 && !Gen2_NotTradeback)
+                return true;
+
+            // Trade generation 2 -> 1 
+            if (Format == 1 && Generation == 2 && !Gen1_NotTradeback)
+                return true;
+
+            if (Format < Generation)
+                return false; // Future
+
             int gen = GenNumber;
             switch (Generation)
             {
-                case 1:
-                case 2: return Format <= 2 || VC;
+                case 1: return Format == 1 || VC1;
+                case 2: return Format == 2 || VC2;
                 case 3: return Gen3;
                 case 4: return 3 <= gen && gen <= 4;
                 case 5: return 3 <= gen && gen <= 5;
@@ -798,7 +850,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="Source"><see cref="PKM"/> that supplies property values.</param>
         /// <param name="Destination"><see cref="PKM"/> that receives property values.</param>
-        protected void TransferPropertiesWithReflection(PKM Source, PKM Destination)
+        public void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
             // Only transfer declared properties not defined in PKM.cs but in the actual type
             var SourceProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Source.GetType());

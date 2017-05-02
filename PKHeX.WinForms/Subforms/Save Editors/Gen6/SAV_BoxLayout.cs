@@ -170,7 +170,7 @@ namespace PKHeX.WinForms
             else if (!SAV.SwapBox(index, index + dir)) // valid but locked
             {
                 MoveItem(-dir); // undo
-                WinFormsUtil.Alert("Locked slots prevent movement of box(es).");
+                WinFormsUtil.Alert("Locked/Team slots prevent movement of box(es).");
             }
             else
                 changeBox(null, null);

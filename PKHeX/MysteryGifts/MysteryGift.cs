@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public abstract class MysteryGift : IEncounterable
+    public abstract class MysteryGift : IEncounterable, IMoveset
     {
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         public string Extension => GetType().Name.ToLower();
         public string FileName => getCardHeader() + "." + Extension;
-        public virtual byte[] Data { get; set; }
+        public byte[] Data { get; set; }
         public abstract PKM convertToPKM(SaveFile SAV);
         public abstract int Format { get; }
 
@@ -115,6 +115,14 @@ namespace PKHeX.Core
 
         public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            foreach (var b in Data)
+                hash = hash*31 + b;
+            return hash;
+        }
+
         // Search Properties
         public virtual int[] Moves { get { return new int[4]; } set { } }
         public virtual int[] RelearnMoves { get { return new int[4]; } set { } }
@@ -124,11 +132,14 @@ namespace PKHeX.Core
         public virtual object Content => this;
 
         public abstract int Level { get; set; }
+        public int LevelMin => Level;
+        public int LevelMax => Level;
         public abstract int Ball { get; set; }
         public bool Gen7 => Format == 7;
         public bool Gen6 => Format == 6;
         public bool Gen5 => Format == 5;
         public bool Gen4 => Format == 4;
         public bool Gen3 => Format == 3;
+        public virtual bool EggEncounter => IsEgg;
     }
 }

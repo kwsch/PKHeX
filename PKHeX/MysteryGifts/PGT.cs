@@ -60,10 +60,10 @@ namespace PKHeX.Core
         }
         public override string CardTitle
         {
-            get { return PKX.array2strG4(Data.Skip(0x104).Take(0x48).ToArray()); }
+            get { return PKX.getString4(Data, 0x104, 0x48); }
             set
             {
-                byte[] data = PKX.str2arrayG4(value);
+                byte[] data = PKX.setString4(value, 0x48/2-1, 0x48/2, 0xFFFF);
                 int len = data.Length;
                 Array.Resize(ref data, 0x48);
                 for (int i = 0; i < len; i++)
@@ -189,6 +189,7 @@ namespace PKHeX.Core
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
         public override bool IsEgg { get { return PGTGiftType == GiftType.PokémonEgg; } set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
         public bool IsManaphyEgg { get { return PGTGiftType == GiftType.ManaphyEgg; } set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
+        public override bool EggEncounter => IsEgg || IsManaphyEgg;
         public override bool IsItem { get { return PGTGiftType == GiftType.Item; } set { if (value) PGTGiftType = GiftType.Item; } }
         public override bool IsPokémon { get { return PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; } set { } }
 

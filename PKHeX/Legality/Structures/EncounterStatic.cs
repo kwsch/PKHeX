@@ -1,32 +1,37 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterStatic : IEncounterable
+    public class EncounterStatic : IEncounterable, IMoveset, IGeneration
     {
         public int Species { get; set; }
+        public int[] Moves { get; set; }
         public int Level;
 
-        public int Location = 0;
-        public int Ability = 0;
-        public int Form = 0;
-        public bool? Shiny = null; // false = never, true = always, null = possible
+        public int LevelMin => Level;
+        public int LevelMax => Level;
+        public int Generation { get; set; } = -1;
+        public int Location;
+        public int Ability;
+        public int Form;
+        public bool? Shiny; // false = never, true = always, null = possible
         public int[] Relearn = new int[4];
-        public int[] Moves = new int[4];
         public int Gender = -1;
-        public int EggLocation = 0;
+        public int EggLocation;
         public Nature Nature = Nature.Random;
-        public bool Gift = false;
+        public bool Gift;
         public int Ball = 4; // Gift Only
         public GameVersion Version = GameVersion.Any;
         public int[] IVs = { -1, -1, -1, -1, -1, -1 };
         public bool IV3;
         public int[] Contest = { 0, 0, 0, 0, 0, 0 };
         public int HeldItem { get; set; }
+        public int EggCycles;
 
-        public bool Fateful = false;
-        public bool RibbonWishing = false;
-        public bool SkipFormCheck = false;
-        public bool NSparkle = false;
-        public bool Roaming = false;
+        public bool Fateful;
+        public bool RibbonWishing;
+        public bool SkipFormCheck;
+        public bool NSparkle;
+        public bool Roaming;
+        public bool EggEncounter => EggLocation > 0;
 
         public EncounterStatic[] Clone(int[] locations)
         {
@@ -36,9 +41,9 @@
             return Encounters;
         }
 
-        public EncounterStatic Clone(int location)
+        protected virtual EncounterStatic Clone(int location)
         {
-            return new EncounterStatic()
+            return new EncounterStatic
             {
                 Species = Species,
                 Level = Level,
@@ -62,7 +67,8 @@
                 RibbonWishing = RibbonWishing,
                 SkipFormCheck = SkipFormCheck,
                 NSparkle = NSparkle,
-                Roaming = Roaming
+                Roaming = Roaming,
+                EggCycles = EggCycles,
             };
         }
 
@@ -76,7 +82,7 @@
 
         public EncounterStatic DreamRadarClone(int level)
         {
-            return new EncounterStatic()
+            return new EncounterStatic
             {
                 Species = Species,
                 Level = level,
@@ -89,7 +95,7 @@
                 Gender = Gender,
                 EggLocation = EggLocation,
                 Nature = Nature,
-                Gift = Gift,
+                Gift = true,    //Only
                 Ball = 25,      //Dream Ball
                 Version = Version,
                 IVs = IVs,
@@ -100,7 +106,8 @@
                 RibbonWishing = RibbonWishing,
                 SkipFormCheck = SkipFormCheck,
                 NSparkle = NSparkle,
-                Roaming = Roaming
+                Roaming = Roaming,
+                EggCycles = EggCycles,
             };
         }
 
@@ -113,6 +120,55 @@
                     return game;
                 return game + " " + $"({Version})";
             }
+        }
+    }
+
+    public class EncounterStaticTyped : EncounterStatic
+    {
+        public EncounterType TypeEncounter = EncounterType.None;
+
+        protected override EncounterStatic Clone(int location)
+        {
+            return new EncounterStaticTyped
+            {
+                Species = Species,
+                Level = Level,
+                Location = location,
+                Ability = Ability,
+                Form = Form,
+                Shiny = Shiny,
+                Relearn = Relearn,
+                Moves = Moves,
+                Gender = Gender,
+                EggLocation = EggLocation,
+                Nature = Nature,
+                Gift = Gift,
+                Ball = Ball,
+                Version = Version,
+                IVs = IVs,
+                IV3 = IV3,
+                Contest = Contest,
+                HeldItem = HeldItem,
+                Fateful = Fateful,
+                RibbonWishing = RibbonWishing,
+                SkipFormCheck = SkipFormCheck,
+                NSparkle = NSparkle,
+                Roaming = Roaming,
+                EggCycles = EggCycles,
+                TypeEncounter = TypeEncounter,
+            };
+        }
+    }
+
+    public class EncounterStaticShadow : EncounterStatic
+    {
+        public EncounterLock[] Locks = new EncounterLock[0];
+        public int Gauge;
+        public bool EReader = false;
+
+        protected override EncounterStatic Clone(int location)
+        {
+            throw new System.Exception();
         }
     }
 }

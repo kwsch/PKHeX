@@ -31,7 +31,7 @@ namespace PKHeX.Core
             int gen = f.Last() - 0x30;
             return 3 <= gen && gen <= Generation;
         }).ToArray();
-
+        public virtual bool IsMemoryCardSave => false;
         // General PKM Properties
         public abstract Type PKMType { get; }
         public abstract PKM getPKM(byte[] data);
@@ -44,6 +44,10 @@ namespace PKHeX.Core
         public ushort[] HeldItems { get; protected set; }
 
         // General SAV Properties
+        public virtual byte[] Write(bool DSV, bool GCI)
+        {
+            return Write(DSV);
+        }
         public virtual byte[] Write(bool DSV)
         {
             setChecksums();
@@ -410,12 +414,16 @@ namespace PKHeX.Core
 
             int min = BoxSlotCount * box1;
             int max = BoxSlotCount * box1 + BoxSlotCount;
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within box
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
+                return false;
+            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
                 return false;
 
             min = BoxSlotCount * box2;
             max = BoxSlotCount * box2 + BoxSlotCount;
-            if (LockedSlots.Any(slot => min <= slot && slot < max)) // slots locked within box
+            if (LockedSlots.Any(slot => min <= slot && slot < max)) // locked slot within box
+                return false;
+            if (TeamSlots.Any(slot => min <= slot && slot < max)) // team slot within box
                 return false;
 
             // Data
@@ -622,6 +630,12 @@ namespace PKHeX.Core
             Edited = true;
         }
 
+        public abstract string getString(int Offset, int Length);
+        public abstract byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
+
         public virtual bool RequiresMemeCrypto => false;
+
+        public virtual string eBerryName => string.Empty;
+        public virtual bool eBerryIsEnigma => true;
     }
 }

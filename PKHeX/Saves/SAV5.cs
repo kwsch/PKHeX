@@ -103,7 +103,7 @@ namespace PKHeX.Core
         public override int BoxCount => 24;
         public override int MaxEV => 255;
         public override int Generation => 5;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         protected override int EventConstMax => 0x35E/2;
         protected override int GiftCountMax => 12;
@@ -526,13 +526,9 @@ namespace PKHeX.Core
         // Trainer Info
         public override string OT
         {
-            get { return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, Trainer1 + 0x4, 16)); }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                Encoding.Unicode.GetBytes((value + '\uFFFF').PadRight(8, '\0')).CopyTo(Data, Trainer1 + 0x4); }
-            }
+            get { return getString(Trainer1 + 0x4, 16); }
+            set { setString(value, OTLength).CopyTo(Data, Trainer1 + 0x4); }
+        }
         public override ushort TID
         {
             get { return BitConverter.ToUInt16(Data, Trainer1 + 0x14 + 0); }
@@ -694,6 +690,14 @@ namespace PKHeX.Core
                 if ((1 << bm & Data[ofs + bd + i * brSize]) != 0)
                     return true;
             return false;
+        }
+
+        public override string getString(int Offset, int Count) => PKX.getString5(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString5(value, maxLength, PadToSize, PadWith);
         }
     }
 }

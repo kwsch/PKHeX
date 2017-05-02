@@ -86,7 +86,7 @@ namespace PKHeX.Core
         public override int MaxEV => 255;
         public override int Generation => 4;
         protected override int GiftCountMax => 1;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
 
@@ -245,6 +245,14 @@ namespace PKHeX.Core
             {
                 BigEndian.GetBytes(checksums[i]).CopyTo(input, checksum_offset + i * 4);
             }
+        }
+
+        public override string getString(int Offset, int Count) => PKX.getBEString4(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setBEString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

@@ -19,6 +19,7 @@
         SOS,
         Swarm,
         Headbutt,
+        Headbutt_Special,
         Pokeradar,
         HoneyTree,
         HiddenGrotto,

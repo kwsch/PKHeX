@@ -422,8 +422,8 @@ namespace PKHeX.Core
         }
         public override string OT
         {
-            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x38, 0x1A)); }
-            set { Encoding.Unicode.GetBytes(value.PadRight(13, '\0')).CopyTo(Data, TrainerCard + 0x38); }
+            get { return getString(TrainerCard + 0x38, 0x1A); }
+            set { setString(value, OTLength).CopyTo(Data, TrainerCard + 0x38); }
         }
         public int DressUpSkinColor
         {
@@ -1302,7 +1302,24 @@ namespace PKHeX.Core
             get { return (byte)(Data[0x23F9] >> 5); }
             set { Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5)); }
         }
+        public bool MegaUnlocked
+        {
+            get { return (Data[0x1278] & 0x01) != 0; }
+            set
+            {
+                Data[0x1278] = (byte)((Data[0x1278] & 0xFE) | (value ? 1 : 0)); // in battle
+                // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
+            }
+        }
 
         public override bool RequiresMemeCrypto => true;
+
+        public override string getString(int Offset, int Count) => PKX.getString7(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString7(value, maxLength, PadToSize, PadWith);
+        }
     }
 }

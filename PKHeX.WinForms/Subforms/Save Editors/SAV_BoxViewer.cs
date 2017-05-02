@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Core.Properties;
 using static PKHeX.WinForms.Main;
 
 namespace PKHeX.WinForms
@@ -42,6 +43,8 @@ namespace PKHeX.WinForms
                 pb.DragDrop += pbBoxSlot_DragDrop;
                 pb.DragEnter += pbBoxSlot_DragEnter;
                 pb.QueryContinueDrag += pbBoxSlot_QueryContinueDrag;
+                pb.MouseEnter += pbBoxSlot_MouseEnter;
+                pb.MouseLeave += pbBoxSlot_MouseLeave;
             }
             for (int i = SAV.BoxSlotCount; i < SlotPictureBoxes.Length; i++)
                 SlotPictureBoxes[i].Visible = false;
@@ -132,6 +135,25 @@ namespace PKHeX.WinForms
         }
         
         // Drag and drop related functions
+        private static Image OriginalBackground;
+        private static Image CurrentBackground;
+        private void pbBoxSlot_MouseEnter(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            if (pb.Image == null)
+                return;
+            OriginalBackground = pb.BackgroundImage;
+            pb.BackgroundImage = CurrentBackground = Resources.slotHover;
+            Cursor = Cursors.Hand;
+        }
+        private void pbBoxSlot_MouseLeave(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            if (pb.BackgroundImage != CurrentBackground)
+                return;
+            pb.BackgroundImage = OriginalBackground;
+            Cursor = Cursors.Default;
+        }
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)

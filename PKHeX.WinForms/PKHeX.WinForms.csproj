@@ -258,6 +258,24 @@
     <Compile Include="Subforms\Save Editors\Gen3\SAV_Misc3.Designer.cs">
       <DependentUpon>SAV_Misc3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen3\SAV_RTC3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen3\SAV_RTC3.Designer.cs">
+      <DependentUpon>SAV_RTC3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.Designer.cs">
+      <DependentUpon>SAV_HoneyTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_Misc4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_Misc4.Designer.cs">
+      <DependentUpon>SAV_Misc4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -391,6 +409,12 @@
     <Compile Include="Subforms\Save Editors\SAV_EventFlags.Designer.cs">
       <DependentUpon>SAV_EventFlags.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_GameSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\SAV_GameSelect.Designer.cs">
+      <DependentUpon>SAV_GameSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\SAV_Inventory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -492,6 +516,15 @@
     <EmbeddedResource Include="Subforms\Save Editors\Gen3\SAV_Misc3.resx">
       <DependentUpon>SAV_Misc3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen3\SAV_RTC3.resx">
+      <DependentUpon>SAV_RTC3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_HoneyTree.resx">
+      <DependentUpon>SAV_HoneyTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Misc4.resx">
+      <DependentUpon>SAV_Misc4.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.resx">
       <DependentUpon>SAV_Pokedex4.cs</DependentUpon>
     </EmbeddedResource>
@@ -557,6 +590,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_EventFlags.resx">
       <DependentUpon>SAV_EventFlags.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\SAV_GameSelect.resx">
+      <DependentUpon>SAV_GameSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>

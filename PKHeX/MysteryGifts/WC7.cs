@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class WC7 : MysteryGift
+    public sealed class WC7 : MysteryGift, IRibbonSet1, IRibbonSet2
     {
         public const int Size = 0x108;
         public const int SizeFull = 0x310;
@@ -287,7 +287,7 @@ namespace PKHeX.Core
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
         }
-        public bool IsNicknamed => Nickname.Length > 0;
+        public bool IsNicknamed => Nickname.Length > 0 || IsEgg;
 
         public override int[] Moves
         {
@@ -464,6 +464,7 @@ namespace PKHeX.Core
             {
                 pk.IsEgg = true;
                 pk.EggMetDate = Date;
+                pk.Nickname = PKX.getSpeciesName(0, pk.Language);
             }
 
             pk.RefreshChecksum();

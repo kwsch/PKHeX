@@ -80,16 +80,6 @@ namespace PKHeX.WinForms
             RawDB.AddRange(Legal.MGDB_G6);
             RawDB.AddRange(Legal.MGDB_G7);
 
-            if (Directory.Exists(DatabasePath))
-            foreach (string file in Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories))
-            {
-                FileInfo fi = new FileInfo(file);
-                if (!MysteryGift.getIsMysteryGift(fi.Length)) continue;
-                var mg = MysteryGift.getMysteryGift(File.ReadAllBytes(file), fi.Extension);
-                if (mg != null)
-                    RawDB.Add(mg);
-            }
-
             RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().OrderBy(mg => mg.Species));
             foreach (var mg in RawDB)
                 mg.GiftUsed = false;
@@ -122,18 +112,23 @@ namespace PKHeX.WinForms
         {
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(PKXBOXES, sender);
-
-            var dataArr = Results.Skip(SCR_Box.Value * RES_MIN).Take(RES_MAX).ToArray();
-            if (index >= dataArr.Length)
-                System.Media.SystemSounds.Exclamation.Play();
-            else
+            if (index >= RES_MAX)
             {
-                m_parent.populateFields(dataArr[index].convertToPKM(Main.SAV), false);
-                slotSelected = index + SCR_Box.Value * RES_MIN;
-                slotColor = Core.Properties.Resources.slotView;
-                FillPKXBoxes(SCR_Box.Value);
-                L_Viewed.Text = string.Format(Viewed, dataArr[index].FileName);
+                System.Media.SystemSounds.Exclamation.Play();
+                return;
             }
+            index += SCR_Box.Value*RES_MIN;
+            if (index >= Results.Count)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                return;
+            }
+
+            m_parent.populateFields(Results[index].convertToPKM(Main.SAV), false);
+            slotSelected = index;
+            slotColor = Core.Properties.Resources.slotView;
+            FillPKXBoxes(SCR_Box.Value);
+            L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
         private void populateComboBoxes()
         {
@@ -311,10 +306,11 @@ namespace PKHeX.WinForms
                     PKXBOXES[i].Image = null;
                 return;
             }
-            var data = Results.Skip(start * RES_MIN).Take(RES_MAX).ToArray();
-            for (int i = 0; i < data.Length; i++)
-                PKXBOXES[i].Image = data[i].Sprite();
-            for (int i = data.Length; i < RES_MAX; i++)
+            int begin = start * RES_MIN;
+            int end = Math.Min(RES_MAX, Results.Count - start * RES_MIN);
+            for (int i = 0; i < end; i++)
+                PKXBOXES[i].Image = Results[i + begin].Sprite();
+            for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)

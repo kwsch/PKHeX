@@ -52,7 +52,7 @@ namespace PKHeX.Core
         protected override int EventFlagMax => int.MinValue;
         protected override int EventConstMax => int.MinValue;
         protected override int GiftCountMax => 11;
-        public override int OTLength => 8;
+        public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
 
@@ -130,6 +130,7 @@ namespace PKHeX.Core
         private int SBO => 0x40000 * storageBlock;
         private int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
+        public int getGBO => GBO;
         private void getActiveGeneralBlock()
         {
             if (Version < 0)
@@ -318,23 +319,8 @@ namespace PKHeX.Core
         // Trainer Info
         public override string OT
         {
-            get
-            {
-                return PKX.array2strG4(getData(Trainer1, 16))
-                    .Replace("\uE08F", "\u2640") // Nidoran ♂
-                    .Replace("\uE08E", "\u2642") // Nidoran ♀
-                    .Replace("\u2019", "\u0027"); // Farfetch'd
-            }
-            set
-            {
-                if (value.Length > 7)
-                    value = value.Substring(0, 7); // Hard cap
-                string TempNick = value // Replace Special Characters and add Terminator
-                .Replace("\u2640", "\uE08F") // Nidoran ♂
-                .Replace("\u2642", "\uE08E") // Nidoran ♀
-                .Replace("\u0027", "\u2019"); // Farfetch'd
-                setData(PKX.str2arrayG4(TempNick), Trainer1);
-            }
+            get { return getString(Trainer1, 16); }
+            set { setString(value, OTLength).CopyTo(Data, Trainer1); }
         }
         public override ushort TID
         {
@@ -534,7 +520,7 @@ namespace PKHeX.Core
         {
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            return PKX.array2strG4(getData(offset + box*0x28, 0x28));
+            return getString(offset + box*0x28, 0x28);
         }
         public override void setBoxName(int box, string value)
         {
@@ -542,7 +528,7 @@ namespace PKHeX.Core
                 value = value.Substring(0, 13); // Hard cap
             int offset = getBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            setData(PKX.str2arrayG4(value), offset + box*0x28);
+            setData(setString(value, 13), offset + box*0x28);
         }
         public override PKM getPKM(byte[] data)
         {
@@ -829,7 +815,7 @@ namespace PKHeX.Core
                 }
             }
 
-            int[] DPLangSpecies = new int[14] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
+            int[] DPLangSpecies = { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
             int dpl = 1 + Array.IndexOf(DPLangSpecies, pkm.Species);
             if (DP && dpl <= 0)
                 return;
@@ -1058,6 +1044,137 @@ namespace PKHeX.Core
                     default: return;
                 }
             }
+        }
+
+        // Honey Trees
+        private const int HONEY_DP = 0x72E4;
+        private const int HONEY_PT = 0x7F38;
+        private const int HONEY_SIZE = 8;
+        public HoneyTree getHoneyTree(int index)
+        {
+            if (index > 21)
+                return null;
+            switch (Version)
+            {
+                case GameVersion.DP:
+                    return new HoneyTree(getData(HONEY_DP + HONEY_SIZE*index, HONEY_SIZE));
+                case GameVersion.Pt:
+                    return new HoneyTree(getData(HONEY_PT + HONEY_SIZE*index, HONEY_SIZE));
+            }
+            return null;
+        }
+        public void setHoneyTree(HoneyTree tree, int index)
+        {
+            if (index > 21)
+                return;
+            switch (Version)
+            {
+                case GameVersion.DP:
+                    setData(tree.Data, HONEY_DP + HONEY_SIZE*index);
+                    break;
+                case GameVersion.Pt:
+                    setData(tree.Data, HONEY_PT + HONEY_SIZE*index);
+                    break;
+            }
+        }
+        public int[] MunchlaxTrees
+        {
+            get
+            {
+                int A = (TID >> 8) % 21;
+                int B = (TID & 0x00FF) % 21;
+                int C = (SID >> 8) % 21;
+                int D = (SID & 0x00FF) % 21;
+
+                if (A == B) B = (B + 1) % 21;
+                if (A == C) C = (C + 1) % 21;
+                if (B == C) C = (C + 1) % 21;
+                if (A == D) D = (D + 1) % 21;
+                if (B == D) D = (D + 1) % 21;
+                if (C == D) D = (D + 1) % 21;
+
+                return new[] { A, B, C, D };
+            }
+        }
+        public int PoketchApps
+        {
+            get
+            {
+                int ret = 0;
+                int ofs;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x114F; break;
+                    default: return ret;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 25; i++)
+                {
+                    if (Data[ofs + i] != 0) ret |= 1 << i;
+                }
+                return ret;
+            }
+            set
+            {
+                int c = 0;
+                int ofs;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x114F; break;
+                    default: return;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 25; i++)
+                {
+                    if ((value & 1 << i) != 0)
+                    {
+                        c++;
+                        if (Data[ofs + i] == 0)
+                            Data[ofs + i] = 1;
+                    }
+                    else Data[ofs + i] = 0;
+                }
+                Data[ofs - 2] = (byte)c;
+                Data[ofs - 1] = 0; // current used, force set for first App.
+            }
+        }
+        public byte[] PoketchDotArtist
+        {
+            get
+            {
+                byte[] ret = new byte[120]; // 2bit*24px*20px
+                int ofs;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x1176; break;
+                    default: return ret;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 120; i++)
+                    ret[i] = Data[ofs + i];
+                return ret;
+            }
+            set
+            {
+                int ofs;
+                switch (Version)
+                {
+                    case GameVersion.DP: ofs = 0x1176; break;
+                    default: return;
+                }
+                ofs += GBO;
+                for (int i = 0; i < 120; i++)
+                    Data[ofs + i] = value[i];
+                Data[ofs - 0x2A] |= 0x04; // 0x114C "Touch!"
+            }
+        }
+        
+        public override string getString(int Offset, int Count) => PKX.getString4(Data, Offset, Count);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

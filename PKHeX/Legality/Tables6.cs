@@ -452,8 +452,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 25, Level = 20, Location = 186, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
             new EncounterStatic { Species = 25, Level = 20, Location = 194, Gender = 1, Ability = 4, IVs = new[] {-1, -1, -1, 31, -1, -1}, Contest = new[] {70,70,70,70,70,0}, Gift = true, Shiny = false, SkipFormCheck = true }, // Pikachu
 
-            new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Ability = 1, Gift = true }, // Wynaut
-            new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true }, // Togepi
+            new EncounterStatic { Species = 360, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Wynaut
+            new EncounterStatic { Species = 175, Level = 1, EggLocation = 60004, Ability = 1, Gift = true, EggCycles = 70 }, // Togepi
             new EncounterStatic { Species = 374, Level = 1, Location = 196, Ability = 1, IVs = new[] {-1, -1, 31, -1, -1, 31}, Gift = true }, // Beldum
 
             new EncounterStatic { Species = 351, Level = 30, Location = 240, Nature = Nature.Lax, Ability = 1, IVs = new[] {-1, -1, -1, -1, 31, -1}, Contest = new[] {0,100,0,0,0,0}, Gift = true }, // Castform
@@ -569,6 +569,22 @@ namespace PKHeX.Core
         };
 
         #endregion
+        internal static readonly int[] Ban_NoHidden6 =
+        {
+            //Not avaliable at Friend Safari or Horde Encounter
+            669 + (2 << 11), //Flabébé-Orange
+            670 + (2 << 11), //Floette-Orange
+            671 + (2 << 11), //Florges-Orange
+            669 + (4 << 11), //Flabébé-White
+            670 + (4 << 11), //Floette-White
+            671 + (4 << 11), //Florges-White
+
+            710 + (1 << 11), //Pumpkaboo-Small
+            711 + (1 << 11), //Gourgeist-Small
+            710 + (2 << 11), //Pumpkaboo-Large
+            711 + (2 << 11), //Gourgeist-Large
+            //Super Size can be obtained as a Pumpkaboo from event distributions
+        };
         #region Ball Table
         internal static readonly int[] Inherit_Sport =
         {
@@ -650,6 +666,21 @@ namespace PKHeX.Core
             496, 499, 502, //2
             497, 500, 503, //3
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
+        };
+        internal static readonly int[] Ban_Gen3BallHidden =
+        {
+            // can have HA and can be in gen 3 ball as eggs but can not at same time.
+            152, 155, 158, //1 - Gen2 Starters
+            153, 156, 159, //2
+            154, 157, 160, //3
+            585 + (1 << 11), //Deerling-Summer
+            586 + (1 << 11), //Sawsbuck-Summer
+            585 + (2 << 11), //Deerling-Autumn
+            586 + (2 << 11), //Sawsbuck-Autumn
+            585 + (3 << 11), //Deerling-Winter
+            586 + (3 << 11), //Sawsbuck-Winter
+            710 + (3 << 11), //Pumpkaboo-Super
+            711 + (3 << 11), //Gourgeist-Super
         };
         internal static readonly int[] Ban_Gen4Ball_6 =
         {
@@ -764,7 +795,44 @@ namespace PKHeX.Core
         };
         internal static readonly int[] UnreleasedItems_6 =
         {
-            // todo
+            005, // Safari Ball
+            016, // Cherish Ball
+            210, // Custap Berry
+            211, // Jaboca Berry
+            212, // Rowap Berry
+            492, // Fast Ball
+            493, // Level Ball
+            494, // Lure Ball
+            495, // Heavy Ball
+            496, // Love Ball
+            497, // Friend Ball
+            498, // Moon Ball
+            499, // Sport Ball
+            500, // Park Ball
+            548, // Fire Gem
+            549, // Water Gem
+            550, // Electric Gem
+            551, // Grass Gem
+            552, // Ice Gem
+            553, // Fighting Gem
+            554, // Poison Gem
+            555, // Ground Gem
+            556, // Flying Gem
+            557, // Psychic Gem
+            558, // Bug Gem
+            559, // Rock Gem
+            560, // Ghost Gem
+            561, // Dragon Gem
+            562, // Dark Gem
+            563, // Steel Gem
+            576, // Dream Ball
+            584, // Relic Copper
+            585, // Relic Silver
+            587, // Relic Vase
+            588, // Relic Band
+            589, // Relic Statue
+            590, // Relic Crown
+            715, // Fairy Gem
         };
         internal static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
     }

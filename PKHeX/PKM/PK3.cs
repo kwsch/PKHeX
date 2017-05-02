@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class PK3 : PKM // 3rd Generation PKM File
+    public class PK3 : PKM, IRibbonSet1
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -24,6 +24,13 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new PK3(Data); }
 
+        public override string getString(int Offset, int Count) => PKX.getString3(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength) => PKX.setString3(value, maxLength, Japanese);
+
+        // Trash Bytes
+        public override byte[] Nickname_Trash { get { return getData(0x08, 10); } set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }
+        public override byte[] OT_Trash { get { return getData(0x14, 7); } set { if (value?.Length == 7) value.CopyTo(Data, 0x14); } }
+
         // Future Attributes
         public override uint EncryptionConstant { get { return PID; } set { } }
         public override int Nature { get { return (int)(PID % 25); } set { } }
@@ -33,7 +40,7 @@ namespace PKHeX.Core
         public override int Gender { get { return PKX.getGender(Species, PID); } set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get { return OT_Friendship; } set { OT_Friendship = value; } }
-        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
+        public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[AbilityBit && abils[1] != 0 ? 1 : 0]; } set { } }
         public override int CurrentHandler { get { return 0; } set { } }
         public override int Egg_Location { get { return 0; } set { } }
 
@@ -41,20 +48,9 @@ namespace PKHeX.Core
         public override uint PID { get { return BitConverter.ToUInt32(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
         public override int TID { get { return BitConverter.ToUInt16(Data, 0x04); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x04); } }
         public override int SID { get { return BitConverter.ToUInt16(Data, 0x06); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x06); } }
-        public override string Nickname { 
-            get { return PKX.getG3Str(Data.Skip(0x08).Take(10).ToArray(), Japanese); } 
-            set { byte[] strdata = PKX.setG3Str(IsEgg ? "タマゴ" : value, Japanese);
-                if (strdata.Length > 10) 
-                    Array.Resize(ref strdata, 10);
-                strdata.CopyTo(Data, 0x08); } }
+        public override string Nickname { get { return getString(0x08, 10); } set { setString(IsEgg ? "タマゴ" : value, 10).CopyTo(Data, 0x08); } }
         public override int Language { get { return BitConverter.ToUInt16(Data, 0x12) & 0xFF; } set { BitConverter.GetBytes((ushort)(IsEgg ? 0x601 : value | 0x200)).CopyTo(Data, 0x12); } }
-        public override string OT_Name { 
-            get { return PKX.getG3Str(Data.Skip(0x14).Take(7).ToArray(), Japanese); } 
-            set { byte[] strdata = PKX.setG3Str(value, Japanese);
-                if (strdata.Length > 7) 
-                    Array.Resize(ref strdata, 7);
-                strdata.CopyTo(Data, 0x14); } }
-
+        public override string OT_Name { get { return getString(0x14, 7); } set { setString(value, 7).CopyTo(Data, 0x14); } }
         public override int MarkValue { get { return Data[0x1B]; } protected set { Data[0x1B] = (byte)value; } }
         public override ushort Checksum { get { return BitConverter.ToUInt16(Data, 0x1C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1C); } }
         public override ushort Sanity { get { return BitConverter.ToUInt16(Data, 0x1E); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1E); } }
@@ -120,7 +116,7 @@ namespace PKHeX.Core
         public override int IV_SPA { get { return (int)(IV32 >> 20) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); } }
         public override int IV_SPD { get { return (int)(IV32 >> 25) & 0x1F; } set { IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); } }
         public override bool IsEgg { get { return ((IV32 >> 30) & 1) == 1; } set { IV32 = (uint)((IV32 & ~0x40000000) | (uint)(value ? 0x40000000 : 0)); } }
-        public override int AbilityNumber { get { return 1 << (int)((IV32 >> 31) & 1); } set { IV32 = (IV32 & 0x7FFFFFFF) | (value > 1 ? 0x80000000 : 0); } }
+        public bool AbilityBit { get { return (IV32 >> 31) == 1; } set { IV32 = (IV32 & 0x7FFFFFFF) | (uint)(value ? 1 << 31 : 0); } }
 
         private uint RIB0 { get { return BitConverter.ToUInt32(Data, 0x4C); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x4C); } }
         public int RibbonCountG3Cool        { get { return (int)(RIB0 >> 00) & 7; } set { RIB0 = (uint)((RIB0 & ~(7 << 00)) | (uint)(value & 7) << 00); } }
@@ -157,13 +153,15 @@ namespace PKHeX.Core
         public override int Stat_SPD { get { return BitConverter.ToUInt16(Data, 0x62); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); } }
 
         // Generated Attributes
+        public override int AbilityNumber { get { return 1 << PIDAbility; } set { AbilityBit = value > 1; } } // 1/2 -> 0/1
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => IsEgg || Language == 1;
         public override bool WasEgg => Met_Level == 0;
         public override bool WasEvent => Met_Location == 255; // Fateful
         public override bool WasIngameTrade => Met_Location == 254; // Trade
-        public override bool WasEventEgg => Met_Location == 253; // Gift Egg
+        public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
+        public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
         public override byte[] Encrypt()
         {
@@ -238,7 +236,7 @@ namespace PKHeX.Core
             pk4.Move3_PP = pk4.getMovePP(pk4.Move3, pk4.Move3_PPUps);
             pk4.Move4_PP = pk4.getMovePP(pk4.Move4, pk4.Move4_PPUps);
 
-            pk4.FatefulEncounter = Met_Location == 0xFF || FatefulEncounter; // obedience flag
+            pk4.FatefulEncounter = FatefulEncounter; // obedience flag
 
             // Remaining Ribbons
             pk4.RibbonG3Cool          |= RibbonCountG3Cool > 0;

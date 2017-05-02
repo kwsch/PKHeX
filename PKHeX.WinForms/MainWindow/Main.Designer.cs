@@ -321,9 +321,9 @@
             this.Menu_ModifyDex = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ModifyPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_FlagIllegal = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_ModifyUnset = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Undo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ModifyUnset = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Unicode = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
@@ -442,6 +442,9 @@
             this.B_OpenPokeBeans = new System.Windows.Forms.Button();
             this.B_OpenZygardeCells = new System.Windows.Forms.Button();
             this.B_OpenMiscEditor = new System.Windows.Forms.Button();
+            this.B_OpenHoneyTreeEditor = new System.Windows.Forms.Button();
+            this.B_OpenFriendSafari = new System.Windows.Forms.Button();
+            this.B_OpenRTCEditor = new System.Windows.Forms.Button();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.mnuL = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuLLegality = new System.Windows.Forms.ToolStripMenuItem();
@@ -1598,15 +1601,10 @@
             this.NUD_Purification.Location = new System.Drawing.Point(110, 1);
             this.NUD_Purification.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.NUD_Purification.Maximum = new decimal(new int[] {
-            0,
+            2147483647,
             0,
             0,
             0});
-            this.NUD_Purification.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
             this.NUD_Purification.Name = "NUD_Purification";
             this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
             this.NUD_Purification.TabIndex = 103;
@@ -4000,7 +3998,7 @@
             this.CB_MainLanguage});
             this.Menu_Language.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Language.Image")));
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(139, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -4021,7 +4019,7 @@
             this.Menu_Redo});
             this.Menu_Modify.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Modify.Image")));
             this.Menu_Modify.Name = "Menu_Modify";
-            this.Menu_Modify.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Modify.Size = new System.Drawing.Size(139, 22);
             this.Menu_Modify.Text = "Set to SAV";
             // 
             // Menu_ModifyDex
@@ -4052,6 +4050,14 @@
             this.Menu_FlagIllegal.Text = "Flag Legality";
             this.Menu_FlagIllegal.Click += new System.EventHandler(this.mainMenuFlagIllegal);
             // 
+            // Menu_ModifyUnset
+            // 
+            this.Menu_ModifyUnset.CheckOnClick = true;
+            this.Menu_ModifyUnset.Name = "Menu_ModifyUnset";
+            this.Menu_ModifyUnset.Size = new System.Drawing.Size(189, 22);
+            this.Menu_ModifyUnset.Text = "Notify Unset Changes";
+            this.Menu_ModifyUnset.Click += new System.EventHandler(this.mainMenuModifyUnset);
+            // 
             // Menu_Undo
             // 
             this.Menu_Undo.Enabled = false;
@@ -4072,21 +4078,13 @@
             this.Menu_Redo.Text = "Redo Last Change";
             this.Menu_Redo.Click += new System.EventHandler(this.clickRedo);
             // 
-            // Menu_ModifyUnset
-            // 
-            this.Menu_ModifyUnset.CheckOnClick = true;
-            this.Menu_ModifyUnset.Name = "Menu_ModifyUnset";
-            this.Menu_ModifyUnset.Size = new System.Drawing.Size(189, 22);
-            this.Menu_ModifyUnset.Text = "Notify Unset Changes";
-            this.Menu_ModifyUnset.Click += new System.EventHandler(this.mainMenuModifyUnset);
-            // 
             // Menu_Unicode
             // 
             this.Menu_Unicode.Checked = true;
             this.Menu_Unicode.CheckOnClick = true;
             this.Menu_Unicode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Menu_Unicode.Name = "Menu_Unicode";
-            this.Menu_Unicode.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Unicode.Size = new System.Drawing.Size(139, 22);
             this.Menu_Unicode.Text = "Unicode";
             this.Menu_Unicode.Click += new System.EventHandler(this.mainMenuUnicode);
             // 
@@ -4096,7 +4094,7 @@
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(152, 22);
+            this.Menu_About.Size = new System.Drawing.Size(139, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.mainMenuAbout);
             // 
@@ -4183,6 +4181,8 @@
             this.bpkx30.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx30.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx30.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx30.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx30.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx30.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx30.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4231,6 +4231,8 @@
             this.bpkx29.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx29.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx29.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx29.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx29.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx29.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx29.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4249,6 +4251,8 @@
             this.bpkx28.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx28.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx28.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx28.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx28.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx28.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx28.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4267,6 +4271,8 @@
             this.bpkx27.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx27.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx27.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx27.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx27.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx27.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx27.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4285,6 +4291,8 @@
             this.bpkx26.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx26.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx26.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx26.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx26.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx26.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx26.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4303,6 +4311,8 @@
             this.bpkx25.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx25.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx25.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx25.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx25.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx25.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx25.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4321,6 +4331,8 @@
             this.bpkx24.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx24.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx24.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx24.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx24.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx24.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx24.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4339,6 +4351,8 @@
             this.bpkx23.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx23.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx23.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx23.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx23.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx23.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx23.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4357,6 +4371,8 @@
             this.bpkx22.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx22.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx22.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx22.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx22.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx22.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx22.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4375,6 +4391,8 @@
             this.bpkx21.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx21.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx21.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx21.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx21.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx21.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx21.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4393,6 +4411,8 @@
             this.bpkx20.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx20.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx20.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx20.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx20.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx20.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx20.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4411,6 +4431,8 @@
             this.bpkx19.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx19.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx19.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx19.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx19.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx19.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx19.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4429,6 +4451,8 @@
             this.bpkx18.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx18.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx18.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx18.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx18.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx18.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx18.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4447,6 +4471,8 @@
             this.bpkx17.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx17.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx17.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx17.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx17.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx17.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx17.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4465,6 +4491,8 @@
             this.bpkx16.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx16.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx16.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx16.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx16.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx16.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx16.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4483,6 +4511,8 @@
             this.bpkx15.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx15.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx15.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx15.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx15.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx15.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx15.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4501,6 +4531,8 @@
             this.bpkx14.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx14.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx14.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx14.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx14.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx14.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx14.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4519,6 +4551,8 @@
             this.bpkx13.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx13.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx13.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx13.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx13.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx13.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx13.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4537,6 +4571,8 @@
             this.bpkx12.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx12.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx12.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx12.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx12.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx12.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx12.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4555,6 +4591,8 @@
             this.bpkx11.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx11.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx11.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx11.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx11.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx11.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4573,6 +4611,8 @@
             this.bpkx10.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx10.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx10.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx10.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx10.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx10.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx10.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4591,6 +4631,8 @@
             this.bpkx9.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx9.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx9.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx9.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx9.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx9.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4609,6 +4651,8 @@
             this.bpkx8.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx8.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx8.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx8.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx8.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx8.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4627,6 +4671,8 @@
             this.bpkx7.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx7.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx7.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx7.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx7.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx7.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4645,6 +4691,8 @@
             this.bpkx6.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx6.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx6.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4663,6 +4711,8 @@
             this.bpkx5.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx5.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx5.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4681,6 +4731,8 @@
             this.bpkx4.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx4.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx4.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4699,6 +4751,8 @@
             this.bpkx3.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx3.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx3.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4717,6 +4771,8 @@
             this.bpkx2.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx2.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx2.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4735,6 +4791,8 @@
             this.bpkx1.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bpkx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bpkx1.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bpkx1.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bpkx1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bpkx1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4855,6 +4913,8 @@
             this.bbpkx1.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bbpkx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bbpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bbpkx1.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bbpkx1.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bbpkx1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bbpkx1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4884,6 +4944,8 @@
             this.bbpkx2.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bbpkx2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bbpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bbpkx2.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bbpkx2.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bbpkx2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bbpkx2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4899,6 +4961,8 @@
             this.bbpkx3.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bbpkx3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bbpkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bbpkx3.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bbpkx3.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bbpkx3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bbpkx3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4914,6 +4978,8 @@
             this.bbpkx4.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bbpkx4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bbpkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bbpkx4.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bbpkx4.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bbpkx4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bbpkx4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4929,6 +4995,8 @@
             this.bbpkx5.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bbpkx5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bbpkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bbpkx5.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bbpkx5.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bbpkx5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bbpkx5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -4944,6 +5012,8 @@
             this.bbpkx6.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.bbpkx6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.bbpkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.bbpkx6.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.bbpkx6.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.bbpkx6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.bbpkx6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5006,6 +5076,8 @@
             this.ppkx1.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.ppkx1.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.ppkx1.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.ppkx1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.ppkx1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5023,6 +5095,8 @@
             this.ppkx2.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.ppkx2.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.ppkx2.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.ppkx2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.ppkx2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5040,6 +5114,8 @@
             this.ppkx3.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.ppkx3.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.ppkx3.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.ppkx3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.ppkx3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5057,6 +5133,8 @@
             this.ppkx4.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.ppkx4.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.ppkx4.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.ppkx4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.ppkx4.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5074,6 +5152,8 @@
             this.ppkx5.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx5.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.ppkx5.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.ppkx5.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.ppkx5.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.ppkx5.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5091,6 +5171,8 @@
             this.ppkx6.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.ppkx6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.ppkx6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.ppkx6.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.ppkx6.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.ppkx6.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.ppkx6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5213,6 +5295,8 @@
             this.dcpkx2.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.dcpkx2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.dcpkx2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.dcpkx2.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.dcpkx2.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.dcpkx2.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.dcpkx2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5229,6 +5313,8 @@
             this.dcpkx1.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.dcpkx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.dcpkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.dcpkx1.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.dcpkx1.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.dcpkx1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.dcpkx1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5266,6 +5352,8 @@
             this.gtspkx.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.gtspkx.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.gtspkx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.gtspkx.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.gtspkx.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.gtspkx.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.gtspkx.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5292,6 +5380,8 @@
             this.fusedpkx.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.fusedpkx.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.fusedpkx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.fusedpkx.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.fusedpkx.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.fusedpkx.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.fusedpkx.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5330,6 +5420,8 @@
             this.subepkx1.QueryContinueDrag += new System.Windows.Forms.QueryContinueDragEventHandler(this.pbBoxSlot_QueryContinueDrag);
             this.subepkx1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseClick);
             this.subepkx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseDown);
+            this.subepkx1.MouseEnter += new System.EventHandler(this.pbBoxSlot_MouseEnter);
+            this.subepkx1.MouseLeave += new System.EventHandler(this.pbBoxSlot_MouseLeave);
             this.subepkx1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseMove);
             this.subepkx1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbBoxSlot_MouseUp);
             // 
@@ -5524,6 +5616,9 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
             this.FLP_SAVtools.Controls.Add(this.B_OpenZygardeCells);
             this.FLP_SAVtools.Controls.Add(this.B_OpenMiscEditor);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenHoneyTreeEditor);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenRTCEditor);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 87);
@@ -5722,6 +5817,36 @@
             this.B_OpenMiscEditor.UseVisualStyleBackColor = true;
             this.B_OpenMiscEditor.Click += new System.EventHandler(this.B_OpenMiscEditor_Click);
             // 
+            // B_OpenHoneyTreeEditor
+            // 
+            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(96, 177);
+            this.B_OpenHoneyTreeEditor.Name = "B_OpenHoneyTreeEditor";
+            this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenHoneyTreeEditor.TabIndex = 28;
+            this.B_OpenHoneyTreeEditor.Text = "Honey Tree";
+            this.B_OpenHoneyTreeEditor.UseVisualStyleBackColor = true;
+            this.B_OpenHoneyTreeEditor.Click += new System.EventHandler(this.B_OpenHoneyTreeEditor_Click);
+            // 
+            // B_OpenFriendSafari
+            // 
+            this.B_OpenFriendSafari.Location = new System.Drawing.Point(189, 177);
+            this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
+            this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenFriendSafari.TabIndex = 28;
+            this.B_OpenFriendSafari.Text = "Friend Safari";
+            this.B_OpenFriendSafari.UseVisualStyleBackColor = true;
+            this.B_OpenFriendSafari.Click += new System.EventHandler(this.B_OpenFriendSafari_Click);
+            // 
+            // B_OpenRTCEditor
+            // 
+            this.B_OpenRTCEditor.Location = new System.Drawing.Point(3, 206);
+            this.B_OpenRTCEditor.Name = "B_OpenRTCEditor";
+            this.B_OpenRTCEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenRTCEditor.TabIndex = 29;
+            this.B_OpenRTCEditor.Text = "Clock (RTC)";
+            this.B_OpenRTCEditor.UseVisualStyleBackColor = true;
+            this.B_OpenRTCEditor.Click += new System.EventHandler(this.B_OpenRTCEditor_Click);
+            // 
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
@@ -5735,8 +5860,8 @@
             this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.dragoutDrop);
             this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.dragout_DragOver);
             this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dragout_MouseDown);
+            this.dragout.MouseEnter += new System.EventHandler(this.dragoutEnter);
             this.dragout.MouseLeave += new System.EventHandler(this.dragoutLeave);
-            this.dragout.MouseHover += new System.EventHandler(this.dragoutHover);
             // 
             // mnuL
             // 
@@ -6445,6 +6570,9 @@
         internal System.Windows.Forms.ToolStripMenuItem Menu_FlagIllegal;
         private System.Windows.Forms.Button B_OpenMiscEditor;
         private System.Windows.Forms.ToolStripMenuItem Menu_ModifyUnset;
+        private System.Windows.Forms.Button B_OpenHoneyTreeEditor;
+        private System.Windows.Forms.Button B_OpenFriendSafari;
+        private System.Windows.Forms.Button B_OpenRTCEditor;
     }
 }
 

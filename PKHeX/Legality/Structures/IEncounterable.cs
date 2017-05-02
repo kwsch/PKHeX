@@ -4,5 +4,8 @@
     {
         int Species { get; }
         string Name { get; }
+        bool EggEncounter { get; }
+        int LevelMin { get; }
+        int LevelMax { get; }
     }
 }

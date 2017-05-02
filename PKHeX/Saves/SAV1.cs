@@ -224,14 +224,8 @@ namespace PKHeX.Core
 
         public override string OT
         {
-            get { return PKX.getG1Str(Data.Skip(0x2598).Take(StringLength).ToArray(), Japanese); }
-            set
-            {
-                byte[] strdata = PKX.setG1Str(value, Japanese);
-                if (strdata.Length > StringLength)
-                    throw new ArgumentException("OT Name too long for given save file.");
-                strdata.CopyTo(Data, 0x2598);
-            }
+            get { return getString(0x2598, OTLength); }
+            set { setString(value, OTLength).CopyTo(Data, 0x2598); }
         }
         public override int Gender
         {
@@ -492,6 +486,14 @@ namespace PKHeX.Core
             int ofs = bit >> 3;
             byte bitval = (byte)(1 << (bit & 7));
             return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
+        }
+
+        public override string getString(int Offset, int Count) => PKX.getString1(Data, Offset, Count, Japanese);
+        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        {
+            if (PadToSize == 0)
+                PadToSize = maxLength + 1;
+            return PKX.setString1(value, maxLength, Japanese, PadToSize, PadWith);
         }
     }
 }

@@ -88,12 +88,17 @@ namespace PKHeX.WinForms
             if (SAV is SAV3)
             {
                 GB_Map.Visible = false;
-                GB_Badges.Visible = false; // todo
+                SAV3 sav3 = (SAV3)SAV;
+                switch (sav3.Version)
+                {
+                    case GameVersion.E: badgeval = sav3.Badges; break;
+                    case GameVersion.FRLG: badgeval = sav3.Badges; break;
+                    default: GB_Badges.Visible = false; break; // RS
+                }
 
                 L_Started.Visible = L_Fame.Visible = false;
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
                 CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
-                return;
             }
             if (SAV is SAV3Colosseum || SAV is SAV3XD)
             {
@@ -201,6 +206,12 @@ namespace PKHeX.WinForms
                 sav2.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
                 sav2.Sound = CB_SoundType.SelectedIndex > 0 ? 2 : 0;
                 sav2.TextSpeed = CB_TextSpeed.SelectedIndex;
+            }
+
+            if (SAV is SAV3)
+            {
+                SAV3 sav3 = (SAV3)SAV;
+                sav3.Badges = badgeval & 0xFF;
             }
 
             if (SAV is SAV4)

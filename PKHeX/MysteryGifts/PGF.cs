@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class PGF : MysteryGift
+    public sealed class PGF : MysteryGift, IRibbonSet1, IRibbonSet2
     {
         public const int Size = 0xCC;
         public override int Format => 5;
@@ -14,7 +14,7 @@ namespace PKHeX.Core
             if (data == null) Data = new byte[Size];
             else Data = (byte[])data.Clone();
         }
-        
+
         public ushort TID { get { return BitConverter.ToUInt16(Data, 0x00); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x00); } }
         public ushort SID { get { return BitConverter.ToUInt16(Data, 0x02); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x02); } }
         public int OriginGame { get { return Data[0x04]; } set { Data[0x04] = (byte)value; } }
@@ -89,7 +89,7 @@ namespace PKHeX.Core
 
         // Card Attributes
         public override int Item { get { return BitConverter.ToUInt16(Data, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); } }
-        
+
         private ushort Year { get { return BitConverter.ToUInt16(Data, 0xAE); } set { BitConverter.GetBytes(value).CopyTo(Data, 0xAE); } }
         private byte Month { get { return Data[0xAD]; } set { Data[0xAD] = value; } }
         private byte Day { get { return Data[0xAC]; } set { Data[0xAC] = value; } }
@@ -137,7 +137,7 @@ namespace PKHeX.Core
         public int CardType { get { return Data[0xB3]; } set { Data[0xB3] = (byte)value; } }
         public override bool GiftUsed { get { return Data[0xB4] >> 1 > 0; } set { Data[0xB4] = (byte)(Data[0xB4] & ~2 | (value ? 2 : 0)); } }
         public bool MultiObtain { get { return Data[0xB4] == 1; } set { Data[0xB4] = (byte)(value ? 1 : 0); } }
-        
+
         // Meta Accessible Properties
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
@@ -253,26 +253,28 @@ namespace PKHeX.Core
             pk.HiddenAbility = av == 2;
             pk.Ability = PersonalTable.B2W2.getAbilities(Species, pk.AltForm)[av];
 
-            if (PID != 0) 
+            if (PID != 0)
                 pk.PID = PID;
             else
             {
                 pk.PID = Util.rnd32();
-                // Force Ability
-                if (av == 0) pk.PID &= 0xFFFEFFFF; else pk.PID |= 0x10000;
+
                 // Force Gender
                 do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
+
                 if (PIDType == 2) // Force Shiny
                 {
                     uint gb = pk.PID & 0xFF;
-                    pk.PID = (uint)(((gb ^ pk.TID ^ pk.SID) & 0xFFFE) << 16) | gb;
-                    if (av == 0) pk.PID &= 0xFFFEFFFE; else pk.PID |= 0x10001;
+                    pk.PID = (uint)((gb ^ pk.TID ^ pk.SID) << 16) | gb;
                 }
                 else if (PIDType != 1) // Force Not Shiny
                 {
                     if (((pk.PID >> 16) ^ (pk.PID & 0xffff) ^ pk.SID ^ pk.TID) < 8)
-                        pk.PID ^= 0x80000000;
+                        pk.PID ^= 0x10000000;
                 }
+
+                // Force Ability
+                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
             }
 
             if (IsEgg)

@@ -104,9 +104,37 @@ namespace PKHeX.Core
         // Yanmega Leafeon Glaceon Mamoswine Gliscor Probopass
         internal static readonly int[] UnreleasedItems_3 =
         {
-            // todo
+            005, // Safari Ball
         };
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
+        internal static readonly string[] EReaderBerriesNames_USA =
+        {
+            // USA Series 1
+            "PUMKIN",
+            "DRASH",
+            "EGGANT",
+            "STRIB",
+            "CHILAN",
+            "NUTPEA",
+        };
+        internal static readonly string[] EReaderBerriesNames_JP =
+        {
+            // JP Series 1
+            "カチャ", // PUMKIN
+            "ブ－カ", // DRASH
+            "ビスナ", // EGGANT
+            "エドマ", // STRIB
+            "ホズ", // CHILAN
+            "ラッカ", // NUTPEA
+            "クオ", // KU
+            // JP Series 2
+            "ギネマ", // GINEMA
+            "クオ", // KUO
+            "ヤゴ", // YAGO
+            "トウガ", // TOUGA
+            "ニニク", // NINIKU
+            "トポ" // TOPO
+        };
         internal static readonly int[] TM_3 =
         {
             264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
@@ -209,13 +237,63 @@ namespace PKHeX.Core
               36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
               46, 47, 48, 49,
         };
-        internal static readonly EncounterStatic[] Encounter_Box =
+
+        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive =
         {
+            // Egg Pokémon Present Eggs
+            new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
+            new EncounterStatic { Species = 052, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
+            new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+            // Wish Egg
+            new EncounterStatic { Species = 083, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
+            new EncounterStatic { Species = 096, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
+            new EncounterStatic { Species = 102, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
+            new EncounterStatic { Species = 108, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
+            new EncounterStatic { Species = 113, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
+            new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
+        };
+
+        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive =
+        {   
+            // Pokémon Center 5th Anniversary Eggs
+            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
+            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Pichu with Wish
+            new EncounterStatic { Species = 280, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{204} }, // Ralts with Charm
+            new EncounterStatic { Species = 280, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Ralts with Wish
+            new EncounterStatic { Species = 359, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{180} }, // Absol with Spite
+            new EncounterStatic { Species = 359, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Absol with Wish
+            new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{334} }, // Bagon with Iron Defense
+            new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
+        };
+
+        internal static readonly EncounterStatic[] EventEgg_G3_Common =
+        {
+            // Pokémon Box
             new EncounterStatic { Species = 333, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{206} }, // Swablu Egg with False Swipe
             new EncounterStatic { Species = 263, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{245} }, // Zigzagoon Egg with Extreme Speed
             new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{6} }, // Skitty Egg with Pay Day
             new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{57} }, // Pichu Egg with Surf
+            // PokePark Eggs
+            new EncounterStatic { Species = 054, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Psyduck with Mud Sport
+            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Moves = new[]{266} }, // Pichu with Follow me
+            new EncounterStatic { Species = 174, Level = 05, EggLocation = 255, Moves = new[]{321} }, // Igglybuff with Tickle
+            new EncounterStatic { Species = 222, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Corsola with Mud Sport
+            new EncounterStatic { Species = 276, Level = 05, EggLocation = 255, Moves = new[]{294} }, // Taillow with Feather Dance
+            new EncounterStatic { Species = 283, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Surskit with Mud Sport
+            new EncounterStatic { Species = 293, Level = 05, EggLocation = 255, Moves = new[]{298} }, // Whismur with Teeter Dance
+            new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Moves = new[]{205} }, // Skitty with Rollout
+            new EncounterStatic { Species = 311, Level = 05, EggLocation = 255, Moves = new[]{346} }, // Plusle with Water Sport
+            new EncounterStatic { Species = 312, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Minun with Mud Sport
+            new EncounterStatic { Species = 325, Level = 05, EggLocation = 255, Moves = new[]{253} }, // Spoink with Uproar
+            new EncounterStatic { Species = 327, Level = 05, EggLocation = 255, Moves = new[]{047} }, // Spinda with Sing
+            new EncounterStatic { Species = 331, Level = 05, EggLocation = 255, Moves = new[]{227} }, // Cacnea with Encore
+            new EncounterStatic { Species = 341, Level = 05, EggLocation = 255, Moves = new[]{346} }, // Corphish with Water Sport
+            new EncounterStatic { Species = 360, Level = 05, EggLocation = 255, Moves = new[]{321} }, // Wynaut with Tickle
         };
+
+        internal static readonly EncounterStatic[] EventEgg_FRLG = EventEgg_FRLG_Exclusive.Concat(EventEgg_G3_Common).ToArray();
+        internal static readonly EncounterStatic[] EventEgg_RS = EventEgg_RS_Exclusive.Concat(EventEgg_G3_Common).ToArray();
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
@@ -254,10 +332,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 377, Level = 40, Location = 082, }, // Regirock @ Desert Ruins
             new EncounterStatic { Species = 378, Level = 40, Location = 081, }, // Regice @ Island Cave
             new EncounterStatic { Species = 379, Level = 40, Location = 083, }, // Registeel @ Ancient Tomb
-            new EncounterStatic { Species = 380, Level = 50, Location = 073, Version = GameVersion.R, }, // Latias @ Southern Island
-            new EncounterStatic { Species = 380, Level = 50, Location = 073, Version = GameVersion.E, }, // Latias @ Southern Island
-            new EncounterStatic { Species = 381, Level = 50, Location = 073, Version = GameVersion.S, }, // Latios @ Southern Island
-            new EncounterStatic { Species = 381, Level = 50, Location = 073, Version = GameVersion.E, }, // Latios @ Southern Island
+            new EncounterStatic { Species = 380, Level = 50, Location = 073, Version = GameVersion.R }, // Latias @ Southern Island
+            new EncounterStatic { Species = 380, Level = 50, Location = 073, Version = GameVersion.E, Fateful = true }, // Latias @ Southern Island
+            new EncounterStatic { Species = 381, Level = 50, Location = 073, Version = GameVersion.S }, // Latios @ Southern Island
+            new EncounterStatic { Species = 381, Level = 50, Location = 073, Version = GameVersion.E, Fateful = true }, // Latios @ Southern Island
             new EncounterStatic { Species = 382, Level = 45, Location = 072, Version = GameVersion.S, }, // Kyogre @ Cave of Origin
             new EncounterStatic { Species = 382, Level = 70, Location = 203, Version = GameVersion.E, }, // Kyogre @ Marine Cave
             new EncounterStatic { Species = 383, Level = 45, Location = 072, Version = GameVersion.R, }, // Groudon @ Cave of Origin
@@ -266,11 +344,10 @@ namespace PKHeX.Core
 
             // Event
             new EncounterStatic { Species = 151, Level = 30, Location = 201, Version = GameVersion.E, Fateful = true }, // Mew @ Faraway Island (Unreleased outside of Japan)
-            new EncounterStatic { Species = 249, Level = 70, Location = 211, Version = GameVersion.E, }, // Lugia @ Navel Rock
-            new EncounterStatic { Species = 250, Level = 70, Location = 211, Version = GameVersion.E, }, // Ho-Oh @ Navel Rock
-            new EncounterStatic { Species = 386, Level = 30, Location = 200, Version = GameVersion.E, Form = 3, Fateful = true }, // Deoxys @ Birth Island
+            new EncounterStatic { Species = 249, Level = 70, Location = 211, Version = GameVersion.E, Fateful = true }, // Lugia @ Navel Rock
+            new EncounterStatic { Species = 250, Level = 70, Location = 211, Version = GameVersion.E, Fateful = true }, // Ho-Oh @ Navel Rock
+            new EncounterStatic { Species = 386, Level = 30, Location = 200, Version = GameVersion.E, Fateful = true, Form = 3 }, // Deoxys @ Birth Island
         };
-
 
         internal static readonly EncounterStatic[] Encounter_FRLG_Roam =
         {
@@ -324,14 +401,14 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 150, Level = 70, Location = 141, }, // Mewtwo @ Cerulean Cave
 
             // Event
-            new EncounterStatic { Species = 249, Level = 70, Location = 174, }, // Lugia @ Navel Rock
-            new EncounterStatic { Species = 250, Level = 70, Location = 174, }, // Ho-Oh @ Navel Rock
+            new EncounterStatic { Species = 249, Level = 70, Location = 174, Fateful = true }, // Lugia @ Navel Rock
+            new EncounterStatic { Species = 250, Level = 70, Location = 174, Fateful = true }, // Ho-Oh @ Navel Rock
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.FR, Form = 1, Fateful = true }, // Deoxys @ Birth Island
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(Encounter_Box).ToArray();
-        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(Encounter_Box).ToArray();
+        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(EventEgg_RS).ToArray();
+        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(EventEgg_FRLG).ToArray();
 
         private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
         private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};
@@ -340,28 +417,28 @@ namespace PKHeX.Core
         private static readonly int[] TradeContest_Tough =  {05, 05, 05, 05, 30, 10};
         internal static readonly EncounterTrade[] TradeGift_RSE =
         {
-            new EncounterTrade { Species = 296, Location = 254, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Level = 05, Nature = Nature.Hardy, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Slakoth (Level 5 Breeding) -> Makuhita
-            new EncounterTrade { Species = 300, Location = 254, Ability = 1, TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {5,4,4,5,4,4}, Level = 03, Nature = Nature.Timid, Contest = TradeContest_Cute, Version = GameVersion.RS, }, // Pikachu (Level 3 Viridiam Forest) -> Skitty
-            new EncounterTrade { Species = 222, Location = 254, Ability = 2, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {4,4,5,4,4,5}, Level = 21, Nature = Nature.Calm, Contest = TradeContest_Beauty, Version = GameVersion.RS, }, // Bellossom (Level 21 Odish -> Gloom -> Bellossom) -> Corsola
-            new EncounterTrade { Species = 273, Location = 254, Ability = 2, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,5,4,4,4}, Level = 04, Nature = Nature.Relaxed, Contest = TradeContest_Cool, Version = GameVersion.E, }, // Ralts (Level 4 Route 102) -> Seedot
-            new EncounterTrade { Species = 311, Location = 254, Ability = 1, TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new[] {4,4,4,5,5,4}, Level = 05, Nature = Nature.Hasty, Contest = TradeContest_Cute, Version = GameVersion.E, }, // Volbeat (Level 5 Breeding) -> Plusle
-            new EncounterTrade { Species = 116, Location = 254, Ability = 1, TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,4,4,5,4}, Level = 05, Nature = Nature.Brave, Contest = TradeContest_Tough, Version = GameVersion.E, }, // Bagon 	Bagon (Level 5 Breeding) -> Horsea*
-            new EncounterTrade { Species = 052, Location = 254, Ability = 1, TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Level = 03, Nature = Nature.Naive, Contest = TradeContest_Clever, Version = GameVersion.E, }, // Skitty (Level 3 Trade)-> Meowth*
+            new EncounterTrade { Species = 296, Ability = 2, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,5,4,4,4,4}, Level = 05, Nature = Nature.Hardy, Contest = TradeContest_Tough, Version = GameVersion.RS, }, // Slakoth (Level 5 Breeding) -> Makuhita
+            new EncounterTrade { Species = 300, Ability = 1, TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {5,4,4,5,4,4}, Level = 03, Nature = Nature.Timid, Contest = TradeContest_Cute, Version = GameVersion.RS, }, // Pikachu (Level 3 Viridiam Forest) -> Skitty
+            new EncounterTrade { Species = 222, Ability = 2, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {4,4,5,4,4,5}, Level = 21, Nature = Nature.Calm, Contest = TradeContest_Beauty, Version = GameVersion.RS, }, // Bellossom (Level 21 Odish -> Gloom -> Bellossom) -> Corsola
+            new EncounterTrade { Species = 273, Ability = 2, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,5,4,4,4}, Level = 04, Nature = Nature.Relaxed, Contest = TradeContest_Cool, Version = GameVersion.E, }, // Ralts (Level 4 Route 102) -> Seedot
+            new EncounterTrade { Species = 311, Ability = 1, TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new[] {4,4,4,5,5,4}, Level = 05, Nature = Nature.Hasty, Contest = TradeContest_Cute, Version = GameVersion.E, }, // Volbeat (Level 5 Breeding) -> Plusle
+            new EncounterTrade { Species = 116, Ability = 1, TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {5,4,4,4,5,4}, Level = 05, Nature = Nature.Brave, Contest = TradeContest_Tough, Version = GameVersion.E, }, // Bagon 	Bagon (Level 5 Breeding) -> Horsea*
+            new EncounterTrade { Species = 052, Ability = 1, TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {4,5,4,5,4,4}, Level = 03, Nature = Nature.Naive, Contest = TradeContest_Clever, Version = GameVersion.E, }, // Skitty (Level 3 Trade)-> Meowth*
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
         internal static readonly EncounterTrade[] TradeGift_FRLG =
         {
-            new EncounterTrade { Species = 122, Location = 254, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, Nature = Nature.Timid, Contest = TradeContest_Clever,}, // Mr. Mime
-            new EncounterTrade { Species = 029, Location = 254, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {22,18,25,19,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.FR, }, // Nidoran♀
-            new EncounterTrade { Species = 032, Location = 254, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cool, Version = GameVersion.LG, }, // Nidoran♂ *
-            new EncounterTrade { Species = 030, Location = 254, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cute, Version = GameVersion.FR,}, // Nidorina *
-            new EncounterTrade { Species = 033, Location = 254, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
-            new EncounterTrade { Species = 108, Location = 254, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, Contest = TradeContest_Tough, }, // Lickitung  * 
-            new EncounterTrade { Species = 124, Location = 254, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, Contest = TradeContest_Beauty, }, // Jynx
-            new EncounterTrade { Species = 083, Location = 254, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
-            new EncounterTrade { Species = 101, Location = 254, Ability = 1, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
-            new EncounterTrade { Species = 114, Location = 254, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, Contest = TradeContest_Cute, }, // Tangela
-            new EncounterTrade { Species = 086, Location = 254, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
+            new EncounterTrade { Species = 122, Ability = 1, TID = 01985, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,15,17,24,23,22}, Nature = Nature.Timid, Contest = TradeContest_Clever,}, // Mr. Mime
+            new EncounterTrade { Species = 029, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {22,18,25,19,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.FR, }, // Nidoran♀
+            new EncounterTrade { Species = 032, Ability = 1, TID = 63184, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {19,25,18,22,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cool, Version = GameVersion.LG, }, // Nidoran♂ *
+            new EncounterTrade { Species = 030, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,25,18,19,22,15}, Nature = Nature.Lonely, Contest = TradeContest_Cute, Version = GameVersion.FR,}, // Nidorina *
+            new EncounterTrade { Species = 033, Ability = 1, TID = 13637, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {19,18,25,22,15,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, Version = GameVersion.LG,}, // Nidorino  *
+            new EncounterTrade { Species = 108, Ability = 1, TID = 01239, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,19,21,15,23,21}, Nature = Nature.Relaxed, Contest = TradeContest_Tough, }, // Lickitung  * 
+            new EncounterTrade { Species = 124, Ability = 1, TID = 36728, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {18,17,18,22,25,21}, Nature = Nature.Mild, Contest = TradeContest_Beauty, }, // Jynx
+            new EncounterTrade { Species = 083, Ability = 1, TID = 08810, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,25,21,24,15,20}, Nature = Nature.Adamant, Contest = TradeContest_Cool, }, // Farfetch'd
+            new EncounterTrade { Species = 101, Ability = 2, TID = 50298, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {19,16,18,25,25,19}, Nature = Nature.Hasty, Contest = TradeContest_Cool, }, // Electrode
+            new EncounterTrade { Species = 114, Ability = 1, TID = 60042, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {22,17,25,16,23,20}, Nature = Nature.Sassy, Contest = TradeContest_Cute, }, // Tangela
+            new EncounterTrade { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, Nature = Nature.Bold, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
 
@@ -533,18 +610,239 @@ namespace PKHeX.Core
             060, 061, 062, 063, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080,
             081, 082, 083, 085, 086, 087,
         };
+        // 155 - 158 Sevii Isle 6-9 Unused
+        // 171 - 173 Sevii Isle 22-24 Unused
         internal static readonly int[] ValidMet_FRLG =
         {
             087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099,
             100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
             120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139,
-            140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
-            160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179,
-            180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196
+            140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 159, 160, 161, 162, 163,
+            164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186,
+            187, 188, 189, 190, 191, 192, 193, 194, 195, 196
         };
         internal static readonly int[] ValidMet_E = ValidMet_RS.Concat(new[]
         {
             196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
         }).ToArray();
+
+        #region Colosseum
+        internal static readonly EncounterStatic[] Encounter_Colo =
+        {
+            new EncounterStatic { Species = 196, Level = 25, Location = 056 }, // Espeon
+            new EncounterStatic { Species = 197, Level = 26, Location = 056 }, // Umbreon
+            new EncounterStatic { Species = 311, Level = 13, Location = 056 }, // Plusle, standard levelup moves
+
+            new EncounterStaticShadow { Species = 296, Level = 30, Gauge = 03000, Moves = new[] {193,116,233,238}, Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
+
+            // missing locs: Realgam Tower
+            new EncounterStaticShadow { Species = 153, Level = 30, Gauge = 03000, Moves = new[] {241,235,075,034}, Location = 003 }, // Bayleef: Cipher Peon Verde @ Phenac City
+            new EncounterStaticShadow { Species = 156, Level = 30, Gauge = 03000, Moves = new[] {241,108,091,172}, Location = 003 }, // Quilava: Cipher Peon Rosso @ Phenac City
+            new EncounterStaticShadow { Species = 159, Level = 30, Gauge = 03000, Moves = new[] {240,184,044,057}, Location = 003 }, // Croconaw: Cipher Peon Bluno @ Phenac City
+            new EncounterStaticShadow { Species = 153, Level = 30, Gauge = 03000, Moves = new[] {241,235,075,034}, Location = 132 }, // Bayleef: Cipher Peon Verde @ Snagem Hideout
+            new EncounterStaticShadow { Species = 156, Level = 30, Gauge = 03000, Moves = new[] {241,108,091,172}, Location = 132 }, // Quilava: Cipher Peon Rosso @ Snagem Hideout
+            new EncounterStaticShadow { Species = 159, Level = 30, Gauge = 03000, Moves = new[] {240,184,044,057}, Location = 132 }, // Croconaw: Cipher Peon Bluno @ Snagem Hideout
+            new EncounterStaticShadow { Species = 153, Level = 30, Gauge = 03000, Moves = new[] {241,235,075,034}, Location = 069 }, // Bayleef: Cipher Peon Verde @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 156, Level = 30, Gauge = 03000, Moves = new[] {241,108,091,172}, Location = 069 }, // Quilava: Cipher Peon Rosso @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 159, Level = 30, Gauge = 03000, Moves = new[] {240,184,044,057}, Location = 069 }, // Croconaw: Cipher Peon Bluno @ Shadow PKMN Lab
+
+            new EncounterStaticShadow { Species = 218, Level = 30, Gauge = 04000, Moves = new[] {241,281,088,053}, Location = 015 }, // Slugma: Roller Boy Lon @ Pyrite Town
+            new EncounterStaticShadow { Species = 164, Level = 30, Gauge = 03000, Moves = new[] {211,095,115,019}, Location = 015 }, // Noctowl: Rider Nover @ Pyrite Town
+            new EncounterStaticShadow { Species = 180, Level = 30, Gauge = 03000, Moves = new[] {085,086,178,084}, Location = 015 }, // Flaaffy: St.Performer Diogo @ Pyrite Town
+            new EncounterStaticShadow { Species = 188, Level = 30, Gauge = 03000, Moves = new[] {235,079,178,072}, Location = 015 }, // Skiploom: Rider Leba @ Pyrite Town
+            new EncounterStaticShadow { Species = 195, Level = 30, Gauge = 04000, Moves = new[] {341,133,021,057}, Location = 015 }, // Quagsire: Bandana Guy Divel @ Pyrite Town
+            new EncounterStaticShadow { Species = 200, Level = 30, Gauge = 04000, Moves = new[] {060,109,212,247}, Location = 015 }, // Misdreavus: Rider Vant @ Pyrite Town
+            new EncounterStaticShadow { Species = 162, Level = 33, Gauge = 05000, Moves = new[] {231,270,098,070}, Location = 015 }, // Furret: Rogue Cail @ Pyrite Town
+
+            // missing loc: Snagem Hideout
+            new EncounterStaticShadow { Species = 193, Level = 33, Gauge = 05000, Moves = new[] {197,048,049,253}, Location = 025 }, // Yanma: Cipher Peon Nore @ Pyrite Bldg
+            
+            new EncounterStaticShadow { Species = 223, Level = 20, Gauge = 04000, Moves = new[] {061,199,060,062}, Location = 028 }, // Remoraid: Miror B.Peon Reath @ Pyrite Bldg
+            new EncounterStaticShadow { Species = 223, Level = 20, Gauge = 04000, Moves = new[] {061,199,060,062}, Location = 030 }, // Remoraid: Miror B.Peon Reath @ Pyrite Cave
+            new EncounterStaticShadow { Species = 226, Level = 33, Gauge = 05000, Moves = new[] {017,048,061,036}, Location = 028 }, // Mantine: Miror B.Peon Ferma @ Pyrite Bldg
+            new EncounterStaticShadow { Species = 226, Level = 33, Gauge = 05000, Moves = new[] {017,048,061,036}, Location = 030 }, // Mantine: Miror B.Peon Ferma @ Pyrite Cave
+
+            new EncounterStaticShadow { Species = 211, Level = 33, Gauge = 05000, Moves = new[] {042,107,040,057}, Location = 015 }, // Qwilfish: Hunter Doken @ Pyrite Bldg
+            new EncounterStaticShadow { Species = 307, Level = 33, Gauge = 05000, Moves = new[] {197,347,093,136}, Location = 031 }, // Meditite: Rider Twan @ Pyrite Cave
+            new EncounterStaticShadow { Species = 206, Level = 33, Gauge = 05000, Moves = new[] {180,137,281,036}, Location = 029 }, // Dunsparce: Rider Sosh @ Pyrite Cave
+            new EncounterStaticShadow { Species = 333, Level = 33, Gauge = 05000, Moves = new[] {119,047,219,019}, Location = 032 }, // Swablu: Hunter Zalo @ Pyrite Cave
+            new EncounterStaticShadow { Species = 185, Level = 35, Gauge = 10000, Moves = new[] {175,335,067,157}, Location = 125 }, // Sudowoodo: Cipher Admin Miror B. @ Pyrite Cave/Realgam Tower/Deep Colosseum
+
+            // missing locs: Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 237, Level = 38, Gauge = 06000, Moves = new[] {097,116,167,229}, Location = 039 }, // Hitmontop: Cipher Peon Skrub @ Agate Village
+            new EncounterStaticShadow { Species = 237, Level = 38, Gauge = 06000, Moves = new[] {097,116,167,229}, Location = 132 }, // Hitmontop: Cipher Peon Skrub @ Snagem Hideout
+
+            new EncounterStaticShadow { Species = 166, Level = 40, Gauge = 06000, Moves = new[] {226,219,048,004}, Location = 047 }, // Ledian: Cipher Peon Kloak @ The Under
+            new EncounterStaticShadow { Species = 166, Level = 40, Gauge = 06000, Moves = new[] {226,219,048,004}, Location = 132 }, // Ledian: Cipher Peon Kloak @ Snagem Hideout
+
+            // missing locs: Realgam Tower/Deep Colosseum
+            new EncounterStaticShadow { Species = 244, Level = 40, Gauge = 13000, Moves = new[] {241,043,044,126}, Location = 076 }, // Entei: Cipher Admin Dakim @ Mt. Battle
+
+            // missing loc: Realgam Tower
+            new EncounterStaticShadow { Species = 245, Level = 40, Gauge = 13000, Moves = new[] {240,043,016,057}, Location = 055 }, // Suicune (Surf): Cipher Admin Venus @ The Under
+            new EncounterStaticShadow { Species = 245, Level = 40, Gauge = 13000, Moves = new[] {240,043,016,056}, Location = 000 }, // Suicune (Hydro Pump): Cipher Admin Venus @ Deep Colosseum
+
+            // missing locs: Realgam Tower/Deep Colosseum
+            new EncounterStaticShadow { Species = 243, Level = 40, Gauge = 13000, Moves = new[] {240,043,098,087}, Location = 069 }, // Raikou: Cipher Admin Ein @ Shadow PKMN Lab
+
+            new EncounterStaticShadow { Species = 207, Level = 43, Gauge = 06000, Moves = new[] {185,028,040,163}, Location = 058 }, // Gligar: Hunter Frena @ The Under Subway
+            new EncounterStaticShadow { Species = 207, Level = 43, Gauge = 06000, Moves = new[] {185,028,040,163}, Location = 133 }, // Gligar: Hunter Frena @ Snagem Hideout
+            new EncounterStaticShadow { Species = 234, Level = 43, Gauge = 06000, Moves = new[] {310,095,043,036}, Location = 058 }, // Stantler: Chaser Liaks @ The Under Subway
+            new EncounterStaticShadow { Species = 234, Level = 43, Gauge = 06000, Moves = new[] {310,095,043,036}, Location = 133 }, // Stantler: Chaser Liaks @ Snagem Hideout
+            new EncounterStaticShadow { Species = 221, Level = 43, Gauge = 06000, Moves = new[] {203,316,091,059}, Location = 058 }, // Piloswine: Bodybuilder Lonia @ The Under Subway
+            new EncounterStaticShadow { Species = 221, Level = 43, Gauge = 06000, Moves = new[] {203,316,091,059}, Location = 134 }, // Piloswine: Bodybuilder Lonia @ Snagem Hideout
+            new EncounterStaticShadow { Species = 215, Level = 43, Gauge = 06000, Moves = new[] {185,103,154,196}, Location = 058 }, // Sneasel: Rider Nelis @ The Under Subway
+            new EncounterStaticShadow { Species = 215, Level = 43, Gauge = 06000, Moves = new[] {185,103,154,196}, Location = 134 }, // Sneasel: Rider Nelis @ Snagem Hideout
+            new EncounterStaticShadow { Species = 190, Level = 43, Gauge = 06000, Moves = new[] {226,321,154,129}, Location = 067 }, // Aipom: Cipher Peon Cole @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 198, Level = 43, Gauge = 06000, Moves = new[] {185,212,101,019}, Location = 067 }, // Murkrow: Cipher Peon Lare @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 205, Level = 43, Gauge = 06000, Moves = new[] {153,182,117,229}, Location = 067 }, // Forretress: Cipher Peon Vana @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 168, Level = 43, Gauge = 06000, Moves = new[] {169,184,141,188}, Location = 069 }, // Ariados: Cipher Peon Lesar @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 210, Level = 43, Gauge = 06000, Moves = new[] {044,184,046,070}, Location = 069 }, // Granbull: Cipher Peon Tanie @ Shadow PKMN Lab
+            new EncounterStaticShadow { Species = 329, Level = 43, Gauge = 06000, Moves = new[] {242,103,328,225}, Location = 068 }, // Vibrava: Cipher Peon Remil @ Shadow PKMN Lab
+            
+            new EncounterStaticShadow { Species = 192, Level = 45, Gauge = 07000, Moves = new[] {241,074,275,076}, Location = 109 }, // Sunflora: Cipher Peon Baila @ Realgam Tower
+            new EncounterStaticShadow { Species = 225, Level = 45, Gauge = 07000, Moves = new[] {059,213,217,019}, Location = 109 }, // Delibird: Cipher Peon Arton @ Realgam Tower
+            new EncounterStaticShadow { Species = 214, Level = 45, Gauge = 07000, Moves = new[] {179,203,068,280}, Location = 111 }, // Heracross: Cipher Peon Dioge @ Realgam Tower
+            new EncounterStaticShadow { Species = 227, Level = 47, Gauge = 13000, Moves = new[] {065,319,314,211}, Location = 117 }, // Skarmory: Snagem Head Gonzap @ Realgam Tower
+            new EncounterStaticShadow { Species = 192, Level = 45, Gauge = 07000, Moves = new[] {241,074,275,076}, Location = 132 }, // Sunflora: Cipher Peon Baila @ Snagem Hideout
+            new EncounterStaticShadow { Species = 225, Level = 45, Gauge = 07000, Moves = new[] {059,213,217,019}, Location = 132 }, // Delibird: Cipher Peon Arton @ Snagem Hideout
+            new EncounterStaticShadow { Species = 214, Level = 45, Gauge = 07000, Moves = new[] {179,203,068,280}, Location = 132 }, // Heracross: Cipher Peon Dioge @ Snagem Hideout
+            new EncounterStaticShadow { Species = 227, Level = 47, Gauge = 13000, Moves = new[] {065,319,314,211}, Location = 133 }, // Skarmory: Snagem Head Gonzap @ Snagem Hideout
+
+            new EncounterStaticShadow { Species = 241, Level = 48, Gauge = 07000, Moves = new[] {208,111,205,034}, Location = 118 }, // Miltank: Bodybuilder Jomas @ Tower Colosseum
+            new EncounterStaticShadow { Species = 359, Level = 48, Gauge = 07000, Moves = new[] {195,014,163,185}, Location = 118 }, // Absol: Rider Delan @ Tower Colosseum
+            new EncounterStaticShadow { Species = 229, Level = 48, Gauge = 07000, Moves = new[] {185,336,123,053}, Location = 118 }, // Houndoom: Cipher Peon Nella @ Tower Colosseum
+            new EncounterStaticShadow { Species = 357, Level = 49, Gauge = 07000, Moves = new[] {076,235,345,019}, Location = 118 }, // Tropius: Cipher Peon Ston @ Tower Colosseum
+            new EncounterStaticShadow { Species = 376, Level = 50, Gauge = 15000, Moves = new[] {063,334,232,094}, Location = 118 }, // Metagross: Cipher Nascour @ Tower Colosseum
+            new EncounterStaticShadow { Species = 248, Level = 55, Gauge = 20000, Moves = new[] {242,087,157,059}, Location = 118 }, // Tyranitar: Cipher Head Evice @ Tower Colosseum
+            new EncounterStaticShadow { Species = 235, Level = 45, Gauge = 07000, Moves = new[] {166,039,003,231}, Location = 132 }, // Smeargle: Team Snagem Biden @ Snagem Hideout
+            new EncounterStaticShadow { Species = 217, Level = 45, Gauge = 07000, Moves = new[] {185,313,122,163}, Location = 132 }, // Ursaring: Team Snagem Agrev @ Snagem Hideout
+            new EncounterStaticShadow { Species = 213, Level = 45, Gauge = 07000, Moves = new[] {219,227,156,117}, Location = 125 }, // Shuckle: Deep King Agnol @ Deep Colosseum
+            new EncounterStaticShadow { Species = 176, Level = 20, Gauge = 05000, Moves = new[] {118,204,186,281}, Location = 001 }, // Togetic: Cipher Peon Fein @ Outskirt Stand
+            new EncounterStaticShadow { Species = 175, Level = 20, Gauge = 00000, Moves = new[] {118,204,186,281}, IVs = new[] {0,0,0,0,0,0}, EReader = true }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
+            new EncounterStaticShadow { Species = 179, Level = 37, Gauge = 00000, Moves = new[] {087,084,086,178}, IVs = new[] {0,0,0,0,0,0}, EReader = true }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)
+            new EncounterStaticShadow { Species = 212, Level = 50, Gauge = 00000, Moves = new[] {210,232,014,163}, IVs = new[] {0,0,0,0,0,0}, EReader = true }, // Scizor: Bodybuilder ワーバン @ Card e Room (Japanese games only)
+        };
+        #endregion
+
+        #region XD
+
+        internal static readonly EncounterStatic[] Encounter_XD =
+        {
+            new EncounterStatic { Species = 133, Level = 10, Location = 000 }, // Eevee
+
+            new EncounterStaticShadow { Species = 216, Level = 11, Gauge = 03000, Moves = new[] {216,287,122,232}, Location = 143 }, // Teddiursa: Cipher Peon Naps @ Pokémon HQ Lab
+            new EncounterStaticShadow { Species = 165, Level = 10, Gauge = 02500, Moves = new[] {060,287,332,048}, Location = 153 }, // Ledyba: Casual Guy Cyle @ Gateon Port
+            new EncounterStaticShadow { Species = 261, Level = 10, Gauge = 02500, Moves = new[] {091,215,305,336}, Location = 162 }, // Poochyena: Bodybuilder Kilen @ Gateon Port
+            new EncounterStaticShadow { Species = 228, Level = 17, Gauge = 01500, Moves = new[] {185,204,052,046}, Location = 011 }, // Houndour: Cipher Peon Resix @ Cipher Lab
+            new EncounterStaticShadow { Species = 343, Level = 17, Gauge = 01500, Moves = new[] {317,287,189,060}, Location = 011 }, // Baltoy: Cipher Peon Browsix @ Cipher Lab
+            new EncounterStaticShadow { Species = 179, Level = 17, Gauge = 01500, Moves = new[] {034,215,084,086}, Location = 011 }, // Mareep: Cipher Peon Yellosix @ Cipher Lab
+            new EncounterStaticShadow { Species = 273, Level = 17, Gauge = 01500, Moves = new[] {202,287,331,290}, Location = 011 }, // Seedot: Cipher Peon Greesix @ Cipher Lab
+            new EncounterStaticShadow { Species = 363, Level = 17, Gauge = 01500, Moves = new[] {062,204,055,189}, Location = 011 }, // Spheal: Cipher Peon Blusix @ Cipher Lab
+            new EncounterStaticShadow { Species = 316, Level = 17, Gauge = 01500, Moves = new[] {351,047,124,092}, Location = 011 }, // Gulpin: Cipher Peon Purpsix @ Cipher Lab
+            new EncounterStaticShadow { Species = 167, Level = 14, Gauge = 01500, Moves = new[] {091,287,324,101}, Location = 010 }, // Spinarak: Cipher Peon Nexir @ Cipher Lab
+            new EncounterStaticShadow { Species = 322, Level = 14, Gauge = 01500, Moves = new[] {036,204,091,052}, Location = 009 }, // Numel: Cipher Peon Solox @ Cipher Lab
+            new EncounterStaticShadow { Species = 318, Level = 15, Gauge = 01700, Moves = new[] {352,287,184,044}, Location = 008 }, // Carvanha: Cipher Peon Cabol @ Cipher Lab
+            new EncounterStaticShadow { Species = 285, Level = 15, Gauge = 01800, Moves = new[] {206,287,072,078}, Location = 008 }, // Shroomish: Cipher R&D Klots @ Cipher Lab
+            new EncounterStaticShadow { Species = 301, Level = 18, Gauge = 02500, Moves = new[] {290,186,213,351}, Location = 008 }, // Delcatty: Cipher Admin Lovrina @ Cipher Lab
+            new EncounterStaticShadow { Species = 100, Level = 19, Gauge = 02500, Moves = new[] {243,287,209,129}, Location = 092 }, // Voltorb: Wanderer Miror B. @ Cave Poké Spot
+            new EncounterStaticShadow { Species = 296, Level = 18, Gauge = 02000, Moves = new[] {280,287,292,317}, Location = 109 }, // Makuhita: Cipher Peon Torkin @ ONBS Building
+            new EncounterStaticShadow { Species = 037, Level = 18, Gauge = 02000, Moves = new[] {257,204,052,091}, Location = 109 }, // Vulpix: Cipher Peon Mesin @ ONBS Building
+            new EncounterStaticShadow { Species = 355, Level = 19, Gauge = 02200, Moves = new[] {247,270,310,109}, Location = 110 }, // Duskull: Cipher Peon Lobar @ ONBS Building
+            new EncounterStaticShadow { Species = 280, Level = 20, Gauge = 02200, Moves = new[] {351,047,115,093}, Location = 119 }, // Ralts: Cipher Peon Feldas @ ONBS Building
+            new EncounterStaticShadow { Species = 303, Level = 22, Gauge = 02500, Moves = new[] {206,047,011,334}, Location = 111 }, // Mawile: Cipher Cmdr Exol @ ONBS Building
+            new EncounterStaticShadow { Species = 361, Level = 20, Gauge = 02500, Moves = new[] {352,047,044,196}, Location = 097 }, // Snorunt: Cipher Peon Exinn @ Phenac City
+            new EncounterStaticShadow { Species = 204, Level = 20, Gauge = 02500, Moves = new[] {042,287,191,068}, Location = 096 }, // Pineco: Cipher Peon Gonrap @ Phenac City
+            new EncounterStaticShadow { Species = 177, Level = 22, Gauge = 02500, Moves = new[] {248,226,101,332}, Location = 094 }, // Natu: Cipher Peon Eloin @ Phenac City
+            new EncounterStaticShadow { Species = 315, Level = 22, Gauge = 03000, Moves = new[] {345,186,320,073}, Location = 113 }, // Roselia: Cipher Peon Fasin @ Phenac City
+            new EncounterStaticShadow { Species = 052, Level = 22, Gauge = 03500, Moves = new[] {163,047,006,044}, Location = 113 }, // Meowth: Cipher Peon Fostin @ Phenac City
+            new EncounterStaticShadow { Species = 220, Level = 22, Gauge = 02500, Moves = new[] {246,204,054,341}, Location = 100 }, // Swinub: Cipher Peon Greck @ Phenac City
+            new EncounterStaticShadow { Species = 021, Level = 22, Gauge = 04500, Moves = new[] {206,226,043,332}, Location = 059 }, // Spearow: Cipher Peon Ezin @ Phenac Stadium
+            new EncounterStaticShadow { Species = 088, Level = 23, Gauge = 03000, Moves = new[] {188,270,325,107}, Location = 059 }, // Grimer: Cipher Peon Faltly @ Phenac Stadium
+            new EncounterStaticShadow { Species = 086, Level = 23, Gauge = 03500, Moves = new[] {057,270,219,058}, Location = 107 }, // Seel: Cipher Peon Egrog @ Phenac Stadium
+            new EncounterStaticShadow { Species = 337, Level = 25, Gauge = 05000, Moves = new[] {094,226,240,317}, Location = 107 }, // Lunatone: Cipher Admin Snattle @ Phenac Stadium
+            new EncounterStaticShadow { Species = 175, Level = 25, Gauge = 04500, Moves = new[] {266,161,246,270}, Location = 164 }, // Togepi: Pokémon Trainer Hordel @ Outskirt Stand
+            new EncounterStaticShadow { Species = 299, Level = 26, Gauge = 04000, Moves = new[] {085,270,086,157}, Location = 090 }, // Nosepass: Wanderer Miror B. @ Pyrite Colosseum/Realgam Colosseum/Poké Spots
+            new EncounterStaticShadow { Species = 335, Level = 28, Gauge = 05000, Moves = new[] {280,287,068,306}, Location = 090 }, // Zangoose: Thug Zook @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 046, Level = 28, Gauge = 04000, Moves = new[] {147,287,163,206}, Location = 064 }, // Paras: Cipher Peon Humah @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 058, Level = 28, Gauge = 04000, Moves = new[] {053,204,044,036}, Location = 113 }, // Growlithe: Cipher Peon Humah @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 090, Level = 29, Gauge = 04000, Moves = new[] {036,287,057,062}, Location = 065 }, // Shellder: Cipher Peon Gorog @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 015, Level = 30, Gauge = 04500, Moves = new[] {188,226,041,014}, Location = 059 }, // Beedrill: Cipher Peon Lok @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 017, Level = 30, Gauge = 04000, Moves = new[] {017,287,211,297}, Location = 066 }, // Pidgeotto: Cipher Peon Lok @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 114, Level = 30, Gauge = 04000, Moves = new[] {076,234,241,275}, Location = 067 }, // Tangela: Cipher Peon Targ @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 012, Level = 30, Gauge = 04000, Moves = new[] {094,234,079,332}, Location = 059 }, // Butterfree: Cipher Peon Targ @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 082, Level = 30, Gauge = 04500, Moves = new[] {038,287,240,087}, Location = 067 }, // Magneton: Cipher Peon Snidle @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 049, Level = 32, Gauge = 04000, Moves = new[] {318,287,164,094}, Location = 059 }, // Venomoth: Cipher Peon Angic @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 070, Level = 32, Gauge = 04000, Moves = new[] {345,234,188,230}, Location = 070 }, // Weepinbell: Cipher Peon Angic @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 024, Level = 33, Gauge = 05000, Moves = new[] {188,287,137,044}, Location = 070 }, // Arbok: Cipher Peon Smarton @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 057, Level = 34, Gauge = 06000, Moves = new[] {238,270,116,179}, Location = 069 }, // Primeape: Cipher Admin Gorigan @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 097, Level = 34, Gauge = 05500, Moves = new[] {094,226,096,247}, Location = 059 }, // Hypno: Cipher Admin Gorigan @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 055, Level = 33, Gauge = 06500, Moves = new[] {127,204,244,280}, Location = 088 }, // Golduck: Navigator Abson @ Citadark Isle
+            new EncounterStaticShadow { Species = 302, Level = 33, Gauge = 07000, Moves = new[] {247,270,185,105}, Location = 088 }, // Sableye: Navigator Abson @ Citadark Isle
+            new EncounterStaticShadow { Species = 085, Level = 34, Gauge = 08000, Moves = new[] {065,226,097,161}, Location = 076 }, // Dodrio: Chaser Furgy @ Citadark Isle
+            new EncounterStaticShadow { Species = 020, Level = 34, Gauge = 06000, Moves = new[] {162,287,184,158}, Location = 076 }, // Raticate: Chaser Furgy @ Citadark Isle
+            new EncounterStaticShadow { Species = 083, Level = 36, Gauge = 05500, Moves = new[] {163,226,014,332}, Location = 076 }, // Farfetch'd: Cipher Admin Lovrina @ Citadark Isle
+            new EncounterStaticShadow { Species = 334, Level = 36, Gauge = 06500, Moves = new[] {225,215,076,332}, Location = 076 }, // Altaria: Cipher Admin Lovrina @ Citadark Isle
+            new EncounterStaticShadow { Species = 115, Level = 35, Gauge = 06000, Moves = new[] {089,047,039,146}, Location = 085 }, // Kangaskhan: Cipher Peon Litnar @ Citadark Isle
+            new EncounterStaticShadow { Species = 354, Level = 37, Gauge = 07000, Moves = new[] {185,270,247,174}, Location = 059 }, // Banette: Cipher Peon Litnar @ Citadark Isle
+            new EncounterStaticShadow { Species = 126, Level = 36, Gauge = 07000, Moves = new[] {126,266,238,009}, Location = 077 }, // Magmar: Cipher Peon Grupel @ Citadark Isle
+            new EncounterStaticShadow { Species = 127, Level = 35, Gauge = 07000, Moves = new[] {012,270,206,066}, Location = 077 }, // Pinsir: Cipher Peon Grupel @ Citadark Isle
+            new EncounterStaticShadow { Species = 078, Level = 40, Gauge = 06000, Moves = new[] {076,226,241,053}, Location = 080 }, // Rapidash: Cipher Peon Kolest @ Citadark Isle
+            new EncounterStaticShadow { Species = 219, Level = 38, Gauge = 05500, Moves = new[] {257,287,089,053}, Location = 080 }, // Magcargo: Cipher Peon Kolest @ Citadark Isle
+            new EncounterStaticShadow { Species = 107, Level = 38, Gauge = 06000, Moves = new[] {005,270,170,327}, Location = 081 }, // Hitmonchan: Cipher Peon Karbon @ Citadark Isle
+            new EncounterStaticShadow { Species = 106, Level = 38, Gauge = 07000, Moves = new[] {136,287,170,025}, Location = 081 }, // Hitmonlee: Cipher Peon Petro @ Citadark Isle
+            new EncounterStaticShadow { Species = 108, Level = 38, Gauge = 05000, Moves = new[] {038,270,111,205}, Location = 084 }, // Lickitung: Cipher Peon Geftal @ Citadark Isle
+            new EncounterStaticShadow { Species = 123, Level = 40, Gauge = 08000, Moves = new[] {013,234,318,163}, Location = 084 }, // Scyther: Cipher Peon Leden @ Citadark Isle
+            new EncounterStaticShadow { Species = 113, Level = 39, Gauge = 04000, Moves = new[] {085,186,135,285}, Location = 087 }, // Chansey: Cipher Peon Leden @ Citadark Isle
+            new EncounterStaticShadow { Species = 338, Level = 41, Gauge = 07500, Moves = new[] {094,226,241,322}, Location = 087 }, // Solrock: Cipher Admin Snattle @ Citadark Isle
+            new EncounterStaticShadow { Species = 121, Level = 41, Gauge = 07500, Moves = new[] {127,287,058,105}, Location = 087 }, // Starmie: Cipher Admin Snattle @ Citadark Isle
+            new EncounterStaticShadow { Species = 277, Level = 43, Gauge = 07000, Moves = new[] {143,226,097,263}, Location = 087 }, // Swellow: Cipher Admin Ardos @ Citadark Isle
+            new EncounterStaticShadow { Species = 125, Level = 43, Gauge = 07000, Moves = new[] {238,266,086,085}, Location = 087 }, // Electabuzz: Cipher Admin Ardos @ Citadark Isle
+            new EncounterStaticShadow { Species = 143, Level = 43, Gauge = 09000, Moves = new[] {090,287,174,034}, Location = 087 }, // Snorlax: Cipher Admin Ardos @ Citadark Isle
+            new EncounterStaticShadow { Species = 062, Level = 42, Gauge = 07500, Moves = new[] {056,270,240,280}, Location = 087 }, // Poliwrath: Cipher Admin Gorigan @ Citadark Isle
+            new EncounterStaticShadow { Species = 122, Level = 42, Gauge = 06500, Moves = new[] {094,266,227,009}, Location = 087 }, // Mr. Mime: Cipher Admin Gorigan @ Citadark Isle
+            new EncounterStaticShadow { Species = 051, Level = 40, Gauge = 05000, Moves = new[] {089,204,201,161}, Location = 075 }, // Dugtrio: Cipher Peon Kolax @ Citadark Isle
+            new EncounterStaticShadow { Species = 310, Level = 44, Gauge = 07000, Moves = new[] {087,287,240,044}, Location = 073 }, // Manectric: Cipher Admin Eldes @ Citadark Isle
+            new EncounterStaticShadow { Species = 373, Level = 50, Gauge = 09000, Moves = new[] {337,287,349,332}, Location = 073 }, // Salamence: Cipher Admin Eldes @ Citadark Isle
+            new EncounterStaticShadow { Species = 105, Level = 44, Gauge = 06500, Moves = new[] {089,047,014,157}, Location = 073 }, // Marowak: Cipher Admin Eldes @ Citadark Isle
+            new EncounterStaticShadow { Species = 131, Level = 44, Gauge = 06000, Moves = new[] {056,215,240,059}, Location = 073 }, // Lapras: Cipher Admin Eldes @ Citadark Isle
+            new EncounterStaticShadow { Species = 249, Level = 50, Gauge = 12000, Moves = new[] {354,297,089,056}, Location = 074 }, // Lugia: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 112, Level = 46, Gauge = 07000, Moves = new[] {224,270,184,089}, Location = 074 }, // Rhydon: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 146, Level = 50, Gauge = 10000, Moves = new[] {326,234,261,053}, Location = 074 }, // Moltres: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 103, Level = 46, Gauge = 09000, Moves = new[] {094,287,095,246}, Location = 074 }, // Exeggutor: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 128, Level = 46, Gauge = 09000, Moves = new[] {089,287,039,034}, Location = 074 }, // Tauros: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 144, Level = 50, Gauge = 10000, Moves = new[] {326,215,114,058}, Location = 074 }, // Articuno: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 145, Level = 50, Gauge = 10000, Moves = new[] {326,226,319,085}, Location = 074 }, // Zapdos: Grand Master Greevil @ Citadark Isle
+            new EncounterStaticShadow { Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162 }, // Dragonite: Wanderer Miror B. @ Gateon Port
+        };
+
+        internal static readonly EncounterArea[] SlotsXD =
+        {
+            new EncounterArea { Location = 090, Slots = new[] // Rock
+                {
+                    new EncounterSlot {Species = 027, LevelMin = 10, LevelMax = 23, SlotNumber = 0}, // Sandshrew
+                    new EncounterSlot {Species = 207, LevelMin = 10, LevelMax = 20, SlotNumber = 1}, // Gligar
+                    new EncounterSlot {Species = 328, LevelMin = 10, LevelMax = 20, SlotNumber = 2}, // Trapinch
+                }
+            },
+            new EncounterArea { Location = 091, Slots = new[] // Oasis
+                {
+                    new EncounterSlot {Species = 187, LevelMin = 10, LevelMax = 20, SlotNumber = 0}, // Hoppip
+                    new EncounterSlot {Species = 231, LevelMin = 10, LevelMax = 20, SlotNumber = 1}, // Phanpy
+                    new EncounterSlot {Species = 283, LevelMin = 10, LevelMax = 20, SlotNumber = 2}, // Surskit
+                }
+            },
+            new EncounterArea { Location = 092, Slots = new[] // Cave
+                {
+                    new EncounterSlot {Species = 041, LevelMin = 10, LevelMax = 21, SlotNumber = 0}, // Zubat
+                    new EncounterSlot {Species = 304, LevelMin = 10, LevelMax = 21, SlotNumber = 1}, // Aron
+                    new EncounterSlot {Species = 194, LevelMin = 10, LevelMax = 21, SlotNumber = 2}, // Wooper
+                }
+            },
+        };
+
+        internal static readonly EncounterStatic[] Encounter_CXD = Encounter_Colo.Concat(Encounter_XD).ToArray();
+
+        #endregion
     }
 }

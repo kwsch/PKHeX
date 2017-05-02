@@ -1,12 +1,13 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterSlot : IEncounterable
+    public class EncounterSlot : IEncounterable, IGeneration
     {
         public int Species { get; set; }
         public int Form;
-        public int LevelMin;
-        public int LevelMax;
+        public int LevelMin { get; set; }
+        public int LevelMax { get; set; }
         public SlotType Type = SlotType.Any;
+        public EncounterType TypeEncounter = EncounterType.None;
         public bool AllowDexNav;
         public bool Pressure;
         public bool DexNav;
@@ -14,7 +15,9 @@
         public bool BlackFlute;
         public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
         public int SlotNumber;
-        public EncounterSlot() { }
+        public bool EggEncounter => false;
+        public int Generation { get; set; } = -1;
+
         public virtual EncounterSlot Clone()
         {
             return new EncounterSlot
@@ -43,7 +46,6 @@
     public class EncounterSlot1 : EncounterSlot
     {
         public int Rate;
-        public EncounterSlot1() { }
         public override EncounterSlot Clone()
         {
             return new EncounterSlot1

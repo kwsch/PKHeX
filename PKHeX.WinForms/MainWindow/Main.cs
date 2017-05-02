@@ -145,10 +145,7 @@ namespace PKHeX.WinForms
             };
 
             // Load Event Databases
-            refreshPCDDB();
-            refreshPGFDB();
-            refreshWC6DB();
-            refreshWC7DB();
+            refreshMGDB();
 
             #endregion
             #region Localize & Populate Fields
@@ -176,7 +173,6 @@ namespace PKHeX.WinForms
             CB_MainLanguage.SelectedIndex = languageID;
 
             InitializeFields();
-            formInitialized = true;
             
             #endregion
             #region Load Initial File(s)
@@ -220,7 +216,7 @@ namespace PKHeX.WinForms
             if (pkmArg != null)
                 openQuick(pkmArg, force: true);
 
-            // Splash Screen closes on its own.
+            formInitialized = true; // Splash Screen closes on its own.
             BringToFront();
             WindowState = FormWindowState.Minimized;
             Show();
@@ -726,7 +722,7 @@ namespace PKHeX.WinForms
 
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
-            if (fi.Length > 0x10009C && fi.Length != 0x380000)
+            if (fi.Length > 0x10009C && fi.Length != 0x380000 && ! SAV3GCMemoryCard.IsMemoryCardSize(fi.Length))
                 WinFormsUtil.Error("Input file is too large." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
             else if (fi.Length < 32)
                 WinFormsUtil.Error("Input file is too small." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
@@ -782,6 +778,20 @@ namespace PKHeX.WinForms
             else if ((sav = SaveUtil.getVariantSAV(input)) != null)
             {
                 openSAV(sav, path);
+            }
+            else if ((SAV3GCMemoryCard.IsMemoryCardSize(input)))
+            {
+                SAV3GCMemoryCard MC = CheckGCMemoryCard(input, path);
+                if (MC == null)
+                    return;
+                if ((sav = SaveUtil.getVariantSAV(MC)) != null)
+                {
+                    openSAV(sav, path);
+                }
+                else
+                    WinFormsUtil.Error("Attempted to load an unsupported file type/size.",
+                        $"File Loaded:{Environment.NewLine}{path}",
+                        $"File Size:{Environment.NewLine}{input.Length} bytes (0x{input.Length:X4})");
             }
             else if ((temp = PKMConverter.getPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30)&7 : SAV.Generation)) != null)
             {
@@ -903,6 +913,59 @@ namespace PKHeX.WinForms
             openSAV(s, s.FileName);
             return true;
         }
+        private static GameVersion SelectMemoryCardSaveGame(SAV3GCMemoryCard MC)
+        {
+            if (MC.SaveGameCount == 1)
+                return MC.SelectedGameVersion;
+
+            var games = new List<ComboItem>();
+            if (MC.HasCOLO) games.Add(new ComboItem { Text = "Colosseum", Value = (int)GameVersion.COLO });
+            if (MC.HasXD) games.Add(new ComboItem { Text = "XD", Value = (int)GameVersion.XD });
+            if (MC.HasRSBOX) games.Add(new ComboItem { Text = "RS Box", Value = (int)GameVersion.RSBOX });
+
+            WinFormsUtil.Alert("Multiple games detected", "Select a game to edit.");
+            var dialog = new SAV_GameSelect(games.ToArray());
+            dialog.ShowDialog();
+            return dialog.Result;
+        }
+        private static SAV3GCMemoryCard CheckGCMemoryCard(byte[] Data, string path)
+        {
+            SAV3GCMemoryCard MC = new SAV3GCMemoryCard();
+            GCMemoryCardState MCState = MC.LoadMemoryCardFile(Data);
+            switch (MCState)
+            {
+                default: { WinFormsUtil.Error("Invalid or corrupted GC Memory Card. Aborting.", path); return null; }
+                case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error("GC Memory Card without any Pokémon save file. Aborting.", path); return null; }
+                case GCMemoryCardState.DuplicateCOLO:
+                case GCMemoryCardState.DuplicateXD:
+                case GCMemoryCardState.DuplicateRSBOX: { WinFormsUtil.Error("GC Memory Card with duplicated game save files. Aborting.", path); return null; }
+                case GCMemoryCardState.MultipleSaveGame:
+                    {
+                        GameVersion Game = SelectMemoryCardSaveGame(MC);
+                        if (Game == GameVersion.Invalid) //Cancel
+                            return null;
+                        MC.SelectSaveGame(Game);
+                        break;
+                    }
+                case GCMemoryCardState.SaveGameCOLO:    { MC.SelectSaveGame(GameVersion.COLO); break; }
+                case GCMemoryCardState.SaveGameXD:      { MC.SelectSaveGame(GameVersion.XD); break; }
+                case GCMemoryCardState.SaveGameRSBOX:   { MC.SelectSaveGame(GameVersion.RSBOX); break; }
+            }
+            return MC;
+        }
+
+        private void StoreLegalSaveGameData(SaveFile sav)
+        {
+            Legal.SavegameJapanese = sav.Japanese;
+            Legal.EReaderBerryIsEnigma = sav.eBerryIsEnigma;
+            Legal.EReaderBerryName = sav.eBerryName;
+            Legal.Savegame_Gender = sav.Gender;
+            Legal.Savegame_TID = sav.TID;
+            Legal.Savegame_SID = sav.SID;
+            Legal.Savegame_OT = sav.OT;
+            Legal.Savegame_Version = sav.Version;
+        }
+
         private void openSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
@@ -926,27 +989,52 @@ namespace PKHeX.WinForms
                 if (drVC == DialogResult.Cancel)
                     return;
                 Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
+                if (Legal.AllowGBCartEra && sav.Generation == 1)
+                {
+                    var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"Generation {SAV.Generation} Save File detected. Allow tradebacks from Generation 2 for legality purposes?",
+                        "Yes: Allow Generation 2 tradeback learnsets" + Environment.NewLine + "No: Don't allow Generation 2 tradeback learnsets");
+                    Legal.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
+                }
+                else
+                    Legal.AllowGen1Tradeback = false;
             }
             else
-                Legal.AllowGBCartEra = sav.Generation == 2;
+                Legal.AllowGBCartEra = Legal.AllowGen1Tradeback  = sav.Generation == 2;
 
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {
-                // Hacky cheats invalidated the Game Code value.
-                var drGame = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    "Gen3 Game Detected. Select Origins:",
-                    "Yes: Ruby / Sapphire" + Environment.NewLine +
-                    "No: Emerald" + Environment.NewLine +
-                    "Cancel: FireRed / LeafGreen");
+                WinFormsUtil.Alert($"Generation {SAV.Generation} Save File detected.", "Select version.");
+                var g = new[] {GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG};
+                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                var dialog = new SAV_GameSelect(games);
+                dialog.ShowDialog();
 
-                switch (drGame) // Reset save file info
+                switch (dialog.Result) // Reset save file info
                 {
-                    case DialogResult.Yes: sav = new SAV3(sav.BAK, GameVersion.RS); break;
-                    case DialogResult.No: sav = new SAV3(sav.BAK, GameVersion.E); break;
-                    case DialogResult.Cancel: sav = new SAV3(sav.BAK, GameVersion.FRLG); break;
+                    case GameVersion.R:
+                    case GameVersion.S: sav = new SAV3(sav.BAK, GameVersion.RS); break;
+                    case GameVersion.E: sav = new SAV3(sav.BAK, GameVersion.E); break;
+                    case GameVersion.FR:
+                    case GameVersion.LG: sav = new SAV3(sav.BAK, GameVersion.FRLG); break;
                     default: return;
                 }
+                if (sav.Version == GameVersion.FRLG)
+                    sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
             }
+            else if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
+            {
+                string fr = GameInfo.VersionDataSource.First(r => r.Value == (int)GameVersion.FR).Text;
+                string lg = GameInfo.VersionDataSource.First(l => l.Value == (int)GameVersion.LG).Text;
+                const string dual = "{0}/{1} Save File Detected.";
+                WinFormsUtil.Alert(string.Format(dual, fr, lg), "Select version.");
+                var g = new[] {GameVersion.FR, GameVersion.LG};
+                var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
+                var dialog = new SAV_GameSelect(games);
+                dialog.ShowDialog();
+
+                sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
+            }
+
             if (sav.IndeterminateLanguage)
             {
                 // Japanese Save files are different. Get isJapanese
@@ -957,15 +1045,7 @@ namespace PKHeX.WinForms
 
                 sav.Japanese = drJP == DialogResult.No;
             }
-            if (sav.IndeterminateSubVersion && sav.Version == GameVersion.FRLG)
-            {
-                var drFRLG = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, $"{sav.Version} detected. Select version...",
-                    "Yes: FireRed" + Environment.NewLine + "No: LeafGreen");
-                if (drFRLG == DialogResult.Cancel)
-                    return;
-
-                sav.Personal = drFRLG == DialogResult.Yes ? PersonalTable.FR : PersonalTable.LG;
-            }
+            StoreLegalSaveGameData(sav);
             loadingSAV = true;
 
             // clean fields
@@ -975,7 +1055,7 @@ namespace PKHeX.WinForms
             populateFields(SAV.BlankPKM);
             SAV = sav;
 
-            string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"SAV{SAV.Generation}: ";
+            string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"{SAV.GetType().Name}: ";
             if (path != null) // Actual save file
             {
                 SAV.FilePath = Path.GetDirectoryName(path);
@@ -1002,7 +1082,7 @@ namespace PKHeX.WinForms
             Menu_ExportSAV.Enabled = B_VerifyCHK.Enabled = SAV.Exportable;
 
             // Close subforms that are save dependent
-            Type[] f = { typeof(SAV_BoxViewer), typeof(f2_Text) };
+            Type[] f = { typeof(SAV_BoxViewer) };
             foreach (var form in Application.OpenForms.Cast<Form>().Where(form => f.Contains(form.GetType())).ToArray())
                 form.Close();
 
@@ -1073,6 +1153,7 @@ namespace PKHeX.WinForms
                 B_OpenOPowers.Enabled = SAV.HasOPower;
                 B_OpenPokedex.Enabled = SAV.HasPokeDex;
                 B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
+                B_OpenFriendSafari.Enabled = SAV.XY;
                 B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
                 B_JPEG.Visible = SAV.HasJPEG;
                 B_OpenEventFlags.Enabled = SAV.HasEvents;
@@ -1080,7 +1161,10 @@ namespace PKHeX.WinForms
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
-                B_OpenMiscEditor.Enabled = SAV is SAV3;
+                B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP || SAV.HGSS;
+
+                B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
+                B_OpenRTCEditor.Enabled = SAV.RS || SAV.E;
             }
             GB_SAVtools.Visible = (path != null) && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1288,104 +1372,96 @@ namespace PKHeX.WinForms
 
             TemplateFields();
             loadingSAV = false;
+            SAV.Edited = false;
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
         }
 
-        private static void refreshPCDDB()
+        private static void refreshMGDB()
         {
-            List<MysteryGift> db = new List<MysteryGift>();
-            byte[] bin = Resources.pcd;
+            var g4 = getPCDDB(Resources.pcd);
+            var g5 = getPGFDB(Resources.pgf);
+            var g6 = getWC6DB(Resources.wc6, Resources.wc6full);
+            var g7 = getWC7DB(Resources.wc7, Resources.wc7full);
+
+            if (Directory.Exists(MGDatabasePath))
+            foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
+            {
+                var fi = new FileInfo(file);
+                if (!MysteryGift.getIsMysteryGift(fi.Length))
+                    continue;
+
+                var gift = MysteryGift.getMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                switch (gift?.Format)
+                {
+                    case 4: g4.Add(gift); continue;
+                    case 5: g5.Add(gift); continue;
+                    case 6: g6.Add(gift); continue;
+                    case 7: g7.Add(gift); continue;
+                }
+            }
+
+            Legal.MGDB_G4 = g4.ToArray();
+            Legal.MGDB_G5 = g5.ToArray();
+            Legal.MGDB_G6 = g6.ToArray();
+            Legal.MGDB_G7 = g7.ToArray();
+        }
+        private static HashSet<MysteryGift> getPCDDB(byte[] bin)
+        {
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < bin.Length; i += PCD.Size)
             {
                 byte[] data = new byte[PCD.Size];
                 Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
                 db.Add(new PCD(data));
             }
-            if (Directory.Exists(MGDatabasePath))
-            {
-                foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
-                {
-                    var fi = new FileInfo(file);
-                    if (fi.Length == PCD.Size && fi.Extension == ".pcd")
-                        db.Add(new PCD(File.ReadAllBytes(file)));
-                    else if (fi.Length == PGT.Size && fi.Extension == ".pgt")
-                        db.Add(new PCD {Gift = new PGT(File.ReadAllBytes(file)), CardTitle = "MGDB PGT"});
-                }
-            }
-
-            Legal.MGDB_G4 = db.Distinct().ToArray();
+            return db;
         }
-        private static void refreshPGFDB()
+        private static HashSet<MysteryGift> getPGFDB(byte[] bin)
         {
-            List<MysteryGift> db = new List<MysteryGift>();
-            byte[] bin = Resources.pgf;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < bin.Length; i += PGF.Size) 
             {
                 byte[] data = new byte[PGF.Size];
                 Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
                 db.Add(new PGF(data));
             }
-            if (Directory.Exists(MGDatabasePath))
-                db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
-                               let fi = new FileInfo(file)
-                               where ".pgf" == fi.Extension && PGF.Size == fi.Length
-                               select new PGF(File.ReadAllBytes(file)));
-
-            Legal.MGDB_G5 = db.Distinct().ToArray();
+            return db;
         }
-        private static void refreshWC6DB()
+        private static HashSet<MysteryGift> getWC6DB(byte[] wc6bin, byte[] wc6full)
         {
-            List<MysteryGift> wc6db = new List<MysteryGift>();
-            byte[] wc6bin = Resources.wc6;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
             {
                 byte[] data = new byte[WC6.Size];
-                Array.Copy(wc6bin, i, data, 0, WC6.Size);
-                wc6db.Add(new WC6(data));
+                Buffer.BlockCopy(wc6bin, i, data, 0, WC6.Size);
+                db.Add(new WC6(data));
             }
-            byte[] wc6full = Resources.wc6full;
             for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
             {
                 byte[] data = new byte[WC6.SizeFull];
-                Array.Copy(wc6full, i, data, 0, WC6.SizeFull);
-                wc6db.Add(new WC6(data));
+                Buffer.BlockCopy(wc6full, i, data, 0, WC6.SizeFull);
+                db.Add(new WC6(data));
             }
-
-            if (Directory.Exists(MGDatabasePath))
-                wc6db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
-                    let fi = new FileInfo(file)
-                    where new[] {".wc6full", ".wc6"}.Contains(fi.Extension) && new[] {WC6.Size, WC6.SizeFull}.Contains((int)fi.Length)
-                    select new WC6(File.ReadAllBytes(file)));
-
-            Legal.MGDB_G6 = wc6db.Distinct().ToArray();
+            return db;
         }
-        private static void refreshWC7DB()
+        private static HashSet<MysteryGift> getWC7DB(byte[] wc7bin, byte[] wc7full)
         {
-            List<MysteryGift> wc7db = new List<MysteryGift>();
-            byte[] wc7bin = Resources.wc7;
+            var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc7bin.Length; i += WC7.Size)
             {
                 byte[] data = new byte[WC7.Size];
-                Array.Copy(wc7bin, i, data, 0, WC7.Size);
-                wc7db.Add(new WC7(data));
+                Buffer.BlockCopy(wc7bin, i, data, 0, WC7.Size);
+                db.Add(new WC7(data));
             }
-            byte[] wc7full = Resources.wc7full;
             for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
             {
                 byte[] data = new byte[WC7.SizeFull];
-                Array.Copy(wc7full, i, data, 0, WC7.SizeFull);
-                wc7db.Add(new WC7(data));
+                Buffer.BlockCopy(wc7full, i, data, 0, WC7.SizeFull);
+                db.Add(new WC7(data));
             }
-
-            if (Directory.Exists(MGDatabasePath))
-                wc7db.AddRange(from file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories)
-                               let fi = new FileInfo(file)
-                               where new[] { ".wc7full", ".wc7" }.Contains(fi.Extension) && new[] { WC7.Size, WC7.SizeFull }.Contains((int)fi.Length)
-                               select new WC7(File.ReadAllBytes(file)));
-
-            Legal.MGDB_G7 = wc7db.Distinct().ToArray();
+            return db;
         }
 
         // Language Translation
@@ -1419,7 +1495,7 @@ namespace PKHeX.WinForms
             GameInfo.Strings = GameInfo.getStrings(l);
 
             // Update Legality Strings
-            // Clipboard.SetText(string.Join(Environment.NewLine, CheckStrings.getLocalization()));
+            // Clipboard.SetText(string.Join(Environment.NewLine, Util.getLocalization(typeof(LegalityCheckStrings))));
             Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings)));
 
             // Force an update to the met locations
@@ -1427,6 +1503,7 @@ namespace PKHeX.WinForms
 
             // Update Legality Analysis strings
             LegalityAnalysis.movelist = GameInfo.Strings.movelist;
+            LegalityAnalysis.specieslist = GameInfo.Strings.specieslist;
 
             if (fieldsInitialized)
                 updateIVs(null, null); // Prompt an update for the characteristics
@@ -2345,12 +2422,6 @@ namespace PKHeX.WinForms
         {
             if (pkm.Format < 6)
                 return;
-            pkm.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            if (pkm.GenNumber < 6)
-            {
-                TB_EC.Text = TB_PID.Text;
-                WinFormsUtil.Alert("EC should match PID.");
-            }
             
             int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, WinFormsUtil.getIndex(CB_Species));
             if (wIndex < 0)
@@ -2360,9 +2431,24 @@ namespace PKHeX.WinForms
             else
             {
                 uint EC;
-                do { EC = Util.rnd32(); } while ((EC >> 16)%10/5 != wIndex/2);
+                bool valid;
+                do
+                {
+                    EC = Util.rnd32();
+                    uint evoVal;
+                    switch (pkm.GenNumber)
+                    {
+                        case 3: evoVal = pkm.PID & 0xFFFF; break;
+                        case 4:
+                        case 5: evoVal = pkm.PID >> 16; break;
+                        default: evoVal = pkm.EncryptionConstant >> 16; break;
+                    }
+                    evoVal = evoVal%10/5;
+                    valid = evoVal == wIndex/2;
+                } while (!valid);
                 TB_EC.Text = EC.ToString("X8");
             }
+            updateLegality();
         }
         private void updateHackedStats(object sender, EventArgs e)
         {
@@ -2665,19 +2751,6 @@ namespace PKHeX.WinForms
             { clickShowdownExportPKM(sender, e); return; }
 
             int lang = WinFormsUtil.getIndex(CB_Language);
-            if (sender == CB_Language || sender == CHK_Nicknamed)
-            {
-                switch (lang)
-                {
-                    case 9:
-                    case 10:
-                        TB_Nickname.Visible = CHK_Nicknamed.Checked;
-                        break;
-                    default:
-                        TB_Nickname.Visible = true;
-                        break;
-                }
-            }
 
             if (!fieldsInitialized || CHK_Nicknamed.Checked)
                 return;
@@ -2707,10 +2780,30 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(f2_Text)) as f2_Text;
-            if (z != null)
-            { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
-            new f2_Text(tb).Show();
+            if (tb == TB_Nickname)
+            {
+                pkm.Nickname = tb.Text;
+                var d = new f2_Text(tb, pkm.Nickname_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.Nickname_Trash = d.FinalBytes;
+            }
+            else if (tb == TB_OT)
+            {
+                pkm.OT_Name = tb.Text;
+                var d = new f2_Text(tb, pkm.OT_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.OT_Trash = d.FinalBytes;
+            }
+            else if (tb == TB_OTt2)
+            {
+                pkm.HT_Name = tb.Text;
+                var d = new f2_Text(tb, pkm.HT_Trash);
+                d.ShowDialog();
+                tb.Text = d.FinalString;
+                pkm.HT_Trash = d.FinalBytes;
+            }
         }
         private void updateNotOT(object sender, EventArgs e)
         {
@@ -2885,7 +2978,7 @@ namespace PKHeX.WinForms
             if (!fieldsLoaded)
                 return;
             fieldsLoaded = false;
-            CHK_Shadow.Checked = NUD_Purification.Value == 0;
+            CHK_Shadow.Checked = NUD_Purification.Value > 0;
             fieldsLoaded = true;
         }
         private void updateShadowCHK(object sender, EventArgs e)
@@ -2937,7 +3030,7 @@ namespace PKHeX.WinForms
                     pkm.Nature = CB_Nature.SelectedIndex;
                     updateRandomPID(sender, e);
                 }
-                if (sender == CB_HeldItem && SAV.Generation == 7)
+                if (sender == CB_HeldItem || sender == CB_Ability)
                     updateLegality();
             }
             updateNatureModification(sender, null);
@@ -3038,13 +3131,14 @@ namespace PKHeX.WinForms
             fieldsLoaded = false;
             var cb = new[] {CB_Move1, CB_Move2, CB_Move3, CB_Move4};
             var moves = Legality.AllSuggestedMovesAndRelearn;
-            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToList();
+            var moveList = GameInfo.MoveDataSource.OrderByDescending(m => moves.Contains(m.Value)).ToArray();
             foreach (ComboBox c in cb)
             {
                 var index = WinFormsUtil.getIndex(c);
                 c.DataSource = new BindingSource(moveList, null);
                 c.SelectedValue = index;
-                c.SelectionLength = 0; // flicker hack
+                if (c.Visible)
+                    c.SelectionLength = 0; // flicker hack
             }
             fieldsLoaded |= tmp;
         }
@@ -3151,7 +3245,7 @@ namespace PKHeX.WinForms
                                  CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 // Moves
                              };
 
-            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon);
+            ComboBox cb = cba.FirstOrDefault(c => c.BackColor == Color.DarkSalmon && c.Items.Count != 0);
             if (cb != null)
             {
                 Control c = cb.Parent;
@@ -3227,13 +3321,16 @@ namespace PKHeX.WinForms
             e.Effect = DragDropEffects.Move;
         }
         // Dragout Display
-        private void dragoutHover(object sender, EventArgs e)
+        private void dragoutEnter(object sender, EventArgs e)
         {
             dragout.BackgroundImage = WinFormsUtil.getIndex(CB_Species) > 0 ? Resources.slotSet : Resources.slotDel;
+            Cursor = Cursors.Hand;
         }
         private void dragoutLeave(object sender, EventArgs e)
         {
             dragout.BackgroundImage = Resources.slotTrans;
+            if (Cursor == Cursors.Hand)
+                Cursor = Cursors.Default;
         }
         private void dragoutDrop(object sender, DragEventArgs e)
         {
@@ -3319,9 +3416,10 @@ namespace PKHeX.WinForms
                 SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
 
             bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
+            bool gci = Path.GetExtension(main.FileName)?.ToLower() == ".gci";
             try
             {
-                File.WriteAllBytes(main.FileName, SAV.Write(dsv));
+                File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
                 SAV.Edited = false;
                 WinFormsUtil.Alert("SAV exported to:", main.FileName);
             }
@@ -4069,6 +4167,19 @@ namespace PKHeX.WinForms
             else if (SAV.XY)
                 new SAV_OPower().ShowDialog();
         }
+        private void B_OpenFriendSafari_Click(object sender, EventArgs e)
+        {
+            if (!SAV.XY)
+                return;
+
+            DialogResult dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "No editing support for Friend Safari :(", "Unlock all 3 slots for each friend?");
+            if (dr != DialogResult.Yes) return;
+
+            // Unlock + reveal all safari slots if friend data is present
+            for (int i = 1; i < 101; i++)
+                if (SAV.Data[0x1E7FF + 0x15*i] != 0x00) // no friend data == 0x00
+                    SAV.Data[0x1E7FF + 0x15*i] = 0x3D;
+        }
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
             switch (SAV.Generation)
@@ -4104,6 +4215,25 @@ namespace PKHeX.WinForms
             {
                 case 3:
                     new SAV_Misc3().ShowDialog(); break;
+                case 4:
+                    new SAV_Misc4().ShowDialog(); break;
+            }
+        }
+        private void B_OpenRTCEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Generation)
+            {
+                case 3:
+                    new SAV_RTC3().ShowDialog(); break;
+            }
+        }
+        private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Version)
+            {
+                case GameVersion.DP:
+                case GameVersion.Pt:
+                    new SAV_HoneyTree().ShowDialog(); break;
             }
         }
         private void B_OUTPasserby_Click(object sender, EventArgs e)
@@ -4202,6 +4332,25 @@ namespace PKHeX.WinForms
         }
 
         // Drag and drop related functions
+        private static Image OriginalBackground;
+        private static Image CurrentBackground;
+        private void pbBoxSlot_MouseEnter(object sender, EventArgs e)
+        {
+            var pb = (PictureBox) sender;
+            if (pb.Image == null)
+                return;
+            OriginalBackground = pb.BackgroundImage;
+            pb.BackgroundImage = CurrentBackground = Resources.slotHover;
+            Cursor = Cursors.Hand;
+        }
+        private void pbBoxSlot_MouseLeave(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            if (pb.BackgroundImage != CurrentBackground)
+                return;
+            pb.BackgroundImage = OriginalBackground;
+            Cursor = Cursors.Default;
+        }
         private void pbBoxSlot_MouseClick(object sender, MouseEventArgs e)
         {
             if (!DragInfo.slotDragDropInProgress)
