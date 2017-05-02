@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
                     var E = RNG.LCRNG.Next(D);
                     var ivE = E >> 16 & 0x7FFF;
-                    if (iv2 != ivE) // BADE
+                    if (iv2 == ivE) // BADE
                     {
                         pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2_Unown};
                         return true;
