@@ -17,6 +17,8 @@
         Method_2_Unown,
         /// <summary> Method H4_Unown (FRLG) </summary>
         Method_4_Unown,
+        /// <summary>  Method 1 Roamer (Gen3) </summary>
+        Method_1_Roamer,
 
         /// <summary>
         /// Event Reversed Order PID restricted to 16bit Origin Seed

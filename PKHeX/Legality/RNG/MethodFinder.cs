@@ -38,6 +38,8 @@ namespace PKHeX.Core
                 return pidiv;
 
             // Special cases
+            if (getLCRNGRoamerMatch(top, bot, IVs, out pidiv))
+                return pidiv;
             if (getChannelMatch(top, bot, IVs, out pidiv))
                 return pidiv;
             if (getMG4Match(pid, IVs, out pidiv))
@@ -61,6 +63,8 @@ namespace PKHeX.Core
         private static bool getLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
             var reg = getSeedsFromPID(RNG.LCRNG, top, bot);
+            var iv1 = getIVChunk(IVs, 0);
+            var iv2 = getIVChunk(IVs, 3);
             foreach (var seed in reg)
             {
                 // A and B are already used by PID
@@ -68,25 +72,39 @@ namespace PKHeX.Core
 
                 // Method 1/2/4 can use 3 different RNG frames
                 var C = RNG.LCRNG.Next(B);
-                var D = RNG.LCRNG.Next(C);
-
-                if (getIVs(C >> 16, D >> 16).SequenceEqual(IVs)) // ABCD
+                var ivC = C >> 16 & 0x7FFF;
+                if (iv1 == ivC)
                 {
-                    pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1};
-                    return true;
+                    var D = RNG.LCRNG.Next(C);
+                    var ivD = D >> 16 & 0x7FFF;
+                    if (iv2 == ivD) // ABCD
+                    {
+                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1};
+                        return true;
+                    }
+
+                    var E = RNG.LCRNG.Next(D);
+                    var ivE = E >> 16 & 0x7FFF;
+                    if (iv2 == ivE) // ABCE
+                    {
+                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4};
+                        return true;
+                    }
                 }
-
-                var E = RNG.LCRNG.Next(D);
-                if (getIVs(D >> 16, E >> 16).SequenceEqual(IVs)) // ABDE
+                else
                 {
-                    pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2};
-                    return true;
-                }
+                    var D = RNG.LCRNG.Next(C);
+                    var ivD = D >> 16 & 0x7FFF;
+                    if (iv1 != ivD)
+                        continue;
 
-                if (getIVs(C >> 16, E >> 16).SequenceEqual(IVs)) // ABCE
-                {
-                    pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4};
-                    return true;
+                    var E = RNG.LCRNG.Next(D);
+                    var ivE = E >> 16 & 0x7FFF;
+                    if (iv2 == ivE) // ABDE
+                    {
+                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2};
+                        return true;
+                    }
                 }
             }
             pidiv = null;
@@ -96,6 +114,8 @@ namespace PKHeX.Core
         {
             // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
             var reg = getSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
+            var iv1 = getIVChunk(IVs, 0);
+            var iv2 = getIVChunk(IVs, 3);
             foreach (var seed in reg)
             {
                 // A and B are already used by PID
@@ -103,26 +123,63 @@ namespace PKHeX.Core
 
                 // Method 1/2/4 can use 3 different RNG frames
                 var C = RNG.LCRNG.Next(B);
-                var D = RNG.LCRNG.Next(C);
-
-                if (getIVs(C >> 16, D >> 16).SequenceEqual(IVs)) // BACD
+                var ivC = C >> 16 & 0x7FFF;
+                if (iv1 == ivC)
                 {
-                    pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1_Unown };
-                    return true;
-                }
+                    var D = RNG.LCRNG.Next(C);
+                    var ivD = D >> 16 & 0x7FFF;
+                    if (iv2 == ivD) // BACD
+                    {
+                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1_Unown};
+                        return true;
+                    }
 
-                var E = RNG.LCRNG.Next(D);
-                if (getIVs(D >> 16, E >> 16).SequenceEqual(IVs)) // BADE
-                {
-                    pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2_Unown };
-                    return true;
+                    var E = RNG.LCRNG.Next(D);
+                    var ivE = E >> 16 & 0x7FFF;
+                    if (iv2 == ivE) // BACE
+                    {
+                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4_Unown};
+                        return true;
+                    }
                 }
+                else
+                {
+                    var D = RNG.LCRNG.Next(C);
+                    var ivD = D >> 16 & 0x7FFF;
+                    if (iv1 != ivD)
+                        continue;
 
-                if (getIVs(C >> 16, E >> 16).SequenceEqual(IVs)) // BACE
-                {
-                    pidiv = new PIDIV { OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_4_Unown };
-                    return true;
+                    var E = RNG.LCRNG.Next(D);
+                    var ivE = E >> 16 & 0x7FFF;
+                    if (iv2 != ivE) // BADE
+                    {
+                        pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_2_Unown};
+                        return true;
+                    }
                 }
+            }
+            pidiv = null;
+            return false;
+        }
+        private static bool getLCRNGRoamerMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        {
+            var iv2 = getIVChunk(IVs, 3);
+            if (iv2 != 0 || IVs[2] != 0)
+            {
+                pidiv = null;
+                return false;
+            }
+            var iv1 = getIVChunk(IVs, 0);
+            var reg = getSeedsFromPID(RNG.LCRNG, top, bot);
+            foreach (var seed in reg)
+            {
+                // Only the first two IVs are kept
+                var ivC = RNG.LCRNG.Advance(seed, 3) >> 16 & 0x03FF;
+                if (iv1 != ivC)
+                    continue;
+
+                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.Method_1_Roamer};
+                return true;
             }
             pidiv = null;
             return false;
@@ -280,8 +337,8 @@ namespace PKHeX.Core
                 var B = seed;
                 var A = RNG.LCRNG.Prev(B);
 
-                var PID = A & 0xFFFF0000 | (B >> 16);
-                bool isShiny = (pk.TID ^ pk.SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
+                var PID = A & 0xFFFF0000 | B >> 16;
+                bool isShiny = (pk.TID ^ pk.SID ^ PID >> 16 ^ PID & 0xFFFF) < 8;
                 bool forceShiny = false;
                 if (PID != pid)
                 {
@@ -306,12 +363,12 @@ namespace PKHeX.Core
                             continue;
                         forceShiny = true;
                     }
-                    if (!forceShiny && ((PID + 8) & 0xFFFFFFF8) != pid)
+                    if (!forceShiny && (PID + 8 & 0xFFFFFFF8) != pid)
                         continue;
                 }
                 var s = RNG.LCRNG.Prev(A);
 
-                // Check for Restricted generation pattern
+                // Check for prior Restricted seed
                 var sn = s;
                 for (int i = 0; i < 3; i++, sn = RNG.LCRNG.Prev(sn))
                 {
@@ -321,7 +378,7 @@ namespace PKHeX.Core
                     pidiv = new PIDIV {OriginSeed = sn, RNG = RNG.LCRNG, Type = type};
                     return true;
                 }
-
+                // no restricted seed found, thus unrestricted
                 var t = forceShiny ? PIDType.BACD_U_S : isShiny ? PIDType.BACD_U_A : PIDType.BACD_U;
                 pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = t};
                 return true;

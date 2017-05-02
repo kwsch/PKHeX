@@ -166,7 +166,7 @@ namespace PKHeX.Core
             }
 
             // Check if Wurmple was the origin (only Egg and Wild Encounter)
-            bool wasWurmple = pkm.WasEgg || (Type == typeof (EncounterSlot[]) && ((EncounterSlot[])EncounterMatch).Any(slot => slot.Species == 265));
+            bool wasWurmple = pkm.WasEgg || (Type == typeof (EncounterSlot[]) && ((EncounterSlot[])EncounterMatch).All(slot => slot.Species == 265));
             if (!wasWurmple)
                 return;
 
