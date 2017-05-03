@@ -93,6 +93,37 @@
             this.BTN_SymbolT = new System.Windows.Forms.Button();
             this.BTN_SymbolA = new System.Windows.Forms.Button();
             this.CHK_ActivatePass = new System.Windows.Forms.CheckBox();
+            this.TAB_Legend = new System.Windows.Forms.TabPage();
+            this.CLB_Legendary = new System.Windows.Forms.CheckedListBox();
+            this.BTN_CheckAll = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.GB_RoamingLati = new System.Windows.Forms.GroupBox();
+            this.RB_RoamingLatias = new System.Windows.Forms.RadioButton();
+            this.RB_RoamingLatios = new System.Windows.Forms.RadioButton();
+            this.GB_RoamingInfo = new System.Windows.Forms.GroupBox();
+            this.CB_RoamingSpecies = new System.Windows.Forms.ComboBox();
+            this.TB_RoamingPID = new System.Windows.Forms.TextBox();
+            this.NUD_RoamingLV = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingHP = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingIVHP = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingIVAtk = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingIVDef = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingIVSpA = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingIVSpD = new System.Windows.Forms.NumericUpDown();
+            this.NUD_RoamingIVSpe = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.GB_TitanUnlock = new System.Windows.Forms.GroupBox();
+            this.CLB_TitanUnlock = new System.Windows.Forms.CheckedListBox();
+            this.GB_Weather = new System.Windows.Forms.GroupBox();
+            this.CB_Weather = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
@@ -109,12 +140,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).BeginInit();
             this.GB_FrontierPass.SuspendLayout();
             this.GB_Icons.SuspendLayout();
+            this.TAB_Legend.SuspendLayout();
+            this.GB_RoamingLati.SuspendLayout();
+            this.GB_RoamingInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingLV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingHP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVHP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVAtk)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVDef)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVSpA)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVSpD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVSpe)).BeginInit();
+            this.GB_TitanUnlock.SuspendLayout();
+            this.GB_Weather.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(213, 262);
+            this.B_Save.Location = new System.Drawing.Point(252, 285);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 73;
@@ -125,7 +169,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(132, 262);
+            this.B_Cancel.Location = new System.Drawing.Point(171, 285);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 72;
@@ -142,10 +186,11 @@
             this.tabControl1.Controls.Add(this.TAB_Joyful);
             this.tabControl1.Controls.Add(this.TAB_Ferry);
             this.tabControl1.Controls.Add(this.TAB_BF);
+            this.tabControl1.Controls.Add(this.TAB_Legend);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(274, 244);
+            this.tabControl1.Size = new System.Drawing.Size(313, 266);
             this.tabControl1.TabIndex = 74;
             // 
             // TAB_Main
@@ -159,7 +204,7 @@
             this.TAB_Main.Location = new System.Drawing.Point(4, 22);
             this.TAB_Main.Name = "TAB_Main";
             this.TAB_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Main.Size = new System.Drawing.Size(266, 218);
+            this.TAB_Main.Size = new System.Drawing.Size(305, 240);
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
@@ -229,7 +274,7 @@
             this.TAB_Joyful.Location = new System.Drawing.Point(4, 22);
             this.TAB_Joyful.Name = "TAB_Joyful";
             this.TAB_Joyful.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Joyful.Size = new System.Drawing.Size(266, 218);
+            this.TAB_Joyful.Size = new System.Drawing.Size(305, 240);
             this.TAB_Joyful.TabIndex = 1;
             this.TAB_Joyful.Text = "Joyful";
             this.TAB_Joyful.UseVisualStyleBackColor = true;
@@ -395,7 +440,7 @@
             this.TAB_Ferry.Location = new System.Drawing.Point(4, 22);
             this.TAB_Ferry.Name = "TAB_Ferry";
             this.TAB_Ferry.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Ferry.Size = new System.Drawing.Size(266, 218);
+            this.TAB_Ferry.Size = new System.Drawing.Size(305, 240);
             this.TAB_Ferry.TabIndex = 2;
             this.TAB_Ferry.Text = "Ferry";
             this.TAB_Ferry.UseVisualStyleBackColor = true;
@@ -543,7 +588,7 @@
             this.TAB_BF.Controls.Add(this.GB_FrontierPass);
             this.TAB_BF.Location = new System.Drawing.Point(4, 22);
             this.TAB_BF.Name = "TAB_BF";
-            this.TAB_BF.Size = new System.Drawing.Size(266, 218);
+            this.TAB_BF.Size = new System.Drawing.Size(305, 240);
             this.TAB_BF.TabIndex = 3;
             this.TAB_BF.Text = "B.Frontier";
             this.TAB_BF.UseVisualStyleBackColor = true;
@@ -854,11 +899,395 @@
             this.CHK_ActivatePass.Text = "Activated";
             this.CHK_ActivatePass.UseVisualStyleBackColor = true;
             // 
+            // TAB_Legend
+            // 
+            this.TAB_Legend.Controls.Add(this.CLB_Legendary);
+            this.TAB_Legend.Controls.Add(this.BTN_CheckAll);
+            this.TAB_Legend.Controls.Add(this.label1);
+            this.TAB_Legend.Controls.Add(this.GB_RoamingLati);
+            this.TAB_Legend.Controls.Add(this.GB_RoamingInfo);
+            this.TAB_Legend.Controls.Add(this.GB_TitanUnlock);
+            this.TAB_Legend.Controls.Add(this.GB_Weather);
+            this.TAB_Legend.Location = new System.Drawing.Point(4, 22);
+            this.TAB_Legend.Name = "TAB_Legend";
+            this.TAB_Legend.Size = new System.Drawing.Size(305, 240);
+            this.TAB_Legend.TabIndex = 4;
+            this.TAB_Legend.Text = "Legendary";
+            this.TAB_Legend.UseVisualStyleBackColor = true;
+            // 
+            // CLB_Legendary
+            // 
+            this.CLB_Legendary.FormattingEnabled = true;
+            this.CLB_Legendary.Location = new System.Drawing.Point(3, 22);
+            this.CLB_Legendary.Name = "CLB_Legendary";
+            this.CLB_Legendary.Size = new System.Drawing.Size(132, 192);
+            this.CLB_Legendary.TabIndex = 0;
+            this.CLB_Legendary.SelectedIndexChanged += new System.EventHandler(this.CLB_Legendary_SelectedIndexChanged);
+            // 
+            // BTN_CheckAll
+            // 
+            this.BTN_CheckAll.Location = new System.Drawing.Point(3, 213);
+            this.BTN_CheckAll.Name = "BTN_CheckAll";
+            this.BTN_CheckAll.Size = new System.Drawing.Size(75, 23);
+            this.BTN_CheckAll.TabIndex = 1;
+            this.BTN_CheckAll.Text = "Check All";
+            this.BTN_CheckAll.UseVisualStyleBackColor = true;
+            this.BTN_CheckAll.Click += new System.EventHandler(this.BTN_CheckAll_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 12);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Encountable Legendaries";
+            // 
+            // GB_RoamingLati
+            // 
+            this.GB_RoamingLati.Controls.Add(this.RB_RoamingLatias);
+            this.GB_RoamingLati.Controls.Add(this.RB_RoamingLatios);
+            this.GB_RoamingLati.Location = new System.Drawing.Point(141, 6);
+            this.GB_RoamingLati.Name = "GB_RoamingLati";
+            this.GB_RoamingLati.Size = new System.Drawing.Size(157, 40);
+            this.GB_RoamingLati.TabIndex = 3;
+            this.GB_RoamingLati.TabStop = false;
+            this.GB_RoamingLati.Text = "Roaming";
+            // 
+            // RB_RoamingLatias
+            // 
+            this.RB_RoamingLatias.AutoSize = true;
+            this.RB_RoamingLatias.Location = new System.Drawing.Point(6, 18);
+            this.RB_RoamingLatias.Name = "RB_RoamingLatias";
+            this.RB_RoamingLatias.Size = new System.Drawing.Size(54, 16);
+            this.RB_RoamingLatias.TabIndex = 0;
+            this.RB_RoamingLatias.TabStop = true;
+            this.RB_RoamingLatias.Text = "Latias";
+            this.RB_RoamingLatias.UseVisualStyleBackColor = true;
+            this.RB_RoamingLatias.CheckedChanged += new System.EventHandler(this.RB_RoamingLatias_CheckedChanged);
+            // 
+            // RB_RoamingLatios
+            // 
+            this.RB_RoamingLatios.AutoSize = true;
+            this.RB_RoamingLatios.Location = new System.Drawing.Point(66, 18);
+            this.RB_RoamingLatios.Name = "RB_RoamingLatios";
+            this.RB_RoamingLatios.Size = new System.Drawing.Size(54, 16);
+            this.RB_RoamingLatios.TabIndex = 1;
+            this.RB_RoamingLatios.TabStop = true;
+            this.RB_RoamingLatios.Text = "Latios";
+            this.RB_RoamingLatios.UseVisualStyleBackColor = true;
+            this.RB_RoamingLatios.CheckedChanged += new System.EventHandler(this.RB_RoamingLatios_CheckedChanged);
+            // 
+            // GB_RoamingInfo
+            // 
+            this.GB_RoamingInfo.Controls.Add(this.CB_RoamingSpecies);
+            this.GB_RoamingInfo.Controls.Add(this.TB_RoamingPID);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingLV);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingHP);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingIVHP);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingIVAtk);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingIVDef);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingIVSpA);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingIVSpD);
+            this.GB_RoamingInfo.Controls.Add(this.NUD_RoamingIVSpe);
+            this.GB_RoamingInfo.Controls.Add(this.label2);
+            this.GB_RoamingInfo.Controls.Add(this.label3);
+            this.GB_RoamingInfo.Controls.Add(this.label6);
+            this.GB_RoamingInfo.Controls.Add(this.label7);
+            this.GB_RoamingInfo.Controls.Add(this.label8);
+            this.GB_RoamingInfo.Controls.Add(this.label9);
+            this.GB_RoamingInfo.Controls.Add(this.label10);
+            this.GB_RoamingInfo.Controls.Add(this.label11);
+            this.GB_RoamingInfo.Controls.Add(this.label12);
+            this.GB_RoamingInfo.Location = new System.Drawing.Point(141, 53);
+            this.GB_RoamingInfo.Name = "GB_RoamingInfo";
+            this.GB_RoamingInfo.Size = new System.Drawing.Size(157, 165);
+            this.GB_RoamingInfo.TabIndex = 4;
+            this.GB_RoamingInfo.TabStop = false;
+            this.GB_RoamingInfo.Text = "Roaming (details)";
+            // 
+            // CB_RoamingSpecies
+            // 
+            this.CB_RoamingSpecies.FormattingEnabled = true;
+            this.CB_RoamingSpecies.Location = new System.Drawing.Point(6, 18);
+            this.CB_RoamingSpecies.Name = "CB_RoamingSpecies";
+            this.CB_RoamingSpecies.Size = new System.Drawing.Size(121, 20);
+            this.CB_RoamingSpecies.TabIndex = 0;
+            // 
+            // TB_RoamingPID
+            // 
+            this.TB_RoamingPID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_RoamingPID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_RoamingPID.Location = new System.Drawing.Point(32, 42);
+            this.TB_RoamingPID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.TB_RoamingPID.MaxLength = 8;
+            this.TB_RoamingPID.Name = "TB_RoamingPID";
+            this.TB_RoamingPID.Size = new System.Drawing.Size(60, 20);
+            this.TB_RoamingPID.TabIndex = 1;
+            this.TB_RoamingPID.Text = "12345678";
+            // 
+            // NUD_RoamingLV
+            // 
+            this.NUD_RoamingLV.Location = new System.Drawing.Point(32, 65);
+            this.NUD_RoamingLV.Minimum = new decimal(new int[] {
+            39,
+            0,
+            0,
+            0});
+            this.NUD_RoamingLV.Name = "NUD_RoamingLV";
+            this.NUD_RoamingLV.Size = new System.Drawing.Size(43, 19);
+            this.NUD_RoamingLV.TabIndex = 3;
+            this.NUD_RoamingLV.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingHP
+            // 
+            this.NUD_RoamingHP.Location = new System.Drawing.Point(107, 65);
+            this.NUD_RoamingHP.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            this.NUD_RoamingHP.Name = "NUD_RoamingHP";
+            this.NUD_RoamingHP.Size = new System.Drawing.Size(43, 19);
+            this.NUD_RoamingHP.TabIndex = 4;
+            this.NUD_RoamingHP.Value = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingIVHP
+            // 
+            this.NUD_RoamingIVHP.Location = new System.Drawing.Point(38, 90);
+            this.NUD_RoamingIVHP.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_RoamingIVHP.Name = "NUD_RoamingIVHP";
+            this.NUD_RoamingIVHP.Size = new System.Drawing.Size(37, 19);
+            this.NUD_RoamingIVHP.TabIndex = 5;
+            this.NUD_RoamingIVHP.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingIVAtk
+            // 
+            this.NUD_RoamingIVAtk.Location = new System.Drawing.Point(114, 90);
+            this.NUD_RoamingIVAtk.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_RoamingIVAtk.Name = "NUD_RoamingIVAtk";
+            this.NUD_RoamingIVAtk.Size = new System.Drawing.Size(37, 19);
+            this.NUD_RoamingIVAtk.TabIndex = 6;
+            this.NUD_RoamingIVAtk.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingIVDef
+            // 
+            this.NUD_RoamingIVDef.Location = new System.Drawing.Point(38, 115);
+            this.NUD_RoamingIVDef.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_RoamingIVDef.Name = "NUD_RoamingIVDef";
+            this.NUD_RoamingIVDef.Size = new System.Drawing.Size(37, 19);
+            this.NUD_RoamingIVDef.TabIndex = 7;
+            this.NUD_RoamingIVDef.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingIVSpA
+            // 
+            this.NUD_RoamingIVSpA.Location = new System.Drawing.Point(114, 115);
+            this.NUD_RoamingIVSpA.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_RoamingIVSpA.Name = "NUD_RoamingIVSpA";
+            this.NUD_RoamingIVSpA.Size = new System.Drawing.Size(37, 19);
+            this.NUD_RoamingIVSpA.TabIndex = 8;
+            this.NUD_RoamingIVSpA.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingIVSpD
+            // 
+            this.NUD_RoamingIVSpD.Location = new System.Drawing.Point(38, 140);
+            this.NUD_RoamingIVSpD.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_RoamingIVSpD.Name = "NUD_RoamingIVSpD";
+            this.NUD_RoamingIVSpD.Size = new System.Drawing.Size(37, 19);
+            this.NUD_RoamingIVSpD.TabIndex = 9;
+            this.NUD_RoamingIVSpD.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // NUD_RoamingIVSpe
+            // 
+            this.NUD_RoamingIVSpe.Location = new System.Drawing.Point(114, 140);
+            this.NUD_RoamingIVSpe.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.NUD_RoamingIVSpe.Name = "NUD_RoamingIVSpe";
+            this.NUD_RoamingIVSpe.Size = new System.Drawing.Size(37, 19);
+            this.NUD_RoamingIVSpe.TabIndex = 10;
+            this.NUD_RoamingIVSpe.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(19, 12);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "LV";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(81, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(20, 12);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "HP";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 94);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(20, 12);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "HP";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(81, 94);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(23, 12);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Atk";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 119);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(23, 12);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Def";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(81, 119);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(26, 12);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "SpA";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 144);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(26, 12);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "SpD";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(81, 144);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(24, 12);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Spe";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 47);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(23, 12);
+            this.label12.TabIndex = 23;
+            this.label12.Text = "PID";
+            // 
+            // GB_TitanUnlock
+            // 
+            this.GB_TitanUnlock.Controls.Add(this.CLB_TitanUnlock);
+            this.GB_TitanUnlock.Location = new System.Drawing.Point(141, 6);
+            this.GB_TitanUnlock.Name = "GB_TitanUnlock";
+            this.GB_TitanUnlock.Size = new System.Drawing.Size(157, 112);
+            this.GB_TitanUnlock.TabIndex = 5;
+            this.GB_TitanUnlock.TabStop = false;
+            this.GB_TitanUnlock.Text = "Open Sesame";
+            this.GB_TitanUnlock.Visible = false;
+            // 
+            // CLB_TitanUnlock
+            // 
+            this.CLB_TitanUnlock.CheckOnClick = true;
+            this.CLB_TitanUnlock.FormattingEnabled = true;
+            this.CLB_TitanUnlock.Location = new System.Drawing.Point(6, 18);
+            this.CLB_TitanUnlock.Name = "CLB_TitanUnlock";
+            this.CLB_TitanUnlock.Size = new System.Drawing.Size(145, 88);
+            this.CLB_TitanUnlock.TabIndex = 0;
+            // 
+            // GB_Weather
+            // 
+            this.GB_Weather.Controls.Add(this.CB_Weather);
+            this.GB_Weather.Location = new System.Drawing.Point(141, 6);
+            this.GB_Weather.Name = "GB_Weather";
+            this.GB_Weather.Size = new System.Drawing.Size(157, 44);
+            this.GB_Weather.TabIndex = 6;
+            this.GB_Weather.TabStop = false;
+            this.GB_Weather.Text = "Abnormal Weather";
+            this.GB_Weather.Visible = false;
+            // 
+            // CB_Weather
+            // 
+            this.CB_Weather.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Weather.FormattingEnabled = true;
+            this.CB_Weather.Location = new System.Drawing.Point(6, 18);
+            this.CB_Weather.Name = "CB_Weather";
+            this.CB_Weather.Size = new System.Drawing.Size(121, 20);
+            this.CB_Weather.TabIndex = 0;
+            // 
             // SAV_Misc3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(295, 297);
+            this.ClientSize = new System.Drawing.Size(334, 320);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -890,6 +1319,22 @@
             this.GB_FrontierPass.ResumeLayout(false);
             this.GB_FrontierPass.PerformLayout();
             this.GB_Icons.ResumeLayout(false);
+            this.TAB_Legend.ResumeLayout(false);
+            this.TAB_Legend.PerformLayout();
+            this.GB_RoamingLati.ResumeLayout(false);
+            this.GB_RoamingLati.PerformLayout();
+            this.GB_RoamingInfo.ResumeLayout(false);
+            this.GB_RoamingInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingLV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingHP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVHP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVAtk)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVDef)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVSpA)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVSpD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RoamingIVSpe)).EndInit();
+            this.GB_TitanUnlock.ResumeLayout(false);
+            this.GB_Weather.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -959,5 +1404,36 @@
         private System.Windows.Forms.Label L_Stat1;
         private System.Windows.Forms.Label L_Stat0;
         private System.Windows.Forms.CheckBox CHK_Continue;
+        private System.Windows.Forms.TabPage TAB_Legend;
+        private System.Windows.Forms.CheckedListBox CLB_Legendary;
+        private System.Windows.Forms.Button BTN_CheckAll;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox GB_RoamingLati;
+        private System.Windows.Forms.RadioButton RB_RoamingLatias;
+        private System.Windows.Forms.RadioButton RB_RoamingLatios;
+        private System.Windows.Forms.GroupBox GB_RoamingInfo;
+        private System.Windows.Forms.ComboBox CB_RoamingSpecies;
+        private System.Windows.Forms.TextBox TB_RoamingPID;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingLV;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingHP;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingIVHP;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingIVAtk;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingIVDef;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingIVSpA;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingIVSpD;
+        private System.Windows.Forms.NumericUpDown NUD_RoamingIVSpe;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.GroupBox GB_TitanUnlock;
+        private System.Windows.Forms.CheckedListBox CLB_TitanUnlock;
+        private System.Windows.Forms.GroupBox GB_Weather;
+        private System.Windows.Forms.ComboBox CB_Weather;
     }
 }
