@@ -278,7 +278,7 @@ namespace PKHeX.Core
             if (pkm.VC && pkm.Format == 7)
                 EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
 
-            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncountersGBMatch.All(e => e.Generation != pkm.GenNumber))
+            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncountersGBMatch?.All(e => e.Generation != pkm.GenNumber) == true)
                 // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
                 pkm.TradebackStatus = TradebackType.WasTradeback;
 
