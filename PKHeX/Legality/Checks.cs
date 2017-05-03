@@ -1351,6 +1351,10 @@ namespace PKHeX.Core
                         break; // todo
                 }
             }
+            else if (pkm.WasEgg) // can't obtain eggs in CXD
+            {
+                AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); // invalid encounter
+            }
         }
 
         private void verifyAbility()
@@ -2064,7 +2068,7 @@ namespace PKHeX.Core
 
             if (pkm.GenNumber < 6)
             {
-                verifyOTMemoryIs(new [] {0,0,0,0}); // empty
+                verifyOTMemoryIs(new [] {0, 0, 0, 0}); // empty
                 return;
             }
 
@@ -2785,22 +2789,20 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2:
-                    Games = new[] { GameVersion.GS, GameVersion.C };
-                    break;
+                    return new[] { GameVersion.GS, GameVersion.C };
                 case 3:
                     switch ((GameVersion)pkm.Version)
                     {
                         case GameVersion.R:
                         case GameVersion.S:
-                            Games = new[] { GameVersion.RS};
-                            break;
+                            return new[] { GameVersion.RS };
                         case GameVersion.E:
-                            Games = new[] { GameVersion.E };
-                            break;
+                            return new[] { GameVersion.E };
                         case GameVersion.FR:
                         case GameVersion.LG:
-                            Games = new[] { GameVersion.FRLG };
-                            break;
+                            return new[] { GameVersion.FRLG };
+                        case GameVersion.CXD:
+                            return new[] { GameVersion.CXD }; // will yield no moves
                     }
                     break;
                 case 4:
@@ -2808,15 +2810,12 @@ namespace PKHeX.Core
                     {
                         case GameVersion.D:
                         case GameVersion.P:
-                            Games = new[] { GameVersion.DP };
-                            break;
+                            return new[] { GameVersion.DP };
                         case GameVersion.Pt:
-                            Games = new[] { GameVersion.Pt };
-                            break;
+                            return new[] { GameVersion.Pt };
                         case GameVersion.HG:
                         case GameVersion.SS:
-                            Games = new[] { GameVersion.HGSS };
-                            break;
+                            return new[] { GameVersion.HGSS };
                     }
                     break;
                 case 5:
@@ -2824,15 +2823,12 @@ namespace PKHeX.Core
                     {
                         case GameVersion.B:
                         case GameVersion.W:
-                            Games = new[] { GameVersion.BW };
-                            break;
+                            return new[] { GameVersion.BW };
                         case GameVersion.Pt:
-                            Games = new[] { GameVersion.Pt };
-                            break;
+                            return new[] { GameVersion.Pt };
                         case GameVersion.B2:
                         case GameVersion.W2:
-                            Games = new[] { GameVersion.B2W2 };
-                            break;
+                            return new[] { GameVersion.B2W2 };
                     }
                     break;
             }
@@ -2920,7 +2916,7 @@ namespace PKHeX.Core
                 bool volt = (gen > 3 || ver == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
                 var SpecialMoves = volt && EventEggMoves.Length == 0 ? new[] {344} : new int[0]; // Volt Tackle for bred Pichu line
 
-                res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, LvlupEggMoves, EggMoves, ExclusiveIncenseMoves,EventEggMoves, new int[0], issplitbreed);
+                res = parseMoves(Moves, validLevelMoves, new int[0], validTMHM, validTutor, SpecialMoves, LvlupEggMoves, EggMoves, ExclusiveIncenseMoves, EventEggMoves, new int[0], issplitbreed);
 
                 if (res.All(r => r.Valid)) // moves is satisfactory
                     return res;
@@ -3064,7 +3060,7 @@ namespace PKHeX.Core
                 if (gen == 4 && pkm.Format > 4)
                 {
                     // Copy to array the hm found or else the list will be emptied when the legal status of moves changes in the current generation
-                    HMLearned = moves.Where((m,i) => !(res[i]?.Valid ?? false) && Legal.HM_4_RemovePokeTransfer.Any(l => l == m)).Select((m, i) => i).ToArray();
+                    HMLearned = moves.Where((m, i) => !(res[i]?.Valid ?? false) && Legal.HM_4_RemovePokeTransfer.Any(l => l == m)).Select((m, i) => i).ToArray();
                     // Defog and Whirlpool at the same time, also both can't be learned in future generations or else they will be valid
                     KnowDefogWhirlpool = moves.Where((m, i) => (m == 250 || m == 432) && !(res[i]?.Valid ?? false)).Count() == 2;
                 }

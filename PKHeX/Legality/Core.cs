@@ -586,7 +586,7 @@ namespace PKHeX.Core
                 var h_g = EncounterArea.getArray2_H(Resources.encounter_gold_h);
                 var h_s = EncounterArea.getArray2_H(Resources.encounter_silver_h);
 
-                Slots = addExtraTableSlots(g, s, h_g, h_s,f);
+                Slots = addExtraTableSlots(g, s, h_g, h_s, f);
             }
             if (Version == GameVersion.C || Version == GameVersion.GSC)
             {
@@ -1276,7 +1276,7 @@ namespace PKHeX.Core
             }
             return evomoves;
         }
-        internal static List<int>[] getExclusivePreEvolutionMoves(PKM pkm, int Species,DexLevel[][] evoChains, GameVersion Version)
+        internal static List<int>[] getExclusivePreEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could only learn throught the preevolution Species
             List<int>[] Moves = new List<int>[evoChains.Length];
@@ -1311,8 +1311,8 @@ namespace PKHeX.Core
             if (getSplitBreedGeneration(pkm.GenNumber).Contains(pkm.Species))
                 return new[]
                 {
-                     getBaseEggMoves(pkm, 0, gameSource,lvl).ToList(),
-                     getBaseEggMoves(pkm, 1, gameSource,lvl).ToList(),
+                     getBaseEggMoves(pkm, 0, gameSource, lvl).ToList(),
+                     getBaseEggMoves(pkm, 1, gameSource, lvl).ToList(),
                 };
             return new[] { getBaseEggMoves(pkm, 0, gameSource, lvl).ToList(), };
         }
@@ -2788,7 +2788,7 @@ namespace PKHeX.Core
                     //Remove previous evolutions bellow transfer level
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
                     //chain level for charmander is 35, is bellow met level
-                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm,gen)).ToArray();
+                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm, gen)).ToArray();
 
                 if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
                     // Remove generation 2 pre-evolutions
@@ -3328,7 +3328,7 @@ namespace PKHeX.Core
                     r.AddRange(getMoves(pkm, species, minlvlG1, lvl, form, moveTutor, Version, LVL, specialTutors, Machine, MoveReminder, RemoveTransferHM, gen));
             return r.Distinct();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int minlvlG1,int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
+        private static IEnumerable<int> getMoves(PKM pkm, int species, int minlvlG1, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
         {
             List<int> r = new List<int>();
 
