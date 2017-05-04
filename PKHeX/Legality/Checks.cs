@@ -92,7 +92,7 @@ namespace PKHeX.Core
             if (!PIDNature)
                 return;
 
-            if (pkm.PID % 25 == pkm.Nature)
+            if (pkm.EncryptionConstant % 25 == pkm.Nature)
                 AddLine(Severity.Valid, V252, CheckIdentifier.Nature);
             else
                 AddLine(Severity.Invalid, V253, CheckIdentifier.Nature);
@@ -152,9 +152,8 @@ namespace PKHeX.Core
             uint evoVal;
             switch (pkm.GenNumber)
             {
-                case 3: evoVal = pkm.PID & 0xFFFF; break;
                 case 4:
-                case 5: evoVal = pkm.PID >> 16; break;
+                case 3: evoVal = pkm.EncryptionConstant & 0xFFFF; break;
                 default: evoVal = pkm.EncryptionConstant >> 16; break;
             }
             evoVal = evoVal%10/5;

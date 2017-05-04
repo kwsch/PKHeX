@@ -17,9 +17,7 @@ namespace PKHeX.Core
         {
             if (pk.Format < 3)
                 return AnalyzeGB(pk);
-            var pid = pk.Format >= 6 && pk.GenNumber >= 3 && pk.GenNumber < 6 
-                ? pk.EncryptionConstant // use unmodified PID, quicker than checking if bit was flipped
-                : pk.PID; // use actual PID
+            var pid = pk.EncryptionConstant;
             
             var top = pid >> 16;
             var bot = pid & 0xFFFF;

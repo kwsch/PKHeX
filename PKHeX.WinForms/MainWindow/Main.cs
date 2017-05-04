@@ -2438,9 +2438,8 @@ namespace PKHeX.WinForms
                     uint evoVal;
                     switch (pkm.GenNumber)
                     {
-                        case 3: evoVal = pkm.PID & 0xFFFF; break;
                         case 4:
-                        case 5: evoVal = pkm.PID >> 16; break;
+                        case 3: evoVal = pkm.EncryptionConstant & 0xFFFF; break;
                         default: evoVal = pkm.EncryptionConstant >> 16; break;
                     }
                     evoVal = evoVal%10/5;
