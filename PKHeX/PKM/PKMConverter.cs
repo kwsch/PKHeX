@@ -211,21 +211,21 @@ namespace PKHeX.Core
                     case nameof(PK1):
                         if (toFormat == 2)
                         {
-                            pkm = PKMType == typeof (PK2) ? ((PK1) pk).convertToPK2() : null;
+                            pkm = PKMType == typeof (PK2) ? (pk as PK1)?.convertToPK2() : null;
                             break;
                         }
                         if (toFormat == 7)
-                            pkm = ((PK1) pk).convertToPK7();
+                            pkm = (pk as PK1)?.convertToPK7();
                         break;
                     case nameof(PK2):
                         if (PKMType == typeof (PK1))
                         {
                             if (pk.Species > 151)
                             {
-                                comment = $"Cannot convert a {PKX.getSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
+                                comment = $"Cannot convert a {PKX.getSpeciesName(pkm.Species, ((PK2) pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
                                 return null;
                             }
-                            pkm = ((PK2) pk).convertToPK1();
+                            pkm = (pk as PK2)?.convertToPK1();
                         }
                         else
                             pkm = null;
@@ -251,32 +251,32 @@ namespace PKHeX.Core
                         if (fromType.Name != nameof(PK3))
                             pkm = pkm.convertToPK3();
 
-                        pkm = ((PK3)pkm).convertToPK4();
+                        pkm = (pkm as PK3)?.convertToPK4();
                         if (toFormat == 4)
                             break;
                         goto case nameof(PK4);
                     case nameof(BK4):
-                        pkm = ((BK4)pkm).convertToPK4();
+                        pkm = (pkm as BK4)?.convertToPK4();
                         if (toFormat == 4)
                             break;
                         goto case nameof(PK4);
                     case nameof(PK4):
                         if (PKMType == typeof(BK4))
                         {
-                            pkm = ((PK4)pkm).convertToBK4();
+                            pkm = (pkm as PK4)?.convertToBK4();
                             break;
                         }
-                        pkm = ((PK4)pkm).convertToPK5();
+                        pkm = (pkm as PK4)?.convertToPK5();
                         if (toFormat == 5)
                             break;
                         goto case nameof(PK5);
                     case nameof(PK5):
-                        pkm = ((PK5)pkm).convertToPK6();
+                        pkm = (pkm as PK5)?.convertToPK6();
                         if (toFormat == 6)
                             break;
                         goto case nameof(PK6);
                     case nameof(PK6):
-                        pkm = ((PK6)pkm).convertToPK7();
+                        pkm = (pkm as PK6)?.convertToPK7();
                         if (toFormat == 7)
                             break;
                         goto case nameof(PK7);
