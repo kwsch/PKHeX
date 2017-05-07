@@ -3615,6 +3615,7 @@ namespace PKHeX.WinForms
             updateBoxViewers();
 
             RedoStack.Clear(); Menu_Redo.Enabled = false;
+			checkIfLegalPKMSlot(pk, SlotPictureBoxes[slot]);
         }
         private void clickDelete(object sender, EventArgs e)
         {
@@ -4030,7 +4031,18 @@ namespace PKHeX.WinForms
             pb.Image = p.Sprite(SAV, CB_BoxSelect.SelectedIndex, slot, Menu_FlagIllegal.Checked);
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
+			checkIfLegalPKMSlot(p, pb);
         }
+		private void checkIfLegalPKMSlot(PKM pk, PictureBox pb)
+		{
+			LegalityAnalysis la = new LegalityAnalysis(pk);
+			if (pk.GenNumber >= 6 && pk.Species != 0 && !la.Valid)
+			{
+				pb.BackColor = Color.FromArgb(150, Color.Red);
+			}
+			else
+				pb.BackColor = Color.Transparent;
+		}
         private void getSlotColor(int slot, Image color)
         {
             foreach (PictureBox t in SlotPictureBoxes)
