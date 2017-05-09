@@ -113,10 +113,6 @@ namespace PKHeX.Core
                 Lineage[Personal.getFormeIndex(669+2, i)].Chain.Insert(0, fbb);
             }
 
-            // Scatterbug/Spewpa
-            for (int i = 1; i < 18; i++)
-                Lineage[Personal.getFormeIndex(666, i)].Chain.InsertRange(0, Lineage[665].Chain);
-
             // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
             for (int i = 1; i <= 3; i++)
             {
