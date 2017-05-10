@@ -787,10 +787,10 @@ namespace PKHeX.Core
                     return new[]
                     {
                         t[000], // Normal
-                        t[010], // Douse
-                        t[012], // Shock
-                        t[009], // Burn
-                        t[014], // Chill
+                        f[650], // Douse
+                        f[651], // Shock
+                        f[652], // Burn
+                        f[653], // Chill
                     };
 
                 case 658:
@@ -892,7 +892,7 @@ namespace PKHeX.Core
                 case 716:
                     return new[]
                     {
-                        t[000], // Normal
+                        f[716], // Neutral
                         f[1012], // Active
                     };
 
@@ -906,7 +906,7 @@ namespace PKHeX.Core
                 case 718: // Zygarde
                     return new[]
                     {
-                        t[000], // Normal (Aura Break)
+                        f[718], // 50% (Aura Break)
                         "10%", // (Aura Break)
                         "10%-C", // Cell (Power Construct)
                         "50%-C", // Cell (Power Construct)
@@ -958,7 +958,7 @@ namespace PKHeX.Core
                 case 778: // Mimikyu
                     return new[]
                     {
-                        t[000],
+                        f[778], // Disguised
                         f[1058], // Busted
                     };
 
