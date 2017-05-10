@@ -787,10 +787,10 @@ namespace PKHeX.Core
                     return new[]
                     {
                         t[000], // Normal
-                        f[650], // Douse
-                        f[651], // Shock
-                        f[652], // Burn
-                        f[653], // Chill
+                        t[010], // Douse (Water)
+                        t[012], // Shock (Electric)
+                        t[009], // Burn (Fire)
+                        t[014], // Chill (Ice)
                     };
 
                 case 658:
