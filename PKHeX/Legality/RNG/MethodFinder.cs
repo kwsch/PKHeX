@@ -55,7 +55,7 @@ namespace PKHeX.Core
             if (getBACDMatch(pk, pid, IVs, out pidiv))
                 return pidiv;
 
-            return pidiv; // no match
+            return null; // no match
         }
 
         private static bool getLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)

@@ -797,12 +797,14 @@ namespace PKHeX.Core
             if (EncountersGBMatch == null)
                 return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
 
-            if (EncountersGBMatch.First().Type == GBEncounterType.EggEncounter)
+            var first = EncountersGBMatch.First();
+            if (first.Type == GBEncounterType.EggEncounter)
             {
                 pkm.WasEgg = true;
+                EncounterOriginalGB = first.Species;
                 return verifyEncounterEgg();
             }
-            EncounterMatch = EncounterOriginalGB = EncountersGBMatch.FirstOrDefault()?.Encounter;
+            EncounterMatch = EncounterOriginalGB = first.Encounter;
             if (EncounterMatch is EncounterSlot)
                 return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
             if (EncounterMatch is EncounterStatic)

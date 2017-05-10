@@ -15,6 +15,7 @@ namespace PKHeX.Core
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra = false;
         public static bool AllowGen1Tradeback = false;
+        public static bool AllowGen2VCTransfer => AllowGen1Tradeback;
 
         /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
         public static bool EReaderBerryIsEnigma = true;
@@ -1967,7 +1968,7 @@ namespace PKHeX.Core
         internal static List<GBEncounterData> getEncounter12(PKM pkm)
         {
             var g1 = pkm.Gen2_NotTradeback ? null : getEncounter12(pkm, GameVersion.RBY);
-            var g2 = pkm.Gen1_NotTradeback ? null : getEncounter12(pkm, GameVersion.GSC);
+            var g2 = pkm.Gen1_NotTradeback || !AllowGen2VCTransfer ? null : getEncounter12(pkm, GameVersion.GSC);
             if (g1 == null && g2 == null)
                 return null;
             if (g1 == null || g2 == null)
