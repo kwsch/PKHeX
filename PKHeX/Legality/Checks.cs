@@ -1817,7 +1817,7 @@ namespace PKHeX.Core
 
             if (ball == 26)
             {
-                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e)))
+                if ((pkm.Species > 731 && pkm.Species <= 785) || Lineage.Any(e => Legal.PastGenAlolanNatives.Contains(e) && !Legal.PastGenAlolanNativesUncapturable.Contains(e)))
                 {
                     AddLine(Severity.Valid, V123, CheckIdentifier.Ball);
                     return;

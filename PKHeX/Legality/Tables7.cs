@@ -303,6 +303,11 @@ namespace PKHeX.Core
             582, 583, 584, 587, 594, 627, 628, 629, 630, 661, 662, 663, 674, 675, 700, 703, 704, 705, 706, 707, 708, 709,
             718
         };
+        public static readonly int[] PastGenAlolanNativesUncapturable =
+        {
+            142, // Aerodacyl
+            137, 233, 474 // Porygon++
+        };
 
         internal static readonly int[] PastGenAlolanScans =
         {
