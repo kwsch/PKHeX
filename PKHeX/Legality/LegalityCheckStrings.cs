@@ -114,7 +114,8 @@ namespace PKHeX.Core
         public static string V3 {get; set;} = "Species index invalid for Nickname comparison."; // Invalid
         public static string V20 {get; set;} = "Nickname does not match species name."; // Invalid
         public static string V13 {get; set;} = "Egg name does not match language Egg name."; // Invalid
-        public static string V12 {get; set;} = "Eggs must be nicknamed."; // Invalid
+        public static string V12 {get; set;} = "Egg must be nicknamed."; // Invalid
+        public static string V224 {get; set;} = "Egg must be not nicknamed."; // Invalid
         public static string V7 {get; set;} = "Ingame Trade invalid version?"; // Invalid
         public static string V8 {get; set;} = "Ingame Trade invalid index?"; // Invalid
         public static string V10 {get; set;} = "Ingame Trade OT has been altered."; // Invalid

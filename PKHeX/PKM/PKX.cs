@@ -211,7 +211,7 @@ namespace PKHeX.Core
         {
             string nick = getSpeciesName(species, lang);
 
-            if (generation < 5) // All caps GenIV and previous
+            if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
                 nick = nick.ToUpper();
             if (generation < 3)
                 nick = nick.Replace(" ", "");

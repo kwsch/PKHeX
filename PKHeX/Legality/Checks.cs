@@ -312,9 +312,23 @@ namespace PKHeX.Core
         }
         private void verifyNicknameEgg()
         {
-            if (!pkm.IsNicknamed && (pkm.Format != 7))
-                AddLine(Severity.Invalid, V12, CheckIdentifier.Egg);
-            else if (PKX.getSpeciesNameGeneration(0, pkm.Language, pkm.GenNumber) != pkm.Nickname)
+            switch (pkm.Format)
+            {
+                case 4:
+                    if (pkm.IsNicknamed) // gen4 doesn't use the nickname flag for eggs
+                        AddLine(Severity.Invalid, V224, CheckIdentifier.Egg);
+                    break;
+                case 7:
+                    if (EncounterMatch is EncounterStatic ^ !pkm.IsNicknamed) // gen7 doesn't use for ingame gifts
+                        AddLine(Severity.Invalid, pkm.IsNicknamed ? V224 : V12, CheckIdentifier.Egg);
+                    break;
+                default:
+                    if (!pkm.IsNicknamed)
+                        AddLine(Severity.Invalid, V12, CheckIdentifier.Egg);
+                    break;
+            }
+
+            if (PKX.getSpeciesNameGeneration(0, pkm.Language, pkm.GenNumber) != pkm.Nickname)
                 AddLine(Severity.Invalid, V13, CheckIdentifier.Egg);
             else
                 AddLine(Severity.Valid, V14, CheckIdentifier.Egg);
