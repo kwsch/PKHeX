@@ -899,7 +899,7 @@ namespace PKHeX.Core
                 case 720:
                     return new[]
                     {
-                        t[000], // Normal
+                        f[720], // Confined
                         f[1018], // Unbound
                     };
 
