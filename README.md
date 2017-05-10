@@ -23,7 +23,7 @@ Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without 
 
 ## Screenshots
 
-![Main Window](http://i.imgur.com/QT3IxpR.png)
+![Main Window](http://i.imgur.com/PueTtUc.png)
 
 ## Building
 
