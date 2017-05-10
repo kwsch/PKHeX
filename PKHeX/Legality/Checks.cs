@@ -1063,8 +1063,8 @@ namespace PKHeX.Core
             var trade = Legal.getValidIngameTrade(pkm);
             if (trade != null)
             {
-                Gen4Result = verifyEncounterTrade();
                 EncounterMatch = trade;
+                Gen4Result = verifyEncounterTrade();
             }
 
             verifyTransferLegalityG4();
