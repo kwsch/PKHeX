@@ -216,6 +216,8 @@ namespace PKHeX.WinForms
             if (pkmArg != null)
                 openQuick(pkmArg, force: true);
 
+            refreshTemplate();
+
             formInitialized = true; // Splash Screen closes on its own.
             BringToFront();
             WindowState = FormWindowState.Minimized;
@@ -271,6 +273,7 @@ namespace PKHeX.WinForms
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
+        private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
 
@@ -1376,6 +1379,18 @@ namespace PKHeX.WinForms
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
+        }
+
+        private void refreshTemplate()
+        {
+            if (Directory.Exists(TemplatePath))
+            {
+                string templateFileName = "template.pk" + SAV.Generation;
+                if (File.Exists(Path.Combine(TemplatePath, templateFileName)))
+                {
+                    openQuick(Path.Combine(TemplatePath, templateFileName), true);
+                }
+            }
         }
 
         private static void refreshMGDB()
