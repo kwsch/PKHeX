@@ -629,9 +629,9 @@ namespace PKHeX.Core
         #region Colosseum
         internal static readonly EncounterStatic[] Encounter_Colo =
         {
-            new EncounterStatic { Species = 196, Level = 25, Location = 056 }, // Espeon
-            new EncounterStatic { Species = 197, Level = 26, Location = 056 }, // Umbreon
-            new EncounterStatic { Species = 311, Level = 13, Location = 056 }, // Plusle, standard levelup moves
+            new EncounterStatic { Gift = true, Species = 196, Level = 25, Location = 254 }, // Espeon
+            new EncounterStatic { Gift = true, Species = 197, Level = 26, Location = 254, Moves = new[] {044} }, // Umbreon (Bite)
+            new EncounterStatic { Gift = true, Species = 311, Level = 13, Location = 254 }, // Plusle, standard levelup moves
 
             new EncounterStaticShadow { Species = 296, Level = 30, Gauge = 03000, Moves = new[] {193,116,233,238}, Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
 
@@ -666,7 +666,9 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 307, Level = 33, Gauge = 05000, Moves = new[] {197,347,093,136}, Location = 031 }, // Meditite: Rider Twan @ Pyrite Cave
             new EncounterStaticShadow { Species = 206, Level = 33, Gauge = 05000, Moves = new[] {180,137,281,036}, Location = 029 }, // Dunsparce: Rider Sosh @ Pyrite Cave
             new EncounterStaticShadow { Species = 333, Level = 33, Gauge = 05000, Moves = new[] {119,047,219,019}, Location = 032 }, // Swablu: Hunter Zalo @ Pyrite Cave
-            new EncounterStaticShadow { Species = 185, Level = 35, Gauge = 10000, Moves = new[] {175,335,067,157}, Location = 125 }, // Sudowoodo: Cipher Admin Miror B. @ Pyrite Cave/Realgam Tower/Deep Colosseum
+
+            new EncounterStaticShadow { Species = 185, Level = 35, Gauge = 10000, Moves = new[] {175,335,067,157}, Location = 125 }, // Sudowoodo: Cipher Admin Miror B. @ Deep Colosseum -- (Realgam Tower missing)
+            new EncounterStaticShadow { Species = 185, Level = 35, Gauge = 10000, Moves = new[] {175,335,067,157}, Location = 030 }, // Sudowoodo: Cipher Admin Miror B. @ Pyrite Cave
 
             // missing locs: Shadow PKMN Lab
             new EncounterStaticShadow { Species = 237, Level = 38, Gauge = 06000, Moves = new[] {097,116,167,229}, Location = 039 }, // Hitmontop: Cipher Peon Skrub @ Agate Village
@@ -729,7 +731,10 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic[] Encounter_XD =
         {
-            new EncounterStatic { Species = 133, Level = 10, Location = 000 }, // Eevee
+            new EncounterStatic { Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
+            new EncounterStatic { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
+            new EncounterStatic { Fateful = true, Gift = true, Species = 155, Level = 05, Location = 016, Moves = new[] {179,033,043,307} }, // Cyndaquil
+            new EncounterStatic { Fateful = true, Gift = true, Species = 158, Level = 05, Location = 016, Moves = new[] {242,010,043,308} }, // Totodile
 
             new EncounterStaticShadow { Species = 216, Level = 11, Gauge = 03000, Moves = new[] {216,287,122,232}, Location = 143 }, // Teddiursa: Cipher Peon Naps @ Pokémon HQ Lab
             new EncounterStaticShadow { Species = 165, Level = 10, Gauge = 02500, Moves = new[] {060,287,332,048}, Location = 153 }, // Ledyba: Casual Guy Cyle @ Gateon Port
@@ -754,29 +759,51 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 361, Level = 20, Gauge = 02500, Moves = new[] {352,047,044,196}, Location = 097 }, // Snorunt: Cipher Peon Exinn @ Phenac City
             new EncounterStaticShadow { Species = 204, Level = 20, Gauge = 02500, Moves = new[] {042,287,191,068}, Location = 096 }, // Pineco: Cipher Peon Gonrap @ Phenac City
             new EncounterStaticShadow { Species = 177, Level = 22, Gauge = 02500, Moves = new[] {248,226,101,332}, Location = 094 }, // Natu: Cipher Peon Eloin @ Phenac City
+
             new EncounterStaticShadow { Species = 315, Level = 22, Gauge = 03000, Moves = new[] {345,186,320,073}, Location = 113 }, // Roselia: Cipher Peon Fasin @ Phenac City
+            new EncounterStaticShadow { Species = 315, Level = 22, Gauge = 03000, Moves = new[] {345,186,320,073}, Location = 094 }, // Roselia: Cipher Peon Fasin @ Phenac City
             new EncounterStaticShadow { Species = 052, Level = 22, Gauge = 03500, Moves = new[] {163,047,006,044}, Location = 113 }, // Meowth: Cipher Peon Fostin @ Phenac City
+            new EncounterStaticShadow { Species = 052, Level = 22, Gauge = 03500, Moves = new[] {163,047,006,044}, Location = 094 }, // Meowth: Cipher Peon Fostin @ Phenac City
+
             new EncounterStaticShadow { Species = 220, Level = 22, Gauge = 02500, Moves = new[] {246,204,054,341}, Location = 100 }, // Swinub: Cipher Peon Greck @ Phenac City
+
             new EncounterStaticShadow { Species = 021, Level = 22, Gauge = 04500, Moves = new[] {206,226,043,332}, Location = 059 }, // Spearow: Cipher Peon Ezin @ Phenac Stadium
+            new EncounterStaticShadow { Species = 021, Level = 22, Gauge = 04500, Moves = new[] {206,226,043,332}, Location = 107 }, // Spearow: Cipher Peon Ezin @ Phenac Stadium
             new EncounterStaticShadow { Species = 088, Level = 23, Gauge = 03000, Moves = new[] {188,270,325,107}, Location = 059 }, // Grimer: Cipher Peon Faltly @ Phenac Stadium
+            new EncounterStaticShadow { Species = 088, Level = 23, Gauge = 03000, Moves = new[] {188,270,325,107}, Location = 107 }, // Grimer: Cipher Peon Faltly @ Phenac Stadium
+
             new EncounterStaticShadow { Species = 086, Level = 23, Gauge = 03500, Moves = new[] {057,270,219,058}, Location = 107 }, // Seel: Cipher Peon Egrog @ Phenac Stadium
             new EncounterStaticShadow { Species = 337, Level = 25, Gauge = 05000, Moves = new[] {094,226,240,317}, Location = 107 }, // Lunatone: Cipher Admin Snattle @ Phenac Stadium
-            new EncounterStaticShadow { Species = 175, Level = 25, Gauge = 04500, Moves = new[] {266,161,246,270}, Location = 164 }, // Togepi: Pokémon Trainer Hordel @ Outskirt Stand
+            new EncounterStaticShadow { Species = 175, Level = 25, Gauge = 04500, Moves = new[] {266,161,246,270}, Location = 164, Gift = true }, // Togepi: Pokémon Trainer Hordel @ Outskirt Stand
+
             new EncounterStaticShadow { Species = 299, Level = 26, Gauge = 04000, Moves = new[] {085,270,086,157}, Location = 090 }, // Nosepass: Wanderer Miror B. @ Pyrite Colosseum/Realgam Colosseum/Poké Spots
+            new EncounterStaticShadow { Species = 299, Level = 26, Gauge = 04000, Moves = new[] {085,270,086,157}, Location = 113 }, // Nosepass: Wanderer Miror B. @ Pyrite Colosseum/Realgam Colosseum/Poké Spots
+            
+            new EncounterStaticShadow { Species = 335, Level = 28, Gauge = 05000, Moves = new[] {280,287,068,306}, Location = 071 }, // Zangoose: Thug Zook @ Cipher Key Lair
             new EncounterStaticShadow { Species = 335, Level = 28, Gauge = 05000, Moves = new[] {280,287,068,306}, Location = 090 }, // Zangoose: Thug Zook @ Cipher Key Lair
+
             new EncounterStaticShadow { Species = 046, Level = 28, Gauge = 04000, Moves = new[] {147,287,163,206}, Location = 064 }, // Paras: Cipher Peon Humah @ Cipher Key Lair
+
+            new EncounterStaticShadow { Species = 058, Level = 28, Gauge = 04000, Moves = new[] {053,204,044,036}, Location = 064 }, // Growlithe: Cipher Peon Humah @ Cipher Key Lair
             new EncounterStaticShadow { Species = 058, Level = 28, Gauge = 04000, Moves = new[] {053,204,044,036}, Location = 113 }, // Growlithe: Cipher Peon Humah @ Cipher Key Lair
-            new EncounterStaticShadow { Species = 090, Level = 29, Gauge = 04000, Moves = new[] {036,287,057,062}, Location = 065 }, // Shellder: Cipher Peon Gorog @ Cipher Key Lair
+            
             new EncounterStaticShadow { Species = 015, Level = 30, Gauge = 04500, Moves = new[] {188,226,041,014}, Location = 059 }, // Beedrill: Cipher Peon Lok @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 012, Level = 30, Gauge = 04000, Moves = new[] {094,234,079,332}, Location = 059 }, // Butterfree: Cipher Peon Targ @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 049, Level = 32, Gauge = 04000, Moves = new[] {318,287,164,094}, Location = 059 }, // Venomoth: Cipher Peon Angic @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 097, Level = 34, Gauge = 05500, Moves = new[] {094,226,096,247}, Location = 059 }, // Hypno: Cipher Admin Gorigan @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 354, Level = 37, Gauge = 07000, Moves = new[] {185,270,247,174}, Location = 059 }, // Banette: Cipher Peon Litnar @ Citadark Isle
+
+            new EncounterStaticShadow { Species = 090, Level = 29, Gauge = 04000, Moves = new[] {036,287,057,062}, Location = 065 }, // Shellder: Cipher Peon Gorog @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 015, Level = 30, Gauge = 04500, Moves = new[] {188,226,041,014}, Location = 066 }, // Beedrill: Cipher Peon Lok @ Cipher Key Lair
             new EncounterStaticShadow { Species = 017, Level = 30, Gauge = 04000, Moves = new[] {017,287,211,297}, Location = 066 }, // Pidgeotto: Cipher Peon Lok @ Cipher Key Lair
             new EncounterStaticShadow { Species = 114, Level = 30, Gauge = 04000, Moves = new[] {076,234,241,275}, Location = 067 }, // Tangela: Cipher Peon Targ @ Cipher Key Lair
-            new EncounterStaticShadow { Species = 012, Level = 30, Gauge = 04000, Moves = new[] {094,234,079,332}, Location = 059 }, // Butterfree: Cipher Peon Targ @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 012, Level = 30, Gauge = 04000, Moves = new[] {094,234,079,332}, Location = 067 }, // Butterfree: Cipher Peon Targ @ Cipher Key Lair
             new EncounterStaticShadow { Species = 082, Level = 30, Gauge = 04500, Moves = new[] {038,287,240,087}, Location = 067 }, // Magneton: Cipher Peon Snidle @ Cipher Key Lair
-            new EncounterStaticShadow { Species = 049, Level = 32, Gauge = 04000, Moves = new[] {318,287,164,094}, Location = 059 }, // Venomoth: Cipher Peon Angic @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 049, Level = 32, Gauge = 04000, Moves = new[] {318,287,164,094}, Location = 070 }, // Venomoth: Cipher Peon Angic @ Cipher Key Lair
             new EncounterStaticShadow { Species = 070, Level = 32, Gauge = 04000, Moves = new[] {345,234,188,230}, Location = 070 }, // Weepinbell: Cipher Peon Angic @ Cipher Key Lair
             new EncounterStaticShadow { Species = 024, Level = 33, Gauge = 05000, Moves = new[] {188,287,137,044}, Location = 070 }, // Arbok: Cipher Peon Smarton @ Cipher Key Lair
             new EncounterStaticShadow { Species = 057, Level = 34, Gauge = 06000, Moves = new[] {238,270,116,179}, Location = 069 }, // Primeape: Cipher Admin Gorigan @ Cipher Key Lair
-            new EncounterStaticShadow { Species = 097, Level = 34, Gauge = 05500, Moves = new[] {094,226,096,247}, Location = 059 }, // Hypno: Cipher Admin Gorigan @ Cipher Key Lair
+            new EncounterStaticShadow { Species = 097, Level = 34, Gauge = 05500, Moves = new[] {094,226,096,247}, Location = 069 }, // Hypno: Cipher Admin Gorigan @ Cipher Key Lair
             new EncounterStaticShadow { Species = 055, Level = 33, Gauge = 06500, Moves = new[] {127,204,244,280}, Location = 088 }, // Golduck: Navigator Abson @ Citadark Isle
             new EncounterStaticShadow { Species = 302, Level = 33, Gauge = 07000, Moves = new[] {247,270,185,105}, Location = 088 }, // Sableye: Navigator Abson @ Citadark Isle
             new EncounterStaticShadow { Species = 085, Level = 34, Gauge = 08000, Moves = new[] {065,226,097,161}, Location = 076 }, // Dodrio: Chaser Furgy @ Citadark Isle
@@ -784,7 +811,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 083, Level = 36, Gauge = 05500, Moves = new[] {163,226,014,332}, Location = 076 }, // Farfetch'd: Cipher Admin Lovrina @ Citadark Isle
             new EncounterStaticShadow { Species = 334, Level = 36, Gauge = 06500, Moves = new[] {225,215,076,332}, Location = 076 }, // Altaria: Cipher Admin Lovrina @ Citadark Isle
             new EncounterStaticShadow { Species = 115, Level = 35, Gauge = 06000, Moves = new[] {089,047,039,146}, Location = 085 }, // Kangaskhan: Cipher Peon Litnar @ Citadark Isle
-            new EncounterStaticShadow { Species = 354, Level = 37, Gauge = 07000, Moves = new[] {185,270,247,174}, Location = 059 }, // Banette: Cipher Peon Litnar @ Citadark Isle
+            new EncounterStaticShadow { Species = 354, Level = 37, Gauge = 07000, Moves = new[] {185,270,247,174}, Location = 085 }, // Banette: Cipher Peon Litnar @ Citadark Isle
             new EncounterStaticShadow { Species = 126, Level = 36, Gauge = 07000, Moves = new[] {126,266,238,009}, Location = 077 }, // Magmar: Cipher Peon Grupel @ Citadark Isle
             new EncounterStaticShadow { Species = 127, Level = 35, Gauge = 07000, Moves = new[] {012,270,206,066}, Location = 077 }, // Pinsir: Cipher Peon Grupel @ Citadark Isle
             new EncounterStaticShadow { Species = 078, Level = 40, Gauge = 06000, Moves = new[] {076,226,241,053}, Location = 080 }, // Rapidash: Cipher Peon Kolest @ Citadark Isle
@@ -793,7 +820,10 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Species = 106, Level = 38, Gauge = 07000, Moves = new[] {136,287,170,025}, Location = 081 }, // Hitmonlee: Cipher Peon Petro @ Citadark Isle
             new EncounterStaticShadow { Species = 108, Level = 38, Gauge = 05000, Moves = new[] {038,270,111,205}, Location = 084 }, // Lickitung: Cipher Peon Geftal @ Citadark Isle
             new EncounterStaticShadow { Species = 123, Level = 40, Gauge = 08000, Moves = new[] {013,234,318,163}, Location = 084 }, // Scyther: Cipher Peon Leden @ Citadark Isle
+
+            new EncounterStaticShadow { Species = 113, Level = 39, Gauge = 04000, Moves = new[] {085,186,135,285}, Location = 084 }, // Chansey: Cipher Peon Leden @ Citadark Isle
             new EncounterStaticShadow { Species = 113, Level = 39, Gauge = 04000, Moves = new[] {085,186,135,285}, Location = 087 }, // Chansey: Cipher Peon Leden @ Citadark Isle
+
             new EncounterStaticShadow { Species = 338, Level = 41, Gauge = 07500, Moves = new[] {094,226,241,322}, Location = 087 }, // Solrock: Cipher Admin Snattle @ Citadark Isle
             new EncounterStaticShadow { Species = 121, Level = 41, Gauge = 07500, Moves = new[] {127,287,058,105}, Location = 087 }, // Starmie: Cipher Admin Snattle @ Citadark Isle
             new EncounterStaticShadow { Species = 277, Level = 43, Gauge = 07000, Moves = new[] {143,226,097,263}, Location = 087 }, // Swellow: Cipher Admin Ardos @ Citadark Isle

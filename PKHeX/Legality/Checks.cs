@@ -2529,9 +2529,12 @@ namespace PKHeX.Core
                 {
                     var enc = EncounterMatch as EncounterStatic;
                     var fateful = enc.Fateful;
+                    var shadow = EncounterMatch is EncounterStaticShadow;
                     if (pkm.Gen3 && pkm.WasEgg && !pkm.IsEgg)
-                        // Fatefull generation 3 eggs lost fatefull mark after hatch
-                        fateful = false;
+                        fateful = false; // lost after hatching
+                    else if (shadow && !(pkm is XK3 || pkm is CK3))
+                        fateful = true; // purification required for transfer
+
                     if (fateful)
                     {
                         if (pkm.FatefulEncounter)
@@ -2539,7 +2542,7 @@ namespace PKHeX.Core
                         else
                             AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
                     }
-                    else if (pkm.FatefulEncounter)
+                    else if (pkm.FatefulEncounter && !shadow)
                         AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                 }
                 else if (pkm.FatefulEncounter)

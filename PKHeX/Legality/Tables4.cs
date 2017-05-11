@@ -718,7 +718,7 @@ namespace PKHeX.Core
 
             //Stationary
             new EncounterStaticTyped { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = true }, //Gyarados @ Lake of Rage
-            new EncounterStaticTyped { Species = 131, Level = 20, Location = 210, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, //Lapras @ Union Cave Friday Only
+            new EncounterStaticTyped { Species = 131, Level = 20, Location = 210, TypeEncounter = EncounterType.Surfing_Fishing, }, //Lapras @ Union Cave Friday Only
             new EncounterStaticTyped { Species = 101, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, //Electrode @ Team Rocket HQ
             new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
             new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
