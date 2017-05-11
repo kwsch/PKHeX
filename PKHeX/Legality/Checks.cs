@@ -1061,9 +1061,9 @@ namespace PKHeX.Core
                 {
                     // Sanity check EncounterType if wild encounters are still an alternative and the EncounterType info is still available
                     var type = (EncounterType)pkm.EncounterType;
-                    if (Gen4WildResult == null || pkm.Format <= 6 && type == 0
+                    if (Gen4WildResult == null || pkm.Format <= 6 && (type == 0
                         ? EncounterStaticMatch.Any(s => !(s is EncounterStaticTyped))
-                        : EncounterStaticMatch.Any(s => (s as EncounterStaticTyped)?.TypeEncounter == type))
+                        : EncounterStaticMatch.Any(s => (s as EncounterStaticTyped)?.TypeEncounter == type)))
                     {
                         verifyTransferLegalityG4();
                         return result;
