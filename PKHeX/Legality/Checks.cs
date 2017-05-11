@@ -1365,13 +1365,32 @@ namespace PKHeX.Core
             {
                 // Starters have a correlation to the Trainer ID numbers
                 var spec = ((EncounterStatic) EncounterMatch).Species;
+                var rev = int.MinValue;
                 switch (spec)
                 {
+                    // pidiv reversed 5x yields SID, again == TID. +7 if another PKM is generated
                     case 133: // Eevee
-                    case 196: // Espeon
-                    case 197: // Umbreon
-                        break; // todo
+                        rev = 5; break;
+
+                    case 197: // Umbreon (generated before Espeon)
+                        rev = 5; break;
+                    case 196: // Espeon (generated after Umbreon)
+                        rev = 12; break;
                 }
+                if (rev == int.MinValue)
+                    return;
+
+                var pidiv = MethodFinder.Analyze(pkm);
+                if (pidiv == null || pidiv.Type != PIDType.CXD)
+                {
+                    AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
+                    return;
+                }
+                var seed = pidiv.OriginSeed;
+                var SIDf = pidiv.RNG.Reverse(seed, rev);
+                var TIDf = pidiv.RNG.Prev(SIDf);
+                if (SIDf >> 16 != pkm.SID || TIDf >> 16 != pkm.TID)
+                    AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
             }
             else if (pkm.WasEgg) // can't obtain eggs in CXD
             {
