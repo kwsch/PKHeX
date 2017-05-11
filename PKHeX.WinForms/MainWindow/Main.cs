@@ -3424,7 +3424,7 @@ namespace PKHeX.WinForms
             }
             catch (Exception x)
             {
-                if (x is UnauthorizedAccessException || x is FileNotFoundException)
+                if (x is UnauthorizedAccessException || x is FileNotFoundException || x is IOException)
                     WinFormsUtil.Error("Unable to save." + Environment.NewLine + x.Message, 
                         "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
                 else throw;
