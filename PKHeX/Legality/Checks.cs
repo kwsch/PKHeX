@@ -857,7 +857,7 @@ namespace PKHeX.Core
 
             EncounterType type = EncounterType.None;
             // Encounter type data is only stored for gen 4 encounters
-            // Gen 6 -> 7 transfer delete encounter type data
+            // Gen 6 -> 7 transfer deletes encounter type data
             // All eggs have encounter type none, even if they are from static encounters
             if (pkm.Gen4 && !pkm.WasEgg)
             {
@@ -1053,14 +1053,21 @@ namespace PKHeX.Core
 
             if (Gen4Result == null && pkm.Ball != 5 && pkm.Ball != 0x18 && null != (EncounterStaticMatch = Legal.getValidStaticEncounter(pkm)))
             {
-                EncounterMatch = EncounterStaticMatch.First();
+                EncounterMatch = EncounterStaticMatch[0];
                 var result = verifyEncounterStatic();
                 // A pokemon could match a static encounter and a wild encounter at the same time, by default static encounter have preferences
                 // But if the pokemon does not match the static encounter ball and there is a valid wild encounter skip static encounter
                 if (result != null && (pkm.WasEgg || Gen4WildResult == null || EncounterStaticMatch.Any(s => !s.Gift || pkm.Ball == s.Ball)))
                 {
-                    verifyTransferLegalityG4();
-                    return result;
+                    // Sanity check EncounterType if wild encounters are still an alternative and the EncounterType info is still available
+                    var type = (EncounterType)pkm.EncounterType;
+                    if (Gen4WildResult == null || pkm.Format <= 6 && type == 0
+                        ? EncounterStaticMatch.Any(s => !(s is EncounterStaticTyped))
+                        : EncounterStaticMatch.Any(s => (s as EncounterStaticTyped)?.TypeEncounter == type))
+                    {
+                        verifyTransferLegalityG4();
+                        return result;
+                    }
                 }
 
                 EncounterStaticMatch = null;
