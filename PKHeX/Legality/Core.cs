@@ -489,8 +489,28 @@ namespace PKHeX.Core
             foreach (EncounterStatic s in t)
             {
                 s.Location = 75;  //Entree Forest
-                s.Ability = (PersonalTable.B2W2.getAbilities(s.Species, s.Form)[2] == 0) ? 1 : 4; // Check if has HA
+                s.Ability = PersonalTable.B2W2.getAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
             }
+
+            // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
+            var list = new List<EncounterStatic>();
+            foreach (EncounterStatic s in t)
+            {
+                if (s.Moves == null || s.Moves.Length <= 1) // no special moves
+                {
+                    list.Add(s);
+                    continue;
+                }
+
+                var loc = s.Location;
+                for (int i = 0; i < s.Moves.Length; i++)
+                {
+                    var clone = s.Clone(loc);
+                    clone.Moves = new[] {s.Moves[i]};
+                    list.Add(clone);
+                }
+            }
+            t = list.ToArray();
         }
         private static void MarkG5Slots(ref EncounterArea[] Areas)
         {

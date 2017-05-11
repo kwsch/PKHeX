@@ -41,7 +41,7 @@
             return Encounters;
         }
 
-        protected virtual EncounterStatic Clone(int location)
+        public virtual EncounterStatic Clone(int location)
         {
             return new EncounterStatic
             {
@@ -127,7 +127,7 @@
     {
         public EncounterType TypeEncounter = EncounterType.None;
 
-        protected override EncounterStatic Clone(int location)
+        public override EncounterStatic Clone(int location)
         {
             return new EncounterStaticTyped
             {
@@ -166,7 +166,7 @@
         public int Gauge;
         public bool EReader = false;
 
-        protected override EncounterStatic Clone(int location)
+        public override EncounterStatic Clone(int location)
         {
             throw new System.Exception();
         }
