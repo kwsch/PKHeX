@@ -271,6 +271,7 @@ namespace PKHeX.WinForms
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
+        private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
 
@@ -1522,8 +1523,25 @@ namespace PKHeX.WinForms
             TemplateFields();
             CB_BoxSelect.SelectedIndex = 0;
         }
+        private static PKM loadTemplate()
+        {
+            if (!Directory.Exists(TemplatePath))
+                return null;
+
+            var blank = SAV.BlankPKM;
+            string path = Path.Combine(TemplatePath, new DirectoryInfo(TemplatePath).Name + "." + blank.Extension);
+
+            if (!File.Exists(path) || !PKX.getIsPKM(new FileInfo(path).Length))
+                return null;
+
+            var pk = PKMConverter.getPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
+            return PKMConverter.convertToFormat(pk, SAV.BlankPKM.GetType(), out path); // no sneaky plz; reuse string
+        }
         private void TemplateFields()
         {
+            var template = loadTemplate();
+            if (template != null)
+            { populateFields(template); return; }
             CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;
             TB_OT.Text = "PKHeX";
