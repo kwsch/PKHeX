@@ -146,10 +146,10 @@ namespace PKHeX.Core
         }
         public static void RefreshMGDB(string localDbPath)
         {
-            var g4 = getPCDDB(Util.getBinaryResource("pcd"));
-            var g5 = getPGFDB(Util.getBinaryResource("pgf"));
-            var g6 = getWC6DB(Util.getBinaryResource("wc6"), Util.getBinaryResource("wc6full"));
-            var g7 = getWC7DB(Util.getBinaryResource("wc7"), Util.getBinaryResource("wc7full"));
+            var g4 = getPCDDB(Util.getBinaryResource("pcd.pkl"));
+            var g5 = getPGFDB(Util.getBinaryResource("pgf.pkl"));
+            var g6 = getWC6DB(Util.getBinaryResource("wc6.pkl"), Util.getBinaryResource("wc6full.pkl"));
+            var g7 = getWC7DB(Util.getBinaryResource("wc7.pkl"), Util.getBinaryResource("wc7full.pkl"));
 
             if (Directory.Exists(localDbPath))
                 foreach (var file in Directory.GetFiles(localDbPath, "*", SearchOption.AllDirectories))
