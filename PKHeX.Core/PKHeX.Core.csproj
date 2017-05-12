@@ -1,0 +1,218 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+    <Description>Pokémon C# Class Library</Description>
+    <Company>Project Pokémon</Company>
+    <Copyright>Kaphotics</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\byte\eggmove_ao.pkl" />
+    <None Remove="Resources\byte\eggmove_bw.pkl" />
+    <None Remove="Resources\byte\eggmove_c.pkl" />
+    <None Remove="Resources\byte\eggmove_dppt.pkl" />
+    <None Remove="Resources\byte\eggmove_gs.pkl" />
+    <None Remove="Resources\byte\eggmove_hgss.pkl" />
+    <None Remove="Resources\byte\eggmove_rs.pkl" />
+    <None Remove="Resources\byte\eggmove_sm.pkl" />
+    <None Remove="Resources\byte\eggmove_xy.pkl" />
+    <None Remove="Resources\byte\encounter_a.pkl" />
+    <None Remove="Resources\byte\encounter_b.pkl" />
+    <None Remove="Resources\byte\encounter_b2.pkl" />
+    <None Remove="Resources\byte\encounter_blue.pkl" />
+    <None Remove="Resources\byte\encounter_crystal.pkl" />
+    <None Remove="Resources\byte\encounter_crystal_h.pkl" />
+    <None Remove="Resources\byte\encounter_d.pkl" />
+    <None Remove="Resources\byte\encounter_e.pkl" />
+    <None Remove="Resources\byte\encounter_fr.pkl" />
+    <None Remove="Resources\byte\encounter_gold.pkl" />
+    <None Remove="Resources\byte\encounter_gold_h.pkl" />
+    <None Remove="Resources\byte\encounter_gsc_f.pkl" />
+    <None Remove="Resources\byte\encounter_hg.pkl" />
+    <None Remove="Resources\byte\encounter_lg.pkl" />
+    <None Remove="Resources\byte\encounter_mn.pkl" />
+    <None Remove="Resources\byte\encounter_mn_sos.pkl" />
+    <None Remove="Resources\byte\encounter_o.pkl" />
+    <None Remove="Resources\byte\encounter_p.pkl" />
+    <None Remove="Resources\byte\encounter_pt.pkl" />
+    <None Remove="Resources\byte\encounter_r.pkl" />
+    <None Remove="Resources\byte\encounter_rb_f.pkl" />
+    <None Remove="Resources\byte\encounter_red.pkl" />
+    <None Remove="Resources\byte\encounter_s.pkl" />
+    <None Remove="Resources\byte\encounter_silver.pkl" />
+    <None Remove="Resources\byte\encounter_silver_h.pkl" />
+    <None Remove="Resources\byte\encounter_sn.pkl" />
+    <None Remove="Resources\byte\encounter_sn_sos.pkl" />
+    <None Remove="Resources\byte\encounter_ss.pkl" />
+    <None Remove="Resources\byte\encounter_w.pkl" />
+    <None Remove="Resources\byte\encounter_w2.pkl" />
+    <None Remove="Resources\byte\encounter_x.pkl" />
+    <None Remove="Resources\byte\encounter_y.pkl" />
+    <None Remove="Resources\byte\encounter_yellow.pkl" />
+    <None Remove="Resources\byte\encounter_yellow_f.pkl" />
+    <None Remove="Resources\byte\encunters_hb_hg.pkl" />
+    <None Remove="Resources\byte\encunters_hb_ss.pkl" />
+    <None Remove="Resources\byte\evos_ao.pkl" />
+    <None Remove="Resources\byte\evos_g3.pkl" />
+    <None Remove="Resources\byte\evos_g4.pkl" />
+    <None Remove="Resources\byte\evos_g5.pkl" />
+    <None Remove="Resources\byte\evos_gsc.pkl" />
+    <None Remove="Resources\byte\evos_rby.pkl" />
+    <None Remove="Resources\byte\evos_sm.pkl" />
+    <None Remove="Resources\byte\hmtm_g3.pkl" />
+    <None Remove="Resources\byte\lvlmove_ao.pkl" />
+    <None Remove="Resources\byte\lvlmove_b2w2.pkl" />
+    <None Remove="Resources\byte\lvlmove_bw.pkl" />
+    <None Remove="Resources\byte\lvlmove_c.pkl" />
+    <None Remove="Resources\byte\lvlmove_dp.pkl" />
+    <None Remove="Resources\byte\lvlmove_e.pkl" />
+    <None Remove="Resources\byte\lvlmove_fr.pkl" />
+    <None Remove="Resources\byte\lvlmove_gs.pkl" />
+    <None Remove="Resources\byte\lvlmove_hgss.pkl" />
+    <None Remove="Resources\byte\lvlmove_lg.pkl" />
+    <None Remove="Resources\byte\lvlmove_pt.pkl" />
+    <None Remove="Resources\byte\lvlmove_rb.pkl" />
+    <None Remove="Resources\byte\lvlmove_rs.pkl" />
+    <None Remove="Resources\byte\lvlmove_sm.pkl" />
+    <None Remove="Resources\byte\lvlmove_xy.pkl" />
+    <None Remove="Resources\byte\lvlmove_y.pkl" />
+    <None Remove="Resources\byte\pcd.pkl" />
+    <None Remove="Resources\byte\personal_ao" />
+    <None Remove="Resources\byte\personal_b2w2" />
+    <None Remove="Resources\byte\personal_bw" />
+    <None Remove="Resources\byte\personal_c" />
+    <None Remove="Resources\byte\personal_dp" />
+    <None Remove="Resources\byte\personal_e" />
+    <None Remove="Resources\byte\personal_fr" />
+    <None Remove="Resources\byte\personal_gs" />
+    <None Remove="Resources\byte\personal_hgss" />
+    <None Remove="Resources\byte\personal_lg" />
+    <None Remove="Resources\byte\personal_pt" />
+    <None Remove="Resources\byte\personal_rb" />
+    <None Remove="Resources\byte\personal_rs" />
+    <None Remove="Resources\byte\personal_sm" />
+    <None Remove="Resources\byte\personal_xy" />
+    <None Remove="Resources\byte\personal_y" />
+    <None Remove="Resources\byte\pgf.pkl" />
+    <None Remove="Resources\byte\tutors_g3.pkl" />
+    <None Remove="Resources\byte\tutors_g4.pkl" />
+    <None Remove="Resources\byte\wc6.pkl" />
+    <None Remove="Resources\byte\wc6full.pkl" />
+    <None Remove="Resources\byte\wc7.pkl" />
+    <None Remove="Resources\byte\wc7full.pkl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\byte\eggmove_ao.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_bw.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_c.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_dppt.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_gs.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_hgss.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_rs.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_sm.pkl" />
+    <EmbeddedResource Include="Resources\byte\eggmove_xy.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_a.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_b.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_b2.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_blue.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_crystal.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_crystal_h.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_d.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_e.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_fr.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_gold.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_gold_h.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_gsc_f.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_hg.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_lg.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_mn.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_mn_sos.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_o.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_p.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_pt.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_r.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_rb_f.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_red.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_s.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_silver.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_silver_h.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_sn.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_sn_sos.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_ss.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_w.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_w2.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_x.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_y.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_yellow.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_yellow_f.pkl" />
+    <EmbeddedResource Include="Resources\byte\encunters_hb_hg.pkl" />
+    <EmbeddedResource Include="Resources\byte\encunters_hb_ss.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_ao.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_g3.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_g4.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_g5.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_gsc.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_rby.pkl" />
+    <EmbeddedResource Include="Resources\byte\evos_sm.pkl" />
+    <EmbeddedResource Include="Resources\byte\hmtm_g3.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_ao.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_b2w2.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_bw.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_c.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_dp.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_e.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_fr.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_gs.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_hgss.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_lg.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_pt.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_rb.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_rs.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_sm.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_xy.pkl" />
+    <EmbeddedResource Include="Resources\byte\lvlmove_y.pkl" />
+    <EmbeddedResource Include="Resources\byte\pcd.pkl" />
+    <EmbeddedResource Include="Resources\byte\personal_ao" />
+    <EmbeddedResource Include="Resources\byte\personal_b2w2" />
+    <EmbeddedResource Include="Resources\byte\personal_bw" />
+    <EmbeddedResource Include="Resources\byte\personal_c" />
+    <EmbeddedResource Include="Resources\byte\personal_dp" />
+    <EmbeddedResource Include="Resources\byte\personal_e" />
+    <EmbeddedResource Include="Resources\byte\personal_fr" />
+    <EmbeddedResource Include="Resources\byte\personal_gs" />
+    <EmbeddedResource Include="Resources\byte\personal_hgss" />
+    <EmbeddedResource Include="Resources\byte\personal_lg" />
+    <EmbeddedResource Include="Resources\byte\personal_pt" />
+    <EmbeddedResource Include="Resources\byte\personal_rb" />
+    <EmbeddedResource Include="Resources\byte\personal_rs" />
+    <EmbeddedResource Include="Resources\byte\personal_sm" />
+    <EmbeddedResource Include="Resources\byte\personal_xy" />
+    <EmbeddedResource Include="Resources\byte\personal_y" />
+    <EmbeddedResource Include="Resources\byte\pgf.pkl" />
+    <EmbeddedResource Include="Resources\byte\tutors_g3.pkl" />
+    <EmbeddedResource Include="Resources\byte\tutors_g4.pkl" />
+    <EmbeddedResource Include="Resources\byte\wc6.pkl" />
+    <EmbeddedResource Include="Resources\byte\wc6full.pkl" />
+    <EmbeddedResource Include="Resources\byte\wc7.pkl" />
+    <EmbeddedResource Include="Resources\byte\wc7full.pkl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

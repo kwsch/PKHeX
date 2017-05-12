@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using PKHeX.Core;
-using PKHeX.Core.Properties;
+using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms
 {

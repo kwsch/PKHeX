@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
             
             m_parent.populateFields(Results[index], false);
             slotSelected = index;
-            slotColor = Core.Properties.Resources.slotView;
+            slotColor = Properties.Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
         }
@@ -237,7 +237,7 @@ namespace PKHeX.WinForms
             // Refresh database view.
             L_Count.Text = string.Format(Counter, Results.Count);
             slotSelected = Results.Count - 1;
-            slotColor = Core.Properties.Resources.slotSet;
+            slotColor = Properties.Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
                 SCR_Box.Maximum += 1;
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
@@ -563,9 +563,9 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Core.Properties.Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
-                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Core.Properties.Resources.slotView;
+                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Properties.Resources.slotView;
         }
 
         // Misc Update Methods

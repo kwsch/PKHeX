@@ -188,7 +188,7 @@ namespace PKHeX.WinForms
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(pba, sender);
 
-            setBackground(index, Core.Properties.Resources.slotView);
+            setBackground(index, Properties.Resources.slotView);
             viewGiftData(mga.Gifts[index]);
         }
         private void clickSet(object sender, EventArgs e)
@@ -211,7 +211,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Can't set slot here.", $"{mg.Type} != {mga.Gifts[index].Type}");
                 return;
             }
-            setBackground(index, Core.Properties.Resources.slotSet);
+            setBackground(index, Properties.Resources.slotSet);
             mga.Gifts[index] = mg.Clone();
             setGiftBoxes();
             setCardID(mg.CardID);
@@ -240,7 +240,7 @@ namespace PKHeX.WinForms
                 mga.Gifts[i-1] = mg1;
                 mga.Gifts[i] = mg2;
             }
-            setBackground(i, Core.Properties.Resources.slotDel);
+            setBackground(i, Properties.Resources.slotDel);
             setGiftBoxes();
         }
 
@@ -429,7 +429,7 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Alert("Can't set slot here.", $"{gift.Type} != {mga.Gifts[index].Type}");
                     return;
                 }
-                setBackground(index, Core.Properties.Resources.slotSet);
+                setBackground(index, Properties.Resources.slotSet);
                 mga.Gifts[index] = gift.Clone();
                 
                 setCardID(mga.Gifts[index].CardID);
@@ -473,7 +473,7 @@ namespace PKHeX.WinForms
                     index = i-1;
                 }
             }
-            setBackground(index, Core.Properties.Resources.slotView);
+            setBackground(index, Properties.Resources.slotView);
             setGiftBoxes();
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)
