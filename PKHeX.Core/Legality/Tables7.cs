@@ -1301,12 +1301,10 @@ namespace PKHeX.Core
             657, // Gardevoirite
             658, // Ampharosite
             664, // Blazikenite
-            666, // Houndoominite
             667, // Aggronite
             668, // Banettite
             669, // Tyranitarite
             674, // Abomasite
-            680, // Heracronite
             682, // Manectite
             684, // Latiasite
             685, // Latiosite
