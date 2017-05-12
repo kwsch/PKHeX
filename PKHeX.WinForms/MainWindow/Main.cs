@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Core.Properties;
+using PKHeX.WinForms.Properties;
 using System.Configuration;
 using System.Threading.Tasks;
 
@@ -197,7 +197,7 @@ namespace PKHeX.WinForms
                     string pathCache = CyberGadgetUtil.GetCacheFolder();
                     if (Directory.Exists(pathCache))
                         cgse = Path.Combine(pathCache);
-                    if (!SaveUtil.detectSaveFile(out path, cgse))
+                    if (!PathUtilWindows.detectSaveFile(out path, cgse))
                         WinFormsUtil.Error(path);
                 }
                 catch (Exception ex)
@@ -354,7 +354,7 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!SaveUtil.detectSaveFile(out path, cgse))
+            if (!PathUtilWindows.detectSaveFile(out path, cgse))
                 WinFormsUtil.Error(path);
 
             if (path != null)
@@ -693,7 +693,7 @@ namespace PKHeX.WinForms
         }
         private void clickOpenSDFFolder(object sender, EventArgs e)
         {
-            string path = Path.GetPathRoot(Util.get3DSLocation());
+            string path = Path.GetPathRoot(PathUtilWindows.get3DSLocation());
             if (path != null && Directory.Exists(path = Path.Combine(path, "filer", "UserSaveData")))
                 Process.Start("explorer.exe", path);
             else
@@ -701,7 +701,7 @@ namespace PKHeX.WinForms
         }
         private void clickOpenSDBFolder(object sender, EventArgs e)
         {
-            string path3DS = Path.GetPathRoot(Util.get3DSLocation());
+            string path3DS = Path.GetPathRoot(PathUtilWindows.get3DSLocation());
             string path;
             if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "SaveDataBackup")))
                 Process.Start("explorer.exe", path);
@@ -1381,88 +1381,7 @@ namespace PKHeX.WinForms
 
         private static void refreshMGDB()
         {
-            var g4 = getPCDDB(Resources.pcd);
-            var g5 = getPGFDB(Resources.pgf);
-            var g6 = getWC6DB(Resources.wc6, Resources.wc6full);
-            var g7 = getWC7DB(Resources.wc7, Resources.wc7full);
-
-            if (Directory.Exists(MGDatabasePath))
-            foreach (var file in Directory.GetFiles(MGDatabasePath, "*", SearchOption.AllDirectories))
-            {
-                var fi = new FileInfo(file);
-                if (!MysteryGift.getIsMysteryGift(fi.Length))
-                    continue;
-
-                var gift = MysteryGift.getMysteryGift(File.ReadAllBytes(file), fi.Extension);
-                switch (gift?.Format)
-                {
-                    case 4: g4.Add(gift); continue;
-                    case 5: g5.Add(gift); continue;
-                    case 6: g6.Add(gift); continue;
-                    case 7: g7.Add(gift); continue;
-                }
-            }
-
-            Legal.MGDB_G4 = g4.ToArray();
-            Legal.MGDB_G5 = g5.ToArray();
-            Legal.MGDB_G6 = g6.ToArray();
-            Legal.MGDB_G7 = g7.ToArray();
-        }
-        private static HashSet<MysteryGift> getPCDDB(byte[] bin)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < bin.Length; i += PCD.Size)
-            {
-                byte[] data = new byte[PCD.Size];
-                Buffer.BlockCopy(bin, i, data, 0, PCD.Size);
-                db.Add(new PCD(data));
-            }
-            return db;
-        }
-        private static HashSet<MysteryGift> getPGFDB(byte[] bin)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < bin.Length; i += PGF.Size) 
-            {
-                byte[] data = new byte[PGF.Size];
-                Buffer.BlockCopy(bin, i, data, 0, PGF.Size);
-                db.Add(new PGF(data));
-            }
-            return db;
-        }
-        private static HashSet<MysteryGift> getWC6DB(byte[] wc6bin, byte[] wc6full)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < wc6bin.Length; i += WC6.Size)
-            {
-                byte[] data = new byte[WC6.Size];
-                Buffer.BlockCopy(wc6bin, i, data, 0, WC6.Size);
-                db.Add(new WC6(data));
-            }
-            for (int i = 0; i < wc6full.Length; i += WC6.SizeFull)
-            {
-                byte[] data = new byte[WC6.SizeFull];
-                Buffer.BlockCopy(wc6full, i, data, 0, WC6.SizeFull);
-                db.Add(new WC6(data));
-            }
-            return db;
-        }
-        private static HashSet<MysteryGift> getWC7DB(byte[] wc7bin, byte[] wc7full)
-        {
-            var db = new HashSet<MysteryGift>();
-            for (int i = 0; i < wc7bin.Length; i += WC7.Size)
-            {
-                byte[] data = new byte[WC7.Size];
-                Buffer.BlockCopy(wc7bin, i, data, 0, WC7.Size);
-                db.Add(new WC7(data));
-            }
-            for (int i = 0; i < wc7full.Length; i += WC7.SizeFull)
-            {
-                byte[] data = new byte[WC7.SizeFull];
-                Buffer.BlockCopy(wc7full, i, data, 0, WC7.SizeFull);
-                db.Add(new WC7(data));
-            }
-            return db;
+            Legal.RefreshMGDB(MGDatabasePath);
         }
 
         // Language Translation
@@ -1497,7 +1416,7 @@ namespace PKHeX.WinForms
 
             // Update Legality Strings
             // Clipboard.SetText(string.Join(Environment.NewLine, Util.getLocalization(typeof(LegalityCheckStrings))));
-            Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings)));
+            Task.Run(() => Util.setLocalization(typeof(LegalityCheckStrings), Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2)));
 
             // Force an update to the met locations
             origintrack = GameVersion.Unknown;
@@ -4341,7 +4260,7 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!SaveUtil.detectSaveFile(out path, cgse))
+            if (!PathUtilWindows.detectSaveFile(out path, cgse))
                 WinFormsUtil.Error(path);
             if (path == null || !File.Exists(path)) return;
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)

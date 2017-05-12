@@ -100,7 +100,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Core.Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx30);
             this.PAN_Box.Controls.Add(this.bpkx29);
@@ -503,7 +503,7 @@
             // 
             // PB_BoxSwap
             // 
-            this.PB_BoxSwap.Image = Core.Properties.Resources.swapBox;
+            this.PB_BoxSwap.Image = Properties.Resources.swapBox;
             this.PB_BoxSwap.Location = new System.Drawing.Point(0, 0);
             this.PB_BoxSwap.Name = "PB_BoxSwap";
             this.PB_BoxSwap.Size = new System.Drawing.Size(24, 24);

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Core.Properties;
+using PKHeX.WinForms.Properties;
 using static PKHeX.WinForms.Main;
 
 namespace PKHeX.WinForms
@@ -207,14 +207,14 @@ namespace PKHeX.WinForms
             string filename = pkx.FileName;
 
             // Make File
-            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
+            string newfile = Path.Combine(Path.GetTempPath(), Core.Util.CleanFileName(filename));
             try
             {
                 File.WriteAllBytes(newfile, dragdata);
                 var img = (Bitmap)pb.Image;
                 DragInfo.Cursor = Cursor.Current = new Cursor(img.GetHicon());
                 pb.Image = null;
-                pb.BackgroundImage = Core.Properties.Resources.slotDrag;
+                pb.BackgroundImage = Resources.slotDrag;
                 // Thread Blocks on DoDragDrop
                 DragInfo.CurrentPath = newfile;
                 DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);

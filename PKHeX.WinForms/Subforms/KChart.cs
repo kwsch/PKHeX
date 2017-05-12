@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Core.Properties;
+using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms
 {
