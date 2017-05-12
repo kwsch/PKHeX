@@ -207,7 +207,7 @@ namespace PKHeX.WinForms
             string filename = pkx.FileName;
 
             // Make File
-            string newfile = Path.Combine(Path.GetTempPath(), Core.Util.CleanFileName(filename));
+            string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));
             try
             {
                 File.WriteAllBytes(newfile, dragdata);

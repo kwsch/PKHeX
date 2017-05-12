@@ -168,10 +168,10 @@ namespace PKHeX.Core
                     }
                 }
 
-            Legal.MGDB_G4 = g4.ToArray();
-            Legal.MGDB_G5 = g5.ToArray();
-            Legal.MGDB_G6 = g6.ToArray();
-            Legal.MGDB_G7 = g7.ToArray();
+            MGDB_G4 = g4.ToArray();
+            MGDB_G5 = g5.ToArray();
+            MGDB_G6 = g6.ToArray();
+            MGDB_G7 = g7.ToArray();
         }
 
         private static EncounterStatic[] getStaticEncounters(GameVersion Game)
@@ -2272,7 +2272,6 @@ namespace PKHeX.Core
             if (DB == null)
                 return validPGF;
 
-            // todo
             var vs = getValidPreEvolutions(pkm).ToArray();
             foreach (PGF wc in DB.OfType<PGF>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {

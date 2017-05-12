@@ -458,24 +458,24 @@ namespace PKHeX.WinForms
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Unicode = unicode = Menu_Unicode.Checked;
+            Settings.Default.Unicode = unicode = Menu_Unicode.Checked;
             updateUnicode();
         }
         private void mainMenuModifyDex(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
+            Settings.Default.SetUpdateDex = SaveFile.SetUpdateDex = Menu_ModifyDex.Checked;
         }
         private void mainMenuModifyUnset(object sender, EventArgs e)
         {
-            Properties.Settings.Default.ModifyUnset = Menu_ModifyUnset.Checked;
+            Settings.Default.ModifyUnset = Menu_ModifyUnset.Checked;
         }
         private void mainMenuModifyPKM(object sender, EventArgs e)
         {
-            Properties.Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
+            Settings.Default.SetUpdatePKM = SaveFile.SetUpdatePKM = Menu_ModifyPKM.Checked;
         }
         private void mainMenuFlagIllegal(object sender, EventArgs e)
         {
-            Properties.Settings.Default.FlagIllegal = Menu_FlagIllegal.Checked;
+            Settings.Default.FlagIllegal = Menu_FlagIllegal.Checked;
             updateBoxViewers(all:true);
             setPKXBoxes();
         }
@@ -1391,7 +1391,7 @@ namespace PKHeX.WinForms
                 curlanguage = GameInfo.lang_val[CB_MainLanguage.SelectedIndex];
 
             // Set the culture (makes it easy to pass language to other forms)
-            Properties.Settings.Default.Language = curlanguage;
+            Settings.Default.Language = curlanguage;
             Thread.CurrentThread.CurrentCulture = new CultureInfo(curlanguage.Substring(0, 2));
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
@@ -1741,7 +1741,7 @@ namespace PKHeX.WinForms
         }
         private void setMarkings()
         {
-            Func<bool, double> getOpacity = b => b ? 1 : 0.175;
+            double getOpacity(bool b) => b ? 1 : 0.175;
             PictureBox[] pba = { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
             for (int i = 0; i < pba.Length; i++)
                 pba[i].Image = ImageUtil.ChangeOpacity(pba[i].InitialImage, getOpacity(pkm.Markings[i] != 0));
@@ -3285,7 +3285,7 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            try { Properties.Settings.Default.Save(); }
+            try { Settings.Default.Save(); }
             catch (Exception x) { File.WriteAllLines("config error.txt", new[] { x.ToString() }); }
         }
         #endregion

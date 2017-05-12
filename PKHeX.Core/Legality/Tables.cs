@@ -219,13 +219,13 @@ namespace PKHeX.Core
         public static readonly int[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};
         public static readonly int[] Arceus_ZCrystal = {782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793};
 
-        internal static int[] BabyEvolutionWithMove =
+        internal static readonly int[] BabyEvolutionWithMove =
         {
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
         };
 
-        internal static int[] EvolutionWithMove =
+        internal static readonly int[] EvolutionWithMove =
         {
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
@@ -238,7 +238,7 @@ namespace PKHeX.Core
             763, // Tsareena (Steenee with Stomp)
         };
 
-        internal static int[] FairyMoves =
+        internal static readonly int[] FairyMoves =
         {
             186, //Sweet Kiss
             204, //Charm

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 
 namespace PKHeX.Core
 {
@@ -211,6 +209,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="languageFilePrefix">Prefix of the language file to use.  Example: if the target is legality_en.txt, <paramref name="languageFilePrefix"/> should be "legality".</param>
+        /// <param name="currentCultureCode">Culture information</param>
         private static void setLocalization(Type t, string languageFilePrefix, string currentCultureCode)
         {
             setLocalization(t, getStringList($"{languageFilePrefix}_{currentCultureCode}"));
@@ -221,6 +220,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <remarks>The values used to translate the given static class are retrieved from [TypeName]_[CurrentLangCode2].txt in the resource manager of PKHeX.Core.</remarks>
+        /// <param name="currentCultureCode">Culture information</param>
         public static void setLocalization(Type t, string currentCultureCode)
         {
             setLocalization(t, t.Name, currentCultureCode);
