@@ -62,23 +62,6 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PKHeX - By Kaphotics
-        ///http://projectpokemon.org/pkhex
-        ///
-        ///17/04/24 - New Update:
-        /// - Legality: Added Gen3, Gen4, Gen5 legality checking! Thanks javierhimura &amp; wwwwwwzx!
-        /// - - Added: Legality Translations, currently supports English, Chinese, and Korean. Thanks wwwwwwzx &amp; lilymaniac!
-        /// - - Note: Colosseum/XD is not supported at this time, and certain Gen3 events may not be detected.
-        /// - - Fixed: More edge cases
-        /// - Changed: Trash Byte &amp; Special character editing window (added) now replaces the Text Entry wind [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string changelog {
-            get {
-                return ResourceManager.GetString("changelog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 60	Ash
         ///21	Test1
         ///22	Test2
@@ -516,15 +499,6 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20170424.
-        /// </summary>
-        internal static string ProgramVersion {
-            get {
-                return ResourceManager.GetString("ProgramVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ID,3DS Region
         ///0,Japan (日本)
         ///1,Americas (NA/SA)
@@ -536,35 +510,6 @@ namespace PKHeX.Core.Properties {
         internal static string regions3ds {
             get {
                 return ResourceManager.GetString("regions3ds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to If you are having issues viewing certain symbols/text: Options -&gt; Unicode
-        ///
-        ///// Main Window
-        ///
-        ///CTRL-O: Open
-        ///CTRL-S: Export PKM
-        ///CTRL-E: Export SAV
-        ///CTRL-B: Export BAK
-        ///CTRL-Q: Quit
-        ///
-        ///CTRL-D: Open Database
-        ///CTRL-G: Open Mystery Gift Database
-        ///CTRL-R: Open Box Report
-        ///CTRL-P: Open About PKHeX
-        ///CTRL-T: Import Showdown Set
-        ///CTRL-SHIFT-T: Export Showdown Set
-        ///
-        ///Control + Click on...
-        ///- Species: Import Showdown/Smogon set from Clipboard.
-        ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///- Individual  [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string shortcuts {
-            get {
-                return ResourceManager.GetString("shortcuts", resourceCulture);
             }
         }
         
