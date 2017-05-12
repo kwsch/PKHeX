@@ -591,6 +591,7 @@ namespace PKHeX.Core
             for (var i = 0xE4; i < 0xE8; i++) pk7.Data[i] = 0; /* Unused. */
             pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
             pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
+            pk7.HeldItem = 0; /* Cannot bank with a held item. */
 
             // Fix Checksum
             pk7.RefreshChecksum();
