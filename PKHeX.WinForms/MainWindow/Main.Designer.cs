@@ -3943,7 +3943,7 @@
             this.Menu_MGDatabase.ShowShortcutKeys = false;
             this.Menu_MGDatabase.Size = new System.Drawing.Size(182, 22);
             this.Menu_MGDatabase.Text = "&Mystery Gift Database";
-            this.Menu_MGDatabase.Click += new System.EventHandler(this.mainMenuMysteryDM);
+            this.Menu_MGDatabase.Click += new System.EventHandler(this.mainMenuMysteryDB);
             // 
             // Menu_BatchEditor
             // 

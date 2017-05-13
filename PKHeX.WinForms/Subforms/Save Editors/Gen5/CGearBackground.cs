@@ -298,7 +298,6 @@ namespace PKHeX.WinForms
             }
             public byte[] Write()
             {
-                byte[] result;
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter bw = new BinaryWriter(ms))
                 {
@@ -307,9 +306,8 @@ namespace PKHeX.WinForms
                         bw.Write((byte)TileChoices[i]);
                         bw.Write((byte)Rotations[i]);
                     }
-                    result = ms.ToArray();
+                    return ms.ToArray();
                 }
-                return result;
             }
         }
 

@@ -11,9 +11,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (IsMemoryCardSave)
-                    return "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|GameCube Save File|*.gci|All Files|*.*";
-                return "GameCube Save File|*.gci|All Files|*.*";
+                const string regular = "GameCube Save File|*.gci|All Files|*.*";
+                const string memcard = "Memory Card Raw File|*.raw|Memory Card Binary File|*.bin|";
+                return IsMemoryCardSave ? memcard + regular : regular;
             }
         }
 
@@ -263,7 +263,8 @@ namespace PKHeX.Core
 
                 bool header = newHC == oldHC;
                 bool body = chk.SequenceEqual(checksum);
-                return $"Header Checksum {(header ? "V" : "Inv")}alid, Body Checksum {(body ? "V" : "Inv")}alid.";
+                string valid(bool s) => s ? "Valid" : "Invalid";
+                return $"Header Checksum {valid(header)}, Body Checksum {valid(body)}alid.";
             }
         }
 
