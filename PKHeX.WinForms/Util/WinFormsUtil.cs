@@ -20,7 +20,8 @@ namespace PKHeX.WinForms
                 rawlist = File.ReadAllLines(externalLangPath);
             else
             {
-                rawlist = Util.getStringList("lang", lang);
+                var file = "lang_" + lang;
+                rawlist = Util.getStringList(file);
                 if (rawlist.Length == 0)
                 {
                     // Translation file does not exist as a resource; abort this function and don't translate UI.
