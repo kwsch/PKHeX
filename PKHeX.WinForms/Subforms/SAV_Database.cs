@@ -126,7 +126,7 @@ namespace PKHeX.WinForms
             {
                 case 1: return pk.Species.ToString("000") + ((PK1)pk).DV16.ToString("X4");
                 case 2: return pk.Species.ToString("000") + ((PK2)pk).DV16.ToString("X4");
-                default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs);
+                default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs) + pk.AltForm.ToString("00");
             }
         };
 
