@@ -271,7 +271,7 @@ namespace PKHeX.Core
         }
 
         public string GCISaveName => getGCISaveGameName();
-        public byte[] SelectedSaveData { get { return ReadSaveGameData(); } set { WriteSaveGameData(value); } }
+        public byte[] SelectedSaveData { get => ReadSaveGameData(); set => WriteSaveGameData(value); }
         public byte[] Data { get; private set; }
 
         private string getGCISaveGameName()

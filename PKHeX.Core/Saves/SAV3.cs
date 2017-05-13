@@ -256,43 +256,43 @@ namespace PKHeX.Core
         }
         public override string OT
         {
-            get { return getString(BlockOfs[0], 0x10); }
-            set { setString(value, 7).CopyTo(Data, BlockOfs[0]); }
+            get => getString(BlockOfs[0], 0x10);
+            set => setString(value, 7).CopyTo(Data, BlockOfs[0]);
         }
         public override int Gender
         {
-            get { return Data[BlockOfs[0] + 8]; }
-            set { Data[BlockOfs[0] + 8] = (byte)value; }
+            get => Data[BlockOfs[0] + 8];
+            set => Data[BlockOfs[0] + 8] = (byte)value;
         }
         public override ushort TID
         {
-            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xA + 0); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xA + 0); }
+            get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xA + 0);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xA + 0);
         }
         public override ushort SID
         {
-            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xC); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xC); }
+            get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xC);
+            set => BitConverter.GetBytes(value).CopyTo(Data, BlockOfs[0] + 0xC);
         }
         public override int PlayedHours
         {
-            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xE); }
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xE); }
+            get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xE);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BlockOfs[0] + 0xE);
         }
         public override int PlayedMinutes
         {
-            get { return Data[BlockOfs[0] + 0x10]; }
-            set { Data[BlockOfs[0] + 0x10] = (byte)value; }
+            get => Data[BlockOfs[0] + 0x10];
+            set => Data[BlockOfs[0] + 0x10] = (byte)value;
         }
         public override int PlayedSeconds
         {
-            get { return Data[BlockOfs[0] + 0x11]; }
-            set { Data[BlockOfs[0] + 0x11] = (byte)value; }
+            get => Data[BlockOfs[0] + 0x11];
+            set => Data[BlockOfs[0] + 0x11] = (byte)value;
         }
         public int PlayedFrames
         {
-            get { return Data[BlockOfs[0] + 0x12]; }
-            set { Data[BlockOfs[0] + 0x12] = (byte)value; }
+            get => Data[BlockOfs[0] + 0x12];
+            set => Data[BlockOfs[0] + 0x12] = (byte)value;
         }
         public int Badges
         {
@@ -365,7 +365,7 @@ namespace PKHeX.Core
         }
         public uint BP
         {
-            get { return BitConverter.ToUInt16(Data, BlockOfs[0] + 0xEB8); }
+            get => BitConverter.ToUInt16(Data, BlockOfs[0] + 0xEB8);
             set
             {
                 if (value > 9999)
@@ -460,8 +460,8 @@ namespace PKHeX.Core
         }
         public override int CurrentBox
         {
-            get { return Data[Box]; }
-            set { Data[Box] = (byte)value; }
+            get => Data[Box];
+            set => Data[Box] = (byte)value;
         }
         protected override int getBoxWallpaperOffset(int box)
         {
@@ -661,10 +661,10 @@ namespace PKHeX.Core
                 Data = data;
             }
 
-            public int Day { get { return BitConverter.ToUInt16(Data, 0x00); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); } }
-            public int Hour { get { return Data[2]; } set { Data[2] = (byte)value; } }
-            public int Minute { get { return Data[3]; } set { Data[3] = (byte)value; } }
-            public int Second { get { return Data[4]; } set { Data[4] = (byte)value; } }
+            public int Day { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+            public int Hour { get => Data[2]; set => Data[2] = (byte)value; }
+            public int Minute { get => Data[3]; set => Data[3] = (byte)value; }
+            public int Second { get => Data[4]; set => Data[4] = (byte)value; }
         }
         public RTC3 ClockInitial
         {

@@ -291,18 +291,15 @@ namespace PKHeX.Core
         protected int OFS_PouchZCrystals { get; set; } = int.MinValue;
 
         // Mystery Gift
-        protected virtual bool[] MysteryGiftReceivedFlags { get { return null; } set { } }
-        protected virtual MysteryGift[] MysteryGiftCards { get { return null; } set { } }
+        protected virtual bool[] MysteryGiftReceivedFlags { get => null; set { } }
+        protected virtual MysteryGift[] MysteryGiftCards { get => null; set { } }
         public virtual MysteryGiftAlbum GiftAlbum
         {
-            get
+            get => new MysteryGiftAlbum
             {
-                return new MysteryGiftAlbum
-                {
-                    Flags = MysteryGiftReceivedFlags,
-                    Gifts = MysteryGiftCards
-                };
-            }
+                Flags = MysteryGiftReceivedFlags,
+                Gifts = MysteryGiftCards
+            };
             set
             {
                 MysteryGiftReceivedFlags = value.Flags;
@@ -310,17 +307,17 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool BattleBoxLocked { get { return false; } set { } }
+        public virtual bool BattleBoxLocked { get => false; set { } }
         public virtual string JPEGTitle => null;
         public virtual byte[] JPEGData => null;
-        public virtual int Country { get { return -1; } set { } }
-        public virtual int ConsoleRegion { get { return -1; } set { } }
-        public virtual int SubRegion { get { return -1; } set { } }
+        public virtual int Country { get => -1; set { } }
+        public virtual int ConsoleRegion { get => -1; set { } }
+        public virtual int SubRegion { get => -1; set { } }
 
         // Trainer Info
         public virtual int Gender { get; set; }
-        public virtual int Language { get { return -1; } set { } }
-        public virtual int Game { get { return -1; } set { } }
+        public virtual int Language { get => -1; set { } }
+        public virtual int Game { get => -1; set { } }
         public virtual ushort TID { get; set; }
         public virtual ushort SID { get; set; }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
@@ -333,7 +330,7 @@ namespace PKHeX.Core
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
         public virtual int PartyCount { get; protected set; }
-        public virtual int MultiplayerSpriteID { get { return 0; } set { } }
+        public virtual int MultiplayerSpriteID { get => 0; set { } }
 
         // Varied Methods
         protected abstract void setChecksums();
@@ -342,9 +339,9 @@ namespace PKHeX.Core
         public abstract string getBoxName(int box);
         public abstract void setBoxName(int box, string val);
         public virtual int GameSyncIDSize { get; } = 8;
-        public virtual string GameSyncID { get { return null; } set { } }
-        public virtual ulong? Secure1 { get { return null; } set { } }
-        public virtual ulong? Secure2 { get { return null; } set { } }
+        public virtual string GameSyncID { get => null; set { } }
+        public virtual ulong? Secure1 { get => null; set { } }
+        public virtual ulong? Secure2 { get => null; set { } }
 
         // Daycare
         public int DaycareIndex = 0;
@@ -362,9 +359,9 @@ namespace PKHeX.Core
 
         // Storage
         public virtual int BoxSlotCount => 30;
-        public virtual int BoxesUnlocked { get { return -1; } set { } }
-        public virtual byte[] BoxFlags { get { return null; } set { } }
-        public virtual int CurrentBox { get { return 0; } set { } }
+        public virtual int BoxesUnlocked { get => -1; set { } }
+        public virtual byte[] BoxFlags { get => null; set { } }
+        public virtual int CurrentBox { get => 0; set { } }
         protected int[] LockedSlots = new int[0];
         protected int[] TeamSlots = new int[0];
         public bool MoveBox(int box, int insertBeforeBox)

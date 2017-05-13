@@ -172,8 +172,8 @@ namespace PKHeX.Core
         public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
         public override int MaxAbilityID => Legal.MaxAbilityID_1;
         public override int MaxItemID => Legal.MaxItemID_1;
-        public override int MaxBallID => 0;
-        public override int MaxGameID => 99; // What do I set this to...?
+        public override int MaxBallID => 0; // unused
+        public override int MaxGameID => 99; // unused
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
@@ -224,69 +224,69 @@ namespace PKHeX.Core
 
         public override string OT
         {
-            get { return getString(0x2598, OTLength); }
-            set { setString(value, OTLength).CopyTo(Data, 0x2598); }
+            get => getString(0x2598, OTLength);
+            set => setString(value, OTLength).CopyTo(Data, 0x2598);
         }
         public override int Gender
         {
-            get { return 0; }
+            get => 0;
             set { }
         }
         public override ushort TID
         {
-            get { return BigEndian.ToUInt16(Data, Japanese ? 0x25FB : 0x2605); }
-            set { BigEndian.GetBytes(value).CopyTo(Data, Japanese ? 0x25FB : 0x2605); }
+            get => BigEndian.ToUInt16(Data, Japanese ? 0x25FB : 0x2605);
+            set => BigEndian.GetBytes(value).CopyTo(Data, Japanese ? 0x25FB : 0x2605);
         }
         public override ushort SID
         {
-            get { return 0; }
+            get => 0;
             set { }
         }
 
         public byte PikaFriendship
         {
-            get { return Data[Japanese ? 0x2712 : 0x271C]; }
-            set { Data[Japanese ? 0x2712 : 0x271C] = value; }
+            get => Data[Japanese ? 0x2712 : 0x271C];
+            set => Data[Japanese ? 0x2712 : 0x271C] = value;
         }
         public override int PlayedHours
         {
-            get { return BitConverter.ToUInt16(Data, Japanese ? 0x2CA0 : 0x2CED); }
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x2CA0 : 0x2CED); }
+            get => BitConverter.ToUInt16(Data, Japanese ? 0x2CA0 : 0x2CED);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Japanese ? 0x2CA0 : 0x2CED);
         }
         public override int PlayedMinutes
         {
-            get { return Data[Japanese ? 0x2CA2 : 0x2CEF]; }
-            set { Data[Japanese ? 0x2CA2 : 0x2CEF] = (byte)value; }
+            get => Data[Japanese ? 0x2CA2 : 0x2CEF];
+            set => Data[Japanese ? 0x2CA2 : 0x2CEF] = (byte)value;
         }
         public override int PlayedSeconds
         {
-            get { return Data[Japanese ? 0x2CA3 : 0x2CF0]; }
-            set { Data[Japanese ? 0x2CA3 : 0x2CF0] = (byte)value; }
+            get => Data[Japanese ? 0x2CA3 : 0x2CF0];
+            set => Data[Japanese ? 0x2CA3 : 0x2CF0] = (byte)value;
         }
 
         public int Badges
         {
-            get { return Data[Japanese ? 0x25F8 : 0x2602]; }
+            get => Data[Japanese ? 0x25F8 : 0x2602];
             set { if (value < 0) return; Data[Japanese ? 0x25F8 : 0x2602] = (byte)value; }
         }
         private byte Options
         {
-            get { return Data[Japanese ? 0x25F7 : 0x2601]; }
-            set { Data[Japanese ? 0x25F7 : 0x2601] = value; }
+            get => Data[Japanese ? 0x25F7 : 0x2601];
+            set => Data[Japanese ? 0x25F7 : 0x2601] = value;
         }
         public bool BattleEffects
         {
-            get { return (Options & 0x80) == 0; }
-            set { Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80)); }
+            get => (Options & 0x80) == 0;
+            set => Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80));
         }
         public bool BattleStyleSwitch
         {
-            get { return (Options & 0x40) == 0; }
-            set { Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40)); }
+            get => (Options & 0x40) == 0;
+            set => Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40));
         }
         public int Sound
         {
-            get { return (Options & 0x30) >> 4; }
+            get => (Options & 0x30) >> 4;
             set
             {
                 var new_sound = value;
@@ -299,7 +299,7 @@ namespace PKHeX.Core
         }
         public int TextSpeed
         {
-            get { return Options & 0x7; }
+            get => Options & 0x7;
             set
             {
                 var new_speed = value;
@@ -312,7 +312,7 @@ namespace PKHeX.Core
         }
         public override uint Money
         {
-            get { return (uint)BigEndian.BCDToInt32(Data, Japanese ? 0x25EE : 0x25F3, 3); }
+            get => (uint)BigEndian.BCDToInt32(Data, Japanese ? 0x25EE : 0x25F3, 3);
             set
             {
                 value = (uint)Math.Min(value, MaxMoney);
@@ -321,10 +321,7 @@ namespace PKHeX.Core
         }
         public uint Coin
         {
-            get
-            {
-                return (uint)BigEndian.BCDToInt32(Data, Japanese ? 0x2846 : 0x2850, 2);
-            }
+            get => (uint)BigEndian.BCDToInt32(Data, Japanese ? 0x2846 : 0x2850, 2);
             set
             {
                 value = (ushort)Math.Min(value, MaxCoins);
@@ -390,11 +387,8 @@ namespace PKHeX.Core
         // Storage
         public override int PartyCount
         {
-            get { return Data[Japanese ? 0x2ED5 : 0x2F2C]; }
-            protected set
-            {
-                Data[Japanese ? 0x2ED5 : 0x2F2C] = (byte)value; 
-            }
+            get => Data[Japanese ? 0x2ED5 : 0x2F2C];
+            protected set => Data[Japanese ? 0x2ED5 : 0x2F2C] = (byte)value;
         }
         public override int getBoxOffset(int box)
         {
@@ -406,8 +400,8 @@ namespace PKHeX.Core
         }
         public override int CurrentBox
         {
-            get { return Data[Japanese ? 0x2842 : 0x284C] & 0x7F; }
-            set { Data[Japanese ? 0x2842 : 0x284C] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F)); }
+            get => Data[Japanese ? 0x2842 : 0x284C] & 0x7F;
+            set => Data[Japanese ? 0x2842 : 0x284C] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F));
         }
         public override string getBoxName(int box)
         {

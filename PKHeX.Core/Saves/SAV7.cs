@@ -186,13 +186,13 @@ namespace PKHeX.Core
         }
         public override ulong? Secure1
         {
-            get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14); }
-            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14); }
+            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0x14);
+            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0x14);
         }
         public override ulong? Secure2
         {
-            get { return BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC); }
-            set { BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC); }
+            get => BitConverter.ToUInt64(Data, BlockInfoOffset - 0xC);
+            set => BitConverter.GetBytes(value ?? 0).CopyTo(Data, BlockInfoOffset - 0xC);
         }
 
         private void getSAVOffsets()
@@ -338,23 +338,23 @@ namespace PKHeX.Core
         // Player Information
         public override ushort TID
         {
-            get { return BitConverter.ToUInt16(Data, TrainerCard + 0); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0); }
+            get => BitConverter.ToUInt16(Data, TrainerCard + 0);
+            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 0);
         }
         public override ushort SID
         {
-            get { return BitConverter.ToUInt16(Data, TrainerCard + 2); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 2); }
+            get => BitConverter.ToUInt16(Data, TrainerCard + 2);
+            set => BitConverter.GetBytes(value).CopyTo(Data, TrainerCard + 2);
         }
         public override int Game
         {
-            get { return Data[TrainerCard + 4]; }
-            set { Data[TrainerCard + 4] = (byte)value; }
+            get => Data[TrainerCard + 4];
+            set => Data[TrainerCard + 4] = (byte)value;
         }
         public override int Gender
         {
-            get { return Data[TrainerCard + 5]; }
-            set { Data[TrainerCard + 5] = (byte)value; }
+            get => Data[TrainerCard + 5];
+            set => Data[TrainerCard + 5] = (byte)value;
         }
         public override int GameSyncIDSize => 16; // 64 bits
         public override string GameSyncID
@@ -402,47 +402,47 @@ namespace PKHeX.Core
         }
         public override int SubRegion
         {
-            get { return Data[TrainerCard + 0x2E]; }
-            set { Data[TrainerCard + 0x2E] = (byte)value; }
+            get => Data[TrainerCard + 0x2E];
+            set => Data[TrainerCard + 0x2E] = (byte)value;
         }
         public override int Country
         {
-            get { return Data[TrainerCard + 0x2F]; }
-            set { Data[TrainerCard + 0x2F] = (byte)value; }
+            get => Data[TrainerCard + 0x2F];
+            set => Data[TrainerCard + 0x2F] = (byte)value;
         }
         public override int ConsoleRegion
         {
-            get { return Data[TrainerCard + 0x34]; }
-            set { Data[TrainerCard + 0x34] = (byte)value; }
+            get => Data[TrainerCard + 0x34];
+            set => Data[TrainerCard + 0x34] = (byte)value;
         }
         public override int Language
         {
-            get { return Data[TrainerCard + 0x35]; }
-            set { Data[TrainerCard + 0x35] = (byte)value; }
+            get => Data[TrainerCard + 0x35];
+            set => Data[TrainerCard + 0x35] = (byte)value;
         }
         public override string OT
         {
-            get { return getString(TrainerCard + 0x38, 0x1A); }
-            set { setString(value, OTLength).CopyTo(Data, TrainerCard + 0x38); }
+            get => getString(TrainerCard + 0x38, 0x1A);
+            set => setString(value, OTLength).CopyTo(Data, TrainerCard + 0x38);
         }
         public int DressUpSkinColor
         {
-            get { return (Data[TrainerCard + 0x54] >> 2) & 7; }
-            set { Data[TrainerCard + 0x54] = (byte)((Data[TrainerCard + 0x54] & ~(7 << 2)) | (value << 2)); }
+            get => (Data[TrainerCard + 0x54] >> 2) & 7;
+            set => Data[TrainerCard + 0x54] = (byte)((Data[TrainerCard + 0x54] & ~(7 << 2)) | (value << 2));
         }
         public int BallThrowType
         {
-            get { return Data[TrainerCard + 0x7A]; }
-            set { Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value); }
+            get => Data[TrainerCard + 0x7A];
+            set => Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value);
         }
         public int M
         {
-            get { return BitConverter.ToUInt16(Data, Trainer1 + 0x00); } // could be anywhere 0x0-0x7
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x00); }
+            get => BitConverter.ToUInt16(Data, Trainer1 + 0x00);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x00);
         }
         public float X
         {
-            get { return BitConverter.ToSingle(Data, Trainer1 + 0x08); }
+            get => BitConverter.ToSingle(Data, Trainer1 + 0x08);
             set
             {
                 BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x08);
@@ -451,7 +451,7 @@ namespace PKHeX.Core
         }
         public float Z
         {
-            get { return BitConverter.ToSingle(Data, Trainer1 + 0x10); }
+            get => BitConverter.ToSingle(Data, Trainer1 + 0x10);
             set
             {
                 BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x10);
@@ -460,7 +460,7 @@ namespace PKHeX.Core
         }
         public float Y
         {
-            get { return (int)BitConverter.ToSingle(Data, Trainer1 + 0x18); }
+            get => (int)BitConverter.ToSingle(Data, Trainer1 + 0x18);
             set
             {
                 BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x18);
@@ -469,7 +469,7 @@ namespace PKHeX.Core
         }
         public float R
         {
-            get { return (int)BitConverter.ToSingle(Data, Trainer1 + 0x20); }
+            get => (int)BitConverter.ToSingle(Data, Trainer1 + 0x20);
             set
             {
                 BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20);
@@ -479,7 +479,7 @@ namespace PKHeX.Core
 
         public override uint Money
         {
-            get { return BitConverter.ToUInt32(Data, Misc + 0x4); }
+            get => BitConverter.ToUInt32(Data, Misc + 0x4);
             set
             {
                 if (value > 9999999) value = 9999999;
@@ -488,10 +488,7 @@ namespace PKHeX.Core
         }
         public uint Stamps
         {
-            get // 15 stamps
-            {
-                return (BitConverter.ToUInt32(Data, Misc + 0x08) << 13) >> 17; // discard top13, lowest4
-            }
+            get => (BitConverter.ToUInt32(Data, Misc + 0x08) << 13) >> 17;  // 15 stamps; discard top13, lowest4
             set
             {
                 uint flags = BitConverter.ToUInt32(Data, Misc + 0x08) & 0xFFF8000F;
@@ -501,7 +498,7 @@ namespace PKHeX.Core
         }
         public uint BP
         {
-            get { return BitConverter.ToUInt32(Data, Misc + 0x11C); }
+            get => BitConverter.ToUInt32(Data, Misc + 0x11C);
             set
             {
                 if (value > 9999) value = 9999;
@@ -510,17 +507,17 @@ namespace PKHeX.Core
         }
         public int Vivillon
         {
-            get { return Data[Misc + 0x130] & 0x1F; }
-            set { Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F)); }
+            get => Data[Misc + 0x130] & 0x1F;
+            set => Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F));
         }
         public int DaysFromRefreshed
         {
-            get { return Data[Misc + 0x123]; }
-            set { Data[Misc + 0x123] = (byte)value; }
+            get => Data[Misc + 0x123];
+            set => Data[Misc + 0x123] = (byte)value;
         }
         public uint UsedFestaCoins
         {
-            get { return BitConverter.ToUInt32(Data, 0x69C98); }
+            get => BitConverter.ToUInt32(Data, 0x69C98);
             set
             {
                 if (value > 9999999) value = 9999999;
@@ -529,7 +526,7 @@ namespace PKHeX.Core
         }
         public uint FestaCoins
         {
-            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x508); }
+            get => BitConverter.ToUInt32(Data, JoinFestaData + 0x508);
             set
             {
                 if (value > 9999999) value = 9999999;
@@ -540,7 +537,7 @@ namespace PKHeX.Core
         }
         private uint TotalFestaCoins
         {
-            get { return BitConverter.ToUInt32(Data, JoinFestaData + 0x50C); }
+            get => BitConverter.ToUInt32(Data, JoinFestaData + 0x50C);
             set
             {
                 if (value > 9999999) value = 9999999;
@@ -549,7 +546,7 @@ namespace PKHeX.Core
         }
         public string FestivalPlazaName
         {
-            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, JoinFestaData + 0x510, 0x2A)); }
+            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, JoinFestaData + 0x510, 0x2A));
             set
             {
                 const int max = 20;
@@ -578,35 +575,32 @@ namespace PKHeX.Core
         }
 
         public override int PlayedHours
-        { 
-            get { return BitConverter.ToUInt16(Data, PlayTime); } 
-            set { BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime); } 
+        {
+            get => BitConverter.ToUInt16(Data, PlayTime);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, PlayTime);
         }
         public override int PlayedMinutes
         {
-            get { return Data[PlayTime + 2]; }
-            set { Data[PlayTime + 2] = (byte)value; } 
+            get => Data[PlayTime + 2];
+            set => Data[PlayTime + 2] = (byte)value;
         }
         public override int PlayedSeconds
         {
-            get { return Data[PlayTime + 3]; }
-            set { Data[PlayTime + 3] = (byte)value; }
+            get => Data[PlayTime + 3];
+            set => Data[PlayTime + 3] = (byte)value;
         }
-        private uint LastSaved { get { return BitConverter.ToUInt32(Data, PlayTime + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); } }
-        private int LastSavedYear { get { return (int)(LastSaved & 0xFFF); } set { LastSaved = LastSaved & 0xFFFFF000 | (uint)value; } }
-        private int LastSavedMonth { get { return (int)(LastSaved >> 12 & 0xF); } set { LastSaved = LastSaved & 0xFFFF0FFF | ((uint)value & 0xF) << 12; } }
-        private int LastSavedDay { get { return (int)(LastSaved >> 16 & 0x1F); } set { LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; } }
-        private int LastSavedHour { get { return (int)(LastSaved >> 21 & 0x1F); } set { LastSaved = LastSaved & 0xFC1FFFFF | ((uint)value & 0x1F) << 21; } }
-        private int LastSavedMinute { get { return (int)(LastSaved >> 26 & 0x3F); } set { LastSaved = LastSaved & 0x03FFFFFF | ((uint)value & 0x3F) << 26; } }
+        private uint LastSaved { get => BitConverter.ToUInt32(Data, PlayTime + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, PlayTime + 0x4); }
+        private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = LastSaved & 0xFFFFF000 | (uint)value; }
+        private int LastSavedMonth { get => (int)(LastSaved >> 12 & 0xF); set => LastSaved = LastSaved & 0xFFFF0FFF | ((uint)value & 0xF) << 12; }
+        private int LastSavedDay { get => (int)(LastSaved >> 16 & 0x1F); set => LastSaved = LastSaved & 0xFFE0FFFF | ((uint)value & 0x1F) << 16; }
+        private int LastSavedHour { get => (int)(LastSaved >> 21 & 0x1F); set => LastSaved = LastSaved & 0xFC1FFFFF | ((uint)value & 0x1F) << 21; }
+        private int LastSavedMinute { get => (int)(LastSaved >> 26 & 0x3F); set => LastSaved = LastSaved & 0x03FFFFFF | ((uint)value & 0x3F) << 26; }
         private string LastSavedTime => $"{LastSavedYear:0000}{LastSavedMonth:00}{LastSavedDay:00}{LastSavedHour:00}{LastSavedMinute:00}";
         public DateTime? LastSavedDate
         {
-            get
-            {
-                return !Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay) 
-                    ? (DateTime?)null 
+            get => !Util.IsDateValid(LastSavedYear, LastSavedMonth, LastSavedDay)
+                    ? (DateTime?)null
                     : new DateTime(LastSavedYear, LastSavedMonth, LastSavedDay, LastSavedHour, LastSavedMinute, 0);
-            }
             set
             {
                 // Only update the properties if a value is provided.
@@ -631,16 +625,16 @@ namespace PKHeX.Core
             }
         }
 
-        public int ResumeYear { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x4); } set { BitConverter.GetBytes(value).CopyTo(Data,AdventureInfo + 0x4); } }
-        public int ResumeMonth { get { return Data[AdventureInfo + 0x8]; } set { Data[AdventureInfo + 0x8] = (byte)value; } }
-        public int ResumeDay { get { return Data[AdventureInfo + 0x9]; } set { Data[AdventureInfo + 0x9] = (byte)value; } }
-        public int ResumeHour { get { return Data[AdventureInfo + 0xB]; } set { Data[AdventureInfo + 0xB] = (byte)value; } }
-        public int ResumeMinute { get { return Data[AdventureInfo + 0xC]; } set { Data[AdventureInfo + 0xC] = (byte)value; } }
-        public int ResumeSeconds { get { return Data[AdventureInfo + 0xD]; } set { Data[AdventureInfo + 0xD] = (byte)value; } }
-        public override int SecondsToStart { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x28); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); } }
-        public override int SecondsToFame { get { return BitConverter.ToInt32(Data, AdventureInfo + 0x30); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); } }
+        public int ResumeYear { get => BitConverter.ToInt32(Data, AdventureInfo + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x4); }
+        public int ResumeMonth { get => Data[AdventureInfo + 0x8]; set => Data[AdventureInfo + 0x8] = (byte)value; }
+        public int ResumeDay { get => Data[AdventureInfo + 0x9]; set => Data[AdventureInfo + 0x9] = (byte)value; }
+        public int ResumeHour { get => Data[AdventureInfo + 0xB]; set => Data[AdventureInfo + 0xB] = (byte)value; }
+        public int ResumeMinute { get => Data[AdventureInfo + 0xC]; set => Data[AdventureInfo + 0xC] = (byte)value; }
+        public int ResumeSeconds { get => Data[AdventureInfo + 0xD]; set => Data[AdventureInfo + 0xD] = (byte)value; }
+        public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x28); }
+        public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x30); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x30); }
         
-        public ulong AlolaTime { get { return BitConverter.ToUInt64(Data, AdventureInfo + 0x48); } set { BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo+0x48);} }
+        public ulong AlolaTime { get => BitConverter.ToUInt64(Data, AdventureInfo + 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x48); }
 
         // Stat Records
         public int getRecord(int recordID)
@@ -701,17 +695,17 @@ namespace PKHeX.Core
 
         public ushort PokeFinderCameraVersion
         {
-            get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x00); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x00); }
+            get => BitConverter.ToUInt16(Data, PokeFinderSave + 0x00);
+            set => BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x00);
         }
         public bool PokeFinderGyroFlag
         {
-            get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x02) == 1; }
-            set { BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, PokeFinderSave + 0x02); }
+            get => BitConverter.ToUInt16(Data, PokeFinderSave + 0x02) == 1;
+            set => BitConverter.GetBytes((ushort)(value ? 1 : 0)).CopyTo(Data, PokeFinderSave + 0x02);
         }
         public uint PokeFinderSnapCount
         {
-            get { return BitConverter.ToUInt32(Data, PokeFinderSave + 0x04); }
+            get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x04);
             set
             {
                 if (value > 9999999) // Top bound is unchecked, check anyway
@@ -721,16 +715,12 @@ namespace PKHeX.Core
         }
         public uint PokeFinderThumbsTotalValue
         {
-            get { return BitConverter.ToUInt32(Data, PokeFinderSave + 0x0C); }
-            set
-            {
-                BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x0C);
-
-            }
+            get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x0C);
+            set => BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x0C);
         }
         public uint PokeFinderThumbsHighValue
         {
-            get { return BitConverter.ToUInt32(Data, PokeFinderSave + 0x10); }
+            get => BitConverter.ToUInt32(Data, PokeFinderSave + 0x10);
             set
             {
                 if (value > 9999999) // 9mil;
@@ -743,8 +733,8 @@ namespace PKHeX.Core
         }
         public ushort PokeFinderTutorialFlags
         {
-            get { return BitConverter.ToUInt16(Data, PokeFinderSave + 0x14); }
-            set { BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x14); }
+            get => BitConverter.ToUInt16(Data, PokeFinderSave + 0x14);
+            set => BitConverter.GetBytes(value).CopyTo(Data, PokeFinderSave + 0x14);
         }
 
         // Inventory
@@ -822,7 +812,7 @@ namespace PKHeX.Core
         }
 
         // Storage
-        public override int CurrentBox { get { return Data[LastViewedBox]; } set { Data[LastViewedBox] = (byte)value; } }
+        public override int CurrentBox { get => Data[LastViewedBox]; set => Data[LastViewedBox] = (byte)value; }
         public override int getPartyOffset(int slot)
         {
             return Party + SIZE_PARTY * slot;
@@ -1069,10 +1059,10 @@ namespace PKHeX.Core
         }
         public override int PartyCount
         {
-            get { return Data[Party + 6 * SIZE_PARTY]; }
-            protected set { Data[Party + 6 * SIZE_PARTY] = (byte)value; }
+            get => Data[Party + 6 * SIZE_PARTY];
+            protected set => Data[Party + 6 * SIZE_PARTY] = (byte)value;
         }
-        public override int BoxesUnlocked { get { return Data[PCFlags + 1]; } set { Data[PCFlags + 1] = (byte)value; } }
+        public override int BoxesUnlocked { get => Data[PCFlags + 1]; set => Data[PCFlags + 1] = (byte)value; }
         public override bool getIsSlotLocked(int box, int slot)
         {
             if (slot >= 30 || box >= BoxCount)
@@ -1284,7 +1274,7 @@ namespace PKHeX.Core
         }
         public byte BallThrowTypeUnlocked
         {
-            get { return (byte)(((BitConverter.ToUInt16(Data, 0x23F4) << 4) >> 10) << 2); }
+            get => (byte)(((BitConverter.ToUInt16(Data, 0x23F4) << 4) >> 10) << 2);
             set
             {
                 ushort flags = (ushort)(BitConverter.ToUInt16(Data, 0x23F4) & 0xF03F);
@@ -1294,22 +1284,19 @@ namespace PKHeX.Core
         }
         public byte BallThrowTypeLearned
         {
-            get { return (byte)((Data[0x2583] & 0x7F) << 1); }
-            set { Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1)); }
+            get => (byte)((Data[0x2583] & 0x7F) << 1);
+            set => Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1));
         }
         public byte BattleTreeSuperUnlocked
         {
-            get { return (byte)(Data[0x23F9] >> 5); }
-            set { Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5)); }
+            get => (byte)(Data[0x23F9] >> 5);
+            set => Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5));
         }
         public bool MegaUnlocked
         {
-            get { return (Data[0x1278] & 0x01) != 0; }
-            set
-            {
-                Data[0x1278] = (byte)((Data[0x1278] & 0xFE) | (value ? 1 : 0)); // in battle
-                // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
-            }
+            get => (Data[0x1278] & 0x01) != 0;
+            set => Data[0x1278] = (byte)((Data[0x1278] & 0xFE) | (value ? 1 : 0)); // in battle
+            // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
         }
 
         public override bool RequiresMemeCrypto => true;

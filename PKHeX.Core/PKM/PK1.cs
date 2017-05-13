@@ -24,8 +24,8 @@ namespace PKHeX.Core
         public override byte[] setString(string value, int maxLength) => PKX.setString1(value, maxLength, Japanese);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get { return nick; } set { if (value?.Length == nick.Length) nick = value; } }
-        public override byte[] OT_Trash { get { return otname; } set { if (value?.Length == otname.Length) otname = value; } }
+        public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }
+        public override byte[] OT_Trash { get => otname; set { if (value?.Length == otname.Length) otname = value; } }
 
         public override int Format => 1;
 
@@ -53,7 +53,7 @@ namespace PKHeX.Core
         }
         public override string Nickname
         {
-            get { return PKX.getString1(nick, 0, nick.Length, Japanese); }
+            get => PKX.getString1(nick, 0, nick.Length, Japanese);
             set
             {
                 byte[] strdata = setString(value, StringLength);
@@ -71,7 +71,7 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get { return PKX.getString1(otname, 0, otname.Length, Japanese); }
+            get => PKX.getString1(otname, 0, otname.Length, Japanese);
             set
             {
                 byte[] strdata = setString(value, StringLength);
@@ -87,14 +87,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override byte[] Encrypt()
-        {
-            // Oh god this is such total abuse of what this method is meant to do
-            // Please forgive me
-            return new PokemonList1(this).GetBytes();
-        }
-
-        // Please forgive me.
+        public override byte[] Encrypt() => new PokemonList1(this).GetBytes();
         public override byte[] EncryptedPartyData => Encrypt().ToArray();
         public override byte[] EncryptedBoxData => Encrypt().ToArray();
         public override byte[] DecryptedBoxData => Encrypt().ToArray();
@@ -138,7 +131,7 @@ namespace PKHeX.Core
         #region Stored Attributes
         public override int Species
         {
-            get { return PKX.getG1Species(Data[0]); }
+            get => PKX.getG1Species(Data[0]);
             set
             {
                 Data[0] = (byte)PKX.setG1Species(value);
@@ -151,60 +144,60 @@ namespace PKHeX.Core
             }
         }
 
-        public override int Stat_HPCurrent { get { return BigEndian.ToUInt16(Data, 0x1); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); } }
-        public int Status_Condition { get { return Data[4]; } set { Data[4] = (byte)value; } }
-        public int Type_A { get { return Data[5]; } set { Data[5] = (byte)value; } }
-        public int Type_B { get { return Data[6]; } set { Data[6] = (byte)value; } }
-        public int Catch_Rate { get { return Data[7]; } set { Data[7] = (byte)value; } }
-        public override int Move1 { get { return Data[8]; } set { Data[8] = (byte) value; } }
-        public override int Move2 { get { return Data[9]; } set { Data[9] = (byte)value; } }
-        public override int Move3 { get { return Data[10]; } set { Data[10] = (byte)value; } }
-        public override int Move4 { get { return Data[11]; } set { Data[11] = (byte)value; } }
-        public override int TID { get { return BigEndian.ToUInt16(Data, 0xC); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xC); } }
+        public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); }
+        public int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
+        public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
+        public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
+        public int Catch_Rate { get => Data[7]; set => Data[7] = (byte)value; }
+        public override int Move1 { get => Data[8]; set => Data[8] = (byte)value; }
+        public override int Move2 { get => Data[9]; set => Data[9] = (byte)value; }
+        public override int Move3 { get => Data[10]; set => Data[10] = (byte)value; }
+        public override int Move4 { get => Data[11]; set => Data[11] = (byte)value; }
+        public override int TID { get => BigEndian.ToUInt16(Data, 0xC); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xC); }
         public override uint EXP
         {
-            get { return (BigEndian.ToUInt32(Data, 0xE) >> 8) & 0x00FFFFFF; }
-            set { Array.Copy(BigEndian.GetBytes((value << 8) & 0xFFFFFF00), 0, Data, 0xE, 3); }
+            get => (BigEndian.ToUInt32(Data, 0xE) >> 8) & 0x00FFFFFF;
+            set => Array.Copy(BigEndian.GetBytes((value << 8) & 0xFFFFFF00), 0, Data, 0xE, 3);
         }
-        public override int EV_HP { get { return BigEndian.ToUInt16(Data, 0x11); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x11); } }
-        public override int EV_ATK { get { return BigEndian.ToUInt16(Data, 0x13); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); } }
-        public override int EV_DEF { get { return BigEndian.ToUInt16(Data, 0x15); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x15); } }
-        public override int EV_SPE { get { return BigEndian.ToUInt16(Data, 0x17); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x17); } }
-        public int EV_SPC { get { return BigEndian.ToUInt16(Data, 0x19); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); } }
-        public override int EV_SPA { get { return EV_SPC; } set { EV_SPC = value; } }
-        public override int EV_SPD { get { return EV_SPC; } set { } }
-        public ushort DV16 { get { return BigEndian.ToUInt16(Data, 0x1B); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x1B); } }
-        public override int IV_HP { get { return ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); } set { } }
-        public override int IV_ATK { get { return (DV16 >> 12) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); } }
-        public override int IV_DEF { get { return (DV16 >> 8) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); } }
-        public override int IV_SPE { get { return (DV16 >> 4) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); } }
-        public int IV_SPC { get { return (DV16 >> 0) & 0xF; } set { DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); } }
-        public override int IV_SPA { get { return IV_SPC; } set { IV_SPC = value; } }
-        public override int IV_SPD { get { return IV_SPC; } set { } }
-        public override int Move1_PP { get { return Data[0x1D] & 0x3F; } set { Data[0x1D] = (byte)((Data[0x1D] & 0xC0) | (value & 0x3F)); } }
-        public override int Move2_PP { get { return Data[0x1E] & 0x3F; } set { Data[0x1E] = (byte)((Data[0x1E] & 0xC0) | (value & 0x3F)); } }
-        public override int Move3_PP { get { return Data[0x1F] & 0x3F; } set { Data[0x1F] = (byte)((Data[0x1F] & 0xC0) | (value & 0x3F)); } }
-        public override int Move4_PP { get { return Data[0x20] & 0x3F; } set { Data[0x20] = (byte)((Data[0x20] & 0xC0) | (value & 0x3F)); } }
-        public override int Move1_PPUps { get { return (Data[0x1D] & 0xC0) >> 6; } set { Data[0x1D] = (byte)((Data[0x1D] & 0x3F) | ((value & 0x3) << 6)); } }
-        public override int Move2_PPUps { get { return (Data[0x1E] & 0xC0) >> 6; } set { Data[0x1E] = (byte)((Data[0x1E] & 0x3F) | ((value & 0x3) << 6)); } }
-        public override int Move3_PPUps { get { return (Data[0x1F] & 0xC0) >> 6; } set { Data[0x1F] = (byte)((Data[0x1F] & 0x3F) | ((value & 0x3) << 6)); } }
-        public override int Move4_PPUps { get { return (Data[0x20] & 0xC0) >> 6; } set { Data[0x20] = (byte)((Data[0x20] & 0x3F) | ((value & 0x3) << 6)); } }
+        public override int EV_HP { get => BigEndian.ToUInt16(Data, 0x11); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x11); }
+        public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
+        public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x15); }
+        public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x17); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x17); }
+        public int EV_SPC { get => BigEndian.ToUInt16(Data, 0x19); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); }
+        public override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
+        public override int EV_SPD { get => EV_SPC; set { } }
+        public ushort DV16 { get => BigEndian.ToUInt16(Data, 0x1B); set => BigEndian.GetBytes(value).CopyTo(Data, 0x1B); }
+        public override int IV_HP { get => ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); set { } }
+        public override int IV_ATK { get => (DV16 >> 12) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); }
+        public override int IV_DEF { get => (DV16 >> 8) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); }
+        public override int IV_SPE { get => (DV16 >> 4) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); }
+        public int IV_SPC { get => (DV16 >> 0) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); }
+        public override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
+        public override int IV_SPD { get => IV_SPC; set { } }
+        public override int Move1_PP { get => Data[0x1D] & 0x3F; set => Data[0x1D] = (byte)((Data[0x1D] & 0xC0) | (value & 0x3F)); }
+        public override int Move2_PP { get => Data[0x1E] & 0x3F; set => Data[0x1E] = (byte)((Data[0x1E] & 0xC0) | (value & 0x3F)); }
+        public override int Move3_PP { get => Data[0x1F] & 0x3F; set => Data[0x1F] = (byte)((Data[0x1F] & 0xC0) | (value & 0x3F)); }
+        public override int Move4_PP { get => Data[0x20] & 0x3F; set => Data[0x20] = (byte)((Data[0x20] & 0xC0) | (value & 0x3F)); }
+        public override int Move1_PPUps { get => (Data[0x1D] & 0xC0) >> 6; set => Data[0x1D] = (byte)((Data[0x1D] & 0x3F) | ((value & 0x3) << 6)); }
+        public override int Move2_PPUps { get => (Data[0x1E] & 0xC0) >> 6; set => Data[0x1E] = (byte)((Data[0x1E] & 0x3F) | ((value & 0x3) << 6)); }
+        public override int Move3_PPUps { get => (Data[0x1F] & 0xC0) >> 6; set => Data[0x1F] = (byte)((Data[0x1F] & 0x3F) | ((value & 0x3) << 6)); }
+        public override int Move4_PPUps { get => (Data[0x20] & 0xC0) >> 6; set => Data[0x20] = (byte)((Data[0x20] & 0x3F) | ((value & 0x3) << 6)); }
         #endregion
 
         #region Party Attributes
         public override int Stat_Level
         {
-            get { return Data[0x21]; }
+            get => Data[0x21];
             set { Data[0x21] = (byte)value; Data[0x3] = (byte)value; }
         }
-        public override int Stat_HPMax { get { return BigEndian.ToUInt16(Data, 0x22); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); } }
-        public override int Stat_ATK { get { return BigEndian.ToUInt16(Data, 0x24); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); } }
-        public override int Stat_DEF { get { return BigEndian.ToUInt16(Data, 0x26); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x26); } }
-        public override int Stat_SPE { get { return BigEndian.ToUInt16(Data, 0x28); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); } }
-        public int Stat_SPC { get { return BigEndian.ToUInt16(Data, 0x2A); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); } }
+        public override int Stat_HPMax { get => BigEndian.ToUInt16(Data, 0x22); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x22); }
+        public override int Stat_ATK { get => BigEndian.ToUInt16(Data, 0x24); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x24); }
+        public override int Stat_DEF { get => BigEndian.ToUInt16(Data, 0x26); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x26); }
+        public override int Stat_SPE { get => BigEndian.ToUInt16(Data, 0x28); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x28); }
+        public int Stat_SPC { get => BigEndian.ToUInt16(Data, 0x2A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x2A); }
         // Leave SPA and SPD as alias for SPC
-        public override int Stat_SPA { get { return Stat_SPC; } set { Stat_SPC = value; } }
-        public override int Stat_SPD { get { return Stat_SPC; } set { } }
+        public override int Stat_SPA { get => Stat_SPC; set => Stat_SPC = value; }
+        public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
 
         public override ushort[] getStats(PersonalInfo p)
@@ -229,48 +222,43 @@ namespace PKHeX.Core
         {
             return true;
         }
-        public override uint EncryptionConstant { get { return 0; } set { } }
-        public override uint PID { get { return 0; } set { } }
-        public override int Met_Level { get { return 0; } set { } }
-        public override int Nature { get { return 0; } set { } }
-        public override int AltForm { get { return 0; } set { } }
-        public override bool IsEgg { get { return false; } set { } }
-        public override int Gender { get { return 0; } set { } }
-        public override int HeldItem { get { return 0; } set { } }
-
-        public override bool CanHoldItem(ushort[] ValidArray)
-        {
-            return false;
-        }
-
+        public override uint EncryptionConstant { get => 0; set { } }
+        public override uint PID { get => 0; set { } }
+        public override int Met_Level { get => 0; set { } }
+        public override int Nature { get => 0; set { } }
+        public override int AltForm { get => 0; set { } }
+        public override bool IsEgg { get => false; set { } }
+        public override int Gender { get => 0; set { } }
+        public override int HeldItem { get => 0; set { } }
+        public override bool CanHoldItem(ushort[] ValidArray) => false;
         public override bool IsShiny => IV_ATK == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_DEF & 2) == 2;
-        public override ushort Sanity { get { return 0; } set { } }
+        public override ushort Sanity { get => 0; set { } }
         public override bool ChecksumValid => true;
-        public override ushort Checksum { get { return 0; } set { } }
-        public override int Language { get { return 0; } set { } }
-        public override bool FatefulEncounter { get { return false; } set { } }
+        public override ushort Checksum { get => 0; set { } }
+        public override int Language { get => 0; set { } }
+        public override bool FatefulEncounter { get => false; set { } }
         public override int TSV => 0x0000;
         public override int PSV => 0xFFFF;
         public override int Characteristic => -1;
-        public override int MarkValue { get { return 0; } protected set { } }
-        public override int CurrentFriendship { get { return 0; } set { } }
-        public override int Ability { get { return 0; } set { } }
-        public override int CurrentHandler { get { return 0; } set { } }
-        public override int Met_Location { get { return 0; } set { } }
-        public override int Egg_Location { get { return 0; } set { } }
-        public override int OT_Friendship { get { return 0; } set { } }
-        public override int OT_Gender { get { return 0; } set { } }
-        public override int Ball { get { return 0; } set { } }
-        public override int Version { get { return (int)GameVersion.RBY; } set { } }
-        public override int SID { get { return 0; } set { } }
-        public override int PKRS_Strain { get { return 0; } set { } }
-        public override int PKRS_Days { get { return 0; } set { } }
-        public override int CNT_Cool { get { return 0; } set { } }
-        public override int CNT_Beauty { get { return 0; } set { } }
-        public override int CNT_Cute { get { return 0; } set { } }
-        public override int CNT_Smart { get { return 0; } set { } }
-        public override int CNT_Tough { get { return 0; } set { } }
-        public override int CNT_Sheen { get { return 0; } set { } }
+        public override int MarkValue { get => 0; protected set { } }
+        public override int CurrentFriendship { get => 0; set { } }
+        public override int Ability { get => 0; set { } }
+        public override int CurrentHandler { get => 0; set { } }
+        public override int Met_Location { get => 0; set { } }
+        public override int Egg_Location { get => 0; set { } }
+        public override int OT_Friendship { get => 0; set { } }
+        public override int OT_Gender { get => 0; set { } }
+        public override int Ball { get => 0; set { } }
+        public override int Version { get => (int)GameVersion.RBY; set { } }
+        public override int SID { get => 0; set { } }
+        public override int PKRS_Strain { get => 0; set { } }
+        public override int PKRS_Days { get => 0; set { } }
+        public override int CNT_Cool { get => 0; set { } }
+        public override int CNT_Beauty { get => 0; set { } }
+        public override int CNT_Cute { get => 0; set { } }
+        public override int CNT_Smart { get => 0; set { } }
+        public override int CNT_Tough { get => 0; set { } }
+        public override int CNT_Sheen { get => 0; set { } }
         #endregion
         public bool CatchRateIsItem = false;
 
@@ -427,19 +415,12 @@ namespace PKHeX.Core
             Single
         }
 
-        public static int getEntrySize(CapacityType c)
-        {
-            return c == CapacityType.Single || c == CapacityType.Party
-                ? PKX.SIZE_1PARTY
-                : PKX.SIZE_1STORED;
-        }
+        private static int getEntrySize(CapacityType c) => c == CapacityType.Single || c == CapacityType.Party
+            ? PKX.SIZE_1PARTY
+            : PKX.SIZE_1STORED;
+        private static byte getCapacity(CapacityType c) => c == CapacityType.Single ? (byte)1 : (byte)c;
 
-        public static byte getCapacity(CapacityType c)
-        {
-            return c == CapacityType.Single ? (byte)1 : (byte)c;
-        }
-
-        private byte[] getEmptyList(CapacityType c, bool is_JP = false)
+        private static byte[] getEmptyList(CapacityType c, bool is_JP = false)
         {
             int cap = getCapacity(c);
             return new[] { (byte)0 }.Concat(Enumerable.Repeat((byte)0xFF, cap + 1)).Concat(Enumerable.Repeat((byte)0, getEntrySize(c) * cap)).Concat(Enumerable.Repeat((byte)0x50, (is_JP ? PK1.STRLEN_J : PK1.STRLEN_U) * 2 * cap)).ToArray();
@@ -453,9 +434,7 @@ namespace PKHeX.Core
             Entry_Size = getEntrySize(c);
 
             if (Data.Length != DataSize)
-            {
                 Array.Resize(ref Data, DataSize);
-            }
 
             Pokemon = new PK1[Capacity];
             for (int i = 0; i < Capacity; i++)
@@ -472,10 +451,7 @@ namespace PKHeX.Core
         }
 
         public PokemonList1(CapacityType c = CapacityType.Single, bool jp = false)
-            : this(null, c, jp)
-        {
-            Count = 1;
-        }
+            : this(null, c, jp) => Count = 1;
 
         public PokemonList1(PK1 pk)
             : this(CapacityType.Single, pk.Japanese)
@@ -490,8 +466,8 @@ namespace PKHeX.Core
 
         public byte Count
         {
-            get { return Data[0]; }
-            set { Data[0] = value > Capacity ? Capacity : value; }
+            get => Data[0];
+            set => Data[0] = value > Capacity ? Capacity : value;
         }
 
         public readonly PK1[] Pokemon;
@@ -533,10 +509,6 @@ namespace PKHeX.Core
         }
 
         private int DataSize => Capacity * (Entry_Size + 1 + 2 * StringLength) + 2;
-
-        public static int GetDataLength(CapacityType c, bool jp = false)
-        {
-            return getCapacity(c) * (getEntrySize(c) + 1 + 2 * (jp ? PK1.STRLEN_J : PK1.STRLEN_U)) + 2;
-        }
+        public static int GetDataLength(CapacityType c, bool jp = false) => getCapacity(c) * (getEntrySize(c) + 1 + 2 * (jp ? PK1.STRLEN_J : PK1.STRLEN_U)) + 2;
     }
 }

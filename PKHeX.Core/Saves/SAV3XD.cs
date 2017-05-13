@@ -233,14 +233,14 @@ namespace PKHeX.Core
             return data;
         }
         // Trainer Info
-        public override GameVersion Version { get { return GameVersion.XD; } protected set { } }
-        public override string OT { get { return getString(Trainer1 + 0x00, 20); } set { setString(value, 10).CopyTo(Data, Trainer1 + 0x00);  } }
-        public override ushort SID { get { return BigEndian.ToUInt16(Data, Trainer1 + 0x2C); } set { BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2C); } }
-        public override ushort TID { get { return BigEndian.ToUInt16(Data, Trainer1 + 0x2E); } set { BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2E); } }
+        public override GameVersion Version { get => GameVersion.XD; protected set { } }
+        public override string OT { get => getString(Trainer1 + 0x00, 20); set => setString(value, 10).CopyTo(Data, Trainer1 + 0x00); }
+        public override ushort SID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2C); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2C); }
+        public override ushort TID { get => BigEndian.ToUInt16(Data, Trainer1 + 0x2E); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x2E); }
 
-        public override int Gender { get { return Data[Trainer1 + 0x8E0]; } set { Data[Trainer1 + 0x8E0] = (byte)value; } }
-        public override uint Money { get { return BigEndian.ToUInt32(Data, Trainer1 + 0x8E4); } set { BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E4); } }
-        public uint Coupons { get { return BigEndian.ToUInt32(Data, Trainer1 + 0x8E8); } set { BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E8); } }
+        public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
+        public override uint Money { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E4); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E4); }
+        public uint Coupons { get => BigEndian.ToUInt32(Data, Trainer1 + 0x8E8); set => BigEndian.GetBytes(value).CopyTo(Data, Trainer1 + 0x8E8); }
 
         // Storage
         public override int getPartyOffset(int slot)

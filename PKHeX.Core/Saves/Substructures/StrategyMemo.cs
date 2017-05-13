@@ -64,11 +64,11 @@ namespace PKHeX.Core
                     BigEndian.GetBytes((ushort)cval).CopyTo(Data, 0);
                 }
             }
-            private bool Flag0 { get { return Data[0] >> 6 == 1; } set { Data[0] &= 0xBF; if (value) Data[0] |= 0x40; } } // Unused
-            private bool Flag1 { get { return Data[0] >> 7 == 1; } set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } } // Complete Entry
-            public int SID { get { return BigEndian.ToUInt16(Data, 4); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 4); } }
-            public int TID { get { return BigEndian.ToUInt16(Data, 6); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 6); } }
-            public uint PID { get { return BigEndian.ToUInt32(Data, 8); } set { BigEndian.GetBytes(value).CopyTo(Data, 8); } }
+            private bool Flag0 { get => Data[0] >> 6 == 1; set { Data[0] &= 0xBF; if (value) Data[0] |= 0x40; } } // Unused
+            private bool Flag1 { get => Data[0] >> 7 == 1; set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } } // Complete Entry
+            public int SID { get => BigEndian.ToUInt16(Data, 4); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 4); }
+            public int TID { get => BigEndian.ToUInt16(Data, 6); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 6); }
+            public uint PID { get => BigEndian.ToUInt32(Data, 8); set => BigEndian.GetBytes(value).CopyTo(Data, 8); }
 
             public bool Seen
             {

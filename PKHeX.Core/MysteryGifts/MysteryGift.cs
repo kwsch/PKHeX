@@ -95,7 +95,7 @@ namespace PKHeX.Core
         public string Name => $"Event Gift ({Type})";
 
         // Properties
-        public virtual int Species { get { return -1; } set { } }
+        public virtual int Species { get => -1; set { } }
         public abstract bool GiftUsed { get; set; }
         public abstract string CardTitle { get; set; }
         public abstract int CardID { get; set; }
@@ -104,14 +104,14 @@ namespace PKHeX.Core
         public abstract int Item { get; set; }
 
         public abstract bool IsPokémon { get; set; }
-        public virtual int Quantity { get { return 1; } set { } }
+        public virtual int Quantity { get => 1; set { } }
         public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
 
-        public virtual bool IsBP { get { return false; } set { } }
-        public virtual int BP { get { return 0; } set { } }
-        public virtual bool IsBean { get { return false; } set { } }
-        public virtual int Bean { get { return 0; } set { } }
-        public virtual int BeanCount { get { return 0; } set { } }
+        public virtual bool IsBP { get => false; set { } }
+        public virtual int BP { get => 0; set { } }
+        public virtual bool IsBean { get => false; set { } }
+        public virtual int Bean { get => 0; set { } }
+        public virtual int BeanCount { get => 0; set { } }
 
         public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
@@ -124,11 +124,11 @@ namespace PKHeX.Core
         }
 
         // Search Properties
-        public virtual int[] Moves { get { return new int[4]; } set { } }
-        public virtual int[] RelearnMoves { get { return new int[4]; } set { } }
+        public virtual int[] Moves { get => new int[4]; set { } }
+        public virtual int[] RelearnMoves { get => new int[4]; set { } }
         public virtual bool IsShiny => false;
-        public virtual bool IsEgg { get { return false; } set { } }
-        public virtual int HeldItem { get { return -1; } set { } }
+        public virtual bool IsEgg { get => false; set { } }
+        public virtual int HeldItem { get => -1; set { } }
         public virtual object Content => this;
 
         public abstract int Level { get; set; }

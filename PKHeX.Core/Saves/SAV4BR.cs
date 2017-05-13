@@ -67,7 +67,7 @@ namespace PKHeX.Core
         public readonly string[] SaveNames;
         public int CurrentSlot;
         protected override int Box { // 4 save slots, data reading depends on current slot
-            get { return 0x978 + 0x6FF00*CurrentSlot; }
+            get => 0x978 + 0x6FF00 * CurrentSlot;
             set { }
         }
 
@@ -114,7 +114,7 @@ namespace PKHeX.Core
         public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
 
         // Trainer Info
-        public override GameVersion Version { get { return GameVersion.BATREV; } protected set { } }
+        public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
 
         // Storage
         public override int getPartyOffset(int slot) // TODO

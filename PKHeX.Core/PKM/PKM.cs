@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public virtual byte[] EncryptedBoxData => Encrypt().Take(SIZE_STORED).ToArray();
         public virtual byte[] DecryptedPartyData => Write().Take(SIZE_PARTY).ToArray();
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
-        public virtual bool Valid { get { return ChecksumValid && Sanity == 0; } set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
+        public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
         public abstract string getString(int Offset, int Length);
         public abstract byte[] setString(string value, int maxLength);
@@ -144,9 +144,9 @@ namespace PKHeX.Core
         public abstract int OT_Friendship { get; set; }
 
         // Future Properties
-        public virtual int Met_Year { get { return 0; } set { } }
-        public virtual int Met_Month { get { return 0; } set { } }
-        public virtual int Met_Day { get { return 0; } set { } }
+        public virtual int Met_Year { get => 0; set { } }
+        public virtual int Met_Month { get => 0; set { } }
+        public virtual int Met_Day { get => 0; set { } }
         public virtual string HT_Name { get; set; }
         public virtual int HT_Gender { get; set; }
         public virtual int HT_Affection { get; set; }
@@ -189,13 +189,8 @@ namespace PKHeX.Core
             {
                 // Check to see if date is valid
                 if (!Util.IsDateValid(2000 + Met_Year, Met_Month, Met_Day))
-                {
                     return null;
-                }
-                else
-                {
-                    return new DateTime(2000 + Met_Year, Met_Month, Met_Day);
-                }
+                return new DateTime(2000 + Met_Year, Met_Month, Met_Day);
             }
             set
             {
@@ -217,9 +212,9 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual int Egg_Year { get { return 0; } set { } }
-        public virtual int Egg_Month { get { return 0; } set { } }
-        public virtual int Egg_Day { get { return 0; } set { } }
+        public virtual int Egg_Year { get => 0; set { } }
+        public virtual int Egg_Month { get => 0; set { } }
+        public virtual int Egg_Day { get => 0; set { } }
 
         /// <summary>
         /// The date a Pokémon was met as an egg.
@@ -262,21 +257,21 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual int OT_Affection { get { return 0; } set { } }
-        public virtual int RelearnMove1 { get { return 0; } set { } }
-        public virtual int RelearnMove2 { get { return 0; } set { } }
-        public virtual int RelearnMove3 { get { return 0; } set { } }
-        public virtual int RelearnMove4 { get { return 0; } set { } }
-        public virtual int EncounterType { get { return 0; } set { } }
+        public virtual int OT_Affection { get => 0; set { } }
+        public virtual int RelearnMove1 { get => 0; set { } }
+        public virtual int RelearnMove2 { get => 0; set { } }
+        public virtual int RelearnMove3 { get => 0; set { } }
+        public virtual int RelearnMove4 { get => 0; set { } }
+        public virtual int EncounterType { get => 0; set { } }
 
         // Exposed but not Present in all
         public abstract int CurrentHandler { get; set; }
 
         // Derived
-        public int SpecForm { get { return Species + (AltForm << 11); } set { Species = value & 0x7FF; AltForm = value >> 11; } }
+        public int SpecForm { get => Species + (AltForm << 11); set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
-        public virtual bool Locked { get { return false; } set { } }
+        public virtual bool Locked { get => false; set { } }
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public bool VC2 => Version >= 39 && Version <= 41;
         public bool VC1 => Version >= 35 && Version <= 38;
@@ -318,13 +313,13 @@ namespace PKHeX.Core
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
-        public int CurrentLevel { get { return PKX.getLevel(Species, EXP); } set { EXP = PKX.getEXP(value, Species); } }
-        public int MarkCircle      { get { return Markings[0]; } set { var marks = Markings; marks[0] = value; Markings = marks; } }
-        public int MarkTriangle    { get { return Markings[1]; } set { var marks = Markings; marks[1] = value; Markings = marks; } }
-        public int MarkSquare      { get { return Markings[2]; } set { var marks = Markings; marks[2] = value; Markings = marks; } }
-        public int MarkHeart       { get { return Markings[3]; } set { var marks = Markings; marks[3] = value; Markings = marks; } }
-        public int MarkStar        { get { return Markings[4]; } set { var marks = Markings; marks[4] = value; Markings = marks; } }
-        public int MarkDiamond     { get { return Markings[5]; } set { var marks = Markings; marks[5] = value; Markings = marks; } }
+        public int CurrentLevel { get => PKX.getLevel(Species, EXP); set => EXP = PKX.getEXP(value, Species); }
+        public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
+        public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
+        public int MarkSquare      { get => Markings[2]; set { var marks = Markings; marks[2] = value; Markings = marks; } }
+        public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
+        public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
+        public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
         public string ShowdownText => ShowdownSet.getShowdownText(this);
         public string[] QRText => this.getQRText();
 
@@ -339,7 +334,7 @@ namespace PKHeX.Core
         }
         public int[] IVs
         {
-            get { return new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD }; }
+            get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
                 if (value?.Length != 6) return;
@@ -349,7 +344,7 @@ namespace PKHeX.Core
         }
         public int[] EVs
         {
-            get { return new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD }; }
+            get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
             set
             {
                 if (value?.Length != 6) return;
@@ -359,12 +354,12 @@ namespace PKHeX.Core
         }
         public int[] Moves
         {
-            get { return new[] { Move1, Move2, Move3, Move4 }; }
+            get => new[] { Move1, Move2, Move3, Move4 };
             set { if (value?.Length != 4) return; Move1 = value[0]; Move2 = value[1]; Move3 = value[2]; Move4 = value[3]; }
         }
         public int[] RelearnMoves
         {
-            get { return new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 }; }
+            get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
             set
             {
                 if (value.Length > 0) RelearnMove1 = value[0];
@@ -408,7 +403,7 @@ namespace PKHeX.Core
 
         public int[] CNTs
         {
-            get { return new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen }; }
+            get => new[] { CNT_Cool, CNT_Beauty, CNT_Cute, CNT_Smart, CNT_Tough, CNT_Sheen };
             set { if (value?.Length != 6) return; CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2]; CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5]; }
         }
 
@@ -423,7 +418,7 @@ namespace PKHeX.Core
         public virtual int HPPower => Format < 6 ? 40*HPVal/63 + 30 : 60;
         public virtual int HPType
         {
-            get { return 15*HPVal/63; }
+            get => 15 * HPVal / 63;
             set
             {
                 IV_HP = (IV_HP & ~1) + PKX.hpivs[value, 0];
@@ -455,7 +450,7 @@ namespace PKHeX.Core
                 // Gen 1/2 and pal park Gen 3
                 return _WasEgg;
             }
-            set { _WasEgg = value; }
+            set => _WasEgg = value;
         }
         public virtual bool WasGiftEgg
         {
@@ -479,16 +474,16 @@ namespace PKHeX.Core
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.getMaxSpeciesOrigin(Format);
 
-        public virtual bool SecretSuperTrainingUnlocked { get { return false; } set { } }
-        public virtual bool SecretSuperTrainingComplete { get { return false; } set { } }
+        public virtual bool SecretSuperTrainingUnlocked { get => false; set { } }
+        public virtual bool SecretSuperTrainingComplete { get => false; set { } }
 
-        public virtual int HyperTrainFlags { get { return 0; } set { } }
-        public virtual bool HT_HP { get { return false; } set { } }
-        public virtual bool HT_ATK { get { return false; } set { } }
-        public virtual bool HT_DEF { get { return false; } set { } }
-        public virtual bool HT_SPA { get { return false; } set { } }
-        public virtual bool HT_SPD { get { return false; } set { } }
-        public virtual bool HT_SPE { get { return false; } set { } }
+        public virtual int HyperTrainFlags { get => 0; set { } }
+        public virtual bool HT_HP { get => false; set { } }
+        public virtual bool HT_ATK { get => false; set { } }
+        public virtual bool HT_DEF { get => false; set { } }
+        public virtual bool HT_SPA { get => false; set { } }
+        public virtual bool HT_SPD { get => false; set { } }
+        public virtual bool HT_SPE { get => false; set { } }
 
         /// <summary>
         /// Toggles the Hyper Training flag for a given stat.
@@ -588,7 +583,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Updates the checksum of the <see cref="PKM"/>.
         /// </summary>
-        public void RefreshChecksum() { Checksum = CalculateChecksum(); }
+        public void RefreshChecksum() => Checksum = CalculateChecksum();
 
         /// <summary>
         /// Reorders moves and fixes PP if necessary.

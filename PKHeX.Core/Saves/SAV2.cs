@@ -223,8 +223,8 @@ namespace PKHeX.Core
         public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
         public override int MaxAbilityID => Legal.MaxAbilityID_2;
         public override int MaxItemID => Legal.MaxItemID_2;
-        public override int MaxBallID => 0;
-        public override int MaxGameID => 99; // What do I set this to...?
+        public override int MaxBallID => 0; // unused
+        public override int MaxGameID => 99; // unused
         public override int MaxMoney => 999999;
         public override int MaxCoins => 9999;
 
@@ -301,12 +301,12 @@ namespace PKHeX.Core
 
         public override string OT
         {
-            get { return getString(0x200B, OTLength); }
-            set { setString(value, OTLength).CopyTo(Data, 0x200B); }
+            get => getString(0x200B, OTLength);
+            set => setString(value, OTLength).CopyTo(Data, 0x200B);
         }
         public override int Gender
         {
-            get { return Version == GameVersion.C ? Data[GenderOffset] : 0; }
+            get => Version == GameVersion.C ? Data[GenderOffset] : 0;
             set
             {
                 if (Version != GameVersion.C)
@@ -317,53 +317,52 @@ namespace PKHeX.Core
         }
         public override ushort TID
         {
-            get { return BigEndian.ToUInt16(Data, 0x2009); }
-            set { BigEndian.GetBytes(value).CopyTo(Data, 0x2009); }
+            get => BigEndian.ToUInt16(Data, 0x2009); set => BigEndian.GetBytes(value).CopyTo(Data, 0x2009);
         }
         public override ushort SID
         {
-            get { return 0; }
+            get => 0;
             set { }
         }
         public override int PlayedHours
         {
-            get { return BigEndian.ToUInt16(Data, TimePlayedOffset); }
-            set { BigEndian.GetBytes((ushort)value).CopyTo(Data,TimePlayedOffset); }
+            get => BigEndian.ToUInt16(Data, TimePlayedOffset);
+            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, TimePlayedOffset);
         }
         public override int PlayedMinutes
         {
-            get { return Data[TimePlayedOffset+2]; }
-            set { Data[TimePlayedOffset+2] = (byte)value; }
+            get => Data[TimePlayedOffset + 2];
+            set => Data[TimePlayedOffset + 2] = (byte)value;
         }
         public override int PlayedSeconds
         {
-            get { return Data[TimePlayedOffset + 3]; }
-            set { Data[TimePlayedOffset + 3] = (byte)value; }
+            get => Data[TimePlayedOffset + 3];
+            set => Data[TimePlayedOffset + 3] = (byte)value;
         }
 
         public int Badges
         {
-            get { return BitConverter.ToUInt16(Data, JohtoBadgesOffset); }
+            get => BitConverter.ToUInt16(Data, JohtoBadgesOffset);
             set { if (value < 0) return; BitConverter.GetBytes(value).CopyTo(Data, JohtoBadgesOffset); }
         }
         private byte Options
         {
-            get { return Data[0x2000]; }
-            set { Data[0x2000] = value; }
+            get => Data[0x2000];
+            set => Data[0x2000] = value;
         }
         public bool BattleEffects
         {
-            get { return (Options & 0x80) == 0; }
-            set { Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80)); }
+            get => (Options & 0x80) == 0;
+            set => Options = (byte)((Options & 0x7F) | (value ? 0 : 0x80));
         }
         public bool BattleStyleSwitch
         {
-            get { return (Options & 0x40) == 0; }
-            set { Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40)); }
+            get => (Options & 0x40) == 0;
+            set => Options = (byte)((Options & 0xBF) | (value ? 0 : 0x40));
         }
         public int Sound
         {
-            get { return (Options & 0x30) >> 4; }
+            get => (Options & 0x30) >> 4;
             set
             {
                 var new_sound = value;
@@ -376,8 +375,7 @@ namespace PKHeX.Core
         }
         public int TextSpeed
         {
-            get { return Options & 0x7; }
-            set
+            get => Options & 0x7; set
             {
                 var new_speed = value;
                 if (new_speed > 7)
@@ -389,7 +387,7 @@ namespace PKHeX.Core
         }
         public override uint Money
         {
-            get { return BigEndian.ToUInt32(Data, MoneyOffset-1) & 0xFFFFFF; }
+            get => BigEndian.ToUInt32(Data, MoneyOffset - 1) & 0xFFFFFF;
             set
             {
                 byte[] data = BigEndian.GetBytes((uint) Math.Min(value, MaxMoney));
@@ -398,10 +396,7 @@ namespace PKHeX.Core
         }
         public uint Coin
         {
-            get
-            {
-                return BigEndian.ToUInt16(Data, MoneyOffset + 7);
-            }
+            get => BigEndian.ToUInt16(Data, MoneyOffset + 7);
             set
             {
                 value = (ushort)Math.Min(value, MaxCoins);
@@ -484,11 +479,7 @@ namespace PKHeX.Core
         // Storage
         public override int PartyCount
         {
-            get { return Data[PartyOffset]; }
-            protected set
-            {
-                Data[PartyOffset] = (byte)value; 
-            }
+            get => Data[PartyOffset]; protected set => Data[PartyOffset] = (byte)value;
         }
         public override int getBoxOffset(int box)
         {
@@ -500,8 +491,7 @@ namespace PKHeX.Core
         }
         public override int CurrentBox
         {
-            get { return Data[CurrentBoxIndexOffset] & 0x7F; }
-            set { Data[CurrentBoxIndexOffset] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F)); }
+            get => Data[CurrentBoxIndexOffset] & 0x7F; set => Data[CurrentBoxIndexOffset] = (byte)((Data[Japanese ? 0x2842 : 0x284C] & 0x80) | (value & 0x7F));
         }
         public override string getBoxName(int box)
         {

@@ -8,11 +8,11 @@ namespace PKHeX.Core
 
         public readonly byte[] Data;
 
-        public uint Time { get { return BitConverter.ToUInt32(Data, 0); } set { BitConverter.GetBytes(value).CopyTo(Data, 0); } }
-        public int Slot { get { return Data[4]; } set { Data[4] = (byte)value; } }
-        public int Group { get { return Data[5]; } set { Data[5] = (byte)value; X = Group+1; } }
-        public int X { get { return Data[6]; } set { Data[6] = (byte)value; } }
-        public int Shake { get { return Data[7]; } set { Data[7] = (byte)value; } }
+        public uint Time { get => BitConverter.ToUInt32(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
+        public int Slot { get => Data[4]; set => Data[4] = (byte)value; }
+        public int Group { get => Data[5]; set { Data[5] = (byte)value; X = Group+1; } }
+        public int X { get => Data[6]; set => Data[6] = (byte)value; }
+        public int Shake { get => Data[7]; set => Data[7] = (byte)value; }
 
         public HoneyTree(byte[] data)
         {

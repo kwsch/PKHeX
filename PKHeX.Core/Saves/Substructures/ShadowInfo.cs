@@ -41,7 +41,7 @@ namespace PKHeX.Core
             else
                 Entries.Add(entry);
         }
-        public ShadowInfoEntryXD this[int index] { get { return Entries[index]; } set { Entries[index] = value; } }
+        public ShadowInfoEntryXD this[int index] { get => Entries[index]; set => Entries[index] = value; }
         public int Count => Entries.Count;
     }
 
@@ -55,12 +55,12 @@ namespace PKHeX.Core
         }
 
         public bool IsSnagged => Data[0] >> 6 != 0;
-        public bool IsPurified { get { return Data[0] >> 7 == 1; } set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } }
-        public int Species { get { return BigEndian.ToUInt16(Data, 0x1A); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1A); } }
-        public uint PID { get { return BigEndian.ToUInt32(Data, 0x1C); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x1C); } }
-        public int Purification { get { return BigEndian.ToInt32(Data, 0x24); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x24); } }
+        public bool IsPurified { get => Data[0] >> 7 == 1; set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } }
+        public int Species { get => BigEndian.ToUInt16(Data, 0x1A); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
+        public uint PID { get => BigEndian.ToUInt32(Data, 0x1C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x1C); }
+        public int Purification { get => BigEndian.ToInt32(Data, 0x24); set => BigEndian.GetBytes(value).CopyTo(Data, 0x24); }
 
-        public uint EXP { get { return BigEndian.ToUInt32(Data, 0x04) >> 12; } set { BigEndian.GetBytes((BigEndian.ToUInt32(Data, 0x04) & 0xFFF) | (value << 12)).CopyTo(Data, 0x04); } }
+        public uint EXP { get => BigEndian.ToUInt32(Data, 0x04) >> 12; set => BigEndian.GetBytes((BigEndian.ToUInt32(Data, 0x04) & 0xFFF) | (value << 12)).CopyTo(Data, 0x04); }
         public bool IsEmpty => Species == 0;
     }
 
@@ -72,8 +72,8 @@ namespace PKHeX.Core
         {
             Data = (byte[])(data?.Clone() ?? new byte[SIZE_ENTRY]);
         }
-        public uint PID { get { return BigEndian.ToUInt32(Data, 0x00); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x00); } }
-        public int Met_Location { get { return BigEndian.ToUInt16(Data, 0x06); } set { BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); } }
-        public uint _0x08 { get { return BigEndian.ToUInt32(Data, 0x08); } set { BigEndian.GetBytes(value).CopyTo(Data, 0x08); } }
+        public uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
+        public int Met_Location { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); }
+        public uint _0x08 { get => BigEndian.ToUInt32(Data, 0x08); set => BigEndian.GetBytes(value).CopyTo(Data, 0x08); }
     }
 }

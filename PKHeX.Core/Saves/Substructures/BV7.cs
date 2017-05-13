@@ -51,7 +51,7 @@ namespace PKHeX.Core
             }
         }
 
-        public int MusicID { get { return Data[0x21C]; } set { Data[0x21C] = (byte)value; } }
-        public bool SilentBGM { get { return MusicID == 0xFF; } set { MusicID = (byte)(value ? 0xFF : MusicID); } }
+        public int MusicID { get => Data[0x21C]; set => Data[0x21C] = (byte)value; }
+        public bool SilentBGM { get => MusicID == 0xFF; set => MusicID = (byte)(value ? 0xFF : MusicID); }
     }
 }

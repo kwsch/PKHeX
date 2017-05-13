@@ -21,33 +21,33 @@ namespace PKHeX.Core
 
         private readonly byte[] Data;
 
-        private int Mode { get { return Data[0x00]; } set { Data[0x00] = (byte)value; } }
+        private int Mode { get => Data[0x00]; set => Data[0x00] = (byte)value; }
         private string[] BVmode =
         {
             "Link", "Maison", "Super Maison", "Battle Spot - Free", "Battle Spot - Rating",
             "Battle Spot - Special", "UNUSED", "JP-1", "JP-2", "BROKEN",
         };
-        private int Style { get { return Data[0x01]; } set { Data[0x01] = (byte)value; } }
+        private int Style { get => Data[0x01]; set => Data[0x01] = (byte)value; }
         private string[] BVstyle = { "Single", "Double", "Triple", "Rotation", "Multi", };
         private string Debug1
         {
-            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x6, 24)); }
-            set { Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x6); }
+            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x6, 24));
+            set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x6);
         }
         private string Debug2
         {
-            get { return Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x50, 24)); }
-            set { Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x50); }
+            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x50, 24));
+            set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x50);
         }
-        private ulong RNGConst1 { get { return BitConverter.ToUInt64(Data, 0x1A0); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); } }
-        private ulong RNGConst2 { get { return BitConverter.ToUInt64(Data, 0x1A4); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1A4); } }
-        private ulong RNGSeed1 { get { return BitConverter.ToUInt64(Data, 0x1A8); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1A8); } }
-        private ulong RNGSeed2 { get { return BitConverter.ToUInt64(Data, 0x1B0); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1B0); } }
+        private ulong RNGConst1 { get => BitConverter.ToUInt64(Data, 0x1A0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); }
+        private ulong RNGConst2 { get => BitConverter.ToUInt64(Data, 0x1A4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A4); }
+        private ulong RNGSeed1 { get => BitConverter.ToUInt64(Data, 0x1A8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A8); }
+        private ulong RNGSeed2 { get => BitConverter.ToUInt64(Data, 0x1B0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1B0); }
 
-        private int Background { get { return BitConverter.ToInt32(Data, 0x1BC); } set { BitConverter.GetBytes(value).CopyTo(Data, 0x1BC); } }
-        private int _1CE { get { return BitConverter.ToUInt16(Data, 0x1CE); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); } }
-        private int IntroID { get { return BitConverter.ToUInt16(Data, 0x1E4); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); } }
-        private int MusicID { get { return BitConverter.ToUInt16(Data, 0x1F0); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); } }
+        private int Background { get => BitConverter.ToInt32(Data, 0x1BC); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1BC); }
+        private int _1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
+        private int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
+        private int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
 
 
         public override PKM[] BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
@@ -113,28 +113,28 @@ namespace PKHeX.Core
             }
         }
 
-        private int MatchYear { get { return BitConverter.ToUInt16(Data, 0x2E50); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E50); } }
-        private int MatchDay { get { return Data[0x2E52]; } set { Data[0x2E52] = (byte)value; } }
-        private int MatchMonth { get { return Data[0x2E53]; } set { Data[0x2E53] = (byte)value; } }
-        private int MatchHour { get { return Data[0x2E54]; } set { Data[0x2E54] = (byte)value; } }
-        private int MatchMinute { get { return Data[0x2E55]; } set { Data[0x2E55] = (byte)value; } }
-        private int MatchSecond { get { return Data[0x2E56]; } set { Data[0x2E56] = (byte)value; } }
-        private int MatchFlags { get { return Data[0x2E57]; } set { Data[0x2E57] = (byte)value; } }
+        private int MatchYear { get => BitConverter.ToUInt16(Data, 0x2E50); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E50); }
+        private int MatchDay { get => Data[0x2E52]; set => Data[0x2E52] = (byte)value; }
+        private int MatchMonth { get => Data[0x2E53]; set => Data[0x2E53] = (byte)value; }
+        private int MatchHour { get => Data[0x2E54]; set => Data[0x2E54] = (byte)value; }
+        private int MatchMinute { get => Data[0x2E55]; set => Data[0x2E55] = (byte)value; }
+        private int MatchSecond { get => Data[0x2E56]; set => Data[0x2E56] = (byte)value; }
+        private int MatchFlags { get => Data[0x2E57]; set => Data[0x2E57] = (byte)value; }
         public DateTime MatchStamp
         {
-            get { return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond); }
+            get => new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
             set { MatchYear = value.Year; MatchDay = value.Day; MatchMonth = value.Month; MatchHour = value.Hour; MatchMinute = value.Minute; MatchSecond = value.Second; }
         }
-        private int UploadYear { get { return BitConverter.ToUInt16(Data, 0x2E58); } set { BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E58); } }
-        private int UploadDay { get { return Data[0x2E5A]; } set { Data[0x2E5A] = (byte)value; } }
-        private int UploadMonth { get { return Data[0x2E5B]; } set { Data[0x2E5B] = (byte)value; } }
-        private int UploadHour { get { return Data[0x2E5C]; } set { Data[0x2E5C] = (byte)value; } }
-        private int UploadMinute { get { return Data[0x2E5D]; } set { Data[0x2E5D] = (byte)value; } }
-        private int UploadSecond { get { return Data[0x2E5E]; } set { Data[0x2E5E] = (byte)value; } }
-        private int UploadFlags { get { return Data[0x2E5F]; } set { Data[0x2E5F] = (byte)value; } }
+        private int UploadYear { get => BitConverter.ToUInt16(Data, 0x2E58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x2E58); }
+        private int UploadDay { get => Data[0x2E5A]; set => Data[0x2E5A] = (byte)value; }
+        private int UploadMonth { get => Data[0x2E5B]; set => Data[0x2E5B] = (byte)value; }
+        private int UploadHour { get => Data[0x2E5C]; set => Data[0x2E5C] = (byte)value; }
+        private int UploadMinute { get => Data[0x2E5D]; set => Data[0x2E5D] = (byte)value; }
+        private int UploadSecond { get => Data[0x2E5E]; set => Data[0x2E5E] = (byte)value; }
+        private int UploadFlags { get => Data[0x2E5F]; set => Data[0x2E5F] = (byte)value; }
         public DateTime UploadStamp
         {
-            get { return new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond); }
+            get => new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
             set { UploadYear = value.Year; UploadDay = value.Day; UploadMonth = value.Month; UploadHour = value.Hour; UploadMinute = value.Minute; UploadSecond = value.Second; }
         }
 

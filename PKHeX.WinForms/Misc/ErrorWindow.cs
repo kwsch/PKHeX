@@ -40,14 +40,8 @@ namespace PKHeX.WinForms
         /// For application exceptions, continuing is not possible, so the button should not be shown.</remarks>
         public bool ShowContinue
         {
-            get
-            {
-                return B_Continue.Visible;
-            }
-            set
-            {
-                B_Continue.Visible = value;
-            }
+            get => B_Continue.Visible;
+            set => B_Continue.Visible = value;
         }
 
         /// <summary>
@@ -57,22 +51,13 @@ namespace PKHeX.WinForms
         /// For example: "An error occurred while attempting to automatically load the save file."</remarks>
         public string Message
         {
-            get
-            {
-                return L_Message.Text;
-            }
-            set
-            {
-                L_Message.Text = value;
-            }
+            get => L_Message.Text;
+            set => L_Message.Text = value;
         }
 
         public Exception Error
         {
-            get
-            {
-                return _error;
-            }
+            get => _error;
             set
             {
                 _error = value;

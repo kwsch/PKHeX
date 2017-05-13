@@ -133,21 +133,15 @@ namespace PKHeX.Core
         }
 
         // Trainer Info
-        public override GameVersion Version { get { return GameVersion.RSBOX; } protected set { } }
+        public override GameVersion Version { get => GameVersion.RSBOX; protected set { } }
 
         // Storage
-        public override int getPartyOffset(int slot)
-        {
-            return -1;
-        }
-        public override int getBoxOffset(int box)
-        {
-            return Box + 8 + SIZE_STORED * box * 30;
-        }
+        public override int getPartyOffset(int slot) => -1;
+        public override int getBoxOffset(int box) => Box + 8 + SIZE_STORED * box * 30;
         public override int CurrentBox
         {
-            get { return Data[Box + 4]*2; }
-            set { Data[Box + 4] = (byte)(value/2); }
+            get => Data[Box + 4] * 2;
+            set => Data[Box + 4] = (byte)(value / 2);
         }
         protected override int getBoxWallpaperOffset(int box)
         {

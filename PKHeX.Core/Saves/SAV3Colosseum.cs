@@ -268,7 +268,7 @@ namespace PKHeX.Core
         }
 
         // Trainer Info
-        public override GameVersion Version { get { return GameVersion.COLO; } protected set { } }
+        public override GameVersion Version { get => GameVersion.COLO; protected set { } }
 
         // Storage
         public override int getPartyOffset(int slot)
@@ -328,35 +328,35 @@ namespace PKHeX.Core
         
         private TimeSpan PlayedSpan
         {
-            get { return TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128); }
-            set { BigEndian.GetBytes((uint)(value.TotalSeconds * 128) + 0x47000000).CopyTo(Data, 40); }
+            get => TimeSpan.FromSeconds((double)(BigEndian.ToUInt32(Data, 40) - 0x47000000) / 128);
+            set => BigEndian.GetBytes((uint)(value.TotalSeconds * 128) + 0x47000000).CopyTo(Data, 40);
         }
         public override int PlayedHours
         {
-            get { return (ushort)PlayedSpan.Hours; }
+            get => (ushort)PlayedSpan.Hours;
             set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.Hours) + TimeSpan.FromHours(value); }
         }
         public override int PlayedMinutes
         {
-            get { return (byte)PlayedSpan.Minutes; }
+            get => (byte)PlayedSpan.Minutes;
             set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromMinutes(time.Minutes) + TimeSpan.FromMinutes(value); }
         }
         public override int PlayedSeconds
         {
-            get { return (byte)PlayedSpan.Seconds; }
+            get => (byte)PlayedSpan.Seconds;
             set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromSeconds(time.Seconds) + TimeSpan.FromSeconds(value); }
         }
 
         // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
-        public override string OT { get { return getString(0x78, 20); } set { setString(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
-        private string OT2 { get { return getString(0x8C, 20); } set { setString(value, 10).CopyTo(Data, 0x8C); } }
-        public override ushort SID { get { return BigEndian.ToUInt16(Data, 0xA4); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xA4); } }
-        public override ushort TID { get { return BigEndian.ToUInt16(Data, 0xA6); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xA6); } }
+        public override string OT { get => getString(0x78, 20); set { setString(value, 10).CopyTo(Data, 0x78); OT2 = value; } }
+        private string OT2 { get => getString(0x8C, 20); set => setString(value, 10).CopyTo(Data, 0x8C); }
+        public override ushort SID { get => BigEndian.ToUInt16(Data, 0xA4); set => BigEndian.GetBytes(value).CopyTo(Data, 0xA4); }
+        public override ushort TID { get => BigEndian.ToUInt16(Data, 0xA6); set => BigEndian.GetBytes(value).CopyTo(Data, 0xA6); }
 
-        public override int Gender { get { return Data[0xAF8]; } set { Data[0xAF8] = (byte)value; } }
-        public override uint Money { get { return BigEndian.ToUInt32(Data, 0xAFC); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xAFC); } }
-        public uint Coupons { get { return BigEndian.ToUInt32(Data, 0xB00); } set { BigEndian.GetBytes(value).CopyTo(Data, 0xB00); } }
-        public string RUI_Name { get { return getString(0xB3A, 20); } set { setString(value, 10).CopyTo(Data, 0xB3A); } }
+        public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
+        public override uint Money { get => BigEndian.ToUInt32(Data, 0xAFC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xAFC); }
+        public uint Coupons { get => BigEndian.ToUInt32(Data, 0xB00); set => BigEndian.GetBytes(value).CopyTo(Data, 0xB00); }
+        public string RUI_Name { get => getString(0xB3A, 20); set => setString(value, 10).CopyTo(Data, 0xB3A); }
 
         public override InventoryPouch[] Inventory
         {
