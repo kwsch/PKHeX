@@ -1433,4 +1433,10 @@
   <data name="text_Char_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_Char_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="const_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\const_dp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  </data>
+  <data name="flags_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_dp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  </data>
 </root>
