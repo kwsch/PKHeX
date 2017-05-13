@@ -2079,8 +2079,7 @@ namespace PKHeX.Core
             if (g1 == null || g2 == null)
                 return new List<GBEncounterData> { g1 ?? g2 };
 
-            var t = g1.Encounter as EncounterTrade;
-            if (t != null && getEncounterTrade1Valid(pkm))
+            if (g1.Encounter is EncounterTrade && getEncounterTrade1Valid(pkm))
                 return new List<GBEncounterData> { g1 };
 
             // Both generations can provide an encounter. Return highest preference
@@ -2949,14 +2948,10 @@ namespace PKHeX.Core
             var t = Encounter;
             if (pkm.WasEgg)
                 return "Egg";
-            if (t is IEncounterable)
-                return ((IEncounterable)t).Name;
-            if (t is IEncounterable[])
-            {
-                var arr = (IEncounterable[])t;
-                if (arr.Any())
-                    return arr.First().Name;
-            }
+            if (t is IEncounterable e)
+                return e.Name;
+            if (t is IEncounterable[] arr && arr.Length != 0)
+                return arr[0].Name;
             if (t is int)
                 return "Unknown";
             return t?.GetType().Name ?? "Unknown";

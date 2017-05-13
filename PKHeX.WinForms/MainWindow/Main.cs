@@ -305,8 +305,8 @@ namespace PKHeX.WinForms
             // Version Check
             if (Settings.Version.Length > 0) // already run on system
             {
-                int lastrev; int.TryParse(Settings.Version, out lastrev);
-                int currrev; int.TryParse(Resources.ProgramVersion, out currrev);
+                int.TryParse(Settings.Version, out int lastrev);
+                int.TryParse(Resources.ProgramVersion, out int currrev);
 
                 showChangelog = lastrev < currrev;
             }
@@ -350,11 +350,10 @@ namespace PKHeX.WinForms
 
             // Detect main
             string cgse = "";
-            string path;
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.detectSaveFile(out path, cgse))
+            if (!PathUtilWindows.detectSaveFile(out string path, cgse))
                 WinFormsUtil.Error(path);
 
             if (path != null)
@@ -415,11 +414,11 @@ namespace PKHeX.WinForms
             new About().ShowDialog();
         }
         // Sub Menu Options
+        private Form getFirstFormOfType<T>() => Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
         private void mainMenuBoxReport(object sender, EventArgs e)
         {
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(frmReport)) as frmReport;
-            if (z != null)
-            { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
+            if (getFirstFormOfType<frmReport>() is frmReport z)
+            { z.CenterToForm(this); z.BringToFront(); return; }
             
             frmReport ReportForm = new frmReport();
             ReportForm.Show();
@@ -429,17 +428,15 @@ namespace PKHeX.WinForms
         {
             if (ModifierKeys == Keys.Shift)
             {
-                var c = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(KChart)) as KChart;
-                if (c != null)
-                { WinFormsUtil.CenterToForm(c, this); c.BringToFront(); }
+                if (getFirstFormOfType<KChart>() is KChart c)
+                { c.CenterToForm(this); c.BringToFront(); }
                 else
                     new KChart().Show();
                 return;
             }
 
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_Database)) as SAV_Database;
-            if (z != null)
-            { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
+            if (getFirstFormOfType<SAV_Database>() is SAV_Database z)
+            { z.CenterToForm(this); z.BringToFront(); return; }
 
             if (Directory.Exists(DatabasePath))
                 new SAV_Database(this).Show();
@@ -449,12 +446,10 @@ namespace PKHeX.WinForms
         }
         private void mainMenuMysteryDM(object sender, EventArgs e)
         {
-            var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_MysteryGiftDB)) as SAV_MysteryGiftDB;
-            if (z != null)
-            { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
+            if (getFirstFormOfType<Type>() is SAV_MysteryGiftDB z)
+            { z.CenterToForm(this); z.BringToFront(); return; }
 
             new SAV_MysteryGiftDB(this).Show();
-            
         }
         private void mainMenuUnicode(object sender, EventArgs e)
         {
@@ -530,8 +525,7 @@ namespace PKHeX.WinForms
             }
             else return;
 
-            string result;
-            SAV.dumpBoxes(path, out result, separate);
+            SAV.dumpBoxes(path, out string result, separate);
             WinFormsUtil.Alert(result);
         }
         private void mainMenuBoxDumpSingle(object sender, EventArgs e)
@@ -541,8 +535,7 @@ namespace PKHeX.WinForms
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
-            string result;
-            SAV.dumpBox(fbd.SelectedPath, out result, CB_BoxSelect.SelectedIndex);
+            SAV.dumpBox(fbd.SelectedPath, out string result, CB_BoxSelect.SelectedIndex);
             WinFormsUtil.Alert(result);
         }
         private void manMenuBatchEditor(object sender, EventArgs e)
@@ -1617,8 +1610,7 @@ namespace PKHeX.WinForms
 
             if (pkm.Format != SAV.Generation) // past gen format
             {
-                string c;
-                pkm = PKMConverter.convertToFormat(pkm, SAV.PKMType, out c);
+                pkm = PKMConverter.convertToFormat(pkm, SAV.PKMType, out string _);
                 if (pk.Format != pkm.Format && focus) // converted
                     WinFormsUtil.Alert("Converted File.");
             }
@@ -1790,7 +1782,7 @@ namespace PKHeX.WinForms
                     if (!pk.Valid || pk.Species <= 0)
                     { WinFormsUtil.Alert("Invalid data detected."); return; }
 
-                    string c; PKM pkz = PKMConverter.convertToFormat(pk, SAV.PKMType, out c);
+                    PKM pkz = PKMConverter.convertToFormat(pk, SAV.PKMType, out string c);
                     if (pkz == null)
                     { WinFormsUtil.Alert(c); return; }
 
@@ -2256,9 +2248,8 @@ namespace PKHeX.WinForms
         }
         private void updateEVs(object sender, EventArgs e)
         {
-            if (sender is MaskedTextBox)
+            if (sender is MaskedTextBox m)
             {
-                MaskedTextBox m = (MaskedTextBox)sender;
                 if (Util.ToInt32(m.Text) > SAV.MaxEV)
                 { m.Text = SAV.MaxEV.ToString(); return; } // recursive on text set
             }
@@ -3436,9 +3427,8 @@ namespace PKHeX.WinForms
                 return;
             if (ModifierKeys != Keys.Shift)
             {
-                var z = Application.OpenForms.Cast<Form>().FirstOrDefault(form => form.GetType() == typeof(SAV_BoxViewer)) as SAV_BoxViewer;
-                if (z != null)
-                { WinFormsUtil.CenterToForm(z, this); z.BringToFront(); return; }
+                if (getFirstFormOfType<SAV_BoxViewer>() is SAV_BoxViewer z)
+                { z.CenterToForm(this); z.BringToFront(); return; }
             }
             new SAV_BoxViewer(this).Show();
         }
@@ -4009,11 +3999,10 @@ namespace PKHeX.WinForms
             if (dr == DialogResult.Cancel)
                 return;
 
-            string result;
             bool clearAll = dr == DialogResult.Yes;
             bool? noSetb = getPKMSetOverride();
 
-            SAV.loadBoxes(path, out result, CB_BoxSelect.SelectedIndex, clearAll, noSetb);
+            SAV.loadBoxes(path, out string result, CB_BoxSelect.SelectedIndex, clearAll, noSetb);
             setPKXBoxes();
             WinFormsUtil.Alert(result);
         }
@@ -4255,12 +4244,11 @@ namespace PKHeX.WinForms
         // Save Folder Related
         private void clickSaveFileName(object sender, EventArgs e)
         {
-            string path;
             string cgse = "";
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.detectSaveFile(out path, cgse))
+            if (!PathUtilWindows.detectSaveFile(out string path, cgse))
                 WinFormsUtil.Error(path);
             if (path == null || !File.Exists(path)) return;
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
@@ -4424,9 +4412,8 @@ namespace PKHeX.WinForms
                 byte[] data = File.ReadAllBytes(file);
                 MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
                 PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data, prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30)&7 : SAV.Generation);
-                string c;
 
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
+                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out string c);
                 if (pk == null)
                 { WinFormsUtil.Error(c); Console.WriteLine(c); return; }
 

@@ -197,13 +197,14 @@ namespace PKHeX.WinForms
             Tiles = tilelist.ToArray();
         }
 
-        private class Tile
+        private class Tile : IDisposable
         {
             public const int SIZE_TILE = 0x20;
             private const int TileWidth = 8;
             private const int TileHeight = 8;
             public readonly int[] ColorChoices;
             private Bitmap img;
+            public void Dispose() => img.Dispose();
 
             public Tile(byte[] data = null)
             {
@@ -297,6 +298,7 @@ namespace PKHeX.WinForms
             }
             public byte[] Write()
             {
+                byte[] result;
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter bw = new BinaryWriter(ms))
                 {
@@ -305,8 +307,9 @@ namespace PKHeX.WinForms
                         bw.Write((byte)TileChoices[i]);
                         bw.Write((byte)Rotations[i]);
                     }
-                    return ms.ToArray();
+                    result = ms.ToArray();
                 }
+                return result;
             }
         }
 

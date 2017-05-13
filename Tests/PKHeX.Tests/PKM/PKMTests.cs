@@ -246,14 +246,14 @@ namespace PKHeX.Tests.PKM
             };
             var a_pkRS = MethodFinder.Analyze(pkRS);
             Assert.AreEqual(PIDType.BACD_R_S, a_pkRS?.Type, "Unable to match PID to BACD-R shiny spread");
-            Assert.AreEqual(true, 0x0020 == a_pkRS?.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
+            Assert.IsTrue(0x0020 == a_pkRS?.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
 
             var pkPS0 = new PK3 {PID = 0x7B2D9DA7}; // Zubat (Cave)
-            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
+            Assert.IsTrue(MethodFinder.getPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
             var pkPS1 = new PK3 {PID = 0x3EE9AF66}; // Gligar (Rock)
-            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
+            Assert.IsTrue(MethodFinder.getPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
             var pkPS2 = new PK3 {PID = 0x9B667F3C}; // Surskit (Oasis)
-            Assert.AreEqual(true, MethodFinder.getPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
+            Assert.IsTrue(MethodFinder.getPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
             
             var pk1U = new PK3
             {

@@ -120,7 +120,7 @@ namespace PKHeX.WinForms
         private readonly string Counter;
         private readonly string Viewed;
         private const int MAXFORMAT = 7;
-        private readonly Func<PKM, string> hash = pk =>
+        private static string hash(PKM pk)
         {
             switch (pk.Format)
             {
@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
                 case 2: return pk.Species.ToString("000") + ((PK2)pk).DV16.ToString("X4");
                 default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs) + pk.AltForm.ToString("00");
             }
-        };
+        }
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -517,7 +517,7 @@ namespace PKHeX.WinForms
             }
 
             if (Menu_SearchClones.Checked)
-                res = res.GroupBy(pk => hash(pk)).Where(group => group.Count() > 1).SelectMany(z => z);
+                res = res.GroupBy(hash).Where(group => group.Count() > 1).SelectMany(z => z);
 
             var results = res.ToArray();
             if (results.Length == 0)
@@ -637,7 +637,7 @@ namespace PKHeX.WinForms
             var deleted = 0;
             var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
                 .OrderByDescending(file => new FileInfo(file.Identifier).LastWriteTime);
-            var clones = db.GroupBy(pk => hash(pk)).Where(group => group.Count() > 1).SelectMany(z => z.Skip(1));
+            var clones = db.GroupBy(hash).Where(group => group.Count() > 1).SelectMany(z => z.Skip(1));
             foreach (var pk in clones)
             {
                 try { File.Delete(pk.Identifier); ++deleted; }

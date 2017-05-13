@@ -111,7 +111,7 @@ namespace PKHeX.WinForms
             }
             return cs;
         }
-        internal static void CenterToForm(Control child, Control parent)
+        internal static void CenterToForm(this Control child, Control parent)
         {
             int x = parent.Location.X + (parent.Width - child.Width) / 2;
             int y = parent.Location.Y + (parent.Height - child.Height) / 2;

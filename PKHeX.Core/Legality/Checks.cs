@@ -2316,8 +2316,7 @@ namespace PKHeX.Core
                     }
                     if (pkm.Format == 7 && pkm.AltForm != 0 ^ Type == typeof(MysteryGift))
                     {
-                        var gift = EncounterMatch as WC7;
-                        if (gift != null && gift.Form != pkm.AltForm)
+                        if (EncounterMatch is WC7 gift && gift.Form != pkm.AltForm)
                         {
                             AddLine(Severity.Invalid, V307, CheckIdentifier.Form);
                             return;
@@ -2507,8 +2506,8 @@ namespace PKHeX.Core
                     if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium || EncounterMatch is EncounterTradeCatchRate)
                     // Encounters detected by the catch rate, cant be invalid if match this encounters
                     { AddLine(Severity.Valid, V398, CheckIdentifier.Misc); }
-                    if (((pkm.Species == 149) && (catch_rate == PersonalTable.Y[149].CatchRate)) ||
-                         (Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && (catch_rate == PersonalTable.RB[pkm.Species].CatchRate)))
+                    if (pkm.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate ||
+                         Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && catch_rate == PersonalTable.RB[pkm.Species].CatchRate)
                     { AddLine(Severity.Invalid, V396, CheckIdentifier.Misc); }
                     else if (!EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
                     { AddLine(Severity.Invalid, pkm.Gen1_NotTradeback? V397: V399, CheckIdentifier.Misc); }
