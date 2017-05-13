@@ -62,6 +62,23 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0166	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
+        ///0172	Heatran	00:Not appeared,01:Battleable,02:Disappeared
+        ///0068	Fullmoon Is.	0:Not appeared,520:On the Map
+        ///0069	Newmoon Is.	0:Not appeared,553:On the Map
+        ///0070	Spring Path	0:Not appeared,786:Appeared
+        ///0071	Seabreak Path	0:Not appeared,4136:Appeared
+        ///0081	Member Card	0:Not activated,4617:Activated
+        ///0082	Oak Letter	0:Not activated,4370:Activated
+        ///0083	Azure Flute	0:Not activated,4387:Activated.
+        /// </summary>
+        internal static string const_dp {
+            get {
+                return ResourceManager.GetString("const_dp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 60	Ash
         ///21	Test1
         ///22	Test2
@@ -100,6 +117,30 @@ namespace PKHeX.Core.Properties {
         internal static string countries {
             get {
                 return ResourceManager.GetString("countries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0479	Uxie disappeared
+        ///0477	Mesprit(Verity Cavern) disappeared
+        ///0478	Azelf disappeared
+        ///0589	Cresselia(FullmoonIs.) disappeared
+        ///0256	Heatran disappeared
+        ///0577	Regigigas disappeared
+        ///0590	Giratina disappeared
+        ///0574	Darkrai disappeared
+        ///0591	Shaymin(FlowerParadise) disappeared
+        ///0588	Arceus disappeared
+        ///0254	Arceus(MapObj) disappeared
+        ///0275	Ferry FullmoonIs. accessable
+        ///0284	Ferry NewmoonIs. accessable
+        ///0269	Oak(R224) disappeared
+        ///0602	Shaymin?(R224 MapObj) disappeared
+        ///.
+        /// </summary>
+        internal static string flags_dp {
+            get {
+                return ResourceManager.GetString("flags_dp", resourceCulture);
             }
         }
         
