@@ -1364,39 +1364,43 @@ namespace PKHeX.Core
             }
             else if (Type == typeof (EncounterStatic))
             {
-                // Starters have a correlation to the Trainer ID numbers
-                var spec = ((EncounterStatic) EncounterMatch).Species;
-                var rev = int.MinValue;
-                switch (spec)
-                {
-                    // pidiv reversed 5x yields SID, again == TID. +7 if another PKM is generated
-                    case 133: // Eevee
-                        rev = 5; break;
-
-                    case 197: // Umbreon (generated before Espeon)
-                        rev = 5; break;
-                    case 196: // Espeon (generated after Umbreon)
-                        rev = 12; break;
-                }
-                if (rev == int.MinValue)
-                    return;
-
                 var pidiv = MethodFinder.Analyze(pkm);
                 if (pidiv == null || pidiv.Type != PIDType.CXD)
-                {
                     AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
-                    return;
-                }
-                var seed = pidiv.OriginSeed;
-                var SIDf = pidiv.RNG.Reverse(seed, rev);
-                var TIDf = pidiv.RNG.Prev(SIDf);
-                if (SIDf >> 16 != pkm.SID || TIDf >> 16 != pkm.TID)
-                    AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
+                else // Starters have a correlation to the Trainer ID numbers
+                    verifyCXDStarterCorrelation(pidiv);
             }
             else if (pkm.WasEgg) // can't obtain eggs in CXD
             {
                 AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); // invalid encounter
             }
+        }
+        private void verifyCXDStarterCorrelation(PIDIV pidiv)
+        {
+            var spec = ((EncounterStatic)EncounterMatch).Species;
+            int rev; // pidiv reversed 5x yields SID, 6x yields TID. shift by 7 if another PKM is generated prior
+            switch (spec)
+            {
+                // XD
+                case 133: // Eevee
+                    rev = 5;
+                    break;
+                
+                // Colosseum
+                case 197: // Umbreon (generated before Espeon)
+                    rev = 5;
+                    break;
+                case 196: // Espeon (generated after Umbreon)
+                    rev = 5+7;
+                    break;
+                default:
+                    return;
+            }
+            var seed = pidiv.OriginSeed;
+            var SIDf = pidiv.RNG.Reverse(seed, rev);
+            var TIDf = pidiv.RNG.Prev(SIDf);
+            if (SIDf >> 16 != pkm.SID || TIDf >> 16 != pkm.TID)
+                AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
         }
 
         private void verifyAbility()
