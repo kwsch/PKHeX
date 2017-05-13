@@ -29,7 +29,7 @@ Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without 
 
 PKHeX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137).
 
-The executable can be built with any compiler that supports C# 6.0.
+The executable can be built with any compiler that supports C# 7.
 
 ### Build Configurations
 
