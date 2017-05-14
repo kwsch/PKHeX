@@ -2,24 +2,26 @@
 
 namespace PKHeX.Core
 {
-    public static class SlotFinder
+    public static class FrameFinder
     {
         /// <summary>
         /// Checks a <see cref="PIDIV"/> to see if any encounter frames can generate the spread. Requires further filtering against matched Encounter Slots and generation patterns.
         /// </summary>
         /// <param name="pidiv">Matched <see cref="PIDIV"/> containing <see cref="PIDIV.RNG"/> info and <see cref="PIDIV.OriginSeed"/>.</param>
         /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
-        /// <returns><see cref="IEnumerable{SlotResult}"/> to yield possible encounter details for further filtering</returns>
-        public static IEnumerable<SlotResult> getSlotSeeds(PIDIV pidiv, PKM pk)
+        /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
+        public static IEnumerable<Frame> getFrames(PIDIV pidiv, PKM pk)
         {
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            SearchCriteria criteria = SearchCriteria.getSearchCriteria(pk);
-            if (criteria == null)
+            FrameGenerator criteria = new FrameGenerator(pk, pidiv.Type);
+            if (criteria.FrameType == FrameType.None)
                 yield break;
+
+            criteria.Nature = pk.EncryptionConstant % 25;
 
             IEnumerable<SeedInfo> seeds = SeedInfo.getSeedsUntilNature(pidiv, criteria);
             // get game generation criteria
-            IEnumerable<SlotResult> info;
+            IEnumerable<Frame> info;
             switch (pidiv.Type)
             {
                 case PIDType.CuteCharm:
@@ -43,7 +45,7 @@ namespace PKHeX.Core
         /// <param name="pidiv">PIDIV Info for the frame</param>
         /// <param name="info">Search Info for the frame</param>
         /// <returns>Possible matches to the Nature Lock frame generation pattern</returns>
-        private static IEnumerable<SlotResult> filterNatureSync(IEnumerable<SeedInfo> seeds, PIDIV pidiv, SearchCriteria info)
+        private static IEnumerable<Frame> filterNatureSync(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
         {
             foreach (var seed in seeds)
             {
@@ -59,12 +61,17 @@ namespace PKHeX.Core
                 {
                     var failsync = (info.DPPt ? prev >> 31 : (prev >> 16) & 1) != 1;
                     if (failsync)
-                        yield return new SlotResult {Seed = pidiv.RNG.Prev(prev), Sync = true, FailedSync = true};
+                        yield return info.GetFrame(pidiv.RNG.Prev(prev), LeadRequired.SynchronizeFail);
                 }
                 if (sync)
-                    yield return new SlotResult {Seed = prev, Sync = true};
+                    yield return info.GetFrame(prev, LeadRequired.Synchronize);
                 if (reg)
-                    yield return new SlotResult {Seed = prev, Sync = false, CuteCharm = seed.Charm3};
+                {
+                    if (seed.Charm3)
+                        yield return info.GetFrame(prev, LeadRequired.CuteCharm);
+                    else
+                        yield return info.GetFrame(prev, LeadRequired.None);
+                }
             }
         }
 
@@ -75,7 +82,7 @@ namespace PKHeX.Core
         /// <param name="pidiv">PIDIV Info for the frame</param>
         /// <param name="info">Search Info for the frame</param>
         /// <returns>Possible matches to the Cute Charm frame generation pattern</returns>
-        private static IEnumerable<SlotResult> filterCuteCharm(IEnumerable<SeedInfo> seeds, PIDIV pidiv, SearchCriteria info)
+        private static IEnumerable<Frame> filterCuteCharm(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
         {
             foreach (var seed in seeds)
             {
@@ -92,7 +99,7 @@ namespace PKHeX.Core
                 if (!charmProc)
                     continue;
 
-                yield return new SlotResult {Seed = prev, CuteCharm = true};
+                yield return info.GetFrame(prev, LeadRequired.CuteCharm);
             }
         }
     }

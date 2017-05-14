@@ -118,18 +118,18 @@ namespace PKHeX.Tests.PKM
             {
                 // Pearl
                 pk.Version = (int) GameVersion.P;
-                var results = SlotFinder.getSlotSeeds(pidiv, pk);
+                var results = FrameFinder.getFrames(pidiv, pk);
                 const int failSyncCount = 1;
                 const int noSyncCount = 2;
                 const int SyncCount = 37;
                 var r2 = results.ToArray();
-                var failSync = r2.Where(z => z.FailedSync);
-                var noSync = r2.Where(z => !z.Sync);
-                var sync = r2.Where(z => z.Sync && !z.FailedSync);
+                var failSync = r2.Where(z => z.Lead == LeadRequired.SynchronizeFail);
+                var noSync = r2.Where(z => z.Lead == LeadRequired.None);
+                var sync = r2.Where(z => z.Lead == LeadRequired.Synchronize);
 
                 Assert.AreEqual(failSync.Count(), failSyncCount, "Failed Sync count mismatch.");
                 Assert.AreEqual(sync.Count(), SyncCount, "Sync count mismatch.");
-                Assert.AreEqual(noSync.Count(z => !z.Sync), noSyncCount, "Non-Sync count mismatch.");
+                Assert.AreEqual(noSync.Count(), noSyncCount, "Non-Sync count mismatch.");
 
                 // var slots = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 };
             }
@@ -137,7 +137,7 @@ namespace PKHeX.Tests.PKM
             {
                 // Sapphire
                 // pk.Version = (int)GameVersion.S;
-                // var results = SlotFinder.getSlotSeeds(pidiv, pk);
+                // var results = FrameFinder.getFrames(pidiv, pk);
             }
         }
     }

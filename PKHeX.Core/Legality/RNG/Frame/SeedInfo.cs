@@ -6,7 +6,7 @@ namespace PKHeX.Core
     {
         public uint Seed;
         public bool Charm3;
-        public static IEnumerable<SeedInfo> getSeedsUntilNature(PIDIV pidiv, SearchCriteria info)
+        public static IEnumerable<SeedInfo> getSeedsUntilNature(PIDIV pidiv, FrameGenerator info)
         {
             bool reverse = pidiv.Type.IsReversedPID();
             bool charm3 = false;
@@ -40,7 +40,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static LockInfo verifyPIDCriteria(uint pid, SearchCriteria info)
+        private static LockInfo verifyPIDCriteria(uint pid, FrameGenerator info)
         {
             // Nature locks are always a given
             var nval = pid % 25;
