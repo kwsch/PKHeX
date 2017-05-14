@@ -261,9 +261,9 @@ namespace PKHeX.Core
                     var gr = pk.PersonalInfo.Gender;
                     if (254 <= gr) // no modification for PID
                         break;
-                    if (pid < gr)
-                        break;
-                    if (pid >= gr + 25)
+                    var rate = pk.Gender == 1 ? 0 : 25*(gr/25 + 1); // buffered
+                    var nature = pid % 25;
+                    if (nature + rate != pid)
                         break;
 
                     pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.CuteCharm};

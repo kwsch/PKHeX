@@ -4,97 +4,96 @@ namespace PKHeX.Core
 {
     public static class SlotFinder
     {
-        public static List<uint> getSlotSeeds(PIDIV pidiv, uint nature, GameVersion v)
+        /// <summary>
+        /// Checks a <see cref="PIDIV"/> to see if any encounter frames can generate the spread. Requires further filtering against matched Encounter Slots and generation patterns.
+        /// </summary>
+        /// <param name="pidiv">Matched <see cref="PIDIV"/> containing <see cref="PIDIV.RNG"/> info and <see cref="PIDIV.OriginSeed"/>.</param>
+        /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
+        /// <returns><see cref="IEnumerable{SlotResult}"/> to yield possible encounter details for further filtering</returns>
+        public static IEnumerable<SlotResult> getSlotSeeds(PIDIV pidiv, PKM pk)
         {
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            var seeds = getSeedsUntilNature(pidiv, nature);
+            SearchCriteria criteria = SearchCriteria.getSearchCriteria(pk);
+            if (criteria == null)
+                yield break;
 
+            IEnumerable<SeedInfo> seeds = SeedInfo.getSeedsUntilNature(pidiv, criteria);
             // get game generation criteria
-            bool dppt = v == GameVersion.D || v == GameVersion.D || v == GameVersion.Pt;
             IEnumerable<SlotResult> info;
             switch (pidiv.Type)
             {
                 case PIDType.CuteCharm:
-                    info = filterCuteCharm(seeds, pidiv, dppt);
+                    info = filterCuteCharm(seeds, pidiv, criteria);
                     break;
                 default:
-                    bool canSync = v == GameVersion.E || (int)v > 5; // Emerald and Gen4
-                    info = filterNatureSync(seeds, pidiv, nature, dppt, canSync);
+                    info = filterNatureSync(seeds, pidiv, criteria);
                     break;
             }
 
             // games need to map 0-65535 to 0-99
             // dppt use /656, hgss&gen3 use %100
             foreach (var z in info)
-            {
-
-            }
-
-            return null;
+                yield return z;
         }
 
-        private static IEnumerable<uint> getSeedsUntilNature(PIDIV pidiv, uint nature)
+        /// <summary>
+        /// Filters the input <see cref="SeedInfo"/> according to a Nature Lock frame generation pattern.
+        /// </summary>
+        /// <param name="seeds">Seed Information for the frame</param>
+        /// <param name="pidiv">PIDIV Info for the frame</param>
+        /// <param name="info">Search Info for the frame</param>
+        /// <returns>Possible matches to the Nature Lock frame generation pattern</returns>
+        private static IEnumerable<SlotResult> filterNatureSync(IEnumerable<SeedInfo> seeds, PIDIV pidiv, SearchCriteria info)
         {
-            bool reverse = pidiv.Type.IsReversedPID();
-
-            var seed = pidiv.OriginSeed;
-            yield return seed;
-
-            var s1 = pidiv.RNG.Prev(seed);
-            var s2 = pidiv.RNG.Prev(s1);
-            while (true)
+            foreach (var seed in seeds)
             {
-                var a = s2 >> 16;
-                var b = s1 >> 16;
-
-                var pid = reverse ? b << 16 | a : a << 16 | b;
-                if (pid % 25 == nature)
-                    break;
-
-                s1 = pidiv.RNG.Prev(s2);
-                s2 = pidiv.RNG.Prev(s1);
-
-                yield return s1;
-            }
-        }
-        private static IEnumerable<SlotResult> filterNatureSync(IEnumerable<uint> seeds, PIDIV pidiv, uint nature, bool dppt, bool canSync)
-        {
-            foreach (var s in seeds)
-            {
+                var s = seed.Seed;
                 var rand = s >> 16;
-                bool sync = canSync && (rand & 1) == 0;
-                bool reg = (dppt ? rand / 0xA3E : rand % 25) == nature;
+                bool sync = info.CanSync && !seed.Charm3 && (info.DPPt ? rand >> 15 : rand & 1) == 0;
+                bool reg = (info.DPPt ? rand / 0xA3E : rand % 25) == info.Nature;
                 if (!sync && !reg) // doesn't generate nature frame
                     continue;
 
                 uint prev = pidiv.RNG.Prev(s);
-                if (canSync && reg) // check for failed sync
+                if (info.CanSync && reg) // check for failed sync
                 {
-                    var failsync = prev >> 31 != 0;
+                    var failsync = (info.DPPt ? prev >> 31 : (prev >> 16) & 1) != 1;
                     if (failsync)
-                        yield return new SlotResult {Seed = pidiv.RNG.Prev(prev), Sync = false};
+                        yield return new SlotResult {Seed = pidiv.RNG.Prev(prev), Sync = true, FailedSync = true};
                 }
                 if (sync)
                     yield return new SlotResult {Seed = prev, Sync = true};
                 if (reg)
-                    yield return new SlotResult {Seed = prev, Sync = false};
+                    yield return new SlotResult {Seed = prev, Sync = false, CuteCharm = seed.Charm3};
             }
         }
-        private static IEnumerable<SlotResult> filterCuteCharm(IEnumerable<uint> seeds, PIDIV pidiv, bool dppt)
+
+        /// <summary>
+        /// Filters the input <see cref="SeedInfo"/> according to a Cute Charm frame generation pattern.
+        /// </summary>
+        /// <param name="seeds">Seed Information for the frame</param>
+        /// <param name="pidiv">PIDIV Info for the frame</param>
+        /// <param name="info">Search Info for the frame</param>
+        /// <returns>Possible matches to the Cute Charm frame generation pattern</returns>
+        private static IEnumerable<SlotResult> filterCuteCharm(IEnumerable<SeedInfo> seeds, PIDIV pidiv, SearchCriteria info)
         {
-            foreach (var s in seeds)
+            foreach (var seed in seeds)
             {
+                var s = seed.Seed;
+
                 var rand = s >> 16;
-                bool charmProc = (dppt ? rand / 0x5556 : rand%3) == 0;
-                if (charmProc)
-                    yield return new SlotResult {Seed = pidiv.RNG.Prev(s)};
+                var nature = info.DPPt ? rand / 0xA3E : rand % 25;
+                if (nature != info.Nature)
+                    continue;
+
+                var prev = pidiv.RNG.Prev(s);
+                var proc = prev >> 16;
+                bool charmProc = (info.DPPt ? proc / 0x5556 : proc % 3) == 0;
+                if (!charmProc)
+                    continue;
+
+                yield return new SlotResult {Seed = prev, CuteCharm = true};
             }
-        }
-        
-        public class SlotResult
-        {
-            public uint Seed { get; set; }
-            public bool Sync { get; set; }    
         }
     }
 }
