@@ -273,7 +273,7 @@ namespace PKHeX.WinForms
         private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
-        private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX/Resources/text/version.txt";
+        private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
         #endregion
 
@@ -2285,15 +2285,17 @@ namespace PKHeX.WinForms
             }
             else
             {
-                bool IV3 = Legal.Legends.Contains(pkm.Species) || Legal.SubLegends.Contains(pkm.Species);
-
                 int[] IVs = new int[6];
                 for (int i = 0; i < 6; i++)
                     IVs[i] = (int)(Util.rnd32() & SAV.MaxIV);
+
+                bool IV3 = pkm.GenNumber >= 6 && (Legal.Legends.Contains(pkm.Species) || Legal.SubLegends.Contains(pkm.Species));
                 if (IV3)
+                {
                     for (int i = 0; i < 3; i++)
                         IVs[i] = SAV.MaxIV;
-                Util.Shuffle(IVs); // Randomize IV order
+                    Util.Shuffle(IVs); // Randomize IV order
+                }
 
                 var IVBoxes = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPAIV, TB_SPDIV, TB_SPEIV};
                 for (int i = 0; i < 6; i++)
