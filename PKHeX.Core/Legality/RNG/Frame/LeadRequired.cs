@@ -6,5 +6,13 @@
         CuteCharm,
         Synchronize,
         SynchronizeFail,
+
+        // Slot Modifiers
+        MagnetPull,
+        Static,
+
+        // Level Modifiers
+        Intimidate, // Keen Eye
+        VitalSpirit
     }
 }

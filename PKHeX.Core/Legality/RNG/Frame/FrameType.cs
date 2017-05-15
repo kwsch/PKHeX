@@ -3,10 +3,7 @@
     public enum FrameType
     {
         None,
-        MethodH1,
-        MethodH2,
-        MethodH4,
-
+        MethodH,
         MethodJ,
         MethodK,
     }

@@ -131,7 +131,11 @@ namespace PKHeX.Tests.PKM
                 Assert.AreEqual(sync.Count(), SyncCount, "Sync count mismatch.");
                 Assert.AreEqual(noSync.Count(), noSyncCount, "Non-Sync count mismatch.");
 
-                // var slots = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 };
+                var type = SlotType.Grass;
+                var slots = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 };
+                Assert.IsTrue(slots.All(s => r2.Any(z => z.EncounterSlot(type) == s)), "Required slots not present.");
+                var slotsForType = r2.Where(z => !z.LevelSlotModified).Select(z => z.EncounterSlot(type)).Distinct().OrderBy(z => z);
+                Assert.IsTrue(slotsForType.SequenceEqual(slots), "Unexpected slots present.");
             }
             // Test for Method H and K
             {

@@ -7,17 +7,19 @@
         public readonly int GenderHigh;
         public readonly int GenderLow;
         public readonly bool DPPt;
-        public readonly bool CanSync;
+        public readonly bool AllowLeads;
         public readonly FrameType FrameType = FrameType.None;
-        public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, lead);
+        public readonly RNG RNG;
+        public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, RNG, lead);
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv) => new Frame(seed, FrameType, RNG, lead) {ESV = esv};
 
         /// <summary>
         /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects.
         /// </summary>
+        /// <param name="pidiv">Info used to determine the <see cref="FrameType"/>.</param>
         /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
-        /// <param name="type">Type info used to determine the <see cref="FrameType"/>.</param>
         /// <returns>Object containing search criteria to be passed by reference to search/filter methods.</returns>
-        public FrameGenerator(PKM pk, PIDType type)
+        public FrameGenerator(PIDIV pidiv, PKM pk)
         {
             var ver = (GameVersion)pk.Version;
             switch (ver)
@@ -29,12 +31,13 @@
                 case GameVersion.LG:
                 case GameVersion.E:
                     DPPt = false;
-                    FrameType = getFrameType(type);
+                    FrameType = FrameType.MethodH;
+                    RNG = pidiv.RNG;
 
                     if (ver != GameVersion.E)
                         return;
 
-                    CanSync = true;
+                    AllowLeads = true;
 
                     // Cute Charm waits for gender too!
                     var gender = pk.Gender;
@@ -53,16 +56,18 @@
                 case GameVersion.P:
                 case GameVersion.Pt:
                     DPPt = true;
-                    CanSync = true;
+                    AllowLeads = true;
                     FrameType = FrameType.MethodJ;
+                    RNG = pidiv.RNG;
                     return;
 
                 // Method K
                 case GameVersion.HG:
                 case GameVersion.SS:
                     DPPt = false;
-                    CanSync = true;
+                    AllowLeads = true;
                     FrameType = FrameType.MethodK;
+                    RNG = pidiv.RNG;
                     return;
             }
         }
@@ -84,23 +89,6 @@
                 case 1: return max ? ratio - 1 : 0; // female
                 default: return max ? 255 : 0; // fixed/genderless
             }
-        }
-
-        private static FrameType getFrameType(PIDType type)
-        {
-            switch (type)
-            {
-                case PIDType.Method_1:
-                case PIDType.Method_1_Unown:
-                    return FrameType.MethodH1;
-                case PIDType.Method_2:
-                case PIDType.Method_2_Unown:
-                    return FrameType.MethodH2;
-                case PIDType.Method_4:
-                case PIDType.Method_4_Unown:
-                    return FrameType.MethodH4;
-            }
-            return FrameType.None;
         }
     }
 }

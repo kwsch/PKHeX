@@ -12,30 +12,106 @@ namespace PKHeX.Core
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
         public static IEnumerable<Frame> getFrames(PIDIV pidiv, PKM pk)
         {
-            // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            FrameGenerator criteria = new FrameGenerator(pk, pidiv.Type);
-            if (criteria.FrameType == FrameType.None)
+            FrameGenerator info = new FrameGenerator(pidiv, pk);
+            if (info.FrameType == FrameType.None)
                 yield break;
 
-            criteria.Nature = pk.EncryptionConstant % 25;
+            info.Nature = pk.EncryptionConstant % 25;
 
-            IEnumerable<SeedInfo> seeds = SeedInfo.getSeedsUntilNature(pidiv, criteria);
-            // get game generation criteria
-            IEnumerable<Frame> info;
-            switch (pidiv.Type)
-            {
-                case PIDType.CuteCharm:
-                    info = filterCuteCharm(seeds, pidiv, criteria);
-                    break;
-                default:
-                    info = filterNatureSync(seeds, pidiv, criteria);
-                    break;
-            }
+            // gather possible nature determination seeds until a same-nature PID breaks the unrolling
+            IEnumerable<SeedInfo> seeds = SeedInfo.getSeedsUntilNature(pidiv, info);
 
-            // games need to map 0-65535 to 0-99
-            // dppt use /656, hgss&gen3 use %100
-            foreach (var z in info)
+            var frames = pidiv.Type == PIDType.CuteCharm 
+                ? filterCuteCharm(seeds, pidiv, info) 
+                : filterNatureSync(seeds, pidiv, info);
+
+            var refined = refineFrames(frames, info);
+            foreach (var z in refined)
                 yield return z;
+        }
+
+        private static IEnumerable<Frame> refineFrames(IEnumerable<Frame> frames, FrameGenerator info)
+        {
+            return info.FrameType == FrameType.MethodH
+                ? refineFrames3(frames, info)
+                : refineFrames4(frames, info);
+        }
+
+        private static IEnumerable<Frame> refineFrames3(IEnumerable<Frame> frames, FrameGenerator info)
+        {
+            var list = new List<Frame>();
+            foreach (var f in frames)
+            {
+                // Current Seed of the frame is the Level Calc
+                var prev = info.RNG.Prev(f.Seed); // ESV
+                var rand = prev >> 16;
+                {
+                    f.ESV = rand;
+                    yield return f;
+                }
+
+                if (f.Lead != LeadRequired.None || !info.AllowLeads) // Emerald
+                    continue;
+
+                // Generate frames for other slots after the regular slots
+                list.Add(f);
+            }
+            foreach (var f in list)
+            {
+                // Level Modifiers between ESV and Nature
+                var prev = info.RNG.Prev(f.Seed); // Level
+                prev = info.RNG.Prev(prev); // Level Proc
+                var p16 = prev >> 16;
+
+                yield return info.GetFrame(prev, LeadRequired.Intimidate, p16);
+                yield return info.GetFrame(prev, LeadRequired.VitalSpirit, p16);
+
+                // Slot Modifiers before ESV
+                var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
+                if (!force)
+                    continue;
+
+                var rand = f.Seed >> 16;
+                yield return info.GetFrame(prev, LeadRequired.Static, rand);
+                yield return info.GetFrame(prev, LeadRequired.MagnetPull, rand);
+            }
+        }
+        private static IEnumerable<Frame> refineFrames4(IEnumerable<Frame> frames, FrameGenerator info)
+        {
+            var list = new List<Frame>();
+            foreach (var f in frames)
+            {
+                // Current Seed of the frame is the ESV.
+                var rand = f.Seed >> 16;
+                {
+                    f.ESV = rand;
+                    yield return f;
+                }
+
+                if (f.Lead != LeadRequired.None)
+                    continue;
+
+                // Generate frames for other slots after the regular slots
+                list.Add(f);
+            }
+            foreach (var f in list)
+            {
+                // Level Modifiers between ESV and Nature
+                var prev = info.RNG.Prev(f.Seed);
+                var p16 = prev >> 16;
+
+                yield return info.GetFrame(prev, LeadRequired.Intimidate, p16);
+                yield return info.GetFrame(prev, LeadRequired.VitalSpirit, p16);
+
+                // Slot Modifiers before ESV
+                var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
+                if (!force)
+                    continue;
+
+                var rand = f.Seed >> 16;
+                yield return info.GetFrame(prev, LeadRequired.Static, rand);
+                yield return info.GetFrame(prev, LeadRequired.MagnetPull, rand);
+            }
         }
 
         /// <summary>
@@ -51,13 +127,13 @@ namespace PKHeX.Core
             {
                 var s = seed.Seed;
                 var rand = s >> 16;
-                bool sync = info.CanSync && !seed.Charm3 && (info.DPPt ? rand >> 15 : rand & 1) == 0;
+                bool sync = info.AllowLeads && !seed.Charm3 && (info.DPPt ? rand >> 15 : rand & 1) == 0;
                 bool reg = (info.DPPt ? rand / 0xA3E : rand % 25) == info.Nature;
                 if (!sync && !reg) // doesn't generate nature frame
                     continue;
 
                 uint prev = pidiv.RNG.Prev(s);
-                if (info.CanSync && reg) // check for failed sync
+                if (info.AllowLeads && reg) // check for failed sync
                 {
                     var failsync = (info.DPPt ? prev >> 31 : (prev >> 16) & 1) != 1;
                     if (failsync)
