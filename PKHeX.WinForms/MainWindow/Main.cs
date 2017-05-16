@@ -269,7 +269,7 @@ namespace PKHeX.WinForms
         public static string WorkingDirectory => WinFormsUtil.IsClickonceDeployed ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PKHeX") : Application.StartupPath;
         public static string DatabasePath => Path.Combine(WorkingDirectory, "pkmdb");
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
-        private static string BackupPath => Path.Combine(WorkingDirectory, "bak");
+        public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
         private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
@@ -651,41 +651,7 @@ namespace PKHeX.WinForms
             }
             catch { }
         }
-        private void clickOpenTempFolder(object sender, EventArgs e)
-        {
-            string path = CyberGadgetUtil.GetTempFolder();
-            if (Directory.Exists(Path.Combine(path, "root")))
-                Process.Start("explorer.exe", Path.Combine(path, "root"));
-            else if (Directory.Exists(path))
-                Process.Start("explorer.exe", path);
-            else
-                WinFormsUtil.Alert("Can't find the temporary file.", "Make sure the Cyber Gadget software is paused.");
-        }
-        private void clickOpenCacheFolder(object sender, EventArgs e)
-        {
-            string path = CyberGadgetUtil.GetCacheFolder();
-            if (Directory.Exists(path))
-                Process.Start("explorer.exe", path);
-            else
-                WinFormsUtil.Alert("Can't find the cache folder.");
-        }
-        private void clickOpenSDFFolder(object sender, EventArgs e)
-        {
-            string path = Path.GetPathRoot(PathUtilWindows.get3DSLocation());
-            if (path != null && Directory.Exists(path = Path.Combine(path, "filer", "UserSaveData")))
-                Process.Start("explorer.exe", path);
-            else
-                WinFormsUtil.Alert("Can't find the SaveDataFiler folder.");
-        }
-        private void clickOpenSDBFolder(object sender, EventArgs e)
-        {
-            string path3DS = Path.GetPathRoot(PathUtilWindows.get3DSLocation());
-            string path;
-            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "SaveDataBackup")))
-                Process.Start("explorer.exe", path);
-            else
-                WinFormsUtil.Alert("Can't find the SaveDataBackup folder.");
-        }
+        private void Menu_Folder_Click(object sender, EventArgs e) => new SAV_FolderList().ShowDialog();
 
         // Main Menu Subfunctions
         private void openQuick(string path, bool force = false)

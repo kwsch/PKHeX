@@ -25,6 +25,23 @@ namespace PKHeX.WinForms
         }
 
         /// <summary>
+        /// Gets a list of 3DS save backup paths for the storage device.
+        /// </summary>
+        /// <param name="root">Root location of device</param>
+        /// <returns>List of possible 3DS save backup paths.</returns>
+        public static string[] get3DSBackupPaths(string root)
+        {
+            return new[]
+            {
+                Path.Combine(root, "saveDataBackup"),
+                Path.Combine(root, "filer", "UserSaveData"),
+                Path.Combine(root, "JKSV", "Saves"),
+                Path.Combine(root, "TWLSaveTool"),
+                Path.Combine(root, "fbi", "save"),
+            };
+        }
+
+        /// <summary>
         /// Detects a save file.
         /// </summary>
         /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
@@ -35,18 +52,8 @@ namespace PKHeX.WinForms
             List<string> foldersToCheck = new List<string>(extra.Where(f => f?.Length > 0));
             path = null;
 
-            // Homebrew/CFW
-            if (path3DS != null)
-            {
-                foldersToCheck.AddRange(new[]
-                {
-                    Path.Combine(path3DS, "saveDataBackup"),
-                    Path.Combine(path3DS, "filer", "UserSaveData"),
-                    Path.Combine(path3DS, "JKSV", "Saves"),
-                    Path.Combine(path3DS, "TWLSaveTool"),
-                    Path.Combine(path3DS, "fbi", "save"),
-                });
-            }
+            if (path3DS != null) // check for Homebrew/CFW backups
+                foldersToCheck.AddRange(get3DSBackupPaths(path3DS));
 
             foreach (var p in foldersToCheck)
             {

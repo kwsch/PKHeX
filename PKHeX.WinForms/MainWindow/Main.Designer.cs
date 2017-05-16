@@ -300,9 +300,7 @@
             this.Menu_ShowdownExportPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportParty = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportBattleBox = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_CyberGadget = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_OpenTemp = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_OpenCache = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_Folder = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_LoadBoxes = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DumpBoxes = new System.Windows.Forms.ToolStripMenuItem();
@@ -311,9 +309,6 @@
             this.Menu_Database = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_MGDatabase = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_BatchEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Other = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_OpenSDF = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_OpenSDB = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Language = new System.Windows.Forms.ToolStripMenuItem();
             this.CB_MainLanguage = new System.Windows.Forms.ToolStripComboBox();
@@ -3794,9 +3789,8 @@
             // 
             this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_Showdown,
-            this.Menu_CyberGadget,
             this.Menu_Data,
-            this.Menu_Other});
+            this.Menu_Folder});
             this.Menu_Tools.Name = "Menu_Tools";
             this.Menu_Tools.Size = new System.Drawing.Size(47, 20);
             this.Menu_Tools.Text = "Tools";
@@ -3810,7 +3804,7 @@
             this.Menu_ShowdownExportBattleBox});
             this.Menu_Showdown.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Showdown.Image")));
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -3850,31 +3844,15 @@
             this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
             this.Menu_ShowdownExportBattleBox.Click += new System.EventHandler(this.clickShowdownExportBattleBox);
             // 
-            // Menu_CyberGadget
+            // Menu_Folder
             // 
-            this.Menu_CyberGadget.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_OpenTemp,
-            this.Menu_OpenCache});
-            this.Menu_CyberGadget.Image = ((System.Drawing.Image)(resources.GetObject("Menu_CyberGadget.Image")));
-            this.Menu_CyberGadget.Name = "Menu_CyberGadget";
-            this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
-            this.Menu_CyberGadget.Text = "CyberGadget";
-            // 
-            // Menu_OpenTemp
-            // 
-            this.Menu_OpenTemp.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenTemp.Image")));
-            this.Menu_OpenTemp.Name = "Menu_OpenTemp";
-            this.Menu_OpenTemp.Size = new System.Drawing.Size(175, 22);
-            this.Menu_OpenTemp.Text = "Open Temp Folder";
-            this.Menu_OpenTemp.Click += new System.EventHandler(this.clickOpenTempFolder);
-            // 
-            // Menu_OpenCache
-            // 
-            this.Menu_OpenCache.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenCache.Image")));
-            this.Menu_OpenCache.Name = "Menu_OpenCache";
-            this.Menu_OpenCache.Size = new System.Drawing.Size(175, 22);
-            this.Menu_OpenCache.Text = "Open Cache Folder";
-            this.Menu_OpenCache.Click += new System.EventHandler(this.clickOpenCacheFolder);
+            this.Menu_Folder.Image = global::PKHeX.WinForms.Properties.Resources.folder;
+            this.Menu_Folder.Name = "Menu_Folder";
+            this.Menu_Folder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.Menu_Folder.ShowShortcutKeys = false;
+            this.Menu_Folder.Size = new System.Drawing.Size(152, 22);
+            this.Menu_Folder.Text = "Open Folder";
+            this.Menu_Folder.Click += new System.EventHandler(this.Menu_Folder_Click);
             // 
             // Menu_Data
             // 
@@ -3888,7 +3866,7 @@
             this.Menu_BatchEditor});
             this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -3954,32 +3932,6 @@
             this.Menu_BatchEditor.Size = new System.Drawing.Size(182, 22);
             this.Menu_BatchEditor.Text = "Batch Editor";
             this.Menu_BatchEditor.Click += new System.EventHandler(this.manMenuBatchEditor);
-            // 
-            // Menu_Other
-            // 
-            this.Menu_Other.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_OpenSDF,
-            this.Menu_OpenSDB});
-            this.Menu_Other.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Other.Image")));
-            this.Menu_Other.Name = "Menu_Other";
-            this.Menu_Other.Size = new System.Drawing.Size(143, 22);
-            this.Menu_Other.Text = "Other";
-            // 
-            // Menu_OpenSDF
-            // 
-            this.Menu_OpenSDF.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenSDF.Image")));
-            this.Menu_OpenSDF.Name = "Menu_OpenSDF";
-            this.Menu_OpenSDF.Size = new System.Drawing.Size(229, 22);
-            this.Menu_OpenSDF.Text = "Open SaveDataFiler Folder";
-            this.Menu_OpenSDF.Click += new System.EventHandler(this.clickOpenSDFFolder);
-            // 
-            // Menu_OpenSDB
-            // 
-            this.Menu_OpenSDB.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenSDB.Image")));
-            this.Menu_OpenSDB.Name = "Menu_OpenSDB";
-            this.Menu_OpenSDB.Size = new System.Drawing.Size(229, 22);
-            this.Menu_OpenSDB.Text = "Open SaveDataBackup Folder";
-            this.Menu_OpenSDB.Click += new System.EventHandler(this.clickOpenSDBFolder);
             // 
             // Menu_Options
             // 
@@ -6419,16 +6371,11 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownImportPKM;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportParty;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportBattleBox;
-        private System.Windows.Forms.ToolStripMenuItem Menu_CyberGadget;
-        private System.Windows.Forms.ToolStripMenuItem Menu_OpenTemp;
-        private System.Windows.Forms.ToolStripMenuItem Menu_OpenCache;
+        private System.Windows.Forms.ToolStripMenuItem Menu_Folder;
         private System.Windows.Forms.ToolStripMenuItem Menu_Data;
         private System.Windows.Forms.ToolStripMenuItem Menu_LoadBoxes;
         private System.Windows.Forms.ToolStripMenuItem Menu_Report;
         private System.Windows.Forms.ToolStripMenuItem Menu_Database;
-        private System.Windows.Forms.ToolStripMenuItem Menu_Other;
-        private System.Windows.Forms.ToolStripMenuItem Menu_OpenSDF;
-        private System.Windows.Forms.ToolStripMenuItem Menu_OpenSDB;
         private System.Windows.Forms.MaskedTextBox Stat_SPE;
         private System.Windows.Forms.MaskedTextBox Stat_SPD;
         private System.Windows.Forms.MaskedTextBox Stat_SPA;

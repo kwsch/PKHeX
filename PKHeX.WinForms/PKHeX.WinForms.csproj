@@ -467,6 +467,12 @@
     <Compile Include="Subforms\SAV_Database.Designer.cs">
       <DependentUpon>SAV_Database.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\SAV_FolderList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\SAV_FolderList.Designer.cs">
+      <DependentUpon>SAV_FolderList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\SAV_MysteryGiftDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -626,6 +632,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_Database.resx">
       <DependentUpon>SAV_Database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\SAV_FolderList.resx">
+      <DependentUpon>SAV_FolderList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\SAV_MysteryGiftDB.resx">
       <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
