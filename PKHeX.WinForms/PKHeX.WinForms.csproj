@@ -165,6 +165,7 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindow\DragDropManager.cs" />
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>

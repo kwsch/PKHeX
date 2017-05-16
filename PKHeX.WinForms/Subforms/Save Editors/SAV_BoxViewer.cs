@@ -157,23 +157,23 @@ namespace PKHeX.WinForms
         private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                DragInfo.slotLeftMouseIsDown = false;
+                DragInfo.LeftMouseIsDown = false;
             if (e.Button == MouseButtons.Right)
-                DragInfo.slotRightMouseIsDown = false;
+                DragInfo.RightMouseIsDown = false;
         }
         private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                DragInfo.slotLeftMouseIsDown = true;
+                DragInfo.LeftMouseIsDown = true;
             if (e.Button == MouseButtons.Right)
-                DragInfo.slotRightMouseIsDown = true;
+                DragInfo.RightMouseIsDown = true;
         }
         private void pbBoxSlot_MouseMove(object sender, MouseEventArgs e)
         {
-            if (DragInfo.slotDragDropInProgress)
+            if (DragInfo.DragDropInProgress)
                 return;
 
-            if (!DragInfo.slotLeftMouseIsDown)
+            if (!DragInfo.LeftMouseIsDown)
                 return;
 
             // The goal is to create a temporary PKX file for the underlying Pokemon
@@ -190,18 +190,18 @@ namespace PKHeX.WinForms
                 return;
 
             // Set flag to prevent re-entering.
-            DragInfo.slotDragDropInProgress = true;
+            DragInfo.DragDropInProgress = true;
 
-            DragInfo.slotSource = this;
-            DragInfo.slotSourceSlotNumber = slot;
-            DragInfo.slotSourceBoxNumber = box;
-            DragInfo.slotSourceOffset = getPKXOffset(DragInfo.slotSourceSlotNumber);
+            DragInfo.Source.Parent = this;
+            DragInfo.Source.Slot = slot;
+            DragInfo.Source.Box = box;
+            DragInfo.Source.Offset = getPKXOffset(DragInfo.Source.Slot);
 
             // Prepare Data
-            DragInfo.slotPkmSource = SAV.getData(DragInfo.slotSourceOffset, SAV.SIZE_STORED);
+            DragInfo.Source.Data = SAV.getData(DragInfo.Source.Offset, SAV.SIZE_STORED);
 
             // Make a new file name based off the PID
-            byte[] dragdata = SAV.decryptPKM(DragInfo.slotPkmSource);
+            byte[] dragdata = SAV.decryptPKM(DragInfo.Source.Data);
             Array.Resize(ref dragdata, SAV.SIZE_STORED);
             PKM pkx = SAV.getPKM(dragdata);
             string filename = pkx.FileName;
@@ -218,18 +218,18 @@ namespace PKHeX.WinForms
                 // Thread Blocks on DoDragDrop
                 DragInfo.CurrentPath = newfile;
                 DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-                if (!DragInfo.SourceValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
+                if (!DragInfo.Source.IsValid || result != DragDropEffects.Link) // not dropped to another box slot, restore img
                     pb.Image = img;
                 else // refresh image
-                    getQuickFiller(pb, SAV.getStoredSlot(DragInfo.slotSourceOffset));
+                    getQuickFiller(pb, SAV.getStoredSlot(DragInfo.Source.Offset));
                 pb.BackgroundImage = null;
 
-                if (DragInfo.SameBox && DragInfo.DestinationValid)
+                if (DragInfo.SameBox && DragInfo.Destination.IsValid)
                 {
-                    if (SAV.getIsTeamSet(box, DragInfo.slotDestinationSlotNumber) ^ SAV.getIsTeamSet(box, DragInfo.slotSourceSlotNumber))
-                        getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], SAV.getStoredSlot(DragInfo.slotDestinationOffset));
+                    if (SAV.getIsTeamSet(box, DragInfo.Destination.Slot) ^ SAV.getIsTeamSet(box, DragInfo.Source.Slot))
+                        getQuickFiller(SlotPictureBoxes[DragInfo.Destination.Slot], SAV.getStoredSlot(DragInfo.Destination.Offset));
                     else
-                        SlotPictureBoxes[DragInfo.slotDestinationSlotNumber].Image = img;
+                        SlotPictureBoxes[DragInfo.Destination.Slot].Image = img;
                 }
             }
             catch (Exception x)
@@ -251,21 +251,21 @@ namespace PKHeX.WinForms
         }
         private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            DragInfo.slotDestination = this;
-            DragInfo.slotDestinationSlotNumber = getSlot(sender);
-            DragInfo.slotDestinationOffset = getPKXOffset(DragInfo.slotDestinationSlotNumber);
-            DragInfo.slotDestinationBoxNumber = CB_BoxSelect.SelectedIndex;
+            DragInfo.Destination.Parent = this;
+            DragInfo.Destination.Slot = getSlot(sender);
+            DragInfo.Destination.Offset = getPKXOffset(DragInfo.Destination.Slot);
+            DragInfo.Destination.Box = CB_BoxSelect.SelectedIndex;
 
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { return; }
-            if (SAV.getIsSlotLocked(DragInfo.slotDestinationBoxNumber, DragInfo.slotDestinationSlotNumber))
+            if (SAV.getIsSlotLocked(DragInfo.Destination.Box, DragInfo.Destination.Slot))
             {
-                DragInfo.slotDestinationSlotNumber = -1; // Invalidate
+                DragInfo.Destination.Slot = -1; // Invalidate
                 WinFormsUtil.Alert("Unable to set to locked slot.");
                 return;
             }
-            if (DragInfo.slotSourceOffset < 0) // file
+            if (DragInfo.Source.Offset < 0) // file
             {
                 if (files.Length <= 0)
                     return;
@@ -291,49 +291,49 @@ namespace PKHeX.WinForms
                     { Console.WriteLine(c); Console.WriteLine(concat); return; }
                 }
 
-                DragInfo.setPKMtoDestination(SAV, pk);
-                getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pk);
+                DragInfo.SetPKM(pk, false);
+                getQuickFiller(SlotPictureBoxes[DragInfo.Destination.Slot], pk);
                 Console.WriteLine(c);
             }
             else
             {
-                PKM pkz = DragInfo.getPKMfromSource(SAV);
-                if (!DragInfo.SourceValid) { } // not overwritable, do nothing
-                else if (ModifierKeys == Keys.Alt && DragInfo.DestinationValid) // overwrite
+                PKM pkz = DragInfo.GetPKM(true);
+                if (!DragInfo.Source.IsValid) { } // not overwritable, do nothing
+                else if (ModifierKeys == Keys.Alt && DragInfo.Destination.IsValid) // overwrite
                 {
                     // Clear from slot
                     if (DragInfo.SameBox)
-                        getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], SAV.BlankPKM); // picturebox
+                        getQuickFiller(SlotPictureBoxes[DragInfo.Source.Slot], SAV.BlankPKM); // picturebox
 
-                    DragInfo.setPKMtoSource(SAV, SAV.BlankPKM);
+                    DragInfo.SetPKM(SAV.BlankPKM, true);
                 }
-                else if (ModifierKeys != Keys.Control && DragInfo.DestinationValid) // move
+                else if (ModifierKeys != Keys.Control && DragInfo.Destination.IsValid) // move
                 {
                     // Load data from destination
                     PKM pk = ((PictureBox)sender).Image != null
-                        ? DragInfo.getPKMfromDestination(SAV)
+                        ? DragInfo.GetPKM(false)
                         : SAV.BlankPKM;
 
                     // Set destination pokemon image to source picture box
                     if (DragInfo.SameBox)
-                        getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pk);
+                        getQuickFiller(SlotPictureBoxes[DragInfo.Source.Slot], pk);
 
                     // Set destination pokemon data to source slot
-                    DragInfo.setPKMtoSource(SAV, pk);
+                    DragInfo.SetPKM(pk, true);
                 }
                 else if (DragInfo.SameBox) // clone
-                    getQuickFiller(SlotPictureBoxes[DragInfo.slotSourceSlotNumber], pkz);
+                    getQuickFiller(SlotPictureBoxes[DragInfo.Source.Slot], pkz);
 
                 // Copy from temp to destination slot.
-                DragInfo.setPKMtoDestination(SAV, pkz);
-                getQuickFiller(SlotPictureBoxes[DragInfo.slotDestinationSlotNumber], pkz);
+                DragInfo.SetPKM(pkz, false);
+                getQuickFiller(SlotPictureBoxes[DragInfo.Destination.Slot], pkz);
 
                 e.Effect = DragDropEffects.Link;
                 Cursor = DefaultCursor;
             }
-            if (DragInfo.SourceParty || DragInfo.DestinationParty)
+            if (DragInfo.Source.IsParty || DragInfo.Destination.IsParty)
                 parent.setParty();
-            if (DragInfo.slotSource == null) // another instance or file
+            if (DragInfo.Source.Parent == null) // another instance or file
             {
                 parent.notifyBoxViewerRefresh();
                 DragInfo.Reset();
@@ -346,16 +346,16 @@ namespace PKHeX.WinForms
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
 
-            if (DragInfo.slotDragDropInProgress)
+            if (DragInfo.DragDropInProgress)
                 Cursor = (Cursor)DragInfo.Cursor;
         }
         private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
             if (e.Action == DragAction.Cancel || e.Action == DragAction.Drop)
             {
-                DragInfo.slotLeftMouseIsDown = false;
-                DragInfo.slotRightMouseIsDown = false;
-                DragInfo.slotDragDropInProgress = false;
+                DragInfo.LeftMouseIsDown = false;
+                DragInfo.RightMouseIsDown = false;
+                DragInfo.DragDropInProgress = false;
             }
         }
 
