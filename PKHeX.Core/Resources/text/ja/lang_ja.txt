@@ -41,6 +41,7 @@ Menu_Database = PKMデータベース
 Menu_Other = その他
 Menu_OpenSDF = オープンSaveDataFilerフォルダ
 Menu_OpenSDB = オープンSaveDataBackupフォルダ
+Menu_OpenJKSV = オープンJKSVフォルダ
 --
 Menu_Options = 設定
 Menu_Language = 言語

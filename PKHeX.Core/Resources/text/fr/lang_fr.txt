@@ -41,6 +41,7 @@ Menu_Database = Base de données PKM
 Menu_Other = Autre
 Menu_OpenSDF = Ouvrir le dossier SaveDataFiler
 Menu_OpenSDB = Ouvrir le dossier SaveDataBackup
+Menu_OpenJKSV = Ouvrir le dossier JKSV
 --
 Menu_Options = Options
 Menu_Language = Langue

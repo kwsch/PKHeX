@@ -43,6 +43,7 @@ Menu_BatchEditor = 批量编辑器
 Menu_Other = 其他
 Menu_OpenSDF = 打开SaveDataFiler文件夹
 Menu_OpenSDB = 打开SaveDataBackup文件夹
+Menu_OpenJKSV = 打开JKSV文件夹
 --
 Menu_Options = 设置
 Menu_Language = 语言

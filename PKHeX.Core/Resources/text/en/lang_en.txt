@@ -43,6 +43,7 @@ Menu_BatchEditor = Batch Editor
 Menu_Other = Other
 Menu_OpenSDF = Open SaveDataFiler Folder
 Menu_OpenSDB = Open SaveDataBackup Folder
+Menu_OpenJKSV = Open JKSV Folder
 --
 Menu_Options = Options
 Menu_Language = Language

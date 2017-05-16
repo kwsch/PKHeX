@@ -43,6 +43,7 @@ Menu_BatchEditor = 일괄 수정
 Menu_Other = 기타
 Menu_OpenSDF = SaveDataFiler 폴더 열기
 Menu_OpenSDB = SaveDataBackup 폴더 열기
+Menu_OpenJKSV = JKSV 폴더 열기
 --
 Menu_Options = 옵션
 Menu_Language = 언어

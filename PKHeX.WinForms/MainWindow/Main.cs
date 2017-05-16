@@ -686,6 +686,15 @@ namespace PKHeX.WinForms
             else
                 WinFormsUtil.Alert("Can't find the SaveDataBackup folder.");
         }
+        private void clickOpenJKSVFolder(object sender, EventArgs e)
+        {
+            string path3DS = Path.GetPathRoot(PathUtilWindows.get3DSLocation());
+            string path;
+            if (path3DS != null && Directory.Exists(path = Path.Combine(path3DS, "JKSV")))
+                Process.Start("explorer.exe", path);
+            else
+                WinFormsUtil.Alert("Can't find the JKSV folder.");
+        }
 
         // Main Menu Subfunctions
         private void openQuick(string path, bool force = false)
