@@ -43,6 +43,7 @@ Menu_BatchEditor = Editor por lotes
 Menu_Other = Otro
 Menu_OpenSDF = Abrir carpeta SaveDataFiler
 Menu_OpenSDB = Abrir carpeta SaveDataBackup
+Menu_OpenJKSV = Abrir carpeta JKSV
 --
 Menu_Options = Opciones
 Menu_Language = Idioma
