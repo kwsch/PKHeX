@@ -82,7 +82,7 @@ namespace PKHeX.WinForms
         
         // QR Utility
         public const string BadQRUrl = "null/#"; // prefix to prevent URL from loading
-        public const string QR6Path = @"http://lunarcookies.github.io/b1s1.html";
+        public const string QR6Path = @"http://lunarcookies.github.io/b1s1.html#";
 
         internal static byte[] getQRData()
         {
