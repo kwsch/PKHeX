@@ -215,6 +215,8 @@ namespace PKHeX.WinForms
             if (pkmArg != null)
                 openQuick(pkmArg, force: true);
 
+            refreshTemplate();
+
             formInitialized = true; // Splash Screen closes on its own.
             BringToFront();
             WindowState = FormWindowState.Minimized;
@@ -1356,6 +1358,18 @@ namespace PKHeX.WinForms
 
             // Indicate audibly the save is loaded
             SystemSounds.Beep.Play();
+        }
+
+        private void refreshTemplate()
+        {
+            if (Directory.Exists(TemplatePath))
+            {
+                string templateFileName = "template.pk" + SAV.Generation;
+                if (File.Exists(Path.Combine(TemplatePath, templateFileName)))
+                {
+                    openQuick(Path.Combine(TemplatePath, templateFileName), true);
+                }
+            }
         }
 
         private static void refreshMGDB()
