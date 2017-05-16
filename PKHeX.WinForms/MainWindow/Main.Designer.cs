@@ -452,6 +452,7 @@
             this.mnuLSave = new System.Windows.Forms.ToolStripMenuItem();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.Menu_OpenJKSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -3810,7 +3811,7 @@
             this.Menu_ShowdownExportBattleBox});
             this.Menu_Showdown.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Showdown.Image")));
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(152, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -3857,7 +3858,7 @@
             this.Menu_OpenCache});
             this.Menu_CyberGadget.Image = ((System.Drawing.Image)(resources.GetObject("Menu_CyberGadget.Image")));
             this.Menu_CyberGadget.Name = "Menu_CyberGadget";
-            this.Menu_CyberGadget.Size = new System.Drawing.Size(143, 22);
+            this.Menu_CyberGadget.Size = new System.Drawing.Size(152, 22);
             this.Menu_CyberGadget.Text = "CyberGadget";
             // 
             // Menu_OpenTemp
@@ -3888,7 +3889,7 @@
             this.Menu_BatchEditor});
             this.Menu_Data.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Data.Image")));
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(152, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -3959,10 +3960,11 @@
             // 
             this.Menu_Other.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_OpenSDF,
-            this.Menu_OpenSDB});
+            this.Menu_OpenSDB,
+            this.Menu_OpenJKSV});
             this.Menu_Other.Image = ((System.Drawing.Image)(resources.GetObject("Menu_Other.Image")));
             this.Menu_Other.Name = "Menu_Other";
-            this.Menu_Other.Size = new System.Drawing.Size(143, 22);
+            this.Menu_Other.Size = new System.Drawing.Size(152, 22);
             this.Menu_Other.Text = "Other";
             // 
             // Menu_OpenSDF
@@ -3980,6 +3982,14 @@
             this.Menu_OpenSDB.Size = new System.Drawing.Size(229, 22);
             this.Menu_OpenSDB.Text = "Open SaveDataBackup Folder";
             this.Menu_OpenSDB.Click += new System.EventHandler(this.clickOpenSDBFolder);
+            // 
+            // Menu_OpenJKSV
+            // 
+            this.Menu_OpenJKSV.Image = ((System.Drawing.Image)(resources.GetObject("Menu_OpenJKSV.Image")));
+            this.Menu_OpenJKSV.Name = "Menu_OpenJKSV";
+            this.Menu_OpenJKSV.Size = new System.Drawing.Size(229, 22);
+            this.Menu_OpenJKSV.Text = "Open JKSV Folder";
+            this.Menu_OpenJKSV.Click += new System.EventHandler(this.clickOpenJKSVFolder);
             // 
             // Menu_Options
             // 
@@ -6573,6 +6583,7 @@
         private System.Windows.Forms.Button B_OpenHoneyTreeEditor;
         private System.Windows.Forms.Button B_OpenFriendSafari;
         private System.Windows.Forms.Button B_OpenRTCEditor;
+        private System.Windows.Forms.ToolStripMenuItem Menu_OpenJKSV;
     }
 }
 
