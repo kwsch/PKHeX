@@ -1226,11 +1226,6 @@ namespace PKHeX.Core
 
             wc7.Data.CopyTo(Data, WondercardData + index * WC7.Size);
 
-            for (int i = 0; i < GiftCountMax; i++)
-                if (getData(WondercardData + i * WC7.Size, WC7.Size).All(b => b == 0)) // empty
-                    for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
-                        Array.Copy(Data, WondercardData + j * WC7.Size, Data, WondercardData + (j - 1) * WC7.Size, WC7.Size);
-
             Edited = true;
         }
 

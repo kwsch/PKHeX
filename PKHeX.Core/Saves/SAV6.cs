@@ -980,11 +980,6 @@ namespace PKHeX.Core
 
             wc6.Data.CopyTo(Data, WondercardData + index * WC6.Size);
 
-            for (int i = 0; i < GiftCountMax; i++)
-                if (getData(WondercardData + i * WC6.Size, WC6.Size).All(b => b == 0)) // empty
-                    for (int j = i + 1; j < GiftCountMax - i; j++) // Shift everything down
-                        Array.Copy(Data, WondercardData + j * WC6.Size, Data, WondercardData + (j - 1) * WC6.Size, WC6.Size);
-
             Edited = true;
         }
 
