@@ -18,6 +18,11 @@
         public bool EggEncounter => false;
         public int Generation { get; set; } = -1;
 
+        public bool Static;
+        public bool MagnetPull;
+        public int StaticCount;
+        public int MagnetPullCount;
+
         public virtual EncounterSlot Clone()
         {
             return new EncounterSlot

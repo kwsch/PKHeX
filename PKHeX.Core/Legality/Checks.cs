@@ -1158,7 +1158,7 @@ namespace PKHeX.Core
             }
             else if (lvl < pkm.Met_Level)
                 AddLine(Severity.Invalid, V85, CheckIdentifier.Level);
-            else if ((pkm.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)
+            else if (!verifyEvolution()) // flag if invalid evo
                 AddLine(Severity.Invalid, V86, CheckIdentifier.Level);
             else if (lvl > pkm.Met_Level && lvl > 1 && lvl != 100 && pkm.EXP == PKX.getEXP(pkm.Stat_Level, pkm.Species))
                 AddLine(Severity.Fishy, V87, CheckIdentifier.Level);
@@ -2594,6 +2594,20 @@ namespace PKHeX.Core
                     }
                 }
             }
+        }
+        private bool verifyEvolution()
+        {
+            if ((pkm.WasEgg || EncounterMatch == null) && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)
+                return false;
+
+            var match = EncounterMatch as IEncounterable;
+            if (match == null)
+                return true;
+
+            var evos = Legal.getValidPreEvolutions(pkm);
+            var matchEvo = evos.FirstOrDefault(z => z.Species == match.Species);
+            bool IsValid = matchEvo == null || matchEvo.Level < match.LevelMin;
+            return IsValid;
         }
         private void verifyVersionEvolution()
         {

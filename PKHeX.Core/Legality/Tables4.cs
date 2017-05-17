@@ -1333,7 +1333,7 @@ namespace PKHeX.Core
         };
         internal static readonly int[] ValidMet_Pt = ValidMet_DP.Concat(new[]
         {
-            63, 79 , 85, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 
+            63, 79, 85, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 
         }).ToArray();
         internal static readonly int[] ValidMet_HGSS =
         {

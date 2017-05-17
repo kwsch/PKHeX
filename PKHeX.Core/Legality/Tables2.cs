@@ -16,7 +16,7 @@ namespace PKHeX.Core
             1, 2, 4, 5, 157, 159, 160, 161, 164, 165, 166
         };
         internal static readonly ushort[] Pouch_Key_GS = {
-            7, 54, 55, 58, 59, 61, 66, 67, 68 , 69, 71, 127, 128, 130, 133, 134, 175, 178
+            7, 54, 55, 58, 59, 61, 66, 67, 68, 69, 71, 127, 128, 130, 133, 134, 175, 178
         };
         internal static readonly ushort[] Pouch_Key_C = Pouch_Key_GS.Concat(new ushort[]{70, 115, 116, 129}).ToArray();
         internal static readonly ushort[] Pouch_TMHM_GSC = {
