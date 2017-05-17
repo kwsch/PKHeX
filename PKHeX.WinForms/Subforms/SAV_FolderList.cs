@@ -14,21 +14,12 @@ namespace PKHeX.WinForms
             InitializeComponent();
 
             // Preprogrammed folders
-            var path3DS = Path.GetPathRoot(PathUtilWindows.get3DSLocation() ?? "");
             var locs = new List<CustomFolderPath>
             {
                 new CustomFolderPath {Path = Main.BackupPath, DisplayText = "PKHeX Backups"}
             };
             locs.AddRange(getUserPaths());
-            foreach (var z in PathUtilWindows.get3DSBackupPaths(path3DS))
-            {
-                var di = new DirectoryInfo(z);
-                var root = di.Root.Name;
-                var folder = di.Parent.Name;
-                if (root == folder)
-                    folder = di.Name;
-                locs.Add(new CustomFolderPath {Path = z, DisplayText = folder});
-            }
+            locs.AddRange(get3DSPaths());
             locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetCacheFolder(), DisplayText = "CGSE Cache"});
             locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetTempFolder(), DisplayText = "CGSE Temp"});
             
@@ -57,30 +48,37 @@ namespace PKHeX.WinForms
             FLP_Buttons.Controls.Add(button);
         }
 
-        private static List<CustomFolderPath> getUserPaths()
+        private static IEnumerable<CustomFolderPath> getUserPaths()
         {
             const string loc = "savpaths.txt";
-            var list = new List<CustomFolderPath>();
 
             if (!File.Exists(loc))
-                return list;
+                yield break;
 
-            try
+            string[] lines = File.ReadAllLines(loc);
+            foreach (var line in lines)
             {
-                string[] lines = File.ReadAllLines(loc);
-                return (from line in lines
-                    select line.Split('\t') into split
-                    where split.Length == 2
-                    select new CustomFolderPath { DisplayText = split[0], Path = split[1] })
-                    .ToList();
+                var split = line.Split('\t');
+                if (split.Length == 2)
+                    yield return new CustomFolderPath {DisplayText = split[0], Path = split[1]};
             }
-            catch
+        }
+        private static IEnumerable<CustomFolderPath> get3DSPaths()
+        {
+            var path3DS = PathUtilWindows.get3DSLocation();
+            var path = path3DS == null || !Directory.Exists(path3DS) ? @"C:\" : Path.GetPathRoot(path3DS);
+            foreach (var z in PathUtilWindows.get3DSBackupPaths(path))
             {
-                return list;
+                var di = new DirectoryInfo(z);
+                var root = di.Root.Name;
+                var folder = di.Parent.Name;
+                if (root == folder)
+                    folder = di.Name;
+                yield return new CustomFolderPath {Path = z, DisplayText = folder};
             }
         }
 
-        public struct CustomFolderPath
+        private struct CustomFolderPath
         {
             public string Path;
             public string DisplayText;
