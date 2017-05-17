@@ -2980,7 +2980,15 @@ namespace PKHeX.WinForms
             }
             if (tabs)
                 updateLegality(la, skipMoveRepop);
-            WinFormsUtil.Alert(la.Report(verbose));
+            var report = la.Report(verbose);
+            if (verbose)
+            {
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, "Copy report to Clipboard?");
+                if (dr == DialogResult.Yes)
+                    Clipboard.SetText(report);
+            }
+            else
+                WinFormsUtil.Alert(report);
         }
         private void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
