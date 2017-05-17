@@ -149,8 +149,7 @@ namespace PKHeX.WinForms
             #endregion
             #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
-            string filename = args.Length > 0 ? Path.GetFileNameWithoutExtension(args[0])?.ToLower() : "";
-            HaX = filename?.IndexOf("hax", StringComparison.Ordinal) >= 0;
+            HaX = args.Any(x => x.Trim('-').ToLower() == "hax");
 
             bool showChangelog = false;
             bool BAKprompt = false;
