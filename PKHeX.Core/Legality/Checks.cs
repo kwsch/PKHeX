@@ -2606,7 +2606,7 @@ namespace PKHeX.Core
 
             var evos = Legal.getValidPreEvolutions(pkm);
             var matchEvo = evos.FirstOrDefault(z => z.Species == match.Species);
-            bool IsValid = matchEvo == null || matchEvo.Level < match.LevelMin;
+            bool IsValid = matchEvo == null || matchEvo.Level >= match.LevelMin;
             return IsValid;
         }
         private void verifyVersionEvolution()
