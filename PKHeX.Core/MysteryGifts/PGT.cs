@@ -204,6 +204,7 @@ namespace PKHeX.Core
                 return null;
 
             PK4 pk4 = new PK4(PK.Data);
+            var pi = PersonalTable.HGSS.getFormeEntry(Species, PK.AltForm);
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = SAV.OT;
@@ -228,6 +229,7 @@ namespace PKHeX.Core
                 pk4.Nickname = "MANAPHY";
                 pk4.Egg_Location = 1; // Ranger (will be +3000 later)
             }
+            pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
             // Generate IV
             uint seed = Util.rnd32();

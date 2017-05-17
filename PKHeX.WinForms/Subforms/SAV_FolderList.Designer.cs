@@ -38,6 +38,7 @@
             this.FLP_Buttons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Buttons.Location = new System.Drawing.Point(0, 0);
             this.FLP_Buttons.Name = "FLP_Buttons";
+            this.FLP_Buttons.Padding = new System.Windows.Forms.Padding(3);
             this.FLP_Buttons.Size = new System.Drawing.Size(304, 161);
             this.FLP_Buttons.TabIndex = 0;
             // 

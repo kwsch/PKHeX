@@ -160,13 +160,14 @@ namespace PKHeX.Core
                 Year = (byte)dt.Year;
             }
             int currentLevel = Level > 0 ? Level : (int)(Util.rnd32() % 100 + 1);
+            var pi = PersonalTable.B2W2.getFormeEntry(Species, Form);
             PK5 pk = new PK5
             {
                 Species = Species,
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
-                Gender = PersonalTable.B2W2[Species].Gender == 255 ? 2 : (Gender != 2 ? Gender : PersonalTable.B2W2[Species].RandomGender),
+                Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
                 Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
@@ -205,9 +206,9 @@ namespace PKHeX.Core
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
 
-                OT_Friendship = PersonalTable.B2W2[Species].BaseFriendship,
                 FatefulEncounter = true,
             };
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
             pk.Move1_PP = pk.getMovePP(Move1, 0);
             pk.Move2_PP = pk.getMovePP(Move2, 0);
             pk.Move3_PP = pk.getMovePP(Move3, 0);
@@ -251,7 +252,7 @@ namespace PKHeX.Core
                     break;
             }
             pk.HiddenAbility = av == 2;
-            pk.Ability = PersonalTable.B2W2.getAbilities(Species, pk.AltForm)[av];
+            pk.Ability = pi.Abilities[av];
 
             if (PID != 0)
                 pk.PID = PID;

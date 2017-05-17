@@ -744,9 +744,9 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Alert("Conversion failed.", c);
                 else if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
                 {
-                    string a_lang = SAV.Japanese ? "an International" : "a Japanese";
-                    string pk_type = pk.GetType().Name;
-                    WinFormsUtil.Alert($"Cannot load {a_lang} {pk_type} in {a_lang} save file.");
+                    var strs = new[] {"International", "Japanese"};
+                    var val = SAV.Japanese ? 0 : 1;
+                    WinFormsUtil.Alert($"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val^1]} saves.");
                 }
                 else 
                     populateFields(pk);

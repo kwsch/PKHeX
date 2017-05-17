@@ -303,7 +303,7 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : (int)(Util.rnd32()%100 + 1);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
-            var pi = PersonalTable.SM[Species];
+            var pi = PersonalTable.SM.getFormeEntry(Species, Form);
             PK7 pk = new PK7
             {
                 Species = Species,
@@ -369,6 +369,7 @@ namespace PKHeX.Core
 
                 EVs = EVs,
             };
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
             pk.Move1_PP = pk.getMovePP(Move1, 0);
             pk.Move2_PP = pk.getMovePP(Move2, 0);
             pk.Move3_PP = pk.getMovePP(Move3, 0);
@@ -423,7 +424,7 @@ namespace PKHeX.Core
                     av = (int)(Util.rnd32()%(AbilityType - 1));
                     break;
             }
-            pk.Ability = PersonalTable.SM.getAbilities(Species, pk.AltForm)[av];
+            pk.Ability = pi.Abilities[av];
             pk.AbilityNumber = 1 << av;
 
             switch (PIDType)
