@@ -330,75 +330,14 @@ namespace PKHeX.WinForms
         // Main Menu Strip UI Functions
         private void mainMenuOpen(object sender, EventArgs e)
         {
-            string pkx = pkm.Extension;
-            string ekx = 'e' + pkx.Substring(1, pkx.Length-1);
-
-            string supported = string.Join(";", SAV.PKMExtensions.Select(s => "*."+s).Concat(new[] {"*.pkm"}));
-            OpenFileDialog ofd = new OpenFileDialog
-            {
-                Filter = "All Files|*.*" +
-                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;*.{ekx};{supported};*.bak" +
-                         "|3DS Main Files|main" +
-                         "|Save Files|*.sav;*.dat;*.gci" +
-                         $"|Decrypted PKM File|{supported}" +
-                         $"|Encrypted PKM File|*.{ekx}" +
-                         "|Binary File|*.bin" +
-                         "|Backup File|*.bak"
-            };
-
-            // Detect main
-            string cgse = "";
-            string pathCache = CyberGadgetUtil.GetCacheFolder();
-            if (Directory.Exists(pathCache))
-                cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.detectSaveFile(out string path, cgse))
-                WinFormsUtil.Error(path);
-
-            if (path != null)
-            { ofd.FileName = path; }
-
-            if (ofd.ShowDialog() == DialogResult.OK) 
-                openQuick(ofd.FileName);
+            if (WinFormsUtil.OpenSAVPKMDialog(SAV.PKMExtensions, out string path))
+                openQuick(path);
         }
         private void mainMenuSave(object sender, EventArgs e)
         {
             if (!verifiedPKM()) return;
             PKM pk = preparePKM();
-            string pkx = pk.Extension;
-            string ekx = 'e' + pkx.Substring(1, pkx.Length - 1);
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = $"Decrypted PKM File|*.{pkx}" +
-                         (SAV.Generation > 2 ? "" : $"|Encrypted PKM File|*.{ekx}") +
-                         "|Binary File|*.bin" +
-                         "|All Files|*.*",
-                DefaultExt = pkx,
-                FileName = Util.CleanFileName(pk.FileName)
-            };
-            if (sfd.ShowDialog() != DialogResult.OK) return;
-            string path = sfd.FileName;
-            string ext = Path.GetExtension(path);
-
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                string bakpath = path + ".bak";
-                if (!File.Exists(bakpath))
-                {
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(bakpath, backupfile);
-                }
-            }
-
-            if (new[] {".ekx", "."+ekx, ".bin"}.Contains(ext))
-                File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] { "."+pkx }.Contains(ext))
-                File.WriteAllBytes(path, pk.DecryptedBoxData);
-            else
-            {
-                WinFormsUtil.Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
-                File.WriteAllBytes(path, pkm.EncryptedPartyData);
-            }
+            WinFormsUtil.SavePKMDialog(pk);
         }
         private void mainMenuExit(object sender, EventArgs e)
         {
@@ -898,7 +837,7 @@ namespace PKHeX.WinForms
             return MC;
         }
 
-        private void StoreLegalSaveGameData(SaveFile sav)
+        private static void StoreLegalSaveGameData(SaveFile sav)
         {
             Legal.SavegameJapanese = sav.Japanese;
             Legal.EReaderBerryIsEnigma = sav.eBerryIsEnigma;
@@ -1774,7 +1713,7 @@ namespace PKHeX.WinForms
 
                 var sprite = dragout.Image;
                 var la = new LegalityAnalysis(pkx);
-                if (la.Parsed)
+                if (la.Parsed && pkx.Species != 0)
                 {
                     var img = la.Valid ? Resources.valid : Resources.warn;
                     sprite = ImageUtil.LayerImage(sprite, img, 24, 0, 1);
@@ -2971,13 +2910,6 @@ namespace PKHeX.WinForms
         private void showLegality(PKM pk, bool tabs, bool verbose, bool skipMoveRepop = false)
         {
             LegalityAnalysis la = new LegalityAnalysis(pk);
-            if (!la.Parsed)
-            {
-                WinFormsUtil.Alert(pk.Format < 3
-                    ? $"Checking legality of PK{pk.Format} files is not supported."
-                    : $"Checking legality of PK{pk.Format} files that originated from Gen{pk.GenNumber} is not supported.");
-                return;
-            }
             if (tabs)
                 updateLegality(la, skipMoveRepop);
             var report = la.Report(verbose);
@@ -2996,7 +2928,7 @@ namespace PKHeX.WinForms
                 return;
             
             Legality = la ?? new LegalityAnalysis(pkm);
-            if (!Legality.Parsed || HaX)
+            if (!Legality.Parsed || HaX || pkm.Species == 0)
             {
                 PB_Legal.Visible =
                 PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =
@@ -3286,41 +3218,7 @@ namespace PKHeX.WinForms
                 return;
             ValidateChildren();
 
-            // Chunk Error Checking
-            string err = SAV.MiscSaveChecks();
-            if (err.Length > 0 && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
-                return;
-
-            SaveFileDialog main = new SaveFileDialog
-            {
-                Filter = SAV.Filter, 
-                FileName = SAV.FileName,
-                RestoreDirectory = true
-            };
-            if (Directory.Exists(SAV.FilePath))
-                main.InitialDirectory = SAV.FilePath;
-
-            // Export
-            if (main.ShowDialog() != DialogResult.OK) return;
-
-            if (SAV.HasBox)
-                SAV.CurrentBox = CB_BoxSelect.SelectedIndex;
-
-            bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
-            bool gci = Path.GetExtension(main.FileName)?.ToLower() == ".gci";
-            try
-            {
-                File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
-                SAV.Edited = false;
-                WinFormsUtil.Alert("SAV exported to:", main.FileName);
-            }
-            catch (Exception x)
-            {
-                if (x is UnauthorizedAccessException || x is FileNotFoundException || x is IOException)
-                    WinFormsUtil.Error("Unable to save." + Environment.NewLine + x.Message, 
-                        "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
-                else throw;
-            }
+            WinFormsUtil.SaveSAVDialog(SAV, SAV.CurrentBox);
         }
 
         // Box/SAV Functions //
