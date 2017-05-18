@@ -8,7 +8,8 @@ CTRL-E: Export SAV
 CTRL-B: Export BAK
 CTRL-Q: Quit
 
-CTRL-D: Open Database
+CTRL-D: Open PKM Database
+CTRL-F: Open Folder
 CTRL-G: Open Mystery Gift Database
 CTRL-R: Open Box Report
 CTRL-P: Open About PKHeX
