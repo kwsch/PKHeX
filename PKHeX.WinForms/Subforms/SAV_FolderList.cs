@@ -41,7 +41,10 @@ namespace PKHeX.WinForms
             button.Click += (s, e) =>
             {
                 if (Directory.Exists(path))
+                {
                     Process.Start("explorer.exe", path);
+                    Close();
+                }
                 else
                     WinFormsUtil.Alert("Can't find folder:", path);
             };
