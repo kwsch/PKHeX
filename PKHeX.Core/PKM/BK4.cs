@@ -16,9 +16,7 @@ namespace PKHeX.Core
 
         public override byte[] DecryptedBoxData => EncryptedBoxData;
 
-        public override string Extension => "bk4";
-
-        public override bool Valid => ChecksumValid || (Sanity != 0 && Species <= 493); // What does Sanity do?
+        public override bool Valid => ChecksumValid || Sanity == 0 && Species <= 493;
 
         public BK4(byte[] decryptedData = null, string ident = null)
         {

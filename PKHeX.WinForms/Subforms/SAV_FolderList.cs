@@ -53,7 +53,7 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<CustomFolderPath> getUserPaths()
         {
-            const string loc = "savpaths.txt";
+            string loc = Path.Combine(Main.WorkingDirectory, "savpaths.txt");
 
             if (!File.Exists(loc))
                 yield break;

@@ -8,7 +8,7 @@ namespace PKHeX.Core
         public static readonly string[] Extensions = PKX.getPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
-        public virtual string Extension => "pk" + Format;
+        public string Extension => GetType().Name.ToLower();
         public abstract PersonalInfo PersonalInfo { get; }
 
         // Internal Attributes set on creation
