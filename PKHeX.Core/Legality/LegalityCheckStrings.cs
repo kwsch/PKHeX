@@ -84,7 +84,7 @@ namespace PKHeX.Core
 
         public static string V187 {get; set;} = "Species does not exist in origin game.";
         public static string V188 {get; set;} = "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?";
-        public static string V194 { get; set;} = "Ingame Trade for Sun/Moon not implemented."; // Valid
+        public static string V194 {get; set;} = "Ingame Trade for Sun/Moon not implemented."; // Valid
 
         public static string V250 {get; set;} = "Gender matches PID.";
         public static string V251 {get; set;} = "PID-Gender mismatch.";

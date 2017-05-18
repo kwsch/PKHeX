@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 if (Error)
                     return new int[4];
                 if (_allSuggestedMoves == null)
-                    return _allSuggestedMoves = !pkm.IsOriginValid ? new int[4] : getSuggestedMoves(true, true, true);
+                    return _allSuggestedMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : getSuggestedMoves(true, true, true);
                 return _allSuggestedMoves;
             }
         }
@@ -51,7 +51,7 @@ namespace PKHeX.Core
                 if (Error)
                     return new int[4];
                 if (_allSuggestedRelearnMoves == null)
-                    return _allSuggestedRelearnMoves = !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
+                    return _allSuggestedRelearnMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
                 return _allSuggestedRelearnMoves;
             }
         }
@@ -86,8 +86,7 @@ namespace PKHeX.Core
                     case 7: parsePK7(pk); break;
                 }
 
-                Valid = Parsed = Parse.Any();
-                if (Parsed)
+                if (Parse.Count > 0)
                 {
                     if (Parse.Any(chk => !chk.Valid))
                         Valid = false;
@@ -95,6 +94,8 @@ namespace PKHeX.Core
                         Valid = false;
                     else if (vRelearn.Any(m => m.Valid != true))
                         Valid = false;
+                    else
+                        Valid = true;
 
                     if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
                         AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
@@ -104,10 +105,10 @@ namespace PKHeX.Core
             {
                 Console.WriteLine(e.Message);
                 Valid = false;
-                Parsed = true;
                 AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
                 Error = true;
             }
+            Parsed = true;
         }
 
         private void AddLine(Severity s, string c, CheckIdentifier i)
@@ -321,7 +322,7 @@ namespace PKHeX.Core
         }
         private string getLegalityReport()
         {
-            if (!Parsed)
+            if (!Parsed || pkm == null)
                 return V189;
             
             var lines = new List<string>();
