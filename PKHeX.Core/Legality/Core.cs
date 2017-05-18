@@ -2302,7 +2302,10 @@ namespace PKHeX.Core
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
                 // RIBBONS: Defer to ribbon legality
 
-                validPCD.Add(mg);
+                if (wc.Species == pkm.Species) // best match
+                    validPCD.Insert(0, mg);
+                else
+                    validPCD.Add(mg);
             }
             return validPCD;
         }
@@ -2358,7 +2361,10 @@ namespace PKHeX.Core
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
                 // RIBBONS: Defer to ribbon legality
 
-                validPGF.Add(wc);
+                if (wc.Species == pkm.Species) // best match
+                    validPGF.Insert(0, wc);
+                else
+                    validPGF.Add(wc);
             }
             return validPGF;
         }
@@ -2418,7 +2424,10 @@ namespace PKHeX.Core
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
                 // RIBBONS: Defer to ribbon legality
 
-                validWC6.Add(wc);
+                if (wc.Species == pkm.Species) // best match
+                    validWC6.Insert(0, wc);
+                else
+                    validWC6.Add(wc);
             }
             return validWC6;
         }
@@ -2489,7 +2498,10 @@ namespace PKHeX.Core
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
                 // RIBBONS: Defer to ribbon legality
 
-                validWC7.Add(wc);
+                if (wc.Species == pkm.Species) // best match
+                    validWC7.Insert(0, wc);
+                else
+                    validWC7.Add(wc);
             }
             return validWC7;
         }
