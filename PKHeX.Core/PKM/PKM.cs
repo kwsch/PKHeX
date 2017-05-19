@@ -549,7 +549,7 @@ namespace PKHeX.Core
             }
         }
 
-        /// <summary>
+        /// <summary>do {
         /// Checks if the PKM has its original met location.
         /// </summary>
         /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
@@ -561,23 +561,19 @@ namespace PKHeX.Core
         /// <returns>True if valid, False if invalid.</returns>
         public virtual bool getGenderIsValid()
         {
+            int gender = Gender;
             int gv = PersonalInfo.Gender;
             if (gv == 255)
-                return Gender == 2;
+                return gender == 2;
             if (gv == 254)
-                return Gender == 1;
+                return gender == 1;
             if (gv == 0)
-                return Gender == 0;
+                return gender == 0;
 
             if (GenNumber >= 6)
                 return true;
 
-            if ((PID & 0xFF) < gv)
-                return Gender == 1;
-            if (gv <= (PID & 0xFF))
-                return Gender == 0;
-
-            return false;
+            return gender == PKX.getGender(Species, PID, gv);
         }
 
         /// <summary>
