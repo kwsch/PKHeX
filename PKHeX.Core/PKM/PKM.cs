@@ -713,7 +713,7 @@ namespace PKHeX.Core
         /// <param name="move">Move ID</param>
         /// <param name="ppup">PP Ups count</param>
         /// <returns>Current PP for the move.</returns>
-        public int getMovePP(int move, int ppup)
+        public virtual int getMovePP(int move, int ppup)
         {
             return getBasePP(move) * (5 + ppup) / 5;
         }
@@ -723,7 +723,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="move">Move ID</param>
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-        private int getBasePP(int move)
+        protected int getBasePP(int move)
         {
             int[] pptable;
             switch (Format)
