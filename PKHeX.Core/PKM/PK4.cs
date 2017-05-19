@@ -238,20 +238,16 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
                 }
-                else if (PtHGSS)
+                else if (value < 2000 && value > 111 || value < 3000 && value > 2010)
                 {
+                    // Met location not in DP, set to Faraway Place
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E); // Faraway Place (for DP display)
-                }
-                else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
-                {
-                    // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x7E);
+                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x7E);
                 }
                 else
                 {
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x44);
+                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                    BitConverter.GetBytes((ushort)pthgss).CopyTo(Data, 0x44);
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x7E);
                 }
             }
@@ -272,20 +268,16 @@ namespace PKHeX.Core
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
                     BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
                 }
-                else if (PtHGSS)
+                else if (value < 2000 && value > 111 || value < 3000 && value > 2010)
                 {
+                    // Met location not in DP, set to Faraway Place
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80); // Faraway Place (for DP display)
-                }
-                else if ((value < 2000 && value > 111) || (value < 3000 && value > 2010))
-                {
-                    // Met location not in DP, set to Mystery Zone (0, illegal) as opposed to Faraway Place
-                    BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x46);
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x80);
+                    BitConverter.GetBytes((ushort)0xBBA).CopyTo(Data, 0x80);
                 }
                 else
                 {
-                    BitConverter.GetBytes((ushort)0).CopyTo(Data, 0x46);
+                    int pthgss = PtHGSS ? value : 0; // only set to PtHGSS loc if encountered in game
+                    BitConverter.GetBytes((ushort)pthgss).CopyTo(Data, 0x46);
                     BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x80);
                 }
             }

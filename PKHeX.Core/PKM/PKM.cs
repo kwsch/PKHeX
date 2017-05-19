@@ -549,7 +549,7 @@ namespace PKHeX.Core
             }
         }
 
-        /// <summary>do {
+        /// <summary>
         /// Checks if the PKM has its original met location.
         /// </summary>
         /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
