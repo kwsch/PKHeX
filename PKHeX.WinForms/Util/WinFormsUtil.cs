@@ -321,5 +321,53 @@ namespace PKHeX.WinForms
             }
             return true;
         }
+        /// <summary>
+        /// Opens a dialog to save a <see cref="MysteryGift"/> file.
+        /// </summary>
+        /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
+        /// <returns>Result of whether or not the file was saved.</returns>
+        public static bool SaveMGDialog(MysteryGift gift)
+        {
+            SaveFileDialog output = new SaveFileDialog
+            {
+                Filter = getMysterGiftFilter(gift.Format),
+                FileName = Util.CleanFileName(gift.FileName)
+            };
+            if (output.ShowDialog() != DialogResult.OK)
+                return false;
+
+            string path = output.FileName;
+
+            if (File.Exists(path))
+            {
+                // File already exists, save a .bak
+                string bakpath = path + ".bak";
+                if (!File.Exists(bakpath))
+                {
+                    byte[] backupfile = File.ReadAllBytes(path);
+                    File.WriteAllBytes(bakpath, backupfile);
+                }
+            }
+
+            File.WriteAllBytes(path, gift.Data);
+            return true;
+        }
+
+        public static string getMysterGiftFilter(int Format)
+        {
+            switch (Format)
+            {
+                case 4:
+                    return "Gen4 Mystery Gift|*.pgt;*.pcd|All Files|*.*";
+                case 5:
+                    return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
+                case 6:
+                    return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
+                case 7:
+                    return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
+                default:
+                    return "";
+            }
+        }
     }
 }

@@ -62,12 +62,16 @@ namespace PKHeX.WinForms
 
             ContextMenuStrip mnu = new ContextMenuStrip();
             ToolStripMenuItem mnuView = new ToolStripMenuItem("View");
+            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem("Save Gift");
+            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem("Save PKM");
 
             // Assign event handlers
             mnuView.Click += clickView;
+            mnuSaveMG.Click += clickSaveMG;
+            mnuSavePK.Click += clickSavePK;
 
             // Add to main context menu
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView });
+            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
 
             // Assign to datagridview
             foreach (PictureBox p in PKXBOXES)
@@ -110,25 +114,43 @@ namespace PKHeX.WinForms
         // Important Events
         private void clickView(object sender, EventArgs e)
         {
-            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
-            int index = Array.IndexOf(PKXBOXES, sender);
-            if (index >= RES_MAX)
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                return;
-            }
-            index += SCR_Box.Value*RES_MIN;
-            if (index >= Results.Count)
-            {
-                System.Media.SystemSounds.Exclamation.Play();
-                return;
-            }
-
+            int index = getSenderIndex(sender);
             m_parent.populateFields(Results[index].convertToPKM(Main.SAV), false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
+        }
+        private void clickSavePK(object sender, EventArgs e)
+        {
+            int index = getSenderIndex(sender);
+            var gift = Results[index];
+            var pk = gift.convertToPKM(Main.SAV);
+            WinFormsUtil.SavePKMDialog(pk);
+        }
+        private void clickSaveMG(object sender, EventArgs e)
+        {
+            int index = getSenderIndex(sender);
+            var gift = Results[index];
+            WinFormsUtil.SaveMGDialog(gift);
+        }
+
+        private int getSenderIndex(object sender)
+        {
+            sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+            int index = Array.IndexOf(PKXBOXES, sender);
+            if (index >= RES_MAX)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                return -1;
+            }
+            index += SCR_Box.Value*RES_MIN;
+            if (index >= Results.Count)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+                return -1;
+            }
+            return index;
         }
         private void populateComboBoxes()
         {
