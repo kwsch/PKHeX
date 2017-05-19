@@ -1,0 +1,15 @@
+0607	Red(Mt.Silver) disappeared
+0774	Articuno disappeared
+0663	Zapdos disappeared
+0775	Moltres disappeared
+0773	Mewtwo disappeared
+0457	Raikou roamed
+0458	Entei roamed
+0459	Suicune(BurnedTower) fleed
+0673	Suicune(R25) disappeared
+0782	Suicune(backed to BurnedTower) disappeared
+0579	Lugia disappeared
+0578	Ho-Oh disappeared
+0781	Lati@s(PewterCity) disappeared
+0721	Kyogre/Groudon disappeared
+0722	Rayquaza disappeared

@@ -79,6 +79,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0299	Spiky-eared Pichu(IlexForest)	0:Not appeared,2:disappeared
+        ///0161	Beasts(BurnedTower)	0:stay,1:roamed/fleed
+        ///0304	Lati@s(Roamer)	0:Not appeared,1:Ready to roam,2:roamed
+        ///0067	Enigma Stone	0:Not activated,1778:Activated
+        ///0249	Embedded Tower	0:Not obtained Kanto starter,1:Obtained Kanto starter,2:Obtained Orb,3:Kyogre activated,4:Kyogre disappeared,6:Rayquaza activated,7:Rayquaza caught,9:Rayquaza defeated/runaway
+        ///0251	Sinjoh Ruins	1:Not entered,4:teleported(1st),5:went outside,6:Cynthia talkable(cabin), [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string const_hgss {
+            get {
+                return ResourceManager.GetString("const_hgss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 60	Ash
         ///21	Test1
         ///22	Test2
@@ -141,6 +155,29 @@ namespace PKHeX.Core.Properties {
         internal static string flags_dp {
             get {
                 return ResourceManager.GetString("flags_dp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0607	Red(Mt.Silver) disappeared
+        ///0774	Articuno disappeared
+        ///0663	Zapdos disappeared
+        ///0775	Moltres disappeared
+        ///0773	Mewtwo disappeared
+        ///0457	Raikou roamed
+        ///0458	Entei roamed
+        ///0459	Suicune(BurnedTower) fleed
+        ///0673	Suicune(R25) disappeared
+        ///0782	Suicune(backed to BurnedTower) disappeared
+        ///0579	Lugia disappeared
+        ///0578	Ho-Oh disappeared
+        ///0781	Lati@s(PewterCity) disappeared
+        ///0721	Kyogre/Groudon disappeared
+        ///0722	Rayquaza disappeared
+        /// </summary>
+        internal static string flags_hgss {
+            get {
+                return ResourceManager.GetString("flags_hgss", resourceCulture);
             }
         }
         

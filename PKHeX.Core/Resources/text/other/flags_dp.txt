@@ -1,15 +1,15 @@
-0479	Uxie disappeared
-0477	Mesprit(Verity Cavern) disappeared
-0478	Azelf disappeared
-0589	Cresselia(FullmoonIs.) disappeared
-0256	Heatran disappeared
-0577	Regigigas disappeared
-0590	Giratina disappeared
-0574	Darkrai disappeared
-0591	Shaymin(FlowerParadise) disappeared
-0588	Arceus disappeared
-0254	Arceus(MapObj) disappeared
-0275	Ferry FullmoonIs. accessable
-0284	Ferry NewmoonIs. accessable
-0269	Oak(R224) disappeared
-0602	Shaymin(R224 MapObj) disappeared
+0511	Uxie disappeared
+0509	Mesprit(Verity Cavern) disappeared
+0510	Azelf disappeared
+0621	Cresselia(FullmoonIs.) disappeared
+0288	Heatran disappeared
+0609	Regigigas disappeared
+0622	Giratina disappeared
+0606	Darkrai disappeared
+0623	Shaymin(FlowerParadise) disappeared
+0620	Arceus disappeared
+0286	Arceus(MapObj) disappeared
+0307	Ferry FullmoonIs. accessable
+0316	Ferry NewmoonIs. accessable
+0301	Oak(R224) disappeared
+0634	Shaymin(R224 MapObj) disappeared

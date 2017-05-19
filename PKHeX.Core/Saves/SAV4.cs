@@ -49,7 +49,7 @@ namespace PKHeX.Core
         public override int BoxCount => 18;
         public override int MaxEV => 255;
         public override int Generation => 4;
-        protected override int EventFlagMax => EventFlag > 0 ? 0x280 : int.MinValue;
+        protected override int EventFlagMax => EventFlag > 0 ? 0xB60 : int.MinValue;
         protected override int EventConstMax => EventConst > 0 ? (EventFlag - EventConst) >> 1 : int.MinValue;
         protected override int GiftCountMax => 11;
         public override int OTLength => 7;
@@ -203,8 +203,8 @@ namespace PKHeX.Core
                     LegalMailItems = Legal.Pouch_Mail_DP;
 
                     HeldItems = Legal.HeldItems_DP;
-                    EventConst = 0xD80 + GBO;
-                    EventFlag = 0xFE0 + GBO;
+                    EventConst = 0xD9C + GBO;
+                    EventFlag = 0xFDC + GBO;
                     Daycare = 0x141C + GBO;
                     Box = 0xC104 + SBO;
                     break;
@@ -264,7 +264,8 @@ namespace PKHeX.Core
                     LegalMailItems = Legal.Pouch_Mail_HGSS;
 
                     HeldItems = Legal.HeldItems_HGSS;
-
+                    EventConst = 0xDE4 + GBO;
+                    EventFlag = 0x10C4 + GBO;
                     Daycare = 0x15FC + GBO;
                     Box = 0xF700 + SBO;
                     break;
