@@ -2209,6 +2209,12 @@ namespace PKHeX.Core
                     return;
                 }
 
+                // Transfer 6->7 & withdraw to same HT => keeps past gen memory
+                // Don't require link trade memory for these past gen cases
+                int gen = pkm.GenNumber;
+                if (3 <= gen && gen < 7 && pkm.CurrentHandler == 1) 
+                    return;
+
                 if (pkm.HT_Memory != 4)
                     AddLine(Severity.Invalid, V156, CheckIdentifier.Memory);
                 if (pkm.HT_TextVar != 0)
