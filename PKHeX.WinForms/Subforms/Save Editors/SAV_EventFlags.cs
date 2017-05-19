@@ -108,6 +108,9 @@ namespace PKHeX.WinForms
                 case GameVersion.DP:
                     gamePrefix = "dp";
                     break;
+                case GameVersion.HGSS:
+                    gamePrefix = "hgss";
+                    break;
                 default:
                     return null;
             }
