@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms
@@ -26,7 +25,7 @@ namespace PKHeX.WinForms
             CHK_IsEgg.Checked = pk5.IsEgg;
             CHK_Nicknamed.Checked = pk5.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk5.OT_Gender];
-            Label_OTGender.ForeColor = pk5.OT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = getGenderColor(pk5.OT_Gender);
             TB_PID.Text = pk5.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk5.HeldItem;
             CB_Nature.SelectedValue = pk5.Nature;
@@ -121,7 +120,7 @@ namespace PKHeX.WinForms
 
             TB_EXP.Text = pk5.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk5.Gender];
-            Label_Gender.ForeColor = pk5.Gender == 2 ? Label_Species.ForeColor : (pk5.Gender == 1 ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = getGenderColor(pk5.Gender);
             CHK_NSparkle.Checked = pk5.NPokémon;
 
             if (HaX)

@@ -120,15 +120,15 @@ namespace PKHeX.WinForms
         private readonly string Counter;
         private readonly string Viewed;
         private const int MAXFORMAT = 7;
-        private readonly Func<PKM, string> hash = pk =>
+        private static string hash(PKM pk)
         {
             switch (pk.Format)
             {
                 case 1: return pk.Species.ToString("000") + ((PK1)pk).DV16.ToString("X4");
                 case 2: return pk.Species.ToString("000") + ((PK2)pk).DV16.ToString("X4");
-                default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs);
+                default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs) + pk.AltForm.ToString("00");
             }
-        };
+        }
 
         // Important Events
         private void clickView(object sender, EventArgs e)
@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
             
             m_parent.populateFields(Results[index], false);
             slotSelected = index;
-            slotColor = Core.Properties.Resources.slotView;
+            slotColor = Properties.Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
         }
@@ -237,7 +237,7 @@ namespace PKHeX.WinForms
             // Refresh database view.
             L_Count.Text = string.Format(Counter, Results.Count);
             slotSelected = Results.Count - 1;
-            slotColor = Core.Properties.Resources.slotSet;
+            slotColor = Properties.Resources.slotSet;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
                 SCR_Box.Maximum += 1;
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - PKXBOXES.Length/6 + 1);
@@ -517,7 +517,7 @@ namespace PKHeX.WinForms
             }
 
             if (Menu_SearchClones.Checked)
-                res = res.GroupBy(pk => hash(pk)).Where(group => group.Count() > 1).SelectMany(z => z);
+                res = res.GroupBy(hash).Where(group => group.Count() > 1).SelectMany(z => z);
 
             var results = res.ToArray();
             if (results.Length == 0)
@@ -563,9 +563,9 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Core.Properties.Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)
-                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Core.Properties.Resources.slotView;
+                PKXBOXES[slotSelected - start * RES_MIN].BackgroundImage = slotColor ?? Properties.Resources.slotView;
         }
 
         // Misc Update Methods
@@ -637,7 +637,7 @@ namespace PKHeX.WinForms
             var deleted = 0;
             var db = RawDB.Where(pk => pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
                 .OrderByDescending(file => new FileInfo(file.Identifier).LastWriteTime);
-            var clones = db.GroupBy(pk => hash(pk)).Where(group => group.Count() > 1).SelectMany(z => z.Skip(1));
+            var clones = db.GroupBy(hash).Where(group => group.Count() > 1).SelectMany(z => z.Skip(1));
             foreach (var pk in clones)
             {
                 try { File.Delete(pk.Identifier); ++deleted; }

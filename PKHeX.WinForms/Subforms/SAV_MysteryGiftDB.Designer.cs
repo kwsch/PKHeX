@@ -899,7 +899,7 @@
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = Core.Properties.Resources.exit;
+            this.Menu_Exit.Image = Properties.Resources.exit;
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_Exit.ShowShortcutKeys = false;
@@ -921,7 +921,7 @@
             // 
             this.Menu_SearchSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_SearchAdvanced});
-            this.Menu_SearchSettings.Image = Core.Properties.Resources.settings;
+            this.Menu_SearchSettings.Image = Properties.Resources.settings;
             this.Menu_SearchSettings.Name = "Menu_SearchSettings";
             this.Menu_SearchSettings.Size = new System.Drawing.Size(197, 22);
             this.Menu_SearchSettings.Text = "Search Settings";
@@ -937,7 +937,7 @@
             // 
             // Menu_OpenDB
             // 
-            this.Menu_OpenDB.Image = Core.Properties.Resources.folder;
+            this.Menu_OpenDB.Image = Properties.Resources.folder;
             this.Menu_OpenDB.Name = "Menu_OpenDB";
             this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
@@ -945,7 +945,7 @@
             // 
             // Menu_Export
             // 
-            this.Menu_Export.Image = Core.Properties.Resources.export;
+            this.Menu_Export.Image = Properties.Resources.export;
             this.Menu_Export.Name = "Menu_Export";
             this.Menu_Export.Size = new System.Drawing.Size(197, 22);
             this.Menu_Export.Text = "Export Results to Folder";
@@ -964,7 +964,7 @@
             // 
             // PAN_Box
             // 
-            this.PAN_Box.BackgroundImage = Core.Properties.Resources.box_wp16xy;
+            this.PAN_Box.BackgroundImage = Properties.Resources.box_wp16xy;
             this.PAN_Box.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.PAN_Box.Controls.Add(this.bpkx66);
             this.PAN_Box.Controls.Add(this.bpkx65);

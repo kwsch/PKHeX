@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms
@@ -27,7 +26,7 @@ namespace PKHeX.WinForms
             CHK_IsEgg.Checked = pk4.IsEgg;
             CHK_Nicknamed.Checked = pk4.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk4.OT_Gender];
-            Label_OTGender.ForeColor = pk4.OT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = getGenderColor(pk4.OT_Gender);
             TB_PID.Text = pk4.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk4.HeldItem;
             CB_Nature.SelectedValue = pk4.Nature;
@@ -113,7 +112,7 @@ namespace PKHeX.WinForms
 
             TB_EXP.Text = pk4.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk4.Gender];
-            Label_Gender.ForeColor = pk4.Gender == 2 ? Label_Species.ForeColor : (pk4.Gender == 1 ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = getGenderColor(pk4.Gender);
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk4.Ability;
@@ -263,7 +262,7 @@ namespace PKHeX.WinForms
             CHK_IsEgg.Checked = pk4.IsEgg;
             CHK_Nicknamed.Checked = pk4.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk4.OT_Gender];
-            Label_OTGender.ForeColor = pk4.OT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = getGenderColor(pk4.OT_Gender);
             TB_PID.Text = pk4.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk4.HeldItem;
             setAbilityList();
@@ -350,7 +349,7 @@ namespace PKHeX.WinForms
 
             TB_EXP.Text = pk4.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk4.Gender];
-            Label_Gender.ForeColor = pk4.Gender == 2 ? Label_Species.ForeColor : (pk4.Gender == 1 ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = getGenderColor(pk4.Gender);
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk4.Ability;

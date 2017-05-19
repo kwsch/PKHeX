@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PKHeX.Core;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -19,10 +20,13 @@ namespace PKHeX.WinForms
                 rawlist = File.ReadAllLines(externalLangPath);
             else
             {
-                object txt = Core.Properties.Resources.ResourceManager.GetObject("lang_" + lang);
-                if (txt == null) return; // Translation file does not exist as a resource; abort this function and don't translate UI.
-                rawlist = ((string)txt).Split(new[] { "\n" }, StringSplitOptions.None);
-                rawlist = rawlist.Select(i => i.Trim()).ToArray(); // Remove trailing spaces
+                var file = "lang_" + lang;
+                rawlist = Util.getStringList(file);
+                if (rawlist.Length == 0)
+                {
+                    // Translation file does not exist as a resource; abort this function and don't translate UI.
+                    return;
+                }
             }
 
             List<string> stringdata = new List<string>();
@@ -107,7 +111,7 @@ namespace PKHeX.WinForms
             }
             return cs;
         }
-        internal static void CenterToForm(Control child, Control parent)
+        internal static void CenterToForm(this Control child, Control parent)
         {
             int x = parent.Location.X + (parent.Width - child.Width) / 2;
             int y = parent.Location.Y + (parent.Height - child.Height) / 2;
@@ -185,6 +189,184 @@ namespace PKHeX.WinForms
 #else
                 return false;
 #endif
+            }
+        }
+
+        /// <summary>
+        /// Opens a dialog to open a <see cref="SaveFile"/>, <see cref="PKM"/> file, or any other supported file.
+        /// </summary>
+        /// <param name="Extensions">Misc extensions of <see cref="PKM"/> files supported by the SAV.</param>
+        /// <param name="path">Output result path</param>
+        /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
+        public static bool OpenSAVPKMDialog(string[] Extensions, out string path)
+        {
+            string supported = string.Join(";", Extensions.Select(s => "*." + s).Concat(new[] { "*.pkm" }));
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "All Files|*.*" +
+                         $"|Supported Files|main;*.sav;*.dat;*.gci;*.bin;{supported};*.bak" +
+                         "|3DS Main Files|main" +
+                         "|Save Files|*.sav;*.dat;*.gci" +
+                         "|Decrypted PKM File|" + supported +
+                         "|Binary File|*.bin" +
+                         "|Backup File|*.bak"
+            };
+
+            // Detect main
+            string cgse = "";
+            string pathCache = CyberGadgetUtil.GetCacheFolder();
+            if (Directory.Exists(pathCache))
+                cgse = Path.Combine(pathCache);
+            if (!PathUtilWindows.detectSaveFile(out path, cgse))
+                Error(path);
+
+            if (path != null)
+            { ofd.FileName = path; }
+
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return false;
+
+            path = ofd.FileName;
+            return true;
+        }
+        /// <summary>
+        /// Opens a dialog to save a <see cref="PKM"/> file.
+        /// </summary>
+        /// <param name="pk"><see cref="PKM"/> file to be saved.</param>
+        /// <returns>Result of whether or not the file was saved.</returns>
+        public static bool SavePKMDialog(PKM pk)
+        {
+            string pkx = pk.Extension;
+            string ekx = 'e' + pkx.Substring(1, pkx.Length - 1);
+            bool allowEncrypted = pk.Format > 2 && pkx[0] == 'p' || pkx[0] == 'b';
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = $"Decrypted PKM File|*.{pkx}" +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.{ekx}" : "") +
+                         "|Binary File|*.bin" +
+                         "|All Files|*.*",
+                DefaultExt = pkx,
+                FileName = Util.CleanFileName(pk.FileName)
+            };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return false;
+            string path = sfd.FileName;
+            string ext = Path.GetExtension(path);
+
+            if (File.Exists(path))
+            {
+                // File already exists, save a .bak
+                string bakpath = path + ".bak";
+                if (!File.Exists(bakpath))
+                {
+                    byte[] backupfile = File.ReadAllBytes(path);
+                    File.WriteAllBytes(bakpath, backupfile);
+                }
+            }
+
+            if (new[] { ".ekx", "." + ekx, ".bin" }.Contains(ext))
+                File.WriteAllBytes(path, pk.EncryptedPartyData);
+            else if (new[] { "." + pkx }.Contains(ext))
+                File.WriteAllBytes(path, pk.DecryptedBoxData);
+            else
+            {
+                Error($"Foreign File Extension: {ext}", "Exporting as encrypted.");
+                File.WriteAllBytes(path, pk.EncryptedPartyData);
+            }
+            return true;
+        }
+        /// <summary>
+        /// Opens a dialog to save a <see cref="SaveFile"/> file.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> to be saved.</param>
+        /// <param name="CurrentBox">Box the player will be greeted with when accessing the PC ingame.</param>
+        /// <returns>Result of whether or not the file was saved.</returns>
+        public static bool SaveSAVDialog(SaveFile SAV, int CurrentBox = 0)
+        {
+            // Chunk Error Checking
+            string err = SAV.MiscSaveChecks();
+            if (err.Length > 0 && Prompt(MessageBoxButtons.YesNo, err, "Continue saving?") != DialogResult.Yes)
+                return false;
+
+            SaveFileDialog main = new SaveFileDialog
+            {
+                Filter = SAV.Filter,
+                FileName = SAV.FileName,
+                RestoreDirectory = true
+            };
+            if (Directory.Exists(SAV.FilePath))
+                main.InitialDirectory = SAV.FilePath;
+
+            // Export
+            if (main.ShowDialog() != DialogResult.OK)
+                return false;
+
+            if (SAV.HasBox)
+                SAV.CurrentBox = CurrentBox;
+
+            bool dsv = Path.GetExtension(main.FileName)?.ToLower() == ".dsv";
+            bool gci = Path.GetExtension(main.FileName)?.ToLower() == ".gci";
+            try
+            {
+                File.WriteAllBytes(main.FileName, SAV.Write(dsv, gci));
+                SAV.Edited = false;
+                Alert("SAV exported to:", main.FileName);
+            }
+            catch (Exception x)
+            {
+                if (x is UnauthorizedAccessException || x is FileNotFoundException || x is IOException)
+                    Error("Unable to save." + Environment.NewLine + x.Message,
+                        "If destination is a removable disk (SD card), please ensure the write protection switch is not set.");
+                else throw;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Opens a dialog to save a <see cref="MysteryGift"/> file.
+        /// </summary>
+        /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
+        /// <returns>Result of whether or not the file was saved.</returns>
+        public static bool SaveMGDialog(MysteryGift gift)
+        {
+            SaveFileDialog output = new SaveFileDialog
+            {
+                Filter = getMysterGiftFilter(gift.Format),
+                FileName = Util.CleanFileName(gift.FileName)
+            };
+            if (output.ShowDialog() != DialogResult.OK)
+                return false;
+
+            string path = output.FileName;
+
+            if (File.Exists(path))
+            {
+                // File already exists, save a .bak
+                string bakpath = path + ".bak";
+                if (!File.Exists(bakpath))
+                {
+                    byte[] backupfile = File.ReadAllBytes(path);
+                    File.WriteAllBytes(bakpath, backupfile);
+                }
+            }
+
+            File.WriteAllBytes(path, gift.Data);
+            return true;
+        }
+
+        public static string getMysterGiftFilter(int Format)
+        {
+            switch (Format)
+            {
+                case 4:
+                    return "Gen4 Mystery Gift|*.pgt;*.pcd|All Files|*.*";
+                case 5:
+                    return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
+                case 6:
+                    return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
+                case 7:
+                    return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
+                default:
+                    return "";
             }
         }
     }

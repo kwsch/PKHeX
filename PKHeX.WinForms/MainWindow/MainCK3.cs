@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms
@@ -26,7 +25,7 @@ namespace PKHeX.WinForms
             CHK_IsEgg.Checked = ck3.IsEgg;
             CHK_Nicknamed.Checked = ck3.IsNicknamed;
             Label_OTGender.Text = gendersymbols[ck3.OT_Gender];
-            Label_OTGender.ForeColor = ck3.OT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = getGenderColor(ck3.OT_Gender);
             TB_PID.Text = ck3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = ck3.HeldItem;
             int abil = ck3.AbilityNumber >> 1;
@@ -121,7 +120,7 @@ namespace PKHeX.WinForms
 
             TB_EXP.Text = ck3.EXP.ToString();
             Label_Gender.Text = gendersymbols[ck3.Gender];
-            Label_Gender.ForeColor = ck3.Gender == 2 ? Label_Species.ForeColor : (ck3.Gender == 1 ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = getGenderColor(ck3.Gender);
         }
         private PKM prepareCK3()
         {

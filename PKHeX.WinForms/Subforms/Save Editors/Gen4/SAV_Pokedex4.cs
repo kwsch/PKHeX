@@ -30,10 +30,10 @@ namespace PKHeX.WinForms
             editing = false;
             LB_Species.SelectedIndex = 0;
 
-            string[] dexMode = new string[5] { "not given", "simple mode", "detect forms", "national dex", "other languages" };
+            string[] dexMode = { "not given", "simple mode", "detect forms", "national dex", "other languages" };
             if (SAV.HGSS) dexMode = dexMode.Where((t, i) => i != 2).ToArray();
-            for(int i = 0; i < dexMode.Length; i++)
-                CB_DexUpgraded.Items.Add(dexMode[i]);
+            foreach (string mode in dexMode)
+                CB_DexUpgraded.Items.Add(mode);
             if (SAV.DexUpgraded < CB_DexUpgraded.Items.Count)
                 CB_DexUpgraded.SelectedIndex = SAV.DexUpgraded;
         }
@@ -76,7 +76,7 @@ namespace PKHeX.WinForms
         private const string GENDERLESS = "Genderless";
         private const string MALE = "Male";
         private const string FEMALE = "Female";
-        private static int[] DPLangSpecies = new int[14] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
+        private static readonly int[] DPLangSpecies = { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
         private void getEntry()
         {
             // Load Bools for the data
@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
             int ofs = SAV.PokeDex + (bit >> 3) + 0x4;
             int FormOffset1 = SAV.PokeDex + 4 + brSize * 4 + 4;
             int PokeDexLanguageFlags = FormOffset1 + (SAV.HGSS ? 0x3C : 0x20);
-            int l_ofs = !SAV.DP ? species : (1 + Array.IndexOf(DPLangSpecies, species));
+            int l_ofs = !SAV.DP ? species : 1 + Array.IndexOf(DPLangSpecies, species);
             if (l_ofs > 0)
             {
                 l_ofs += PokeDexLanguageFlags;
@@ -309,7 +309,7 @@ namespace PKHeX.WinForms
                 {
                     CHK_Caught.Checked = true;
                     for (int j = 0; j < CL.Length; j++) // set SAV language (and others if Complete)
-                        CL[j].Checked = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
+                        CL[j].Checked = sender == mnuComplete || mnuCaughtNone != sender && j == lang;
                 }
                 else if (caughtN)
                     CHK_Caught.Checked = false;

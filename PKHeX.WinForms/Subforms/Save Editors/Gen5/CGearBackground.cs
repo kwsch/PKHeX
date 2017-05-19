@@ -197,13 +197,14 @@ namespace PKHeX.WinForms
             Tiles = tilelist.ToArray();
         }
 
-        private class Tile
+        private class Tile : IDisposable
         {
             public const int SIZE_TILE = 0x20;
             private const int TileWidth = 8;
             private const int TileHeight = 8;
             public readonly int[] ColorChoices;
             private Bitmap img;
+            public void Dispose() => img.Dispose();
 
             public Tile(byte[] data = null)
             {

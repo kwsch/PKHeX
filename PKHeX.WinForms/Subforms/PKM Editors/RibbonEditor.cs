@@ -128,12 +128,12 @@ namespace PKHeX.WinForms
                             case 3: n += "Hyper"; break;
                             case 4: n += "Master"; break;
                         }
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Core.Properties.Resources.ResourceManager.GetObject(n.ToLower());
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(n.ToLower());
                     }
                     else if (nud.Maximum == nud.Value)
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Core.Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() +"2");
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() +"2");
                     else
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Core.Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
+                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
                 };
                 nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
                 TLP_Ribbons.Controls.Add(nud, 0, row);

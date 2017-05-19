@@ -8,7 +8,7 @@ namespace PKHeX.WinForms
         public About()
         {
             InitializeComponent();
-            RTB.Text = Core.Properties.Resources.changelog;
+            RTB.Text = Properties.Resources.changelog;
         }
         private void B_Close_Click(object sender, EventArgs e)
         {
@@ -18,12 +18,12 @@ namespace PKHeX.WinForms
         {
             if (B_Shortcuts.Text == "Shortcuts")
             {
-                RTB.Text = Core.Properties.Resources.shortcuts; // display shortcuts
+                RTB.Text = Properties.Resources.shortcuts; // display shortcuts
                 B_Shortcuts.Text = "Changelog";
             }
             else
             {
-                RTB.Text = Core.Properties.Resources.changelog; // display changelog
+                RTB.Text = Properties.Resources.changelog; // display changelog
                 B_Shortcuts.Text = "Shortcuts";
             }
         }

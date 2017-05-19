@@ -433,11 +433,11 @@ namespace PKHeX.WinForms
                     }
                     break;
                 case 1: // Full Legal
-                    byte[] data1 = SAV.Gender == 0 ? Core.Properties.Resources.fashion_m_sm : Core.Properties.Resources.fashion_f_sm;
+                    byte[] data1 = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
                     data1.CopyTo(SAV.Data, SAV.Fashion);
                     break;
                 case 2: // Everything
-                    byte[] data2 = SAV.Gender == 0 ? Core.Properties.Resources.fashion_m_sm_illegal : Core.Properties.Resources.fashion_f_sm_illegal;
+                    byte[] data2 = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
                     data2.CopyTo(SAV.Data, SAV.Fashion);
                     break;
                 default:

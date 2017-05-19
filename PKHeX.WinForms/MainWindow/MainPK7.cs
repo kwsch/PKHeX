@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms
@@ -27,7 +26,7 @@ namespace PKHeX.WinForms
             CHK_IsEgg.Checked = pk7.IsEgg;
             CHK_Nicknamed.Checked = pk7.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk7.OT_Gender];
-            Label_OTGender.ForeColor = pk7.OT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = getGenderColor(pk7.OT_Gender);
             TB_PID.Text = pk7.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk7.HeldItem;
             TB_AbilityNumber.Text = pk7.AbilityNumber.ToString();
@@ -74,7 +73,7 @@ namespace PKHeX.WinForms
 
             // Set CT Gender to None if no CT, else set to gender symbol.
             Label_CTGender.Text = pk7.HT_Name == "" ? "" : gendersymbols[pk7.HT_Gender % 2];
-            Label_CTGender.ForeColor = pk7.HT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_CTGender.ForeColor = getGenderColor(pk7.HT_Gender % 2);
 
             TB_MetLevel.Text = pk7.Met_Level.ToString();
 
@@ -136,7 +135,7 @@ namespace PKHeX.WinForms
 
             TB_EXP.Text = pk7.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk7.Gender];
-            Label_Gender.ForeColor = pk7.Gender == 2 ? Label_Species.ForeColor : (pk7.Gender == 1 ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = getGenderColor(pk7.Gender);
 
             // Highlight the Current Handler
             clickGT(pk7.CurrentHandler == 1 ? GB_nOT : GB_OT, null);

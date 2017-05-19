@@ -348,24 +348,24 @@ namespace PKHeX.WinForms
             // Fetch Badges
             Bitmap[] bma = Main.SAV.ORAS ? 
                 new[] {
-                                   Core.Properties.Resources.badge_01, // ORAS Badges
-                                   Core.Properties.Resources.badge_02,  
-                                   Core.Properties.Resources.badge_03,   
-                                   Core.Properties.Resources.badge_04,
-                                   Core.Properties.Resources.badge_05, 
-                                   Core.Properties.Resources.badge_06,  
-                                   Core.Properties.Resources.badge_07, 
-                                   Core.Properties.Resources.badge_08,
+                                   Properties.Resources.badge_01, // ORAS Badges
+                                   Properties.Resources.badge_02,  
+                                   Properties.Resources.badge_03,   
+                                   Properties.Resources.badge_04,
+                                   Properties.Resources.badge_05, 
+                                   Properties.Resources.badge_06,  
+                                   Properties.Resources.badge_07, 
+                                   Properties.Resources.badge_08,
                 } : 
                 new [] {
-                                   Core.Properties.Resources.badge_1, // XY Badges
-                                   Core.Properties.Resources.badge_2,  
-                                   Core.Properties.Resources.badge_3,   
-                                   Core.Properties.Resources.badge_4,
-                                   Core.Properties.Resources.badge_5, 
-                                   Core.Properties.Resources.badge_6,  
-                                   Core.Properties.Resources.badge_7, 
-                                   Core.Properties.Resources.badge_8,
+                                   Properties.Resources.badge_1, // XY Badges
+                                   Properties.Resources.badge_2,  
+                                   Properties.Resources.badge_3,   
+                                   Properties.Resources.badge_4,
+                                   Properties.Resources.badge_5, 
+                                   Properties.Resources.badge_6,  
+                                   Properties.Resources.badge_7, 
+                                   Properties.Resources.badge_8,
                 };
 
             for (int i = 0; i < 8; i++)

@@ -115,25 +115,9 @@ namespace PKHeX.WinForms
         }
 
         // Mystery Gift IO (.file<->window)
-        private string getFilter()
-        {
-            switch (SAV.Generation)
-            {
-                case 4:
-                    return "Gen4 Mystery Gift|*.pgt;*.pcd|All Files|*.*";
-                case 5:
-                    return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
-                case 6:
-                    return "Gen6 Mystery Gift|*.wc6;*.wc6full|All Files|*.*";
-                case 7:
-                    return "Gen7 Mystery Gift|*.wc7;*.wc7full|All Files|*.*";
-                default:
-                    return "";
-            }
-        }
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog import = new OpenFileDialog {Filter = getFilter()};
+            OpenFileDialog import = new OpenFileDialog {Filter = WinFormsUtil.getMysterGiftFilter(SAV.Generation)};
             if (import.ShowDialog() != DialogResult.OK) return;
 
             string path = import.FileName;
@@ -147,27 +131,7 @@ namespace PKHeX.WinForms
         }
         private void B_Output_Click(object sender, EventArgs e)
         {
-            SaveFileDialog outputwc6 = new SaveFileDialog
-            {
-                Filter = getFilter(),
-                FileName = Util.CleanFileName(mg.FileName)
-            };
-            if (outputwc6.ShowDialog() != DialogResult.OK) return;
-
-            string path = outputwc6.FileName;
-
-            if (File.Exists(path))
-            {
-                // File already exists, save a .bak
-                string bakpath = path + ".bak";
-                if (!File.Exists(bakpath))
-                {
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(bakpath, backupfile);
-                }
-            }
-
-            File.WriteAllBytes(path, mg.Data);
+            WinFormsUtil.SaveMGDialog(mg);
         }
 
         private int getLastUnfilledByType(MysteryGift Gift, MysteryGiftAlbum Album)
@@ -188,7 +152,7 @@ namespace PKHeX.WinForms
             sender = ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
             int index = Array.IndexOf(pba, sender);
 
-            setBackground(index, Core.Properties.Resources.slotView);
+            setBackground(index, Properties.Resources.slotView);
             viewGiftData(mga.Gifts[index]);
         }
         private void clickSet(object sender, EventArgs e)
@@ -211,7 +175,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Can't set slot here.", $"{mg.Type} != {mga.Gifts[index].Type}");
                 return;
             }
-            setBackground(index, Core.Properties.Resources.slotSet);
+            setBackground(index, Properties.Resources.slotSet);
             mga.Gifts[index] = mg.Clone();
             setGiftBoxes();
             setCardID(mg.CardID);
@@ -240,7 +204,7 @@ namespace PKHeX.WinForms
                 mga.Gifts[i-1] = mg1;
                 mga.Gifts[i] = mg2;
             }
-            setBackground(i, Core.Properties.Resources.slotDel);
+            setBackground(i, Properties.Resources.slotDel);
             setGiftBoxes();
         }
 
@@ -429,7 +393,7 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Alert("Can't set slot here.", $"{gift.Type} != {mga.Gifts[index].Type}");
                     return;
                 }
-                setBackground(index, Core.Properties.Resources.slotSet);
+                setBackground(index, Properties.Resources.slotSet);
                 mga.Gifts[index] = gift.Clone();
                 
                 setCardID(mga.Gifts[index].CardID);
@@ -473,7 +437,7 @@ namespace PKHeX.WinForms
                     index = i-1;
                 }
             }
-            setBackground(index, Core.Properties.Resources.slotView);
+            setBackground(index, Properties.Resources.slotView);
             setGiftBoxes();
         }
         private void pbBoxSlot_DragEnter(object sender, DragEventArgs e)

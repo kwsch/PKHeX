@@ -19,7 +19,7 @@ namespace PKHeX.WinForms
 
             editing = true;
             if (raw != null)
-                addTrashEditing(TB_NN.MaxLength);
+                addTrashEditing(raw.Length);
 
             addCharEditing();
             TB_Text.MaxLength = TB_NN.MaxLength;
@@ -74,15 +74,13 @@ namespace PKHeX.WinForms
                 FLP_Characters.Controls.Add(l);
             }
         }
-        private void addTrashEditing(int length)
+        private void addTrashEditing(int count)
         {
             FLP_Hex.Visible = true;
             GB_Trash.Visible = true;
             NUD_Generation.Value = Main.SAV.Generation;
-            int charct = length;
-            int bytesperchar = bigendian || Main.SAV.Generation > 3 ? 2 : 1;
             Font courier = new Font("Courier New", 8);
-            for (int i = 0; i < charct * bytesperchar; i++)
+            for (int i = 0; i < count; i++)
             {
                 var l = getLabel($"${i:X2}");
                 l.Font = courier;

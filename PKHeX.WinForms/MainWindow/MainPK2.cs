@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms
@@ -36,7 +35,7 @@ namespace PKHeX.WinForms
             TB_OT.Text = pk2.OT_Name;
             GB_OT.BackgroundImage = null;
             Label_OTGender.Text = gendersymbols[pk2.OT_Gender];
-            Label_OTGender.ForeColor = pk2.OT_Gender == 1 ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = getGenderColor(pk2.OT_Gender);
             // Reset Label and ComboBox visibility, as well as non-data checked status.
             Label_PKRS.Visible = false;
             Label_PKRSdays.Visible = false;
@@ -72,7 +71,7 @@ namespace PKHeX.WinForms
             setIsShiny(null);
 
             Label_Gender.Text = gendersymbols[pk2.Gender];
-            Label_Gender.ForeColor = pk2.Gender == 2 ? Label_Species.ForeColor : (pk2.Gender == 1 ? Color.Red : Color.Blue);
+            Label_Gender.ForeColor = getGenderColor(pk2.Gender);
             TB_EXP.Text = pk2.EXP.ToString();
         }
         private PKM preparePK2()
