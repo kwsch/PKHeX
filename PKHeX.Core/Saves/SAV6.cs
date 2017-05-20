@@ -592,7 +592,7 @@ namespace PKHeX.Core
             if (ofs <= 0)
                 return null;
             
-            var data = Data.Skip(Daycare + 0x1E8).Take(DaycareSeedSize/2).Reverse().ToArray();
+            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize/2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", "");
         }
         public override bool? getDaycareHasEgg(int loc)
