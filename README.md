@@ -45,4 +45,4 @@ PKHeX can be opened with IDEs such as [Visual Studio](https://www.visualstudio.c
 
 ### GNU/Linux
 
-Install [MonoDevelop](http://www.monodevelop.com/) and [Mono Runtime](http://www.mono-project.com/) with `flatpak install --user --from https://download.mono-project.com/repo/monodevelop.flatpakref`. GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono (so developers using \*BSD, Windows and OS X should be able to reproduce them).
+Install [MonoDevelop](http://www.monodevelop.com/) and [Mono Runtime](http://www.mono-project.com/) with `flatpak install --user --from https://download.mono-project.com/repo/monodevelop.flatpakref`. GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono (so developers using \*BSD, Windows and macOS should be able to reproduce them).
