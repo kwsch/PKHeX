@@ -166,13 +166,11 @@ namespace PKHeX.WinForms.Controls
 
             // Load Extra Byte List
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Length != 0;
+            CB_ExtraBytes.Items.Clear();
+            foreach (byte b in extraBytes)
+                CB_ExtraBytes.Items.Add($"0x{b:X2}");
             if (GB_ExtraBytes.Enabled)
-            {
-                CB_ExtraBytes.Items.Clear();
-                foreach (byte b in extraBytes)
-                    CB_ExtraBytes.Items.Add($"0x{b:X2}");
                 CB_ExtraBytes.SelectedIndex = 0;
-            }
         }
         public void populateFields(PKM pk, bool focus = true)
         {
@@ -1835,7 +1833,8 @@ namespace PKHeX.WinForms.Controls
         {
             if (template != null)
             { populateFields(template); return; }
-            CB_GameOrigin.SelectedIndex = 0;
+            if (CB_GameOrigin.Items.Count > 0)
+                CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;
             TB_OT.Text = "PKHeX";
             TB_TID.Text = 12345.ToString();
