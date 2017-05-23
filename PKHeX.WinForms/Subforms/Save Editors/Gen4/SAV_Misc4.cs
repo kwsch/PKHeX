@@ -10,9 +10,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Misc4 : Form
     {
-        private readonly SAV4 SAV = (SAV4)Main.SAV.Clone();
-        public SAV_Misc4()
+        private readonly SaveFile Origin;
+        private readonly SAV4 SAV;
+        public SAV_Misc4(SaveFile sav)
         {
+            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
 
             switch (SAV.Version)
@@ -38,8 +40,7 @@ namespace PKHeX.WinForms
             if (TC_Misc.Controls.Contains(TAB_BF))
                 saveBF();
 
-            SAV.Data.CopyTo(Main.SAV.Data, 0);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

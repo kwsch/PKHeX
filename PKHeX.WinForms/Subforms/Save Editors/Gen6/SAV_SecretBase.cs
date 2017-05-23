@@ -9,8 +9,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_SecretBase : Form
     {
-        public SAV_SecretBase()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_SecretBase(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             abilitylist = GameInfo.Strings.abilitylist;
@@ -25,7 +28,6 @@ namespace PKHeX.WinForms
             B_SAV2FAV(null, null);
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private bool editing;
         private bool loading = true;
 
@@ -194,8 +196,7 @@ namespace PKHeX.WinForms
             uint flags = Util.ToUInt32(MT_Flags.Text);
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.PSSStats + 0x140, 4); // write pss
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
-            Main.SAV.Data = SAV.Data;
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_GiveDecor_Click(object sender, EventArgs e)

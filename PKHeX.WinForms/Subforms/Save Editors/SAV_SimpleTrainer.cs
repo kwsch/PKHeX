@@ -7,8 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_SimpleTrainer : Form
     {
-        public SAV_SimpleTrainer()
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_SimpleTrainer(SaveFile sav)
         {
+            SAV = (Origin = sav).Clone();
             Loading = true;
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
@@ -150,7 +153,6 @@ namespace PKHeX.WinForms
             Loading = false;
         }
         private readonly CheckBox[] cba;
-        private readonly SaveFile SAV = Main.SAV.Clone();
         private readonly bool Loading;
         private bool MapUpdated;
 
@@ -245,9 +247,8 @@ namespace PKHeX.WinForms
             
             SAV.SecondsToStart = getSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
             SAV.SecondsToFame = getSeconds(CAL_HoFDate, CAL_HoFTime);
-            
-            SAV.Data.CopyTo(Main.SAV.Data, 0);
-            Main.SAV.Edited = true;
+
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

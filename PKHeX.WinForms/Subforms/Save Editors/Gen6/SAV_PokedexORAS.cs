@@ -9,8 +9,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_PokedexORAS : Form
     {
-        public SAV_PokedexORAS()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_PokedexORAS(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
@@ -35,7 +38,6 @@ namespace PKHeX.WinForms
             TB_Spinda.Text = BitConverter.ToUInt32(SAV.Data, SAV.Spinda).ToString("X8");
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
         private readonly bool[,] specbools = new bool[9, 0x60 * 8];
@@ -261,9 +263,7 @@ namespace PKHeX.WinForms
             setEntry();
             setData();
 
-            // Return back to the parent savefile
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

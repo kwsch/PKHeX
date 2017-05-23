@@ -162,6 +162,18 @@ namespace PKHeX.Core
         public override bool WasIngameTrade => Met_Location == 254; // Trade
         public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
         public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
+        
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_3;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
+        public override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public override int MaxItemID => Legal.MaxItemID_3;
+        public override int MaxBallID => Legal.MaxBallID_3;
+        public override int MaxGameID => 5;
+        public override int MaxIV => 31;
+        public override int MaxEV => 252;
+        public override int OTLength => 7;
+        public override int NickLength => 10;
 
         public override byte[] Encrypt()
         {

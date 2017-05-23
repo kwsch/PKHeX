@@ -7,8 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_BoxLayout : Form
     {
-        public SAV_BoxLayout(int box)
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_BoxLayout(SaveFile sav, int box)
         {
+            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             editing = true;
@@ -84,7 +87,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly NumericUpDown[] flagArr = new NumericUpDown[0];
-        private readonly SaveFile SAV = Main.SAV.Clone();
         private bool editing;
         private bool renameBox;
         private void changeBox(object sender, EventArgs e)
@@ -119,8 +121,7 @@ namespace PKHeX.WinForms
             if (CB_Unlocked.Visible)
                 SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
 
-            Main.SAV = SAV;
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

@@ -6,14 +6,18 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms
 {
     public partial class SAV_MysteryGiftDB : Form
     {
-        public SAV_MysteryGiftDB(Main f1)
+        private readonly PKMEditor PKME_Tabs;
+        private readonly SaveFile SAV;
+        public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
-            m_parent = f1;
+            SAV = sav.SAV;
+            PKME_Tabs = tabs;
             InitializeComponent();
 
             // Preset Filters to only show PKM available for loaded save
@@ -98,7 +102,6 @@ namespace PKHeX.WinForms
             populateComboBoxes();
             CenterToParent();
         }
-        private readonly Main m_parent;
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.MGDatabasePath;
         private List<MysteryGift> Results;
@@ -115,7 +118,7 @@ namespace PKHeX.WinForms
         private void clickView(object sender, EventArgs e)
         {
             int index = getSenderIndex(sender);
-            m_parent.populateFields(Results[index].convertToPKM(Main.SAV), false);
+            PKME_Tabs.populateFields(Results[index].convertToPKM(SAV), false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
@@ -125,7 +128,7 @@ namespace PKHeX.WinForms
         {
             int index = getSenderIndex(sender);
             var gift = Results[index];
-            var pk = gift.convertToPKM(Main.SAV);
+            var pk = gift.convertToPKM(SAV);
             WinFormsUtil.SavePKMDialog(pk);
         }
         private void clickSaveMG(object sender, EventArgs e)
@@ -285,7 +288,7 @@ namespace PKHeX.WinForms
                 {
                     foreach (var cmd in filters)
                     {
-                        if (!gift.GetType().HasPropertyAll(cmd.PropertyName))
+                        if (!gift.GetType().HasPropertyAll(typeof(PKM), cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
@@ -331,7 +334,7 @@ namespace PKHeX.WinForms
             int begin = start * RES_MIN;
             int end = Math.Min(RES_MAX, Results.Count - start * RES_MIN);
             for (int i = 0; i < end; i++)
-                PKXBOXES[i].Image = Results[i + begin].Sprite();
+                PKXBOXES[i].Image = Results[i + begin].Sprite(SAV);
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
 
@@ -372,7 +375,7 @@ namespace PKHeX.WinForms
             else
             {
                 CB_Format.Visible = true;
-                int index = MAXFORMAT - Main.SAV.Generation + 1;
+                int index = MAXFORMAT - SAV.Generation + 1;
                 CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
             }
         }

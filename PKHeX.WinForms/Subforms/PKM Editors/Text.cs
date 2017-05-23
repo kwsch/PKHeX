@@ -9,9 +9,12 @@ namespace PKHeX.WinForms
 {
     public partial class f2_Text : Form
     {
-        public f2_Text(TextBoxBase TB_NN, byte[] raw)
+        private readonly SaveFile SAV;
+        public f2_Text(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
         {
+            SAV = sav;
             InitializeComponent();
+            bigendian = new[] { GameVersion.COLO, GameVersion.XD, GameVersion.BATREV, }.Contains(SAV.Version);
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
             FinalString = TB_NN.Text;
@@ -47,7 +50,7 @@ namespace PKHeX.WinForms
         public byte[] FinalBytes { get; private set; }
         private readonly byte[] Raw;
         private bool editing;
-        private readonly bool bigendian = new[] { GameVersion.COLO, GameVersion.XD, GameVersion.BATREV, }.Contains(Main.SAV.Version);
+        private readonly bool bigendian;
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
         private void B_Save_Click(object sender, EventArgs e)
         {
@@ -59,7 +62,7 @@ namespace PKHeX.WinForms
 
         private void addCharEditing()
         {
-            ushort[] chars = getChars(Main.SAV.Generation);
+            ushort[] chars = getChars(SAV.Generation);
             if (chars.Length == 0)
                 return;
 
@@ -78,7 +81,7 @@ namespace PKHeX.WinForms
         {
             FLP_Hex.Visible = true;
             GB_Trash.Visible = true;
-            NUD_Generation.Value = Main.SAV.Generation;
+            NUD_Generation.Value = SAV.Generation;
             Font courier = new Font("Courier New", 8);
             for (int i = 0; i < count; i++)
             {
@@ -110,7 +113,7 @@ namespace PKHeX.WinForms
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
             var languages = Util.getUnsortedCBList("languages");
-            if (Main.SAV.Generation < 7)
+            if (SAV.Generation < 7)
                 languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
             CB_Language.DataSource = languages;
         }
@@ -125,7 +128,7 @@ namespace PKHeX.WinForms
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 
-            string str = PKX.getString(Raw, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length);
+            string str = PKX.getString(Raw, SAV.Generation, SAV.Japanese, bigendian, Raw.Length);
             TB_Text.Text = str;
             editing = false;
         }
@@ -135,7 +138,7 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             // build bytes
-            byte[] data = PKX.setString(TB_Text.Text, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length, Main.SAV.Language);
+            byte[] data = PKX.setString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
             Array.Copy(data, Raw, Math.Min(data.Length, Raw.Length));
             for (int i = 0; i < Raw.Length; i++)
                 Bytes[i].Value = Raw[i];
@@ -149,8 +152,8 @@ namespace PKHeX.WinForms
             if (species == "") // no result
                 species = CB_Species.Text;
 
-            byte[] current = PKX.setString(TB_Text.Text, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length, Main.SAV.Language);
-            byte[] data = PKX.setString(species, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length, Main.SAV.Language);
+            byte[] current = PKX.setString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] data = PKX.setString(species, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
             if (data.Length <= current.Length)
             {
                 WinFormsUtil.Alert("Trash byte layer is hidden by current text.",
@@ -167,7 +170,7 @@ namespace PKHeX.WinForms
         }
         private void B_ClearTrash_Click(object sender, EventArgs e)
         {
-            byte[] current = PKX.setString(TB_Text.Text, Main.SAV.Generation, Main.SAV.Japanese, bigendian, Raw.Length, Main.SAV.Language);
+            byte[] current = PKX.setString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
             for (int i = current.Length; i < Bytes.Count; i++)
                 Bytes[i].Value = 0;
         }

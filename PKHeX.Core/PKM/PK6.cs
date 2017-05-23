@@ -565,6 +565,18 @@ namespace PKHeX.Core
         public override bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;
         public override bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
 
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_6_AO;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_6;
+        public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
+        public override int MaxItemID => Legal.MaxItemID_6_AO;
+        public override int MaxBallID => Legal.MaxBallID_6;
+        public override int MaxGameID => Legal.MaxGameID_6; // OR
+        public override int MaxIV => 31;
+        public override int MaxEV => 252;
+        public override int OTLength => 12;
+        public override int NickLength => 12;
+
         public PK7 convertToPK7()
         {
             PK7 pk7 = new PK7(Data)

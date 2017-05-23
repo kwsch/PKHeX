@@ -7,9 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_ZygardeCell : Form
     {
-        private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
-        public SAV_ZygardeCell()
+        private readonly SaveFile Origin;
+        private readonly SAV7 SAV;
+        public SAV_ZygardeCell(SaveFile sav)
         {
+            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
 
             // Constants @ 0x1C00
@@ -64,8 +66,7 @@ namespace PKHeX.WinForms
             constants[cellscollected] = (ushort)NUD_Collected.Value;
 
             SAV.EventConsts = constants;
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
 
             Close();
         }

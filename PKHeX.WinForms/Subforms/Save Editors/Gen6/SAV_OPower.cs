@@ -7,14 +7,16 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_OPower : Form
     {
-        public SAV_OPower()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_OPower(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             LoadData();
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
@@ -100,8 +102,7 @@ namespace PKHeX.WinForms
             SAV.Data[o + 0x19] = Convert.ToByte(CHK_6.Checked);
             SAV.Data[o + 0x26] = Convert.ToByte(CHK_7.Checked);
             SAV.Data[o + 0x2B] = Convert.ToByte(CHK_8.Checked);
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
         }
         private int getIndex(int o, int l)
         {
@@ -112,7 +113,7 @@ namespace PKHeX.WinForms
             byte[] _4 = { 01, 01, 01, 01, };
             
             byte[] data = new byte[4];
-            Array.Copy(Main.SAV.Data, o, data, 0, l);
+            Array.Copy(SAV.Data, o, data, 0, l);
 
             if (data.SequenceEqual(_4)) return 4;
             if (data.SequenceEqual(_3)) return 3;

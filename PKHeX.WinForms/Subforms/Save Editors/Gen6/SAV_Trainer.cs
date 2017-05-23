@@ -8,15 +8,17 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Trainer : Form
     {
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
-        public SAV_Trainer()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_Trainer(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             if (Main.unicode)
                 try
                 {
                     TB_OTName.Font = FontUtil.getPKXFont(11);
-                    if (Main.SAV.XY)
+                    if (SAV.XY)
                         TB_TRNick.Font = TB_OTName.Font;
                 }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
@@ -38,9 +40,9 @@ namespace PKHeX.WinForms
             cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
             pba = new [] { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
-            L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = Main.SAV.ORAS;
-            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = Main.SAV.ORAS;
-            PB_Sprite.Visible = Main.SAV.ORAS;
+            L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled = SAV.ORAS;
+            L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible = SAV.ORAS;
+            PB_Sprite.Visible = SAV.ORAS;
 
             L_Style.Visible = TB_Style.Visible = SAV.XY;
             if (!SAV.XY)
@@ -346,7 +348,7 @@ namespace PKHeX.WinForms
         private void getBadges()
         {
             // Fetch Badges
-            Bitmap[] bma = Main.SAV.ORAS ? 
+            Bitmap[] bma = SAV.ORAS ? 
                 new[] {
                                    Properties.Resources.badge_01, // ORAS Badges
                                    Properties.Resources.badge_02,  
@@ -578,7 +580,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new f2_Text(tb, null);
+            var d = new f2_Text(tb, null, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -598,8 +600,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             save();
-            Main.SAV.Data = SAV.Data;
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void changeBadge(object sender, EventArgs e)

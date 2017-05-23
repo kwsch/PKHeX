@@ -10,20 +10,23 @@ namespace PKHeX.WinForms
 {
     public partial class KChart : Form
     {
+        private readonly SaveFile SAV;
         private readonly string[] species = GameInfo.Strings.specieslist;
         private readonly string[] abilities = GameInfo.Strings.abilitylist;
 
-        private readonly bool alolanOnly = Main.SAV.Generation == 7 && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Alolan Dex only?");
+        private readonly bool alolanOnly;
         private static int[] baseForm;
         private static int[] formVal;
-        public KChart()
+        public KChart(SaveFile sav)
         {
+            SAV = sav;
+            alolanOnly = SAV.Generation == 7 && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Alolan Dex only?");
             InitializeComponent();
 
-            Array.Resize(ref species, Main.SAV.Personal.TableLength);
+            Array.Resize(ref species, SAV.Personal.TableLength);
 
-            var AltForms = Main.SAV.Personal.getFormList(species, Main.SAV.MaxSpeciesID);
-            species = Main.SAV.Personal.getPersonalEntryList(AltForms, species, Main.SAV.MaxSpeciesID, out baseForm, out formVal);
+            var AltForms = SAV.Personal.getFormList(species, SAV.MaxSpeciesID);
+            species = SAV.Personal.getPersonalEntryList(AltForms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
 
             DGV.Rows.Clear();
             for (int i = 1; i < species.Length; i++)
@@ -34,10 +37,10 @@ namespace PKHeX.WinForms
 
         private void popEntry(int index)
         {
-            var p = Main.SAV.Personal[index];
+            var p = SAV.Personal[index];
 
-            int s = index > Main.SAV.MaxSpeciesID ? baseForm[index] : index;
-            var f = index <= Main.SAV.MaxSpeciesID ? 0 : formVal[index];
+            int s = index > SAV.MaxSpeciesID ? baseForm[index] : index;
+            var f = index <= SAV.MaxSpeciesID ? 0 : formVal[index];
             bool alolan = s > 721 || Legal.PastGenAlolanNatives.Contains(s);
 
             if (alolanOnly && !alolan)
@@ -48,7 +51,7 @@ namespace PKHeX.WinForms
 
             int r = 0;
             row.Cells[r++].Value = s.ToString("000") + (f > 0 ? "-"+f.ToString("00") :"");
-            row.Cells[r++].Value = PKMUtil.getSprite(s, f, 0, 0, false, false, Main.SAV.Generation);
+            row.Cells[r++].Value = PKMUtil.getSprite(s, f, 0, 0, false, false, SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = s > 721 || Legal.PastGenAlolanNatives.Contains(s);
             row.Cells[r].Style.BackColor = mapColor((int)((p.BST - 175) / 3f));

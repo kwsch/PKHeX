@@ -6,8 +6,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_PokeBlockORAS : Form
     {
-        public SAV_PokeBlockORAS()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_PokeBlockORAS(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             nup_spec = new[] { NUP_Red, NUP_Blue, NUP_Pink, NUP_Green, NUP_Yellow, NUP_Rainbow, NUP_RedPlus, NUP_BluePlus, NUP_PinkPlus, NUP_GreenPlus, NUP_YellowPlus, NUP_RainbowPlus };
@@ -20,7 +23,6 @@ namespace PKHeX.WinForms
             }
         }
         private readonly NumericUpDown[] nup_spec;
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -30,7 +32,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < nup_spec.Length; i++)
                 BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV.Contest + i * 4);
-            Main.SAV.Data = (byte[])SAV.Data.Clone();
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

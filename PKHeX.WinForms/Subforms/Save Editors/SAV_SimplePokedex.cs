@@ -6,8 +6,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_SimplePokedex : Form
     {
-        public SAV_SimplePokedex()
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_SimplePokedex(SaveFile sav)
         {
+            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             seen = new bool[SAV.MaxSpeciesID];
@@ -26,7 +29,6 @@ namespace PKHeX.WinForms
             }
             initialized = true;
         }
-        private readonly SaveFile SAV = Main.SAV.Clone();
 
         private readonly bool[] seen;
         private readonly bool[] caught;
@@ -40,8 +42,7 @@ namespace PKHeX.WinForms
                 SAV.setSeen(species, seen[i]);
                 SAV.setCaught(species, caught[i]);
             }
-            SAV.Data.CopyTo(Main.SAV.Data, 0);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

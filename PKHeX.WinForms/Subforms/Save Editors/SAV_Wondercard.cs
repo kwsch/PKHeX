@@ -10,11 +10,14 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Wondercard : Form
     {
-        public SAV_Wondercard(MysteryGift g = null)
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_Wondercard(SaveFile sav, MysteryGift g = null)
         {
+            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
-            mga = Main.SAV.GiftAlbum;
+            mga = SAV.GiftAlbum;
             
             switch (SAV.Generation)
             {
@@ -53,8 +56,7 @@ namespace PKHeX.WinForms
             else
                 viewGiftData(g);
         }
-        
-        private readonly SaveFile SAV = Main.SAV.Clone();
+
         private MysteryGiftAlbum mga;
         private MysteryGift mg;
         private readonly PictureBox[] pba;
@@ -70,7 +72,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < mga.Gifts.Length; i++)
             {
                 MysteryGift m = mga.Gifts[i];
-                pba[i].Image = m.Sprite();
+                pba[i].Image = m.Sprite(SAV);
             }
         }
         private void viewGiftData(MysteryGift g)
@@ -84,8 +86,8 @@ namespace PKHeX.WinForms
                             "Do you want to remove the USED flag so that it is UNUSED?"))
                     g.GiftUsed = false;
 
-                RTB.Text = getDescription(g);
-                PB_Preview.Image = g.Sprite();
+                RTB.Text = getDescription(g, SAV);
+                PB_Preview.Image = g.Sprite(SAV);
                 mg = g;
             }
             catch (Exception e)
@@ -223,8 +225,7 @@ namespace PKHeX.WinForms
             mga.Flags = flags;
             SAV.GiftAlbum = mga;
 
-            Main.SAV.Data = SAV.Data;
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 
@@ -281,7 +282,7 @@ namespace PKHeX.WinForms
             {
                 if (g.CardID == 2048 && g.Item == 726) // Eon Ticket (OR/AS)
                 {
-                    if (!Main.SAV.ORAS || ((SAV6)SAV).EonTicket < 0)
+                    if (!SAV.ORAS || ((SAV6)SAV).EonTicket < 0)
                         goto reject;
                     BitConverter.GetBytes(WC6.EonTicketConst).CopyTo(SAV.Data, ((SAV6)SAV).EonTicket);
                 }
@@ -324,7 +325,7 @@ namespace PKHeX.WinForms
                 Image qr = QR.getQRImage(mg.Data, server);
                 if (qr == null) return;
 
-                string desc = $"({mg.Type}) {getDescription(mg)}";
+                string desc = $"({mg.Type}) {getDescription(mg, SAV)}";
 
                 new QR(qr, PB_Preview.Image, desc + "PKHeX Wonder Card @ ProjectPokemon.org", "", "", "").ShowDialog();
             }
@@ -448,7 +449,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
         }
         private int wc_slot = -1;
-        private static string getDescription(MysteryGift gift)
+        private static string getDescription(MysteryGift gift, SaveFile SAV)
         {
             if (gift.Empty)
                 return "Empty Slot. No data!";
@@ -470,7 +471,7 @@ namespace PKHeX.WinForms
             }
             else if (gift.IsPokémon)
             {
-                PKM pk = gift.convertToPKM(Main.SAV);
+                PKM pk = gift.convertToPKM(SAV);
 
                 try
                 {

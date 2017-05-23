@@ -9,8 +9,9 @@ namespace PKHeX.WinForms
 {
     public partial class RibbonEditor : Form
     {
-        public RibbonEditor()
+        public RibbonEditor(PKM pk)
         {
+            pkm = pk;
             InitializeComponent();
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_Ribbons.Padding = FLP_Ribbons.Padding = new Padding(0, 0, vertScrollWidth, 0);
@@ -25,7 +26,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly List<RibbonInfo> riblist = new List<RibbonInfo>();
-        private readonly PKM pkm = Main.pkm.Clone();
+        private readonly PKM pkm;
         private const string PrefixNUD = "NUD_";
         private const string PrefixLabel = "L_";
         private const string PrefixCHK = "CHK_";
@@ -159,7 +160,6 @@ namespace PKHeX.WinForms
         {
             foreach (var rib in riblist)
                 ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : (object) rib.RibbonCount);
-            Main.pkm = pkm;
         }
         
         private class RibbonInfo

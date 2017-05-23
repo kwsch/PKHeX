@@ -263,6 +263,18 @@ namespace PKHeX.Core
         #endregion
         public bool CatchRateIsItem = false;
 
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_1;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
+        public override int MaxAbilityID => Legal.MaxAbilityID_1;
+        public override int MaxItemID => Legal.MaxItemID_1;
+        public override int MaxBallID => -1;
+        public override int MaxGameID => -1;
+        public override int MaxIV => 15;
+        public override int MaxEV => ushort.MaxValue;
+        public override int OTLength => Japanese ? 5 : 7;
+        public override int NickLength => Japanese ? 5 : 10;
+
         public PK2 convertToPK2()
         {
             PK2 pk2 = new PK2(null, Identifier, Japanese) {Species = Species};

@@ -9,8 +9,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_PokedexSM : Form
     {
-        public SAV_PokedexSM()
+        private readonly SaveFile Origin;
+        private readonly SAV7 SAV;
+        public SAV_PokedexSM(SaveFile sav)
         {
+            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9, };
@@ -52,7 +55,6 @@ namespace PKHeX.WinForms
             LB_Species.SelectedIndex = 0;
         }
 
-        private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
         private readonly PokeDex7 Dex;
         private bool editing;
         private bool allModifying;
@@ -328,9 +330,7 @@ namespace PKHeX.WinForms
             setEntry();
             Dex.WriteToSAV(SAV);
 
-            // Return back to the parent savefile
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

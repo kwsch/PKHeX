@@ -8,8 +8,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Pokedex4 : Form
     {
-        public SAV_Pokedex4()
+        private readonly SaveFile Origin;
+        private readonly SAV4 SAV;
+        public SAV_Pokedex4(SaveFile sav)
         {
+            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
@@ -38,7 +41,6 @@ namespace PKHeX.WinForms
                 CB_DexUpgraded.SelectedIndex = SAV.DexUpgraded;
         }
 
-        private readonly SAV4 SAV = new SAV4(Main.SAV.Data);
         private readonly CheckBox[] CL;
         private bool editing;
         private int species = -1;
@@ -235,9 +237,7 @@ namespace PKHeX.WinForms
             int s = CB_DexUpgraded.SelectedIndex;
             if (s >= 0) SAV.DexUpgraded = s;
 
-            // Return back to the parent savefile
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

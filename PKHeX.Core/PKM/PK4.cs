@@ -347,6 +347,19 @@ namespace PKHeX.Core
         public override bool WasEvent => Met_Location >= 3000 && Met_Location <= 3076 || FatefulEncounter;
         public override bool WasIngameTrade => Met_Location == 2001; // Trade
         public override bool WasEventEgg => WasEgg && Species == 490; // Manaphy was the only generation 4 released event egg
+        
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_4;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
+        public override int MaxAbilityID => Legal.MaxAbilityID_4;
+        public override int MaxItemID => Legal.MaxItemID_4_HGSS;
+        public override int MaxBallID => Legal.MaxBallID_4;
+        public override int MaxGameID => 15; // Colo/XD
+        public override int MaxIV => 31;
+        public override int MaxEV => 252;
+        public override int OTLength => 7;
+        public override int NickLength => 10;
+
         // Methods
         public override byte[] Encrypt()
         {

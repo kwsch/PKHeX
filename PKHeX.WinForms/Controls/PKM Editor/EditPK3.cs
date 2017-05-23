@@ -1,9 +1,9 @@
 ﻿using System;
 using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms.Controls
 {
-    public partial class Main
+    public partial class PKMEditor
     {
         private void populateFieldsPK3()
         {

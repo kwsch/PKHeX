@@ -268,6 +268,18 @@ namespace PKHeX.Core
 
         // Legality Extensions
         public override bool WasEgg => GenNumber < 5 ? base.WasEgg : Legal.EggLocations5.Contains(Egg_Location);
+        
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_5;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_5;
+        public override int MaxAbilityID => Legal.MaxAbilityID_5;
+        public override int MaxItemID => Legal.MaxItemID_5_B2W2;
+        public override int MaxBallID => Legal.MaxBallID_5;
+        public override int MaxGameID => Legal.MaxGameID_5; // B2
+        public override int MaxIV => 31;
+        public override int MaxEV => 252;
+        public override int OTLength => 7;
+        public override int NickLength => 10;
 
         // Methods
         public override byte[] Encrypt()

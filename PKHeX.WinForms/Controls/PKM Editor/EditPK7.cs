@@ -1,9 +1,9 @@
 ﻿using System;
 using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms.Controls
 {
-    public partial class Main
+    public partial class PKMEditor
     {
         private void populateFieldsPK7()
         {
@@ -322,7 +322,7 @@ namespace PKHeX.WinForms
             pk7.FixRelearn();
 
             // Fix Handler (Memories & OT) -- no foreign memories for Pokemon without a foreign trainer (none for eggs)
-            if (Menu_ModifyPKM.Checked)
+            if (ModifyPKM)
                 pk7.FixMemories();
 
             // PKX is now filled

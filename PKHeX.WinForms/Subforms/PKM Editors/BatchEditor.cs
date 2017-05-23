@@ -12,10 +12,12 @@ namespace PKHeX.WinForms
 {
     public partial class BatchEditor : Form
     {
-        public BatchEditor(PKM pk)
+        private readonly SaveFile SAV;
+        public BatchEditor(PKM pk, SaveFile sav)
         {
-            InitializeComponent();
             pkmref = pk;
+            SAV = sav;
+            InitializeComponent();
             DragDrop += tabMain_DragDrop;
             DragEnter += tabMain_DragEnter;
 
@@ -189,19 +191,19 @@ namespace PKHeX.WinForms
                 len = err = ctr = 0;
                 if (RB_SAV.Checked)
                 {
-                    if (Main.SAV.HasParty)
+                    if (SAV.HasParty)
                     {
-                        var data = Main.SAV.PartyData;
+                        var data = SAV.PartyData;
                         setupProgressBar(data.Length);
                         processSAV(data, Filters, Instructions);
-                        Main.SAV.PartyData = data;
+                        SAV.PartyData = data;
                     }
-                    if (Main.SAV.HasBox)
+                    if (SAV.HasBox)
                     {
-                        var data = Main.SAV.BoxData;
+                        var data = SAV.BoxData;
                         setupProgressBar(data.Length);
                         processSAV(data, Filters, Instructions);
-                        Main.SAV.BoxData = data;
+                        SAV.BoxData = data;
                     }
                 }
                 else
@@ -264,7 +266,7 @@ namespace PKHeX.WinForms
                     continue;
                 }
 
-                int format = fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30) & 7 : Main.SAV.Generation;
+                int format = fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30) & 7 : SAV.Generation;
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.getPKMfromBytes(data, prefer: format);
                 if (processPKM(pkm, Filters, Instructions))
@@ -438,7 +440,7 @@ namespace PKHeX.WinForms
                             continue;
                         return ModifyResult.Filtered;
                     }
-                    if (!pkm.HasProperty(cmd.PropertyName))
+                    if (!pkm.HasPropertyAll(typeof(PKM), cmd.PropertyName))
                         return ModifyResult.Filtered;
                     if (ReflectUtil.GetValueEquals(PKM, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
                         return ModifyResult.Filtered;

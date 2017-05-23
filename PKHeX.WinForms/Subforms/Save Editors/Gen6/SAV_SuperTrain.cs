@@ -7,8 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_SuperTrain : Form
     {
-        public SAV_SuperTrain()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_SuperTrain(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             trba = GameInfo.Strings.trainingbags;
             trba[0] = "---";
             offsetTime = SAV.SuperTrain + 0x08;
@@ -24,7 +27,6 @@ namespace PKHeX.WinForms
             setup();
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private readonly string[] trba;
         private readonly int offsetVal;
         private readonly int offsetTime;
@@ -120,8 +122,7 @@ namespace PKHeX.WinForms
             try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(SAV.Data, offsetTime + 4 * 31); } catch { }
             BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + 4 * 30);
             bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
-            Array.Copy(SAV.Data, Main.SAV.Data, Main.SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

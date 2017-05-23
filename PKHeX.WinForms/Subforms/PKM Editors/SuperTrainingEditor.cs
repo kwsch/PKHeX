@@ -8,8 +8,9 @@ namespace PKHeX.WinForms
 {
     public partial class SuperTrainingEditor : Form
     {
-        public SuperTrainingEditor()
+        public SuperTrainingEditor(PKM pk)
         {
+            pkm = pk;
             InitializeComponent();
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
             TLP_SuperTrain.Padding = TLP_DistSuperTrain.Padding = new Padding(0, 0, vertScrollWidth, 0);
@@ -51,7 +52,7 @@ namespace PKHeX.WinForms
 
         private readonly List<RegimenInfo> reglist = new List<RegimenInfo>();
         private readonly List<RegimenInfo> distlist = new List<RegimenInfo>();
-        private readonly PKM pkm = Main.pkm.Clone();
+        private readonly PKM pkm;
         private const string PrefixLabel = "L_";
         private const string PrefixCHK = "CHK_";
 
@@ -126,8 +127,6 @@ namespace PKHeX.WinForms
                 pkm.SecretSuperTrainingUnlocked &= CHK_SecretUnlocked.Checked;
                 pkm.SecretSuperTrainingComplete &= CHK_SecretComplete.Checked;
             }
-
-            Main.pkm = pkm;
         }
         
         private class RegimenInfo

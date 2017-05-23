@@ -10,11 +10,14 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_CGearSkin : Form
     {
-        public SAV_CGearSkin()
+        private readonly SaveFile Origin;
+        private readonly SAV5 SAV;
+        public SAV_CGearSkin(SaveFile sav)
         {
+            SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
 
-            SAV = (SAV5)Main.SAV.Clone();
+            SAV = (Origin = sav).Clone() as SAV5;
 
             bool cgearPresent = SAV.Data[SAV.CGearInfoOffset + 0x26] == 1;
             bg = new CGearBackground(cgearPresent ?
@@ -25,7 +28,6 @@ namespace PKHeX.WinForms
             WinFormsUtil.Alert("Editor is incomplete.", "No guarantee of functionality.");
         }
 
-        private readonly SAV5 SAV;
         private CGearBackground bg;
 
         private void B_ImportPNG_Click(object sender, EventArgs e)
@@ -115,24 +117,24 @@ namespace PKHeX.WinForms
 
             bgdata = CGearBackground.CGBtoPSK(bgdata, SAV.B2W2);
 
-            Array.Copy(bgdata, 0, Main.SAV.Data, SAV.CGearDataOffset, bgdata.Length);
+            Array.Copy(bgdata, 0, SAV.Data, SAV.CGearDataOffset, bgdata.Length);
             ushort chk = SaveUtil.ccitt16(bgdata);
-            BitConverter.GetBytes(chk).CopyTo(Main.SAV.Data, SAV.CGearDataOffset + bgdata.Length + 2);
-            BitConverter.GetBytes(chk).CopyTo(Main.SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x100);
+            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 2);
+            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x100);
 
-            byte[] skinchkdata = Main.SAV.Data.Skip(SAV.CGearDataOffset + bgdata.Length + 0x100).Take(4).ToArray();
+            byte[] skinchkdata = SAV.Data.Skip(SAV.CGearDataOffset + bgdata.Length + 0x100).Take(4).ToArray();
             ushort skinchkval = SaveUtil.ccitt16(skinchkdata);
-            BitConverter.GetBytes(skinchkval).CopyTo(Main.SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x112);
+            BitConverter.GetBytes(skinchkval).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x112);
 
             // Indicate in the save file that data is present
-            BitConverter.GetBytes((ushort)0xC21E).CopyTo(Main.SAV.Data, 0x19438);
+            BitConverter.GetBytes((ushort)0xC21E).CopyTo(SAV.Data, 0x19438);
 
 
 
-            Main.SAV.Data[SAV.CGearInfoOffset + 0x26] = 1; // data present
-            BitConverter.GetBytes(chk).CopyTo(Main.SAV.Data, SAV.CGearInfoOffset + 0x24);
+            SAV.Data[SAV.CGearInfoOffset + 0x26] = 1; // data present
+            BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearInfoOffset + 0x24);
 
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
