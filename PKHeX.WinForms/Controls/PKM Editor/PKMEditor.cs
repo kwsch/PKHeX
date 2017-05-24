@@ -883,7 +883,12 @@ namespace PKHeX.WinForms.Controls
             {
                 // Change the XP
                 int Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
-                if (Level > 100) TB_Level.Text = "100";
+                if (Level > 100)
+                {
+                    TB_Level.Text = "100";
+                    if (!HaX)
+                        Level = 100;
+                }
                 if (Level > byte.MaxValue) MT_Level.Text = "255";
 
                 if (Level <= 100)

@@ -680,7 +680,7 @@
             this.TB_EXP.Size = new System.Drawing.Size(46, 20);
             this.TB_EXP.TabIndex = 7;
             this.TB_EXP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_EXP.Validated += new System.EventHandler(this.updateEXPLevel);
+            this.TB_EXP.TextChanged += new System.EventHandler(this.updateEXPLevel);
             // 
             // Label_CurLevel
             // 
@@ -703,7 +703,7 @@
             this.TB_Level.Size = new System.Drawing.Size(22, 20);
             this.TB_Level.TabIndex = 8;
             this.TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Level.Validated += new System.EventHandler(this.updateEXPLevel);
+            this.TB_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
             // 
             // MT_Level
             // 
@@ -717,7 +717,7 @@
             this.MT_Level.TabIndex = 17;
             this.MT_Level.Visible = false;
             this.MT_Level.Click += new System.EventHandler(this.clickLevel);
-            this.MT_Level.Validated += new System.EventHandler(this.updateEXPLevel);
+            this.MT_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
             // 
             // FLP_Nature
             // 
