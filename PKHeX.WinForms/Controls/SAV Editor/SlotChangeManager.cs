@@ -199,24 +199,27 @@ namespace PKHeX.WinForms.Controls
                 WinFormsUtil.Alert("Unable to set to locked slot.");
                 return;
             }
-            if (DragInfo.Source.Offset < 0 && TryLoadFiles(files)) // file
+            if (DragInfo.Source.Offset < 0) // external source
+            {
+                TryLoadFiles(files);
                 return;
+            }
 
             TrySetPKMDestination(sender, e, overwrite, clone);
 
             if (DragInfo.Source.Parent == null) // internal file
                 DragInfo.Reset();
         }
-        private bool TryLoadFiles(string[] files)
+        private void TryLoadFiles(string[] files)
         {
             if (files.Length <= 0)
-                return true;
+                return;
             string file = files[0];
             FileInfo fi = new FileInfo(file);
             if (!PKX.getIsPKM(fi.Length) && !MysteryGift.getIsMysteryGift(fi.Length))
             {
-                SE.ParentForm.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { file }), DragDropEffects.Move);
-                return true;
+                SE.ParentForm?.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { file }), DragDropEffects.Move);
+                return;
             }
 
             byte[] data = File.ReadAllBytes(file);
@@ -229,7 +232,7 @@ namespace PKHeX.WinForms.Controls
             {
                 WinFormsUtil.Error(c);
                 Console.WriteLine(c);
-                return true;
+                return;
             }
 
             string[] errata = SAV.IsPKMCompatible(pk);
@@ -240,13 +243,12 @@ namespace PKHeX.WinForms.Controls
                 {
                     Console.WriteLine(c);
                     Console.WriteLine(concat);
-                    return true;
+                    return;
                 }
             }
 
             SetPKM(pk, false, Resources.slotSet);
             Console.WriteLine(c);
-            return false;
         }
         private void TrySetPKMDestination(object sender, DragEventArgs e, bool overwrite, bool clone)
         {
