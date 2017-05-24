@@ -474,7 +474,7 @@ namespace PKHeX.Core
                     return pid; // PID can be anything
 
                 // Gen 3/4/5: Gender derived from PID
-                if (cg == getGender(species, pid, gt))
+                if (cg == getGender(pid, gt))
                     return pid;
             }
         }
@@ -1408,17 +1408,16 @@ namespace PKHeX.Core
         public static int getGender(int species, uint PID)
         {
             int genderratio = Personal[species].Gender;
-            return getGender(species, PID, genderratio);
+            return getGender(PID, genderratio);
         }
-        public static int getGender(int species, uint PID, int gv)
+        public static int getGender(uint PID, int gr)
         {
-            int genderratio = Personal[species].Gender;
-            switch (genderratio)
+            switch (gr)
             {
                 case 255: return 2;
                 case 254: return 1;
                 case 0: return 0;
-                default: return (PID & 0xFF) <= genderratio ? 1 : 0;
+                default: return (PID & 0xFF) < gr ? 1 : 0;
             }
         }
         #region Gen 3 Species Table

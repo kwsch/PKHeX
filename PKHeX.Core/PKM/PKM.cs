@@ -585,7 +585,7 @@ namespace PKHeX.Core
             if (GenNumber >= 6)
                 return true;
 
-            return gender == PKX.getGender(Species, PID, gv);
+            return gender == PKX.getGender(PID, gv);
         }
 
         /// <summary>
