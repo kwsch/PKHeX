@@ -446,7 +446,7 @@ namespace PKHeX.Core
         }
 
         protected virtual int getBoxWallpaperOffset(int box) { return -1; }
-        public int getBoxWallpaper(int box)
+        public virtual int getBoxWallpaper(int box)
         {
             int offset = getBoxWallpaperOffset(box);
             if (offset < 0 || box > BoxCount)

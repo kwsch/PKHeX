@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             
-            CB_BG.SelectedIndex = SAV.getBoxWallpaper(LB_BoxSelect.SelectedIndex);
+            CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.getBoxWallpaper(LB_BoxSelect.SelectedIndex));
             TB_BoxName.Text = SAV.getBoxName(LB_BoxSelect.SelectedIndex);
 
             editing = false; 
