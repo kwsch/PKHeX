@@ -8,8 +8,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Link6 : Form
     {
-        public SAV_Link6()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_Link6(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             foreach (var cb in TAB_Items.Controls.OfType<ComboBox>())
             {
@@ -29,7 +32,6 @@ namespace PKHeX.WinForms
             loadLinkData(data);
         }
 
-        private readonly SAV6 SAV = Main.SAV.Clone() as SAV6;
         private PL6 LinkInfo;
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -42,7 +44,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(ccitt).CopyTo(data, data.Length - 4);
 
             SAV.LinkBlock = data;
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

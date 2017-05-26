@@ -1458,11 +1458,10 @@ namespace PKHeX.Core
             if (!(AbilityUnchanged ?? false) || EncounterAbility == 0 || pkm.AbilityNumber == EncounterAbility)
                 return false;
 
-            if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) // Ability Capsule
-                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
-            else if (pkm.Gen3 && EncounterMatch is EncounterTrade && EncounterAbility == 1 << abilval)
-                // Edge case (Static PID?)
+            if (EncounterMatch is EncounterTrade z && EncounterAbility == 1 << abilval && z.Species == pkm.Species) // Edge case (Static PID?)
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
+            else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) // Ability Capsule
+                AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
             else
                 AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
             return true;
@@ -2612,8 +2611,9 @@ namespace PKHeX.Core
 
             var evos = Legal.getValidPreEvolutions(pkm);
             var matchEvo = evos.FirstOrDefault(z => z.Species == match.Species);
-            bool IsValid = matchEvo == null || matchEvo.Level >= match.LevelMin;
-            return IsValid;
+            return matchEvo == null || matchEvo.RequiresLvlUp
+                    ? matchEvo.Level > match.LevelMin
+                    : matchEvo.Level >= match.LevelMin;
         }
         private void verifyVersionEvolution()
         {

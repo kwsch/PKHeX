@@ -3185,7 +3185,7 @@ namespace PKHeX.Core
 
             var slots = getEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation;
-            return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
+            return noMet || pkm.Format <= 2 ? slots : slots.Where(area => area.Location == pkm.Met_Location);
         }
         private static IEnumerable<EncounterSlot> getValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false, GameVersion gameSource = GameVersion.Any)
         {

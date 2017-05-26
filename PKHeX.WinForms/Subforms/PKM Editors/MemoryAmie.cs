@@ -9,8 +9,9 @@ namespace PKHeX.WinForms
     {
         private readonly string[] args = new string[5];
         private readonly string[] vartypes = new string[5];
-        public MemoryAmie() // Keeping the form reference as a lot of control elements are required to operate.
+        public MemoryAmie(PKM pk)
         {
+            pkm = pk;
             InitializeComponent();
             cba = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
             mta = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
@@ -44,7 +45,7 @@ namespace PKHeX.WinForms
         private bool init;
         private readonly ComboBox[] cba;
         private readonly ComboBox[] mta;
-        private readonly PKM pkm = Main.pkm;
+        private readonly PKM pkm;
 
         // Load/Save Actions
         private void loadFields()
@@ -167,8 +168,6 @@ namespace PKHeX.WinForms
             pkm.OT_TextVar = CB_OTVar.Enabled ? WinFormsUtil.getIndex(CB_OTVar) : 0;
             pkm.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
             pkm.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
-
-            Main.pkm = pkm;
         }
 
         // Event Actions
@@ -237,7 +236,7 @@ namespace PKHeX.WinForms
                     vs = "";
                     break;
                 case "PKM":
-                    argvals = Util.getCBList(GameInfo.Strings.specieslist.Take(Main.SAV.MaxSpeciesID+1).ToArray(), null);
+                    argvals = Util.getCBList(GameInfo.Strings.specieslist.Take(pkm.MaxSpeciesID+1).ToArray(), null);
                     vs = vartypes[0];
                     break;
                 case "GENLOC":

@@ -7,8 +7,11 @@ namespace PKHeX.Core
     public static class GameInfo
     {
         private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送", "ポケシフター" };
-        public static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2", "pt" };
+        private static readonly string[] lang_val = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2", "pt" };
         private const string DefaultLanguage = "en";
+        public static string CurrentLanguage { get; set; } = DefaultLanguage;
+        public static int Language(string lang = null) => Array.IndexOf(lang_val, lang ?? CurrentLanguage);
+        public static string Language2Char(uint lang) => lang > lang_val.Length ? DefaultLanguage : lang_val[lang];
         private static readonly GameStrings[] Languages = new GameStrings[lang_val.Length];
 
         // Lazy fetch implementation

@@ -6,8 +6,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Pokepuff : Form
     {
-        public SAV_Pokepuff()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_Pokepuff(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
@@ -19,7 +22,6 @@ namespace PKHeX.WinForms
             new ToolTip().SetToolTip(B_All, "Hold CTRL to best instead of varied.");
         }
 
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
         private readonly string[] pfa;
         private void Setup()
         {
@@ -150,8 +152,7 @@ namespace PKHeX.WinForms
             }
             SAV.Puffs = puffarray;
             SAV.PuffCount = Util.ToInt32(MT_CNT.Text);
-            Main.SAV.Data = SAV.Data;
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
     }

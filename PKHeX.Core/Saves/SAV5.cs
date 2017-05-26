@@ -39,6 +39,8 @@ namespace PKHeX.Core
                 case GameVersion.BW:
                     BattleBox = 0x20A00;
                     Trainer2 = 0x21200;
+                    EventConst = 0x20100;
+                    EventFlag = EventConst + 0x27C;
                     Daycare = 0x20E00;
                     PokeDex = 0x21600;
                     PokeDexLanguageFlags = PokeDex + 0x320;
@@ -105,7 +107,8 @@ namespace PKHeX.Core
         public override int Generation => 5;
         public override int OTLength => 7;
         public override int NickLength => 10;
-        protected override int EventConstMax => 0x35E/2;
+        protected override int EventConstMax => (Version == GameVersion.BW ? 0x27C : 0x35E) >> 1;
+        protected override int EventFlagMax => (Version == GameVersion.BW ? 0x16C : 0x17F) << 3;
         protected override int GiftCountMax => 12;
 
         public override int MaxMoveID => Legal.MaxMoveID_5;

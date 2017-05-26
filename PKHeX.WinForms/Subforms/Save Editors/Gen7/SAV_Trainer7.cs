@@ -8,9 +8,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Trainer7 : Form
     {
-        private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
-        public SAV_Trainer7()
+        private readonly SaveFile Origin;
+        private readonly SAV7 SAV;
+        public SAV_Trainer7(SaveFile sav)
         {
+            SAV = (SAV7)(Origin = sav).Clone();
             Loading = true;
             InitializeComponent();
             if (Main.unicode)
@@ -347,7 +349,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new f2_Text(tb, null);
+            var d = new f2_Text(tb, null, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -370,8 +372,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             save();
-            Main.SAV.Data = SAV.Data;
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void change255(object sender, EventArgs e)

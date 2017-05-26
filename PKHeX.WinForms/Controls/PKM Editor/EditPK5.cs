@@ -1,9 +1,9 @@
 ﻿using System;
 using PKHeX.Core;
 
-namespace PKHeX.WinForms
+namespace PKHeX.WinForms.Controls
 {
-    public partial class Main
+    public partial class PKMEditor
     {
         private void populateFieldsPK5()
         {
@@ -129,7 +129,7 @@ namespace PKHeX.WinForms
                 CB_Ability.SelectedIndex = CB_Ability.Items.Count - 1;
             else
             {
-                int[] abils = SAV.Personal.getAbilities(pk5.Species, pk5.AltForm);
+                int[] abils = pkm.PersonalInfo.Abilities;
                 int abil = Array.IndexOf(abils, pk5.Ability);
 
                 if (abil < 0)

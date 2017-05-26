@@ -10,8 +10,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_EventFlags : Form
     {
-        public SAV_EventFlags()
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_EventFlags(SaveFile sav)
         {
+            SAV = (Origin = sav).Clone();
             InitializeComponent();
 
             DragEnter += tabMain_DragEnter;
@@ -46,7 +49,6 @@ namespace PKHeX.WinForms
             NUD_Flag.Text = "0";
         }
 
-        private readonly SaveFile SAV = Main.SAV.Clone();
         private readonly bool[] flags;
         private readonly ushort[] Constants;
         private const string flagTag = "bool_";
@@ -76,7 +78,8 @@ namespace PKHeX.WinForms
             // Copy back Constants
             changeConstantIndex(null, null); // Trigger Saving
             SAV.EventConsts = Constants;
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
+            SAV.Data.CopyTo(Origin.Data, 0);
+            Origin.Edited = true;
             Close();
         }
 
@@ -110,6 +113,9 @@ namespace PKHeX.WinForms
                     break;
                 case GameVersion.HGSS:
                     gamePrefix = "hgss";
+                    break;
+                case GameVersion.BW:
+                    gamePrefix = "bw";
                     break;
                 default:
                     return null;

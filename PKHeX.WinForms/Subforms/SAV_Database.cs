@@ -8,14 +8,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms
 {
     public partial class SAV_Database : Form
     {
-        public SAV_Database(Main f1)
+        private readonly SaveFile SAV;
+        private readonly SAVEditor BoxView;
+        private readonly PKMEditor PKME_Tabs;
+        public SAV_Database(PKMEditor f1, SAVEditor saveditor)
         {
-            m_parent = f1;
+            SAV = saveditor.SAV;
+            BoxView = saveditor;
+            PKME_Tabs = f1;
             InitializeComponent();
 
             // Preset Filters to only show PKM available for loaded save
@@ -96,7 +102,7 @@ namespace PKHeX.WinForms
 
             // Prepare Database
             RawDB = new List<PKM>(dbTemp.OrderBy(pk => pk.Identifier)
-                                        .Concat(Main.SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
+                                        .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
                                         .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
                                         .Distinct());
             setResults(RawDB);
@@ -108,7 +114,7 @@ namespace PKHeX.WinForms
             };
             CenterToParent();
         }
-        private readonly Main m_parent;
+
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.DatabasePath;
         private List<PKM> Results;
@@ -147,7 +153,7 @@ namespace PKHeX.WinForms
                 return;
             }
             
-            m_parent.populateFields(Results[index], false);
+            PKME_Tabs.populateFields(Results[index], false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
             FillPKXBoxes(SCR_Box.Value);
@@ -182,13 +188,13 @@ namespace PKHeX.WinForms
                 // Data from Box: Delete from save file
                 int box = pk.Box-1;
                 int slot = pk.Slot-1;
-                int offset = Main.SAV.getBoxOffset(box) + slot*Main.SAV.SIZE_STORED;
-                PKM pkSAV = Main.SAV.getStoredSlot(offset);
+                int offset = SAV.getBoxOffset(box) + slot*SAV.SIZE_STORED;
+                PKM pkSAV = SAV.getStoredSlot(offset);
 
                 if (pkSAV.Data.SequenceEqual(pk.Data))
                 {
-                    Main.SAV.setStoredSlot(Main.SAV.BlankPKM, offset);
-                    m_parent.setPKXBoxes();
+                    SAV.setStoredSlot(SAV.BlankPKM, offset);
+                    BoxView.setPKXBoxes();
                 }
                 else
                 {
@@ -208,10 +214,10 @@ namespace PKHeX.WinForms
         private void clickSet(object sender, EventArgs e)
         {
             // Don't care what slot was clicked, just add it to the database
-            if (!m_parent.verifiedPKM())
+            if (!PKME_Tabs.verifiedPKM())
                 return;
 
-            PKM pk = m_parent.preparePKM();
+            PKM pk = PKME_Tabs.preparePKM();
             if (!Directory.Exists(DatabasePath))
                 Directory.CreateDirectory(DatabasePath);
 
@@ -506,7 +512,7 @@ namespace PKHeX.WinForms
                     {
                         if (cmd.PropertyName == nameof(PKM.Identifier) + "Contains")
                             return pkm.Identifier.Contains(cmd.PropertyValue);
-                        if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
+                        if (!pkm.GetType().HasPropertyAll(typeof(PKM), cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
@@ -620,7 +626,7 @@ namespace PKHeX.WinForms
             else
             {
                 CB_Format.Visible = true;
-                int index = MAXFORMAT - Main.SAV.Generation + 1;
+                int index = MAXFORMAT - SAV.Generation + 1;
                 CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
             }
         }

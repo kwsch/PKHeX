@@ -119,6 +119,9 @@ namespace PKHeX.WinForms
         }
         #endregion
 
+        public static Form FirstFormOfType<T>(this Form f) => f.OwnedForms.FirstOrDefault(form => form is T);
+        public static Control GetUnderlyingControl(object sender) => ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox;
+
         #region Message Displays
         /// <summary>
         /// Displays a dialog showing the details of an error.

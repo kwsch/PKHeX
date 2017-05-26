@@ -7,8 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_HallOfFame7 : Form
     {
-        public SAV_HallOfFame7()
+        private readonly SaveFile Origin;
+        private readonly SAV7 SAV;
+        public SAV_HallOfFame7(SaveFile sav)
         {
+            SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             entries = new[]
@@ -18,7 +21,6 @@ namespace PKHeX.WinForms
             };
             Setup();
         }
-        private readonly SAV7 SAV = new SAV7(Main.SAV.Data);
         private readonly ComboBox[] entries;
 
         private void Setup()
@@ -61,8 +63,7 @@ namespace PKHeX.WinForms
                 var val = WinFormsUtil.getIndex(cb);
                 BitConverter.GetBytes((ushort)val).CopyTo(SAV.Data, o);
             }
-            SAV.Data.CopyTo(Main.SAV.Data, 0);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
     }

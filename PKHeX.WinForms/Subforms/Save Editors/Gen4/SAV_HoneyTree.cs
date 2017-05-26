@@ -7,9 +7,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_HoneyTree : Form
     {
-        private readonly SAV4 SAV = (SAV4)Main.SAV.Clone();
-        public SAV_HoneyTree()
+        private readonly SaveFile Origin;
+        private readonly SAV4 SAV;
+        public SAV_HoneyTree(SaveFile sav)
         {
+            SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
@@ -84,8 +86,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             saveTree();
-            SAV.Data.CopyTo(Main.SAV.Data, 0);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e) => Close();

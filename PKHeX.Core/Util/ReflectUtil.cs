@@ -11,6 +11,8 @@ namespace PKHeX.Core
         public static bool GetValueEquals(object obj, string propertyName, object value)
         {
             PropertyInfo pi = obj.GetType().GetTypeInfo().GetDeclaredProperty(propertyName);
+            if (pi == null)
+                return false;
             var v = pi.GetValue(obj, null);
             var c = ConvertValue(value, pi.PropertyType);
             return v.Equals(c);
@@ -50,9 +52,9 @@ namespace PKHeX.Core
         {
             return type.GetTypeInfo().GetDeclaredProperty(name) != null;
         }
-        public static bool HasPropertyAll(this Type type, string name)
+        public static bool HasPropertyAll(this Type type, Type Base, string name)
         {
-            return type.GetTypeInfo().GetDeclaredProperty(name) != null;
+            return HasProperty(type, name) || HasProperty(Base, name);
         }
 
         private static object ConvertValue(object value, Type type)

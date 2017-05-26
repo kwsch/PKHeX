@@ -9,8 +9,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Pokedex5 : Form
     {
-        public SAV_Pokedex5()
+        private readonly SaveFile Origin;
+        private readonly SAV5 SAV;
+        public SAV_Pokedex5(SaveFile sav)
         {
+            SAV = (SAV5)(Origin = sav).Clone();
             InitializeComponent();
             FormLen = SAV.B2W2 ? 0xB : 0x9;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
@@ -35,7 +38,6 @@ namespace PKHeX.WinForms
             LB_Species.SelectedIndex = 0;
         }
 
-        private readonly SAV5 SAV = new SAV5(Main.SAV.Data);
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
         private readonly bool[,] specbools = new bool[9, brSize * 8];
@@ -256,9 +258,7 @@ namespace PKHeX.WinForms
             setEntry();
             setData();
 
-            // Return back to the parent savefile
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

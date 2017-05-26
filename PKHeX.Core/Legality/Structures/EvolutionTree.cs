@@ -626,9 +626,9 @@ namespace PKHeX.Core
                     if (evo.Species > maxSpeciesTree)
                         species = pkm.Species - Chain.Count + i;
 
+                    dl.Add(evo.GetDexLevel(species, lvl));
                     if (evo.RequiresLevelUp)
                         lvl--;
-                    dl.Add(evo.GetDexLevel(species, lvl));
                     break;
                 }
                 if (!oneValid)

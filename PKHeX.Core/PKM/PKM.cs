@@ -267,6 +267,18 @@ namespace PKHeX.Core
         // Exposed but not Present in all
         public abstract int CurrentHandler { get; set; }
 
+        // Maximums
+        public abstract int MaxMoveID { get; }
+        public abstract int MaxSpeciesID { get; }
+        public abstract int MaxItemID { get; }
+        public abstract int MaxAbilityID { get; }
+        public abstract int MaxBallID { get; }
+        public abstract int MaxGameID { get; }
+        public abstract int MaxIV { get; }
+        public abstract int MaxEV { get; }
+        public abstract int OTLength { get; }
+        public abstract int NickLength { get; }
+
         // Derived
         public int SpecForm { get => Species + (AltForm << 11); set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
@@ -573,7 +585,7 @@ namespace PKHeX.Core
             if (GenNumber >= 6)
                 return true;
 
-            return gender == PKX.getGender(Species, PID, gv);
+            return gender == PKX.getGender(PID, gv);
         }
 
         /// <summary>
@@ -788,6 +800,27 @@ namespace PKHeX.Core
         public void setPIDUnown3(int form)
         {
             do PID = Util.rnd32(); while (PKX.getUnownForm(PID) != form);
+        }
+
+        /// <summary>
+        /// Randomizes the IVs within game constraints.
+        /// </summary>
+        /// <returns>Randomized IVs if desired.</returns>
+        public int[] randomizeIVs()
+        {
+            int[] ivs = new int[6];
+            for (int i = 0; i < 6; i++)
+                ivs[i] = (int)(Util.rnd32() & MaxIV);
+
+            bool IV3 = GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species));
+            if (IV3)
+            {
+                for (int i = 0; i < 3; i++)
+                    ivs[i] = MaxIV;
+                Util.Shuffle(ivs); // Randomize IV order
+            }
+            IVs = ivs;
+            return ivs;
         }
         
         /// <summary>

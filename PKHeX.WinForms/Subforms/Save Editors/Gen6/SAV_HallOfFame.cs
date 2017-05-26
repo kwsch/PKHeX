@@ -9,8 +9,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_HallOfFame : Form
     {
-        public SAV_HallOfFame()
+        private readonly SaveFile Origin;
+        private readonly SAV6 SAV;
+        public SAV_HallOfFame(SaveFile sav)
         {
+            SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
@@ -50,7 +53,6 @@ namespace PKHeX.WinForms
             editing = true;
         }
         private bool editing;
-        private readonly SAV6 SAV = new SAV6(Main.SAV.Data);
 
         private readonly string[] gendersymbols = Main.gendersymbols;
         private readonly byte[] data = new byte[0x1B40];
@@ -90,8 +92,7 @@ namespace PKHeX.WinForms
         }
         private void B_Close_Click(object sender, EventArgs e)
         {
-            Array.Copy(data, 0, Main.SAV.Data, SAV.HoF, data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(data, SAV.HoF);
             Close();
         }
         private void displayEntry(object sender, EventArgs e)
@@ -415,7 +416,7 @@ namespace PKHeX.WinForms
             int offset = LB_DataEntry.SelectedIndex * 0x1B4;
             var nicktrash = data.Skip(offset + 0x18).Take(24).ToArray();
             SAV.setString(TB_Nickname.Text, 12).CopyTo(nicktrash, 0);
-            var d = new f2_Text(tb, nicktrash);
+            var d = new f2_Text(tb, nicktrash, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
             d.FinalBytes.CopyTo(data, offset + 0x18);

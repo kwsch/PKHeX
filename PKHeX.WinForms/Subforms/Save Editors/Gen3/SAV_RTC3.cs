@@ -6,9 +6,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_RTC3 : Form
     {
-        private readonly SAV3 SAV = (SAV3)Main.SAV.Clone();
-        public SAV_RTC3()
+        private readonly SaveFile Origin;
+        private readonly SAV3 SAV;
+        public SAV_RTC3(SaveFile sav)
         {
+            SAV = (SAV3)(Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
 
@@ -52,8 +54,7 @@ namespace PKHeX.WinForms
             SAV.ClockInitial = ClockInitial;
             SAV.ClockElapsed = ClockElapsed;
 
-            SAV.Data.CopyTo(Main.SAV.Data, 0);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

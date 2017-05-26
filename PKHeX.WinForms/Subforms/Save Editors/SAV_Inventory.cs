@@ -8,8 +8,11 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Inventory : Form
     {
-        public SAV_Inventory()
+        private readonly SaveFile Origin;
+        private readonly SaveFile SAV;
+        public SAV_Inventory(SaveFile sav)
         {
+            SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             if (SAV.Generation <= 3)
@@ -28,7 +31,6 @@ namespace PKHeX.WinForms
             switchBag(null, null); // bag 0
         }
 
-        private readonly SaveFile SAV = Main.SAV.Clone();
         private readonly InventoryPouch[] Pouches;
         private const string TabPrefix = "TAB_";
         private const string DGVPrefix = "DGV_";
@@ -43,8 +45,7 @@ namespace PKHeX.WinForms
         {
             setBags();
             SAV.Inventory = Pouches;
-            Array.Copy(SAV.Data, Main.SAV.Data, SAV.Data.Length);
-            Main.SAV.Edited = true;
+            Origin.setData(SAV.Data, 0);
             Close();
         }
 

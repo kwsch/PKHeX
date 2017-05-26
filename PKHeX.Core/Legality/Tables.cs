@@ -170,7 +170,7 @@ namespace PKHeX.Core
             555, // Darmanitan
             648, // Meloetta
             681, // Aegislash
-            719, // Xerneas
+            716, // Xerneas
             746, // Wishiwashi
             778, // Mimikyu
         };

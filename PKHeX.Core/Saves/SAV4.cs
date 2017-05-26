@@ -510,11 +510,29 @@ namespace PKHeX.Core
             get => Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4];
             set => Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4] = (byte)value;
         }
+        private static int InvertHGSSBoxWallpaperAlias(int value)
+        {
+            // HG/SS Special Wallpapers 1-8 (Primo Phrases) are shifted by +0x10; swap 0x2_ and 0x1_ by xoring with 0x30
+            if (value >= 0x10)
+                return value ^ 0x30;
+            return value;
+        }
+        public override int getBoxWallpaper(int box)
+        {
+            int value = base.getBoxWallpaper(box);
+            return Version == GameVersion.HGSS ? InvertHGSSBoxWallpaperAlias(value) : value;
+        }
+        public override void setBoxWallpaper(int box, int value)
+        {
+            if (Version == GameVersion.HGSS)
+                value = InvertHGSSBoxWallpaperAlias(value);
+            base.setBoxWallpaper(box, value);
+        }
         protected override int getBoxWallpaperOffset(int box)
         {
             // Box Wallpaper is directly after the Box Names
             int offset = getBoxOffset(BoxCount);
-            if (Version == GameVersion.HGSS) offset += 0x18;
+            if (Version == GameVersion.HGSS) offset += 0x8;
             offset += BoxCount*0x28 + box;
             return offset;
         }

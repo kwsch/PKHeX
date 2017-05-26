@@ -195,5 +195,17 @@ namespace PKHeX.Core
         {
             return (byte[])Data.Clone();
         }
+
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_3;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
+        public override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public override int MaxItemID => Legal.MaxItemID_3;
+        public override int MaxBallID => Legal.MaxBallID_3;
+        public override int MaxGameID => 5;
+        public override int MaxIV => 31;
+        public override int MaxEV => 252;
+        public override int OTLength => 7;
+        public override int NickLength => 10;
     }
 }

@@ -16,6 +16,18 @@ namespace PKHeX.Tests.PKM
         public int EggMetDay { get; set; }
         public override PersonalInfo PersonalInfo => null;
 
+        // Maximums
+        public override int MaxMoveID => -1;
+        public override int MaxSpeciesID => -1;
+        public override int MaxAbilityID => -1;
+        public override int MaxItemID =>  -1;
+        public override int MaxBallID =>  -1;
+        public override int MaxGameID => -1;
+        public override int MaxIV => -1;
+        public override int MaxEV => -1;
+        public override int OTLength => -1;
+        public override int NickLength => -1;
+
         public override string getString(int Offset, int Count) { throw new NotImplementedException(); }
         public override byte[] setString(string value, int maxLength) { throw new NotImplementedException(); }
 

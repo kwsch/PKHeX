@@ -194,7 +194,7 @@ namespace PKHeX.Core
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
                 if (value[0].Species == 0)
-                    throw new ArgumentException("Can't have an empty first slot." + value.Length);
+                    Console.WriteLine($"Empty first slot, received {value.Length}.");
 
                 PKM[] newParty = value.Where(pk => pk.Species != 0).ToArray();
 
@@ -235,7 +235,7 @@ namespace PKHeX.Core
 
                 bool[] Flags = new bool[EventFlagMax];
                 for (int i = 0; i < Flags.Length; i++)
-                    Flags[i] = (Data[EventFlag + i / 8] >> i % 8 & 0x1) == 1;
+                    Flags[i] = (Data[EventFlag + (i >> 3)] >> (i & 7) & 0x1) == 1;
                 return Flags;
             }
             set
@@ -245,7 +245,7 @@ namespace PKHeX.Core
                 if (value.Length != EventFlagMax)
                     return;
 
-                byte[] data = new byte[value.Length / 8];
+                byte[] data = new byte[value.Length>>3];
                 for (int i = 0; i < value.Length; i++)
                     if (value[i])
                         data[i >> 3] |= (byte)(1 << (i & 7));
@@ -329,6 +329,7 @@ namespace PKHeX.Core
         public virtual int SecondsToFame { get; set; }
         public virtual uint Money { get; set; }
         public abstract int BoxCount { get; }
+        public int SlotCount => BoxCount * BoxSlotCount;
         public virtual int PartyCount { get; protected set; }
         public virtual int MultiplayerSpriteID { get => 0; set { } }
 
@@ -445,7 +446,7 @@ namespace PKHeX.Core
         }
 
         protected virtual int getBoxWallpaperOffset(int box) { return -1; }
-        public int getBoxWallpaper(int box)
+        public virtual int getBoxWallpaper(int box)
         {
             int offset = getBoxWallpaperOffset(box);
             if (offset < 0 || box > BoxCount)

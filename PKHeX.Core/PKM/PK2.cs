@@ -333,6 +333,18 @@ namespace PKHeX.Core
         public override int CNT_Sheen { get => 0; set { } }
         #endregion
 
+        // Maximums
+        public override int MaxMoveID => Legal.MaxMoveID_2;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
+        public override int MaxAbilityID => Legal.MaxAbilityID_2;
+        public override int MaxItemID => Legal.MaxItemID_2;
+        public override int MaxBallID => -1;
+        public override int MaxGameID => -1;
+        public override int MaxIV => 15;
+        public override int MaxEV => ushort.MaxValue;
+        public override int OTLength => Japanese ? 5 : 7;
+        public override int NickLength => Japanese ? 5 : 10;
+
         public PK1 convertToPK1()
         {
             PK1 pk1 = new PK1(null, Identifier, Japanese);

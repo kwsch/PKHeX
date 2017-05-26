@@ -165,41 +165,72 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow\DragDropManager.cs" />
+    <Compile Include="Controls\SAV Editor\BoxEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\BoxEditor.Designer.cs">
+      <DependentUpon>BoxEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ContextMenuPKM.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ContextMenuPKM.Designer.cs">
+      <DependentUpon>ContextMenuPKM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\ContextMenuSAV.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\ContextMenuSAV.Designer.cs">
+      <DependentUpon>ContextMenuSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\SlotChangeManager.cs" />
+    <Compile Include="Controls\SAV Editor\SAVEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\SAVEditor.Designer.cs">
+      <DependentUpon>SAVEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SAV Editor\SlotChangeInfo.cs" />
     <Compile Include="MainWindow\Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow\MainCK3.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditCK3.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK1.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK1.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK2.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK2.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK3.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK3.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK4.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK4.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK5.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK5.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK6.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK6.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainPK7.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditPK7.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\MainXK3.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Controls\PKM Editor\EditXK3.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainWindow\SlotChange.cs" />
+    <Compile Include="Controls\SAV Editor\SlotChange.cs" />
+    <Compile Include="Controls\PKM Editor\PKMEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\PKMEditor.Designer.cs">
+      <DependentUpon>PKMEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Misc\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +341,12 @@
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.Designer.cs">
       <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen5\SAV_Misc5.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen5\SAV_Misc5.Designer.cs">
+      <DependentUpon>SAV_Misc5.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\Save Editors\Gen5\SAV_Pokedex5.cs">
       <SubType>Form</SubType>
@@ -492,9 +529,24 @@
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\SAV Editor\BoxEditor.resx">
+      <DependentUpon>BoxEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PKM Editor\ContextMenuPKM.resx">
+      <DependentUpon>ContextMenuPKM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SAV Editor\ContextMenuSAV.resx">
+      <DependentUpon>ContextMenuSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SAV Editor\SAVEditor.resx">
+      <DependentUpon>SAVEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PKM Editor\PKMEditor.resx">
+      <DependentUpon>PKMEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Misc\About.resx">
       <DependentUpon>About.cs</DependentUpon>
@@ -554,6 +606,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.resx">
       <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen5\SAV_Misc5.resx">
+      <DependentUpon>SAV_Misc5.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen5\SAV_Pokedex5.resx">
       <DependentUpon>SAV_Pokedex5.cs</DependentUpon>
