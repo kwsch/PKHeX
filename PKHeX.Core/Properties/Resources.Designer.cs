@@ -62,6 +62,17 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0182	Ns Castle	0:Event,1:Event,2:Before Reshiram/Zekrom,3:Before N,4:Event,5:Before Ghetsis
+        ///0145	Victini	0:Event,1:Event,2:Battleable,3:Defeated,4:Captured,5:All event finished
+        ///0206	Landorus	0:Event,1:Event,2:Event,3:Battleable,4:Disappeared.
+        /// </summary>
+        internal static string const_bw {
+            get {
+                return ResourceManager.GetString("const_bw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0166	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
         ///0172	Heatran	00:Not appeared,01:Battleable,02:Disappeared
         ///0068	Fullmoon Is.	0:Not appeared,520:On the Map
@@ -131,6 +142,24 @@ namespace PKHeX.Core.Properties {
         internal static string countries {
             get {
                 return ResourceManager.GetString("countries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0669	Plasma guide(LeaguePokemart) disappeared
+        ///0661	Reshiram/Zekrom(NsCastle) disappeared
+        ///0766	Reshiram/Zekrom(DragonspiralTower) disappeared
+        ///0801	Kyurem disappeared
+        ///0812	Volcarona disappeared
+        ///0649	Cobalion disappeared
+        ///0650	Terrakion disappeared
+        ///0651	Virizion disappeared
+        ///0652	Obstacle(VictoryRoad) cleared
+        ///0653	Obstacle(PinwheelForest) cleared.
+        /// </summary>
+        internal static string flags_bw {
+            get {
+                return ResourceManager.GetString("flags_bw", resourceCulture);
             }
         }
         
