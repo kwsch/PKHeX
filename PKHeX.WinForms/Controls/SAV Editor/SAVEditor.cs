@@ -590,6 +590,8 @@ namespace PKHeX.WinForms.Controls
                     new SAV_Misc3(SAV).ShowDialog(); break;
                 case 4:
                     new SAV_Misc4(SAV).ShowDialog(); break;
+                case 5:
+                    new SAV_Misc5(SAV).ShowDialog(); break;
             }
         }
         private void B_OpenRTCEditor_Click(object sender, EventArgs e)
@@ -945,7 +947,7 @@ namespace PKHeX.WinForms.Controls
                 B_CGearSkin.Enabled = SAV.Generation == 5;
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
-                B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP || SAV.HGSS;
+                B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV.DP || SAV.HGSS || SAV.BW;
 
                 B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
                 B_OpenRTCEditor.Enabled = SAV.RS || SAV.E;
