@@ -35,6 +35,17 @@ namespace PKHeX.WinForms
         protected int ofsLibPass = 0x212BC;
         protected uint keyLibPass = 0x0132B536;
         private uint valLibPass;
+        private bool bLibPass;
+        protected int ofsKS = 0x25828;
+        protected uint[] keyKS = new uint[] {
+            // 0x34525, 0x11963,           // Selected City
+            // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
+            // 0x94525, 0x81963, 0x38569,  // Selected Mystery Door
+            0x35691, 0x18256, 0x59389, 0x48292, 0x09892, // Obtained Keys(EasyMode, Challenge, City, Iron, Iceberg)
+            0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818, // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
+        };
+        private uint[] valKS;
+        private bool[] bKS;
         private void readMain()
         {
             string[] FlyDestA = null;
@@ -55,20 +66,42 @@ namespace PKHeX.WinForms
                         10, 13, 12, 14,
                     };
                     break;
-                    /* case GameVersion.B2W2:
-                        ofsFly = 0;
-                        FlyDestA = new[];
-                        FlyDestC = new[];
-                        break; */
+                case GameVersion.B2W2:
+                    ofsFly = 0x20392;
+                    FlyDestA = new[] {
+                        "Aspertia City", "Floccesy Town", "Virbank City",
+                        "Nuvema Town", "Accumula Town", "Striaton City", "Nacrene City",
+                        "Castelia City", "Nimbasa City", "Driftveil City", "Mistralton City",
+                        "Icirrus City", "Opelucid City",
+                        "Lacunosa Town", "Undella Town", "Black City/White Forest",
+                        "Lentimas Town", "Humilau City", "Victory Road", "Pokemon League",
+                        "Pokestar Studios", "Join Avenue", "PWT", "(Unity Tower)",
+                    };
+                    FlyDestC = new[] {
+                        24, 27, 25,
+                        8, 9, 10, 11,
+                        12, 13, 14, 15,
+                        16, 17,
+                        18, 21, 20,
+                        28, 26, 66, 19,
+                        5, 6, 7, 22,
+                    };
+                    break;
             }
-            ushort val = BitConverter.ToUInt16(SAV.Data, ofsFly);
+            uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
             CLB_FlyDest.Items.Clear();
             CLB_FlyDest.Items.AddRange(FlyDestA);
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
-                CLB_FlyDest.SetItemChecked(i, (val & 1 << FlyDestC[i]) != 0);
+            {
+                if (FlyDestC[i] < 32)
+                    CLB_FlyDest.SetItemChecked(i, (valFly & (uint)1 << FlyDestC[i]) != 0);
+                else
+                    CLB_FlyDest.SetItemChecked(i, (SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0);
+            }
 
             if (SAV.BW)
             {
+                GB_KeySystem.Visible = false;
                 // Roamer
                 cbr = new ComboBox[] { CB_Roamer642, CB_Roamer641 };
                 ComboItem[] states = new[] {
@@ -94,20 +127,43 @@ namespace PKHeX.WinForms
 
                 // LibertyPass
                 valLibPass = keyLibPass ^ (uint)(SAV.SID << 16 | SAV.TID);
-                CHK_LibertyPass.Checked = BitConverter.ToUInt32(SAV.Data, ofsLibPass) == valLibPass;
+                bLibPass = BitConverter.ToUInt32(SAV.Data, ofsLibPass) == valLibPass;
+                CHK_LibertyPass.Checked = bLibPass;
             }
-            else
+            else if (SAV.B2W2)
+            {
                 GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
+                // KeySystem
+                string[] KeySystemA = new[] {
+                    "Obtain EasyKey", "Obtain ChallengeKey", "Obtain CityKey", "Obtain IronKey", "Obtain IcebergKey",
+                    "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber", "Unlock IcebergChamber",
+                };
+                uint KSID = BitConverter.ToUInt32(SAV.Data, ofsKS + 0x34);
+                valKS = new uint[keyKS.Length];
+                bKS = new bool[keyKS.Length];
+                CLB_KeySystem.Items.Clear();
+                for (int i = 0; i < valKS.Length; i++)
+                {
+                    valKS[i] = keyKS[i] ^ KSID;
+                    bKS[i] = BitConverter.ToUInt32(SAV.Data, ofsKS + (i << 2)) == valKS[i];
+                    CLB_KeySystem.Items.Add(KeySystemA[i], bKS[i]);
+                }
+            }
+            else GB_KeySystem.Visible = GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
         }
         private void saveMain()
         {
-            ushort valFly = BitConverter.ToUInt16(SAV.Data, ofsFly);
+            uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
             {
-                if (CLB_FlyDest.GetItemChecked(i))
-                    valFly |= (ushort)(1 << FlyDestC[i]);
-                else
-                    valFly &= (ushort)~(1 << FlyDestC[i]);
+                if (FlyDestC[i] < 32)
+                {
+                    if (CLB_FlyDest.GetItemChecked(i))
+                        valFly |= (uint)1 << FlyDestC[i];
+                    else
+                        valFly &= ~((uint)1 << FlyDestC[i]);
+                }
+                else SAV.Data[ofsFly + (FlyDestC[i] >> 3)] = (byte)(SAV.Data[ofsFly + (FlyDestC[i] >> 3)] & ~(1 << (FlyDestC[i] & 7)) | ((CLB_FlyDest.GetItemChecked(i) ? 1 : 0) << (FlyDestC[i] & 7)));
             }
             BitConverter.GetBytes(valFly).CopyTo(SAV.Data, ofsFly);
 
@@ -130,14 +186,27 @@ namespace PKHeX.WinForms
                 }
 
                 // LibertyPass
-                if (CHK_LibertyPass.Checked ^ BitConverter.ToUInt32(SAV.Data, ofsLibPass) == valLibPass)
-                    BitConverter.GetBytes(CHK_LibertyPass.Checked ? valLibPass : (uint)0).CopyTo(SAV.Data, ofsLibPass);
+                if (CHK_LibertyPass.Checked ^ bLibPass)
+                    BitConverter.GetBytes(bLibPass ? (uint)0 : valLibPass).CopyTo(SAV.Data, ofsLibPass);
+            }
+            else if (SAV.B2W2)
+            {
+                // KeySystem
+                for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
+                    if (CLB_KeySystem.GetItemChecked(i) ^ bKS[i])
+                        BitConverter.GetBytes(bKS[i] ? (uint)0 : valKS[i]).CopyTo(SAV.Data, ofsKS + (i << 2));
             }
         }
         private void B_AllFlyDest_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
                 CLB_FlyDest.SetItemChecked(i, true);
+        }
+
+        private void B_AllKeys_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CLB_KeySystem.Items.Count; i++)
+                CLB_KeySystem.SetItemChecked(i, true);
         }
     }
 }
