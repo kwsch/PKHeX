@@ -235,7 +235,7 @@ namespace PKHeX.Core
 
                 bool[] Flags = new bool[EventFlagMax];
                 for (int i = 0; i < Flags.Length; i++)
-                    Flags[i] = (Data[EventFlag + i >> 3] >> (i & 7) & 0x1) == 1;
+                    Flags[i] = (Data[EventFlag + (i >> 3)] >> (i & 7) & 0x1) == 1;
                 return Flags;
             }
             set
