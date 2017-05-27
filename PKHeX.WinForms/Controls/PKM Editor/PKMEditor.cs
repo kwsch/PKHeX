@@ -368,7 +368,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 3) // no abilities
                 return;
 
-            if (pkm.Format > 3) // has forms
+            if (pkm.Format > 3 && fieldsLoaded) // has forms
                 pkm.AltForm = CB_Form.SelectedIndex;
 
             int[] abils = pkm.PersonalInfo.Abilities;
