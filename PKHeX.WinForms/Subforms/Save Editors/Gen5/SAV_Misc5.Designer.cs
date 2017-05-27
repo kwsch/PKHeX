@@ -42,16 +42,20 @@
             this.GB_FlyDest = new System.Windows.Forms.GroupBox();
             this.CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
             this.B_AllFlyDest = new System.Windows.Forms.Button();
+            this.GB_KeySystem = new System.Windows.Forms.GroupBox();
+            this.CLB_KeySystem = new System.Windows.Forms.CheckedListBox();
+            this.B_AllKeys = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_Roamer.SuspendLayout();
             this.GB_FlyDest.SuspendLayout();
+            this.GB_KeySystem.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(52, 281);
+            this.B_Cancel.Location = new System.Drawing.Point(52, 316);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -62,7 +66,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(133, 281);
+            this.B_Save.Location = new System.Drawing.Point(133, 316);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -79,18 +83,19 @@
             this.TC_Misc.Location = new System.Drawing.Point(12, 12);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
-            this.TC_Misc.Size = new System.Drawing.Size(196, 263);
+            this.TC_Misc.Size = new System.Drawing.Size(196, 298);
             this.TC_Misc.TabIndex = 2;
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.GB_KeySystem);
             this.TAB_Main.Controls.Add(this.CHK_LibertyPass);
             this.TAB_Main.Controls.Add(this.GB_Roamer);
             this.TAB_Main.Controls.Add(this.GB_FlyDest);
             this.TAB_Main.Location = new System.Drawing.Point(4, 22);
             this.TAB_Main.Name = "TAB_Main";
             this.TAB_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Main.Size = new System.Drawing.Size(188, 237);
+            this.TAB_Main.Size = new System.Drawing.Size(188, 272);
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
@@ -182,11 +187,41 @@
             this.B_AllFlyDest.UseVisualStyleBackColor = true;
             this.B_AllFlyDest.Click += new System.EventHandler(this.B_AllFlyDest_Click);
             // 
+            // GB_KeySystem
+            // 
+            this.GB_KeySystem.Controls.Add(this.B_AllKeys);
+            this.GB_KeySystem.Controls.Add(this.CLB_KeySystem);
+            this.GB_KeySystem.Location = new System.Drawing.Point(6, 139);
+            this.GB_KeySystem.Name = "GB_KeySystem";
+            this.GB_KeySystem.Size = new System.Drawing.Size(140, 127);
+            this.GB_KeySystem.TabIndex = 3;
+            this.GB_KeySystem.TabStop = false;
+            this.GB_KeySystem.Text = "Unlocked Keys";
+            // 
+            // CLB_KeySystem
+            // 
+            this.CLB_KeySystem.CheckOnClick = true;
+            this.CLB_KeySystem.FormattingEnabled = true;
+            this.CLB_KeySystem.Location = new System.Drawing.Point(6, 47);
+            this.CLB_KeySystem.Name = "CLB_KeySystem";
+            this.CLB_KeySystem.Size = new System.Drawing.Size(128, 74);
+            this.CLB_KeySystem.TabIndex = 0;
+            // 
+            // B_AllKeys
+            // 
+            this.B_AllKeys.Location = new System.Drawing.Point(6, 18);
+            this.B_AllKeys.Name = "B_AllKeys";
+            this.B_AllKeys.Size = new System.Drawing.Size(75, 23);
+            this.B_AllKeys.TabIndex = 1;
+            this.B_AllKeys.Text = "Check All";
+            this.B_AllKeys.UseVisualStyleBackColor = true;
+            this.B_AllKeys.Click += new System.EventHandler(this.B_AllKeys_Click);
+            // 
             // SAV_Misc5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(220, 316);
+            this.ClientSize = new System.Drawing.Size(220, 351);
             this.Controls.Add(this.TC_Misc);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -199,6 +234,7 @@
             this.TAB_Main.PerformLayout();
             this.GB_Roamer.ResumeLayout(false);
             this.GB_FlyDest.ResumeLayout(false);
+            this.GB_KeySystem.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -218,5 +254,8 @@
         private System.Windows.Forms.GroupBox GB_FlyDest;
         private System.Windows.Forms.CheckedListBox CLB_FlyDest;
         private System.Windows.Forms.Button B_AllFlyDest;
+        private System.Windows.Forms.GroupBox GB_KeySystem;
+        private System.Windows.Forms.Button B_AllKeys;
+        private System.Windows.Forms.CheckedListBox CLB_KeySystem;
     }
 }
