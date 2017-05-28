@@ -138,7 +138,12 @@ namespace PKHeX.Core
 
                 // Before updating catch rate, check if non-standard
                 if (!CatchRateIsItem)
-                    Catch_Rate = PersonalTable.RB[Legal.getBaseSpecies(this)].CatchRate;
+                {
+                    int baseSpecies = Legal.getBaseSpecies(this);
+                    int Rate = Catch_Rate;
+                    if (Enumerable.Range(baseSpecies, value).All(z => Rate != PersonalTable.RB[z].CatchRate))
+                        Catch_Rate = PersonalTable.RB[value].CatchRate;
+                }
                 Type_A = PersonalInfo.Types[0];
                 Type_B = PersonalInfo.Types[1];
             }
