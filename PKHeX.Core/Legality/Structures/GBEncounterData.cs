@@ -16,8 +16,7 @@ namespace PKHeX.Core
     {
         public readonly int Level;
         public int MoveLevel;
-        public bool Gen2 => Generation == 2;
-        public bool Gen1 => Generation == 1;
+        public GameVersion Game;
         public readonly int Generation;
         public readonly GBEncounterType Type;
         public readonly IEncounterable Encounter;
@@ -32,11 +31,13 @@ namespace PKHeX.Core
         public GBEncounterData(int species, GameVersion game)
         {
             Generation = 2;
+            Game = game;
             Encounter = new EncounterEgg { Species = species, Game = game, Level = Level };
         }
         
-        public GBEncounterData(PKM pkm, int gen, IEncounterable enc)
+        public GBEncounterData(PKM pkm, int gen, IEncounterable enc, GameVersion game)
         {
+            Game = game;
             Generation = gen;
             Encounter = enc;
             if (Encounter is EncounterTrade trade)

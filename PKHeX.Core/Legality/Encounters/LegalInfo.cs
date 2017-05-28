@@ -10,6 +10,9 @@ namespace PKHeX.Core
         /// <summary>The generation of games the PKM originated from.</summary>
         public int Generation;
 
+        /// <summary> The Game the PPKM originated from.</summary>
+        public GameVersion Game { get; set; }
+
         /// <summary>The matched Encounter details for the <see cref="PKM"/>. </summary>
         public IEncounterable EncounterMatch
         {
@@ -37,6 +40,11 @@ namespace PKHeX.Core
         private IEncounterable _match;
         public PIDIV PIDIV;
 
-        public LegalInfo(PKM pk) => pkm = pk;
+        public LegalInfo(PKM pk)
+        {
+            pkm = pk;
+            Game = (GameVersion) pkm.Version;
+            Generation = pkm.GenNumber;
+        }
     }
 }

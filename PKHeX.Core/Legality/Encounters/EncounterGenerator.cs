@@ -14,7 +14,7 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2:
-                    foreach (var enc in getEncounters12(pkm))
+                    foreach (var enc in getEncounters12(pkm, info))
                         yield return enc;
                     yield break;
                 case 3:
@@ -31,7 +31,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<IEncounterable> getEncounters12(PKM pkm)
+        private static IEnumerable<IEncounterable> getEncounters12(PKM pkm, LegalInfo info)
         {
             int baseSpecies = getBaseSpecies(pkm);
             bool g1 = pkm.VC1 || pkm.Format == 1;
@@ -40,7 +40,11 @@ namespace PKHeX.Core
                 yield break;
 
             foreach (var z in GenerateFilteredEncounters(pkm))
-                yield return z;
+            {
+                info.Generation = z.Generation;
+                info.Game = z.Game;
+                yield return z.Encounter;
+            }
         }
         private static IEnumerable<GBEncounterData> GenerateRawEncounters12(PKM pkm, GameVersion game)
         {
@@ -64,18 +68,18 @@ namespace PKHeX.Core
                     deferred.Add(s);
                     continue;
                 }
-                yield return new GBEncounterData(pkm, gen, s);
+                yield return new GBEncounterData(pkm, gen, s, game);
             }
 
             foreach (var e in getValidWildEncounters(pkm, game))
             {
                 if (!species.Contains(e.Species))
                     continue;
-                yield return new GBEncounterData(pkm, gen, e);
+                yield return new GBEncounterData(pkm, gen, e, game);
             }
             foreach (var t in getValidEncounterTrade(pkm, game))
             {
-                yield return new GBEncounterData(pkm, gen, t);
+                yield return new GBEncounterData(pkm, gen, t, game);
             }
 
             if (game == GameVersion.GSC)
@@ -99,20 +103,20 @@ namespace PKHeX.Core
             }
 
             foreach (var d in deferred)
-                yield return new GBEncounterData(pkm, gen, d);
+                yield return new GBEncounterData(pkm, gen, d, game);
         }
-        private static IEnumerable<IEncounterable> GenerateFilteredEncounters(PKM pkm)
+        private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
             IEnumerable<GBEncounterData> filter(IEnumerable<GBEncounterData> data) => data
                 .OrderBy(z => z.Type == GBEncounterType.EggEncounter).ThenBy(z => z.Species).ThenBy(z => z.Level);
 
             if (!pkm.Gen2_NotTradeback)
                 foreach (var z in filter(GenerateRawEncounters12(pkm, GameVersion.RBY)))
-                    yield return z.Encounter;
+                    yield return z;
 
             if (!pkm.Gen1_NotTradeback && AllowGen2VCTransfer)
                 foreach (var z in filter(GenerateRawEncounters12(pkm, GameVersion.GSC)))
-                    yield return z.Encounter;
+                    yield return z;
         }
         private static IEnumerable<IEncounterable> getEncounters34(PKM pkm)
         {

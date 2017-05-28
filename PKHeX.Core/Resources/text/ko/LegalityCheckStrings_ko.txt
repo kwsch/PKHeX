@@ -339,4 +339,4 @@ V402 = Incorrect Stadium OT.
 V405 = Outsider {0} should have evolved into {1}.
 V406 = Non Japanese Shadow E-reader Pokémon. Unreleased encounter.
 V407 = OT from Colosseum/XD cannot be female.
-V408 = OT from Generation 1 cannot be female.
+V408 = Female OT from Generation 1/2 is invalid.
