@@ -422,20 +422,8 @@ namespace PKHeX.Core
             else if (pkm.SID == 0)
                 AddLine(Severity.Fishy, V37, CheckIdentifier.Trainer);
 
-            if (pkm.OT_Gender == 1)
-                verifyOTFemale();
-
             if (pkm.VC)
                 verifyG1OT();
-        }
-        private void verifyOTFemale()
-        {
-            if (pkm.Format < 3) // Format 2 pkm with ot gender stored are from crystal, female player is allowed
-                return;
-            if (pkm.Version == 15)
-                AddLine(Severity.Invalid, V407, CheckIdentifier.Trainer);
-            else if (pkm.VC) // If VC2 is realease probably more checks will be needed
-                AddLine(Severity.Invalid, V407, CheckIdentifier.Trainer);
         }
         private void verifyG1OT()
         {
@@ -460,6 +448,9 @@ namespace PKHeX.Core
                 else
                     AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
             }
+
+            if (pkm.OT_Gender == 1)
+                AddLine(Severity.Invalid, V408, CheckIdentifier.Trainer);
         }
         #endregion
         private void verifyHyperTraining()
@@ -834,6 +825,9 @@ namespace PKHeX.Core
             {
                 AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); // invalid encounter
             }
+
+            if (pkm.OT_Gender == 1)
+                AddLine(Severity.Invalid, V407, CheckIdentifier.Trainer);
         }
         private void verifyCXDStarterCorrelation(PIDIV pidiv)
         {

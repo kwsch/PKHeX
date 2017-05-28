@@ -337,5 +337,5 @@ V401 = 游戏内交换{0}应当进化为{1}.
 V402 = 不正确竞技场初训家。
 V405 = 外来的{0}应当进化为{1}.
 V406 = 非日版黑暗E-reader宝可梦。未解禁遇见方式。
-V407 = OT Trainer from Colloseum/XD could not be female.
-V408 = OT Trainer from generation 1 could not be female.
+V407 = OT from Colosseum/XD cannot be female.
+V408 = OT from Generation 1 cannot be female.
