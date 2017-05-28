@@ -333,42 +333,28 @@ namespace PKHeX.Core
             var s = getRawEncounterSlots(pkm, gameSource);
             bool IsSafariBall = pkm.Ball == 5;
             bool IsSportsBall = pkm.Ball == 0x18;
-            int ctr = 0;
-            using (var encounter = new PeekEnumerator<EncounterSlot>(s.GetEnumerator()))
+            bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
+            int gen = pkm.GenNumber;
+            int species = pkm.Species;
+            bool CheckEncounterType = gen == 4 && pkm.Format != 7;
+
+            var deferred = new List<EncounterSlot>();
+            foreach (EncounterSlot slot in s)
             {
-                while (encounter.MoveNext())
+                if (slot.Species == 235 && species != 235 && !getWurmpleEvoValid(pkm)) { } // bad wurmple evolution
+                else if (IsHidden ^ IsHiddenAbilitySlot(slot)) { } // ability mismatch
+                else if (IsSafariBall ^ IsSafariSlot(slot.Type)) { } // Safari Zone only ball
+                else if (IsSportsBall ^ slot.Type == SlotType.BugContest) { } // BCC only ball
+                else if (CheckEncounterType && !slot.TypeEncounter.Contains(pkm.EncounterType)) { } // mismatch
+                else
                 {
-                    var slot = encounter.Current;
-                    if (3 > pkm.GenNumber || pkm.GenNumber > 4 || pkm.Gen3 && pkm.HasOriginalMetLocation || !encounter.PeekIsNext())
-                        yield return slot;
-
-                    // If has original met location or there is only one possible slot does not check safari zone
-                    // defer to ball legality
-                    if (IsSafariBall ^ IsSafariSlot(slot.Type) || encounter.PeekIsNext())
-                        continue;
-
-                    if (pkm.GenNumber != 4 || !encounter.PeekIsNext())
-                        yield return slot;
-
-                    // BCC should be checked even if the pokemon have original met location, there are encounters of the same species
-                    // in the national park as both normal wild encounters and contest encounters
-                    if (IsSportsBall ^ slot.Type == SlotType.BugContest || encounter.PeekIsNext())
-                        continue;
-
-                    // If there is only one valid encounter defer encountertype check to verify encounter type
-                    if (pkm.Format == 7 || !encounter.PeekIsNext())
-                        yield return slot;
-
-                    if (!slot.TypeEncounter.Contains(pkm.EncounterType))
-                        continue;
-
-                    if (slot.Species == 235 && pkm.Species != 235 && ctr != 0 && !getWurmpleEvoValid(pkm))
-                        continue;
-
                     yield return slot;
-                    ++ctr;
+                    continue;
                 }
+                deferred.Add(slot);
             }
+            foreach (var d in deferred)
+                yield return d;
         }
         private static IEnumerable<EncounterSlot> getValidFriendSafari(PKM pkm)
         {
@@ -1015,6 +1001,10 @@ namespace PKHeX.Core
         }
 
         // Utility
+        internal static bool IsHiddenAbilitySlot(EncounterSlot slot)
+        {
+            return slot.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
+        }
         internal static bool IsSafariSlot(SlotType t)
         {
             return t == SlotType.Grass_Safari || t == SlotType.Surf_Safari ||
