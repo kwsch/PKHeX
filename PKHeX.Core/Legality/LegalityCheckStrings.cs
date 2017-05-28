@@ -400,6 +400,8 @@ namespace PKHeX.Core
         public static string V402 {get; set;} = "Incorrect Stadium OT.";
         public static string V405 {get; set;} = "Outsider {0} should have evolved into {1}.";
         public static string V406 {get; set;} = "Non japanese Shadow E-reader Pokémon. Unreleased encounter.";
+        public static string V407 {get; set;} = "OT Trainer from Colloseum/XD could not be female.";
+        public static string V408 {get; set;} = "OT Trainer from generation 1 could not be female.";
         #endregion
 
     }

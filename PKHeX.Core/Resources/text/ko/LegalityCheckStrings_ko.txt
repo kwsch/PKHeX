@@ -338,3 +338,5 @@ V401 = In-game trade {0} should have evolved into {1}.
 V402 = Incorrect Stadium OT.
 V405 = Outsider {0} should have evolved into {1}.
 V406 = Non japanese Shadow E-reader Pokémon. Unreleased encounter.
+V407 = OT Trainer from Colloseum/XD could not be female.
+V408 = OT Trainer from generation 1 could not be female.
