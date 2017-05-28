@@ -827,20 +827,20 @@ namespace PKHeX.Core
         private void verifyCXDStarterCorrelation(PIDIV pidiv)
         {
             var spec = ((EncounterStatic)EncounterMatch).Species;
-            int rev; // pidiv reversed 5x yields SID, 6x yields TID. shift by 7 if another PKM is generated prior
+            int rev; // pidiv reversed 2x yields SID, 3x yields TID. shift by 7 if another PKM is generated prior
             switch (spec)
             {
                 // XD
                 case 133: // Eevee
-                    rev = 5;
+                    rev = 2;
                     break;
                 
                 // Colosseum
                 case 197: // Umbreon (generated before Espeon)
-                    rev = 5;
+                    rev = 2;
                     break;
                 case 196: // Espeon (generated after Umbreon)
-                    rev = 5+7;
+                    rev = 2+7;
                     break;
                 default:
                     return;

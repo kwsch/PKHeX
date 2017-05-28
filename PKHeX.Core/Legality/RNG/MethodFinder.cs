@@ -187,15 +187,13 @@ namespace PKHeX.Core
             var xdc = getSeedsFromPID(RNG.XDRNG, bot, top);
             foreach (var seed in xdc)
             {
-                var C = RNG.XDRNG.Reverse(seed, 3);
+                var B = RNG.XDRNG.Prev(seed);
+                var A = RNG.XDRNG.Prev(B);
 
-                var D = RNG.XDRNG.Next(C);
-                var E = RNG.XDRNG.Next(D);
-
-                if (!getIVs(D >> 16, E >> 16).SequenceEqual(IVs))
+                if (!getIVs(A >> 16, B >> 16).SequenceEqual(IVs))
                     continue;
 
-                pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.XDRNG, Type = PIDType.CXD};
+                pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXD};
                 return true;
             }
             pidiv = null;
