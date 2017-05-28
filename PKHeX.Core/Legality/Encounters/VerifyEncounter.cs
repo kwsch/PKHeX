@@ -10,8 +10,6 @@ namespace PKHeX.Core
             if (encounter is EncounterEgg e)
             {
                 pkm.WasEgg = true;
-                if (pkm.GenNumber == 3)
-                    return verifyEncounterEgg3Transfer(pkm);
                 return verifyEncounterEgg(pkm, e);
             }
             if (encounter is EncounterLink l)
@@ -55,7 +53,7 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2: return new CheckResult(CheckIdentifier.Encounter); // no met location info
-                case 3: return verifyEncounterEgg3(pkm);
+                case 3: return pkm.Format != 3 ? verifyEncounterEgg3Transfer(pkm) : verifyEncounterEgg3(pkm);
                 case 4: return pkm.IsEgg ? verifyUnhatchedEgg(pkm, 02002) : verifyEncounterEgg4(pkm);
                 case 5: return pkm.IsEgg ? verifyUnhatchedEgg(pkm, 30002) : verifyEncounterEgg5(pkm);
                 case 6: return pkm.IsEgg ? verifyUnhatchedEgg(pkm, 30002) : verifyEncounterEgg6(pkm);

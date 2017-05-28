@@ -154,10 +154,10 @@ namespace PKHeX.Core
 
             foreach (var z in getValidFriendSafari(pkm))
             { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
+            if (ctr != 0 && !gen3egg) yield break;
             foreach (var z in getValidWildEncounters(pkm))
             { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
+            if (ctr != 0 && !gen3egg) yield break;
             foreach (var z in getValidEncounterTrade(pkm))
             { yield return z; ++ctr; }
             // if (ctr != 0) yield break;

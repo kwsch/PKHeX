@@ -95,9 +95,7 @@ namespace PKHeX.Core
 
             if (pkm.Species == 265)
                 AddLine(Severity.Valid, string.Format(V212, evoVal == 0 ? specieslist[267] : specieslist[269]), CheckIdentifier.EC);
-
-            int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species) / 2;
-            if (evoVal != wIndex)
+            else if (evoVal != Array.IndexOf(Legal.WurmpleEvolutions, pkm.Species) / 2)
                 AddLine(Severity.Invalid, V210, CheckIdentifier.EC);
         }
         private void verifyEC()
