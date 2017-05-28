@@ -612,7 +612,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 486, Level = 01, Location = 064, Version = GameVersion.Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Regigigas @ Snowpoint Temple
             new EncounterStaticTyped { Species = 487, Level = 70, Location = 062, Version = GameVersion.DP, Form = 0, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Giratina @ Turnback Cave
             new EncounterStaticTyped { Species = 487, Level = 47, Location = 117, Version = GameVersion.Pt, Form = 1, TypeEncounter = EncounterType.DistortionWorld_Pt }, //Giratina @ Distortion World
-            new EncounterStaticTyped { Species = 487, Level = 47, Location = 062, Version = GameVersion.Pt, Form = 0, TypeEncounter = EncounterType.DistortionWorld_Pt }, //Giratina @ Turnback Cave
+            new EncounterStaticTyped { Species = 487, Level = 47, Location = 062, Version = GameVersion.Pt, Form = 0, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Giratina @ Turnback Cave
             //Event
             new EncounterStaticTyped { Species = 491, Level = 40, Location = 079, Version = GameVersion.DP, TypeEncounter = EncounterType.TallGrass }, //Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
             new EncounterStaticTyped { Species = 491, Level = 50, Location = 079, Version = GameVersion.Pt, TypeEncounter = EncounterType.TallGrass }, //Darkrai @ Newmoon Island
