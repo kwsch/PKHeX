@@ -1981,7 +1981,7 @@ namespace PKHeX.Core
                 var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
                 if (HatchCycles == 0 || HatchCycles == null)
                     HatchCycles = pkm.PersonalInfo.HatchCycles;
-                if (pkm.CurrentFriendship > HatchCycles || pkm.CurrentFriendship == 0)
+                if (pkm.CurrentFriendship > HatchCycles)
                 { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
             }
 
