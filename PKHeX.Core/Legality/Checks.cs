@@ -349,11 +349,10 @@ namespace PKHeX.Core
         }
         private void verifyIVs()
         {
-            var e = EncounterMatch as EncounterStatic;
-            if ((EncounterMatch as EncounterStatic)?.IV3 == true)
+            if (EncounterMatch is EncounterStatic s && s.IV3)
             {
                 int IVCount = 3;
-                if (e.Version == GameVersion.RBY && pkm.Species == 151)
+                if (s.Version == GameVersion.RBY && pkm.Species == 151)
                     IVCount = 5; // VC Mew
                 if (pkm.IVs.Count(iv => iv == 31) < IVCount)
                 {
@@ -369,10 +368,10 @@ namespace PKHeX.Core
                     return;
                 }
             }
-            if (Type == typeof(MysteryGift))
+            if (EncounterMatch is MysteryGift g)
             {
                 int[] IVs;
-                switch (((MysteryGift) EncounterMatch).Format)
+                switch (g.Format)
                 {
                     case 7: IVs = ((WC7)EncounterMatch).IVs; break;
                     case 6: IVs = ((WC6)EncounterMatch).IVs; break;
@@ -826,7 +825,7 @@ namespace PKHeX.Core
         }
         private void verifyCXDStarterCorrelation(PIDIV pidiv)
         {
-            var spec = ((EncounterStatic)EncounterMatch).Species;
+            var spec = EncounterMatch.Species;
             int rev; // pidiv reversed 2x yields SID, 3x yields TID. shift by 7 if another PKM is generated prior
             switch (spec)
             {
@@ -1038,18 +1037,18 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            if (Type == typeof(MysteryGift))
+            if (EncounterMatch is MysteryGift g)
             {
-                if (pkm.Species == 490 && ((MysteryGift)EncounterMatch).Ball == 0)
+                if (pkm.Species == 490 && g.Ball == 0)
                     // there is no ball data in Manaphy Mystery Gift
                     verifyBallEquals(4); // Pokeball
                 else
-                    verifyBallEquals(((MysteryGift)EncounterMatch).Ball);
+                    verifyBallEquals(g.Ball);
                 return;
             }
-            if (Type == typeof (EncounterLink))
+            if (EncounterMatch is EncounterLink l)
             {
-                verifyBallEquals(((EncounterLink)EncounterMatch).Ball);
+                verifyBallEquals(l.Ball);
                 return;
             }
             if (Type == typeof (EncounterTrade))
@@ -1980,9 +1979,9 @@ namespace PKHeX.Core
                 if (pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
                 { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); }
                 var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
-                if (HatchCycles == 0)
+                if (HatchCycles == 0 || HatchCycles == null)
                     HatchCycles = pkm.PersonalInfo.HatchCycles;
-                if (pkm.CurrentFriendship > HatchCycles)
+                if (pkm.CurrentFriendship > HatchCycles || pkm.CurrentFriendship == 0)
                 { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
             }
 
@@ -1996,10 +1995,9 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
                     return;
                 }
-                if (Type == typeof(EncounterStatic))
+                if (EncounterMatch is EncounterStatic s)
                 {
-                    var enc = EncounterMatch as EncounterStatic;
-                    var fateful = enc.Fateful;
+                    var fateful = s.Fateful;
                     var shadow = EncounterMatch is EncounterStaticShadow;
                     if (pkm.Gen3 && pkm.WasEgg && !pkm.IsEgg)
                         fateful = false; // lost after hatching
@@ -2064,7 +2062,7 @@ namespace PKHeX.Core
                 case 791: // Solgaleo
                     if (pkm.Version == 31 && pkm.IsUntraded)
                     {
-                        if (Type == typeof(MysteryGift) && ((MysteryGift)EncounterMatch).Species == pkm.Species) // Gifted via Mystery Gift
+                        if (EncounterMatch is MysteryGift g && g.Species == pkm.Species) // Gifted via Mystery Gift
                             break;
                         AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
@@ -2072,7 +2070,7 @@ namespace PKHeX.Core
                 case 792: // Lunala
                     if (pkm.Version == 30 && pkm.IsUntraded)
                     {
-                        if (Type == typeof(MysteryGift) && ((MysteryGift)EncounterMatch).Species == pkm.Species) // Gifted via Mystery Gift
+                        if (EncounterMatch is MysteryGift g && g.Species == pkm.Species) // Gifted via Mystery Gift
                             break;
                         AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     }
