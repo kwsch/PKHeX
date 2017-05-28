@@ -512,7 +512,7 @@ namespace PKHeX.WinForms
                     {
                         if (cmd.PropertyName == nameof(PKM.Identifier) + "Contains")
                             return pkm.Identifier.Contains(cmd.PropertyValue);
-                        if (!pkm.GetType().HasPropertyAll(typeof(PKM), cmd.PropertyName))
+                        if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }

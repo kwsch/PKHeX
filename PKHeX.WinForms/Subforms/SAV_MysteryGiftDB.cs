@@ -288,7 +288,7 @@ namespace PKHeX.WinForms
                 {
                     foreach (var cmd in filters)
                     {
-                        if (!gift.GetType().HasPropertyAll(typeof(PKM), cmd.PropertyName))
+                        if (!gift.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
                         try { if (ReflectUtil.GetValueEquals(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
