@@ -255,7 +255,7 @@ namespace PKHeX.Core
                     new BlockInfo(0x20800, 0x0094, 0x20896, 0x25F60), // ???
                     new BlockInfo(0x20900, 0x035c, 0x20C5E, 0x25F62), // Battle Box Block
                     new BlockInfo(0x20D00, 0x01d4, 0x20ED6, 0x25F64), // Daycare Block (50d)
-                    new BlockInfo(0x20F00, 0x01e0, 0x201E2, 0x25F66), // Strength Boulder Status Block
+                    new BlockInfo(0x20F00, 0x01e0, 0x210E2, 0x25F66), // Strength Boulder Status Block
                     new BlockInfo(0x21100, 0x00f0, 0x211F2, 0x25F68), // Badge Flags, Money, Trainer Sayings
                     new BlockInfo(0x21200, 0x01b4, 0x213B6, 0x25F6A), // Entralink (Level & Powers etc)
                     new BlockInfo(0x21400, 0x04dc, 0x218DE, 0x25F6C), // Pokedex
