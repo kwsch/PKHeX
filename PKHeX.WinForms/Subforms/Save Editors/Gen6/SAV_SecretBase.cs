@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
             fegform += CB_Form.SelectedIndex << 3;
             pkm[0x15] = (byte)fegform;
 
-            pkm[0x16] = (byte)Math.Min(Convert.ToInt32( TB_HPEV.Text), 252);
+            pkm[0x16] = (byte)Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
             pkm[0x17] = (byte)Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
             pkm[0x18] = (byte)Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
             pkm[0x19] = (byte)Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252);

@@ -9,29 +9,22 @@ namespace PKHeX.Core
     public partial class LegalityAnalysis
     {
         private PKM pkm;
-        private DexLevel[][] EvoChainsAllGens;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
-        private List<GBEncounterData> EncountersGBMatch;
-        private object EncounterOriginalGB;
-        private object EncounterMatch;
-        private int EncounterSpecies;
+        private IEncounterable EncounterOriginalGB;
+        private IEncounterable EncounterMatch => info.EncounterMatch;
         private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
         private Type MatchedType; // Child class if applicable (WC6, PGF, etc)
-        private string EncounterName => Legal.getEncounterTypeName(pkm, EncounterOriginalGB ?? EncounterMatch);
-        private List<MysteryGift> EventGiftMatch;
-        private List<EncounterStatic> EncounterStaticMatch;
+        private string EncounterName => Legal.getEncounterTypeName(EncounterOriginalGB ?? EncounterMatch);
         private CheckResult Encounter, History;
-        private int[] RelearnBase;
         // private bool SecondaryChecked;
 
         public readonly bool Parsed;
         public readonly bool Valid;
         public readonly bool Error;
+        public LegalInfo info;
         public bool ParsedValid => Parsed && Valid;
         public bool ParsedInvalid => Parsed && !Valid;
-        public CheckResult[] vMoves = new CheckResult[4];
-        public CheckResult[] vRelearn = new CheckResult[4];
         public string Report(bool verbose = false) => verbose ? getVerboseLegalityReport() : getLegalityReport();
         private IEnumerable<int> AllSuggestedMoves
         {
@@ -51,7 +44,7 @@ namespace PKHeX.Core
                 if (Error)
                     return new int[4];
                 if (_allSuggestedRelearnMoves == null)
-                    return _allSuggestedRelearnMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, -1).ToArray();
+                    return _allSuggestedRelearnMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, info.EncounterMatch.Species).ToArray();
                 return _allSuggestedRelearnMoves;
             }
         }
@@ -60,12 +53,6 @@ namespace PKHeX.Core
 
         public LegalityAnalysis(PKM pk)
         {
-            for (int i = 0; i < 4; i++) 
-            {
-                vMoves[i] = new CheckResult(CheckIdentifier.Move);
-                vRelearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
-            }
-
             try
             {
                 switch (pk.Format) // prior to storing GameVersion
@@ -90,14 +77,14 @@ namespace PKHeX.Core
                 {
                     if (Parse.Any(chk => !chk.Valid))
                         Valid = false;
-                    else if (vMoves.Any(m => m.Valid != true))
+                    else if (info.vMoves.Any(m => m.Valid != true))
                         Valid = false;
-                    else if (vRelearn.Any(m => m.Valid != true))
+                    else if (info.vRelearn.Any(m => m.Valid != true))
                         Valid = false;
                     else
                         Valid = true;
 
-                    if (pkm.FatefulEncounter && vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
+                    if (pkm.FatefulEncounter && info.vRelearn.Any(chk => !chk.Valid) && EncounterMatch == null)
                         AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
                 }
             }
@@ -126,9 +113,15 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
             updateTradebackG12();
-            updateEncounterChain();
-            updateMoveLegality();
+
+            updateInfo();
             updateTypeInfo();
+            if (pk.Format > 2) // transferred
+            {
+                EncounterOriginalGB = EncounterMatch;
+                foreach (var z in verifyVCEncounter(pkm, EncounterMatch.Species, EncounterMatch as GBEncounterData))
+                    AddLine(z);
+            }
             verifyNickname();
             verifyDVs();
             verifyG1OT();
@@ -139,11 +132,12 @@ namespace PKHeX.Core
             pkm = pk;
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
-            
-            updateEncounterChain();
-            updateMoveLegality();
+
+            updateInfo();
             updateTypeInfo();
             updateChecks();
+            if (pkm.Format > 3)
+                verifyTransferLegalityG3();
 
             if (pkm.Version == 15)
                 verifyCXD();
@@ -154,11 +148,11 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
 
-            verifyPreRelearn();
-            updateEncounterChain();
-            updateMoveLegality();
+            updateInfo();
             updateTypeInfo();
             updateChecks();
+            if (pkm.Format > 4)
+                verifyTransferLegalityG4();
         }
         private void parsePK5(PKM pk)
         {
@@ -166,9 +160,7 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
 
-            verifyPreRelearn();
-            updateEncounterChain();
-            updateMoveLegality();
+            updateInfo();
             updateTypeInfo();
             updateChecks();
         }
@@ -178,9 +170,7 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
 
-            updateRelearnLegality();
-            updateEncounterChain();
-            updateMoveLegality();
+            updateInfo();
             updateTypeInfo();
             updateChecks();
         }
@@ -190,35 +180,18 @@ namespace PKHeX.Core
             if (!pkm.IsOriginValid)
             { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
 
-            updateRelearnLegality();
-            updateEncounterChain();
-            updateMoveLegality();
+            updateInfo();
             updateTypeInfo();
             updateChecks();
         }
 
-        private void updateRelearnLegality()
+        private void updateInfo()
         {
-            try { vRelearn = verifyRelearn(); }
-            catch { for (int i = 0; i < 4; i++) vRelearn[i] = new CheckResult(Severity.Invalid, V190, CheckIdentifier.RelearnMove); }
-            // SecondaryChecked = false;
+            info = EncounterFinder.verifyEncounter(pkm);
+            Encounter = info.Parse[0];
+            Parse.AddRange(info.Parse);
         }
-        private void updateMoveLegality()
-        {
-            try { vMoves = verifyMoves(); }
-            catch { for (int i = 0; i < 4; i++) vMoves[i] = new CheckResult(Severity.Invalid, V190, CheckIdentifier.Move); }
-            // SecondaryChecked = false;
-        }
-
-        private void updateEncounterChain()
-        {
-            if (EventGiftMatch?.Count > 1) // Multiple possible Mystery Gifts matched
-                EncounterMatch = EventGiftMatch.First(); // temporarily set one so that Encounter can be verified
-
-            Encounter = verifyEncounter();
-            Parse.Add(Encounter);
-            EvoChainsAllGens = Legal.getEvolutionChainsAllGens(pkm, EncounterOriginalGB ?? EncounterMatch);
-        }
+        
         private void updateTradebackG12()
         {
             if (pkm.Format == 1)
@@ -278,13 +251,13 @@ namespace PKHeX.Core
         private void updateTypeInfo()
         {
             if (pkm.VC && pkm.Format == 7)
-                EncounterMatch = Legal.getRBYStaticTransfer(pkm.Species);
+                info.EncounterMatch = EncounterGenerator.getRBYStaticTransfer(pkm.Species);
 
-            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && EncountersGBMatch?.All(e => e.Generation != pkm.GenNumber) == true)
+            if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && (EncounterMatch as GBEncounterData)?.Generation != pkm.GenNumber)
                 // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
                 pkm.TradebackStatus = TradebackType.WasTradeback;
 
-            MatchedType = Type = (EncounterOriginalGB ?? EncounterMatch ?? pkm.Species)?.GetType();
+            MatchedType = Type = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
             var bt = Type.GetTypeInfo().BaseType;
             if (bt != null && !(bt == typeof(Array) || bt == typeof(object) || bt.GetTypeInfo().IsPrimitive)) // a parent exists
                 Type = bt; // use base type
@@ -326,6 +299,8 @@ namespace PKHeX.Core
                 return V189;
             
             var lines = new List<string>();
+            var vMoves = info.vMoves;
+            var vRelearn = info.vRelearn;
             for (int i = 0; i < 4; i++)
                 if (!vMoves[i].Valid)
                     lines.Add(string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment));
@@ -358,6 +333,8 @@ namespace PKHeX.Core
             lines.AddRange(br);
             int rl = lines.Count;
 
+            var vMoves = info.vMoves;
+            var vRelearn = info.vRelearn;
             for (int i = 0; i < 4; i++)
                 if (vMoves[i].Valid)
                     lines.Add(string.Format(V191, getString(vMoves[i].Judgement), i + 1, vMoves[i].Comment));
@@ -388,13 +365,14 @@ namespace PKHeX.Core
 
         public int[] getSuggestedRelearn()
         {
-            if (RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid)
+            if (info.RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid)
                 return new int[4];
 
             if (!pkm.WasEgg)
-                return RelearnBase;
+                return info.RelearnBase;
 
-            List<int> window = new List<int>(RelearnBase);
+            List<int> window = new List<int>(info.RelearnBase);
+            var vMoves = info.vMoves;
             window.AddRange(pkm.Moves.Where((v, i) => !vMoves[i].Valid || vMoves[i].Flag));
             window = window.Distinct().ToList();
             if (window.Count < 4)
@@ -407,7 +385,7 @@ namespace PKHeX.Core
                 return null;
             if (!Parsed)
                 return new int[4];
-            return Legal.getValidMoves(pkm, EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+            return Legal.getValidMoves(pkm, info.EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
 
         public EncounterStatic getSuggestedMetInfo()
@@ -431,7 +409,7 @@ namespace PKHeX.Core
                 };
             }
 
-            var area = Legal.getCaptureLocation(pkm);
+            var area = EncounterGenerator.getCaptureLocation(pkm);
             if (area != null)
             {
                 var slots = area.Slots.OrderBy(s => s.LevelMin);
@@ -443,7 +421,7 @@ namespace PKHeX.Core
                 };
             }
 
-            var encounter = Legal.getStaticLocation(pkm);
+            var encounter = EncounterGenerator.getStaticLocation(pkm);
             if (loc != -1 && encounter != null)
                 encounter.Location = loc;
             return encounter;
@@ -505,22 +483,6 @@ namespace PKHeX.Core
             if (pkm.Format == 5) // Transporter
                 return 30001;
             return -1;
-        }
-        private static int[] getGenMovesCheckOrder(PKM pkm)
-        {
-            if (pkm.Format == 1)
-                return new [] { 1, 2 };
-            if (pkm.Format == 2)
-                return new [] { 2, 1 };
-            if (pkm.Format == 7 && pkm.VC1)
-                return new [] { 7, 1 };
-            if (pkm.Format == 7 && pkm.VC2)
-                return new [] { 7, 2, 1 };
-
-            var order = new int[pkm.Format - pkm.GenNumber + 1];
-            for (int i = 0; i < order.Length; i++)
-                order[i] = pkm.Format - i;
-            return order;
         }
     }
 }

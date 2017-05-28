@@ -12,68 +12,58 @@ namespace PKHeX.Core
         SpecialEncounter = 20,
     }
 
-    public class GBEncounterData
+    public class GBEncounterData : IEncounterable
     {
         public readonly int Level;
         public int MoveLevel;
-        public readonly int Species;
         public bool Gen2 => Generation == 2;
         public bool Gen1 => Generation == 1;
         public readonly int Generation;
-        public readonly bool WasEgg;
         public readonly GBEncounterType Type;
-        public readonly object Encounter;
+        public readonly IEncounterable Encounter;
+
+        public int Species => Encounter.Species;
+        public string Name => Encounter.Name;
+        public bool EggEncounter => Encounter.EggEncounter;
+        public int LevelMin => Encounter.LevelMin;
+        public int LevelMax => Encounter.LevelMax;
 
         // Egg encounter
-        public GBEncounterData(int species)
+        public GBEncounterData(int species, GameVersion game)
         {
             Generation = 2;
-            Type = GBEncounterType.EggEncounter;
-            Level = 5;
-            WasEgg = true;
-            Species = species;
+            Encounter = new EncounterEgg { Species = species, Game = game, Level = Level };
         }
         
-        public GBEncounterData(PKM pkm, int gen, object enc)
+        public GBEncounterData(PKM pkm, int gen, IEncounterable enc)
         {
             Generation = gen;
             Encounter = enc;
-            WasEgg = false;
-            if (Encounter is EncounterTrade)
+            if (Encounter is EncounterTrade trade)
             {
-                var trade = (EncounterTrade)Encounter;
-                Species = trade.Species;
                 if (pkm.HasOriginalMetLocation && trade.Level < pkm.Met_Level)
                     Level = pkm.Met_Level; // Crystal
                 else
                     Level = trade.Level;
-                if (Generation == 2)
-                    Type = GBEncounterType.TradeEncounterG2;
-                else
-                    Type = GBEncounterType.TradeEncounterG1;
+                Type = Generation == 2
+                    ? GBEncounterType.TradeEncounterG2
+                    : GBEncounterType.TradeEncounterG1;
             }
-            else if (Encounter is EncounterStatic)
+            else if (Encounter is EncounterStatic statc)
             {
-                var statc = (EncounterStatic)Encounter;
-                Species = statc.Species;
                 Level = statc.Level;
-                if (statc.Moves != null && statc.Moves[0] != 0 && pkm.Moves.Contains(statc.Moves[0]))
-                    Type = GBEncounterType.SpecialEncounter;
-                else
-                    Type = GBEncounterType.StaticEncounter;
+                Type = statc.Moves != null && statc.Moves[0] != 0 && pkm.Moves.Contains(statc.Moves[0])
+                    ? GBEncounterType.SpecialEncounter
+                    : GBEncounterType.StaticEncounter;
             }
-            else if (Encounter is EncounterSlot1)
+            else if (Encounter is EncounterSlot1 slot)
             {
-                var slot = (EncounterSlot1)Encounter;
-                Species = slot.Species;
-                if (pkm.HasOriginalMetLocation && slot.LevelMin >= pkm.Met_Level && pkm.Met_Level <= slot.LevelMax)
-                    Level = pkm.Met_Level; // Crystal
-                else
-                    Level = slot.LevelMin;
+                Level = pkm.HasOriginalMetLocation && slot.LevelMin >= pkm.Met_Level && pkm.Met_Level <= slot.LevelMax
+                    ? pkm.Met_Level // Crystal
+                    : slot.LevelMin;
                 Type = GBEncounterType.WildEncounter;
             }
             MoveLevel = Level;
         }
     }
-
 }

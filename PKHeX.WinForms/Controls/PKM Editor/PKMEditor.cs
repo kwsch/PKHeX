@@ -252,11 +252,11 @@ namespace PKHeX.WinForms.Controls
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.vMoves[i].Valid;
+                movePB[i].Visible = !Legality.info.vMoves[i].Valid;
 
             if (pkm.Format >= 6)
                 for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.vRelearn[i].Valid;
+                    relearnPB[i].Visible = !Legality.info.vRelearn[i].Valid;
 
             if (skipMoveRepop)
                 return;

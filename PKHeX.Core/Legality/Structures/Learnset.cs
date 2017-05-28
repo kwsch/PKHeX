@@ -43,7 +43,8 @@ namespace PKHeX.Core
             if (end < 0)
                 return new int[0];
             count = Math.Min(count, 4);
-            int start = Math.Max(end - count, 0);
+            int start = end - count + 1;
+            if (start < 0) start = 0;
             int[] result = new int[end - start + 1];
             Array.Copy(Moves, start, result, 0, result.Length);
             return result;

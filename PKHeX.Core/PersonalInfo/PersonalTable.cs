@@ -113,13 +113,13 @@ namespace PKHeX.Core
         {
             get
             {
-                if (index < Table.Length)
+                if (0 <= index && index < Table.Length)
                     return Table[index];
                 return Table[0];
             }
             set
             {
-                if (index < Table.Length)
+                if (index < 0 || index >= Table.Length)
                     return;
                 Table[index] = value; 
             }

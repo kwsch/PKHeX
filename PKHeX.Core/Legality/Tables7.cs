@@ -246,7 +246,7 @@ namespace PKHeX.Core
         };
         private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 627, LevelMin = 10, LevelMax = 55}, /* Rufflet SUN  */ } } };
         private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 629, LevelMin = 10, LevelMax = 55}, /* Vullaby MOON */ } } };
-        private static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
+        internal static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
             // Trades - 4.bin
             new EncounterTrade { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop

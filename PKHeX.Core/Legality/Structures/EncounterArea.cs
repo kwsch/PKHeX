@@ -340,7 +340,7 @@ namespace PKHeX.Core
             for (int i = 0; i < numslots; i++)
             {
                 int level = data[ofs + i];
-                int species = BitConverter.ToUInt16(data,  ofs + numslots + i * 2);
+                int species = BitConverter.ToUInt16(data, ofs + numslots + i * 2);
                 slots[i] = new EncounterSlot
                 {
                     LevelMin = level,
