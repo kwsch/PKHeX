@@ -401,7 +401,8 @@ namespace PKHeX.Core
         public static string V405 {get; set;} = "Outsider {0} should have evolved into {1}.";
         public static string V406 {get; set;} = "Non Japanese Shadow E-reader Pokémon. Unreleased encounter.";
         public static string V407 {get; set;} = "OT from Colosseum/XD cannot be female.";
-        public static string V408 {get; set;} = "OT from Generation 1 cannot be female.";
+        public static string V408 {get; set;} = "Female OT from Generation 1/2 is invalid.";
+        public static string V409 {get; set;} = "Mystery Gift shiny mismatch.";
         #endregion
 
     }

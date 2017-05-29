@@ -339,3 +339,4 @@ V405 = 外来的{0}应当进化为{1}.
 V406 = 非日版黑暗E-reader宝可梦。未解禁遇见方式。
 V407 = OT from Colosseum/XD cannot be female.
 V408 = Female OT from Generation 1/2 is invalid.
+V409 = Mystery Gift shiny mismatch.

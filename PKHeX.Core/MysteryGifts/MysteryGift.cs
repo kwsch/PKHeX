@@ -113,7 +113,7 @@ namespace PKHeX.Core
         public virtual int Bean { get => 0; set { } }
         public virtual int BeanCount { get => 0; set { } }
 
-        public string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
+        public virtual string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         public override int GetHashCode()
         {

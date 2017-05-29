@@ -136,7 +136,7 @@ namespace PKHeX.Core
                 if (ctr != 0) yield break;
             }
 
-            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg;
+            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg || pkm.GenNumber == 3; // egg events?
             if (wasEvent)
             {
                 foreach (var z in getValidGifts(pkm))
@@ -281,23 +281,6 @@ namespace PKHeX.Core
 
                 if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
-
-                yield return e;
-            }
-        }
-        private static IEnumerable<EncounterStatic> getG3SpecialEggEncounter(PKM pkm)
-        {
-            IEnumerable<DexLevel> dl = getValidPreEvolutions(pkm, MaxSpeciesID_3);
-            var sttctable = pkm.E ? EventEgg_G3_Common : pkm.FRLG ? EventEgg_FRLG : EventEgg_RS;
-            var table = sttctable.Where(e => dl.Any(d => d.Species == e.Species));
-            foreach (EncounterStatic e in table)
-            {
-                if (pkm.Moves.All(m => !e.Moves.Contains(m)))  // No special move
-                    continue;
-                if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
-                    continue;
-                if (e.Gender != -1 && e.Gender != pkm.Gender)
-                    continue;
 
                 yield return e;
             }
@@ -694,6 +677,8 @@ namespace PKHeX.Core
         {
             switch (pkm.GenNumber)
             {
+                case 3:
+                    return getMatchingWC3(pkm, MGDB_G3);
                 case 4:
                     return getMatchingPCD(pkm, MGDB_G4);
                 case 5:
@@ -705,6 +690,60 @@ namespace PKHeX.Core
                 default:
                     return new List<MysteryGift>();
             }
+        }
+        private static IEnumerable<MysteryGift> getMatchingWC3(PKM pkm, IEnumerable<MysteryGift> DB)
+        {
+            if (DB == null)
+                yield break;
+
+            var validWC3 = new List<MysteryGift>();
+            var vs = getValidPreEvolutions(pkm, MaxSpeciesID_3).ToArray();
+            foreach (WC3 wc in DB.OfType<WC3>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
+            {
+                // Gen3 Version MUST match.
+                if (wc.Version != 0 && !((GameVersion)wc.Version).Contains((GameVersion)pkm.Version))
+                    continue;
+
+                if (!wc.IsEgg)
+                {
+                    if (wc.SID != -1 && wc.SID != pkm.SID) continue;
+                    if (wc.TID != -1 && wc.TID != pkm.TID) continue;
+                    if (wc.OT_Name != pkm.OT_Name) continue;
+                    if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
+                    if (wc.Language != 0 && wc.Language != pkm.Language) continue;
+
+                    if (wc.Met_Location != pkm.Met_Location && pkm.HasOriginalMetLocation)
+                        continue;
+                }
+                else if (wc.IsEgg)
+                {
+                    if (pkm.IsNative)
+                    {
+                        if (wc.Level != pkm.Met_Level)
+                            continue;
+                    }
+                    else
+                    {
+                        if (wc.Level > pkm.Met_Level)
+                            continue;
+                        if (pkm.IsEgg)
+                            continue;
+                    }
+                }
+                
+                if (wc.Ball != pkm.Ball) continue;
+
+                // Some checks are best performed separately as they are caused by users screwing up valid data.
+                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
+                // RIBBONS: Defer to ribbon legality
+
+                if (wc.Species == pkm.Species) // best match
+                    yield return wc;
+                else
+                    validWC3.Add(wc);
+            }
+            foreach (var z in validWC3)
+                yield return z;
         }
         private static IEnumerable<MysteryGift> getMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
         {

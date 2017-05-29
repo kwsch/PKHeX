@@ -9,7 +9,7 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         /// <summary>Event Database for a given Generation</summary>
-        public static MysteryGift[] MGDB_G4, MGDB_G5, MGDB_G6, MGDB_G7 = new MysteryGift[0];
+        public static MysteryGift[] MGDB_G3, MGDB_G4, MGDB_G5, MGDB_G6, MGDB_G7 = new MysteryGift[0];
 
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra = false;
@@ -168,6 +168,7 @@ namespace PKHeX.Core
                     }
                 }
 
+            MGDB_G3 = Encounter_WC3; // hardcoded
             MGDB_G4 = g4.ToArray();
             MGDB_G5 = g5.ToArray();
             MGDB_G6 = g6.ToArray();

@@ -238,62 +238,79 @@ namespace PKHeX.Core
               46, 47, 48, 49,
         };
 
-        internal static readonly EncounterStatic[] EventEgg_FRLG_Exclusive =
+        internal static readonly MysteryGift[] Encounter_Event3 =
+        {
+            new WC3 { Species = 385, Level = 05, TID = 40122, OT_Gender = 3, OT_Name = "CHANNEL", CardTitle = "Channel Jirachi", Method = PIDType.Channel, Version = (int)GameVersion.RS },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "アゲト", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = 1 },
+            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = 1 },
+
+            new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Method = PIDType.BACD_R, Language = 2 },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = 2, NotDistributed = true  },
+            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = 2, NotDistributed = true },
+
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "バトルやま", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 1 }, // JPN
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MATTLE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 2 }, // ENG
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MT BATA", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 3 }, // FRE
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "DUELLBE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 4 }, // GER
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MONTE L", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 5 }, // ITA
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "ERNESTO", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 7 }, // SPA
+        };
+
+        internal static readonly MysteryGift[] Encounter_Event3_FRLG =
         {
             // Egg Pokémon Present Eggs
-            new EncounterStatic { Species = 043, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
-            new EncounterStatic { Species = 052, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
-            new EncounterStatic { Species = 060, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
-            new EncounterStatic { Species = 069, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+            new WC3 { Species = 043, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
+            new WC3 { Species = 052, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
+            new WC3 { Species = 060, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new WC3 { Species = 069, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
             // Wish Egg
-            new EncounterStatic { Species = 083, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
-            new EncounterStatic { Species = 096, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
-            new EncounterStatic { Species = 102, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
-            new EncounterStatic { Species = 108, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
-            new EncounterStatic { Species = 113, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
-            new EncounterStatic { Species = 115, Level = 05, EggLocation = 255, Version = GameVersion.FRLG, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
+            new WC3 { Species = 083, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
+            new WC3 { Species = 096, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
+            new WC3 { Species = 102, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
+            new WC3 { Species = 108, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
+            new WC3 { Species = 113, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
+            new WC3 { Species = 115, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
         };
 
-        internal static readonly EncounterStatic[] EventEgg_RS_Exclusive =
+        internal static readonly MysteryGift[] Encounter_Event3_RS =
         {   
             // Pokémon Center 5th Anniversary Eggs
-            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
-            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Pichu with Wish
-            new EncounterStatic { Species = 280, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{204} }, // Ralts with Charm
-            new EncounterStatic { Species = 280, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Ralts with Wish
-            new EncounterStatic { Species = 359, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{180} }, // Absol with Spite
-            new EncounterStatic { Species = 359, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Absol with Wish
-            new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{334} }, // Bagon with Iron Defense
-            new EncounterStatic { Species = 371, Level = 05, EggLocation = 255, Version = GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Pichu with Wish
+            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{204} }, // Ralts with Charm
+            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Ralts with Wish
+            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{180} }, // Absol with Spite
+            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Absol with Wish
+            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{334} }, // Bagon with Iron Defense
+            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
         };
 
-        internal static readonly EncounterStatic[] EventEgg_G3_Common =
+        internal static readonly MysteryGift[] Encounter_Event3_Common =
         {
             // Pokémon Box
-            new EncounterStatic { Species = 333, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{206} }, // Swablu Egg with False Swipe
-            new EncounterStatic { Species = 263, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{245} }, // Zigzagoon Egg with Extreme Speed
-            new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{6} }, // Skitty Egg with Pay Day
-            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Version = GameVersion.RSBOX, Moves = new[]{57} }, // Pichu Egg with Surf
+            new WC3 { Species = 333, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{206} }, // Swablu Egg with False Swipe
+            new WC3 { Species = 263, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{245} }, // Zigzagoon Egg with Extreme Speed
+            new WC3 { Species = 300, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{006} }, // Skitty Egg with Pay Day
+            new WC3 { Species = 172, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{057} }, // Pichu Egg with Surf
             // PokePark Eggs
-            new EncounterStatic { Species = 054, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Psyduck with Mud Sport
-            new EncounterStatic { Species = 172, Level = 05, EggLocation = 255, Moves = new[]{266} }, // Pichu with Follow me
-            new EncounterStatic { Species = 174, Level = 05, EggLocation = 255, Moves = new[]{321} }, // Igglybuff with Tickle
-            new EncounterStatic { Species = 222, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Corsola with Mud Sport
-            new EncounterStatic { Species = 276, Level = 05, EggLocation = 255, Moves = new[]{294} }, // Taillow with Feather Dance
-            new EncounterStatic { Species = 283, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Surskit with Mud Sport
-            new EncounterStatic { Species = 293, Level = 05, EggLocation = 255, Moves = new[]{298} }, // Whismur with Teeter Dance
-            new EncounterStatic { Species = 300, Level = 05, EggLocation = 255, Moves = new[]{205} }, // Skitty with Rollout
-            new EncounterStatic { Species = 311, Level = 05, EggLocation = 255, Moves = new[]{346} }, // Plusle with Water Sport
-            new EncounterStatic { Species = 312, Level = 05, EggLocation = 255, Moves = new[]{300} }, // Minun with Mud Sport
-            new EncounterStatic { Species = 325, Level = 05, EggLocation = 255, Moves = new[]{253} }, // Spoink with Uproar
-            new EncounterStatic { Species = 327, Level = 05, EggLocation = 255, Moves = new[]{047} }, // Spinda with Sing
-            new EncounterStatic { Species = 331, Level = 05, EggLocation = 255, Moves = new[]{227} }, // Cacnea with Encore
-            new EncounterStatic { Species = 341, Level = 05, EggLocation = 255, Moves = new[]{346} }, // Corphish with Water Sport
-            new EncounterStatic { Species = 360, Level = 05, EggLocation = 255, Moves = new[]{321} }, // Wynaut with Tickle
+            new WC3 { Species = 054, IsEgg = true, Level = 05, Moves = new[]{300} }, // Psyduck with Mud Sport
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{266} }, // Pichu with Follow me
+            new WC3 { Species = 174, IsEgg = true, Level = 05, Moves = new[]{321} }, // Igglybuff with Tickle
+            new WC3 { Species = 222, IsEgg = true, Level = 05, Moves = new[]{300} }, // Corsola with Mud Sport
+            new WC3 { Species = 276, IsEgg = true, Level = 05, Moves = new[]{294} }, // Taillow with Feather Dance
+            new WC3 { Species = 283, IsEgg = true, Level = 05, Moves = new[]{300} }, // Surskit with Mud Sport
+            new WC3 { Species = 293, IsEgg = true, Level = 05, Moves = new[]{298} }, // Whismur with Teeter Dance
+            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{205} }, // Skitty with Rollout
+            new WC3 { Species = 311, IsEgg = true, Level = 05, Moves = new[]{346} }, // Plusle with Water Sport
+            new WC3 { Species = 312, IsEgg = true, Level = 05, Moves = new[]{300} }, // Minun with Mud Sport
+            new WC3 { Species = 325, IsEgg = true, Level = 05, Moves = new[]{253} }, // Spoink with Uproar
+            new WC3 { Species = 327, IsEgg = true, Level = 05, Moves = new[]{047} }, // Spinda with Sing
+            new WC3 { Species = 331, IsEgg = true, Level = 05, Moves = new[]{227} }, // Cacnea with Encore
+            new WC3 { Species = 341, IsEgg = true, Level = 05, Moves = new[]{346} }, // Corphish with Water Sport
+            new WC3 { Species = 360, IsEgg = true, Level = 05, Moves = new[]{321} }, // Wynaut with Tickle
         };
 
-        internal static readonly EncounterStatic[] EventEgg_FRLG = EventEgg_FRLG_Exclusive.Concat(EventEgg_G3_Common).ToArray();
-        internal static readonly EncounterStatic[] EventEgg_RS = EventEgg_RS_Exclusive.Concat(EventEgg_G3_Common).ToArray();
+        internal static readonly MysteryGift[] Encounter_WC3 = Encounter_Event3.Concat(Encounter_Event3_RS).Concat(Encounter_Event3_FRLG.Concat(Encounter_Event3_Common)).ToArray();
 
         internal static readonly EncounterStatic[] Encounter_RSE_Roam =
         {
@@ -407,8 +424,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).Concat(EventEgg_RS).ToArray();
-        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).Concat(EventEgg_FRLG).ToArray();
+        internal static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
+        internal static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
 
         private static readonly int[] TradeContest_Cool =   {30, 05, 05, 05, 05, 10};
         private static readonly int[] TradeContest_Beauty = {05, 30, 05, 05, 05, 10};

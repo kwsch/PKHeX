@@ -1991,9 +1991,27 @@ namespace PKHeX.Core
 
             if (Encounter.Valid)
             {
-                if (Type == typeof(MysteryGift))
+                if (EncounterMatch is MysteryGift g)
                 {
-                    if (pkm.FatefulEncounter)
+                    bool fatefulValid = false;
+                    if (g.Format == 3)
+                    {
+                        // obedience flag in gen3 is the fateful flag; met location stores the fateful info until transfer
+                        bool required = g.Species == 151 || g.Species == 386;
+                        required |= pkm.Format != 3 && !g.IsEgg;
+                        fatefulValid = !(required ^ pkm.FatefulEncounter);
+
+                        var g3 = (WC3) g; // shiny locked gifts
+                        if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
+                            AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
+                    }
+                    else
+                    {
+                        if (pkm.FatefulEncounter)
+                            fatefulValid = true;
+                    }
+
+                    if (fatefulValid)
                         AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
                     else
                         AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
@@ -2003,9 +2021,7 @@ namespace PKHeX.Core
                 {
                     var fateful = s.Fateful;
                     var shadow = EncounterMatch is EncounterStaticShadow;
-                    if (pkm.Gen3 && pkm.WasEgg && !pkm.IsEgg)
-                        fateful = false; // lost after hatching
-                    else if (shadow && !(pkm is XK3 || pkm is CK3))
+                    if (shadow && !(pkm is XK3 || pkm is CK3))
                         fateful = true; // purification required for transfer
 
                     if (fateful)

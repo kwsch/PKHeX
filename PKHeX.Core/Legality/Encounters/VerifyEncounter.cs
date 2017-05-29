@@ -259,7 +259,7 @@ namespace PKHeX.Core
         private static CheckResult verifyEncounterEvent(PKM pkm, MysteryGift MatchedGift)
         {
             // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.
-            return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.CardID.ToString("0000"), MatchedGift.CardTitle), CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.getCardHeader(), ""), CheckIdentifier.Encounter);
         }
     }
 }
