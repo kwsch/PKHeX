@@ -14,13 +14,14 @@ namespace PKHeX.Core
                 return verifyRelearnNone(pkm, info);
 
             if (info.EncounterMatch is EncounterLink l)
-                return verifyRelearnLink(pkm, l, info);
-
+                return verifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
             if (info.EncounterMatch is MysteryGift g)
-                return verifyRelearnMysteryGift(pkm, g, info);
+                return verifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
+            if (info.EncounterMatch is EncounterStatic s)
+                return verifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
 
             if (info.EncounterMatch is EncounterEgg e)
-                return verifyRelearnEgg(pkm, e, info);
+                return verifyRelearnEggBase(pkm, info, e);
 
             if (pkm.RelearnMove1 != 0 && info.EncounterMatch is EncounterSlot z && z.DexNav && EncounterGenerator.getDexNavValid(pkm))
                 return verifyRelearnDexNav(pkm, info);
@@ -28,13 +29,12 @@ namespace PKHeX.Core
             return verifyRelearnNone(pkm, info);
         }
 
-        private static CheckResult[] verifyRelearnMysteryGift(PKM pkm, MysteryGift mg, LegalInfo info)
+        private static CheckResult[] verifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, int[] moves)
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
             // Get gifts that match
 
-            int[] moves = mg.RelearnMoves;
             for (int i = 0; i < 4; i++)
                 res[i] = moves[i] != RelearnMoves[i]
                     ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
@@ -80,31 +80,10 @@ namespace PKHeX.Core
 
             return res;
         }
-        private static CheckResult[] verifyRelearnLink(PKM pkm, EncounterLink l, LegalInfo info)
-        {
-            CheckResult[] res = new CheckResult[4];
-            int[] RelearnMoves = pkm.RelearnMoves;
-            int[] LinkRelearn = l.RelearnMoves;
-
-            // Pokémon Link encounters should have their relearn moves match exactly.
-            info.RelearnBase = LinkRelearn;
-            for (int i = 0; i < 4; i++)
-                res[i] = LinkRelearn[i] != RelearnMoves[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[LinkRelearn[i]]), CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
-
-            return res;
-        }
-        private static CheckResult[] verifyRelearnEgg(PKM pkm, EncounterEgg e, LegalInfo info)
+        private static CheckResult[] verifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
         {
             int[] RelearnMoves = pkm.RelearnMoves;
             info.RelearnBase = new int[4];
-
-            // Generate & Analyze compatibility
-            return verifyRelearnEggBase(pkm, info, e, RelearnMoves);
-        }
-        private static CheckResult[] verifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e, int[] RelearnMoves)
-        {
             CheckResult[] res = new CheckResult[4];
 
             // Obtain level1 moves

@@ -218,7 +218,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:
-                    if (s.EggLocation == 60002 && vRelearn.All(rl => rl.Valid))
+                    if (s.EggLocation == 60002 && pkm.RelearnMoves.Any(m => m != 0))
                         return new CheckResult(Severity.Invalid, V74, CheckIdentifier.RelearnMove); // not gift egg
                     break;
             }

@@ -2043,12 +2043,14 @@ namespace PKHeX.Core
             var lineage = table.getValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
         }
-        internal static bool getEvolutionValid(PKM pkm)
+        internal static bool getEvolutionValid(PKM pkm, int minSpecies = -1)
         {
             var curr = getValidPreEvolutions(pkm);
             var poss = getValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
-            if (getSplitBreedGeneration(pkm).Contains(getBaseSpecies(pkm, 1)))
+            if (minSpecies != -1)
+                poss = poss.Reverse().SkipWhile(z => z.Species != minSpecies); // collection is reversed, we only care about count
+            else if (getSplitBreedGeneration(pkm).Contains(getBaseSpecies(pkm, 1)))
                 return curr.Count() >= poss.Count() - 1;
             return curr.Count() >= poss.Count();
         }

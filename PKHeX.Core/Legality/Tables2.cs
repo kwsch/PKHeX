@@ -87,6 +87,10 @@ namespace PKHeX.Core
             
             new EncounterStatic { Species = 250, Level = 40, Version = GameVersion.GD }, // Ho-Oh @ Tin Tower
             new EncounterStatic { Species = 250, Level = 70, Version = GameVersion.SV }, // Ho-Oh @ Tin Tower
+            
+            new EncounterStatic { Species = 137, Level = 15, Version = GameVersion.GS }, // Porygon @ Celadon Game Corner
+            new EncounterStatic { Species = 133, Level = 15, Version = GameVersion.GS }, // Eevee @ Celadon Game Corner
+            new EncounterStatic { Species = 122, Level = 15, Version = GameVersion.GS }, // Mr. Mime @ Celadon Game Corner
         };
 
         internal static readonly EncounterStatic[] Encounter_C_Exclusive = 
@@ -106,6 +110,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
             new EncounterStatic { Species = 251, Level = 30, Location = 014, Version = GameVersion.EventsGBGen2 }, // Celebi @ Ilex Forest
+
+            new EncounterStatic { Species = 137, Level = 15, Location = 071, Version = GameVersion.C }, // Porygon @ Celadon Game Corner
+            new EncounterStatic { Species = 025, Level = 25, Location = 071, Version = GameVersion.C }, // Pikachu @ Celadon Game Corner
+            new EncounterStatic { Species = 246, Level = 40, Location = 071, Version = GameVersion.C }, // Larvitar @ Celadon Game Corner
         };
 
         internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();

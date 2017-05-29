@@ -214,7 +214,6 @@ namespace PKHeX.Core
             var EventEggMovesLearned = new List<int>();
             var IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
             var required = Legal.getRequiredMoveCount(pkm, moves, info, initialmoves);
-            var EggMovesSplitLearned = new List<int>[ValidEncounterMoves.Empty.Length];
             var IncenseMovesLearned = new List<int>();
 
             // Check none moves and relearn moves before generation moves
@@ -418,7 +417,7 @@ namespace PKHeX.Core
                     // Pokemon that evolved by leveling up while learning a specific move
                     // This pokemon could only have 3 moves from preevolutions that are not the move used to evolved
                     // including special and eggs moves before realearn generations
-                    ParseEvolutionLevelupMove(pkm, moves, EggMovesSplitLearned, IncenseMovesLearned, ref res, info);
+                    ParseEvolutionLevelupMove(pkm, moves, IncenseMovesLearned, ref res, info);
                 }
 
                 if (res.All(r => r != null))
@@ -547,7 +546,7 @@ namespace PKHeX.Core
             foreach (int m in ShedinjaEvoMovesLearned)
                 res[m] = new CheckResult(Severity.Invalid, V357, CheckIdentifier.Move);
         }
-        private static void ParseEvolutionLevelupMove(PKM pkm, int[] moves, List<int>[] EggMovesSplitLearned, List<int> IncenseMovesLearned, ref CheckResult[] res, LegalInfo info)
+        private static void ParseEvolutionLevelupMove(PKM pkm, int[] moves, List<int> IncenseMovesLearned, ref CheckResult[] res, LegalInfo info)
         {
             // Ignore if there is an invalid move or an empty move, this validation is only for 4 non-empty moves that are all valid, but invalid as a 4 combination
             // Ignore Mr. Mime and Sudowodoo from generations 1 to 3, they cant be evolved from Bonsly or Munchlax
@@ -559,8 +558,7 @@ namespace PKHeX.Core
 
             // Mr.Mime and Sodowodoo from eggs that does not have any exclusive egg move or level up move from Mime Jr or Bonsly.
             // The egg can be assumed to be a non-incense egg if the pokemon was not evolved by the player
-            if (info.EncounterMatch.EggEncounter && Legal.BabyEvolutionWithMove.Contains(pkm.Species) &&
-                !IncenseMovesLearned.Any() && !EggMovesSplitLearned[0].Any())
+            if (info.EncounterMatch.EggEncounter && Legal.BabyEvolutionWithMove.Contains(pkm.Species) && !IncenseMovesLearned.Any())
                 return;
 
             var ValidMoves = Legal.getValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);

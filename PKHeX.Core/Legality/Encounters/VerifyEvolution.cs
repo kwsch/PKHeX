@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using static PKHeX.Core.LegalityCheckStrings;
+﻿using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -8,24 +7,18 @@ namespace PKHeX.Core
         // Evolutions
         public static CheckResult verifyEvolution(PKM pkm, IEncounterable EncounterMatch)
         {
-            if (!isValidEvolution(pkm, EncounterMatch))
-                return new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
-            return new CheckResult(CheckIdentifier.Evolution);
+            return isValidEvolution(pkm, EncounterMatch) 
+                ? new CheckResult(CheckIdentifier.Evolution) 
+                : new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
         }
         private static bool isValidEvolution(PKM pkm, IEncounterable EncounterMatch)
         {
-            if (pkm.WasEgg && !Legal.getEvolutionValid(pkm) && pkm.Species != 350)
-                return false;
-
-            if (EncounterMatch.Species == pkm.Species)
+            int species = pkm.Species;
+            if (EncounterMatch.Species == species)
                 return true;
-
-            var matchEvo = Legal.getValidPreEvolutions(pkm).FirstOrDefault(z => z.Species == EncounterMatch.Species);
-            if (matchEvo == null)
-                return false;
-            return matchEvo.RequiresLvlUp
-                ? matchEvo.Level > EncounterMatch.LevelMin
-                : matchEvo.Level >= EncounterMatch.LevelMin;
+            if (EncounterMatch.EggEncounter && species == 350)
+                return true;
+            return Legal.getEvolutionValid(pkm, EncounterMatch.Species);
         }
     }
 }
