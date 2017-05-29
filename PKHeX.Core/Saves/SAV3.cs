@@ -99,6 +99,11 @@ namespace PKHeX.Core
                 Array.Copy(Data, blockIndex * SIZE_BLOCK + ABO, Data, Box + (i - 5)*0xF80, chunkLength[i]);
             }
 
+            // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
+            // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
+            // OT name is stored at the top of the first block.
+            Japanese = BitConverter.ToInt16(data, BlockOfs[0] + 0x6) == 0;
+
             switch (Version)
             {
                 case GameVersion.RS:
@@ -173,7 +178,6 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone() { return new SAV3(Write(DSV:false), Version) {Japanese = Japanese}; }
         public override bool IndeterminateGame => Version == GameVersion.Unknown;
-        public override bool IndeterminateLanguage => true; // Unknown JP/International
         public override bool IndeterminateSubVersion => Version == GameVersion.FRLG;
 
         public override int SIZE_STORED => PKX.SIZE_3STORED;

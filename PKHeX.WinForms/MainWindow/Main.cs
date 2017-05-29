@@ -887,17 +887,6 @@ namespace PKHeX.WinForms
                 sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
             }
 
-            if (sav.IndeterminateLanguage)
-            {
-                // Japanese Save files are different. Get isJapanese
-                var drJP = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    $"{sav.Version} Save File detected. Select language...",
-                    "Yes: International" + Environment.NewLine + "No: Japanese");
-                if (drJP == DialogResult.Cancel)
-                    return false;
-
-                sav.Japanese = drJP == DialogResult.No;
-            }
             return true;
         }
 

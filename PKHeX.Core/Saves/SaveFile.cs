@@ -23,7 +23,6 @@ namespace PKHeX.Core
         public bool Japanese { get; set; }
         public string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
         public virtual bool IndeterminateGame => false;
-        public virtual bool IndeterminateLanguage => false;
         public virtual bool IndeterminateSubVersion => false;
         public abstract string Extension { get; }
         public virtual string[] PKMExtensions => PKM.Extensions.Where(f => 
