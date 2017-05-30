@@ -368,7 +368,7 @@ namespace PKHeX.WinForms
         }
 
         // View Updates
-        private void B_Search_Click(object sender, EventArgs e)
+        private IEnumerable<PKM> SearchDatabase()
         {
             // Populate Search Query Result
             IEnumerable<PKM> res = RawDB;
@@ -525,7 +525,13 @@ namespace PKHeX.WinForms
             if (Menu_SearchClones.Checked)
                 res = res.GroupBy(hash).Where(group => group.Count() > 1).SelectMany(z => z);
 
-            var results = res.ToArray();
+            return res;
+        }
+        private async void B_Search_Click(object sender, EventArgs e)
+        {
+            B_Search.Enabled = false;
+            var search = SearchDatabase();
+            var results = await Task.Run(() => search.ToArray());
             if (results.Length == 0)
             {
                 if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
@@ -535,6 +541,7 @@ namespace PKHeX.WinForms
             }
             setResults(new List<PKM>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
+            B_Search.Enabled = true;
         }
         private void updateScroll(object sender, ScrollEventArgs e)
         {
