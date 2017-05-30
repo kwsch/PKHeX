@@ -1300,7 +1300,6 @@ namespace PKHeX.Core
             590, // Relic Crown
             657, // Gardevoirite
             658, // Ampharosite
-            664, // Blazikenite
             667, // Aggronite
             668, // Banettite
             669, // Tyranitarite
@@ -1311,8 +1310,6 @@ namespace PKHeX.Core
             710, // Jaw Fossil
             711, // Sail Fossil
             715, // Fairy Gem
-            752, // Swamperite
-            753, // Sceptilite
             755, // Altarianite
             756, // Galladite
             764, // Diancite

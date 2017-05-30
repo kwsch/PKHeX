@@ -1,7 +1,31 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/04/24 - New Update:
+17/05/30 - New Update:
+ - Program Internals:
+ - - PKHeX now uses C# 7 language features.
+ - - PKHeX.Core is now a .NET Standard class library.
+ - Legality:
+ - - Changed: Refactored internals to better handle matching of encounters and future plans.
+ - - Added: PIDIV method detection. For now, the only legality flagging present is for Cosseum/XD starters.
+ - - Added: More legality check flagging. Thanks javierhimura & wwwwwwzx!
+ - Main Window:
+ - - Changed: Refactored PKM Editor and SAV Editor into separate user controls.
+ - - Added: Box Viewer can now perform the same operations as the main window box slots.
+ - - Added: Template loading via template folder
+ - - - To add custom templates, create a folder named "template" and save separate files.
+ - - - For example, "template.pk7" will autoload for Gen 7.
+ - - Added: Common Folder path buttons for save files. (Hotkey: CTRL-F)
+ - - - To add custom paths/names, create a tab separated (savpaths.txt) file (name, path).
+ - Changed: Mystery Gift Database: Can now export PKM files and gift files directly in addition to loading to tabs.
+ - Changed: Gen3 save files no longer prompt for the user to define if it originated from a Japanese game (now auto-detects).
+ - Added: Gen4/Gen5 event flag editing (except Pt). Thanks pokecal!
+ - Added: Gen5 B2W2 Key system editing. Thanks pokecal!
+ - Fixed: Gen4 HGSS wallpapers are now fetched correctly. Thanks Scarfy!
+ - Fixed: Gen4/Gen3 Randomized PIDs on gender change are now generated correctly.
+ - Fixed: Gen6 QR url now is a correct URL. Thanks Delphox!
+
+17/04/24 - New Update: (48189) [549331]
  - Legality: Added Gen3, Gen4, Gen5 legality checking! Thanks javierhimura & wwwwwwzx!
  - - Added: Legality Translations, currently supports English, Chinese, and Korean. Thanks wwwwwwzx & lilymaniac!
  - - Note: Colosseum/XD is not supported at this time, and certain Gen3 events may not be detected.

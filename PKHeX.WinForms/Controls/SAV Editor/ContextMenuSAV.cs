@@ -154,7 +154,7 @@ namespace PKHeX.WinForms.Controls
             ToggleItem(items, mnuSet, Editable);
             ToggleItem(items, mnuDelete, Editable && SlotFull);
             ToggleItem(items, mnuLegality, legality && SlotFull);
-            ToggleItem(items, mnuView, SlotFull || items.Count <= 1, true);
+            ToggleItem(items, mnuView, SlotFull || !Editable, true);
 
             if (items.Count == 0)
                 e.Cancel = true;
