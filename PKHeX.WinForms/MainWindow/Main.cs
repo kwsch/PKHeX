@@ -160,6 +160,8 @@ namespace PKHeX.WinForms
             }
             if (pkmArg != null)
                 OpenQuick(pkmArg, force: true);
+            else
+                getPreview(dragout);
 
             formInitialized = true; // Splash Screen closes on its own.
             BringToFront();

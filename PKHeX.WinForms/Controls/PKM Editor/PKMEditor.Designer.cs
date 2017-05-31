@@ -702,7 +702,7 @@
             this.TB_Level.Name = "TB_Level";
             this.TB_Level.Size = new System.Drawing.Size(22, 20);
             this.TB_Level.TabIndex = 8;
-            this.TB_Level.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Level.Click += new System.EventHandler(this.clickLevel);
             this.TB_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
             // 
             // MT_Level

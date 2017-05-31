@@ -976,6 +976,7 @@ namespace PKHeX.WinForms.Controls
                 pkm.PID = PKX.getRandomPID(pkm.Species, pkm.Gender, pkm.Version, pkm.Nature, pkm.Format, (uint)(CB_Ability.SelectedIndex * 0x10001));
 
             TB_PID.Text = pkm.PID.ToString("X8");
+            setIsShiny(null);
             UpdatePreviewSprite?.Invoke(this, null);
             if (pkm.GenNumber < 6 && pkm.Format >= 6)
                 TB_EC.Text = TB_PID.Text;
@@ -1512,6 +1513,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.GenNumber < 6 && TB_EC.Visible)
                 TB_EC.Text = TB_PID.Text;
 
+            setIsShiny(null);
             UpdatePreviewSprite?.Invoke(this, null);
             updateLegality();
         }
