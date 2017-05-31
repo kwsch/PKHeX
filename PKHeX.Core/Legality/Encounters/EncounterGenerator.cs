@@ -136,7 +136,8 @@ namespace PKHeX.Core
                 if (ctr != 0) yield break;
             }
 
-            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg || pkm.GenNumber == 3; // egg events?
+            int gen = pkm.GenNumber;
+            bool wasEvent = pkm.WasEvent || pkm.WasEventEgg || gen == 3; // egg events?
             if (wasEvent)
             {
                 foreach (var z in getValidGifts(pkm))
@@ -144,18 +145,17 @@ namespace PKHeX.Core
                 if (ctr != 0) yield break;
             }
 
-            foreach (var z in getValidStaticEncounter(pkm))
-            { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
-
-            bool gen3egg = pkm.GenNumber <= 3;
-            bool gen4egg = pkm.GenNumber >= 4 && pkm.WasEgg;;
+            bool gen4egg = gen >= 4 && pkm.WasEgg;
             if (gen4egg)
             {
                 foreach (var z in generateEggs(pkm))
                     yield return z;
             }
 
+            bool gen3egg = gen <= 3;
+            foreach (var z in getValidStaticEncounter(pkm))
+            { yield return z; ++ctr; }
+            if (ctr != 0 && !gen3egg) yield break;
             foreach (var z in getValidFriendSafari(pkm))
             { yield return z; ++ctr; }
             if (ctr != 0 && !gen3egg) yield break;
