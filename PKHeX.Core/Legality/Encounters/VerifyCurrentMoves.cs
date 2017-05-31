@@ -173,15 +173,8 @@ namespace PKHeX.Core
             var emptyegg = new int[0];
             CheckResult[] res = parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, empty, new int[0], new int[0], false, info);
             if (res.Any(r => !r.Valid))
-            {
-                info.RelearnBase = new int[4];
                 return res;
-            }
 
-            if (pkm.GenNumber >= 6 && info.EncounterMatch is MysteryGift z)
-                info.RelearnBase = z.RelearnMoves;
-            else
-                info.RelearnBase = new int[4];
             return res;
         }
         private static CheckResult[] parseMovesRelearn(PKM pkm, int[] Moves, LegalInfo info)

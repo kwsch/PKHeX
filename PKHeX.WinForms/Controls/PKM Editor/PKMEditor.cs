@@ -743,6 +743,7 @@ namespace PKHeX.WinForms.Controls
             else if (sender == GB_RelearnMoves)
             {
                 int[] m = Legality.getSuggestedRelearn();
+                if (m.All(z => z == 0))
                 if (!pkm.WasEgg && !pkm.WasEvent && !pkm.WasEventEgg && !pkm.WasLink)
                 {
                     var encounter = Legality.getSuggestedMetInfo();
