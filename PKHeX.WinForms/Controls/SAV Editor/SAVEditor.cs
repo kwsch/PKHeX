@@ -96,6 +96,7 @@ namespace PKHeX.WinForms.Controls
                 tab.DragEnter += enter;
                 tab.DragDrop += drop;
             }
+            M.RequestExternalDragDrop += drop;
         }
         
         // Generic Subfunctions //

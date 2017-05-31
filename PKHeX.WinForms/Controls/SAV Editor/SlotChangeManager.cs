@@ -24,6 +24,7 @@ namespace PKHeX.WinForms.Controls
         public int colorizedbox = -1;
         public int colorizedslot = -1;
         public Image colorizedcolor;
+        public event DragEventHandler RequestExternalDragDrop;
 
         public SlotChangeManager(SAVEditor se)
         {
@@ -201,7 +202,7 @@ namespace PKHeX.WinForms.Controls
             }
             if (DragInfo.Source.Offset < 0) // external source
             {
-                TryLoadFiles(files);
+                TryLoadFiles(files, e);
                 return;
             }
 
@@ -210,7 +211,7 @@ namespace PKHeX.WinForms.Controls
             if (DragInfo.Source.Parent == null) // internal file
                 DragInfo.Reset();
         }
-        private void TryLoadFiles(string[] files)
+        private void TryLoadFiles(string[] files, DragEventArgs e)
         {
             if (files.Length <= 0)
                 return;
@@ -218,7 +219,7 @@ namespace PKHeX.WinForms.Controls
             FileInfo fi = new FileInfo(file);
             if (!PKX.getIsPKM(fi.Length) && !MysteryGift.getIsMysteryGift(fi.Length))
             {
-                SE.ParentForm?.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { file }), DragDropEffects.Move);
+                RequestExternalDragDrop?.Invoke(this, e); // pass thru
                 return;
             }
 
