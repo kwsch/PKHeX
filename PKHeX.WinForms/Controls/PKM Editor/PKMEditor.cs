@@ -228,11 +228,11 @@ namespace PKHeX.WinForms.Controls
             Label_HatchCounter.Visible = CHK_IsEgg.Checked && pkm.Format > 1;
             Label_Friendship.Visible = !CHK_IsEgg.Checked && pkm.Format > 1;
 
-            // Set the Preview Box
-            UpdatePreviewSprite(this, null);
             setMarkings();
             updateLegality();
             lastData = preparePKM()?.Data;
+            // Refresh the Preview Box
+            UpdatePreviewSprite?.Invoke(this, null);
         }
         public void updateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
         {
