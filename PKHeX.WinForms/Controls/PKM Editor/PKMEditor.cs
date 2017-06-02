@@ -993,19 +993,13 @@ namespace PKHeX.WinForms.Controls
             }
             else
             {
+                int gen = pkm.GenNumber;
                 uint EC;
                 bool valid;
                 do
                 {
                     EC = Util.rnd32();
-                    uint evoVal;
-                    switch (pkm.GenNumber)
-                    {
-                        case 4:
-                        case 3: evoVal = pkm.EncryptionConstant & 0xFFFF; break;
-                        default: evoVal = pkm.EncryptionConstant >> 16; break;
-                    }
-                    evoVal = evoVal % 10 / 5;
+                    uint evoVal = PKX.getWurmpleEvoVal(gen, EC);
                     valid = evoVal == wIndex / 2;
                 } while (!valid);
                 TB_EC.Text = EC.ToString("X8");

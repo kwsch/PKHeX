@@ -434,6 +434,24 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets the Wurmple Evolution Value for a given <see cref="PKM.GenNumber"/> and <see cref="PKM.EncryptionConstant"/>
+        /// </summary>
+        /// <param name="gen">Origin Generation</param>
+        /// <param name="EC">Encryption Constant</param>
+        /// <returns>Wurmple Evolution Value</returns>
+        public static uint getWurmpleEvoVal(int gen, uint EC)
+        {
+            uint evoVal;
+            switch (gen)
+            {
+                case 4:
+                case 3: evoVal = EC & 0xFFFF; break;
+                default: evoVal = EC >> 16; break;
+            }
+            return evoVal % 10 / 5;
+        }
+
+        /// <summary>
         /// Gets a random PID according to specifications.
         /// </summary>
         /// <param name="species">National Dex ID</param>

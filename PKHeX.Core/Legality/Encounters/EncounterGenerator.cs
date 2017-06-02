@@ -1104,20 +1104,9 @@ namespace PKHeX.Core
             string tr = pkm.Format <= 2 ? "TRAINER" : "Trainer"; // decaps on transfer
             return ot == "トレーナー" || ot == tr;
         }
-        internal static uint getWurmpleEvoVal(PKM pkm)
-        {
-            uint evoVal;
-            switch (pkm.GenNumber)
-            {
-                case 4:
-                case 3: evoVal = pkm.EncryptionConstant & 0xFFFF; break;
-                default: evoVal = pkm.EncryptionConstant >> 16; break;
-            }
-            return evoVal % 10 / 5;
-        }
         private static bool getWurmpleEvoValid(PKM pkm)
         {
-            uint evoVal = getWurmpleEvoVal(pkm);
+            uint evoVal = PKX.getWurmpleEvoVal(pkm.GenNumber, pkm.EncryptionConstant);
             int wIndex = Array.IndexOf(WurmpleEvolutions, pkm.Species) / 2;
             return evoVal == wIndex;
         }

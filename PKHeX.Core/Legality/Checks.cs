@@ -91,7 +91,7 @@ namespace PKHeX.Core
         }
         private void verifyECPIDWurmple()
         {
-            uint evoVal = EncounterGenerator.getWurmpleEvoVal(pkm);
+            uint evoVal = PKX.getWurmpleEvoVal(pkm.GenNumber, pkm.EncryptionConstant);
 
             if (pkm.Species == 265)
                 AddLine(Severity.Valid, string.Format(V212, evoVal == 0 ? specieslist[267] : specieslist[269]), CheckIdentifier.EC);
