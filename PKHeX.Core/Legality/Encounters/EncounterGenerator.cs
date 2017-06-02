@@ -515,7 +515,7 @@ namespace PKHeX.Core
                 case 6:
                     return LinkGifts6.Where(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
-                    return null;
+                    return new EncounterLink[0];
             }
         }
 
