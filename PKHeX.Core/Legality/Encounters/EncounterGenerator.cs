@@ -129,7 +129,7 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
         {
             int ctr = 0;
-            if (pkm.WasLink)
+            if (pkm.WasLink && pkm.GenNumber == 6)
             {
                 foreach (var z in getValidLinkGifts(pkm))
                 { yield return z; ++ctr; }
