@@ -129,7 +129,7 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
         {
             int ctr = 0;
-            if (pkm.WasLink && pkm.GenNumber == 6)
+            if (pkm.WasLink)
             {
                 foreach (var z in getValidLinkGifts(pkm))
                 { yield return z; ++ctr; }
@@ -515,7 +515,7 @@ namespace PKHeX.Core
                 case 6:
                     return LinkGifts6.Where(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
-                    return null;
+                    return new EncounterLink[0];
             }
         }
 
