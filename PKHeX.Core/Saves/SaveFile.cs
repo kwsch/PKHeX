@@ -532,6 +532,7 @@ namespace PKHeX.Core
                 .ThenBy(p => p.IsEgg) // eggs to the end
                 .ThenBy(p => p.Species) // species sorted
                 .ThenBy(p => p.AltForm) // altforms sorted
+                .ThenBy(p => p.Gender) // gender sorted
                 .ThenBy(p => p.IsNicknamed).ToArray();
 
             Array.Copy(Sorted, 0, BD, BoxStart*BoxSlotCount, Sorted.Length);
