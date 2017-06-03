@@ -1472,6 +1472,11 @@ namespace PKHeX.WinForms.Controls
         }
         private void updateShinyPID(object sender, EventArgs e)
         {
+            var ShinyPID = pkm.Format <= 2 || ModifierKeys != Keys.Control;
+            updateShiny(ShinyPID);
+        }
+        private void updateShiny(bool PID)
+        {
             pkm.TID = Util.ToInt32(TB_TID.Text);
             pkm.SID = Util.ToInt32(TB_SID.Text);
             pkm.PID = Util.getHEXval(TB_PID.Text);
@@ -1481,7 +1486,21 @@ namespace PKHeX.WinForms.Controls
             pkm.Version = WinFormsUtil.getIndex(CB_GameOrigin);
 
             if (pkm.Format > 2)
-                pkm.setShinyPID();
+            { 
+                if(PID)
+                {
+                    pkm.setShinyPID();
+                    TB_PID.Text = pkm.PID.ToString("X8");
+
+                    if (pkm.GenNumber < 6 && TB_EC.Visible)
+                        TB_EC.Text = TB_PID.Text;
+                }
+                else
+                {
+                    pkm.setShinySID();
+                    TB_SID.Text = pkm.SID.ToString();
+                }
+            }
             else
             {
                 // IVs determine shininess
@@ -1502,10 +1521,6 @@ namespace PKHeX.WinForms.Controls
                 TB_SPAIV.Text = "10";
                 updateIVs(null, null);
             }
-            TB_PID.Text = pkm.PID.ToString("X8");
-
-            if (pkm.GenNumber < 6 && TB_EC.Visible)
-                TB_EC.Text = TB_PID.Text;
 
             setIsShiny(null);
             UpdatePreviewSprite?.Invoke(this, null);
@@ -1926,7 +1941,7 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < 4; i++)
                 p[i].SelectedIndex = m[i].SelectedIndex != 0 ? 3 : 0; // max PP
 
-            if (Set.Shiny) updateShinyPID(null, null);
+            if (Set.Shiny) updateShiny(true);
             pkm = preparePKM();
             updateLegality();
         }

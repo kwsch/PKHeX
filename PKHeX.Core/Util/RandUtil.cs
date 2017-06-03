@@ -9,6 +9,10 @@ namespace PKHeX.Core
         {
             return (uint)rand.Next(1 << 30) << 2 | (uint)rand.Next(1 << 2);
         }
+        internal static ushort rnd16()
+        {
+            return (ushort)rand.Next(ushort.MaxValue);
+        }
         public static void Shuffle<T>(T[] array)
         {
             int n = array.Length;
