@@ -772,7 +772,8 @@ namespace PKHeX.Core
         public void setShinySID()
         {
             if (IsShiny) return;
-            do SID = Util.rnd16(); while (!IsShiny);
+            var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
+            SID = (int)((xor & 0xFFF8) | (Util.rnd32() & 7));
         }
         /// <summary>
         /// Applies a PID to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.

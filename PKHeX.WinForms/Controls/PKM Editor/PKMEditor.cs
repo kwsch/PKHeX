@@ -1487,7 +1487,7 @@ namespace PKHeX.WinForms.Controls
 
             if (pkm.Format > 2)
             { 
-                if(PID)
+                if (PID)
                 {
                     pkm.setShinyPID();
                     TB_PID.Text = pkm.PID.ToString("X8");
