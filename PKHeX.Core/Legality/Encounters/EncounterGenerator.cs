@@ -54,6 +54,8 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var z in GenerateRawEncounters3(pkm))
             {
+                if (z is EncounterSlot w && pkm.Version == 15)
+                    info.PIDIV = MethodFinder.getPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault() ?? info.PIDIV; 
                 if (info.PIDIV.Type.IsCompatible3(z, pkm))
                     yield return z;
                 else
@@ -242,6 +244,9 @@ namespace PKHeX.Core
             if (safari)
             foreach (var z in getValidStaticEncounter(pkm))
                 yield return z;
+
+            if (pkm.Version == 15)
+                yield break; // no eggs in C/XD
 
             foreach (var z in generateEggs(pkm))
                 yield return z;

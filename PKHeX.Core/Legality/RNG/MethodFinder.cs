@@ -55,7 +55,7 @@ namespace PKHeX.Core
             if (getBACDMatch(pk, pid, IVs, out pidiv))
                 return pidiv;
 
-            return new PIDIV {Type=PIDType.None}; // no match
+            return new PIDIV {Type=PIDType.None, NoSeed=true}; // no match
         }
 
         private static bool getLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
@@ -504,7 +504,7 @@ namespace PKHeX.Core
                     if ((s>>16)%3 != 0) // can't activate even if generous
                         continue;
                 }
-                yield return new PIDIV {OriginSeed = s, RNG = RNG.XDRNG, Type = PIDType.None};
+                yield return new PIDIV {OriginSeed = s, RNG = RNG.XDRNG, Type = PIDType.PokeSpot};
             }
         }
 
@@ -517,10 +517,12 @@ namespace PKHeX.Core
                 case EncounterStaticShadow _:
                     return val == PIDType.CXD;
                 case EncounterStatic s:
+                    if (pkm.Version == 15)
+                        return val == PIDType.CXD;
                     return s.Roaming ? val == PIDType.Method_1_Roamer : MethodH.Any(z => z == val);
                 case EncounterSlot w:
                     if (pkm.Version == 15)
-                        return val == PIDType.CXD;
+                        return val == PIDType.PokeSpot;
                     return (w.Species == 201 ? MethodH_Unown : MethodH).Any(z => z == val);
                 default:
                     return val == PIDType.None;

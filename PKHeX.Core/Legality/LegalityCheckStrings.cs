@@ -403,6 +403,8 @@ namespace PKHeX.Core
         public static string V407 {get; set;} = "OT from Colosseum/XD cannot be female.";
         public static string V408 {get; set;} = "Female OT from Generation 1/2 is invalid.";
         public static string V409 {get; set;} = "Mystery Gift shiny mismatch.";
+        public static string V410 {get; set;} = "Mystery Gift fixed PID mismatch.";
+        public static string V411 {get; set;} = "Encounter Type PID mismatch.";
         #endregion
 
     }

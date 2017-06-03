@@ -23,6 +23,7 @@
         public int OTGender = -1;
         public bool EggEncounter => false;
         public bool EvolveOnTrade = false;
+        public int Ball = 4;
 
         public string Name => "In-game Trade";
 

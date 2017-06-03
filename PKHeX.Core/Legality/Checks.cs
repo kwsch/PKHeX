@@ -78,15 +78,20 @@ namespace PKHeX.Core
             if (pkm.GenNumber >= 6 && pkm.PID == pkm.EncryptionConstant)
                 AddLine(Severity.Invalid, V208, CheckIdentifier.PID); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
 
-            if (EncounterMatch is EncounterStatic s)
+            switch (EncounterMatch)
             {
-                if (s.Shiny != null && (bool) s.Shiny ^ pkm.IsShiny)
-                    AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
-            }
-            else if (EncounterMatch is EncounterSlot w)
-            {
-                if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
-                    AddLine(Severity.Invalid, V221, CheckIdentifier.Shiny);
+                case EncounterStatic s:
+                    if (s.Shiny != null && (bool)s.Shiny ^ pkm.IsShiny)
+                        AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
+                    break;
+                case EncounterSlot w:
+                    if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
+                        AddLine(Severity.Invalid, V221, CheckIdentifier.Shiny);
+                    break;
+                case PCD d: // fixed PID
+                    if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
+                        AddLine(Severity.Invalid, V410, CheckIdentifier.Shiny);
+                    break;
             }
         }
         private void verifyECPIDWurmple()
@@ -150,9 +155,9 @@ namespace PKHeX.Core
                 if (pk.Length > (lang == 2 ? 10 : 5))
                     AddLine(Severity.Invalid, V1, CheckIdentifier.Nickname);
             }
-            else if (Type == typeof(MysteryGift))
+            else if (EncounterMatch is MysteryGift m)
             {
-                if (pkm.IsNicknamed && (!(EncounterMatch as MysteryGift)?.IsEgg ?? false))
+                if (pkm.IsNicknamed && !m.IsEgg)
                     AddLine(Severity.Fishy, V0, CheckIdentifier.Nickname);
             }
 
@@ -803,26 +808,10 @@ namespace PKHeX.Core
 
         private void verifyCXD()
         {
-            if (EncounterMatch is EncounterSlot w) // pokespot
-            {
-                // find origin info, if nothing returned then the PID is unobtainable
-                var slot = w.SlotNumber;
-                var pidiv = MethodFinder.getPokeSpotSeeds(pkm, slot);
-                if (!pidiv.Any())
-                    AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
-            }
-            else if (Type == typeof (EncounterStatic))
-            {
-                var pidiv = MethodFinder.Analyze(pkm);
-                if (pidiv == null || pidiv.Type != PIDType.CXD)
-                    AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
-                else // Starters have a correlation to the Trainer ID numbers
-                    verifyCXDStarterCorrelation(pidiv);
-            }
+            if (EncounterMatch is EncounterStatic)
+                verifyCXDStarterCorrelation(info.PIDIV);
             else if (pkm.WasEgg) // can't obtain eggs in CXD
-            {
                 AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); // invalid encounter
-            }
 
             if (pkm.OT_Gender == 1)
                 AddLine(Severity.Invalid, V407, CheckIdentifier.Trainer);
@@ -973,15 +962,19 @@ namespace PKHeX.Core
         }
         private void verifyAbility5(int[] abilities)
         {
-            if (EncounterMatch is EncounterSlot w)
+            switch (EncounterMatch)
             {
-                // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
-                bool grotto = w.Type == SlotType.HiddenGrotto;
-                if (pkm.AbilityNumber == 4 ^ grotto)
-                    AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
+                case PGF g:
+                    verifyAbilityMG456(abilities, g.AbilityType);
+                    break;
+
+                case EncounterSlot w:
+                    // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
+                    bool grotto = w.Type == SlotType.HiddenGrotto;
+                    if (pkm.AbilityNumber == 4 ^ grotto)
+                        AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
+                    break;
             }
-            else if (Type == typeof(MysteryGift))
-                verifyAbilityMG456(abilities, ((PGF)EncounterMatch).AbilityType);
         }
         private void verifyAbility6(int[] abilities)
         {
@@ -991,8 +984,8 @@ namespace PKHeX.Core
                 if (!valid)
                     AddLine(Severity.Invalid, V300, CheckIdentifier.Ability);
             }
-            else if (Type == typeof(MysteryGift))
-                verifyAbilityMG456(abilities, ((WC6)EncounterMatch).AbilityType);
+            else if (EncounterMatch is WC6 g)
+                verifyAbilityMG456(abilities, g.AbilityType);
             else if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
         }
@@ -1001,12 +994,11 @@ namespace PKHeX.Core
             if (EncounterMatch is EncounterSlot slot && pkm.AbilityNumber == 4)
             {
                 bool valid = slot.Type == SlotType.SOS;
-
                 if (!valid)
                     AddLine(Severity.Invalid, V111, CheckIdentifier.Ability);
             }
-            else if (Type == typeof(MysteryGift))
-                verifyAbilityMG456(abilities, ((WC7)EncounterMatch).AbilityType);
+            else if (EncounterMatch is WC7 g)
+                verifyAbilityMG456(abilities, g.AbilityType);
             else if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
         }
@@ -1055,9 +1047,9 @@ namespace PKHeX.Core
                 verifyBallEquals(l.Ball);
                 return;
             }
-            if (Type == typeof (EncounterTrade))
+            if (EncounterMatch is EncounterTrade t)
             {
-                verifyBallEquals(4); // Pokeball
+                verifyBallEquals(t.Ball); // Pokeball
                 return;
             }
 
@@ -1576,15 +1568,15 @@ namespace PKHeX.Core
                 // Undocumented, uncommon, and insignificant -- don't bother.
                 return;
             }
-            if (MatchedType == typeof(WC6))
+            if (EncounterMatch is WC6 wc6)
             {
-                WC6 g = EncounterMatch as WC6;
+                var g = wc6;
                 verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
                 return;
             }
-            if (MatchedType == typeof(WC7))
+            if (EncounterMatch is WC7 wc7)
             {
-                WC7 g = EncounterMatch as WC7;
+                var g = wc7;
                 verifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
                 return;
             }
@@ -1989,75 +1981,82 @@ namespace PKHeX.Core
                 { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
             }
 
-            if (Encounter.Valid)
+            if (!Encounter.Valid)
+                return;
+
+            if (EncounterMatch is MysteryGift g)
             {
-                if (EncounterMatch is MysteryGift g)
+                bool fatefulValid = false;
+                if (g.Format == 3)
                 {
-                    bool fatefulValid = false;
-                    if (g.Format == 3)
-                    {
-                        // obedience flag in gen3 is the fateful flag; met location stores the fateful info until transfer
-                        bool required = g.Species == 151 || g.Species == 386;
-                        required |= pkm.Format != 3 && !g.IsEgg;
-                        fatefulValid = !(required ^ pkm.FatefulEncounter);
+                    // obedience flag in gen3 is the fateful flag; met location stores the fateful info until transfer
+                    bool required = g.Species == 151 || g.Species == 386;
+                    required |= pkm.Format != 3 && !g.IsEgg;
+                    fatefulValid = !(required ^ pkm.FatefulEncounter);
 
-                        var g3 = (WC3) g; // shiny locked gifts
-                        if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
-                            AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
-                    }
-                    else
-                    {
-                        if (pkm.FatefulEncounter)
-                            fatefulValid = true;
-                    }
-
-                    if (fatefulValid)
-                        AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
-                    else
-                        AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
-                    return;
+                    var g3 = (WC3) g; // shiny locked gifts
+                    if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
+                        AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
                 }
-                if (EncounterMatch is EncounterStatic s)
+                else
                 {
-                    var fateful = s.Fateful;
-                    var shadow = EncounterMatch is EncounterStaticShadow;
-                    if (shadow && !(pkm is XK3 || pkm is CK3))
-                        fateful = true; // purification required for transfer
-
-                    if (fateful)
-                    {
-                        if (pkm.FatefulEncounter)
-                            AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
-                        else
-                            AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
-                    }
-                    else if (pkm.FatefulEncounter && !shadow)
-                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                    if (pkm.FatefulEncounter)
+                        fatefulValid = true;
                 }
-                else if (pkm.FatefulEncounter)
+
+                if (fatefulValid)
+                    AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
+                else
+                    AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
+                return;
+            }
+            if (EncounterMatch is EncounterStatic s)
+            {
+                var fateful = s.Fateful;
+                var shadow = EncounterMatch is EncounterStaticShadow;
+                if (shadow && !(pkm is XK3 || pkm is CK3))
+                    fateful = true; // purification required for transfer
+
+                if (fateful)
+                {
+                    if (pkm.FatefulEncounter)
+                        AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
+                    else
+                        AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
+                }
+                else if (pkm.FatefulEncounter && !shadow)
                     AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+            }
+            else if (EncounterMatch is EncounterSlot && pkm.Version == 15) // pokespot pkm
+            {
+                if (pkm.FatefulEncounter)
+                    AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
+                else
+                    AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
+            }
+            else if (pkm.FatefulEncounter)
+                AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                 
-                if (pkm.GenNumber == 5)
+            if (pkm.GenNumber == 5)
+            {
+                var enc = EncounterMatch as EncounterStatic;
+                bool req = enc?.NSparkle ?? false;
+                if (pkm.Format == 5)
                 {
-                    var enc = EncounterMatch as EncounterStatic;
-                    bool req = enc?.NSparkle ?? false;
-                    if (pkm.Format == 5)
-                    {
-                        bool has = ((PK5)pkm).NPokémon;
-                        if (req && !has)
-                            AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
-                        if (!req && has)
-                            AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
-                    }
-                    if (req)
-                    {
-                        if (pkm.IVs.Any(iv => iv != 30))
-                            AddLine(Severity.Invalid, V218, CheckIdentifier.IVs);
-                        if (pkm.OT_Name != "N" || pkm.TID != 00002 || pkm.SID != 00000)
-                            AddLine(Severity.Invalid, V219, CheckIdentifier.Trainer);
-                        if (pkm.IsShiny)
-                            AddLine(Severity.Invalid, V220, CheckIdentifier.Shiny);
-                    }
+                    bool has = ((PK5)pkm).NPokémon;
+                    if (req && !has)
+                        AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
+                    if (!req && has)
+                        AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
+                }
+                if (req)
+                {
+                    if (pkm.IVs.Any(iv => iv != 30))
+                        AddLine(Severity.Invalid, V218, CheckIdentifier.IVs);
+                    if (pkm.OT_Name != "N" || pkm.TID != 00002 || pkm.SID != 00000)
+                        AddLine(Severity.Invalid, V219, CheckIdentifier.Trainer);
+                    if (pkm.IsShiny)
+                        AddLine(Severity.Invalid, V220, CheckIdentifier.Shiny);
                 }
             }
         }

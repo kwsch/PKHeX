@@ -352,7 +352,7 @@ namespace PKHeX.Core
 
             lines.AddRange(br);
             lines.Add(string.Format(V195, EncounterName));
-            var pidiv = MethodFinder.Analyze(pkm);
+            var pidiv = info.PIDIV ?? MethodFinder.Analyze(pkm);
             if (pidiv != null)
             {
                 if (!pidiv.NoSeed)

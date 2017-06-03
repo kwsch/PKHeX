@@ -57,6 +57,7 @@
         // XDRNG Based
         CXD,
         Channel,
+        PokeSpot,
 
         // ARNG Based
         G4MGAntiShiny,

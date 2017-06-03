@@ -50,7 +50,7 @@ namespace PKHeX.Core
                     {
                         if (encounter.PeekIsNext())
                             continue;
-                        info.Parse.Add(new CheckResult(Severity.Invalid, "PID Type Mismatch", CheckIdentifier.PID));
+                        info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
                     }
 
                     // Encounter Passes
