@@ -1,0 +1,17 @@
+0802	Cobalion disappeared
+0302	Cobalion LV+20
+0810	Terrakion disappeared
+0329	Terrakion LV+20
+0801	Virizion disappeared
+0300	Virizion LV+20
+0667	Reshiram/Zekrom disappeared
+1004	Kyurem disappeared
+0922	Regirock disappeared
+0921	Regice disappeared
+0923	Registeel disappeared
+0918	Uxie disappeared
+0919	Mesprit disappeared
+0920	Azelf disappeared
+0900	Heatran disappeared
+0924	Regigigas disappeared
+0897	Cresselia disappeared

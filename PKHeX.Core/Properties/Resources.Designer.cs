@@ -62,6 +62,16 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0077	Entralink	6:Finished tutorial
+        ///0268	Rati@s	5:Battleable,6:Disappeared.
+        /// </summary>
+        internal static string const_b2w2 {
+            get {
+                return ResourceManager.GetString("const_b2w2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0182	Ns Castle	0:Event,1:Event,2:Before Reshiram/Zekrom,3:Before N,4:Event,5:Before Ghetsis
         ///0145	Victini	0:Event,1:Event,2:Battleable,3:Defeated,4:Captured,5:All event finished
         ///0206	Landorus	0:Event,1:Event,2:Event,3:Battleable,4:Disappeared.
@@ -142,6 +152,31 @@ namespace PKHeX.Core.Properties {
         internal static string countries {
             get {
                 return ResourceManager.GetString("countries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0802	Cobalion disappeared
+        ///0302	Cobalion LV+20
+        ///0810	Terrakion disappeared
+        ///0329	Terrakion LV+20
+        ///0801	Virizion disappeared
+        ///0300	Virizion LV+20
+        ///0667	Reshiram/Zekrom disappeared
+        ///1004	Kyurem disappeared
+        ///0922	Regirock disappeared
+        ///0921	Regice disappeared
+        ///0923	Registeel disappeared
+        ///0918	Uxie disappeared
+        ///0919	Mesprit disappeared
+        ///0920	Azelf disappeared
+        ///0900	Heatran disappeared
+        ///0924	Regigigas disappeared
+        ///0897	Cresselia disappeared.
+        /// </summary>
+        internal static string flags_b2w2 {
+            get {
+                return ResourceManager.GetString("flags_b2w2", resourceCulture);
             }
         }
         
