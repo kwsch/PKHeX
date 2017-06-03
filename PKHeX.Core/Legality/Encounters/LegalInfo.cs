@@ -39,6 +39,7 @@ namespace PKHeX.Core
         private DexLevel[][] _evochains;
         private IEncounterable _match;
         public PIDIV PIDIV;
+        public bool PIDIVMatches = true;
 
         public LegalInfo(PKM pk)
         {

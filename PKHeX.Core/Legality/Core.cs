@@ -2716,15 +2716,13 @@ namespace PKHeX.Core
                 case 3:
                     return EggMovesRS[species].Moves;
                 case 4:
-                    switch (Version)
+                    switch (pkm.Version)
                     {
-                        case GameVersion.DP:
-                        case GameVersion.Pt:
-                            return EggMovesDPPt[species].Moves;
-                        case GameVersion.HGSS:
+                        case (int)GameVersion.HG:
+                        case (int)GameVersion.SS:
                             return EggMovesHGSS[species].Moves;
                         default:
-                            return new int[0];
+                            return EggMovesDPPt[species].Moves;
                     }
                 case 5:
                     return EggMovesBW[species].Moves;

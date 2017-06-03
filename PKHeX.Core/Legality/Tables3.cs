@@ -283,15 +283,18 @@ namespace PKHeX.Core
             new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Absol with Wish
             new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{334} }, // Bagon with Iron Defense
             new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
+
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY" },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE" },
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_Common =
         {
             // Pokémon Box
-            new WC3 { Species = 333, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{206} }, // Swablu Egg with False Swipe
-            new WC3 { Species = 263, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{245} }, // Zigzagoon Egg with Extreme Speed
-            new WC3 { Species = 300, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{006} }, // Skitty Egg with Pay Day
-            new WC3 { Species = 172, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{057} }, // Pichu Egg with Surf
+            new WC3 { Species = 333, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{206}, Method = PIDType.BACD_U }, // Swablu Egg with False Swipe
+            new WC3 { Species = 263, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{245}, Method = PIDType.BACD_U }, // Zigzagoon Egg with Extreme Speed
+            new WC3 { Species = 300, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{006}, Method = PIDType.BACD_U }, // Skitty Egg with Pay Day
+            new WC3 { Species = 172, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{057}, Method = PIDType.BACD_U }, // Pichu Egg with Surf
             // PokePark Eggs
             new WC3 { Species = 054, IsEgg = true, Level = 05, Moves = new[]{300} }, // Psyduck with Mud Sport
             new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{266} }, // Pichu with Follow me

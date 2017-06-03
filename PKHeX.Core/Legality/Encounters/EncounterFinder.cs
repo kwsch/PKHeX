@@ -20,6 +20,7 @@ namespace PKHeX.Core
                 while (encounter.MoveNext())
                 {
                     var EncounterMatch = info.EncounterMatch = encounter.Current;
+                    bool PIDMatch = info.PIDIVMatches;
 
                     var e = EncounterValidator(pkm, EncounterMatch);
                     if (!e.Valid && encounter.PeekIsNext())
@@ -43,8 +44,14 @@ namespace PKHeX.Core
                     var evo = VerifyEvolution.verifyEvolution(pkm, EncounterMatch);
                     if (!evo.Valid && encounter.PeekIsNext())
                         continue;
-
                     info.Parse.Add(evo);
+
+                    if (!PIDMatch)
+                    {
+                        if (encounter.PeekIsNext())
+                            continue;
+                        info.Parse.Add(new CheckResult(Severity.Invalid, "PID Type Mismatch", CheckIdentifier.PID));
+                    }
 
                     // Encounter Passes
                     break;

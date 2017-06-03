@@ -55,7 +55,7 @@ namespace PKHeX.Core
             if (getBACDMatch(pk, pid, IVs, out pidiv))
                 return pidiv;
 
-            return null; // no match
+            return new PIDIV {Type=PIDType.None}; // no match
         }
 
         private static bool getLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
@@ -336,6 +336,7 @@ namespace PKHeX.Core
                 var PID = A & 0xFFFF0000 | B >> 16;
                 bool isShiny = (pk.TID ^ pk.SID ^ PID >> 16 ^ PID & 0xFFFF) < 8;
                 bool forceShiny = false;
+                bool antiShiny = false;
                 if (PID != pid)
                 {
                     if (!isShiny)
@@ -359,8 +360,12 @@ namespace PKHeX.Core
                             continue;
                         forceShiny = true;
                     }
-                    if (!forceShiny && (PID + 8 & 0xFFFFFFF8) != pid)
-                        continue;
+                    if (!forceShiny)
+                    {
+                        if ((PID + 8 & 0xFFFFFFF8) != pid)
+                            continue;
+                        antiShiny = true;
+                    }
                 }
                 var s = RNG.LCRNG.Prev(A);
 
@@ -370,12 +375,12 @@ namespace PKHeX.Core
                 {
                     if ((sn & 0xFFFF0000) != 0)
                         continue;
-                    var type = forceShiny ? PIDType.BACD_R_S : isShiny ? PIDType.BACD_R_A : PIDType.BACD_R;
+                    var type = forceShiny ? PIDType.BACD_R_S : antiShiny ? PIDType.BACD_R_A : PIDType.BACD_R;
                     pidiv = new PIDIV {OriginSeed = sn, RNG = RNG.LCRNG, Type = type};
                     return true;
                 }
                 // no restricted seed found, thus unrestricted
-                var t = forceShiny ? PIDType.BACD_U_S : isShiny ? PIDType.BACD_U_A : PIDType.BACD_U;
+                var t = forceShiny ? PIDType.BACD_U_S : antiShiny ? PIDType.BACD_U_A : PIDType.BACD_U;
                 pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = t};
                 return true;
             }
@@ -502,5 +507,40 @@ namespace PKHeX.Core
                 yield return new PIDIV {OriginSeed = s, RNG = RNG.XDRNG, Type = PIDType.None};
             }
         }
+
+        public static bool IsCompatible3(this PIDType val, IEncounterable encounter, PKM pkm)
+        {
+            switch (encounter)
+            {
+                case WC3 g:
+                    return val == g.Method;
+                case EncounterStaticShadow _:
+                    return val == PIDType.CXD;
+                case EncounterStatic s:
+                    return s.Roaming ? val == PIDType.Method_1_Roamer : MethodH.Any(z => z == val);
+                case EncounterSlot w:
+                    if (pkm.Version == 15)
+                        return val == PIDType.CXD;
+                    return (w.Species == 201 ? MethodH_Unown : MethodH).Any(z => z == val);
+                default:
+                    return val == PIDType.None;
+            }
+        }
+
+        public static bool IsCompatible4(this PIDType val, IEncounterable encounter)
+        {
+            switch (encounter)
+            {
+                case EncounterStatic s:
+                    return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
+                case EncounterSlot _:
+                    return val == PIDType.Method_1;
+                default:
+                    return val == PIDType.None;
+            }
+        }
+
+        private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };
+        private static readonly PIDType[] MethodH_Unown = { PIDType.Method_1_Unown, PIDType.Method_2_Unown, PIDType.Method_4_Unown };
     }
 }

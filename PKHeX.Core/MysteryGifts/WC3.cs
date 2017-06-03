@@ -13,8 +13,8 @@ namespace PKHeX.Core
 
         public string OT_Name;
         public int OT_Gender = 3;
-        public int TID = -1;
-        public int SID = -1;
+        public int TID;
+        public int SID;
         public int Met_Location = 255;
         public int Version;
         public int Language;
