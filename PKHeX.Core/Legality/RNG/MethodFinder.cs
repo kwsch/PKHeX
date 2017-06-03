@@ -161,8 +161,7 @@ namespace PKHeX.Core
         }
         private static bool getLCRNGRoamerMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            var iv2 = getIVChunk(IVs, 3);
-            if (iv2 != 0 || IVs[2] != 0)
+            if (IVs.Skip(2).Any(iv => iv != 0) || IVs[1] > 7)
             {
                 pidiv = null;
                 return false;
@@ -171,8 +170,8 @@ namespace PKHeX.Core
             var reg = getSeedsFromPID(RNG.LCRNG, top, bot);
             foreach (var seed in reg)
             {
-                // Only the first two IVs are kept
-                var ivC = RNG.LCRNG.Advance(seed, 3) >> 16 & 0x03FF;
+                // Only the first 8 bits are kept
+                var ivC = RNG.LCRNG.Advance(seed, 3) >> 16 & 0x00FF;
                 if (iv1 != ivC)
                     continue;
 
