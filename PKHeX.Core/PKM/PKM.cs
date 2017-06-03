@@ -767,6 +767,14 @@ namespace PKHeX.Core
                 EncryptionConstant = PID;
         }
         /// <summary>
+        /// Applies a shiny SID to the <see cref="PKM"/>.
+        /// </summary>
+        public void setShinySID()
+        {
+            if (IsShiny) return;
+            do SID = Util.rnd16(); while (!IsShiny);
+        }
+        /// <summary>
         /// Applies a PID to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
         /// <remarks>

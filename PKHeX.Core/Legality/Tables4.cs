@@ -282,8 +282,9 @@ namespace PKHeX.Core
             227, // Safari Zone Gate
         };
         internal static readonly int[] HGSS_SurfingHeadbutt_Locations =
-        {   // Locations with headbutt trees adjacent  to water tiles
+        {   // Locations with headbutt trees adjacent to water tiles
             126, // New Bark Town 
+            127, // Cherrygrove City
             128, // Violet City 
             133, // Ecruteak City 
             135, // Lake of Rage 
@@ -306,7 +307,7 @@ namespace PKHeX.Core
             214, // Ilex Forest 
         };
         internal static readonly int[] HGSS_GrassHeadbutt_Locations =
-        {   // Locations with headbutt trees adjacent  to tall grass tiles
+        {   // Locations with headbutt trees adjacent to tall grass tiles
             137, // Mt. Silver 
             149, // Route 1
             150, // Route 2
