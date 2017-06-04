@@ -360,11 +360,11 @@ namespace PKHeX.Core
             pk6.AltForm = AltForm;
             pk6.Nature = Nature;
 
-            // Apply trash bytes for species name of current app language -- default to PKM's language
-            pk6.Nickname = PKX.getSpeciesName(Species, Language);
-            pk6.Nickname = Nickname.Length > 1 && !IsNicknamed
-                ? Nickname[0] + Nickname.Substring(1).ToLower() // Decapitalize
-                : Nickname;
+            // Apply trash bytes for species name of current app language -- default to PKM's language if no match
+            int curLang = PKX.getSpeciesNameLanguage(Species, Nickname, Format);
+            pk6.Nickname = PKX.getSpeciesName(Species, curLang < 0 ? Language : curLang);
+            if (IsNicknamed)
+                pk6.Nickname = Nickname;
 
             pk6.Version = Version;
 
@@ -497,10 +497,6 @@ namespace PKHeX.Core
 
             // HMs are not deleted 5->6, transfer away (but fix if blank spots?)
             pk6.FixMoves();
-
-            // Decapitalize
-            if (!pk6.IsNicknamed && pk6.Nickname.Length > 1)
-                pk6.Nickname = char.ToUpper(pk6.Nickname[0]) + pk6.Nickname.Substring(1).ToLower();
 
             // Fix Name Strings
             pk6.Nickname = pk6.Nickname

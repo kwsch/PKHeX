@@ -513,12 +513,18 @@ namespace PKHeX.Core
             {
                 case WC3 g:
                     return val == g.Method;
-                case EncounterStaticShadow _:
-                    return val == PIDType.CXD;
                 case EncounterStatic s:
-                    if (pkm.Version == 15)
-                        return val == PIDType.CXD;
-                    return s.Roaming ? val == PIDType.Method_1_Roamer : MethodH.Any(z => z == val);
+                    switch (pkm.Version)
+                    {
+                        case (int)GameVersion.CXD: return val == PIDType.CXD;
+                        case (int)GameVersion.E: return val == PIDType.Method_1; // no roamer glitch
+
+                        case (int)GameVersion.FR:
+                        case (int)GameVersion.LG:
+                            return s.Roaming ? val == PIDType.Method_1_Roamer : val == PIDType.Method_1; // roamer glitch
+                        default: // RS, roamer glitch && RSBox s/w emulation => method 4 available
+                            return s.Roaming ? val == PIDType.Method_1_Roamer : MethodH14.Any(z => z == val);
+                    }
                 case EncounterSlot w:
                     if (pkm.Version == 15)
                         return val == PIDType.PokeSpot;
@@ -542,6 +548,7 @@ namespace PKHeX.Core
         }
 
         private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };
+        private static readonly PIDType[] MethodH14 = { PIDType.Method_1, PIDType.Method_4 };
         private static readonly PIDType[] MethodH_Unown = { PIDType.Method_1_Unown, PIDType.Method_2_Unown, PIDType.Method_4_Unown };
     }
 }

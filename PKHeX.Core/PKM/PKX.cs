@@ -240,6 +240,27 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets the Species name Language ID for the current name and generation.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
+        /// <param name="nick">Current name</param>
+        /// <param name="generation">Generation specific formatting option</param>
+        /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
+        public static int getSpeciesNameLanguage(int species, string nick, int generation)
+        {
+            int len = SpeciesLang.Length;
+            if (generation < 3)
+                len = 3;
+            else if (generation < 7)
+                len = 8;
+
+            for (int i = 0; i < len; i++)
+                if (getSpeciesNameGeneration(species, i, generation) == nick)
+                    return i;
+            return -1;
+        }
+
+        /// <summary>
         /// Gets randomized EVs for a given generation format
         /// </summary>
         /// <param name="generation">Generation specific formatting option</param>

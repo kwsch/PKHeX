@@ -305,7 +305,7 @@ namespace PKHeX.Core
                     continue;
                 if (pkm.Gen3 && e.EggLocation != 0) // egg
                 {
-                    if (pkm.Format == 3 && e.EggLocation != pkm.Met_Location)
+                    if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
                         continue;
                 }
                 else if (e.EggLocation != pkm.Egg_Location)
