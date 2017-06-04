@@ -43,33 +43,32 @@
             this.mnuLQR,
             this.mnuLSave});
             this.mnuL.Name = "mnuL";
-            this.mnuL.Size = new System.Drawing.Size(153, 92);
+            this.mnuL.Size = new System.Drawing.Size(122, 70);
             // 
             // mnuLLegality
             // 
             this.mnuLLegality.Name = "mnuLLegality";
-            this.mnuLLegality.Size = new System.Drawing.Size(152, 22);
+            this.mnuLLegality.Size = new System.Drawing.Size(121, 22);
             this.mnuLLegality.Text = "Legality";
             this.mnuLLegality.Click += new System.EventHandler(this.ClickShowLegality);
             // 
             // mnuLQR
             // 
             this.mnuLQR.Name = "mnuLQR";
-            this.mnuLQR.Size = new System.Drawing.Size(152, 22);
+            this.mnuLQR.Size = new System.Drawing.Size(121, 22);
             this.mnuLQR.Text = "QR!";
             this.mnuLQR.Click += new System.EventHandler(this.ClickShowQR);
             // 
             // mnuLSave
             // 
             this.mnuLSave.Name = "mnuLSave";
-            this.mnuLSave.Size = new System.Drawing.Size(152, 22);
+            this.mnuLSave.Size = new System.Drawing.Size(121, 22);
             this.mnuLSave.Text = "Save as...";
             this.mnuLSave.Click += new System.EventHandler(this.ClickSaveAs);
             // 
             // ContextMenuPKM
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Name = "ContextMenuPKM";
             this.mnuL.ResumeLayout(false);
             this.ResumeLayout(false);

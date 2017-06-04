@@ -501,8 +501,7 @@
             // 
             // BoxEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.PAN_Box);
             this.Controls.Add(this.B_BoxRight);
             this.Controls.Add(this.B_BoxLeft);
