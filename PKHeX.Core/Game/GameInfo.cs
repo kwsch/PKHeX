@@ -189,6 +189,10 @@ namespace PKHeX.Core
                 for (int i = 76; i < 106; i++)
                     metBW2_00000[i] = metBW2_00000[i] + "●";
 
+                // Collision between 40002 (legal) and 00002 (illegal) "Faraway place"
+                if (metBW2_00000[2] == metBW2_40000[2 - 1])
+                    metBW2_00000[2] += " (2)";
+
                 // Localize the Poketransfer to the language (30001)
                 metBW2_30000[1 - 1] = getTransporterName(Language); // Default to English
                 metBW2_30000[2 - 1] += " (NPC)";            // Anything from an NPC
