@@ -141,6 +141,7 @@ namespace PKHeX.Core
         // Meta Accessible Properties
         public int[] IVs => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         public bool IsNicknamed => Nickname.Length > 0;
+        public override bool IsShiny => PIDType == 2;
 
         public override int[] Moves => new[] { Move1, Move2, Move3, Move4 };
         public override bool IsPokémon { get => CardType == 1; set { if (value) CardType = 1; } }
@@ -262,20 +263,22 @@ namespace PKHeX.Core
 
                 // Force Gender
                 do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
+                
+                // Force Ability
+                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
 
                 if (PIDType == 2) // Force Shiny
                 {
                     uint gb = pk.PID & 0xFF;
                     pk.PID = (uint)((gb ^ pk.TID ^ pk.SID) << 16) | gb;
+                    // double check forced ability
+                    if (av == 1) pk.PID |= 0x10001; else pk.PID &= 0xFFFEFFFE;
                 }
                 else if (PIDType != 1) // Force Not Shiny
                 {
                     if (((pk.PID >> 16) ^ (pk.PID & 0xffff) ^ pk.SID ^ pk.TID) < 8)
                         pk.PID ^= 0x10000000;
                 }
-
-                // Force Ability
-                if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;
             }
 
             if (IsEgg)

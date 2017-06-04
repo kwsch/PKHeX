@@ -1986,6 +1986,13 @@ namespace PKHeX.Core
 
             if (EncounterMatch is MysteryGift g)
             {
+                if (EncounterMatch is PGF p && p.IsShiny)
+                {
+                    info.PIDIV = MethodFinder.Analyze(pkm);
+                    if (info.PIDIV.Type != PIDType.G5MGShiny)
+                        AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
+                }
+
                 bool fatefulValid = false;
                 if (g.Format == 3)
                 {
