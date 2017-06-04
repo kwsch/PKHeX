@@ -128,12 +128,12 @@ namespace PKHeX.Core
         }
         private static CheckResult[] parseMovesPre3DS(PKM pkm, int[] Moves, LegalInfo info)
         {
-            if (pkm.IsEgg)
+            if (pkm.IsEgg && info.EncounterMatch is EncounterEgg egg)
             {
                 int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves;
                 // Gift do not have special moves but also should not have normal egg moves
                 var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
-                return parseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves ?? new int[0], allowinherited, info.EncounterMatch as EncounterEgg);
+                return parseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves ?? new int[0], allowinherited, egg);
             }
             if (pkm.GenNumber <= 2 && (info.EncounterMatch as IGeneration)?.Generation == 1)
                 return parseMovesGen1(pkm, Moves, info);

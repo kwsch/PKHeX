@@ -542,6 +542,8 @@ namespace PKHeX.Core
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
                     return val == PIDType.Method_1;
+                case PGT g: // manaphy
+                    return val == PIDType.Method_1 || val == PIDType.None; // regular && antishiny
                 default:
                     return val == PIDType.None;
             }

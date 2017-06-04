@@ -460,6 +460,8 @@ namespace PKHeX.WinForms
 
             string ext = Path.GetExtension(path);
             FileInfo fi = new FileInfo(path);
+            if (!fi.Exists)
+                return;
             if (fi.Length > 0x10009C && fi.Length != 0x380000 && ! SAV3GCMemoryCard.IsMemoryCardSize(fi.Length))
                 WinFormsUtil.Error("Input file is too large." + Environment.NewLine + $"Size: {fi.Length} bytes", path);
             else if (fi.Length < 32)
