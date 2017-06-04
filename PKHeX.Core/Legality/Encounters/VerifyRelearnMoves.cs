@@ -49,7 +49,7 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            res[0] = !Legal.getValidRelearn(pkm, 0).Contains(RelearnMoves[0])
+            res[0] = !Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm)).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
