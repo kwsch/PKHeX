@@ -88,6 +88,7 @@ namespace PKHeX.WinForms
             mnu.RequestEditorQR += clickQR;
             mnu.RequestEditorSaveAs += mainMenuSave;
             dragout.ContextMenuStrip = mnu.mnuL;
+            C_SAV.menu.RequestEditorLegality += showLegality;
 
             // Load Event Databases
             refreshMGDB();
@@ -1027,6 +1028,10 @@ namespace PKHeX.WinForms
             if (pk.Species == 0 || !pk.ChecksumValid)
             { SystemSounds.Asterisk.Play(); return; }
 
+            showLegality(sender, e, pk);
+        }
+        private void showLegality(object sender, EventArgs e, PKM pk)
+        {
             LegalityAnalysis la = new LegalityAnalysis(pk);
             if (pk.Slot < 0)
                 PKME_Tabs.updateLegality(la);

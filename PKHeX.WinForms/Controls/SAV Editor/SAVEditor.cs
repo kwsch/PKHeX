@@ -18,7 +18,7 @@ namespace PKHeX.WinForms.Controls
         public readonly SlotChangeManager M;
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
         public readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
-        private readonly ContextMenuSAV menu = new ContextMenuSAV();
+        public readonly ContextMenuSAV menu = new ContextMenuSAV();
 
         public bool HaX;
         public bool ModifyPKM;

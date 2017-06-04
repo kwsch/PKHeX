@@ -13,6 +13,9 @@ namespace PKHeX.WinForms.Controls
             InitializeComponent();
         }
 
+        public event LegalityRequest RequestEditorLegality;
+        public delegate void LegalityRequest(object sender, EventArgs args, PKM pkm);
+
         public void OmniClick(object sender, EventArgs e, Keys z)
         {
             switch (z)
@@ -129,18 +132,8 @@ namespace PKHeX.WinForms.Controls
             if (m == null)
                 return;
 
-            bool verbose = ModifierKeys == Keys.Control;
             var pk = m.GetPKM(info);
-            LegalityAnalysis la = new LegalityAnalysis(pk);
-            var report = la.Report(verbose);
-            if (verbose)
-            {
-                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, "Copy report to Clipboard?");
-                if (dr == DialogResult.Yes)
-                    Clipboard.SetText(report);
-            }
-            else
-                WinFormsUtil.Alert(report);
+            RequestEditorLegality?.Invoke(sender, e, pk);
         }
         private void MenuOpening(object sender, CancelEventArgs e)
         {
@@ -153,7 +146,7 @@ namespace PKHeX.WinForms.Controls
             bool legality = ModifierKeys == Keys.Control;
             ToggleItem(items, mnuSet, Editable);
             ToggleItem(items, mnuDelete, Editable && SlotFull);
-            ToggleItem(items, mnuLegality, legality && SlotFull);
+            ToggleItem(items, mnuLegality, legality && SlotFull && RequestEditorLegality != null);
             ToggleItem(items, mnuView, SlotFull || !Editable, true);
 
             if (items.Count == 0)
