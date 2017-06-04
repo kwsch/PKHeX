@@ -25,11 +25,13 @@ namespace PKHeX.WinForms
             {
                 readFerry();
                 readBF();
+                readLegendary();
             }
             else
             {
                 tabControl1.Controls.Remove(TAB_Ferry);
                 tabControl1.Controls.Remove(TAB_BF);
+                tabControl1.Controls.Remove(TAB_Legend);
             }
 
             if (SAV.FRLG)
@@ -48,6 +50,8 @@ namespace PKHeX.WinForms
                 saveFerry();
             if (tabControl1.Controls.Contains(TAB_BF))
                 saveBF();
+            if (tabControl1.Controls.Contains(TAB_Legend))
+                saveLegendary();
             if (SAV.FRLG)
                 SAV.setData(SAV.setString(TB_OTName.Text, TB_OTName.MaxLength), SAV.getBlockOffset(4) + 0xBCC);
 
@@ -383,5 +387,229 @@ namespace PKHeX.WinForms
         }
         #endregion
 
+        #region Legendary
+        private int ofsLegendary;
+        private int ofsRoaming;
+        private int ofsWeather;
+        private int ofsLatiSelect;
+        private bool LatiRoaming;
+        private int[][] LegendFlags;
+        private int[] TitanFlags;
+        private uint oPID;
+        private void readLegendary()
+        {
+            ofsLegendary = SAV.getBlockOffset(2) + 0x2F0;
+            ofsRoaming = SAV.getBlockOffset(4) + 0x35C;
+            ofsWeather = SAV.getBlockOffset(2) + 0x48A;
+            ofsLatiSelect = SAV.getBlockOffset(2) + 0x5C6;
+            LatiRoaming = SAV.Data[ofsRoaming + 0x13] != 0;
+
+            string[] LegendLabels = new[]
+            {
+                "Mew (Faraway Island)",
+                "Lugia (Navel Rock)","Ho-Oh (Navel Rock)",
+                "Regirock (Desert Ruins)","Regice (Island Cave)","Registeel (Ancient Tomb)",
+                "Lati@s (Roaming)","Lati@s (Southern Island)",
+                "Kyogre (Marine Cave)","Groudon (Terra Cave)","Rayquaza (Sky Pillar)",
+                "Deoxys (Birth Island)",
+            };
+            LegendFlags = new int[][]
+            {
+                new[] { 0x1CA, 0x1C7 },
+                new[] { 0x91, 0x1DD }, new[] { 0x92, 0x1DC },
+                new[] { 0x3A7 }, new[] { 0x3A8 }, new[] { 0x3A9 },
+                new[] { 0x98 }, new[] { 0x1C8, 0x1C9 }, // , 0x8B3 },
+                new[] { 0x1BE }, new[] { 0x1BF }, new[] { 0x1C0 },
+                new[] { 0x1AD, 0x1AC }
+            };
+
+            editingcont = true;
+
+            CLB_Legendary.Items.Clear();
+            for (int i = 0; i < LegendFlags.Length; i++)
+            {
+                if (i == 6)
+                    CLB_Legendary.Items.Add(LegendLabels[i], LatiRoaming);
+                else
+                    CLB_Legendary.Items.Add(LegendLabels[i], !LegendFlags[i].Any(v => (SAV.Data[ofsLegendary + (v >> 3)] & 1 << (v & 7)) != 0));
+            }
+
+            CB_RoamingSpecies.Items.Clear();
+            CB_RoamingSpecies.DisplayMember = "Text";
+            CB_RoamingSpecies.ValueMember = "Value";
+            int[] HoennListMixed = new[]
+            {
+                    277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
+                304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
+                                        322,355,382,383,384,356,357,337,338,353,354,386,387,363,367,368,330,331,313,314,
+                                        339,340,321,351,352,308,332,333,334,344,345,358,359,380,379,348,349,323,324,
+                                    326,327,318,319,388,389,390,391,328,329,385,317,377,378,361,362,369,411,376,360,
+                                    346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
+                    401,402,403,407,408,404,405,406,409,410
+            };
+            var speciesList = GameInfo.SpeciesDataSource.Where(v => v.Value <= SAV.MaxSpeciesID && v.Value >= 1);
+            CB_RoamingSpecies.DataSource = new BindingSource(speciesList.Select(v => new ComboItem
+            {
+                Text = v.Text,
+                Value = v.Value < 252 ? v.Value : HoennListMixed[v.Value - 252]
+            }).ToList(), null);
+
+            if (SAV.Data[ofsLatiSelect] == 1)
+            {
+                RB_RoamingLatios.Checked = true;
+                CB_RoamingSpecies.SelectedValue = 0x198;
+            }
+            else
+            {
+                RB_RoamingLatias.Checked = true;
+                CB_RoamingSpecies.SelectedValue = 0x197;
+            }
+
+            CB_RoamingSpecies.SelectedValue= (int)BitConverter.ToUInt16(SAV.Data, ofsRoaming + 8);
+
+            oPID = BitConverter.ToUInt32(SAV.Data, ofsRoaming + 4);
+            TB_RoamingPID.Text = oPID.ToString("X8");
+
+            byte y = SAV.Data[ofsRoaming + 0x0C];
+            if (y < 39) y = 40;
+            NUD_RoamingLV.Value = y;
+
+            NUD_RoamingHP.Value = BitConverter.ToUInt16(SAV.Data, ofsRoaming + 0xA);
+
+            uint u = BitConverter.ToUInt32(SAV.Data, ofsRoaming);
+            NUD_RoamingIVHP.Value = u & 0x1F;
+            NUD_RoamingIVAtk.Value = u >> 5 & 0x1F;
+            NUD_RoamingIVDef.Value = u >> 10 & 0x1F;
+            NUD_RoamingIVSpe.Value = u >> 15 & 0x1F;
+            NUD_RoamingIVSpA.Value = u >> 20 & 0x1F;
+            NUD_RoamingIVSpD.Value = u >> 25 & 0x1F;
+
+            string[] TitanLabels = new[]
+            {
+                "Sealed Chamber","Desert Ruins","Island Cave","Ancient Tomb","3 Ruins Entrance"
+            };
+            TitanFlags = new[]
+            {
+                0x8AF,0x8B0,0x8B1,0x8B2,0xE4
+            };
+            CLB_TitanUnlock.Items.Clear();
+            for (int i = 0; i < TitanFlags.Length; i++)
+                CLB_TitanUnlock.Items.Add(TitanLabels[i], (SAV.Data[ofsLegendary + (TitanFlags[i] >> 3)] & 1 << (TitanFlags[i] & 7)) != 0);
+
+            string[] WeatherLocation = new[]
+            {
+                "(none)","R114","R114","R115","R116","R116","R116","R118","R118",
+                "R105","R105","R125","R125","R127","R127","R129","R129"
+            };
+            CB_Weather.Items.Clear();
+            CB_Weather.DisplayMember = "Text";
+            CB_Weather.ValueMember = "Value";
+            CB_Weather.DataSource = new BindingSource(WeatherLocation.Select((v, i) => new ComboItem
+            {
+                Text = v + (i == 0 ? "" : i <= 8 ? " (Sunlight)" : " (Rain)"),
+                Value = i
+            }).ToList(), null);
+
+            CB_Weather.SelectedValue = (int)SAV.Data[ofsWeather];
+
+            editingcont = false;
+        }
+        private void saveLegendary()
+        {
+            for (int i = 0, ofs; i < LegendFlags.Length; i++)
+            {
+                bool b;
+                if (i == 6)
+                {
+                    ofs = ofsRoaming;
+                    b = CLB_Legendary.GetItemChecked(i);
+                }
+                else
+                {
+                    ofs = ofsLegendary;
+                    b = !CLB_Legendary.GetItemChecked(i);
+                }
+                if (b)
+                    SAV.Data[ofs + (LegendFlags[i][0] >> 3)] |= (byte)(1 << (LegendFlags[i][0] & 7));
+                else
+                    foreach (int j in LegendFlags[i])
+                        SAV.Data[ofs + (j >> 3)] &= (byte)~(1 << (j & 7));
+            }
+            SAV.Data[SAV.getBlockOffset(2) + 0x5C6] = (byte)(RB_RoamingLatios.Checked ? 1 : 0);
+            ushort y = (ushort)(int)CB_RoamingSpecies.SelectedValue;
+            BitConverter.GetBytes(y).CopyTo(SAV.Data, ofsRoaming + 8);
+            BitConverter.GetBytes((uint)Util.getHEXval(TB_RoamingPID.Text)).CopyTo(SAV.Data, ofsRoaming + 4);
+            SAV.Data[ofsRoaming + 0xC] = (byte)NUD_RoamingLV.Value;
+            BitConverter.GetBytes((ushort)NUD_RoamingHP.Value).CopyTo(SAV.Data, ofsRoaming + 0xA);
+            uint u = 0;
+            u |= (uint)NUD_RoamingIVHP.Value;
+            u |= (uint)NUD_RoamingIVAtk.Value << 5;
+            u |= (uint)NUD_RoamingIVDef.Value << 10;
+            u |= (uint)NUD_RoamingIVSpe.Value << 15;
+            u |= (uint)NUD_RoamingIVSpA.Value << 20;
+            u |= (uint)NUD_RoamingIVSpD.Value << 25;
+            BitConverter.GetBytes(u).CopyTo(SAV.Data, ofsRoaming);
+            for(int i = 0; i < TitanFlags.Length; i++)
+            {
+                if (CLB_TitanUnlock.GetItemChecked(i))
+                    SAV.Data[ofsLegendary + (TitanFlags[i] >> 3)] |= (byte)(1 << (TitanFlags[i] & 7));
+                else
+                    SAV.Data[ofsLegendary + (TitanFlags[i] >> 3)] &= (byte)~(1 << (TitanFlags[i] & 7));
+            }
+            SAV.Data[ofsWeather] = (byte)(int)CB_Weather.SelectedValue;
+        }
+        private void CLB_Legendary_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (editingcont) return;
+            switch (CLB_Legendary.SelectedIndex)
+            {
+                case 3:
+                case 4:
+                case 5:
+                    GB_RoamingLati.Visible = false;
+                    GB_RoamingInfo.Visible = false;
+                    GB_TitanUnlock.Visible = true;
+                    GB_Weather.Visible = false;
+                    break;
+                case 6:
+                case 7:
+                    GB_RoamingLati.Visible = true;
+                    GB_RoamingInfo.Visible = true;
+                    GB_TitanUnlock.Visible = false;
+                    GB_Weather.Visible = false;
+                    break;
+                case 8:
+                case 9:
+                    GB_RoamingLati.Visible = false;
+                    GB_RoamingInfo.Visible = false;
+                    GB_TitanUnlock.Visible = false;
+                    GB_Weather.Visible = true;
+                    break;
+                default:
+                    GB_RoamingLati.Visible = false;
+                    GB_RoamingInfo.Visible = false;
+                    GB_TitanUnlock.Visible = false;
+                    GB_Weather.Visible = false;
+                    break;
+            }
+        }
+        private void RB_RoamingLatias_CheckedChanged(object sender, EventArgs e)
+        {
+            if (editingcont) return;
+            if (RB_RoamingLatias.Checked) CB_RoamingSpecies.SelectedValue = 0x197;
+        }
+
+        private void RB_RoamingLatios_CheckedChanged(object sender, EventArgs e)
+        {
+            if (editingcont) return;
+            if (RB_RoamingLatios.Checked) CB_RoamingSpecies.SelectedValue = 0x198;
+        }
+        private void BTN_CheckAll_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CLB_Legendary.Items.Count; i++)
+                CLB_Legendary.SetItemChecked(i, true);
+        }
+
+        #endregion
     }
 }
