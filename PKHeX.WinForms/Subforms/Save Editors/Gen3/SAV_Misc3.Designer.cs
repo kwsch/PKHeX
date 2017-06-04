@@ -93,14 +93,21 @@
             this.BTN_SymbolT = new System.Windows.Forms.Button();
             this.BTN_SymbolA = new System.Windows.Forms.Button();
             this.CHK_ActivatePass = new System.Windows.Forms.CheckBox();
+            this.GB_TCM = new System.Windows.Forms.GroupBox();
+            this.CB_TCM1 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM2 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM3 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM4 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM5 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM6 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.TAB_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.TAB_Joyful.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).BeginInit();
             this.TAB_Ferry.SuspendLayout();
-            this.GB_Reachable.SuspendLayout();
             this.GB_InitialEvent.SuspendLayout();
+            this.GB_Reachable.SuspendLayout();
             this.TAB_BF.SuspendLayout();
             this.GB_Streaks.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).BeginInit();
@@ -109,6 +116,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).BeginInit();
             this.GB_FrontierPass.SuspendLayout();
             this.GB_Icons.SuspendLayout();
+            this.GB_TCM.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
@@ -150,6 +158,7 @@
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.GB_TCM);
             this.TAB_Main.Controls.Add(this.NUD_Coins);
             this.TAB_Main.Controls.Add(this.L_Coins);
             this.TAB_Main.Controls.Add(this.TB_OTName);
@@ -854,6 +863,75 @@
             this.CHK_ActivatePass.Text = "Activated";
             this.CHK_ActivatePass.UseVisualStyleBackColor = true;
             // 
+            // GB_TCM
+            // 
+            this.GB_TCM.Controls.Add(this.CB_TCM6);
+            this.GB_TCM.Controls.Add(this.CB_TCM5);
+            this.GB_TCM.Controls.Add(this.CB_TCM4);
+            this.GB_TCM.Controls.Add(this.CB_TCM3);
+            this.GB_TCM.Controls.Add(this.CB_TCM2);
+            this.GB_TCM.Controls.Add(this.CB_TCM1);
+            this.GB_TCM.Location = new System.Drawing.Point(6, 123);
+            this.GB_TCM.Name = "GB_TCM";
+            this.GB_TCM.Size = new System.Drawing.Size(249, 74);
+            this.GB_TCM.TabIndex = 36;
+            this.GB_TCM.TabStop = false;
+            this.GB_TCM.Text = "TrainerCard Pokemon Icons";
+            // 
+            // CB_TCM1
+            // 
+            this.CB_TCM1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM1.FormattingEnabled = true;
+            this.CB_TCM1.Location = new System.Drawing.Point(6, 18);
+            this.CB_TCM1.Name = "CB_TCM1";
+            this.CB_TCM1.Size = new System.Drawing.Size(75, 20);
+            this.CB_TCM1.TabIndex = 0;
+            // 
+            // CB_TCM2
+            // 
+            this.CB_TCM2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM2.FormattingEnabled = true;
+            this.CB_TCM2.Location = new System.Drawing.Point(87, 18);
+            this.CB_TCM2.Name = "CB_TCM2";
+            this.CB_TCM2.Size = new System.Drawing.Size(75, 20);
+            this.CB_TCM2.TabIndex = 1;
+            // 
+            // CB_TCM3
+            // 
+            this.CB_TCM3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM3.FormattingEnabled = true;
+            this.CB_TCM3.Location = new System.Drawing.Point(168, 18);
+            this.CB_TCM3.Name = "CB_TCM3";
+            this.CB_TCM3.Size = new System.Drawing.Size(75, 20);
+            this.CB_TCM3.TabIndex = 2;
+            // 
+            // CB_TCM4
+            // 
+            this.CB_TCM4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM4.FormattingEnabled = true;
+            this.CB_TCM4.Location = new System.Drawing.Point(6, 46);
+            this.CB_TCM4.Name = "CB_TCM4";
+            this.CB_TCM4.Size = new System.Drawing.Size(75, 20);
+            this.CB_TCM4.TabIndex = 3;
+            // 
+            // CB_TCM5
+            // 
+            this.CB_TCM5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM5.FormattingEnabled = true;
+            this.CB_TCM5.Location = new System.Drawing.Point(87, 46);
+            this.CB_TCM5.Name = "CB_TCM5";
+            this.CB_TCM5.Size = new System.Drawing.Size(75, 20);
+            this.CB_TCM5.TabIndex = 4;
+            // 
+            // CB_TCM6
+            // 
+            this.CB_TCM6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM6.FormattingEnabled = true;
+            this.CB_TCM6.Location = new System.Drawing.Point(168, 46);
+            this.CB_TCM6.Name = "CB_TCM6";
+            this.CB_TCM6.Size = new System.Drawing.Size(75, 20);
+            this.CB_TCM6.TabIndex = 5;
+            // 
             // SAV_Misc3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -890,6 +968,7 @@
             this.GB_FrontierPass.ResumeLayout(false);
             this.GB_FrontierPass.PerformLayout();
             this.GB_Icons.ResumeLayout(false);
+            this.GB_TCM.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -959,5 +1038,12 @@
         private System.Windows.Forms.Label L_Stat1;
         private System.Windows.Forms.Label L_Stat0;
         private System.Windows.Forms.CheckBox CHK_Continue;
+        private System.Windows.Forms.GroupBox GB_TCM;
+        private System.Windows.Forms.ComboBox CB_TCM6;
+        private System.Windows.Forms.ComboBox CB_TCM5;
+        private System.Windows.Forms.ComboBox CB_TCM4;
+        private System.Windows.Forms.ComboBox CB_TCM3;
+        private System.Windows.Forms.ComboBox CB_TCM2;
+        private System.Windows.Forms.ComboBox CB_TCM1;
     }
 }

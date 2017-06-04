@@ -33,9 +33,34 @@ namespace PKHeX.WinForms
             }
 
             if (SAV.FRLG)
+            {
                 TB_OTName.Text = PKX.getString3(SAV.Data, SAV.getBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
+                ComboBox[] cba = new[] { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
+                int[] HoennListMixed = new[] {
+                     277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
+                 304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
+                                         322,355,382,383,384,356,357,337,338,353,354,386,387,363,367,368,330,331,313,314,
+                                         339,340,321,351,352,308,332,333,334,344,345,358,359,380,379,348,349,323,324,
+                                     326,327,318,319,388,389,390,391,328,329,385,317,377,378,361,362,369,411,376,360,
+                                     346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
+                     401,402,403,407,408,404,405,406,409,410
+                };
+                var speciesList = GameInfo.SpeciesDataSource.Where(v => v.Value <= SAV.MaxSpeciesID).Select(v => new ComboItem {
+                    Text = v.Text,
+                    Value = v.Value < 252 ? v.Value : HoennListMixed[v.Value - 252],
+                }).ToList();
+                int ofsTCM = SAV.getBlockOffset(2) + 0x106;
+                for (int i = 0; i < cba.Length; i++)
+                {
+                    cba[i].Items.Clear();
+                    cba[i].DisplayMember = "Text";
+                    cba[i].ValueMember = "Value";
+                    cba[i].DataSource = new BindingSource(speciesList, null);
+                    cba[i].SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, ofsTCM + (i << 1));
+                }
+            }
             else
-                TB_OTName.Visible = L_TrainerName.Visible = false;
+                TB_OTName.Visible = L_TrainerName.Visible = GB_TCM.Visible = false;
             
             NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
             NUD_Coins.Value = Math.Min(NUD_Coins.Maximum, SAV.Coin);
@@ -49,7 +74,13 @@ namespace PKHeX.WinForms
             if (tabControl1.Controls.Contains(TAB_BF))
                 saveBF();
             if (SAV.FRLG)
+            {
                 SAV.setData(SAV.setString(TB_OTName.Text, TB_OTName.MaxLength), SAV.getBlockOffset(4) + 0xBCC);
+                ComboBox[] cba = new[] { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
+                int ofsTCM = SAV.getBlockOffset(2) + 0x106;
+                for (int i = 0; i < cba.Length; i++)
+                    BitConverter.GetBytes((ushort)(int)cba[i].SelectedValue).CopyTo(SAV.Data, ofsTCM + (i << 1));
+            }
 
             SAV.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
