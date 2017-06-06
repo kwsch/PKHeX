@@ -45,7 +45,7 @@ namespace PKHeX.Core
                     return new int[4];
                 if (_allSuggestedRelearnMoves == null)
                 {
-                    var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 254 || Legal.MixedGenderBreeding.Contains(info.EncounterMatch.Species);
+                    var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(info.EncounterMatch.Species);
                     return _allSuggestedRelearnMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, info.EncounterMatch.Species, inheritLvlMoves).ToArray();
                 }
                 return _allSuggestedRelearnMoves;
