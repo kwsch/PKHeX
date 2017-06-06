@@ -294,7 +294,7 @@ namespace PKHeX.Core
             // Sylveon (Eevee with Fairy Move)
             new [] { false, false, true, true, true, true, true, true },
             // Tsareena (Steenee with Stomp)
-            new [] { false, false, false, false, false, false, false, true },
+            new [] { false, false, false, false, false, false, false, false },
         };
 
         internal static readonly int[] FairyMoves =
