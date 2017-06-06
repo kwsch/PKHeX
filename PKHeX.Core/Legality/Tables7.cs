@@ -1302,9 +1302,6 @@ namespace PKHeX.Core
             658, // Ampharosite
             667, // Aggronite
             668, // Banettite
-            669, // Tyranitarite
-            674, // Abomasite
-            682, // Manectite
             684, // Latiasite
             685, // Latiosite
             710, // Jaw Fossil
