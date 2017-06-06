@@ -66,7 +66,7 @@ namespace PKHeX.Core
             {
                 validLevelUpMoves = Legal.getValidMovesAllGens(pkm, info.EvoChainsAllGens, minLvLG1: 1, Tutor: false, Machine: false, RemoveTransferHM: false)
             };
-            return parseMoves(pkm, pkm.Moves, new int[0], new int[0], new int[0], empty, new int[0], new int[0], false, info);
+            return parseMoves(pkm, pkm.Moves, new int[0], new int[0], new int[0], new int[0], new int[0], new int[0], false, info);
         }
         private static CheckMoveResult[] parseMovesIsEggPreRelearn(PKM pkm, int[] Moves, int[] SpecialMoves, bool allowinherited, EncounterEgg e)
         {
@@ -99,14 +99,16 @@ namespace PKHeX.Core
             var EventEggMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
             int BaseLvlMoves = 489 <= pkm.Species && pkm.Species <= 490 ? 1 : 100;
             var LvlupEggMoves = Legal.getBaseEggMoves(pkm, e.Species, e.Game, BaseLvlMoves);
-            // Level up, TMHM or tutor moves exclusive to the incense egg species, like Azurill, incompatible with the non-incense species egg moves
-            var ExclusiveIncenseMoves = e.SplitBreed ? Legal.getExclusivePreEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), info.EvoChainsAllGens, e.Game) : null;
+            var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
+            var NonTradebackLvlMoves = new int[0];
+            if (TradebackPreevo)
+                NonTradebackLvlMoves = Legal.getExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray();
             var EggMoves = Legal.getEggMoves(pkm, e.Species, pkm.AltForm);
 
             bool volt = (pkm.GenNumber > 3 || e.Game == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             var SpecialMoves = volt && EventEggMoves.Length == 0 ? new[] { 344 } : new int[0]; // Volt Tackle for bred Pichu line
 
-            return parseMoves(pkm, Moves, SpecialMoves, LvlupEggMoves, EggMoves, ExclusiveIncenseMoves, EventEggMoves, new int[0], e.SplitBreed, info);
+            return parseMoves(pkm, Moves, SpecialMoves, LvlupEggMoves, EggMoves, NonTradebackLvlMoves, EventEggMoves, new int[0], e.SplitBreed, info);
         }
         private static CheckMoveResult[] parseMovesSketch(PKM pkm, int[] Moves)
         {
@@ -151,14 +153,13 @@ namespace PKHeX.Core
                 return parseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = new int[0];
             int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
-            var empty = Legal.GetEmptyMovesList(info.EvoChainsAllGens);
             var emptyegg = new int[0];
             foreach (GameVersion ver in games)
             {
                 var VerInitialMoves = Legal.getInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();
                 if (VerInitialMoves.SequenceEqual(InitialMoves))
                     return res;
-                res = parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, empty, new int[0], VerInitialMoves, false, info);
+                res = parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, emptyegg, new int[0], VerInitialMoves, false, info);
                 if (res.All(r => r.Valid))
                     return res;
                 InitialMoves = VerInitialMoves;
@@ -169,9 +170,8 @@ namespace PKHeX.Core
         {
             var mg = info.EncounterMatch as IMoveset;
             int[] SpecialMoves = mg?.Moves ?? new int[0];
-            var empty = Legal.GetEmptyMovesList(info.EvoChainsAllGens);
             var emptyegg = new int[0];
-            CheckMoveResult[] res = parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, empty, new int[0], new int[0], false, info);
+            CheckMoveResult[] res = parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, emptyegg, new int[0], new int[0], false, info);
             if (res.Any(r => !r.Valid))
                 return res;
 
@@ -184,13 +184,13 @@ namespace PKHeX.Core
             var issplitbreed = pkm.WasEgg && Legal.SplitBreed.Contains(pkm.Species);
             var e = info.EncounterMatch as EncounterEgg;
             var EggMoves = e != null ? Legal.getEggMoves(pkm, e.Species, pkm.AltForm, e.Game) : emptyegg;
-            // Level up, TMHM or tutor moves exclusive to the incense egg species, like Azurill, incompatible with the non-incense species egg moves
-            var ExclusiveIncenseMoves = issplitbreed ? Legal.getExclusivePreEvolutionMoves(pkm, Legal.getBaseEggSpecies(pkm), info.EvoChainsAllGens, e.Game) : Legal.GetEmptyMovesList(info.EvoChainsAllGens);
-
+            var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151 && pkm.InhabitedGeneration(1);
+            var NonTradebackLvlMoves = TradebackPreevo ? Legal.getExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray() : new int[0];
+            
             int[] RelearnMoves = pkm.RelearnMoves;
             int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
 
-            CheckMoveResult[] res = parseMoves(pkm, Moves, SpecialMoves, new int[0], EggMoves, ExclusiveIncenseMoves, new int[0], new int[0], issplitbreed, info);
+            CheckMoveResult[] res = parseMoves(pkm, Moves, SpecialMoves, new int[0], EggMoves, NonTradebackLvlMoves, new int[0], new int[0], issplitbreed, info);
 
             for (int i = 0; i < 4; i++)
                 if ((pkm.IsEgg || res[i].Flag) && !RelearnMoves.Contains(Moves[i]))
@@ -198,10 +198,11 @@ namespace PKHeX.Core
 
             return res;
         }
-        private static CheckMoveResult[] parseMoves(PKM pkm, int[] moves, int[] special, int[] lvlupegg, int[] egg, List<int>[] IncenseExclusiveMoves, int[] eventegg, int[] initialmoves, bool issplitbreed, LegalInfo info)
+        private static CheckMoveResult[] parseMoves(PKM pkm, int[] moves, int[] special, int[] lvlupegg, int[] egg, int[] NonTradebackLvlMoves, int[] eventegg, int[] initialmoves, bool issplitbreed, LegalInfo info)
         {
             CheckMoveResult[] res = new CheckMoveResult[4];
             var Gen1MovesLearned = new List<int>();
+            var Gen2PreevoMovesLearned = new List<int>();
             var EggMovesLearned = new List<int>();
             var LvlupEggMovesLearned = new List<int>();
             var EventEggMovesLearned = new List<int>();
@@ -264,8 +265,15 @@ namespace PKHeX.Core
                     if (res[m] == null || gen < 3)
                         continue;
 
+                    if (res[m].Valid && gen == 2 && NonTradebackLvlMoves.Contains(m))
+                        Gen2PreevoMovesLearned.Add(m);
                     if (res[m].Valid && gen == 1)
+                    {
                         Gen1MovesLearned.Add(m);
+                        if (Gen2PreevoMovesLearned.Any())
+                            MixedGen1NonTradebackGen2 = true;
+                    }
+
                     if (res[m].Valid && gen <= 2 && pkm.TradebackStatus == TradebackType.Any && pkm.GenNumber != gen)
                         pkm.TradebackStatus = TradebackType.WasTradeback;
                 }
@@ -393,8 +401,13 @@ namespace PKHeX.Core
 
                 // Mark the gen 1 exclusive moves as illegal because the pokemon also have Non tradeback egg moves.
                 if (MixedGen1NonTradebackGen2)
+                { 
                     foreach (int m in Gen1MovesLearned)
                         res[m] = new CheckMoveResult(res[m], Severity.Invalid, V335, CheckIdentifier.Move);
+
+                    foreach (int m in Gen2PreevoMovesLearned)
+                        res[m] = new CheckMoveResult(res[m], Severity.Invalid, V412, CheckIdentifier.Move);
+                }
 
                 if (gen == 1 && pkm.Format == 1 && pkm.Gen1_NotTradeback)
                 {
