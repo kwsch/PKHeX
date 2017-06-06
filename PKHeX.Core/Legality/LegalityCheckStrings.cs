@@ -347,7 +347,7 @@ namespace PKHeX.Core
         public static string V328 {get; set;} = "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.";
 
         public static string V334 {get; set;} = "Non-tradeback egg move. Incompatible with generation 1 exclusive moves.";
-        public static string V335 {get; set;} = "Generation 1 exclusive move. Incompatible with Non-tradeback egg moves.";
+        public static string V335 {get; set;} = "Generation 1 exclusive move. Incompatible with Non-tradeback moves.";
         public static string V336 {get; set;} = "Egg Move. Incompatible with event egg moves.";
         public static string V337 {get; set;} = "Event Egg Move. Incompatible with normal egg moves.";
         public static string V338 {get; set;} = "Defog and whirpool. One of the two moves should have been removed before transfered to generation 5.";
@@ -405,6 +405,7 @@ namespace PKHeX.Core
         public static string V409 {get; set;} = "Mystery Gift shiny mismatch.";
         public static string V410 {get; set;} = "Mystery Gift fixed PID mismatch.";
         public static string V411 {get; set;} = "Encounter Type PID mismatch.";
+        public static string V412 {get; set;} = "Non-tradeback pre evolution move. Incompatible with generation 1 exclusive moves.";
         #endregion
 
     }
