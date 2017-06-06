@@ -2986,6 +2986,34 @@ namespace PKHeX.Core
                 empty[i] = new List<int>();
             return empty;
         }
+        internal static bool IsTradedKadabraG1(PKM pkm)
+        {
+            if (pkm.SpecForm != 64 || pkm.Format > 1)
+                return false;
+            if (pkm.TradebackStatus == TradebackType.WasTradeback)
+                return true;
+            var IsYellow = Savegame_Version == GameVersion.Y;
+            if (pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
+            {
+                // If catch rate is abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
+                var catch_rate = (pkm as PK1).Catch_Rate;
+                // Yellow Kadabra catch rate in Red/Blue game, must be Allakazham
+                if (catch_rate == PersonalTable.Y[64].CatchRate && !IsYellow)
+                    return true;
+                // Red/Blue Kadabra catch rate in Yellow game, must be Allakazham
+                if (catch_rate == PersonalTable.RB[64].CatchRate && IsYellow)
+                    return true;
+            }
+            if (IsYellow)
+                return false;
+            // Yellow only moves in Red/Blue game, must be Allakazham
+            if (pkm.Moves.Contains(134)) // Kinesis, yellow only move 
+                return true;
+            if (pkm.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Disable bellow level 20, yellow only move
+                return true;
+
+            return false;
+        }
         internal static bool IsOutsider(PKM pkm)
         {
             var Outsider = Savegame_TID != pkm.TID || Savegame_OT != pkm.OT_Name;
