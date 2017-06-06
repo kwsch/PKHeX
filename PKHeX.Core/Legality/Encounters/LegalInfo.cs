@@ -31,7 +31,7 @@ namespace PKHeX.Core
         public readonly List<CheckResult> Parse = new List<CheckResult>();
 
         public CheckResult[] vRelearn = new CheckResult[4];
-        public CheckResult[] vMoves = new CheckResult[4];
+        public CheckMoveResult[] vMoves = new CheckMoveResult[4];
 
         public DexLevel[][] EvoChainsAllGens => _evochains ?? (_evochains = Legal.getEvolutionChainsAllGens(pkm, EncounterMatch));
         public ValidEncounterMoves EncounterMoves { get; set; }

@@ -1792,7 +1792,7 @@ namespace PKHeX.Core
                         int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                         bool noSword = index < 0;
                         if (pkm.AltForm == 0 ^ noSword) // mismatch
-                            info.vMoves[noSword ? 0 : index] = new CheckResult(Severity.Invalid, V169, CheckIdentifier.Move);
+                            info.vMoves[noSword ? 0 : index] = new CheckMoveResult(info.vMoves[noSword ? 0 : index], Severity.Invalid, V169, CheckIdentifier.Move);
                         break;
                     }
                 case 649: // Genesect
