@@ -41,7 +41,7 @@ namespace PKHeX.Core
                     if (info.vMoves.Any(z => !z.Valid) && encounter.PeekIsNext())
                         continue;
 
-                    var evo = VerifyEvolution.verifyEvolution(pkm, EncounterMatch);
+                    var evo = VerifyEvolution.verifyEvolution(pkm, info);
                     if (!evo.Valid && encounter.PeekIsNext())
                         continue;
                     info.Parse.Add(evo);
