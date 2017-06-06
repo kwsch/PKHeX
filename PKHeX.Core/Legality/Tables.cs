@@ -323,7 +323,13 @@ namespace PKHeX.Core
             705, //Fleur Cannon 
             717, //Nature's Madness 
         };
-
+        internal static readonly int[] MixedGenderBreeding =
+        {
+            29, // Nidoran♀
+            32, // Nidoran♂
+            314, // Volbeat
+            314, // Illumise
+        };
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal

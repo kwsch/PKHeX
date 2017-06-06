@@ -74,7 +74,10 @@ namespace PKHeX.Core
             var ValidSpecialMoves = SpecialMoves.Where(m => m != 0).ToList();
 
             var baseEggMoves = Legal.getBaseEggMoves(pkm, e.Species, e.Game, pkm.GenNumber < 4 ? 5 : 1)?.ToList() ?? new List<int>();
-            var InheritedLvlMoves = Legal.getBaseEggMoves(pkm, e.Species, e.Game, 100)?.ToList() ?? new List<int>();
+            // Level up moves could not be inherited if Ditto is parent, 
+            // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
+            var AllowLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
+            var InheritedLvlMoves = !AllowLvlMoves? new List<int>() : Legal.getBaseEggMoves(pkm, e.Species, e.Game, 100)?.ToList() ?? new List<int>();
             var EggMoves = Legal.getEggMoves(pkm, e.Species, pkm.AltForm)?.ToList() ?? new List<int>();
             var InheritedTutorMoves = e.Game == GameVersion.C ? Legal.getTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2)?.ToList() : new List<int>();
             // Only TM Hm moves from the source game of the egg, not any other games from the same generation
@@ -97,7 +100,10 @@ namespace PKHeX.Core
         private static CheckMoveResult[] parseMovesWasEggPreRelearn(PKM pkm, int[] Moves, LegalInfo info, EncounterEgg e)
         {
             var EventEggMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
-            int BaseLvlMoves = 489 <= pkm.Species && pkm.Species <= 490 ? 1 : 100;
+            // Level up moves could not be inherited if Ditto is parent, 
+            // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
+            var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
+            int BaseLvlMoves = inheritLvlMoves ? 100 : pkm.GenNumber <= 3 ? 5 : 1;
             var LvlupEggMoves = Legal.getBaseEggMoves(pkm, e.Species, e.Game, BaseLvlMoves);
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
             var NonTradebackLvlMoves = new int[0];

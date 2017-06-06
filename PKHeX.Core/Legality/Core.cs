@@ -1206,7 +1206,7 @@ namespace PKHeX.Core
                 version = GameVersion.Any;
             return getValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> getValidRelearn(PKM pkm, int species)
+        internal static IEnumerable<int> getValidRelearn(PKM pkm, int species, bool inheritlvlmoves)
         {
             List<int> r = new List<int> { 0 };
             if (pkm.GenNumber < 6 || pkm.VC)
@@ -1219,7 +1219,7 @@ namespace PKHeX.Core
                 form = 0;
 
             r.AddRange(getEggMoves(pkm, species, form));
-            if (pkm.Species != 489)
+            if (inheritlvlmoves)
                 r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
