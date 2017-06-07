@@ -1106,16 +1106,12 @@ namespace PKHeX.Core
         {
             if (NoHatchFromEgg.Contains(pkm.Species))
                 yield break;
-
-            GameVersion[] Games = getBaseMovesIsEggGames(pkm);
+            
             int lvl = pkm.GenNumber < 4 ? 5 : 1;
-            foreach (var ver in Games)
-                yield return new EncounterEgg { Game = ver, Level = lvl, Species = getBaseSpecies(pkm, 0) };
+            var ver = (GameVersion) pkm.Version; // version is a true indicator for all generation 3+ origins
+            yield return new EncounterEgg { Game = (GameVersion)pkm.Version, Level = lvl, Species = getBaseSpecies(pkm, 0) };
 
-            if (!getSplitBreedGeneration(pkm).Contains(pkm.Species))
-                yield break;
-
-            foreach (var ver in Games)
+            if (getSplitBreedGeneration(pkm).Contains(pkm.Species))
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = getBaseSpecies(pkm, 1), SplitBreed = true };
         }
 

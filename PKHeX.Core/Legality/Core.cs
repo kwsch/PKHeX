@@ -1404,63 +1404,6 @@ namespace PKHeX.Core
         }
 
         // Encounter
-        internal static GameVersion[] getBaseMovesIsEggGames(PKM pkm)
-        {
-            switch (pkm.GenNumber)
-            {
-                case 1:
-                case 2:
-                    return new[] { GameVersion.GS, GameVersion.C };
-                case 3:
-                    switch ((GameVersion)pkm.Version)
-                    {
-                        case GameVersion.R:
-                        case GameVersion.S:
-                            return new[] { GameVersion.RS };
-                        case GameVersion.E:
-                            return new[] { GameVersion.E };
-                        case GameVersion.FR:
-                        case GameVersion.LG:
-                            return new[] { GameVersion.FRLG };
-                        case GameVersion.CXD:
-                            return new[] { GameVersion.CXD }; // will yield no moves
-                    }
-                    break;
-                case 4:
-                    switch ((GameVersion)pkm.Version)
-                    {
-                        case GameVersion.D:
-                        case GameVersion.P:
-                            return new[] { GameVersion.DP };
-                        case GameVersion.Pt:
-                            return new[] { GameVersion.Pt };
-                        case GameVersion.HG:
-                        case GameVersion.SS:
-                            return new[] { GameVersion.HGSS };
-                    }
-                    break;
-                case 5:
-                    switch ((GameVersion)pkm.Version)
-                    {
-                        case GameVersion.B:
-                        case GameVersion.W:
-                            return new[] { GameVersion.BW };
-                        case GameVersion.B2:
-                        case GameVersion.W2:
-                            return new[] { GameVersion.B2W2 };
-                    }
-                    break;
-                case 6:
-                    if (pkm.WasTradedEgg)
-                        return new[] { GameVersion.XY, GameVersion.ORAS };
-                    return new[] { (GameVersion)pkm.Version };
-                case 7:
-                    // if (pkm.WasTradedEgg)
-                    //     return new[] { GameVersion.SM };
-                    return new[] { (GameVersion)pkm.Version };
-            }
-            return new GameVersion[] { };
-        }
         internal static GameVersion[] getGen1GameEncounter(PKM pk)
         {
             if (pk.Format != 1 || !pk.Gen1_NotTradeback)
