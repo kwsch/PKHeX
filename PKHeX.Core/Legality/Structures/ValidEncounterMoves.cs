@@ -12,6 +12,7 @@ namespace PKHeX.Core
         public List<int>[] validTutorMoves { get; set; } = Empty;
         public int[] Relearn = new int[0];
         public int minLvlG1 { get; set; }
+        public int minLvlG2 { get; set; }
 
         private const int EmptyCount = 7;
         public static readonly List<int>[] Empty = new int[EmptyCount].Select(z => new List<int>()).ToArray();
