@@ -945,6 +945,22 @@ namespace PKHeX.Core
                     Data[PokeDexLanguageFlags + (lbit >> 3)] |= (byte)(1 << (lbit & 7));
             }
         }
+        protected override void setPartyValues(PKM pkm, bool isParty)
+        {
+            uint duration = 0;
+            if (isParty && pkm.AltForm != 0)
+                switch (pkm.Species)
+                {
+                    case 676:
+                        duration = 5;
+                        break;
+                    case 720: // Hoopa
+                        duration = 3;
+                        break;
+                }
+
+            ((PK7)pkm).FormDuration = duration;
+        }
         private static bool sanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
         {
             // 004AA370 in Moon

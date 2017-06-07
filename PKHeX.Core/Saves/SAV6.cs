@@ -830,6 +830,22 @@ namespace PKHeX.Core
             bit = f + pkm.AltForm;
             Data[FormDex + FormLen * (2 + shiny) + bit / 8] |= (byte)(1 << (bit % 8));
         }
+        protected override void setPartyValues(PKM pkm, bool isParty)
+        {
+            uint duration = 0;
+            if (isParty && pkm.AltForm != 0)
+                switch (pkm.Species)
+                {
+                    case 676:
+                        duration = 5;
+                        break;
+                    case 720: // Hoopa
+                        duration = 3;
+                        break;
+                }
+
+            ((PK6)pkm).FormDuration = duration;
+        }
 
         public override bool getCaught(int species)
         {

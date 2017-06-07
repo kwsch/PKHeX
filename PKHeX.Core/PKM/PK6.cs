@@ -8,7 +8,7 @@ namespace PKHeX.Core
         public static readonly byte[] ExtraBytes =
         {
             0x36, 0x37, // Unused Ribbons
-            0x3B, 0x3C, 0x3D, 0x3E, 0x3F, 0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
+            0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7
         };
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
@@ -198,7 +198,7 @@ namespace PKHeX.Core
         public bool RIB5_7 { get => (RIB5 & (1 << 7)) == 1 << 7; set => RIB5 = (byte)(RIB5 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Unused
         public int RibbonCountMemoryContest { get => Data[0x38]; set => Data[0x38] = (byte)value; }
         public int RibbonCountMemoryBattle { get => Data[0x39]; set => Data[0x39] = (byte)value; }
-        private byte DistByte { get => Data[0x3A]; set => Data[0x3A] = value; }
+        private ushort DistByte { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
         public bool DistSuperTrain1 { get => (DistByte & (1 << 0)) == 1 << 0; set => DistByte = (byte)(DistByte & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool DistSuperTrain2 { get => (DistByte & (1 << 1)) == 1 << 1; set => DistByte = (byte)(DistByte & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool DistSuperTrain3 { get => (DistByte & (1 << 2)) == 1 << 2; set => DistByte = (byte)(DistByte & ~(1 << 2) | (value ? 1 << 2 : 0)); }
@@ -207,11 +207,7 @@ namespace PKHeX.Core
         public bool DistSuperTrain6 { get => (DistByte & (1 << 5)) == 1 << 5; set => DistByte = (byte)(DistByte & ~(1 << 5) | (value ? 1 << 5 : 0)); }
         public bool Dist7 { get => (DistByte & (1 << 6)) == 1 << 6; set => DistByte = (byte)(DistByte & ~(1 << 6) | (value ? 1 << 6 : 0)); }
         public bool Dist8 { get => (DistByte & (1 << 7)) == 1 << 7; set => DistByte = (byte)(DistByte & ~(1 << 7) | (value ? 1 << 7 : 0)); }
-        public byte _0x3B { get => Data[0x3B]; set => Data[0x3B] = value; }
-        public byte _0x3C { get => Data[0x3C]; set => Data[0x3C] = value; }
-        public byte _0x3D { get => Data[0x3D]; set => Data[0x3D] = value; }
-        public byte _0x3E { get => Data[0x3E]; set => Data[0x3E] = value; }
-        public byte _0x3F { get => Data[0x3F]; set => Data[0x3F] = value; }
+        public uint FormDuration { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
         #endregion
         #region Block B
         public override string Nickname { get => getString(0x40, 24); set => setString(value, 12).CopyTo(Data, 0x40); }

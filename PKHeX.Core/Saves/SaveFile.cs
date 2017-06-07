@@ -477,6 +477,7 @@ namespace PKHeX.Core
                 setPKM(pkm);
             if (dex ?? SetUpdateDex)
                 setDex(pkm);
+            setPartyValues(pkm, isParty: true);
 
             for (int i = 0; i < 6; i++)
                 if (getPartyOffset(i) == offset)
@@ -495,7 +496,7 @@ namespace PKHeX.Core
                 setPKM(pkm);
             if (dex ?? SetUpdateDex)
                 setDex(pkm);
-
+            setPartyValues(pkm, isParty: false);
             setData(pkm.EncryptedBoxData, offset);
             Edited = true;
         }
@@ -604,6 +605,7 @@ namespace PKHeX.Core
             return true;
         }
 
+        protected virtual void setPartyValues(PKM pkm, bool isParty) { }
         protected virtual void setPKM(PKM pkm) { }
         protected virtual void setDex(PKM pkm) { }
         public virtual bool getSeen(int species) => false;
