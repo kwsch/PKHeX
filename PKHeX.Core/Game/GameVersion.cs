@@ -19,10 +19,10 @@
         /*Gen4*/ D = 10, P = 11, Pt = 12, HG = 7, SS = 8,
         /*Gen5*/ W = 20, B = 21, W2 = 22, B2 = 23,
         /*Gen6*/ X = 24, Y = 25, AS = 26, OR = 27,
-        /*Gen7*/ SN = 30, MN = 31,
+        /*Gen7*/ SN = 30, MN = 31, US = 32, UM = 33,
         /* GO */ GO = 34,
-        /* VC */ RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
-        GD, SV, C,
+        /* VC1*/ RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
+        /* VC2*/ GD = 39, SV = 40, C,
 
         // Game Groupings (SaveFile type)
         RBY = 98,
@@ -37,6 +37,7 @@
         ORASDEMO = 107,
         ORAS = 108,
         SM = 109,
+        USUM = 110,
 
         // Extra Game Groupings (Generation)
         Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,

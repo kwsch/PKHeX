@@ -15,6 +15,8 @@ namespace PKHeX.Core
         public static bool AllowGBCartEra = false;
         public static bool AllowGen1Tradeback = false;
         public static bool AllowGen2VCTransfer => AllowGen1Tradeback;
+        public static bool AllowGen2VCCrystal = false;
+        public static bool AllowGen2Crystal => AllowGBCartEra || AllowGen2Crystal;
 
         /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
         public static bool EReaderBerryIsEnigma = true;
@@ -1087,7 +1089,8 @@ namespace PKHeX.Core
                         if (index == 0)
                             return r;
                         r.AddRange(LevelUpGS[index].getMoves(lvl));
-                        r.AddRange(LevelUpC[index].getMoves(lvl));
+                        if (AllowGen2Crystal)
+                            r.AddRange(LevelUpC[index].getMoves(lvl));
                         break;
                     }
                 case 3:
@@ -1507,7 +1510,7 @@ namespace PKHeX.Core
                 case GameVersion.GSC:
                     {
                         movelvl = Math.Min(movelvl, LevelUpGS[species].getMinMoveLevel(lvl));
-                        if (ver.Contains(GameVersion.C))
+                        if (ver.Contains(GameVersion.C) && AllowGen2Crystal)
                             goto case GameVersion.C;
                         return movelvl;
                     }
@@ -1731,6 +1734,8 @@ namespace PKHeX.Core
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
+                    if (!AllowGen2Crystal)
+                        return StaticGS;
                     if (pkm.Format != 2)
                         return StaticGSC;
 
@@ -1788,6 +1793,9 @@ namespace PKHeX.Core
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
+                    if (!AllowGen2Crystal)
+                        return SlotsGS;
+
                     if (pkm.Format != 2)
                         // Gen 2 met location is lost outside gen 2 games
                         return SlotsGSC;
@@ -2514,7 +2522,8 @@ namespace PKHeX.Core
                         if (LVL)
                         {
                             r.AddRange(LevelUpGS[index].getMoves(lvl));
-                            r.AddRange(LevelUpC[index].getMoves(lvl));
+                            if (AllowGen2Crystal)
+                                r.AddRange(LevelUpC[index].getMoves(lvl));
                         }
                         if (Machine)
                         {
@@ -2705,6 +2714,8 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2:
+                    if (!AllowGen2Crystal)
+                        return EggMovesGS[species].Moves;
                     if (pkm.Format != 2)
                         return EggMovesC[species].Moves;
                     if (pkm.HasOriginalMetLocation)
