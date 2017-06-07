@@ -1,5 +1,6 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
-using System.Linq;
+﻿using System.Linq;
+using static PKHeX.Core.LegalityCheckStrings;
+
 namespace PKHeX.Core
 {
     public static class VerifyEvolution
@@ -18,7 +19,7 @@ namespace PKHeX.Core
                 return true;
             if (info.EncounterMatch.EggEncounter && species == 350)
                 return true;
-            if(!Legal.getEvolutionValid(pkm, info.EncounterMatch.Species))
+            if (!Legal.getEvolutionValid(pkm, info.EncounterMatch.Species))
                 return false;
             // If current species evolved with a move evolution and encounter species is not current species check if the evolution by move is valid
             // Only the evolution by move is checked, if there is another evolution before the evolution by move is covered in getEvolutionValid

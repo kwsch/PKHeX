@@ -2000,7 +2000,7 @@ namespace PKHeX.Core
         internal static bool getEvolutionWithMoveValid(PKM pkm, LegalInfo info)
         {
             // Exclude species that do not evolve leveling with a move
-            // Exclude gen 1-3 games
+            // Exclude gen 1-3 formats
             // Exclude Mr Mime and Snorlax for gen 1-3 games
             if (!SpeciesEvolutionWithMove.Contains(pkm.Species) || pkm.Format <= 3 || (BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3))
                 return true;
@@ -2010,10 +2010,10 @@ namespace PKHeX.Core
             var moves = MoveEvolutionWithMove[index];
             var allowegg = EggMoveEvolutionWithMove[index][pkm.GenNumber];
 
-            // Get the minimun level in any generation when the pokemon could learn the evolve move
+            // Get the minimum level in any generation when the pokemon could learn the evolve move
             var LearnLevel = 101;
-            for(int g = pkm.GenNumber; g <= pkm.Format; g++)
-                if(pkm.InhabitedGeneration(g) && levels[g] > 0)
+            for (int g = pkm.GenNumber; g <= pkm.Format; g++)
+                if (pkm.InhabitedGeneration(g) && levels[g] > 0)
                     LearnLevel = Math.Min(LearnLevel, levels[g]);
 
             // Check also if the current encounter include the evolve move as an special move
@@ -2025,34 +2025,33 @@ namespace PKHeX.Core
             // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
             if (info.EncounterMatch.EggEncounter && !pkm.WasGiftEgg && !pkm.WasEventEgg && allowegg)
             {
-                var inheritmove = false;
-                if (pkm.GenNumber >= 6)
-                    // 3DS games, if the move is not a relearn move that means the pokemon was hatched without the move
-                    inheritmove = pkm.RelearnMoves.Any(m => moves.Contains(m));
-                else if (pkm.Moves.Any(m => moves.Contains(m)))
-                    // Pre-3DS games, if the pokemon was an egg and it have the move and also and egg from this species could hatch with the move
-                    // that means is a valid egg move
-                    inheritmove = true;
-                else
-                { 
-                    // If the pokemon does not have the move it still could be an egg move that was forgotten
-                    // But that requires for the pokemon to do not have 4 other moves identified as egg moves or inherited level up moves
-                    var eggmoves = info.vMoves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
-                    inheritmove = eggmoves < 4;
-                }
-                if (inheritmove)
+                if (getIsMoveInherited(pkm, info, moves))
                     LearnLevel = Math.Min(LearnLevel, pkm.GenNumber < 4 ? 5 : 1);
             }
 
-            // If has original met location the minimun evolution level is one level after met level
-            // Gen 3 pokemon in gen 4 games minimun level is one level after transfer to generation 4
-            // VC pokemon minimun level is one leve after transfer to generation 7
-            // Sylveon always one level after met level, for gen 4 and 5 eevees in gen 6 games minimun for evolution is one leve after transfer to generation 5 
+            // If has original met location the minimum evolution level is one level after met level
+            // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
+            // VC pokemon: minimum level is one level after transfer to generation 7
+            // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5 
             if (pkm.HasOriginalMetLocation || pkm.Format == 4 && pkm.Gen3 || pkm.VC || pkm.Species == 700)
                 LearnLevel = Math.Max(pkm.Met_Level, LearnLevel);
 
-            // Current level must be at leats one level after the minimun learn level
+            // Current level must be at least one level after the minimum learn level
             return pkm.CurrentLevel > LearnLevel;
+        }
+        private static bool getIsMoveInherited(PKM pkm, LegalInfo info, int[] moves)
+        {
+            // In 3DS games, the inherited move must be in the relearn moves.
+            if (pkm.GenNumber >= 6)
+                return pkm.RelearnMoves.Any(moves.Contains);
+
+            // In Pre-3DS games, the move is inherited if it has the move and it can be hatched with the move.
+            if (pkm.Moves.Any(moves.Contains))
+                return true;
+
+            // If the pokemon does not have the move, it still could be an egg move that was forgotten.
+            // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
+            return 4 > info.vMoves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
         }
         internal static bool getCanFormChange(PKM pkm, int species)
         {
@@ -2931,28 +2930,28 @@ namespace PKHeX.Core
         }
         internal static bool IsTradedKadabraG1(PKM pkm)
         {
-            if (pkm.SpecForm != 64 || pkm.Format > 1)
+            if (!(pkm is PK1 pk1) || pk1.Species != 64)
                 return false;
-            if (pkm.TradebackStatus == TradebackType.WasTradeback)
+            if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
             var IsYellow = Savegame_Version == GameVersion.Y;
-            if (pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
+            if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
-                // If catch rate is abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
-                var catch_rate = (pkm as PK1).Catch_Rate;
-                // Yellow Kadabra catch rate in Red/Blue game, must be Allakazham
-                if (catch_rate == PersonalTable.Y[64].CatchRate && !IsYellow)
+                // If catch rate is Abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
+                var catch_rate = pk1.Catch_Rate;
+                // Yellow Kadabra catch rate in Red/Blue game, must be Alakazam
+                if (!IsYellow && catch_rate == PersonalTable.Y[64].CatchRate)
                     return true;
-                // Red/Blue Kadabra catch rate in Yellow game, must be Allakazham
-                if (catch_rate == PersonalTable.RB[64].CatchRate && IsYellow)
+                // Red/Blue Kadabra catch rate in Yellow game, must be Alakazam
+                if (IsYellow && catch_rate == PersonalTable.RB[64].CatchRate)
                     return true;
             }
             if (IsYellow)
                 return false;
             // Yellow only moves in Red/Blue game, must be Allakazham
-            if (pkm.Moves.Contains(134)) // Kinesis, yellow only move 
+            if (pk1.Moves.Contains(134)) // Kinesis, yellow only move 
                 return true;
-            if (pkm.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Disable bellow level 20, yellow only move
+            if (pk1.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Obtaining Disable below level 20 implies a yellow only move
                 return true;
 
             return false;

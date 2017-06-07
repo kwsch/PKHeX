@@ -30,25 +30,24 @@ namespace PKHeX.Core
         {
             get
             {
-                if (Error)
+                if (_allSuggestedMoves != null)
+                    return _allSuggestedMoves;
+                if (Error || pkm == null || !pkm.IsOriginValid)
                     return new int[4];
-                if (_allSuggestedMoves == null)
-                    return _allSuggestedMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : getSuggestedMoves(true, true, true);
-                return _allSuggestedMoves;
+                return _allSuggestedMoves = getSuggestedMoves(true, true, true);
             }
         }
         private IEnumerable<int> AllSuggestedRelearnMoves
         {
             get
             {
-                if (Error)
+                if (_allSuggestedRelearnMoves != null)
+                    return _allSuggestedRelearnMoves;
+                if (Error || pkm == null || !pkm.IsOriginValid)
                     return new int[4];
-                if (_allSuggestedRelearnMoves == null)
-                {
-                    var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(info.EncounterMatch.Species);
-                    return _allSuggestedRelearnMoves = pkm == null || !pkm.IsOriginValid ? new int[4] : Legal.getValidRelearn(pkm, info.EncounterMatch.Species, inheritLvlMoves).ToArray();
-                }
-                return _allSuggestedRelearnMoves;
+                var gender = pkm.PersonalInfo.Gender;
+                var inheritLvlMoves = gender > 0 && gender < 255 || Legal.MixedGenderBreeding.Contains(info.EncounterMatch.Species);
+                return _allSuggestedRelearnMoves = Legal.getValidRelearn(pkm, info.EncounterMatch.Species, inheritLvlMoves).ToArray();
             }
         }
         private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;

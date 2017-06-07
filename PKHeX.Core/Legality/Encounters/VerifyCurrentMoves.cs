@@ -61,7 +61,6 @@ namespace PKHeX.Core
                 return parseMovesSketch(pkm, Moves);
 
             // can only know sketch as egg
-            var empty = ValidEncounterMoves.Empty;
             info.EncounterMoves = new ValidEncounterMoves
             {
                 validLevelUpMoves = Legal.getValidMovesAllGens(pkm, info.EvoChainsAllGens, minLvLG1: 1, Tutor: false, Machine: false, RemoveTransferHM: false)
@@ -177,11 +176,7 @@ namespace PKHeX.Core
             var mg = info.EncounterMatch as IMoveset;
             int[] SpecialMoves = mg?.Moves ?? new int[0];
             var emptyegg = new int[0];
-            CheckMoveResult[] res = parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, emptyegg, new int[0], new int[0], false, info);
-            if (res.Any(r => !r.Valid))
-                return res;
-
-            return res;
+            return parseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, emptyegg, new int[0], new int[0], false, info);
         }
         private static CheckMoveResult[] parseMovesRelearn(PKM pkm, int[] Moves, LegalInfo info)
         {
