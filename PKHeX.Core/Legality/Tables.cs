@@ -256,23 +256,23 @@ namespace PKHeX.Core
         internal static readonly int[][] MinLevelEvolutionWithMove =
         {
             // Mr. Mime (Mime Jr with Mimic)
-            new [] { 0, 0, 0, 0, 18, 15, 15, 15 },
+            new [] { 0, 0, 0, 0, 18, 15, 15, 2 },
             // Sudowoodo (Bonsly with Mimic)
-            new [] { 0, 0, 0, 0, 17, 17, 15, 15 },
+            new [] { 0, 0, 0, 0, 17, 17, 15, 2 },
             // Ambipom (Aipom with Double Hit)
-            new [] { 0, 0, 0, 0, 32, 32, 32, 32 },
+            new [] { 0, 0, 0, 0, 32, 32, 32, 2 },
             // Lickilicky (Lickitung with Rollout)
-            new [] { 0, 0, 1, 0, 1, 33, 33, 33 },
+            new [] { 0, 0, 2, 0, 2, 33, 33, 2 },
             // Tangrowth (Tangela with Ancient Power)
-            new [] { 0, 0, 0, 0, 1, 36, 38, 38 },
+            new [] { 0, 0, 0, 0, 2, 36, 38, 2 },
             // Yanmega (Yanma with Ancient Power)
-            new [] { 0, 0, 0, 0, 1, 33, 33, 33 },
+            new [] { 0, 0, 0, 0, 2, 33, 33, 2 },
             // Mamoswine (Piloswine with Ancient Power)
-            new [] { 0, 0, 0, 0, 1, 1, 1, 1 },
+            new [] { 0, 0, 0, 0, 2, 2, 2, 2 },
             // Sylveon (Eevee with Fairy Move)
-            new [] { 0, 0, 0, 0, 0, 29, 9, 9 },
+            new [] { 0, 0, 0, 0, 0, 29, 9, 2 },
             // Tsareena (Steenee with Stomp)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 29 },
+            new [] { 0, 0, 0, 0, 0, 0, 0, 2 },
         };
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
         internal static readonly bool[][] EggMoveEvolutionWithMove =

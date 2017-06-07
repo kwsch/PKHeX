@@ -2034,7 +2034,7 @@ namespace PKHeX.Core
             if (info.EncounterMatch.EggEncounter && !pkm.WasGiftEgg && !pkm.WasEventEgg && allowegg)
             {
                 if (getIsMoveInherited(pkm, info, moves))
-                    LearnLevel = Math.Min(LearnLevel, pkm.GenNumber < 4 ? 5 : 1);
+                    LearnLevel = Math.Min(LearnLevel, pkm.GenNumber < 4 ? 6 : 2);
             }
 
             // If has original met location the minimum evolution level is one level after met level
@@ -2042,10 +2042,11 @@ namespace PKHeX.Core
             // VC pokemon: minimum level is one level after transfer to generation 7
             // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5 
             if (pkm.HasOriginalMetLocation || pkm.Format == 4 && pkm.Gen3 || pkm.VC || pkm.Species == 700)
-                LearnLevel = Math.Max(pkm.Met_Level, LearnLevel);
+                LearnLevel = Math.Max(pkm.Met_Level + 1, LearnLevel);
 
-            // Current level must be at least one level after the minimum learn level
-            return pkm.CurrentLevel > LearnLevel;
+            // Current level must be at least one the minimum learn level
+            // the level-up event that triggers the learning of the move also triggers evolution with no further level-up required
+            return pkm.CurrentLevel >= LearnLevel;
         }
         private static bool getIsMoveInherited(PKM pkm, LegalInfo info, int[] moves)
         {
