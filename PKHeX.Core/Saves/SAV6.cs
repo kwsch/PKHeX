@@ -746,7 +746,7 @@ namespace PKHeX.Core
             // Apply to this Save File
             int CT = pk6.CurrentHandler;
             DateTime Date = DateTime.Now;
-            pk6.Trade(OT, TID, SID, Country, SubRegion, Gender, false, Date.Day, Date.Month, Date.Year);
+            pk6.Trade(OT, TID, SID, Country, SubRegion, Gender, Game, false, Date.Day, Date.Month, Date.Year);
             if (CT != pk6.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
