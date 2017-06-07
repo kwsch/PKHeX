@@ -38,10 +38,16 @@ namespace PKHeX.Core
 
             var EncounterMatchGen = info.EncounterMatch as IGeneration;
             var defaultG1LevelMoves = info.EncounterMoves.validLevelUpMoves[1];
+            var defaultG2LevelMoves = info.EncounterMoves.validLevelUpMoves.Length < 3 ? info.EncounterMoves.validLevelUpMoves[2] : null;
             var defaultTradeback = pkm.TradebackStatus;
             if (EncounterMatchGen != null)
+            {
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
                 UptateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.minLvlG1, EncounterMatchGen.Generation, info);
+                if(!Legal.AllowGen2MoveReminder)
+                    // The same for Generation 2 if move reminder from Stadium 2 is not allowed
+                    UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.minLvlG2, EncounterMatchGen.Generation, info);
+            }
 
             var res = pre3DS
                 ? parseMovesPre3DS(pkm, Moves, info)
@@ -50,8 +56,12 @@ namespace PKHeX.Core
             if (res.All(x => x.Valid))
                 return res;
 
-            if (EncounterMatchGen?.Generation == 1) // not valid, restore generation 1 moves
+            if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // not valid, restore generation 1 and 2 moves
+            {
                 info.EncounterMoves.validLevelUpMoves[1] = defaultG1LevelMoves;
+                if( info.EncounterMoves.validLevelUpMoves.Length >= 3)
+                    info.EncounterMoves.validLevelUpMoves[2] = defaultG2LevelMoves;
+            }
             pkm.TradebackStatus = defaultTradeback;
             return res;
         }
@@ -142,16 +152,17 @@ namespace PKHeX.Core
                 var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
                 return parseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves ?? new int[0], allowinherited, egg);
             }
-            if (pkm.GenNumber <= 2 && (info.EncounterMatch as IGeneration)?.Generation == 1)
-                return parseMovesGen1(pkm, Moves, info);
+            var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder;
+            if (pkm.GenNumber <= 2 && NoMoveReminder)
+                return parseMovesGenGB(pkm, Moves, info);
             if (info.EncounterMatch is EncounterEgg e)
                 return parseMovesWasEggPreRelearn(pkm, Moves, info, e);
 
             return parseMovesSpecialMoveset(pkm, Moves, info);
         }
-        private static CheckMoveResult[] parseMovesGen1(PKM pkm, int[] Moves, LegalInfo info)
+        private static CheckMoveResult[] parseMovesGenGB(PKM pkm, int[] Moves, LegalInfo info)
         {
-            GameVersion[] games = Legal.getGen1GameEncounter(pkm);
+            GameVersion[] games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.getGen1GameEncounter(pkm) : Legal.getGen2GameEncounter(pkm);
             CheckMoveResult[] res = new CheckMoveResult[4];
             var G1Encounter = info.EncounterMatch;
             if (G1Encounter == null)
@@ -709,7 +720,18 @@ namespace PKHeX.Core
                         EncounterMoves.validLevelUpMoves[1] = Legal.getValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
                     break;
             }
-
+        }
+        private static void UptateGen2LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG2, int generation, LegalInfo info)
+        {
+            switch (generation)
+            {
+                case 1:
+                case 2:
+                    var lvlG2 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+                    if (lvlG2 != defaultLvlG2)
+                        EncounterMoves.validLevelUpMoves[2] = Legal.getValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+                    break;
+            }
         }
         private static int[] getGenMovesCheckOrder(PKM pkm)
         {
@@ -730,10 +752,11 @@ namespace PKHeX.Core
         private static ValidEncounterMoves getEncounterValidMoves(PKM pkm, LegalInfo info)
         {
             var minLvLG1 = pkm.GenNumber <= 2 ? info.EncounterMatch.LevelMin + 1 : 0;
+            var minLvlG2 = Legal.AllowGen2MoveReminder ? 1 : info.EncounterMatch.LevelMin + 1;
             var encounterspecies = info.EncounterMatch.Species;
             var EvoChainsAllGens = info.EvoChainsAllGens;
             // If encounter species is the same species from the first match, the one in variable EncounterMatch, its evolution chains is already in EvoChainsAllGens
-            var LevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var LevelMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, minLvLG1: minLvLG1, minLvLG2: minLvlG2, Tutor: false, Machine: false, RemoveTransferHM: false);
             var TMHMMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
             var TutorMoves = Legal.getValidMovesAllGens(pkm, EvoChainsAllGens, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
             return new ValidEncounterMoves
@@ -743,7 +766,8 @@ namespace PKHeX.Core
                 validTMHMMoves = TMHMMoves,
                 validTutorMoves = TutorMoves,
                 EvolutionChains = EvoChainsAllGens,
-                minLvlG1 = minLvLG1
+                minLvlG1 = minLvLG1,
+                minLvlG2 = minLvlG2
             };
         }
     }
