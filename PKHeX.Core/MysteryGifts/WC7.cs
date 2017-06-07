@@ -338,7 +338,7 @@ namespace PKHeX.Core
                 HT_Name = OT.Length > 0 ? SAV.OT : "",
                 HT_Gender = OT.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT.Length > 0 ? 1 : 0,
-                
+
                 EXP = PKX.getEXP(currentLevel, Species),
 
                 // Ribbons
@@ -359,8 +359,9 @@ namespace PKHeX.Core
                 RibbonChampionRegional = RibbonChampionRegional,
                 RibbonChampionNational = RibbonChampionNational,
                 RibbonChampionWorld = RibbonChampionWorld,
-                
+
                 OT_Friendship = pi.BaseFriendship,
+                HT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,

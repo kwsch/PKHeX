@@ -336,6 +336,7 @@ namespace PKHeX.Core
                 RibbonChampionWorld = RibbonChampionWorld,
                 
                 OT_Friendship = pi.BaseFriendship,
+                HT_Friendship = pi.BaseFriendship,
                 OT_Intensity = OT_Intensity,
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
