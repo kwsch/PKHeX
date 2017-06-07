@@ -38,13 +38,13 @@ namespace PKHeX.Core
 
             var EncounterMatchGen = info.EncounterMatch as IGeneration;
             var defaultG1LevelMoves = info.EncounterMoves.validLevelUpMoves[1];
-            var defaultG2LevelMoves = info.EncounterMoves.validLevelUpMoves.Length < 3 ? info.EncounterMoves.validLevelUpMoves[2] : null;
+            var defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.validLevelUpMoves[2] : null;
             var defaultTradeback = pkm.TradebackStatus;
             if (EncounterMatchGen != null)
             {
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
                 UptateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.minLvlG1, EncounterMatchGen.Generation, info);
-                if(!Legal.AllowGen2MoveReminder)
+                if(!Legal.AllowGen2MoveReminder && pkm.InhabitedGeneration(2))
                     // The same for Generation 2 if move reminder from Stadium 2 is not allowed
                     UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.minLvlG2, EncounterMatchGen.Generation, info);
             }
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             if (EncounterMatchGen?.Generation == 1 || EncounterMatchGen?.Generation == 2) // not valid, restore generation 1 and 2 moves
             {
                 info.EncounterMoves.validLevelUpMoves[1] = defaultG1LevelMoves;
-                if( info.EncounterMoves.validLevelUpMoves.Length >= 3)
+                if (pkm.InhabitedGeneration(2))
                     info.EncounterMoves.validLevelUpMoves[2] = defaultG2LevelMoves;
             }
             pkm.TradebackStatus = defaultTradeback;
