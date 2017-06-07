@@ -49,7 +49,7 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            res[0] = !Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm)).Contains(RelearnMoves[0])
+            res[0] = !Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm),true).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
@@ -85,6 +85,9 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
             info.RelearnBase = new int[4];
             CheckResult[] res = new CheckResult[4];
+            // Level up moves could not be inherited if Ditto is parent, 
+            // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
+            var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
 
             // Obtain level1 moves
             List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, e.Species, e.Game, 1));
@@ -92,7 +95,7 @@ namespace PKHeX.Core
             if (baseCt > 4) baseCt = 4;
 
             // Obtain Inherited moves
-            var inheritMoves = Legal.getValidRelearn(pkm, e.Species).ToList();
+            var inheritMoves = Legal.getValidRelearn(pkm, e.Species, inheritLvlMoves).ToList();
             var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
             int inheritCt = inherited.Count;
 
@@ -129,7 +132,7 @@ namespace PKHeX.Core
 
             // If any splitbreed moves are invalid, flag accordingly
             var splitInvalid = false;
-            var splitMoves = e.SplitBreed ? Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm)).ToList() : new List<int>();
+            var splitMoves = e.SplitBreed ? Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm), inheritLvlMoves).ToList() : new List<int>();
 
             // Inherited moves appear after the required base moves.
             for (int i = reqBase; i < 4; i++)

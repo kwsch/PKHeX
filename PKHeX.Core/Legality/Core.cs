@@ -1206,7 +1206,7 @@ namespace PKHeX.Core
                 version = GameVersion.Any;
             return getValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> getValidRelearn(PKM pkm, int species)
+        internal static IEnumerable<int> getValidRelearn(PKM pkm, int species, bool inheritlvlmoves)
         {
             List<int> r = new List<int> { 0 };
             if (pkm.GenNumber < 6 || pkm.VC)
@@ -1219,7 +1219,7 @@ namespace PKHeX.Core
                 form = 0;
 
             r.AddRange(getEggMoves(pkm, species, form));
-            if (pkm.Species != 489)
+            if (inheritlvlmoves)
                 r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
@@ -1997,6 +1997,63 @@ namespace PKHeX.Core
                 return curr.Count() >= poss.Count() - 1;
             return curr.Count() >= poss.Count();
         }
+        internal static bool getEvolutionWithMoveValid(PKM pkm, LegalInfo info)
+        {
+            // Exclude species that do not evolve leveling with a move
+            // Exclude gen 1-3 games
+            // Exclude Mr Mime and Snorlax for gen 1-3 games
+            if (!SpeciesEvolutionWithMove.Contains(pkm.Species) || pkm.Format <= 3 || (BabyEvolutionWithMove.Contains(pkm.Species) && pkm.GenNumber <= 3))
+                return true;
+
+            var index = Array.FindIndex(SpeciesEvolutionWithMove, p => p == pkm.Species);
+            var levels = MinLevelEvolutionWithMove[index];
+            var moves = MoveEvolutionWithMove[index];
+            var allowegg = EggMoveEvolutionWithMove[index][pkm.GenNumber];
+
+            // Get the minimun level in any generation when the pokemon could learn the evolve move
+            var LearnLevel = 101;
+            for(int g = pkm.GenNumber; g <= pkm.Format; g++)
+                if(pkm.InhabitedGeneration(g) && levels[g] > 0)
+                    LearnLevel = Math.Min(LearnLevel, levels[g]);
+
+            // Check also if the current encounter include the evolve move as an special move
+            // That means the pokemon have the move from the encounter level
+            int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
+            if (SpecialMoves.Any(m => moves.Contains(m)))
+                LearnLevel = Math.Min(LearnLevel, info.EncounterMatch.LevelMin);
+
+            // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
+            if (info.EncounterMatch.EggEncounter && !pkm.WasGiftEgg && !pkm.WasEventEgg && allowegg)
+            {
+                var inheritmove = false;
+                if (pkm.GenNumber >= 6)
+                    // 3DS games, if the move is not a relearn move that means the pokemon was hatched without the move
+                    inheritmove = pkm.RelearnMoves.Any(m => moves.Contains(m));
+                else if (pkm.Moves.Any(m => moves.Contains(m)))
+                    // Pre-3DS games, if the pokemon was an egg and it have the move and also and egg from this species could hatch with the move
+                    // that means is a valid egg move
+                    inheritmove = true;
+                else
+                { 
+                    // If the pokemon does not have the move it still could be an egg move that was forgotten
+                    // But that requires for the pokemon to do not have 4 other moves identified as egg moves or inherited level up moves
+                    var eggmoves = info.vMoves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
+                    inheritmove = eggmoves < 4;
+                }
+                if (inheritmove)
+                    LearnLevel = Math.Min(LearnLevel, pkm.GenNumber < 4 ? 5 : 1);
+            }
+
+            // If has original met location the minimun evolution level is one level after met level
+            // Gen 3 pokemon in gen 4 games minimun level is one level after transfer to generation 4
+            // VC pokemon minimun level is one leve after transfer to generation 7
+            // Sylveon always one level after met level, for gen 4 and 5 eevees in gen 6 games minimun for evolution is one leve after transfer to generation 5 
+            if (pkm.HasOriginalMetLocation || pkm.Format == 4 && pkm.Gen3 || pkm.VC || pkm.Species == 700)
+                LearnLevel = Math.Max(pkm.Met_Level, LearnLevel);
+
+            // Current level must be at leats one level after the minimun learn level
+            return pkm.CurrentLevel > LearnLevel;
+        }
         internal static bool getCanFormChange(PKM pkm, int species)
         {
             if (FormChange.Contains(species))
@@ -2642,7 +2699,7 @@ namespace PKHeX.Core
 
         internal static int[] getEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
         {
-            if (!pkm.InhabitedGeneration(pkm.GenNumber, species))
+            if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255)
                 return new int[0];
 
             switch (pkm.GenNumber)
@@ -2871,6 +2928,34 @@ namespace PKHeX.Core
             for (int i = 0; i < empty.Length; i++)
                 empty[i] = new List<int>();
             return empty;
+        }
+        internal static bool IsTradedKadabraG1(PKM pkm)
+        {
+            if (pkm.SpecForm != 64 || pkm.Format > 1)
+                return false;
+            if (pkm.TradebackStatus == TradebackType.WasTradeback)
+                return true;
+            var IsYellow = Savegame_Version == GameVersion.Y;
+            if (pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
+            {
+                // If catch rate is abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
+                var catch_rate = (pkm as PK1).Catch_Rate;
+                // Yellow Kadabra catch rate in Red/Blue game, must be Allakazham
+                if (catch_rate == PersonalTable.Y[64].CatchRate && !IsYellow)
+                    return true;
+                // Red/Blue Kadabra catch rate in Yellow game, must be Allakazham
+                if (catch_rate == PersonalTable.RB[64].CatchRate && IsYellow)
+                    return true;
+            }
+            if (IsYellow)
+                return false;
+            // Yellow only moves in Red/Blue game, must be Allakazham
+            if (pkm.Moves.Contains(134)) // Kinesis, yellow only move 
+                return true;
+            if (pkm.CurrentLevel < 20 && pkm.Moves.Contains(50)) // Disable bellow level 20, yellow only move
+                return true;
+
+            return false;
         }
         internal static bool IsOutsider(PKM pkm)
         {

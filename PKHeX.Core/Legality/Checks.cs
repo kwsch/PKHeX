@@ -626,7 +626,7 @@ namespace PKHeX.Core
         }
         private void verifyG1TradeEvo()
         {
-            var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && Legal.IsOutsider(pkm));
+            var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && Legal.IsOutsider(pkm)) || Legal.IsTradedKadabraG1(pkm);
             if (!mustevolve)
                 return;
             // Pokemon have been traded but it is not evolved, trade evos are sequential dex numbers
@@ -1792,7 +1792,7 @@ namespace PKHeX.Core
                         int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                         bool noSword = index < 0;
                         if (pkm.AltForm == 0 ^ noSword) // mismatch
-                            info.vMoves[noSword ? 0 : index] = new CheckResult(Severity.Invalid, V169, CheckIdentifier.Move);
+                            info.vMoves[noSword ? 0 : index] = new CheckMoveResult(info.vMoves[noSword ? 0 : index], Severity.Invalid, V169, CheckIdentifier.Move);
                         break;
                     }
                 case 649: // Genesect

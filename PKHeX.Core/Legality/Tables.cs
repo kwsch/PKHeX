@@ -224,8 +224,9 @@ namespace PKHeX.Core
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
         };
-
-        internal static readonly int[] EvolutionWithMove =
+        
+        // List of species that evolve from a previous species having a move while leveling up
+        internal static readonly int[] SpeciesEvolutionWithMove =
         {
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
@@ -236,6 +237,64 @@ namespace PKHeX.Core
             473, // Mamoswine (Piloswine with Ancient Power)
             700, // Sylveon (Eevee with Fairy Move)
             763, // Tsareena (Steenee with Stomp)
+        };
+        // Moves that trigger the evolution by move
+        internal static readonly int[][] MoveEvolutionWithMove =
+        {
+            new [] { 102 }, // Mr. Mime (Mime Jr with Mimic)
+            new [] { 102 }, // Sudowoodo (Bonsly with Mimic)
+            new [] { 458 }, // Ambipom (Aipom with Double Hit)
+            new [] { 205 }, // Lickilicky (Lickitung with Rollout)
+            new [] { 246 }, // Tangrowth (Tangela with Ancient Power)
+            new [] { 246 }, // Yanmega (Yamma with Ancient Power)
+            new [] { 246 }, // Mamoswine (Piloswine with Ancient Power)
+            FairyMoves, // Sylveon (Eevee with Fairy Move)
+            new [] { 023 }, // Tsareena (Steenee with Stomp)
+        };
+        // Min level for any species for every generation to learn the move for evolution by move
+        // 0 means it cant be learned in that generation
+        internal static readonly int[][] MinLevelEvolutionWithMove =
+        {
+            // Mr. Mime (Mime Jr with Mimic)
+            new [] { 0, 0, 0, 0, 18, 15, 15, 15 },
+            // Sudowoodo (Bonsly with Mimic)
+            new [] { 0, 0, 0, 0, 17, 17, 15, 15 },
+            // Ambipom (Aipom with Double Hit)
+            new [] { 0, 0, 0, 0, 32, 32, 32, 32 },
+            // Lickilicky (Lickitung with Rollout)
+            new [] { 0, 0, 1, 0, 1, 33, 33, 33 },
+            // Tangrowth (Tangela with Ancient Power)
+            new [] { 0, 0, 0, 0, 1, 36, 38, 38 },
+            // Yanmega (Yanma with Ancient Power)
+            new [] { 0, 0, 0, 0, 1, 33, 33, 33 },
+            // Mamoswine (Piloswine with Ancient Power)
+            new [] { 0, 0, 0, 0, 1, 1, 1, 1 },
+            // Sylveon (Eevee with Fairy Move)
+            new [] { 0, 0, 0, 0, 0, 29, 9, 9 },
+            // Tsareena (Steenee with Stomp)
+            new [] { 0, 0, 0, 0, 0, 0, 0, 29 },
+        };
+        // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
+        internal static readonly bool[][] EggMoveEvolutionWithMove =
+        {
+            // Mr. Mime (Mime Jr with Mimic)
+            new [] { false, false, false, false, true, true, true, true },
+            // Sudowoodo (Bonsly with Mimic)
+            new [] { false, false, false, false, true, true, true, true },
+            // Ambipom (Aipom with Double Hit)
+            new [] { false, false, false, false, true, true, true, true },
+            // Lickilicky (Lickitung with Rollout)
+            new [] { false, false, true, false, true, true, true, true },
+            // Tangrowth (Tangela with Ancient Power)
+            new [] { false, false, false, false, true, true, true, true },
+            // Yanmega (Yanma with Ancient Power)
+            new [] { false, false, false, false, true, true, true, true },
+            // Mamoswine (Piloswine with Ancient Power)
+            new [] { false, false, true, true, true, true, true, true },
+            // Sylveon (Eevee with Fairy Move)
+            new [] { false, false, true, true, true, true, true, true },
+            // Tsareena (Steenee with Stomp)
+            new [] { false, false, false, false, false, false, false, false },
         };
 
         internal static readonly int[] FairyMoves =
@@ -264,7 +323,13 @@ namespace PKHeX.Core
             705, //Fleur Cannon 
             717, //Nature's Madness 
         };
-
+        internal static readonly int[] MixedGenderBreeding =
+        {
+            29, // Nidoran♀
+            32, // Nidoran♂
+            314, // Volbeat
+            314, // Illumise
+        };
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
