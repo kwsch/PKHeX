@@ -294,11 +294,11 @@ namespace PKHeX.WinForms
         }
         private void mainMenuExit(object sender, EventArgs e)
         {
-            if (ModifierKeys != Keys.Control)
-                Close(); // not triggered via hotkey
-
-            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?"))
-                Close();
+            if (ModifierKeys == Keys.Control) // triggered via hotkey
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Quit PKHeX?"))
+                    return;
+                 
+            Close();
         }
         private void mainMenuAbout(object sender, EventArgs e) => new About().ShowDialog();
 
