@@ -20,8 +20,8 @@ Kolosseum/XD
 
 Weiße
 Schwarze
-Weiße2
-Schwarze2
+Weiße 2
+Schwarze 2
 X
 Y
 AS
@@ -32,7 +32,7 @@ Sonne
 Mond
 
 
-Go
+GO
 Rote
 Blaue[INT]/Grüne[JP]
 Blaue

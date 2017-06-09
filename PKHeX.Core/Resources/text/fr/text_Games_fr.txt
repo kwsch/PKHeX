@@ -20,8 +20,8 @@ Colosseum/XD
 
 Blanche
 Noire
-Blanche2
-Noire2
+Blanche 2
+Noire 2
 X
 Y
 AS
@@ -32,7 +32,7 @@ Soleil
 Lune
 
 
-Go
+GO
 Rouge
 Bleue[INT]/Vert[JP]
 Bleue[JP]
