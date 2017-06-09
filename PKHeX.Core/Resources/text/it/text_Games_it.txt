@@ -24,8 +24,8 @@ Bianca 2
 Nera 2
 X
 Y
-AS
-OR
+Zaffiro Alpha
+Rubino Omega
 
 
 Sole
@@ -34,6 +34,6 @@ Luna
 
 GO
 Rossa
-Blu[INT]/Verde[JP]
-Blu[JP]
+Blu [INT]/Verde [JP]
+Blu [JP]
 Gialla

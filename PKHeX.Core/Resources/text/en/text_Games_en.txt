@@ -24,8 +24,8 @@ White 2
 Black 2
 X
 Y
-AS
-OR
+Alpha Sapphire
+Omega Ruby
 
 
 Sun
@@ -34,6 +34,6 @@ Moon
 
 GO
 Red
-Blue[INT]/Green[JP]
-Blue[JP]
+Blue [INT]/Green [JP]
+Blue [JP]
 Yellow
