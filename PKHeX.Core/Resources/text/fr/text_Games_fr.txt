@@ -24,8 +24,8 @@ Blanche 2
 Noire 2
 X
 Y
-AS
-OR
+Saphir Alpha
+Rubis Oméga
 
 
 Soleil
@@ -34,6 +34,6 @@ Lune
 
 GO
 Rouge
-Bleue[INT]/Vert[JP]
-Bleue[JP]
+Bleue [INT]/Vert [JP]
+Bleue [JP]
 Jaune
