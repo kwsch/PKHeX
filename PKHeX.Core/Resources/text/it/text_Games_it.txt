@@ -20,8 +20,8 @@ Colosseo/XD
 
 Bianca
 Nera
-Bianca2
-Nera2
+Bianca 2
+Nera 2
 X
 Y
 AS
