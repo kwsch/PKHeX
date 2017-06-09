@@ -1565,7 +1565,14 @@ namespace PKHeX.Core
 
             if (Type == typeof(EncounterTrade))
             {
-                // Undocumented, uncommon, and insignificant -- don't bother.
+                switch (info.Generation)
+                {
+                    case 6:
+                        break; // Undocumented, uncommon, and insignificant -- don't bother.
+                    case 7:
+                        verifyOTMemoryIs(new[] { 1, 3, 40, 5 });
+                        break;
+                }
                 return;
             }
             if (EncounterMatch is WC6 wc6)
