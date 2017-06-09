@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public static bool AllowGen1Tradeback = false;
         public static bool AllowGen2VCTransfer => AllowGen1Tradeback;
         public static bool AllowGen2VCCrystal = false;
-        public static bool AllowGen2Crystal => AllowGBCartEra || AllowGen2Crystal;
+        public static bool AllowGen2Crystal => AllowGBCartEra || AllowGen2VCCrystal;
         public static bool AllowGen2MoveReminder => AllowGBCartEra;
 
         /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>

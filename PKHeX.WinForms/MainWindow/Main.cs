@@ -157,7 +157,7 @@ namespace PKHeX.WinForms
                 {
                     openSAV(C_SAV.SAV, null);
                     C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
-                }                    
+                }
             }
             if (pkmArg != null)
                 OpenQuick(pkmArg, force: true);

@@ -1852,7 +1852,11 @@ namespace PKHeX.WinForms.Controls
         public void TemplateFields(PKM template)
         {
             if (template != null)
-            { populateFields(template); return; }
+            {
+                populateFields(template);
+                lastData = null;
+                return;
+            }
             if (CB_GameOrigin.Items.Count > 0)
                 CB_GameOrigin.SelectedIndex = 0;
             CB_Move1.SelectedValue = 1;

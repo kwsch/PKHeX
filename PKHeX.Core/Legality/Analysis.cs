@@ -143,6 +143,9 @@ namespace PKHeX.Core
 
             if (pkm.Version == 15)
                 verifyCXD();
+
+            if (info.EncounterMatch is WC3 z && z.NotDistributed)
+                AddLine(Severity.Invalid, V413, CheckIdentifier.Encounter);
         }
         private void parsePK4(PKM pk)
         {

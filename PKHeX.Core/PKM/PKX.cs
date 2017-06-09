@@ -1403,7 +1403,7 @@ namespace PKHeX.Core
             }
             if (strdata.Length > 0)
                 strdata[strdata.Length - 1] = 0xFF;
-            if (strdata.Length > maxLength)
+            if (strdata.Length > maxLength && padTo <= maxLength)
                 Array.Resize(ref strdata, maxLength);
             if (strdata.Length < padTo)
             {
