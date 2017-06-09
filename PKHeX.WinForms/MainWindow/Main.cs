@@ -169,7 +169,7 @@ namespace PKHeX.WinForms
             WindowState = FormWindowState.Minimized;
             Show();
             WindowState = FormWindowState.Normal;
-            if (HaX) WinFormsUtil.Alert("Illegal mPode activated.", "Please behave.");
+            if (HaX) WinFormsUtil.Alert("Illegal mode activated.", "Please behave.");
             
             if (showChangelog)
                 new About().ShowDialog();
