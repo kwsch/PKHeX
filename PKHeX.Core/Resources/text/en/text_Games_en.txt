@@ -32,7 +32,7 @@ Sun
 Moon
 
 
-Go
+GO
 Red
 Blue[INT]/Green[JP]
 Blue[JP]

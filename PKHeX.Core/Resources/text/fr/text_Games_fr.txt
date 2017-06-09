@@ -32,7 +32,7 @@ Soleil
 Lune
 
 
-Go
+GO
 Rouge
 Bleue[INT]/Vert[JP]
 Bleue[JP]

@@ -32,7 +32,7 @@ Sonne
 Mond
 
 
-Go
+GO
 Rote
 Blaue[INT]/Grüne[JP]
 Blaue
