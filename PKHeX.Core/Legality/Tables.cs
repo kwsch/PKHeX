@@ -238,6 +238,32 @@ namespace PKHeX.Core
             700, // Sylveon (Eevee with Fairy Move)
             763, // Tsareena (Steenee with Stomp)
         };
+        internal static readonly int[] FairyMoves =
+        {
+            186, //Sweet Kiss
+            204, //Charm
+            236, //Moonlight 
+            574, //Disarming Voice 
+            577, //Draining Kiss 
+            578, //Crafty Shield 
+            579, //Flower Shield 
+            581, //Misty Terrain 
+            583, //Play Rough 
+            584, //Fairy Wind 
+            585, //Moonblast 
+            587, //Fairy Lock 
+            597, //Aromatic Mist 
+            601, //Geomancy 
+            605, //Dazzling Gleam 
+            608, //Baby-Doll Eyes 
+            617, //Light of Ruin 
+            656, //Twinkle Tackle 
+            657, //Twinkle Tackle 
+            666, //Floral Healing 
+            698, //Guardian of Alola 
+            705, //Fleur Cannon 
+            717, //Nature's Madness 
+        };
         // Moves that trigger the evolution by move
         internal static readonly int[][] MoveEvolutionWithMove =
         {
@@ -295,33 +321,6 @@ namespace PKHeX.Core
             new [] { false, false, true, true, true, true, true, true },
             // Tsareena (Steenee with Stomp)
             new [] { false, false, false, false, false, false, false, false },
-        };
-
-        internal static readonly int[] FairyMoves =
-        {
-            186, //Sweet Kiss
-            204, //Charm
-            236, //Moonlight 
-            574, //Disarming Voice 
-            577, //Draining Kiss 
-            578, //Crafty Shield 
-            579, //Flower Shield 
-            581, //Misty Terrain 
-            583, //Play Rough 
-            584, //Fairy Wind 
-            585, //Moonblast 
-            587, //Fairy Lock 
-            597, //Aromatic Mist 
-            601, //Geomancy 
-            605, //Dazzling Gleam 
-            608, //Baby-Doll Eyes 
-            617, //Light of Ruin 
-            656, //Twinkle Tackle 
-            657, //Twinkle Tackle 
-            666, //Floral Healing 
-            698, //Guardian of Alola 
-            705, //Fleur Cannon 
-            717, //Nature's Madness 
         };
         internal static readonly int[] MixedGenderBreeding =
         {
