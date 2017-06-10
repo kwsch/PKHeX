@@ -2627,17 +2627,20 @@ namespace PKHeX.Core
                     }
                 case 5:
                     {
-                        int index = PersonalTable.B2W2.getFormeIndex(species, 0);
-                        if (index == 0)
+                        int index1 = PersonalTable.BW.getFormeIndex(species, form);
+                        int index2 = PersonalTable.B2W2.getFormeIndex(species, form);
+                        if (index1 == 0 && index2 == 0)
                             return r;
                         if (LVL)
                         {
-                            r.AddRange(LevelUpBW[index].getMoves(lvl));
-                            r.AddRange(LevelUpB2W2[index].getMoves(lvl));
+                            if (index1 != 0)
+                                r.AddRange(LevelUpBW[index1].getMoves(lvl));
+                            if (index2 != 0)
+                                r.AddRange(LevelUpB2W2[index2].getMoves(lvl));
                         }
                         if (Machine)
                         {
-                            var pi_c = PersonalTable.B2W2[index];
+                            var pi_c = PersonalTable.B2W2[index2];
                             r.AddRange(TMHM_BW.Where((t, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)

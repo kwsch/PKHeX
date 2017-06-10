@@ -409,7 +409,13 @@ namespace PKHeX.Core
         private void verifyOT()
         {
             if (Type == typeof(EncounterTrade))
-                return; // Already matches Encounter Trade information
+                return; // Already matches Encounter information
+
+            if (EncounterMatch is MysteryGift g && !g.IsEgg)
+                return; // Already matches Encounter information
+
+            if (EncounterMatch is EncounterStatic s && s.NSparkle)
+                return; // Already checked by verifyMisc
 
             if (pkm.TID == 0 && pkm.SID == 0)
                 AddLine(Severity.Fishy, V33, CheckIdentifier.Trainer);

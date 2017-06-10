@@ -65,7 +65,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_BW = new ushort[1].Concat(Pouch_Items_BW).Concat(Pouch_Medicine_BW).Concat(Pouch_Berries_BW).ToArray();
 
         internal static readonly ushort[] Pouch_Key_B2W2 = {
-            437, 442, 447, 450, 453, 458, 465, 466, 471, 504, 578, 616, 617, 621, 626, 627, 628, 630, 631, 632, 633, 634, 635, 636, 637, 638,
+            437, 442, 447, 450, 453, 458, 465, 466, 471, 504, 578, 616, 617, 621, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638,
         };
         internal static readonly int[] TMHM_BW =
         {
