@@ -95,6 +95,7 @@ namespace PKHeX.Core
                 Console.WriteLine(e.Message);
                 Valid = false;
                 AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
+                pkm = pk;
                 Error = true;
             }
             Parsed = true;

@@ -2484,7 +2484,11 @@ namespace PKHeX.Core
                     r.Add(547); // Relic Song
 
                 if (species == 25 && pkm.Format == 6 && Generation == 6) // Pikachu
-                    r.Add(PikachuMoves[pkm.AltForm]);
+                {
+                    int index = pkm.AltForm - 1;
+                    if (index >= 0 && index < CosplayPikachuMoves.Length)
+                        r.Add(CosplayPikachuMoves[index]);
+                }
 
                 if ((species == 25 || species == 26) && Generation == 7) // Pikachu/Raichu Tutor
                     r.Add(344); // Volt Tackle

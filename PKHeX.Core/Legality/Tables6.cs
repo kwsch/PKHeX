@@ -264,7 +264,7 @@ namespace PKHeX.Core
             082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
-        internal static readonly int[] PikachuMoves = { 0, 309, 556, 577, 604, 560 };
+        internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
         internal static readonly int[] WildPokeballs6 = { 0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
         internal static readonly string[][] TradeXY =
         {
