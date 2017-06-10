@@ -1,0 +1,32 @@
+0481	Uxie disappeared
+0479	Mesprit(Verity Cavern) disappeared
+0480	Azelf disappeared
+0208	Dialga captured
+0209	Palkia captured
+0591	Cresselia(FullmoonIs.) disappeared
+0476	Charon(Mt.Stark) disappeared
+0293	Heatran Battleable
+0288	Heatran Disappeared
+0579	Regigigas disappeared
+0306	EventObj(SpearPillar) Appeared
+0461	Cynthia(SpearPillar) Disappeared
+0672	Cynthia(SendoffSpring) Disappeared
+0592	Giratina disappeared
+0344	Darkrai disappeared
+0301	Oak(R224)#1 disappeared
+0594	Oak(R224)#2 disappeared
+0714	Marley(R224) disappeared
+0604	Shaymin(R224 MapObj) disappeared
+0291	Shaymin(FlowerParadise) disappeared
+0286	Arceus disappeared
+0307	Ferry FullmoonIs. accessable
+0316	Ferry NewmoonIs. accessable
+0578	Oak(EternaCity) disappeared
+0281	Legendary birds roamed#1
+0153	Legendary birds roamed#2
+2404	HOF(TrainerCard Upgrade)
+2408	Cool Contest Master
+2409	Beauty Contest Master
+2410	Cute Contest Master
+2411	Smart Contest Master
+2412	Tough Contest Master

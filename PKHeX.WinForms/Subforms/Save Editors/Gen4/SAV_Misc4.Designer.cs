@@ -35,7 +35,6 @@
             this.TAB_Main = new System.Windows.Forms.TabPage();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_BP = new System.Windows.Forms.Label();
-            this.CHK_UpgradeTC = new System.Windows.Forms.CheckBox();
             this.CB_UpgradeMap = new System.Windows.Forms.ComboBox();
             this.GB_FlyDest = new System.Windows.Forms.GroupBox();
             this.B_AllFlyDest = new System.Windows.Forms.Button();
@@ -92,6 +91,8 @@
             this.NUD_CastleRankItem = new System.Windows.Forms.NumericUpDown();
             this.NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
             this.L_CastleRank01 = new System.Windows.Forms.Label();
+            this.NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
+            this.L_UGFlags = new System.Windows.Forms.Label();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
@@ -128,6 +129,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankRcv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -164,9 +166,10 @@
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.L_UGFlags);
+            this.TAB_Main.Controls.Add(this.NUD_UGFlags);
             this.TAB_Main.Controls.Add(this.NUD_BP);
             this.TAB_Main.Controls.Add(this.L_BP);
-            this.TAB_Main.Controls.Add(this.CHK_UpgradeTC);
             this.TAB_Main.Controls.Add(this.CB_UpgradeMap);
             this.TAB_Main.Controls.Add(this.GB_FlyDest);
             this.TAB_Main.Controls.Add(this.GB_Poketch);
@@ -204,16 +207,6 @@
             this.L_BP.TabIndex = 1;
             this.L_BP.Text = "BP:";
             this.L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CHK_UpgradeTC
-            // 
-            this.CHK_UpgradeTC.AutoSize = true;
-            this.CHK_UpgradeTC.Location = new System.Drawing.Point(5, 40);
-            this.CHK_UpgradeTC.Name = "CHK_UpgradeTC";
-            this.CHK_UpgradeTC.Size = new System.Drawing.Size(165, 16);
-            this.CHK_UpgradeTC.TabIndex = 2;
-            this.CHK_UpgradeTC.Text = "Upgrade TrainerCard (HOF)";
-            this.CHK_UpgradeTC.UseVisualStyleBackColor = true;
             // 
             // CB_UpgradeMap
             // 
@@ -1041,6 +1034,32 @@
             this.L_CastleRank01.Text = "Recovery / Item / Info";
             this.L_CastleRank01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // NUD_UGFlags
+            // 
+            this.NUD_UGFlags.Location = new System.Drawing.Point(109, 33);
+            this.NUD_UGFlags.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.NUD_UGFlags.Name = "NUD_UGFlags";
+            this.NUD_UGFlags.Size = new System.Drawing.Size(61, 19);
+            this.NUD_UGFlags.TabIndex = 2;
+            this.NUD_UGFlags.Value = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            // 
+            // L_UGFlags
+            // 
+            this.L_UGFlags.Location = new System.Drawing.Point(3, 30);
+            this.L_UGFlags.Name = "L_UGFlags";
+            this.L_UGFlags.Size = new System.Drawing.Size(100, 23);
+            this.L_UGFlags.TabIndex = 7;
+            this.L_UGFlags.Text = "Flags Obtained";
+            this.L_UGFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Misc4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1092,6 +1111,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankRcv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1104,7 +1124,6 @@
         private System.Windows.Forms.TabPage TAB_Main;
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.Label L_BP;
-        private System.Windows.Forms.CheckBox CHK_UpgradeTC;
         private System.Windows.Forms.ComboBox CB_UpgradeMap;
         private System.Windows.Forms.GroupBox GB_FlyDest;
         private System.Windows.Forms.Button B_AllFlyDest;
@@ -1161,5 +1180,7 @@
         private System.Windows.Forms.NumericUpDown NUD_CastleRankItem;
         private System.Windows.Forms.NumericUpDown NUD_CastleRankInfo;
         private System.Windows.Forms.Label L_CastleRank01;
+        private System.Windows.Forms.Label L_UGFlags;
+        private System.Windows.Forms.NumericUpDown NUD_UGFlags;
     }
 }

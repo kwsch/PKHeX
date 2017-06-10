@@ -206,6 +206,7 @@ namespace PKHeX.Core
                     EventConst = 0xD9C + GBO;
                     EventFlag = 0xFDC + GBO;
                     Daycare = 0x141C + GBO;
+                    OFS_HONEY = 0x72E4 + GBO;
                     Box = 0xC104 + SBO;
                     break;
                 case GameVersion.Pt:
@@ -234,8 +235,10 @@ namespace PKHeX.Core
                     LegalMailItems = Legal.Pouch_Mail_Pt;
 
                     HeldItems = Legal.HeldItems_Pt;
-
+                    EventConst = 0xDAC + GBO;
+                    EventFlag = 0xFEC + GBO;
                     Daycare = 0x1654 + GBO;
+                    OFS_HONEY = 0x7F38 + GBO;
                     Box = 0xCF30 + SBO;
                     break;
                 case GameVersion.HGSS:
@@ -1030,17 +1033,22 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.DP:
-                        if ((Data[0x1413 + GBO] & 1) != 0) return 4;
-                        else if ((Data[0x1415 + GBO] & 1) != 0) return 3;
-                        else if ((Data[0x1404 + GBO] & 1) != 0) return 2;
-                        else if ((Data[0x1414 + GBO] & 1) != 0) return 1;
+                        if (Data[0x1413 + GBO] != 0) return 4;
+                        else if (Data[0x1415 + GBO] != 0) return 3;
+                        else if (Data[0x1404 + GBO] != 0) return 2;
+                        else if (Data[0x1414 + GBO] != 0) return 1;
                         else return 0;
                     case GameVersion.HGSS:
-                        if ((Data[0x15ED + GBO] & 1) != 0) return 3;
-                        else if ((Data[0x15EF + GBO] & 1) != 0) return 2;
-                        else if ((Data[0x15EE + GBO] & 1) != 0 && (Data[0x10D1 + GBO] & 8) != 0) return 1;
+                        if (Data[0x15ED + GBO] != 0) return 3;
+                        else if (Data[0x15EF + GBO] != 0) return 2;
+                        else if (Data[0x15EE + GBO] != 0 && (Data[0x10D1 + GBO] & 8) != 0) return 1;
                         else return 0;
-                    // case GameVersion.Pt: break;
+                    case GameVersion.Pt:
+                        if (Data[0x1641 + GBO] != 0) return 4;
+                        else if (Data[0x1643 + GBO] != 0) return 3;
+                        else if (Data[0x1640 + GBO] != 0) return 2;
+                        else if (Data[0x1642 + GBO] != 0) return 1;
+                        else return 0;
                     default: return 0;
                 }
             }
@@ -1049,53 +1057,41 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.DP:
-                        Data[0x1413 + GBO] = (byte)((Data[0x1413 + GBO] & 0xFE) | (value == 4 ? 1 : 0));
-                        Data[0x1415 + GBO] = (byte)((Data[0x1415 + GBO] & 0xFE) | (value >= 3 ? 1 : 0));
-                        Data[0x1404 + GBO] = (byte)((Data[0x1404 + GBO] & 0xFE) | (value >= 2 ? 1 : 0));
-                        Data[0x1414 + GBO] = (byte)((Data[0x1414 + GBO] & 0xFE) | (value >= 1 ? 1 : 0));
+                        Data[0x1413 + GBO] = (byte)(value == 4 ? 1 : 0);
+                        Data[0x1415 + GBO] = (byte)(value >= 3 ? 1 : 0);
+                        Data[0x1404 + GBO] = (byte)(value >= 2 ? 1 : 0);
+                        Data[0x1414 + GBO] = (byte)(value >= 1 ? 1 : 0);
                         break;
                     case GameVersion.HGSS:
-                        Data[0x15ED + GBO] = (byte)((Data[0x15ED + GBO] & 0xFE) | (value == 3 ? 1 : 0));
-                        Data[0x15EF + GBO] = (byte)((Data[0x15EF + GBO] & 0xFE) | (value >= 2 ? 1 : 0));
-                        Data[0x15EE + GBO] = (byte)((Data[0x15EE + GBO] & 0xFE) | (value >= 1 ? 1 : 0));
-                        Data[0x10D1 + GBO] = (byte)((Data[0x10D1 + GBO] & 0xF7) | (value >= 1 ? 8 : 0));
+                        Data[0x15ED + GBO] = (byte)(value == 3 ? 1 : 0);
+                        Data[0x15EF + GBO] = (byte)(value >= 2 ? 1 : 0);
+                        Data[0x15EE + GBO] = (byte)(value >= 1 ? 1 : 0);
+                        Data[0x10D1 + GBO] = (byte)(Data[0x10D1 + GBO] & ~8 | (value >= 1 ? 8 : 0));
                         break;
-                    // case GameVersion.Pt: break;
+                    case GameVersion.Pt:
+                        Data[0x1641 + GBO] = (byte)(value == 4 ? 1 : 0);
+                        Data[0x1643 + GBO] = (byte)(value >= 3 ? 1 : 0);
+                        Data[0x1640 + GBO] = (byte)(value >= 2 ? 1 : 0);
+                        Data[0x1642 + GBO] = (byte)(value >= 1 ? 1 : 0);
+                        break;
                     default: return;
                 }
             }
         }
 
         // Honey Trees
-        private const int HONEY_DP = 0x72E4;
-        private const int HONEY_PT = 0x7F38;
+        private int OFS_HONEY = int.MinValue;
         private const int HONEY_SIZE = 8;
         public HoneyTree getHoneyTree(int index)
         {
-            if (index > 21)
-                return null;
-            switch (Version)
-            {
-                case GameVersion.DP:
-                    return new HoneyTree(getData(HONEY_DP + HONEY_SIZE*index, HONEY_SIZE));
-                case GameVersion.Pt:
-                    return new HoneyTree(getData(HONEY_PT + HONEY_SIZE*index, HONEY_SIZE));
-            }
-            return null;
+            if (index <= 21 && OFS_HONEY > 0)
+                return new HoneyTree(getData(OFS_HONEY + HONEY_SIZE * index, HONEY_SIZE));
+            else return null;
         }
         public void setHoneyTree(HoneyTree tree, int index)
         {
-            if (index > 21)
-                return;
-            switch (Version)
-            {
-                case GameVersion.DP:
-                    setData(tree.Data, HONEY_DP + HONEY_SIZE*index);
-                    break;
-                case GameVersion.Pt:
-                    setData(tree.Data, HONEY_PT + HONEY_SIZE*index);
-                    break;
-            }
+            if (index <= 21 && OFS_HONEY > 0)
+                setData(tree.Data, OFS_HONEY + HONEY_SIZE * index);
         }
         public int[] MunchlaxTrees
         {
@@ -1114,78 +1110,6 @@ namespace PKHeX.Core
                 if (C == D) D = (D + 1) % 21;
 
                 return new[] { A, B, C, D };
-            }
-        }
-        public int PoketchApps
-        {
-            get
-            {
-                int ret = 0;
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x114F; break;
-                    default: return ret;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 25; i++)
-                {
-                    if (Data[ofs + i] != 0) ret |= 1 << i;
-                }
-                return ret;
-            }
-            set
-            {
-                int c = 0;
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x114F; break;
-                    default: return;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 25; i++)
-                {
-                    if ((value & 1 << i) != 0)
-                    {
-                        c++;
-                        if (Data[ofs + i] == 0)
-                            Data[ofs + i] = 1;
-                    }
-                    else Data[ofs + i] = 0;
-                }
-                Data[ofs - 2] = (byte)c;
-                Data[ofs - 1] = 0; // current used, force set for first App.
-            }
-        }
-        public byte[] PoketchDotArtist
-        {
-            get
-            {
-                byte[] ret = new byte[120]; // 2bit*24px*20px
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x1176; break;
-                    default: return ret;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 120; i++)
-                    ret[i] = Data[ofs + i];
-                return ret;
-            }
-            set
-            {
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x1176; break;
-                    default: return;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 120; i++)
-                    Data[ofs + i] = value[i];
-                Data[ofs - 0x2A] |= 0x04; // 0x114C "Touch!"
             }
         }
         

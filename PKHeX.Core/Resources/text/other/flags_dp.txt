@@ -13,3 +13,9 @@
 0316	Ferry NewmoonIs. accessable
 0301	Oak(R224) disappeared
 0634	Shaymin(R224 MapObj) disappeared
+2404	HOF(TrainerCard Upgrade)
+2408	Cool Contest Master
+2409	Beauty Contest Master
+2410	Cute Contest Master
+2411	Smart Contest Master
+2412	Tough Contest Master

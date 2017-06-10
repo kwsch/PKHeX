@@ -126,6 +126,25 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0196	Dialga	0:Battleable,1:Disappeared
+        ///0197	Palkia	0:Battleable,1:Disappeared
+        ///0085	Giratina(DistortionWorld)	13:Battleable,14:Disappeared
+        ///0158	Heatran	00:Event,01:Battleable,02:Disappeared
+        ///0054	Fullmoon Is.	0:Not appeared,520:On the Map
+        ///0055	Newmoon Is.	0:Not appeared,553:On the Map
+        ///0056	Spring Path	0:Not appeared,786:Appeared
+        ///0057	Seabreak Path	0:Not appeared,4136:Appeared
+        ///0067	Member Card	0:Not activated,4617:Activated
+        ///0068	Oak Letter	0:Not activated,4370:Activated
+        ///0069	Azure Flute	0:Not activat [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string const_pt {
+            get {
+                return ResourceManager.GetString("const_pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 148	Starter	00:Rowlet,01:Litten,02:Popplio
         ///432	Tapu Koko	03:Battleable,04:Defeated,05:Captured
         ///433	Tapu Lele	01:Battleable,02:Defeated,03:Captured
@@ -269,6 +288,31 @@ namespace PKHeX.Core.Properties {
         internal static string flags_oras {
             get {
                 return ResourceManager.GetString("flags_oras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0481	Uxie disappeared
+        ///0479	Mesprit(Verity Cavern) disappeared
+        ///0480	Azelf disappeared
+        ///0208	Dialga captured
+        ///0209	Palkia captured
+        ///0591	Cresselia(FullmoonIs.) disappeared
+        ///0476	Charon(Mt.Stark) disappeared
+        ///0293	Heatran Battleable
+        ///0288	Heatran Disappeared
+        ///0579	Regigigas disappeared
+        ///0306	EventObj(SpearPillar) Appeared
+        ///0461	Cynthia(SpearPillar) Disappeared
+        ///0672	Cynthia(SendoffSpring) Disappeared
+        ///0592	Giratina disappeared
+        ///0344	Darkrai disappeared
+        ///0301	Oak(R224)#1 disappeared
+        ///0594	Oak(R224)#2 disappea [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string flags_pt {
+            get {
+                return ResourceManager.GetString("flags_pt", resourceCulture);
             }
         }
         
