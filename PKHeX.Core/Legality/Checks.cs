@@ -824,6 +824,9 @@ namespace PKHeX.Core
         }
         private void verifyCXDStarterCorrelation(PIDIV pidiv)
         {
+            if (pidiv.Type != PIDType.CXD)
+                return;
+
             var spec = EncounterMatch.Species;
             int rev; // pidiv reversed 2x yields SID, 3x yields TID. shift by 7 if another PKM is generated prior
             switch (spec)

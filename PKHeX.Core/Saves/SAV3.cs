@@ -148,7 +148,7 @@ namespace PKHeX.Core
             HeldItems = Legal.HeldItems_RS;
 
             // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
-            SeenFlagOffsets = SeenFlagOffsets.Where(z => z >= 0).ToArray();
+            SeenFlagOffsets = SeenFlagOffsets?.Where(z => z >= 0).ToArray();
 
             if (!Exportable)
                 resetBoxes();

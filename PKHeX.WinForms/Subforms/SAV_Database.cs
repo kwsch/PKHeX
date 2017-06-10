@@ -100,6 +100,26 @@ namespace PKHeX.WinForms
                     dbTemp.Add(pk);
             });
 
+#if DEBUG
+            if (SaveUtil.getSavesFromFolder(Main.BackupPath, false, out IEnumerable<string> result))
+            {
+                Parallel.ForEach(result, file =>
+                {
+                    var sav = SaveUtil.getVariantSAV(File.ReadAllBytes(file));
+                    var path = EXTERNAL_SAV + new FileInfo(file).Name;
+                    if (sav.HasBox)
+                        foreach (var pk in sav.BoxData)
+                            addPKM(pk);
+
+                    void addPKM(PKM pk)
+                    {
+                        pk.Identifier = Path.Combine(path, pk.Identifier);
+                        dbTemp.Add(pk);
+                    }
+                });
+            }
+#endif
+
             // Prepare Database
             RawDB = new List<PKM>(dbTemp.OrderBy(pk => pk.Identifier)
                                         .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
@@ -126,6 +146,7 @@ namespace PKHeX.WinForms
         private readonly string Counter;
         private readonly string Viewed;
         private const int MAXFORMAT = 7;
+        private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
         private static string hash(PKM pk)
         {
             switch (pk.Format)
@@ -178,10 +199,18 @@ namespace PKHeX.WinForms
             var pk = Results[index];
             string path = pk.Identifier;
 
+#if DEBUG
+            if (path.StartsWith(EXTERNAL_SAV))
+            {
+                WinFormsUtil.Alert("Can't delete from a backup save.");
+                return;
+            }
+#endif
             if (path.Contains(Path.DirectorySeparatorChar))
             {
                 // Data from Database: Delete file from disk
-                File.Delete(path);
+                if (File.Exists(path))
+                    File.Delete(path);
             }
             else
             {
