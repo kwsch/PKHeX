@@ -1171,6 +1171,21 @@ namespace PKHeX.Core
                 Version = GameVersion.RBY
             };
         }
+        internal static EncounterStatic getGSStaticTransfer(int species)
+        {
+            return new EncounterStatic
+            {
+                Species = species,
+                Gift = true, // Forces Poké Ball
+                Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
+                Shiny = species == 151 || species == 251 ? (bool?)false : null,
+                Fateful = species == 151 || species == 251,
+                Location = 30004, // todo
+                EggLocation = 0,
+                IV3 = true,
+                Version = GameVersion.GS
+            };
+        }
         internal static bool getEncounterTrade1Valid(PKM pkm)
         {
             string ot = pkm.OT_Name;

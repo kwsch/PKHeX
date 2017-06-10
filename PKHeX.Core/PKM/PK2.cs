@@ -365,6 +365,88 @@ namespace PKHeX.Core
 
             return pk1;
         }
+
+        public PK7 convertToPK7()
+        {
+            var pk7 = new PK7
+            {
+                EncryptionConstant = Util.rnd32(),
+                Species = Species,
+                TID = TID,
+                CurrentLevel = CurrentLevel,
+                EXP = EXP,
+                Met_Level = CurrentLevel,
+                Nature = (int)(EXP % 25),
+                PID = Util.rnd32(),
+                Ball = 4,
+                MetDate = DateTime.Now,
+                Version = (int)GameVersion.S,
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+                Move1_PP = Move1_PP,
+                Move2_PP = Move2_PP,
+                Move3_PP = Move3_PP,
+                Move4_PP = Move4_PP,
+                Met_Location = 30004,
+                Gender = PersonalTable.SM[Species].RandomGender,
+                OT_Name = PKX.getG1ConvertedString(otname, Japanese),
+                IsNicknamed = false,
+
+                Country = PKMConverter.Country,
+                Region = PKMConverter.Region,
+                ConsoleRegion = PKMConverter.ConsoleRegion,
+                CurrentHandler = 1,
+                HT_Name = PKMConverter.OT_Name,
+                HT_Gender = PKMConverter.OT_Gender,
+                Language = PKMConverter.Language,
+                Geo1_Country = PKMConverter.Country,
+                Geo1_Region = PKMConverter.Region
+            };
+            pk7.Nickname = PKX.getSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
+            if (otname[0] == 0x5D) // Ingame Trade
+            {
+                var s = PKX.getG1Char(0x5D, Japanese);
+                pk7.OT_Name = s.Substring(0, 1) + s.Substring(1).ToLower();
+            }
+            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
+
+            // IVs
+            var special = Species == 151 || Species == 251;
+            var new_ivs = new int[6];
+            int flawless = special ? 5 : 3;
+            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = (int)(Util.rnd32() & 31);
+            for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
+            Util.Shuffle(new_ivs);
+            pk7.IVs = new_ivs;
+
+            // Really? :(
+            if (IsShiny)
+                pk7.setShinyPID();
+
+            int abil = 2; // Hidden
+            if (Legal.TransferSpeciesDefaultAbility_2.Contains(Species))
+                abil = 0; // Reset
+            pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
+
+            if (special)
+                pk7.FatefulEncounter = true;
+            else if (IsNicknamed)
+            {
+                pk7.IsNicknamed = true;
+                pk7.Nickname = PKX.getG1ConvertedString(nick, Japanese);
+            }
+
+            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+
+            pk7.RefreshChecksum();
+            return pk7;
+        }
     }
 
     public class PokemonList2

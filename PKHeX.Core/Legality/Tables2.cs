@@ -151,5 +151,6 @@ namespace PKHeX.Core
             // todo
         };
         internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i) && !UnreleasedItems_2.Contains(i)).ToArray();
+        internal static readonly int[] TransferSpeciesDefaultAbility_2 = {92, 93, 94, 109, 110, 151, 200, 201, 247, 251}; // todo VC2: 247 (pupitar)
     }
 }
