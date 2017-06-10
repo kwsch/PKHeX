@@ -539,6 +539,8 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic s:
+                    if (s == Legal.SpikyEaredPichu) // nonshiny forced nature, undocumented
+                        return val == PIDType.None;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
                     return val == PIDType.Method_1;
