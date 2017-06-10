@@ -1066,7 +1066,7 @@ namespace PKHeX.Core
         /// <returns>Indication whether or not the PKM is compatible.</returns>
         public static bool checkCompatible(SaveFile SAV, PKM pk)
         {
-            if (pk.Species > SAV.MaxSpeciesID)
+            if (pk.Species > SAV.MaxSpeciesID || pk.Moves.All(m => m == 0 || m > SAV.MaxMoveID))
                 return false;
 
             if (pk.HeldItem > SAV.MaxItemID)

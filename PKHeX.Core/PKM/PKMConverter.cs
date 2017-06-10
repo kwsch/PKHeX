@@ -221,7 +221,7 @@ namespace PKHeX.Core
                     case nameof(PK2):
                         if (PKMType == typeof (PK1))
                         {
-                            if (pk.Species > 151)
+                            if (pk.Species > 151 || pk.Moves.All(m=> m == 0 || m > Legal.MaxMoveID_1))
                             {
                                 comment = $"Cannot convert a {PKX.getSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
                                 return null;
