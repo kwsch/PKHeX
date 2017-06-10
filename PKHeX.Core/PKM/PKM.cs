@@ -895,5 +895,27 @@ namespace PKHeX.Core
                     ReflectUtil.SetValue(Destination, property, prop);
             }
         }
+
+        /// <summary>
+        /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
+        /// </summary>
+        public void ClearInvalidMoves()
+        {
+            uint invalid = 0;
+            var moves = Moves;
+            for (var i = 0; i < moves.Length; i++)
+            {
+                if (moves[i] <= MaxMoveID)
+                    continue;
+
+                invalid++;
+                moves[i] = 0;
+            }
+            if (invalid == 0)
+                return;
+
+            Moves = moves;
+            FixMoves();
+        }
     }
 }

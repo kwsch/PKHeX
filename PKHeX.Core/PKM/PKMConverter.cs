@@ -227,6 +227,7 @@ namespace PKHeX.Core
                                 return null;
                             }
                             pkm = ((PK2) pk).convertToPK1();
+                            pkm.ClearInvalidMoves();
                         }
                         else
                             pkm = null;
