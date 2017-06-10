@@ -105,14 +105,6 @@ namespace PKHeX.Core
             Lineage[Personal.getFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
             Lineage[422+1].Chain.RemoveAt(0);
 
-            // Flabébé -- Doesn't contain evo info for forms 1-4, copy.
-            var fbb = Lineage[669+1].Chain[0];
-            for (int i = 1; i <= 4; i++) // NOT AZ
-            {
-                Lineage[Personal.getFormeIndex(669+1, i)].Chain.Insert(0, fbb);
-                Lineage[Personal.getFormeIndex(669+2, i)].Chain.Insert(0, fbb);
-            }
-
             // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
             for (int i = 1; i <= 3; i++)
             {
