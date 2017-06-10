@@ -913,6 +913,11 @@ namespace PKHeX.Core
             }
             if (invalid == 0)
                 return;
+            if (invalid == 4) // no moves remain
+            {
+                moves[0] = 1; // Pound
+                Move1_PP = getMovePP(1, Move1_PPUps);
+            }
 
             Moves = moves;
             FixMoves();

@@ -1076,10 +1076,7 @@ namespace PKHeX.Core
             if (pk.OT_Name.Length > SAV.OTLength)
                 pk.OT_Name = pk.OT_Name.Substring(0, SAV.OTLength);
             if (pk.Moves.Any(move => move > SAV.MaxMoveID))
-            {
-                pk.Moves = pk.Moves.Select(move => move <= SAV.MaxMoveID ? move : 0).ToArray();
-                pk.FixMoves();
-            }
+                pk.ClearInvalidMoves();
             if (pk.EVs.Any(ev => ev > SAV.MaxEV))
                 pk.EVs = pk.EVs.Select(ev => Math.Min(SAV.MaxEV, ev)).ToArray();
             if (pk.IVs.Any(ev => ev > SAV.MaxEV))
