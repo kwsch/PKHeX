@@ -216,36 +216,39 @@ namespace PKHeX.Core
                 Location = 30016, // Poké Pelago
                 Slots = new[]
                 {
-                    // Note: These level ranges are arbitrary -- no 'official'/verified documentation available.
-                    new EncounterSlot {Species = 021, LevelMin = 10, LevelMax = 55}, // Spearow
-                    new EncounterSlot {Species = 041, LevelMin = 10, LevelMax = 55}, // Zubat
-                    new EncounterSlot {Species = 060, LevelMin = 10, LevelMax = 55}, // Poliwag
-                    new EncounterSlot {Species = 064, LevelMin = 10, LevelMax = 55}, // Kadabra
-                    new EncounterSlot {Species = 081, LevelMin = 10, LevelMax = 55}, // Magnemite
-                    new EncounterSlot {Species = 090, LevelMin = 10, LevelMax = 55}, // Shellder
-                    new EncounterSlot {Species = 092, LevelMin = 10, LevelMax = 55}, // Gastly
-                    new EncounterSlot {Species = 120, LevelMin = 10, LevelMax = 55}, // Staryu
-                    new EncounterSlot {Species = 123, LevelMin = 10, LevelMax = 55}, // Scyther
-                    new EncounterSlot {Species = 127, LevelMin = 10, LevelMax = 55}, // Pinsir
-                    new EncounterSlot {Species = 131, LevelMin = 10, LevelMax = 55}, // Lapras
-                    new EncounterSlot {Species = 198, LevelMin = 10, LevelMax = 55}, // Murkrow
-                    new EncounterSlot {Species = 227, LevelMin = 10, LevelMax = 55}, // Skarmory
-                    new EncounterSlot {Species = 278, LevelMin = 10, LevelMax = 55}, // Wingull
-                    new EncounterSlot {Species = 375, LevelMin = 10, LevelMax = 55}, // Metang
-                    new EncounterSlot {Species = 426, LevelMin = 10, LevelMax = 55}, // Drifblim
-                    new EncounterSlot {Species = 429, LevelMin = 10, LevelMax = 55}, // Mismagius
-                    new EncounterSlot {Species = 587, LevelMin = 10, LevelMax = 55}, // Emolga
-                    new EncounterSlot {Species = 661, LevelMin = 10, LevelMax = 55}, // Fletchling
-                    new EncounterSlot {Species = 703, LevelMin = 10, LevelMax = 55}, // Carbink
-                    new EncounterSlot {Species = 707, LevelMin = 10, LevelMax = 55}, // Klefki
-                    new EncounterSlot {Species = 709, LevelMin = 10, LevelMax = 55}, // Trevenant
-                    new EncounterSlot {Species = 731, LevelMin = 10, LevelMax = 55}, // Pikipek
-                    new EncounterSlot {Species = 771, LevelMin = 10, LevelMax = 55}, // Pyukumuku
+                    new EncounterSlot {Species = 021, LevelMin = 01, LevelMax = 55}, // Spearow
+                    new EncounterSlot {Species = 041, LevelMin = 01, LevelMax = 55}, // Zubat
+                    new EncounterSlot {Species = 090, LevelMin = 01, LevelMax = 55}, // Shellder
+                    new EncounterSlot {Species = 278, LevelMin = 01, LevelMax = 55}, // Wingull
+                    new EncounterSlot {Species = 731, LevelMin = 01, LevelMax = 55}, // Pikipek
+
+                    new EncounterSlot {Species = 064, LevelMin = 11, LevelMax = 55}, // Kadabra
+                    new EncounterSlot {Species = 081, LevelMin = 11, LevelMax = 55}, // Magnemite
+                    new EncounterSlot {Species = 092, LevelMin = 11, LevelMax = 55}, // Gastly
+                    new EncounterSlot {Species = 198, LevelMin = 11, LevelMax = 55}, // Murkrow
+                    new EncounterSlot {Species = 426, LevelMin = 11, LevelMax = 55}, // Drifblim
+                    new EncounterSlot {Species = 703, LevelMin = 11, LevelMax = 55}, // Carbink
+
+                    new EncounterSlot {Species = 060, LevelMin = 21, LevelMax = 55}, // Poliwag
+                    new EncounterSlot {Species = 120, LevelMin = 21, LevelMax = 55}, // Staryu
+                    new EncounterSlot {Species = 127, LevelMin = 21, LevelMax = 55}, // Pinsir
+                    new EncounterSlot {Species = 661, LevelMin = 21, LevelMax = 55}, // Fletchling
+                    new EncounterSlot {Species = 709, LevelMin = 21, LevelMax = 55}, // Trevenant
+                    new EncounterSlot {Species = 771, LevelMin = 21, LevelMax = 55}, // Pyukumuku
+
+                    new EncounterSlot {Species = 227, LevelMin = 37, LevelMax = 55}, // Skarmory
+                    new EncounterSlot {Species = 375, LevelMin = 37, LevelMax = 55}, // Metang
+                    new EncounterSlot {Species = 707, LevelMin = 37, LevelMax = 55}, // Klefki
+
+                    new EncounterSlot {Species = 123, LevelMin = 49, LevelMax = 55}, // Scyther
+                    new EncounterSlot {Species = 131, LevelMin = 49, LevelMax = 55}, // Lapras
+                    new EncounterSlot {Species = 429, LevelMin = 49, LevelMax = 55}, // Mismagius
+                    new EncounterSlot {Species = 587, LevelMin = 49, LevelMax = 55}, // Emolga
                 },
             }
         };
-        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 627, LevelMin = 10, LevelMax = 55}, /* Rufflet SUN  */ } } };
-        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 629, LevelMin = 10, LevelMax = 55}, /* Vullaby MOON */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 627, LevelMin = 1, LevelMax = 55}, /* Rufflet SUN  */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 629, LevelMin = 1, LevelMax = 55}, /* Vullaby MOON */ } } };
         internal static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
             // Trades - 4.bin
