@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SimpleTrainer));
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
+            this.L_PikaFriend = new System.Windows.Forms.Label();
+            this.MT_PikaFriend = new System.Windows.Forms.MaskedTextBox();
             this.L_Started = new System.Windows.Forms.Label();
             this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
             this.CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
@@ -92,8 +94,6 @@
             this.LBL_BattleStyle = new System.Windows.Forms.Label();
             this.CB_BattleStyle = new System.Windows.Forms.ComboBox();
             this.CHK_BattleEffects = new System.Windows.Forms.CheckBox();
-            this.L_PikaFriend = new System.Windows.Forms.Label();
-            this.MT_PikaFriend = new System.Windows.Forms.MaskedTextBox();
             this.GB_Adventure.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
@@ -127,6 +127,28 @@
             this.GB_Adventure.TabIndex = 70;
             this.GB_Adventure.TabStop = false;
             this.GB_Adventure.Text = "Adventure Info";
+            // 
+            // L_PikaFriend
+            // 
+            this.L_PikaFriend.AutoSize = true;
+            this.L_PikaFriend.Location = new System.Drawing.Point(7, 44);
+            this.L_PikaFriend.Name = "L_PikaFriend";
+            this.L_PikaFriend.Size = new System.Drawing.Size(100, 13);
+            this.L_PikaFriend.TabIndex = 73;
+            this.L_PikaFriend.Text = "Pikachu Friendship:";
+            this.L_PikaFriend.Visible = false;
+            // 
+            // MT_PikaFriend
+            // 
+            this.MT_PikaFriend.Location = new System.Drawing.Point(111, 40);
+            this.MT_PikaFriend.Mask = "000";
+            this.MT_PikaFriend.Name = "MT_PikaFriend";
+            this.MT_PikaFriend.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_PikaFriend.Size = new System.Drawing.Size(39, 20);
+            this.MT_PikaFriend.TabIndex = 72;
+            this.MT_PikaFriend.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_PikaFriend.Visible = false;
+            this.MT_PikaFriend.TextChanged += new System.EventHandler(this.change255);
             // 
             // L_Started
             // 
@@ -795,27 +817,6 @@
             this.CHK_BattleEffects.TabIndex = 19;
             this.CHK_BattleEffects.Text = "Use Battle Effects";
             this.CHK_BattleEffects.UseVisualStyleBackColor = true;
-            // 
-            // L_PikaFriend
-            // 
-            this.L_PikaFriend.AutoSize = true;
-            this.L_PikaFriend.Location = new System.Drawing.Point(7, 44);
-            this.L_PikaFriend.Name = "L_PikaFriend";
-            this.L_PikaFriend.Size = new System.Drawing.Size(100, 13);
-            this.L_PikaFriend.TabIndex = 73;
-            this.L_PikaFriend.Text = "Pikachu Friendship:";
-            this.L_PikaFriend.Visible = false;
-            // 
-            // MT_PikaFriend
-            // 
-            this.MT_PikaFriend.Location = new System.Drawing.Point(111, 40);
-            this.MT_PikaFriend.Mask = "000";
-            this.MT_PikaFriend.Name = "MT_PikaFriend";
-            this.MT_PikaFriend.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_PikaFriend.Size = new System.Drawing.Size(39, 20);
-            this.MT_PikaFriend.TabIndex = 72;
-            this.MT_PikaFriend.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_PikaFriend.Visible = false;
             // 
             // SAV_SimpleTrainer
             // 
