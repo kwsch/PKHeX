@@ -105,6 +105,14 @@ namespace PKHeX.Core
             Lineage[Personal.getFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
             Lineage[422+1].Chain.RemoveAt(0);
 
+            // Meowstic -- Meowstic-1 (F) should point back to Espurr, copy Meowstic-0 (M)
+            Lineage[Personal.getFormeIndex(678, 1)].Chain.Insert(0, Lineage[678].Chain[0]);
+
+            // Floette doesn't contain evo info for forms 1-4, copy. Florges points to form 0, no fix needed.
+            var fbb = Lineage[669+1].Chain[0];
+            for (int i = 1; i <= 4; i++) // NOT AZ
+                Lineage[Personal.getFormeIndex(669+1, i)].Chain.Insert(0, fbb);
+
             // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
             for (int i = 1; i <= 3; i++)
             {
@@ -134,9 +142,7 @@ namespace PKHeX.Core
         {
             if (pkm.Format < 7)
                 return pkm.Species;
-
-            var form = pkm.Species == 678 ? 0 : pkm.AltForm; // override Meowstic forme index
-            return Personal.getFormeIndex(pkm.Species, form);
+            return Personal.getFormeIndex(pkm.Species, pkm.AltForm);
         }
         private int getIndex(EvolutionMethod evo)
         {
