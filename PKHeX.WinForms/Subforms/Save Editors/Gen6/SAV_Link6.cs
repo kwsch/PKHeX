@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             Array.Copy(LinkInfo.Data, 0, data, 0x1FF, LinkInfo.Data.Length);
 
             // Fix Checksum just in case.
-            ushort ccitt = SaveUtil.ccitt16(data.Skip(0x200).Take(data.Length - 4 - 0x200).ToArray()); // [app,chk)
+            ushort ccitt = SaveUtil.ccitt16(data, 0x200, data.Length - 4 - 0x200); // [app,chk)
             BitConverter.GetBytes(ccitt).CopyTo(data, data.Length - 4);
 
             SAV.LinkBlock = data;

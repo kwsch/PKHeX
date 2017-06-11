@@ -491,7 +491,8 @@ namespace PKHeX.WinForms
                     if (Prints[i] == 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + (i << 1)) >> 1) - 1)) continue;
                     BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.Data, ofsPrints + (i << 1));
                 }
-            if (HallStatUpdated) BitConverter.GetBytes(SaveUtil.ccitt16(SAV.Data.Skip(ofsHallStat).Take(0xBAE).ToArray())).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
+            if (HallStatUpdated)
+                BitConverter.GetBytes(SaveUtil.ccitt16(SAV.Data, ofsHallStat, 0xBAE)).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
         }
 
         private void setPrints()

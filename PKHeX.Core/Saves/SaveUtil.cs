@@ -229,20 +229,21 @@ namespace PKHeX.Core
             if (!new[] { SIZE_G3BOX, SIZE_G3BOXGCI }.Contains(data.Length))
                 return GameVersion.Invalid;
 
-            byte[] sav = data.Skip(data.Length - SIZE_G3BOX).Take(SIZE_G3BOX).ToArray();
+            byte[] sav = data;
 
             // Verify first checksum
             uint chk = 0; // initial value
+            var ofs = data.Length - SIZE_G3BOX + 0x2000;
             for (int j = 0x4; j < 0x1FFC; j += 2)
             {
-                chk += (ushort)(sav[0x2000 + j] << 8);
-                chk += sav[0x2000 + j + 1];
+                chk += (ushort)(sav[ofs + j] << 8);
+                chk += sav[ofs + j + 1];
             }
             ushort chkA = (ushort)chk;
             ushort chkB = (ushort)(0xF004 - chkA);
 
-            ushort CHK_A = (ushort)((sav[0x2000] << 8) | sav[0x2001]);
-            ushort CHK_B = (ushort)((sav[0x2002] << 8) | sav[0x2003]);
+            ushort CHK_A = (ushort)((sav[ofs + 0] << 8) | sav[ofs + 1]);
+            ushort CHK_B = (ushort)((sav[ofs + 2] << 8) | sav[ofs + 3]);
 
             return CHK_A == chkA && CHK_B == chkB ? GameVersion.RSBOX : GameVersion.Invalid;
         }
@@ -295,11 +296,11 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
             
             // General Block Checksum
-            if (BitConverter.ToUInt16(data, 0xC0FE) == ccitt16(data.Take(0xC0EC).ToArray()))
+            if (BitConverter.ToUInt16(data, 0xC0FE) == ccitt16(data, 0, 0xC0EC))
                 return GameVersion.DP;
-            if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data.Take(0xCF18).ToArray()))
+            if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data, 0, 0xCF18))
                 return GameVersion.Pt;
-            if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data.Take(0xF618).ToArray()))
+            if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data, 0, 0xF618))
                 return GameVersion.HGSS;
 
             // General Block Checksum is invalid, check for block identifiers
@@ -346,11 +347,11 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
 
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
-            ushort actual1 = ccitt16(data.Skip(SIZE_G5BW - 0x100).Take(0x8C).ToArray());
+            ushort actual1 = ccitt16(data, SIZE_G5BW - 0x100, 0x8C);
             if (chk1 == actual1)
                 return GameVersion.BW;
             ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
-            ushort actual2 = ccitt16(data.Skip(SIZE_G5B2W2 - 0x100).Take(0x94).ToArray());
+            ushort actual2 = ccitt16(data, SIZE_G5B2W2 - 0x100, 0x94);
             if (chk2 == actual2)
                 return GameVersion.B2W2;
             return GameVersion.Invalid;
@@ -590,15 +591,19 @@ namespace PKHeX.Core
         // SAV Manipulation
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
+        /// <param name="start">Starting point for checksum</param>
+        /// <param name="length"></param>
         /// <returns>Checksum</returns>
-        public static ushort ccitt16(byte[] data)
+        public static ushort ccitt16(byte[] data, int start, int length)
         {
             const ushort init = 0xFFFF;
             const ushort poly = 0x1021;
 
             ushort crc = init;
-            foreach (byte b in data)
+            int end = start + length;
+            for (int i = start; i < end; i++)
             {
+                byte b = data[i];
                 crc ^= (ushort)(b << 8);
                 for (int j = 0; j < 8; j++)
                 {
@@ -610,6 +615,11 @@ namespace PKHeX.Core
             }
             return crc;
         }
+
+        /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <returns>Checksum</returns>
+        public static ushort ccitt16(byte[] data) => ccitt16(data, 0, data.Length);
 
         private static readonly ushort[] crc16 =
         {

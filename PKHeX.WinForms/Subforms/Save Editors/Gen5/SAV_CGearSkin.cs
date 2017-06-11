@@ -122,14 +122,11 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 2);
             BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x100);
 
-            byte[] skinchkdata = SAV.Data.Skip(SAV.CGearDataOffset + bgdata.Length + 0x100).Take(4).ToArray();
-            ushort skinchkval = SaveUtil.ccitt16(skinchkdata);
+            ushort skinchkval = SaveUtil.ccitt16(SAV.Data, bgdata.Length + 0x100, 4);
             BitConverter.GetBytes(skinchkval).CopyTo(SAV.Data, SAV.CGearDataOffset + bgdata.Length + 0x112);
 
             // Indicate in the save file that data is present
             BitConverter.GetBytes((ushort)0xC21E).CopyTo(SAV.Data, 0x19438);
-
-
 
             SAV.Data[SAV.CGearInfoOffset + 0x26] = 1; // data present
             BitConverter.GetBytes(chk).CopyTo(SAV.Data, SAV.CGearInfoOffset + 0x24);

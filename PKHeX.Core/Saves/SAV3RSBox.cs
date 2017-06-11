@@ -172,11 +172,15 @@ namespace PKHeX.Core
         }
         public override PKM getPKM(byte[] data)
         {
-            return new PK3(data.Take(PKX.SIZE_3STORED).ToArray());
+            if (data.Length != PKX.SIZE_3STORED)
+                Array.Resize(ref data, PKX.SIZE_3STORED);
+            return new PK3(data);
         }
         public override byte[] decryptPKM(byte[] data)
         {
-            return PKX.decryptArray3(data.Take(PKX.SIZE_3STORED).ToArray());
+            if (data.Length != PKX.SIZE_3STORED)
+                Array.Resize(ref data, PKX.SIZE_3STORED);
+            return PKX.decryptArray3(data);
         }
 
         protected override void setDex(PKM pkm) { }
