@@ -310,7 +310,19 @@ namespace PKHeX.Core
                         continue;
                 }
                 else if (e.EggLocation != pkm.Egg_Location)
-                    continue;
+                {
+                    switch (pkm.GenNumber)
+                    {
+                        case 4:
+                            if (pkm.Egg_Location != 2002) // Link Trade
+                                continue;
+                            break;
+                        default:
+                            if (pkm.Egg_Location != 30002) // Link Trade
+                                continue;
+                            break;
+                    }
+                }
                 if (pkm.HasOriginalMetLocation)
                 {
                     if (e.Location != 0 && e.Location != pkm.Met_Location)
@@ -323,6 +335,8 @@ namespace PKHeX.Core
                 if (e.Gender != -1 && e.Gender != pkm.Gender)
                     continue;
                 if (e.Form != pkm.AltForm && !e.SkipFormCheck && !getCanFormChange(pkm, e.Species))
+                    continue;
+                if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                     continue;
 
                 if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
