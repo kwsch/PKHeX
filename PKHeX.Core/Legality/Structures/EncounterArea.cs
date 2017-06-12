@@ -147,25 +147,21 @@ namespace PKHeX.Core
             ofs++;
             return areas;
         }
-        private static IEnumerable<EncounterArea> getAreas2_F(byte[] data, ref int ofs)
+        private static List<EncounterArea> getAreas2_F(byte[] data, ref int ofs)
         {
             var areas = new List<EncounterArea>();
             var types = new[] {SlotType.Old_Rod, SlotType.Good_Rod, SlotType.Super_Rod};
-            while (data.Length < ofs)
+            while (ofs != 0x18C)
             {
-                int count = 0;
-                while (ofs != 0x18D)
-                {
-                    areas.Add(new EncounterArea
-                    {
-                        Location = count++,
-                        Slots = getSlots2_F(data, ref ofs, types[count%3]),
-                    });
-                }
+                areas.Add(new EncounterArea {
+                    Slots = getSlots2_F(data, ref ofs, types[0])
+                    .Concat(getSlots2_F(data, ref ofs, types[1]))
+                    .Concat(getSlots2_F(data, ref ofs, types[2])).ToArray() });
             }
+
             // Read TimeFishGroups
             var dl = new List<DexLevel>();
-            while (data.Length < ofs)
+            while (ofs < data.Length)
                 dl.Add(new DexLevel {Species = data[ofs++], Level = data[ofs++]});
 
             // Add TimeSlots
@@ -179,7 +175,7 @@ namespace PKHeX.Core
                         continue;
 
                     Array.Resize(ref slots, slots.Length + 1);
-                    Array.Copy(slots, i, slots, i+1, slots.Length - i);
+                    Array.Copy(slots, i, slots, i+1, slots.Length - i - 1); // shift slots down
                     slots[i+1] = slot.Clone(); // differentiate copied slot
 
                     int index = slot.LevelMin*2;
@@ -766,7 +762,34 @@ namespace PKHeX.Core
         public static EncounterArea[] getArray2_F(byte[] data)
         {
             int ofs = 0;
-            return getAreas2_F(data, ref ofs).ToArray();
+            var f = getAreas2_F(data, ref ofs);
+
+            // Fishing Tables are not associated to a single map; a map picks a table to use.
+            // For all maps that use a table, create a new EncounterArea with reference to the table's slots.
+            sbyte[] convMapIDtoFishLocationID =
+            {
+                -1,  1, -1,  0,  3,  3,  3, -1, 10,  3,  2, -1, -1,  2,  3,  0,
+                -1, -1,  3, -1, -1, -1,  3, -1, -1, -1, -1,  0, -1, -1,  0,  9,
+                 1,  0,  2,  2, -1,  3,  7,  3, -1,  3,  4,  8,  2, -1,  2,  1,
+                -1,  3, -1, -1, -1, -1, -1,  0,  2,  2, -1, -1,  3,  1, -1, -1,
+                -1,  2, -1,  2, -1, -1, -1, -1, -1, -1, 11, 11,  0, -1, -1, -1,
+                -1,  7,  0,  1, -1,  1,  1,  3, -1, -1, -1,  1,  1,  2,  3, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+            };
+            var areas = new List<EncounterArea>();
+            for (int i = 0; i < convMapIDtoFishLocationID.Length; i++)
+            {
+                var loc = convMapIDtoFishLocationID[i];
+                if (convMapIDtoFishLocationID[i] == -1) // no table for map
+                    continue;
+                areas.Add(new EncounterArea { Location = i, Slots = f[loc].Slots });
+            }
+
+            // Some maps have two tables. Fortunately, there's only two. Add the second table.
+            areas.Add(new EncounterArea { Location = 0x1B, Slots = f[1].Slots }); // Olivine City (0: Harbor, 1: City)
+            areas.Add(new EncounterArea { Location = 0x2E, Slots = f[3].Slots }); // Silver Cave (2: Inside, 3: Outside)
+            return areas.ToArray();
         }
         public static EncounterArea[] getArray2_H(byte[] data)
         {
