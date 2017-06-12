@@ -349,7 +349,8 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            bool hasForms = pkm.PersonalInfo.HasFormes || new[] { 201, 664, 665, 414 }.Contains(species);
+            int count = (RequestSaveFile?.Personal[species] ?? pkm.PersonalInfo).FormeCount;
+            bool hasForms = count > 1 || new[] { 201, 664, 665, 414 }.Contains(species);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
             if (HaX && pkm.Format >= 4)
