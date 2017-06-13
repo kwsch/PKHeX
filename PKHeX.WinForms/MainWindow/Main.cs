@@ -1092,6 +1092,8 @@ namespace PKHeX.WinForms
         private void tabMain_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files == null || files.Length == 0)
+                return;
             OpenQuick(files[0]);
             e.Effect = DragDropEffects.Copy;
 

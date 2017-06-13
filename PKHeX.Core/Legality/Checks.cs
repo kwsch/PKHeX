@@ -285,7 +285,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Format <= 2 || pkm.VC)
             {
-                var et = EncounterOriginalGB as EncounterTrade;
+                var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
                 if (et?.TID == 0) // Gen1 Trade
                 {
                     if (!EncounterGenerator.getEncounterTrade1Valid(pkm))

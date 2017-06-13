@@ -143,14 +143,16 @@ namespace PKHeX.Core
         private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
             IEnumerable<GBEncounterData> filter(IEnumerable<GBEncounterData> data) => data
-                .OrderBy(z => z.Type == GBEncounterType.EggEncounter).ThenBy(z => z.Species).ThenBy(z => z.Level);
+                .OrderBy(z => !(z.Encounter is EncounterTrade && z.Generation == 2) || z.Type == GBEncounterType.EggEncounter)
+                .ThenBy(z => z.Species).ThenBy(z => z.Level);
 
-            if (!pkm.Gen2_NotTradeback)
+            bool crystal = pkm.Format == 2 && pkm.Met_Location != 0;
+            if (!pkm.Gen2_NotTradeback && !crystal)
                 foreach (var z in filter(GenerateRawEncounters12(pkm, GameVersion.RBY)))
                     yield return z;
 
             if (!pkm.Gen1_NotTradeback && AllowGen2VCTransfer)
-                foreach (var z in filter(GenerateRawEncounters12(pkm, GameVersion.GSC)))
+                foreach (var z in filter(GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC)))
                     yield return z;
         }
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
@@ -582,8 +584,8 @@ namespace PKHeX.Core
                 gameSource = (GameVersion)pkm.Version;
 
             var slots = getEncounterSlots(pkm, gameSource: gameSource);
-            bool noMet = !pkm.HasOriginalMetLocation;
-            return noMet || pkm.Format <= 2 ? slots : slots.Where(area => area.Location == pkm.Met_Location);
+            bool noMet = !pkm.HasOriginalMetLocation || pkm.Format == 2 && gameSource != GameVersion.C;
+            return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
         }
         private static IEnumerable<EncounterArea> getSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
         {
@@ -638,6 +640,7 @@ namespace PKHeX.Core
                     var table = !AllowGen1Tradeback ? TradeGift_RBY_NoTradeback : TradeGift_RBY_Tradeback;
                     return getValidEncounterTradeVC1(pkm, p, table);
                 case GameVersion.GSC:
+                case GameVersion.C:
                     return getValidEncounterTradeVC2(pkm, p);
                 default:
                     return null;
@@ -651,11 +654,11 @@ namespace PKHeX.Core
             foreach (var z in possible)
             {
                 // Filter Criteria
-                if (z?.Gender != pkm.Gender)
-                    continue;
                 if (z.TID != pkm.TID)
                     continue;
-                if (!z.IVs.SequenceEqual(pkm.IVs))
+                if (z.Gender != pkm.Gender && pkm.Format <= 2)
+                    continue;
+                if (!z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
                     continue;
                 if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != z.Location)
                     continue;
