@@ -59,7 +59,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 155, Level = 05, Location = 001, Version = GameVersion.GSC }, // Cyndaquil @ New Bark Town
             new EncounterStatic { Species = 158, Level = 05, Location = 001, Version = GameVersion.GSC }, // Totodile @ New Bark Town
             
-            new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC }, // Togepi
+            new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC, EggLocation = 256 }, // Togepi
             new EncounterStatic { Species = 131, Level = 20, Location = 010, Version = GameVersion.GSC }, // Lapras @ Union Cave
             new EncounterStatic { Species = 133, Level = 20, Location = 016, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
             
@@ -97,15 +97,15 @@ namespace PKHeX.Core
         {
             new EncounterStatic { Species = 245, Level = 40, Location = 023, Version = GameVersion.C }, // Suicune @ Tin Tower
             
-            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Pichu Dizzy Punch
-            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Cleffa Dizzy Punch
-            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Igglybuff Dizzy Punch
-            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Tyrogue Dizzy Punch
-            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Smoochum Dizzy Punch
-            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Elekid Dizzy Punch
-            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Magby Dizzy Punch
+            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Pichu Dizzy Punch
+            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Cleffa Dizzy Punch
+            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Igglybuff Dizzy Punch
+            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Tyrogue Dizzy Punch
+            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Smoochum Dizzy Punch
+            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Elekid Dizzy Punch
+            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Magby Dizzy Punch
             
-            new EncounterStatic { Species = 147, Level = 40, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
+            new EncounterStatic { Species = 147, Level = 15, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
             
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower

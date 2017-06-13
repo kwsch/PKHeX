@@ -258,7 +258,9 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (PKX.getSpeciesNameGeneration(0, pkm.Language, pkm.GenNumber) != pkm.Nickname)
+            if (pkm.Format == 2 && pkm.IsEgg && !PKX.getIsNicknamedAnyLanguage(0, pkm.Nickname, 2))
+                AddLine(Severity.Valid, V14, CheckIdentifier.Egg);
+            else if (PKX.getSpeciesNameGeneration(0, pkm.Language, pkm.GenNumber) != pkm.Nickname)
                 AddLine(Severity.Invalid, V13, CheckIdentifier.Egg);
             else
                 AddLine(Severity.Valid, V14, CheckIdentifier.Egg);

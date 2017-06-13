@@ -1746,9 +1746,6 @@ namespace PKHeX.Core
 
                     if (pkm.HasOriginalMetLocation)
                         return StaticC;
-                    if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                        return StaticGS;
-
                     return StaticGSC;
 
                 case GameVersion.R: return StaticR;

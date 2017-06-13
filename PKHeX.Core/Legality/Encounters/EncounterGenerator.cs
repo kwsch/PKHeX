@@ -115,9 +115,9 @@ namespace PKHeX.Core
                 yield return new GBEncounterData(pkm, gen, e, game);
             }
 
-            if (game == GameVersion.GSC)
+            if (game == GameVersion.GSC || game == GameVersion.C)
             {
-                bool WasEgg = !pkm.Gen1_NotTradeback && game == GameVersion.GSC && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
+                bool WasEgg = !pkm.Gen1_NotTradeback && getWasEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
                 if (WasEgg)
                 {
                     // Further Filtering
@@ -333,10 +333,40 @@ namespace PKHeX.Core
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
-                if (pkm.Gen3 && e.EggLocation != 0) // egg
+                if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
                 {
                     if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
                         continue;
+                }
+                else if (pkm.VC || e.EggLocation != 0) // Gen2 Egg
+                {
+                    if (pkm.Format <= 2)
+                    {
+                        if (pkm.IsEgg)
+                        {
+                            if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
+                                continue;
+                        }
+                        else
+                        {
+                            switch (pkm.Met_Level)
+                            {
+                                case 0:
+                                    if (pkm.Met_Location != 0)
+                                        continue;
+                                    break;
+                                case 1:
+                                    if (pkm.Met_Location == 0)
+                                        continue;
+                                    break;
+                                default:
+                                    if (pkm.Met_Location == 0)
+                                        continue;
+                                    break;
+                            }
+                        }
+                        lvl = 5; // met @ 1, hatch @ 5.
+                    }
                 }
                 else if (e.EggLocation != pkm.Egg_Location)
                 {
@@ -354,7 +384,7 @@ namespace PKHeX.Core
                 }
                 if (pkm.HasOriginalMetLocation)
                 {
-                    if (e.Location != 0 && e.Location != pkm.Met_Location)
+                    if (!e.EggEncounter && e.Location != 0 && e.Location != pkm.Met_Location)
                         continue;
                     if (e.Level != lvl)
                         continue;
