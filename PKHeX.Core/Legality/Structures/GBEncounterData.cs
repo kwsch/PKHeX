@@ -4,12 +4,12 @@ namespace PKHeX.Core
 {
     public enum GBEncounterType
     {
-        TradeEncounterG1 = 1,
-        StaticEncounter = 3,
-        WildEncounter = 2,
-        EggEncounter = 9,
-        TradeEncounterG2 = 10,
-        SpecialEncounter = 20,
+        EggEncounter,
+        WildEncounter,
+        StaticEncounter,
+        SpecialEncounter,
+        TradeEncounterG1,
+        TradeEncounterG2,
     }
 
     public class GBEncounterData : IEncounterable

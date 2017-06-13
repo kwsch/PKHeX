@@ -92,6 +92,10 @@ namespace PKHeX.Core
             HashSet<int> species = new HashSet<int>(vs.Select(p => p.Species).ToList());
 
             var deferred = new List<IEncounterable>();
+            foreach (var t in getValidEncounterTrade(pkm, game))
+            {
+                yield return new GBEncounterData(pkm, gen, t, game);
+            }
             foreach (var s in getValidStaticEncounter(pkm, game))
             {
                 // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
@@ -104,16 +108,11 @@ namespace PKHeX.Core
                 }
                 yield return new GBEncounterData(pkm, gen, s, game);
             }
-
             foreach (var e in getValidWildEncounters(pkm, game))
             {
                 if (!species.Contains(e.Species))
                     continue;
                 yield return new GBEncounterData(pkm, gen, e, game);
-            }
-            foreach (var t in getValidEncounterTrade(pkm, game))
-            {
-                yield return new GBEncounterData(pkm, gen, t, game);
             }
 
             if (game == GameVersion.GSC)
@@ -142,18 +141,46 @@ namespace PKHeX.Core
         }
         private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
-            IEnumerable<GBEncounterData> filter(IEnumerable<GBEncounterData> data) => data
-                .OrderBy(z => !(z.Encounter is EncounterTrade && z.Generation == 2) || z.Type == GBEncounterType.EggEncounter)
-                .ThenBy(z => z.Species).ThenBy(z => z.Level);
-
             bool crystal = pkm.Format == 2 && pkm.Met_Location != 0;
-            if (!pkm.Gen2_NotTradeback && !crystal)
-                foreach (var z in filter(GenerateRawEncounters12(pkm, GameVersion.RBY)))
-                    yield return z;
+            var g1i = new PeekEnumerator<GBEncounterData>(get1().GetEnumerator());
+            var g2i = new PeekEnumerator<GBEncounterData>(get2().GetEnumerator());
+            var deferred = new List<GBEncounterData>();
+            while (g2i.PeekIsNext() || g1i.PeekIsNext())
+            {
+                PeekEnumerator<GBEncounterData> move;
+                if (g1i.PeekIsNext())
+                {
+                    if (g2i.PeekIsNext())
+                        move = g1i.Peek().Type > g2i.Peek().Type ? g1i : g2i;
+                    else
+                        move = g1i;
+                }
+                else
+                    move = g2i;
 
-            if (!pkm.Gen1_NotTradeback && AllowGen2VCTransfer)
-                foreach (var z in filter(GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC)))
-                    yield return z;
+                var obj = move.Peek();
+                if (obj.Generation == 1 && obj.Encounter is EncounterTrade && !getEncounterTrade1Valid(pkm))
+                    deferred.Add(obj);
+                else
+                    yield return obj;
+
+                move.MoveNext();
+            }
+            foreach (var z in deferred)
+                yield return z;
+
+            IEnumerable<GBEncounterData> get1()
+            {
+                if (!pkm.Gen2_NotTradeback && !crystal)
+                    foreach (var z in GenerateRawEncounters12(pkm, GameVersion.RBY))
+                        yield return z;
+            }
+            IEnumerable<GBEncounterData> get2()
+            {
+                if (!pkm.Gen1_NotTradeback && AllowGen2VCTransfer)
+                    foreach (var z in GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC))
+                        yield return z;
+            }
         }
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
         {
