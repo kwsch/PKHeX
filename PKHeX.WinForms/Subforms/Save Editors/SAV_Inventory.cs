@@ -15,8 +15,6 @@ namespace PKHeX.WinForms
             SAV = (Origin = sav).Clone();
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
-            if (SAV.Generation <= 3)
-                NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = false;
             itemlist = GameInfo.Strings.getItemStrings(SAV.Generation, SAV.Version);
 
             for (int i = 0; i < itemlist.Length; i++)
@@ -280,7 +278,18 @@ namespace PKHeX.WinForms
             if (pouch < 0)
                 return;
             var p = Pouches[pouch];
-            ushort[] legalitems = p.LegalItems;
+            ushort[] legalitems = (ushort[])p.LegalItems.Clone();
+            bool resize = legalitems.Length > p.Items.Length;
+            if (resize)
+            {
+                var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Pouch is too small for all items.",
+                    "Yes: Give by Item ID" + Environment.NewLine + "No: Random assortment");
+                if (dr == DialogResult.Cancel)
+                    return;
+                if (dr == DialogResult.No)
+                    Util.Shuffle(legalitems);
+                Array.Resize(ref legalitems, p.Items.Length);
+            }
 
             DataGridView dgv = Controls.Find(DGVPrefix + p.Type, true).FirstOrDefault() as DataGridView;
             setBag(dgv, p);
