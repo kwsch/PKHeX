@@ -197,7 +197,6 @@ namespace PKHeX.Core
 
                 PKM[] newParty = value.Where(pk => pk.Species != 0).ToArray();
 
-                PartyCount = newParty.Length;
                 Array.Resize(ref newParty, 6);
 
                 for (int i = PartyCount; i < newParty.Length; i++)
@@ -481,8 +480,16 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 6; i++)
                 if (getPartyOffset(i) == offset)
-                    if (PartyCount <= i)
-                        PartyCount = i + 1;
+                {
+                    if (pkm.Species != 0)
+                    {
+                        if (PartyCount <= i)
+                            PartyCount = i + 1;
+                    }
+                    else if (PartyCount > i)
+                        PartyCount = i;
+                    break;
+                }
 
             setData(pkm.EncryptedPartyData, offset);
             Edited = true;
