@@ -337,8 +337,8 @@ namespace PKHeX.Core
                 ushort[] legalItems = LegalItems;
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, legalItems, 99, Japanese ? 0x25C4 : 0x25C9, 20),
-                    new InventoryPouch(InventoryType.PCItems, legalItems, 99, Japanese ? 0x27DC : 0x27E6, 50)
+                    new InventoryPouch(InventoryType.Items, legalItems, 95, Japanese ? 0x25C4 : 0x25C9, 20),
+                    new InventoryPouch(InventoryType.PCItems, legalItems, 95, Japanese ? 0x27DC : 0x27E6, 50)
                 };
                 foreach (var p in pouch)
                 {
