@@ -44,10 +44,10 @@
             this.giveMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.giveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.giveNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.giveModify = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Count = new System.Windows.Forms.Label();
             this.NUD_Count = new System.Windows.Forms.NumericUpDown();
             this.CHK_NEW = new System.Windows.Forms.CheckBox();
-            this.giveModify = new System.Windows.Forms.ToolStripMenuItem();
             this.sortMenu.SuspendLayout();
             this.giveMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
@@ -111,7 +111,7 @@
             this.B_GiveAll.Name = "B_GiveAll";
             this.B_GiveAll.Size = new System.Drawing.Size(75, 23);
             this.B_GiveAll.TabIndex = 18;
-            this.B_GiveAll.Text = "Give All";
+            this.B_GiveAll.Text = "Modify";
             this.B_GiveAll.UseVisualStyleBackColor = true;
             this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
             // 
@@ -172,21 +172,28 @@
             this.giveNone,
             this.giveModify});
             this.giveMenu.Name = "modifyMenu";
-            this.giveMenu.Size = new System.Drawing.Size(153, 92);
+            this.giveMenu.Size = new System.Drawing.Size(135, 70);
             // 
             // giveAll
             // 
             this.giveAll.Name = "giveAll";
-            this.giveAll.Size = new System.Drawing.Size(152, 22);
-            this.giveAll.Text = "All";
+            this.giveAll.Size = new System.Drawing.Size(134, 22);
+            this.giveAll.Text = "All Items";
             this.giveAll.Click += new System.EventHandler(this.giveAllItems);
             // 
             // giveNone
             // 
             this.giveNone.Name = "giveNone";
-            this.giveNone.Size = new System.Drawing.Size(152, 22);
-            this.giveNone.Text = "None";
+            this.giveNone.Size = new System.Drawing.Size(134, 22);
+            this.giveNone.Text = "No Items";
             this.giveNone.Click += new System.EventHandler(this.removeAllItems);
+            // 
+            // giveModify
+            // 
+            this.giveModify.Name = "giveModify";
+            this.giveModify.Size = new System.Drawing.Size(134, 22);
+            this.giveModify.Text = "Item Count";
+            this.giveModify.Click += new System.EventHandler(this.modifyAllItems);
             // 
             // L_Count
             // 
@@ -228,13 +235,6 @@
             this.CHK_NEW.TabIndex = 22;
             this.CHK_NEW.Text = "Flag NEW";
             this.CHK_NEW.UseVisualStyleBackColor = true;
-            // 
-            // giveModify
-            // 
-            this.giveModify.Name = "giveModify";
-            this.giveModify.Size = new System.Drawing.Size(152, 22);
-            this.giveModify.Text = "Modify";
-            this.giveModify.Click += new System.EventHandler(this.modifyAllItems);
             // 
             // SAV_Inventory
             // 

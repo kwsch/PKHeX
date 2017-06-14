@@ -678,7 +678,7 @@ B_Close = Save
 ! SAV_Inventory = Inventory Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-B_GiveAll = Give All
+B_GiveAll = Modify
 B_Save = Save
 B_Cancel = Cancel
 ! End

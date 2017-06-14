@@ -678,7 +678,7 @@ B_Close = 저장
 ! SAV_Inventory = Inventory Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-B_GiveAll = 모두 주기
+B_GiveAll = 수정
 B_Save = 저장
 B_Cancel = 취소
 ! End

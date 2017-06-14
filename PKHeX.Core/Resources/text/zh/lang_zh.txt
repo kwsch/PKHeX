@@ -678,7 +678,7 @@ B_Close = 保存
 ! SAV_Inventory = Inventory Editor
 - Change stuff below this line, not above.
 -------------------------------------------------------
-B_GiveAll = 获得所有
+B_GiveAll = 修改
 B_Save = 保存
 B_Cancel = 取消
 ! End

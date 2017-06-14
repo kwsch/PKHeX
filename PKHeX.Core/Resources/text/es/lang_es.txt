@@ -692,7 +692,7 @@ B_Close = Guardar
 ! SAV_Inventory = Editor de Inventario
 - Change stuff below this line, not above.
 -------------------------------------------------------
-B_GiveAll = Todos Max
+B_GiveAll = Modificar
 B_Save = Guardar
 B_Cancel = Cancelar
 ! End
