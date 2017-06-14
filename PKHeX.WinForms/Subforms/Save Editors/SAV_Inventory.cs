@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.curlanguage);
             if (SAV.Generation <= 3)
-                NUD_Count.Visible = L_Count.Visible = B_GiveAll.Visible = false;
+                giveAll.Visible = false;
             itemlist = GameInfo.Strings.getItemStrings(SAV.Generation, SAV.Version);
 
             for (int i = 0; i < itemlist.Length; i++)
