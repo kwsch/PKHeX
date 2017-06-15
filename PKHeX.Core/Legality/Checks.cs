@@ -2012,6 +2012,9 @@ namespace PKHeX.Core
 
             switch (EncounterMatch)
             {
+                case WC3 w when w.Fateful:
+                    verifyFatefulIngameActive();
+                    return;
                 case MysteryGift g:
                     verifyFatefulMysteryGift(g);
                     return;

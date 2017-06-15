@@ -23,6 +23,7 @@ namespace PKHeX.Core
         public override int[] Moves { get; set; }
         public bool NotDistributed = false;
         public bool? Shiny = null; // null = allow, false = never, true = always
+        public bool Fateful = false; // Obedience Flag
 
         // Mystery Gift Properties
         public override int Format => 3;
