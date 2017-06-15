@@ -17,7 +17,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (info.EncounterMatch.Species == species)
                 return true;
-            if (info.EncounterMatch.EggEncounter && species == 350)
+            if (info.EncounterMatch.EggEncounter && species == 350 && pkm.Format >= 5) // Prism Scale
                 return true;
             if (!Legal.getEvolutionValid(pkm, info.EncounterMatch.Species))
                 return false;
