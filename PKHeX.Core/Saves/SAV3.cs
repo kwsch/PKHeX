@@ -383,7 +383,7 @@ namespace PKHeX.Core
         {
             get
             {
-                int max = Version == GameVersion.FRLG ? 995 : 95;
+                int max = Version == GameVersion.FRLG ? 999 : 99;
                 var PCItems = new [] {LegalItems, LegalKeyItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries}.SelectMany(a => a).ToArray();
                 InventoryPouch[] pouch =
                 {
