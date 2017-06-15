@@ -790,8 +790,12 @@ namespace PKHeX.Core
             if (pkm.Gen3)
             {
                 eb[0] = sb[0]; // permit Earth Ribbon
-                if (pkm.Version == 15 && MatchedType == typeof(EncounterStaticShadow)) // only require national ribbon if no longer on C/XD
-                    eb[1] = (pkm as CK3)?.RibbonNational ?? (pkm as XK3)?.RibbonNational ?? true;
+                if (pkm.Version == 15 && encounterContent is EncounterStaticShadow s)
+                {
+                    // only require national ribbon if no longer on origin game
+                    bool xd = !Legal.Encounter_Colo.Contains(s);
+                    eb[1] = !(xd && pkm is XK3 x && !x.RibbonNational || !xd && pkm is CK3 c && !c.RibbonNational);
+                }
             }
 
             for (int i = 0; i < sb.Length; i++)
@@ -1987,102 +1991,98 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
-                { AddLine(Severity.Invalid, V319, CheckIdentifier.Misc); }
+                    AddLine(Severity.Invalid, V319, CheckIdentifier.Egg);
                 if (pkm.CNTs.Any(stat => stat > 0))
-                { AddLine(Severity.Invalid, V320, CheckIdentifier.Misc); }
+                    AddLine(Severity.Invalid, V320, CheckIdentifier.Egg);
                 if (pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
-                { AddLine(Severity.Invalid, V368, CheckIdentifier.Misc); }
+                    AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
+
                 var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
                 if (HatchCycles == 0 || HatchCycles == null)
                     HatchCycles = pkm.PersonalInfo.HatchCycles;
                 if (pkm.CurrentFriendship > HatchCycles)
-                { AddLine(Severity.Invalid, V374, CheckIdentifier.Misc); }
+                    AddLine(Severity.Invalid, V374, CheckIdentifier.Egg);
             }
 
             if (!Encounter.Valid)
                 return;
 
-            if (EncounterMatch is MysteryGift g)
+            if (pkm.GenNumber == 5 && ((EncounterMatch as EncounterStatic)?.NSparkle ?? false))
+                verifyNsPKM();
+
+            switch (EncounterMatch)
             {
-                if (EncounterMatch is PGF p && p.IsShiny)
-                {
-                    info.PIDIV = MethodFinder.Analyze(pkm);
-                    if (info.PIDIV.Type != PIDType.G5MGShiny)
-                        AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
-                }
-
-                bool fatefulValid = false;
-                if (g.Format == 3)
-                {
-                    // obedience flag in gen3 is the fateful flag; met location stores the fateful info until transfer
-                    bool required = g.Species == 151 || g.Species == 386;
-                    required |= pkm.Format != 3 && !g.IsEgg;
-                    fatefulValid = !(required ^ pkm.FatefulEncounter);
-
-                    var g3 = (WC3) g; // shiny locked gifts
-                    if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
-                        AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
-                }
-                else
-                {
+                case MysteryGift g:
+                    verifyFatefulMysteryGift(g);
+                    return;
+                case EncounterStatic s when s.Fateful: // ingame fateful
+                case EncounterSlot _ when pkm.Version == 15: // ingame pokespot
+                    verifyFatefulIngameActive();
+                    return;
+                default:
                     if (pkm.FatefulEncounter)
-                        fatefulValid = true;
-                }
-
-                if (fatefulValid)
-                    AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
-                else
-                    AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
-                return;
+                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                    return;
             }
-            if (EncounterMatch is EncounterStatic s)
+        }
+        private void verifyFatefulMysteryGift(MysteryGift g)
+        {
+            if (g is PGF p && p.IsShiny)
             {
-                var fateful = s.Fateful;
-                var shadow = EncounterMatch is EncounterStaticShadow;
-                if (shadow && !(pkm is XK3 || pkm is CK3))
-                    fateful = true; // purification required for transfer
-
-                if (fateful)
-                {
-                    if (pkm.FatefulEncounter)
-                        AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
-                    else
-                        AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
-                }
-                else if (pkm.FatefulEncounter && !shadow)
-                    AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+                info.PIDIV = MethodFinder.Analyze(pkm);
+                if (info.PIDIV.Type != PIDType.G5MGShiny)
+                    AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
             }
-            else if (EncounterMatch is EncounterSlot && pkm.Version == 15) // pokespot pkm
+
+            bool fatefulValid = false;
+            if (g.Format == 3)
+            {
+                // obedience flag in gen3 is the fateful flag; met location stores the fateful info until transfer
+                bool required = g.Species == 151 || g.Species == 386;
+                required |= pkm.Format != 3 && !g.IsEgg;
+                fatefulValid = !(required ^ pkm.FatefulEncounter);
+
+                var g3 = (WC3)g; // shiny locked gifts
+                if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
+                    AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
+            }
+            else
             {
                 if (pkm.FatefulEncounter)
-                    AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
-                else
-                    AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
+                    fatefulValid = true;
             }
-            else if (pkm.FatefulEncounter)
-                AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
-                
-            if (pkm.GenNumber == 5)
+
+            if (fatefulValid)
+                AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
+            else
+                AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
+        }
+        private void verifyFatefulIngameActive()
+        {
+            if (pkm.FatefulEncounter)
+                AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
+            else
+                AddLine(Severity.Invalid, V324, CheckIdentifier.Fateful);
+        }
+        private void verifyNsPKM()
+        {
+            bool req = (EncounterMatch as EncounterStatic)?.NSparkle ?? false;
+            if (pkm.Format == 5)
             {
-                var enc = EncounterMatch as EncounterStatic;
-                bool req = enc?.NSparkle ?? false;
-                if (pkm.Format == 5)
-                {
-                    bool has = ((PK5)pkm).NPokémon;
-                    if (req && !has)
-                        AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
-                    if (!req && has)
-                        AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
-                }
-                if (req)
-                {
-                    if (pkm.IVs.Any(iv => iv != 30))
-                        AddLine(Severity.Invalid, V218, CheckIdentifier.IVs);
-                    if (pkm.OT_Name != "N" || pkm.TID != 00002 || pkm.SID != 00000)
-                        AddLine(Severity.Invalid, V219, CheckIdentifier.Trainer);
-                    if (pkm.IsShiny)
-                        AddLine(Severity.Invalid, V220, CheckIdentifier.Shiny);
-                }
+                bool has = ((PK5)pkm).NPokémon;
+                if (req && !has)
+                    AddLine(Severity.Invalid, V326, CheckIdentifier.Fateful);
+                if (!req && has)
+                    AddLine(Severity.Invalid, V327, CheckIdentifier.Fateful);
+            }
+            if (req)
+            {
+                if (pkm.IVs.Any(iv => iv != 30))
+                    AddLine(Severity.Invalid, V218, CheckIdentifier.IVs);
+                if (pkm.OT_Name != "N" || pkm.TID != 00002 || pkm.SID != 00000)
+                    AddLine(Severity.Invalid, V219, CheckIdentifier.Trainer);
+                if (pkm.IsShiny)
+                    AddLine(Severity.Invalid, V220, CheckIdentifier.Shiny);
             }
         }
         private void verifyVersionEvolution()

@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class CK3 : PKM // 3rd Generation PKM File
+    public class CK3 : PKM, IRibbonSet1
     {
         public static readonly byte[] ExtraBytes =
         {
