@@ -615,7 +615,7 @@ namespace PKHeX.Core
 
                 slots[i] = new EncounterSlot1
                 {
-                    LevelMax = lvl,
+                    LevelMax = t == SlotType.Surf ? lvl + 4 : lvl,
                     LevelMin = lvl,
                     Species = spec,
                     Type = t,
