@@ -534,7 +534,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsCompatible4(this PIDType val, IEncounterable encounter)
+        public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
         {
             switch (encounter)
             {
@@ -544,11 +544,22 @@ namespace PKHeX.Core
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
                     return val == PIDType.Method_1;
-                case PGT g: // manaphy
-                    return val == PIDType.Method_1 || val == PIDType.None; // regular && antishiny
+                case PGT _: // manaphy
+                    return IsG4ManaphyPIDValid(val, pkm);
                 default:
                     return val == PIDType.None;
             }
+        }
+        private static bool IsG4ManaphyPIDValid(PIDType val, PKM pkm)
+        {
+            if (val == PIDType.Method_1)
+                return pkm.WasTradedEgg || !pkm.IsShiny; // can't be shiny on received game
+            if (val != PIDType.G4MGAntiShiny)
+                return false;
+            if (pkm.WasTradedEgg)
+                return true;
+            var shinyPID = RNG.ARNG.Prev(pkm.PID);
+            return (pkm.TID ^ pkm.SID ^ (shinyPID & 0xFFFF) ^ (shinyPID >> 16)) < 8; // shiny proc
         }
 
         private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };

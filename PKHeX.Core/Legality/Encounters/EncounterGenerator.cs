@@ -71,7 +71,7 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var z in GenerateRawEncounters4(pkm))
             {
-                if (info.PIDIV.Type.IsCompatible4(z))
+                if (info.PIDIV.Type.IsCompatible4(z, pkm))
                     yield return z;
                 else
                     deferred.Add(z);
@@ -903,12 +903,10 @@ namespace PKHeX.Core
 
             if (pkm.Species == 490 && (pkm.WasEgg || pkm.IsEgg)) // Manaphy
             {
+                if (pkm.IsEgg && pkm.Format != 4) // transferred
+                    yield break;
                 int loc = pkm.IsEgg ? pkm.Met_Location : pkm.Egg_Location;
-                bool valid = loc == 2002; // Link Trade Egg
-                valid |= loc == 3001 && !pkm.IsShiny; // Ranger & notShiny
-                if (pkm.IsEgg && !pkm.IsNative) // transferred
-                    valid = false;
-                if (valid)
+                if (loc == 2002 || loc == 3001) // Link Trade Egg || Ranger
                     yield return new PGT { Data = { [0] = 7, [8] = 1 } };
                 yield break;
             }

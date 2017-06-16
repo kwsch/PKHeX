@@ -243,20 +243,22 @@ namespace PKHeX.Core
                     uint testPID = pid1 | pid2 << 16;
 
                     // Call the ARNG to change the PID
-                    testPID = testPID * 0x6c078965 + 1;
+                    testPID = RNG.ARNG.Next(testPID);
 
                     pid1 = testPID & 0xFFFF;
                     pid2 = testPID >> 16;
                 }
                 pk4.PID = pid1 | (pid2 << 16);
             }
+            if (!IsManaphyEgg)
+                seed = Util.rnd32(); // reseed, do not have method 1 correlation
 
             // Generate IVs
             if (pk4.IV32 == 0)
             {
-                uint iv1 = PKX.LCRNG(ref seed) >> 16;
-                uint iv2 = PKX.LCRNG(ref seed) >> 16;
-                pk4.IV32 = (iv1 | iv2 << 16) & 0x3FFFFFFF;
+                uint iv1 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
+                uint iv2 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
+                pk4.IV32 = iv1 | iv2 << 15;
             }
 
             // Generate Met Info
