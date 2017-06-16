@@ -678,7 +678,7 @@ namespace PKHeX.Core
         internal static readonly EncounterStatic SpikyEaredPichu = new EncounterStaticTyped // Spiky-Eared Pichu @ Ilex Forest
         {
             Species = 172, Level = 30, Gender = 1, Form = 1,
-            Location = 214, Moves = new[] {344, 270, 207, 220},
+            Nature = Nature.Naughty, Location = 214, Moves = new[] {344, 270, 207, 220},
             TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,
             Shiny = false
         };
