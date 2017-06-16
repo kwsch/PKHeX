@@ -724,7 +724,7 @@ namespace PKHeX.Core
                 var h_g = EncounterArea.getArray2_H(Util.getBinaryResource("encounter_gold_h.pkl"));
                 var h_s = EncounterArea.getArray2_H(Util.getBinaryResource("encounter_silver_h.pkl"));
 
-                Slots = addExtraTableSlots(g, s, h_g, h_s, f);
+                Slots = addExtraTableSlots(g, s, h_g, h_s, f, EncounterBCC_GSC);
             }
             if (Version == GameVersion.C || Version == GameVersion.GSC)
             {
@@ -733,7 +733,7 @@ namespace PKHeX.Core
                 // Headbutt/Rock Smash
                 var h_c = EncounterArea.getArray2_H(Util.getBinaryResource("encounter_crystal_h.pkl"));
 
-                var extra = addExtraTableSlots(c, h_c, f);
+                var extra = addExtraTableSlots(c, h_c, f, EncounterBCC_GSC);
                 return Version == GameVersion.C ? extra : addExtraTableSlots(Slots, extra);
             }
 

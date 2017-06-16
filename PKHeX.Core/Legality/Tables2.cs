@@ -53,6 +53,22 @@ namespace PKHeX.Core
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
 
+        internal static readonly EncounterArea[] EncounterBCC_GSC = { new EncounterArea {
+            Location = 19,
+            Slots = new EncounterSlot[]
+            {
+                new EncounterSlot1 {Species = 010, LevelMin = 07, LevelMax = 18, Rate = 20, SlotNumber = 0}, // Caterpie
+                new EncounterSlot1 {Species = 013, LevelMin = 07, LevelMax = 18, Rate = 20, SlotNumber = 1}, // Weedle
+                new EncounterSlot1 {Species = 011, LevelMin = 09, LevelMax = 18, Rate = 10, SlotNumber = 2}, // Metapod
+                new EncounterSlot1 {Species = 014, LevelMin = 09, LevelMax = 18, Rate = 10, SlotNumber = 3}, // Kakuna
+                new EncounterSlot1 {Species = 012, LevelMin = 12, LevelMax = 15, Rate = 05, SlotNumber = 4}, // Butterfree
+                new EncounterSlot1 {Species = 015, LevelMin = 12, LevelMax = 15, Rate = 05, SlotNumber = 5}, // Beedrill
+                new EncounterSlot1 {Species = 048, LevelMin = 10, LevelMax = 16, Rate = 10, SlotNumber = 6}, // Venonat
+                new EncounterSlot1 {Species = 046, LevelMin = 10, LevelMax = 17, Rate = 10, SlotNumber = 7}, // Paras
+                new EncounterSlot1 {Species = 123, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 8}, // Scyther
+                new EncounterSlot1 {Species = 127, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 9}, // Pinsir
+            }
+        }};
         internal static readonly EncounterStatic[] Encounter_GSC_Common =
         {
             new EncounterStatic { Species = 152, Level = 05, Location = 001, Version = GameVersion.GSC }, // Chikorita @ New Bark Town

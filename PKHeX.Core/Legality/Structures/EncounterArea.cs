@@ -84,6 +84,7 @@ namespace PKHeX.Core
         {
             // slot set ends in 0xFF 0x** 0x**
             var slots = new List<EncounterSlot1>();
+            int ctr = 0;
             while (true)
             {
                 int rate = data[ofs++];
@@ -96,6 +97,7 @@ namespace PKHeX.Core
                     Species = species,
                     LevelMin = level,
                     LevelMax = level,
+                    SlotNumber = ctr++,
                     Type = species == 0 ? SlotType.Special : t // day/night specific
                 });
 
@@ -183,10 +185,11 @@ namespace PKHeX.Core
                     {
                         var s = slots[i + j];
                         s.Species = dl[index + j].Species;
-                        s.LevelMin = s.LevelMax = dl[index + j].MinLevel;
-                        s.Type = slots[0].Type; // special slots are never first, so copy first slot type
+                        s.LevelMin = s.LevelMax = dl[index + j].Level;
+                        s.Type = slots[i - 1].Type; // special slots are never first in a set, so copy previous type
                     }
                 }
+                area.Slots = slots;
             }
             return areas;
         }

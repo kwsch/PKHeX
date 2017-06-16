@@ -82,7 +82,7 @@ namespace PKHeX.Core
         }
         private static IEnumerable<GBEncounterData> GenerateRawEncounters12(PKM pkm, GameVersion game)
         {
-            var gen = game == GameVersion.GSC ? 2 : 1;
+            var gen = game == GameVersion.RBY ? 1 : 2;
 
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
@@ -526,7 +526,7 @@ namespace PKHeX.Core
 
             var maxspeciesorigin = -1;
             if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
-            if (gameSource == GameVersion.GSC) maxspeciesorigin = MaxSpeciesID_2;
+            if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
 
             // Get Valid levels
             IEnumerable<DexLevel> vs = getValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
