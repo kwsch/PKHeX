@@ -251,8 +251,8 @@ namespace PKHeX.Core
             new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "バトルやま", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 1 }, // JPN
             new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MATTLE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 2 }, // ENG
             new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MT BATA", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 3 }, // FRE
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "DUELLBE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 4 }, // GER
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MONTE L", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 5 }, // ITA
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "DUELLBE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 5 }, // GER
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MONTE L", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 4 }, // ITA
             new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "ERNESTO", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 7 }, // SPA
 
             // CXD

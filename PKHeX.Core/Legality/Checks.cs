@@ -2015,7 +2015,7 @@ namespace PKHeX.Core
                 case WC3 w when w.Fateful:
                     verifyFatefulIngameActive();
                     return;
-                case MysteryGift g:
+                case MysteryGift g when g.Format != 3: // WC3
                     verifyFatefulMysteryGift(g);
                     return;
                 case EncounterStatic s when s.Fateful: // ingame fateful
