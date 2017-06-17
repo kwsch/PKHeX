@@ -717,7 +717,7 @@ namespace PKHeX.Core
                     continue;
                 if (!z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
                     continue;
-                if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != z.Location)
+                if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                     continue;
 
                 int index = Array.IndexOf(TradeGift_GSC, z);
@@ -797,8 +797,8 @@ namespace PKHeX.Core
                 return false;
             if (pkm.HasOriginalMetLocation)
             {
-                z.Location = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[pkm.GenNumber - 3];
-                if (z.Location != pkm.Met_Location)
+                var loc = z.Location > 0 ? z.Location : EncounterTrade.DefaultMetLocation[pkm.GenNumber - 1];
+                if (loc != pkm.Met_Location)
                     return false;
                 if (pkm.Format < 5)
                 {

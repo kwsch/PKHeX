@@ -29,7 +29,7 @@
 
         public static readonly int[] DefaultMetLocation = 
         {
-            254, 2001, 30002, 30001, 30001,
+            0, 126, 254, 2001, 30002, 30001, 30001,
         };
     }
 
