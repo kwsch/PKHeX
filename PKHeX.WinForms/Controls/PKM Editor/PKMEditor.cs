@@ -1323,10 +1323,18 @@ namespace PKHeX.WinForms.Controls
         }
         private void updateNickname(object sender, EventArgs e)
         {
-            if (fieldsInitialized && ModifierKeys == Keys.Control && sender != null) // Import Showdown
-            { RequestShowdownImport(sender, e); return; }
-            if (fieldsInitialized && ModifierKeys == Keys.Alt && sender != null) // Export Showdown
-            { RequestShowdownExport(sender, e); return; }
+            if (sender == Label_Species)
+            {
+                switch (ModifierKeys)
+                {
+                    case Keys.Control: RequestShowdownImport?.Invoke(sender, e); return;
+                    case Keys.Alt: RequestShowdownExport?.Invoke(sender, e); return;
+                    default:
+                        if (pkm is PK1 pk1)
+                            pk1.Catch_Rate = pk1.PersonalInfo.CatchRate;
+                        return;
+                }
+            }
 
             int lang = WinFormsUtil.getIndex(CB_Language);
 
