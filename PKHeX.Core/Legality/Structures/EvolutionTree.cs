@@ -86,14 +86,8 @@ namespace PKHeX.Core
         // There's always oddballs.
         private void fixEvoTreeManually()
         {
-            switch (Game)
-            {
-                case GameVersion.SM:
-                    fixEvoTreeSM();
-                    break;
-                case GameVersion.ORAS:
-                    break;
-            }
+            if (Game == GameVersion.SM)
+                fixEvoTreeSM();
         }
         private void fixEvoTreeSM()
         {
@@ -112,6 +106,8 @@ namespace PKHeX.Core
             var fbb = Lineage[669+1].Chain[0];
             for (int i = 1; i <= 4; i++) // NOT AZ
                 Lineage[Personal.getFormeIndex(669+1, i)].Chain.Insert(0, fbb);
+            // Clear forme chains from Florges
+            Lineage[671].Chain.RemoveRange(0, Lineage[671].Chain.Count - 2);
 
             // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
             for (int i = 1; i <= 3; i++)
@@ -130,7 +126,7 @@ namespace PKHeX.Core
             Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo2 } });
 
             var exegg = Lineage[Personal.getFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy();
-            exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 4; // No night required (doesn't matter)
+            exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 8; // No night required (doesn't matter)
             Lineage[103].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { exegg } });
 
             var marowak = Lineage[Personal.getFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy();
