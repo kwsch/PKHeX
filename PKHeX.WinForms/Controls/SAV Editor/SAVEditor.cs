@@ -553,6 +553,7 @@ namespace PKHeX.WinForms.Controls
             for (int i = 1; i < 101; i++)
                 if (SAV.Data[0x1E7FF + 0x15 * i] != 0x00) // no friend data == 0x00
                     SAV.Data[0x1E7FF + 0x15 * i] = 0x3D;
+            SAV.Edited = true;
         }
         private void B_OpenPokedex_Click(object sender, EventArgs e)
         {
