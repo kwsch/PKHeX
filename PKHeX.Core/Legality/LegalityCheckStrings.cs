@@ -410,6 +410,7 @@ namespace PKHeX.Core
         public static string V414 {get; set;} = "Eggs cannot have Shiny Leaf/Crown."; // Invalid
         public static string V415 {get; set;} = "Eggs cannot have Pokéathlon stats."; // Invalid
         public static string V416 {get; set;} = "Mystery Gift cannot be received by this version."; // Invalid
+        public static string V417 {get; set;} = "Suspicious Original Trainer details.";
         #endregion
 
     }
