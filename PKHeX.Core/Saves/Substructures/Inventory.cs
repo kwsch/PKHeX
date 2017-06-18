@@ -60,7 +60,7 @@ namespace PKHeX.Core
             PouchDataSize = size > -1 ? size : legal.Length;
         }
 
-        public void getPouch(ref byte[] Data)
+        public void GetPouch(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
@@ -73,7 +73,7 @@ namespace PKHeX.Core
             }
             Items = items;
         }
-        public void setPouch(ref byte[] Data)
+        public void SetPouch(ref byte[] Data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -84,7 +84,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes((ushort)((ushort)Items[i].Count ^ (ushort)SecurityKey)).CopyTo(Data, Offset + i*4 + 2);
             }
         }
-        public void getPouch7(ref byte[] Data)
+        public void GetPouch7(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
@@ -104,7 +104,7 @@ namespace PKHeX.Core
             Items = items;
             OriginalItems = Items.Select(i => i.Clone()).ToArray();
         }
-        public void setPouch7(ref byte[] Data, bool setNEW = false)
+        public void SetPouch7(ref byte[] Data, bool setNEW = false)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -125,7 +125,7 @@ namespace PKHeX.Core
             }
         }
 
-        public void getPouchBigEndian(ref byte[] Data)
+        public void GetPouchBigEndian(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
@@ -138,7 +138,7 @@ namespace PKHeX.Core
             }
             Items = items;
         }
-        public void setPouchBigEndian(ref byte[] Data)
+        public void SetPouchBigEndian(ref byte[] Data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -150,7 +150,7 @@ namespace PKHeX.Core
             }
         }
 
-        public void getPouchG1(ref byte[] Data)
+        public void GetPouchG1(ref byte[] Data)
         {
             InventoryItem[] items = new InventoryItem[PouchDataSize];
             if (Type == InventoryType.TMHMs)
@@ -209,40 +209,42 @@ namespace PKHeX.Core
             Items = items;
 
         }
-        public void setPouchG1(ref byte[] Data)
+        public void SetPouchG1(ref byte[] Data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
-            if (Type == InventoryType.TMHMs)
+            switch (Type)
             {
-                for (int i = 0; i < Items.Length; i++)
-                {
-                    if (LegalItems.Any(it => it == Items[i].Index))
-                        Data[Offset + Array.FindIndex(LegalItems, it => Items[i].Index == it)] = (byte) Items[i].Count;
-                }
-            }
-            else if (Type == InventoryType.KeyItems)
-            {
-                for (int i = 0; i < Items.Length; i++)
-                {
-                    Data[Offset + i + 1] = (byte)Items[i].Index;
-                }
-                Data[Offset] = (byte)Count;
-                Data[Offset + 1 + Count] = 0xFF;
-            }
-            else
-            {
-                for (int i = 0; i < Items.Length; i++)
-                {
-                    Data[Offset + i * 2 + 1] = (byte)Items[i].Index;
-                    Data[Offset + i * 2 + 2] = (byte)Items[i].Count;
-                }
-                Data[Offset] = (byte)Count;
-                Data[Offset + 1 + 2 * Count] = 0xFF;
+                case InventoryType.TMHMs:
+                    foreach (InventoryItem t in Items)
+                    {
+                        if (!LegalItems.Any(it => it == t.Index))
+                            continue;
+                        int index = Offset + Array.FindIndex(LegalItems, it => t.Index == it);
+                        Data[index] = (byte)t.Count;
+                    }
+                    break;
+                case InventoryType.KeyItems:
+                    for (int i = 0; i < Items.Length; i++)
+                    {
+                        Data[Offset + i + 1] = (byte)Items[i].Index;
+                    }
+                    Data[Offset] = (byte)Count;
+                    Data[Offset + 1 + Count] = 0xFF;
+                    break;
+                default:
+                    for (int i = 0; i < Items.Length; i++)
+                    {
+                        Data[Offset + i * 2 + 1] = (byte)Items[i].Index;
+                        Data[Offset + i * 2 + 2] = (byte)Items[i].Count;
+                    }
+                    Data[Offset] = (byte)Count;
+                    Data[Offset + 1 + 2 * Count] = 0xFF;
+                    break;
             }
         }
 
-        public void sortCount(bool reverse = false)
+        public void SortByCount(bool reverse = false)
         {
             if (reverse)
                 Items = Items.Where(item => item.Index != 0).OrderBy(item => item.Count)
@@ -251,7 +253,7 @@ namespace PKHeX.Core
                 Items = Items.Where(item => item.Index != 0).OrderByDescending(item => item.Count)
                         .Concat(Items.Where(item => item.Index == 0)).ToArray();
         }
-        public void sortName(string[] names, bool reverse = false)
+        public void SortByName(string[] names, bool reverse = false)
         {
             if (reverse)
                 Items = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderByDescending(item => names[item.Index])
@@ -261,7 +263,7 @@ namespace PKHeX.Core
                         .Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
         }
 
-        public void sanitizePouch(bool HaX, int MaxItemID)
+        public void Sanitize(bool HaX, int MaxItemID)
         {
             var x = Items.Where(item => item.Valid(LegalItems, HaX, MaxItemID)).ToArray();
             Items = x.Concat(new byte[PouchDataSize - x.Length].Select(i => new InventoryItem())).ToArray();

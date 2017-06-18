@@ -5,16 +5,16 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor
     {
-        private void populateFieldsPK1()
+        private void PopulateFieldsPK1()
         {
             PK1 pk1 = pkm as PK1;
             if (pk1 == null)
                 return;
 
             // Do first
-            pk1.Stat_Level = PKX.getLevel(pk1.Species, pk1.EXP);
+            pk1.Stat_Level = PKX.GetLevel(pk1.Species, pk1.EXP);
             if (pk1.Stat_Level == 100 && !HaX)
-                pk1.EXP = PKX.getEXP(pk1.Stat_Level, pk1.Species);
+                pk1.EXP = PKX.GetEXP(pk1.Stat_Level, pk1.Species);
 
             CB_Species.SelectedValue = pk1.Species;
             TB_Level.Text = pk1.Stat_Level.ToString();
@@ -58,17 +58,17 @@ namespace PKHeX.WinForms.Controls
 
             CB_Language.SelectedIndex = pk1.Japanese ? 0 : 1;
 
-            updateStats();
+            UpdateStats();
 
             TB_EXP.Text = pk1.EXP.ToString();
         }
-        private PKM preparePK1()
+        private PKM PreparePK1()
         {
             PK1 pk1 = pkm as PK1;
             if (pk1 == null)
                 return null;
 
-            pk1.Species = WinFormsUtil.getIndex(CB_Species);
+            pk1.Species = WinFormsUtil.GetIndex(CB_Species);
             pk1.TID = Util.ToInt32(TB_TID.Text);
             pk1.EXP = Util.ToUInt32(TB_EXP.Text);
 
@@ -81,19 +81,19 @@ namespace PKHeX.WinForms.Controls
             if (CHK_Nicknamed.Checked)
                 pk1.Nickname = TB_Nickname.Text;
             else 
-                pk1.setNotNicknamed();
-            pk1.Move1 = WinFormsUtil.getIndex(CB_Move1);
-            pk1.Move2 = WinFormsUtil.getIndex(CB_Move2);
-            pk1.Move3 = WinFormsUtil.getIndex(CB_Move3);
-            pk1.Move4 = WinFormsUtil.getIndex(CB_Move4);
-            pk1.Move1_PP = WinFormsUtil.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-            pk1.Move2_PP = WinFormsUtil.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-            pk1.Move3_PP = WinFormsUtil.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-            pk1.Move4_PP = WinFormsUtil.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-            pk1.Move1_PPUps = WinFormsUtil.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-            pk1.Move2_PPUps = WinFormsUtil.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-            pk1.Move3_PPUps = WinFormsUtil.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-            pk1.Move4_PPUps = WinFormsUtil.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+                pk1.SetNotNicknamed();
+            pk1.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            pk1.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            pk1.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            pk1.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            pk1.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk1.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk1.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk1.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk1.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk1.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk1.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk1.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
 
             pk1.IV_HP = Util.ToInt32(TB_HPIV.Text);
             pk1.IV_ATK = Util.ToInt32(TB_ATKIV.Text);

@@ -53,21 +53,21 @@
             this.mnuView.Name = "mnuView";
             this.mnuView.Size = new System.Drawing.Size(115, 22);
             this.mnuView.Text = "View";
-            this.mnuView.Click += new System.EventHandler(this.ClickView);
+            this.mnuView.Click += new System.EventHandler(ContextMenuSAV.ClickView);
             // 
             // mnuSet
             // 
             this.mnuSet.Name = "mnuSet";
             this.mnuSet.Size = new System.Drawing.Size(115, 22);
             this.mnuSet.Text = "Set";
-            this.mnuSet.Click += new System.EventHandler(this.ClickSet);
+            this.mnuSet.Click += new System.EventHandler(ContextMenuSAV.ClickSet);
             // 
             // mnuDelete
             // 
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.Size = new System.Drawing.Size(115, 22);
             this.mnuDelete.Text = "Delete";
-            this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
+            this.mnuDelete.Click += new System.EventHandler(ContextMenuSAV.ClickDelete);
             // 
             // mnuLegality
             // 

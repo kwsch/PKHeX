@@ -261,7 +261,7 @@ namespace PKHeX.WinForms
             this.TB_OTName.TabIndex = 2;
             this.TB_OTName.Text = "WWWWWWWWWWWW";
             this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickOT);
+            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickOT);
             // 
             // L_TrainerName
             // 
@@ -317,8 +317,8 @@ namespace PKHeX.WinForms
             this.MT_TID.Size = new System.Drawing.Size(39, 20);
             this.MT_TID.TabIndex = 8;
             this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_TID.TextChanged += new System.EventHandler(this.changeFFFF);
-            this.MT_TID.MouseHover += new System.EventHandler(this.showTSV);
+            this.MT_TID.TextChanged += new System.EventHandler(this.ChangeFFFF);
+            this.MT_TID.MouseHover += new System.EventHandler(this.ShowTSV);
             // 
             // MT_SID
             // 
@@ -329,8 +329,8 @@ namespace PKHeX.WinForms
             this.MT_SID.Size = new System.Drawing.Size(39, 20);
             this.MT_SID.TabIndex = 9;
             this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_SID.TextChanged += new System.EventHandler(this.changeFFFF);
-            this.MT_SID.MouseHover += new System.EventHandler(this.showTSV);
+            this.MT_SID.TextChanged += new System.EventHandler(this.ChangeFFFF);
+            this.MT_SID.MouseHover += new System.EventHandler(this.ShowTSV);
             // 
             // CHK_Badge1
             // 
@@ -342,7 +342,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge1.Text = "1";
             this.CHK_Badge1.UseVisualStyleBackColor = true;
             this.CHK_Badge1.Visible = false;
-            this.CHK_Badge1.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge1.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge2
             // 
@@ -354,7 +354,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge2.Text = "2";
             this.CHK_Badge2.UseVisualStyleBackColor = true;
             this.CHK_Badge2.Visible = false;
-            this.CHK_Badge2.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge2.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge3
             // 
@@ -366,7 +366,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge3.Text = "3";
             this.CHK_Badge3.UseVisualStyleBackColor = true;
             this.CHK_Badge3.Visible = false;
-            this.CHK_Badge3.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge3.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge4
             // 
@@ -378,7 +378,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge4.Text = "4";
             this.CHK_Badge4.UseVisualStyleBackColor = true;
             this.CHK_Badge4.Visible = false;
-            this.CHK_Badge4.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge4.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge5
             // 
@@ -390,7 +390,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge5.Text = "5";
             this.CHK_Badge5.UseVisualStyleBackColor = true;
             this.CHK_Badge5.Visible = false;
-            this.CHK_Badge5.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge5.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge7
             // 
@@ -402,7 +402,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge7.Text = "7";
             this.CHK_Badge7.UseVisualStyleBackColor = true;
             this.CHK_Badge7.Visible = false;
-            this.CHK_Badge7.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge7.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // CHK_Badge8
             // 
@@ -414,7 +414,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge8.Text = "8";
             this.CHK_Badge8.UseVisualStyleBackColor = true;
             this.CHK_Badge8.Visible = false;
-            this.CHK_Badge8.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge8.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // PB_Badge8
             // 
@@ -424,7 +424,7 @@ namespace PKHeX.WinForms
             this.PB_Badge8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge8.TabIndex = 25;
             this.PB_Badge8.TabStop = false;
-            this.PB_Badge8.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge8.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge6
             // 
@@ -434,7 +434,7 @@ namespace PKHeX.WinForms
             this.PB_Badge6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge6.TabIndex = 24;
             this.PB_Badge6.TabStop = false;
-            this.PB_Badge6.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge6.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge4
             // 
@@ -444,7 +444,7 @@ namespace PKHeX.WinForms
             this.PB_Badge4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge4.TabIndex = 23;
             this.PB_Badge4.TabStop = false;
-            this.PB_Badge4.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge4.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge2
             // 
@@ -454,7 +454,7 @@ namespace PKHeX.WinForms
             this.PB_Badge2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge2.TabIndex = 22;
             this.PB_Badge2.TabStop = false;
-            this.PB_Badge2.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge2.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge7
             // 
@@ -464,7 +464,7 @@ namespace PKHeX.WinForms
             this.PB_Badge7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge7.TabIndex = 21;
             this.PB_Badge7.TabStop = false;
-            this.PB_Badge7.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge7.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge5
             // 
@@ -474,7 +474,7 @@ namespace PKHeX.WinForms
             this.PB_Badge5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge5.TabIndex = 20;
             this.PB_Badge5.TabStop = false;
-            this.PB_Badge5.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge5.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge3
             // 
@@ -484,7 +484,7 @@ namespace PKHeX.WinForms
             this.PB_Badge3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge3.TabIndex = 19;
             this.PB_Badge3.TabStop = false;
-            this.PB_Badge3.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge3.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // PB_Badge1
             // 
@@ -494,7 +494,7 @@ namespace PKHeX.WinForms
             this.PB_Badge1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PB_Badge1.TabIndex = 18;
             this.PB_Badge1.TabStop = false;
-            this.PB_Badge1.Click += new System.EventHandler(this.toggleBadge);
+            this.PB_Badge1.Click += new System.EventHandler(this.ToggleBadge);
             // 
             // GB_Sayings
             // 
@@ -660,7 +660,7 @@ namespace PKHeX.WinForms
             this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
             this.MT_Seconds.TabIndex = 28;
             this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Seconds.TextChanged += new System.EventHandler(this.change255);
+            this.MT_Seconds.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_Minutes
             // 
@@ -670,7 +670,7 @@ namespace PKHeX.WinForms
             this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
             this.MT_Minutes.TabIndex = 27;
             this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Minutes.TextChanged += new System.EventHandler(this.change255);
+            this.MT_Minutes.TextChanged += new System.EventHandler(this.Change255);
             // 
             // L_Hours
             // 
@@ -772,7 +772,7 @@ namespace PKHeX.WinForms
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(93, 21);
             this.CB_Country.TabIndex = 17;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.updateCountry);
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
             // 
             // B_MaxCash
             // 
@@ -847,7 +847,7 @@ namespace PKHeX.WinForms
             this.TB_Style.Size = new System.Drawing.Size(26, 20);
             this.TB_Style.TabIndex = 8;
             this.TB_Style.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Style.TextChanged += new System.EventHandler(this.change255);
+            this.TB_Style.TextChanged += new System.EventHandler(this.Change255);
             // 
             // L_Style
             // 
@@ -893,7 +893,7 @@ namespace PKHeX.WinForms
             this.TB_MBMS.Name = "TB_MBMS";
             this.TB_MBMS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBMS.TabIndex = 65;
-            this.TB_MBMS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBMS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBMN
             // 
@@ -903,7 +903,7 @@ namespace PKHeX.WinForms
             this.TB_MBMN.Name = "TB_MBMN";
             this.TB_MBMN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBMN.TabIndex = 64;
-            this.TB_MBMN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBMN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBRS
             // 
@@ -913,7 +913,7 @@ namespace PKHeX.WinForms
             this.TB_MBRS.Name = "TB_MBRS";
             this.TB_MBRS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBRS.TabIndex = 63;
-            this.TB_MBRS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBRS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBRN
             // 
@@ -923,7 +923,7 @@ namespace PKHeX.WinForms
             this.TB_MBRN.Name = "TB_MBRN";
             this.TB_MBRN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBRN.TabIndex = 62;
-            this.TB_MBRN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBRN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBTS
             // 
@@ -933,7 +933,7 @@ namespace PKHeX.WinForms
             this.TB_MBTS.Name = "TB_MBTS";
             this.TB_MBTS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBTS.TabIndex = 61;
-            this.TB_MBTS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBTS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBTN
             // 
@@ -943,7 +943,7 @@ namespace PKHeX.WinForms
             this.TB_MBTN.Name = "TB_MBTN";
             this.TB_MBTN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBTN.TabIndex = 60;
-            this.TB_MBTN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBTN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBDS
             // 
@@ -953,7 +953,7 @@ namespace PKHeX.WinForms
             this.TB_MBDS.Name = "TB_MBDS";
             this.TB_MBDS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBDS.TabIndex = 59;
-            this.TB_MBDS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBDS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBDN
             // 
@@ -963,7 +963,7 @@ namespace PKHeX.WinForms
             this.TB_MBDN.Name = "TB_MBDN";
             this.TB_MBDN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBDN.TabIndex = 58;
-            this.TB_MBDN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBDN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBSS
             // 
@@ -973,7 +973,7 @@ namespace PKHeX.WinForms
             this.TB_MBSS.Name = "TB_MBSS";
             this.TB_MBSS.Size = new System.Drawing.Size(35, 20);
             this.TB_MBSS.TabIndex = 57;
-            this.TB_MBSS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBSS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MBSN
             // 
@@ -983,7 +983,7 @@ namespace PKHeX.WinForms
             this.TB_MBSN.Name = "TB_MBSN";
             this.TB_MBSN.Size = new System.Drawing.Size(35, 20);
             this.TB_MBSN.TabIndex = 56;
-            this.TB_MBSN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MBSN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // L_SuperB
             // 
@@ -1083,7 +1083,7 @@ namespace PKHeX.WinForms
             this.TB_MCMS.Name = "TB_MCMS";
             this.TB_MCMS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCMS.TabIndex = 55;
-            this.TB_MCMS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCMS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCMN
             // 
@@ -1093,7 +1093,7 @@ namespace PKHeX.WinForms
             this.TB_MCMN.Name = "TB_MCMN";
             this.TB_MCMN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCMN.TabIndex = 54;
-            this.TB_MCMN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCMN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCRS
             // 
@@ -1103,7 +1103,7 @@ namespace PKHeX.WinForms
             this.TB_MCRS.Name = "TB_MCRS";
             this.TB_MCRS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCRS.TabIndex = 53;
-            this.TB_MCRS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCRS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCRN
             // 
@@ -1113,7 +1113,7 @@ namespace PKHeX.WinForms
             this.TB_MCRN.Name = "TB_MCRN";
             this.TB_MCRN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCRN.TabIndex = 52;
-            this.TB_MCRN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCRN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCTS
             // 
@@ -1123,7 +1123,7 @@ namespace PKHeX.WinForms
             this.TB_MCTS.Name = "TB_MCTS";
             this.TB_MCTS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCTS.TabIndex = 51;
-            this.TB_MCTS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCTS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCTN
             // 
@@ -1133,7 +1133,7 @@ namespace PKHeX.WinForms
             this.TB_MCTN.Name = "TB_MCTN";
             this.TB_MCTN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCTN.TabIndex = 50;
-            this.TB_MCTN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCTN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCDS
             // 
@@ -1143,7 +1143,7 @@ namespace PKHeX.WinForms
             this.TB_MCDS.Name = "TB_MCDS";
             this.TB_MCDS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCDS.TabIndex = 49;
-            this.TB_MCDS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCDS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCDN
             // 
@@ -1153,7 +1153,7 @@ namespace PKHeX.WinForms
             this.TB_MCDN.Name = "TB_MCDN";
             this.TB_MCDN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCDN.TabIndex = 48;
-            this.TB_MCDN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCDN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCSS
             // 
@@ -1163,7 +1163,7 @@ namespace PKHeX.WinForms
             this.TB_MCSS.Name = "TB_MCSS";
             this.TB_MCSS.Size = new System.Drawing.Size(35, 20);
             this.TB_MCSS.TabIndex = 47;
-            this.TB_MCSS.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCSS.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // TB_MCSN
             // 
@@ -1173,7 +1173,7 @@ namespace PKHeX.WinForms
             this.TB_MCSN.Name = "TB_MCSN";
             this.TB_MCSN.Size = new System.Drawing.Size(35, 20);
             this.TB_MCSN.TabIndex = 46;
-            this.TB_MCSN.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.TB_MCSN.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // L_SuperC
             // 
@@ -1256,7 +1256,7 @@ namespace PKHeX.WinForms
             this.MT_1403F.Size = new System.Drawing.Size(26, 20);
             this.MT_1403F.TabIndex = 71;
             this.MT_1403F.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_1403F.TextChanged += new System.EventHandler(this.change255);
+            this.MT_1403F.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_1403E
             // 
@@ -1267,7 +1267,7 @@ namespace PKHeX.WinForms
             this.MT_1403E.Size = new System.Drawing.Size(26, 20);
             this.MT_1403E.TabIndex = 70;
             this.MT_1403E.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_1403E.TextChanged += new System.EventHandler(this.change255);
+            this.MT_1403E.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_1403D
             // 
@@ -1278,7 +1278,7 @@ namespace PKHeX.WinForms
             this.MT_1403D.Size = new System.Drawing.Size(26, 20);
             this.MT_1403D.TabIndex = 69;
             this.MT_1403D.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_1403D.TextChanged += new System.EventHandler(this.change255);
+            this.MT_1403D.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_1403C
             // 
@@ -1289,7 +1289,7 @@ namespace PKHeX.WinForms
             this.MT_1403C.Size = new System.Drawing.Size(26, 20);
             this.MT_1403C.TabIndex = 68;
             this.MT_1403C.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_1403C.TextChanged += new System.EventHandler(this.change255);
+            this.MT_1403C.TextChanged += new System.EventHandler(this.Change255);
             // 
             // B_GiveAccessories
             // 
@@ -1299,7 +1299,7 @@ namespace PKHeX.WinForms
             this.B_GiveAccessories.TabIndex = 67;
             this.B_GiveAccessories.Text = "Give All Accessories";
             this.B_GiveAccessories.UseVisualStyleBackColor = true;
-            this.B_GiveAccessories.Click += new System.EventHandler(this.giveAllAccessories);
+            this.B_GiveAccessories.Click += new System.EventHandler(this.GiveAllAccessories);
             // 
             // MT_1403B
             // 
@@ -1310,7 +1310,7 @@ namespace PKHeX.WinForms
             this.MT_1403B.Size = new System.Drawing.Size(26, 20);
             this.MT_1403B.TabIndex = 66;
             this.MT_1403B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_1403B.TextChanged += new System.EventHandler(this.change255);
+            this.MT_1403B.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_1403A
             // 
@@ -1321,7 +1321,7 @@ namespace PKHeX.WinForms
             this.MT_1403A.Size = new System.Drawing.Size(26, 20);
             this.MT_1403A.TabIndex = 65;
             this.MT_1403A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_1403A.TextChanged += new System.EventHandler(this.change255);
+            this.MT_1403A.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14039
             // 
@@ -1332,7 +1332,7 @@ namespace PKHeX.WinForms
             this.MT_14039.Size = new System.Drawing.Size(26, 20);
             this.MT_14039.TabIndex = 64;
             this.MT_14039.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14039.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14039.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14038
             // 
@@ -1343,7 +1343,7 @@ namespace PKHeX.WinForms
             this.MT_14038.Size = new System.Drawing.Size(26, 20);
             this.MT_14038.TabIndex = 63;
             this.MT_14038.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14038.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14038.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14037
             // 
@@ -1354,7 +1354,7 @@ namespace PKHeX.WinForms
             this.MT_14037.Size = new System.Drawing.Size(26, 20);
             this.MT_14037.TabIndex = 61;
             this.MT_14037.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14037.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14037.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14036
             // 
@@ -1365,7 +1365,7 @@ namespace PKHeX.WinForms
             this.MT_14036.Size = new System.Drawing.Size(26, 20);
             this.MT_14036.TabIndex = 62;
             this.MT_14036.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14036.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14036.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14035
             // 
@@ -1376,7 +1376,7 @@ namespace PKHeX.WinForms
             this.MT_14035.Size = new System.Drawing.Size(26, 20);
             this.MT_14035.TabIndex = 60;
             this.MT_14035.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14035.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14035.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14034
             // 
@@ -1387,7 +1387,7 @@ namespace PKHeX.WinForms
             this.MT_14034.Size = new System.Drawing.Size(26, 20);
             this.MT_14034.TabIndex = 59;
             this.MT_14034.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14034.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14034.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14033
             // 
@@ -1398,7 +1398,7 @@ namespace PKHeX.WinForms
             this.MT_14033.Size = new System.Drawing.Size(26, 20);
             this.MT_14033.TabIndex = 58;
             this.MT_14033.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14033.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14033.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14032
             // 
@@ -1409,7 +1409,7 @@ namespace PKHeX.WinForms
             this.MT_14032.Size = new System.Drawing.Size(26, 20);
             this.MT_14032.TabIndex = 57;
             this.MT_14032.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14032.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14032.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14031
             // 
@@ -1421,7 +1421,7 @@ namespace PKHeX.WinForms
             this.MT_14031.Size = new System.Drawing.Size(26, 20);
             this.MT_14031.TabIndex = 54;
             this.MT_14031.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14031.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14031.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_14030
             // 
@@ -1432,7 +1432,7 @@ namespace PKHeX.WinForms
             this.MT_14030.Size = new System.Drawing.Size(26, 20);
             this.MT_14030.TabIndex = 56;
             this.MT_14030.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_14030.TextChanged += new System.EventHandler(this.change255);
+            this.MT_14030.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_Hat
             // 
@@ -1442,7 +1442,7 @@ namespace PKHeX.WinForms
             this.MT_Hat.Size = new System.Drawing.Size(22, 20);
             this.MT_Hat.TabIndex = 55;
             this.MT_Hat.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Hat.TextChanged += new System.EventHandler(this.changeSpecial);
+            this.MT_Hat.TextChanged += new System.EventHandler(this.ChangeSpecial);
             // 
             // MT_HairColor
             // 
@@ -1452,7 +1452,7 @@ namespace PKHeX.WinForms
             this.MT_HairColor.Size = new System.Drawing.Size(22, 20);
             this.MT_HairColor.TabIndex = 55;
             this.MT_HairColor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_HairColor.TextChanged += new System.EventHandler(this.changeSpecial);
+            this.MT_HairColor.TextChanged += new System.EventHandler(this.ChangeSpecial);
             // 
             // L_Dress
             // 
@@ -1733,7 +1733,7 @@ namespace PKHeX.WinForms
             this.CB_Stats.Name = "CB_Stats";
             this.CB_Stats.Size = new System.Drawing.Size(121, 21);
             this.CB_Stats.TabIndex = 23;
-            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.changeStat);
+            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
             // 
             // L_Value
             // 
@@ -1754,7 +1754,7 @@ namespace PKHeX.WinForms
             this.MT_Stat.TabIndex = 21;
             this.MT_Stat.Text = "1231231234";
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MT_Stat.TextChanged += new System.EventHandler(this.changeStatVal);
+            this.MT_Stat.TextChanged += new System.EventHandler(this.ChangeStatVal);
             // 
             // TC_Editor
             // 
@@ -2067,7 +2067,7 @@ namespace PKHeX.WinForms
             this.CHK_Badge6.Text = "6";
             this.CHK_Badge6.UseVisualStyleBackColor = true;
             this.CHK_Badge6.Visible = false;
-            this.CHK_Badge6.CheckedChanged += new System.EventHandler(this.changeBadge);
+            this.CHK_Badge6.CheckedChanged += new System.EventHandler(this.ChangeBadge);
             // 
             // Tab_Multiplayer
             // 

@@ -5,7 +5,7 @@ namespace PKHeX.Core
     public class BV7 : BattleVideo
     {
         internal const int SIZE = 0x2BC0;
-        internal new static bool getIsValid(byte[] data)
+        internal new static bool IsValid(byte[] data)
         {
             return data.Length == SIZE;
         }

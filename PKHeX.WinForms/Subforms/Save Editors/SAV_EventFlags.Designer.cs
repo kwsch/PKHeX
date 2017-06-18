@@ -69,7 +69,7 @@
             this.c_CustomFlag.Size = new System.Drawing.Size(15, 14);
             this.c_CustomFlag.TabIndex = 1;
             this.c_CustomFlag.UseVisualStyleBackColor = true;
-            this.c_CustomFlag.CheckedChanged += new System.EventHandler(this.changeCustomBool);
+            this.c_CustomFlag.CheckedChanged += new System.EventHandler(this.ChangeCustomBool);
             // 
             // B_Cancel
             // 
@@ -110,8 +110,8 @@
             this.NUD_Flag.Name = "NUD_Flag";
             this.NUD_Flag.Size = new System.Drawing.Size(45, 20);
             this.NUD_Flag.TabIndex = 9;
-            this.NUD_Flag.ValueChanged += new System.EventHandler(this.changeCustomFlag);
-            this.NUD_Flag.KeyUp += new System.Windows.Forms.KeyEventHandler(this.changeCustomFlag);
+            this.NUD_Flag.ValueChanged += new System.EventHandler(this.ChangeCustomFlag);
+            this.NUD_Flag.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ChangeCustomFlag);
             // 
             // CHK_CustomFlag
             // 
@@ -143,7 +143,7 @@
             this.CB_Stats.Name = "CB_Stats";
             this.CB_Stats.Size = new System.Drawing.Size(66, 21);
             this.CB_Stats.TabIndex = 36;
-            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.changeConstantIndex);
+            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.ChangeConstantIndex);
             // 
             // MT_Stat
             // 
@@ -155,7 +155,7 @@
             this.MT_Stat.Size = new System.Drawing.Size(34, 20);
             this.MT_Stat.TabIndex = 34;
             this.MT_Stat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.MT_Stat.TextChanged += new System.EventHandler(this.changeCustomConst);
+            this.MT_Stat.TextChanged += new System.EventHandler(this.ChangeCustomConst);
             // 
             // L_Stats
             // 
@@ -220,7 +220,7 @@
             this.TB_NewSAV.ReadOnly = true;
             this.TB_NewSAV.Size = new System.Drawing.Size(169, 20);
             this.TB_NewSAV.TabIndex = 5;
-            this.TB_NewSAV.TextChanged += new System.EventHandler(this.changeSAV);
+            this.TB_NewSAV.TextChanged += new System.EventHandler(this.ChangeSAV);
             // 
             // TB_OldSAV
             // 
@@ -229,7 +229,7 @@
             this.TB_OldSAV.ReadOnly = true;
             this.TB_OldSAV.Size = new System.Drawing.Size(169, 20);
             this.TB_OldSAV.TabIndex = 4;
-            this.TB_OldSAV.TextChanged += new System.EventHandler(this.changeSAV);
+            this.TB_OldSAV.TextChanged += new System.EventHandler(this.ChangeSAV);
             // 
             // TB_UnSet
             // 
@@ -255,7 +255,7 @@
             this.B_LoadNew.TabIndex = 1;
             this.B_LoadNew.Text = "Load New";
             this.B_LoadNew.UseVisualStyleBackColor = true;
-            this.B_LoadNew.Click += new System.EventHandler(this.openSAV);
+            this.B_LoadNew.Click += new System.EventHandler(this.OpenSAV);
             // 
             // B_LoadOld
             // 
@@ -265,7 +265,7 @@
             this.B_LoadOld.TabIndex = 0;
             this.B_LoadOld.Text = "Load Old";
             this.B_LoadOld.UseVisualStyleBackColor = true;
-            this.B_LoadOld.Click += new System.EventHandler(this.openSAV);
+            this.B_LoadOld.Click += new System.EventHandler(this.OpenSAV);
             // 
             // GB_Flags
             // 

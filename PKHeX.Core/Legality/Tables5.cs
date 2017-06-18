@@ -690,8 +690,8 @@ namespace PKHeX.Core
         {
             194,270,283,341,
         };
-        private static readonly EncounterArea[] WhiteForestSlot = EncounterArea.getSimpleEncounterArea(WhiteForest_GrassSpecies, new[] { 5, 5 }, 51, SlotType.Grass).Concat(
-                                                                  EncounterArea.getSimpleEncounterArea(WhiteForest_SurfSpecies, new[] { 5, 5 }, 51, SlotType.Surf)).ToArray();
+        private static readonly EncounterArea[] WhiteForestSlot = EncounterArea.GetSimpleEncounterArea(WhiteForest_GrassSpecies, new[] { 5, 5 }, 51, SlotType.Grass).Concat(
+                                                                  EncounterArea.GetSimpleEncounterArea(WhiteForest_SurfSpecies, new[] { 5, 5 }, 51, SlotType.Surf)).ToArray();
         private static readonly EncounterArea[] SlotsBW_Swarm =
         {
             //level range and Slottype will be marked later

@@ -98,11 +98,11 @@ namespace PKHeX.Tests.PKM
         {
             // XD PokeSpots: Check all 3 Encounter Slots (examples are one for each location).
             var pkPS0 = new PK3 { PID = 0x7B2D9DA7 }; // Zubat (Cave)
-            Assert.IsTrue(MethodFinder.getPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
+            Assert.IsTrue(MethodFinder.GetPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
             var pkPS1 = new PK3 { PID = 0x3EE9AF66 }; // Gligar (Rock)
-            Assert.IsTrue(MethodFinder.getPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
+            Assert.IsTrue(MethodFinder.GetPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
             var pkPS2 = new PK3 { PID = 0x9B667F3C }; // Surskit (Oasis)
-            Assert.IsTrue(MethodFinder.getPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
+            Assert.IsTrue(MethodFinder.GetPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
         }
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace PKHeX.Tests.PKM
             {
                 // Pearl
                 pk.Version = (int) GameVersion.P;
-                var results = FrameFinder.getFrames(pidiv, pk);
+                var results = FrameFinder.GetFrames(pidiv, pk);
                 const int failSyncCount = 1;
                 const int noSyncCount = 2;
                 const int SyncCount = 37;
@@ -141,7 +141,7 @@ namespace PKHeX.Tests.PKM
             {
                 // Sapphire
                 // pk.Version = (int)GameVersion.S;
-                // var results = FrameFinder.getFrames(pidiv, pk);
+                // var results = FrameFinder.GetFrames(pidiv, pk);
             }
         }
     }

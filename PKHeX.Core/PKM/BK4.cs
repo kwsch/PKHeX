@@ -12,7 +12,7 @@ namespace PKHeX.Core
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            Data = PKX.shuffleArray45(Data, sv);
+            Data = PKX.ShuffleArray45(Data, sv);
             Identifier = ident;
             if (Sanity != 0 && Species <= MaxSpeciesID && !ChecksumValid) // We can only hope
                 RefreshChecksum();
@@ -23,12 +23,12 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new BK4(Encrypt()); }
 
-        public override string getString(int Offset, int Count) => PKX.getBEString4(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength) => PKX.setBEString4(value, maxLength);
+        public override string GetString(int Offset, int Count) => PKX.GetBEString4(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => PKX.SetBEString4(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => getData(0x48, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => getData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
+        public override byte[] Nickname_Trash { get => GetData(0x48, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Structure
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
@@ -138,7 +138,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => getString(0x48, 24); set => setString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 24); set => SetString(value, 11).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -180,7 +180,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => getString(0x68, 16); set => setString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 16); set => SetString(value, 7).CopyTo(Data, 0x68); }
 
         public override int Egg_Location
         {
@@ -262,13 +262,13 @@ namespace PKHeX.Core
             return chk;
         }
 
-        public override byte[] Encrypt()
+        protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.shuffleArray45(Data, PKX.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24]);
+            return PKX.ShuffleArray45(Data, PKX.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24]);
         }
 
-        public PK4 convertToPK4()
+        public PK4 ConvertToPK4()
         {
             PK4 pk4 = new PK4();
             TransferPropertiesWithReflection(this, pk4);

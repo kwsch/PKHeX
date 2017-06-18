@@ -14,10 +14,11 @@ namespace PKHeX.WinForms
         private readonly SAV4 SAV;
         public SAV_Misc4(SaveFile sav)
         {
+            int ofsFlag;
             SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
 
-            int GBO = SAV.getGBO;
+            int GBO = SAV.GetGBO;
             switch (SAV.Version)
             {
                 case GameVersion.D:
@@ -69,16 +70,16 @@ namespace PKHeX.WinForms
                 default: return;
             }
             ofsFly = ofsFlag + 0x136;
-            readMain();
-            readBF();
+            ReadMain();
+            ReadBattleFrontier();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            saveMain();
-            saveBF();
+            SaveMain();
+            SaveBattleFrontier();
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 
@@ -87,14 +88,13 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private int ofsFlag;
-        private int ofsFly;
-        private int ofsBP;
-        private int ofsMap = -1;
-        private int ofsUGFlagCount = -1;
-        private int ofsPoketch = -1;
+        private readonly int ofsFly;
+        private readonly int ofsBP;
+        private readonly int ofsMap = -1;
+        private readonly int ofsUGFlagCount = -1;
+        private readonly int ofsPoketch = -1;
         private int[] FlyDestC;
-        private void readMain()
+        private void ReadMain()
         {
             int[] FlyDestD;
             System.Collections.Generic.List<ComboItem> metLocationList;
@@ -104,14 +104,14 @@ namespace PKHeX.WinForms
                 case GameVersion.P:
                 case GameVersion.DP:
                 case GameVersion.Pt:
-                    metLocationList = GameInfo.getLocationList(GameVersion.Pt, 4, false);
+                    metLocationList = GameInfo.GetLocationList(GameVersion.Pt, 4, false);
                     FlyDestD = new[] { 1, 2, 6, 8, 3, 9, 10, 4, 12, 11, 5, 7, 14, 13, 54, 15, 81, 82, 83, 55, };
                     FlyDestC = new[] { 0, 1, 7, 9, 2, 10, 11, 3, 13, 12, 4, 8, 15, 14, 16, 68, 17, 5, 6, 67, };
                     break;
                 case GameVersion.HG:
                 case GameVersion.SS:
                 case GameVersion.HGSS:
-                    metLocationList = GameInfo.getLocationList(GameVersion.HG, 4, false);
+                    metLocationList = GameInfo.GetLocationList(GameVersion.HG, 4, false);
                     FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225, };
                     FlyDestC = new[] { 11, 12, 13, 14, 16, 18, 17, 15, 19, 20, 21, 30, 27, 22, 33, 9, 0, 1, 2, 3, 5, 4, 6, 10, 7, 8, 35, };
                     break;
@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
             uint valBP = BitConverter.ToUInt16(SAV.Data, ofsBP);
             NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
-            if (ofsPoketch > 0) readPoketch();
+            if (ofsPoketch > 0) ReadPoketch();
             if (ofsUGFlagCount > 0)
             {
                 uint fc = BitConverter.ToUInt32(SAV.Data, ofsUGFlagCount) & 0xFFFFF;
@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
                 CB_UpgradeMap.SelectedIndex = index;
             }
         }
-        private void saveMain()
+        private void SaveMain()
         {
             uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
             for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
@@ -156,7 +156,7 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(valFly).CopyTo(SAV.Data, ofsFly);
             BitConverter.GetBytes((ushort)NUD_BP.Value).CopyTo(SAV.Data, ofsBP);
 
-            if (ofsPoketch > 0) savePoketch();
+            if (ofsPoketch > 0) SavePoketch();
             if (ofsUGFlagCount > 0)
                 BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, ofsUGFlagCount) & ~(uint)0xFFFFF | (uint)NUD_UGFlags.Value).CopyTo(SAV.Data, ofsUGFlagCount);
             if (ofsMap > 0)
@@ -177,7 +177,7 @@ namespace PKHeX.WinForms
         private byte[] ColorTable;
         private bool[] oldPoketchVal;
         private readonly ToolTip tip1 = new ToolTip();
-        private void readPoketch()
+        private void ReadPoketch()
         {
             string[] PoketchTitle = new[] {
                 "01 Digital Watch", "02 Calculator", "03 Memo Pad", "04 Pedometer", "05 Pokemon List",
@@ -196,7 +196,7 @@ namespace PKHeX.WinForms
 
             DotArtistByte = SAV.Data.Skip(ofsPoketch + 0x27).Take(120).ToArray();
             ColorTable = new byte[] { 248, 168, 88, 8 };
-            setPictureBoxFromFlags(DotArtistByte);
+            SetPictureBoxFromFlags(DotArtistByte);
             string tip = "Guide about D&D ImageFile Format";
             tip += Environment.NewLine + " width = 24px";
             tip += Environment.NewLine + " height = 20px";
@@ -205,7 +205,7 @@ namespace PKHeX.WinForms
             tip1.SetToolTip(PB_DotArtist, tip);
             TAB_Main.AllowDrop = true;
         }
-        private void savePoketch()
+        private void SavePoketch()
         {
             byte count = 0;
             for (int i = 0; i < CLB_Poketch.Items.Count; i++)
@@ -227,7 +227,7 @@ namespace PKHeX.WinForms
             SAV.Data[ofsPoketch - 3] |= 0x04; // "Touch!"
         }
 
-        private void setPictureBoxFromFlags(byte[] inp)
+        private void SetPictureBoxFromFlags(byte[] inp)
         {
             if (inp.Length != 120) return;
             byte[] dupbyte = new byte[23040];
@@ -248,7 +248,7 @@ namespace PKHeX.WinForms
             dabmp.UnlockBits(dabdata);
             PB_DotArtist.Image = dabmp;
         }
-        private void setFlagsFromFileName(string inpFileName)
+        private void SetFlagsFromFileName(string inpFileName)
         {
             if (new FileInfo(inpFileName).Length > 2058) return; // 24*20*4(ARGB)=1920
             Bitmap bmp;
@@ -297,7 +297,7 @@ namespace PKHeX.WinForms
                     errmin = errtot;
                     LCT.CopyTo(mLCT, 0);
                 }
-                LCT = getNextLCT(LCT);
+                LCT = GetNextLCT(LCT);
                 if (LCT[0] >= 4) break;
             }
             for (int i = 0, j = 0; i < 0x100; i++)
@@ -313,7 +313,7 @@ namespace PKHeX.WinForms
             ndab.CopyTo(DotArtistByte, 0);
         }
 
-        private byte[] getNextLCT(byte[] inp)
+        private static byte[] GetNextLCT(byte[] inp)
         {
             while (true)
             {
@@ -337,7 +337,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void setFlagsFromClickPoint(int inpX, int inpY)
+        private void SetFlagsFromClickPoint(int inpX, int inpY)
         {
             if (inpX < 0) inpX = 0;
             else if (inpX > 95) inpX = 95;
@@ -373,34 +373,34 @@ namespace PKHeX.WinForms
             if (!TAB_Main.AllowDrop) return;
             string[] t = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             if (t.Length != 1) return;
-            setFlagsFromFileName(t[0]);
-            setPictureBoxFromFlags(DotArtistByte);
+            SetFlagsFromFileName(t[0]);
+            SetPictureBoxFromFlags(DotArtistByte);
         }
         private void PB_DotArtist_MouseClick(object sender, MouseEventArgs e)
         {
-            setFlagsFromClickPoint(e.X, e.Y);
-            setPictureBoxFromFlags(DotArtistByte);
+            SetFlagsFromClickPoint(e.X, e.Y);
+            SetPictureBoxFromFlags(DotArtistByte);
         }
         #endregion
 
         #region BattleFrontier
         private int[] Prints;
-        private int ofsPrints = -1;
+        private readonly int ofsPrints = -1;
         private Color[] PrintColorA;
         private Button[] PrintButtonA;
         private bool editing;
         private RadioButton[] StatRBA;
         private NumericUpDown[] StatNUDA;
         private Label[] StatLabelA;
-        private int[][] BFF;
+        private readonly int[][] BFF;
         private string[][] BFT;
         private int[][] BFV;
         private string[] BFN;
         private readonly ToolTip tip2 = new ToolTip();
         private NumericUpDown[] HallNUDA;
-        private bool HallStatUpdated = false;
+        private bool HallStatUpdated;
         private int ofsHallStat = -1;
-        private void readBF()
+        private void ReadBattleFrontier()
         {
             BFV = new[] {
                 new[] { 2, 0 }, // Max, Current
@@ -424,14 +424,14 @@ namespace PKHeX.WinForms
                 Prints = new int[PrintButtonA.Length];
                 for (int i = 0; i < Prints.Length; i++)
                     Prints[i] = 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + (i << 1)) >> 1) - 1);
-                setPrints();
+                SetPrints();
 
                 HallNUDA = new[] {
                         NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
                         NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
                         NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17
                     };
-                string[] TypeName = Util.getTypesList("en");
+                string[] TypeName = Util.GetTypesList("en");
                 int[] typenameIndex = new[] { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
                 for (int i = 0; i < HallNUDA.Length; i++)
                     tip2.SetToolTip(HallNUDA[i], TypeName[typenameIndex[i]]);
@@ -439,20 +439,20 @@ namespace PKHeX.WinForms
             if (ofsHallStat > 0)
             {
                 bool f = false;
-                for (int i = 0, h; i < 2; i++, ofsHallStat += 0x14)
+                for (int i = 0; i < 2; i++, ofsHallStat += 0x14)
                 {
-                    h = BitConverter.ToInt32(SAV.Data, ofsHallStat);
+                    var h = BitConverter.ToInt32(SAV.Data, ofsHallStat);
                     if (h == -1) continue;
                     for (int j = 0; j < 0x20; j++)
                     {
                         for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
                         {
-                            if (h == BitConverter.ToInt32(SAV.Data, a) && BitConverter.ToInt16(SAV.Data, a + 0xBA8) == 0xBA0)
-                            {
-                                f = true;
-                                ofsHallStat = a;
-                                break;
-                            }
+                            if (h != BitConverter.ToInt32(SAV.Data, a) || BitConverter.ToInt16(SAV.Data, a + 0xBA8) != 0xBA0)
+                                continue;
+
+                            f = true;
+                            ofsHallStat = a;
+                            break;
                         }
                         if (f) break;
                     }
@@ -483,7 +483,7 @@ namespace PKHeX.WinForms
             CB_Stats1.SelectedIndex = 0;
 
         }
-        private void saveBF()
+        private void SaveBattleFrontier()
         {
             if(ofsPrints > 0)
                 for(int i = 0; i < Prints.Length; i++)
@@ -492,10 +492,10 @@ namespace PKHeX.WinForms
                     BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.Data, ofsPrints + (i << 1));
                 }
             if (HallStatUpdated)
-                BitConverter.GetBytes(SaveUtil.ccitt16(SAV.Data, ofsHallStat, 0xBAE)).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
+                BitConverter.GetBytes(SaveUtil.CRC16_CCITT(SAV.Data, ofsHallStat, 0xBAE)).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
         }
 
-        private void setPrints()
+        private void SetPrints()
         {
             for (int i = 0; i < PrintButtonA.Length; i++)
                 PrintButtonA[i].BackColor = PrintColorA[Prints[i]];
@@ -505,7 +505,7 @@ namespace PKHeX.WinForms
             int index = Array.IndexOf(PrintButtonA, sender);
             if (index < 0) return;
             Prints[index] = (Prints[index] + 1) % 3;
-            setPrints();
+            SetPrints();
         }
 
         private void ChangeStat1(object sender, EventArgs e)
@@ -552,14 +552,14 @@ namespace PKHeX.WinForms
             {
                 GB_Hall.Text = "Battle Hall (" + (string)CB_Stats2.SelectedItem + ")";
                 editing = true;
-                getHallStat();
+                GetHallStat();
                 editing = false;
             }
             else if (GB_Castle.Visible)
             {
                 GB_Castle.Text = "Battle Castle (" + (string)CB_Stats2.SelectedItem + ")";
                 editing = true;
-                getCastleStat();
+                GetCastleStat();
                 editing = false;
             }
         }
@@ -568,8 +568,8 @@ namespace PKHeX.WinForms
             int Facility = CB_Stats1.SelectedIndex;
             int BattleType = CB_Stats2.SelectedIndex;
             int RBi = StatRBA[1].Checked ? 1 : 0;
-            int addrVal = SAV.getGBO + BFF[Facility][2] + BFF[Facility][3] * BattleType + (RBi << 3);
-            int addrFlag = SAV.getGBO + BFF[Facility][4];
+            int addrVal = SAV.GetGBO + BFF[Facility][2] + BFF[Facility][3] * BattleType + (RBi << 3);
+            int addrFlag = SAV.GetGBO + BFF[Facility][4];
             byte maskFlag = (byte)(1 << BattleType + (RBi << 2));
             int TowerContinueCountOfs = SAV.DP ? 3 : 1;
 
@@ -590,7 +590,7 @@ namespace PKHeX.WinForms
                 editing = false;
                 return;
             }
-            else if (SetValToSav >= 0)
+            if (SetValToSav >= 0)
             {
                 ushort val = (ushort)StatNUDA[SetValToSav].Value;
 
@@ -602,7 +602,7 @@ namespace PKHeX.WinForms
                 BitConverter.GetBytes((ushort)(val > 9999 ? 9999 : val)).CopyTo(SAV.Data, addrVal + (SetValToSav << 1));
                 return;
             }
-            else if (SetValToSav == -1)
+            if (SetValToSav == -1)
             {
                 if (CHK_Continue.Checked)
                 {
@@ -642,21 +642,21 @@ namespace PKHeX.WinForms
         }
 
         private int species = -1;
-        private void changeCBSpecies(object sender, EventArgs e)
+        private void ChangeSpecies(object sender, EventArgs e)
         {
             species = (int)CB_Species.SelectedValue;
             if (editing) return;
             editing = true;
-            getHallStat();
+            GetHallStat();
             editing = false;
         }
-        private void getCastleStat()
+        private void GetCastleStat()
         {
-            int ofs = SAV.getGBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A;
-            NumericUpDown[] na = new[] { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
-            for (int i = 0, val; i < na.Length; i++)
+            int ofs = SAV.GetGBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A;
+            NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
+            for (int i = 0; i < na.Length; i++)
             {
-                val = BitConverter.ToInt16(SAV.Data, ofs + (i << 1));
+                int val = BitConverter.ToInt16(SAV.Data, ofs + (i << 1));
                 na[i].Value = val > na[i].Maximum ? na[i].Maximum : val < na[i].Minimum ? na[i].Minimum : val;
             }
         }
@@ -666,28 +666,22 @@ namespace PKHeX.WinForms
             NumericUpDown[] na = new[] { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
             int i = Array.IndexOf(na, sender);
             if (i < 0) return;
-            BitConverter.GetBytes((int)na[i].Value).CopyTo(SAV.Data, SAV.getGBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A + (i << 1));
+            BitConverter.GetBytes((int)na[i].Value).CopyTo(SAV.Data, SAV.GetGBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A + (i << 1));
         }
-        private void getHallStat()
+        private void GetHallStat()
         {
-            int ofscur = SAV.getGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex;
+            int ofscur = SAV.GetGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex;
             int curspe = BitConverter.ToInt16(SAV.Data, ofscur + 4);
             bool c = curspe == species;
             CHK_HallCurrent.Checked = c;
-            if (curspe > 0 && curspe <= SAV.MaxSpeciesID)
-                CHK_HallCurrent.Text = "Current: " + CB_Species.Items.Cast<ComboItem>().Where(x => x.Value == curspe).FirstOrDefault()?.Text ?? "(none)";
-            else
-                CHK_HallCurrent.Text = "Current: (none)";
+            CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID
+                ? "Current: " + CB_Species.Items.OfType<ComboItem>().FirstOrDefault(x => x.Value == curspe).Text
+                : "Current: (none)";
 
             int s = 0;
-            for (int i = 0, d; i < HallNUDA.Length; i++)
+            for (int i = 0; i < HallNUDA.Length; i++)
             {
-                if (c)
-                {
-                    d = SAV.Data[ofscur + 6 + (i >> 1 << 1)] >> ((i & 1) << 2) & 0x0F;
-                    if (d > 10) d = 10;
-                }
-                else d = 0;
+                var d = c ? Math.Min(10, SAV.Data[ofscur + 6 + (i >> 1 << 1)] >> ((i & 1) << 2) & 0x0F) : 0;
                 HallNUDA[i].Value = d;
                 HallNUDA[i].Enabled = c;
                 s += d;
@@ -704,9 +698,9 @@ namespace PKHeX.WinForms
         private void CHK_HallCurrent_CheckedChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            BitConverter.GetBytes((ushort)(CHK_HallCurrent.Checked ? species : 0)).CopyTo(SAV.Data, SAV.getGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 4);
+            BitConverter.GetBytes((ushort)(CHK_HallCurrent.Checked ? species : 0)).CopyTo(SAV.Data, SAV.GetGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 4);
             editing = true;
-            getHallStat();
+            GetHallStat();
             editing = false;
         }
 
@@ -715,7 +709,7 @@ namespace PKHeX.WinForms
             if (editing) return;
             int i = Array.IndexOf(HallNUDA, sender);
             if (i < 0) return;
-            int ofs = SAV.getGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 6 + (i >> 1 << 1);
+            int ofs = SAV.GetGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 6 + (i >> 1 << 1);
             SAV.Data[ofs] = (byte)(SAV.Data[ofs] & ~(0xF << ((i & 1) << 2)) | (int)HallNUDA[i].Value << ((i & 1) << 2));
             L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString();
         }

@@ -12,11 +12,11 @@ namespace PKHeX.Core
                 return;
 
             Data = data;
-            TMHM = getBits(Data.Skip(0x14).Take(0x8).ToArray());
+            TMHM = GetBits(Data.Skip(0x14).Take(0x8).ToArray());
         }
         public override byte[] Write()
         {
-            setBits(TMHM).CopyTo(Data, 0x14);
+            SetBits(TMHM).CopyTo(Data, 0x14);
             return Data;
         }
 
@@ -51,7 +51,7 @@ namespace PKHeX.Core
         public override int EV_ATK { get => ATK; set { } }
         public override int EV_DEF { get => DEF; set { } }
         public override int EV_SPE { get => SPE; set { } }
-        public int EV_SPC { get => SPC; set { } }
+        public int EV_SPC => SPC;
         public override int EV_SPA { get => EV_SPC; set { } }
         public override int EV_SPD { get => EV_SPC; set { } }
 

@@ -13,10 +13,10 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         private readonly string[] species = GameInfo.Strings.specieslist;
         private readonly string[] abilities = GameInfo.Strings.abilitylist;
-
         private readonly bool alolanOnly;
-        private static int[] baseForm;
-        private static int[] formVal;
+        private readonly int[] baseForm;
+        private readonly int[] formVal;
+
         public KChart(SaveFile sav)
         {
             SAV = sav;
@@ -25,17 +25,17 @@ namespace PKHeX.WinForms
 
             Array.Resize(ref species, SAV.Personal.TableLength);
 
-            var AltForms = SAV.Personal.getFormList(species, SAV.MaxSpeciesID);
-            species = SAV.Personal.getPersonalEntryList(AltForms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
+            var AltForms = SAV.Personal.GetFormList(species, SAV.MaxSpeciesID);
+            species = SAV.Personal.GetPersonalEntryList(AltForms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
 
             DGV.Rows.Clear();
             for (int i = 1; i < species.Length; i++)
-                popEntry(i);
+                PopEntry(i);
 
             DGV.Sort(DGV.Columns[0], ListSortDirection.Ascending);
         }
 
-        private void popEntry(int index)
+        private void PopEntry(int index)
         {
             var p = SAV.Personal[index];
 
@@ -51,31 +51,31 @@ namespace PKHeX.WinForms
 
             int r = 0;
             row.Cells[r++].Value = s.ToString("000") + (f > 0 ? "-"+f.ToString("00") :"");
-            row.Cells[r++].Value = PKMUtil.getSprite(s, f, 0, 0, false, false, SAV.Generation);
+            row.Cells[r++].Value = PKMUtil.GetSprite(s, f, 0, 0, false, false, SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = s > 721 || Legal.PastGenAlolanNatives.Contains(s);
-            row.Cells[r].Style.BackColor = mapColor((int)((p.BST - 175) / 3f));
+            row.Cells[r].Style.BackColor = MapColor((int)((p.BST - 175) / 3f));
             row.Cells[r++].Value = p.BST.ToString("000");
-            row.Cells[r++].Value = PKMUtil.getTypeSprite(p.Types[0]);
-            row.Cells[r++].Value = p.Types[0] == p.Types[1] ? Resources.slotTrans : PKMUtil.getTypeSprite(p.Types[1]);
-            row.Cells[r].Style.BackColor = mapColor(p.HP);
+            row.Cells[r++].Value = PKMUtil.GetTypeSprite(p.Types[0]);
+            row.Cells[r++].Value = p.Types[0] == p.Types[1] ? Resources.slotTrans : PKMUtil.GetTypeSprite(p.Types[1]);
+            row.Cells[r].Style.BackColor = MapColor(p.HP);
             row.Cells[r++].Value = p.HP.ToString("000");
-            row.Cells[r].Style.BackColor = mapColor(p.ATK);
+            row.Cells[r].Style.BackColor = MapColor(p.ATK);
             row.Cells[r++].Value = p.ATK.ToString("000");
-            row.Cells[r].Style.BackColor = mapColor(p.DEF);
+            row.Cells[r].Style.BackColor = MapColor(p.DEF);
             row.Cells[r++].Value = p.DEF.ToString("000");
-            row.Cells[r].Style.BackColor = mapColor(p.SPA);
+            row.Cells[r].Style.BackColor = MapColor(p.SPA);
             row.Cells[r++].Value = p.SPA.ToString("000");
-            row.Cells[r].Style.BackColor = mapColor(p.SPD);
+            row.Cells[r].Style.BackColor = MapColor(p.SPD);
             row.Cells[r++].Value = p.SPD.ToString("000");
-            row.Cells[r].Style.BackColor = mapColor(p.SPE);
+            row.Cells[r].Style.BackColor = MapColor(p.SPE);
             row.Cells[r++].Value = p.SPE.ToString("000");
             row.Cells[r++].Value = abilities[p.Abilities[0]];
             row.Cells[r++].Value = abilities[p.Abilities[1]];
             row.Cells[r].Value = abilities[p.Abilities[2]];
             DGV.Rows.Add(row);
         }
-        private static Color mapColor(int v)
+        private static Color MapColor(int v)
         {
             const float maxval = 180; // shift the green cap down
             float x = 100f * v / maxval;
@@ -86,7 +86,7 @@ namespace PKHeX.WinForms
 
             return Blend(Color.FromArgb((int)red, (int)green, 0), Color.White, 0.4);
         }
-        public static Color Blend(Color color, Color backColor, double amount)
+        private static Color Blend(Color color, Color backColor, double amount)
         {
             byte r = (byte)(color.R * amount + backColor.R * (1 - amount));
             byte g = (byte)(color.G * amount + backColor.G * (1 - amount));

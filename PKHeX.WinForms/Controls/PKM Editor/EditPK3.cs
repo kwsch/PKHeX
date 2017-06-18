@@ -5,16 +5,16 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor
     {
-        private void populateFieldsPK3()
+        private void PopulateFieldsPK3()
         {
             PK3 pk3 = pkm as PK3;
             if (pk3 == null)
                 return;
 
             // Do first
-            pk3.Stat_Level = PKX.getLevel(pk3.Species, pk3.EXP);
+            pk3.Stat_Level = PKX.GetLevel(pk3.Species, pk3.EXP);
             if (pk3.Stat_Level == 100 && !HaX)
-                pk3.EXP = PKX.getEXP(pk3.Stat_Level, pk3.Species);
+                pk3.EXP = PKX.GetEXP(pk3.Stat_Level, pk3.Species);
 
             CB_Species.SelectedValue = pk3.Species;
             TB_Level.Text = pk3.Stat_Level.ToString();
@@ -25,7 +25,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Checked = pk3.IsEgg;
             CHK_Nicknamed.Checked = pk3.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk3.OT_Gender];
-            Label_OTGender.ForeColor = getGenderColor(pk3.OT_Gender);
+            Label_OTGender.ForeColor = GetGenderColor(pk3.OT_Gender);
             TB_PID.Text = pk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk3.HeldItem;
             CB_Ability.SelectedIndex = pk3.AbilityBit && CB_Ability.Items.Count > 1 ? 1 : 0;
@@ -95,28 +95,28 @@ namespace PKHeX.WinForms.Controls
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk3.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
-            updateStats();
+            UpdateStats();
 
             TB_EXP.Text = pk3.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk3.Gender];
-            Label_Gender.ForeColor = getGenderColor(pk3.Gender);
+            Label_Gender.ForeColor = GetGenderColor(pk3.Gender);
         }
-        private PKM preparePK3()
+        private PKM PreparePK3()
         {
             PK3 pk3 = pkm as PK3;
             if (pk3 == null)
                 return null;
 
-            pk3.Species = WinFormsUtil.getIndex(CB_Species);
-            pk3.HeldItem = WinFormsUtil.getIndex(CB_HeldItem);
+            pk3.Species = WinFormsUtil.GetIndex(CB_Species);
+            pk3.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk3.TID = Util.ToInt32(TB_TID.Text);
             pk3.SID = Util.ToInt32(TB_SID.Text);
             pk3.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk3.PID = Util.getHEXval(TB_PID.Text);
+            pk3.PID = Util.GetHexValue(TB_PID.Text);
             pk3.AbilityNumber = 1 << CB_Ability.SelectedIndex; // to match gen6+
 
             pk3.FatefulEncounter = CHK_Fateful.Checked;
-            pk3.Gender = PKX.getGender(Label_Gender.Text);
+            pk3.Gender = PKX.GetGender(Label_Gender.Text);
             pk3.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk3.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk3.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
@@ -134,18 +134,18 @@ namespace PKHeX.WinForms.Controls
             pk3.PKRS_Days = CB_PKRSDays.SelectedIndex;
             pk3.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
             pk3.Nickname = TB_Nickname.Text;
-            pk3.Move1 = WinFormsUtil.getIndex(CB_Move1);
-            pk3.Move2 = WinFormsUtil.getIndex(CB_Move2);
-            pk3.Move3 = WinFormsUtil.getIndex(CB_Move3);
-            pk3.Move4 = WinFormsUtil.getIndex(CB_Move4);
-            pk3.Move1_PP = WinFormsUtil.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-            pk3.Move2_PP = WinFormsUtil.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-            pk3.Move3_PP = WinFormsUtil.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-            pk3.Move4_PP = WinFormsUtil.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-            pk3.Move1_PPUps = WinFormsUtil.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-            pk3.Move2_PPUps = WinFormsUtil.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-            pk3.Move3_PPUps = WinFormsUtil.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-            pk3.Move4_PPUps = WinFormsUtil.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+            pk3.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            pk3.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            pk3.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            pk3.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            pk3.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk3.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk3.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk3.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk3.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk3.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk3.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk3.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
 
             pk3.IV_HP = Util.ToInt32(TB_HPIV.Text);
             pk3.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
@@ -159,13 +159,13 @@ namespace PKHeX.WinForms.Controls
             pk3.OT_Name = TB_OT.Text;
             pk3.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
 
-            pk3.Ball = WinFormsUtil.getIndex(CB_Ball);
+            pk3.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk3.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk3.OT_Gender = PKX.getGender(Label_OTGender.Text);
-            pk3.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            pk3.Language = WinFormsUtil.getIndex(CB_Language);
+            pk3.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk3.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
+            pk3.Language = WinFormsUtil.GetIndex(CB_Language);
 
-            pk3.Met_Location = WinFormsUtil.getIndex(CB_MetLocation);
+            pk3.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
 
             // Toss in Party Stats
             Array.Resize(ref pk3.Data, pk3.SIZE_PARTY);

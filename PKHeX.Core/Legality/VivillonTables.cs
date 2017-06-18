@@ -4,13 +4,13 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        private class CountryTable
+        private struct CountryTable
         {
             public byte countryID;
             public byte mainform;
             public FormSubregionTable[] otherforms;
         }
-        private class FormSubregionTable
+        private struct FormSubregionTable
         {
             public byte form;
             public int[] region;

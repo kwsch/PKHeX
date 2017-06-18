@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
         {
             SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             entries = new[]
             {
                 CB_F1, CB_F2, CB_F3, CB_F4, CB_F5, CB_F6,
@@ -60,10 +60,10 @@ namespace PKHeX.WinForms
             {
                 int o = ofs + 4 + i * 2;
                 var cb = entries[i];
-                var val = WinFormsUtil.getIndex(cb);
+                var val = WinFormsUtil.GetIndex(cb);
                 BitConverter.GetBytes((ushort)val).CopyTo(SAV.Data, o);
             }
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
     }

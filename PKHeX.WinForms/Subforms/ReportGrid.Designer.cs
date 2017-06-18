@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.WinForms
 {
-    partial class frmReport
+    partial class ReportGrid
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmReport));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportGrid));
             this.dgData = new System.Windows.Forms.DataGridView();
             this.BoxBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
@@ -48,7 +48,7 @@
             this.dgData.RowHeadersVisible = false;
             this.dgData.Size = new System.Drawing.Size(812, 461);
             this.dgData.TabIndex = 0;
-            this.dgData.Sorted += new System.EventHandler(this.dgData_Sorted);
+            this.dgData.Sorted += new System.EventHandler(this.Data_Sorted);
             // 
             // BoxBar
             // 
@@ -65,10 +65,10 @@
             this.Controls.Add(this.BoxBar);
             this.Controls.Add(this.dgData);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmReport";
+            this.Name = "ReportGrid";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Box Data Report";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.promptSaveCSV);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PromptSaveCSV);
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
             this.ResumeLayout(false);
 

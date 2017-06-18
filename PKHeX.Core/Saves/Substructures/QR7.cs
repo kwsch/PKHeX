@@ -17,7 +17,7 @@ namespace PKHeX.Core
     
     public static class QR7
     {
-        private static bool hasGenderDifferences(int species)
+        private static bool HasGenderDifferences(int species)
         {
             var gendered = new[]
             {
@@ -52,7 +52,7 @@ namespace PKHeX.Core
                     basedata[0x2B] = 2;
                     break;
                 default:
-                    basedata[0x2D] = (byte)(hasGenderDifferences(species) ? 0 : 1);
+                    basedata[0x2D] = (byte)(HasGenderDifferences(species) ? 0 : 1);
                     basedata[0x2B] = (byte)gender;
                     break;
             }
@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
             pk7.EncryptedPartyData.CopyTo(data, 0x30); // Copy in pokemon data
             GetRawQR(pk7.Species, pk7.AltForm, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
-            BitConverter.GetBytes((ushort) SaveUtil.check16(data.Take(0x1A0).ToArray(), 0)).CopyTo(data, 0x1A0);
+            BitConverter.GetBytes(SaveUtil.CRC16_7(data.Take(0x1A0).ToArray(), 0)).CopyTo(data, 0x1A0);
             return data;
         }
     }

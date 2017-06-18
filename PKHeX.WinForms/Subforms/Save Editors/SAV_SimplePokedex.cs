@@ -12,16 +12,16 @@ namespace PKHeX.WinForms
         {
             SAV = (Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             seen = new bool[SAV.MaxSpeciesID];
             caught = new bool[SAV.MaxSpeciesID];
 
-            string[] spec = Util.getSpeciesList(Main.curlanguage);
+            string[] spec = Util.GetSpeciesList(Main.CurrentLanguage);
             for (int i = 0; i < seen.Length; i++)
             {
                 int species = i + 1;
-                seen[i] = SAV.getSeen(species);
-                caught[i] = SAV.getCaught(species);
+                seen[i] = SAV.GetSeen(species);
+                caught[i] = SAV.GetCaught(species);
                 CLB_Seen.Items.Add(spec[species]);
                 CLB_Caught.Items.Add(spec[species]);
                 CLB_Seen.SetItemChecked(i, seen[i]);
@@ -39,10 +39,10 @@ namespace PKHeX.WinForms
             for (int i = 0; i < seen.Length; i++)
             {
                 int species = i + 1;
-                SAV.setSeen(species, seen[i]);
-                SAV.setCaught(species, caught[i]);
+                SAV.SetSeen(species, seen[i]);
+                SAV.SetCaught(species, caught[i]);
             }
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 

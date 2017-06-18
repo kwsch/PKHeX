@@ -10,7 +10,7 @@
 
         public uint ESV { get; set; }
         public int EncounterSlot(SlotType t) => SlotRange.GetSlot(t, ESV, FrameType);
-        public void setOriginSeed(int Offset) => OriginSeed = RNG.Reverse(Seed, Offset);
+        public void SetOriginSeed(int Offset) => OriginSeed = RNG.Reverse(Seed, Offset);
         public bool LevelSlotModified => Lead > LeadRequired.SynchronizeFail;
 
         public uint OriginSeed;

@@ -16,9 +16,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the Pokémon species names to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon species name.</returns>
-        public static string[] getSpeciesList(string language)
+        public static string[] GetSpeciesList(string language)
         {
-            return getStringList("species", language);
+            return GetStringList("species", language);
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the move names to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each move name.</returns>
-        public static string[] getMovesList(string language)
+        public static string[] GetMovesList(string language)
         {
-            return getStringList("moves", language);
+            return GetStringList("moves", language);
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the Pokémon ability names to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon ability name.</returns>
-        public static string[] getAbilitiesList(string language)
+        public static string[] GetAbilitiesList(string language)
         {
-            return getStringList("abilities", language);
+            return GetStringList("abilities", language);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the Pokémon nature names to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon nature name.</returns>
-        public static string[] getNaturesList(string language)
+        public static string[] GetNaturesList(string language)
         {
-            return getStringList("natures", language);
+            return GetStringList("natures", language);
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the Pokémon form names to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon form name.</returns>
-        public static string[] getFormsList(string language)
+        public static string[] GetFormsList(string language)
         {
-            return getStringList("forms", language);
+            return GetStringList("forms", language);
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the Pokémon type names to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon type name.</returns>
-        public static string[] getTypesList(string language)
+        public static string[] GetTypesList(string language)
         {
-            return getStringList("types", language);
+            return GetStringList("types", language);
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the Pokémon characteristic to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each Pokémon characteristic.</returns>
-        public static string[] getCharacteristicsList(string language)
+        public static string[] GetCharacteristicsList(string language)
         {
-            return getStringList("character", language);
+            return GetStringList("character", language);
         }
 
         /// <summary>
@@ -86,14 +86,14 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="language">Language of the items to select (e.g. "en", "fr", "jp", etc.)</param>
         /// <returns>An array of strings whose indexes correspond to the IDs of each item.</returns>
-        public static string[] getItemsList(string language)
+        public static string[] GetItemsList(string language)
         {
-            return getStringList("items", language);
+            return GetStringList("items", language);
         }
 
         #endregion
 
-        public static string[] getStringList(string f)
+        public static string[] GetStringList(string f)
         {
             var txt = Properties.Resources.ResourceManager.GetString(f); // Fetch File, \n to list.
             if (txt == null) return new string[0];
@@ -102,7 +102,7 @@ namespace PKHeX.Core
                 rawlist[i] = rawlist[i].Trim();
             return rawlist;
         }
-        public static string[] getStringList(string f, string l)
+        public static string[] GetStringList(string f, string l)
         {
             var txt = Properties.Resources.ResourceManager.GetString("text_" + f + "_" + l); // Fetch File, \n to list.
             if (txt == null) return new string[0];
@@ -111,14 +111,14 @@ namespace PKHeX.Core
                 rawlist[i] = rawlist[i].Trim();
             return rawlist;
         }
-        public static string[] getStringListFallback(string f, string l, string fallback)
+        public static string[] GetStringListFallback(string f, string l, string fallback)
         {
-            string[] text = getStringList(f, l);
+            string[] text = GetStringList(f, l);
             if (text.Length == 0)
-                text = getStringList(f, fallback);
+                text = GetStringList(f, fallback);
             return text;
         }
-        public static string[] getNulledStringArray(string[] SimpleStringList)
+        public static string[] GetNulledStringArray(string[] SimpleStringList)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace PKHeX.Core
             catch { return null; }
         }
 
-        public static byte[] getBinaryResource(string name)
+        public static byte[] GetBinaryResource(string name)
         {
             using (var resource = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceStream("PKHeX.Core.Resources.byte." + name))
             {
@@ -146,26 +146,26 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="input">Enumerable of translation definitions in the form "Property = Value".</param>
         /// <returns></returns>
-        private static string[] getProps(IEnumerable<string> input)
+        private static string[] GetProperties(IEnumerable<string> input)
         {
             return input.Select(l => l.Substring(0, l.IndexOf(TranslationSplitter, StringComparison.Ordinal))).ToArray();
         }
 
         private static IEnumerable<string> DumpStrings(Type t)
         {
-            var props = ReflectUtil.getPropertiesStartWithPrefix(t, "V");
+            var props = ReflectUtil.GetPropertiesStartWithPrefix(t, "V");
             return props.Select(p => $"{p}{TranslationSplitter}{ReflectUtil.GetValue(t, p).ToString()}");
         }
 
         /// <summary>
         /// Gets the current localization in a static class containing language-specific strings
         /// </summary>
-        public static string[] getLocalization(Type t, string[] existingLines = null)
+        public static string[] GetLocalization(Type t, string[] existingLines = null)
         {
             existingLines = existingLines ?? new string[0];
             var currentLines = DumpStrings(t).ToArray();
-            var existing = getProps(existingLines);
-            var current = getProps(currentLines);
+            var existing = GetProperties(existingLines);
+            var current = GetProperties(currentLines);
 
             var result = new string[currentLines.Length];
             for (int i = 0; i < current.Length; i++)
@@ -181,7 +181,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="lines">Lines containing the localized strings</param>
-        private static void setLocalization(Type t, IEnumerable<string> lines)
+        private static void SetLocalization(Type t, IEnumerable<string> lines)
         {            
             if (lines == null)
                 return;
@@ -210,9 +210,9 @@ namespace PKHeX.Core
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="languageFilePrefix">Prefix of the language file to use.  Example: if the target is legality_en.txt, <paramref name="languageFilePrefix"/> should be "legality".</param>
         /// <param name="currentCultureCode">Culture information</param>
-        private static void setLocalization(Type t, string languageFilePrefix, string currentCultureCode)
+        private static void SetLocalization(Type t, string languageFilePrefix, string currentCultureCode)
         {
-            setLocalization(t, getStringList($"{languageFilePrefix}_{currentCultureCode}"));
+            SetLocalization(t, GetStringList($"{languageFilePrefix}_{currentCultureCode}"));
         }
 
         /// <summary>
@@ -221,18 +221,18 @@ namespace PKHeX.Core
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <remarks>The values used to translate the given static class are retrieved from [TypeName]_[CurrentLangCode2].txt in the resource manager of PKHeX.Core.</remarks>
         /// <param name="currentCultureCode">Culture information</param>
-        public static void setLocalization(Type t, string currentCultureCode)
+        public static void SetLocalization(Type t, string currentCultureCode)
         {
-            setLocalization(t, t.Name, currentCultureCode);
+            SetLocalization(t, t.Name, currentCultureCode);
         }
 
         #endregion
 
         #region DataSource Providing
-        public static List<ComboItem> getCBList(string textfile, string lang)
+        public static List<ComboItem> GetCBList(string textfile, string lang)
         {
             // Set up
-            string[] inputCSV = getStringList(textfile);
+            string[] inputCSV = GetStringList(textfile);
 
             // Get Language we're fetching for
             int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
@@ -261,7 +261,7 @@ namespace PKHeX.Core
                 Value = indexes[Array.IndexOf(unsortedList, s)]
             }).ToList();
         }
-        public static List<ComboItem> getCBList(string[] inStrings, params int[][] allowed)
+        public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
         {
             List<ComboItem> cbList = new List<ComboItem>();
             if (allowed?.First() == null)
@@ -287,7 +287,7 @@ namespace PKHeX.Core
             }
             return cbList;
         }
-        public static List<ComboItem> getOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
+        public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
         {
             if (allowed == null)
                 allowed = Enumerable.Range(0, inStrings.Length).ToArray();
@@ -324,7 +324,7 @@ namespace PKHeX.Core
             
             return cbList;
         }
-        public static List<ComboItem> getVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
+        public static List<ComboItem> GetVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
         {
             // Set up
             List<ComboItem> newlist = new List<ComboItem>();
@@ -357,11 +357,11 @@ namespace PKHeX.Core
             }));
             return newlist;
         }
-        public static List<ComboItem> getUnsortedCBList(string textfile)
+        public static List<ComboItem> GetUnsortedCBList(string textfile)
         {
             // Set up
             List<ComboItem> cbList = new List<ComboItem>();
-            string[] inputCSV = getStringList(textfile);
+            string[] inputCSV = GetStringList(textfile);
 
             // Gather our data from the input file
             for (int i = 1; i < inputCSV.Length; i++)

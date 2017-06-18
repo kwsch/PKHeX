@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.WinForms
 {
-    partial class f2_Text
+    partial class TrashEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(f2_Text));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrashEditor));
             this.TB_Text = new System.Windows.Forms.TextBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_Cancel = new System.Windows.Forms.Button();
@@ -230,7 +230,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "f2_Text";
+            this.Name = "TrashEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Special Characters";
             this.GB_Trash.ResumeLayout(false);

@@ -269,26 +269,26 @@ namespace PKHeX.Core
         internal static readonly string[][] TradeXY =
         {
             new string[0],                       // 0 - None
-            Util.getStringList("tradexy", "ja"), // 1
-            Util.getStringList("tradexy", "en"), // 2
-            Util.getStringList("tradexy", "fr"), // 3
-            Util.getStringList("tradexy", "it"), // 4
-            Util.getStringList("tradexy", "de"), // 5
+            Util.GetStringList("tradexy", "ja"), // 1
+            Util.GetStringList("tradexy", "en"), // 2
+            Util.GetStringList("tradexy", "fr"), // 3
+            Util.GetStringList("tradexy", "it"), // 4
+            Util.GetStringList("tradexy", "de"), // 5
             new string[0],                       // 6 - None
-            Util.getStringList("tradexy", "es"), // 7
-            Util.getStringList("tradexy", "ko"), // 8
+            Util.GetStringList("tradexy", "es"), // 7
+            Util.GetStringList("tradexy", "ko"), // 8
         };
         internal static readonly string[][] TradeAO =
         {
             new string[0],                       // 0 - None
-            Util.getStringList("tradeao", "ja"), // 1
-            Util.getStringList("tradeao", "en"), // 2
-            Util.getStringList("tradeao", "fr"), // 3
-            Util.getStringList("tradeao", "it"), // 4
-            Util.getStringList("tradeao", "de"), // 5
+            Util.GetStringList("tradeao", "ja"), // 1
+            Util.GetStringList("tradeao", "en"), // 2
+            Util.GetStringList("tradeao", "fr"), // 3
+            Util.GetStringList("tradeao", "it"), // 4
+            Util.GetStringList("tradeao", "de"), // 5
             new string[0],                       // 6 - None
-            Util.getStringList("tradeao", "es"), // 7
-            Util.getStringList("tradeao", "ko"), // 8
+            Util.GetStringList("tradeao", "es"), // 7
+            Util.GetStringList("tradeao", "ko"), // 8
         };
 
         #region XY Alt Slots

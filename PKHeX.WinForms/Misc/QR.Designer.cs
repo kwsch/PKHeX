@@ -173,7 +173,7 @@ namespace PKHeX.WinForms
             this.B_Refresh.TabIndex = 8;
             this.B_Refresh.Text = "Refresh";
             this.B_Refresh.UseVisualStyleBackColor = true;
-            this.B_Refresh.Click += new EventHandler(this.updateBoxSlotCopies);
+            this.B_Refresh.Click += new EventHandler(this.UpdateBoxSlotCopies);
             // 
             // QR
             // 

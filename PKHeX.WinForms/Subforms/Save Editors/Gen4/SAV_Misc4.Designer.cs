@@ -597,7 +597,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(92, 20);
             this.CB_Species.TabIndex = 0;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeCBSpecies);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
             // 
             // NUD_HallStreaks
             // 

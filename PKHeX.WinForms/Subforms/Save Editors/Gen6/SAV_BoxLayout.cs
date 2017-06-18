@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
         {
             SAV = (Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             editing = true;
             
             // Repopulate Wallpaper names
@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
             // Go
             LB_BoxSelect.Items.Clear();
             for (int i = 0; i < SAV.BoxCount; i++)
-                LB_BoxSelect.Items.Add(SAV.getBoxName(i));
+                LB_BoxSelect.Items.Add(SAV.GetBoxName(i));
 
             // Flags
             byte[] flags = SAV.BoxFlags;
@@ -88,27 +88,27 @@ namespace PKHeX.WinForms
 
         private readonly NumericUpDown[] flagArr = new NumericUpDown[0];
         private bool editing;
-        private bool renameBox;
-        private void changeBox(object sender, EventArgs e)
+        private bool renamingBox;
+        private void ChangeBox(object sender, EventArgs e)
         {
-            if (renameBox)
+            if (renamingBox)
                 return;
             editing = true;
             
-            CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.getBoxWallpaper(LB_BoxSelect.SelectedIndex));
-            TB_BoxName.Text = SAV.getBoxName(LB_BoxSelect.SelectedIndex);
+            CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.GetBoxWallpaper(LB_BoxSelect.SelectedIndex));
+            TB_BoxName.Text = SAV.GetBoxName(LB_BoxSelect.SelectedIndex);
 
             editing = false; 
         }
-        private void changeBoxDetails(object sender, EventArgs e)
+        private void ChangeBoxDetails(object sender, EventArgs e)
         {
             if (editing)
                 return;
 
-            renameBox = true;
-            SAV.setBoxName(LB_BoxSelect.SelectedIndex, TB_BoxName.Text);
+            renamingBox = true;
+            SAV.SetBoxName(LB_BoxSelect.SelectedIndex, TB_BoxName.Text);
             LB_BoxSelect.Items[LB_BoxSelect.SelectedIndex] = TB_BoxName.Text;
-            renameBox = false;
+            renamingBox = false;
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -121,14 +121,14 @@ namespace PKHeX.WinForms
             if (CB_Unlocked.Visible)
                 SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 
-        private void changeBoxBG(object sender, EventArgs e)
+        private void ChangeBoxBackground(object sender, EventArgs e)
         {
             if (!editing)
-                SAV.setBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
+                SAV.SetBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
 
             PAN_BG.BackgroundImage = SAV.WallpaperImage(CB_BG.SelectedIndex);
         }
@@ -154,16 +154,16 @@ namespace PKHeX.WinForms
             LB_BoxSelect.Items.Insert(newIndex, selected);
             // Restore selection
             LB_BoxSelect.SetSelected(newIndex, true);
-            editing = renameBox = false;
+            editing = renamingBox = false;
 
             return true;
         }
 
-        private void moveBox(object sender, EventArgs e)
+        private void MoveBox(object sender, EventArgs e)
         {
             int index = LB_BoxSelect.SelectedIndex;
             int dir = sender == B_Up ? -1 : +1;
-            editing = renameBox = true;
+            editing = renamingBox = true;
             if (!MoveItem(dir))
             {
                 System.Media.SystemSounds.Asterisk.Play();
@@ -174,8 +174,8 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Locked/Team slots prevent movement of box(es).");
             }
             else
-                changeBox(null, null);
-            editing = renameBox = false;
+                ChangeBox(null, null);
+            editing = renamingBox = false;
         }
     }
 }

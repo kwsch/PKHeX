@@ -20,7 +20,7 @@ namespace PKHeX.WinForms
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
         private void B_OK_Click(object sender, EventArgs e)
         {
-            Result = (GameVersion)WinFormsUtil.getIndex(CB_Game);
+            Result = (GameVersion)WinFormsUtil.GetIndex(CB_Game);
             Close();
         }
         private void SAV_GameSelect_KeyDown(object sender, KeyEventArgs e)

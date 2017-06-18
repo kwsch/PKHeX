@@ -8,28 +8,28 @@ namespace PKHeX.Core
 {
     public static class VerifyRelearnMoves
     {
-        public static CheckResult[] verifyRelearn(PKM pkm, LegalInfo info)
+        public static CheckResult[] VerifyRelearn(PKM pkm, LegalInfo info)
         {
             if (pkm.GenNumber < 6 || pkm.VC1)
-                return verifyRelearnNone(pkm, info);
+                return VerifyRelearnNone(pkm, info);
 
             if (info.EncounterMatch is EncounterLink l)
-                return verifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
+                return VerifyRelearnSpecifiedMoveset(pkm, info, l.RelearnMoves);
             if (info.EncounterMatch is MysteryGift g)
-                return verifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
+                return VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
             if (info.EncounterMatch is EncounterStatic s)
-                return verifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
+                return VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
 
             if (info.EncounterMatch is EncounterEgg e)
-                return verifyRelearnEggBase(pkm, info, e);
+                return VerifyRelearnEggBase(pkm, info, e);
 
-            if (pkm.RelearnMove1 != 0 && info.EncounterMatch is EncounterSlot z && z.DexNav && EncounterGenerator.getDexNavValid(pkm))
-                return verifyRelearnDexNav(pkm, info);
+            if (pkm.RelearnMove1 != 0 && info.EncounterMatch is EncounterSlot z && z.Permissions.DexNav && EncounterGenerator.IsDexNavValid(pkm))
+                return VerifyRelearnDexNav(pkm, info);
 
-            return verifyRelearnNone(pkm, info);
+            return VerifyRelearnNone(pkm, info);
         }
 
-        private static CheckResult[] verifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, int[] moves)
+        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, int[] moves)
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
@@ -37,19 +37,19 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 4; i++)
                 res[i] = moves[i] != RelearnMoves[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(V178, movelist[moves[i]]), CheckIdentifier.RelearnMove)
+                    ? new CheckResult(Severity.Invalid, string.Format(V178, MoveStrings[moves[i]]), CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
 
             info.RelearnBase = moves;
             return res;
         }
-        private static CheckResult[] verifyRelearnDexNav(PKM pkm, LegalInfo info)
+        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, LegalInfo info)
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            res[0] = !Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm),true).Contains(RelearnMoves[0])
+            res[0] = !Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm),true).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, V183, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
             return res;
         }
-        private static CheckResult[] verifyRelearnNone(PKM pkm, LegalInfo info)
+        private static CheckResult[] VerifyRelearnNone(PKM pkm, LegalInfo info)
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
             return res;
         }
-        private static CheckResult[] verifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
+        private static CheckResult[] VerifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
         {
             int[] RelearnMoves = pkm.RelearnMoves;
             info.RelearnBase = new int[4];
@@ -90,12 +90,12 @@ namespace PKHeX.Core
             var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
 
             // Obtain level1 moves
-            List<int> baseMoves = new List<int>(Legal.getBaseEggMoves(pkm, e.Species, e.Game, 1));
+            List<int> baseMoves = new List<int>(Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 1));
             int baseCt = baseMoves.Count;
             if (baseCt > 4) baseCt = 4;
 
             // Obtain Inherited moves
-            var inheritMoves = Legal.getValidRelearn(pkm, e.Species, inheritLvlMoves).ToList();
+            var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, inheritLvlMoves).ToList();
             var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
             int inheritCt = inherited.Count;
 
@@ -118,7 +118,7 @@ namespace PKHeX.Core
                         res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
 
                     // provide the list of suggested base moves for the last required slot
-                    string em = string.Join(", ", baseMoves.Select(m => m >= movelist.Length ? V190 : movelist[m]));
+                    string em = string.Join(", ", baseMoves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]));
                     res[reqBase - 1].Comment += string.Format(Environment.NewLine + V181, em);
                     break;
                 }
@@ -132,7 +132,7 @@ namespace PKHeX.Core
 
             // If any splitbreed moves are invalid, flag accordingly
             var splitInvalid = false;
-            var splitMoves = e.SplitBreed ? Legal.getValidRelearn(pkm, Legal.getBaseEggSpecies(pkm), inheritLvlMoves).ToList() : new List<int>();
+            var splitMoves = e.SplitBreed ? Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), inheritLvlMoves).ToList() : new List<int>();
 
             // Inherited moves appear after the required base moves.
             for (int i = reqBase; i < 4; i++)
@@ -149,13 +149,13 @@ namespace PKHeX.Core
 
             if (splitInvalid)
             {
-                var splitSpecies = Legal.getBaseEggSpecies(pkm);
+                var splitSpecies = Legal.GetBaseEggSpecies(pkm);
                 for (int i = reqBase; i < 4; i++)
                 {
                     if (inheritMoves.Contains(RelearnMoves[i]) && !splitMoves.Contains(RelearnMoves[i]))
-                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, specieslist[splitSpecies], specieslist[e.Species]), CheckIdentifier.RelearnMove);
+                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, SpeciesStrings[splitSpecies], SpeciesStrings[e.Species]), CheckIdentifier.RelearnMove);
                     if (!inheritMoves.Contains(RelearnMoves[i]) && splitMoves.Contains(RelearnMoves[i]))
-                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, specieslist[e.Species], specieslist[splitSpecies]), CheckIdentifier.RelearnMove);
+                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, SpeciesStrings[e.Species], SpeciesStrings[splitSpecies]), CheckIdentifier.RelearnMove);
                 }
             }
 

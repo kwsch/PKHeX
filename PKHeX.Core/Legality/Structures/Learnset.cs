@@ -16,7 +16,7 @@ namespace PKHeX.Core
         /// <param name="maxLevel">Maximum level</param>
         /// <param name="minLevel">Minimum level</param>
         /// <returns>Array of Move IDs</returns>
-        public int[] getMoves(int maxLevel, int minLevel = 0)
+        public int[] GetMoves(int maxLevel, int minLevel = 0)
         {
             if (minLevel <= 1 && maxLevel >= 100)
                 return Moves;
@@ -35,7 +35,7 @@ namespace PKHeX.Core
         /// <param name="level">The level the Pokémon was encountered at.</param>
         /// <param name="count">The amount of move slots to return.</param>
         /// <returns>Array of Move IDs</returns>
-        public int[] getEncounterMoves(int level, int count = 4)
+        public int[] GetEncounterMoves(int level, int count = 4)
         {
             if (count == 0 || Moves.Length == 0)
                 return new int[0];
@@ -53,7 +53,7 @@ namespace PKHeX.Core
         /// <remarks>Helps determine the minimum level an encounter can be at.</remarks>
         /// <param name="level">The level the Pokémon was encountered at.</param>
         /// <returns>Array of Move IDs</returns>
-        public int getMinMoveLevel(int level)
+        public int GetMinMoveLevel(int level)
         {
             if (Levels.Length == 0)
                 return 1;
@@ -65,7 +65,7 @@ namespace PKHeX.Core
         /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
         /// <param name="move">Move ID</param>
         /// <returns>Level the move is learned at. If the result is below 0, it cannot be learned by levelup.</returns>
-        public int getLevelLearnMove(int move)
+        public int GetLevelLearnMove(int move)
         {
             int index = Array.IndexOf(Moves, move);
             return index < 0 ? 0 : Levels[index];
@@ -89,7 +89,7 @@ namespace PKHeX.Core
             Levels = levels.ToArray();
             Count = Moves.Length;
         }
-        public static Learnset[] getArray(byte[] input, int maxSpecies)
+        public static Learnset[] GetArray(byte[] input, int maxSpecies)
         {
             var data = new Learnset[maxSpecies + 1];
 
@@ -116,7 +116,7 @@ namespace PKHeX.Core
                     Levels[i] = br.ReadInt16();
                 }
         }
-        public static Learnset[] getArray(byte[][] entries)
+        public static Learnset[] GetArray(byte[][] entries)
         {
             Learnset[] data = new Learnset[entries.Length];
             for (int i = 0; i < data.Length; i++)
@@ -140,7 +140,7 @@ namespace PKHeX.Core
                     Levels[i] = br.ReadInt16();
                 }
         }
-        public static Learnset[] getArray(byte[][] entries)
+        public static Learnset[] GetArray(byte[][] entries)
         {
             Learnset[] data = new Learnset[entries.Length];
             for (int i = 0; i < data.Length; i++)

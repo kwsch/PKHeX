@@ -148,7 +148,7 @@
             this.MT_PikaFriend.TabIndex = 72;
             this.MT_PikaFriend.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_PikaFriend.Visible = false;
-            this.MT_PikaFriend.TextChanged += new System.EventHandler(this.change255);
+            this.MT_PikaFriend.TextChanged += new System.EventHandler(this.Change255);
             // 
             // L_Started
             // 
@@ -347,7 +347,7 @@
             this.MT_TID.Size = new System.Drawing.Size(39, 20);
             this.MT_TID.TabIndex = 63;
             this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_TID.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.MT_TID.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // MT_SID
             // 
@@ -358,7 +358,7 @@
             this.MT_SID.Size = new System.Drawing.Size(39, 20);
             this.MT_SID.TabIndex = 64;
             this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_SID.TextChanged += new System.EventHandler(this.changeFFFF);
+            this.MT_SID.TextChanged += new System.EventHandler(this.ChangeFFFF);
             // 
             // B_MaxCash
             // 
@@ -402,7 +402,7 @@
             this.NUD_Z.Name = "NUD_Z";
             this.NUD_Z.Size = new System.Drawing.Size(50, 20);
             this.NUD_Z.TabIndex = 53;
-            this.NUD_Z.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_Z.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_M
             // 
@@ -415,7 +415,7 @@
             this.NUD_M.Name = "NUD_M";
             this.NUD_M.Size = new System.Drawing.Size(50, 20);
             this.NUD_M.TabIndex = 52;
-            this.NUD_M.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_M.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_Y
             // 
@@ -428,7 +428,7 @@
             this.NUD_Y.Name = "NUD_Y";
             this.NUD_Y.Size = new System.Drawing.Size(50, 20);
             this.NUD_Y.TabIndex = 51;
-            this.NUD_Y.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_Y.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_X
             // 
@@ -441,7 +441,7 @@
             this.NUD_X.Name = "NUD_X";
             this.NUD_X.Size = new System.Drawing.Size(50, 20);
             this.NUD_X.TabIndex = 50;
-            this.NUD_X.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_X.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // L_Y
             // 

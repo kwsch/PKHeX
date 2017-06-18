@@ -481,7 +481,7 @@
             this.BTN_Shinytize.TabIndex = 1;
             this.BTN_Shinytize.Text = "☆";
             this.BTN_Shinytize.UseVisualStyleBackColor = true;
-            this.BTN_Shinytize.Click += new System.EventHandler(this.updateShinyPID);
+            this.BTN_Shinytize.Click += new System.EventHandler(this.UpdateShinyPID);
             // 
             // Label_IsShiny
             // 
@@ -521,8 +521,8 @@
             this.TB_PID.Size = new System.Drawing.Size(60, 20);
             this.TB_PID.TabIndex = 1;
             this.TB_PID.Text = "12345678";
-            this.TB_PID.MouseHover += new System.EventHandler(this.updateTSV);
-            this.TB_PID.Validated += new System.EventHandler(this.update_ID);
+            this.TB_PID.MouseHover += new System.EventHandler(this.UpdateTSV);
+            this.TB_PID.Validated += new System.EventHandler(this.Update_ID);
             // 
             // Label_Gender
             // 
@@ -535,7 +535,7 @@
             this.Label_Gender.TabIndex = 55;
             this.Label_Gender.Text = "-";
             this.Label_Gender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_Gender.Click += new System.EventHandler(this.clickGender);
+            this.Label_Gender.Click += new System.EventHandler(this.ClickGender);
             // 
             // BTN_RerollPID
             // 
@@ -548,7 +548,7 @@
             this.BTN_RerollPID.TabIndex = 1;
             this.BTN_RerollPID.Text = "Reroll";
             this.BTN_RerollPID.UseVisualStyleBackColor = true;
-            this.BTN_RerollPID.Click += new System.EventHandler(this.updateRandomPID);
+            this.BTN_RerollPID.Click += new System.EventHandler(this.UpdateRandomPID);
             // 
             // FLP_Species
             // 
@@ -571,7 +571,7 @@
             this.Label_Species.TabIndex = 1;
             this.Label_Species.Text = "Species:";
             this.Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_Species.Click += new System.EventHandler(this.updateNickname);
+            this.Label_Species.Click += new System.EventHandler(this.UpdateNickname);
             // 
             // CB_Species
             // 
@@ -583,10 +583,10 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(126, 21);
             this.CB_Species.TabIndex = 3;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.updateSpecies);
-            this.CB_Species.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Species.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Species.SelectedValueChanged += new System.EventHandler(this.UpdateSpecies);
+            this.CB_Species.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Species.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_Nickname
             // 
@@ -621,7 +621,7 @@
             this.CHK_Nicknamed.Text = "Nickname";
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Nicknamed.UseVisualStyleBackColor = true;
-            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.updateNickname);
+            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.UpdateNickname);
             // 
             // TB_Nickname
             // 
@@ -632,8 +632,8 @@
             this.TB_Nickname.Name = "TB_Nickname";
             this.TB_Nickname.Size = new System.Drawing.Size(126, 20);
             this.TB_Nickname.TabIndex = 5;
-            this.TB_Nickname.TextChanged += new System.EventHandler(this.updateIsNicknamed);
-            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
+            this.TB_Nickname.TextChanged += new System.EventHandler(this.UpdateIsNicknamed);
+            this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // FLP_EXPLevel
             // 
@@ -680,7 +680,7 @@
             this.TB_EXP.Size = new System.Drawing.Size(46, 20);
             this.TB_EXP.TabIndex = 7;
             this.TB_EXP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_EXP.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            this.TB_EXP.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // Label_CurLevel
             // 
@@ -691,7 +691,7 @@
             this.Label_CurLevel.TabIndex = 7;
             this.Label_CurLevel.Text = "Level:";
             this.Label_CurLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_CurLevel.Click += new System.EventHandler(this.clickMetLocation);
+            this.Label_CurLevel.Click += new System.EventHandler(this.ClickMetLocation);
             // 
             // TB_Level
             // 
@@ -702,8 +702,8 @@
             this.TB_Level.Name = "TB_Level";
             this.TB_Level.Size = new System.Drawing.Size(22, 20);
             this.TB_Level.TabIndex = 8;
-            this.TB_Level.Click += new System.EventHandler(this.clickLevel);
-            this.TB_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            this.TB_Level.Click += new System.EventHandler(this.ClickLevel);
+            this.TB_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // MT_Level
             // 
@@ -716,8 +716,8 @@
             this.MT_Level.Size = new System.Drawing.Size(22, 20);
             this.MT_Level.TabIndex = 17;
             this.MT_Level.Visible = false;
-            this.MT_Level.Click += new System.EventHandler(this.clickLevel);
-            this.MT_Level.TextChanged += new System.EventHandler(this.updateEXPLevel);
+            this.MT_Level.Click += new System.EventHandler(this.ClickLevel);
+            this.MT_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
             // 
             // FLP_Nature
             // 
@@ -750,10 +750,10 @@
             this.CB_Nature.Name = "CB_Nature";
             this.CB_Nature.Size = new System.Drawing.Size(126, 21);
             this.CB_Nature.TabIndex = 9;
-            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Nature.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Nature.MouseHover += new System.EventHandler(this.updateNatureModification);
-            this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Nature.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Nature.MouseHover += new System.EventHandler(this.UpdateNatureModification);
+            this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_HeldItem
             // 
@@ -787,9 +787,9 @@
             this.CB_HeldItem.Name = "CB_HeldItem";
             this.CB_HeldItem.Size = new System.Drawing.Size(126, 21);
             this.CB_HeldItem.TabIndex = 10;
-            this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_HeldItem.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_HeldItem.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_FriendshipForm
             // 
@@ -823,7 +823,7 @@
             this.Label_Friendship.TabIndex = 9;
             this.Label_Friendship.Text = "Friendship:";
             this.Label_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_Friendship.Click += new System.EventHandler(this.clickFriendship);
+            this.Label_Friendship.Click += new System.EventHandler(this.ClickFriendship);
             // 
             // Label_HatchCounter
             // 
@@ -858,7 +858,7 @@
             this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
             this.TB_Friendship.TabIndex = 11;
             this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Friendship.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Friendship.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // Label_Form
             // 
@@ -883,7 +883,7 @@
             this.CB_Form.Name = "CB_Form";
             this.CB_Form.Size = new System.Drawing.Size(71, 21);
             this.CB_Form.TabIndex = 12;
-            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.updateForm);
+            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
             // 
             // MT_Form
             // 
@@ -896,7 +896,7 @@
             this.MT_Form.TabIndex = 18;
             this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Form.Visible = false;
-            this.MT_Form.Validated += new System.EventHandler(this.updateHaXForm);
+            this.MT_Form.Validated += new System.EventHandler(this.UpdateHaXForm);
             // 
             // FLP_Ability
             // 
@@ -943,9 +943,9 @@
             this.CB_Ability.Name = "CB_Ability";
             this.CB_Ability.Size = new System.Drawing.Size(126, 21);
             this.CB_Ability.TabIndex = 13;
-            this.CB_Ability.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Ability.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Ability.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Ability.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Ability.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Ability.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // DEV_Ability
             // 
@@ -1005,7 +1005,7 @@
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(126, 21);
             this.CB_Language.TabIndex = 15;
-            this.CB_Language.SelectedIndexChanged += new System.EventHandler(this.updateNickname);
+            this.CB_Language.SelectedIndexChanged += new System.EventHandler(this.UpdateNickname);
             // 
             // FLP_EggPKRS
             // 
@@ -1040,7 +1040,7 @@
             this.CHK_IsEgg.Text = "Is Egg";
             this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_IsEgg.UseVisualStyleBackColor = true;
-            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.updateIsEgg);
+            this.CHK_IsEgg.CheckedChanged += new System.EventHandler(this.UpdateIsEgg);
             // 
             // FLP_EggPKRSRight
             // 
@@ -1064,7 +1064,7 @@
             this.CHK_Infected.Text = "Infected";
             this.CHK_Infected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Infected.UseVisualStyleBackColor = true;
-            this.CHK_Infected.CheckedChanged += new System.EventHandler(this.updatePKRSInfected);
+            this.CHK_Infected.CheckedChanged += new System.EventHandler(this.UpdatePKRSInfected);
             // 
             // CHK_Cured
             // 
@@ -1077,7 +1077,7 @@
             this.CHK_Cured.Text = "Cured";
             this.CHK_Cured.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Cured.UseVisualStyleBackColor = true;
-            this.CHK_Cured.CheckedChanged += new System.EventHandler(this.updatePKRSCured);
+            this.CHK_Cured.CheckedChanged += new System.EventHandler(this.UpdatePKRSCured);
             // 
             // FLP_PKRS
             // 
@@ -1140,7 +1140,7 @@
             this.CB_PKRSStrain.Size = new System.Drawing.Size(43, 21);
             this.CB_PKRSStrain.TabIndex = 19;
             this.CB_PKRSStrain.Visible = false;
-            this.CB_PKRSStrain.SelectedValueChanged += new System.EventHandler(this.updatePKRSstrain);
+            this.CB_PKRSStrain.SelectedValueChanged += new System.EventHandler(this.UpdatePKRSstrain);
             // 
             // Label_PKRSdays
             // 
@@ -1163,7 +1163,7 @@
             this.CB_PKRSDays.Size = new System.Drawing.Size(30, 21);
             this.CB_PKRSDays.TabIndex = 20;
             this.CB_PKRSDays.Visible = false;
-            this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.updatePKRSdays);
+            this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.UpdatePKRSdays);
             // 
             // FLP_Country
             // 
@@ -1197,9 +1197,9 @@
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(126, 21);
             this.CB_Country.TabIndex = 21;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.updateCountry);
-            this.CB_Country.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
+            this.CB_Country.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_SubRegion
             // 
@@ -1233,8 +1233,8 @@
             this.CB_SubRegion.Name = "CB_SubRegion";
             this.CB_SubRegion.Size = new System.Drawing.Size(126, 21);
             this.CB_SubRegion.TabIndex = 22;
-            this.CB_SubRegion.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_SubRegion.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_3DSRegion
             // 
@@ -1333,7 +1333,7 @@
             this.NUD_ShadowID.Name = "NUD_ShadowID";
             this.NUD_ShadowID.Size = new System.Drawing.Size(51, 20);
             this.NUD_ShadowID.TabIndex = 103;
-            this.NUD_ShadowID.ValueChanged += new System.EventHandler(this.updateShadowID);
+            this.NUD_ShadowID.ValueChanged += new System.EventHandler(this.UpdateShadowID);
             // 
             // FLP_Purification
             // 
@@ -1369,7 +1369,7 @@
             this.NUD_Purification.Name = "NUD_Purification";
             this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
             this.NUD_Purification.TabIndex = 103;
-            this.NUD_Purification.ValueChanged += new System.EventHandler(this.updatePurification);
+            this.NUD_Purification.ValueChanged += new System.EventHandler(this.UpdatePurification);
             // 
             // CHK_Shadow
             // 
@@ -1382,7 +1382,7 @@
             this.CHK_Shadow.Text = "Shadow";
             this.CHK_Shadow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CHK_Shadow.UseVisualStyleBackColor = true;
-            this.CHK_Shadow.CheckedChanged += new System.EventHandler(this.updateShadowCHK);
+            this.CHK_Shadow.CheckedChanged += new System.EventHandler(this.UpdateShadowCHK);
             // 
             // Tab_Met
             // 
@@ -1407,7 +1407,7 @@
             this.CHK_AsEgg.TabIndex = 8;
             this.CHK_AsEgg.Text = "As Egg";
             this.CHK_AsEgg.UseVisualStyleBackColor = true;
-            this.CHK_AsEgg.Click += new System.EventHandler(this.updateMetAsEgg);
+            this.CHK_AsEgg.Click += new System.EventHandler(this.UpdateMetAsEgg);
             // 
             // GB_EggConditions
             // 
@@ -1433,9 +1433,9 @@
             this.CB_EggLocation.Name = "CB_EggLocation";
             this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
             this.CB_EggLocation.TabIndex = 10;
-            this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.validateLocation);
-            this.CB_EggLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
+            this.CB_EggLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CAL_EggDate
             // 
@@ -1512,7 +1512,7 @@
             this.CB_GameOrigin.Name = "CB_GameOrigin";
             this.CB_GameOrigin.Size = new System.Drawing.Size(126, 21);
             this.CB_GameOrigin.TabIndex = 1;
-            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.updateOriginGame);
+            this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.UpdateOriginGame);
             // 
             // FLP_MetLocation
             // 
@@ -1534,7 +1534,7 @@
             this.Label_MetLocation.TabIndex = 1;
             this.Label_MetLocation.Text = "Met Location:";
             this.Label_MetLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_MetLocation.Click += new System.EventHandler(this.clickMetLocation);
+            this.Label_MetLocation.Click += new System.EventHandler(this.ClickMetLocation);
             // 
             // CB_MetLocation
             // 
@@ -1547,9 +1547,9 @@
             this.CB_MetLocation.Name = "CB_MetLocation";
             this.CB_MetLocation.Size = new System.Drawing.Size(126, 21);
             this.CB_MetLocation.TabIndex = 2;
-            this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.validateLocation);
-            this.CB_MetLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
+            this.CB_MetLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_Ball
             // 
@@ -1606,10 +1606,10 @@
             this.CB_Ball.Name = "CB_Ball";
             this.CB_Ball.Size = new System.Drawing.Size(126, 21);
             this.CB_Ball.TabIndex = 3;
-            this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.updateBall);
-            this.CB_Ball.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Ball.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.UpdateBall);
+            this.CB_Ball.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Ball.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_MetLevel
             // 
@@ -1641,7 +1641,7 @@
             this.TB_MetLevel.Name = "TB_MetLevel";
             this.TB_MetLevel.Size = new System.Drawing.Size(126, 20);
             this.TB_MetLevel.TabIndex = 4;
-            this.TB_MetLevel.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_MetLevel.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // FLP_MetDate
             // 
@@ -1778,9 +1778,9 @@
             this.CB_MetTimeOfDay.Size = new System.Drawing.Size(126, 21);
             this.CB_MetTimeOfDay.TabIndex = 11;
             this.CB_MetTimeOfDay.Visible = false;
-            this.CB_MetTimeOfDay.SelectedIndexChanged += new System.EventHandler(this.validateComboBox2);
-            this.CB_MetTimeOfDay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_MetTimeOfDay.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_MetTimeOfDay.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_MetTimeOfDay.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_MetTimeOfDay.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // Tab_Stats
             // 
@@ -1826,7 +1826,7 @@
             this.TB_Sheen.Size = new System.Drawing.Size(31, 20);
             this.TB_Sheen.TabIndex = 45;
             this.TB_Sheen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Sheen.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Sheen.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Tough
             // 
@@ -1837,7 +1837,7 @@
             this.TB_Tough.Size = new System.Drawing.Size(31, 20);
             this.TB_Tough.TabIndex = 44;
             this.TB_Tough.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Tough.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Tough.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Smart
             // 
@@ -1848,7 +1848,7 @@
             this.TB_Smart.Size = new System.Drawing.Size(31, 20);
             this.TB_Smart.TabIndex = 43;
             this.TB_Smart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Smart.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Smart.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Cute
             // 
@@ -1859,7 +1859,7 @@
             this.TB_Cute.Size = new System.Drawing.Size(31, 20);
             this.TB_Cute.TabIndex = 42;
             this.TB_Cute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Cute.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Cute.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Beauty
             // 
@@ -1870,7 +1870,7 @@
             this.TB_Beauty.Size = new System.Drawing.Size(31, 20);
             this.TB_Beauty.TabIndex = 41;
             this.TB_Beauty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Beauty.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Beauty.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_Cool
             // 
@@ -1881,7 +1881,7 @@
             this.TB_Cool.Size = new System.Drawing.Size(31, 20);
             this.TB_Cool.TabIndex = 40;
             this.TB_Cool.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Cool.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_Cool.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // Label_Sheen
             // 
@@ -1996,7 +1996,7 @@
             this.CHK_HackedStats.Text = "Hacked Stats";
             this.CHK_HackedStats.UseVisualStyleBackColor = true;
             this.CHK_HackedStats.Visible = false;
-            this.CHK_HackedStats.Click += new System.EventHandler(this.updateHackedStats);
+            this.CHK_HackedStats.Click += new System.EventHandler(this.UpdateHackedStats);
             // 
             // FLP_StatsHeaderRight
             // 
@@ -2060,7 +2060,7 @@
             this.Label_HP.TabIndex = 19;
             this.Label_HP.Text = "HP:";
             this.Label_HP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_HP.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
+            this.Label_HP.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickStatLabel);
             // 
             // FLP_HPRight
             // 
@@ -2084,8 +2084,8 @@
             this.TB_HPIV.Size = new System.Drawing.Size(22, 20);
             this.TB_HPIV.TabIndex = 1;
             this.TB_HPIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_HPIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_HPIV.TextChanged += new System.EventHandler(this.updateIVs);
+            this.TB_HPIV.Click += new System.EventHandler(this.ClickIV);
+            this.TB_HPIV.TextChanged += new System.EventHandler(this.UpdateIVs);
             // 
             // TB_HPEV
             // 
@@ -2097,8 +2097,8 @@
             this.TB_HPEV.Size = new System.Drawing.Size(28, 20);
             this.TB_HPEV.TabIndex = 7;
             this.TB_HPEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_HPEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_HPEV.TextChanged += new System.EventHandler(this.updateEVs);
+            this.TB_HPEV.Click += new System.EventHandler(this.ClickEV);
+            this.TB_HPEV.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
             // Stat_HP
             // 
@@ -2112,7 +2112,7 @@
             this.Stat_HP.Size = new System.Drawing.Size(37, 20);
             this.Stat_HP.TabIndex = 45;
             this.Stat_HP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_HP.TextChanged += new System.EventHandler(this.updateHackedStatText);
+            this.Stat_HP.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
             // 
             // FLP_Atk
             // 
@@ -2134,7 +2134,7 @@
             this.Label_ATK.TabIndex = 20;
             this.Label_ATK.Text = "Atk:";
             this.Label_ATK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_ATK.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
+            this.Label_ATK.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickStatLabel);
             // 
             // FLP_AtkRight
             // 
@@ -2158,8 +2158,8 @@
             this.TB_ATKIV.Size = new System.Drawing.Size(22, 20);
             this.TB_ATKIV.TabIndex = 2;
             this.TB_ATKIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ATKIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_ATKIV.TextChanged += new System.EventHandler(this.updateIVs);
+            this.TB_ATKIV.Click += new System.EventHandler(this.ClickIV);
+            this.TB_ATKIV.TextChanged += new System.EventHandler(this.UpdateIVs);
             // 
             // TB_ATKEV
             // 
@@ -2171,8 +2171,8 @@
             this.TB_ATKEV.Size = new System.Drawing.Size(28, 20);
             this.TB_ATKEV.TabIndex = 8;
             this.TB_ATKEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ATKEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_ATKEV.TextChanged += new System.EventHandler(this.updateEVs);
+            this.TB_ATKEV.Click += new System.EventHandler(this.ClickEV);
+            this.TB_ATKEV.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
             // Stat_ATK
             // 
@@ -2186,7 +2186,7 @@
             this.Stat_ATK.Size = new System.Drawing.Size(37, 20);
             this.Stat_ATK.TabIndex = 46;
             this.Stat_ATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_ATK.TextChanged += new System.EventHandler(this.updateHackedStatText);
+            this.Stat_ATK.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
             // 
             // FLP_Def
             // 
@@ -2208,7 +2208,7 @@
             this.Label_DEF.TabIndex = 21;
             this.Label_DEF.Text = "Def:";
             this.Label_DEF.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_DEF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
+            this.Label_DEF.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickStatLabel);
             // 
             // FLP_DefRight
             // 
@@ -2232,8 +2232,8 @@
             this.TB_DEFIV.Size = new System.Drawing.Size(22, 20);
             this.TB_DEFIV.TabIndex = 3;
             this.TB_DEFIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_DEFIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_DEFIV.TextChanged += new System.EventHandler(this.updateIVs);
+            this.TB_DEFIV.Click += new System.EventHandler(this.ClickIV);
+            this.TB_DEFIV.TextChanged += new System.EventHandler(this.UpdateIVs);
             // 
             // TB_DEFEV
             // 
@@ -2245,8 +2245,8 @@
             this.TB_DEFEV.Size = new System.Drawing.Size(28, 20);
             this.TB_DEFEV.TabIndex = 9;
             this.TB_DEFEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_DEFEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_DEFEV.TextChanged += new System.EventHandler(this.updateEVs);
+            this.TB_DEFEV.Click += new System.EventHandler(this.ClickEV);
+            this.TB_DEFEV.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
             // Stat_DEF
             // 
@@ -2260,7 +2260,7 @@
             this.Stat_DEF.Size = new System.Drawing.Size(37, 20);
             this.Stat_DEF.TabIndex = 47;
             this.Stat_DEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_DEF.TextChanged += new System.EventHandler(this.updateHackedStatText);
+            this.Stat_DEF.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
             // 
             // FLP_SpA
             // 
@@ -2294,7 +2294,7 @@
             this.Label_SPA.TabIndex = 22;
             this.Label_SPA.Text = "SpA:";
             this.Label_SPA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
+            this.Label_SPA.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickStatLabel);
             // 
             // Label_SPC
             // 
@@ -2328,8 +2328,8 @@
             this.TB_SPAIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPAIV.TabIndex = 4;
             this.TB_SPAIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPAIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_SPAIV.TextChanged += new System.EventHandler(this.updateIVs);
+            this.TB_SPAIV.Click += new System.EventHandler(this.ClickIV);
+            this.TB_SPAIV.TextChanged += new System.EventHandler(this.UpdateIVs);
             // 
             // TB_SPAEV
             // 
@@ -2341,8 +2341,8 @@
             this.TB_SPAEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPAEV.TabIndex = 10;
             this.TB_SPAEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPAEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_SPAEV.TextChanged += new System.EventHandler(this.updateEVs);
+            this.TB_SPAEV.Click += new System.EventHandler(this.ClickEV);
+            this.TB_SPAEV.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
             // Stat_SPA
             // 
@@ -2356,7 +2356,7 @@
             this.Stat_SPA.Size = new System.Drawing.Size(37, 20);
             this.Stat_SPA.TabIndex = 48;
             this.Stat_SPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_SPA.TextChanged += new System.EventHandler(this.updateHackedStatText);
+            this.Stat_SPA.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
             // 
             // FLP_SpD
             // 
@@ -2378,7 +2378,7 @@
             this.Label_SPD.TabIndex = 23;
             this.Label_SPD.Text = "SpD:";
             this.Label_SPD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
+            this.Label_SPD.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickStatLabel);
             // 
             // FLP_SpDRight
             // 
@@ -2402,8 +2402,8 @@
             this.TB_SPDIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPDIV.TabIndex = 5;
             this.TB_SPDIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPDIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_SPDIV.TextChanged += new System.EventHandler(this.updateIVs);
+            this.TB_SPDIV.Click += new System.EventHandler(this.ClickIV);
+            this.TB_SPDIV.TextChanged += new System.EventHandler(this.UpdateIVs);
             // 
             // TB_SPDEV
             // 
@@ -2415,8 +2415,8 @@
             this.TB_SPDEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPDEV.TabIndex = 11;
             this.TB_SPDEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPDEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_SPDEV.TextChanged += new System.EventHandler(this.updateEVs);
+            this.TB_SPDEV.Click += new System.EventHandler(this.ClickEV);
+            this.TB_SPDEV.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
             // Stat_SPD
             // 
@@ -2430,7 +2430,7 @@
             this.Stat_SPD.Size = new System.Drawing.Size(37, 20);
             this.Stat_SPD.TabIndex = 49;
             this.Stat_SPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_SPD.TextChanged += new System.EventHandler(this.updateHackedStatText);
+            this.Stat_SPD.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
             // 
             // FLP_Spe
             // 
@@ -2452,7 +2452,7 @@
             this.Label_SPE.TabIndex = 24;
             this.Label_SPE.Text = "Spe:";
             this.Label_SPE.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_SPE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickStatLabel);
+            this.Label_SPE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickStatLabel);
             // 
             // FLP_SpeRight
             // 
@@ -2476,8 +2476,8 @@
             this.TB_SPEIV.Size = new System.Drawing.Size(22, 20);
             this.TB_SPEIV.TabIndex = 6;
             this.TB_SPEIV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPEIV.Click += new System.EventHandler(this.clickIV);
-            this.TB_SPEIV.TextChanged += new System.EventHandler(this.updateIVs);
+            this.TB_SPEIV.Click += new System.EventHandler(this.ClickIV);
+            this.TB_SPEIV.TextChanged += new System.EventHandler(this.UpdateIVs);
             // 
             // TB_SPEEV
             // 
@@ -2489,8 +2489,8 @@
             this.TB_SPEEV.Size = new System.Drawing.Size(28, 20);
             this.TB_SPEEV.TabIndex = 12;
             this.TB_SPEEV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SPEEV.Click += new System.EventHandler(this.clickEV);
-            this.TB_SPEEV.TextChanged += new System.EventHandler(this.updateEVs);
+            this.TB_SPEEV.Click += new System.EventHandler(this.ClickEV);
+            this.TB_SPEEV.TextChanged += new System.EventHandler(this.UpdateEVs);
             // 
             // Stat_SPE
             // 
@@ -2504,7 +2504,7 @@
             this.Stat_SPE.Size = new System.Drawing.Size(37, 20);
             this.Stat_SPE.TabIndex = 50;
             this.Stat_SPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Stat_SPE.TextChanged += new System.EventHandler(this.updateHackedStatText);
+            this.Stat_SPE.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
             // 
             // FLP_StatsTotal
             // 
@@ -2606,7 +2606,7 @@
             this.CB_HPType.Name = "CB_HPType";
             this.CB_HPType.Size = new System.Drawing.Size(70, 21);
             this.CB_HPType.TabIndex = 44;
-            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.updateHPType);
+            this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.UpdateHPType);
             // 
             // FLP_Characteristic
             // 
@@ -2647,7 +2647,7 @@
             this.BTN_RandomEVs.TabIndex = 14;
             this.BTN_RandomEVs.Text = "Randomize EVs";
             this.BTN_RandomEVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomEVs.Click += new System.EventHandler(this.updateRandomEVs);
+            this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
             // 
             // BTN_RandomIVs
             // 
@@ -2657,7 +2657,7 @@
             this.BTN_RandomIVs.TabIndex = 13;
             this.BTN_RandomIVs.Text = "Randomize IVs";
             this.BTN_RandomIVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomIVs.Click += new System.EventHandler(this.updateRandomIVs);
+            this.BTN_RandomIVs.Click += new System.EventHandler(this.UpdateRandomIVs);
             // 
             // Tab_Attacks
             // 
@@ -2782,10 +2782,10 @@
             this.CB_RelearnMove4.Name = "CB_RelearnMove4";
             this.CB_RelearnMove4.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove4.TabIndex = 16;
-            this.CB_RelearnMove4.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove4.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove4.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove4.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_RelearnMove4.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove4.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_RelearnMove3
             // 
@@ -2796,10 +2796,10 @@
             this.CB_RelearnMove3.Name = "CB_RelearnMove3";
             this.CB_RelearnMove3.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove3.TabIndex = 15;
-            this.CB_RelearnMove3.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove3.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove3.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove3.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_RelearnMove3.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove3.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_RelearnMove2
             // 
@@ -2810,10 +2810,10 @@
             this.CB_RelearnMove2.Name = "CB_RelearnMove2";
             this.CB_RelearnMove2.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove2.TabIndex = 14;
-            this.CB_RelearnMove2.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove2.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove2.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove2.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_RelearnMove2.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove2.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_RelearnMove1
             // 
@@ -2824,10 +2824,10 @@
             this.CB_RelearnMove1.Name = "CB_RelearnMove1";
             this.CB_RelearnMove1.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove1.TabIndex = 13;
-            this.CB_RelearnMove1.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_RelearnMove1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_RelearnMove1.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_RelearnMove1.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_RelearnMove1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_RelearnMove1.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_RelearnMove1.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_RelearnMove1.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // GB_CurrentMoves
             // 
@@ -2860,7 +2860,7 @@
             this.TB_PP4.PromptChar = ' ';
             this.TB_PP4.Size = new System.Drawing.Size(31, 20);
             this.TB_PP4.TabIndex = 16;
-            this.TB_PP4.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP4.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_PP3
             // 
@@ -2870,7 +2870,7 @@
             this.TB_PP3.PromptChar = ' ';
             this.TB_PP3.Size = new System.Drawing.Size(31, 20);
             this.TB_PP3.TabIndex = 15;
-            this.TB_PP3.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP3.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_PP2
             // 
@@ -2880,7 +2880,7 @@
             this.TB_PP2.PromptChar = ' ';
             this.TB_PP2.Size = new System.Drawing.Size(31, 20);
             this.TB_PP2.TabIndex = 14;
-            this.TB_PP2.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP2.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // TB_PP1
             // 
@@ -2890,7 +2890,7 @@
             this.TB_PP1.PromptChar = ' ';
             this.TB_PP1.Size = new System.Drawing.Size(31, 20);
             this.TB_PP1.TabIndex = 13;
-            this.TB_PP1.Validated += new System.EventHandler(this.update255_MTB);
+            this.TB_PP1.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // Label_CurPP
             // 
@@ -2909,7 +2909,7 @@
             this.Label_PPups.TabIndex = 12;
             this.Label_PPups.Text = "PP Ups";
             this.Label_PPups.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_PPups.Click += new System.EventHandler(this.clickPPUps);
+            this.Label_PPups.Click += new System.EventHandler(this.ClickPPUps);
             // 
             // CB_PPu4
             // 
@@ -2924,7 +2924,7 @@
             this.CB_PPu4.Name = "CB_PPu4";
             this.CB_PPu4.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu4.TabIndex = 12;
-            this.CB_PPu4.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu4.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_PPu3
             // 
@@ -2939,7 +2939,7 @@
             this.CB_PPu3.Name = "CB_PPu3";
             this.CB_PPu3.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu3.TabIndex = 9;
-            this.CB_PPu3.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu3.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_PPu2
             // 
@@ -2954,7 +2954,7 @@
             this.CB_PPu2.Name = "CB_PPu2";
             this.CB_PPu2.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu2.TabIndex = 6;
-            this.CB_PPu2.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu2.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_Move4
             // 
@@ -2966,11 +2966,11 @@
             this.CB_Move4.Name = "CB_Move4";
             this.CB_Move4.Size = new System.Drawing.Size(121, 21);
             this.CB_Move4.TabIndex = 10;
-            this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move4.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move4.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move4.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move4.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Move4.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move4.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_PPu1
             // 
@@ -2985,7 +2985,7 @@
             this.CB_PPu1.Name = "CB_PPu1";
             this.CB_PPu1.Size = new System.Drawing.Size(38, 21);
             this.CB_PPu1.TabIndex = 3;
-            this.CB_PPu1.SelectedIndexChanged += new System.EventHandler(this.updatePP);
+            this.CB_PPu1.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
             // CB_Move3
             // 
@@ -2997,11 +2997,11 @@
             this.CB_Move3.Name = "CB_Move3";
             this.CB_Move3.Size = new System.Drawing.Size(121, 21);
             this.CB_Move3.TabIndex = 7;
-            this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move3.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move3.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move3.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move3.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Move3.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move3.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_Move2
             // 
@@ -3013,11 +3013,11 @@
             this.CB_Move2.Name = "CB_Move2";
             this.CB_Move2.Size = new System.Drawing.Size(121, 21);
             this.CB_Move2.TabIndex = 4;
-            this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move2.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move2.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move2.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move2.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Move2.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move2.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CB_Move1
             // 
@@ -3029,11 +3029,11 @@
             this.CB_Move1.Name = "CB_Move1";
             this.CB_Move1.Size = new System.Drawing.Size(121, 21);
             this.CB_Move1.TabIndex = 1;
-            this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.validateMovePaint);
-            this.CB_Move1.SelectedIndexChanged += new System.EventHandler(this.validateMove);
-            this.CB_Move1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.removedropCB);
-            this.CB_Move1.Leave += new System.EventHandler(this.validateComboBox2);
-            this.CB_Move1.Validating += new System.ComponentModel.CancelEventHandler(this.validateComboBox);
+            this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
+            this.CB_Move1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
+            this.CB_Move1.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
+            this.CB_Move1.Leave += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_Move1.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // Tab_OTMisc
             // 
@@ -3083,7 +3083,7 @@
             this.BTN_Ribbons.TabIndex = 5;
             this.BTN_Ribbons.Text = "Ribbons";
             this.BTN_Ribbons.UseVisualStyleBackColor = true;
-            this.BTN_Ribbons.Click += new System.EventHandler(this.openRibbons);
+            this.BTN_Ribbons.Click += new System.EventHandler(this.OpenRibbons);
             // 
             // BTN_Medals
             // 
@@ -3099,7 +3099,7 @@
             this.BTN_Medals.TabIndex = 7;
             this.BTN_Medals.Text = "Medals";
             this.BTN_Medals.UseVisualStyleBackColor = true;
-            this.BTN_Medals.Click += new System.EventHandler(this.openMedals);
+            this.BTN_Medals.Click += new System.EventHandler(this.OpenMedals);
             // 
             // BTN_History
             // 
@@ -3115,7 +3115,7 @@
             this.BTN_History.TabIndex = 6;
             this.BTN_History.Text = "Memories";
             this.BTN_History.UseVisualStyleBackColor = true;
-            this.BTN_History.Click += new System.EventHandler(this.openHistory);
+            this.BTN_History.Click += new System.EventHandler(this.OpenHistory);
             // 
             // TB_EC
             // 
@@ -3127,7 +3127,7 @@
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
             this.TB_EC.TabIndex = 8;
             this.TB_EC.Text = "12345678";
-            this.TB_EC.Validated += new System.EventHandler(this.update_ID);
+            this.TB_EC.Validated += new System.EventHandler(this.Update_ID);
             // 
             // GB_nOT
             // 
@@ -3150,7 +3150,7 @@
             this.Label_CTGender.TabIndex = 57;
             this.Label_CTGender.Text = "G";
             this.Label_CTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_CTGender.Click += new System.EventHandler(this.clickTRGender);
+            this.Label_CTGender.Click += new System.EventHandler(this.ClickTRGender);
             // 
             // TB_OTt2
             // 
@@ -3162,8 +3162,8 @@
             this.TB_OTt2.Size = new System.Drawing.Size(94, 20);
             this.TB_OTt2.TabIndex = 1;
             this.TB_OTt2.WordWrap = false;
-            this.TB_OTt2.TextChanged += new System.EventHandler(this.updateNotOT);
-            this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
+            this.TB_OTt2.TextChanged += new System.EventHandler(this.UpdateNotOT);
+            this.TB_OTt2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // Label_PrevOT
             // 
@@ -3173,7 +3173,7 @@
             this.Label_PrevOT.TabIndex = 42;
             this.Label_PrevOT.Text = "OT:";
             this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_PrevOT.Click += new System.EventHandler(this.clickCT);
+            this.Label_PrevOT.Click += new System.EventHandler(this.ClickCT);
             // 
             // BTN_RerollEC
             // 
@@ -3184,7 +3184,7 @@
             this.BTN_RerollEC.TabIndex = 7;
             this.BTN_RerollEC.Text = "Reroll";
             this.BTN_RerollEC.UseVisualStyleBackColor = true;
-            this.BTN_RerollEC.Click += new System.EventHandler(this.updateRandomEC);
+            this.BTN_RerollEC.Click += new System.EventHandler(this.UpdateRandomEC);
             // 
             // GB_Markings
             // 
@@ -3251,7 +3251,7 @@
             this.PB_Mark6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark6.TabIndex = 5;
             this.PB_Mark6.TabStop = false;
-            this.PB_Mark6.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark6.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_MarkPentagon
             // 
@@ -3275,7 +3275,7 @@
             this.PB_Mark3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark3.TabIndex = 2;
             this.PB_Mark3.TabStop = false;
-            this.PB_Mark3.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark3.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_Mark5
             // 
@@ -3288,7 +3288,7 @@
             this.PB_Mark5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark5.TabIndex = 4;
             this.PB_Mark5.TabStop = false;
-            this.PB_Mark5.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark5.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_MarkCured
             // 
@@ -3312,7 +3312,7 @@
             this.PB_Mark2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark2.TabIndex = 1;
             this.PB_Mark2.TabStop = false;
-            this.PB_Mark2.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark2.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_MarkShiny
             // 
@@ -3336,7 +3336,7 @@
             this.PB_Mark1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark1.TabIndex = 0;
             this.PB_Mark1.TabStop = false;
-            this.PB_Mark1.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark1.Click += new System.EventHandler(this.ClickMarking);
             // 
             // PB_Mark4
             // 
@@ -3349,7 +3349,7 @@
             this.PB_Mark4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_Mark4.TabIndex = 3;
             this.PB_Mark4.TabStop = false;
-            this.PB_Mark4.Click += new System.EventHandler(this.clickMarking);
+            this.PB_Mark4.Click += new System.EventHandler(this.ClickMarking);
             // 
             // GB_ExtraBytes
             // 
@@ -3370,7 +3370,7 @@
             this.TB_ExtraByte.Size = new System.Drawing.Size(28, 20);
             this.TB_ExtraByte.TabIndex = 2;
             this.TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_ExtraByte.Validated += new System.EventHandler(this.updateExtraByteValue);
+            this.TB_ExtraByte.Validated += new System.EventHandler(this.UpdateExtraByteValue);
             // 
             // CB_ExtraBytes
             // 
@@ -3380,7 +3380,7 @@
             this.CB_ExtraBytes.Name = "CB_ExtraBytes";
             this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 21);
             this.CB_ExtraBytes.TabIndex = 1;
-            this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.updateExtraByteIndex);
+            this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.UpdateExtraByteIndex);
             // 
             // GB_OT
             // 
@@ -3407,7 +3407,7 @@
             this.Label_OTGender.TabIndex = 56;
             this.Label_OTGender.Text = "G";
             this.Label_OTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Label_OTGender.Click += new System.EventHandler(this.clickTRGender);
+            this.Label_OTGender.Click += new System.EventHandler(this.ClickTRGender);
             // 
             // TB_OT
             // 
@@ -3417,7 +3417,7 @@
             this.TB_OT.Name = "TB_OT";
             this.TB_OT.Size = new System.Drawing.Size(94, 20);
             this.TB_OT.TabIndex = 3;
-            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updateNicknameClick);
+            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
             // TB_SID
             // 
@@ -3428,8 +3428,8 @@
             this.TB_SID.Size = new System.Drawing.Size(40, 20);
             this.TB_SID.TabIndex = 2;
             this.TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_SID.MouseHover += new System.EventHandler(this.updateTSV);
-            this.TB_SID.Validated += new System.EventHandler(this.update_ID);
+            this.TB_SID.MouseHover += new System.EventHandler(this.UpdateTSV);
+            this.TB_SID.Validated += new System.EventHandler(this.Update_ID);
             // 
             // TB_TID
             // 
@@ -3440,8 +3440,8 @@
             this.TB_TID.Size = new System.Drawing.Size(40, 20);
             this.TB_TID.TabIndex = 1;
             this.TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_TID.MouseHover += new System.EventHandler(this.updateTSV);
-            this.TB_TID.Validated += new System.EventHandler(this.update_ID);
+            this.TB_TID.MouseHover += new System.EventHandler(this.UpdateTSV);
+            this.TB_TID.Validated += new System.EventHandler(this.Update_ID);
             // 
             // Label_OT
             // 
@@ -3451,7 +3451,7 @@
             this.Label_OT.TabIndex = 5;
             this.Label_OT.Text = "OT:";
             this.Label_OT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_OT.Click += new System.EventHandler(this.clickOT);
+            this.Label_OT.Click += new System.EventHandler(this.ClickOT);
             // 
             // Label_SID
             // 

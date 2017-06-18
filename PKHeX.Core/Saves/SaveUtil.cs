@@ -44,30 +44,30 @@ namespace PKHeX.Core
         /// <summary>Determines the generation of the given save data.</summary>
         /// <param name="data">Save data of which to determine the generation</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getSAVGeneration(byte[] data)
+        private static GameVersion GetSAVGeneration(byte[] data)
         {
-            if (getIsG1SAV(data) != GameVersion.Invalid)
+            if (GetIsG1SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen1;
-            if (getIsG2SAV(data) != GameVersion.Invalid)
+            if (GetIsG2SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen2;
-            if (getIsG3SAV(data) != GameVersion.Invalid)
+            if (GetIsG3SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen3;
-            if (getIsG4SAV(data) != GameVersion.Invalid)
+            if (GetIsG4SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen4;
-            if (getIsG5SAV(data) != GameVersion.Invalid)
+            if (GetIsG5SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen5;
-            if (getIsG6SAV(data) != GameVersion.Invalid)
+            if (GetIsG6SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen6;
-            if (getIsG7SAV(data) != GameVersion.Invalid)
+            if (GetIsG7SAV(data) != GameVersion.Invalid)
                 return GameVersion.Gen7;
 
-            if (getIsG3COLOSAV(data) != GameVersion.Invalid)
+            if (GetIsG3COLOSAV(data) != GameVersion.Invalid)
                 return GameVersion.COLO;
-            if (getIsG3XDSAV(data) != GameVersion.Invalid)
+            if (GetIsG3XDSAV(data) != GameVersion.Invalid)
                 return GameVersion.XD;
-            if (getIsG3BOXSAV(data) != GameVersion.Invalid)
+            if (GetIsG3BOXSAV(data) != GameVersion.Invalid)
                 return GameVersion.RSBOX;
-            if (getIsG4BRSAV(data) != GameVersion.Invalid)
+            if (GetIsG4BRSAV(data) != GameVersion.Invalid)
                 return GameVersion.BATREV;
 
             return GameVersion.Invalid;
@@ -75,13 +75,13 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 1st gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG1SAV(byte[] data)
+        internal static GameVersion GetIsG1SAV(byte[] data)
         {
             if (data.Length != SIZE_G1RAW && data.Length != SIZE_G1BAT)
                 return GameVersion.Invalid;
 
             // Check if it's not an american save or a japanese save
-            if (!(getIsG1SAVU(data) || getIsG1SAVJ(data)))
+            if (!(GetIsG1SAVU(data) || GetIsG1SAVJ(data)))
                 return GameVersion.Invalid;
             // I can't actually detect which game version, because it's not stored anywhere.
             // If you can think of anything to do here, please implement :)
@@ -90,7 +90,7 @@ namespace PKHeX.Core
         /// <summary>Determines if 1st gen save is non-japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid non-japanese save, False otherwise.</returns>
-        public static bool getIsG1SAVU(byte[] data)
+        private static bool GetIsG1SAVU(byte[] data)
         {
             foreach (int ofs in new[] { 0x2F2C, 0x30C0 })
             {
@@ -103,7 +103,7 @@ namespace PKHeX.Core
         /// <summary>Determines if 1st gen save is japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid japanese save, False otherwise.</returns>
-        public static bool getIsG1SAVJ(byte[] data)
+        internal static bool GetIsG1SAVJ(byte[] data)
         {
             foreach (int ofs in new[] { 0x2ED5, 0x302D })
             {
@@ -116,22 +116,22 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 2nd gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG2SAV(byte[] data)
+        internal static GameVersion GetIsG2SAV(byte[] data)
         {
             if (!new[] {SIZE_G2RAW_J, SIZE_G2RAW_U, SIZE_G2BAT_J, SIZE_G2BAT_U, SIZE_G2EMU, SIZE_G2VC}.Contains(data.Length))
                 return GameVersion.Invalid;
 
             // Check if it's not an american save or a japanese save
-            if (getIsG2SAVU(data) != GameVersion.Invalid)
-                return getIsG2SAVU(data);
-            if (getIsG2SAVJ(data) != GameVersion.Invalid)
-                return getIsG2SAVJ(data);
+            if (GetIsG2SAVU(data) != GameVersion.Invalid)
+                return GetIsG2SAVU(data);
+            if (GetIsG2SAVJ(data) != GameVersion.Invalid)
+                return GetIsG2SAVJ(data);
             return GameVersion.Invalid;
         }
         /// <summary>Determines if 2nd gen save is non-japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid non-japanese save, False otherwise.</returns>
-        public static GameVersion getIsG2SAVU(byte[] data)
+        private static GameVersion GetIsG2SAVU(byte[] data)
         {
             bool gs = true;
             bool c = true;
@@ -156,7 +156,7 @@ namespace PKHeX.Core
         /// <summary>Determines if 2nd gen save is japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid japanese save, False otherwise.</returns>
-        public static GameVersion getIsG2SAVJ(byte[] data)
+        internal static GameVersion GetIsG2SAVJ(byte[] data)
         {
             bool gs = true;
             bool c = true;
@@ -181,7 +181,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 3rd gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG3SAV(byte[] data)
+        internal static GameVersion GetIsG3SAV(byte[] data)
         {
             if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
                 return GameVersion.Invalid;
@@ -224,7 +224,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 3rd gen Box RS</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG3BOXSAV(byte[] data)
+        internal static GameVersion GetIsG3BOXSAV(byte[] data)
         {
             if (!new[] { SIZE_G3BOX, SIZE_G3BOXGCI }.Contains(data.Length))
                 return GameVersion.Invalid;
@@ -250,7 +250,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 3rd gen Colosseum</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG3COLOSAV(byte[] data)
+        internal static GameVersion GetIsG3COLOSAV(byte[] data)
         {
             if (!new[] { SIZE_G3COLO, SIZE_G3COLOGCI }.Contains(data.Length))
                 return GameVersion.Invalid;
@@ -269,7 +269,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 3rd gen XD</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG3XDSAV(byte[] data)
+        internal static GameVersion GetIsG3XDSAV(byte[] data)
         {
             if (!new[] {  SIZE_G3XD, SIZE_G3XDGCI }.Contains(data.Length))
                 return GameVersion.Invalid;
@@ -290,17 +290,17 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG4SAV(byte[] data)
+        internal static GameVersion GetIsG4SAV(byte[] data)
         {
             if (data.Length != SIZE_G4RAW)
                 return GameVersion.Invalid;
             
             // General Block Checksum
-            if (BitConverter.ToUInt16(data, 0xC0FE) == ccitt16(data, 0, 0xC0EC))
+            if (BitConverter.ToUInt16(data, 0xC0FE) == CRC16_CCITT(data, 0, 0xC0EC))
                 return GameVersion.DP;
-            if (BitConverter.ToUInt16(data, 0xCF2A) == ccitt16(data, 0, 0xCF18))
+            if (BitConverter.ToUInt16(data, 0xCF2A) == CRC16_CCITT(data, 0, 0xCF18))
                 return GameVersion.Pt;
-            if (BitConverter.ToUInt16(data, 0xF626) == ccitt16(data, 0, 0xF618))
+            if (BitConverter.ToUInt16(data, 0xF626) == CRC16_CCITT(data, 0, 0xF618))
                 return GameVersion.HGSS;
 
             // General Block Checksum is invalid, check for block identifiers
@@ -324,7 +324,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 4th gen Battle Revolution</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG4BRSAV(byte[] data)
+        internal static GameVersion GetIsG4BRSAV(byte[] data)
         {
             if (data.Length != SIZE_G4BR)
                 return GameVersion.Invalid;
@@ -341,17 +341,17 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 5th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG5SAV(byte[] data)
+        internal static GameVersion GetIsG5SAV(byte[] data)
         {
             if (data.Length != SIZE_G5RAW)
                 return GameVersion.Invalid;
 
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
-            ushort actual1 = ccitt16(data, SIZE_G5BW - 0x100, 0x8C);
+            ushort actual1 = CRC16_CCITT(data, SIZE_G5BW - 0x100, 0x8C);
             if (chk1 == actual1)
                 return GameVersion.BW;
             ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
-            ushort actual2 = ccitt16(data, SIZE_G5B2W2 - 0x100, 0x94);
+            ushort actual2 = CRC16_CCITT(data, SIZE_G5B2W2 - 0x100, 0x94);
             if (chk2 == actual2)
                 return GameVersion.B2W2;
             return GameVersion.Invalid;
@@ -359,7 +359,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 6th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG6SAV(byte[] data)
+        private static GameVersion GetIsG6SAV(byte[] data)
         {
             if (!new []{SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO}.Contains(data.Length))
                 return GameVersion.Invalid;
@@ -381,7 +381,7 @@ namespace PKHeX.Core
         /// <summary>Determines the type of 7th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getIsG7SAV(byte[] data)
+        private static GameVersion GetIsG7SAV(byte[] data)
         {
             if (!new [] {SIZE_G7SM}.Contains(data.Length))
                 return GameVersion.Invalid;
@@ -392,14 +392,14 @@ namespace PKHeX.Core
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
-        public static SaveFile getVariantSAV(byte[] data)
+        public static SaveFile GetVariantSAV(byte[] data)
         {
             // Pre-check for header/footer signatures
             SaveFile sav;
             byte[] header = new byte[0], footer = new byte[0];
             CheckHeaderFooter(ref data, ref header, ref footer);
 
-            switch (getSAVGeneration(data))
+            switch (GetSAVGeneration(data))
             {
                 // Main Games
                 case GameVersion.Gen1:      sav = new SAV1(data); break;
@@ -423,7 +423,7 @@ namespace PKHeX.Core
             sav.Footer = footer;
             return sav;
         }
-        public static SaveFile getVariantSAV(SAV3GCMemoryCard MC)
+        public static SaveFile GetVariantSAV(SAV3GCMemoryCard MC)
         {
             // Pre-check for header/footer signatures
             SaveFile sav;
@@ -452,9 +452,9 @@ namespace PKHeX.Core
         /// <param name="Game">Version to create the save file for.</param>
         /// <param name="OT">Trainer Name</param>
         /// <returns></returns>
-        public static SaveFile getBlankSAV(GameVersion Game, string OT)
+        public static SaveFile GetBlankSAV(GameVersion Game, string OT)
         {
-            var SAV = getBlankSAV(Game);
+            var SAV = GetBlankSAV(Game);
             if (SAV == null)
                 return null;
 
@@ -476,7 +476,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="Game">Version to create the save file for.</param>
         /// <returns></returns>
-        private static SaveFile getBlankSAV(GameVersion Game)
+        private static SaveFile GetBlankSAV(GameVersion Game)
         {
             switch (Game)
             {
@@ -528,10 +528,10 @@ namespace PKHeX.Core
         /// <param name="generation">Generation of the Save File.</param>
         /// <param name="OT">Trainer Name</param>
         /// <returns>Save File for that generation.</returns>
-        public static SaveFile getBlankSAV(int generation, string OT)
+        public static SaveFile GetBlankSAV(int generation, string OT)
         {
-            var ver = GameUtil.getVersion(generation);
-            return getBlankSAV(ver, OT);
+            var ver = GameUtil.GetVersion(generation);
+            return GetBlankSAV(ver, OT);
         }
 
         /// <summary>
@@ -541,7 +541,7 @@ namespace PKHeX.Core
         /// <param name="deep">Search all subfolders</param>
         /// <param name="result">Full path of all save files that match criteria.</param>
         /// <returns>Boolean indicating whether or not operation was successful.</returns>
-        public static bool getSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result)
+        public static bool GetSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result)
         {
             if (!Directory.Exists(folderPath))
             {
@@ -552,7 +552,7 @@ namespace PKHeX.Core
             {
                 var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
                 var files = Directory.GetFiles(folderPath, "*", searchOption);
-                result = files.Where(f => SizeValidSAV((int)new FileInfo(f).Length));
+                result = files.Where(f => IsSizeValid((int)new FileInfo(f).Length));
                 return true;
             }
             catch (ArgumentException)
@@ -568,7 +568,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-        public static bool SizeValidSAV(int size)
+        private static bool IsSizeValid(int size)
         {
             switch (size)
             {
@@ -594,7 +594,7 @@ namespace PKHeX.Core
         /// <param name="start">Starting point for checksum</param>
         /// <param name="length"></param>
         /// <returns>Checksum</returns>
-        public static ushort ccitt16(byte[] data, int start, int length)
+        public static ushort CRC16_CCITT(byte[] data, int start, int length)
         {
             const ushort init = 0xFFFF;
             const ushort poly = 0x1021;
@@ -619,7 +619,7 @@ namespace PKHeX.Core
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
-        public static ushort ccitt16(byte[] data) => ccitt16(data, 0, data.Length);
+        public static ushort CRC16_CCITT(byte[] data) => CRC16_CCITT(data, 0, data.Length);
 
         private static readonly ushort[] crc16 =
         {
@@ -662,7 +662,7 @@ namespace PKHeX.Core
         /// <param name="blockID">Block ID to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort check16(byte[] data, int blockID, ushort initial = 0)
+        public static ushort CRC16_7(byte[] data, int blockID, ushort initial = 0)
         {
             if (blockID == 36)
                 new byte[0x80].CopyTo(data, 0x100);
@@ -680,14 +680,14 @@ namespace PKHeX.Core
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
         /// <returns>Checksum</returns>
-        public static ushort check32(byte[] data)
+        public static ushort CRC32(byte[] data)
         {
             uint val = 0;
             for (int i = 0; i < data.Length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
             return (ushort)((val & 0xFFFF) + (val >> 16));
         }
-        public static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
+        private static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
         {
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
@@ -727,7 +727,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static int getDexFormIndexBW(int species, int formct)
+        public static int GetDexFormIndexBW(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -752,7 +752,7 @@ namespace PKHeX.Core
                 default: return -1;
             }
         }
-        public static int getDexFormIndexB2W2(int species, int formct)
+        public static int GetDexFormIndexB2W2(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -763,10 +763,10 @@ namespace PKHeX.Core
                 case 642: return 077; // 2 Thundurus
                 case 641: return 079; // 2 Tornadus
                 case 645: return 081; // 2 Landorus
-                default: return getDexFormIndexBW(species, formct);
+                default: return GetDexFormIndexBW(species, formct);
             }
         }
-        public static int getDexFormIndexXY(int species, int formct)
+        public static int GetDexFormIndexXY(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -808,10 +808,10 @@ namespace PKHeX.Core
                 case 445: return 183; // 2 Garchomp
                 case 448: return 185; // 2 Lucario
                 case 460: return 187; // 2 Abomasnow
-                default: return getDexFormIndexB2W2(species, formct);
+                default: return GetDexFormIndexB2W2(species, formct);
             }
         }
-        public static int getDexFormIndexORAS(int species, int formct)
+        public static int GetDexFormIndexORAS(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
@@ -842,10 +842,10 @@ namespace PKHeX.Core
                 case 493: return 238; // 18 Arceus
                 case 649: return 256; // 5 Genesect
                 case 676: return 261; // 10 Furfrou
-                default: return getDexFormIndexXY(species, formct);
+                default: return GetDexFormIndexXY(species, formct);
             }
         }
-        public static int getDexFormIndexSM(int species, int formct, int start)
+        public static int GetDexFormIndexSM(int species, int formct, int start)
         {
             ushort[] formtable = // u16 species, u16 formcount
             {
@@ -895,7 +895,7 @@ namespace PKHeX.Core
             return formindex;
         }
 
-        public static int getCXDVersionID(int gen3version)
+        public static int GetCXDVersionID(int gen3version)
         {
             switch ((GameVersion)gen3version)
             {
@@ -908,7 +908,7 @@ namespace PKHeX.Core
                 default: return 0;
             }
         }
-        public static int getG3VersionID(int CXDversion)
+        public static int GetG3VersionID(int CXDversion)
         {
             switch (CXDversion)
             {
@@ -976,7 +976,7 @@ namespace PKHeX.Core
         /// <param name="G7TID">Desired G7TID</param>
         /// <param name="minimizeSID">Optional param to yield minimum SID.</param>
         /// <returns>16bit TID/SID tuple</returns>
-        public static Tuple<uint, uint> getTIDSID(uint G7TID, bool minimizeSID = false)
+        public static Tuple<uint, uint> GetTIDSID(uint G7TID, bool minimizeSID = false)
         {
             // 32 bit number = 4294 967295
             // lowest 6 digits G7TID
@@ -988,7 +988,7 @@ namespace PKHeX.Core
                 uint s7 = 4294;
                 if (val > 967295)
                     s7 -= 1;
-                s7 = (uint)Util.rand.Next(0, (int)s7);
+                s7 = (uint)Util.Rand.Next(0, (int)s7);
                 val += s7 * 1000000;
             }
             uint TID = val & 0xFFFF;
@@ -1003,7 +1003,7 @@ namespace PKHeX.Core
         /// <param name="input">Encrypted byte array of savedata to decrypt.</param>
         /// <param name="XORpads">Array of possible paths to check for xorpad compatibility.</param>
         /// <returns>Returns a <see cref="SaveFile"/> if decryption was successful, else null.</returns>
-        public static SaveFile getSAVfromXORpads(byte[] input, string[] XORpads)
+        public static SaveFile GetSAVfromXORpads(byte[] input, string[] XORpads)
         {
             byte[] savID = new byte[0x10];
             Array.Copy(input, 0x10, savID, 0, 0x10);
@@ -1056,7 +1056,7 @@ namespace PKHeX.Core
                     continue;
                 
                 // Save file is now decrypted!
-                var SAV = getVariantSAV(decryptedPS);
+                var SAV = GetVariantSAV(decryptedPS);
                 if (SAV == null)
                     continue;
 
@@ -1074,7 +1074,7 @@ namespace PKHeX.Core
         /// <param name="SAV">Save File target that the PKM will be injected.</param>
         /// <param name="pk">PKM input that is to be injected into the Save File.</param>
         /// <returns>Indication whether or not the PKM is compatible.</returns>
-        public static bool checkCompatible(SaveFile SAV, PKM pk)
+        public static bool IsPKMCompatibleWithModifications(SaveFile SAV, PKM pk)
         {
             if (pk.Species > SAV.MaxSpeciesID)
                 return false;

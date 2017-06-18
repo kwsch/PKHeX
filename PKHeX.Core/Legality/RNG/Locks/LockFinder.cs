@@ -12,7 +12,7 @@ namespace PKHeX.Core
     public static class LockFinder
     {
         // Message Passing
-        private class SeedPID
+        private sealed class SeedPID
         {
             public uint PID;
             public uint Seed;

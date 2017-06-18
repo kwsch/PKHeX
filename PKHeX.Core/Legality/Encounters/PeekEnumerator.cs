@@ -33,29 +33,27 @@ namespace PKHeX.Core
         
         public PeekEnumerator(IEnumerator<T> enumerator) => Enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
 
-        private void TryFetchPeek()
+        private bool TryFetchPeek()
         {
             if (!didPeek && (didPeek = Enumerator.MoveNext()))
                 peek = Enumerator.Current;
+            return didPeek;
         }
 
         public T Peek()
         {
-            TryFetchPeek();
-            if (!didPeek)
+            if (!TryFetchPeek())
                 throw new InvalidOperationException("Enumeration already finished.");
 
             return peek;
         }
         public T PeekOrDefault()
         {
-            TryFetchPeek();
-            return !didPeek ? default(T) : peek;
+            return !TryFetchPeek() ? default(T) : peek;
         }
         public bool PeekIsNext()
         {
-            TryFetchPeek();
-            return didPeek;
+            return TryFetchPeek();
         }
     }
 }

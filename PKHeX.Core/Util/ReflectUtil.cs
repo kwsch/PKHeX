@@ -8,7 +8,7 @@ namespace PKHeX.Core
 {
     public static class ReflectUtil
     {
-        public static bool GetValueEquals(object obj, string propertyName, object value)
+        public static bool IsValueEqual(object obj, string propertyName, object value)
         {
             PropertyInfo pi = obj.GetType().GetTypeInfo().GetDeclaredProperty(propertyName);
             if (pi == null)
@@ -32,21 +32,21 @@ namespace PKHeX.Core
         public static object GetValue(Type t, string propertyName) => t.GetTypeInfo().GetDeclaredProperty(propertyName).GetValue(null);
         public static void SetValue(Type t, string propertyName, object value) => t.GetTypeInfo().GetDeclaredProperty(propertyName).SetValue(null, value);
 
-        public static IEnumerable<string> getPropertiesStartWithPrefix(Type type, string prefix)
+        public static IEnumerable<string> GetPropertiesStartWithPrefix(Type type, string prefix)
         {
             return type.GetTypeInfo().DeclaredProperties
                 .Where(p => p.Name.StartsWith(prefix, StringComparison.Ordinal))
                 .Select(p => p.Name);
         }
-        public static IEnumerable<string> getPropertiesCanWritePublic(Type type)
+        public static IEnumerable<string> GetPropertiesCanWritePublic(Type type)
         {
             return type.GetTypeInfo().DeclaredProperties
                 .Where(p => p.CanWrite && p.SetMethod.IsPublic)
                 .Select(p => p.Name);
         }
-        public static IEnumerable<string> getPropertiesCanWritePublicDeclared(Type type)
+        public static IEnumerable<string> GetPropertiesCanWritePublicDeclared(Type type)
         {
-            return getPropertiesCanWritePublic(type);
+            return GetPropertiesCanWritePublic(type);
         }
         public static bool HasProperty(this Type type, string name)
         {
@@ -61,16 +61,15 @@ namespace PKHeX.Core
         {
             if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
             {
-                DateTime dateValue;
-                return DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue) 
-                    ? new DateTime?(dateValue) 
+                return DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue)
+                    ? new DateTime?(dateValue)
                     : null;
             }
 
             // Convert.ChangeType is suitable for most things
             return Convert.ChangeType(value, type);
         }
-        public static bool? getBooleanState(object obj, string prop)
+        public static bool? GetBooleanState(object obj, string prop)
         {
             return obj.GetType().HasProperty(prop) ? GetValue(obj, prop) as bool? : null;
         }

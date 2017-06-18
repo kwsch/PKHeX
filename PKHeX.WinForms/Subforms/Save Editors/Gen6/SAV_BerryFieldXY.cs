@@ -12,11 +12,11 @@ namespace PKHeX.WinForms
         {
             SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             listBox1.SelectedIndex = 0;
         }
 
-        private void changefield(object sender, EventArgs e)
+        private void Changefield(object sender, EventArgs e)
         {
             // Change Berry Field
 

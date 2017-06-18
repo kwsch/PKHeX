@@ -44,14 +44,14 @@
         public bool[] TypeTutors { get; protected set; }
         public bool[][] SpecialTutors { get; protected set; } = new bool[0][];
 
-        protected static bool[] getBits(byte[] data)
+        protected static bool[] GetBits(byte[] data)
         {
             bool[] r = new bool[data.Length<<3];
             for (int i = 0; i < r.Length; i++)
                 r[i] = (data[i>>3] >> (i&7) & 0x1) == 1;
             return r;
         }
-        protected static byte[] setBits(bool[] bits)
+        protected static byte[] SetBits(bool[] bits)
         {
             byte[] data = new byte[bits.Length>>3];
             for (int i = 0; i < bits.Length; i++)
@@ -59,8 +59,8 @@
             return data;
         }
 
-        public void AddTMHM(byte[] data) => TMHM = getBits(data);
-        public void AddTypeTutors(byte[] data) => TypeTutors = getBits(data);
+        public void AddTMHM(byte[] data) => TMHM = GetBits(data);
+        public void AddTypeTutors(byte[] data) => TypeTutors = GetBits(data);
 
         // Data Manipulation
         public int FormeIndex(int species, int forme)
@@ -87,7 +87,7 @@
                     case 0: // Male
                         return 0;
                     default:
-                        return (int)(Util.rnd32() % 2);
+                        return (int)(Util.Rand32() % 2);
                 }
             }
         }

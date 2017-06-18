@@ -5,16 +5,16 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor
     {
-        private void populateFieldsXK3()
+        private void PopulateFieldsXK3()
         {
             XK3 xk3 = pkm as XK3;
             if (xk3 == null)
                 return;
 
             // Do first
-            xk3.Stat_Level = PKX.getLevel(xk3.Species, xk3.EXP);
+            xk3.Stat_Level = PKX.GetLevel(xk3.Species, xk3.EXP);
             if (xk3.Stat_Level == 100 && !HaX)
-                xk3.EXP = PKX.getEXP(xk3.Stat_Level, xk3.Species);
+                xk3.EXP = PKX.GetEXP(xk3.Stat_Level, xk3.Species);
 
             CB_Species.SelectedValue = xk3.Species;
             TB_Level.Text = xk3.Stat_Level.ToString();
@@ -25,7 +25,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Checked = xk3.IsEgg;
             CHK_Nicknamed.Checked = xk3.IsNicknamed;
             Label_OTGender.Text = gendersymbols[xk3.OT_Gender];
-            Label_OTGender.ForeColor = getGenderColor(xk3.OT_Gender);
+            Label_OTGender.ForeColor = GetGenderColor(xk3.OT_Gender);
             TB_PID.Text = xk3.PID.ToString("X8");
             CB_HeldItem.SelectedValue = xk3.HeldItem;
             int abil = xk3.AbilityNumber >> 1;
@@ -116,28 +116,28 @@ namespace PKHeX.WinForms.Controls
                 NUD_ShadowID.Value = 0;
             }
 
-            updateStats();
+            UpdateStats();
 
             TB_EXP.Text = xk3.EXP.ToString();
             Label_Gender.Text = gendersymbols[xk3.Gender];
-            Label_Gender.ForeColor = getGenderColor(xk3.Gender);
+            Label_Gender.ForeColor = GetGenderColor(xk3.Gender);
         }
-        private PKM prepareXK3()
+        private PKM PrepareXK3()
         {
             XK3 xk3 = pkm as XK3;
             if (xk3 == null)
                 return null;
 
-            xk3.Species = WinFormsUtil.getIndex(CB_Species);
-            xk3.HeldItem = WinFormsUtil.getIndex(CB_HeldItem);
+            xk3.Species = WinFormsUtil.GetIndex(CB_Species);
+            xk3.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             xk3.TID = Util.ToInt32(TB_TID.Text);
             xk3.SID = Util.ToInt32(TB_SID.Text);
             xk3.EXP = Util.ToUInt32(TB_EXP.Text);
-            xk3.PID = Util.getHEXval(TB_PID.Text);
+            xk3.PID = Util.GetHexValue(TB_PID.Text);
             xk3.AbilityNumber = 1 << CB_Ability.SelectedIndex; // to match gen6+
 
             xk3.FatefulEncounter = CHK_Fateful.Checked;
-            xk3.Gender = PKX.getGender(Label_Gender.Text);
+            xk3.Gender = PKX.GetGender(Label_Gender.Text);
             xk3.EV_HP = Util.ToInt32(TB_HPEV.Text);
             xk3.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             xk3.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
@@ -155,18 +155,18 @@ namespace PKHeX.WinForms.Controls
             xk3.PKRS_Days = CB_PKRSDays.SelectedIndex;
             xk3.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
             xk3.Nickname = TB_Nickname.Text;
-            xk3.Move1 = WinFormsUtil.getIndex(CB_Move1);
-            xk3.Move2 = WinFormsUtil.getIndex(CB_Move2);
-            xk3.Move3 = WinFormsUtil.getIndex(CB_Move3);
-            xk3.Move4 = WinFormsUtil.getIndex(CB_Move4);
-            xk3.Move1_PP = WinFormsUtil.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-            xk3.Move2_PP = WinFormsUtil.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-            xk3.Move3_PP = WinFormsUtil.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-            xk3.Move4_PP = WinFormsUtil.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-            xk3.Move1_PPUps = WinFormsUtil.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-            xk3.Move2_PPUps = WinFormsUtil.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-            xk3.Move3_PPUps = WinFormsUtil.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-            xk3.Move4_PPUps = WinFormsUtil.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+            xk3.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            xk3.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            xk3.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            xk3.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            xk3.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            xk3.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            xk3.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            xk3.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            xk3.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            xk3.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            xk3.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            xk3.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
 
             xk3.IV_HP = Util.ToInt32(TB_HPIV.Text);
             xk3.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
@@ -180,13 +180,13 @@ namespace PKHeX.WinForms.Controls
             xk3.OT_Name = TB_OT.Text;
             xk3.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
 
-            xk3.Ball = WinFormsUtil.getIndex(CB_Ball);
+            xk3.Ball = WinFormsUtil.GetIndex(CB_Ball);
             xk3.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            xk3.OT_Gender = PKX.getGender(Label_OTGender.Text);
-            xk3.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            xk3.Language = WinFormsUtil.getIndex(CB_Language);
+            xk3.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            xk3.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
+            xk3.Language = WinFormsUtil.GetIndex(CB_Language);
 
-            xk3.Met_Location = WinFormsUtil.getIndex(CB_MetLocation);
+            xk3.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
 
             // Toss in Party Stats
             Array.Resize(ref xk3.Data, xk3.SIZE_PARTY);

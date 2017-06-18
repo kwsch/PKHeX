@@ -22,7 +22,7 @@ namespace PKHeX.Core
         /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
         public static bool EReaderBerryIsEnigma = true;
         public static string EReaderBerryName = string.Empty;
-        public static string EReaderBerryDisplayName => string.Format(V372, Util.toTitleCase(EReaderBerryName.ToLower()));
+        public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
         public static bool SavegameJapanese = false;
         public static string Savegame_OT = string.Empty;
         public static int Savegame_TID = 0;
@@ -31,67 +31,67 @@ namespace PKHeX.Core
         public static GameVersion Savegame_Version = GameVersion.Any;
 
         // Gen 1
-        private static readonly Learnset[] LevelUpRB = Learnset1.getArray(Util.getBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
-        private static readonly Learnset[] LevelUpY = Learnset1.getArray(Util.getBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
+        private static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
+        private static readonly Learnset[] LevelUpY = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
         private static readonly EvolutionTree Evolves1;
         private static readonly EncounterArea[] SlotsRBY;
         private static readonly EncounterStatic[] StaticRBY;
 
         // Gen 2
-        private static readonly EggMoves[] EggMovesGS = EggMoves2.getArray(Util.getBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
-        private static readonly Learnset[] LevelUpGS = Learnset1.getArray(Util.getBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
-        private static readonly EggMoves[] EggMovesC = EggMoves2.getArray(Util.getBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
-        private static readonly Learnset[] LevelUpC = Learnset1.getArray(Util.getBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
+        private static readonly EggMoves[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
+        private static readonly Learnset[] LevelUpGS = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
+        private static readonly EggMoves[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
+        private static readonly Learnset[] LevelUpC = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
         private static readonly EvolutionTree Evolves2;
         private static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
         private static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
 
         // Gen 3
-        private static readonly Learnset[] LevelUpE = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_e.pkl"), "em"));
-        private static readonly Learnset[] LevelUpRS = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_rs.pkl"), "rs"));
-        private static readonly Learnset[] LevelUpFR = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_fr.pkl"), "fr"));
-        private static readonly Learnset[] LevelUpLG = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_lg.pkl"), "lg"));
-        private static readonly EggMoves[] EggMovesRS = EggMoves6.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_rs.pkl"), "rs"));
+        private static readonly Learnset[] LevelUpE = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
+        private static readonly Learnset[] LevelUpRS = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
+        private static readonly Learnset[] LevelUpFR = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
+        private static readonly Learnset[] LevelUpLG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
+        private static readonly EggMoves[] EggMovesRS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
         private static readonly EvolutionTree Evolves3;
         private static readonly EncounterArea[] SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG;
         private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;
 
         // Gen 4
-        private static readonly Learnset[] LevelUpDP = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_dp.pkl"), "dp"));
-        private static readonly Learnset[] LevelUpPt = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_pt.pkl"), "pt"));
-        private static readonly Learnset[] LevelUpHGSS = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_hgss.pkl"), "hs"));
-        private static readonly EggMoves[] EggMovesDPPt = EggMoves6.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_dppt.pkl"), "dp"));
-        private static readonly EggMoves[] EggMovesHGSS = EggMoves6.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_hgss.pkl"), "hs"));
+        private static readonly Learnset[] LevelUpDP = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
+        private static readonly Learnset[] LevelUpPt = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_pt.pkl"), "pt"));
+        private static readonly Learnset[] LevelUpHGSS = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
+        private static readonly EggMoves[] EggMovesDPPt = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
+        private static readonly EggMoves[] EggMovesHGSS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
         private static readonly EvolutionTree Evolves4;
         private static readonly EncounterArea[] SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS;
         private static readonly EncounterStatic[] StaticD, StaticP, StaticPt, StaticHG, StaticSS;
 
         // Gen 5
-        private static readonly Learnset[] LevelUpBW = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_bw.pkl"), "51"));
-        private static readonly Learnset[] LevelUpB2W2 = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_b2w2.pkl"), "52"));
-        private static readonly EggMoves[] EggMovesBW = EggMoves6.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_bw.pkl"), "bw"));
+        private static readonly Learnset[] LevelUpBW = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
+        private static readonly Learnset[] LevelUpB2W2 = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
+        private static readonly EggMoves[] EggMovesBW = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
         private static readonly EvolutionTree Evolves5;
         private static readonly EncounterArea[] SlotsB, SlotsW, SlotsB2, SlotsW2;
         private static readonly EncounterStatic[] StaticB, StaticW, StaticB2, StaticW2;
 
         // Gen 6
-        private static readonly EggMoves[] EggMovesXY = EggMoves6.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_xy.pkl"), "xy"));
-        private static readonly Learnset[] LevelUpXY = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_xy.pkl"), "xy"));
-        private static readonly EggMoves[] EggMovesAO = EggMoves6.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_ao.pkl"), "ao"));
-        private static readonly Learnset[] LevelUpAO = Learnset6.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_ao.pkl"), "ao"));
+        private static readonly EggMoves[] EggMovesXY = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
+        private static readonly Learnset[] LevelUpXY = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
+        private static readonly EggMoves[] EggMovesAO = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
+        private static readonly Learnset[] LevelUpAO = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
         private static readonly EvolutionTree Evolves6;
         private static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
         private static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
 
         // Gen 7
-        private static readonly EggMoves[] EggMovesSM = EggMoves7.getArray(Data.unpackMini(Util.getBinaryResource("eggmove_sm.pkl"), "sm"));
-        private static readonly Learnset[] LevelUpSM = Learnset7.getArray(Data.unpackMini(Util.getBinaryResource("lvlmove_sm.pkl"), "sm"));
+        private static readonly EggMoves[] EggMovesSM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
+        private static readonly Learnset[] LevelUpSM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
         private static readonly EvolutionTree Evolves7;
         private static readonly EncounterArea[] SlotsSN, SlotsMN;
         private static readonly EncounterStatic[] StaticSN, StaticMN;
 
         // Setup Help
-        private static HashSet<MysteryGift> getPCDDB(byte[] bin)
+        private static HashSet<MysteryGift> GetPCDDB(byte[] bin)
         {
             var db = new HashSet<MysteryGift>();
             for (int i = 0; i < bin.Length; i += PCD.Size)
@@ -102,7 +102,7 @@ namespace PKHeX.Core
             }
             return db;
         }
-        private static HashSet<MysteryGift> getPGFDB(byte[] bin)
+        private static HashSet<MysteryGift> GetPGFDB(byte[] bin)
         {
             var db = new HashSet<MysteryGift>();
             for (int i = 0; i < bin.Length; i += PGF.Size)
@@ -113,7 +113,7 @@ namespace PKHeX.Core
             }
             return db;
         }
-        private static HashSet<MysteryGift> getWC6DB(byte[] wc6bin, byte[] wc6full)
+        private static HashSet<MysteryGift> GetWC6DB(byte[] wc6bin, byte[] wc6full)
         {
             var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc6bin.Length; i += WC6.Size)
@@ -130,7 +130,7 @@ namespace PKHeX.Core
             }
             return db;
         }
-        private static HashSet<MysteryGift> getWC7DB(byte[] wc7bin, byte[] wc7full)
+        private static HashSet<MysteryGift> GetWC7DB(byte[] wc7bin, byte[] wc7full)
         {
             var db = new HashSet<MysteryGift>();
             for (int i = 0; i < wc7bin.Length; i += WC7.Size)
@@ -149,19 +149,19 @@ namespace PKHeX.Core
         }
         public static void RefreshMGDB(string localDbPath)
         {
-            var g4 = getPCDDB(Util.getBinaryResource("pcd.pkl"));
-            var g5 = getPGFDB(Util.getBinaryResource("pgf.pkl"));
-            var g6 = getWC6DB(Util.getBinaryResource("wc6.pkl"), Util.getBinaryResource("wc6full.pkl"));
-            var g7 = getWC7DB(Util.getBinaryResource("wc7.pkl"), Util.getBinaryResource("wc7full.pkl"));
+            var g4 = GetPCDDB(Util.GetBinaryResource("pcd.pkl"));
+            var g5 = GetPGFDB(Util.GetBinaryResource("pgf.pkl"));
+            var g6 = GetWC6DB(Util.GetBinaryResource("wc6.pkl"), Util.GetBinaryResource("wc6full.pkl"));
+            var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
 
             if (Directory.Exists(localDbPath))
                 foreach (var file in Directory.GetFiles(localDbPath, "*", SearchOption.AllDirectories))
                 {
                     var fi = new FileInfo(file);
-                    if (!MysteryGift.getIsMysteryGift(fi.Length))
+                    if (!MysteryGift.IsMysteryGift(fi.Length))
                         continue;
 
-                    var gift = MysteryGift.getMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                    var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
                     switch (gift?.Format)
                     {
                         case 4: g4.Add(gift); continue;
@@ -178,7 +178,7 @@ namespace PKHeX.Core
             MGDB_G7 = g7.ToArray();
         }
 
-        private static EncounterStatic[] getStaticEncounters(GameVersion Game)
+        private static EncounterStatic[] GetStaticEncounters(GameVersion Game)
         {
             EncounterStatic[] table;
             switch (Game)
@@ -230,43 +230,43 @@ namespace PKHeX.Core
             }
             return table?.Where(s => s.Version.Contains(Game)).ToArray();
         }
-        private static EncounterArea[] getEncounterTables(GameVersion Game)
+        private static EncounterArea[] GetEncounterTables(GameVersion Game)
         {
             string ident = null;
             byte[] tables = null;
             switch (Game)
             {
-                case GameVersion.R: return EncounterArea.getArray3(Data.unpackMini(Util.getBinaryResource("encounter_r.pkl"), "ru"));
-                case GameVersion.S: return EncounterArea.getArray3(Data.unpackMini(Util.getBinaryResource("encounter_s.pkl"), "sa"));
-                case GameVersion.E: return EncounterArea.getArray3(Data.unpackMini(Util.getBinaryResource("encounter_e.pkl"), "em"));
-                case GameVersion.FR: return EncounterArea.getArray3(Data.unpackMini(Util.getBinaryResource("encounter_fr.pkl"), "fr"));
-                case GameVersion.LG: return EncounterArea.getArray3(Data.unpackMini(Util.getBinaryResource("encounter_lg.pkl"), "lg"));
-                case GameVersion.D: return EncounterArea.getArray4DPPt(Data.unpackMini(Util.getBinaryResource("encounter_d.pkl"), "da"));
-                case GameVersion.P: return EncounterArea.getArray4DPPt(Data.unpackMini(Util.getBinaryResource("encounter_p.pkl"), "pe"));
-                case GameVersion.Pt: return EncounterArea.getArray4DPPt(Data.unpackMini(Util.getBinaryResource("encounter_pt.pkl"), "pt"));
-                case GameVersion.HG: return EncounterArea.getArray4HGSS(Data.unpackMini(Util.getBinaryResource("encounter_hg.pkl"), "hg"));
-                case GameVersion.SS: return EncounterArea.getArray4HGSS(Data.unpackMini(Util.getBinaryResource("encounter_ss.pkl"), "ss"));
-                case GameVersion.B: ident = "51"; tables = Util.getBinaryResource("encounter_b.pkl"); break;
-                case GameVersion.W: ident = "51"; tables = Util.getBinaryResource("encounter_w.pkl"); break;
-                case GameVersion.B2: ident = "52"; tables = Util.getBinaryResource("encounter_b2.pkl"); break;
-                case GameVersion.W2: ident = "52"; tables = Util.getBinaryResource("encounter_w2.pkl"); break;
-                case GameVersion.X: ident = "xy"; tables = Util.getBinaryResource("encounter_x.pkl"); break;
-                case GameVersion.Y: ident = "xy"; tables = Util.getBinaryResource("encounter_y.pkl"); break; 
-                case GameVersion.AS: ident = "ao"; tables = Util.getBinaryResource("encounter_a.pkl"); break;
-                case GameVersion.OR: ident = "ao"; tables = Util.getBinaryResource("encounter_o.pkl"); break;
-                case GameVersion.SN: ident = "sm"; tables = Util.getBinaryResource("encounter_sn.pkl"); break;
-                case GameVersion.MN: ident = "sm"; tables = Util.getBinaryResource("encounter_mn.pkl"); break;
+                case GameVersion.R: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_r.pkl"), "ru"));
+                case GameVersion.S: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_s.pkl"), "sa"));
+                case GameVersion.E: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_e.pkl"), "em"));
+                case GameVersion.FR: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_fr.pkl"), "fr"));
+                case GameVersion.LG: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_lg.pkl"), "lg"));
+                case GameVersion.D: return EncounterArea.GetArray4DPPt(Data.UnpackMini(Util.GetBinaryResource("encounter_d.pkl"), "da"));
+                case GameVersion.P: return EncounterArea.GetArray4DPPt(Data.UnpackMini(Util.GetBinaryResource("encounter_p.pkl"), "pe"));
+                case GameVersion.Pt: return EncounterArea.GetArray4DPPt(Data.UnpackMini(Util.GetBinaryResource("encounter_pt.pkl"), "pt"));
+                case GameVersion.HG: return EncounterArea.GetArray4HGSS(Data.UnpackMini(Util.GetBinaryResource("encounter_hg.pkl"), "hg"));
+                case GameVersion.SS: return EncounterArea.GetArray4HGSS(Data.UnpackMini(Util.GetBinaryResource("encounter_ss.pkl"), "ss"));
+                case GameVersion.B: ident = "51"; tables = Util.GetBinaryResource("encounter_b.pkl"); break;
+                case GameVersion.W: ident = "51"; tables = Util.GetBinaryResource("encounter_w.pkl"); break;
+                case GameVersion.B2: ident = "52"; tables = Util.GetBinaryResource("encounter_b2.pkl"); break;
+                case GameVersion.W2: ident = "52"; tables = Util.GetBinaryResource("encounter_w2.pkl"); break;
+                case GameVersion.X: ident = "xy"; tables = Util.GetBinaryResource("encounter_x.pkl"); break;
+                case GameVersion.Y: ident = "xy"; tables = Util.GetBinaryResource("encounter_y.pkl"); break; 
+                case GameVersion.AS: ident = "ao"; tables = Util.GetBinaryResource("encounter_a.pkl"); break;
+                case GameVersion.OR: ident = "ao"; tables = Util.GetBinaryResource("encounter_o.pkl"); break;
+                case GameVersion.SN: ident = "sm"; tables = Util.GetBinaryResource("encounter_sn.pkl"); break;
+                case GameVersion.MN: ident = "sm"; tables = Util.GetBinaryResource("encounter_mn.pkl"); break;
             }
             if (ident == null)
                 return new EncounterArea[0];
 
-            return getEncounterTables(tables, ident);
+            return GetEncounterTables(tables, ident);
         }
-        private static EncounterArea[] getEncounterTables(byte[] mini, string ident)
+        private static EncounterArea[] GetEncounterTables(byte[] mini, string ident)
         {
-            return EncounterArea.getArray(Data.unpackMini(mini, ident));
+            return EncounterArea.GetArray(Data.UnpackMini(mini, ident));
         }
-        private static EncounterArea[] addExtraTableSlots(params EncounterArea[][] tables)
+        private static EncounterArea[] AddExtraTableSlots(params EncounterArea[][] tables)
         {
             return tables.SelectMany(s => s).GroupBy(l => l.Location)
                 .Select(t => t.Count() == 1 
@@ -292,13 +292,13 @@ namespace PKHeX.Core
                 }
                 foreach (var slot in s)
                 {
-                    slot.Static = true;
-                    slot.StaticCount = s.Count;
+                    slot.Permissions.Static = true;
+                    slot.Permissions.StaticCount = s.Count;
                 }
                 foreach (var slot in m)
                 {
-                    slot.MagnetPull = true;
-                    slot.MagnetPullCount = s.Count;
+                    slot.Permissions.MagnetPull = true;
+                    slot.Permissions.MagnetPullCount = s.Count;
                 }
             }
         }
@@ -504,7 +504,7 @@ namespace PKHeX.Core
         {
             // Area with two different encounter type for grass encounters
             // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
-            var HeadbuttType = getHeadbuttEncounter(Location);
+            var HeadbuttType = GetHeadbuttEncounterType(Location);
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
@@ -518,7 +518,7 @@ namespace PKHeX.Core
         }
         private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
         {
-            var HeadbuttType = getHeadbuttEncounter(Location);
+            var HeadbuttType = GetHeadbuttEncounterType(Location);
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
@@ -545,20 +545,17 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static EncounterType getHeadbuttEncounter(int Location)
+        private static EncounterType GetHeadbuttEncounterType(int Location)
         {
             // Routes with trees adjacent to water tiles
             var allowsurf= HGSS_SurfingHeadbutt_Locations.Contains(Location);
             // Cities
             if (HGSS_CityLocations.Contains(Location))
-            {
                 return allowsurf ? EncounterType.Headbutt_CitySurf : EncounterType.Building_EnigmaStone;
-            }
             // Caves with no exterior zones
             if (!HGSS_MixInteriorExteriorLocations.Contains(Location) && HGSS_CaveLocations.Contains(Location))
-            {
                 return allowsurf ? EncounterType.Headbutt_CaveSurf : EncounterType.Cave_HallOfOrigin;
-            }
+            
             // Routes and exterior areas
             // Routes with trees adjacent to grass tiles
             var allowgrass = HGSS_GrassHeadbutt_Locations.Contains(Location);
@@ -575,7 +572,7 @@ namespace PKHeX.Core
                 if (HGSS_MixInteriorExteriorLocations.Contains(Area.Location))
                     continue;
                 var GrassType = HGSS_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin: EncounterType.TallGrass;
-                var HeadbuttType = getHeadbuttEncounter(Area.Location);
+                var HeadbuttType = GetHeadbuttEncounterType(Area.Location);
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
                     Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
@@ -606,7 +603,7 @@ namespace PKHeX.Core
             foreach (EncounterStatic s in t)
             {
                 s.Location = 75;  //Entree Forest
-                s.Ability = PersonalTable.B2W2.getAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
+                s.Ability = PersonalTable.B2W2.GetAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
             }
 
             // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
@@ -682,7 +679,7 @@ namespace PKHeX.Core
                     area.Slots[i].Type = SlotType.Horde;
 
                 for (int i = 0; i < slotct; i++)
-                    area.Slots[i].AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
+                    area.Slots[i].Permissions.AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
             }
             ReduceAreasSize(ref Areas);
         }
@@ -696,45 +693,45 @@ namespace PKHeX.Core
                 s.Type = SlotType.SOS;
             ReduceAreasSize(ref Areas);
         }
-        private static EncounterArea[] getTables1()
+        private static EncounterArea[] GetTables1()
         {
-            var red_gw = EncounterArea.getArray1_GW(Util.getBinaryResource("encounter_red.pkl"));
-            var blu_gw = EncounterArea.getArray1_GW(Util.getBinaryResource("encounter_blue.pkl"));
-            var ylw_gw = EncounterArea.getArray1_GW(Util.getBinaryResource("encounter_yellow.pkl"));
-            var rb_fish = EncounterArea.getArray1_F(Util.getBinaryResource("encounter_rb_f.pkl"));
-            var ylw_fish = EncounterArea.getArray1_FY(Util.getBinaryResource("encounter_yellow_f.pkl"));
+            var red_gw = EncounterArea.GetArray1_GW(Util.GetBinaryResource("encounter_red.pkl"));
+            var blu_gw = EncounterArea.GetArray1_GW(Util.GetBinaryResource("encounter_blue.pkl"));
+            var ylw_gw = EncounterArea.GetArray1_GW(Util.GetBinaryResource("encounter_yellow.pkl"));
+            var rb_fish = EncounterArea.GetArray1_F(Util.GetBinaryResource("encounter_rb_f.pkl"));
+            var ylw_fish = EncounterArea.GetArray1_FY(Util.GetBinaryResource("encounter_yellow_f.pkl"));
 
-            var table = addExtraTableSlots(red_gw, blu_gw, ylw_gw, rb_fish, ylw_fish);
+            var table = AddExtraTableSlots(red_gw, blu_gw, ylw_gw, rb_fish, ylw_fish);
             Array.Resize(ref table, table.Length + 1);
             table[table.Length - 1] = FishOldGood_RBY;
 
             return table;
         }
-        private static EncounterArea[] getTables2(GameVersion Version)
+        private static EncounterArea[] GetTables2(GameVersion Version)
         {
             EncounterArea[] Slots = null;
             // Fishing
-            var f = EncounterArea.getArray2_F(Util.getBinaryResource("encounter_gsc_f.pkl"));
+            var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
             if (Version == GameVersion.GS || Version == GameVersion.GSC)
             {
                 // Grass/Water
-                var g = EncounterArea.getArray2_GW(Util.getBinaryResource("encounter_gold.pkl"));
-                var s = EncounterArea.getArray2_GW(Util.getBinaryResource("encounter_silver.pkl"));
+                var g = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_gold.pkl"));
+                var s = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_silver.pkl"));
                 // Headbutt/Rock Smash
-                var h_g = EncounterArea.getArray2_H(Util.getBinaryResource("encounter_gold_h.pkl"));
-                var h_s = EncounterArea.getArray2_H(Util.getBinaryResource("encounter_silver_h.pkl"));
+                var h_g = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_gold_h.pkl"));
+                var h_s = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_silver_h.pkl"));
 
-                Slots = addExtraTableSlots(g, s, h_g, h_s, f, EncounterBCC_GSC);
+                Slots = AddExtraTableSlots(g, s, h_g, h_s, f, EncounterBCC_GSC);
             }
             if (Version == GameVersion.C || Version == GameVersion.GSC)
             {
                 // Grass/Water
-                var c = EncounterArea.getArray2_GW(Util.getBinaryResource("encounter_crystal.pkl"));
+                var c = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_crystal.pkl"));
                 // Headbutt/Rock Smash
-                var h_c = EncounterArea.getArray2_H(Util.getBinaryResource("encounter_crystal_h.pkl"));
+                var h_c = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_crystal_h.pkl"));
 
-                var extra = addExtraTableSlots(c, h_c, f, EncounterBCC_GSC);
-                return Version == GameVersion.C ? extra : addExtraTableSlots(Slots, extra);
+                var extra = AddExtraTableSlots(c, h_c, f, EncounterBCC_GSC);
+                return Version == GameVersion.C ? extra : AddExtraTableSlots(Slots, extra);
             }
 
             return Slots;
@@ -744,22 +741,22 @@ namespace PKHeX.Core
         {
             // Gen 1
             {
-                StaticRBY = getStaticEncounters(GameVersion.RBY);
-                SlotsRBY = getTables1();
+                StaticRBY = GetStaticEncounters(GameVersion.RBY);
+                SlotsRBY = GetTables1();
                 // Gen 1 is the only gen where ReduceAreasSize is not needed
                 MarkEncountersGeneration(ref SlotsRBY, 1);
                 MarkEncountersGeneration(ref StaticRBY, 1);
-                Evolves1 = new EvolutionTree(new[] { Util.getBinaryResource("evos_rby.pkl") }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
+                Evolves1 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_rby.pkl") }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
                 FixPersonalTableY();
             }
             // Gen 2
             {
-                StaticGS = getStaticEncounters(GameVersion.GS);
-                StaticC = getStaticEncounters(GameVersion.C);
-                StaticGSC = getStaticEncounters(GameVersion.GSC);
-                SlotsGS = getTables2(GameVersion.GS);
-                SlotsC = getTables2(GameVersion.C);
-                SlotsGSC = getTables2(GameVersion.GSC);
+                StaticGS = GetStaticEncounters(GameVersion.GS);
+                StaticC = GetStaticEncounters(GameVersion.C);
+                StaticGSC = GetStaticEncounters(GameVersion.GSC);
+                SlotsGS = GetTables2(GameVersion.GS);
+                SlotsC = GetTables2(GameVersion.C);
+                SlotsGSC = GetTables2(GameVersion.GSC);
                 MarkG2Slots(ref SlotsGS);
                 MarkG2Slots(ref SlotsC);
                 MarkG2Slots(ref SlotsGSC);
@@ -769,21 +766,21 @@ namespace PKHeX.Core
                 MarkEncountersGeneration(ref StaticGS, 2);
                 MarkEncountersGeneration(ref StaticC, 2);
                 MarkEncountersGeneration(ref StaticGSC, 2);
-                Evolves2 = new EvolutionTree(new[] { Util.getBinaryResource("evos_gsc.pkl") }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
+                Evolves2 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_gsc.pkl") }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
             }
             // Gen3
             {
-                StaticR = getStaticEncounters(GameVersion.R);
-                StaticS = getStaticEncounters(GameVersion.S);
-                StaticE = getStaticEncounters(GameVersion.E);
-                StaticFR = getStaticEncounters(GameVersion.FR);
-                StaticLG = getStaticEncounters(GameVersion.LG);
+                StaticR = GetStaticEncounters(GameVersion.R);
+                StaticS = GetStaticEncounters(GameVersion.S);
+                StaticE = GetStaticEncounters(GameVersion.E);
+                StaticFR = GetStaticEncounters(GameVersion.FR);
+                StaticLG = GetStaticEncounters(GameVersion.LG);
 
-                var R_Slots = getEncounterTables(GameVersion.R);
-                var S_Slots = getEncounterTables(GameVersion.S);
-                var E_Slots = getEncounterTables(GameVersion.E);
-                var FR_Slots = getEncounterTables(GameVersion.FR);
-                var LG_Slots = getEncounterTables(GameVersion.LG);
+                var R_Slots = GetEncounterTables(GameVersion.R);
+                var S_Slots = GetEncounterTables(GameVersion.S);
+                var E_Slots = GetEncounterTables(GameVersion.E);
+                var FR_Slots = GetEncounterTables(GameVersion.FR);
+                var LG_Slots = GetEncounterTables(GameVersion.LG);
 
                 MarkG3Slots_RSE(ref R_Slots);
                 MarkG3Slots_RSE(ref S_Slots);
@@ -802,38 +799,38 @@ namespace PKHeX.Core
                 MarkEncountersStaticMagnetPull(ref FR_Slots, PersonalTable.SM);
                 MarkEncountersStaticMagnetPull(ref LG_Slots, PersonalTable.SM);
 
-                SlotsR = addExtraTableSlots(R_Slots, SlotsRSEAlt);
-                SlotsS = addExtraTableSlots(S_Slots, SlotsRSEAlt);
-                SlotsE = addExtraTableSlots(E_Slots, SlotsRSEAlt);
-                SlotsFR = addExtraTableSlots(FR_Slots, SlotsFRLGAlt);
-                SlotsLG = addExtraTableSlots(LG_Slots, SlotsFRLGAlt);
+                SlotsR = AddExtraTableSlots(R_Slots, SlotsRSEAlt);
+                SlotsS = AddExtraTableSlots(S_Slots, SlotsRSEAlt);
+                SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
+                SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGAlt);
+                SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGAlt);
 
-                Evolves3 = new EvolutionTree(new[] { Util.getBinaryResource("evos_g3.pkl") }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
+                Evolves3 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g3.pkl") }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
                 // Update Personal Entries with TM/Tutor Data
-                var TMHM = Data.unpackMini(Util.getBinaryResource("hmtm_g3.pkl"), "g3");
+                var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
                 for (int i = 0; i <= MaxSpeciesID_3; i++)
                     PersonalTable.E[i].AddTMHM(TMHM[i]);
                 // Tutors g3 contains tutor compatiblity data extracted from emerald, 
                 // fire red and leaf green tutors data is a subset of emerald data
-                var tutors = Data.unpackMini(Util.getBinaryResource("tutors_g3.pkl"), "g3");
+                var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
                 for (int i = 0; i <= MaxSpeciesID_3; i++)
                     PersonalTable.E[i].AddTypeTutors(tutors[i]);
             }
             // Gen 4
             {
                 MarkG4PokeWalker(ref Encounter_PokeWalker);
-                StaticD = getStaticEncounters(GameVersion.D);
-                StaticP = getStaticEncounters(GameVersion.P);
-                StaticPt = getStaticEncounters(GameVersion.Pt);
-                StaticHG = getStaticEncounters(GameVersion.HG);
-                StaticSS = getStaticEncounters(GameVersion.SS);
+                StaticD = GetStaticEncounters(GameVersion.D);
+                StaticP = GetStaticEncounters(GameVersion.P);
+                StaticPt = GetStaticEncounters(GameVersion.Pt);
+                StaticHG = GetStaticEncounters(GameVersion.HG);
+                StaticSS = GetStaticEncounters(GameVersion.SS);
 
-                var D_Slots = getEncounterTables(GameVersion.D);
-                var P_Slots = getEncounterTables(GameVersion.P);
-                var Pt_Slots = getEncounterTables(GameVersion.Pt);
-                var HG_Slots = getEncounterTables(GameVersion.HG);
-                var SS_Slots = getEncounterTables(GameVersion.SS);
+                var D_Slots = GetEncounterTables(GameVersion.D);
+                var P_Slots = GetEncounterTables(GameVersion.P);
+                var Pt_Slots = GetEncounterTables(GameVersion.Pt);
+                var HG_Slots = GetEncounterTables(GameVersion.HG);
+                var SS_Slots = GetEncounterTables(GameVersion.SS);
 
                 MarkEncountersStaticMagnetPull(ref D_Slots, PersonalTable.SM);
                 MarkEncountersStaticMagnetPull(ref P_Slots, PersonalTable.SM);
@@ -841,10 +838,10 @@ namespace PKHeX.Core
                 MarkEncountersStaticMagnetPull(ref HG_Slots, PersonalTable.SM);
                 MarkEncountersStaticMagnetPull(ref SS_Slots, PersonalTable.SM);
 
-                var DP_Trophy = EncounterArea.getTrophyArea(TrophyDP, new[] {16, 18});
-                var Pt_Trophy = EncounterArea.getTrophyArea(TrophyPt, new[] {22, 22});
-                var HG_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Util.getBinaryResource("encunters_hb_hg.pkl"), "hg"));
-                var SS_Headbutt_Slots = EncounterArea.getArray4HGSS_Headbutt(Data.unpackMini(Util.getBinaryResource("encunters_hb_ss.pkl"), "ss"));
+                var DP_Trophy = EncounterArea.GetTrophyArea(TrophyDP, new[] {16, 18});
+                var Pt_Trophy = EncounterArea.GetTrophyArea(TrophyPt, new[] {22, 22});
+                var HG_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(Data.UnpackMini(Util.GetBinaryResource("encunters_hb_hg.pkl"), "hg"));
+                var SS_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(Data.UnpackMini(Util.GetBinaryResource("encunters_hb_ss.pkl"), "ss"));
 
                 var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
                 var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
@@ -893,11 +890,11 @@ namespace PKHeX.Core
                 MarkG4SlotsGreatMarsh(ref P_Slots, 52);
                 MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
-                SlotsD = addExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
-                SlotsP = addExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
-                SlotsPt = addExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, SlotsDPPPtAlt, Pt_Trophy);
-                SlotsHG = addExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
-                SlotsSS = addExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
+                SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
+                SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
+                SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, SlotsDPPPtAlt, Pt_Trophy);
+                SlotsHG = AddExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
+                SlotsSS = AddExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
                 MarkDPPtEncounterTypeSlots(ref SlotsD);
                 MarkDPPtEncounterTypeSlots(ref SlotsP);
@@ -905,10 +902,10 @@ namespace PKHeX.Core
                 MarkHGSSEncounterTypeSlots(ref SlotsHG);
                 MarkHGSSEncounterTypeSlots(ref SlotsSS);
                 
-                Evolves4 = new EvolutionTree(new[] { Util.getBinaryResource("evos_g4.pkl") }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
+                Evolves4 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g4.pkl") }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
                 // Update Personal Entries with Tutor Data
-                var tutors = Data.unpackMini(Util.getBinaryResource("tutors_g4.pkl"), "g4");
+                var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
                 for (int i = 0; i <= MaxSpeciesID_4; i++)
                     PersonalTable.HGSS[i].AddTypeTutors(tutors[i]);
             }
@@ -916,70 +913,70 @@ namespace PKHeX.Core
             {
                 MarkG5DreamWorld(ref BW_DreamWorld);
                 MarkG5DreamWorld(ref B2W2_DreamWorld);
-                StaticB = getStaticEncounters(GameVersion.B);
-                StaticW = getStaticEncounters(GameVersion.W);
-                StaticB2 = getStaticEncounters(GameVersion.B2);
-                StaticW2 = getStaticEncounters(GameVersion.W2);
+                StaticB = GetStaticEncounters(GameVersion.B);
+                StaticW = GetStaticEncounters(GameVersion.W);
+                StaticB2 = GetStaticEncounters(GameVersion.B2);
+                StaticW2 = GetStaticEncounters(GameVersion.W2);
 
-                var BSlots = getEncounterTables(GameVersion.B);
-                var WSlots = getEncounterTables(GameVersion.W);
+                var BSlots = GetEncounterTables(GameVersion.B);
+                var WSlots = GetEncounterTables(GameVersion.W);
                 MarkG5Slots(ref BSlots);
                 MarkG5Slots(ref WSlots);
                 MarkBWSwarmSlots(ref SlotsB_Swarm);
                 MarkBWSwarmSlots(ref SlotsW_Swarm);
-                SlotsB = addExtraTableSlots(BSlots, SlotsB_Swarm);
-                SlotsW = addExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
+                SlotsB = AddExtraTableSlots(BSlots, SlotsB_Swarm);
+                SlotsW = AddExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
 
-                var B2Slots = getEncounterTables(GameVersion.B2);
-                var W2Slots = getEncounterTables(GameVersion.W2);
+                var B2Slots = GetEncounterTables(GameVersion.B2);
+                var W2Slots = GetEncounterTables(GameVersion.W2);
                 MarkG5Slots(ref B2Slots);
                 MarkG5Slots(ref W2Slots);
                 MarkB2W2SwarmSlots(ref SlotsB2_Swarm);
                 MarkB2W2SwarmSlots(ref SlotsW2_Swarm);
                 MarkG5HiddenGrottoSlots(ref SlotsB2_HiddenGrotto);
                 MarkG5HiddenGrottoSlots(ref SlotsW2_HiddenGrotto);
-                SlotsB2 = addExtraTableSlots(B2Slots, SlotsB2_Swarm, SlotsB2_HiddenGrotto);
-                SlotsW2 = addExtraTableSlots(W2Slots, SlotsW2_Swarm, SlotsW2_HiddenGrotto);
+                SlotsB2 = AddExtraTableSlots(B2Slots, SlotsB2_Swarm, SlotsB2_HiddenGrotto);
+                SlotsW2 = AddExtraTableSlots(W2Slots, SlotsW2_Swarm, SlotsW2_HiddenGrotto);
 
-                Evolves5 = new EvolutionTree(new[] { Util.getBinaryResource("evos_g5.pkl") }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
+                Evolves5 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g5.pkl") }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
             }
             // Gen 6
             {
-                StaticX = getStaticEncounters(GameVersion.X);
-                StaticY = getStaticEncounters(GameVersion.Y);
-                StaticA = getStaticEncounters(GameVersion.AS);
-                StaticO = getStaticEncounters(GameVersion.OR);
+                StaticX = GetStaticEncounters(GameVersion.X);
+                StaticY = GetStaticEncounters(GameVersion.Y);
+                StaticA = GetStaticEncounters(GameVersion.AS);
+                StaticO = GetStaticEncounters(GameVersion.OR);
 
-                var XSlots = getEncounterTables(GameVersion.X);
-                var YSlots = getEncounterTables(GameVersion.Y);
+                var XSlots = GetEncounterTables(GameVersion.X);
+                var YSlots = GetEncounterTables(GameVersion.Y);
                 MarkG6XYSlots(ref XSlots);
                 MarkG6XYSlots(ref YSlots);
-                SlotsX = addExtraTableSlots(XSlots, SlotsXYAlt);
-                SlotsY = addExtraTableSlots(YSlots, SlotsXYAlt);
+                SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
+                SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
 
-                SlotsA = getEncounterTables(GameVersion.AS);
-                SlotsO = getEncounterTables(GameVersion.OR);
+                SlotsA = GetEncounterTables(GameVersion.AS);
+                SlotsO = GetEncounterTables(GameVersion.OR);
                 MarkG6AOSlots(ref SlotsA);
                 MarkG6AOSlots(ref SlotsO);
 
-                Evolves6 = new EvolutionTree(Data.unpackMini(Util.getBinaryResource("evos_ao.pkl"), "ao"), GameVersion.ORAS, PersonalTable.AO, MaxSpeciesID_6);
+                Evolves6 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_ao.pkl"), "ao"), GameVersion.ORAS, PersonalTable.AO, MaxSpeciesID_6);
             }
             // Gen 7
             {
-                StaticSN = getStaticEncounters(GameVersion.SN);
-                StaticMN = getStaticEncounters(GameVersion.MN);
-                var REG_SN = getEncounterTables(GameVersion.SN);
-                var REG_MN = getEncounterTables(GameVersion.MN);
-                var SOS_SN = getEncounterTables(Util.getBinaryResource("encounter_sn_sos.pkl"), "sm");
-                var SOS_MN = getEncounterTables(Util.getBinaryResource("encounter_mn_sos.pkl"), "sm");
+                StaticSN = GetStaticEncounters(GameVersion.SN);
+                StaticMN = GetStaticEncounters(GameVersion.MN);
+                var REG_SN = GetEncounterTables(GameVersion.SN);
+                var REG_MN = GetEncounterTables(GameVersion.MN);
+                var SOS_SN = GetEncounterTables(Util.GetBinaryResource("encounter_sn_sos.pkl"), "sm");
+                var SOS_MN = GetEncounterTables(Util.GetBinaryResource("encounter_mn_sos.pkl"), "sm");
                 MarkG7REGSlots(ref REG_SN);
                 MarkG7REGSlots(ref REG_MN);
                 MarkG7SMSlots(ref SOS_SN);
                 MarkG7SMSlots(ref SOS_MN);
-                SlotsSN = addExtraTableSlots(REG_SN, SOS_SN, Encounter_Pelago_SM, Encounter_Pelago_SN);
-                SlotsMN = addExtraTableSlots(REG_MN, SOS_MN, Encounter_Pelago_SM, Encounter_Pelago_MN);
+                SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, Encounter_Pelago_SM, Encounter_Pelago_SN);
+                SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, Encounter_Pelago_SM, Encounter_Pelago_MN);
 
-                Evolves7 = new EvolutionTree(Data.unpackMini(Util.getBinaryResource("evos_sm.pkl"), "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
+                Evolves7 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_sm.pkl"), "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
             }
         }
 
@@ -991,14 +988,14 @@ namespace PKHeX.Core
         }
 
         // Moves
-        internal static int[] getMinLevelLearnMove(int species, int Generation, List<int> moves)
+        internal static int[] GetMinLevelLearnMove(int species, int Generation, List<int> moves)
         {
             var r = new int[moves.Count];
             switch (Generation)
             {
                 case 1:
                     {
-                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
 
@@ -1011,8 +1008,8 @@ namespace PKHeX.Core
                                 r[m] = 1;
                             else
                             {
-                                var rb_level = LevelUpRB[index].getLevelLearnMove(moves[m]);
-                                var y_level = LevelUpY[index].getLevelLearnMove(moves[m]);
+                                var rb_level = LevelUpRB[index].GetLevelLearnMove(moves[m]);
+                                var y_level = LevelUpY[index].GetLevelLearnMove(moves[m]);
                                 // 0 means it is not learned in that game, select the other game
                                 r[m] = rb_level == 0 ? y_level :
                                        y_level == 0 ? rb_level :
@@ -1024,14 +1021,14 @@ namespace PKHeX.Core
             }
             return r;
         }
-        internal static int[] getMaxLevelLearnMove(int species, int Generation, List<int> moves)
+        internal static int[] GetMaxLevelLearnMove(int species, int Generation, List<int> moves)
         {
             var r = new int[moves.Count];
             switch (Generation)
             {
                 case 1:
                     {
-                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
 
@@ -1043,25 +1040,27 @@ namespace PKHeX.Core
                             if (pi_rb.Moves.Contains(moves[m]) && pi_y.Moves.Contains(moves[m]))
                                 r[m] = 1;
                             else
-                                r[m] = Math.Max(LevelUpRB[index].getLevelLearnMove(moves[m]), LevelUpY[index].getLevelLearnMove(moves[m]));
+                                r[m] = Math.Max(LevelUpRB[index].GetLevelLearnMove(moves[m]), LevelUpY[index].GetLevelLearnMove(moves[m]));
                         }
                         break;
                     }
             }
             return r;
         }
-        internal static List<int>[] getExclusiveMoves(int species1, int species2, int Generation, List<int> tmhm, int[] moves)
+        internal static List<int>[] GetExclusiveMoves(int species1, int species2, int Generation, IEnumerable<int> tmhm, IEnumerable<int> moves)
         {
             // Return from two species the exclusive moves that only one could learn and also the current pokemon have it in its current moveset
-            var moves1 = getLvlMoves(species1, 0, Generation, 1, 100).Distinct().ToList();
-            var moves2 = getLvlMoves(species2, 0, Generation, 1, 100).Distinct().ToList();
-            var common = moves1.Intersect(moves2).ToList();
-            // Remove common moves, remove not learned moves and remove tmhm
-            moves1.RemoveAll(x => !moves.Contains(x) || common.Contains(x) || tmhm.Contains(x));
-            moves2.RemoveAll(x => !moves.Contains(x) || common.Contains(x) || tmhm.Contains(x));
+            var moves1 = GetLvlMoves(species1, 0, Generation, 1, 100).Distinct().ToList();
+            var moves2 = GetLvlMoves(species2, 0, Generation, 1, 100).Distinct().ToList();
+
+            // Remove common moves and remove tmhm, remove not learned moves
+            var common = new HashSet<int>(moves1.Intersect(moves2).Concat(tmhm));
+            var hashMoves = new HashSet<int>(moves);
+            moves1.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
+            moves2.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
             return new[] { moves1, moves2 };
         }
-        internal static IEnumerable<int> getLvlMoves(int species, int form, int Generation, int minlvl, int lvl, GameVersion Version = GameVersion.Any)
+        private static IEnumerable<int> GetLvlMoves(int species, int form, int Generation, int minlvl, int lvl, GameVersion Version = GameVersion.Any)
         {
             var r = new List<int>();
             var ver = Version;
@@ -1069,7 +1068,7 @@ namespace PKHeX.Core
             {
                 case 1:
                     {
-                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
 
@@ -1080,62 +1079,62 @@ namespace PKHeX.Core
                             r.AddRange(pi_rb.Moves);
                             r.AddRange(pi_y.Moves);
                         }
-                        r.AddRange(LevelUpRB[index].getMoves(lvl, minlvl));
-                        r.AddRange(LevelUpY[index].getMoves(lvl, minlvl));
+                        r.AddRange(LevelUpRB[index].GetMoves(lvl, minlvl));
+                        r.AddRange(LevelUpY[index].GetMoves(lvl, minlvl));
                         break;
                     }
                 case 2:
                     {
-                        int index = PersonalTable.C.getFormeIndex(species, 0);
+                        int index = PersonalTable.C.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
-                        r.AddRange(LevelUpGS[index].getMoves(lvl));
+                        r.AddRange(LevelUpGS[index].GetMoves(lvl));
                         if (AllowGen2Crystal)
-                            r.AddRange(LevelUpC[index].getMoves(lvl));
+                            r.AddRange(LevelUpC[index].GetMoves(lvl));
                         break;
                     }
                 case 3:
                     {
-                        int index = PersonalTable.E.getFormeIndex(species, 0);
+                        int index = PersonalTable.E.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
                         if (index == 386)
                         {
                             switch (form)
                             {
-                                case 0: r.AddRange(LevelUpRS[index].getMoves(lvl)); break;
-                                case 1: r.AddRange(LevelUpFR[index].getMoves(lvl)); break;
-                                case 2: r.AddRange(LevelUpLG[index].getMoves(lvl)); break;
-                                case 3: r.AddRange(LevelUpE[index].getMoves(lvl)); break;
+                                case 0: r.AddRange(LevelUpRS[index].GetMoves(lvl)); break;
+                                case 1: r.AddRange(LevelUpFR[index].GetMoves(lvl)); break;
+                                case 2: r.AddRange(LevelUpLG[index].GetMoves(lvl)); break;
+                                case 3: r.AddRange(LevelUpE[index].GetMoves(lvl)); break;
                             }
                         }
                         else
                         {
                             // Emerald level up table are equals to R/S level up tables
-                            r.AddRange(LevelUpE[index].getMoves(lvl));
+                            r.AddRange(LevelUpE[index].GetMoves(lvl));
                             // fire red and leaf green are equals between each other but different than RSE
                             // Do not use FR Levelup table. It have 67 moves for charmander but Leaf Green moves table is correct
-                            r.AddRange(LevelUpLG[index].getMoves(lvl));
+                            r.AddRange(LevelUpLG[index].GetMoves(lvl));
                         }
                         break;
                     }
                 case 4:
                     {
-                        int index = PersonalTable.HGSS.getFormeIndex(species, 0);
+                        int index = PersonalTable.HGSS.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
-                        r.AddRange(LevelUpDP[index].getMoves(lvl));
-                        r.AddRange(LevelUpPt[index].getMoves(lvl));
-                        r.AddRange(LevelUpHGSS[index].getMoves(lvl));
+                        r.AddRange(LevelUpDP[index].GetMoves(lvl));
+                        r.AddRange(LevelUpPt[index].GetMoves(lvl));
+                        r.AddRange(LevelUpHGSS[index].GetMoves(lvl));
                         break;
                     }
                 case 5:
                     {
-                        int index = PersonalTable.B2W2.getFormeIndex(species, 0);
+                        int index = PersonalTable.B2W2.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
-                        r.AddRange(LevelUpBW[index].getMoves(lvl));
-                        r.AddRange(LevelUpB2W2[index].getMoves(lvl));
+                        r.AddRange(LevelUpBW[index].GetMoves(lvl));
+                        r.AddRange(LevelUpB2W2[index].GetMoves(lvl));
                         break;
                     }
                 case 6:
@@ -1146,10 +1145,10 @@ namespace PKHeX.Core
                         case GameVersion.Y:
                         case GameVersion.XY:
                             {
-                                int index = PersonalTable.XY.getFormeIndex(species, form);
+                                int index = PersonalTable.XY.GetFormeIndex(species, form);
                                 if (index == 0)
                                     return r;
-                                r.AddRange(LevelUpXY[index].getMoves(lvl));
+                                r.AddRange(LevelUpXY[index].GetMoves(lvl));
                                 if (ver == GameVersion.Any) // Fall Through
                                     goto case GameVersion.ORAS;
                                 break;
@@ -1159,10 +1158,10 @@ namespace PKHeX.Core
                         case GameVersion.OR:
                         case GameVersion.ORAS:
                             {
-                                int index = PersonalTable.AO.getFormeIndex(species, form);
+                                int index = PersonalTable.AO.GetFormeIndex(species, form);
                                 if (index == 0)
                                     return r;
-                                r.AddRange(LevelUpAO[index].getMoves(lvl));
+                                r.AddRange(LevelUpAO[index].GetMoves(lvl));
                                 break;
                             }
                     }
@@ -1175,8 +1174,8 @@ namespace PKHeX.Core
                         case GameVersion.MN:
                         case GameVersion.SM:
                             {
-                                int index = PersonalTable.SM.getFormeIndex(species, form);
-                                r.AddRange(LevelUpSM[index].getMoves(lvl));
+                                int index = PersonalTable.SM.GetFormeIndex(species, form);
+                                r.AddRange(LevelUpSM[index].GetMoves(lvl));
                                 break;
                             }
                     }
@@ -1186,48 +1185,48 @@ namespace PKHeX.Core
             }
             return r;
         } 
-        internal static List<int>[] getValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static List<int>[] GetValidMovesAllGens(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int>[] Moves = new List<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Any())
-                    Moves[i] = getValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
+                    Moves[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
                 else
                     Moves[i] = new List<int>();
             return Moves;
         }
-        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, DexLevel[][] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, evoChains, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
+            return GetValidMoves(pkm, version, evoChains, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> getValidMoves(PKM pkm, DexLevel[] evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetValidMoves(PKM pkm, DexLevel[] evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
                 version = GameVersion.Any;
-            return getValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
+            return GetValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> getValidRelearn(PKM pkm, int species, bool inheritlvlmoves)
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, bool inheritlvlmoves)
         {
             List<int> r = new List<int> { 0 };
             if (pkm.GenNumber < 6 || pkm.VC)
                 return r;
 
-            r.AddRange(getRelearnLVLMoves(pkm, species, 1, pkm.AltForm));
+            r.AddRange(GetRelearnLVLMoves(pkm, species, 1, pkm.AltForm));
 
             int form = pkm.AltForm;
             if (pkm.Format == 6 && pkm.Species != 678)
                 form = 0;
 
-            r.AddRange(getEggMoves(pkm, species, form));
+            r.AddRange(GetEggMoves(pkm, species, form));
             if (inheritlvlmoves)
-                r.AddRange(getRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
+                r.AddRange(GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
             return r.Distinct();
         }
-        internal static List<int>[] getShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
+        internal static List<int>[] GetShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
         {
             var size = pkm.Format > 3 ? 4 : 3;
             List<int>[] r = new List<int>[size + 1];
@@ -1245,19 +1244,19 @@ namespace PKHeX.Core
                 case 0: // Default (both)
                 case 3: // Ninjask have the same learnset in every gen 3 games
                     if (pkm.InhabitedGeneration(3))
-                        r[3] = LevelUpE[291].getMoves(lvl, 20).ToList();
+                        r[3] = LevelUpE[291].GetMoves(lvl, 20).ToList();
 
                     if (generation == 0)
                         goto case 4;
                     break;
                 case 4: // Ninjask have the same learnset in every gen 4 games
                     if (pkm.InhabitedGeneration(4))
-                        r[4] = LevelUpPt[291].getMoves(lvl, 20).ToList();
+                        r[4] = LevelUpPt[291].GetMoves(lvl, 20).ToList();
                     break;
             }
             return r;
         }
-        internal static int[] getBaseEggMoves(PKM pkm, int species, GameVersion gameSource, int lvl)
+        internal static int[] GetBaseEggMoves(PKM pkm, int species, GameVersion gameSource, int lvl)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion) pkm.Version;
@@ -1267,127 +1266,116 @@ namespace PKHeX.Core
                 case GameVersion.GS:
                     if (pkm.InhabitedGeneration(2))
                         if (pkm.Format == 1)
-                            return LevelUpGS[species].getMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
+                            return LevelUpGS[species].GetMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
                         else
-                            return LevelUpGS[species].getMoves(lvl);
+                            return LevelUpGS[species].GetMoves(lvl);
                     break;
                 case GameVersion.C:
                     if (pkm.InhabitedGeneration(2))
                         if (pkm.Format == 1)
-                            return LevelUpC[species].getMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
+                            return LevelUpC[species].GetMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
                         else
-                            return LevelUpC[species].getMoves(lvl);
+                            return LevelUpC[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.R:
                 case GameVersion.S:
                 case GameVersion.RS:
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpRS[species].getMoves(lvl);
+                        return LevelUpRS[species].GetMoves(lvl);
                     break;
                 case GameVersion.E:
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpE[species].getMoves(lvl);
+                        return LevelUpE[species].GetMoves(lvl);
                     break;
                 case GameVersion.FR:
                 case GameVersion.LG:
                 case GameVersion.FRLG:
                     // only difference in FR/LG is deoxys which doesn't breed.
                     if (pkm.InhabitedGeneration(3))
-                        return LevelUpFR[species].getMoves(lvl);
+                        return LevelUpFR[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.DP:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpDP[species].getMoves(lvl);
+                        return LevelUpDP[species].GetMoves(lvl);
                     break;
                 case GameVersion.Pt:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpPt[species].getMoves(lvl);
+                        return LevelUpPt[species].GetMoves(lvl);
                     break;
                 case GameVersion.HG:
                 case GameVersion.SS:
                 case GameVersion.HGSS:
                     if (pkm.InhabitedGeneration(4))
-                        return LevelUpHGSS[species].getMoves(lvl);
+                        return LevelUpHGSS[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.B:
                 case GameVersion.W:
                 case GameVersion.BW:
                     if (pkm.InhabitedGeneration(5))
-                        return LevelUpBW[species].getMoves(lvl);
+                        return LevelUpBW[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.B2:
                 case GameVersion.W2:
                 case GameVersion.B2W2:
                     if (pkm.InhabitedGeneration(5))
-                        return LevelUpBW[species].getMoves(lvl);
+                        return LevelUpBW[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.X:
                 case GameVersion.Y:
                 case GameVersion.XY:
                     if (pkm.InhabitedGeneration(6))
-                        return LevelUpXY[species].getMoves(lvl);
+                        return LevelUpXY[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.AS:
                 case GameVersion.OR:
                 case GameVersion.ORAS:
                     if (pkm.InhabitedGeneration(6))
-                        return LevelUpAO[species].getMoves(lvl);
+                        return LevelUpAO[species].GetMoves(lvl);
                     break;
 
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
-                    int index = PersonalTable.SM.getFormeIndex(species, pkm.AltForm);
+                    int index = PersonalTable.SM.GetFormeIndex(species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
-                        return LevelUpSM[index].getMoves(lvl);
+                        return LevelUpSM[index].GetMoves(lvl);
                     break;
             }
             return new int[0];
         }
-        internal static List<int> getValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
+        internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
         {
             // Return moves that the pokemon could learn after evolving 
             var moves = new List<int>();
             for (int i = 1; i < evoChains.Length; i++)
                 if (evoChains[i].Any())
-                    moves.AddRange(getValidPostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
+                    moves.AddRange(GetValidPostEvolutionMoves(pkm, Species, evoChains[i], i, Version));
             if (pkm.GenNumber >= 6)
                 moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
             return moves.Distinct().ToList();
         }
-        internal static IEnumerable<int> getValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        private static IEnumerable<int> GetValidPostEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
         {
             var evomoves = new List<int>();
             var index = Array.FindIndex(evoChain, e => e.Species == Species);
             for (int i = 0; i <= index; i++)
             {
                 var evo = evoChain[i];
-                var moves = getMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
+                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
                 // Moves from Species or any species after in the evolution phase
                 evomoves.AddRange(moves);
             }
             return evomoves;
         }
-        internal static List<int>[] getExclusivePreEvolutionMoves(PKM pkm, int Species, DexLevel[][] evoChains, GameVersion Version)
-        {
-            // Return moves that the pokemon could only learn throught the preevolution Species
-            List<int>[] Moves = new List<int>[evoChains.Length];
-            for (int i = 1; i < evoChains.Length; i++)
-                if (evoChains[i].Any())
-                    Moves[i] = getExclusivePreEvolutionMoves(pkm, Species, evoChains[i], i, Version).ToList();
-                else
-                    Moves[i] = new List<int>();
-            return Moves;
-        }
-        internal static IEnumerable<int> getExclusivePreEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
+        internal static IEnumerable<int> GetExclusivePreEvolutionMoves(PKM pkm, int Species, DexLevel[] evoChain, int Generation, GameVersion Version)
         {
             var preevomoves = new List<int>();
             var evomoves = new List<int>();
@@ -1395,7 +1383,7 @@ namespace PKHeX.Core
             for (int i = 0; i < evoChain.Length; i++)
             {
                 var evo = evoChain[i];
-                var moves = getMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
+                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
                 if (i >= index)
                     // Moves from Species or any species bellow in the evolution phase
                     preevomoves.AddRange(moves);
@@ -1408,26 +1396,26 @@ namespace PKHeX.Core
         }
 
         // Encounter
-        internal static GameVersion[] getGen2GameEncounter(PKM pk)
+        internal static GameVersion[] GetGen2GameEncounter(PKM pkm)
         {
             return AllowGen2VCCrystal ? new[] { GameVersion.GS, GameVersion.C } : new[] { GameVersion.GS};
         }
-        internal static GameVersion[] getGen1GameEncounter(PKM pk)
+        internal static GameVersion[] GetGen1GameEncounter(PKM pkm)
         {
-            if (pk.Format != 1 || !pk.Gen1_NotTradeback)
+            if (!(pkm is PK1 pk) || !pkm.Gen1_NotTradeback)
                 return new[] { GameVersion.RD, GameVersion.YW };
             if (25 <= pk.Species && pk.Species <= 26)
                 // Yellow Pikachu detected by its special catch rate
-                return new[] { ((pk as PK1).Catch_Rate == 163) ? GameVersion.YW : GameVersion.RD };
+                return new[] { pk.Catch_Rate == 163 ? GameVersion.YW : GameVersion.RD };
             if (64 <= pk.Species && pk.Species <= 65)
                 // Yellow Kadabra detected by its special catch rate
-                return new[] { ((pk as PK1).Catch_Rate == 96) ? GameVersion.YW : GameVersion.RD };
-            if (148 <= pk.Species && pk.Species <= 149 && ((pk as PK1).Catch_Rate == 27))
+                return new[] { pk.Catch_Rate == 96 ? GameVersion.YW : GameVersion.RD };
+            if (148 <= pk.Species && pk.Species <= 149 && pk.Catch_Rate == 27)
                 // Yellow Dragonair detected by its special catch rate, is have another catch rate could be red/blue dratini or yellow dratini
                 return new[] { GameVersion.YW };
             return new[] { GameVersion.RD, GameVersion.YW };
         }
-        internal static IEnumerable<int> getInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
+        internal static IEnumerable<int> GetInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
         {
             int[] InitialMoves;
             int[] LevelUpMoves;
@@ -1440,10 +1428,10 @@ namespace PKHeX.Core
                 case GameVersion.GN:
                     {
                         var LevelTable = ver == GameVersion.YW ? LevelUpY : LevelUpRB;
-                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
                         if (index == 0)
                             return new int[0];
-                        LevelUpMoves = LevelTable[species].getEncounterMoves(lvl);
+                        LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
                         diff = 4 - LevelUpMoves.Length;
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
@@ -1456,15 +1444,15 @@ namespace PKHeX.Core
                         if (species == 235)
                             return new[] { 166 }; // Smeargle only learns Sketch, is duplicated in the level up tables
                         var LevelTable = ver == GameVersion.C ? LevelUpC : LevelUpGS;
-                        int index = PersonalTable.C.getFormeIndex(species, 0);
+                        int index = PersonalTable.C.GetFormeIndex(species, 0);
                         if (index == 0)
                             return new int[0];
-                        LevelUpMoves = LevelTable[species].getEncounterMoves(2, lvl);
+                        LevelUpMoves = LevelTable[species].GetEncounterMoves(2, lvl);
                         diff = 4 - LevelUpMoves.Length;
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
                         // Level Up 1 moves are initial moves, it can be duplicated in levels 2-100
-                        InitialMoves = LevelTable[species].getEncounterMoves(1, 1);
+                        InitialMoves = LevelTable[species].GetEncounterMoves(1, 1);
                         break;
                     }
                 default:
@@ -1480,81 +1468,35 @@ namespace PKHeX.Core
             // The order for the pokemon default moves are first moves from personal table and then moves from  level up table
             return moves.Union(LevelUpMoves).ToArray();
         }
-        internal static int getMoveMinLevelGBEncounter(int species, int lvl, GameVersion[] versions)
-        {
-            int movelvl = 100;
-            foreach(GameVersion ver in versions)
-            {
-                movelvl = Math.Min(movelvl, getMoveMinLevelGBEncounter(species, lvl, ver));
-            }
-            return movelvl;
-        }
-        internal static int getMoveMinLevelGBEncounter(int species, int lvl, GameVersion ver = GameVersion.Any)
-        {
-            int movelvl = 100;
-            switch (ver)
-            {
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.RBY:
-                    {
-                        movelvl =  LevelUpRB[species].getMinMoveLevel(lvl);
-                        if (ver.Contains(GameVersion.YW))
-                            goto case GameVersion.YW;
-                        return movelvl;
-                    }
-                case GameVersion.YW:
-                    {
-                        movelvl = Math.Min(movelvl, LevelUpY[species].getMinMoveLevel(lvl));
-                        if (ver.Contains(GameVersion.GS))
-                            goto case GameVersion.GS;
-                        return movelvl;
-                    }
-                case GameVersion.GS:
-                case GameVersion.GSC:
-                    {
-                        movelvl = Math.Min(movelvl, LevelUpGS[species].getMinMoveLevel(lvl));
-                        if (ver.Contains(GameVersion.C) && AllowGen2Crystal)
-                            goto case GameVersion.C;
-                        return movelvl;
-                    }
-                case GameVersion.C:
-                    {
-                        return Math.Min(movelvl, LevelUpC[species].getMinMoveLevel(lvl));
-                    }
-            }
-            return movelvl;
-        }
-        internal static int getRequiredMoveCount(PKM pk, int[] moves, LegalInfo info, int[] initialmoves)
+        internal static int GetRequiredMoveCount(PKM pk, int[] moves, LegalInfo info, int[] initialmoves)
         {
             if (pk.Format != 1 || !pk.Gen1_NotTradeback) // No MoveDeleter
                 return 1; // Move deleter exits, slots from 2 onwards can allways be empty
 
-            int required = getRequiredMoveCount(pk, moves, info.EncounterMoves.validLevelUpMoves, initialmoves);
+            int required = GetRequiredMoveCount(pk, moves, info.EncounterMoves.LevelUpMoves, initialmoves);
             if (required >= 4)
                 return 4;
 
             // tm, hm and tutor moves replace a free slots if the pokemon have less than 4 moves
             // Ignore tm, hm and tutor moves already in the learnset table
-            var learn = info.EncounterMoves.validLevelUpMoves;
-            var tmhm = info.EncounterMoves.validTMHMMoves;
-            var tutor = info.EncounterMoves.validTutorMoves;
+            var learn = info.EncounterMoves.LevelUpMoves;
+            var tmhm = info.EncounterMoves.TMHMMoves;
+            var tutor = info.EncounterMoves.TutorMoves;
             required += moves.Where(m => m != 0 && initialmoves.Union(learn[1]).All(l => l != m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
 
             return Math.Min(4, required);
         }
-        private static int getRequiredMoveCount(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        private static int GetRequiredMoveCount(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             if (SpecialMinMoveSlots.Contains(pk.Species))
-                return getRequiredMoveCountSpecial(pk, moves, learn);
+                return GetRequiredMoveCountSpecial(pk, moves, learn);
 
             // A pokemon is captured with initial moves and can't forget any until have all 4 slots used
             // If it has learn a move before having 4 it will be in one of the free slots
-            int required = getRequiredMoveSlotsRegular(pk, moves, learn, initialmoves);
-            return required != 0 ? required : getRequiredMoveCountDecrement(pk, moves, learn, initialmoves);
+            int required = GetRequiredMoveSlotsRegular(pk, moves, learn, initialmoves);
+            return required != 0 ? required : GetRequiredMoveCountDecrement(pk, moves, learn, initialmoves);
         }
-        private static int getRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        private static int GetRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             int species = pk.Species;
             int catch_rate = (pk as PK1).Catch_Rate;
@@ -1575,9 +1517,9 @@ namespace PKHeX.Core
                 return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1WeedleMoves.Contains(lm));
             }
 
-            return getRequiredMoveCountSpecies3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
+            return IsMoveCountRequired3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
         }
-        private static bool getRequiredMoveCountSpecies3(int species, int level, int[] moves)
+        private static bool IsMoveCountRequired3(int species, int level, int[] moves)
         {
             // Species that evolve and learn the 4th move as evolved species at a greather level than base species
             // The 4th move is included in the level up table set as a preevolution move, 
@@ -1595,7 +1537,7 @@ namespace PKHeX.Core
             }
             return false;
         }
-        private static int getRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        private static int GetRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
             int catch_rate = (pk as PK1).Catch_Rate;
             int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
@@ -1641,12 +1583,12 @@ namespace PKHeX.Core
                 usedslots--;
             return usedslots;
         }
-        private static int getRequiredMoveCountSpecial(PKM pk, int[] moves, List<int>[] learn)
+        private static int GetRequiredMoveCountSpecial(PKM pk, int[] moves, List<int>[] learn)
         {
             // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
             // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves, 
             // every other move could be avoided switching game or evolving
-            var basespecies = getBaseSpecies(pk);
+            var basespecies = GetBaseSpecies(pk);
             var maxlevel = 1;
             var minlevel = 1;
             if (029 <= pk.Species && pk.Species <= 034 && pk.CurrentLevel >= 8)
@@ -1657,7 +1599,7 @@ namespace PKHeX.Core
                 minlevel = 32;
                 maxlevel = pk.CurrentLevel;
             }
-            var mandatory = minlevel <= pk.CurrentLevel ? getLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList() : new List<int>();
+            var mandatory = minlevel <= pk.CurrentLevel ? GetLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList() : new List<int>();
             if (pk.Species == 103 && pk.CurrentLevel >= 28) // Exeggutor
             {
                 // At level 28 learn different move if is a Exeggute or Exeggutor
@@ -1675,7 +1617,7 @@ namespace PKHeX.Core
             return mandatory.Count + moves.Where(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m)).Count();
         }
 
-        internal static bool getWasEgg23(PKM pkm)
+        internal static bool GetWasEgg23(PKM pkm)
         {
             if (pkm.IsEgg)
                 return true;
@@ -1693,15 +1635,15 @@ namespace PKHeX.Core
             if (pkm.Format > 3 && pkm.FatefulEncounter)
                 return false;
 
-            return getEvolutionValid(pkm);
+            return IsEvolutionValid(pkm);
         }
 
         // Generation Specific Fetching
-        private static EvolutionTree getEvolutionTable(PKM pkm)
+        private static EvolutionTree GetEvolutionTable(PKM pkm)
         {
-            return getEvolutionTable(pkm.Format);
+            return GetEvolutionTable(pkm.Format);
         }
-        private static EvolutionTree getEvolutionTable(int generation)
+        private static EvolutionTree GetEvolutionTable(int generation)
         {
             switch (generation)
             {
@@ -1721,7 +1663,7 @@ namespace PKHeX.Core
                     return Evolves7;
             }
         }
-        internal static EncounterStatic[] getEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        internal static EncounterStatic[] GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -1780,7 +1722,7 @@ namespace PKHeX.Core
                 default: return new EncounterStatic[0];
             }
         }
-        internal static EncounterArea[] getEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        internal static EncounterArea[] GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -1847,7 +1789,7 @@ namespace PKHeX.Core
                 default: return new EncounterArea[0];
             }
         }
-        internal static IEnumerable<EncounterArea> getDexNavAreas(PKM pkm)
+        internal static IEnumerable<EncounterArea> GetDexNavAreas(PKM pkm)
         {
             switch (pkm.Version)
             {
@@ -1860,16 +1802,16 @@ namespace PKHeX.Core
             }
         }
 
-        internal static IEnumerable<int> getLineage(PKM pkm)
+        internal static IEnumerable<int> GetLineage(PKM pkm)
         {
             if (pkm.IsEgg)
                 return new[] {pkm.Species};
 
-            var table = getEvolutionTable(pkm);
-            var lineage = table.getValidPreEvolutions(pkm, pkm.CurrentLevel);
+            var table = GetEvolutionTable(pkm);
+            var lineage = table.GetValidPreEvolutions(pkm, pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
         }
-        internal static int[] getWildBalls(PKM pkm)
+        internal static int[] GetWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)
             {
@@ -1893,11 +1835,11 @@ namespace PKHeX.Core
             }
         }
 
-        internal static int[] getSplitBreedGeneration(PKM pkm)
+        internal static int[] GetSplitBreedGeneration(PKM pkm)
         {
-            return getSplitBreedGeneration(pkm.GenNumber);
+            return GetSplitBreedGeneration(pkm.GenNumber);
         }
-        internal static int[] getSplitBreedGeneration(int generation)
+        private static int[] GetSplitBreedGeneration(int generation)
         {
             switch (generation)
             {
@@ -1911,15 +1853,15 @@ namespace PKHeX.Core
                 default: return new int[0];
             }
         }
-        internal static int getMaxSpeciesOrigin(PKM pkm)
+        internal static int GetMaxSpeciesOrigin(PKM pkm)
         {
             if (pkm.Format == 1 || pkm.VC1) // Gen1 VC could not trade with gen 2 yet
-                return getMaxSpeciesOrigin(1);
+                return GetMaxSpeciesOrigin(1);
             if (pkm.Format == 2 || pkm.VC2)
-                return getMaxSpeciesOrigin(2);
-            return getMaxSpeciesOrigin(pkm.GenNumber);
+                return GetMaxSpeciesOrigin(2);
+            return GetMaxSpeciesOrigin(pkm.GenNumber);
         }
-        internal static int getMaxSpeciesOrigin(int generation)
+        internal static int GetMaxSpeciesOrigin(int generation)
         {
             switch (generation)
             {
@@ -1933,7 +1875,7 @@ namespace PKHeX.Core
                 default: return -1;
             }
         }
-        internal static IEnumerable<int> getFutureGenEvolutions(int generation)
+        internal static IEnumerable<int> GetFutureGenEvolutions(int generation)
         {
             switch (generation)
             {
@@ -1946,7 +1888,7 @@ namespace PKHeX.Core
             }
         }
 
-        internal static bool[] getReleasedHeldItems(int generation)
+        private static bool[] GetReleasedHeldItems(int generation)
         {
             switch (generation)
             {
@@ -1959,25 +1901,25 @@ namespace PKHeX.Core
                 default: return new bool[0];
             }
         }
-        internal static bool getHeldItemAllowed(int generation, int item)
+        internal static bool IsHeldItemAllowed(int item, int generation)
         {
             if (item < 0)
                 return false;
             if (item == 0)
                 return true;
 
-            var items = getReleasedHeldItems(generation);
+            var items = GetReleasedHeldItems(generation);
             return items.Length > item && items[item];
         }
 
-        internal static bool getHasEvolved(PKM pkm)
+        internal static bool IsNotBaseSpecies(PKM pkm)
         {
             if (pkm.IsEgg)
                 return false;
 
-            return getValidPreEvolutions(pkm).Count() > 1;
+            return GetValidPreEvolutions(pkm).Count() > 1;
         }
-        internal static bool getHasEvolvedFormChange(PKM pkm)
+        private static bool IsEvolvedFormChange(PKM pkm)
         {
             if (pkm.IsEgg)
                 return false;
@@ -1990,27 +1932,27 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
-        internal static bool getHasTradeEvolved(PKM pkm)
+        internal static bool IsTradeEvolved(PKM pkm)
         {
             if (pkm.IsEgg)
                 return false;
 
-            var table = getEvolutionTable(pkm);
-            var lineage = table.getValidPreEvolutions(pkm, 100, skipChecks:true);
+            var table = GetEvolutionTable(pkm);
+            var lineage = table.GetValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
         }
-        internal static bool getEvolutionValid(PKM pkm, int minSpecies = -1)
+        internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1)
         {
-            var curr = getValidPreEvolutions(pkm);
-            var poss = getValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+            var curr = GetValidPreEvolutions(pkm);
+            var poss = GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
 
             if (minSpecies != -1)
                 poss = poss.Reverse().SkipWhile(z => z.Species != minSpecies); // collection is reversed, we only care about count
-            else if (getSplitBreedGeneration(pkm).Contains(getBaseSpecies(pkm, 1)))
+            else if (GetSplitBreedGeneration(pkm).Contains(GetBaseSpecies(pkm, 1)))
                 return curr.Count() >= poss.Count() - 1;
             return curr.Count() >= poss.Count();
         }
-        internal static bool getEvolutionWithMoveValid(PKM pkm, LegalInfo info)
+        internal static bool IsEvolutionValidWithMove(PKM pkm, LegalInfo info)
         {
             // Exclude species that do not evolve leveling with a move
             // Exclude gen 1-3 formats
@@ -2038,7 +1980,7 @@ namespace PKHeX.Core
             // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
             if (info.EncounterMatch.EggEncounter && !pkm.WasGiftEgg && !pkm.WasEventEgg && allowegg)
             {
-                if (getIsMoveInherited(pkm, info, moves))
+                if (IsMoveInherited(pkm, info, moves))
                     LearnLevel = Math.Min(LearnLevel, pkm.GenNumber < 4 ? 6 : 2);
             }
 
@@ -2053,7 +1995,7 @@ namespace PKHeX.Core
             // the level-up event that triggers the learning of the move also triggers evolution with no further level-up required
             return pkm.CurrentLevel >= LearnLevel;
         }
-        private static bool getIsMoveInherited(PKM pkm, LegalInfo info, int[] moves)
+        private static bool IsMoveInherited(PKM pkm, LegalInfo info, int[] moves)
         {
             // In 3DS games, the inherited move must be in the relearn moves.
             if (pkm.GenNumber >= 6)
@@ -2065,33 +2007,33 @@ namespace PKHeX.Core
 
             // If the pokemon does not have the move, it still could be an egg move that was forgotten.
             // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
-            return 4 > info.vMoves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
+            return 4 > info.Moves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
         }
-        internal static bool getCanFormChange(PKM pkm, int species)
+        internal static bool IsFormChangeable(PKM pkm, int species)
         {
             if (FormChange.Contains(species))
                 return true;
-            if (getHasEvolvedFormChange(pkm))
+            if (IsEvolvedFormChange(pkm))
                 return true;
             if (pkm.Species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm == 3)
                 return true;
             return false;
         }
         
-        public static int getLowestLevel(PKM pkm, int refSpecies = -1)
+        public static int GetLowestLevel(PKM pkm, int refSpecies = -1)
         {
             if (refSpecies == -1)
-                refSpecies = getBaseSpecies(pkm);
+                refSpecies = GetBaseSpecies(pkm);
             for (int i = 0; i < 100; i++)
             {
-                var table = getEvolutionTable(pkm);
-                var evos = table.getValidPreEvolutions(pkm, i, skipChecks:true).ToArray();
+                var table = GetEvolutionTable(pkm);
+                var evos = table.GetValidPreEvolutions(pkm, i, skipChecks:true).ToArray();
                 if (evos.Any(evo => evo.Species == refSpecies))
                     return evos.OrderByDescending(evo => evo.Level).First().Level;
             }
             return 100;
         }
-        internal static bool getCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
+        internal static bool GetCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
         {
             switch (gen)
             {
@@ -2100,24 +2042,24 @@ namespace PKHeX.Core
                     switch (version)
                     {
                         case GameVersion.Any:
-                            return getCanBeCaptured(species, SlotsX, StaticX, XY:true)
-                                || getCanBeCaptured(species, SlotsY, StaticY, XY:true)
-                                || getCanBeCaptured(species, SlotsA, StaticA)
-                                || getCanBeCaptured(species, SlotsO, StaticO);
+                            return GetCanBeCaptured(species, SlotsX, StaticX, XY:true)
+                                || GetCanBeCaptured(species, SlotsY, StaticY, XY:true)
+                                || GetCanBeCaptured(species, SlotsA, StaticA)
+                                || GetCanBeCaptured(species, SlotsO, StaticO);
                         case GameVersion.X:
-                            return getCanBeCaptured(species, SlotsX, StaticX, XY:true);
+                            return GetCanBeCaptured(species, SlotsX, StaticX, XY:true);
                         case GameVersion.Y:
-                            return getCanBeCaptured(species, SlotsY, StaticY, XY:true);
+                            return GetCanBeCaptured(species, SlotsY, StaticY, XY:true);
                         case GameVersion.AS:
-                            return getCanBeCaptured(species, SlotsA, StaticA);
+                            return GetCanBeCaptured(species, SlotsA, StaticA);
                         case GameVersion.OR:
-                            return getCanBeCaptured(species, SlotsO, StaticO);
+                            return GetCanBeCaptured(species, SlotsO, StaticO);
                     }
                     break;
             }
             return false;
         }
-        private static bool getCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics, bool XY = false)
+        private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics, bool XY = false)
         {
             if (XY && FriendSafari.Contains(species))
                 return true;
@@ -2128,57 +2070,40 @@ namespace PKHeX.Core
                 return true;
             return false;
         }
-
-        internal static bool getCanLearnMachineMove(PKM pkm, int move, IEnumerable<int> generations, GameVersion version = GameVersion.Any)
+        internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return generations.Any(generation => getCanLearnMachineMove(pkm, move, generation, version));
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, Machine: true).Contains(move);
         }
-        internal static bool getCanRelearnMove(PKM pkm, int move, IEnumerable<int> generations, GameVersion version = GameVersion.Any)
+        internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return generations.Any(generation => getCanRelearnMove(pkm, move, generation, version));
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true).Contains(move);
         }
-        internal static bool getCanLearnMove(PKM pkm, int move, IEnumerable<int> generations, GameVersion version = GameVersion.Any)
+        internal static bool GetCanLearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return generations.Any(generation => getCanLearnMove(pkm, move, generation, version));
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, Tutor: true, Machine: true).Contains(move);
         }
-        internal static bool getCanKnowMove(PKM pkm, int move, IEnumerable<int> generations, GameVersion version = GameVersion.Any)
-        {
-            return generations.Any(generation => getCanKnowMove(pkm, move, generation, version));
-        }
-        internal static bool getCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
-        {
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm).ToArray(), generation, Machine: true).Contains(move);
-        }
-        internal static bool getCanRelearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
-        {
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true).Contains(move);
-        }
-        internal static bool getCanLearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
-        {
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm).ToArray(), generation, Tutor: true, Machine: true).Contains(move);
-        }
-        internal static bool getCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
+        internal static bool GetCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == 235 && !InvalidSketch.Contains(move))
                 return true;
-            return getValidMoves(pkm, version, getValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return GetValidMoves(pkm, version, GetValidPreEvolutions(pkm).ToArray(), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
-        internal static int getBaseEggSpecies(PKM pkm, int skipOption = 0)
+        internal static int GetBaseEggSpecies(PKM pkm, int skipOption = 0)
         {
             if (pkm.Format == 1)
-                return getBaseSpecies(pkm, skipOption : skipOption, generation : 2);
-            return getBaseSpecies(pkm, skipOption);
+                return GetBaseSpecies(pkm, skipOption : skipOption, generation : 2);
+            return GetBaseSpecies(pkm, skipOption);
         }
-        internal static int getBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
+        internal static int GetBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
         {
             if (pkm.Species == 292)
                 return 290;
             if (pkm.Species == 242 && pkm.CurrentLevel < 3) // Never Cleffa
                 return 113;
 
-            var table = generation != -1 ? getEvolutionTable(generation): getEvolutionTable(pkm);
-            int maxSpeciesOrigin = generation != -1 ? getMaxSpeciesOrigin(generation) : - 1;
-            var evos = table.getValidPreEvolutions(pkm, 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
+            var table = generation != -1 ? GetEvolutionTable(generation): GetEvolutionTable(pkm);
+            int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : - 1;
+            var evos = table.GetValidPreEvolutions(pkm, 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
 
             switch (skipOption)
             {
@@ -2187,11 +2112,11 @@ namespace PKHeX.Core
                 default: return evos.Length <= 0 ? pkm.Species : evos.Last().Species;
             }
         }
-        internal static int getMaxLevelGeneration(PKM pkm)
+        private static int GetMaxLevelGeneration(PKM pkm)
         {
-            return getMaxLevelGeneration(pkm, pkm.GenNumber);
+            return GetMaxLevelGeneration(pkm, pkm.GenNumber);
         }
-        internal static int getMaxLevelGeneration(PKM pkm, int generation)
+        private static int GetMaxLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))
                 return -1;
@@ -2214,7 +2139,7 @@ namespace PKHeX.Core
             
             return pkm.CurrentLevel;
         }
-        internal static int getMinLevelEncounter(PKM pkm)
+        internal static int GetMinLevelEncounter(PKM pkm)
         {
             if (pkm.Format == 3 && pkm.WasEgg)
                 // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
@@ -2222,13 +2147,13 @@ namespace PKHeX.Core
             if (pkm.Format == 4 && pkm.GenNumber == 4 && pkm.WasEgg) 
                 // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
                 return 1;
-            return pkm.HasOriginalMetLocation ? pkm.Met_Level : getMaxLevelGeneration(pkm);
+            return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);
         }
-        internal static int getMinLevelGeneration(PKM pkm)
+        internal static int GetMinLevelGeneration(PKM pkm)
         {
-            return getMinLevelGeneration(pkm, pkm.GenNumber);
+            return GetMinLevelGeneration(pkm, pkm.GenNumber);
         }
-        internal static int getMinLevelGeneration(PKM pkm, int generation)
+        private static int GetMinLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))
                 return 0;
@@ -2245,9 +2170,9 @@ namespace PKHeX.Core
             return 1;
         }
 
-        internal static DexLevel[][] getEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
+        internal static DexLevel[][] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {
-            var CompleteEvoChain = getEvolutionChain(pkm, Encounter).ToArray();
+            var CompleteEvoChain = GetEvolutionChain(pkm, Encounter).ToArray();
             int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
             int mingen = pkm.Format == 2 && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
             DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
@@ -2263,7 +2188,7 @@ namespace PKHeX.Core
             // Empty list returned if is an impossible egg (like a gen 3 infernape inside an egg)
             if (pkm.IsEgg)
             {
-                if (getMaxSpeciesOrigin(pkm.GenNumber) >= pkm.Species)
+                if (GetMaxSpeciesOrigin(pkm.GenNumber) >= pkm.Species)
                     GensEvoChains[pkm.GenNumber] = CompleteEvoChain;
                 return GensEvoChains;
             }
@@ -2283,7 +2208,7 @@ namespace PKHeX.Core
                     lvl = pkm.Met_Level;
                 }
 
-                int maxspeciesgen = getMaxSpeciesOrigin(gen);
+                int maxspeciesgen = GetMaxSpeciesOrigin(gen);
 
                 // Remove future gen evolutions after a few special considerations, 
                 // it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
@@ -2310,12 +2235,12 @@ namespace PKHeX.Core
                 if (!CompleteEvoChain.Any())
                     continue;
 
-                GensEvoChains[gen] = getEvolutionChain(pkm, Encounter, CompleteEvoChain.First().Species, lvl);
+                GensEvoChains[gen] = GetEvolutionChain(pkm, Encounter, CompleteEvoChain.First().Species, lvl);
                 if (gen > 2 && !pkm.HasOriginalMetLocation && gen >= pkm.GenNumber)
                     //Remove previous evolutions bellow transfer level
                     //For example a gen3 charizar in format 7 with current level 36 and met level 36
                     //chain level for charmander is 35, is bellow met level
-                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= getMinLevelGeneration(pkm, gen)).ToArray();
+                    GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= GetMinLevelGeneration(pkm, gen)).ToArray();
 
                 if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
                     // Remove generation 2 pre-evolutions
@@ -2323,14 +2248,14 @@ namespace PKHeX.Core
             }
             return GensEvoChains;
         }
-        internal static DexLevel[] getEvolutionChain(PKM pkm, IEncounterable Encounter)
+        private static DexLevel[] GetEvolutionChain(PKM pkm, IEncounterable Encounter)
         {
-            return getEvolutionChain(pkm, Encounter, pkm.Species, 100);
+            return GetEvolutionChain(pkm, Encounter, pkm.Species, 100);
         }
 
-        private static DexLevel[] getEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
+        private static DexLevel[] GetEvolutionChain(PKM pkm, IEncounterable Encounter, int maxspec, int maxlevel)
         {
-            DexLevel[] vs = getValidPreEvolutions(pkm).ToArray();
+            DexLevel[] vs = GetValidPreEvolutions(pkm).ToArray();
 
             // Evolution chain is in reverse order (devolution)
             int minspec = Encounter.Species;
@@ -2360,13 +2285,13 @@ namespace PKHeX.Core
                 d.Level = Math.Min(d.Level, maxlevel);
             return vs;
         }
-        internal static string getEncounterTypeName(IEncounterable Encounter)
+        internal static string GetEncounterTypeName(IEncounterable Encounter)
         {
             if (Encounter == null)
                 return "Unknown";
             return Encounter.Name;
         }
-        private static IEnumerable<int> getRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum)
+        private static IEnumerable<int> GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum)
         {
             List<int> moves = new List<int>();
             switch (pkm.GenNumber)
@@ -2374,23 +2299,23 @@ namespace PKHeX.Core
                 case 6:
                     if (pkm.InhabitedGeneration(6))
                     {
-                        int ind_XY = PersonalTable.XY.getFormeIndex(species, formnum);
-                        moves.AddRange(LevelUpXY[ind_XY].getMoves(lvl));
-                        int ind_AO = PersonalTable.AO.getFormeIndex(species, formnum);
-                        moves.AddRange(LevelUpAO[ind_AO].getMoves(lvl));
+                        int ind_XY = PersonalTable.XY.GetFormeIndex(species, formnum);
+                        moves.AddRange(LevelUpXY[ind_XY].GetMoves(lvl));
+                        int ind_AO = PersonalTable.AO.GetFormeIndex(species, formnum);
+                        moves.AddRange(LevelUpAO[ind_AO].GetMoves(lvl));
                     }
                     break;
                 case 7:
                     if (pkm.InhabitedGeneration(7))
                     {
-                        int ind_SM = PersonalTable.SM.getFormeIndex(species, formnum);
-                        moves.AddRange(LevelUpSM[ind_SM].getMoves(lvl));
+                        int ind_SM = PersonalTable.SM.GetFormeIndex(species, formnum);
+                        moves.AddRange(LevelUpSM[ind_SM].GetMoves(lvl));
                     }
                     break;
             }
             return moves;
         }
-        internal static IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
+        internal static IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
@@ -2408,10 +2333,10 @@ namespace PKHeX.Core
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
-            var et = maxspeciesorigin == MaxSpeciesID_2 ? getEvolutionTable(2) : getEvolutionTable(pkm);
-            return et.getValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
+            var et = maxspeciesorigin == MaxSpeciesID_2 ? GetEvolutionTable(2) : GetEvolutionTable(pkm);
+            return et.GetValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
-        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<DexLevel[]> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<DexLevel[]> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
             if (Relearn && pkm.Format >= 6)
@@ -2419,11 +2344,11 @@ namespace PKHeX.Core
 
             for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
                 if (vs[gen].Any())
-                    r.AddRange(getValidMoves(pkm, Version, vs[gen], gen, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM));
+                    r.AddRange(GetValidMoves(pkm, Version, vs[gen], gen, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM));
 
             return r.Distinct().ToArray();
         }
-        private static IEnumerable<int> getValidMoves(PKM pkm, GameVersion Version, DexLevel[] vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
+        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, DexLevel[] vs, int Generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
             List<int> r = new List<int> { 0 };
             if (!vs.Any())
@@ -2440,7 +2365,7 @@ namespace PKHeX.Core
                     // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
                     formcount = 4;
                 for (int i = 0; i < formcount; i++)
-                    r.AddRange(getMoves(pkm, species, minLvLG1, minLvLG2, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
+                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
                 return r.Distinct();
             }
@@ -2463,7 +2388,7 @@ namespace PKHeX.Core
                     if (evo.MinLevel > 1)
                         minlvlevo2 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
                 }
-                r.AddRange(getMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
+                r.AddRange(GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
             }
 
             if (pkm.Format <= 3)
@@ -2497,7 +2422,7 @@ namespace PKHeX.Core
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();
         }
-        private static IEnumerable<int> getMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
+        private static IEnumerable<int> GetMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
         {
             List<int> r = new List<int>();
 
@@ -2506,7 +2431,7 @@ namespace PKHeX.Core
             {
                 case 1:
                     {
-                        int index = PersonalTable.RB.getFormeIndex(species, 0);
+                        int index = PersonalTable.RB.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
 
@@ -2519,8 +2444,8 @@ namespace PKHeX.Core
                                 r.AddRange(pi_rb.Moves);
                                 r.AddRange(pi_y.Moves);
                             }
-                            r.AddRange(LevelUpRB[index].getMoves(lvl, minlvlG1));
-                            r.AddRange(LevelUpY[index].getMoves(lvl, minlvlG1));
+                            r.AddRange(LevelUpRB[index].GetMoves(lvl, minlvlG1));
+                            r.AddRange(LevelUpY[index].GetMoves(lvl, minlvlG1));
                         }
                         if (Machine)
                         {
@@ -2528,19 +2453,19 @@ namespace PKHeX.Core
                             r.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                            r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                         break;
                     }
                 case 2:
                     {
-                        int index = PersonalTable.C.getFormeIndex(species, 0);
+                        int index = PersonalTable.C.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
                         if (LVL)
                         {
-                            r.AddRange(LevelUpGS[index].getMoves(lvl, minlvlG2));
+                            r.AddRange(LevelUpGS[index].GetMoves(lvl, minlvlG2));
                             if (AllowGen2Crystal)
-                                r.AddRange(LevelUpC[index].getMoves(lvl, minlvlG2));
+                                r.AddRange(LevelUpC[index].GetMoves(lvl, minlvlG2));
                         }
                         if (Machine)
                         {
@@ -2548,14 +2473,14 @@ namespace PKHeX.Core
                             r.AddRange(TMHM_GSC.Where((t, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                            r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                         if (pkm.Format == 1) //tradeback gen 2 -> gen 1
                             r = r.Where(m => m <= MaxMoveID_1).ToList();
                         break;
                     }
                 case 3:
                     {
-                        int index = PersonalTable.E.getFormeIndex(species, 0);
+                        int index = PersonalTable.E.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
                         if (LVL)
@@ -2564,19 +2489,19 @@ namespace PKHeX.Core
                             {
                                 switch(form)
                                 {
-                                    case 0: r.AddRange(LevelUpRS[index].getMoves(lvl)); break;
-                                    case 1: r.AddRange(LevelUpFR[index].getMoves(lvl)); break;
-                                    case 2: r.AddRange(LevelUpLG[index].getMoves(lvl)); break;
-                                    case 3: r.AddRange(LevelUpE[index].getMoves(lvl)); break;
+                                    case 0: r.AddRange(LevelUpRS[index].GetMoves(lvl)); break;
+                                    case 1: r.AddRange(LevelUpFR[index].GetMoves(lvl)); break;
+                                    case 2: r.AddRange(LevelUpLG[index].GetMoves(lvl)); break;
+                                    case 3: r.AddRange(LevelUpE[index].GetMoves(lvl)); break;
                                 }
                             }
                             else
                             {
                                 // Emerald level up table are equals to R/S level up tables
-                                r.AddRange(LevelUpE[index].getMoves(lvl));
+                                r.AddRange(LevelUpE[index].GetMoves(lvl));
                                 // fire red and leaf green are equals between each other but different than RSE
                                 // Do not use FR Levelup table. It have 67 moves for charmander but Leaf Green moves table is correct
-                                r.AddRange(LevelUpLG[index].getMoves(lvl));
+                                r.AddRange(LevelUpLG[index].GetMoves(lvl));
                             }
                         }
                         if (Machine)
@@ -2587,21 +2512,21 @@ namespace PKHeX.Core
                                 r.AddRange(HM_3.Where((t, m) => pi_c.TMHM[m+50]));
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                            r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                         if (RemoveTransferHM && pkm.Format > 3) //Remove HM
                             r = r.Except(HM_3).ToList();
                         break;
                     }
                 case 4:
                     {
-                        int index = PersonalTable.HGSS.getFormeIndex(species, 0);
+                        int index = PersonalTable.HGSS.GetFormeIndex(species, 0);
                         if (index == 0)
                             return r;
                         if (LVL)
                         {
-                            r.AddRange(LevelUpDP[index].getMoves(lvl));
-                            r.AddRange(LevelUpPt[index].getMoves(lvl));
-                            r.AddRange(LevelUpHGSS[index].getMoves(lvl));
+                            r.AddRange(LevelUpDP[index].GetMoves(lvl));
+                            r.AddRange(LevelUpPt[index].GetMoves(lvl));
+                            r.AddRange(LevelUpHGSS[index].GetMoves(lvl));
                         }
                         if (Machine)
                         {
@@ -2624,23 +2549,23 @@ namespace PKHeX.Core
                             }
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                            r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                         if (RemoveTransferHM && pkm.Format > 4) //Remove HM
                             r = r.Except(HM_4_RemovePokeTransfer).ToList();
                         break;
                     }
                 case 5:
                     {
-                        int index1 = PersonalTable.BW.getFormeIndex(species, form);
-                        int index2 = PersonalTable.B2W2.getFormeIndex(species, form);
+                        int index1 = PersonalTable.BW.GetFormeIndex(species, form);
+                        int index2 = PersonalTable.B2W2.GetFormeIndex(species, form);
                         if (index1 == 0 && index2 == 0)
                             return r;
                         if (LVL)
                         {
                             if (index1 != 0)
-                                r.AddRange(LevelUpBW[index1].getMoves(lvl));
+                                r.AddRange(LevelUpBW[index1].GetMoves(lvl));
                             if (index2 != 0)
-                                r.AddRange(LevelUpB2W2[index2].getMoves(lvl));
+                                r.AddRange(LevelUpB2W2[index2].GetMoves(lvl));
                         }
                         if (Machine)
                         {
@@ -2648,7 +2573,7 @@ namespace PKHeX.Core
                             r.AddRange(TMHM_BW.Where((t, m) => pi_c.TMHM[m]));
                         }
                         if (moveTutor)
-                            r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                            r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                         break;
                     }
                 case 6:
@@ -2657,14 +2582,14 @@ namespace PKHeX.Core
                         case GameVersion.Any: // Start at the top, hit every table
                         case GameVersion.X: case GameVersion.Y: case GameVersion.XY:
                         {
-                            int index = PersonalTable.XY.getFormeIndex(species, form);
+                            int index = PersonalTable.XY.GetFormeIndex(species, form);
                             if (index == 0)
                                 return r;
 
                             if (LVL)
-                                r.AddRange(LevelUpXY[index].getMoves(lvl));
+                                r.AddRange(LevelUpXY[index].GetMoves(lvl));
                             if (moveTutor)
-                                 r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                                 r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine)
                             {
                                 PersonalInfo pi = PersonalTable.XY[index];
@@ -2678,14 +2603,14 @@ namespace PKHeX.Core
 
                         case GameVersion.AS: case GameVersion.OR: case GameVersion.ORAS:
                         {
-                            int index = PersonalTable.AO.getFormeIndex(species, form);
+                            int index = PersonalTable.AO.GetFormeIndex(species, form);
                             if (index == 0)
                                 return r;
 
                             if (LVL)
-                                r.AddRange(LevelUpAO[index].getMoves(lvl));
+                                r.AddRange(LevelUpAO[index].GetMoves(lvl));
                             if (moveTutor)
-                                r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                                r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine)
                             {
                                 PersonalInfo pi = PersonalTable.AO[index];
@@ -2701,17 +2626,17 @@ namespace PKHeX.Core
                         case GameVersion.Any:
                         case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
                         {
-                            int index = PersonalTable.SM.getFormeIndex(species, form);
+                            int index = PersonalTable.SM.GetFormeIndex(species, form);
                             if (MoveReminder)
                                 lvl = 100; // Move reminder can teach any level in movepool now!
 
                             if (LVL)
-                                r.AddRange(LevelUpSM[index].getMoves(lvl));
+                                r.AddRange(LevelUpSM[index].GetMoves(lvl));
                             if (moveTutor) 
-                                r.AddRange(getTutorMoves(pkm, species, form, specialTutors, Generation));
+                                r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
                             if (Machine)
                             {
-                                PersonalInfo pi = PersonalTable.SM.getFormeEntry(species, form);
+                                PersonalInfo pi = PersonalTable.SM.GetFormeEntry(species, form);
                                 r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
                             }
                             break;
@@ -2725,7 +2650,7 @@ namespace PKHeX.Core
             return r;
         }
 
-        internal static int[] getEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
+        internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
         {
             if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255)
                 return new int[0];
@@ -2769,14 +2694,14 @@ namespace PKHeX.Core
                     return new int[0];
             }
         }
-        internal static IEnumerable<int> getTMHM(PKM pkm, int species, int form, int generation, GameVersion Version = GameVersion.Any, bool RemoveTransferHM = true)
+        internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion Version = GameVersion.Any, bool RemoveTransferHM = true)
         {
             List<int> moves = new List<int>();
             int index;
             switch (generation)
             {
                 case 1:
-                    index = PersonalTable.RB.getFormeIndex(species, 0);
+                    index = PersonalTable.RB.GetFormeIndex(species, 0);
                     if (index == 0)
                         return moves;
                     var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
@@ -2785,7 +2710,7 @@ namespace PKHeX.Core
                     moves.AddRange(TMHM_RBY.Where((t, m) => pi_y.TMHM[m]));
                     break;
                 case 2:
-                    index = PersonalTable.C.getFormeIndex(species, 0);
+                    index = PersonalTable.C.GetFormeIndex(species, 0);
                     if (index == 0)
                         return moves;
                     var pi_c = (PersonalInfoG2)PersonalTable.C[index];
@@ -2794,14 +2719,14 @@ namespace PKHeX.Core
                         goto case 1; // rby
                     break;
                 case 3:
-                    index = PersonalTable.E.getFormeIndex(species, 0);
+                    index = PersonalTable.E.GetFormeIndex(species, 0);
                     var pi_e = PersonalTable.E[index];
                     moves.AddRange(TM_3.Where((t, m) => pi_e.TMHM[m]));
                     if (!RemoveTransferHM || pkm.Format == 3) // HM moves must be removed for 3->4, only give if current format.
                         moves.AddRange(HM_3.Where((t, m) => pi_e.TMHM[m + 50]));
                     break;
                 case 4:
-                    index = PersonalTable.HGSS.getFormeIndex(species, 0);
+                    index = PersonalTable.HGSS.GetFormeIndex(species, 0);
                     if (index == 0)
                         return moves;
                     var pi_hgss = PersonalTable.HGSS[index];
@@ -2835,7 +2760,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 5:
-                    index = PersonalTable.B2W2.getFormeIndex(species, 0);
+                    index = PersonalTable.B2W2.GetFormeIndex(species, 0);
                     if (index == 0)
                         return moves;
 
@@ -2850,7 +2775,7 @@ namespace PKHeX.Core
                         case GameVersion.Y:
                         case GameVersion.XY:
                             {
-                                index = PersonalTable.XY.getFormeIndex(species, form);
+                                index = PersonalTable.XY.GetFormeIndex(species, form);
                                 if (index == 0)
                                     return moves;
 
@@ -2865,7 +2790,7 @@ namespace PKHeX.Core
                         case GameVersion.OR:
                         case GameVersion.ORAS:
                             {
-                                index = PersonalTable.AO.getFormeIndex(species, form);
+                                index = PersonalTable.AO.GetFormeIndex(species, form);
                                 if (index == 0)
                                     return moves;
 
@@ -2876,7 +2801,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 7:
-                    index = PersonalTable.SM.getFormeIndex(species, form);
+                    index = PersonalTable.SM.GetFormeIndex(species, form);
                     if (index == 0)
                         return moves;
 
@@ -2886,7 +2811,7 @@ namespace PKHeX.Core
             }
             return moves.Distinct();
         }
-        internal static IEnumerable<int> getTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
+        internal static IEnumerable<int> GetTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
             List<int> moves = new List<int>();
             PersonalInfo info;
@@ -2925,7 +2850,7 @@ namespace PKHeX.Core
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(5) && specialTutors)
                     {
-                        PersonalInfo pi = PersonalTable.B2W2.getFormeEntry(species, form);
+                        PersonalInfo pi = PersonalTable.B2W2.GetFormeEntry(species, form);
                         for (int i = 0; i < Tutors_B2W2.Length; i++)
                             for (int b = 0; b < Tutors_B2W2[i].Length; b++)
                                 if (pi.SpecialTutors[i][b])
@@ -2937,7 +2862,7 @@ namespace PKHeX.Core
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
                     {
-                        PersonalInfo pi = PersonalTable.AO.getFormeEntry(species, form);
+                        PersonalInfo pi = PersonalTable.AO.GetFormeEntry(species, form);
                         for (int i = 0; i < Tutors_AO.Length; i++)
                             for (int b = 0; b < Tutors_AO[i].Length; b++)
                                 if (pi.SpecialTutors[i][b])
@@ -2945,19 +2870,12 @@ namespace PKHeX.Core
                     }
                     break;
                 case 7:
-                    info = PersonalTable.SM.getFormeEntry(species, form);
+                    info = PersonalTable.SM.GetFormeEntry(species, form);
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     // No special tutors in G7
                     break;
             }
             return moves.Distinct();
-        }
-        internal static List<int>[] GetEmptyMovesList(DexLevel[][] EvoChainsAllGens)
-        {
-            var empty = new List<int>[EvoChainsAllGens.Length];
-            for (int i = 0; i < empty.Length; i++)
-                empty[i] = new List<int>();
-            return empty;
         }
         internal static bool IsTradedKadabraG1(PKM pkm)
         {

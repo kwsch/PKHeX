@@ -26,18 +26,21 @@
         {
             return g1.Contains((EncounterType)g2);
         }
-        public static bool Contains(this EncounterType g1, EncounterType g2)
+        private static bool Contains(this EncounterType g1, EncounterType g2)
         {
-            if (g1 == EncounterType.Headbutt_Grass)
-                return g2 == EncounterType.None || g2 == EncounterType.TallGrass;
-            if (g1 == EncounterType.Headbutt_Surf)
-                return g2 == EncounterType.None || g2 == EncounterType.Surfing_Fishing;
-            if (g1 == EncounterType.Headbutt_GrassSurf)
-                return EncounterType.Headbutt_Grass.Contains(g2) || g2 == EncounterType.Surfing_Fishing;
-            if (g1 == EncounterType.Headbutt_CitySurf)
-                return g2 == EncounterType.Building_EnigmaStone || g2 == EncounterType.Surfing_Fishing;
-            if (g1 == EncounterType.Headbutt_CaveSurf)
-                return g2 == EncounterType.Cave_HallOfOrigin || g2 == EncounterType.Surfing_Fishing;
+            switch (g1)
+            {
+                case EncounterType.Headbutt_Grass:
+                    return g2 == EncounterType.None || g2 == EncounterType.TallGrass;
+                case EncounterType.Headbutt_Surf:
+                    return g2 == EncounterType.None || g2 == EncounterType.Surfing_Fishing;
+                case EncounterType.Headbutt_GrassSurf:
+                    return EncounterType.Headbutt_Grass.Contains(g2) || g2 == EncounterType.Surfing_Fishing;
+                case EncounterType.Headbutt_CitySurf:
+                    return g2 == EncounterType.Building_EnigmaStone || g2 == EncounterType.Surfing_Fishing;
+                case EncounterType.Headbutt_CaveSurf:
+                    return g2 == EncounterType.Cave_HallOfOrigin || g2 == EncounterType.Surfing_Fishing;
+            }
 
             return g1 == g2;
         }

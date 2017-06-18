@@ -12,7 +12,7 @@ namespace PKHeX.WinForms
         {
             SAV = (SAV6)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             nup_spec = new[] { NUP_Red, NUP_Blue, NUP_Pink, NUP_Green, NUP_Yellow, NUP_Rainbow, NUP_RedPlus, NUP_BluePlus, NUP_PinkPlus, NUP_GreenPlus, NUP_YellowPlus, NUP_RainbowPlus };
             Label[] lbl_spec = { L_Red, L_Blue, L_Pink, L_Green, L_Yellow, L_Rainbow, L_RedPlus, L_BluePlus, L_PinkPlus, L_GreenPlus, L_YellowPlus, L_RainbowPlus };
 
@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < nup_spec.Length; i++)
                 BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV.Contest + i * 4);
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 
@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             var plantable = Legal.Pouch_Berry_XY; // 0 index is None, skip with rand
             for (int i = 0; i < 90; i++) // amount of plots in the game
             {
-                ushort berry = plantable[Util.rnd32() % (plantable.Length - 1) + 1]; // get random berry item ID from list
+                ushort berry = plantable[Util.Rand32() % (plantable.Length - 1) + 1]; // get random berry item ID from list
                 BitConverter.GetBytes(berry).CopyTo(tree, 6); // put berry into tree.
                 tree.CopyTo(SAV.Data, SAV.BerryField + 0x10 * i); // put tree into plot
             }

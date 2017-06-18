@@ -18,20 +18,20 @@ namespace PKHeX.WinForms
             offsetSpec = SAV.SuperTrain + 0x188;
             offsetVal = SAV.SuperTrain + 0x18A;
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             string[] stages = GameInfo.Strings.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
                 listBox1.Items.Add((i + 1).ToString("00") + " - " + stages[i + 2]);
 
-            setup();
+            Setup();
         }
 
         private readonly string[] trba;
         private readonly int offsetVal;
         private readonly int offsetTime;
         private readonly int offsetSpec;
-        private void setup()
+        private void Setup()
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -45,13 +45,13 @@ namespace PKHeX.WinForms
                 CB_S2.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
             }
             listBox1.SelectedIndex = 0;
-            fillTrainingBags();
+            FillTrainingBags();
 
             CB_S2.SelectedValue = (int)BitConverter.ToUInt16(SAV.Data, offsetSpec + 4 * 30);
             TB_Time1.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 30).ToString();
             TB_Time2.Text = BitConverter.ToSingle(SAV.Data, offsetTime + 4 * 31).ToString();
         }
-        private void fillTrainingBags()
+        private void FillTrainingBags()
         {
             DataGridViewColumn dgvIndex = new DataGridViewTextBoxColumn();
             {
@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
                 dataGridView1.Rows[i].Cells[1].Value = trba[SAV.Data[offset + i]];
             }
         }        
-        private void dropclick(object sender, DataGridViewCellEventArgs e)
+        private void DropClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
             }
             catch { }
         }
-        private void changeListRecordSelection(object sender, EventArgs e)
+        private void ChangeListRecordSelection(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
@@ -120,28 +120,28 @@ namespace PKHeX.WinForms
             }
             try { BitConverter.GetBytes(float.Parse(TB_Time1.Text)).CopyTo(SAV.Data, offsetTime + 4 * 30); } catch { }
             try { BitConverter.GetBytes(float.Parse(TB_Time2.Text)).CopyTo(SAV.Data, offsetTime + 4 * 31); } catch { }
-            BitConverter.GetBytes((ushort)WinFormsUtil.getIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + 4 * 30);
+            BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)).CopyTo(SAV.Data, offsetSpec + 4 * 30);
             bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
-        private void changeRecordSpecies(object sender, EventArgs e)
+        private void ChangeRecordSpecies(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
-            BitConverter.GetBytes(WinFormsUtil.getIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + 4 * index);
+            BitConverter.GetBytes(WinFormsUtil.GetIndex(CB_Species)).CopyTo(SAV.Data, offsetSpec + 4 * index);
         }
-        private void changeRecordVal(object sender, EventArgs e)
+        private void ChangeRecordVal(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;
             try { BitConverter.GetBytes(ushort.Parse(TB_Unk.Text)).CopyTo(SAV.Data, offsetVal + 4 * index); } catch { }
         }
-        private void changeRecordTime(object sender, EventArgs e)
+        private void ChangeRecordTime(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
             if (index < 0) return;

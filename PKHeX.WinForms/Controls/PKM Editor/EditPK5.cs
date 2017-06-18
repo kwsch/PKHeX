@@ -5,16 +5,16 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor
     {
-        private void populateFieldsPK5()
+        private void PopulateFieldsPK5()
         {
             PK5 pk5 = pkm as PK5;
             if (pk5 == null)
                 return;
 
             // Do first
-            pk5.Stat_Level = PKX.getLevel(pk5.Species, pk5.EXP);
+            pk5.Stat_Level = PKX.GetLevel(pk5.Species, pk5.EXP);
             if (pk5.Stat_Level == 100 && !HaX)
-                pk5.EXP = PKX.getEXP(pk5.Stat_Level, pk5.Species);
+                pk5.EXP = PKX.GetEXP(pk5.Stat_Level, pk5.Species);
 
             CB_Species.SelectedValue = pk5.Species;
             TB_Level.Text = pk5.Stat_Level.ToString();
@@ -25,7 +25,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Checked = pk5.IsEgg;
             CHK_Nicknamed.Checked = pk5.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk5.OT_Gender];
-            Label_OTGender.ForeColor = getGenderColor(pk5.OT_Gender);
+            Label_OTGender.ForeColor = GetGenderColor(pk5.OT_Gender);
             TB_PID.Text = pk5.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk5.HeldItem;
             CB_Nature.SelectedValue = pk5.Nature;
@@ -116,11 +116,11 @@ namespace PKHeX.WinForms.Controls
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk5.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
-            updateStats();
+            UpdateStats();
 
             TB_EXP.Text = pk5.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk5.Gender];
-            Label_Gender.ForeColor = getGenderColor(pk5.Gender);
+            Label_Gender.ForeColor = GetGenderColor(pk5.Gender);
             CHK_NSparkle.Checked = pk5.NPokémon;
 
             if (HaX)
@@ -142,22 +142,22 @@ namespace PKHeX.WinForms.Controls
                     CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             }
         }
-        private PKM preparePK5()
+        private PKM PreparePK5()
         {
             PK5 pk5 = pkm as PK5;
             if (pk5 == null)
                 return null;
 
-            pk5.Species = WinFormsUtil.getIndex(CB_Species);
-            pk5.HeldItem = WinFormsUtil.getIndex(CB_HeldItem);
+            pk5.Species = WinFormsUtil.GetIndex(CB_Species);
+            pk5.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk5.TID = Util.ToInt32(TB_TID.Text);
             pk5.SID = Util.ToInt32(TB_SID.Text);
             pk5.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk5.PID = Util.getHEXval(TB_PID.Text);
+            pk5.PID = Util.GetHexValue(TB_PID.Text);
 
-            pk5.Nature = (byte)WinFormsUtil.getIndex(CB_Nature);
+            pk5.Nature = (byte)WinFormsUtil.GetIndex(CB_Nature);
             pk5.FatefulEncounter = CHK_Fateful.Checked;
-            pk5.Gender = PKX.getGender(Label_Gender.Text);
+            pk5.Gender = PKX.GetGender(Label_Gender.Text);
             pk5.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk5.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk5.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
@@ -176,18 +176,18 @@ namespace PKHeX.WinForms.Controls
             pk5.PKRS_Days = CB_PKRSDays.SelectedIndex;
             pk5.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
             pk5.Nickname = TB_Nickname.Text;
-            pk5.Move1 = WinFormsUtil.getIndex(CB_Move1);
-            pk5.Move2 = WinFormsUtil.getIndex(CB_Move2);
-            pk5.Move3 = WinFormsUtil.getIndex(CB_Move3);
-            pk5.Move4 = WinFormsUtil.getIndex(CB_Move4);
-            pk5.Move1_PP = WinFormsUtil.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-            pk5.Move2_PP = WinFormsUtil.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-            pk5.Move3_PP = WinFormsUtil.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-            pk5.Move4_PP = WinFormsUtil.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-            pk5.Move1_PPUps = WinFormsUtil.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-            pk5.Move2_PPUps = WinFormsUtil.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-            pk5.Move3_PPUps = WinFormsUtil.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-            pk5.Move4_PPUps = WinFormsUtil.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+            pk5.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            pk5.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            pk5.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            pk5.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            pk5.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk5.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk5.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk5.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk5.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk5.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk5.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk5.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
 
             pk5.IV_HP = Util.ToInt32(TB_HPIV.Text);
             pk5.IV_ATK = Util.ToInt32(TB_ATKIV.Text);
@@ -207,24 +207,24 @@ namespace PKHeX.WinForms.Controls
             if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
             {
                 egg_date = CAL_EggDate.Value;
-                egg_location = WinFormsUtil.getIndex(CB_EggLocation);
+                egg_location = WinFormsUtil.GetIndex(CB_EggLocation);
             }
             // Egg Met Data
             pk5.EggMetDate = egg_date;
             pk5.Egg_Location = egg_location;
             // Met Data
             pk5.MetDate = CAL_MetDate.Value;
-            pk5.Met_Location = WinFormsUtil.getIndex(CB_MetLocation);
+            pk5.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
 
             if (pk5.IsEgg && pk5.Met_Location == 0)    // If still an egg, it has no hatch location/date. Zero it!
                 pk5.MetDate = null;
 
-            pk5.Ball = WinFormsUtil.getIndex(CB_Ball);
+            pk5.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk5.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk5.OT_Gender = PKX.getGender(Label_OTGender.Text);
-            pk5.EncounterType = WinFormsUtil.getIndex(CB_EncounterType);
-            pk5.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            pk5.Language = WinFormsUtil.getIndex(CB_Language);
+            pk5.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk5.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
+            pk5.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
+            pk5.Language = WinFormsUtil.GetIndex(CB_Language);
 
             pk5.NPokémon = CHK_NSparkle.Checked;
 
@@ -241,7 +241,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX)
             {
-                pk5.Ability = (byte)WinFormsUtil.getIndex(DEV_Ability);
+                pk5.Ability = (byte)WinFormsUtil.GetIndex(DEV_Ability);
                 pk5.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
             else

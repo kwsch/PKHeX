@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public static class Data
     {
-        public static byte[][] unpackMini(byte[] fileData, string identifier)
+        public static byte[][] UnpackMini(byte[] fileData, string identifier)
         {
             if (fileData == null || fileData.Length < 4)
                 return null;

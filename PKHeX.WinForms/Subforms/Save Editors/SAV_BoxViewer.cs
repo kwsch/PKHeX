@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
 
             AllowDrop = true;
             GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
-            DragEnter += tabMain_DragEnter;
+            DragEnter += Main_DragEnter;
             DragDrop += (sender, e) =>
             {
                 Cursor = DefaultCursor;
@@ -27,10 +27,10 @@ namespace PKHeX.WinForms
                 pb.ContextMenuStrip = parent.SlotPictureBoxes[0].ContextMenuStrip;
         }
         public int CurrentBox => Box.CurrentBox;
-        private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.swapBoxesViewer(Box.CurrentBox);
-        public void setPKXBoxes() => Box.ResetSlots();
+        private void PB_BoxSwap_Click(object sender, EventArgs e) => Box.CurrentBox = parent.SwapBoxesViewer(Box.CurrentBox);
+        public void SetPKMBoxes() => Box.ResetSlots();
 
-        private void tabMain_DragEnter(object sender, DragEventArgs e)
+        private static void Main_DragEnter(object sender, DragEventArgs e)
         {
             if (e.AllowedEffect == (DragDropEffects.Copy | DragDropEffects.Link)) // external file
                 e.Effect = DragDropEffects.Copy;

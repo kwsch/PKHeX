@@ -18,7 +18,7 @@ namespace PKHeX.Core
             BAK = (byte[])Data.Clone();
             Exportable = !Data.SequenceEqual(new byte[Data.Length]);
 
-            if (SaveUtil.getIsG4BRSAV(Data) != GameVersion.BATREV)
+            if (SaveUtil.GetIsG4BRSAV(Data) != GameVersion.BATREV)
                 return;
 
             Data = DecryptPBRSaveData(data);
@@ -50,13 +50,14 @@ namespace PKHeX.Core
             HeldItems = Legal.HeldItems_DP;
 
             if (!Exportable)
-                resetBoxes();
+                ClearBoxes();
         }
 
         private readonly uint SaveCount;
-        public override byte[] Write(bool DSV)
+
+        protected override byte[] Write(bool DSV)
         {
-            setChecksums();
+            SetChecksums();
             return EncryptPBRSaveData(Data);
         }
 
@@ -72,7 +73,7 @@ namespace PKHeX.Core
         }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
-        public override int SIZE_PARTY => PKX.SIZE_4PARTY - 0x10; // PBR has a party
+        protected override int SIZE_PARTY => PKX.SIZE_4PARTY - 0x10; // PBR has a party
         public override PKM BlankPKM => new BK4();
         public override Type PKMType => typeof(BK4);
 
@@ -94,7 +95,7 @@ namespace PKHeX.Core
         public override bool HasParty => false;
 
         // Checksums
-        protected override void setChecksums()
+        protected override void SetChecksums()
         {
             SetChecksum(Data, 0, 0x100, 8);
             SetChecksum(Data, 0, 0x1C0000, 0x1BFF80);
@@ -117,31 +118,31 @@ namespace PKHeX.Core
         public override GameVersion Version { get => GameVersion.BATREV; protected set { } }
 
         // Storage
-        public override int getPartyOffset(int slot) // TODO
+        public override int GetPartyOffset(int slot) // TODO
         {
             return -1;
         }
-        public override int getBoxOffset(int box)
+        public override int GetBoxOffset(int box)
         {
             return Box + SIZE_STORED * box * 30;
         }
 
         // Save file does not have Box Name / Wallpaper info
-        public override string getBoxName(int box) { return $"BOX {box + 1}"; }
-        public override void setBoxName(int box, string value) { }
+        public override string GetBoxName(int box) { return $"BOX {box + 1}"; }
+        public override void SetBoxName(int box, string value) { }
 
-        public override PKM getPKM(byte[] data)
+        public override PKM GetPKM(byte[] data)
         {
             byte[] pkm = data.Take(SIZE_STORED).ToArray();
             PKM bk = new BK4(pkm);
             return bk;
         }
-        public override byte[] decryptPKM(byte[] data)
+        public override byte[] DecryptPKM(byte[] data)
         {
             return data;
         }
 
-        protected override void setDex(PKM pkm) { }
+        protected override void SetDex(PKM pkm) { }
 
         public static byte[] DecryptPBRSaveData(byte[] input)
         {
@@ -221,7 +222,7 @@ namespace PKHeX.Core
             return checksums.SequenceEqual(storedChecksums);
         }
 
-        public static void SetChecksum(byte[] input, int offset, int len, int checksum_offset)
+        private static void SetChecksum(byte[] input, int offset, int len, int checksum_offset)
         {
             uint[] storedChecksums = new uint[16];
             for (int i = 0; i < storedChecksums.Length; i++)
@@ -247,12 +248,12 @@ namespace PKHeX.Core
             }
         }
 
-        public override string getString(int Offset, int Count) => PKX.getBEString4(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override string GetString(int Offset, int Count) => PKX.GetBEString4(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.setBEString4(value, maxLength, PadToSize, PadWith);
+            return PKX.SetBEString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

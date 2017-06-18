@@ -104,7 +104,7 @@
             this.CB_TreeList.Name = "CB_TreeList";
             this.CB_TreeList.Size = new System.Drawing.Size(183, 21);
             this.CB_TreeList.TabIndex = 74;
-            this.CB_TreeList.SelectedIndexChanged += new System.EventHandler(this.changeTree);
+            this.CB_TreeList.SelectedIndexChanged += new System.EventHandler(this.ChangeTree);
             // 
             // L_HoneyTree
             // 
@@ -206,7 +206,7 @@
             this.NUD_Group.Name = "NUD_Group";
             this.NUD_Group.Size = new System.Drawing.Size(36, 20);
             this.NUD_Group.TabIndex = 88;
-            this.NUD_Group.ValueChanged += new System.EventHandler(this.changeGroupSlot);
+            this.NUD_Group.ValueChanged += new System.EventHandler(this.ChangeGroupSlot);
             // 
             // L_Group
             // 
@@ -228,7 +228,7 @@
             this.NUD_Slot.Name = "NUD_Slot";
             this.NUD_Slot.Size = new System.Drawing.Size(36, 20);
             this.NUD_Slot.TabIndex = 90;
-            this.NUD_Slot.ValueChanged += new System.EventHandler(this.changeGroupSlot);
+            this.NUD_Slot.ValueChanged += new System.EventHandler(this.ChangeGroupSlot);
             // 
             // L_Species
             // 

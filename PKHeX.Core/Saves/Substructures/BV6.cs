@@ -7,7 +7,7 @@ namespace PKHeX.Core
     public class BV6 : BattleVideo
     {
         internal const int SIZE = 0x2E60;
-        internal new static bool getIsValid(byte[] data)
+        internal new static bool IsValid(byte[] data)
         {
             if (data.Length != SIZE)
                 return false;

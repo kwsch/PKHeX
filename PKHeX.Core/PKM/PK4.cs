@@ -12,24 +12,24 @@ namespace PKHeX.Core
         public sealed override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
-        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.getFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
         public PK4(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
-            PKMConverter.checkEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new PK4(Data); }
 
-        public override string getString(int Offset, int Count) => PKX.getString4(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength) => PKX.setString4(value, maxLength);
+        public override string GetString(int Offset, int Count) => PKX.GetString4(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => PKX.SetString4(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => getData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => getData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
+        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
@@ -171,7 +171,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => getString(0x48, 22); set => setString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 22); set => SetString(value, 11).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -214,7 +214,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => getString(0x68, 16); set => setString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 16); set => SetString(value, 7).CopyTo(Data, 0x68); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -361,13 +361,13 @@ namespace PKHeX.Core
         public override int NickLength => 10;
 
         // Methods
-        public override byte[] Encrypt()
+        protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.encryptArray45(Data);
+            return PKX.EncryptArray45(Data);
         }
 
-        public BK4 convertToBK4()
+        public BK4 ConvertToBK4()
         {
             BK4 bk4 = new BK4();
             TransferPropertiesWithReflection(this, bk4);
@@ -389,7 +389,7 @@ namespace PKHeX.Core
             return bk4;
         }
 
-        public PK5 convertToPK5()
+        public PK5 ConvertToPK5()
         {
             // Double Check Location Data to see if we're already a PK5
             if (Data[0x5F] < 0x10 && BitConverter.ToUInt16(Data, 0x80) > 0x4000)
@@ -416,10 +416,10 @@ namespace PKHeX.Core
             }
 
             // Fix PP
-            pk5.Move1_PP = pk5.getMovePP(pk5.Move1, pk5.Move1_PPUps);
-            pk5.Move2_PP = pk5.getMovePP(pk5.Move2, pk5.Move2_PPUps);
-            pk5.Move3_PP = pk5.getMovePP(pk5.Move3, pk5.Move3_PPUps);
-            pk5.Move4_PP = pk5.getMovePP(pk5.Move4, pk5.Move4_PPUps);
+            pk5.Move1_PP = pk5.GetMovePP(pk5.Move1, pk5.Move1_PPUps);
+            pk5.Move2_PP = pk5.GetMovePP(pk5.Move2, pk5.Move2_PPUps);
+            pk5.Move3_PP = pk5.GetMovePP(pk5.Move3, pk5.Move3_PPUps);
+            pk5.Move4_PP = pk5.GetMovePP(pk5.Move4, pk5.Move4_PPUps);
 
             // Disassociate Nature and PID, pk4 getter does PID%25
             pk5.Nature = Nature;
@@ -441,7 +441,7 @@ namespace PKHeX.Core
             pk5.OT_Name = OT_Name;
 
             // Fix Level
-            pk5.Met_Level = PKX.getLevel(pk5.Species, pk5.EXP);
+            pk5.Met_Level = PKX.GetLevel(pk5.Species, pk5.EXP);
 
             // Remove HM moves; Defog should be kept if both are learned.
             int[] banned = Moves.Contains(250) && Moves.Contains(432) // Whirlpool & Defog

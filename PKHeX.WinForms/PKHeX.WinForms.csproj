@@ -263,11 +263,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Subforms\frmReport.cs">
+    <Compile Include="Subforms\ReportGrid.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\frmReport.Designer.cs">
-      <DependentUpon>frmReport.cs</DependentUpon>
+    <Compile Include="Subforms\ReportGrid.Designer.cs">
+      <DependentUpon>ReportGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\KChart.cs">
       <SubType>Form</SubType>
@@ -568,8 +568,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\frmReport.resx">
-      <DependentUpon>frmReport.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\ReportGrid.resx">
+      <DependentUpon>ReportGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\KChart.resx">
       <DependentUpon>KChart.cs</DependentUpon>

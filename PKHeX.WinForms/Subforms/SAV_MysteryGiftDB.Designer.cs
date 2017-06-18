@@ -215,7 +215,7 @@
             this.SCR_Box.Name = "SCR_Box";
             this.SCR_Box.Size = new System.Drawing.Size(24, 344);
             this.SCR_Box.TabIndex = 1;
-            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.updateScroll);
+            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.UpdateScroll);
             // 
             // bpkx30
             // 
@@ -941,7 +941,7 @@
             this.Menu_OpenDB.Name = "Menu_OpenDB";
             this.Menu_OpenDB.Size = new System.Drawing.Size(197, 22);
             this.Menu_OpenDB.Text = "Open Database Folder";
-            this.Menu_OpenDB.Click += new System.EventHandler(this.openDB);
+            this.Menu_OpenDB.Click += new System.EventHandler(this.OpenDB);
             // 
             // Menu_Export
             // 
@@ -1266,7 +1266,7 @@
             this.B_Reset.TabIndex = 111;
             this.B_Reset.Text = "Reset Filters";
             this.B_Reset.UseVisualStyleBackColor = true;
-            this.B_Reset.Click += new System.EventHandler(this.resetFilters);
+            this.B_Reset.Click += new System.EventHandler(this.ResetFilters);
             // 
             // L_Count
             // 
@@ -1406,7 +1406,7 @@
             this.CB_FormatComparator.Name = "CB_FormatComparator";
             this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
             this.CB_FormatComparator.TabIndex = 122;
-            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.changeFormatFilter);
+            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.ChangeFormatFilter);
             // 
             // CB_Format
             // 

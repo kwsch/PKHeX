@@ -49,7 +49,7 @@
         VCEvents
     }
 
-    public static class Extension
+    public static partial class Extensions
     {
         public static bool Contains(this GameVersion g1, GameVersion g2)
         {

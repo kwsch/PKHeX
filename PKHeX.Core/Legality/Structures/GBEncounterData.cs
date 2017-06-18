@@ -15,8 +15,7 @@ namespace PKHeX.Core
     public class GBEncounterData : IEncounterable
     {
         public readonly int Level;
-        public int MoveLevel;
-        public GameVersion Game;
+        public readonly GameVersion Game;
         public readonly int Generation;
         public readonly GBEncounterType Type;
         public readonly IEncounterable Encounter;
@@ -64,7 +63,6 @@ namespace PKHeX.Core
                     : slot.LevelMin;
                 Type = GBEncounterType.WildEncounter;
             }
-            MoveLevel = Level;
         }
     }
 }

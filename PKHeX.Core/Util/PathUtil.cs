@@ -5,7 +5,6 @@ namespace PKHeX.Core
 {
     public partial class Util
     {
-
         public static string CleanFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));

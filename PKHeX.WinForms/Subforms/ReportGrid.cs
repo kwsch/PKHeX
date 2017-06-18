@@ -12,38 +12,38 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    public partial class frmReport : Form
+    public partial class ReportGrid : Form
     {
-        public class Preview
+        private struct Preview
         {
             private readonly PKM pkm;
             private readonly ushort[] Stats;
             public string Position => pkm.Identifier;
             public Image Sprite => pkm.Sprite();
             public string Nickname => pkm.Nickname;
-            public string Species => get(GameInfo.Strings.specieslist, pkm.Species);
-            public string Nature => get(GameInfo.Strings.natures, pkm.Nature);
-            public string Gender => get(Main.gendersymbols, pkm.Gender);
+            public string Species => Get(GameInfo.Strings.specieslist, pkm.Species);
+            public string Nature => Get(GameInfo.Strings.natures, pkm.Nature);
+            public string Gender => Get(Main.GenderSymbols, pkm.Gender);
             public string ESV => pkm.PSV.ToString("0000");
-            public string HP_Type => get(GameInfo.Strings.types, pkm.HPType+1);
-            public string Ability => get(GameInfo.Strings.abilitylist, pkm.Ability);
-            public string Move1 => get(GameInfo.Strings.movelist, pkm.Move1);
-            public string Move2 => get(GameInfo.Strings.movelist, pkm.Move2);
-            public string Move3 => get(GameInfo.Strings.movelist, pkm.Move3);
-            public string Move4 => get(GameInfo.Strings.movelist, pkm.Move4);
-            public string HeldItem => get(GameInfo.Strings.itemlist, pkm.HeldItem);
+            public string HP_Type => Get(GameInfo.Strings.types, pkm.HPType+1);
+            public string Ability => Get(GameInfo.Strings.abilitylist, pkm.Ability);
+            public string Move1 => Get(GameInfo.Strings.movelist, pkm.Move1);
+            public string Move2 => Get(GameInfo.Strings.movelist, pkm.Move2);
+            public string Move3 => Get(GameInfo.Strings.movelist, pkm.Move3);
+            public string Move4 => Get(GameInfo.Strings.movelist, pkm.Move4);
+            public string HeldItem => Get(GameInfo.Strings.itemlist, pkm.HeldItem);
             public string HP => Stats[0].ToString();
             public string ATK => Stats[1].ToString();
             public string DEF => Stats[2].ToString();
             public string SPA => Stats[4].ToString();
             public string SPD => Stats[5].ToString();
             public string SPE => Stats[3].ToString();
-            public string MetLoc => pkm.getLocation(eggmet: false);
-            public string EggLoc => pkm.getLocation(eggmet: true);
-            public string Ball => get(GameInfo.Strings.balllist, pkm.Ball);
+            public string MetLoc => pkm.GetLocationString(eggmet: false);
+            public string EggLoc => pkm.GetLocationString(eggmet: true);
+            public string Ball => Get(GameInfo.Strings.balllist, pkm.Ball);
             public string OT => pkm.OT_Name;
-            public string Version => get(GameInfo.Strings.gamelist, pkm.Version);
-            public string OTLang => get(GameInfo.Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
+            public string Version => Get(GameInfo.Strings.gamelist, pkm.Version);
+            public string OTLang => Get(GameInfo.Strings.gamelanguages, pkm.Language) ?? $"UNK {pkm.Language}";
             public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
             public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
             public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
@@ -100,12 +100,12 @@ namespace PKHeX.WinForms
             public int Move2_PPUp => pkm.Move2_PPUps;
             public int Move3_PPUp => pkm.Move3_PPUps;
             public int Move4_PPUp => pkm.Move4_PPUps;
-            public string Relearn1 => get(GameInfo.Strings.movelist, pkm.RelearnMove1);
-            public string Relearn2 => get(GameInfo.Strings.movelist, pkm.RelearnMove2);
-            public string Relearn3 => get(GameInfo.Strings.movelist, pkm.RelearnMove3);
-            public string Relearn4 => get(GameInfo.Strings.movelist, pkm.RelearnMove4);
+            public string Relearn1 => Get(GameInfo.Strings.movelist, pkm.RelearnMove1);
+            public string Relearn2 => Get(GameInfo.Strings.movelist, pkm.RelearnMove2);
+            public string Relearn3 => Get(GameInfo.Strings.movelist, pkm.RelearnMove3);
+            public string Relearn4 => Get(GameInfo.Strings.movelist, pkm.RelearnMove4);
             public ushort Checksum => pkm.Checksum;
-            public int mFriendship => pkm.OT_Friendship;
+            public int Friendship => pkm.OT_Friendship;
             public int OT_Affection => pkm.OT_Affection;
             public int Egg_Year => pkm.EggMetDate.GetValueOrDefault().Year;
             public int Egg_Month => pkm.EggMetDate.GetValueOrDefault().Month;
@@ -120,19 +120,19 @@ namespace PKHeX.WinForms
             public Preview(PKM p)
             {
                 pkm = p;
-                Stats = pkm.getStats(pkm.PersonalInfo);
+                Stats = pkm.GetStats(pkm.PersonalInfo);
             }
 
-            private static string get(IReadOnlyList<string> arr, int val) => arr?.Count > val ? arr[val] : null;
+            private static string Get(IReadOnlyList<string> arr, int val) => arr?.Count > val ? arr[val] : null;
         }
-        public frmReport()
+        public ReportGrid()
         {
             InitializeComponent();
             dgData.DoubleBuffered(true);
             CenterToParent();
-            getContextMenu();
+            GetContextMenu();
         }
-        private void getContextMenu()
+        private void GetContextMenu()
         {
             var mnuHide = new ToolStripMenuItem { Name = "mnuHide", Text = "Hide Column", };
             mnuHide.Click += (sender, e) =>
@@ -167,7 +167,7 @@ namespace PKHeX.WinForms
             PokemonList PL = new PokemonList();
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
-                pkm.Stat_Level = PKX.getLevel(pkm.Species, pkm.EXP); // recalc Level
+                pkm.Stat_Level = PKX.GetLevel(pkm.Species, pkm.EXP); // recalc Level
                 PL.Add(new Preview(pkm));
                 BoxBar.PerformStep();
             }
@@ -192,28 +192,27 @@ namespace PKHeX.WinForms
                 dgData.Columns[i].Width = w;
             }
             dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dgData_Sorted(null, null); // trigger row resizing
+            Data_Sorted(null, null); // trigger row resizing
 
             ResumeLayout();
         }
-        private void dgData_Sorted(object sender, EventArgs e)
+        private void Data_Sorted(object sender, EventArgs e)
         {
-            int height = PKMUtil.getSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
+            int height = PKMUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }
-        private void promptSaveCSV(object sender, FormClosingEventArgs e)
+        private void PromptSaveCSV(object sender, FormClosingEventArgs e)
         {
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo,"Save all the data to CSV?") == DialogResult.Yes)
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Save all the data to CSV?") != DialogResult.Yes)
+                return;
+            SaveFileDialog savecsv = new SaveFileDialog
             {
-                SaveFileDialog savecsv = new SaveFileDialog
-                {
-                    Filter = "Spreadsheet|*.csv",
-                    FileName = "Box Data Dump.csv"
-                };
-                if (savecsv.ShowDialog() == DialogResult.OK)
-                    Export_CSV(savecsv.FileName);
-            }
+                Filter = "Spreadsheet|*.csv",
+                FileName = "Box Data Dump.csv"
+            };
+            if (savecsv.ShowDialog() == DialogResult.OK)
+                Export_CSV(savecsv.FileName);
         }
         private void Export_CSV(string path)
         {
@@ -257,9 +256,9 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        public class PokemonList : SortableBindingList<Preview> { }
+        private sealed class PokemonList : SortableBindingList<Preview> { }
     }
-    public static class ExtensionMethods    // Speed up scrolling
+    public static class ExtensionMethods
     {
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
         {
@@ -295,8 +294,7 @@ namespace PKHeX.WinForms
             List<T> itemsList = (List<T>)Items;
 
             Type propertyType = property.PropertyType;
-            PropertyComparer<T> comparer;
-            if (!comparers.TryGetValue(propertyType, out comparer))
+            if (!comparers.TryGetValue(propertyType, out PropertyComparer<T> comparer))
             {
                 comparer = new PropertyComparer<T>(property, direction);
                 comparers.Add(propertyType, comparer);

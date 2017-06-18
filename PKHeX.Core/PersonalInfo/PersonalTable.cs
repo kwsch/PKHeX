@@ -5,24 +5,24 @@ namespace PKHeX.Core
 {
     public class PersonalTable
     {
-        public static readonly PersonalTable SM = new PersonalTable(Util.getBinaryResource("personal_sm"), GameVersion.SM);
-        public static readonly PersonalTable AO = new PersonalTable(Util.getBinaryResource("personal_ao"), GameVersion.ORAS);
-        public static readonly PersonalTable XY = new PersonalTable(Util.getBinaryResource("personal_xy"), GameVersion.XY);
-        public static readonly PersonalTable B2W2 = new PersonalTable(Util.getBinaryResource("personal_b2w2"), GameVersion.B2W2);
-        public static readonly PersonalTable BW = new PersonalTable(Util.getBinaryResource("personal_bw"), GameVersion.BW);
-        public static readonly PersonalTable HGSS = new PersonalTable(Util.getBinaryResource("personal_hgss"), GameVersion.HGSS);
-        public static readonly PersonalTable Pt = new PersonalTable(Util.getBinaryResource("personal_pt"), GameVersion.Pt);
-        public static readonly PersonalTable DP = new PersonalTable(Util.getBinaryResource("personal_dp"), GameVersion.DP);
-        public static readonly PersonalTable LG = new PersonalTable(Util.getBinaryResource("personal_lg"), GameVersion.LG);
-        public static readonly PersonalTable FR = new PersonalTable(Util.getBinaryResource("personal_fr"), GameVersion.FR);
-        public static readonly PersonalTable E = new PersonalTable(Util.getBinaryResource("personal_e"), GameVersion.E);
-        public static readonly PersonalTable RS = new PersonalTable(Util.getBinaryResource("personal_rs"), GameVersion.RS);
-        public static readonly PersonalTable C = new PersonalTable(Util.getBinaryResource("personal_c"), GameVersion.C);
-        public static readonly PersonalTable GS = new PersonalTable(Util.getBinaryResource("personal_c"), GameVersion.GS);
-        public static readonly PersonalTable RB = new PersonalTable(Util.getBinaryResource("personal_rb"), GameVersion.RBY);
-        public static readonly PersonalTable Y = new PersonalTable(Util.getBinaryResource("personal_y"), GameVersion.RBY);
+        public static readonly PersonalTable SM = new PersonalTable(Util.GetBinaryResource("personal_sm"), GameVersion.SM);
+        public static readonly PersonalTable AO = new PersonalTable(Util.GetBinaryResource("personal_ao"), GameVersion.ORAS);
+        public static readonly PersonalTable XY = new PersonalTable(Util.GetBinaryResource("personal_xy"), GameVersion.XY);
+        public static readonly PersonalTable B2W2 = new PersonalTable(Util.GetBinaryResource("personal_b2w2"), GameVersion.B2W2);
+        public static readonly PersonalTable BW = new PersonalTable(Util.GetBinaryResource("personal_bw"), GameVersion.BW);
+        public static readonly PersonalTable HGSS = new PersonalTable(Util.GetBinaryResource("personal_hgss"), GameVersion.HGSS);
+        public static readonly PersonalTable Pt = new PersonalTable(Util.GetBinaryResource("personal_pt"), GameVersion.Pt);
+        public static readonly PersonalTable DP = new PersonalTable(Util.GetBinaryResource("personal_dp"), GameVersion.DP);
+        public static readonly PersonalTable LG = new PersonalTable(Util.GetBinaryResource("personal_lg"), GameVersion.LG);
+        public static readonly PersonalTable FR = new PersonalTable(Util.GetBinaryResource("personal_fr"), GameVersion.FR);
+        public static readonly PersonalTable E = new PersonalTable(Util.GetBinaryResource("personal_e"), GameVersion.E);
+        public static readonly PersonalTable RS = new PersonalTable(Util.GetBinaryResource("personal_rs"), GameVersion.RS);
+        public static readonly PersonalTable C = new PersonalTable(Util.GetBinaryResource("personal_c"), GameVersion.C);
+        public static readonly PersonalTable GS = new PersonalTable(Util.GetBinaryResource("personal_c"), GameVersion.GS);
+        public static readonly PersonalTable RB = new PersonalTable(Util.GetBinaryResource("personal_rb"), GameVersion.RBY);
+        public static readonly PersonalTable Y = new PersonalTable(Util.GetBinaryResource("personal_y"), GameVersion.RBY);
 
-        private static byte[][] splitBytes(byte[] data, int size)
+        private static byte[][] SplitBytes(byte[] data, int size)
         {
             byte[][] r = new byte[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
@@ -57,7 +57,7 @@ namespace PKHeX.Core
             if (size == 0)
             { Table = null; return; }
 
-            byte[][] entries = splitBytes(data, size);
+            byte[][] entries = SplitBytes(data, size);
             PersonalInfo[] d = new PersonalInfo[data.Length / size];
 
             switch (format)
@@ -125,25 +125,25 @@ namespace PKHeX.Core
             }
         }
 
-        public int[] getAbilities(int species, int forme)
+        public int[] GetAbilities(int species, int forme)
         {
             if (species >= Table.Length)
             { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
-            return this[getFormeIndex(species, forme)].Abilities;
+            return this[GetFormeIndex(species, forme)].Abilities;
         }
-        public int getFormeIndex(int species, int forme)
+        public int GetFormeIndex(int species, int forme)
         {
             if (species >= Table.Length)
             { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
             return this[species].FormeIndex(species, forme);
         }
-        public PersonalInfo getFormeEntry(int species, int forme)
+        public PersonalInfo GetFormeEntry(int species, int forme)
         {
-            return this[getFormeIndex(species, forme)];
+            return this[GetFormeIndex(species, forme)];
         }
 
         public int TableLength => Table.Length;
-        public string[][] getFormList(string[] species, int MaxSpecies)
+        public string[][] GetFormList(string[] species, int MaxSpecies)
         {
             string[][] FormList = new string[MaxSpecies+1][];
             for (int i = 0; i <= MaxSpecies; i++) //Hardcode 721 species + null
@@ -160,7 +160,7 @@ namespace PKHeX.Core
 
             return FormList;
         }
-        public string[] getPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
+        public string[] GetPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
         {
             string[] result = new string[Table.Length];
             baseForm = new int[result.Length];

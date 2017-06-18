@@ -158,8 +158,8 @@
             this.tabBoxMulti.SelectedIndex = 0;
             this.tabBoxMulti.Size = new System.Drawing.Size(310, 225);
             this.tabBoxMulti.TabIndex = 101;
-            this.tabBoxMulti.Click += new System.EventHandler(this.clickBoxSort);
-            this.tabBoxMulti.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.clickBoxDouble);
+            this.tabBoxMulti.Click += new System.EventHandler(this.ClickBoxSort);
+            this.tabBoxMulti.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ClickBoxDouble);
             // 
             // Tab_Box
             // 
@@ -294,7 +294,7 @@
             this.L_BattleBox.Size = new System.Drawing.Size(58, 13);
             this.L_BattleBox.TabIndex = 1;
             this.L_BattleBox.Text = "Battle Box:";
-            this.L_BattleBox.Click += new System.EventHandler(this.clickShowdownExportBattleBox);
+            this.L_BattleBox.Click += new System.EventHandler(this.ClickShowdownExportBattleBox);
             // 
             // L_Party
             // 
@@ -304,7 +304,7 @@
             this.L_Party.Size = new System.Drawing.Size(34, 13);
             this.L_Party.TabIndex = 0;
             this.L_Party.Text = "Party:";
-            this.L_Party.Click += new System.EventHandler(this.clickShowdownExportParty);
+            this.L_Party.Click += new System.EventHandler(this.ClickShowdownExportParty);
             // 
             // PAN_Party
             // 
@@ -479,7 +479,7 @@
             this.TB_RNGSeed.Size = new System.Drawing.Size(120, 20);
             this.TB_RNGSeed.TabIndex = 8;
             this.TB_RNGSeed.Text = "0123456789ABCDEF";
-            this.TB_RNGSeed.Validated += new System.EventHandler(this.updateStringSeed);
+            this.TB_RNGSeed.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
             // dcpkx2
             // 
@@ -632,7 +632,7 @@
             this.CB_SaveSlot.Name = "CB_SaveSlot";
             this.CB_SaveSlot.Size = new System.Drawing.Size(121, 21);
             this.CB_SaveSlot.TabIndex = 20;
-            this.CB_SaveSlot.Validated += new System.EventHandler(this.updateSaveSlot);
+            this.CB_SaveSlot.Validated += new System.EventHandler(this.UpdateSaveSlot);
             // 
             // L_SaveSlot
             // 
@@ -662,7 +662,7 @@
             this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
             this.TB_Secure2.TabIndex = 17;
             this.TB_Secure2.Text = "0000000000000000";
-            this.TB_Secure2.Validated += new System.EventHandler(this.updateStringSeed);
+            this.TB_Secure2.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
             // L_Secure1
             // 
@@ -683,7 +683,7 @@
             this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
             this.TB_Secure1.TabIndex = 15;
             this.TB_Secure1.Text = "0000000000000000";
-            this.TB_Secure1.Validated += new System.EventHandler(this.updateStringSeed);
+            this.TB_Secure1.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
             // B_JPEG
             // 
@@ -714,7 +714,7 @@
             this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
-            this.TB_GameSync.Validated += new System.EventHandler(this.updateStringSeed);
+            this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
             // 
             // B_SaveBoxBin
             // 
@@ -735,7 +735,7 @@
             this.B_VerifyCHK.TabIndex = 2;
             this.B_VerifyCHK.Text = "Verify Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
-            this.B_VerifyCHK.Click += new System.EventHandler(this.clickVerifyCHK);
+            this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
             // 
             // GB_SAVtools
             // 

@@ -4,17 +4,17 @@ namespace PKHeX.WinForms
 {
     public class SlotChangeInfo
     {
-        public bool LeftMouseIsDown;
-        public bool RightMouseIsDown;
-        public bool DragDropInProgress;
+        public bool LeftMouseIsDown { get; set; }
+        public bool RightMouseIsDown { get; set; }
+        public bool DragDropInProgress { get; set; }
 
-        public object Cursor;
-        public string CurrentPath;
+        public object Cursor { get; set; }
+        public string CurrentPath { get; set; }
 
-        public SlotChange Source;
-        public SlotChange Destination;
+        public SlotChange Source { get; private set; }
+        public SlotChange Destination { get; private set; }
 
-        public readonly byte[] BlankData;
+        private readonly byte[] BlankData;
 
         public SlotChangeInfo(SaveFile sav)
         {

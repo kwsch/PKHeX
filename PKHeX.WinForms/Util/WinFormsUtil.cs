@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
             else
             {
                 var file = "lang_" + lang;
-                rawlist = Util.getStringList(file);
+                rawlist = Util.GetStringList(file);
                 if (rawlist.Length == 0)
                 {
                     // Translation file does not exist as a resource; abort this function and don't translate UI.
@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 
-        internal static int getIndex(ComboBox cb)
+        internal static int GetIndex(ComboBox cb)
         {
             return (int)(cb?.SelectedValue ?? 0);
         }
@@ -181,6 +181,7 @@ namespace PKHeX.WinForms
                     break;
             }
         }
+        public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
         #endregion
 
         public static bool IsClickonceDeployed
@@ -220,7 +221,7 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.detectSaveFile(out path, cgse))
+            if (!PathUtilWindows.DetectSaveFile(out path, cgse))
                 Error(path);
 
             if (path != null)
@@ -333,7 +334,7 @@ namespace PKHeX.WinForms
         {
             SaveFileDialog output = new SaveFileDialog
             {
-                Filter = getMysterGiftFilter(gift.Format),
+                Filter = GetMysterGiftFilter(gift.Format),
                 FileName = Util.CleanFileName(gift.FileName)
             };
             if (output.ShowDialog() != DialogResult.OK)
@@ -356,7 +357,7 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        public static string getMysterGiftFilter(int Format)
+        public static string GetMysterGiftFilter(int Format)
         {
             switch (Format)
             {

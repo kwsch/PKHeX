@@ -13,7 +13,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class SAVEditor : UserControl
     {
-        public SaveFile SAV = SaveUtil.getBlankSAV(GameVersion.SN, "PKHeX");
+        public SaveFile SAV = SaveUtil.GetBlankSAV(GameVersion.SN, "PKHeX");
         public readonly PictureBox[] SlotPictureBoxes;
         public readonly SlotChangeManager M;
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
@@ -33,7 +33,7 @@ namespace PKHeX.WinForms.Controls
             set
             {
                 Box.FlagIllegal = value && !HaX;
-                updateBoxViewers(all: true);
+                UpdateBoxViewers(all: true);
             }
         }
 
@@ -56,12 +56,12 @@ namespace PKHeX.WinForms.Controls
                 pb.MouseEnter += M.MouseEnter;
                 pb.MouseLeave += M.MouseLeave;
                 pb.MouseClick += M.MouseClick;
-                pb.MouseMove += pbBoxSlot_MouseMove;
+                pb.MouseMove += BoxSlot_MouseMove;
                 pb.MouseDown += M.MouseDown;
                 pb.MouseUp += M.MouseUp;
 
                 pb.DragEnter += M.DragEnter;
-                pb.DragDrop += pbBoxSlot_DragDrop;
+                pb.DragDrop += BoxSlot_DragDrop;
                 pb.QueryContinueDrag += M.QueryContinueDrag;
                 pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
                 pb.AllowDrop = true;
@@ -74,7 +74,7 @@ namespace PKHeX.WinForms.Controls
             foreach (PictureBox pb in SlotPictureBoxes)
                 pb.ContextMenuStrip = menu.mnuVSD;
 
-            GB_Daycare.Click += switchDaycare;
+            GB_Daycare.Click += SwitchDaycare;
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
         }
 
@@ -100,19 +100,19 @@ namespace PKHeX.WinForms.Controls
         }
         
         // Generic Subfunctions //
-        public int getPKXOffset(int slot, int box = -1)
+        public int GetPKMOffset(int slot, int box = -1)
         {
             if (slot < 30) // Box Slot
-                return Box.getOffset(slot, box);
+                return Box.GetOffset(slot, box);
             slot -= 30;
             if (slot < 6) // Party Slot
-                return SAV.getPartyOffset(slot);
+                return SAV.GetPartyOffset(slot);
             slot -= 6;
             if (slot < 6) // Battle Box Slot
                 return SAV.BattleBox + slot * SAV.SIZE_STORED;
             slot -= 6;
             if (slot < 2) // Daycare
-                return SAV.getDaycareSlotOffset(SAV.DaycareIndex, slot);
+                return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot);
             slot -= 2;
             if (slot == 0) // GTS
                 return SAV.GTS;
@@ -124,14 +124,14 @@ namespace PKHeX.WinForms.Controls
                 return SAV.SUBE + slot * (SAV.SIZE_STORED + 4);
             return -1;
         }
-        public int getSlot(object sender) => Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
-        public int swapBoxesViewer(int viewBox)
+        public int GetSlot(object sender) => Array.IndexOf(SlotPictureBoxes, WinFormsUtil.GetUnderlyingControl(sender));
+        public int SwapBoxesViewer(int viewBox)
         {
             int mainBox = Box.CurrentBox;
             Box.CurrentBox = viewBox;
             return mainBox;
         }
-        public void updateBoxViewers(bool all = false)
+        public void UpdateBoxViewers(bool all = false)
         {
             foreach (var v in M.Boxes.Where(v => v.CurrentBox == Box.CurrentBox || all))
             {
@@ -139,7 +139,7 @@ namespace PKHeX.WinForms.Controls
                 v.ResetSlots();
             }
         }
-        public void setPKXBoxes()
+        public void SetPKMBoxes()
         {
             if (SAV.HasBox)
                 Box.ResetSlots();
@@ -148,14 +148,14 @@ namespace PKHeX.WinForms.Controls
             if (SAV.HasParty)
             {
                 for (int i = 0; i < 6; i++)
-                    getSlotFiller(SAV.getPartyOffset(i), SlotPictureBoxes[i + 30]);
+                    GetSlotFiller(SAV.GetPartyOffset(i), SlotPictureBoxes[i + 30]);
             }
 
             // Reload Battle Box
             if (SAV.HasBattleBox)
             {
                 for (int i = 0; i < 6; i++)
-                    getSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
+                    GetSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
             }
 
             // Reload Daycare
@@ -167,11 +167,11 @@ namespace PKHeX.WinForms.Controls
 
                 for (int i = 0; i < 2; i++)
                 {
-                    getSlotFiller(SAV.getDaycareSlotOffset(SAV.DaycareIndex, i), SlotPictureBoxes[i + 42]);
-                    uint? exp = SAV.getDaycareEXP(SAV.DaycareIndex, i);
+                    GetSlotFiller(SAV.GetDaycareSlotOffset(SAV.DaycareIndex, i), SlotPictureBoxes[i + 42]);
+                    uint? exp = SAV.GetDaycareEXP(SAV.DaycareIndex, i);
                     TB_SlotEXP[i].Visible = L_SlotEXP[i].Visible = exp != null;
                     TB_SlotEXP[i].Text = exp.ToString();
-                    bool? occ = SAV.getDaycareOccupied(SAV.DaycareIndex, i);
+                    bool? occ = SAV.IsDaycareOccupied(SAV.DaycareIndex, i);
                     L_SlotOccupied[i].Visible = occ != null;
                     if (occ == true)   // If Occupied
                         L_SlotOccupied[i].Text = $"{i + 1}: ✓";
@@ -181,11 +181,11 @@ namespace PKHeX.WinForms.Controls
                         SlotPictureBoxes[i + 42].Image = ImageUtil.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
                     }
                 }
-                bool? egg = SAV.getDaycareHasEgg(SAV.DaycareIndex);
+                bool? egg = SAV.IsDaycareHasEgg(SAV.DaycareIndex);
                 DayCare_HasEgg.Visible = egg != null;
                 DayCare_HasEgg.Checked = egg == true;
 
-                var seed = SAV.getDaycareRNGSeed(SAV.DaycareIndex);
+                var seed = SAV.GetDaycareRNGSeed(SAV.DaycareIndex);
                 L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
                 if (seed != null)
                 {
@@ -196,11 +196,11 @@ namespace PKHeX.WinForms.Controls
 
             // GTS
             if (SAV.HasGTS)
-                getSlotFiller(SAV.GTS, SlotPictureBoxes[44]);
+                GetSlotFiller(SAV.GTS, SlotPictureBoxes[44]);
 
             // Fused
             if (SAV.HasFused)
-                getSlotFiller(SAV.Fused, SlotPictureBoxes[45]);
+                GetSlotFiller(SAV.Fused, SlotPictureBoxes[45]);
 
             // SUBE
             if (SAV.HasSUBE)
@@ -208,7 +208,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     int offset = SAV.SUBE + i * (SAV.SIZE_STORED + 4);
                     if (BitConverter.ToUInt64(SAV.Data, offset) != 0)
-                        getSlotFiller(offset, SlotPictureBoxes[46 + i]);
+                        GetSlotFiller(offset, SlotPictureBoxes[46 + i]);
                     else SlotPictureBoxes[46 + i].Image = null;
                 }
 
@@ -216,7 +216,7 @@ namespace PKHeX.WinForms.Controls
             if (M?.colorizedslot >= 30)
                 SlotPictureBoxes[M.colorizedslot].BackgroundImage = M.colorizedcolor;
         }
-        public void setParty()
+        public void SetParty()
         {
             // Refresh slots
             if (SAV.HasParty)
@@ -236,7 +236,7 @@ namespace PKHeX.WinForms.Controls
                     SlotPictureBoxes[i + 36].Image = null;
             }
         }
-        public void clickUndo()
+        public void ClickUndo()
         {
             if (!UndoStack.Any())
                 return;
@@ -250,12 +250,12 @@ namespace PKHeX.WinForms.Controls
                 Slot = change.Slot,
                 Box = change.Box,
                 Offset = change.Offset,
-                PKM = SAV.getStoredSlot(change.Offset)
+                PKM = SAV.GetStoredSlot(change.Offset)
             });
-            undoSlotChange(change);
+            UndoSlotChange(change);
             M.SetColor(change.Box, change.Slot, Resources.slotSet);
         }
-        public void clickRedo()
+        public void ClickRedo()
         {
             if (!RedoStack.Any())
                 return;
@@ -269,9 +269,9 @@ namespace PKHeX.WinForms.Controls
                 Slot = change.Slot,
                 Box = change.Box,
                 Offset = change.Offset,
-                PKM = SAV.getStoredSlot(change.Offset)
+                PKM = SAV.GetStoredSlot(change.Offset)
             });
-            undoSlotChange(change);
+            UndoSlotChange(change);
             M.SetColor(change.Box, change.Slot, Resources.slotSet);
         }
         public void SetClonesToBox(PKM pk)
@@ -282,29 +282,29 @@ namespace PKHeX.WinForms.Controls
             int slotSkipped = 0;
             for (int i = 0; i < SAV.BoxSlotCount; i++) // set to every slot in box
             {
-                if (SAV.getIsSlotLocked(Box.CurrentBox, i))
+                if (SAV.IsSlotLocked(Box.CurrentBox, i))
                 { slotSkipped++; continue; }
-                SAV.setStoredSlot(pk, getPKXOffset(i));
-                Box.setSlotFiller(pk, Box.CurrentBox, i);
+                SAV.SetStoredSlot(pk, GetPKMOffset(i));
+                Box.SetSlotFiller(pk, Box.CurrentBox, i);
             }
 
             if (slotSkipped > 0)
                 WinFormsUtil.Alert($"Skipped {slotSkipped} locked slot{(slotSkipped > 1 ? "s" : "")}.");
 
-            updateBoxViewers();
+            UpdateBoxViewers();
         }
-        public void clickSlot(object sender, EventArgs e)
+        public void ClickSlot(object sender, EventArgs e)
         {
             switch (ModifierKeys)
             {
-                case Keys.Control | Keys.Alt: clickClone(sender, e); break;
+                case Keys.Control | Keys.Alt: ClickClone(sender, e); break;
                 default:
                     menu.OmniClick(sender, e, ModifierKeys);
                     break;
             }
         }
 
-        private void undoSlotChange(SlotChange change)
+        private void UndoSlotChange(SlotChange change)
         {
             int box = change.Box;
             int slot = change.Slot;
@@ -313,8 +313,8 @@ namespace PKHeX.WinForms.Controls
 
             if (Box.CurrentBox != change.Box)
                 Box.CurrentBox = change.Box;
-            SAV.setStoredSlot(pk, offset);
-            Box.setSlotFiller(pk, box, slot);
+            SAV.SetStoredSlot(pk, offset);
+            Box.SetSlotFiller(pk, box, slot);
             M?.SetColor(box, slot, Resources.slotSet);
 
             if (Menu_Undo != null)
@@ -324,9 +324,9 @@ namespace PKHeX.WinForms.Controls
 
             SystemSounds.Asterisk.Play();
         }
-        private void getSlotFiller(int offset, PictureBox pb)
+        private void GetSlotFiller(int offset, PictureBox pb)
         {
-            if (SAV.getData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))
+            if (SAV.GetData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))
             {
                 // 00s present in slot.
                 pb.Image = null;
@@ -334,7 +334,7 @@ namespace PKHeX.WinForms.Controls
                 pb.Visible = true;
                 return;
             }
-            PKM p = SAV.getStoredSlot(offset);
+            PKM p = SAV.GetStoredSlot(offset);
             if (!p.Valid) // Invalid
             {
                 // Bad Egg present in slot.
@@ -344,13 +344,13 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            int slot = getSlot(pb);
+            int slot = GetSlot(pb);
             pb.Image = GetSprite(p, slot);
             pb.BackColor = Color.Transparent;
             pb.Visible = true;
         }
 
-        private void clickBoxSort(object sender, EventArgs e)
+        private void ClickBoxSort(object sender, EventArgs e)
         {
             if (tabBoxMulti.SelectedTab != Tab_Box)
                 return;
@@ -361,42 +361,42 @@ namespace PKHeX.WinForms.Controls
             bool all = false;
             if (ModifierKeys == (Keys.Alt | Keys.Shift) && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Clear ALL Boxes?!"))
             {
-                if (SAV.getBoxHasLockedSlot(0, SAV.BoxCount - 1))
+                if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
                 { WinFormsUtil.Alert("Battle Box slots prevent the clearing of all boxes."); return; }
-                SAV.resetBoxes();
+                SAV.ClearBoxes();
                 modified = "Boxes cleared!";
                 all = true;
             }
             else if (ModifierKeys == Keys.Alt && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Clear Current Box?"))
             {
-                if (SAV.getBoxHasLockedSlot(Box.CurrentBox, Box.CurrentBox))
+                if (SAV.IsAnySlotLockedInBox(Box.CurrentBox, Box.CurrentBox))
                 { WinFormsUtil.Alert("Battle Box slots prevent the clearing of box."); return; }
-                SAV.resetBoxes(Box.CurrentBox, Box.CurrentBox + 1);
+                SAV.ClearBoxes(Box.CurrentBox, Box.CurrentBox + 1);
                 modified = "Current Box cleared!";
             }
             else if (ModifierKeys == (Keys.Control | Keys.Shift) && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Sort ALL Boxes?!"))
             {
-                if (SAV.getBoxHasLockedSlot(0, SAV.BoxCount - 1))
+                if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
                 { WinFormsUtil.Alert("Battle Box slots prevent the sorting of all boxes."); return; }
-                SAV.sortBoxes();
+                SAV.SortBoxes();
                 modified = "Boxes sorted!";
                 all = true;
             }
             else if (ModifierKeys == Keys.Control && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Sort Current Box?"))
             {
-                if (SAV.getBoxHasLockedSlot(Box.CurrentBox, Box.CurrentBox))
+                if (SAV.IsAnySlotLockedInBox(Box.CurrentBox, Box.CurrentBox))
                 { WinFormsUtil.Alert("Battle Box slots prevent the sorting of box."); return; }
-                SAV.sortBoxes(Box.CurrentBox, Box.CurrentBox + 1);
+                SAV.SortBoxes(Box.CurrentBox, Box.CurrentBox + 1);
                 modified = "Current Box sorted!";
             }
             else
                 return;
 
-            setPKXBoxes();
-            updateBoxViewers(all);
+            SetPKMBoxes();
+            UpdateBoxViewers(all);
             WinFormsUtil.Alert(modified);
         }
-        private void clickBoxDouble(object sender, MouseEventArgs e)
+        private void ClickBoxDouble(object sender, MouseEventArgs e)
         {
             if (tabBoxMulti.SelectedTab == Tab_SAV)
             {
@@ -414,20 +414,20 @@ namespace PKHeX.WinForms.Controls
             }
             new SAV_BoxViewer(this, M).Show();
         }
-        private void clickClone(object sender, EventArgs e)
+        private void ClickClone(object sender, EventArgs e)
         {
-            if (getSlot(sender) > 30)
+            if (GetSlot(sender) > 30)
                 return; // only perform action if cloning to boxes
             RequestCloneData?.Invoke(sender, e);
         }
-        private void updateSaveSlot(object sender, EventArgs e)
+        private void UpdateSaveSlot(object sender, EventArgs e)
         {
             if (SAV.Version != GameVersion.BATREV)
                 return;
-            ((SAV4BR)SAV).CurrentSlot = WinFormsUtil.getIndex(CB_SaveSlot);
-            setPKXBoxes();
+            ((SAV4BR)SAV).CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
+            SetPKMBoxes();
         }
-        private void updateStringSeed(object sender, EventArgs e)
+        private void UpdateStringSeed(object sender, EventArgs e)
         {
             if (!FieldsLoaded)
                 return;
@@ -442,7 +442,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            string filterText = Util.getOnlyHex(tb.Text);
+            string filterText = Util.GetOnlyHex(tb.Text);
             if (filterText.Length != tb.Text.Length)
             {
                 WinFormsUtil.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + tb.Text);
@@ -454,7 +454,7 @@ namespace PKHeX.WinForms.Controls
             if (tb == TB_RNGSeed)
             {
                 var value = filterText.PadLeft(SAV.DaycareSeedSize, '0');
-                SAV.setDaycareRNGSeed(SAV.DaycareIndex, value);
+                SAV.SetDaycareRNGSeed(SAV.DaycareIndex, value);
                 SAV.Edited = true;
             }
             else if (tb == TB_GameSync)
@@ -473,7 +473,7 @@ namespace PKHeX.WinForms.Controls
                 SAV.Edited = true;
             }
         }
-        private void switchDaycare(object sender, EventArgs e)
+        private void SwitchDaycare(object sender, EventArgs e)
         {
             if (!SAV.HasTwoDaycares) return;
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Would you like to switch the view to the other Daycare?",
@@ -482,7 +482,7 @@ namespace PKHeX.WinForms.Controls
                 SAV.DaycareIndex ^= 1;
 
             // Refresh Boxes
-            setPKXBoxes();
+            SetPKMBoxes();
         }
         private void B_SaveBoxBin_Click(object sender, EventArgs e)
         {
@@ -508,7 +508,7 @@ namespace PKHeX.WinForms.Controls
             new SAV_BoxLayout(SAV, Box.CurrentBox).ShowDialog();
             Box.ResetBoxNames(); // fix box names
             Box.ResetSlots(); // refresh box background
-            updateBoxViewers(all: true); // update subviewers
+            UpdateBoxViewers(all: true); // update subviewers
         }
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
@@ -519,7 +519,7 @@ namespace PKHeX.WinForms.Controls
             else if (SAV.Generation == 7)
                 new SAV_Trainer7(SAV).ShowDialog();
             // Refresh conversion info
-            PKMConverter.updateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
+            PKMConverter.UpdateConfig(SAV.SubRegion, SAV.Country, SAV.ConsoleRegion, SAV.OT, SAV.Gender, SAV.Language);
         }
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
@@ -654,7 +654,7 @@ namespace PKHeX.WinForms.Controls
                     try { gamename = GameInfo.Strings.gamelist[game]; }
                     catch { gamename = "UNKNOWN GAME"; }
 
-                    var cr = GameInfo.getCountryRegionText(country, region, GameInfo.CurrentLanguage);
+                    var cr = GameInfo.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
                     result +=
                         "OT: " + otname + Environment.NewLine +
                         "Message: " + message + Environment.NewLine +
@@ -692,7 +692,7 @@ namespace PKHeX.WinForms.Controls
             if (sfd.ShowDialog() != DialogResult.OK) return;
             File.WriteAllBytes(sfd.FileName, jpeg);
         }
-        private void clickVerifyCHK(object sender, EventArgs e)
+        private void ClickVerifyCHK(object sender, EventArgs e)
         {
             if (SAV.Edited) { WinFormsUtil.Alert("Save has been edited. Cannot integrity check."); return; }
 
@@ -702,7 +702,7 @@ namespace PKHeX.WinForms.Controls
         }
         
         // File I/O
-        private bool? getPKMSetOverride()
+        private bool? GetPKMSetOverride()
         {
             var yn = ModifyPKM ? "Yes" : "No";
             DialogResult noSet = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -712,7 +712,7 @@ namespace PKHeX.WinForms.Controls
                 $"Cancel - Use current settings ({yn})");
             return noSet == DialogResult.Yes ? true : (noSet == DialogResult.No ? (bool?)false : null);
         }
-        private bool getFolderPath(out string path)
+        private static bool IsFolderPath(out string path)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             var result = fbd.ShowDialog() == DialogResult.OK;
@@ -740,23 +740,23 @@ namespace PKHeX.WinForms.Controls
 
             return true;
         }
-        public bool IsPCBoxBin(int length) => PKX.getIsPKM(length / SAV.SlotCount) || PKX.getIsPKM(length / SAV.BoxSlotCount);
+        public bool IsPCBoxBin(int length) => PKX.IsPKM(length / SAV.SlotCount) || PKX.IsPKM(length / SAV.BoxSlotCount);
         public bool OpenPCBoxBin(byte[] input, out string c)
         {
-            if (SAV.getPCBin().Length == input.Length)
+            if (SAV.PCBinary.Length == input.Length)
             {
-                if (SAV.getBoxHasLockedSlot(0, SAV.BoxCount - 1))
+                if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
                 { c = "Battle Box slots prevent loading of PC data."; return false; }
-                if (!SAV.setPCBin(input))
+                if (!SAV.SetPCBinary(input))
                 { c = "Current SAV Generation: " + SAV.Generation; return false; }
 
                 c = "PC Binary loaded.";
             }
-            else if (SAV.getBoxBin(Box.CurrentBox).Length == input.Length)
+            else if (SAV.GetBoxBinary(Box.CurrentBox).Length == input.Length)
             {
-                if (SAV.getBoxHasLockedSlot(Box.CurrentBox, Box.CurrentBox))
+                if (SAV.IsAnySlotLockedInBox(Box.CurrentBox, Box.CurrentBox))
                 { c = "Battle Box slots in box prevent loading of box data."; return false; }
-                if (!SAV.setBoxBin(input, Box.CurrentBox))
+                if (!SAV.SetBoxBinary(input, Box.CurrentBox))
                 { c = "Current SAV Generation: " + SAV.Generation; return false; }
 
                 c = "Box Binary loaded.";
@@ -766,8 +766,8 @@ namespace PKHeX.WinForms.Controls
                 c = "Current SAV Generation: " + SAV.Generation;
                 return false;
             }
-            setPKXBoxes();
-            updateBoxViewers();
+            SetPKMBoxes();
+            UpdateBoxViewers();
             return true;
         }
         public bool OpenBattleVideo(BattleVideo b, out string c)
@@ -785,19 +785,19 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            bool? noSetb = getPKMSetOverride();
+            bool? noSetb = GetPKMSetOverride();
             PKM[] data = b.BattlePKMs;
-            int offset = SAV.getBoxOffset(Box.CurrentBox);
+            int offset = SAV.GetBoxOffset(Box.CurrentBox);
             int slotSkipped = 0;
             for (int i = 0; i < 24; i++)
             {
-                if (SAV.getIsSlotLocked(Box.CurrentBox, i))
+                if (SAV.IsSlotLocked(Box.CurrentBox, i))
                 { slotSkipped++; continue; }
-                SAV.setStoredSlot(data[i], offset + i * SAV.SIZE_STORED, noSetb);
+                SAV.SetStoredSlot(data[i], offset + i * SAV.SIZE_STORED, noSetb);
             }
 
-            setPKXBoxes();
-            updateBoxViewers();
+            SetPKMBoxes();
+            UpdateBoxViewers();
 
             c = slotSkipped > 0
                 ? $"Skipped {slotSkipped} locked slot{(slotSkipped > 1 ? "s" : "")}."
@@ -807,7 +807,7 @@ namespace PKHeX.WinForms.Controls
         }
         public bool DumpBoxes(out string result, string path = null, bool separate = false)
         {
-            if (path == null && !getFolderPath(out path))
+            if (path == null && !IsFolderPath(out path))
             {
                 result = path;
                 return false;
@@ -816,12 +816,12 @@ namespace PKHeX.WinForms.Controls
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            SAV.dumpBoxes(path, out result, separate);
+            SAV.DumpBoxes(path, out result, separate);
             return true;
         }
         public bool DumpBox(out string result, string path = null)
         {
-            if (path == null && !getFolderPath(out path))
+            if (path == null && !IsFolderPath(out path))
             {
                 result = path;
                 return false;
@@ -830,7 +830,7 @@ namespace PKHeX.WinForms.Controls
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            SAV.dumpBox(path, out result, Box.CurrentBox);
+            SAV.DumpBox(path, out result, Box.CurrentBox);
             return true;
         }
         public bool LoadBoxes(out string result, string path = null)
@@ -839,7 +839,7 @@ namespace PKHeX.WinForms.Controls
             if (!SAV.HasBox)
                 return false;
 
-            if (path == null && !getFolderPath(out path))
+            if (path == null && !IsFolderPath(out path))
             {
                 result = path;
                 return false;
@@ -853,10 +853,10 @@ namespace PKHeX.WinForms.Controls
                 return false;
 
             bool clearAll = dr == DialogResult.Yes;
-            bool? noSetb = getPKMSetOverride();
+            bool? noSetb = GetPKMSetOverride();
 
-            SAV.loadBoxes(path, out result, Box.CurrentBox, clearAll, noSetb);
-            setPKXBoxes();
+            SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, noSetb);
+            SetPKMBoxes();
             return true;
         }
 
@@ -880,7 +880,7 @@ namespace PKHeX.WinForms.Controls
                 if (startBox > SAV.BoxCount - 1) { tabBoxMulti.SelectedIndex = 1; Box.CurrentBox = 0; }
                 else { tabBoxMulti.SelectedIndex = 0; Box.CurrentBox = startBox; }
             }
-            setPKXBoxes();   // Reload all of the PKX Windows
+            SetPKMBoxes();   // Reload all of the PKX Windows
 
             // Hide content if not present in game.
             GB_SUBE.Visible = SAV.HasSUBE;
@@ -1004,7 +1004,7 @@ namespace PKHeX.WinForms.Controls
         }
 
         // DragDrop
-        private void pbBoxSlot_MouseMove(object sender, MouseEventArgs e)
+        private void BoxSlot_MouseMove(object sender, MouseEventArgs e)
         {
             if (M == null || M.DragActive)
                 return;
@@ -1013,23 +1013,23 @@ namespace PKHeX.WinForms.Controls
             PictureBox pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
-            int slot = getSlot(pb);
+            int slot = GetSlot(pb);
             int box = slot >= 30 ? -1 : Box.CurrentBox;
-            if (SAV.getIsSlotLocked(box, slot))
+            if (SAV.IsSlotLocked(box, slot))
                 return;
 
             bool encrypt = ModifierKeys == Keys.Control;
             M.HandleMovePKM(pb, slot, box, encrypt);
         }
-        private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
+        private void BoxSlot_DragDrop(object sender, DragEventArgs e)
         {
             if (M == null)
                 return;
 
             PictureBox pb = (PictureBox)sender;
-            int slot = getSlot(pb);
+            int slot = GetSlot(pb);
             int box = slot >= 30 ? -1 : Box.CurrentBox;
-            if (SAV.getIsSlotLocked(box, slot) || slot >= 36)
+            if (SAV.IsSlotLocked(box, slot) || slot >= 36)
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
@@ -1040,11 +1040,11 @@ namespace PKHeX.WinForms.Controls
             bool overwrite = ModifierKeys == Keys.Alt;
             bool clone = ModifierKeys == Keys.Control;
             M.DragInfo.Destination.Parent = FindForm();
-            M.DragInfo.Destination.Slot = getSlot(sender);
+            M.DragInfo.Destination.Slot = GetSlot(sender);
             M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : Box.CurrentBox;
             M.HandleDropPKM(sender, e, overwrite, clone);
         }
-        private void clickShowdownExportParty(object sender, EventArgs e)
+        private void ClickShowdownExportParty(object sender, EventArgs e)
         {
             try
             {
@@ -1055,7 +1055,7 @@ namespace PKHeX.WinForms.Controls
             catch { }
             WinFormsUtil.Alert("Showdown Team (Party) set to Clipboard.");
         }
-        private void clickShowdownExportBattleBox(object sender, EventArgs e)
+        private void ClickShowdownExportBattleBox(object sender, EventArgs e)
         {
             try
             {

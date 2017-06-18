@@ -7,7 +7,7 @@ namespace PKHeX.WinForms
 {
     public static class NetUtil
     {
-        public static string getStringFromURL(string webURL)
+        public static string GetStringFromURL(string webURL)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
                 return null;
             }
         }
-        public static Image getImageFromURL(string webURL)
+        public static Image GetImageFromURL(string webURL)
         {
             try
             {

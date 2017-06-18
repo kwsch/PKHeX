@@ -12,8 +12,8 @@ namespace PKHeX.Core
                 return;
             Data = data;
 
-            TMHM = getBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
-            TypeTutors = getBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
+            TMHM = GetBits(Data.Skip(0x28).Take(0x10).ToArray()); // 36-39
+            TypeTutors = GetBits(Data.Skip(0x38).Take(0x4).ToArray()); // 40
         }
         public override byte[] Write()
         {

@@ -5,16 +5,16 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor
     {
-        private void populateFieldsPK6()
+        private void PopulateFieldsPK6()
         {
             PK6 pk6 = pkm as PK6;
             if (pk6 == null)
                 return;
 
             // Do first
-            pk6.Stat_Level = PKX.getLevel(pk6.Species, pk6.EXP);
+            pk6.Stat_Level = PKX.GetLevel(pk6.Species, pk6.EXP);
             if (pk6.Stat_Level == 100 && !HaX)
-                pk6.EXP = PKX.getEXP(pk6.Stat_Level, pk6.Species);
+                pk6.EXP = PKX.GetEXP(pk6.Stat_Level, pk6.Species);
 
             CB_Species.SelectedValue = pk6.Species;
             TB_Level.Text = pk6.Stat_Level.ToString();
@@ -26,7 +26,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Checked = pk6.IsEgg;
             CHK_Nicknamed.Checked = pk6.IsNicknamed;
             Label_OTGender.Text = gendersymbols[pk6.OT_Gender];
-            Label_OTGender.ForeColor = getGenderColor(pk6.OT_Gender);
+            Label_OTGender.ForeColor = GetGenderColor(pk6.OT_Gender);
             TB_PID.Text = pk6.PID.ToString("X8");
             CB_HeldItem.SelectedValue = pk6.HeldItem;
             TB_AbilityNumber.Text = pk6.AbilityNumber.ToString();
@@ -73,7 +73,7 @@ namespace PKHeX.WinForms.Controls
 
             // Set CT Gender to None if no CT, else set to gender symbol.
             Label_CTGender.Text = pk6.HT_Name == "" ? "" : gendersymbols[pk6.HT_Gender % 2];
-            Label_CTGender.ForeColor = getGenderColor(pk6.HT_Gender % 2);
+            Label_CTGender.ForeColor = GetGenderColor(pk6.HT_Gender % 2);
 
             TB_MetLevel.Text = pk6.Met_Level.ToString();
 
@@ -131,29 +131,29 @@ namespace PKHeX.WinForms.Controls
             // Load Extrabyte Value
             TB_ExtraByte.Text = pk6.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
 
-            updateStats();
+            UpdateStats();
 
             TB_EXP.Text = pk6.EXP.ToString();
             Label_Gender.Text = gendersymbols[pk6.Gender];
-            Label_Gender.ForeColor = getGenderColor(pk6.Gender);
+            Label_Gender.ForeColor = GetGenderColor(pk6.Gender);
 
             // Highlight the Current Handler
-            clickGT(pk6.CurrentHandler == 1 ? GB_nOT : GB_OT, null);
+            ClickGT(pk6.CurrentHandler == 1 ? GB_nOT : GB_OT, null);
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk6.Ability;
         }
-        private PKM preparePK6()
+        private PKM PreparePK6()
         {
             PK6 pk6 = pkm as PK6;
             if (pk6 == null)
                 return null;
 
             // Repopulate PK6 with Edited Stuff
-            if (WinFormsUtil.getIndex(CB_GameOrigin) < 24)
+            if (WinFormsUtil.GetIndex(CB_GameOrigin) < 24)
             {
-                uint EC = Util.getHEXval(TB_EC.Text);
-                uint PID = Util.getHEXval(TB_PID.Text);
+                uint EC = Util.GetHexValue(TB_EC.Text);
+                uint PID = Util.GetHexValue(TB_PID.Text);
                 uint SID = Util.ToUInt32(TB_TID.Text);
                 uint TID = Util.ToUInt32(TB_TID.Text);
                 uint LID = PID & 0xFFFF;
@@ -174,12 +174,12 @@ namespace PKHeX.WinForms.Controls
                     TB_EC.Text = PID.ToString("X8");
             }
 
-            pk6.EncryptionConstant = Util.getHEXval(TB_EC.Text);
+            pk6.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
             pk6.Checksum = 0; // 0 CHK for now
 
             // Block A
-            pk6.Species = WinFormsUtil.getIndex(CB_Species);
-            pk6.HeldItem = WinFormsUtil.getIndex(CB_HeldItem);
+            pk6.Species = WinFormsUtil.GetIndex(CB_Species);
+            pk6.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk6.TID = Util.ToInt32(TB_TID.Text);
             pk6.SID = Util.ToInt32(TB_SID.Text);
             pk6.EXP = Util.ToUInt32(TB_EXP.Text);
@@ -191,10 +191,10 @@ namespace PKHeX.WinForms.Controls
             }
 
             // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
-            pk6.PID = Util.getHEXval(TB_PID.Text);
-            pk6.Nature = (byte)WinFormsUtil.getIndex(CB_Nature);
+            pk6.PID = Util.GetHexValue(TB_PID.Text);
+            pk6.Nature = (byte)WinFormsUtil.GetIndex(CB_Nature);
             pk6.FatefulEncounter = CHK_Fateful.Checked;
-            pk6.Gender = PKX.getGender(Label_Gender.Text);
+            pk6.Gender = PKX.GetGender(Label_Gender.Text);
             pk6.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk6.EV_HP = Util.ToInt32(TB_HPEV.Text);       // EVs
             pk6.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
@@ -225,22 +225,22 @@ namespace PKHeX.WinForms.Controls
             // Block B
             // Convert Nickname field back to bytes
             pk6.Nickname = TB_Nickname.Text;
-            pk6.Move1 = WinFormsUtil.getIndex(CB_Move1);
-            pk6.Move2 = WinFormsUtil.getIndex(CB_Move2);
-            pk6.Move3 = WinFormsUtil.getIndex(CB_Move3);
-            pk6.Move4 = WinFormsUtil.getIndex(CB_Move4);
-            pk6.Move1_PP = WinFormsUtil.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-            pk6.Move2_PP = WinFormsUtil.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-            pk6.Move3_PP = WinFormsUtil.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-            pk6.Move4_PP = WinFormsUtil.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-            pk6.Move1_PPUps = WinFormsUtil.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-            pk6.Move2_PPUps = WinFormsUtil.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-            pk6.Move3_PPUps = WinFormsUtil.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-            pk6.Move4_PPUps = WinFormsUtil.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
-            pk6.RelearnMove1 = WinFormsUtil.getIndex(CB_RelearnMove1);
-            pk6.RelearnMove2 = WinFormsUtil.getIndex(CB_RelearnMove2);
-            pk6.RelearnMove3 = WinFormsUtil.getIndex(CB_RelearnMove3);
-            pk6.RelearnMove4 = WinFormsUtil.getIndex(CB_RelearnMove4);
+            pk6.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            pk6.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            pk6.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            pk6.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            pk6.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk6.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk6.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk6.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk6.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk6.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk6.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk6.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+            pk6.RelearnMove1 = WinFormsUtil.GetIndex(CB_RelearnMove1);
+            pk6.RelearnMove2 = WinFormsUtil.GetIndex(CB_RelearnMove2);
+            pk6.RelearnMove3 = WinFormsUtil.GetIndex(CB_RelearnMove3);
+            pk6.RelearnMove4 = WinFormsUtil.GetIndex(CB_RelearnMove4);
             // 0x72 - Ribbon editor sets this flag (Secret Super Training)
             // 0x73
             pk6.IV_HP = Util.ToInt32(TB_HPIV.Text);
@@ -256,7 +256,7 @@ namespace PKHeX.WinForms.Controls
             pk6.HT_Name = TB_OTt2.Text;
 
             // 0x90-0xAF
-            pk6.HT_Gender = PKX.getGender(Label_CTGender.Text) & 1;
+            pk6.HT_Gender = PKX.GetGender(Label_CTGender.Text) & 1;
             // Plus more, set by MemoryAmie (already in buff)
 
             // Block D
@@ -268,29 +268,29 @@ namespace PKHeX.WinForms.Controls
             if (CHK_AsEgg.Checked)      // If encountered as an egg, load the Egg Met data from fields.
             {
                 egg_date = CAL_EggDate.Value;
-                egg_location = WinFormsUtil.getIndex(CB_EggLocation);
+                egg_location = WinFormsUtil.GetIndex(CB_EggLocation);
             }
             // Egg Met Data
             pk6.EggMetDate = egg_date;
             pk6.Egg_Location = egg_location;
             // Met Data
             pk6.MetDate = CAL_MetDate.Value;
-            pk6.Met_Location = WinFormsUtil.getIndex(CB_MetLocation);
+            pk6.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
 
             if (pk6.IsEgg && pk6.Met_Location == 0)    // If still an egg, it has no hatch location/date. Zero it!
                 pk6.MetDate = null;
 
             // 0xD7 Unknown
 
-            pk6.Ball = WinFormsUtil.getIndex(CB_Ball);
+            pk6.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk6.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk6.OT_Gender = PKX.getGender(Label_OTGender.Text);
-            pk6.EncounterType = WinFormsUtil.getIndex(CB_EncounterType);
-            pk6.Version = WinFormsUtil.getIndex(CB_GameOrigin);
-            pk6.Country = WinFormsUtil.getIndex(CB_Country);
-            pk6.Region = WinFormsUtil.getIndex(CB_SubRegion);
-            pk6.ConsoleRegion = WinFormsUtil.getIndex(CB_3DSReg);
-            pk6.Language = WinFormsUtil.getIndex(CB_Language);
+            pk6.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk6.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
+            pk6.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
+            pk6.Country = WinFormsUtil.GetIndex(CB_Country);
+            pk6.Region = WinFormsUtil.GetIndex(CB_SubRegion);
+            pk6.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            pk6.Language = WinFormsUtil.GetIndex(CB_Language);
             // 0xE4-0xE7
 
             // Toss in Party Stats
@@ -313,7 +313,7 @@ namespace PKHeX.WinForms.Controls
             // Hax Illegality
             if (HaX)
             {
-                pk6.Ability = (byte)WinFormsUtil.getIndex(DEV_Ability);
+                pk6.Ability = (byte)WinFormsUtil.GetIndex(DEV_Ability);
                 pk6.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
 

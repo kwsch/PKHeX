@@ -49,13 +49,13 @@
         {
             get
             {
-                ushort[] chks = getCHK(Data);
+                ushort[] chks = GetChecksum(Data);
                 return chks[0] == CHK_0 && chks[1] == CHK_1;
             }
         }
         public void SetChecksums()
         {
-            ushort[] chks = getCHK(Data);
+            ushort[] chks = GetChecksum(Data);
             CHK_0 = chks[0];
             CHK_1 = chks[1];
             Data[0] = (byte)(CHK_0 >> 8);
@@ -64,7 +64,7 @@
             Data[3] = (byte)(CHK_1 & 0xFF);
         }
 
-        private static ushort[] getCHK(byte[] data)
+        private static ushort[] GetChecksum(byte[] data)
         {
             int chk = 0; // initial value
             for (int j = 0x4; j < 0x1FFC; j += 2)

@@ -5,7 +5,7 @@
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="Version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion getMetLocationVersionGroup(GameVersion Version)
+        public static GameVersion GetMetLocationVersionGroup(GameVersion Version)
         {
             switch (Version)
             {
@@ -80,7 +80,7 @@
         /// </summary>
         /// <param name="generation">Generation ID</param>
         /// <returns>Version ID from requested generation. If none, return Unknown.</returns>
-        public static GameVersion getVersion(int generation)
+        public static GameVersion GetVersion(int generation)
         {
             switch (generation)
             {

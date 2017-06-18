@@ -6,61 +6,63 @@ namespace PKHeX.Core
 {
     public static class EncounterFinder
     {
-        public static LegalInfo verifyEncounter(PKM pkm)
+        public static LegalInfo FindVerifiedEncounter(PKM pkm)
         {
             LegalInfo info = new LegalInfo(pkm);
-            var encounters = EncounterGenerator.getEncounters(pkm, info);
+            var encounters = EncounterGenerator.GetEncounters(pkm, info);
 
             using (var encounter = new PeekEnumerator<IEncounterable>(encounters.GetEnumerator()))
             {
                 if (!encounter.PeekIsNext())
-                    return verifyWithoutEncounter(pkm, info);
+                { return VerifyWithoutEncounter(pkm, info);}
 
-                var EncounterValidator = getEncounterVerifier(pkm);
+                var EncounterValidator = GetEncounterVerifierMethod(pkm);
                 while (encounter.MoveNext())
                 {
-                    var EncounterMatch = info.EncounterMatch = encounter.Current;
                     bool PIDMatch = info.PIDIVMatches;
-
+                    var EncounterMatch = info.EncounterMatch = encounter.Current;
                     var e = EncounterValidator(pkm, EncounterMatch);
                     if (!e.Valid && encounter.PeekIsNext())
                         continue;
                     info.Parse.Add(e);
 
-                    if (pkm.Format >= 6)
-                    {
-                        info.vRelearn = VerifyRelearnMoves.verifyRelearn(pkm, info);
-                        if (info.vRelearn.Any(z => !z.Valid) && encounter.PeekIsNext())
-                            continue;
-                    }
-                    else
-                        for (int i = 0; i < 4; i++)
-                            info.vRelearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
-
-                    info.vMoves = VerifyCurrentMoves.verifyMoves(pkm, info);
-                    if (info.vMoves.Any(z => !z.Valid) && encounter.PeekIsNext())
-                        continue;
-
-                    var evo = VerifyEvolution.verifyEvolution(pkm, info);
-                    if (!evo.Valid && encounter.PeekIsNext())
-                        continue;
-                    info.Parse.Add(evo);
-
-                    if (!PIDMatch)
-                    {
-                        if (encounter.PeekIsNext())
-                            continue;
-                        info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
-                    }
-
-                    // Encounter Passes
-                    break;
+                    if (VerifySecondaryChecks(pkm, info, PIDMatch, encounter))
+                        break; // passes
                 }
                 return info;
             }
         }
 
-        private static LegalInfo verifyWithoutEncounter(PKM pkm, LegalInfo info)
+        private static bool VerifySecondaryChecks(PKM pkm, LegalInfo info, bool PIDMatch, PeekEnumerator<IEncounterable> iterator)
+        {
+            if (pkm.Format >= 6)
+            {
+                info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);
+                if (info.Relearn.Any(z => !z.Valid) && iterator.PeekIsNext())
+                    return false;
+            }
+            else
+                for (int i = 0; i < 4; i++)
+                    info.Relearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
+
+            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
+            if (info.Moves.Any(z => !z.Valid) && iterator.PeekIsNext())
+                return false;
+
+            var evo = EvolutionVerifier.VerifyEvolution(pkm, info);
+            if (!evo.Valid && iterator.PeekIsNext())
+                return false;
+            info.Parse.Add(evo);
+
+            if (!PIDMatch)
+            {
+                if (iterator.PeekIsNext())
+                    return false; // continue to next
+                info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
+            }
+            return true;
+        }
+        private static LegalInfo VerifyWithoutEncounter(PKM pkm, LegalInfo info)
         {
             info.EncounterMatch = new EncounterInvalid(pkm);
 
@@ -75,20 +77,19 @@ namespace PKHeX.Core
                 hint = V80;
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
-            info.vRelearn = VerifyRelearnMoves.verifyRelearn(pkm, info);
-            info.vMoves = VerifyCurrentMoves.verifyMoves(pkm, info);
+            info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);
+            info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
         }
-
-        private static Func<PKM, IEncounterable, CheckResult> getEncounterVerifier(PKM pkm)
+        private static Func<PKM, IEncounterable, CheckResult> GetEncounterVerifierMethod(PKM pkm)
         {
             switch (pkm.GenNumber)
             {
                 case 1:
                 case 2:
-                    return VerifyEncounter.verifyEncounterG12;
+                    return EncounterVerifier.VerifyEncounterG12;
                 default:
-                    return VerifyEncounter.verifyEncounter;
+                    return EncounterVerifier.VerifyEncounter;
             }
         }
     }

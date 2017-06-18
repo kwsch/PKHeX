@@ -20,54 +20,54 @@ namespace PKHeX.Core
         public CK3(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
-            PKMConverter.checkEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new CK3(Data); }
 
-        public override string getString(int Offset, int Count) => PKX.getBEString3(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength) => PKX.setBEString3(value, maxLength);
+        public override string GetString(int Offset, int Count) => PKX.GetBEString3(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => PKX.SetBEString3(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => getData(0x2E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
-        public override byte[] OT_Trash { get => getData(0x18, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x18); } }
+        public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
+        public override byte[] OT_Trash { get => GetData(0x18, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x18); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
         public override int Nature { get => (int)(PID % 25); set { } }
-        public override int AltForm { get => Species == 201 ? PKX.getUnownForm(PID) : 0; set { } }
+        public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
 
-        public override bool IsNicknamed { get => PKX.getIsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
-        public override int Gender { get => PKX.getGender(Species, PID); set { } }
+        public override bool IsNicknamed { get => PKX.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
+        public override int Gender { get => PKX.GetGender(Species, PID); set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
+        public override int Ability { get { int[] abils = PersonalTable.RS.GetAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
         public override int CurrentHandler { get => 0; set { } }
         public override int Egg_Location { get => 0; set { } }
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => SaveUtil.ccitt16(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
         public override bool ChecksumValid => Valid;
 
-        public override int Species { get => PKX.getG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x00); }
+        public override int Species { get => PKX.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)PKX.GetG3Species(value)).CopyTo(Data, 0x00); }
         // 02-04 unused
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x04); set => BigEndian.GetBytes(value).CopyTo(Data, 0x04); }
-        public override int Version { get => SaveUtil.getG3VersionID(Data[0x08]); set => Data[0x08] = (byte)SaveUtil.getCXDVersionID(value); }
+        public override int Version { get => SaveUtil.GetG3VersionID(Data[0x08]); set => Data[0x08] = (byte)SaveUtil.GetCXDVersionID(value); }
         public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
-        public override int Language { get => PKX.getMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = PKX.getGCLangIDfromMain((byte)value); }
+        public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = PKX.GetGCLangIDfromMain((byte)value); }
         public override int Met_Location { get => BigEndian.ToUInt16(Data, 0x0C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
         public override int Met_Level { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int Ball { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
         public override int OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
         public override int SID { get => BigEndian.ToUInt16(Data, 0x14); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x14); }
         public override int TID { get => BigEndian.ToUInt16(Data, 0x16); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x16); }
-        public override string OT_Name { get => getString(0x18, 20); set => setString(value, 10).CopyTo(Data, 0x18); } // +2 terminator
-        public override string Nickname { get => getString(0x2E, 20); set { setString(value, 10).CopyTo(Data, 0x2E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get => getString(0x44, 20); set => setString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
+        public override string OT_Name { get => GetString(0x18, 20); set => SetString(value, 10).CopyTo(Data, 0x18); } // +2 terminator
+        public override string Nickname { get => GetString(0x2E, 20); set { SetString(value, 10).CopyTo(Data, 0x2E); Nickname2 = value; } } // +2 terminator
+        private string Nickname2 { get => GetString(0x44, 20); set => SetString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
         public override uint EXP { get => BigEndian.ToUInt32(Data, 0x5C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x5C); }
         public override int Stat_Level { get => Data[0x60]; set => Data[0x60] = (byte)value; }
 
@@ -88,7 +88,7 @@ namespace PKHeX.Core
         public override int Move4_PP { get => Data[0x86]; set => Data[0x86] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x87]; set => Data[0x87] = (byte)value; }
 
-        public override int SpriteItem => PKX.getG4Item((ushort)HeldItem);
+        public override int SpriteItem => PKX.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x88); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x88); }
 
         // More party stats
@@ -191,7 +191,7 @@ namespace PKHeX.Core
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => Language == 1;
 
-        public override byte[] Encrypt()
+        protected override byte[] Encrypt()
         {
             return (byte[])Data.Clone();
         }

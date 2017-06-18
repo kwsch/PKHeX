@@ -120,7 +120,7 @@
             this.flagDel.Name = "flagDel";
             this.flagDel.Size = new System.Drawing.Size(107, 22);
             this.flagDel.Text = "Delete";
-            this.flagDel.Click += new System.EventHandler(this.clearRecievedFlag);
+            this.flagDel.Click += new System.EventHandler(this.ClearRecievedFlag);
             // 
             // L_Received
             // 
@@ -159,7 +159,7 @@
             this.L_QR.Size = new System.Drawing.Size(26, 13);
             this.L_QR.TabIndex = 62;
             this.L_QR.Text = "QR!";
-            this.L_QR.Click += new System.EventHandler(this.L_QR_Click);
+            this.L_QR.Click += new System.EventHandler(this.ClickQR);
             // 
             // PB_Preview
             // 
@@ -185,21 +185,21 @@
             this.mnuView.Name = "mnuView";
             this.mnuView.Size = new System.Drawing.Size(107, 22);
             this.mnuView.Text = "View";
-            this.mnuView.Click += new System.EventHandler(this.clickView);
+            this.mnuView.Click += new System.EventHandler(this.ClickView);
             // 
             // mnuSet
             // 
             this.mnuSet.Name = "mnuSet";
             this.mnuSet.Size = new System.Drawing.Size(107, 22);
             this.mnuSet.Text = "Set";
-            this.mnuSet.Click += new System.EventHandler(this.clickSet);
+            this.mnuSet.Click += new System.EventHandler(this.ClickSet);
             // 
             // mnuDelete
             // 
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.Size = new System.Drawing.Size(107, 22);
             this.mnuDelete.Text = "Delete";
-            this.mnuDelete.Click += new System.EventHandler(this.clickDelete);
+            this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
             // 
             // FLP_Gifts
             // 

@@ -354,10 +354,14 @@ namespace PKHeX.Core
 
     public class MemeKey
     {
-        public byte[] D;   // Private Exponent
-        public byte[] DER; // DER.
-        public byte[] E;   // Public Exponent
-        public byte[] N;   // Modulus
+        /// <summary> Private Exponent </summary>
+        public readonly byte[] D;
+        /// <summary> Distinguished Encoding Rules </summary>
+        public readonly byte[] DER;
+        /// <summary> Public Exponent </summary>
+        public readonly byte[] E;
+        /// <summary> Modulus </summary>
+        public readonly byte[] N;
 
         public MemeKey(byte[] der, byte[] d = null)
         {
