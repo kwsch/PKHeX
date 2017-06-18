@@ -1996,6 +1996,13 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V320, CheckIdentifier.Egg);
                 if (pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
                     AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
+                if (pkm is PK4 pk4)
+                {
+                    if (pk4.ShinyLeaf != 0)
+                        AddLine(Severity.Invalid, V414, CheckIdentifier.Egg);
+                    if (pk4.PokéathlonStat != 0)
+                        AddLine(Severity.Invalid, V415, CheckIdentifier.Egg);
+                }
 
                 var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
                 if (HatchCycles == 0 || HatchCycles == null)

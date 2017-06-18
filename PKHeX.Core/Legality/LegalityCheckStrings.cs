@@ -407,6 +407,8 @@ namespace PKHeX.Core
         public static string V410 {get; set;} = "Mystery Gift fixed PID mismatch.";
         public static string V411 {get; set;} = "Encounter Type PID mismatch.";
         public static string V412 {get; set;} = "Non-tradeback pre evolution move. Incompatible with Generation 1 exclusive moves.";
+        public static string V414 {get; set;} = "Eggs can not have Shiny Leaf/Crown."; // Invalid
+        public static string V415 {get; set;} = "Eggs can not have Pokéathlon stats."; // Invalid
         #endregion
 
     }

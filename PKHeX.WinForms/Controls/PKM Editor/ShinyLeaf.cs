@@ -44,15 +44,17 @@ namespace PKHeX.WinForms.Controls
         {
             if (!(sender is CheckBox c))
                 return;
-            if (!c.Checked)
-                CHK_C.Checked = CHK_C.Enabled = false;
-            else if (Flags.Take(5).All(z => z.Checked) && CHK_C != c)
-                CHK_C.Enabled = true;
 
             if (CHK_C == c)
                 c.Image = c.Checked ? Resources.crown : greyCrown;
             else
+            {
+                if (!c.Checked)
+                    CHK_C.Checked = CHK_C.Enabled = false;
+                else if (Flags.Take(5).All(z => z.Checked))
+                    CHK_C.Enabled = true;
                 c.Image = c.Checked ? Resources.leaf : greyLeaf;
+            }
         }
     }
 }

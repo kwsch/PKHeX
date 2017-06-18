@@ -343,3 +343,6 @@ V409 = 이상한소포의 색이 다른 포켓몬 여부가 일치하지 않습�
 V410 = 이상한소포의 고정된 PID가 일치하지 않습니다.
 V411 = 인카운터 유형 PID가 일치하지 않습니다.
 V412 = 이전 세대로 옮길 수 없는 진화 전 기술입니다. 1세대 전용 기술과 함께 존재할 수 없습니다.
+V413 = Unreleased event.
+V414 = Eggs can not have Shiny Leaf/Crown.
+V415 = Eggs can not have Pokéathlon stats.

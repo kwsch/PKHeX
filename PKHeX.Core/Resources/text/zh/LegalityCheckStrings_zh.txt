@@ -343,3 +343,6 @@ V409 = Mystery Gift shiny mismatch.
 V410 = Mystery Gift fixed PID mismatch.
 V411 = Encounter Type PID mismatch.
 V412 = Non-tradeback pre evolution move. Incompatible with generation 1 exclusive moves.
+V413 = Unreleased event.
+V414 = Eggs can not have Shiny Leaf/Crown.
+V415 = Eggs can not have Pokéathlon stats.
