@@ -261,7 +261,7 @@ namespace PKHeX.Core
         public override string OT
         {
             get => GetString(BlockOfs[0], 0x10);
-            set => SetString(value, 7).CopyTo(Data, BlockOfs[0]);
+            set => SetString(value, OTLength, PadWith:0xFF).CopyTo(Data, BlockOfs[0]);
         }
         public override int Gender
         {
