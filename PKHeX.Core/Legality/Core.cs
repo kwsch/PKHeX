@@ -1686,11 +1686,8 @@ namespace PKHeX.Core
                     if (pkm.Format != 2)
                         return StaticGSC;
 
-                    if (pkm.HasOriginalMetLocation || pkm.IsEgg && AllowGen2Crystal)
+                    if (pkm.HasOriginalMetLocation)
                         return StaticC;
-                    if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                        return StaticGS;
-
                     return StaticGSC;
 
                 case GameVersion.R: return StaticR;

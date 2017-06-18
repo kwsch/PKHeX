@@ -106,6 +106,8 @@ namespace PKHeX.Core
                     deferred.Add(s);
                     continue;
                 }
+                if (game == GameVersion.GSC && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
+                    continue;
                 yield return new GBEncounterData(pkm, gen, s, game);
             }
             foreach (var e in GetValidWildEncounters(pkm, game))
