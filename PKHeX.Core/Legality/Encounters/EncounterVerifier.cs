@@ -258,6 +258,13 @@ namespace PKHeX.Core
         }
         private static CheckResult VerifyEncounterEvent(PKM pkm, MysteryGift MatchedGift)
         {
+            switch (MatchedGift)
+            {
+                case PCD pcd:
+                    if (!pcd.CanBeReceivedBy(pkm.Version))
+                        return new CheckResult(Severity.Invalid, string.Format(V21, MatchedGift.CardHeader, "-- " + V416), CheckIdentifier.Encounter);
+                    break;
+            }
             // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.
             return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.CardHeader, ""), CheckIdentifier.Encounter);
         }

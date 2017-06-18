@@ -374,7 +374,7 @@ namespace PKHeX.Core
         public static string V365 {get; set;} = "Incompatible evolution moves. {0} Move learned at a lower level than other {1} moves.";
         public static string V366 {get; set;} = "Incompatible evolution moves. {1} Move learned at a higher level than other {0} moves.";
         public static string V367 {get; set;} = "Individual EV for a level 100 encounter in Generation 4 cannot be greater than 100.";
-        public static string V368 {get; set;} = "Eggs can not be infected with Pokérus."; // Invalid
+        public static string V368 {get; set;} = "Eggs cannot be infected with Pokérus."; // Invalid
         public static string V369 {get; set;} = "Invalid E-Reader Berry.";
         public static string V370 {get; set;} = "Japanese E-Reader Berry in international savegame.";
         public static string V371 {get; set;} = "American E-Reader Berry in Japanese savegame.";
@@ -407,8 +407,9 @@ namespace PKHeX.Core
         public static string V410 {get; set;} = "Mystery Gift fixed PID mismatch.";
         public static string V411 {get; set;} = "Encounter Type PID mismatch.";
         public static string V412 {get; set;} = "Non-tradeback pre evolution move. Incompatible with Generation 1 exclusive moves.";
-        public static string V414 {get; set;} = "Eggs can not have Shiny Leaf/Crown."; // Invalid
-        public static string V415 {get; set;} = "Eggs can not have Pokéathlon stats."; // Invalid
+        public static string V414 {get; set;} = "Eggs cannot have Shiny Leaf/Crown."; // Invalid
+        public static string V415 {get; set;} = "Eggs cannot have Pokéathlon stats."; // Invalid
+        public static string V416 {get; set;} = "Mystery Gift cannot be received by this version."; // Invalid
         #endregion
 
     }

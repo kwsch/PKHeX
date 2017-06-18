@@ -71,6 +71,7 @@ namespace PKHeX.Core
                 data.CopyTo(Data, 0x104);
             }
         }
+        public ushort CardCompatibility => BitConverter.ToUInt16(Data, 0x14C); // rest of bytes we don't really care about
 
         public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
         public override int[] Moves { get => Gift.Moves; set => Gift.Moves = value; }
@@ -99,6 +100,8 @@ namespace PKHeX.Core
         {
             return Gift.ConvertToPKM(SAV);
         }
+
+        public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
     }
     public sealed class PGT : MysteryGift
     {

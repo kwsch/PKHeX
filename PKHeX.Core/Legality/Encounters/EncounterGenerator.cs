@@ -918,11 +918,10 @@ namespace PKHeX.Core
                 var wc = mg.Gift.PK;
                 if (pkm.Egg_Location == 0) // Not Egg
                 {
-                    if (wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
+                    if (wc.SID != pkm.SID) continue;
                     if (wc.OT_Name != pkm.OT_Name) continue;
                     if (wc.OT_Gender != pkm.OT_Gender) continue;
-                    if (wc.Version != 0 && wc.Version != pkm.Version) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
                 }
                 if (wc.AltForm != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) continue;
@@ -966,7 +965,8 @@ namespace PKHeX.Core
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
                 // RIBBONS: Defer to ribbon legality
 
-                if (wc.Species == pkm.Species) // best match
+                bool receivable = mg.CanBeReceivedBy(pkm.Version);
+                if (wc.Species == pkm.Species && receivable) // best match
                     yield return mg;
                 else
                     validPCD.Add(mg);
