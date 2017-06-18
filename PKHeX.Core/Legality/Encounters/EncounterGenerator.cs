@@ -202,7 +202,7 @@ namespace PKHeX.Core
             if (pkm.WasEgg)
             {
                 foreach (var z in GenerateEggs(pkm))
-                    yield return z;
+                { yield return z; ++ctr; }
             }
 
             foreach (var z in GetValidStaticEncounter(pkm))
