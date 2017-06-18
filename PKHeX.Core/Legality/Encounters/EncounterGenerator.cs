@@ -713,9 +713,9 @@ namespace PKHeX.Core
                 // Filter Criteria
                 if (z.TID != pkm.TID)
                     continue;
-                if (z.Gender != pkm.Gender && pkm.Format <= 2)
+                if (z.Gender >= 0 && z.Gender != pkm.Gender && pkm.Format <= 2)
                     continue;
-                if (!z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
+                if (z.IVs[0] >= 0 && !z.IVs.SequenceEqual(pkm.IVs) && pkm.Format <= 2)
                     continue;
                 if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                     continue;

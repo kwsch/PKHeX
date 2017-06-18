@@ -79,8 +79,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 131, Level = 20, Location = 010, Version = GameVersion.GSC }, // Lapras @ Union Cave
             new EncounterStatic { Species = 133, Level = 20, Location = 016, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
             
-            new EncounterStatic { Species = 185, Level = 20, Location = 020,  Version = GameVersion.GSC }, // Sudowoodo @ Route 36
-            new EncounterStatic { Species = 213, Level = 15, Location = 033, Version = GameVersion.GSC }, // Shuckle @ Cianwood City
+            new EncounterStatic { Species = 185, Level = 20, Location = 020, Version = GameVersion.GSC }, // Sudowoodo @ Route 36
             new EncounterStatic { Species = 236, Level = 10, Location = 035, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
             
             new EncounterStatic { Species = 130, Level = 30, Location = 038, Version = GameVersion.GSC, Shiny = true, }, // Gyarados @ Lake of Rage
@@ -107,6 +106,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 137, Level = 15, Version = GameVersion.GS }, // Porygon @ Celadon Game Corner
             new EncounterStatic { Species = 133, Level = 15, Version = GameVersion.GS }, // Eevee @ Celadon Game Corner
             new EncounterStatic { Species = 122, Level = 15, Version = GameVersion.GS }, // Mr. Mime @ Celadon Game Corner
+            
+            new EncounterStatic { Species = 063, Level = 10, Version = GameVersion.GS }, // Abra @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 147, Level = 10, Version = GameVersion.GS }, // Dratini @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 023, Level = 10, Version = GameVersion.GS }, // Ekans @ Goldenrod City (Game Corner) (Gold)
+            new EncounterStatic { Species = 027, Level = 10, Version = GameVersion.GS }, // Sandshrew @ Goldenrod City (Game Corner) (Silver)
         };
 
         internal static readonly EncounterStatic[] Encounter_C_Exclusive = 
@@ -130,6 +134,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 137, Level = 15, Location = 071, Version = GameVersion.C }, // Porygon @ Celadon Game Corner
             new EncounterStatic { Species = 025, Level = 25, Location = 071, Version = GameVersion.C }, // Pikachu @ Celadon Game Corner
             new EncounterStatic { Species = 246, Level = 40, Location = 071, Version = GameVersion.C }, // Larvitar @ Celadon Game Corner
+
+            new EncounterStatic { Species = 063, Level = 05, Location = 016, Version = GameVersion.C }, // Abra @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 104, Level = 15, Location = 016, Version = GameVersion.C }, // Cubone @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 202, Level = 15, Location = 016, Version = GameVersion.C }, // Wobbuffet @ Goldenrod City (Game Corner)
         };
 
         internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();
@@ -148,6 +156,8 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 085, Generation = 2, Level = 30, Gender = 0, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [blue jp game corner]
             new EncounterTrade { Species = 178, Generation = 2, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
             new EncounterTrade { Species = 082, Generation = 2, Level = 16, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [wild]
+            
+            new EncounterTrade { Species = 213, Generation = 2, Level = 15, TID = 00518 } // Shuckle @ Cianwood City for free
         };
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
@@ -161,6 +171,8 @@ namespace PKHeX.Core
             new[] { "ミサコ", "EMY" },
             new[] { "デンジ", "CHRIS" },
             new[] { "モリオ", "FOREST" },
+
+            new[] { "セイジ", "MANIA" },
         };
         internal static readonly int[] UnreleasedItems_2 =
         {
