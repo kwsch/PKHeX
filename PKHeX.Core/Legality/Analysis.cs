@@ -114,7 +114,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
             UpdateTradebackG12();
 
             UpdateInfo();
@@ -134,7 +134,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
             UpdateInfo();
             UpdateTypeInfo();
@@ -152,7 +152,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
             UpdateInfo();
             UpdateTypeInfo();
@@ -164,7 +164,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
             UpdateInfo();
             UpdateTypeInfo();
@@ -174,7 +174,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
             UpdateInfo();
             UpdateTypeInfo();
@@ -184,7 +184,7 @@ namespace PKHeX.Core
         {
             pkm = pk;
             if (!pkm.IsOriginValid)
-            { AddLine(Severity.Invalid, V187, CheckIdentifier.None); return; }
+            { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
             UpdateInfo();
             UpdateTypeInfo();

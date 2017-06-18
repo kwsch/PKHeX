@@ -2,10 +2,10 @@
 {
     public class EncounterSlotPermissions
     {
-        public bool Static;
-        public bool MagnetPull;
-        public int StaticCount;
-        public int MagnetPullCount;
+        public bool Static { get; set; }
+        public bool MagnetPull { get; set; }
+        public int StaticCount { get; set; }
+        public int MagnetPullCount { get; set; }
         public bool AllowDexNav { get; set; }
         public bool Pressure { get; set; }
         public bool DexNav { get; set; }

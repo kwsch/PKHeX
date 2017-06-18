@@ -32,82 +32,73 @@ namespace PKHeX.Core
             }
             return r;
         }
-        private PersonalTable(byte[] data, GameVersion format)
+        private static PersonalInfo[] GetArray(byte[] data, GameVersion format, int size)
         {
-            int size = 0;
-            switch (format)
-            {
-                case GameVersion.RBY: size = PersonalInfoG1.SIZE; break;
-                case GameVersion.GS:
-                case GameVersion.C: size = PersonalInfoG2.SIZE; break;
-                case GameVersion.RS:
-                case GameVersion.E:
-                case GameVersion.FR:
-                case GameVersion.LG: size = PersonalInfoG3.SIZE; break;
-                case GameVersion.DP:
-                case GameVersion.Pt:
-                case GameVersion.HGSS: size = PersonalInfoG4.SIZE; break;
-                case GameVersion.BW: size = PersonalInfoBW.SIZE; break;
-                case GameVersion.B2W2: size = PersonalInfoB2W2.SIZE; break;
-                case GameVersion.XY: size = PersonalInfoXY.SIZE; break;
-                case GameVersion.ORAS: size = PersonalInfoORAS.SIZE; break;
-                case GameVersion.SM: size = PersonalInfoSM.SIZE; break;
-            }
-
-            if (size == 0)
-            { Table = null; return; }
-
             byte[][] entries = SplitBytes(data, size);
             PersonalInfo[] d = new PersonalInfo[data.Length / size];
 
             switch (format)
             {
                 case GameVersion.RBY:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG1(entries[i]);
-                    break;
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoG1(entries[i]);
+                    return d;
+                case GameVersion.GS: case GameVersion.C:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoG2(entries[i]);
+                    return d;
+                case GameVersion.RS: case GameVersion.E: case GameVersion.FR: case GameVersion.LG: 
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoG3(entries[i]);
+                    return d;
+                case GameVersion.DP: case GameVersion.Pt: case GameVersion.HGSS:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoG4(entries[i]);
+                    return d;
+                case GameVersion.BW:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoBW(entries[i]);
+                    return d;
+                case GameVersion.B2W2:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoB2W2(entries[i]);
+                    return d;
+                case GameVersion.XY:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoXY(entries[i]);
+                    return d;
+                case GameVersion.ORAS:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoORAS(entries[i]);
+                    return d;
+                case GameVersion.SM:
+                    for (int i = 0; i < d.Length; i++) d[i] = new PersonalInfoSM(entries[i]);
+                    return d;
+                default:
+                    return null;
+            }
+        }
+        private static int GetEntrySize(GameVersion format)
+        {
+            switch (format)
+            {
+                case GameVersion.RBY: return PersonalInfoG1.SIZE;
                 case GameVersion.GS:
-                case GameVersion.C:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG2(entries[i]);
-                    break;
+                case GameVersion.C: return PersonalInfoG2.SIZE;
                 case GameVersion.RS:
                 case GameVersion.E:
                 case GameVersion.FR:
-                case GameVersion.LG:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG3(entries[i]);
-                    break;
+                case GameVersion.LG: return PersonalInfoG3.SIZE;
                 case GameVersion.DP:
                 case GameVersion.Pt:
-                case GameVersion.HGSS:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoG4(entries[i]);
-                    break;
-                case GameVersion.BW:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoBW(entries[i]);
-                    break;
-                case GameVersion.B2W2:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoB2W2(entries[i]);
-                    break;
-                case GameVersion.XY:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoXY(entries[i]);
-                    break;
-                case GameVersion.ORAS:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoORAS(entries[i]);
-                    break;
-                case GameVersion.SM:
-                    for (int i = 0; i < d.Length; i++)
-                        d[i] = new PersonalInfoSM(entries[i]);
-                    break;
+                case GameVersion.HGSS: return PersonalInfoG4.SIZE;
+                case GameVersion.BW: return PersonalInfoBW.SIZE;
+                case GameVersion.B2W2: return PersonalInfoB2W2.SIZE;
+                case GameVersion.XY: return PersonalInfoXY.SIZE;
+                case GameVersion.ORAS: return PersonalInfoORAS.SIZE;
+                case GameVersion.SM: return PersonalInfoSM.SIZE;
+
+                default: return -1;
             }
-            Table = d;
         }
 
+        private PersonalTable(byte[] data, GameVersion format)
+        {
+            int size = GetEntrySize(format);
+            Table = GetArray(data, format, size);
+        }
         private readonly PersonalInfo[] Table;
         public PersonalInfo this[int index]
         {

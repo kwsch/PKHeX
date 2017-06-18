@@ -129,7 +129,7 @@ namespace PKHeX.Core
                 : pkm.EncryptionConstant == pkm.PID;
 
             if (!valid)
-                AddLine(Severity.Invalid, xorPID ? V215 : V216, CheckIdentifier.ECPID);
+                AddLine(Severity.Invalid, xorPID ? V215 : V216, CheckIdentifier.EC);
         }
         #region verifyNickname
         private void VerifyNickname()

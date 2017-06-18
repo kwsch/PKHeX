@@ -168,98 +168,108 @@ namespace PKHeX.Core
             if (Species == 0 || Species > MAX_SPECIES)
                 return "";
 
-            // Showdown Quirks
-            string form = Form;
-            if (!string.IsNullOrWhiteSpace(form))
-            {
-                switch (Species)
-                {
-                    case 658: // Greninja
-                        form = form.Replace("Ash", "");
-                        form = form.Replace("Active", "");
-                        break;
-                    case 718: // Zygarde
-                        form = form.Replace("-C", "");
-                        form = form.Replace("50%", "");
-                        form = form.Replace("100%", "Complete");
-                        break;
-                    case 774: // Minior
-                        if (form.StartsWith("M-"))
-                            form = "Meteor";
-                        form = form.Replace("C-", "");
-                        break;
-                }
-            }
-            else if (Species == 774) // Minior
-            {
-                form = "Meteor";
-            }
+            var result = new List<string>();
 
             // First Line: Name, Nickname, Gender, Item
+            string form = GetStringForm(Form);
+            result.Add(GetStringFirstLine(form));
+
+            // IVs
+            if (GetStringStats(out IEnumerable<string> ivstr, IVsSpeedLast, 31))
+                result.Add($"IVs: {string.Join(" / ", ivstr)}");
+
+            // EVs
+            if (GetStringStats(out IEnumerable<string> evstr, EVsSpeedLast, 0))
+                result.Add($"EVs: {string.Join(" / ", evstr)}");
+
+            // Secondary Stats
+            if (Ability > -1 && Ability < abilities.Length)
+                result.Add($"Ability: {abilities[Ability]}");
+            result.Add($"Level: {Level}");
+            if (Shiny)
+                result.Add("Shiny: Yes");
+
+            if (Nature > -1)
+                result.Add($"{natures[Nature]} Nature");
+
+            // Moves
+            result.AddRange(GetStringMoves());
+
+            return string.Join(Environment.NewLine, result);
+        }
+        private string GetStringForm(string form)
+        {
+            if (string.IsNullOrWhiteSpace(form))
+            {
+                if (Species == 774) // Minior
+                    form = "Meteor";
+                return form;
+            }
+
+            switch (Species)
+            {
+                case 658: // Greninja
+                    form = form.Replace("Ash", "");
+                    form = form.Replace("Active", "");
+                    break;
+                case 718: // Zygarde
+                    form = form.Replace("-C", "");
+                    form = form.Replace("50%", "");
+                    form = form.Replace("100%", "Complete");
+                    break;
+                case 774: // Minior
+                    if (form.StartsWith("M-"))
+                        form = "Meteor";
+                    form = form.Replace("C-", "");
+                    break;
+            }
+
+            return form;
+        }
+        private string GetStringFirstLine(string form)
+        {
             string specForm = species[Species];
             if (!string.IsNullOrWhiteSpace(form))
                 specForm += "-" + form.Replace("Mega ", "Mega-");
 
-            string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}"; 
+            string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}";
             if (!string.IsNullOrEmpty(Gender))
                 result += $" ({Gender})";
             if (HeldItem > 0 && HeldItem < items.Length)
                 result += " @ " + items[HeldItem];
-            result += Environment.NewLine;
-
-            // IVs
-            string[] ivstr = new string[6];
-            int ivctr = 0;
-            int[] sIVs = IVsSpeedLast; // Reorganize speed
-            for (int i = 0; i < 6; i++)
+            return result;
+        }
+        private static bool GetStringStats(out IEnumerable<string> result, int[] stats, int ignore)
+        {
+            var list = new List<string>();
+            for (int i = 0; i < stats.Length; i++)
             {
-                if (sIVs[i] == 31) continue;
-                ivstr[ivctr++] += $"{sIVs[i]} {StatNames[i]}";
+                if (stats[i] == ignore) continue; // ignore unused EVs
+                list.Add($"{stats[i]} {StatNames[i]}");
             }
-            if (ivctr > 0)
-                result += "IVs: " + string.Join(" / ", ivstr.Take(ivctr)) + Environment.NewLine;
-
-            // EVs
-            string[] evstr = new string[6];
-            int[] sEVs = EVsSpeedLast; // Reorganize speed
-            int evctr = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                if (sEVs[i] == 0) continue;
-                evstr[evctr++] += $"{sEVs[i]} {StatNames[i]}";
-            }
-            if (evctr > 0)
-                result += "EVs: " + string.Join(" / ", evstr.Take(evctr)) + Environment.NewLine;
-
-            // Secondary Stats
-            if (Ability > -1 && Ability < abilities.Length)
-                result += "Ability: " + abilities[Ability] + Environment.NewLine;
-            result += "Level: " + Level + Environment.NewLine;
-            if (Shiny)
-                result += "Shiny: Yes" + Environment.NewLine;
-
-            if (Nature > -1)
-                result += natures[Nature] + " Nature" + Environment.NewLine;
-            // Add in Moves
-            string[] MoveLines = new string[Moves.Length];
-            int movectr = 0;
+            result = list;
+            return list.Count > 0;
+        }
+        private IEnumerable<string> GetStringMoves()
+        {
+            var MoveLines = new List<string>();
             foreach (int move in Moves.Where(move => move != 0 && move < moves.Length))
             {
-                MoveLines[movectr] += "- " + moves[move];
+                var str = "- " + moves[move];
                 if (move == 237) // Hidden Power
                 {
                     int hp = 0;
                     for (int i = 0; i < 6; i++)
                         hp |= (IVs[i] & 1) << i;
-                    hp *= 0xF; hp /= 0x3F;
-                    MoveLines[movectr] += $" [{hptypes[hp]}]";
+                    hp *= 0xF;
+                    hp /= 0x3F;
+                    str += $" [{hptypes[hp]}]";
                 }
-                movectr++;
+                MoveLines.Add(str);
             }
-            result += string.Join(Environment.NewLine, MoveLines.Take(movectr));
-
-            return result;
+            return MoveLines;
         }
+
         public static string GetShowdownText(PKM pkm)
         {
             if (pkm.Species == 0) return "";
@@ -288,7 +298,6 @@ namespace PKHeX.Core
 
             return Set.GetText();
         }
-
         private void ParseFirstLine(string line)
         {
             // Gender Detection
@@ -365,9 +374,9 @@ namespace PKHeX.Core
                 InvalidLines.Add("Unknown EV input.");
             for (int i = 0; i < evlist.Length / 2; i++)
             {
-                ushort.TryParse(evlist[i * 2 + 0], out ushort EV);
+               bool valid =  ushort.TryParse(evlist[i * 2 + 0], out ushort EV);
                 int index = Array.IndexOf(StatNames, evlist[i * 2 + 1]);
-                if (index > -1)
+                if (valid && index > -1)
                     EVs[index] = EV;
                 else
                     InvalidLines.Add($"Unknown EV Type input: {evlist[i * 2]}");
@@ -380,9 +389,9 @@ namespace PKHeX.Core
                 InvalidLines.Add("Unknown IV input.");
             for (int i = 0; i < ivlist.Length / 2; i++)
             {
-                byte.TryParse(ivlist[i * 2 + 0], out byte IV);
+                bool valid = byte.TryParse(ivlist[i * 2 + 0], out byte IV);
                 int index = Array.IndexOf(StatNames, ivlist[i * 2 + 1]);
-                if (index > -1)
+                if (valid && index > -1)
                     IVs[index] = IV;
                 else
                     InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");

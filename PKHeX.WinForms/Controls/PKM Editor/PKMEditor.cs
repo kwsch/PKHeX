@@ -765,7 +765,7 @@ namespace PKHeX.WinForms.Controls
             CB_Move4.SelectedValue = m[3];
             return true;
         }
-        private bool SetSuggestedRelearnMoves()
+        private bool SetSuggestedRelearnMoves(bool silent = false)
         {
             int[] m = Legality.GetSuggestedRelearn();
             if (m.All(z => z == 0))
@@ -781,7 +781,7 @@ namespace PKHeX.WinForms.Controls
 
             string r = string.Join(Environment.NewLine,
                 m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]));
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
+            if (!silent && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
                 return false;
 
             CB_RelearnMove1.SelectedValue = m[0];
@@ -1980,6 +1980,9 @@ namespace PKHeX.WinForms.Controls
             if (Set.Shiny) UpdateShiny(true);
             pkm = PreparePKM();
             UpdateLegality();
+
+            if (Legality.info.Relearn.Any(z => !z.Valid))
+                SetSuggestedRelearnMoves(silent: true);
         }
         public void InitializeLanguage(SaveFile SAV)
         {

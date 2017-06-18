@@ -21,165 +21,29 @@ namespace PKHeX.WinForms
     {
         public Main()
         {
-            #region Initialize Form
             new Task(() => new SplashScreen().ShowDialog()).Start();
+            new Task(RefreshMGDB).Start();
             InitializeComponent();
-            C_SAV.PKME_Tabs = PKME_Tabs;
-            C_SAV.Menu_Redo = Menu_Redo;
-            C_SAV.Menu_Undo = Menu_Undo;
-            dragout.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
-            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
-            PKME_Tabs.EnableDragDrop(Main_DragEnter, Main_DragDrop);
-            C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
 
-            // Check for Updates
-            L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
-            new Task(() =>
-            {
-                string data = NetUtil.GetStringFromURL(VersionPath);
-                if (data == null)
-                    return;
-                try
-                {
-                    DateTime upd = GetDate(data);
-                    DateTime cur = GetDate(Resources.ProgramVersion);
+            FormLoadCheckForUpdates();
+            FormLoadAddEvents();
 
-                    if (upd <= cur)
-                        return;
-
-                    string message = $"New Update Available! {upd:d}";
-
-                    if (InvokeRequired)
-                        try { Invoke((MethodInvoker)ToggleUpdateMessage); }
-                        catch { ToggleUpdateMessage(); }
-                    else { ToggleUpdateMessage(); }
-
-                    DateTime GetDate(string str) => DateTime.ParseExact(str, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    void ToggleUpdateMessage() { L_UpdateAvailable.Visible = true; L_UpdateAvailable.Text = message; }
-                }
-                catch { }
-            }).Start();
-            
-            // Set up Language Selection
-            foreach (var cbItem in main_langlist)
-                CB_MainLanguage.Items.Add(cbItem);
-
-            // ToolTips for Drag&Drop
-            new ToolTip().SetToolTip(dragout, "PKM QuickSave");
-
-            Menu_Modify.DropDown.Closing += (sender, e) =>
-            {
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
-            Menu_Options.DropDown.Closing += (sender, e) =>
-            {
-                if (!Menu_Unicode.Selected)
-                    return;
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
-
-            // Box to Tabs D&D
-            dragout.AllowDrop = true;
-
-            // Add ContextMenus
-            var mnu = new ContextMenuPKM();
-            mnu.RequestEditorLegality += ClickLegality;
-            mnu.RequestEditorQR += ClickQR;
-            mnu.RequestEditorSaveAs += MainMenuSave;
-            dragout.ContextMenuStrip = mnu.mnuL;
-            C_SAV.menu.RequestEditorLegality += ShowLegality;
-
-            // Load Event Databases
-            RefreshMGDB();
-
-            #endregion
-            #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
-            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => x.Trim('-').ToLower() == "hax");
-            PB_Legal.Visible = !HaX;
-
-            bool showChangelog = false;
-            bool BAKprompt = false;
-            int languageID = 1; // English
-            try
-            {
-                ConfigUtil.CheckConfig();
-                LoadConfig(out BAKprompt, out showChangelog, out languageID); 
-            }
-            catch (ConfigurationErrorsException e)
-            {
-                // Delete the settings if they exist
-                var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
-                if (!string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
-                    DeleteConfig(settingsFilename);
-                else
-                    WinFormsUtil.Error("Unable to load settings.", e);
-            }
-            CB_MainLanguage.SelectedIndex = languageID;
-
-            PKME_Tabs.InitializeFields();
-            PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
-
-            #endregion
-            #region Load Initial File(s)
-            string pkmArg = null;
-            foreach (string arg in args.Skip(1)) // skip .exe
-            {
-                var fi = new FileInfo(arg);
-                if (!fi.Exists)
-                    continue;
-
-                if (PKX.IsPKM(fi.Length))
-                    pkmArg = arg;
-                else
-                    OpenQuick(arg, force: true);
-            }
-            if (!C_SAV.SAV.Exportable) // No SAV loaded from exe args
-            {
-                string path = null;
-                try
-                {
-                    string cgse = "";
-                    string pathCache = CyberGadgetUtil.GetCacheFolder();
-                    if (Directory.Exists(pathCache))
-                        cgse = Path.Combine(pathCache);
-                    if (!PathUtilWindows.DetectSaveFile(out path, cgse))
-                        WinFormsUtil.Error(path);
-                }
-                catch (Exception ex)
-                {
-                    ErrorWindow.ShowErrorDialog("An error occurred while attempting to auto-load your save file.", ex, true);
-                }
-                
-                if (path != null && File.Exists(path))
-                    OpenQuick(path, force: true);
-                else
-                {
-                    OpenSAV(C_SAV.SAV, null);
-                    C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
-                }
-            }
-            if (pkmArg != null)
-                OpenQuick(pkmArg, force: true);
-            else
-                GetPreview(dragout);
+            FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
+            FormLoadInitialFiles(args);
 
             IsInitialized = true; // Splash Screen closes on its own.
             BringToFront();
             WindowState = FormWindowState.Minimized;
             Show();
             WindowState = FormWindowState.Normal;
-            if (HaX) WinFormsUtil.Alert("Illegal mode activated.", "Please behave.");
-            
-            if (showChangelog)
+            if (HaX)
+                WinFormsUtil.Alert("Illegal mode activated.", "Please behave.");
+            else if (showChangelog)
                 new About().ShowDialog();
 
             if (BAKprompt && !Directory.Exists(BackupPath))
                 PromptBackup();
-
-            #endregion
         }
 
         #region Important Variables
@@ -229,8 +93,149 @@ namespace PKHeX.WinForms
         #endregion
 
         #region //// MAIN MENU FUNCTIONS ////
-        
-        private void LoadConfig(out bool BAKprompt, out bool showChangelog, out int languageID)
+        private void FormLoadInitialSettings(string[] args, out bool showChangelog, out bool BAKprompt)
+        {
+            showChangelog = false;
+            BAKprompt = false;
+
+            // Set up Language Selection
+            foreach (var cbItem in main_langlist)
+                CB_MainLanguage.Items.Add(cbItem);
+            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => x.Trim('-').ToLower() == "hax");
+            PB_Legal.Visible = !HaX;
+
+            int languageID = 1; // English
+            try
+            {
+                ConfigUtil.CheckConfig();
+                FormLoadConfig(out BAKprompt, out showChangelog, out languageID);
+            }
+            catch (ConfigurationErrorsException e)
+            {
+                // Delete the settings if they exist
+                var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
+                if (!string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
+                    DeleteConfig(settingsFilename);
+                else
+                    WinFormsUtil.Error("Unable to load settings.", e);
+            }
+            CB_MainLanguage.SelectedIndex = languageID;
+
+            PKME_Tabs.InitializeFields();
+            PKME_Tabs.TemplateFields(LoadTemplate(C_SAV.SAV));
+        }
+        private void FormLoadAddEvents()
+        {
+            C_SAV.PKME_Tabs = PKME_Tabs;
+            C_SAV.Menu_Redo = Menu_Redo;
+            C_SAV.Menu_Undo = Menu_Undo;
+            dragout.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            PKME_Tabs.EnableDragDrop(Main_DragEnter, Main_DragDrop);
+            C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
+
+            // ToolTips for Drag&Drop
+            new ToolTip().SetToolTip(dragout, "PKM QuickSave");
+
+            Menu_Modify.DropDown.Closing += (sender, e) =>
+            {
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
+            Menu_Options.DropDown.Closing += (sender, e) =>
+            {
+                if (!Menu_Unicode.Selected)
+                    return;
+                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                    e.Cancel = true;
+            };
+
+            // Box to Tabs D&D
+            dragout.AllowDrop = true;
+
+            // Add ContextMenus
+            var mnu = new ContextMenuPKM();
+            mnu.RequestEditorLegality += ClickLegality;
+            mnu.RequestEditorQR += ClickQR;
+            mnu.RequestEditorSaveAs += MainMenuSave;
+            dragout.ContextMenuStrip = mnu.mnuL;
+            C_SAV.menu.RequestEditorLegality += ShowLegality;
+        }
+        private void FormLoadInitialFiles(string[] args)
+        {
+            string pkmArg = null;
+            foreach (string arg in args.Skip(1)) // skip .exe
+            {
+                var fi = new FileInfo(arg);
+                if (!fi.Exists)
+                    continue;
+
+                if (PKX.IsPKM(fi.Length))
+                    pkmArg = arg;
+                else
+                    OpenQuick(arg, force: true);
+            }
+            if (!C_SAV.SAV.Exportable) // No SAV loaded from exe args
+            {
+                try
+                {
+                    if (!DetectSaveFile(out string path))
+                        WinFormsUtil.Error(path);
+
+                    if (path != null && File.Exists(path))
+                        OpenQuick(path, force: true);
+                    else
+                    {
+                        OpenSAV(C_SAV.SAV, null);
+                        C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ErrorWindow.ShowErrorDialog("An error occurred while attempting to auto-load your save file.", ex, true);
+                }
+            }
+            if (pkmArg != null)
+                OpenQuick(pkmArg, force: true);
+            else
+                GetPreview(dragout);
+        }
+        private void FormLoadCheckForUpdates()
+        {
+            L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
+            new Task(() =>
+            {
+                string data = NetUtil.GetStringFromURL(VersionPath);
+                if (data == null)
+                    return;
+                try
+                {
+                    DateTime upd = GetDate(data);
+                    DateTime cur = GetDate(Resources.ProgramVersion);
+
+                    if (upd <= cur)
+                        return;
+
+                    string message = $"New Update Available! {upd:d}";
+
+                    if (InvokeRequired)
+                        try { Invoke((MethodInvoker)ToggleUpdateMessage); }
+                        catch { ToggleUpdateMessage(); }
+                    else { ToggleUpdateMessage(); }
+
+                    DateTime GetDate(string str) => DateTime.ParseExact(str, "yyyyMMdd", CultureInfo.InvariantCulture,
+                        DateTimeStyles.None);
+
+                    void ToggleUpdateMessage()
+                    {
+                        L_UpdateAvailable.Visible = true;
+                        L_UpdateAvailable.Text = message;
+                    }
+                }
+                catch { }
+            }).Start();
+        }
+        private void FormLoadConfig(out bool BAKprompt, out bool showChangelog, out int languageID)
         {
             BAKprompt = false;
             showChangelog = false;
@@ -959,7 +964,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys == Keys.Alt)
                 ImportQRToTabs();
             else
-                ShowQRFromTabs();
+                ExportQRFromTabs();
         }
 
         private void ImportQRToTabs()
@@ -988,8 +993,7 @@ namespace PKHeX.WinForms
             }
             PKME_Tabs.PopulateFields(pkz);
         }
-
-        private void ShowQRFromTabs()
+        private void ExportQRFromTabs()
         {
             if (!PKME_Tabs.VerifiedPKM())
                 return;
@@ -1197,16 +1201,24 @@ namespace PKHeX.WinForms
         }
         private void ClickSaveFileName(object sender, EventArgs e)
         {
+            if (!DetectSaveFile(out string path))
+                return;
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
+                OpenQuick(path); // load save
+        }
+
+        private static bool DetectSaveFile(out string path)
+        {
             string cgse = "";
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.DetectSaveFile(out string path, cgse))
-                WinFormsUtil.Error(path);
-            if (path == null || !File.Exists(path)) return;
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Open save file from the following location?", path) == DialogResult.Yes)
-                OpenQuick(path); // load save
+            if (!PathUtilWindows.DetectSaveFile(out path, cgse))
+                return false;
+
+            return path != null && File.Exists(path);
         }
+
         private static void PromptBackup()
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
