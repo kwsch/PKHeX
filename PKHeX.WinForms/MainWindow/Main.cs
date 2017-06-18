@@ -98,6 +98,7 @@ namespace PKHeX.WinForms
             #region Localize & Populate Fields
             string[] args = Environment.GetCommandLineArgs();
             C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => x.Trim('-').ToLower() == "hax");
+            PB_Legal.Visible = !HaX;
 
             bool showChangelog = false;
             bool BAKprompt = false;
@@ -779,7 +780,7 @@ namespace PKHeX.WinForms
         private static string GetProgramTitle(SaveFile sav, string path)
         {
             string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"{sav.GetType().Name}: ";
-            if (!string.IsNullOrWhiteSpace(path)) // Blank save file
+            if (string.IsNullOrWhiteSpace(path)) // Blank save file
             {
                 sav.FilePath = null;
                 sav.FileName = "Blank Save File";
@@ -1075,7 +1076,7 @@ namespace PKHeX.WinForms
         private void PKME_Tabs_UpdatePreviewSprite(object sender, EventArgs e) => GetPreview(dragout);
         private void PKME_Tabs_LegalityChanged(object sender, EventArgs e)
         {
-            if (PKME_Tabs.IsLegal == null)
+            if (PKME_Tabs.IsLegal == null || HaX)
             {
                 PB_Legal.Visible = false;
                 return;
