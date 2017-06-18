@@ -36,6 +36,7 @@ namespace PKHeX.WinForms
             GetData();
             editing = false;
             LB_Species.SelectedIndex = 0;
+            CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         private readonly CheckBox[] CP;

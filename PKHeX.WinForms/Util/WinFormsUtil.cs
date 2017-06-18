@@ -182,6 +182,13 @@ namespace PKHeX.WinForms
             }
         }
         public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
+        public static IEnumerable<Control> GetAllControlsOfType(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>().ToList();
+            return controls.SelectMany(ctrl => GetAllControlsOfType(ctrl, type))
+                .Concat(controls)
+                .Where(c => c.GetType() == type);
+        }
         #endregion
 
         public static bool IsClickonceDeployed

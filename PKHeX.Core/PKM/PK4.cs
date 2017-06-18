@@ -167,6 +167,7 @@ namespace PKHeX.Core
         public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)(Data[0x40] & ~0x01 | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)(Data[0x40] & ~0x06 | (value << 1)); }
         public override int AltForm { get => Data[0x40] >> 3; set => Data[0x40] = (byte)(Data[0x40] & 0x07 | (value << 3)); }
+        public int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte) value; }
         // 0x43-0x47 Unused
         #endregion
 

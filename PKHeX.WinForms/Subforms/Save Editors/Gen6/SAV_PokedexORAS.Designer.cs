@@ -255,7 +255,6 @@
             this.CB_Species.TabIndex = 21;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeCBSpecies);
             this.CB_Species.SelectedValueChanged += new System.EventHandler(this.ChangeCBSpecies);
-            this.CB_Species.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             // 
             // B_GiveAll
             // 

@@ -53,6 +53,7 @@ namespace PKHeX.WinForms
             Dex = new PokeDex7(SAV);
             editing = false;
             LB_Species.SelectedIndex = 0;
+            CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         private readonly PokeDex7 Dex;

@@ -36,6 +36,7 @@ namespace PKHeX.WinForms
             editing = false;
             LB_Species.SelectedIndex = 0;
             TB_Spinda.Text = BitConverter.ToUInt32(SAV.Data, SAV.Spinda).ToString("X8");
+            CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         private readonly CheckBox[] CP;

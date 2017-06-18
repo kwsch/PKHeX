@@ -128,6 +128,8 @@ namespace PKHeX.WinForms.Controls
                 else
                     CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             }
+
+            ShinyLeaf.Value = ((PK4)pk4).ShinyLeaf;
         }
         private PKM PreparePK4()
         {
@@ -233,6 +235,8 @@ namespace PKHeX.WinForms.Controls
                 pk4.Ability = (byte)WinFormsUtil.GetIndex(DEV_Ability);
                 pk4.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
+
+            ((PK4)pk4).ShinyLeaf = ShinyLeaf.Value;
 
             // Fix Moves if a slot is empty 
             pk4.FixMoves();

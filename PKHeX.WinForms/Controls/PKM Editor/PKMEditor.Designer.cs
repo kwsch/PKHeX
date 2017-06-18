@@ -110,6 +110,9 @@
             this.L_HeartGauge = new System.Windows.Forms.Label();
             this.NUD_Purification = new System.Windows.Forms.NumericUpDown();
             this.CHK_Shadow = new System.Windows.Forms.CheckBox();
+            this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_ShinyLeaf = new System.Windows.Forms.Label();
+            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -317,6 +320,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ShadowID)).BeginInit();
             this.FLP_Purification.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).BeginInit();
+            this.FLP_ShinyLeaf.SuspendLayout();
             this.Tab_Met.SuspendLayout();
             this.GB_EggConditions.SuspendLayout();
             this.FLP_Met.SuspendLayout();
@@ -387,16 +391,17 @@
             // tabMain
             // 
             this.tabMain.AllowDrop = true;
+            this.tabMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tabMain.Controls.Add(this.Tab_Main);
             this.tabMain.Controls.Add(this.Tab_Met);
             this.tabMain.Controls.Add(this.Tab_Stats);
             this.tabMain.Controls.Add(this.Tab_Attacks);
             this.tabMain.Controls.Add(this.Tab_OTMisc);
-            this.tabMain.Dock = System.Windows.Forms.DockStyle.Left;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(280, 420);
+            this.tabMain.Size = new System.Drawing.Size(280, 488);
             this.tabMain.TabIndex = 1;
             // 
             // Tab_Main
@@ -406,13 +411,15 @@
             this.Tab_Main.Location = new System.Drawing.Point(4, 22);
             this.Tab_Main.Name = "Tab_Main";
             this.Tab_Main.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Main.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Main.Size = new System.Drawing.Size(272, 462);
             this.Tab_Main.TabIndex = 0;
             this.Tab_Main.Text = "Main";
             this.Tab_Main.UseVisualStyleBackColor = true;
             // 
             // FLP_Main
             // 
+            this.FLP_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.FLP_Main.Controls.Add(this.FLP_PID);
             this.FLP_Main.Controls.Add(this.FLP_Species);
             this.FLP_Main.Controls.Add(this.FLP_Nickname);
@@ -430,9 +437,10 @@
             this.FLP_Main.Controls.Add(this.FLP_NSparkle);
             this.FLP_Main.Controls.Add(this.FLP_ShadowID);
             this.FLP_Main.Controls.Add(this.FLP_Purification);
+            this.FLP_Main.Controls.Add(this.FLP_ShinyLeaf);
             this.FLP_Main.Location = new System.Drawing.Point(0, 2);
             this.FLP_Main.Name = "FLP_Main";
-            this.FLP_Main.Size = new System.Drawing.Size(272, 391);
+            this.FLP_Main.Size = new System.Drawing.Size(272, 459);
             this.FLP_Main.TabIndex = 103;
             // 
             // FLP_PID
@@ -585,7 +593,6 @@
             this.CB_Species.TabIndex = 3;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Species.SelectedValueChanged += new System.EventHandler(this.UpdateSpecies);
-            this.CB_Species.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Species.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_Nickname
@@ -751,7 +758,6 @@
             this.CB_Nature.Size = new System.Drawing.Size(126, 21);
             this.CB_Nature.TabIndex = 9;
             this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
-            this.CB_Nature.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Nature.MouseHover += new System.EventHandler(this.UpdateNatureModification);
             this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -788,7 +794,6 @@
             this.CB_HeldItem.Size = new System.Drawing.Size(126, 21);
             this.CB_HeldItem.TabIndex = 10;
             this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
-            this.CB_HeldItem.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_FriendshipForm
@@ -944,7 +949,6 @@
             this.CB_Ability.Size = new System.Drawing.Size(126, 21);
             this.CB_Ability.TabIndex = 13;
             this.CB_Ability.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
-            this.CB_Ability.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Ability.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // DEV_Ability
@@ -1198,7 +1202,6 @@
             this.CB_Country.Size = new System.Drawing.Size(126, 21);
             this.CB_Country.TabIndex = 21;
             this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
-            this.CB_Country.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_SubRegion
@@ -1233,7 +1236,6 @@
             this.CB_SubRegion.Name = "CB_SubRegion";
             this.CB_SubRegion.Size = new System.Drawing.Size(126, 21);
             this.CB_SubRegion.TabIndex = 22;
-            this.CB_SubRegion.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_3DSRegion
@@ -1384,6 +1386,37 @@
             this.CHK_Shadow.UseVisualStyleBackColor = true;
             this.CHK_Shadow.CheckedChanged += new System.EventHandler(this.UpdateShadowCHK);
             // 
+            // FLP_ShinyLeaf
+            // 
+            this.FLP_ShinyLeaf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_ShinyLeaf.Controls.Add(this.L_ShinyLeaf);
+            this.FLP_ShinyLeaf.Controls.Add(this.ShinyLeaf);
+            this.FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 359);
+            this.FLP_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_ShinyLeaf.Name = "FLP_ShinyLeaf";
+            this.FLP_ShinyLeaf.Size = new System.Drawing.Size(272, 56);
+            this.FLP_ShinyLeaf.TabIndex = 115;
+            // 
+            // L_ShinyLeaf
+            // 
+            this.L_ShinyLeaf.Location = new System.Drawing.Point(0, 0);
+            this.L_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.L_ShinyLeaf.Name = "L_ShinyLeaf";
+            this.L_ShinyLeaf.Size = new System.Drawing.Size(110, 56);
+            this.L_ShinyLeaf.TabIndex = 9;
+            this.L_ShinyLeaf.Text = "Shiny Leaf:";
+            this.L_ShinyLeaf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_ShinyLeaf.Click += new System.EventHandler(this.ClickShinyLeaf);
+            // 
+            // ShinyLeaf
+            // 
+            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
+            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.ShinyLeaf.Name = "ShinyLeaf";
+            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.TabIndex = 116;
+            this.ShinyLeaf.Value = 0;
+            // 
             // Tab_Met
             // 
             this.Tab_Met.AllowDrop = true;
@@ -1393,7 +1426,7 @@
             this.Tab_Met.Location = new System.Drawing.Point(4, 22);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Met.Size = new System.Drawing.Size(272, 462);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -1434,7 +1467,6 @@
             this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
             this.CB_EggLocation.TabIndex = 10;
             this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
-            this.CB_EggLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // CAL_EggDate
@@ -1548,7 +1580,6 @@
             this.CB_MetLocation.Size = new System.Drawing.Size(126, 21);
             this.CB_MetLocation.TabIndex = 2;
             this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
-            this.CB_MetLocation.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_Ball
@@ -1573,6 +1604,7 @@
             this.FLP_BallLeft.Name = "FLP_BallLeft";
             this.FLP_BallLeft.Size = new System.Drawing.Size(110, 21);
             this.FLP_BallLeft.TabIndex = 4;
+            this.FLP_BallLeft.Click += new System.EventHandler(this.ClickBall);
             // 
             // Label_Ball
             // 
@@ -1586,6 +1618,7 @@
             this.Label_Ball.TabIndex = 2;
             this.Label_Ball.Text = "Ball:";
             this.Label_Ball.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_Ball.Click += new System.EventHandler(this.ClickBall);
             // 
             // PB_Ball
             // 
@@ -1595,6 +1628,7 @@
             this.PB_Ball.Size = new System.Drawing.Size(20, 20);
             this.PB_Ball.TabIndex = 3;
             this.PB_Ball.TabStop = false;
+            this.PB_Ball.Click += new System.EventHandler(this.ClickBall);
             // 
             // CB_Ball
             // 
@@ -1608,7 +1642,6 @@
             this.CB_Ball.TabIndex = 3;
             this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.UpdateBall);
-            this.CB_Ball.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Ball.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_MetLevel
@@ -1779,7 +1812,6 @@
             this.CB_MetTimeOfDay.TabIndex = 11;
             this.CB_MetTimeOfDay.Visible = false;
             this.CB_MetTimeOfDay.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
-            this.CB_MetTimeOfDay.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_MetTimeOfDay.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // Tab_Stats
@@ -1792,7 +1824,7 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Stats.Size = new System.Drawing.Size(272, 462);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
@@ -2671,7 +2703,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(272, 394);
+            this.Tab_Attacks.Size = new System.Drawing.Size(272, 462);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -2783,7 +2815,6 @@
             this.CB_RelearnMove4.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove4.TabIndex = 16;
             this.CB_RelearnMove4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_RelearnMove4.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_RelearnMove4.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_RelearnMove4.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -2797,7 +2828,6 @@
             this.CB_RelearnMove3.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove3.TabIndex = 15;
             this.CB_RelearnMove3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_RelearnMove3.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_RelearnMove3.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_RelearnMove3.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -2811,7 +2841,6 @@
             this.CB_RelearnMove2.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove2.TabIndex = 14;
             this.CB_RelearnMove2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_RelearnMove2.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_RelearnMove2.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_RelearnMove2.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -2825,7 +2854,6 @@
             this.CB_RelearnMove1.Size = new System.Drawing.Size(124, 21);
             this.CB_RelearnMove1.TabIndex = 13;
             this.CB_RelearnMove1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_RelearnMove1.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_RelearnMove1.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_RelearnMove1.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -2968,7 +2996,6 @@
             this.CB_Move4.TabIndex = 10;
             this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_Move4.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Move4.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Move4.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -2999,7 +3026,6 @@
             this.CB_Move3.TabIndex = 7;
             this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_Move3.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Move3.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Move3.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -3015,7 +3041,6 @@
             this.CB_Move2.TabIndex = 4;
             this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_Move2.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Move2.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Move2.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -3031,7 +3056,6 @@
             this.CB_Move1.TabIndex = 1;
             this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
-            this.CB_Move1.KeyDown += new System.Windows.Forms.KeyEventHandler(WinFormsUtil.RemoveDropCB);
             this.CB_Move1.Leave += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Move1.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -3049,7 +3073,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 394);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 462);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -3485,7 +3509,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.tabMain);
             this.Name = "PKMEditor";
-            this.Size = new System.Drawing.Size(280, 420);
+            this.Size = new System.Drawing.Size(280, 488);
             this.tabMain.ResumeLayout(false);
             this.Tab_Main.ResumeLayout(false);
             this.FLP_Main.ResumeLayout(false);
@@ -3530,6 +3554,7 @@
             this.FLP_Purification.ResumeLayout(false);
             this.FLP_Purification.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Purification)).EndInit();
+            this.FLP_ShinyLeaf.ResumeLayout(false);
             this.Tab_Met.ResumeLayout(false);
             this.Tab_Met.PerformLayout();
             this.GB_EggConditions.ResumeLayout(false);
@@ -3875,5 +3900,8 @@
         private System.Windows.Forms.Label Label_SID;
         private System.Windows.Forms.Label Label_TID;
         private System.Windows.Forms.Label Label_EncryptionConstant;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ShinyLeaf;
+        private System.Windows.Forms.Label L_ShinyLeaf;
+        private Controls.ShinyLeaf ShinyLeaf;
     }
 }

@@ -77,5 +77,35 @@ namespace PKHeX.WinForms
 
             return bmp;
         }
+        public static Bitmap ToGrayscale(Image img)
+        {
+            if (img == null)
+                return null;
+            if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
+                return (Bitmap)img;
+
+            Bitmap bmp = (Bitmap)img.Clone();
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            IntPtr ptr = bmpData.Scan0;
+
+            int len = bmp.Width * bmp.Height * 4;
+            byte[] data = new byte[len];
+
+            Marshal.Copy(ptr, data, 0, len);
+
+            for (int i = 0; i < data.Length; i += 4)
+                if (data[i + 3] != 0)
+                {
+                    byte greyS = (byte)((0.3 * data[i + 2] + 0.59 * data[i + 1] + 0.11 * data[i + 0]) / 3);
+                    data[i + 0] = greyS;
+                    data[i + 1] = greyS;
+                    data[i + 2] = greyS;
+                }
+
+            Marshal.Copy(data, 0, ptr, len);
+            bmp.UnlockBits(bmpData);
+
+            return bmp;
+        }
     }
 }

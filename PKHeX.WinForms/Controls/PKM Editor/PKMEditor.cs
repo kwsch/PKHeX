@@ -28,7 +28,8 @@ namespace PKHeX.WinForms.Controls
 
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
-            Label_Ball.Click += (s, e) => CB_Ball.SelectedIndex = 0;
+            foreach (var c in WinFormsUtil.GetAllControlsOfType(this, typeof(ComboBox)))
+                c.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         public PKM pkm;
@@ -637,6 +638,8 @@ namespace PKHeX.WinForms.Controls
                 lbl.ForeColor = GetGenderColor(gender);
             }
         }
+        private void ClickBall(object sender, EventArgs e) => CB_Ball.SelectedIndex = 0;
+        private void ClickShinyLeaf(object sender, EventArgs e) => ShinyLeaf.CheckAll(ModifierKeys != Keys.Control);
         private void ClickMetLocation(object sender, EventArgs e)
         {
             if (HaX)
@@ -1746,6 +1749,7 @@ namespace PKHeX.WinForms.Controls
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = pkm.Format == 5;
 
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = pkm.Format >= 4;
+            FLP_ShinyLeaf.Visible = L_ShinyLeaf.Visible = ShinyLeaf.Visible = pkm.Format == 4;
 
             DEV_Ability.Enabled = DEV_Ability.Visible = pkm.Format > 3 && HaX;
             CB_Ability.Visible = !DEV_Ability.Enabled && pkm.Format >= 3;

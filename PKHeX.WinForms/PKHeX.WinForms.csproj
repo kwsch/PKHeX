@@ -165,6 +165,12 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PKM Editor\ShinyLeaf.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ShinyLeaf.Designer.cs">
+      <DependentUpon>ShinyLeaf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SAV Editor\BoxEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -529,6 +535,9 @@
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\PKM Editor\ShinyLeaf.resx">
+      <DependentUpon>ShinyLeaf.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SAV Editor\BoxEditor.resx">
       <DependentUpon>BoxEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -708,6 +717,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\misc\leaf.png" />
+    <None Include="Resources\img\misc\crown.png" />
     <EmbeddedResource Include="Resources\byte\fashion_f_sm" />
     <EmbeddedResource Include="Resources\byte\fashion_f_sm_illegal" />
     <EmbeddedResource Include="Resources\byte\fashion_m_sm" />
