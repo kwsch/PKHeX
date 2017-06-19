@@ -1831,7 +1831,7 @@ namespace PKHeX.Core
                     return null;
             }
         }
-
+        internal static int GetEggHatchLevel(PKM pkm) => pkm.Format <= 3 ? 5 : 1;
         internal static int[] GetSplitBreedGeneration(PKM pkm)
         {
             return GetSplitBreedGeneration(pkm.GenNumber);

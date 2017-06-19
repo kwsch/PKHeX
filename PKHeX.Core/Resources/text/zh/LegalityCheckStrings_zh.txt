@@ -348,3 +348,4 @@ V414 = Eggs cannot have Shiny Leaf/Crown.
 V415 = Eggs cannot have Pokéathlon stats.
 V416 = Mystery Gift cannot be received by this version.
 V417 = Suspicious Original Trainer details.
+V418 = Individual EV without changing EXP cannot be greater than {0}.

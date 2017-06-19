@@ -343,9 +343,16 @@ namespace PKHeX.Core
                 if (evs.Any(ev => ev > 100)) // EVs can only be increased by vitamins to a max of 100.
                     AddLine(Severity.Invalid, V367, CheckIdentifier.EVs);
             }
+            else if (pkm.Format < 6)
+            {
+                var maxEV = pkm.Format <= 2 ? 25600 : 100; // Vitamin Max
+                // Cannot EV train above 100 without increasing EXP
+                if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
+                    AddLine(Severity.Invalid, string.Format(V418, maxEV), CheckIdentifier.EVs);
+            }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
-            if (sum == 0 && pkm.CurrentLevel - Math.Max(1, pkm.Met_Level) > 0)
+            if (sum == 0 && pkm.CurrentLevel != EncounterMatch.LevelMin)
                 AddLine(Severity.Fishy, V23, CheckIdentifier.EVs);
             else if (sum == 508)
                 AddLine(Severity.Fishy, V24, CheckIdentifier.EVs);
@@ -600,31 +607,33 @@ namespace PKHeX.Core
         #endregion
         private void VerifyLevel()
         {
-            MysteryGift MatchedGift = EncounterMatch as MysteryGift;
-            if (MatchedGift != null && MatchedGift.Level != pkm.Met_Level)
+            if (EncounterMatch is MysteryGift gift)
             {
-                if (pkm.HasOriginalMetLocation && (!(MatchedGift is WC7) || ((WC7) MatchedGift).MetLevel != pkm.Met_Level))
+                if (gift.Level != pkm.Met_Level)
+                if (pkm.HasOriginalMetLocation && (!(gift is WC7 wc7) || wc7.MetLevel != pkm.Met_Level))
                 {
                     AddLine(new CheckResult(Severity.Invalid, V83, CheckIdentifier.Level));
                     return;
                 }
+                if (gift.Level > pkm.CurrentLevel)
+                {
+                    AddLine(new CheckResult(Severity.Invalid, V84, CheckIdentifier.Level));
+                    return;
+                }
             }
-            if (MatchedGift != null && MatchedGift.Level > pkm.CurrentLevel)
+
+            if (pkm.IsEgg)
             {
-                AddLine(new CheckResult(Severity.Invalid, V84, CheckIdentifier.Level));
+                int elvl = Legal.GetEggHatchLevel(pkm);
+                if (elvl != pkm.CurrentLevel)
+                    AddLine(Severity.Invalid, string.Format(V52, elvl), CheckIdentifier.Level);
                 return;
             }
 
             int lvl = pkm.CurrentLevel;
-            if (pkm.IsEgg)
-            {
-                int elvl = pkm.Format <= 3 ? 5 : 1;
-                if (elvl != lvl)
-                    AddLine(Severity.Invalid, string.Format(V52, elvl), CheckIdentifier.Level);
-            }
-            else if (lvl < pkm.Met_Level)
+            if (lvl < pkm.Met_Level)
                 AddLine(Severity.Invalid, V85, CheckIdentifier.Level);
-            else if (lvl > pkm.Met_Level && lvl > 1 && lvl != 100 && pkm.EXP == PKX.GetEXP(pkm.Stat_Level, pkm.Species))
+            else if (EncounterMatch.LevelMin != lvl && lvl != 100 && pkm.EXP == PKX.GetEXP(lvl, pkm.Species))
                 AddLine(Severity.Fishy, V87, CheckIdentifier.Level);
             else
                 AddLine(Severity.Valid, V88, CheckIdentifier.Level);

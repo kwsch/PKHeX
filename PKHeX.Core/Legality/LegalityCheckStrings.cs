@@ -411,6 +411,7 @@ namespace PKHeX.Core
         public static string V415 {get; set;} = "Eggs cannot have Pokéathlon stats."; // Invalid
         public static string V416 {get; set;} = "Mystery Gift cannot be received by this version."; // Invalid
         public static string V417 {get; set;} = "Suspicious Original Trainer details.";
+        public static string V418 {get; set;} = "Individual EV without changing EXP cannot be greater than {0}.";
         #endregion
 
     }
