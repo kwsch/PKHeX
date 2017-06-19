@@ -11,11 +11,11 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class BoxEditor : UserControl
     {
-        public readonly List<PictureBox> SlotPictureBoxes;
-        public readonly int BoxSlotCount;
-        public SlotChangeManager M;
         private SaveFile SAV => M?.SE.SAV;
-        public bool FlagIllegal;
+        public List<PictureBox> SlotPictureBoxes { get; }
+        public int BoxSlotCount { get; }
+        public SlotChangeManager M { get; set; }
+        public bool FlagIllegal { get; set; }
 
         public BoxEditor()
         {

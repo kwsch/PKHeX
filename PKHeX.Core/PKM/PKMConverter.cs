@@ -6,12 +6,12 @@ namespace PKHeX.Core
 {
     public static class PKMConverter
     {
-        public static int Country = 49;
-        public static int Region = 7;
-        public static int ConsoleRegion = 1;
-        public static string OT_Name = "PKHeX";
-        public static int OT_Gender; // Male
-        public static int Language = 1; // en
+        public static int Country { get; private set; } = 49;
+        public static int Region { get; private set; } = 7;
+        public static int ConsoleRegion { get; private set; } = 1;
+        public static string OT_Name { get; private set; } = "PKHeX";
+        public static int OT_Gender { get; private set; } // Male
+        public static int Language { get; private set; } = 1; // en
 
         public static void UpdateConfig(int SUBREGION, int COUNTRY, int _3DSREGION, string TRAINERNAME, int TRAINERGENDER, int LANGUAGE)
         {

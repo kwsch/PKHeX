@@ -33,6 +33,7 @@ namespace PKHeX.WinForms
             FormLoadInitialFiles(args);
 
             IsInitialized = true; // Splash Screen closes on its own.
+            PKME_Tabs_UpdatePreviewSprite(null, null);
             BringToFront();
             WindowState = FormWindowState.Minimized;
             Show();
@@ -52,8 +53,7 @@ namespace PKHeX.WinForms
             get => GameInfo.CurrentLanguage;
             private set => GameInfo.CurrentLanguage = value;
         }
-        public static string[] GenderSymbols { get; private set; } = {"♂", "♀", "-"};
-        private static bool _unicode;
+        private static bool _unicode { get; set; }
         public static bool Unicode
         {
             get => _unicode;
@@ -64,9 +64,10 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static bool HaX;
-        public static bool IsInitialized;
-        private static readonly string[] main_langlist =
+        public static string[] GenderSymbols { get; private set; } = { "♂", "♀", "-" };
+        public static bool HaX { get; private set; }
+        public static bool IsInitialized { get; private set; }
+        private readonly string[] main_langlist =
             {
                 "日本語", // JPN
                 "English", // ENG
@@ -101,7 +102,7 @@ namespace PKHeX.WinForms
             // Set up Language Selection
             foreach (var cbItem in main_langlist)
                 CB_MainLanguage.Items.Add(cbItem);
-            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => x.Trim('-').ToLower() == "hax");
+            C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase));
             PB_Legal.Visible = !HaX;
 
             int languageID = 1; // English
@@ -404,25 +405,33 @@ namespace PKHeX.WinForms
             if (Set.Species < 0)
             { WinFormsUtil.Alert("Set data not found in clipboard."); return; }
 
-            if (Set.Nickname != null && Set.Nickname.Length > C_SAV.SAV.NickLength)
+            if (Set.Nickname?.Length > C_SAV.SAV.NickLength)
                 Set.Nickname = Set.Nickname.Substring(0, C_SAV.SAV.NickLength);
 
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Import this set?", Set.Text)) 
-            { return; }
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Import this set?", Set.Text))
+                return;
 
             if (Set.InvalidLines.Any())
                 WinFormsUtil.Alert("Invalid lines detected:", string.Join(Environment.NewLine, Set.InvalidLines));
 
             // Set Species & Nickname
-            PKME_Tabs.LoadShowdownSet(Set, C_SAV.SAV);
+            PKME_Tabs.LoadShowdownSet(Set);
         }
         private void ClickShowdownExportPKM(object sender, EventArgs e)
         {
             if (!PKME_Tabs.VerifiedPKM())
-            { WinFormsUtil.Alert("Fix data before exporting."); return; }
+            {
+                WinFormsUtil.Alert("Fix data before exporting.");
+                return;
+            }
 
-            Clipboard.SetText(PreparePKM().ShowdownText);
-            WinFormsUtil.Alert("Exported Showdown Set to Clipboard:", Clipboard.GetText());
+            var text = PreparePKM().ShowdownText;
+            Clipboard.SetText(text);
+            var clip = Clipboard.GetText();
+            if (clip != text)
+                WinFormsUtil.Alert("Unable to set to Clipboard.", "Try exporting again.");
+            else
+                WinFormsUtil.Alert("Exported Showdown Set to Clipboard:", text);
         }
         private void ClickShowdownExportParty(object sender, EventArgs e)
         {
@@ -570,7 +579,7 @@ namespace PKHeX.WinForms
             if (temp == null)
                 return false;
 
-            var type = PKME_Tabs.pkm.GetType();
+            var type = PKME_Tabs.CurrentPKM.GetType();
             PKM pk = PKMConverter.ConvertToType(temp, type, out string c);
             if (pk == null)
             {
@@ -757,25 +766,23 @@ namespace PKHeX.WinForms
         private void ResetSAVPKMEditors(SaveFile sav)
         {
             bool WindowToggleRequired = C_SAV.SAV.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
-            bool WindowTranslationRequired = false;
             PKM pk = PreparePKM();
-            PKME_Tabs.pkm = sav.BlankPKM;
+            var blank = sav.BlankPKM;
+            PKME_Tabs.CurrentPKM = blank;
             PKME_Tabs.SetPKMFormatMode(sav.Generation);
-            PKME_Tabs.PopulateFields(PKME_Tabs.pkm);
+            PKME_Tabs.PopulateFields(blank);
             C_SAV.SAV = sav;
 
-            // Initialize Subviews
-            PKME_Tabs.ToggleInterface();
-            bool init = PKME_Tabs.fieldsInitialized;
-            PKME_Tabs.fieldsInitialized = PKME_Tabs.fieldsLoaded = false;
-            WindowTranslationRequired |= PKME_Tabs.FinalizeInterface(init, sav, pk);
-            WindowTranslationRequired |= C_SAV.ToggleInterface();
-            C_SAV.FinalizeInterface();
-
-            // Finalize Overall Info
+            // Initialize Overall Info
             Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = C_SAV.SAV.HasBox;
+
+            // Initialize Subviews
+            bool WindowTranslationRequired = false;
+            WindowTranslationRequired |= PKME_Tabs.ToggleInterface(sav, pk);
+            WindowTranslationRequired |= C_SAV.ToggleInterface();
             if (WindowTranslationRequired) // force update -- re-added controls may be untranslated
                 WinFormsUtil.TranslateInterface(this, CurrentLanguage);
+
             if (WindowToggleRequired) // Version combobox selectedvalue needs a little help, only updates once it is visible
                 PKME_Tabs.FlickerInterface();
 
@@ -923,20 +930,16 @@ namespace PKHeX.WinForms
             Thread.CurrentThread.CurrentCulture = new CultureInfo(CurrentLanguage.Substring(0, 2));
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
-            PKM pk = C_SAV.SAV.GetPKM((PKME_Tabs.fieldsInitialized ? PreparePKM() : PKME_Tabs.pkm).Data);
-            bool alreadyInit = PKME_Tabs.fieldsInitialized;
-            PKME_Tabs.fieldsInitialized = false;
             Menu_Options.DropDown.Close();
+
+            PKM pk = C_SAV.SAV.GetPKM(PKME_Tabs.CurrentPKM.Data);
             InitializeStrings();
-            PKME_Tabs.InitializeLanguage(C_SAV.SAV);
+            PKME_Tabs.ChangeLanguage(C_SAV.SAV, pk);
             string ProgramTitle = Text;
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
             Text = ProgramTitle;
-            PKME_Tabs.CenterSubEditors();
-            PKME_Tabs.PopulateFields(pk); // put data back in form
-            PKME_Tabs.fieldsInitialized |= alreadyInit;            
         }
-        private void InitializeStrings()
+        private static void InitializeStrings()
         {            
             string l = CurrentLanguage;
             GameInfo.Strings = GameInfo.GetStrings(l);
@@ -945,15 +948,9 @@ namespace PKHeX.WinForms
             // Clipboard.SetText(string.Join(Environment.NewLine, Util.GetLocalization(typeof(LegalityCheckStrings))));
             Task.Run(() => Util.SetLocalization(typeof(LegalityCheckStrings), Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2)));
 
-            // Force an update to the met locations
-            PKME_Tabs.origintrack = GameVersion.Unknown;
-
             // Update Legality Analysis strings
             LegalityAnalysis.MoveStrings = GameInfo.Strings.movelist;
             LegalityAnalysis.SpeciesStrings = GameInfo.Strings.specieslist;
-
-            if (PKME_Tabs.fieldsInitialized)
-                PKME_Tabs.UpdateStringDisplay();
         }
         #endregion
 
@@ -1068,7 +1065,8 @@ namespace PKHeX.WinForms
         }
         private void GetPreview(PictureBox pb, PKM pk = null)
         {
-            if (!PKME_Tabs.fieldsInitialized) return;
+            if (!IsInitialized)
+                return;
             pk = pk ?? PreparePKM(false); // don't perform control loss click
 
             if (pb == dragout) dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
@@ -1080,14 +1078,14 @@ namespace PKHeX.WinForms
         private void PKME_Tabs_UpdatePreviewSprite(object sender, EventArgs e) => GetPreview(dragout);
         private void PKME_Tabs_LegalityChanged(object sender, EventArgs e)
         {
-            if (PKME_Tabs.IsLegal == null || HaX)
+            if (sender == null || HaX)
             {
                 PB_Legal.Visible = false;
                 return;
             }
 
             PB_Legal.Visible = true;
-            PB_Legal.Image = PKME_Tabs.IsLegal == false ? Resources.warn : Resources.valid;
+            PB_Legal.Image = sender as bool? == false ? Resources.warn : Resources.valid;
         }
         private void PKME_Tabs_RequestShowdownExport(object sender, EventArgs e) => ClickShowdownExportPKM(sender, e);
         private void PKME_Tabs_RequestShowdownImport(object sender, EventArgs e) => ClickShowdownImportPKM(sender, e);

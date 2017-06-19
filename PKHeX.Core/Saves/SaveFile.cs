@@ -6,8 +6,8 @@ namespace PKHeX.Core
     // Base Class for Save Files
     public abstract class SaveFile
     {
-        public static bool SetUpdateDex = true;
-        public static bool SetUpdatePKM = true;
+        public static bool SetUpdateDex { protected get; set; } = true;
+        public static bool SetUpdatePKM { protected get; set; } = true;
 
         // General Object Properties
         public byte[] Data;

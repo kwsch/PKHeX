@@ -8,27 +8,43 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        /// <summary>Event Database for a given Generation</summary>
-        public static MysteryGift[] MGDB_G3, MGDB_G4, MGDB_G5, MGDB_G6, MGDB_G7 = new MysteryGift[0];
+        /// <summary>Event Database for Generation 3</summary>
+        public static MysteryGift[] MGDB_G3 { get; private set; } = new MysteryGift[0];
+
+        /// <summary>Event Database for Generation 4</summary>
+        public static MysteryGift[] MGDB_G4 { get; private set; } = new MysteryGift[0];
+
+        /// <summary>Event Database for Generation 5</summary>
+        public static MysteryGift[] MGDB_G5 { get; private set; } = new MysteryGift[0];
+
+        /// <summary>Event Database for Generation 6</summary>
+        public static MysteryGift[] MGDB_G6 { get; private set; } = new MysteryGift[0];
+
+        /// <summary>Event Database for Generation 7</summary>
+        public static MysteryGift[] MGDB_G7 { get; private set; } = new MysteryGift[0];
 
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
-        public static bool AllowGBCartEra = false;
-        public static bool AllowGen1Tradeback = false;
+        public static bool AllowGBCartEra { get; set; }
+        public static bool AllowGen1Tradeback { get; set; }
         public static bool AllowGen2VCTransfer => AllowGen1Tradeback;
-        public static bool AllowGen2VCCrystal = false;
+        public static bool AllowGen2VCCrystal => false;
         public static bool AllowGen2Crystal => AllowGBCartEra || AllowGen2VCCrystal;
         public static bool AllowGen2MoveReminder => AllowGBCartEra;
 
-        /// <summary>Setting to specify if the e-berry index item is an eningma berry or a e-reader berry and the name of the e-reader berry</summary>
-        public static bool EReaderBerryIsEnigma = true;
-        public static string EReaderBerryName = string.Empty;
+        /// <summary> e-Reader Berry originates from a Japanese SaveFile </summary>
+        public static bool SavegameJapanese { get; set; }
+        /// <summary> e-Reader Berry is Enigma or special berry </summary>
+        public static bool EReaderBerryIsEnigma { get; set; } = true;
+        /// <summary> e-Reader Berry Name </summary>
+        public static string EReaderBerryName { get; set; } = string.Empty;
+        /// <summary> e-Reader Berry Name formatted in Title Case </summary>
         public static string EReaderBerryDisplayName => string.Format(V372, Util.ToTitleCase(EReaderBerryName.ToLower()));
-        public static bool SavegameJapanese = false;
-        public static string Savegame_OT = string.Empty;
-        public static int Savegame_TID = 0;
-        public static int Savegame_SID = 0;
-        public static int Savegame_Gender = 0;
-        public static GameVersion Savegame_Version = GameVersion.Any;
+
+        public static string Savegame_OT { private get; set; } = string.Empty;
+        public static int Savegame_TID { private get; set; }
+        public static int Savegame_SID { private get; set; }
+        public static int Savegame_Gender { private get; set; }
+        public static GameVersion Savegame_Version { private get; set; } = GameVersion.Any;
 
         // Gen 1
         private static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);

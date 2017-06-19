@@ -84,7 +84,7 @@ namespace PKHeX.WinForms.Controls
                 m.SetPKM(pk, info, true, Resources.slotSet);
             }
 
-            editor.lastData = pk.Data;
+            editor.LastData = pk.Data;
             m.SE.RedoStack.Clear(); m.SE.Menu_Redo.Enabled = false;
         }
         private static void ClickDelete(object sender, EventArgs e)

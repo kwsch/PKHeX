@@ -296,7 +296,7 @@ namespace PKHeX.Core
             else if (Set.Species == 676) Set.Form = ""; // Furfrou
             else if (Set.Species == 666 && Set.Form == "Poké Ball") Set.Form = "Pokeball"; // Vivillon
 
-            return Set.GetText();
+            return Set.Text;
         }
         private void ParseFirstLine(string line)
         {

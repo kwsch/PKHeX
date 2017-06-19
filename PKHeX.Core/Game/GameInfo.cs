@@ -273,7 +273,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        public static GameStrings Strings;
+        public static GameStrings Strings { get; set; }
 
         // DataSource providing
         public static List<ComboItem> ItemDataSource { get; private set; }

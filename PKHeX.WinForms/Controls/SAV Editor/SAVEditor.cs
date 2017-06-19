@@ -863,9 +863,26 @@ namespace PKHeX.WinForms.Controls
 
         public bool ToggleInterface()
         {
-            bool WindowTranslationRequired = false;
             FieldsLoaded = false;
 
+            ToggleViewReset();
+            ToggleViewSubEditors(SAV);
+
+            int BoxTab = tabBoxMulti.TabPages.IndexOf(Tab_Box);
+            int PartyTab = tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle);
+
+            bool WindowTranslationRequired = false;
+            WindowTranslationRequired |= ToggleViewBox(SAV);
+            WindowTranslationRequired |= ToggleViewParty(SAV, BoxTab);
+            WindowTranslationRequired |= ToggleViewDaycare(SAV, BoxTab, PartyTab);
+
+            ToggleViewMisc(SAV);
+
+            FieldsLoaded = true;
+            return WindowTranslationRequired;
+        }
+        private void ToggleViewReset()
+        {
             // Close subforms that are save dependent
             foreach (var z in M.Boxes.Skip(1).ToArray())
                 z.FindForm()?.Close();
@@ -875,133 +892,145 @@ namespace PKHeX.WinForms.Controls
             Box.M = M;
             Box.ResetBoxNames();   // Display the Box Names
             M.SetColor(-1, -1, null);
-            if (SAV.HasBox)
+        }
+        private bool ToggleViewBox(SaveFile sav)
+        {
+            if (!sav.HasBox)
             {
-                int startBox = !SAV.Exportable ? 0 : SAV.CurrentBox; // FF if BattleBox
-                if (startBox > SAV.BoxCount - 1) { tabBoxMulti.SelectedIndex = 1; Box.CurrentBox = 0; }
-                else { tabBoxMulti.SelectedIndex = 0; Box.CurrentBox = startBox; }
+                if (tabBoxMulti.TabPages.Contains(Tab_Box))
+                    tabBoxMulti.TabPages.Remove(Tab_Box);
+                B_SaveBoxBin.Enabled = false;
+                return false;
             }
+
+            B_SaveBoxBin.Enabled = true;
+            int startBox = !sav.Exportable ? 0 : sav.CurrentBox; // FF if BattleBox
+            if (startBox > sav.BoxCount - 1) { tabBoxMulti.SelectedIndex = 1; Box.CurrentBox = 0; }
+            else { tabBoxMulti.SelectedIndex = 0; Box.CurrentBox = startBox; }
             SetPKMBoxes();   // Reload all of the PKX Windows
 
-            // Hide content if not present in game.
-            GB_SUBE.Visible = SAV.HasSUBE;
-            PB_Locked.Visible = SAV.HasBattleBox && SAV.BattleBoxLocked;
-
-            if (!SAV.HasBox && tabBoxMulti.TabPages.Contains(Tab_Box))
-                tabBoxMulti.TabPages.Remove(Tab_Box);
-            else if (SAV.HasBox && !tabBoxMulti.TabPages.Contains(Tab_Box))
+            if (tabBoxMulti.TabPages.Contains(Tab_Box))
+                return false;
+            tabBoxMulti.TabPages.Insert(0, Tab_Box);
+            return true;
+        }
+        private bool ToggleViewParty(SaveFile sav, int BoxTab)
+        {
+            if (!sav.HasParty)
             {
-                tabBoxMulti.TabPages.Insert(0, Tab_Box);
-                WindowTranslationRequired = true;
-            }
-            B_SaveBoxBin.Enabled = SAV.HasBox;
-
-            int BoxTab = tabBoxMulti.TabPages.IndexOf(Tab_Box);
-            int PartyTab = tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle);
-
-            if (!SAV.HasParty && tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
-                tabBoxMulti.TabPages.Remove(Tab_PartyBattle);
-            else if (SAV.HasParty && !tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
-            {
-                int index = BoxTab;
-                if (index < 0)
-                    index = -1;
-                tabBoxMulti.TabPages.Insert(index + 1, Tab_PartyBattle);
-                WindowTranslationRequired = true;
+                if (tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
+                    tabBoxMulti.TabPages.Remove(Tab_PartyBattle);
+                return false;
             }
 
-            if (!SAV.HasDaycare && tabBoxMulti.TabPages.Contains(Tab_Other))
-                tabBoxMulti.TabPages.Remove(Tab_Other);
-            else if (SAV.HasDaycare && !tabBoxMulti.TabPages.Contains(Tab_Other))
+            PB_Locked.Visible = sav.HasBattleBox && sav.BattleBoxLocked;
+            if (tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
+                return false;
+
+            int index = BoxTab;
+            if (index < 0)
+                index = -1;
+            tabBoxMulti.TabPages.Insert(index + 1, Tab_PartyBattle);
+            return true;
+        }
+        private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
+        {
+
+            if (!sav.HasDaycare)
             {
-                int index = PartyTab;
-                if (index < 0)
-                    index = BoxTab;
-                if (index < 0)
-                    index = -1;
-                tabBoxMulti.TabPages.Insert(index + 1, Tab_Other);
-                WindowTranslationRequired = true;
+                if (tabBoxMulti.TabPages.Contains(Tab_Other))
+                    tabBoxMulti.TabPages.Remove(Tab_Other);
+                return false;
             }
 
-            if (SAV.Exportable) // Actual save file
+            SlotPictureBoxes[43].Visible = sav.Generation >= 2; // Second daycare slot
+            if (tabBoxMulti.TabPages.Contains(Tab_Other))
+                return false;
+
+            int index = PartyTab;
+            if (index < 0)
+                index = BoxTab;
+            if (index < 0)
+                index = -1;
+            tabBoxMulti.TabPages.Insert(index + 1, Tab_Other);
+            return true;
+        }
+        private void ToggleViewSubEditors(SaveFile sav)
+        {
+            if (sav.Exportable) // Actual save file
             {
-                PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = SAV.HasBattleBox;
-                GB_Daycare.Visible = SAV.HasDaycare;
-                GB_Fused.Visible = SAV.HasFused;
-                GB_GTS.Visible = SAV.HasGTS;
-                B_OpenSecretBase.Enabled = SAV.HasSecretBase;
-                B_OpenPokepuffs.Enabled = SAV.HasPuff;
-                B_OpenPokeBeans.Enabled = SAV.Generation == 7;
-                B_OpenZygardeCells.Enabled = SAV.Generation == 7;
-                B_OUTPasserby.Enabled = SAV.HasPSS;
-                B_OpenBoxLayout.Enabled = SAV.HasBoxWallpapers;
-                B_OpenWondercards.Enabled = SAV.HasWondercards;
-                B_OpenSuperTraining.Enabled = SAV.HasSuperTrain;
-                B_OpenHallofFame.Enabled = SAV.HasHoF;
-                B_OpenOPowers.Enabled = SAV.HasOPower;
-                B_OpenPokedex.Enabled = SAV.HasPokeDex;
-                B_OpenBerryField.Enabled = SAV.HasBerryField && SAV.XY;
-                B_OpenFriendSafari.Enabled = SAV.XY;
-                B_OpenPokeblocks.Enabled = SAV.HasPokeBlock;
-                B_JPEG.Visible = SAV.HasJPEG;
-                B_OpenEventFlags.Enabled = SAV.HasEvents;
-                B_OpenLinkInfo.Enabled = SAV.HasLink;
-                B_CGearSkin.Enabled = SAV.Generation == 5;
+                PAN_BattleBox.Visible = L_BattleBox.Visible = L_ReadOnlyPBB.Visible = sav.HasBattleBox;
+                GB_Daycare.Visible = sav.HasDaycare;
+                GB_Fused.Visible = sav.HasFused;
+                GB_GTS.Visible = sav.HasGTS;
+                B_OpenSecretBase.Enabled = sav.HasSecretBase;
+                B_OpenPokepuffs.Enabled = sav.HasPuff;
+                B_OpenPokeBeans.Enabled = sav.Generation == 7;
+                B_OpenZygardeCells.Enabled = sav.Generation == 7;
+                B_OUTPasserby.Enabled = sav.HasPSS;
+                B_OpenBoxLayout.Enabled = sav.HasBoxWallpapers;
+                B_OpenWondercards.Enabled = sav.HasWondercards;
+                B_OpenSuperTraining.Enabled = sav.HasSuperTrain;
+                B_OpenHallofFame.Enabled = sav.HasHoF;
+                B_OpenOPowers.Enabled = sav.HasOPower;
+                B_OpenPokedex.Enabled = sav.HasPokeDex;
+                B_OpenBerryField.Enabled = sav.HasBerryField && sav.XY;
+                B_OpenFriendSafari.Enabled = sav.XY;
+                B_OpenPokeblocks.Enabled = sav.HasPokeBlock;
+                B_JPEG.Visible = sav.HasJPEG;
+                B_OpenEventFlags.Enabled = sav.HasEvents;
+                B_OpenLinkInfo.Enabled = sav.HasLink;
+                B_CGearSkin.Enabled = sav.Generation == 5;
 
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = SAV.HasParty; // Box RS
-                B_OpenMiscEditor.Enabled = SAV is SAV3 || SAV is SAV4 || SAV is SAV5;
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty; // Box RS
+                B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
 
-                B_OpenHoneyTreeEditor.Enabled = SAV.DP || SAV.Pt;
-                B_OpenRTCEditor.Enabled = SAV.RS || SAV.E;
+                B_OpenHoneyTreeEditor.Enabled = sav.DP || sav.Pt;
+                B_OpenRTCEditor.Enabled = sav.RS || sav.E;
             }
-            GB_SAVtools.Visible = SAV.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
+            GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
                 c.Visible = c.Enabled;
-            B_VerifyCHK.Enabled = SAV.Exportable;
-
-            // Second daycare slot
-            SlotPictureBoxes[43].Visible = SAV.Generation >= 2;
-
-            return WindowTranslationRequired;
         }
-        public void FinalizeInterface()
+        private void ToggleViewMisc(SaveFile sav)
         {
             // Generational Interface
-            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = SAV.Exportable && SAV.Generation >= 6;
-            TB_GameSync.Visible = L_GameSync.Visible = SAV.Exportable && SAV.Generation >= 6;
+            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = sav.Exportable && sav.Generation >= 6;
+            TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && sav.Generation >= 6;
+            GB_SUBE.Visible = SAV.HasSUBE;
+            B_VerifyCHK.Enabled = SAV.Exportable;
 
-            if (SAV.Version == GameVersion.BATREV)
+            if (sav.Version == GameVersion.BATREV)
             {
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = true;
                 CB_SaveSlot.DisplayMember = "Text"; CB_SaveSlot.ValueMember = "Value";
-                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR)SAV).SaveSlots.Select(i => new ComboItem
+                CB_SaveSlot.DataSource = new BindingSource(((SAV4BR)sav).SaveSlots.Select(i => new ComboItem
                 {
-                    Text = ((SAV4BR)SAV).SaveNames[i],
+                    Text = ((SAV4BR)sav).SaveNames[i],
                     Value = i
                 }).ToList(), null);
-                CB_SaveSlot.SelectedValue = ((SAV4BR)SAV).CurrentSlot;
+                CB_SaveSlot.SelectedValue = ((SAV4BR)sav).CurrentSlot;
             }
             else
                 L_SaveSlot.Visible = CB_SaveSlot.Visible = false;
 
-            switch (SAV.Generation)
+            switch (sav.Generation)
             {
                 case 6:
-                    TB_GameSync.Enabled = SAV.GameSyncID != null;
-                    TB_GameSync.MaxLength = SAV.GameSyncIDSize;
-                    TB_GameSync.Text = (SAV.GameSyncID ?? 0.ToString()).PadLeft(SAV.GameSyncIDSize, '0');
-                    TB_Secure1.Text = SAV.Secure1?.ToString("X16");
-                    TB_Secure2.Text = SAV.Secure2?.ToString("X16");
+                    TB_GameSync.Enabled = sav.GameSyncID != null;
+                    TB_GameSync.MaxLength = sav.GameSyncIDSize;
+                    TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
+                    TB_Secure1.Text = sav.Secure1?.ToString("X16");
+                    TB_Secure2.Text = sav.Secure2?.ToString("X16");
                     break;
                 case 7:
-                    TB_GameSync.Enabled = SAV.GameSyncID != null;
-                    TB_GameSync.MaxLength = SAV.GameSyncIDSize;
-                    TB_GameSync.Text = (SAV.GameSyncID ?? 0.ToString()).PadLeft(SAV.GameSyncIDSize, '0');
-                    TB_Secure1.Text = SAV.Secure1?.ToString("X16");
-                    TB_Secure2.Text = SAV.Secure2?.ToString("X16");
+                    TB_GameSync.Enabled = sav.GameSyncID != null;
+                    TB_GameSync.MaxLength = sav.GameSyncIDSize;
+                    TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
+                    TB_Secure1.Text = sav.Secure1?.ToString("X16");
+                    TB_Secure2.Text = sav.Secure2?.ToString("X16");
                     break;
             }
-            FieldsLoaded = true;
         }
 
         // DragDrop
