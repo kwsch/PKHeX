@@ -723,80 +723,138 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
+            // Check Unobtainable Ribbons
+            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
             List<string> missingRibbons = new List<string>();
             List<string> invalidRibbons = new List<string>();
-            
-            // Check Event Ribbons
-            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
-            var set1 = pkm as IRibbonSet1;
-            var set2 = pkm as IRibbonSet2;
-            if (set1 != null)
-                VerifyRibbonSet1(set1, encounterContent, missingRibbons, invalidRibbons);
-            if (set2 != null)
-                VerifyRibbonSet2(set2, encounterContent, missingRibbons, invalidRibbons);
 
-            // Check Unobtainable Ribbons
             if (pkm.IsEgg)
             {
-                var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-                if (set1 != null)
-                    RibbonNames = RibbonNames.Except(RibbonSetHelper.GetRibbonNames(set1));
-                if (set2 != null)
-                    RibbonNames = RibbonNames.Except(RibbonSetHelper.GetRibbonNames(set2));
-
-                foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
-                {
-                    if (RibbonValue as bool? == true) // Boolean
-                    { AddLine(Severity.Invalid, V95, CheckIdentifier.Ribbon); return; }
-                    if ((RibbonValue as int?) > 0) // Count
-                    { AddLine(Severity.Invalid, V95, CheckIdentifier.Ribbon); return; }
-                }
+                VerifyRibbonsEgg(encounterContent);
                 return;
             }
 
-            // Unobtainable ribbons for Gen Origin
-            if (pkm.GenNumber > 3)
-            {
-                if (ReflectUtil.GetBooleanState(pkm, nameof(PK3.RibbonChampionG3Hoenn)) == true)
-                    invalidRibbons.Add(V96); // RSE HoF
-                if (ReflectUtil.GetBooleanState(pkm, nameof(PK3.RibbonArtist)) == true)
-                    invalidRibbons.Add(V97); // RSE Master Rank Portrait
-            }
-            if (pkm.Format >= 4 && pkm.GenNumber > 4)
-            {
-                if (ReflectUtil.GetBooleanState(pkm, nameof(PK4.RibbonChampionSinnoh)) == true)
-                    invalidRibbons.Add(V99); // DPPt HoF
-                if (ReflectUtil.GetBooleanState(pkm, nameof(PK4.RibbonLegend)) == true)
-                    invalidRibbons.Add(V100); // HGSS Defeat Red @ Mt.Silver
-            }
-            if (pkm.Format >= 6 && pkm.GenNumber >= 6)
-            {
-                if (ReflectUtil.GetBooleanState(pkm, nameof(PK6.RibbonCountMemoryContest)) == true)
-                    invalidRibbons.Add(V106); // Gen3/4 Contest
-                if (ReflectUtil.GetBooleanState(pkm, nameof(PK6.RibbonCountMemoryBattle)) == true)
-                    invalidRibbons.Add(V105); // Gen3/4 Battle
-            }
-            if (ReflectUtil.GetBooleanState(pkm, nameof(PK6.RibbonRecord)) == true)
-                invalidRibbons.Add(V104); // Unobtainable
+            VerifyRibbonSet1(pkm as IRibbonSetEvent3, encounterContent, missingRibbons, invalidRibbons);
+            VerifyRibbonSet2(pkm as IRibbonSetEvent4, encounterContent, missingRibbons, invalidRibbons);
+            invalidRibbons.AddRange(GetRibbonResults(pkm));
             
-            if (missingRibbons.Count + invalidRibbons.Count == 0)
+            var result = GetRibbonMessage(missingRibbons, invalidRibbons);
+            if (result.Count == 0)
             {
-                AddLine(Severity.Valid, V103, CheckIdentifier.Ribbon);
+                AddLine(Severity.Valid, V602, CheckIdentifier.Ribbon);
                 return;
             }
-
-            string[] result = new string[2];
-            if (missingRibbons.Count > 0)
-                result[0] = string.Format(V101, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", ""))));
-            if (invalidRibbons.Count > 0)
-                result[1] = string.Format(V102, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", ""))));
             AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
         }
-        private void VerifyRibbonSet1(IRibbonSet1 set1, object encounterContent, List<string> missingRibbons, List<string> invalidRibbons)
+
+        private static List<string> GetRibbonMessage(IReadOnlyCollection<string> missingRibbons, IReadOnlyCollection<string> invalidRibbons)
         {
-            var names = RibbonSetHelper.GetRibbonNames(set1);
-            var sb = RibbonSetHelper.GetRibbonBits(set1);
-            var eb = RibbonSetHelper.GetRibbonBits(encounterContent as IRibbonSet1);
+            var result = new List<string>();
+            if (missingRibbons.Count > 0)
+                result.Add(string.Format(V601, string.Join(", ", missingRibbons.Select(z => z.Replace("Ribbon", "")))));
+            if (invalidRibbons.Count > 0)
+                result.Add(string.Format(V600, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
+            return result;
+        }
+
+        private static IEnumerable<string> GetRibbonResults(PKM pkm)
+        {
+            int gen = pkm.GenNumber;
+
+            if (pkm is IRibbonSetOnly3 o3)
+            {
+                
+            }
+            if (pkm is IRibbonSetUnique3 u3)
+            {
+                
+            }
+            if (pkm is IRibbonSetUnique4 u5)
+            {
+
+            }
+            if (pkm is IRibbonSetCommon3 s3)
+            {
+                if (gen != 3)
+                {
+                    if (s3.RibbonChampionG3Hoenn && gen != 3)
+                        yield return V610; // RSE HoF
+                    if (s3.RibbonArtist && gen != 3)
+                        yield return V611; // RSE Master Rank Portrait
+                }
+            }
+            if (pkm is IRibbonSetCommon4 s4)
+            {
+                if (s4.RibbonRecord)
+                    yield return V614; // Unobtainable
+
+                if (gen != 3 && gen != 4)
+                {
+                    if (s4.RibbonChampionSinnoh)
+                        yield return V612; // DPPt HoF
+                    if (s4.RibbonLegend)
+                        yield return V613; // HGSS Defeat Red @ Mt.Silver
+                }
+            }
+            if (pkm is IRibbonSetCommon6 s6)
+            {
+                int contest = 0;
+                int battle = 0;
+                switch (gen)
+                {
+                    case 3:
+                        contest = 40;
+                        battle = 8;
+                        break;
+                    case 4:
+                        contest = 20;
+                        battle = 8;
+                        break;
+                }
+                if (s6.RibbonCountMemoryContest > contest)
+                    yield return V616;
+                if (s6.RibbonCountMemoryBattle > battle)
+                    yield return V615;
+
+                bool inhabited6 = 3 <= gen && gen <= 6;
+                if (!inhabited6 && s6.RibbonChampionKalos)
+                    yield return V615;
+
+            }
+            if (pkm is IRibbonSetCommon7 s7)
+            {
+
+            }
+        }
+        private void VerifyRibbonsEgg(object encounter)
+        {
+            var event3 = encounter as IRibbonSetEvent3;
+            var event4 = encounter as IRibbonSetEvent4;
+            var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
+            if (event3 != null)
+                RibbonNames = RibbonNames.Except(event3.RibbonNames());
+            if (event4 != null)
+                RibbonNames = RibbonNames.Except(event4.RibbonNames());
+
+            foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
+            {
+                if (!HasFlag(RibbonValue) && !HasCount(RibbonValue))
+                    continue;
+
+                AddLine(Severity.Invalid, V603, CheckIdentifier.Ribbon);
+                return;
+
+                bool HasFlag(object o) => o is bool z && z;
+                bool HasCount(object o) => o is int z && z > 0;
+            }
+        }
+        private void VerifyRibbonSet1(IRibbonSetEvent3 set1, object encounterContent, List<string> missingRibbons, List<string> invalidRibbons)
+        {
+            if (set1 == null)
+                return;
+            var names = set1.RibbonNames();
+            var sb = set1.RibbonBits();
+            var eb = (encounterContent as IRibbonSetEvent3).RibbonBits();
 
             if (pkm.Gen3)
             {
@@ -813,11 +871,13 @@ namespace PKHeX.Core
                 if (sb[i] != eb[i])
                     (eb[i] ? missingRibbons : invalidRibbons).Add(names[i]);
         }
-        private void VerifyRibbonSet2(IRibbonSet2 set2, object encounterContent, List<string> missingRibbons, List<string> invalidRibbons)
+        private void VerifyRibbonSet2(IRibbonSetEvent4 set2, object encounterContent, List<string> missingRibbons, List<string> invalidRibbons)
         {
-            var names = RibbonSetHelper.GetRibbonNames(set2);
-            var sb = RibbonSetHelper.GetRibbonBits(set2);
-            var eb = RibbonSetHelper.GetRibbonBits(encounterContent as IRibbonSet2);
+            if (set2 == null)
+                return;
+            var names = set2.RibbonNames();
+            var sb = set2.RibbonBits();
+            var eb = (encounterContent as IRibbonSetEvent4).RibbonBits();
 
             if (EncounterMatch is EncounterLink)
                 eb[0] = true; // require Classic Ribbon
