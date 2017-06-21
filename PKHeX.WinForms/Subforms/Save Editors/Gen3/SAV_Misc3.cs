@@ -147,7 +147,10 @@ namespace PKHeX.WinForms
                 if (string.IsNullOrEmpty(itemlist[i]))
                     itemlist[i] = $"(Item #{i:000})";
 
-            int[] tickets = {0x109, 0x113, 0x172, 0x173, 0x178}; // item IDs
+            const int oldsea = 0x178;
+            int[] tickets = {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
+            if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Add {itemlist[oldsea]}?"))
+                tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
             var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
             if (p == null)
