@@ -469,7 +469,7 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
             }
 
-            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || !info.Game.Contains(GameVersion.C)))
+            if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || !Info.Game.Contains(GameVersion.C)))
                 AddLine(Severity.Invalid, V408, CheckIdentifier.Trainer);
         }
         #endregion
@@ -892,7 +892,7 @@ namespace PKHeX.Core
         private void VerifyCXD()
         {
             if (EncounterMatch is EncounterStatic)
-                VerifyCXDStarterCorrelation(info.PIDIV);
+                VerifyCXDStarterCorrelation(Info.PIDIV);
             else if (pkm.WasEgg) // can't obtain eggs in CXD
                 AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); // invalid encounter
 
@@ -1008,7 +1008,7 @@ namespace PKHeX.Core
                 return false;
 
             // gen3Species will be zero for pokemon with illegal gen 3 encounters, like Infernape with gen 3 "origin"
-            var gen3Species = info.EvoChainsAllGens[3].FirstOrDefault()?.Species ?? 0;
+            var gen3Species = Info.EvoChainsAllGens[3].FirstOrDefault()?.Species ?? 0;
             if (gen3Species == 0)
                 return true;
 
@@ -1021,12 +1021,12 @@ namespace PKHeX.Core
             if (abilities_g3.Length == 2) // Excluding Colosseum/XD, a gen3 pkm must match PID if it has 2 unique abilities
                 return pkm.Version != (int)GameVersion.CXD;
 
-            int Species_g4 = info.EvoChainsAllGens[4].FirstOrDefault()?.Species ?? 0;
-            int Species_g5 = pkm.Format == 5 ? info.EvoChainsAllGens[5].FirstOrDefault()?.Species ?? 0 : 0;
+            int Species_g4 = Info.EvoChainsAllGens[4].FirstOrDefault()?.Species ?? 0;
+            int Species_g5 = pkm.Format == 5 ? Info.EvoChainsAllGens[5].FirstOrDefault()?.Species ?? 0 : 0;
             if (Math.Max(Species_g5, Species_g4) > Species_g3) // it has evolved in either gen 4 or gen 5; the ability must match PID
                 return false;
 
-            var Evolutions_g45 = Math.Max(info.EvoChainsAllGens[4].Length, pkm.Format == 5 ? info.EvoChainsAllGens[5].Length : 0);
+            var Evolutions_g45 = Math.Max(Info.EvoChainsAllGens[4].Length, pkm.Format == 5 ? Info.EvoChainsAllGens[5].Length : 0);
             if (Evolutions_g45 > 1)
             {
                 // Evolutions_g45 > 1 and Species_g45 = Species_g3 with means both options, evolve in gen 4-5 or not evolve, are possible
@@ -1651,7 +1651,7 @@ namespace PKHeX.Core
 
             if (Type == typeof(EncounterTrade))
             {
-                switch (info.Generation)
+                switch (Info.Generation)
                 {
                     case 6:
                         break; // Undocumented, uncommon, and insignificant -- don't bother.
@@ -1885,7 +1885,7 @@ namespace PKHeX.Core
                         int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                         bool noSword = index < 0;
                         if (pkm.AltForm == 0 ^ noSword) // mismatch
-                            info.Moves[noSword ? 0 : index] = new CheckMoveResult(info.Moves[noSword ? 0 : index], Severity.Invalid, V169, CheckIdentifier.Move);
+                            Info.Moves[noSword ? 0 : index] = new CheckMoveResult(Info.Moves[noSword ? 0 : index], Severity.Invalid, V169, CheckIdentifier.Move);
                         break;
                     }
                 case 649: // Genesect
@@ -2045,7 +2045,7 @@ namespace PKHeX.Core
                     if (pkm.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate ||
                          Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && catch_rate == PersonalTable.RB[pkm.Species].CatchRate)
                     { AddLine(Severity.Invalid, V396, CheckIdentifier.Misc); }
-                    else if (!info.EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
+                    else if (!Info.EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
                     { AddLine(Severity.Invalid, pkm.Gen1_NotTradeback? V397: V399, CheckIdentifier.Misc); }
                     else
                     { AddLine(Severity.Valid, V398, CheckIdentifier.Misc); }
@@ -2110,8 +2110,8 @@ namespace PKHeX.Core
         {
             if (g is PGF p && p.IsShiny)
             {
-                info.PIDIV = MethodFinder.Analyze(pkm);
-                if (info.PIDIV.Type != PIDType.G5MGShiny)
+                Info.PIDIV = MethodFinder.Analyze(pkm);
+                if (Info.PIDIV.Type != PIDType.G5MGShiny)
                     AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
             }
 

@@ -245,11 +245,11 @@ namespace PKHeX.WinForms.Controls
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.info?.Moves[i].Valid ?? false;
+                movePB[i].Visible = !Legality.Info?.Moves[i].Valid ?? false;
 
             if (pkm.Format >= 6)
                 for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.info?.Relearn[i].Valid ?? false;
+                    relearnPB[i].Visible = !Legality.Info?.Relearn[i].Valid ?? false;
 
             if (skipMoveRepop)
                 return;
@@ -1729,64 +1729,74 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         public bool ToggleInterface(SaveFile sav, PKM pk)
         {
+            if (pk.GetType() != sav.PKMType || pkm.Format < 3)
+                pk = sav.BlankPKM;
+            pkm = pk;
+
+            ToggleInterface(pkm.Format);
+            ToggleInterface(pkm.GetType());
+
+            return FinalizeInterface(sav);
+        }
+        private void ToggleInterface(Type t)
+        {
+            FLP_Purification.Visible = FLP_ShadowID.Visible = t == typeof(XK3) || t == typeof(CK3);
+        }
+        private void ToggleInterface(int gen)
+        {
             Tip1.RemoveAll(); Tip2.RemoveAll(); Tip3.RemoveAll(); // TSV/PSV
 
-            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = pk.Format >= 6;
-            Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = pk.Format >= 6;
-            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = pk.Format >= 6;
+            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6;
+            Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = gen >= 6;
+            GB_nOT.Visible = GB_RelearnMoves.Visible = BTN_Medals.Visible = BTN_History.Visible = gen >= 6;
 
-            PB_MarkPentagon.Visible = pk.Format >= 6;
-            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkHorohoro.Visible = pk.Format >= 7;
+            PB_MarkPentagon.Visible = gen >= 6;
+            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkHorohoro.Visible = gen >= 7;
 
-            FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = pk.Format == 5;
+            FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
 
-            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = pk.Format >= 4;
-            FLP_ShinyLeaf.Visible = L_ShinyLeaf.Visible = ShinyLeaf.Visible = pk.Format == 4;
+            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = gen >= 4;
+            FLP_ShinyLeaf.Visible = L_ShinyLeaf.Visible = ShinyLeaf.Visible = gen == 4;
 
-            DEV_Ability.Enabled = DEV_Ability.Visible = pk.Format > 3 && HaX;
-            CB_Ability.Visible = !DEV_Ability.Enabled && pk.Format >= 3;
-            FLP_Nature.Visible = pk.Format >= 3;
-            FLP_Ability.Visible = pk.Format >= 3;
-            FLP_Language.Visible = pk.Format >= 3;
-            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = pk.Format >= 3;
-            GB_Markings.Visible = pk.Format >= 3;
-            BTN_Ribbons.Visible = pk.Format >= 3;
-            CB_HPType.Enabled = CB_Form.Enabled = pk.Format >= 3;
-            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = pk.Format >= 3;
+            DEV_Ability.Enabled = DEV_Ability.Visible = gen > 3 && HaX;
+            CB_Ability.Visible = !DEV_Ability.Enabled && gen >= 3;
+            FLP_Nature.Visible = gen >= 3;
+            FLP_Ability.Visible = gen >= 3;
+            FLP_Language.Visible = gen >= 3;
+            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
+            GB_Markings.Visible = gen >= 3;
+            BTN_Ribbons.Visible = gen >= 3;
+            CB_HPType.Enabled = CB_Form.Enabled = gen >= 3;
+            BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = Label_SID.Visible = TB_SID.Visible = gen >= 3;
 
-            FLP_FriendshipForm.Visible = pk.Format >= 2;
-            FLP_HeldItem.Visible = pk.Format >= 2;
-            CHK_IsEgg.Visible = Label_Gender.Visible = pk.Format >= 2;
-            FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = pk.Format >= 2;
-            Label_OTGender.Visible = pk.Format >= 2;
-
-            FLP_Purification.Visible = FLP_ShadowID.Visible = pk is XK3 || pk is CK3;
-            NUD_ShadowID.Maximum = 127;
+            FLP_FriendshipForm.Visible = gen >= 2;
+            FLP_HeldItem.Visible = gen >= 2;
+            CHK_IsEgg.Visible = Label_Gender.Visible = gen >= 2;
+            FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
+            Label_OTGender.Visible = gen >= 2;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
-            TB_AbilityNumber.Visible = pk.Format >= 6 && DEV_Ability.Enabled;
+            TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;
 
             // Met Tab
-            FLP_MetDate.Visible = pk.Format >= 4;
-            FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = pk.Format >= 3;
-            FLP_MetLocation.Visible = FLP_MetLevel.Visible = pk.Format >= 2;
-            FLP_TimeOfDay.Visible = pk.Format == 2;
+            FLP_MetDate.Visible = gen >= 4;
+            FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
+            FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
+            FLP_TimeOfDay.Visible = gen == 2;
 
             // Stats
-            FLP_StatsTotal.Visible = pk.Format >= 3;
-            FLP_Characteristic.Visible = pk.Format >= 3;
-            FLP_HPType.Visible = pk.Format >= 2;
+            FLP_StatsTotal.Visible = gen >= 3;
+            FLP_Characteristic.Visible = gen >= 3;
+            FLP_HPType.Visible = gen >= 2;
 
-            PAN_Contest.Visible = pk.Format >= 3;
+            PAN_Contest.Visible = gen >= 3;
 
-            ToggleStats(pk);
+            ToggleStats(gen);
             CenterSubEditors();
-
-            return FinalizeInterface(sav, pk);
         }
-        private void ToggleStats(PKM pk)
+        private void ToggleStats(int gen)
         {
-            if (pk.Format == 1)
+            if (pkm.Format == 1)
             {
                 FLP_SpD.Visible = false;
                 Label_SPA.Visible = false;
@@ -1799,7 +1809,7 @@ namespace PKHeX.WinForms.Controls
                     ctrl.Size = Stat_HP.Size;
                 }
             }
-            else if (pk.Format == 2)
+            else if (gen == 2)
             {
                 FLP_SpD.Visible = true;
                 Label_SPA.Visible = true;
@@ -1828,17 +1838,13 @@ namespace PKHeX.WinForms.Controls
                 }
             }
         }
-        private bool FinalizeInterface(SaveFile SAV, PKM pk)
+        private bool FinalizeInterface(SaveFile sav)
         {
             bool init = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
 
-            pkm = pk.GetType() != SAV.PKMType ? SAV.BlankPKM : pk;
-            if (pkm.Format < 3)
-                pkm = SAV.BlankPKM;
-
             bool TranslationRequired = false;
-            PopulateFilteredDataSources(SAV);
+            PopulateFilteredDataSources(sav);
             PopulateFields(pkm);
             fieldsInitialized |= init;
 
@@ -1972,7 +1978,7 @@ namespace PKHeX.WinForms.Controls
             pkm = PreparePKM();
             UpdateLegality();
 
-            if (Legality.info.Relearn.Any(z => !z.Valid))
+            if (Legality.Info.Relearn.Any(z => !z.Valid))
                 SetSuggestedRelearnMoves(silent: true);
         }
         public void ChangeLanguage(SaveFile sav, PKM pk)
@@ -2018,7 +2024,7 @@ namespace PKHeX.WinForms.Controls
         {
             GameInfo.SetItemDataSource(HaX, pkm.MaxItemID, SAV.HeldItems, pkm.Format, SAV.Version, GameInfo.Strings);
             if (pkm.Format > 1)
-                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
+                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= pkm.MaxItemID).ToList(), null);
 
             var languages = Util.GetUnsortedCBList("languages");
             if (pkm.Format < 7)
@@ -2031,7 +2037,7 @@ namespace PKHeX.WinForms.Controls
             CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= pkm.MaxGameID || pkm.Format >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= pkm.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";

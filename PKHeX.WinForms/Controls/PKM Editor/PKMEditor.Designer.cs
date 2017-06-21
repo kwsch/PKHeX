@@ -1328,7 +1328,7 @@
             this.NUD_ShadowID.Location = new System.Drawing.Point(110, 1);
             this.NUD_ShadowID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.NUD_ShadowID.Maximum = new decimal(new int[] {
-            72,
+            127,
             0,
             0,
             0});
