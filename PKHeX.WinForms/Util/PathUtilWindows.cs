@@ -44,7 +44,9 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Detects a save file.
         /// </summary>
-        /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
+        /// <param name="path">If this function returns true, full path of a save file or null if no path could be found. If this function returns false, this parameter will be set to the error message.</param>
+        /// <param name="extra">Paths to check in addition to the default paths</param>
+        /// <returns>A boolean indicating whether or not a file was detected</returns>
         public static bool DetectSaveFile(out string path, params string[] extra)
         {
             string path3DS = Path.GetPathRoot(Get3DSLocation());
@@ -59,10 +61,11 @@ namespace PKHeX.WinForms
             {
                 if (!SaveUtil.GetSavesFromFolder(p, true, out IEnumerable<string> files))
                 {
-                    if (files == null)
-                        continue;
-                    path = files.First(); // error
-                    return false;
+                    if (files != null) // Could be null if `p` doesn't exist
+                    {
+                        path = string.Concat(Environment.NewLine, files); // `files` contains the error message
+                        return false;
+                    }
                 }
                 possiblePaths.AddRange(files);
             }

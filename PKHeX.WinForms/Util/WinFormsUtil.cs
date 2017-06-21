@@ -228,8 +228,8 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.DetectSaveFile(out path, cgse))
-                Error(path);
+            if (!PathUtilWindows.DetectSaveFile(out path, cgse) && !string.IsNullOrEmpty(path))
+                Error(path); // `path` contains the error message
 
             if (path != null)
             { ofd.FileName = path; }

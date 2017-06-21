@@ -181,7 +181,7 @@ namespace PKHeX.WinForms
                 try
                 {
                     if (!DetectSaveFile(out string path) && path != null)
-                        WinFormsUtil.Error(path);
+                        WinFormsUtil.Error(path); // `path` contains the error message
 
                     if (path != null && File.Exists(path))
                         OpenQuick(path, force: true);

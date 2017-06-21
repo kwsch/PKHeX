@@ -539,7 +539,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="folderPath">Folder to look within</param>
         /// <param name="deep">Search all subfolders</param>
-        /// <param name="result">Full path of all save files that match criteria.</param>
+        /// <param name="result">If this function returns true, full path of all save files that match criteria. If this function returns false, the error message, or null if the directory could not be found</param>
         /// <returns>Boolean indicating whether or not operation was successful.</returns>
         public static bool GetSavesFromFolder(string folderPath, bool deep, out IEnumerable<string> result)
         {
