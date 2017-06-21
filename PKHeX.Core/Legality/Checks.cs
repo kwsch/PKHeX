@@ -47,6 +47,8 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
             if (pkm.Format == 3 && pkm.HeldItem == 175)
                 VerifyEReaderBerry();
+            if (pkm.IsEgg)
+                AddLine(Severity.Invalid, V419, CheckIdentifier.Egg);
         }
         private void VerifyEReaderBerry()
         {
