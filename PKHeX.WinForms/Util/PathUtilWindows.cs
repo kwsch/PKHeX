@@ -63,11 +63,12 @@ namespace PKHeX.WinForms
                 {
                     if (files != null) // Could be null if `p` doesn't exist
                     {
-                        path = string.Concat(Environment.NewLine, files); // `files` contains the error message
+                        path = string.Join(Environment.NewLine, files); // `files` contains the error message
                         return false;
                     }
                 }
-                possiblePaths.AddRange(files);
+                if (files != null)
+                    possiblePaths.AddRange(files);
             }
 
             // return newest save file path that is valid

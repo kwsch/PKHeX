@@ -30,7 +30,8 @@ namespace PKHeX.WinForms
                 // Partially transparent species.
                 baseImage = ImageUtil.ChangeOpacity(baseImage, 0.33);
                 // Add the egg layer over-top with full opacity.
-                baseImage = ImageUtil.LayerImage(baseImage, Resources.egg, 0, 0, 1);
+                var egg = species == 490 ? (Image) Resources.ResourceManager.GetObject("_490_e") : Resources.egg;
+                baseImage = ImageUtil.LayerImage(baseImage, egg, 0, 0, 1);
             }
             if (shiny)
             {
@@ -66,7 +67,9 @@ namespace PKHeX.WinForms
                 return null;
 
             Image img;
-            if (gift.IsPokémon)
+            if (gift.IsEgg && gift.Species == 490) // Manaphy Egg
+                img = (Image)(Resources.ResourceManager.GetObject("_490_e") ?? Resources.unknown);
+            else if (gift.IsPokémon)
                 img = GetSprite(gift.ConvertToPKM(SAV));
             else if (gift.IsItem)
                 img = (Image)(Resources.ResourceManager.GetObject("item_" + gift.ItemID) ?? Resources.unknown);

@@ -717,6 +717,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\Pokemon Sprites\490-e.png" />
     <None Include="Resources\img\misc\leaf.png" />
     <None Include="Resources\img\misc\crown.png" />
     <EmbeddedResource Include="Resources\byte\fashion_f_sm" />

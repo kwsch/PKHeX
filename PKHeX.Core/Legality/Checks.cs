@@ -866,8 +866,6 @@ namespace PKHeX.Core
                 else if (!s6.RibbonBattlerExpert)
                     yield return nameof(s6.RibbonBattlerExpert);
             }
-
-            yield return pkm.XY ? nameof(s6.RibbonChampionKalos) : nameof(s6.RibbonChampionG6Hoenn);
         }
         private static IEnumerable<string> GetRibbonMessage6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen)
         {
@@ -942,8 +940,7 @@ namespace PKHeX.Core
             }
 
             const int mem_Champion = 27;
-            if ((pkm.HT_Memory == mem_Champion || pkm.OT_Memory == mem_Champion) && !s6.RibbonChampionKalos &&
-                !s6.RibbonChampionG6Hoenn)
+            if ((pkm.HT_Memory == mem_Champion || pkm.OT_Memory == mem_Champion) && !s6.RibbonChampionKalos && !s6.RibbonChampionG6Hoenn)
                 yield return pkm.XY ? nameof(s6.RibbonChampionKalos) : nameof(s6.RibbonChampionG6Hoenn);
         }
         private static IEnumerable<string> GetRibbonMessage7Any(PKM pkm, IRibbonSetCommon7 s7, int gen)
