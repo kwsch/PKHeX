@@ -180,7 +180,7 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    if (!DetectSaveFile(out string path))
+                    if (!DetectSaveFile(out string path) && path != null)
                         WinFormsUtil.Error(path);
 
                     if (path != null && File.Exists(path))
