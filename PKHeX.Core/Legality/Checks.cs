@@ -47,7 +47,7 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, V204, CheckIdentifier.Form);
             if (pkm.Format == 3 && pkm.HeldItem == 175)
                 VerifyEReaderBerry();
-            if (pkm.IsEgg)
+            if (pkm.IsEgg && pkm.HeldItem != 0)
                 AddLine(Severity.Invalid, V419, CheckIdentifier.Egg);
         }
         private void VerifyEReaderBerry()
@@ -2138,6 +2138,12 @@ namespace PKHeX.Core
         }
         private void VerifyMiscG1()
         {
+            if (pkm.IsEgg)
+            {
+                VerifyMiscEggCommon();
+                if (pkm.PKRS_Cured || pkm.PKRS_Infected)
+                    AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
+            }
             if (pkm.Format > 1)
                 return;
 
@@ -2206,12 +2212,10 @@ namespace PKHeX.Core
 
             if (pkm.IsEgg)
             {
-                if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
-                    AddLine(Severity.Invalid, V319, CheckIdentifier.Egg);
+                VerifyMiscEggCommon();
+
                 if (pkm.CNTs.Any(stat => stat > 0))
                     AddLine(Severity.Invalid, V320, CheckIdentifier.Egg);
-                if (pkm.Format == 2 && (pkm.PKRS_Cured || pkm.PKRS_Infected))
-                    AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
                 if (pkm is PK4 pk4)
                 {
                     if (pk4.ShinyLeaf != 0)
@@ -2219,12 +2223,6 @@ namespace PKHeX.Core
                     if (pk4.PokéathlonStat != 0)
                         AddLine(Severity.Invalid, V415, CheckIdentifier.Egg);
                 }
-
-                var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
-                if (HatchCycles == 0 || HatchCycles == null)
-                    HatchCycles = pkm.PersonalInfo.HatchCycles;
-                if (pkm.CurrentFriendship > HatchCycles)
-                    AddLine(Severity.Invalid, V374, CheckIdentifier.Egg);
             }
 
             if (!Encounter.Valid)
@@ -2250,6 +2248,20 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
                     return;
             }
+        }
+        private void VerifyMiscEggCommon()
+        {
+            if (new[] {pkm.Move1_PPUps, pkm.Move2_PPUps, pkm.Move3_PPUps, pkm.Move4_PPUps}.Any(ppup => ppup > 0))
+                AddLine(Severity.Invalid, V319, CheckIdentifier.Egg);
+            if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0)
+                || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
+                AddLine(Severity.Invalid, V420, CheckIdentifier.Egg);
+
+            var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
+            if (HatchCycles == 0 || HatchCycles == null)
+                HatchCycles = pkm.PersonalInfo.HatchCycles;
+            if (pkm.CurrentFriendship > HatchCycles)
+                AddLine(Severity.Invalid, V374, CheckIdentifier.Egg);
         }
         private void VerifyFatefulMysteryGift(MysteryGift g)
         {

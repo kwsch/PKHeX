@@ -339,6 +339,7 @@ V416 = Mystery Gift cannot be received by this version.
 V417 = Suspicious Original Trainer details.
 V418 = Individual EV without changing EXP cannot be greater than {0}.
 V419 = Eggs cannot hold items.
+V420 = Eggs cannot have modified PP counts.
 V602 = 所有奖章合法。
 V600 = 缺失奖章: {0}
 V601 = 不合法奖章: {0}
