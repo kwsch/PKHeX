@@ -153,7 +153,7 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
 
         // Generated Attributes
-        public override int AbilityNumber { get => 1 << PIDAbility; set => AbilityBit = value > 1; } // 1/2 -> 0/1
+        public override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // 1/2 -> 0/1
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => IsEgg || Language == 1;
