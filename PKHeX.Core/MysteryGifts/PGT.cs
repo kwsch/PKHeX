@@ -264,7 +264,7 @@ namespace PKHeX.Core
                     pk4.Met_Location = pk4.Egg_Location + 3000;
                     pk4.Egg_Location = 0;
                     pk4.IsNicknamed = true;
-                    pk4.Nickname = PKX.GetSpeciesName(0, pk4.Language).ToUpper();
+                    pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
                     pk4.MetDate = DateTime.Now;
                 }
                 else

@@ -373,7 +373,7 @@ namespace PKHeX.Core
                 pk.HT_Friendship = pk.OT_Friendship;
             }
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesName(Species, pk.Language);
+            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             // More 'complex' logic to determine final values
             

@@ -384,7 +384,7 @@ namespace PKHeX.Core
             pk.MetDate = Date ?? DateTime.Now;
             
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesName(Species, pk.Language);
+            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             // More 'complex' logic to determine final values
             
@@ -449,7 +449,7 @@ namespace PKHeX.Core
             {
                 pk.IsEgg = true;
                 pk.EggMetDate = Date;
-                pk.Nickname = PKX.GetSpeciesName(0, pk.Language);
+                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
             }
 
             pk.RefreshChecksum();

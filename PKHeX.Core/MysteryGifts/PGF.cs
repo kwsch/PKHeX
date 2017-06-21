@@ -229,7 +229,7 @@ namespace PKHeX.Core
                 pk.OT_Gender = OTGender % 2; // %2 just in case?
             }
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesName(Species, pk.Language);
+            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             // More 'complex' logic to determine final values
 
