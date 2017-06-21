@@ -906,7 +906,9 @@ namespace PKHeX.WinForms.Controls
             {
                 // Change the XP
                 int Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
-                if (Level > 100)
+                if (Level <= 0)
+                    TB_Level.Text = "1";
+                else if (Level > 100)
                 {
                     TB_Level.Text = "100";
                     if (!HaX)
@@ -1453,7 +1455,8 @@ namespace PKHeX.WinForms.Controls
                 if (!CHK_Nicknamed.Checked)
                 {
                     TB_Nickname.Text = PKX.GetSpeciesNameGeneration(0, WinFormsUtil.GetIndex(CB_Language), pkm.Format);
-                    CHK_Nicknamed.Checked = true;
+                    if (pkm.Format != 4) // eggs in gen4 do not have nickname flag
+                        CHK_Nicknamed.Checked = true;
                 }
             }
             else // Not Egg
