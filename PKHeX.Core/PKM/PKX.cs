@@ -209,6 +209,9 @@ namespace PKHeX.Core
         /// <returns>Generation specific default species name</returns>
         public static string GetSpeciesNameGeneration(int species, int lang, int generation)
         {
+            if (generation == 3 && species == 0)
+                return "タマゴ";
+
             string nick = GetSpeciesName(species, lang);
 
             if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
