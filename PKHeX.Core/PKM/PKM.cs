@@ -488,6 +488,7 @@ namespace PKHeX.Core
 
         public virtual bool SecretSuperTrainingUnlocked { get => false; set { } }
         public virtual bool SecretSuperTrainingComplete { get => false; set { } }
+        public virtual int SuperTrainingMedalCount(int maxCount = 30) => 0;
 
         public virtual int HyperTrainFlags { get => 0; set { } }
         public virtual bool HT_HP { get => false; set { } }

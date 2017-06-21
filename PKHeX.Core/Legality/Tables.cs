@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -73,8 +74,6 @@ namespace PKHeX.Core
             236, 106, 107, 237, // Tyrogue
             538, 539, // Sawk & Throh
         };
-
-        #region Legality; unhatchable from egg
 
         public static readonly int[] NoHatchFromEgg =
         {
@@ -161,7 +160,47 @@ namespace PKHeX.Core
             802, // Marshadow
         };
 
-        #endregion
+        public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
+        {
+            150, // Mewtwo
+            151, // Mew
+            249, // Lugia
+            250, // Ho-Oh
+            251, // Celebi
+            382, // Kyogre
+            383, // Groudon
+            384, // Rayquaza
+            385, // Jirachi
+            386, // Deoxys
+            483, // Dialga
+            484, // Palkia
+            487, // Giratina
+            489, // Phione
+            490, // Manaphy
+            491, // Darkrai
+            492, // Shaymin
+            493, // Arceus
+            494, // Victini
+            643, // Reshiram
+            644, // Zekrom
+            646, // Kyurem
+            647, // Keldeo
+            648, // Meloetta
+            649, // Genesect
+            716, // Xerneas
+            717, // Yveltal
+            718, // Zygarde
+            719, // Diancie
+            720, // Hoopa
+            721, // Volcanion
+            789, // Cosmog
+            790, // Cosmoem
+            791, // Solgaleo
+            792, // Lunala
+            800, // Necrozma
+            801, // Magearna
+            802, // Marshadow
+        };
 
         public static readonly int[] BattleForms =
         {

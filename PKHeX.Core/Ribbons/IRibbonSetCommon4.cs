@@ -52,5 +52,34 @@
             };
         }
         internal static string[] RibbonNames(this IRibbonSetCommon4 set) => RibbonSetNamesCommon4;
+        private static readonly string[] RibbonSetNamesCommon4Only =
+        {
+            nameof(IRibbonSetCommon4.RibbonChampionSinnoh), nameof(IRibbonSetCommon4.RibbonAlert), nameof(IRibbonSetCommon4.RibbonShock),
+            nameof(IRibbonSetCommon4.RibbonDowncast), nameof(IRibbonSetCommon4.RibbonCareless), nameof(IRibbonSetCommon4.RibbonRelax),
+            nameof(IRibbonSetCommon4.RibbonSnooze), nameof(IRibbonSetCommon4.RibbonSmile),
+            nameof(IRibbonSetCommon4.RibbonRecord), nameof(IRibbonSetCommon4.RibbonLegend),
+
+            // nameof(IRibbonSetCommon4.RibbonGorgeous), nameof(IRibbonSetCommon4.RibbonRoyal), nameof(IRibbonSetCommon4.RibbonGorgeousRoyal), 
+            // nameof(IRibbonSetCommon4.RibbonFootprint),
+        };
+        internal static bool[] RibbonBitsOnly(this IRibbonSetCommon4 set)
+        {
+            if (set == null)
+                return new bool[10];
+            return new[]
+            {
+                set.RibbonChampionSinnoh,
+                set.RibbonAlert,
+                set.RibbonShock,
+                set.RibbonDowncast,
+                set.RibbonCareless,
+                set.RibbonRelax,
+                set.RibbonSnooze,
+                set.RibbonSmile,
+                set.RibbonRecord,
+                set.RibbonLegend,
+            };
+        }
+        internal static string[] RibbonNamesOnly(this IRibbonSetCommon4 set) => RibbonSetNamesCommon4Only;
     }
 }

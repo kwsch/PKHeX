@@ -405,14 +405,6 @@ namespace PKHeX.Core
         public static string V601 { get; set; } = "Missing Ribbons: {0}";
         public static string V602 { get; set; } = "All ribbons accounted for.";
         public static string V603 { get; set; } = "Can't receive Ribbon(s) as an Egg.";
-
-        public static string V610 { get; set; } = "GBA Champion Ribbon";
-        public static string V611 { get; set; } = "Artist Ribbon";
-        public static string V612 { get; set; } = "Sinnoh Champion Ribbon";
-        public static string V613 { get; set; } = "Legend Ribbon";
-        public static string V614 { get; set; } = "Record Ribbon";
-        public static string V615 { get; set; } = "Battle Memory Ribbon";
-        public static string V616 { get; set; } = "Contest Memory Ribbon";
         #endregion
 
     }

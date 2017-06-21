@@ -55,7 +55,7 @@
 
     internal static partial class RibbonExtensions
     {
-        private static readonly string[] RibbonSetNamesUnique4 =
+        private static readonly string[] RibbonSetNamesUnique4Ability =
         {
             nameof(IRibbonSetUnique4.RibbonAbility),
             nameof(IRibbonSetUnique4.RibbonAbilityGreat),
@@ -63,7 +63,9 @@
             nameof(IRibbonSetUnique4.RibbonAbilityMulti),
             nameof(IRibbonSetUnique4.RibbonAbilityPair),
             nameof(IRibbonSetUnique4.RibbonAbilityWorld),
-
+        };
+        private static readonly string[] RibbonSetNamesUnique4Contest3 =
+        {
             nameof(IRibbonSetUnique4.RibbonG3Cool),
             nameof(IRibbonSetUnique4.RibbonG3CoolSuper),
             nameof(IRibbonSetUnique4.RibbonG3CoolHyper),
@@ -84,7 +86,9 @@
             nameof(IRibbonSetUnique4.RibbonG3ToughSuper),
             nameof(IRibbonSetUnique4.RibbonG3ToughHyper),
             nameof(IRibbonSetUnique4.RibbonG3ToughMaster),
-
+        };
+        private static readonly string[] RibbonSetNamesUnique4Contest4 =
+        {
             nameof(IRibbonSetUnique4.RibbonG4Cool),
             nameof(IRibbonSetUnique4.RibbonG4CoolGreat),
             nameof(IRibbonSetUnique4.RibbonG4CoolUltra),
@@ -106,10 +110,10 @@
             nameof(IRibbonSetUnique4.RibbonG4ToughUltra),
             nameof(IRibbonSetUnique4.RibbonG4ToughMaster),
         };
-        internal static bool[] RibbonBits(this IRibbonSetUnique4 set)
+        internal static bool[] RibbonBitsAbility(this IRibbonSetUnique4 set)
         {
             if (set == null)
-                return new bool[3];
+                return new bool[6];
             return new[]
             {
                 set.RibbonAbility,
@@ -119,49 +123,77 @@
                 set.RibbonAbilityPair,
                 set.RibbonAbilityWorld,
 
+            };
+        }
+        internal static bool[] RibbonBitsContest3(this IRibbonSetUnique4 set)
+        {
+
+            if (set == null)
+                return new bool[20];
+
+            return new[]
+            {
                 set.RibbonG3Cool,
                 set.RibbonG3CoolSuper,
                 set.RibbonG3CoolHyper,
                 set.RibbonG3CoolMaster,
+
                 set.RibbonG3Beauty,
                 set.RibbonG3BeautySuper,
                 set.RibbonG3BeautyHyper,
                 set.RibbonG3BeautyMaster,
+
                 set.RibbonG3Cute,
                 set.RibbonG3CuteSuper,
                 set.RibbonG3CuteHyper,
                 set.RibbonG3CuteMaster,
+
                 set.RibbonG3Smart,
                 set.RibbonG3SmartSuper,
                 set.RibbonG3SmartHyper,
                 set.RibbonG3SmartMaster,
+
                 set.RibbonG3Tough,
                 set.RibbonG3ToughSuper,
                 set.RibbonG3ToughHyper,
                 set.RibbonG3ToughMaster,
+            };
+        }
+        internal static bool[] RibbonBitsContest4(this IRibbonSetUnique4 set)
+        {
+            if (set == null)
+                return new bool[20];
 
+            return new[]
+            {
                 set.RibbonG4Cool,
                 set.RibbonG4CoolGreat,
                 set.RibbonG4CoolUltra,
                 set.RibbonG4CoolMaster,
+
                 set.RibbonG4Beauty,
                 set.RibbonG4BeautyGreat,
                 set.RibbonG4BeautyUltra,
                 set.RibbonG4BeautyMaster,
+
                 set.RibbonG4Cute,
                 set.RibbonG4CuteGreat,
                 set.RibbonG4CuteUltra,
                 set.RibbonG4CuteMaster,
+
                 set.RibbonG4Smart,
                 set.RibbonG4SmartGreat,
                 set.RibbonG4SmartUltra,
                 set.RibbonG4SmartMaster,
+
                 set.RibbonG4Tough,
                 set.RibbonG4ToughGreat,
                 set.RibbonG4ToughUltra,
                 set.RibbonG4ToughMaster,
             };
         }
-        internal static string[] RibbonNames(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4;
+        internal static string[] RibbonNamesAbility(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4Ability;
+        internal static string[] RibbonNamesContest3(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4Contest3;
+        internal static string[] RibbonNamesContest4(this IRibbonSetUnique4 set) => RibbonSetNamesUnique4Contest4;
     }
 }

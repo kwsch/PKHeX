@@ -353,7 +353,21 @@ namespace PKHeX.Core
             get => CurrentHandler == 1 ? OT_Friendship : HT_Friendship;
             set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }
         }
-        
+        public override int SuperTrainingMedalCount(int maxCount = 30)
+        {
+            uint value = BitConverter.ToUInt16(Data, 0x2C);
+            int TrainCount = 0;
+            value >>= 2;
+            for (int i = 0; i < maxCount; i++)
+            {
+                if ((value & 1) != 0)
+                    TrainCount++;
+                value >>= 1;
+            }
+
+            return TrainCount;
+        }
+
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
         public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;

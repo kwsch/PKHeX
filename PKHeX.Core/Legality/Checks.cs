@@ -667,36 +667,29 @@ namespace PKHeX.Core
             uint data = BitConverter.ToUInt32(pkm.Data, 0x2C);
             if ((data & 3) != 0) // 2 unused flags
                 AddLine(Severity.Invalid, V98, CheckIdentifier.Training);
-
-            int TrainCount = 0;
-            data >>= 2;
-            for (int i = 2; i < 32; i++)
-            {
-                if ((data & 1) != 0)
-                    TrainCount++;
-                data >>= 1;
-            }
+            int TrainCount = pkm.SuperTrainingMedalCount();
 
             if (pkm.IsEgg && TrainCount > 0)
-            { AddLine(Severity.Invalid, V89, CheckIdentifier.Training); }
+                AddLine(Severity.Invalid, V89, CheckIdentifier.Training);
             else if (TrainCount > 0 && pkm.GenNumber > 6)
-            { AddLine(Severity.Invalid, V90, CheckIdentifier.Training); }
+                AddLine(Severity.Invalid, V90, CheckIdentifier.Training);
             else
             {
                 if (pkm.Format >= 7)
                 {
                     if (pkm.SecretSuperTrainingUnlocked)
-                    { AddLine(Severity.Invalid, V91, CheckIdentifier.Training); }
+                        AddLine(Severity.Invalid, V91, CheckIdentifier.Training);
                     if (pkm.SecretSuperTrainingComplete)
-                    { AddLine(Severity.Invalid, V92, CheckIdentifier.Training); }
+                        AddLine(Severity.Invalid, V92, CheckIdentifier.Training);
                 }
                 else
                 {
                     if (TrainCount == 30 ^ pkm.SecretSuperTrainingComplete)
-                    { AddLine(Severity.Invalid, V93, CheckIdentifier.Training); }
+                        AddLine(Severity.Invalid, V93, CheckIdentifier.Training);
                 }
             }
         }
+
         private void VerifyMedalsEvent()
         {
             byte data = pkm.Data[0x3A];
@@ -746,7 +739,6 @@ namespace PKHeX.Core
             }
             AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
         }
-
         private static List<string> GetRibbonMessage(IReadOnlyCollection<string> missingRibbons, IReadOnlyCollection<string> invalidRibbons)
         {
             var result = new List<string>();
@@ -756,75 +748,229 @@ namespace PKHeX.Core
                 result.Add(string.Format(V600, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
             return result;
         }
-
         private static IEnumerable<string> GetRibbonResults(PKM pkm)
         {
             int gen = pkm.GenNumber;
 
+            bool artist = false;
             if (pkm is IRibbonSetOnly3 o3)
             {
-                
+                artist = o3.RibbonCounts().Any(z => z == 4);
             }
             if (pkm is IRibbonSetUnique3 u3)
             {
-                
-            }
-            if (pkm is IRibbonSetUnique4 u5)
-            {
-
-            }
-            if (pkm is IRibbonSetCommon3 s3)
-            {
-                if (gen != 3)
+                if (gen != 3 || IsAllowedBattleFrontier(pkm.Species))
                 {
-                    if (s3.RibbonChampionG3Hoenn && gen != 3)
-                        yield return V610; // RSE HoF
-                    if (s3.RibbonArtist && gen != 3)
-                        yield return V611; // RSE Master Rank Portrait
+                    if (u3.RibbonWinning)
+                        yield return nameof(u3.RibbonWinning);
+                    if (u3.RibbonVictory)
+                        yield return nameof(u3.RibbonVictory);
+                }
+            }
+            if (pkm is IRibbonSetUnique4 u4)
+            {
+                if (!IsAllowedBattleFrontier(pkm.Species, pkm.AltForm, 4))
+                    foreach (var z in GetRibbonMessageNone(u4.RibbonBitsAbility(), u4.RibbonNamesAbility()))
+                        yield return z;
+
+                var c3 = u4.RibbonBitsContest3(); var c3n = u4.RibbonNamesContest3();
+                var c4 = u4.RibbonBitsContest4(); var c4n = u4.RibbonNamesContest4();
+                var iter3 = gen == 3 ? getGapRibbons(c3, c3n) : GetRibbonMessageNone(c3, c3n);
+                var iter4 = gen == 4 && IsAllowedInContest4(pkm.Species) ? getGapRibbons(c4, c4n) : GetRibbonMessageNone(c4, c4n);
+                foreach (var z in iter3.Concat(iter4))
+                    yield return z;
+
+                IEnumerable<string> getGapRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
+                {
+                    for (int i = 0; i < bits.Count; i += 4)
+                    {
+                        bool required = false;
+                        for (int j = i; j < i + 4; j++)
+                            if (bits[j])
+                                required = true;
+                            else if (required)
+                                yield return names[j];
+                    }
                 }
             }
             if (pkm is IRibbonSetCommon4 s4)
             {
-                if (s4.RibbonRecord)
-                    yield return V614; // Unobtainable
-
-                if (gen != 3 && gen != 4)
-                {
-                    if (s4.RibbonChampionSinnoh)
-                        yield return V612; // DPPt HoF
-                    if (s4.RibbonLegend)
-                        yield return V613; // HGSS Defeat Red @ Mt.Silver
-                }
+                bool inhabited45 = 4 <= gen && gen <= 5;
+                var iterate = inhabited45 ? GetRibbonMessage4Any(pkm, s4, gen) : GetRibbonMessageNone(s4.RibbonBits(), s4.RibbonNames());
+                    foreach (var z in iterate)
+                        yield return z;
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                int contest = 0;
-                int battle = 0;
-                switch (gen)
-                {
-                    case 3:
-                        contest = 40;
-                        battle = 8;
-                        break;
-                    case 4:
-                        contest = 20;
-                        battle = 8;
-                        break;
-                }
-                if (s6.RibbonCountMemoryContest > contest)
-                    yield return V616;
-                if (s6.RibbonCountMemoryBattle > battle)
-                    yield return V615;
-
+                artist = s6.RibbonCountMemoryContest > 4;
                 bool inhabited6 = 3 <= gen && gen <= 6;
-                if (!inhabited6 && s6.RibbonChampionKalos)
-                    yield return V615;
+                var iterate = inhabited6 ? GetRibbonMessage6Any(pkm, s6, gen) : GetRibbonMessageNone(s6.RibbonBits(), s6.RibbonNamesBool());
+                foreach (var z in iterate)
+                    yield return z;
 
+                if (!inhabited6)
+                {
+                    if (s6.RibbonCountMemoryContest > 0)
+                        yield return nameof(s6.RibbonCountMemoryContest);
+                    if (s6.RibbonCountMemoryBattle > 0)
+                        yield return nameof(s6.RibbonCountMemoryBattle);
+                }
             }
             if (pkm is IRibbonSetCommon7 s7)
             {
-
+                bool inhabited7 = 3 <= gen && gen <= 7 || gen == 1;
+                var iterate = inhabited7 ? GetRibbonMessage7Any(pkm, s7, gen) : GetRibbonMessageNone(s7.RibbonBits(), s7.RibbonNames());
+                foreach (var z in iterate)
+                    yield return z;
             }
+            if (pkm is IRibbonSetCommon3 s3)
+            {
+                if (s3.RibbonChampionG3Hoenn && gen != 3)
+                    yield return nameof(s3.RibbonChampionG3Hoenn); // RSE HoF
+                if (s3.RibbonArtist && (gen != 3 || !artist))
+                    yield return nameof(s3.RibbonArtist); // RSE Master Rank Portrait
+            }
+        }
+        private static IEnumerable<string> GetRibbonMessage4Any(PKM pkm, IRibbonSetCommon4 s4, int gen)
+        {
+            if (s4.RibbonRecord)
+                yield return nameof(s4.RibbonRecord); // Unobtainable
+            if (s4.RibbonFootprint && gen >= 6 && pkm.CurrentLevel - pkm.Met_Level < 30)
+                yield return nameof(s4.RibbonFootprint);
+
+            if (pkm.Format < 6 || gen > 6 || pkm.IsUntraded && pkm.XY)
+            {
+                if (s4.RibbonGorgeous)
+                    yield return nameof(s4.RibbonGorgeous);
+                if (s4.RibbonRoyal)
+                    yield return nameof(s4.RibbonRoyal);
+                if (s4.RibbonGorgeousRoyal)
+                    yield return nameof(s4.RibbonGorgeousRoyal);
+            }
+        }
+        private static IEnumerable<string> GetRibbonMessage6Any(PKM pkm, IRibbonSetCommon6 s6, int gen)
+        {
+            foreach (var p in GetRibbonMessage6Memory(pkm, s6, gen))
+                yield return p;
+
+            bool untraded = pkm.IsUntraded;
+            var iter = untraded ? GetRibbonMessage6Untraded(pkm, s6) : GetRibbonMessage6Traded(pkm, s6);
+            foreach (var p in iter)
+                yield return p;
+
+            const int mem_Chatelaine = 68;
+            if (pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine)
+            {
+                if (!s6.RibbonBattlerSkillful)
+                    yield return nameof(s6.RibbonBattlerSkillful);
+                else if (!s6.RibbonBattlerExpert)
+                    yield return nameof(s6.RibbonBattlerExpert);
+            }
+
+            yield return pkm.XY ? nameof(s6.RibbonChampionKalos) : nameof(s6.RibbonChampionG6Hoenn);
+        }
+        private static IEnumerable<string> GetRibbonMessage6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen)
+        {
+            int contest = 0;
+            int battle = 0;
+            switch (gen)
+            {
+                case 3:
+                    contest = IsAllowedInContest4(pkm.Species) ? 40 : 20;
+                    battle = IsAllowedBattleFrontier(pkm.Species) ? 8 : 0;
+                    break;
+                case 4:
+                    contest = IsAllowedInContest4(pkm.Species) ? 20 : 0;
+                    battle = IsAllowedBattleFrontier(pkm.Species) ? 6 : 0;
+                    break;
+            }
+            if (s6.RibbonCountMemoryContest > contest)
+                yield return nameof(s6.RibbonCountMemoryContest);
+            if (s6.RibbonCountMemoryBattle > battle)
+                yield return nameof(s6.RibbonCountMemoryBattle);
+        }
+        private static IEnumerable<string> GetRibbonMessage6Untraded(PKM pkm, IRibbonSetCommon6 s6)
+        {
+            if (s6.RibbonBestFriends && pkm.OT_Affection != 255) // can't lower affection
+                yield return nameof(s6.RibbonBestFriends);
+
+            if (pkm.XY)
+            {
+                if (s6.RibbonChampionG6Hoenn)
+                    yield return nameof(s6.RibbonChampionG6Hoenn);
+                if (s6.RibbonContestStar)
+                    yield return nameof(s6.RibbonContestStar);
+                if (s6.RibbonMasterCoolness)
+                    yield return nameof(s6.RibbonMasterCoolness);
+                if (s6.RibbonMasterBeauty)
+                    yield return nameof(s6.RibbonMasterBeauty);
+                if (s6.RibbonMasterCuteness)
+                    yield return nameof(s6.RibbonMasterCuteness);
+                if (s6.RibbonMasterCleverness)
+                    yield return nameof(s6.RibbonMasterCleverness);
+                if (s6.RibbonMasterToughness)
+                    yield return nameof(s6.RibbonMasterToughness);
+            }
+            else if (pkm.AO)
+            {
+                if (s6.RibbonChampionKalos)
+                    yield return nameof(s6.RibbonChampionKalos);
+            }
+        }
+        private static IEnumerable<string> GetRibbonMessage6Traded(PKM pkm, IRibbonSetCommon6 s6)
+        {
+            if (s6.RibbonContestStar)
+            {
+                if (!s6.RibbonMasterCoolness)
+                    yield return nameof(s6.RibbonMasterCoolness);
+                if (!s6.RibbonMasterBeauty)
+                    yield return nameof(s6.RibbonMasterBeauty);
+                if (!s6.RibbonMasterCuteness)
+                    yield return nameof(s6.RibbonMasterCuteness);
+                if (!s6.RibbonMasterCleverness)
+                    yield return nameof(s6.RibbonMasterCleverness);
+                if (!s6.RibbonMasterToughness)
+                    yield return nameof(s6.RibbonMasterToughness);
+            }
+
+            if (s6.RibbonTraining)
+            {
+                const int req = 12; // only first 12
+                int count = pkm.SuperTrainingMedalCount(req);
+                if (count < req)
+                    yield return nameof(s6.RibbonTraining);
+            }
+
+            const int mem_Champion = 27;
+            if ((pkm.HT_Memory == mem_Champion || pkm.OT_Memory == mem_Champion) && !s6.RibbonChampionKalos &&
+                !s6.RibbonChampionG6Hoenn)
+                yield return pkm.XY ? nameof(s6.RibbonChampionKalos) : nameof(s6.RibbonChampionG6Hoenn);
+        }
+        private static IEnumerable<string> GetRibbonMessage7Any(PKM pkm, IRibbonSetCommon7 s7, int gen)
+        {
+            if (!IsAllowedBattleFrontier(pkm.Species))
+            {
+                if (s7.RibbonBattleRoyale)
+                    yield return nameof(s7.RibbonBattleRoyale);
+                if (s7.RibbonBattleTreeGreat)
+                    yield return nameof(s7.RibbonBattleTreeGreat);
+                if (s7.RibbonBattleTreeMaster)
+                    yield return nameof(s7.RibbonBattleTreeMaster);
+            }
+        }
+        private static IEnumerable<string> GetRibbonMessageNone(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
+        {
+            for (int i = 0; i < bits.Count; i++)
+                if (bits[i])
+                    yield return names[i];
+        }
+        private static bool IsAllowedInContest4(int species) => species != 201 && species != 132; // Disallow Unown and Ditto
+        private static bool IsAllowedBattleFrontier(int species, int form = 0, int gen = 0)
+        {
+            if (gen == 4 && species == 172 && form == 1) // spiky
+                return false;
+
+            return Legal.BattleFrontierBanlist.Contains(species);
         }
         private void VerifyRibbonsEgg(object encounter)
         {
