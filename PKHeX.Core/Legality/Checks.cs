@@ -354,7 +354,7 @@ namespace PKHeX.Core
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
-            if (sum == 0 && !EncounterMatch.IsWithinRange(pkm.CurrentLevel))
+            if (sum == 0 && !EncounterMatch.IsWithinRange(pkm))
                 AddLine(Severity.Fishy, V23, CheckIdentifier.EVs);
             else if (sum == 508)
                 AddLine(Severity.Fishy, V24, CheckIdentifier.EVs);
@@ -635,7 +635,7 @@ namespace PKHeX.Core
             int lvl = pkm.CurrentLevel;
             if (lvl < pkm.Met_Level)
                 AddLine(Severity.Invalid, V85, CheckIdentifier.Level);
-            else if (!EncounterMatch.IsWithinRange(lvl) && lvl != 100 && pkm.EXP == PKX.GetEXP(lvl, pkm.Species))
+            else if (!EncounterMatch.IsWithinRange(pkm) && lvl != 100 && pkm.EXP == PKX.GetEXP(lvl, pkm.Species))
                 AddLine(Severity.Fishy, V87, CheckIdentifier.Level);
             else
                 AddLine(Severity.Valid, V88, CheckIdentifier.Level);
