@@ -506,6 +506,7 @@ namespace PKHeX.Core
         }
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
+        public int CurrentPokeTchApp { get => Data[0x1162]; set => Data[0x1162] = (byte)Math.Min(25, value); /* Alarm Clock */ }
 
         // Storage
         public override int CurrentBox

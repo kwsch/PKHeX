@@ -186,6 +186,8 @@ namespace PKHeX.WinForms
                 "16 Move Tester", "17 Calendar", "18 Dot Artist", "19 Roulette", "20 Trainer Counter",
                 "21 Kitchen Timer", "22 Color Changer", "23 Matchup Checker", "24 Stopwatch", "25 Alarm Clock"
             };
+            CB_CurrentApp.Items.AddRange(new[] {"None"}.Concat(PoketchTitle).ToArray());
+            CB_CurrentApp.SelectedIndex = SAV.CurrentPokeTchApp;
             oldPoketchVal = new bool[PoketchTitle.Length];
             CLB_Poketch.Items.Clear();
             for (int i = 0; i < PoketchTitle.Length; i++)
@@ -225,6 +227,7 @@ namespace PKHeX.WinForms
                 SAV.Data[ofsPoketch - 1] = 0;
             DotArtistByte.CopyTo(SAV.Data, ofsPoketch + 0x27);
             SAV.Data[ofsPoketch - 3] |= 0x04; // "Touch!"
+            SAV.CurrentPokeTchApp = CB_CurrentApp.SelectedIndex;
         }
 
         private void SetPictureBoxFromFlags(byte[] inp)
