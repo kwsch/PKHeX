@@ -44,10 +44,10 @@ namespace PKHeX.WinForms.Controls
 
             var editor = m.SE.PKME_Tabs;
             var sav = m.SE.SAV;
-            if (info.Slot == 30 && editor.IsEmptyOrEgg)
-            { WinFormsUtil.Alert("Can't have empty/egg first info.Slot."); return; }
+            if (info.IsParty && editor.IsEmptyOrEgg && sav.IsPartyAllEggs(info.Slot - 30) && !m.SE.HaX)
+            { WinFormsUtil.Alert("Can't have empty/egg party."); return; }
             if (m.SE.SAV.IsSlotLocked(info.Box, info.Slot))
-            { WinFormsUtil.Alert("Can't set to locked info.Slot."); return; }
+            { WinFormsUtil.Alert("Can't set to locked slot."); return; }
 
             PKM pk = editor.PreparePKM();
 
@@ -97,8 +97,8 @@ namespace PKHeX.WinForms.Controls
             { System.Media.SystemSounds.Asterisk.Play(); return; }
 
             var sav = m.SE.SAV;
-            if (info.Slot == 30 && sav.PartyCount == 1 && !m.SE.HaX)
-            { WinFormsUtil.Alert("Can't delete first slot."); return; }
+            if (info.IsParty && sav.IsPartyAllEggs(info.Slot - 30) && !m.SE.HaX)
+            { WinFormsUtil.Alert("Can't delete this slot."); return; }
             if (sav.IsSlotLocked(info.Box, info.Slot))
             { WinFormsUtil.Alert("Can't delete locked slot."); return; }
 

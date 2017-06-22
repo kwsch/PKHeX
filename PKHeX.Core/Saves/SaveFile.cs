@@ -330,6 +330,14 @@ namespace PKHeX.Core
         public int SlotCount => BoxCount * BoxSlotCount;
         public virtual int PartyCount { get; protected set; }
         public virtual int MultiplayerSpriteID { get => 0; set { } }
+        public bool IsPartyAllEggs(params int[] except)
+        {
+            if (!HasParty)
+                return false;
+
+            var party = PartyData;
+            return party.Length == party.Where((t, i) => t.IsEgg || except.Contains(i)).Count();
+        }
 
         // Varied Methods
         protected abstract void SetChecksums();

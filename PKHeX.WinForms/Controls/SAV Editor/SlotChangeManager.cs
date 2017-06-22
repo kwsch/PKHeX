@@ -200,22 +200,31 @@ namespace PKHeX.WinForms.Controls
             }
             if (SAV.IsSlotLocked(DragInfo.Destination.Box, DragInfo.Destination.Slot))
             {
-                DragInfo.Destination.Slot = -1; // Invalidate
-                WinFormsUtil.Alert("Unable to set to locked slot.");
+                AlertInvalidate("Unable to set to locked slot.");
                 return;
             }
+            bool noEgg = DragInfo.Destination.IsParty && SE.SAV.IsPartyAllEggs(DragInfo.Destination.Slot - 30) && !SE.HaX;
             if (DragInfo.Source.Offset < 0) // external source
             {
-                TryLoadFiles(files, e);
+                if (!TryLoadFiles(files, e, noEgg))
+                    AlertInvalidate("Unable to set to this slot.");
                 return;
             }
-
-            TrySetPKMDestination(sender, e, overwrite, clone);
+            if (!TrySetPKMDestination(sender, e, overwrite, clone, noEgg))
+            {
+                AlertInvalidate("Unable to set to this slot.");
+                return;
+            }
 
             if (DragInfo.Source.Parent == null) // internal file
                 DragInfo.Reset();
         }
-        private bool TryLoadFiles(string[] files, DragEventArgs e)
+        private void AlertInvalidate(string msg)
+        {
+            DragInfo.Destination.Slot = -1; // Invalidate
+            WinFormsUtil.Alert(msg);
+        }
+        private bool TryLoadFiles(string[] files, DragEventArgs e, bool noEgg)
         {
             if (files.Length <= 0)
                 return false;
@@ -240,6 +249,9 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
+            if (noEgg && (pk.Species == 0 || pk.IsEgg))
+                return false;
+
             string[] errata = SAV.IsPKMCompatible(pk);
             if (errata.Length > 0)
             {
@@ -256,19 +268,21 @@ namespace PKHeX.WinForms.Controls
             Console.WriteLine(c);
             return true;
         }
-        private bool TrySetPKMDestination(object sender, DragEventArgs e, bool overwrite, bool clone)
+        private bool TrySetPKMDestination(object sender, DragEventArgs e, bool overwrite, bool clone, bool noEgg)
         {
             PKM pkz = GetPKM(true);
-            bool result = false;
+            if (noEgg && (pkz.Species == 0 || pkz.IsEgg))
+                return false;
+
             if (DragInfo.Source.IsValid)
-                result = TrySetPKMSource(sender, overwrite, clone);
+                TrySetPKMSource(sender, overwrite, clone);
 
             // Copy from temp to destination slot.
             SetPKM(pkz, false, null);
 
             e.Effect = clone ? DragDropEffects.Copy : DragDropEffects.Link;
             SetCursor(SE.GetDefaultCursor, sender);
-            return result;
+            return true;
         }
         private bool TrySetPKMSource(object sender, bool overwrite, bool clone)
         {
