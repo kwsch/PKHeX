@@ -959,7 +959,12 @@ namespace PKHeX.WinForms
         private void ClickQR(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
-                ImportQRToTabs();
+            {
+                if (Clipboard.ContainsText())
+                    ClickShowdownImportPKM(sender, e);
+                else
+                    ImportQRToTabs();
+            }
             else
                 ExportQRFromTabs();
         }
