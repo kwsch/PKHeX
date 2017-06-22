@@ -37,8 +37,13 @@ namespace PKHeX.WinForms.Controls
             Label_OTGender.Text = gendersymbols[pk2.OT_Gender];
             Label_OTGender.ForeColor = GetGenderColor(pk2.OT_Gender);
             // Reset Label and ComboBox visibility, as well as non-data checked status.
-            Label_PKRS.Visible = false;
-            Label_PKRSdays.Visible = false;
+            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = pk2.PKRS_Strain != 0;
+            Label_PKRSdays.Visible = CB_PKRSDays.Visible = pk2.PKRS_Days != 0;
+
+            // Set SelectedIndexes for PKRS
+            CB_PKRSStrain.SelectedIndex = pk2.PKRS_Strain;
+            CHK_Cured.Checked = pk2.PKRS_Strain > 0 && pk2.PKRS_Days == 0;
+            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk2.PKRS_Days); // to strip out bad hacked 'rus
 
             TB_HPIV.Text = pk2.IV_HP.ToString();
             TB_ATKIV.Text = pk2.IV_ATK.ToString();
@@ -97,6 +102,8 @@ namespace PKHeX.WinForms.Controls
             pk2.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
             pk2.EV_SPC = Util.ToInt32(TB_SPAEV.Text);
 
+            pk2.PKRS_Days = CB_PKRSDays.SelectedIndex;
+            pk2.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
             if (CHK_Nicknamed.Checked)
                 pk2.Nickname = TB_Nickname.Text;
             else 
