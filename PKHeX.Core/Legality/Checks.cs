@@ -798,9 +798,11 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon4 s4)
             {
                 bool inhabited45 = 4 <= gen && gen <= 5;
-                var iterate = inhabited45 ? GetRibbonMessage4Any(pkm, s4, gen) : GetRibbonMessageNone(s4.RibbonBits(), s4.RibbonNames());
-                    foreach (var z in iterate)
-                        yield return z;
+                IEnumerable<string> iterate = GetRibbonMessage4Any(pkm, s4, gen);
+                if (!inhabited45)
+                    iterate = iterate.Concat(GetRibbonMessageNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
+                foreach (var z in iterate)
+                    yield return z;
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
