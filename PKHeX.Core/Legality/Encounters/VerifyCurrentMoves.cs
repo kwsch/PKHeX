@@ -238,7 +238,7 @@ namespace PKHeX.Core
             for (int m = 0; m < 4; m++)
             {
                 if (moves[m] == 0)
-                    res[m] = new CheckMoveResult(MoveSource.None, pkm.Format, m < required ? Severity.Invalid : Severity.Valid, V167, CheckIdentifier.Move);
+                    res[m] = new CheckMoveResult(MoveSource.None, pkm.Format, m < required ? Severity.Fishy : Severity.Valid, V167, CheckIdentifier.Move);
                 else if (info.EncounterMoves.Relearn.Contains(moves[m]))
                     res[m] = new CheckMoveResult(MoveSource.Relearn, pkm.GenNumber, Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
             }
