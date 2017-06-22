@@ -8,4 +8,12 @@
         int LevelMin { get; }
         int LevelMax { get; }
     }
+
+    public static partial class Extensions
+    {
+        public static bool IsWithinRange(this IEncounterable encounter, int lvl)
+        {
+            return encounter.LevelMin <= lvl && lvl <= encounter.LevelMax;
+        }
+    }
 }
