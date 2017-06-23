@@ -83,15 +83,15 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0166	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
-        ///0172	Heatran	00:Not appeared,01:Battleable,02:Disappeared
-        ///0068	Fullmoon Is.	0:Not appeared,520:On the Map
-        ///0069	Newmoon Is.	0:Not appeared,553:On the Map
-        ///0070	Spring Path	0:Not appeared,786:Appeared
-        ///0071	Seabreak Path	0:Not appeared,4136:Appeared
-        ///0081	Member Card	0:Not activated,4617:Activated
-        ///0082	Oak Letter	0:Not activated,4370:Activated
-        ///0083	Azure Flute	0:Not activated,4387:Activated.
+        ///   Looks up a localized string similar to 0152	Dialga/Palkia	00:Event,01:Event,02:Event,03:Event,04:Disappeared,05:Battleable
+        ///0158	Heatran	00:Not appeared,01:Battleable,02:Disappeared
+        ///0054	Fullmoon Is.	0:Not appeared,520:On the Map
+        ///0055	Newmoon Is.	0:Not appeared,553:On the Map
+        ///0056	Spring Path	0:Not appeared,786:Appeared
+        ///0057	Seabreak Path	0:Not appeared,4136:Appeared
+        ///0067	Member Card	0:Not activated,4617:Activated
+        ///0068	Oak Letter	0:Not activated,4370:Activated
+        ///0069	Azure Flute	0:Not activated,4387:Activated.
         /// </summary>
         internal static string const_dp {
             get {
@@ -218,22 +218,23 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 0479	Uxie disappeared
-        ///0477	Mesprit(Verity Cavern) disappeared
-        ///0478	Azelf disappeared
-        ///0589	Cresselia(FullmoonIs.) disappeared
-        ///0256	Heatran disappeared
-        ///0577	Regigigas disappeared
-        ///0590	Giratina disappeared
-        ///0574	Darkrai disappeared
-        ///0591	Shaymin(FlowerParadise) disappeared
-        ///0588	Arceus disappeared
-        ///0254	Arceus(MapObj) disappeared
-        ///0275	Ferry FullmoonIs. accessable
-        ///0284	Ferry NewmoonIs. accessable
-        ///0269	Oak(R224) disappeared
-        ///0602	Shaymin?(R224 MapObj) disappeared
-        ///.
+        ///   Looks up a localized string similar to 0511	Uxie disappeared
+        ///0509	Mesprit(Verity Cavern) disappeared
+        ///0510	Azelf disappeared
+        ///0621	Cresselia(FullmoonIs.) disappeared
+        ///0288	Heatran disappeared
+        ///0609	Regigigas disappeared
+        ///0622	Giratina disappeared
+        ///0606	Darkrai disappeared
+        ///0623	Shaymin(FlowerParadise) disappeared
+        ///0620	Arceus disappeared
+        ///0286	Arceus(MapObj) disappeared
+        ///0307	Ferry FullmoonIs. accessable
+        ///0316	Ferry NewmoonIs. accessable
+        ///0301	Oak(R224) disappeared
+        ///0634	Shaymin(R224 MapObj) disappeared
+        ///2404	HOF(TrainerCard Upgrade)
+        ///2408	Cool [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string flags_dp {
             get {
@@ -257,6 +258,9 @@ namespace PKHeX.Core.Properties {
         ///0781	Lati@s(PewterCity) disappeared
         ///0721	Kyogre/Groudon disappeared
         ///0722	Rayquaza disappeared
+        ///2404	HOF(TrainerCard Upgrade)
+        ///0388	ShinyLeaf(TrainerCard Upgrade)
+        ///0241	Pokeat [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string flags_hgss {
             get {
@@ -3413,7 +3417,8 @@ namespace PKHeX.Core.Properties {
         ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦        /// [rest of string was truncated]&quot;;.
+        ///预知梦
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_abilities_zh {
             get {
@@ -3530,7 +3535,8 @@ namespace PKHeX.Core.Properties {
         ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦        /// [rest of string was truncated]&quot;;.
+        ///预知梦
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_zh1 {
             get {
@@ -5539,7 +5545,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_de {
             get {
@@ -5801,7 +5808,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_en {
             get {
@@ -6582,7 +6590,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_fr {
             get {
@@ -6841,7 +6850,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_fr1 {
             get {
@@ -7101,7 +7111,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_it {
             get {
@@ -7361,7 +7372,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_it1 {
             get {
@@ -7880,7 +7892,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_ko {
             get {
@@ -8140,7 +8153,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///        /// [rest of string was truncated]&quot;;.
+        ///
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_zh {
             get {
@@ -8171,22 +8185,22 @@ namespace PKHeX.Core.Properties {
         ///
         ///Weiße
         ///Schwarze
-        ///Weiße2
-        ///Schwarze2
+        ///Weiße 2
+        ///Schwarze 2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///Alpha Saphir
+        ///Omega Rubin
         ///
         ///
         ///Sonne
         ///Mond
         ///
         ///
-        ///Go
+        ///GO
         ///Rote
-        ///Blaue[INT]/Grüne[JP]
-        ///Blaue
+        ///Blaue [INT]/Grüne [JP]
+        ///Blaue [JP]
         ///Gelbe.
         /// </summary>
         internal static string text_games_de {
@@ -8218,22 +8232,22 @@ namespace PKHeX.Core.Properties {
         ///
         ///White
         ///Black
-        ///White2
-        ///Black2
+        ///White 2
+        ///Black 2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///Alpha Sapphire
+        ///Omega Ruby
         ///
         ///
         ///Sun
         ///Moon
         ///
         ///
-        ///Go
+        ///GO
         ///Red
-        ///Blue[INT]/Green[JP]
-        ///Blue[JP]
+        ///Blue [INT]/Green [JP]
+        ///Blue [JP]
         ///Yellow.
         /// </summary>
         internal static string text_games_en {
@@ -8277,10 +8291,10 @@ namespace PKHeX.Core.Properties {
         ///Luna
         ///
         ///
-        ///Go
+        ///GO
         ///Roja
-        ///Azul[INT]/Verde[JP]
-        ///Azul[JP]
+        ///Azul [INT]/Verde [JP]
+        ///Azul [JP]
         ///Amarilla.
         /// </summary>
         internal static string text_games_es {
@@ -8312,22 +8326,22 @@ namespace PKHeX.Core.Properties {
         ///
         ///Blanche
         ///Noire
-        ///Blanche2
-        ///Noire2
+        ///Blanche 2
+        ///Noire 2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///Saphir Alpha
+        ///Rubis Oméga
         ///
         ///
         ///Soleil
         ///Lune
         ///
         ///
-        ///Go
+        ///GO
         ///Rouge
-        ///Bleue[INT]/Vert[JP]
-        ///Bleue[JP]
+        ///Bleue [INT]/Vert [JP]
+        ///Bleue [JP]
         ///Jaune.
         /// </summary>
         internal static string text_games_fr {
@@ -8359,22 +8373,22 @@ namespace PKHeX.Core.Properties {
         ///
         ///Bianca
         ///Nera
-        ///Bianca2
-        ///Nera2
+        ///Bianca 2
+        ///Nera 2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///Zaffiro Alpha
+        ///Rubino Omega
         ///
         ///
         ///Sole
         ///Luna
         ///
         ///
-        ///Go
+        ///GO
         ///Rossa
-        ///Blu[INT]/Verde[JP]
-        ///Blu[JP]
+        ///Blu [INT]/Verde [JP]
+        ///Blu [JP]
         ///Gialla.
         /// </summary>
         internal static string text_games_it {
@@ -8406,22 +8420,22 @@ namespace PKHeX.Core.Properties {
         ///
         ///ホワイト
         ///ブラック
-        ///ホワイト2
-        ///ブラック2
+        ///ホワイト 2
+        ///ブラック 2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///アルファサファイア
+        ///オメガルビー
         ///
         ///
         ///サン
         ///ムーン
         ///
         ///
-        ///Go
+        ///GO
         ///赤
-        ///青[INT]/緑[JP]
-        ///青[JP]
+        ///青 [INT]/緑 [JP]
+        ///青 [JP]
         ///黄.
         /// </summary>
         internal static string text_games_ja {
@@ -8453,12 +8467,12 @@ namespace PKHeX.Core.Properties {
         ///
         ///화이트
         ///블랙
-        ///화이트2
-        ///블랙2
+        ///화이트 2
+        ///블랙 2
         ///X
         ///Y
-        ///AS
-        ///OR
+        ///알파사파이어
+        ///오메가루비
         ///
         ///
         ///썬
@@ -8467,8 +8481,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///고
         ///레드
-        ///블루[INT]/그린[JP]
-        ///블루[JP]
+        ///블루 [INT]/그린 [JP]
+        ///블루 [JP]
         ///옐로.
         /// </summary>
         internal static string text_games_ko {
@@ -8500,8 +8514,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///白
         ///黑
-        ///白2
-        ///黑2
+        ///白 2
+        ///黑 2
         ///X
         ///Y
         ///始源蓝宝石
@@ -8512,10 +8526,10 @@ namespace PKHeX.Core.Properties {
         ///月亮
         ///
         ///
-        ///Go
+        ///GO
         ///红
-        ///蓝[国际]/绿[日]
-        ///蓝[日]
+        ///蓝 [国际]/绿 [日]
+        ///蓝 [日]
         ///黄.
         /// </summary>
         internal static string text_games_zh {
@@ -9559,7 +9573,8 @@ namespace PKHeX.Core.Properties {
         ///마니아터널
         ///자랑의 뒷마당
         ///갖철섬
-        ///숲의 양옥집        /// [rest of string was truncated]&quot;;.
+        ///숲의 양옥집
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_hgss_00000_ko {
             get {
@@ -9645,7 +9660,8 @@ namespace PKHeX.Core.Properties {
         ///睿智湖畔
         ///隐泉之路
         ///心齐湖
-        ///立志湖        /// [rest of string was truncated]&quot;;.
+        ///立志湖
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_hgss_00000_zh {
             get {
@@ -10432,7 +10448,8 @@ namespace PKHeX.Core.Properties {
         ///Éter
         ///Éter Máximo
         ///Elixir
-        ///Elixir Máximo        /// [rest of string was truncated]&quot;;.
+        ///Elixir Máximo
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_es {
             get {
@@ -10604,7 +10621,8 @@ namespace PKHeX.Core.Properties {
         ///クリティカット
         ///プラスパワー
         ///ディフェンダー
-        ///スピーダー        /// [rest of string was truncated]&quot;;.
+        ///スピーダー
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_ja {
             get {
@@ -10692,7 +10710,8 @@ namespace PKHeX.Core.Properties {
         ///실버스프레이
         ///골드스프레이
         ///동굴탈출로프
-        ///벌레회피스프레이        /// [rest of string was truncated]&quot;;.
+        ///벌레회피스프레이
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_ko {
             get {
@@ -12145,7 +12164,8 @@ namespace PKHeX.Core.Properties {
         ///Dard-Nuée
         ///Groz’Yeux
         ///Morsure
-        ///Rugissement        /// [rest of string was truncated]&quot;;.
+        ///Rugissement
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_fr {
             get {
@@ -12278,7 +12298,8 @@ namespace PKHeX.Core.Properties {
         ///じごくぐるま
         ///けたぐり
         ///カウンター
-        ///ちきゅうなげ        /// [rest of string was truncated]&quot;;.
+        ///ちきゅうなげ
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_ja {
             get {
@@ -12374,7 +12395,8 @@ namespace PKHeX.Core.Properties {
         ///전기쇼크
         ///10만볼트
         ///전기자석파
-        ///번개        /// [rest of string was truncated]&quot;;.
+        ///번개
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_ko {
             get {
@@ -12489,7 +12511,8 @@ namespace PKHeX.Core.Properties {
         ///刺耳声
         ///影子分身
         ///自我再生
-        ///变硬        /// [rest of string was truncated]&quot;;.
+        ///变硬
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_zh {
             get {
@@ -13036,7 +13059,8 @@ namespace PKHeX.Core.Properties {
         ///[~ 48]
         ///[~ 49]
         ///[~ 50]
-        ///[VAR 01A3(0000)]        /// [rest of string was truncated]&quot;;.
+        ///[VAR 01A3(0000)]
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_pokeblock_zh {
             get {
@@ -13300,6 +13324,287 @@ namespace PKHeX.Core.Properties {
         internal static string text_puff_zh {
             get {
                 return ResourceManager.GetString("text_puff_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	Kalos Champion
+        ///RibbonChampionG3Hoenn	Hoenn Champion (RSE)
+        ///RibbonChampionSinnoh	Sinnoh Champion
+        ///RibbonBestFriends	Beste Freunde
+        ///RibbonTraining	Training
+        ///RibbonBattlerSkillful	Erfahrener Kämpfer
+        ///RibbonBattlerExpert	Experten Kämpfer
+        ///RibbonEffort	Fleiß
+        ///RibbonAlert	Wachsamkeit
+        ///RibbonShock	Schock
+        ///RibbonDowncast	Niederschlag
+        ///RibbonCareless	Sorglosigkeit
+        ///RibbonRelax	Entspannung
+        ///RibbonSnooze	Schlafen
+        ///RibbonSmile	Lächeln
+        ///RibbonGorgeous	Hinreißend
+        ///RibbonRoyal	Königlich
+        ///RibbonGorgeou [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_de {
+            get {
+                return ResourceManager.GetString("text_Ribbons_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	Kalos Champion
+        ///RibbonChampionG3Hoenn	Hoenn Champion (RSE)
+        ///RibbonChampionSinnoh	Sinnoh Champion
+        ///RibbonBestFriends	Best Friends
+        ///RibbonTraining	Training
+        ///RibbonBattlerSkillful	Skillful Battler
+        ///RibbonBattlerExpert	Expert Battler
+        ///RibbonEffort	Effort
+        ///RibbonAlert	Alert
+        ///RibbonShock	Shock
+        ///RibbonDowncast	Downcast
+        ///RibbonCareless	Careless
+        ///RibbonRelax	Relax
+        ///RibbonSnooze	Snooze
+        ///RibbonSmile	Smile
+        ///RibbonGorgeous	Gorgeous
+        ///RibbonRoyal	Royal
+        ///RibbonGorgeousRoyal	Gorgeous Royal
+        ///RibbonArtist	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_en {
+            get {
+                return ResourceManager.GetString("text_Ribbons_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	Kalos Champion
+        ///RibbonChampionG3Hoenn	Hoenn Champion (RSE)
+        ///RibbonChampionSinnoh	Sinnoh Champion
+        ///RibbonBestFriends	Best Friends
+        ///RibbonTraining	Training
+        ///RibbonBattlerSkillful	Skillful Battler
+        ///RibbonBattlerExpert	Expert Battler
+        ///RibbonEffort	Effort
+        ///RibbonAlert	Alert
+        ///RibbonShock	Shock
+        ///RibbonDowncast	Downcast
+        ///RibbonCareless	Careless
+        ///RibbonRelax	Relax
+        ///RibbonSnooze	Snooze
+        ///RibbonSmile	Smile
+        ///RibbonGorgeous	Gorgeous
+        ///RibbonRoyal	Royal
+        ///RibbonGorgeousRoyal	Gorgeous Royal
+        ///RibbonArtist	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_en1 {
+            get {
+                return ResourceManager.GetString("text_Ribbons_en1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	Campeón de Kalos
+        ///RibbonChampionG3Hoenn	Campeón de Hoenn (RSE)
+        ///RibbonChampionSinnoh	Campeón de Sinnoh
+        ///RibbonBestFriends	Afecto
+        ///RibbonTraining	Ejercicio
+        ///RibbonBattlerSkillful	Figura del Combate
+        ///RibbonBattlerExpert	Experto del Combate
+        ///RibbonEffort	Esfuerzo
+        ///RibbonAlert	Alerta
+        ///RibbonShock	Impacto
+        ///RibbonDowncast	Abatimiento
+        ///RibbonCareless	Descuido
+        ///RibbonRelax	Relax
+        ///RibbonSnooze	Cabezada
+        ///RibbonSmile	Sonrisa
+        ///RibbonGorgeous	Maravilla
+        ///RibbonRoyal	Realeza
+        ///RibbonGorgeousRoyal	Realez [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_es {
+            get {
+                return ResourceManager.GetString("text_Ribbons_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos = Maître Kalos
+        ///RibbonChampionG3Hoenn = Maître Hoenn (RSE)
+        ///RibbonChampionSinnoh = Maître Sinnoh
+        ///RibbonBestFriends = Affection
+        ///RibbonTraining = Perfectionnement
+        ///RibbonBattlerSkillful = Élite
+        ///RibbonBattlerExpert = Génie
+        ///RibbonEffort = Effort
+        ///RibbonAlert = Alerte
+        ///RibbonShock = Choc
+        ///RibbonDowncast = Déprime
+        ///RibbonCareless = Négligence
+        ///RibbonRelax = Détente
+        ///RibbonSnooze = Sieste
+        ///RibbonSmile = Sourire
+        ///RibbonGorgeous = Sublime
+        ///RibbonRoyal = Royal
+        ///RibbonGorgeousRoyal = Royal Subl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_fr {
+            get {
+                return ResourceManager.GetString("text_Ribbons_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	Kalos Champion
+        ///RibbonChampionG3Hoenn	Hoenn Champion (RSE)
+        ///RibbonChampionSinnoh	Sinnoh Champion
+        ///RibbonBestFriends	Best Friends
+        ///RibbonTraining	Training
+        ///RibbonBattlerSkillful	Skillful Battler
+        ///RibbonBattlerExpert	Expert Battler
+        ///RibbonEffort	Effort
+        ///RibbonAlert	Alert
+        ///RibbonShock	Shock
+        ///RibbonDowncast	Downcast
+        ///RibbonCareless	Careless
+        ///RibbonRelax	Relax
+        ///RibbonSnooze	Snooze
+        ///RibbonSmile	Smile
+        ///RibbonGorgeous	Gorgeous
+        ///RibbonRoyal	Royal
+        ///RibbonGorgeousRoyal	Gorgeous Royal
+        ///RibbonArtist	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_it {
+            get {
+                return ResourceManager.GetString("text_Ribbons_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	カロス チャンプ
+        ///RibbonChampionG3Hoenn	ホウエン チャンプ (RSE)
+        ///RibbonChampionSinnoh	シンオウ チャンプ
+        ///RibbonBestFriends	なかよし
+        ///RibbonTraining	しゅぎょう
+        ///RibbonBattlerSkillful	グレートバトル
+        ///RibbonBattlerExpert	マスターバトル
+        ///RibbonEffort	がんば
+        ///RibbonAlert	しゃっき
+        ///RibbonShock	どっき
+        ///RibbonDowncast	しょんぼ
+        ///RibbonCareless	うっか
+        ///RibbonRelax	すっき
+        ///RibbonSnooze	ぐっす
+        ///RibbonSmile	にっこ
+        ///RibbonGorgeous	ゴージャス
+        ///RibbonRoyal	ロイヤル
+        ///RibbonGorgeousRoyal	ゴージャスロイヤル
+        ///RibbonArtist	ブロマイド
+        ///RibbonFootprint	あしあと
+        ///RibbonRecord	レコード
+        ///RibbonLegend	レジェンド
+        ///RibbonC [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_ja {
+            get {
+                return ResourceManager.GetString("text_Ribbons_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	칼로스챔피언리본
+        ///RibbonChampionG3Hoenn	호연챔피언리본 (RSE)
+        ///RibbonChampionSinnoh	신오챔피언리본
+        ///RibbonBestFriends	절친리본
+        ///RibbonTraining	수행리본
+        ///RibbonBattlerSkillful	그레이트배틀리본
+        ///RibbonBattlerExpert	마스터배틀리본
+        ///RibbonEffort	노력리본
+        ///RibbonAlert	뚝심리본
+        ///RibbonShock	철렁리본
+        ///RibbonDowncast	풀죽기리본
+        ///RibbonCareless	덜렁이리본
+        ///RibbonRelax	상쾌리본
+        ///RibbonSnooze	잠보리본
+        ///RibbonSmile	방글방글리본
+        ///RibbonGorgeous	고저스리본
+        ///RibbonRoyal	로열리본
+        ///RibbonGorgeousRoyal	고저스로열리본
+        ///RibbonArtist	브로마이드리본
+        ///RibbonFootprint	발자국리본
+        ///RibbonRecord	레코드리본
+        ///RibbonLegend	레전드리본
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_ko {
+            get {
+                return ResourceManager.GetString("text_Ribbons_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	Campião de Kalos
+        ///RibbonChampionG3Hoenn	Campião de Hoenn (RSE)
+        ///RibbonChampionSinnoh	Campião de Sinnoh
+        ///RibbonBestFriends	Melhores Amigos
+        ///RibbonTraining	Treino
+        ///RibbonBattlerSkillful	Batalhador Hábil
+        ///RibbonBattlerExpert	Batalhador Experiente
+        ///RibbonEffort	Empenho
+        ///RibbonAlert	Alerta
+        ///RibbonShock	Choque
+        ///RibbonDowncast	Desanimado
+        ///RibbonCareless	Descuidado
+        ///RibbonRelax	Descontraído
+        ///RibbonSnooze	Dorminhoco
+        ///RibbonSmile	Sorridente
+        ///RibbonGorgeous	Deslumbrante
+        ///RibbonRoyal	Nobre
+        ///RibbonGo [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_pt {
+            get {
+                return ResourceManager.GetString("text_Ribbons_pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RibbonChampionKalos	卡洛斯冠军
+        ///RibbonChampionG3Hoenn	丰缘冠军 (RSE)
+        ///RibbonChampionSinnoh	神奥冠军
+        ///RibbonBestFriends	友谊
+        ///RibbonTraining	苦练
+        ///RibbonBattlerSkillful	战技
+        ///RibbonBattlerExpert	战王
+        ///RibbonEffort	努力
+        ///RibbonAlert	警告
+        ///RibbonShock	震惊
+        ///RibbonDowncast	低落
+        ///RibbonCareless	疏忽
+        ///RibbonRelax	放松
+        ///RibbonSnooze	小憩
+        ///RibbonSmile	微笑
+        ///RibbonGorgeous	光辉
+        ///RibbonRoyal	皇家
+        ///RibbonGorgeousRoyal	光辉皇家
+        ///RibbonArtist	肖像
+        ///RibbonFootprint	足迹
+        ///RibbonRecord	记录
+        ///RibbonLegend	传说
+        ///RibbonCountry	国家
+        ///RibbonNational	国际
+        ///RibbonEarth	大地
+        ///RibbonWorld	 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_Ribbons_zh {
+            get {
+                return ResourceManager.GetString("text_Ribbons_zh", resourceCulture);
             }
         }
         
@@ -15053,7 +15358,8 @@ namespace PKHeX.Core.Properties {
         ///Diglett
         ///Dugtrio
         ///Meowth
-        ///Persian        /// [rest of string was truncated]&quot;;.
+        ///Persian
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_it {
             get {
@@ -15252,7 +15558,8 @@ namespace PKHeX.Core.Properties {
         ///킹크랩
         ///찌리리공
         ///붐볼
-        ///아라리        /// [rest of string was truncated]&quot;;.
+        ///아라리
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_ko {
             get {
@@ -15548,7 +15855,8 @@ namespace PKHeX.Core.Properties {
         ///¡Ráfaga de tiros de Fraxure!
         ///¡Tentacruel y sus globos de bits!
         ///¡Dale a Aerodactyl con tiros rápidos!
-        ///¡Destruye la barrera de Graveler!        /// [rest of string was truncated]&quot;;.
+        ///¡Destruye la barrera de Graveler!
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_supertraining_es {
             get {
@@ -16811,7 +17119,8 @@ namespace PKHeX.Core.Properties {
         ///
         ///Route 10
         ///Menhir-Weg
-        ///Cromlexia        /// [rest of string was truncated]&quot;;.
+        ///Cromlexia
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_00000_de {
             get {
@@ -17534,7 +17843,8 @@ namespace PKHeX.Core.Properties {
         ///VGE 2014
         ///VGE 2015
         ///VGE 2016
-        ///VGE 2017        /// [rest of string was truncated]&quot;;.
+        ///VGE 2017
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_40000_de {
             get {

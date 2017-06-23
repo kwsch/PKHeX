@@ -20,8 +20,8 @@ namespace PKHeX.WinForms
             TLP_Ribbons.SuspendLayout();
             FLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
             TLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
-            PopulateRibbons();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            PopulateRibbons();
             TLP_Ribbons.ResumeLayout();
         }
 
@@ -91,7 +91,7 @@ namespace PKHeX.WinForms
             {
                 Anchor = AnchorStyles.Left,
                 Name = PrefixLabel + rib.Name,
-                Text = rib.Name,
+                Text = RibbonStrings.GetName(rib.Name),
                 Padding = Padding.Empty,
                 Margin = Padding.Empty,
                 AutoSize = true,

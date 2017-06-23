@@ -41,7 +41,7 @@ namespace PKHeX.Core
             public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
                 memories, genloc, trainingbags, trainingstage, characteristics,
                 encountertypelist, gamelanguages, balllist, gamelist, pokeblocks,
-                g3coloitems, g3xditems, g3items, g2items, g1items;
+                g3coloitems, g3xditems, g3items, g2items, g1items, ribbons;
 
             // Met Locations
             public readonly string[] metGSC_00000, metRSEFRLG_00000, metCXD_00000;
@@ -58,6 +58,7 @@ namespace PKHeX.Core
             public GameStrings(string l)
             {
                 lang = l;
+                ribbons = Get("Ribbons");
                 // Past Generation strings
                 g3items = Get("ItemsG3");
                 // XD and Colosseum

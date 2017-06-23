@@ -946,7 +946,11 @@ namespace PKHeX.WinForms
 
             // Update Legality Strings
             // Clipboard.SetText(string.Join(Environment.NewLine, Util.GetLocalization(typeof(LegalityCheckStrings))));
-            Task.Run(() => Util.SetLocalization(typeof(LegalityCheckStrings), Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2)));
+            Task.Run(() => {
+                    var lang = Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.Substring(0, 2);
+                    Util.SetLocalization(typeof(LegalityCheckStrings), lang);
+                    RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+                });
 
             // Update Legality Analysis strings
             LegalityAnalysis.MoveStrings = GameInfo.Strings.movelist;
