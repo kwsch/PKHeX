@@ -600,7 +600,7 @@ namespace PKHeX.WinForms
         }
         private bool TryLoadPCBoxBin(byte[] input)
         {
-            if (!(BitConverter.ToUInt16(input, 4) == 0 && BitConverter.ToUInt32(input, 8) != 0 && C_SAV.IsPCBoxBin(input.Length)))
+            if (!C_SAV.IsPCBoxBin(input.Length))
                 return false;
             if (!C_SAV.OpenPCBoxBin(input, out string c))
             {
