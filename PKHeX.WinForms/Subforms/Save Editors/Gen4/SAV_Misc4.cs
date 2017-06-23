@@ -186,7 +186,7 @@ namespace PKHeX.WinForms
                 "16 Move Tester", "17 Calendar", "18 Dot Artist", "19 Roulette", "20 Trainer Counter",
                 "21 Kitchen Timer", "22 Color Changer", "23 Matchup Checker", "24 Stopwatch", "25 Alarm Clock"
             };
-            CB_CurrentApp.Items.AddRange(new[] {"None"}.Concat(PoketchTitle).ToArray());
+            CB_CurrentApp.Items.AddRange(PoketchTitle);
             CB_CurrentApp.SelectedIndex = SAV.CurrentPokeTchApp;
             oldPoketchVal = new bool[PoketchTitle.Length];
             CLB_Poketch.Items.Clear();
