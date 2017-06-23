@@ -95,6 +95,7 @@
             this.NUD_CastleRankItem = new System.Windows.Forms.NumericUpDown();
             this.NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
             this.L_CastleRank01 = new System.Windows.Forms.Label();
+            this.L_CurrentMap = new System.Windows.Forms.Label();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
@@ -168,6 +169,7 @@
             // 
             // TAB_Main
             // 
+            this.TAB_Main.Controls.Add(this.L_CurrentMap);
             this.TAB_Main.Controls.Add(this.L_UGFlags);
             this.TAB_Main.Controls.Add(this.NUD_UGFlags);
             this.TAB_Main.Controls.Add(this.NUD_BP);
@@ -186,16 +188,16 @@
             // 
             // L_UGFlags
             // 
-            this.L_UGFlags.Location = new System.Drawing.Point(3, 33);
+            this.L_UGFlags.Location = new System.Drawing.Point(-10, 28);
             this.L_UGFlags.Name = "L_UGFlags";
             this.L_UGFlags.Size = new System.Drawing.Size(100, 25);
             this.L_UGFlags.TabIndex = 7;
-            this.L_UGFlags.Text = "Flags Obtained";
+            this.L_UGFlags.Text = "Flags Obtained:";
             this.L_UGFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_UGFlags
             // 
-            this.NUD_UGFlags.Location = new System.Drawing.Point(109, 36);
+            this.NUD_UGFlags.Location = new System.Drawing.Point(91, 31);
             this.NUD_UGFlags.Maximum = new decimal(new int[] {
             999999,
             0,
@@ -212,7 +214,7 @@
             // 
             // NUD_BP
             // 
-            this.NUD_BP.Location = new System.Drawing.Point(90, 9);
+            this.NUD_BP.Location = new System.Drawing.Point(34, 8);
             this.NUD_BP.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -229,9 +231,9 @@
             // 
             // L_BP
             // 
-            this.L_BP.Location = new System.Drawing.Point(3, 7);
+            this.L_BP.Location = new System.Drawing.Point(3, 6);
             this.L_BP.Name = "L_BP";
-            this.L_BP.Size = new System.Drawing.Size(81, 22);
+            this.L_BP.Size = new System.Drawing.Size(30, 22);
             this.L_BP.TabIndex = 1;
             this.L_BP.Text = "BP:";
             this.L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -240,7 +242,7 @@
             // 
             this.CB_UpgradeMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_UpgradeMap.FormattingEnabled = true;
-            this.CB_UpgradeMap.Location = new System.Drawing.Point(6, 67);
+            this.CB_UpgradeMap.Location = new System.Drawing.Point(9, 76);
             this.CB_UpgradeMap.Name = "CB_UpgradeMap";
             this.CB_UpgradeMap.Size = new System.Drawing.Size(131, 21);
             this.CB_UpgradeMap.TabIndex = 3;
@@ -249,7 +251,7 @@
             // 
             this.GB_FlyDest.Controls.Add(this.B_AllFlyDest);
             this.GB_FlyDest.Controls.Add(this.CLB_FlyDest);
-            this.GB_FlyDest.Location = new System.Drawing.Point(3, 95);
+            this.GB_FlyDest.Location = new System.Drawing.Point(3, 101);
             this.GB_FlyDest.Name = "GB_FlyDest";
             this.GB_FlyDest.Size = new System.Drawing.Size(140, 138);
             this.GB_FlyDest.TabIndex = 4;
@@ -258,7 +260,7 @@
             // 
             // B_AllFlyDest
             // 
-            this.B_AllFlyDest.Location = new System.Drawing.Point(6, 20);
+            this.B_AllFlyDest.Location = new System.Drawing.Point(5, 21);
             this.B_AllFlyDest.Name = "B_AllFlyDest";
             this.B_AllFlyDest.Size = new System.Drawing.Size(75, 25);
             this.B_AllFlyDest.TabIndex = 0;
@@ -270,7 +272,7 @@
             // 
             this.CLB_FlyDest.CheckOnClick = true;
             this.CLB_FlyDest.FormattingEnabled = true;
-            this.CLB_FlyDest.Location = new System.Drawing.Point(6, 51);
+            this.CLB_FlyDest.Location = new System.Drawing.Point(6, 54);
             this.CLB_FlyDest.Name = "CLB_FlyDest";
             this.CLB_FlyDest.Size = new System.Drawing.Size(128, 79);
             this.CLB_FlyDest.TabIndex = 1;
@@ -287,7 +289,7 @@
             this.GB_Poketch.Size = new System.Drawing.Size(194, 231);
             this.GB_Poketch.TabIndex = 5;
             this.GB_Poketch.TabStop = false;
-            this.GB_Poketch.Text = "Poketch";
+            this.GB_Poketch.Text = "Pokétch";
             // 
             // L_CurrentApp
             // 
@@ -329,7 +331,7 @@
             // PB_DotArtist
             // 
             this.PB_DotArtist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_DotArtist.Location = new System.Drawing.Point(6, 138);
+            this.PB_DotArtist.Location = new System.Drawing.Point(6, 144);
             this.PB_DotArtist.Name = "PB_DotArtist";
             this.PB_DotArtist.Size = new System.Drawing.Size(96, 87);
             this.PB_DotArtist.TabIndex = 2;
@@ -346,7 +348,7 @@
             this.TAB_BF.Name = "TAB_BF";
             this.TAB_BF.Size = new System.Drawing.Size(373, 239);
             this.TAB_BF.TabIndex = 1;
-            this.TAB_BF.Text = "B.Frontier";
+            this.TAB_BF.Text = "Battle Frontier";
             this.TAB_BF.UseVisualStyleBackColor = true;
             // 
             // GB_Prints
@@ -465,17 +467,17 @@
             this.RB_Stats3_01.AutoSize = true;
             this.RB_Stats3_01.Location = new System.Drawing.Point(6, 76);
             this.RB_Stats3_01.Name = "RB_Stats3_01";
-            this.RB_Stats3_01.Size = new System.Drawing.Size(49, 17);
+            this.RB_Stats3_01.Size = new System.Drawing.Size(55, 17);
             this.RB_Stats3_01.TabIndex = 2;
             this.RB_Stats3_01.TabStop = true;
-            this.RB_Stats3_01.Text = "Lv50";
+            this.RB_Stats3_01.Text = "Lv. 50";
             this.RB_Stats3_01.UseVisualStyleBackColor = true;
             this.RB_Stats3_01.CheckedChanged += new System.EventHandler(this.ChangeStat);
             // 
             // RB_Stats3_02
             // 
             this.RB_Stats3_02.AutoSize = true;
-            this.RB_Stats3_02.Location = new System.Drawing.Point(59, 76);
+            this.RB_Stats3_02.Location = new System.Drawing.Point(64, 76);
             this.RB_Stats3_02.Name = "RB_Stats3_02";
             this.RB_Stats3_02.Size = new System.Drawing.Size(51, 17);
             this.RB_Stats3_02.TabIndex = 3;
@@ -572,9 +574,9 @@
             this.L_Stat0.AutoSize = true;
             this.L_Stat0.Location = new System.Drawing.Point(6, 126);
             this.L_Stat0.Name = "L_Stat0";
-            this.L_Stat0.Size = new System.Drawing.Size(41, 13);
+            this.L_Stat0.Size = new System.Drawing.Size(48, 13);
             this.L_Stat0.TabIndex = 9;
-            this.L_Stat0.Text = "Current";
+            this.L_Stat0.Text = "Previous";
             // 
             // L_Stat1
             // 
@@ -588,11 +590,11 @@
             // L_Stat2
             // 
             this.L_Stat2.AutoSize = true;
-            this.L_Stat2.Location = new System.Drawing.Point(4, 178);
+            this.L_Stat2.Location = new System.Drawing.Point(6, 178);
             this.L_Stat2.Name = "L_Stat2";
-            this.L_Stat2.Size = new System.Drawing.Size(27, 13);
+            this.L_Stat2.Size = new System.Drawing.Size(42, 13);
             this.L_Stat2.TabIndex = 11;
-            this.L_Stat2.Text = "Max";
+            this.L_Stat2.Text = "Record";
             // 
             // L_Stat3
             // 
@@ -1082,6 +1084,15 @@
             this.L_CastleRank01.Text = "Recovery / Item / Info";
             this.L_CastleRank01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // L_CurrentMap
+            // 
+            this.L_CurrentMap.Location = new System.Drawing.Point(4, 51);
+            this.L_CurrentMap.Name = "L_CurrentMap";
+            this.L_CurrentMap.Size = new System.Drawing.Size(71, 25);
+            this.L_CurrentMap.TabIndex = 8;
+            this.L_CurrentMap.Text = "Current Map";
+            this.L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Misc4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1206,5 +1217,6 @@
         private System.Windows.Forms.NumericUpDown NUD_UGFlags;
         private System.Windows.Forms.ComboBox CB_CurrentApp;
         private System.Windows.Forms.Label L_CurrentApp;
+        private System.Windows.Forms.Label L_CurrentMap;
     }
 }

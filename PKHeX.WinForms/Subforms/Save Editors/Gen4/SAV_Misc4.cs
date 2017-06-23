@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
                     ofsBP = GBO + 0x65F8;
                     ofsUGFlagCount = GBO + 0x3A60;
                     ofsPoketch = GBO + 0x114F;
-                    CB_UpgradeMap.Visible = false;
+                    L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
                     BFF = new[] { new[] { 0, 1, 0x5FCA, 0x04, 0x6601 }, };
                     break;
@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
                     ofsBP = GBO + 0x7234;
                     ofsUGFlagCount = GBO + 0x3CE8;
                     ofsPoketch = GBO + 0x1163;
-                    CB_UpgradeMap.Visible = false;
+                    L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     ofsPrints = GBO + 0xE4A;
                     BFF = new[] {
                         new[] { 0, 1, 0x68E0, 0x04, 0x723D },
@@ -53,7 +53,7 @@ namespace PKHeX.WinForms
                 case GameVersion.HGSS:
                     ofsFlag = GBO + 0x10C4;
                     ofsBP = GBO + 0x5BB8;
-                    NUD_UGFlags.Visible = false;
+                    L_UGFlags.Visible = NUD_UGFlags.Visible = false;
                     GB_Poketch.Visible = false;
                     ofsMap = GBO + 0xBAE7;
                     ofsPrints = GBO + 0xE7E;
@@ -180,14 +180,14 @@ namespace PKHeX.WinForms
         private void ReadPoketch()
         {
             string[] PoketchTitle = new[] {
-                "01 Digital Watch", "02 Calculator", "03 Memo Pad", "04 Pedometer", "05 Pokemon List",
-                "06 Friendship Checker", "07 Dowsing Machine", "08 Berry Searcher", "09 Day Care Checker", "10 Pokemon History",
-                "11 Counter", "12 Analog Watch", "13 Marking Map", "14 Link Searcher", "15 Coin Toss",
-                "16 Move Tester", "17 Calendar", "18 Dot Artist", "19 Roulette", "20 Trainer Counter",
-                "21 Kitchen Timer", "22 Color Changer", "23 Matchup Checker", "24 Stopwatch", "25 Alarm Clock"
+                "01 - Digital Watch", "02 - Calculator", "03 - Memo Pad", "04 - Pedometer", "05 - Pokémon List",
+                "06 - Friendship Checker", "07 - Dowsing Machine", "08 - Berry Searcher", "09 - Day Care Checker", "10 - Pokémon History",
+                "11 - Counter", "12 - Analog Watch", "13 - Marking Map", "14 - Link Searcher", "15 - Coin Toss",
+                "16 - Move Tester", "17 - Calendar", "18 - Dot Artist", "19 - Roulette", "20 - Trainer Counter",
+                "21 - Kitchen Timer", "22 - Color Changer", "23 - Matchup Checker", "24 - Stopwatch", "25 - Alarm Clock"
             };
             CB_CurrentApp.Items.AddRange(PoketchTitle);
-            CB_CurrentApp.SelectedIndex = SAV.CurrentPokeTchApp;
+            CB_CurrentApp.SelectedIndex = SAV.CurrentPoketchApp;
             oldPoketchVal = new bool[PoketchTitle.Length];
             CLB_Poketch.Items.Clear();
             for (int i = 0; i < PoketchTitle.Length; i++)
@@ -227,7 +227,7 @@ namespace PKHeX.WinForms
                 SAV.Data[ofsPoketch - 1] = 0;
             DotArtistByte.CopyTo(SAV.Data, ofsPoketch + 0x27);
             SAV.Data[ofsPoketch - 3] |= 0x04; // "Touch!"
-            SAV.CurrentPokeTchApp = CB_CurrentApp.SelectedIndex;
+            SAV.CurrentPoketchApp = CB_CurrentApp.SelectedIndex;
         }
 
         private void SetPictureBoxFromFlags(byte[] inp)
@@ -412,7 +412,7 @@ namespace PKHeX.WinForms
             };
             BFT = new[] {
                 new[] { "Singles", "Doubles", "Multi" },
-                new[] { "Singles", "Doubles", "Multi(Trainer)", "Multi(friend)", "WiFi" },
+                new[] { "Singles", "Doubles", "Multi (Trainer)", "Multi (Friend)", "Wi-Fi" },
             };
             BFN = new[] { "Tower", "Factory", "Hall", "Castle", "Arcade" };
             if (SAV.DP) BFN = BFN.Take(1).ToArray();
