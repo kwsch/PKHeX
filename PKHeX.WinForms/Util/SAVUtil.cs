@@ -47,6 +47,14 @@ namespace PKHeX.WinForms
             return true;
         }
 
+        /// <summary>
+        /// Dumps the <see cref="SaveFile.BoxData"/> to a folder with individual decrypted files.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> that is being dumped from.</param>
+        /// <param name="path">Folder to store <see cref="PKM"/> files.</param>
+        /// <param name="result">Result message from the method.</param>
+        /// <param name="currentBox">Box contents to be dumped.</param>
+        /// <returns></returns>
         public static bool DumpBox(this SaveFile SAV, string path, out string result, int currentBox)
         {
             PKM[] boxdata = SAV.BoxData;
@@ -172,6 +180,22 @@ namespace PKHeX.WinForms
                 errata.Add($"Game can't have ability: {GameInfo.Strings.abilitylist[pkm.Ability]}");
 
             return errata.ToArray();
+        }
+
+        /// <summary>
+        /// Removes the <see cref="PKM.HeldItem"/> for all <see cref="PKM"/> in the <see cref="SaveFile.BoxData"/>.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> that is being operated on.</param>
+        /// <param name="item"><see cref="PKM.HeldItem"/> to set. If no argument is supplied, the held item will be removed.</param>
+        public static void SetBoxDataAllHeldItems(this SaveFile SAV, int item = 0)
+        {
+            var boxdata = SAV.BoxData;
+            foreach (PKM pk in boxdata)
+            {
+                pk.HeldItem = item;
+                pk.RefreshChecksum();
+            }
+            SAV.BoxData = boxdata;
         }
     }
 }
