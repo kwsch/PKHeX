@@ -1022,7 +1022,7 @@ namespace PKHeX.Core
         }
         private static IEnumerable<RibbonResult> VerifyRibbonSet2(PKM pkm, object encounterContent)
         {
-            if (!(pkm is IRibbonSetEvent3 set2))
+            if (!(pkm is IRibbonSetEvent4 set2))
                 yield break;
             var names = set2.RibbonNames();
             var sb = set2.RibbonBits();
