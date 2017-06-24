@@ -382,7 +382,7 @@ namespace PKHeX.WinForms
         }
         private sealed class PKMInfo
         {
-            private readonly PKM pkm;
+            internal PKM pkm { get; }
             internal PKMInfo(PKM pk) { pkm = pk; }
 
             private LegalityAnalysis la;
@@ -477,7 +477,7 @@ namespace PKHeX.WinForms
                 return true;
             }
             if (!pkm.HasPropertyAll(cmd.PropertyName) 
-                || ReflectFrameworkUtil.IsValueEqual(pkm, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
+                || pkm.IsValueEqual(info.pkm, cmd.PropertyName, cmd.PropertyValue) != cmd.Evaluator)
             {
                 result = ModifyResult.Filtered;
                 return true;
@@ -567,9 +567,9 @@ namespace PKHeX.WinForms
 
     public static class ReflectFrameworkUtil
     {
-        public static bool IsValueEqual(object obj, string propertyName, object value)
+        public static bool IsValueEqual(this Type t, object obj, string propertyName, object value)
         {
-            PropertyInfo pi = obj.GetType().GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo pi = t.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             var v = pi.GetValue(obj, null);
             var c = ConvertValue(value, pi.PropertyType);
             return v.Equals(c);
