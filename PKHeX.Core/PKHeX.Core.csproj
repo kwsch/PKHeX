@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
     <Description>Pokémon C# Class Library</Description>
     <Company>Project Pokémon</Company>
     <Copyright>Kaphotics</Copyright>
