@@ -345,7 +345,7 @@ namespace PKHeX.Core
                 if (evs.Any(ev => ev > 100)) // EVs can only be increased by vitamins to a max of 100.
                     AddLine(Severity.Invalid, V367, CheckIdentifier.EVs);
             }
-            else if (pkm.Format < 6)
+            else if (pkm.Format < 5)
             {
                 var maxEV = pkm.Format <= 2 ? 25600 : 100; // Vitamin Max
                 // Cannot EV train above 100 without increasing EXP
@@ -2008,13 +2008,13 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case 25: // Pikachu
-                    if (pkm.Format == 6 && pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
+                    if (pkm.GenNumber == 6 && pkm.AltForm != 0 ^ Type == typeof(EncounterStatic))
                     {
                         string msg = Type == typeof(EncounterStatic) ? V305 : V306;
                         AddLine(Severity.Invalid, msg, CheckIdentifier.Form);
                         return;
                     }
-                    if (pkm.Format == 7 && pkm.AltForm != 0 ^ Type == typeof(MysteryGift))
+                    if (pkm.GenNumber == 7 && pkm.AltForm != 0 ^ Type == typeof(MysteryGift))
                     {
                         if (EncounterMatch is WC7 gift && gift.Form != pkm.AltForm)
                         {

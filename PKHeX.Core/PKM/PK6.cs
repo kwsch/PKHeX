@@ -355,7 +355,7 @@ namespace PKHeX.Core
         }
         public override int SuperTrainingMedalCount(int maxCount = 30)
         {
-            uint value = BitConverter.ToUInt16(Data, 0x2C);
+            uint value = BitConverter.ToUInt32(Data, 0x2C);
             int TrainCount = 0;
             value >>= 2;
             for (int i = 0; i < maxCount; i++)
