@@ -54,6 +54,8 @@ namespace PKHeX.Core
                 return pidiv;
             if (GetBACDMatch(pk, pid, IVs, out pidiv))
                 return pidiv;
+            if (GetPokewalkerMatch(pk, pid, out pidiv))
+                return pidiv;
 
             return new PIDIV {Type=PIDType.None, NoSeed=true}; // no match
         }
@@ -238,7 +240,7 @@ namespace PKHeX.Core
             if (low <= 0xFF)
             {
                 var high = pid >> 16;
-                if ((pk.TID ^ pk.SID ^ low) == high)
+                if (((pk.TID ^ pk.SID ^ low) - high & 0xFFFE) == 0)
                 {
                     pidiv = new PIDIV {NoSeed = true, Type = PIDType.G5MGShiny};
                     return true;
@@ -383,6 +385,42 @@ namespace PKHeX.Core
                 pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = t};
                 return true;
             }
+            pidiv = null;
+            return false;
+        }
+        private static bool GetPokewalkerMatch(PKM pk, uint oldpid, out PIDIV pidiv)
+        {
+            var nature = oldpid % 25;
+            if (nature == 24)
+            {
+                pidiv = null;
+                return false;
+            }
+
+            uint pid = (uint)((pk.TID ^ pk.SID) >> 8 ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
+            pid += nature - pid % 25;
+            uint gv = 0;
+            switch (pk.Gender)
+            {
+                case 0: // Male
+                    var gr = pk.PersonalInfo.Gender + 1;
+                    gv = (uint) (((gr - (pid & 0xFF)) / 25 + 1) * 25); // Ensures gender is set to male without affecting nature.
+                    break;
+                case 1: // Female
+                    var gr2 = pk.PersonalInfo.Gender;
+                    gv = (uint) ((((pid & 0xFF) - gr2) / 25 + 1) * 25); // Ensures gender is set to female without affecting nature
+                    break;
+            }
+            pid += gv;
+            if ((nature & 1) != (pid & 1)) // If ability does not match the chosen ability
+                pid -= 25; // Switches ability without affecting nature
+
+            if (pid == oldpid)
+            {
+                pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.Pokewalker};
+                return true;
+            }
+
             pidiv = null;
             return false;
         }
@@ -541,6 +579,8 @@ namespace PKHeX.Core
                 case EncounterStatic s:
                     if (s == Legal.SpikyEaredPichu) // nonshiny forced nature, undocumented
                         return val == PIDType.None;
+                    if (s.Location == 233 && s.Gift)
+                        return val == PIDType.Pokewalker;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
                     return val == PIDType.Method_1;

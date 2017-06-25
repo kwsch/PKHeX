@@ -240,10 +240,7 @@ namespace PKHeX.Core
             if (!safariSport)
             foreach (var z in GetValidStaticEncounter(pkm))
             { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
-            foreach (var z in GetValidFriendSafari(pkm))
-            { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
+            // if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;

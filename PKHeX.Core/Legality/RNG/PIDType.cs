@@ -64,6 +64,7 @@
 
         // Formulaic
         G5MGShiny,
+        Pokewalker,
 
         // Specified
         Static,

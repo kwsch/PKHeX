@@ -107,6 +107,21 @@ namespace PKHeX.Tests.PKM
 
         [TestMethod]
         [TestCategory(PIDIVTestCategory)]
+        public void PIDIVPokewalkerTest()
+        {
+            var pkPW = new[]
+            {
+                new PK4 { Species = 025, PID = 0x34000089, TID = 20790, SID = 39664}, // Pikachu
+                //new PK4 { Species = 025, PID = 0x7DFFFF60, TID = 30859, SID = 63760}, // Pikachu
+                //new PK4 { Species = 025, PID = 0x7DFFFF65, TID = 30859, SID = 63760}, // Pikachu
+                //new PK4 { Species = 025, PID = 0x7E000003, TID = 30859, SID = 63760}, // Pikachu
+            };
+            foreach (var pk in pkPW)
+                Assert.AreEqual(PIDType.Pokewalker, MethodFinder.Analyze(pk)?.Type, "Unable to match PID to Pokewalker method");
+        }
+
+        [TestMethod]
+        [TestCategory(PIDIVTestCategory)]
         public void PIDIVEncounterSlotTest()
         {
             // Modest Method 1
