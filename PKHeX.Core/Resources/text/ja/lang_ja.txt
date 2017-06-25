@@ -108,6 +108,7 @@ Label_Cool = かっこよさ
 Label_Beauty = うつくしさ
 Label_Cute = かわいさ
 Label_Smart = かしこさ
+Label_Clever = かしこさ
 Label_Tough = たくましさ
 Label_Sheen = けづや
 -------------------Attacks Tab Data---------------------

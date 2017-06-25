@@ -108,6 +108,7 @@ Label_Cool = S-F.
 Label_Beauty = Beauté
 Label_Cute = Grâce
 Label_Smart = Intell.
+Label_Clever = Intell.
 Label_Tough = Robus.
 Label_Sheen = Lustre
 -------------------Attacks Tab Data---------------------

@@ -54,12 +54,12 @@ namespace PKHeX.WinForms.Controls
             CHK_Cured.Checked = pk3.PKRS_Strain > 0 && pk3.PKRS_Days == 0;
             CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk3.PKRS_Days); // to strip out bad hacked 'rus
 
-            TB_Cool.Text = pk3.CNT_Cool.ToString();
-            TB_Beauty.Text = pk3.CNT_Beauty.ToString();
-            TB_Cute.Text = pk3.CNT_Cute.ToString();
-            TB_Smart.Text = pk3.CNT_Smart.ToString();
-            TB_Tough.Text = pk3.CNT_Tough.ToString();
-            TB_Sheen.Text = pk3.CNT_Sheen.ToString();
+            Contest.Cool = pk3.CNT_Cool;
+            Contest.Beauty = pk3.CNT_Beauty;
+            Contest.Cute = pk3.CNT_Cute;
+            Contest.Smart = pk3.CNT_Smart;
+            Contest.Tough = pk3.CNT_Tough;
+            Contest.Sheen = pk3.CNT_Sheen;
 
             TB_HPIV.Text = pk3.IV_HP.ToString();
             TB_ATKIV.Text = pk3.IV_ATK.ToString();
@@ -124,12 +124,12 @@ namespace PKHeX.WinForms.Controls
             pk3.EV_SPA = Util.ToInt32(TB_SPAEV.Text);
             pk3.EV_SPD = Util.ToInt32(TB_SPDEV.Text);
 
-            pk3.CNT_Cool = Util.ToInt32(TB_Cool.Text);
-            pk3.CNT_Beauty = Util.ToInt32(TB_Beauty.Text);
-            pk3.CNT_Cute = Util.ToInt32(TB_Cute.Text);
-            pk3.CNT_Smart = Util.ToInt32(TB_Smart.Text);
-            pk3.CNT_Tough = Util.ToInt32(TB_Tough.Text);
-            pk3.CNT_Sheen = Util.ToInt32(TB_Sheen.Text);
+            pk3.CNT_Cool = Contest.Cool;
+            pk3.CNT_Beauty = Contest.Beauty;
+            pk3.CNT_Cute = Contest.Cute;
+            pk3.CNT_Smart = Contest.Smart;
+            pk3.CNT_Tough = Contest.Tough;
+            pk3.CNT_Sheen = Contest.Sheen;
 
             pk3.PKRS_Days = CB_PKRSDays.SelectedIndex;
             pk3.PKRS_Strain = CB_PKRSStrain.SelectedIndex;

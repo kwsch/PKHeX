@@ -150,6 +150,12 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PKM Editor\ContestStat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ContestStat.Designer.cs">
+      <DependentUpon>ContestStat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PKM Editor\ShinyLeaf.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -520,6 +526,9 @@
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\PKM Editor\ContestStat.resx">
+      <DependentUpon>ContestStat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PKM Editor\ShinyLeaf.resx">
       <DependentUpon>ShinyLeaf.cs</DependentUpon>
     </EmbeddedResource>

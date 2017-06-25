@@ -110,6 +110,7 @@ Label_Cool = 帅气
 Label_Beauty = 美丽
 Label_Cute = 可爱
 Label_Smart = 聪明
+Label_Clever = 聪明
 Label_Tough = 强壮
 Label_Sheen = 光泽
 -------------------Attacks Tab Data---------------------

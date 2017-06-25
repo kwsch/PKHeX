@@ -110,6 +110,7 @@ Label_Cool = 근사함
 Label_Beauty = 아름다움
 Label_Cute = 귀여움
 Label_Smart = 슬기로움
+Label_Clever = 슬기로움
 Label_Tough = 강인함
 Label_Sheen = 윤기
 -------------------Attacks Tab Data---------------------

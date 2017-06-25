@@ -1792,7 +1792,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Characteristic.Visible = gen >= 3;
             FLP_HPType.Visible = gen >= 2;
 
-            PAN_Contest.Visible = gen >= 3;
+            Contest.ToggleInterface(gen);
 
             ToggleStats(gen);
             CenterSubEditors();

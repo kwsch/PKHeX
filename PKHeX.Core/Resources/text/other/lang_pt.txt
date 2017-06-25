@@ -107,7 +107,8 @@ Label_ContestStats = Estatísticas de Concurso
 Label_Cool = Cool
 Label_Beauty = Beauty
 Label_Cute = Cute
-Label_Smart = Clever
+Label_Smart = Smart
+Label_Clever = Clever
 Label_Tough = Tough
 Label_Sheen = Sheen
 -------------------Attacks Tab Data---------------------

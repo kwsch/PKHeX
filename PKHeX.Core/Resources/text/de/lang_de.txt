@@ -110,6 +110,7 @@ Label_Cool = Coolness
 Label_Beauty = Schönheit
 Label_Cute = Anmut
 Label_Smart = Klugheit
+Label_Clever = Klugheit
 Label_Tough = Stärke
 Label_Sheen = Glanz
 -------------------Attacks Tab Data---------------------

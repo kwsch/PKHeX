@@ -148,20 +148,7 @@
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.PAN_Contest = new System.Windows.Forms.Panel();
-            this.TB_Sheen = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Tough = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Smart = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Cute = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Beauty = new System.Windows.Forms.MaskedTextBox();
-            this.TB_Cool = new System.Windows.Forms.MaskedTextBox();
-            this.Label_Sheen = new System.Windows.Forms.Label();
-            this.Label_Tough = new System.Windows.Forms.Label();
-            this.Label_Smart = new System.Windows.Forms.Label();
-            this.Label_Cute = new System.Windows.Forms.Label();
-            this.Label_Beauty = new System.Windows.Forms.Label();
-            this.Label_Cool = new System.Windows.Forms.Label();
-            this.Label_ContestStats = new System.Windows.Forms.Label();
+            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.FLP_Stats = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_StatHeader = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
@@ -335,7 +322,6 @@
             this.FLP_EncounterType.SuspendLayout();
             this.FLP_TimeOfDay.SuspendLayout();
             this.Tab_Stats.SuspendLayout();
-            this.PAN_Contest.SuspendLayout();
             this.FLP_Stats.SuspendLayout();
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
@@ -1817,7 +1803,7 @@
             // Tab_Stats
             // 
             this.Tab_Stats.AllowDrop = true;
-            this.Tab_Stats.Controls.Add(this.PAN_Contest);
+            this.Tab_Stats.Controls.Add(this.Contest);
             this.Tab_Stats.Controls.Add(this.FLP_Stats);
             this.Tab_Stats.Controls.Add(this.BTN_RandomEVs);
             this.Tab_Stats.Controls.Add(this.BTN_RandomIVs);
@@ -1829,154 +1815,19 @@
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
             // 
-            // PAN_Contest
+            // Contest
             // 
-            this.PAN_Contest.Controls.Add(this.TB_Sheen);
-            this.PAN_Contest.Controls.Add(this.TB_Tough);
-            this.PAN_Contest.Controls.Add(this.TB_Smart);
-            this.PAN_Contest.Controls.Add(this.TB_Cute);
-            this.PAN_Contest.Controls.Add(this.TB_Beauty);
-            this.PAN_Contest.Controls.Add(this.TB_Cool);
-            this.PAN_Contest.Controls.Add(this.Label_Sheen);
-            this.PAN_Contest.Controls.Add(this.Label_Tough);
-            this.PAN_Contest.Controls.Add(this.Label_Smart);
-            this.PAN_Contest.Controls.Add(this.Label_Cute);
-            this.PAN_Contest.Controls.Add(this.Label_Beauty);
-            this.PAN_Contest.Controls.Add(this.Label_Cool);
-            this.PAN_Contest.Controls.Add(this.Label_ContestStats);
-            this.PAN_Contest.Location = new System.Drawing.Point(21, 247);
-            this.PAN_Contest.Name = "PAN_Contest";
-            this.PAN_Contest.Size = new System.Drawing.Size(230, 50);
-            this.PAN_Contest.TabIndex = 104;
-            // 
-            // TB_Sheen
-            // 
-            this.TB_Sheen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Sheen.Location = new System.Drawing.Point(192, 30);
-            this.TB_Sheen.Mask = "000";
-            this.TB_Sheen.Name = "TB_Sheen";
-            this.TB_Sheen.Size = new System.Drawing.Size(31, 20);
-            this.TB_Sheen.TabIndex = 45;
-            this.TB_Sheen.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Sheen.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // TB_Tough
-            // 
-            this.TB_Tough.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Tough.Location = new System.Drawing.Point(155, 30);
-            this.TB_Tough.Mask = "000";
-            this.TB_Tough.Name = "TB_Tough";
-            this.TB_Tough.Size = new System.Drawing.Size(31, 20);
-            this.TB_Tough.TabIndex = 44;
-            this.TB_Tough.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Tough.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // TB_Smart
-            // 
-            this.TB_Smart.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Smart.Location = new System.Drawing.Point(118, 30);
-            this.TB_Smart.Mask = "000";
-            this.TB_Smart.Name = "TB_Smart";
-            this.TB_Smart.Size = new System.Drawing.Size(31, 20);
-            this.TB_Smart.TabIndex = 43;
-            this.TB_Smart.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Smart.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // TB_Cute
-            // 
-            this.TB_Cute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Cute.Location = new System.Drawing.Point(81, 30);
-            this.TB_Cute.Mask = "000";
-            this.TB_Cute.Name = "TB_Cute";
-            this.TB_Cute.Size = new System.Drawing.Size(31, 20);
-            this.TB_Cute.TabIndex = 42;
-            this.TB_Cute.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Cute.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // TB_Beauty
-            // 
-            this.TB_Beauty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Beauty.Location = new System.Drawing.Point(44, 30);
-            this.TB_Beauty.Mask = "000";
-            this.TB_Beauty.Name = "TB_Beauty";
-            this.TB_Beauty.Size = new System.Drawing.Size(31, 20);
-            this.TB_Beauty.TabIndex = 41;
-            this.TB_Beauty.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Beauty.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // TB_Cool
-            // 
-            this.TB_Cool.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Cool.Location = new System.Drawing.Point(7, 30);
-            this.TB_Cool.Mask = "000";
-            this.TB_Cool.Name = "TB_Cool";
-            this.TB_Cool.Size = new System.Drawing.Size(31, 20);
-            this.TB_Cool.TabIndex = 40;
-            this.TB_Cool.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Cool.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // Label_Sheen
-            // 
-            this.Label_Sheen.Location = new System.Drawing.Point(186, 17);
-            this.Label_Sheen.Name = "Label_Sheen";
-            this.Label_Sheen.Size = new System.Drawing.Size(43, 13);
-            this.Label_Sheen.TabIndex = 52;
-            this.Label_Sheen.Text = "Sheen";
-            this.Label_Sheen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Tough
-            // 
-            this.Label_Tough.Location = new System.Drawing.Point(149, 17);
-            this.Label_Tough.Name = "Label_Tough";
-            this.Label_Tough.Size = new System.Drawing.Size(43, 13);
-            this.Label_Tough.TabIndex = 51;
-            this.Label_Tough.Text = "Tough";
-            this.Label_Tough.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Smart
-            // 
-            this.Label_Smart.Location = new System.Drawing.Point(112, 17);
-            this.Label_Smart.Name = "Label_Smart";
-            this.Label_Smart.Size = new System.Drawing.Size(43, 13);
-            this.Label_Smart.TabIndex = 50;
-            this.Label_Smart.Text = "Clever";
-            this.Label_Smart.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Cute
-            // 
-            this.Label_Cute.Location = new System.Drawing.Point(75, 17);
-            this.Label_Cute.Name = "Label_Cute";
-            this.Label_Cute.Size = new System.Drawing.Size(43, 13);
-            this.Label_Cute.TabIndex = 49;
-            this.Label_Cute.Text = "Cute";
-            this.Label_Cute.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Beauty
-            // 
-            this.Label_Beauty.Location = new System.Drawing.Point(38, 17);
-            this.Label_Beauty.Name = "Label_Beauty";
-            this.Label_Beauty.Size = new System.Drawing.Size(43, 13);
-            this.Label_Beauty.TabIndex = 48;
-            this.Label_Beauty.Text = "Beauty";
-            this.Label_Beauty.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_Cool
-            // 
-            this.Label_Cool.Location = new System.Drawing.Point(1, 17);
-            this.Label_Cool.Name = "Label_Cool";
-            this.Label_Cool.Size = new System.Drawing.Size(43, 13);
-            this.Label_Cool.TabIndex = 47;
-            this.Label_Cool.Text = "Cool";
-            this.Label_Cool.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Label_ContestStats
-            // 
-            this.Label_ContestStats.Location = new System.Drawing.Point(46, 1);
-            this.Label_ContestStats.Name = "Label_ContestStats";
-            this.Label_ContestStats.Size = new System.Drawing.Size(140, 13);
-            this.Label_ContestStats.TabIndex = 46;
-            this.Label_ContestStats.Text = "Contest Stats";
-            this.Label_ContestStats.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Contest.Beauty = 0;
+            this.Contest.Cool = 0;
+            this.Contest.Cute = 0;
+            this.Contest.Location = new System.Drawing.Point(21, 247);
+            this.Contest.Margin = new System.Windows.Forms.Padding(0);
+            this.Contest.Name = "Contest";
+            this.Contest.Sheen = 0;
+            this.Contest.Size = new System.Drawing.Size(230, 50);
+            this.Contest.Smart = 0;
+            this.Contest.TabIndex = 117;
+            this.Contest.Tough = 0;
             // 
             // FLP_Stats
             // 
@@ -3573,8 +3424,6 @@
             this.FLP_EncounterType.ResumeLayout(false);
             this.FLP_TimeOfDay.ResumeLayout(false);
             this.Tab_Stats.ResumeLayout(false);
-            this.PAN_Contest.ResumeLayout(false);
-            this.PAN_Contest.PerformLayout();
             this.FLP_Stats.ResumeLayout(false);
             this.FLP_StatHeader.ResumeLayout(false);
             this.FLP_HackedStats.ResumeLayout(false);
@@ -3761,20 +3610,6 @@
         private System.Windows.Forms.Label L_MetTimeOfDay;
         public System.Windows.Forms.ComboBox CB_MetTimeOfDay;
         private System.Windows.Forms.TabPage Tab_Stats;
-        private System.Windows.Forms.Panel PAN_Contest;
-        private System.Windows.Forms.MaskedTextBox TB_Sheen;
-        private System.Windows.Forms.MaskedTextBox TB_Tough;
-        private System.Windows.Forms.MaskedTextBox TB_Smart;
-        private System.Windows.Forms.MaskedTextBox TB_Cute;
-        private System.Windows.Forms.MaskedTextBox TB_Beauty;
-        private System.Windows.Forms.MaskedTextBox TB_Cool;
-        private System.Windows.Forms.Label Label_Sheen;
-        private System.Windows.Forms.Label Label_Tough;
-        private System.Windows.Forms.Label Label_Smart;
-        private System.Windows.Forms.Label Label_Cute;
-        private System.Windows.Forms.Label Label_Beauty;
-        private System.Windows.Forms.Label Label_Cool;
-        private System.Windows.Forms.Label Label_ContestStats;
         private System.Windows.Forms.FlowLayoutPanel FLP_Stats;
         private System.Windows.Forms.FlowLayoutPanel FLP_StatHeader;
         private System.Windows.Forms.FlowLayoutPanel FLP_HackedStats;
@@ -3903,5 +3738,6 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_ShinyLeaf;
         private System.Windows.Forms.Label L_ShinyLeaf;
         private Controls.ShinyLeaf ShinyLeaf;
+        private ContestStat Contest;
     }
 }

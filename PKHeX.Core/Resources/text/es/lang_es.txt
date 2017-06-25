@@ -112,6 +112,7 @@ Label_Cool = Carisma
 Label_Beauty = Belleza
 Label_Cute = Dulzura
 Label_Smart = Ingenio
+Label_Clever = Ingenio
 Label_Tough = Dureza
 Label_Sheen = Brillo
 -------------------Attacks Tab Data---------------------
