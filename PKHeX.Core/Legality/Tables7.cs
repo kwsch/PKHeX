@@ -1304,7 +1304,6 @@ namespace PKHeX.Core
             657, // Gardevoirite
             658, // Ampharosite
             667, // Aggronite
-            668, // Banettite
             684, // Latiasite
             685, // Latiosite
             710, // Jaw Fossil
@@ -1313,7 +1312,6 @@ namespace PKHeX.Core
             755, // Altarianite
             756, // Galladite
             764, // Diancite
-            767, // Cameruptite
             768, // Lopunnite
             802, // Marshadium Z
         };
