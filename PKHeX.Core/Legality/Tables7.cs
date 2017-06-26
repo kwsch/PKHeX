@@ -1301,7 +1301,6 @@ namespace PKHeX.Core
             657, // Gardevoirite
             658, // Ampharosite
             667, // Aggronite
-            668, // Banettite
             669, // Tyranitarite
             674, // Abomasite
             682, // Manectite
@@ -1313,7 +1312,6 @@ namespace PKHeX.Core
             755, // Altarianite
             756, // Galladite
             764, // Diancite
-            767, // Cameruptite
             768, // Lopunnite
             802, // Marshadium Z
         };
