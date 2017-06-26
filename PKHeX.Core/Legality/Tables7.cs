@@ -216,46 +216,49 @@ namespace PKHeX.Core
                 Location = 30016, // Poké Pelago
                 Slots = new[]
                 {
-                    // Note: These level ranges are arbitrary -- no 'official'/verified documentation available.
-                    new EncounterSlot {Species = 021, LevelMin = 10, LevelMax = 55}, // Spearow
-                    new EncounterSlot {Species = 041, LevelMin = 10, LevelMax = 55}, // Zubat
-                    new EncounterSlot {Species = 060, LevelMin = 10, LevelMax = 55}, // Poliwag
-                    new EncounterSlot {Species = 064, LevelMin = 10, LevelMax = 55}, // Kadabra
-                    new EncounterSlot {Species = 081, LevelMin = 10, LevelMax = 55}, // Magnemite
-                    new EncounterSlot {Species = 090, LevelMin = 10, LevelMax = 55}, // Shellder
-                    new EncounterSlot {Species = 092, LevelMin = 10, LevelMax = 55}, // Gastly
-                    new EncounterSlot {Species = 120, LevelMin = 10, LevelMax = 55}, // Staryu
-                    new EncounterSlot {Species = 123, LevelMin = 10, LevelMax = 55}, // Scyther
-                    new EncounterSlot {Species = 127, LevelMin = 10, LevelMax = 55}, // Pinsir
-                    new EncounterSlot {Species = 131, LevelMin = 10, LevelMax = 55}, // Lapras
-                    new EncounterSlot {Species = 198, LevelMin = 10, LevelMax = 55}, // Murkrow
-                    new EncounterSlot {Species = 227, LevelMin = 10, LevelMax = 55}, // Skarmory
-                    new EncounterSlot {Species = 278, LevelMin = 10, LevelMax = 55}, // Wingull
-                    new EncounterSlot {Species = 375, LevelMin = 10, LevelMax = 55}, // Metang
-                    new EncounterSlot {Species = 426, LevelMin = 10, LevelMax = 55}, // Drifblim
-                    new EncounterSlot {Species = 429, LevelMin = 10, LevelMax = 55}, // Mismagius
-                    new EncounterSlot {Species = 587, LevelMin = 10, LevelMax = 55}, // Emolga
-                    new EncounterSlot {Species = 661, LevelMin = 10, LevelMax = 55}, // Fletchling
-                    new EncounterSlot {Species = 703, LevelMin = 10, LevelMax = 55}, // Carbink
-                    new EncounterSlot {Species = 707, LevelMin = 10, LevelMax = 55}, // Klefki
-                    new EncounterSlot {Species = 709, LevelMin = 10, LevelMax = 55}, // Trevenant
-                    new EncounterSlot {Species = 731, LevelMin = 10, LevelMax = 55}, // Pikipek
-                    new EncounterSlot {Species = 771, LevelMin = 10, LevelMax = 55}, // Pyukumuku
+                    new EncounterSlot {Species = 021, LevelMin = 01, LevelMax = 55}, // Spearow
+                    new EncounterSlot {Species = 041, LevelMin = 01, LevelMax = 55}, // Zubat
+                    new EncounterSlot {Species = 090, LevelMin = 01, LevelMax = 55}, // Shellder
+                    new EncounterSlot {Species = 278, LevelMin = 01, LevelMax = 55}, // Wingull
+                    new EncounterSlot {Species = 731, LevelMin = 01, LevelMax = 55}, // Pikipek
+
+                    new EncounterSlot {Species = 064, LevelMin = 11, LevelMax = 55}, // Kadabra
+                    new EncounterSlot {Species = 081, LevelMin = 11, LevelMax = 55}, // Magnemite
+                    new EncounterSlot {Species = 092, LevelMin = 11, LevelMax = 55}, // Gastly
+                    new EncounterSlot {Species = 198, LevelMin = 11, LevelMax = 55}, // Murkrow
+                    new EncounterSlot {Species = 426, LevelMin = 11, LevelMax = 55}, // Drifblim
+                    new EncounterSlot {Species = 703, LevelMin = 11, LevelMax = 55}, // Carbink
+
+                    new EncounterSlot {Species = 060, LevelMin = 21, LevelMax = 55}, // Poliwag
+                    new EncounterSlot {Species = 120, LevelMin = 21, LevelMax = 55}, // Staryu
+                    new EncounterSlot {Species = 127, LevelMin = 21, LevelMax = 55}, // Pinsir
+                    new EncounterSlot {Species = 661, LevelMin = 21, LevelMax = 55}, // Fletchling
+                    new EncounterSlot {Species = 709, LevelMin = 21, LevelMax = 55}, // Trevenant
+                    new EncounterSlot {Species = 771, LevelMin = 21, LevelMax = 55}, // Pyukumuku
+
+                    new EncounterSlot {Species = 227, LevelMin = 37, LevelMax = 55}, // Skarmory
+                    new EncounterSlot {Species = 375, LevelMin = 37, LevelMax = 55}, // Metang
+                    new EncounterSlot {Species = 707, LevelMin = 37, LevelMax = 55}, // Klefki
+
+                    new EncounterSlot {Species = 123, LevelMin = 49, LevelMax = 55}, // Scyther
+                    new EncounterSlot {Species = 131, LevelMin = 49, LevelMax = 55}, // Lapras
+                    new EncounterSlot {Species = 429, LevelMin = 49, LevelMax = 55}, // Mismagius
+                    new EncounterSlot {Species = 587, LevelMin = 49, LevelMax = 55}, // Emolga
                 },
             }
         };
-        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 627, LevelMin = 10, LevelMax = 55}, /* Rufflet SUN  */ } } };
-        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 629, LevelMin = 10, LevelMax = 55}, /* Vullaby MOON */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 627, LevelMin = 1, LevelMax = 55}, /* Rufflet SUN  */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot {Species = 629, LevelMin = 1, LevelMax = 55}, /* Vullaby MOON */ } } };
         internal static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
             // Trades - 4.bin
-            new EncounterTrade { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop
-            new EncounterTrade { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, OTGender = 0, Gender = 1, Nature = Nature.Adamant, }, // Bounsweet
-            new EncounterTrade { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, OTGender = 1, Gender = 1, Nature = Nature.Naughty, }, // Poliwhirl
-            new EncounterTrade { Species = 440, Form = 0, Level = 27, Ability = 2, TID = 10913, SID = 00000, OTGender = 1, Gender = 1, Nature = Nature.Calm, }, // Happiny
-            new EncounterTrade { Species = 075, Form = 1, Level = 32, Ability = 1, TID = 20778, SID = 00009, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
-            new EncounterTrade { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, OTGender = 1, Gender = 1, Nature = Nature.Careful, }, // Steenee
-            new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
+            new EncounterTrade { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop
+            new EncounterTrade { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Adamant, }, // Bounsweet
+            new EncounterTrade { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Naughty, }, // Poliwhirl
+            new EncounterTrade { Species = 440, Form = 0, Level = 27, Ability = 2, TID = 10913, SID = 00000, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 1, Gender = 1, Nature = Nature.Calm, }, // Happiny
+            new EncounterTrade { Species = 075, Form = 1, Level = 32, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
+            new EncounterTrade { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful, }, // Steenee
+            new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
         };
         #endregion
 
@@ -1301,9 +1304,6 @@ namespace PKHeX.Core
             657, // Gardevoirite
             658, // Ampharosite
             667, // Aggronite
-            669, // Tyranitarite
-            674, // Abomasite
-            682, // Manectite
             684, // Latiasite
             685, // Latiosite
             710, // Jaw Fossil

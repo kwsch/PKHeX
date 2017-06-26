@@ -80,21 +80,20 @@ namespace PKHeX.WinForms
             Application.Run(new Main());
         }
 
-        public static bool IsOnWindows()
+        private static bool IsOnWindows()
         {
             // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
             int p = (int)Environment.OSVersion.Platform;
-            if ((p == 4) || (p == 6) || (p == 128))
-                return false;
-            return true;
+            return p != 4 && p != 6 && p != 128;
         }
 
-
-        public static int GetFrameworkVersion()
+        private static int GetFrameworkVersion()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
             using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
             {
+                if (ndpKey == null)
+                    return 0;
                 int releaseKey = (int)ndpKey.GetValue("Release");
                 return releaseKey;
             }

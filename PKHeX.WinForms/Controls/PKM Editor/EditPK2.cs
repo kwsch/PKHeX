@@ -5,16 +5,16 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PKMEditor
     {
-        private void populateFieldsPK2()
+        private void PopulateFieldsPK2()
         {
             PK2 pk2 = pkm as PK2;
             if (pk2 == null)
                 return;
 
             // Do first
-            pk2.Stat_Level = PKX.getLevel(pk2.Species, pk2.EXP);
+            pk2.Stat_Level = PKX.GetLevel(pk2.Species, pk2.EXP);
             if (pk2.Stat_Level == 100 && !HaX)
-                pk2.EXP = PKX.getEXP(pk2.Stat_Level, pk2.Species);
+                pk2.EXP = PKX.GetEXP(pk2.Stat_Level, pk2.Species);
 
             CB_Species.SelectedValue = pk2.Species;
             TB_Level.Text = pk2.Stat_Level.ToString();
@@ -35,10 +35,15 @@ namespace PKHeX.WinForms.Controls
             TB_OT.Text = pk2.OT_Name;
             GB_OT.BackgroundImage = null;
             Label_OTGender.Text = gendersymbols[pk2.OT_Gender];
-            Label_OTGender.ForeColor = getGenderColor(pk2.OT_Gender);
+            Label_OTGender.ForeColor = GetGenderColor(pk2.OT_Gender);
             // Reset Label and ComboBox visibility, as well as non-data checked status.
-            Label_PKRS.Visible = false;
-            Label_PKRSdays.Visible = false;
+            Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked = pk2.PKRS_Strain != 0;
+            Label_PKRSdays.Visible = CB_PKRSDays.Visible = pk2.PKRS_Days != 0;
+
+            // Set SelectedIndexes for PKRS
+            CB_PKRSStrain.SelectedIndex = pk2.PKRS_Strain;
+            CHK_Cured.Checked = pk2.PKRS_Strain > 0 && pk2.PKRS_Days == 0;
+            CB_PKRSDays.SelectedIndex = Math.Min(CB_PKRSDays.Items.Count - 1, pk2.PKRS_Days); // to strip out bad hacked 'rus
 
             TB_HPIV.Text = pk2.IV_HP.ToString();
             TB_ATKIV.Text = pk2.IV_ATK.ToString();
@@ -67,28 +72,28 @@ namespace PKHeX.WinForms.Controls
 
             CB_Language.SelectedIndex = pk2.Japanese ? 0 : 1;
 
-            updateStats();
-            setIsShiny(null);
+            UpdateStats();
+            SetIsShiny(null);
 
             Label_Gender.Text = gendersymbols[pk2.Gender];
-            Label_Gender.ForeColor = getGenderColor(pk2.Gender);
+            Label_Gender.ForeColor = GetGenderColor(pk2.Gender);
             TB_EXP.Text = pk2.EXP.ToString();
         }
-        private PKM preparePK2()
+        private PKM PreparePK2()
         {
             PK2 pk2 = pkm as PK2;
             if (pk2 == null)
                 return null;
 
-            pk2.Species = WinFormsUtil.getIndex(CB_Species);
+            pk2.Species = WinFormsUtil.GetIndex(CB_Species);
             pk2.TID = Util.ToInt32(TB_TID.Text);
             pk2.EXP = Util.ToUInt32(TB_EXP.Text);
-            pk2.HeldItem = WinFormsUtil.getIndex(CB_HeldItem);
+            pk2.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk2.IsEgg = CHK_IsEgg.Checked;
             pk2.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
-            pk2.OT_Gender = PKX.getGender(Label_OTGender.Text);
+            pk2.OT_Gender = PKX.GetGender(Label_OTGender.Text);
             pk2.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk2.Met_Location = WinFormsUtil.getIndex(CB_MetLocation);
+            pk2.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
             pk2.Met_TimeOfDay = CB_MetTimeOfDay.SelectedIndex;
 
             pk2.EV_HP = Util.ToInt32(TB_HPEV.Text);
@@ -97,22 +102,24 @@ namespace PKHeX.WinForms.Controls
             pk2.EV_SPE = Util.ToInt32(TB_SPEEV.Text);
             pk2.EV_SPC = Util.ToInt32(TB_SPAEV.Text);
 
+            pk2.PKRS_Days = CB_PKRSDays.SelectedIndex;
+            pk2.PKRS_Strain = CB_PKRSStrain.SelectedIndex;
             if (CHK_Nicknamed.Checked)
                 pk2.Nickname = TB_Nickname.Text;
             else 
-                pk2.setNotNicknamed();
-            pk2.Move1 = WinFormsUtil.getIndex(CB_Move1);
-            pk2.Move2 = WinFormsUtil.getIndex(CB_Move2);
-            pk2.Move3 = WinFormsUtil.getIndex(CB_Move3);
-            pk2.Move4 = WinFormsUtil.getIndex(CB_Move4);
-            pk2.Move1_PP = WinFormsUtil.getIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-            pk2.Move2_PP = WinFormsUtil.getIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-            pk2.Move3_PP = WinFormsUtil.getIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-            pk2.Move4_PP = WinFormsUtil.getIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-            pk2.Move1_PPUps = WinFormsUtil.getIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-            pk2.Move2_PPUps = WinFormsUtil.getIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-            pk2.Move3_PPUps = WinFormsUtil.getIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-            pk2.Move4_PPUps = WinFormsUtil.getIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+                pk2.SetNotNicknamed();
+            pk2.Move1 = WinFormsUtil.GetIndex(CB_Move1);
+            pk2.Move2 = WinFormsUtil.GetIndex(CB_Move2);
+            pk2.Move3 = WinFormsUtil.GetIndex(CB_Move3);
+            pk2.Move4 = WinFormsUtil.GetIndex(CB_Move4);
+            pk2.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
+            pk2.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
+            pk2.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
+            pk2.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
+            pk2.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
+            pk2.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
+            pk2.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
+            pk2.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
 
             pk2.IV_HP = Util.ToInt32(TB_HPIV.Text);
             pk2.IV_ATK = Util.ToInt32(TB_ATKIV.Text);

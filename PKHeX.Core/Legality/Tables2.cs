@@ -53,18 +53,33 @@ namespace PKHeX.Core
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
 
+        internal static readonly EncounterArea[] EncounterBCC_GSC = { new EncounterArea {
+            Location = 19,
+            Slots = new EncounterSlot[]
+            {
+                new EncounterSlot1 {Species = 010, LevelMin = 07, LevelMax = 18, Rate = 20, SlotNumber = 0}, // Caterpie
+                new EncounterSlot1 {Species = 013, LevelMin = 07, LevelMax = 18, Rate = 20, SlotNumber = 1}, // Weedle
+                new EncounterSlot1 {Species = 011, LevelMin = 09, LevelMax = 18, Rate = 10, SlotNumber = 2}, // Metapod
+                new EncounterSlot1 {Species = 014, LevelMin = 09, LevelMax = 18, Rate = 10, SlotNumber = 3}, // Kakuna
+                new EncounterSlot1 {Species = 012, LevelMin = 12, LevelMax = 15, Rate = 05, SlotNumber = 4}, // Butterfree
+                new EncounterSlot1 {Species = 015, LevelMin = 12, LevelMax = 15, Rate = 05, SlotNumber = 5}, // Beedrill
+                new EncounterSlot1 {Species = 048, LevelMin = 10, LevelMax = 16, Rate = 10, SlotNumber = 6}, // Venonat
+                new EncounterSlot1 {Species = 046, LevelMin = 10, LevelMax = 17, Rate = 10, SlotNumber = 7}, // Paras
+                new EncounterSlot1 {Species = 123, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 8}, // Scyther
+                new EncounterSlot1 {Species = 127, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 9}, // Pinsir
+            }
+        }};
         internal static readonly EncounterStatic[] Encounter_GSC_Common =
         {
             new EncounterStatic { Species = 152, Level = 05, Location = 001, Version = GameVersion.GSC }, // Chikorita @ New Bark Town
             new EncounterStatic { Species = 155, Level = 05, Location = 001, Version = GameVersion.GSC }, // Cyndaquil @ New Bark Town
             new EncounterStatic { Species = 158, Level = 05, Location = 001, Version = GameVersion.GSC }, // Totodile @ New Bark Town
             
-            new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC }, // Togepi
+            new EncounterStatic { Species = 175, Level = 05, Version = GameVersion.GSC, EggLocation = 256 }, // Togepi
             new EncounterStatic { Species = 131, Level = 20, Location = 010, Version = GameVersion.GSC }, // Lapras @ Union Cave
             new EncounterStatic { Species = 133, Level = 20, Location = 016, Version = GameVersion.GSC }, // Eevee @ Goldenrod City
             
-            new EncounterStatic { Species = 185, Level = 20, Location = 020,  Version = GameVersion.GSC }, // Sudowoodo @ Route 36
-            new EncounterStatic { Species = 213, Level = 15, Location = 033, Version = GameVersion.GSC }, // Shuckle @ Cianwood City
+            new EncounterStatic { Species = 185, Level = 20, Location = 020, Version = GameVersion.GSC }, // Sudowoodo @ Route 36
             new EncounterStatic { Species = 236, Level = 10, Location = 035, Version = GameVersion.GSC }, // Tyrogue @ Mt. Mortar
             
             new EncounterStatic { Species = 130, Level = 30, Location = 038, Version = GameVersion.GSC, Shiny = true, }, // Gyarados @ Lake of Rage
@@ -91,21 +106,26 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 137, Level = 15, Version = GameVersion.GS }, // Porygon @ Celadon Game Corner
             new EncounterStatic { Species = 133, Level = 15, Version = GameVersion.GS }, // Eevee @ Celadon Game Corner
             new EncounterStatic { Species = 122, Level = 15, Version = GameVersion.GS }, // Mr. Mime @ Celadon Game Corner
+            
+            new EncounterStatic { Species = 063, Level = 10, Version = GameVersion.GS }, // Abra @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 147, Level = 10, Version = GameVersion.GS }, // Dratini @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 023, Level = 10, Version = GameVersion.GS }, // Ekans @ Goldenrod City (Game Corner) (Gold)
+            new EncounterStatic { Species = 027, Level = 10, Version = GameVersion.GS }, // Sandshrew @ Goldenrod City (Game Corner) (Silver)
         };
 
         internal static readonly EncounterStatic[] Encounter_C_Exclusive = 
         {
             new EncounterStatic { Species = 245, Level = 40, Location = 023, Version = GameVersion.C }, // Suicune @ Tin Tower
             
-            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Pichu Dizzy Punch
-            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Cleffa Dizzy Punch
-            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Igglybuff Dizzy Punch
-            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Tyrogue Dizzy Punch
-            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Smoochum Dizzy Punch
-            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Elekid Dizzy Punch
-            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146} }, // Magby Dizzy Punch
+            new EncounterStatic { Species = 172, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Pichu Dizzy Punch
+            new EncounterStatic { Species = 173, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Cleffa Dizzy Punch
+            new EncounterStatic { Species = 174, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Igglybuff Dizzy Punch
+            new EncounterStatic { Species = 236, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Tyrogue Dizzy Punch
+            new EncounterStatic { Species = 238, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Smoochum Dizzy Punch
+            new EncounterStatic { Species = 239, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Elekid Dizzy Punch
+            new EncounterStatic { Species = 240, Level = 05, Version = GameVersion.C, Moves = new [] {146}, EggLocation = 256 }, // Magby Dizzy Punch
             
-            new EncounterStatic { Species = 147, Level = 40, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
+            new EncounterStatic { Species = 147, Level = 15, Location = 042, Version = GameVersion.C, Moves = new [] {245} }, // Dratini ExtremeSpeed
             
             new EncounterStatic { Species = 249, Level = 60, Location = 031, Version = GameVersion.C }, // Lugia @ Whirl Islands
             new EncounterStatic { Species = 250, Level = 60, Location = 023, Version = GameVersion.C }, // Ho-Oh @ Tin Tower
@@ -114,6 +134,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 137, Level = 15, Location = 071, Version = GameVersion.C }, // Porygon @ Celadon Game Corner
             new EncounterStatic { Species = 025, Level = 25, Location = 071, Version = GameVersion.C }, // Pikachu @ Celadon Game Corner
             new EncounterStatic { Species = 246, Level = 40, Location = 071, Version = GameVersion.C }, // Larvitar @ Celadon Game Corner
+
+            new EncounterStatic { Species = 063, Level = 05, Location = 016, Version = GameVersion.C }, // Abra @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 104, Level = 15, Location = 016, Version = GameVersion.C }, // Cubone @ Goldenrod City (Game Corner)
+            new EncounterStatic { Species = 202, Level = 15, Location = 016, Version = GameVersion.C }, // Wobbuffet @ Goldenrod City (Game Corner)
         };
 
         internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();
@@ -122,16 +146,18 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
-            new EncounterTrade { Species = 095, Generation =2, Level = 03, Gender = 0, Location = 06, TID = 48926, IVs = new[] {08, 09, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
-            new EncounterTrade { Species = 066, Generation =2, Level = 05, Gender = 1, Location = 16, TID = 37460, IVs = new[] {12, 03, 07, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
-            new EncounterTrade { Species = 100, Generation =2, Level = 05, Gender = 2, Location = 27, TID = 29189, IVs = new[] {08, 09, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
-            new EncounterTrade { Species = 112, Generation =2, Level = 30, Gender = 1, Location = 41, TID = 00283, IVs = new[] {12, 07, 07, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [blue jp game corner]
-            new EncounterTrade { Species = 142, Generation =2, Level = 05, Gender = 0, Location = 76, TID = 26491, IVs = new[] {08, 09, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
-            new EncounterTrade { Species = 078, Generation =2, Level = 14, Gender = 0, Location = 51, TID = 15616, IVs = new[] {08, 09, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
+            new EncounterTrade { Species = 095, Generation = 2, Level = 03, Gender = 0, TID = 48926, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
+            new EncounterTrade { Species = 066, Generation = 2, Level = 05, Gender = 1, TID = 37460, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
+            new EncounterTrade { Species = 100, Generation = 2, Level = 05, Gender = 2, TID = 29189, IVs = new[] {08, 09, 08, 08, 08, 08} }, // Voltorb @ Olivine City for Krabby [egg]
+            new EncounterTrade { Species = 112, Generation = 2, Level = 30, Gender = 0, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Rhydon @ Blackthorn City for Dragonair [blue jp game corner]
+            new EncounterTrade { Species = 142, Generation = 2, Level = 05, Gender = 0, TID = 26491, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Aerodactyl @ Route 14 for Chansey [egg]
+            new EncounterTrade { Species = 078, Generation = 2, Level = 14, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Rapidash @ Pewter City for Gloom [wild]
 
-            new EncounterTrade { Species = 085, Generation =2, Level = 30, Gender = 1, Location = 41, TID = 00283, IVs = new[] {12, 07, 07, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [blue jp game corner]
-            new EncounterTrade { Species = 178, Generation =2, Level = 15, Gender = 0, Location = 51, TID = 15616, IVs = new[] {08, 09, 06, 08, 06} }, // Xatu @ Pewter City for Haunter [wild]
-            new EncounterTrade { Species = 082, Generation =2, Level = 16, Gender = 2, Location = 68, TID = 50082, IVs = new[] {08, 09, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [wild]
+            new EncounterTrade { Species = 085, Generation = 2, Level = 30, Gender = 0, TID = 00283, IVs = new[] {12, 07, 07, 06, 06, 06} }, // Dodrio @ Blackthorn City for Dragonair [blue jp game corner]
+            new EncounterTrade { Species = 178, Generation = 2, Level = 15, Gender = 0, TID = 15616, IVs = new[] {08, 09, 06, 08, 06, 06} }, // Xatu @ Pewter City for Haunter [wild]
+            new EncounterTrade { Species = 082, Generation = 2, Level = 16, Gender = 2, TID = 50082, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Magneton @ Power Plant for Dugtrio [wild]
+            
+            new EncounterTrade { Species = 213, Generation = 2, Level = 15, TID = 00518 } // Shuckle @ Cianwood City for free
         };
         internal static readonly string[][] TradeGift_GSC_OTs =
         {
@@ -145,11 +171,14 @@ namespace PKHeX.Core
             new[] { "ミサコ", "EMY" },
             new[] { "デンジ", "CHRIS" },
             new[] { "モリオ", "FOREST" },
+
+            new[] { "セイジ", "MANIA" },
         };
         internal static readonly int[] UnreleasedItems_2 =
         {
             // todo
         };
         internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i) && !UnreleasedItems_2.Contains(i)).ToArray();
+        internal static readonly int[] TransferSpeciesDefaultAbility_2 = {92, 93, 94, 109, 110, 151, 200, 201, 247, 251}; // todo VC2: 247 (pupitar)
     }
 }

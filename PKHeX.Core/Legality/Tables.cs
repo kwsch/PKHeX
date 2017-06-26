@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -73,8 +74,6 @@ namespace PKHeX.Core
             236, 106, 107, 237, // Tyrogue
             538, 539, // Sawk & Throh
         };
-
-        #region Legality; unhatchable from egg
 
         public static readonly int[] NoHatchFromEgg =
         {
@@ -161,7 +160,47 @@ namespace PKHeX.Core
             802, // Marshadow
         };
 
-        #endregion
+        public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
+        {
+            150, // Mewtwo
+            151, // Mew
+            249, // Lugia
+            250, // Ho-Oh
+            251, // Celebi
+            382, // Kyogre
+            383, // Groudon
+            384, // Rayquaza
+            385, // Jirachi
+            386, // Deoxys
+            483, // Dialga
+            484, // Palkia
+            487, // Giratina
+            489, // Phione
+            490, // Manaphy
+            491, // Darkrai
+            492, // Shaymin
+            493, // Arceus
+            494, // Victini
+            643, // Reshiram
+            644, // Zekrom
+            646, // Kyurem
+            647, // Keldeo
+            648, // Meloetta
+            649, // Genesect
+            716, // Xerneas
+            717, // Yveltal
+            718, // Zygarde
+            719, // Diancie
+            720, // Hoopa
+            721, // Volcanion
+            789, // Cosmog
+            790, // Cosmoem
+            791, // Solgaleo
+            792, // Lunala
+            800, // Necrozma
+            801, // Magearna
+            802, // Marshadow
+        };
 
         public static readonly int[] BattleForms =
         {
@@ -224,8 +263,9 @@ namespace PKHeX.Core
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
         };
-
-        internal static readonly int[] EvolutionWithMove =
+        
+        // List of species that evolve from a previous species having a move while leveling up
+        internal static readonly int[] SpeciesEvolutionWithMove =
         {
             122, // Mr. Mime (Mime Jr with Mimic)
             185, // Sudowoodo (Bonsly with Mimic)
@@ -237,7 +277,6 @@ namespace PKHeX.Core
             700, // Sylveon (Eevee with Fairy Move)
             763, // Tsareena (Steenee with Stomp)
         };
-
         internal static readonly int[] FairyMoves =
         {
             186, //Sweet Kiss
@@ -264,7 +303,71 @@ namespace PKHeX.Core
             705, //Fleur Cannon 
             717, //Nature's Madness 
         };
-
+        // Moves that trigger the evolution by move
+        internal static readonly int[][] MoveEvolutionWithMove =
+        {
+            new [] { 102 }, // Mr. Mime (Mime Jr with Mimic)
+            new [] { 102 }, // Sudowoodo (Bonsly with Mimic)
+            new [] { 458 }, // Ambipom (Aipom with Double Hit)
+            new [] { 205 }, // Lickilicky (Lickitung with Rollout)
+            new [] { 246 }, // Tangrowth (Tangela with Ancient Power)
+            new [] { 246 }, // Yanmega (Yamma with Ancient Power)
+            new [] { 246 }, // Mamoswine (Piloswine with Ancient Power)
+            FairyMoves, // Sylveon (Eevee with Fairy Move)
+            new [] { 023 }, // Tsareena (Steenee with Stomp)
+        };
+        // Min level for any species for every generation to learn the move for evolution by move
+        // 0 means it cant be learned in that generation
+        internal static readonly int[][] MinLevelEvolutionWithMove =
+        {
+            // Mr. Mime (Mime Jr with Mimic)
+            new [] { 0, 0, 0, 0, 18, 15, 15, 2 },
+            // Sudowoodo (Bonsly with Mimic)
+            new [] { 0, 0, 0, 0, 17, 17, 15, 2 },
+            // Ambipom (Aipom with Double Hit)
+            new [] { 0, 0, 0, 0, 32, 32, 32, 2 },
+            // Lickilicky (Lickitung with Rollout)
+            new [] { 0, 0, 2, 0, 2, 33, 33, 2 },
+            // Tangrowth (Tangela with Ancient Power)
+            new [] { 0, 0, 0, 0, 2, 36, 38, 2 },
+            // Yanmega (Yanma with Ancient Power)
+            new [] { 0, 0, 0, 0, 2, 33, 33, 2 },
+            // Mamoswine (Piloswine with Ancient Power)
+            new [] { 0, 0, 0, 0, 2, 2, 2, 2 },
+            // Sylveon (Eevee with Fairy Move)
+            new [] { 0, 0, 0, 0, 0, 29, 9, 2 },
+            // Tsareena (Steenee with Stomp)
+            new [] { 0, 0, 0, 0, 0, 0, 0, 2 },
+        };
+        // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
+        internal static readonly bool[][] EggMoveEvolutionWithMove =
+        {
+            // Mr. Mime (Mime Jr with Mimic)
+            new [] { false, false, false, false, true, true, true, true },
+            // Sudowoodo (Bonsly with Mimic)
+            new [] { false, false, false, false, true, true, true, true },
+            // Ambipom (Aipom with Double Hit)
+            new [] { false, false, false, false, true, true, true, true },
+            // Lickilicky (Lickitung with Rollout)
+            new [] { false, false, true, false, true, true, true, true },
+            // Tangrowth (Tangela with Ancient Power)
+            new [] { false, false, false, false, true, true, true, true },
+            // Yanmega (Yanma with Ancient Power)
+            new [] { false, false, false, false, true, true, true, true },
+            // Mamoswine (Piloswine with Ancient Power)
+            new [] { false, false, true, true, true, true, true, true },
+            // Sylveon (Eevee with Fairy Move)
+            new [] { false, false, true, true, true, true, true, true },
+            // Tsareena (Steenee with Stomp)
+            new [] { false, false, false, false, false, false, false, false },
+        };
+        internal static readonly int[] MixedGenderBreeding =
+        {
+            29, // Nidoran♀
+            32, // Nidoran♂
+            314, // Volbeat
+            314, // Illumise
+        };
         #region Games
 
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal

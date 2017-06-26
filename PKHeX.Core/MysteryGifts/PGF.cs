@@ -3,7 +3,7 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class PGF : MysteryGift, IRibbonSet1, IRibbonSet2
+    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0xCC;
         public override int Format => 5;
@@ -88,7 +88,7 @@ namespace PKHeX.Core
         }
 
         // Card Attributes
-        public override int Item { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+        public override int ItemID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
 
         private ushort Year { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes(value).CopyTo(Data, 0xAE); }
         private byte Month { get => Data[0xAD]; set => Data[0xAD] = value; }
@@ -148,7 +148,7 @@ namespace PKHeX.Core
         public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
         public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }
 
-        public override PKM convertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(SaveFile SAV)
         {
             if (!IsPokémon)
                 return null;
@@ -160,17 +160,17 @@ namespace PKHeX.Core
                 Month = (byte)dt.Month;
                 Year = (byte)dt.Year;
             }
-            int currentLevel = Level > 0 ? Level : (int)(Util.rnd32() % 100 + 1);
-            var pi = PersonalTable.B2W2.getFormeEntry(Species, Form);
+            int currentLevel = Level > 0 ? Level : (int)(Util.Rand32() % 100 + 1);
+            var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
             PK5 pk = new PK5
             {
                 Species = Species,
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
-                Nature = Nature != 0xFF ? Nature : (int)(Util.rnd32() % 25),
+                Nature = Nature != 0xFF ? Nature : (int)(Util.Rand32() % 25),
                 Gender = pi.Gender == 255 ? 2 : (Gender != 2 ? Gender : pi.RandomGender),
                 AltForm = Form,
-                Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.rnd32() & 0x3] : OriginGame,
+                Version = OriginGame == 0 ? new[] {20, 21, 22, 23}[Util.Rand32() & 0x3] : OriginGame,
                 Language = Language == 0 ? SAV.Language : Language,
                 Ball = Ball,
                 Move1 = Move1,
@@ -187,7 +187,7 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                EXP = PKX.getEXP(Level, Species),
+                EXP = PKX.GetEXP(Level, Species),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -210,10 +210,10 @@ namespace PKHeX.Core
                 FatefulEncounter = true,
             };
             pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
-            pk.Move1_PP = pk.getMovePP(Move1, 0);
-            pk.Move2_PP = pk.getMovePP(Move2, 0);
-            pk.Move3_PP = pk.getMovePP(Move3, 0);
-            pk.Move4_PP = pk.getMovePP(Move4, 0);
+            pk.Move1_PP = pk.GetMovePP(Move1, 0);
+            pk.Move2_PP = pk.GetMovePP(Move2, 0);
+            pk.Move3_PP = pk.GetMovePP(Move3, 0);
+            pk.Move4_PP = pk.GetMovePP(Move4, 0);
             if (OTGender == 3) // User's
             {
                 pk.TID = SAV.TID;
@@ -229,14 +229,14 @@ namespace PKHeX.Core
                 pk.OT_Gender = OTGender % 2; // %2 just in case?
             }
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.getSpeciesName(Species, pk.Language);
+            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             // More 'complex' logic to determine final values
 
             // Dumb way to generate random IVs.
             int[] finalIVs = new int[6];
             for (int i = 0; i < IVs.Length; i++)
-                finalIVs[i] = IVs[i] == 0xFF ? (int)(Util.rnd32() & 0x1F) : IVs[i];
+                finalIVs[i] = IVs[i] == 0xFF ? (int)(Util.Rand32() & 0x1F) : IVs[i];
             pk.IVs = finalIVs;
 
             int av = 0;
@@ -249,7 +249,7 @@ namespace PKHeX.Core
                     break;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    av = (int)(Util.rnd32() % (AbilityType - 1));
+                    av = (int)(Util.Rand32() % (AbilityType - 1));
                     break;
             }
             pk.HiddenAbility = av == 2;
@@ -259,10 +259,10 @@ namespace PKHeX.Core
                 pk.PID = PID;
             else
             {
-                pk.PID = Util.rnd32();
+                pk.PID = Util.Rand32();
 
                 // Force Gender
-                do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.rnd32() & 0xFF; } while (!pk.getGenderIsValid());
+                do { pk.PID = (pk.PID & 0xFFFFFF00) | Util.Rand32() & 0xFF; } while (!pk.IsGenderValid());
                 
                 // Force Ability
                 if (av == 1) pk.PID |= 0x10000; else pk.PID &= 0xFFFEFFFF;

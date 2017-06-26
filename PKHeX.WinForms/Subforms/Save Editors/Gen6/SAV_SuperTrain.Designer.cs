@@ -95,7 +95,7 @@
             this.dataGridView1.ShowEditingIcon = false;
             this.dataGridView1.Size = new System.Drawing.Size(158, 139);
             this.dataGridView1.TabIndex = 116;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dropclick);
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DropClick);
             // 
             // TB_Time1
             // 
@@ -193,7 +193,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(158, 121);
             this.listBox1.TabIndex = 124;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.changeListRecordSelection);
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.ChangeListRecordSelection);
             // 
             // TB_Time
             // 
@@ -202,7 +202,7 @@
             this.TB_Time.Name = "TB_Time";
             this.TB_Time.Size = new System.Drawing.Size(100, 20);
             this.TB_Time.TabIndex = 125;
-            this.TB_Time.TextChanged += new System.EventHandler(this.changeRecordTime);
+            this.TB_Time.TextChanged += new System.EventHandler(this.ChangeRecordTime);
             // 
             // CB_Species
             // 
@@ -214,7 +214,7 @@
             this.CB_Species.Name = "CB_Species";
             this.CB_Species.Size = new System.Drawing.Size(100, 21);
             this.CB_Species.TabIndex = 126;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.changeRecordSpecies);
+            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeRecordSpecies);
             // 
             // TB_Unk
             // 
@@ -223,7 +223,7 @@
             this.TB_Unk.Name = "TB_Unk";
             this.TB_Unk.Size = new System.Drawing.Size(57, 20);
             this.TB_Unk.TabIndex = 127;
-            this.TB_Unk.TextChanged += new System.EventHandler(this.changeRecordVal);
+            this.TB_Unk.TextChanged += new System.EventHandler(this.ChangeRecordVal);
             // 
             // L_Unk
             // 

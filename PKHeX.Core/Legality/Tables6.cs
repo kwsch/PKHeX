@@ -264,31 +264,31 @@ namespace PKHeX.Core
             082, 303, 597, 205, 227, 375, 600, 437, 530, 707,
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
-        internal static readonly int[] PikachuMoves = { 0, 309, 556, 577, 604, 560 };
+        internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
         internal static readonly int[] WildPokeballs6 = { 0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F };
         internal static readonly string[][] TradeXY =
         {
             new string[0],                       // 0 - None
-            Util.getStringList("tradexy", "ja"), // 1
-            Util.getStringList("tradexy", "en"), // 2
-            Util.getStringList("tradexy", "fr"), // 3
-            Util.getStringList("tradexy", "it"), // 4
-            Util.getStringList("tradexy", "de"), // 5
+            Util.GetStringList("tradexy", "ja"), // 1
+            Util.GetStringList("tradexy", "en"), // 2
+            Util.GetStringList("tradexy", "fr"), // 3
+            Util.GetStringList("tradexy", "it"), // 4
+            Util.GetStringList("tradexy", "de"), // 5
             new string[0],                       // 6 - None
-            Util.getStringList("tradexy", "es"), // 7
-            Util.getStringList("tradexy", "ko"), // 8
+            Util.GetStringList("tradexy", "es"), // 7
+            Util.GetStringList("tradexy", "ko"), // 8
         };
         internal static readonly string[][] TradeAO =
         {
             new string[0],                       // 0 - None
-            Util.getStringList("tradeao", "ja"), // 1
-            Util.getStringList("tradeao", "en"), // 2
-            Util.getStringList("tradeao", "fr"), // 3
-            Util.getStringList("tradeao", "it"), // 4
-            Util.getStringList("tradeao", "de"), // 5
+            Util.GetStringList("tradeao", "ja"), // 1
+            Util.GetStringList("tradeao", "en"), // 2
+            Util.GetStringList("tradeao", "fr"), // 3
+            Util.GetStringList("tradeao", "it"), // 4
+            Util.GetStringList("tradeao", "de"), // 5
             new string[0],                       // 6 - None
-            Util.getStringList("tradeao", "es"), // 7
-            Util.getStringList("tradeao", "ko"), // 8
+            Util.GetStringList("tradeao", "es"), // 7
+            Util.GetStringList("tradeao", "ko"), // 8
         };
 
         #region XY Alt Slots

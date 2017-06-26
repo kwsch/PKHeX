@@ -258,7 +258,7 @@ namespace PKHeX.WinForms
             this.TB_OTName.TabIndex = 2;
             this.TB_OTName.Text = "WWWWWWWWWWWW";
             this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.clickOT);
+            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickOT);
             // 
             // L_TrainerName
             // 
@@ -314,8 +314,8 @@ namespace PKHeX.WinForms
             this.MT_TID.Size = new System.Drawing.Size(39, 20);
             this.MT_TID.TabIndex = 8;
             this.MT_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_TID.TextChanged += new System.EventHandler(this.changeFFFF);
-            this.MT_TID.MouseHover += new System.EventHandler(this.showTSV);
+            this.MT_TID.TextChanged += new System.EventHandler(this.ChangeFFFF);
+            this.MT_TID.MouseHover += new System.EventHandler(this.ShowTSV);
             // 
             // MT_SID
             // 
@@ -326,8 +326,8 @@ namespace PKHeX.WinForms
             this.MT_SID.Size = new System.Drawing.Size(39, 20);
             this.MT_SID.TabIndex = 9;
             this.MT_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_SID.TextChanged += new System.EventHandler(this.changeFFFF);
-            this.MT_SID.MouseHover += new System.EventHandler(this.showTSV);
+            this.MT_SID.TextChanged += new System.EventHandler(this.ChangeFFFF);
+            this.MT_SID.MouseHover += new System.EventHandler(this.ShowTSV);
             // 
             // L_Saying5
             // 
@@ -444,7 +444,7 @@ namespace PKHeX.WinForms
             this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
             this.MT_Seconds.TabIndex = 28;
             this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Seconds.TextChanged += new System.EventHandler(this.change255);
+            this.MT_Seconds.TextChanged += new System.EventHandler(this.Change255);
             // 
             // MT_Minutes
             // 
@@ -454,7 +454,7 @@ namespace PKHeX.WinForms
             this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
             this.MT_Minutes.TabIndex = 27;
             this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Minutes.TextChanged += new System.EventHandler(this.change255);
+            this.MT_Minutes.TextChanged += new System.EventHandler(this.Change255);
             // 
             // L_Hours
             // 
@@ -518,7 +518,7 @@ namespace PKHeX.WinForms
             this.CB_Country.Name = "CB_Country";
             this.CB_Country.Size = new System.Drawing.Size(93, 21);
             this.CB_Country.TabIndex = 17;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.updateCountry);
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
             // 
             // B_MaxCash
             // 
@@ -921,7 +921,7 @@ namespace PKHeX.WinForms
             this.NUD_Stat.Name = "NUD_Stat";
             this.NUD_Stat.Size = new System.Drawing.Size(103, 20);
             this.NUD_Stat.TabIndex = 31;
-            this.NUD_Stat.ValueChanged += new System.EventHandler(this.changeStatVal);
+            this.NUD_Stat.ValueChanged += new System.EventHandler(this.ChangeStatVal);
             // 
             // NUD_FC
             // 
@@ -1005,7 +1005,7 @@ namespace PKHeX.WinForms
             this.CB_Stats.Name = "CB_Stats";
             this.CB_Stats.Size = new System.Drawing.Size(140, 21);
             this.CB_Stats.TabIndex = 23;
-            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.changeStat);
+            this.CB_Stats.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
             // 
             // CB_AlolaTime
             // 
@@ -1175,7 +1175,7 @@ namespace PKHeX.WinForms
             this.NUD_R.Name = "NUD_R";
             this.NUD_R.Size = new System.Drawing.Size(96, 20);
             this.NUD_R.TabIndex = 55;
-            this.NUD_R.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_R.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // L_R
             // 
@@ -1205,7 +1205,7 @@ namespace PKHeX.WinForms
             this.NUD_Z.Name = "NUD_Z";
             this.NUD_Z.Size = new System.Drawing.Size(96, 20);
             this.NUD_Z.TabIndex = 53;
-            this.NUD_Z.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_Z.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_M
             // 
@@ -1218,7 +1218,7 @@ namespace PKHeX.WinForms
             this.NUD_M.Name = "NUD_M";
             this.NUD_M.Size = new System.Drawing.Size(50, 20);
             this.NUD_M.TabIndex = 52;
-            this.NUD_M.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_M.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_Y
             // 
@@ -1239,7 +1239,7 @@ namespace PKHeX.WinForms
             this.NUD_Y.Name = "NUD_Y";
             this.NUD_Y.Size = new System.Drawing.Size(96, 20);
             this.NUD_Y.TabIndex = 51;
-            this.NUD_Y.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_Y.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_X
             // 
@@ -1260,7 +1260,7 @@ namespace PKHeX.WinForms
             this.NUD_X.Name = "NUD_X";
             this.NUD_X.Size = new System.Drawing.Size(96, 20);
             this.NUD_X.TabIndex = 50;
-            this.NUD_X.ValueChanged += new System.EventHandler(this.changeMapValue);
+            this.NUD_X.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // L_Y
             // 
@@ -1936,7 +1936,7 @@ namespace PKHeX.WinForms
             this.CB_BallThrowTypeListMode.Name = "CB_BallThrowTypeListMode";
             this.CB_BallThrowTypeListMode.Size = new System.Drawing.Size(107, 21);
             this.CB_BallThrowTypeListMode.TabIndex = 67;
-            this.CB_BallThrowTypeListMode.SelectedIndexChanged += new System.EventHandler(this.CB_BattleStyleListMode_SelectedIndexChanged);
+            this.CB_BallThrowTypeListMode.SelectedIndexChanged += new System.EventHandler(this.UpdateBattleStyle);
             // 
             // LB_BallThrowTypeUnlocked
             // 
@@ -1947,7 +1947,7 @@ namespace PKHeX.WinForms
             this.LB_BallThrowTypeUnlocked.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.LB_BallThrowTypeUnlocked.Size = new System.Drawing.Size(109, 52);
             this.LB_BallThrowTypeUnlocked.TabIndex = 68;
-            this.LB_BallThrowTypeUnlocked.SelectedIndexChanged += new System.EventHandler(this.LB_BallThrowTypeUnlocked_SelectedIndexChanged);
+            this.LB_BallThrowTypeUnlocked.SelectedIndexChanged += new System.EventHandler(this.UpdateBallThrowTypeUnlocked);
             // 
             // LB_BallThrowTypeLearned
             // 
@@ -1959,7 +1959,7 @@ namespace PKHeX.WinForms
             this.LB_BallThrowTypeLearned.Size = new System.Drawing.Size(109, 52);
             this.LB_BallThrowTypeLearned.TabIndex = 69;
             this.LB_BallThrowTypeLearned.Visible = false;
-            this.LB_BallThrowTypeLearned.SelectedIndexChanged += new System.EventHandler(this.LB_BallThrowTypeLearned_SelectedIndexChanged);
+            this.LB_BallThrowTypeLearned.SelectedIndexChanged += new System.EventHandler(this.UpdateBallThrowTypeLearned);
             // 
             // L_Stamps
             // 

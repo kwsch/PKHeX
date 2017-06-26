@@ -12,11 +12,11 @@ namespace PKHeX.Core
                 return;
 
             Data = data;
-            TMHM = getBits(Data.Skip(0x18).Take(0x8).ToArray());
+            TMHM = GetBits(Data.Skip(0x18).Take(0x8).ToArray());
         }
         public override byte[] Write()
         {
-            setBits(TMHM).CopyTo(Data, 0x18);
+            SetBits(TMHM).CopyTo(Data, 0x18);
             return Data;
         }
 

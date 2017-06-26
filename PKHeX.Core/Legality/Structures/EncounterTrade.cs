@@ -4,32 +4,32 @@
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
-        public int Level;
+        public int Level { get; set; }
         public int LevelMin => Level;
         public int LevelMax => 100;
         public int Generation { get; set; } = -1;
 
-        public int Location = -1;
-        public int Ability = 0;
+        public int Location { get; set; } = -1;
+        public int Ability { get; set; }
         public Nature Nature = Nature.Random;
-        public int TID;
-        public int SID = 0;
-        public GameVersion Version = GameVersion.Any;
-        public int[] IVs = { -1, -1, -1, -1, -1, -1 };
-        public int[] Contest = { 0, 0, 0, 0, 0, 0 };
-        public int Form = 0;
-        public bool Shiny = false;
-        public int Gender = -1;
-        public int OTGender = -1;
+        public int TID { get; set; }
+        public int SID { get; set; }
+        public GameVersion Version { get; set; } = GameVersion.Any;
+        public int[] IVs { get; set; } = { -1, -1, -1, -1, -1, -1 };
+        public int[] Contest { get; set; } = { 0, 0, 0, 0, 0, 0 };
+        public int Form { get; set; }
+        public bool Shiny { get; set; } = false;
+        public int Gender { get; set; } = -1;
+        public int OTGender { get; set; } = -1;
         public bool EggEncounter => false;
-        public bool EvolveOnTrade = false;
-        public int Ball = 4;
+        public bool EvolveOnTrade { get; set; }
+        public int Ball { get; set; } = 4;
 
         public string Name => "In-game Trade";
 
         public static readonly int[] DefaultMetLocation = 
         {
-            254, 2001, 30002, 30001, 30001,
+            0, 126, 254, 2001, 30002, 30001, 30001,
         };
     }
 

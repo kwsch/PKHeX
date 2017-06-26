@@ -20,19 +20,19 @@ namespace PKHeX.Core
             switch (game)
             {
                 case GameVersion.RBY:
-                    Entries = EvolutionSet1.getArray(data[0], maxSpeciesTree);
+                    Entries = EvolutionSet1.GetArray(data[0], maxSpeciesTree);
                     break;
                 case GameVersion.GSC:
-                    Entries = EvolutionSet2.getArray(data[0], maxSpeciesTree);
+                    Entries = EvolutionSet2.GetArray(data[0], maxSpeciesTree);
                     break;
                 case GameVersion.RS:
-                    Entries = EvolutionSet3.getArray(data[0]);
+                    Entries = EvolutionSet3.GetArray(data[0]);
                     break;
                 case GameVersion.DP:
-                    Entries = EvolutionSet4.getArray(data[0]);
+                    Entries = EvolutionSet4.GetArray(data[0]);
                     break;
                 case GameVersion.BW:
-                    Entries = EvolutionSet5.getArray(data[0]);
+                    Entries = EvolutionSet5.GetArray(data[0]);
                     break;
                 case GameVersion.ORAS:
                     Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
@@ -56,7 +56,7 @@ namespace PKHeX.Core
                 var s = Entries[i];
                 foreach (EvolutionMethod evo in s.PossibleEvolutions)
                 {
-                    int index = getIndex(evo);
+                    int index = GetIndex(evo);
                     if (index < 0)
                         continue;
 
@@ -72,7 +72,7 @@ namespace PKHeX.Core
                     // Add it to the corresponding parent chains
                     foreach (EvolutionMethod mid in Entries[index].PossibleEvolutions)
                     {
-                        int newIndex = getIndex(mid);
+                        int newIndex = GetIndex(mid);
                         if (newIndex < 0)
                             continue;
 
@@ -80,73 +80,67 @@ namespace PKHeX.Core
                     }
                 }
             }
-            fixEvoTreeManually();
+            FixEvoTreeManually();
         }
 
         // There's always oddballs.
-        private void fixEvoTreeManually()
+        private void FixEvoTreeManually()
         {
-            switch (Game)
-            {
-                case GameVersion.SM:
-                    fixEvoTreeSM();
-                    break;
-                case GameVersion.ORAS:
-                    break;
-            }
+            if (Game == GameVersion.SM)
+                FixEvoTreeSM();
         }
-        private void fixEvoTreeSM()
+        private void FixEvoTreeSM()
         {
             // Wormadam -- Copy Burmy 0 to Wormadam-1/2
-            Lineage[Personal.getFormeIndex(413, 1)].Chain.Insert(0, Lineage[413].Chain[0]);
-            Lineage[Personal.getFormeIndex(413, 2)].Chain.Insert(0, Lineage[413].Chain[0]);
+            Lineage[Personal.GetFormeIndex(413, 1)].Chain.Insert(0, Lineage[413].Chain[0]);
+            Lineage[Personal.GetFormeIndex(413, 2)].Chain.Insert(0, Lineage[413].Chain[0]);
 
             // Shellos -- Move Shellos-1 evo from Gastrodon-0 to Gastrodon-1
-            Lineage[Personal.getFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
+            Lineage[Personal.GetFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
             Lineage[422+1].Chain.RemoveAt(0);
 
-            // Flabébé -- Doesn't contain evo info for forms 1-4, copy.
+            // Meowstic -- Meowstic-1 (F) should point back to Espurr, copy Meowstic-0 (M)
+            Lineage[Personal.GetFormeIndex(678, 1)].Chain.Insert(0, Lineage[678].Chain[0]);
+
+            // Floette doesn't contain evo info for forms 1-4, copy. Florges points to form 0, no fix needed.
             var fbb = Lineage[669+1].Chain[0];
             for (int i = 1; i <= 4; i++) // NOT AZ
-            {
-                Lineage[Personal.getFormeIndex(669+1, i)].Chain.Insert(0, fbb);
-                Lineage[Personal.getFormeIndex(669+2, i)].Chain.Insert(0, fbb);
-            }
+                Lineage[Personal.GetFormeIndex(669+1, i)].Chain.Insert(0, fbb);
+            // Clear forme chains from Florges
+            Lineage[671].Chain.RemoveRange(0, Lineage[671].Chain.Count - 2);
 
             // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
             for (int i = 1; i <= 3; i++)
             {
-                Lineage[Personal.getFormeIndex(711, i)].Chain.Clear();
-                Lineage[Personal.getFormeIndex(711, i)].Chain.Add(Lineage[711].Chain[3-i]);
+                Lineage[Personal.GetFormeIndex(711, i)].Chain.Clear();
+                Lineage[Personal.GetFormeIndex(711, i)].Chain.Add(Lineage[711].Chain[3-i]);
             }
             Lineage[711].Chain.RemoveRange(0, 3);
 
             // Add past gen evolutions for other Marowak and Exeggutor
-            var raichu1 = Lineage[Personal.getFormeIndex(26, 1)];
+            var raichu1 = Lineage[Personal.GetFormeIndex(26, 1)];
             var evo1 = raichu1.Chain[0].StageEntryMethods[0].Copy();
             Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo1 } });
             var evo2 = raichu1.Chain[1].StageEntryMethods[0].Copy();
             evo2.Form = -1; evo2.Banlist = new[] { GameVersion.SN, GameVersion.MN };
             Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo2 } });
 
-            var exegg = Lineage[Personal.getFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy();
-            exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 4; // No night required (doesn't matter)
+            var exegg = Lineage[Personal.GetFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy();
+            exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 8; // No night required (doesn't matter)
             Lineage[103].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { exegg } });
 
-            var marowak = Lineage[Personal.getFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy();
+            var marowak = Lineage[Personal.GetFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy();
             marowak.Form = -1; marowak.Banlist = new[] {GameVersion.SN, GameVersion.MN};
             Lineage[105].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { marowak } });
         }
 
-        private int getIndex(PKM pkm)
+        private int GetIndex(PKM pkm)
         {
             if (pkm.Format < 7)
                 return pkm.Species;
-
-            var form = pkm.Species == 678 ? 0 : pkm.AltForm; // override Meowstic forme index
-            return Personal.getFormeIndex(pkm.Species, form);
+            return Personal.GetFormeIndex(pkm.Species, pkm.AltForm);
         }
-        private int getIndex(EvolutionMethod evo)
+        private int GetIndex(EvolutionMethod evo)
         {
             int evolvesToSpecies = evo.Species;
             if (evolvesToSpecies == 0)
@@ -159,14 +153,14 @@ namespace PKHeX.Core
             if (evolvesToForm < 0)
                 evolvesToForm = 0;
 
-            return Personal.getFormeIndex(evolvesToSpecies, evolvesToForm);
+            return Personal.GetFormeIndex(evolvesToSpecies, evolvesToForm);
         }
-        public IEnumerable<DexLevel> getValidPreEvolutions(PKM pkm, int lvl, int maxSpeciesOrigin = -1, bool skipChecks = false)
+        public IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int lvl, int maxSpeciesOrigin = -1, bool skipChecks = false)
         {
-            int index = getIndex(pkm);
+            int index = GetIndex(pkm);
             if (maxSpeciesOrigin <= 0)
-                maxSpeciesOrigin = Legal.getMaxSpeciesOrigin(pkm);
-            return Lineage[index].getExplicitLineage(pkm, lvl, skipChecks, MaxSpeciesTree, maxSpeciesOrigin);
+                maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
+            return Lineage[index].GetExplicitLineage(pkm, lvl, skipChecks, MaxSpeciesTree, maxSpeciesOrigin);
         }
     }
 
@@ -176,7 +170,7 @@ namespace PKHeX.Core
     }
     public class EvolutionSet1 : EvolutionSet
     {
-        private static EvolutionMethod getMethod(byte[] data, ref int offset)
+        private static EvolutionMethod GetMethod(byte[] data, ref int offset)
         {
             switch (data[offset])
             {
@@ -211,7 +205,7 @@ namespace PKHeX.Core
             }
             return null;
         }
-        public static List<EvolutionSet> getArray(byte[] data, int maxSpecies)
+        public static List<EvolutionSet> GetArray(byte[] data, int maxSpecies)
         {
             var evos = new List<EvolutionSet>();
             int offset = 0;
@@ -219,7 +213,7 @@ namespace PKHeX.Core
             {
                 var m = new List<EvolutionMethod>();
                 while (data[offset] != 0)
-                    m.Add(getMethod(data, ref offset));
+                    m.Add(GetMethod(data, ref offset));
                 ++offset;
                 evos.Add(new EvolutionSet1 { PossibleEvolutions = m.ToArray() });
             }
@@ -228,7 +222,7 @@ namespace PKHeX.Core
     }
     public class EvolutionSet2 : EvolutionSet
     {
-        private static EvolutionMethod getMethod(byte[] data, ref int offset)
+        private static EvolutionMethod GetMethod(byte[] data, ref int offset)
         {
             int method = data[offset];
             int arg = data[offset + 1];
@@ -247,7 +241,7 @@ namespace PKHeX.Core
             }
             return null;
         }
-        public static List<EvolutionSet> getArray(byte[] data, int maxSpecies)
+        public static List<EvolutionSet> GetArray(byte[] data, int maxSpecies)
         {
             var evos = new List<EvolutionSet>();
             int offset = 0;
@@ -255,7 +249,7 @@ namespace PKHeX.Core
             {
                 var m = new List<EvolutionMethod>();
                 while (data[offset] != 0)
-                    m.Add(getMethod(data, ref offset));
+                    m.Add(GetMethod(data, ref offset));
                 ++offset;
                 evos.Add(new EvolutionSet2 { PossibleEvolutions = m.ToArray() });
             }
@@ -264,11 +258,11 @@ namespace PKHeX.Core
     }
     public class EvolutionSet3 : EvolutionSet
     {
-        private static EvolutionMethod getMethod(byte[] data, int offset)
+        private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
             int method = BitConverter.ToUInt16(data, offset + 0);
             int arg =  BitConverter.ToUInt16(data, offset + 2);
-            int species = PKX.getG4Species(BitConverter.ToUInt16(data, offset + 4));
+            int species = PKX.GetG4Species(BitConverter.ToUInt16(data, offset + 4));
             //2 bytes padding
 
             switch (method)
@@ -295,13 +289,13 @@ namespace PKHeX.Core
             }
             return null;
         }
-        public static List<EvolutionSet> getArray(byte[] data)
+        public static List<EvolutionSet> GetArray(byte[] data)
         {
             EvolutionSet[] evos = new EvolutionSet[Legal.MaxSpeciesID_3 + 1];
             evos[0] = new EvolutionSet3 { PossibleEvolutions = new EvolutionMethod[0] };
             for (int i = 0; i <= Legal.MaxSpeciesIndex_3; i++)
             {
-                int g4species = PKX.getG4Species(i);
+                int g4species = PKX.GetG4Species(i);
                 if (g4species == 0)
                     continue;
                 
@@ -309,7 +303,7 @@ namespace PKHeX.Core
                 var m_list = new List<EvolutionMethod>();
                 for (int j = 0; j < 5; j++)
                 {
-                    EvolutionMethod m = getMethod(data,  offset);
+                    EvolutionMethod m = GetMethod(data,  offset);
                     if (m != null)
                         m_list.Add(m);
                     else
@@ -323,7 +317,7 @@ namespace PKHeX.Core
     }
     public class EvolutionSet4 : EvolutionSet
     {
-        private static EvolutionMethod getMethod(byte[] data, int offset)
+        private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
             int[] argEvos = { 6, 8, 16, 17, 18, 19, 20, 21, 22 };
             int method = BitConverter.ToUInt16(data, offset + 0);
@@ -349,7 +343,7 @@ namespace PKHeX.Core
                 evo.Level = 0;
             return evo;
         }
-        public static List<EvolutionSet> getArray(byte[] data)
+        public static List<EvolutionSet> GetArray(byte[] data)
         {
             var evos = new List<EvolutionSet>();
             for (int i = 0; i <= Legal.MaxSpeciesIndex_4_HGSSPt; i++)
@@ -361,7 +355,7 @@ namespace PKHeX.Core
                 var m_list = new List<EvolutionMethod>();
                 for (int j = 0; j < 7; j++)
                 {
-                    EvolutionMethod m = getMethod(data, offset);
+                    EvolutionMethod m = GetMethod(data, offset);
                     if (m != null)
                         m_list.Add(m);
                     else
@@ -375,7 +369,7 @@ namespace PKHeX.Core
     }
     public class EvolutionSet5 : EvolutionSet
     {
-        private static EvolutionMethod getMethod(byte[] data, int offset)
+        private static EvolutionMethod GetMethod(byte[] data, int offset)
         {
             int[] argEvos = { 6, 8, 16, 17, 18, 19, 20, 21, 22 };
             int method = BitConverter.ToUInt16(data, offset + 0);
@@ -397,7 +391,7 @@ namespace PKHeX.Core
                 evo.Level = 0;
             return evo;
         }
-        public static List<EvolutionSet> getArray(byte[] data)
+        public static List<EvolutionSet> GetArray(byte[] data)
         {
             var evos = new List<EvolutionSet>();
             for (int i = 0; i <= Legal.MaxSpeciesIndex_5_B2W2; i++)
@@ -408,7 +402,7 @@ namespace PKHeX.Core
                 var m_list = new List<EvolutionMethod>();
                 for (int j = 0; j < 7; j++)
                 {
-                    EvolutionMethod m = getMethod(data, offset);
+                    EvolutionMethod m = GetMethod(data, offset);
                     if (m != null)
                         m_list.Add(m);
                     else
@@ -507,7 +501,7 @@ namespace PKHeX.Core
                     // Special Levelup Cases
                 case 16:
                     if (pkm.CNT_Beauty < Argument)
-                        return false;
+                        return skipChecks;
                     goto default;
                 case 23: // Gender = Male
                     if (pkm.Gender != 0)
@@ -607,7 +601,7 @@ namespace PKHeX.Core
             Chain.Insert(0, evo);
         }
 
-        public IEnumerable<DexLevel> getExplicitLineage(PKM pkm, int lvl, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin)
+        public IEnumerable<DexLevel> GetExplicitLineage(PKM pkm, int lvl, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin)
         {
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count - 1; i >= 0; i--) // reverse evolution!
@@ -619,7 +613,7 @@ namespace PKHeX.Core
                         continue;
 
                     oneValid = true;
-                    updateMinValues(dl, evo);
+                    UpdateMinValues(dl, evo);
                     int species = evo.Species;
 
                     // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
@@ -644,7 +638,7 @@ namespace PKHeX.Core
             dl.Last().RequiresLvlUp = false;
             return dl;
         }
-        private static void updateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
+        private static void UpdateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
         {
             var last = dl.Last();
             if (evo.Level == 0) // Evolutions like elemental stones, trade, etc
@@ -677,7 +671,7 @@ namespace PKHeX.Core
             last.RequiresLvlUp = evo.RequiresLevelUp;
         }
     }
-    public class EvolutionStage
+    public struct EvolutionStage
     {
         public List<EvolutionMethod> StageEntryMethods;
     }

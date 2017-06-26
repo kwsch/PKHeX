@@ -2,7 +2,7 @@
 {
     public static class BoxWallpaper
     {
-        public static string getWallpaper(SaveFile SAV, int index)
+        public static string GetWallpaper(SaveFile SAV, int index)
         {
             index++;
             string s = "box_wp" + index.ToString("00");
@@ -33,14 +33,14 @@
             }
             return s;
         }
-        public static bool getWallpaperRed(SaveFile SAV, int box)
+        public static bool IsWallpaperRed(SaveFile SAV, int box)
         {
             switch (SAV.Generation)
             {
                 case 3:
                     if (SAV.GameCube)
                         return box == 7 && SAV is SAV3XD; // flame pattern in XD
-                    switch (SAV.getBoxWallpaper(box))
+                    switch (SAV.GetBoxWallpaper(box))
                     {
                         case 5: // Volcano
                             return true;
@@ -49,7 +49,7 @@
                     }
                     break;
                 case 4:
-                    switch (SAV.getBoxWallpaper(box))
+                    switch (SAV.GetBoxWallpaper(box))
                     {
                         case 5: // Volcano
                         case 12: // Checks
@@ -59,7 +59,7 @@
                     }
                     break;
                 case 5:
-                    switch (SAV.getBoxWallpaper(box))
+                    switch (SAV.GetBoxWallpaper(box))
                     {
                         case 5: // Volcano
                         case 12: // Checks
@@ -74,7 +74,7 @@
                     break;
                 case 6:
                 case 7:
-                    switch (SAV.getBoxWallpaper(box))
+                    switch (SAV.GetBoxWallpaper(box))
                     {
                         case 5: // Volcano
                         case 12: // PokéCenter

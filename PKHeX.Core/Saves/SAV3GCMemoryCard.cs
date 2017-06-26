@@ -58,7 +58,7 @@ namespace PKHeX.Core
         private static int BlockAllocBAK => BLOCK_SIZE * BlockAlloc_Block;
         
         // Checksums
-        private void getChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
+        private void GetChecksum(int block, int offset, int length, out ushort csum, out ushort inv_csum)
         {
             csum = inv_csum = 0;
             var ofs = block * BLOCK_SIZE + offset;
@@ -74,28 +74,27 @@ namespace PKHeX.Core
             if (inv_csum == 0xffff)
                 inv_csum = 0;
         }
-        private uint verifyChecksums()
+        private uint VerifyChecksums()
         {
-            ushort csum, csum_inv;
             uint results = 0;
 
-            getChecksum(Header_Block, 0, 0xFE, out csum, out csum_inv);
+            GetChecksum(Header_Block, 0, 0xFE, out ushort csum, out ushort csum_inv);
             if (Header_Checksum != csum || (Header_Checksum_Inv != csum_inv))
                 results |= 1;
 
-            getChecksum(Directory_Block, 0, 0xFFE, out csum, out csum_inv);
+            GetChecksum(Directory_Block, 0, 0xFFE, out csum, out csum_inv);
             if (Directory_Checksum != csum || (Directory_Checksum_Inv != csum_inv))
                 results |= 2;
 
-            getChecksum(DirectoryBackup_Block, 0, 0xFFE, out csum, out csum_inv);
+            GetChecksum(DirectoryBackup_Block, 0, 0xFFE, out csum, out csum_inv);
             if (DirectoryBAK_Checksum != csum || (DirectoryBAK_Checksum_Inv != csum_inv))
                 results |= 4;
 
-            getChecksum(BlockAlloc_Block, 4, 0xFFE, out csum, out csum_inv);
+            GetChecksum(BlockAlloc_Block, 4, 0xFFE, out csum, out csum_inv);
             if (BlockAlloc_Checksum != csum || (BlockAlloc_Checksum_Inv != csum_inv))
                 results |= 8;
 
-            getChecksum(BlockAllocBackup_Block, 4, 0xFFE, out csum, out csum_inv);
+            GetChecksum(BlockAllocBackup_Block, 4, 0xFFE, out csum, out csum_inv);
             if ((BlockAllocBAK_Checksum != csum) || BlockAllocBAK_Checksum_Inv != csum_inv)
                 results |= 16;
 
@@ -140,7 +139,7 @@ namespace PKHeX.Core
 
         private bool IsCorruptedMemoryCard()
         {
-            uint csums = verifyChecksums();
+            uint csums = VerifyChecksums();
 
             if ((csums & 0x1) == 1) // Header checksum failed
                 return true;
@@ -150,8 +149,8 @@ namespace PKHeX.Core
                 if ((csums & 0x4) == 1) // backup is also wrong 
                     return true; // Directory checksum and directory backup checksum failed
 
-                restoreBackup(); // backup is correct, restore
-                csums = verifyChecksums(); // update checksums
+                RestoreBackup(); // backup is correct, restore
+                csums = VerifyChecksums(); // update checksums
             }
 
             if ((csums & 0x8) != 1)
@@ -160,10 +159,10 @@ namespace PKHeX.Core
                 return true;
 
             // backup is correct, restore
-            restoreBackup();
+            RestoreBackup();
             return false;
         }
-        private void restoreBackup()
+        private void RestoreBackup()
         {
             Array.Copy(Data, DirectoryBackup_Block*BLOCK_SIZE, Data, Directory_Block*BLOCK_SIZE, BLOCK_SIZE);
             Array.Copy(Data, BlockAllocBackup_Block*BLOCK_SIZE, Data, BlockAlloc_Block*BLOCK_SIZE, BLOCK_SIZE);
@@ -270,11 +269,11 @@ namespace PKHeX.Core
             }
         }
 
-        public string GCISaveName => getGCISaveGameName();
+        public string GCISaveName => GCISaveGameName();
         public byte[] SelectedSaveData { get => ReadSaveGameData(); set => WriteSaveGameData(value); }
         public byte[] Data { get; private set; }
 
-        private string getGCISaveGameName()
+        private string GCISaveGameName()
         {
             int offset = DirectoryBlock_Used*BLOCK_SIZE + EntrySelected*DENTRY_SIZE;
             string GameCode = EncodingType.GetString(Data, offset, 4);

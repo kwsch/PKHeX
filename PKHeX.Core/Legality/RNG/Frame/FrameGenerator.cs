@@ -47,8 +47,8 @@
 
                     var gr = pk.PersonalInfo.Gender;
                     Gendered = true;
-                    GenderLow = getGenderMinMax(gender, gr, false);
-                    GenderHigh = getGenderMinMax(gender, gr, true);
+                    GenderLow = GetGenderMinMax(gender, gr, false);
+                    GenderHigh = GetGenderMinMax(gender, gr, true);
                     return;
 
                 // Method J
@@ -79,7 +79,7 @@
         /// <param name="ratio">Gender Ratio</param>
         /// <param name="max">Return Max (or Min)</param>
         /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-        private static int getGenderMinMax(int gender, int ratio, bool max)
+        private static int GetGenderMinMax(int gender, int ratio, bool max)
         {
             if (ratio == 0 || ratio == 0xFE || ratio == 0xFF)
                 gender = 2;

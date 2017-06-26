@@ -1,39 +1,42 @@
 ﻿namespace PKHeX.Core
 {
+    public class EncounterSlotPermissions
+    {
+        public bool Static { get; set; }
+        public bool MagnetPull { get; set; }
+        public int StaticCount { get; set; }
+        public int MagnetPullCount { get; set; }
+        public bool AllowDexNav { get; set; }
+        public bool Pressure { get; set; }
+        public bool DexNav { get; set; }
+        public bool WhiteFlute { get; set; }
+        public bool BlackFlute { get; set; }
+        public bool IsNormalLead => !(WhiteFlute || BlackFlute || DexNav);
+    }
     public class EncounterSlot : IEncounterable, IGeneration
     {
         public int Species { get; set; }
-        public int Form;
+        public int Form { get; set; }
         public int LevelMin { get; set; }
         public int LevelMax { get; set; }
-        public SlotType Type = SlotType.Any;
-        public EncounterType TypeEncounter = EncounterType.None;
-        public bool AllowDexNav;
-        public bool Pressure;
-        public bool DexNav;
-        public bool WhiteFlute;
-        public bool BlackFlute;
-        public bool Normal => !(WhiteFlute || BlackFlute || DexNav);
-        public int SlotNumber;
+        public SlotType Type { get; set; } = SlotType.Any;
+        public EncounterType TypeEncounter { get; set; } = EncounterType.None;
+        public int SlotNumber { get; set; }
         public bool EggEncounter => false;
         public int Generation { get; set; } = -1;
-
-        public bool Static;
-        public bool MagnetPull;
-        public int StaticCount;
-        public int MagnetPullCount;
+        internal EncounterSlotPermissions _perm;
+        public EncounterSlotPermissions Permissions => _perm ?? (_perm = new EncounterSlotPermissions());
 
         public virtual EncounterSlot Clone()
         {
             return new EncounterSlot
             {
                 Species = Species,
-                AllowDexNav = AllowDexNav,
                 LevelMax = LevelMax,
                 LevelMin = LevelMin,
                 Type = Type,
-                Pressure = Pressure,
                 SlotNumber = SlotNumber,
+                _perm = _perm
             };
         }
 
@@ -59,8 +62,9 @@
                 LevelMax = LevelMax,
                 LevelMin = LevelMin,
                 Type = Type,
-                Rate = Rate,
                 SlotNumber = SlotNumber,
+                _perm = _perm,
+                Rate = Rate
             };
         }
     }

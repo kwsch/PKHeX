@@ -13,102 +13,109 @@ namespace PKHeX.WinForms
         {
             SAV = (Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             editing = true;
             
             // Repopulate Wallpaper names
-            CB_BG.Items.Clear();
+            if (!LoadWallpaperNames())
+                WinFormsUtil.Error("Box layout is not supported for this game.", "Please close the window.");
+            LoadBoxNames();
+            LoadFlags();
+            LoadUnlockedCount();
 
+            LB_BoxSelect.SelectedIndex = box;
+        }
+
+        private bool LoadWallpaperNames()
+        {
+            CB_BG.Items.Clear();
             switch (SAV.Generation)
             {
                 case 3:
                     if (SAV.GameCube)
                         goto default;
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
-                    break;
+                    return true;
                 case 4:
                 case 5:
                 case 6:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
-                    break;
+                    return true;
                 case 7:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
-                    break;
+                    return true;
                 default:
-                    WinFormsUtil.Error("Box layout is not supported for this game.", "Please close the window.");
-                    break;
+                    return false;
             }
-
-            // Go
+        }
+        private void LoadBoxNames()
+        {
             LB_BoxSelect.Items.Clear();
             for (int i = 0; i < SAV.BoxCount; i++)
-                LB_BoxSelect.Items.Add(SAV.getBoxName(i));
-
-            // Flags
-            byte[] flags = SAV.BoxFlags;
-            if (flags != null)
-            {
-                flagArr = new NumericUpDown[flags.Length];
-                for (int i = 0; i < flags.Length; i++)
-                {
-                    flagArr[i] = new NumericUpDown
-                    {
-                        Minimum = 0,
-                        Maximum = 255,
-                        Width = CB_Unlocked.Width - 5,
-                        Hexadecimal = true,
-                        Value = flags[i]
-                    };
-                    FLP_Flags.Controls.Add(flagArr[i]);
-                }
-            }
-            else
-            {
-                FLP_Flags.Visible = false;
-            }
-
-            // Unlocked
-            if (SAV.BoxesUnlocked > 0)
-            {
-                CB_Unlocked.Items.Clear();
-                int max = SAV.BoxCount;
-                if (SAV.Generation == 6)
-                    max -= 1; // cover legendary captured unlocks final box, not governed by BoxesUnlocked
-
-                for (int i = 0; i <= max; i++)
-                    CB_Unlocked.Items.Add(i);
-                CB_Unlocked.SelectedIndex = Math.Min(max, SAV.BoxesUnlocked);
-            }
-            else
+                LB_BoxSelect.Items.Add(SAV.GetBoxName(i));
+        }
+        private void LoadUnlockedCount()
+        {
+            if (SAV.BoxesUnlocked <= 0)
             {
                 FLP_Unlocked.Visible = L_Unlocked.Visible = CB_Unlocked.Visible = false;
+                return;
             }
-            LB_BoxSelect.SelectedIndex = box;
+            CB_Unlocked.Items.Clear();
+            int max = SAV.BoxCount;
+            if (SAV.Generation == 6)
+                max -= 1; // cover legendary captured unlocks final box, not governed by BoxesUnlocked
+            for (int i = 0; i <= max; i++)
+                CB_Unlocked.Items.Add(i);
+            CB_Unlocked.SelectedIndex = Math.Min(max, SAV.BoxesUnlocked);
+        }
+        private void LoadFlags()
+        {
+            byte[] flags = SAV.BoxFlags;
+            if (flags == null)
+            {
+                FLP_Flags.Visible = false;
+                return;
+            }
+
+            flagArr = new NumericUpDown[flags.Length];
+            for (int i = 0; i < flags.Length; i++)
+            {
+                flagArr[i] = new NumericUpDown
+                {
+                    Minimum = 0,
+                    Maximum = 255,
+                    Width = CB_Unlocked.Width - 5,
+                    Hexadecimal = true,
+                    Value = flags[i]
+                };
+                FLP_Flags.Controls.Add(flagArr[i]);
+            }
         }
 
-        private readonly NumericUpDown[] flagArr = new NumericUpDown[0];
+        private NumericUpDown[] flagArr = new NumericUpDown[0];
         private bool editing;
-        private bool renameBox;
-        private void changeBox(object sender, EventArgs e)
+        private bool renamingBox;
+        private void ChangeBox(object sender, EventArgs e)
         {
-            if (renameBox)
+            if (renamingBox)
                 return;
             editing = true;
             
-            CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.getBoxWallpaper(LB_BoxSelect.SelectedIndex));
-            TB_BoxName.Text = SAV.getBoxName(LB_BoxSelect.SelectedIndex);
+            CB_BG.SelectedIndex = Math.Min(CB_BG.Items.Count - 1, SAV.GetBoxWallpaper(LB_BoxSelect.SelectedIndex));
+            TB_BoxName.Text = SAV.GetBoxName(LB_BoxSelect.SelectedIndex);
 
             editing = false; 
         }
-        private void changeBoxDetails(object sender, EventArgs e)
+        private void ChangeBoxDetails(object sender, EventArgs e)
         {
             if (editing)
                 return;
 
-            renameBox = true;
-            SAV.setBoxName(LB_BoxSelect.SelectedIndex, TB_BoxName.Text);
+            renamingBox = true;
+            SAV.SetBoxName(LB_BoxSelect.SelectedIndex, TB_BoxName.Text);
             LB_BoxSelect.Items[LB_BoxSelect.SelectedIndex] = TB_BoxName.Text;
-            renameBox = false;
+            renamingBox = false;
         }
         private void B_Cancel_Click(object sender, EventArgs e)
         {
@@ -121,14 +128,14 @@ namespace PKHeX.WinForms
             if (CB_Unlocked.Visible)
                 SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 
-        private void changeBoxBG(object sender, EventArgs e)
+        private void ChangeBoxBackground(object sender, EventArgs e)
         {
             if (!editing)
-                SAV.setBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
+                SAV.SetBoxWallpaper(LB_BoxSelect.SelectedIndex, CB_BG.SelectedIndex);
 
             PAN_BG.BackgroundImage = SAV.WallpaperImage(CB_BG.SelectedIndex);
         }
@@ -154,16 +161,16 @@ namespace PKHeX.WinForms
             LB_BoxSelect.Items.Insert(newIndex, selected);
             // Restore selection
             LB_BoxSelect.SetSelected(newIndex, true);
-            editing = renameBox = false;
+            editing = renamingBox = false;
 
             return true;
         }
 
-        private void moveBox(object sender, EventArgs e)
+        private void MoveBox(object sender, EventArgs e)
         {
             int index = LB_BoxSelect.SelectedIndex;
             int dir = sender == B_Up ? -1 : +1;
-            editing = renameBox = true;
+            editing = renamingBox = true;
             if (!MoveItem(dir))
             {
                 System.Media.SystemSounds.Asterisk.Play();
@@ -174,8 +181,8 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("Locked/Team slots prevent movement of box(es).");
             }
             else
-                changeBox(null, null);
-            editing = renameBox = false;
+                ChangeBox(null, null);
+            editing = renamingBox = false;
         }
     }
 }

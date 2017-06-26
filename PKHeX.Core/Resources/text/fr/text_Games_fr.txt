@@ -20,20 +20,20 @@ Colosseum/XD
 
 Blanche
 Noire
-Blanche2
-Noire2
+Blanche 2
+Noire 2
 X
 Y
-AS
-OR
+Saphir Alpha
+Rubis Oméga
 
 
 Soleil
 Lune
 
 
-Go
+GO
 Rouge
-Bleue[INT]/Vert[JP]
-Bleue[JP]
+Bleue [INT]/Vert [JP]
+Bleue [JP]
 Jaune

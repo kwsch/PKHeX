@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6, }; // JPN,ENG,FRA,GER,ITA,SPA
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             editing = true;
             // Clear Listbox and ComboBox
@@ -39,6 +39,8 @@ namespace PKHeX.WinForms
                 CB_DexUpgraded.Items.Add(mode);
             if (SAV.DexUpgraded < CB_DexUpgraded.Items.Count)
                 CB_DexUpgraded.SelectedIndex = SAV.DexUpgraded;
+
+            CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         private readonly CheckBox[] CL;
@@ -47,39 +49,35 @@ namespace PKHeX.WinForms
         private const int brSize = 0x40;
         private const int LangCount = 6; // No Korean
 
-        private void changeCBSpecies(object sender, EventArgs e)
+        private void ChangeCBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
-            setEntry();
+            SetEntry();
 
             editing = true;
             species = (int)CB_Species.SelectedValue;
             LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
             LB_Species.TopIndex = LB_Species.SelectedIndex;
-            getEntry();
+            GetEntry();
             editing = false;
         }
-        private void changeLBSpecies(object sender, EventArgs e)
+        private void ChangeLBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
-            setEntry();
+            SetEntry();
 
             editing = true;
             species = LB_Species.SelectedIndex + 1;
             CB_Species.SelectedValue = species;
-            getEntry();
+            GetEntry();
             editing = false;
-        }
-        private void removedropCB(object sender, KeyEventArgs e)
-        {
-            ((ComboBox)sender).DroppedDown = false;
         }
 
         private const string GENDERLESS = "Genderless";
         private const string MALE = "Male";
         private const string FEMALE = "Female";
         private static readonly int[] DPLangSpecies = { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
-        private void getEntry()
+        private void GetEntry()
         {
             // Load Bools for the data
             int bit = species - 1;
@@ -135,20 +133,19 @@ namespace PKHeX.WinForms
             LB_Form.Items.Clear();
             LB_NForm.Items.Clear();
 
-            var forms = SAV.getForms(species);
+            var forms = SAV.GetForms(species);
             if (forms == null)
                 return;
 
-            string[] formNames = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms,
-                Main.gendersymbols, 4);
+            string[] formNames = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms,
+                Main.GenderSymbols, 4);
             var seen = forms.Where(z => (byte)z != 0xFF).Select((v, i) => formNames[forms[i]]).ToArray();
             var not = formNames.Where(z => !seen.Contains(z)).ToArray();
 
             LB_Form.Items.AddRange(seen);
             LB_NForm.Items.AddRange(not);
         }
-
-        private void setEntry()
+        private void SetEntry()
         {
             if (species < 0)
                 return;
@@ -214,14 +211,14 @@ namespace PKHeX.WinForms
                 }
             }
 
-            var forms = SAV.getForms(species);
+            var forms = SAV.GetForms(species);
             if (forms != null)
             {
                 int[] arr = new int[LB_Form.Items.Count];
-                string[] formNames = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols, 4);
+                string[] formNames = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 4);
                 for (int i = 0; i < LB_Form.Items.Count; i++)
                     arr[i] = Array.IndexOf(formNames, (string)LB_Form.Items[i]);
-                SAV.setForms(species, arr);
+                SAV.SetForms(species, arr);
             }
 
             editing = false;
@@ -233,11 +230,11 @@ namespace PKHeX.WinForms
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            setEntry();
+            SetEntry();
             int s = CB_DexUpgraded.SelectedIndex;
             if (s >= 0) SAV.DexUpgraded = s;
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 
@@ -255,9 +252,9 @@ namespace PKHeX.WinForms
             CHK_Caught.Checked = CHK_Seen.Checked = ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
-                seenNone();
+                SeenNone();
             else
-                seenAll();
+                SeenAll();
         }
         private void B_Modify_Click(object sender, EventArgs e)
         {
@@ -265,7 +262,7 @@ namespace PKHeX.WinForms
             modifyMenu.Show(btn.PointToScreen(new Point(0, btn.Height)));
         }
 
-        private void seenNone()
+        private void SeenNone()
         {
             LB_NGender.Items.AddRange(LB_Gender.Items);
             LB_Gender.Items.Clear();
@@ -276,7 +273,7 @@ namespace PKHeX.WinForms
             foreach (var c in CL)
                 c.Checked = false;
         }
-        private void seenAll()
+        private void SeenAll()
         {
             LB_Gender.Items.AddRange(LB_NGender.Items);
             LB_NGender.Items.Clear();
@@ -285,7 +282,7 @@ namespace PKHeX.WinForms
             LB_NForm.Items.Clear();
             CHK_Seen.Checked = true;
         }
-        private void modifyAll(object sender, EventArgs e)
+        private void ModifyAll(object sender, EventArgs e)
         {
             int lang = SAV.Language;
             if (lang > 5 || lang < 0) // KOR or Invalid
@@ -301,9 +298,9 @@ namespace PKHeX.WinForms
                 LB_Species.SelectedIndex = i;
 
                 if (seenN) // move all to none
-                    seenNone();
+                    SeenNone();
                 else if (seenA) // move all to seen
-                    seenAll();
+                    SeenAll();
 
                 if (caughtA)
                 {
@@ -318,8 +315,8 @@ namespace PKHeX.WinForms
                         t.Checked = false;
             }
 
-            setEntry();
-            getEntry();
+            SetEntry();
+            GetEntry();
         }
 
         private void CHK_Seen_CheckedChanged(object sender, EventArgs e)
@@ -329,7 +326,7 @@ namespace PKHeX.WinForms
                 if (!CHK_Seen.Checked) // move all to none
                 {
                     CHK_Caught.Checked = false;
-                    seenNone();
+                    SeenNone();
                 }
                 else if (LB_NGender.Items.Count > 0)
                 {
@@ -337,13 +334,13 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < count; i++)
                     {
                         LB_NGender.SelectedIndex = 0;
-                        toggleSeen(B_GLeft, e);
+                        ToggleSeen(B_GLeft, e);
                     }
                     int count2 = LB_NForm.Items.Count;
                     for (int i = 0; i < count2; i++)
                     {
                         LB_NForm.SelectedIndex = 0;
-                        toggleForm(B_FLeft, e);
+                        ToggleForm(B_FLeft, e);
                     }
                 }
             }
@@ -351,7 +348,7 @@ namespace PKHeX.WinForms
             CHK_Caught.Enabled = CHK_Seen.Checked;
         }
 
-        private void toggleSeen(object sender, EventArgs e)
+        private void ToggleSeen(object sender, EventArgs e)
         {
             if (editing)
                 return;
@@ -368,7 +365,7 @@ namespace PKHeX.WinForms
             dest.Items.Add(item);
             dest.SelectedIndex = dest.Items.Count - 1;
         }
-        private void moveGender(object sender, EventArgs e)
+        private void MoveGender(object sender, EventArgs e)
         {
             if (editing)
                 return;
@@ -397,7 +394,7 @@ namespace PKHeX.WinForms
             lb.SelectedIndex = newIndex;
         }
 
-        private void toggleForm(object sender, EventArgs e)
+        private void ToggleForm(object sender, EventArgs e)
         {
             if (editing)
                 return;
@@ -414,8 +411,7 @@ namespace PKHeX.WinForms
             dest.Items.Add(item);
             dest.SelectedIndex = dest.Items.Count - 1;
         }
-
-        private void moveForm(object sender, EventArgs e)
+        private void MoveForm(object sender, EventArgs e)
         {
             if (editing)
                 return;

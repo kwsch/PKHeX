@@ -18,18 +18,18 @@ namespace PKHeX.WinForms
             {
                 new CustomFolderPath {Path = Main.BackupPath, DisplayText = "PKHeX Backups"}
             };
-            locs.AddRange(getUserPaths());
-            locs.AddRange(get3DSPaths());
+            locs.AddRange(GetUserPaths());
+            locs.AddRange(Get3DSPaths());
             locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetCacheFolder(), DisplayText = "CGSE Cache"});
             locs.Add(new CustomFolderPath {Path = CyberGadgetUtil.GetTempFolder(), DisplayText = "CGSE Temp"});
             
             foreach (var loc in locs.GroupBy(z => z.Path))
-                addButton(loc.First().DisplayText, loc.First().Path);
+                AddButton(loc.First().DisplayText, loc.First().Path);
 
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         }
 
-        private void addButton(string name, string path)
+        private void AddButton(string name, string path)
         {
             var button = new Button
             {
@@ -51,7 +51,7 @@ namespace PKHeX.WinForms
             FLP_Buttons.Controls.Add(button);
         }
 
-        private static IEnumerable<CustomFolderPath> getUserPaths()
+        private static IEnumerable<CustomFolderPath> GetUserPaths()
         {
             string loc = Path.Combine(Main.WorkingDirectory, "savpaths.txt");
 
@@ -66,11 +66,11 @@ namespace PKHeX.WinForms
                     yield return new CustomFolderPath {DisplayText = split[0], Path = split[1]};
             }
         }
-        private static IEnumerable<CustomFolderPath> get3DSPaths()
+        private static IEnumerable<CustomFolderPath> Get3DSPaths()
         {
-            var path3DS = PathUtilWindows.get3DSLocation();
+            var path3DS = PathUtilWindows.Get3DSLocation();
             var path = path3DS == null || !Directory.Exists(path3DS) ? @"C:\" : Path.GetPathRoot(path3DS);
-            foreach (var z in PathUtilWindows.get3DSBackupPaths(path))
+            foreach (var z in PathUtilWindows.Get3DSBackupPaths(path))
             {
                 var di = new DirectoryInfo(z);
                 var root = di.Root.Name;

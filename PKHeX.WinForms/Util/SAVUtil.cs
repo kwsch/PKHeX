@@ -19,7 +19,7 @@ namespace PKHeX.WinForms
         /// <param name="result">Result message from the method.</param>
         /// <param name="boxFolders">Option to save in child folders with the Box Name as the folder name.</param>
         /// <returns></returns>
-        public static bool dumpBoxes(this SaveFile SAV, string path, out string result, bool boxFolders = false)
+        public static bool DumpBoxes(this SaveFile SAV, string path, out string result, bool boxFolders = false)
         {
             PKM[] boxdata = SAV.BoxData;
             if (boxdata == null)
@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
                 string boxfolder = "";
                 if (boxFolders)
                 {
-                    boxfolder = SAV.getBoxName(pk.Box - 1);
+                    boxfolder = SAV.GetBoxName(pk.Box - 1);
                     Directory.CreateDirectory(Path.Combine(path, boxfolder));
                 }
                 if (!File.Exists(Path.Combine(Path.Combine(path, boxfolder), fileName)))
@@ -47,7 +47,15 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        public static bool dumpBox(this SaveFile SAV, string path, out string result, int currentBox)
+        /// <summary>
+        /// Dumps the <see cref="SaveFile.BoxData"/> to a folder with individual decrypted files.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> that is being dumped from.</param>
+        /// <param name="path">Folder to store <see cref="PKM"/> files.</param>
+        /// <param name="result">Result message from the method.</param>
+        /// <param name="currentBox">Box contents to be dumped.</param>
+        /// <returns></returns>
+        public static bool DumpBox(this SaveFile SAV, string path, out string result, int currentBox)
         {
             PKM[] boxdata = SAV.BoxData;
             if (boxdata == null)
@@ -79,7 +87,7 @@ namespace PKHeX.WinForms
         /// <param name="boxClear">Instruction to clear boxes after the starting box.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns></returns>
-        public static bool loadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
+        public static bool LoadBoxes(this SaveFile SAV, string path, out string result, int boxStart = 0, bool boxClear = false, bool? noSetb = null)
         {
             if (string.IsNullOrWhiteSpace(path))
             { result = "Invalid path specified."; return false; }
@@ -87,7 +95,7 @@ namespace PKHeX.WinForms
             { result = "Save file does not have boxes."; return false; }
             
             if (boxClear)
-                SAV.resetBoxes(boxStart);
+                SAV.ClearBoxes(boxStart);
 
             int startCount = boxStart*SAV.BoxSlotCount;
             int maxCount = SAV.BoxCount*SAV.BoxSlotCount;
@@ -97,14 +105,14 @@ namespace PKHeX.WinForms
 
             foreach (var file in filepaths)
             {
-                if (!PKX.getIsPKM(new FileInfo(file).Length))
+                if (!PKX.IsPKM(new FileInfo(file).Length))
                     continue;
 
                 // Check for format compatibility with save; if transfer is necessary => convert.
-                string c; // format conversion comment
+                // format conversion comment
                 byte[] data = File.ReadAllBytes(file);
-                PKM temp = PKMConverter.getPKMfromBytes(data, prefer: SAV.Generation);
-                PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out c);
+                PKM temp = PKMConverter.GetPKMfromBytes(data, prefer: SAV.Generation);
+                PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
 
                 if (pk == null)
                 { Console.WriteLine(c); continue; }
@@ -112,11 +120,11 @@ namespace PKHeX.WinForms
                 if (SAV.IsPKMCompatible(pk).Length > 0)
                     continue;
 
-                while (SAV.getIsSlotLocked(ctr/SAV.BoxSlotCount, ctr%SAV.BoxSlotCount))
+                while (SAV.IsSlotLocked(ctr/SAV.BoxSlotCount, ctr%SAV.BoxSlotCount))
                     ctr++;
 
-                int offset = SAV.getBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount*SAV.SIZE_STORED;
-                SAV.setStoredSlot(pk, offset, noSetb);
+                int offset = SAV.GetBoxOffset(ctr/SAV.BoxSlotCount) + ctr%SAV.BoxSlotCount*SAV.SIZE_STORED;
+                SAV.SetStoredSlot(pk, offset, noSetb);
                 if (pk.Format != temp.Format) // Transferred
                     pastctr++;
                 if (++ctr == maxCount) // Boxes full!
@@ -172,6 +180,22 @@ namespace PKHeX.WinForms
                 errata.Add($"Game can't have ability: {GameInfo.Strings.abilitylist[pkm.Ability]}");
 
             return errata.ToArray();
+        }
+
+        /// <summary>
+        /// Removes the <see cref="PKM.HeldItem"/> for all <see cref="PKM"/> in the <see cref="SaveFile.BoxData"/>.
+        /// </summary>
+        /// <param name="SAV"><see cref="SaveFile"/> that is being operated on.</param>
+        /// <param name="item"><see cref="PKM.HeldItem"/> to set. If no argument is supplied, the held item will be removed.</param>
+        public static void SetBoxDataAllHeldItems(this SaveFile SAV, int item = 0)
+        {
+            var boxdata = SAV.BoxData;
+            foreach (PKM pk in boxdata)
+            {
+                pk.HeldItem = item;
+                pk.RefreshChecksum();
+            }
+            SAV.BoxData = boxdata;
         }
     }
 }

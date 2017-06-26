@@ -13,3 +13,6 @@
 0781	Lati@s(PewterCity) disappeared
 0721	Kyogre/Groudon disappeared
 0722	Rayquaza disappeared
+2404	HOF(TrainerCard Upgrade)
+0388	ShinyLeaf(TrainerCard Upgrade)
+0241	Pokeathlon(TrainerCard Upgrade)

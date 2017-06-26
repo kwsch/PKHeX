@@ -11,7 +11,7 @@ namespace PKHeX.WinForms
         {
             SAV = (SAV7)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             var colors = new[] {"Red", "Blue", "Light Blue", "Green", "Yellow", "Purple", "Orange"};
             var beans = new List<string>();
@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
             Setup();
         }
 
-        private int MaxBeanID = 14;
+        private const int MaxBeanID = 14;
 
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
@@ -73,7 +73,7 @@ namespace PKHeX.WinForms
                 dgv.Rows[i].Cells[1].Value = SAV.GetPokebeanCount(i);
             }
         }
-        private void dropclick(object sender, DataGridViewCellEventArgs e)
+        private static void DropClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex != 1) return;
             ((ComboBox)((DataGridView) sender).EditingControl).DroppedDown = true;
@@ -100,7 +100,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i <= MaxBeanID; i++)
                 SAV.SetPokebeanCount(i, (int)dgv.Rows[i].Cells[1].Value);
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
     }

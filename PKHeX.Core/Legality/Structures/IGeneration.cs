@@ -2,6 +2,6 @@
 {
     internal interface IGeneration
     {
-        int Generation { get; set; }
+        int Generation { get; }
     }
 }

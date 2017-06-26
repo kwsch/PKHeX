@@ -5523,6 +5523,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _490_e {
+            get {
+                object obj = ResourceManager.GetObject("_490_e", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _491 {
             get {
                 object obj = ResourceManager.GetObject("_491", resourceCulture);
@@ -12324,16 +12334,29 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex
         ///
-        ///17/04/24 - New Update:
-        /// - Legality: Added Gen3, Gen4, Gen5 legality checking! Thanks javierhimura &amp; wwwwwwzx!
-        /// - - Added: Legality Translations, currently supports English, Chinese, and Korean. Thanks wwwwwwzx &amp; lilymaniac!
-        /// - - Note: Colosseum/XD is not supported at this time, and certain Gen3 events may not be detected.
-        /// - - Fixed: More edge cases
-        /// - Changed: Trash Byte &amp; Special character editing window (added) now replaces the Text Entry wind [rest of string was truncated]&quot;;.
+        ///17/05/30 - New Update:
+        /// - Program Internals:
+        /// - - PKHeX now uses C# 7 language features.
+        /// - - PKHeX.Core is now a .NET Standard class library.
+        /// - Legality:
+        /// - - Changed: Refactored internals to better handle matching of encounters and future plans.
+        /// - - Added: PIDIV method detection. For now, the only legality flagging present is for Cosseum/XD starters.
+        /// - - Added: More legality check flagging. Thanks javierhimura &amp; wwwwwwzx!
+        /// - Main Window:        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
                 return ResourceManager.GetString("changelog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap crown {
+            get {
+                object obj = ResourceManager.GetObject("crown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -17270,6 +17293,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap leaf {
+            get {
+                object obj = ResourceManager.GetObject("leaf", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap load {
             get {
                 object obj = ResourceManager.GetObject("load", resourceCulture);
@@ -17348,7 +17381,7 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20170424.
+        ///   Looks up a localized string similar to 20170530.
         /// </summary>
         internal static string ProgramVersion {
             get {
@@ -18427,7 +18460,8 @@ namespace PKHeX.WinForms.Properties {
         ///CTRL-B: Export BAK
         ///CTRL-Q: Quit
         ///
-        ///CTRL-D: Open Database
+        ///CTRL-D: Open PKM Database
+        ///CTRL-F: Open Folder
         ///CTRL-G: Open Mystery Gift Database
         ///CTRL-R: Open Box Report
         ///CTRL-P: Open About PKHeX
@@ -18436,8 +18470,7 @@ namespace PKHeX.WinForms.Properties {
         ///
         ///Control + Click on...
         ///- Species: Import Showdown/Smogon set from Clipboard.
-        ///- Nickname/OT box: Bring up the ingame-special characters.
-        ///- Individual  [rest of string was truncated]&quot;;.
+        ///- Nickname/OT box: Bring up the ingame-special c [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string shortcuts {
             get {

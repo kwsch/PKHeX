@@ -20,20 +20,20 @@ Kolosseum/XD
 
 Weiße
 Schwarze
-Weiße2
-Schwarze2
+Weiße 2
+Schwarze 2
 X
 Y
-AS
-OR
+Alpha Saphir
+Omega Rubin
 
 
 Sonne
 Mond
 
 
-Go
+GO
 Rote
-Blaue[INT]/Grüne[JP]
-Blaue
+Blaue [INT]/Grüne [JP]
+Blaue [JP]
 Gelbe

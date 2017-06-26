@@ -4,19 +4,18 @@ namespace PKHeX.Core
 {
     public enum GBEncounterType
     {
-        TradeEncounterG1 = 1,
-        StaticEncounter = 3,
-        WildEncounter = 2,
-        EggEncounter = 9,
-        TradeEncounterG2 = 10,
-        SpecialEncounter = 20,
+        EggEncounter,
+        WildEncounter,
+        StaticEncounter,
+        SpecialEncounter,
+        TradeEncounterG1,
+        TradeEncounterG2,
     }
 
     public class GBEncounterData : IEncounterable
     {
         public readonly int Level;
-        public int MoveLevel;
-        public GameVersion Game;
+        public readonly GameVersion Game;
         public readonly int Generation;
         public readonly GBEncounterType Type;
         public readonly IEncounterable Encounter;
@@ -64,7 +63,6 @@ namespace PKHeX.Core
                     : slot.LevelMin;
                 Type = GBEncounterType.WildEncounter;
             }
-            MoveLevel = Level;
         }
     }
 }

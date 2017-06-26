@@ -8,7 +8,7 @@ namespace PKHeX.WinForms
 {
     public static class PathUtilWindows
     {
-        public static string get3DSLocation()
+        public static string Get3DSLocation()
         {
             try
             {
@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="root">Root location of device</param>
         /// <returns>List of possible 3DS save backup paths.</returns>
-        public static string[] get3DSBackupPaths(string root)
+        public static string[] Get3DSBackupPaths(string root)
         {
             return new[]
             {
@@ -44,28 +44,31 @@ namespace PKHeX.WinForms
         /// <summary>
         /// Detects a save file.
         /// </summary>
-        /// <returns>Full path of a save file. Returns null if unable to find any.</returns>
-        public static bool detectSaveFile(out string path, params string[] extra)
+        /// <param name="path">If this function returns true, full path of a save file or null if no path could be found. If this function returns false, this parameter will be set to the error message.</param>
+        /// <param name="extra">Paths to check in addition to the default paths</param>
+        /// <returns>A boolean indicating whether or not a file was detected</returns>
+        public static bool DetectSaveFile(out string path, params string[] extra)
         {
-            string path3DS = Path.GetPathRoot(get3DSLocation());
+            string path3DS = Path.GetPathRoot(Get3DSLocation());
             List<string> possiblePaths = new List<string>();
             List<string> foldersToCheck = new List<string>(extra.Where(f => f?.Length > 0));
             path = null;
 
             if (path3DS != null) // check for Homebrew/CFW backups
-                foldersToCheck.AddRange(get3DSBackupPaths(path3DS));
+                foldersToCheck.AddRange(Get3DSBackupPaths(path3DS));
 
             foreach (var p in foldersToCheck)
             {
-                IEnumerable<string> files;
-                if (!SaveUtil.getSavesFromFolder(p, true, out files))
+                if (!SaveUtil.GetSavesFromFolder(p, true, out IEnumerable<string> files))
                 {
-                    if (files == null)
-                        continue;
-                    path = files.First(); // error
-                    return false;
+                    if (files != null) // Could be null if `p` doesn't exist
+                    {
+                        path = string.Join(Environment.NewLine, files); // `files` contains the error message
+                        return false;
+                    }
                 }
-                possiblePaths.AddRange(files);
+                if (files != null)
+                    possiblePaths.AddRange(files);
             }
 
             // return newest save file path that is valid
@@ -74,7 +77,7 @@ namespace PKHeX.WinForms
                 try
                 {
                     var data = File.ReadAllBytes(file);
-                    var sav = SaveUtil.getVariantSAV(data);
+                    var sav = SaveUtil.GetVariantSAV(data);
                     if (sav?.ChecksumsValid != true)
                         continue;
 

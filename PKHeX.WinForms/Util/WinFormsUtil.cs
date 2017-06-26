@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
             else
             {
                 var file = "lang_" + lang;
-                rawlist = Util.getStringList(file);
+                rawlist = Util.GetStringList(file);
                 if (rawlist.Length == 0)
                 {
                     // Translation file does not exist as a resource; abort this function and don't translate UI.
@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
 
-        internal static int getIndex(ComboBox cb)
+        internal static int GetIndex(ComboBox cb)
         {
             return (int)(cb?.SelectedValue ?? 0);
         }
@@ -180,6 +180,14 @@ namespace PKHeX.WinForms
                     p.VerticalScroll.Value = e.NewValue;
                     break;
             }
+        }
+        public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
+        public static IEnumerable<Control> GetAllControlsOfType(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>().ToList();
+            return controls.SelectMany(ctrl => GetAllControlsOfType(ctrl, type))
+                .Concat(controls)
+                .Where(c => c.GetType() == type);
         }
         #endregion
 
@@ -220,8 +228,8 @@ namespace PKHeX.WinForms
             string pathCache = CyberGadgetUtil.GetCacheFolder();
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
-            if (!PathUtilWindows.detectSaveFile(out path, cgse))
-                Error(path);
+            if (!PathUtilWindows.DetectSaveFile(out path, cgse) && !string.IsNullOrEmpty(path))
+                Error(path); // `path` contains the error message
 
             if (path != null)
             { ofd.FileName = path; }
@@ -333,7 +341,7 @@ namespace PKHeX.WinForms
         {
             SaveFileDialog output = new SaveFileDialog
             {
-                Filter = getMysterGiftFilter(gift.Format),
+                Filter = GetMysterGiftFilter(gift.Format),
                 FileName = Util.CleanFileName(gift.FileName)
             };
             if (output.ShowDialog() != DialogResult.OK)
@@ -356,7 +364,7 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        public static string getMysterGiftFilter(int Format)
+        public static string GetMysterGiftFilter(int Format)
         {
             switch (Format)
             {

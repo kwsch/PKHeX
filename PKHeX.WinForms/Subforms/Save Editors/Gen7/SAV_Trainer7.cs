@@ -15,25 +15,24 @@ namespace PKHeX.WinForms
             SAV = (SAV7)(Origin = sav).Clone();
             Loading = true;
             InitializeComponent();
-            if (Main.unicode)
-            try { TB_OTName.Font = FontUtil.getPKXFont(11); }
+            if (Main.Unicode)
+            try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
             catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
 
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
 
             CB_Gender.Items.Clear();
-            CB_Gender.Items.AddRange(Main.gendersymbols.Take(2).ToArray()); // m/f depending on unicode selection
+            CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
             
-            getComboBoxes();
-            getTextBoxes();
+            GetComboBoxes();
+            GetTextBoxes();
 
             CB_Stats.Items.Clear();
             for (int i = 0; i < 200; i++)
             {
-                string name;
-                if (!RecordList.TryGetValue(i, out name))
-                    name =  i.ToString("D3");
+                if (!RecordList.TryGetValue(i, out string name))
+                    name = i.ToString("D3");
 
                 CB_Stats.Items.Add(name);
             }
@@ -50,7 +49,7 @@ namespace PKHeX.WinForms
         private static readonly string[] TrainerStampTitle = { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
         private static readonly string[] BattleStyles = { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
 
-        private void getComboBoxes()
+        private void GetComboBoxes()
         {
             var dsregion_list = new[] {
                     new { Text = "NA/SA", Value = 1 },
@@ -93,20 +92,20 @@ namespace PKHeX.WinForms
             CB_Country.ValueMember = "Value";
             CB_Region.DisplayMember = "Text";
             CB_Region.ValueMember = "Value";
-            Main.setCountrySubRegion(CB_Country, "countries");
+            Main.SetCountrySubRegion(CB_Country, "countries");
 
             CB_SkinColor.Items.Clear();
             string[] skinColors = { "Pale", "Default", "Tan", "Dark" };
             foreach (string c in skinColors)
             {
-                CB_SkinColor.Items.Add($"{Main.gendersymbols[0]} - {c}"); // M
-                CB_SkinColor.Items.Add($"{Main.gendersymbols[1]} - {c}"); // F
+                CB_SkinColor.Items.Add($"{Main.GenderSymbols[0]} - {c}"); // M
+                CB_SkinColor.Items.Add($"{Main.GenderSymbols[1]} - {c}"); // F
             }
 
             L_Vivillon.Text = GameInfo.Strings.specieslist[666] + ":";
             CB_Vivillon.DisplayMember = "Text";
             CB_Vivillon.ValueMember = "Value";
-            CB_Vivillon.DataSource = PKX.getFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols).ToList();
+            CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols).ToList();
 
             foreach (string t in BattleStyles)
             {
@@ -118,7 +117,7 @@ namespace PKHeX.WinForms
             foreach (string t in TrainerStampTitle)
                 LB_Stamps.Items.Add(t);
         }
-        private void getTextBoxes()
+        private void GetTextBoxes()
         {
             // Get Data
             string OT_NAME = SAV.OT;
@@ -187,19 +186,19 @@ namespace PKHeX.WinForms
             CHK_Gyro.Checked = SAV.PokeFinderGyroFlag;
 
             // Battle Tree
-            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, SAV.getTreeStreak(0, super: false, max: false));
-            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, SAV.getTreeStreak(1, super: false, max: false));
-            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, SAV.getTreeStreak(2, super: false, max: false));
-            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, SAV.getTreeStreak(0, super: false, max: true));
-            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, SAV.getTreeStreak(1, super: false, max: true));
-            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, SAV.getTreeStreak(2, super: false, max: true));
+            NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: false));
+            NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, SAV.GetTreeStreak(1, super: false, max: false));
+            NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, SAV.GetTreeStreak(2, super: false, max: false));
+            NUD_RMStreak0.Value = Math.Min(NUD_RMStreak0.Maximum, SAV.GetTreeStreak(0, super: false, max: true));
+            NUD_RMStreak1.Value = Math.Min(NUD_RMStreak1.Maximum, SAV.GetTreeStreak(1, super: false, max: true));
+            NUD_RMStreak2.Value = Math.Min(NUD_RMStreak2.Maximum, SAV.GetTreeStreak(2, super: false, max: true));
 
-            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, SAV.getTreeStreak(0, super: true, max: false));
-            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, SAV.getTreeStreak(1, super: true, max: false));
-            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, SAV.getTreeStreak(2, super: true, max: false));
-            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, SAV.getTreeStreak(0, super: true, max: true));
-            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.getTreeStreak(1, super: true, max: true));
-            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.getTreeStreak(2, super: true, max: true));
+            NUD_SCStreak0.Value = Math.Min(NUD_SCStreak0.Maximum, SAV.GetTreeStreak(0, super: true, max: false));
+            NUD_SCStreak1.Value = Math.Min(NUD_SCStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: false));
+            NUD_SCStreak2.Value = Math.Min(NUD_SCStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: false));
+            NUD_SMStreak0.Value = Math.Min(NUD_SMStreak0.Maximum, SAV.GetTreeStreak(0, super: true, max: true));
+            NUD_SMStreak1.Value = Math.Min(NUD_SMStreak1.Maximum, SAV.GetTreeStreak(1, super: true, max: true));
+            NUD_SMStreak2.Value = Math.Min(NUD_SMStreak2.Maximum, SAV.GetTreeStreak(2, super: true, max: true));
 
             CB_SkinColor.SelectedIndex = SAV.DressUpSkinColor;
             TB_PlazaName.Text = SAV.FestivalPlazaName;
@@ -234,7 +233,7 @@ namespace PKHeX.WinForms
 
             CHK_UnlockMega.Checked = SAV.MegaUnlocked;
         }
-        private void save()
+        private void Save()
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
@@ -242,11 +241,11 @@ namespace PKHeX.WinForms
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.SubRegion = WinFormsUtil.getIndex(CB_Region);
-            SAV.Country = WinFormsUtil.getIndex(CB_Country);
-            SAV.ConsoleRegion = WinFormsUtil.getIndex(CB_3DSReg);
-            SAV.Language = WinFormsUtil.getIndex(CB_Language);
-            SAV.AlolaTime = (ulong)WinFormsUtil.getIndex(CB_AlolaTime);
+            SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
+            SAV.Country = WinFormsUtil.GetIndex(CB_Country);
+            SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
+            SAV.Language = WinFormsUtil.GetIndex(CB_Language);
+            SAV.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
 
@@ -290,19 +289,19 @@ namespace PKHeX.WinForms
             SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
 
             // Battle Tree
-            SAV.setTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
-            SAV.setTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
-            SAV.setTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
-            SAV.setTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
-            SAV.setTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
-            SAV.setTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
+            SAV.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
+            SAV.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
+            SAV.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
+            SAV.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
+            SAV.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
+            SAV.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
 
-            SAV.setTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
-            SAV.setTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
-            SAV.setTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
-            SAV.setTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
-            SAV.setTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
-            SAV.setTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
+            SAV.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
+            SAV.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
+            SAV.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
+            SAV.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
+            SAV.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
+            SAV.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
 
             // Skin changed && (gender matches || override)
             int gender = CB_Gender.SelectedIndex & 1;
@@ -321,9 +320,9 @@ namespace PKHeX.WinForms
             
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
-            SAV.BallThrowTypeUnlocked = (byte)getBits(LB_BallThrowTypeUnlocked);
-            SAV.BallThrowTypeLearned = (byte)getBits(LB_BallThrowTypeLearned);
-            SAV.Stamps = getBits(LB_Stamps);
+            SAV.BallThrowTypeUnlocked = (byte)GetBits(LB_BallThrowTypeUnlocked);
+            SAV.BallThrowTypeLearned = (byte)GetBits(LB_BallThrowTypeLearned);
+            SAV.Stamps = GetBits(LB_Stamps);
 
             byte btsu = 0;
             if (CHK_UnlockSuperSingles.Checked) btsu |= 1;
@@ -333,7 +332,7 @@ namespace PKHeX.WinForms
 
             SAV.MegaUnlocked = CHK_UnlockMega.Checked;
         }
-        private static uint getBits(ListBox listbox)
+        private static uint GetBits(ListBox listbox)
         {
             uint bits = 0;
             for (int i = 0; i < listbox.Items.Count; i++)
@@ -342,18 +341,18 @@ namespace PKHeX.WinForms
             return bits;
         }
 
-        private void clickOT(object sender, MouseEventArgs e)
+        private void ClickOT(object sender, MouseEventArgs e)
         {
             TextBox tb = sender as TextBox ?? TB_OTName;
             // Special Character Form
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new f2_Text(tb, null, SAV);
+            var d = new TrashEditor(tb, null, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
-        private void showTSV(object sender, EventArgs e)
+        private void ShowTSV(object sender, EventArgs e)
         {
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
@@ -371,31 +370,31 @@ namespace PKHeX.WinForms
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            save();
-            Origin.setData(SAV.Data, 0);
+            Save();
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
-        private void change255(object sender, EventArgs e)
+        private void Change255(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
             if (box?.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
         }
-        private void changeFFFF(object sender, EventArgs e)
+        private void ChangeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = sender as MaskedTextBox;
             if (box?.Text == "") box.Text = "0";
             if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
-        private void changeMapValue(object sender, EventArgs e)
+        private void ChangeMapValue(object sender, EventArgs e)
         {
             if (!Loading)
                 MapUpdated = true;
         }
-        private void updateCountry(object sender, EventArgs e)
+        private void UpdateCountry(object sender, EventArgs e)
         {
-            if (WinFormsUtil.getIndex(sender as ComboBox) > 0)
-                Main.setCountrySubRegion(CB_Region, "sr_" + WinFormsUtil.getIndex(sender as ComboBox).ToString("000"));
+            if (WinFormsUtil.GetIndex(sender as ComboBox) > 0)
+                Main.SetCountrySubRegion(CB_Region, "sr_" + WinFormsUtil.GetIndex(sender as ComboBox).ToString("000"));
         }
         private void B_Fashion_Click(object sender, EventArgs e)
         {
@@ -446,26 +445,26 @@ namespace PKHeX.WinForms
             }
             System.Media.SystemSounds.Asterisk.Play();
         }
-        private void changeStat(object sender, EventArgs e)
+        private void ChangeStat(object sender, EventArgs e)
         {
             editing = true;
             int index = CB_Stats.SelectedIndex;
-            NUD_Stat.Maximum = SAV.getRecordMax(index);
-            NUD_Stat.Value = SAV.getRecord(index);
+            NUD_Stat.Maximum = SAV7.GetRecordMax(index);
+            NUD_Stat.Value = SAV.GetRecord(index);
 
-            int offset = SAV.getRecordOffset(index);
+            int offset = SAV.GetRecordOffset(index);
             L_Offset.Text = "Offset: 0x" + offset.ToString("X3");
-            updateTip(index, true);
+            UpdateTip(index, true);
             editing = false;
         }
-        private void changeStatVal(object sender, EventArgs e)
+        private void ChangeStatVal(object sender, EventArgs e)
         {
             if (editing) return;
             int index = CB_Stats.SelectedIndex;
-            SAV.setRecord(index, (int)NUD_Stat.Value);
-            updateTip(index, false);
+            SAV.SetRecord(index, (int)NUD_Stat.Value);
+            UpdateTip(index, false);
         }
-        private void updateTip(int index, bool updateStats)
+        private void UpdateTip(int index, bool updateStats)
         {
             switch (index)
             {
@@ -473,7 +472,7 @@ namespace PKHeX.WinForms
                     int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
                     seconds -= seconds % 86400;
                     seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-                    Tip3.SetToolTip(NUD_Stat, dateval2str(SAV.getRecord(index), seconds));
+                    Tip3.SetToolTip(NUD_Stat, ConvertDateValueToString(SAV.GetRecord(index), seconds));
                     break;
                 default:
                     Tip3.RemoveAll();
@@ -482,11 +481,10 @@ namespace PKHeX.WinForms
             if (!updateStats)
                 return;
 
-            string tip;
-            if (RecordList.TryGetValue(index, out tip))
+            if (RecordList.TryGetValue(index, out string tip))
                 Tip3.SetToolTip(CB_Stats, tip);
         }
-        private static string dateval2str(int value, int refval = -1)
+        private static string ConvertDateValueToString(int value, int refval = -1)
         {
             string tip = "";
             if (value >= 86400)
@@ -497,7 +495,7 @@ namespace PKHeX.WinForms
             return tip;
         }
 
-        private void CB_BattleStyleListMode_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdateBattleStyle(object sender, EventArgs e)
         {
             if (CB_BallThrowTypeListMode.SelectedIndex == 0)
             {
@@ -510,13 +508,13 @@ namespace PKHeX.WinForms
                 LB_BallThrowTypeLearned.Visible = true;
             }
         }
-        private void LB_BallThrowTypeLearned_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdateBallThrowTypeLearned(object sender, EventArgs e)
         {
             if (Loading) return;
             if (!LB_BallThrowTypeLearned.GetSelected(0))
                 LB_BallThrowTypeLearned.SetSelected(0, true);
         }
-        private void LB_BallThrowTypeUnlocked_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdateBallThrowTypeUnlocked(object sender, EventArgs e)
         {
             if (Loading) return;
             for (int i = 0; i < 2; i++)
@@ -528,7 +526,7 @@ namespace PKHeX.WinForms
 
         private void B_GenTID_Click(object sender, EventArgs e)
         {
-            var tuple = SaveUtil.getTIDSID(Util.ToUInt32(MT_G7TID.Text), ModifierKeys == Keys.Control);
+            var tuple = SaveUtil.GetTIDSID(Util.ToUInt32(MT_G7TID.Text), ModifierKeys == Keys.Control);
             MT_TID.Text = tuple.Item1.ToString("D5");
             MT_SID.Text = tuple.Item2.ToString("D5");
         }

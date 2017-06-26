@@ -20,20 +20,20 @@ Colosseo/XD
 
 Bianca
 Nera
-Bianca2
-Nera2
+Bianca 2
+Nera 2
 X
 Y
-AS
-OR
+Zaffiro Alpha
+Rubino Omega
 
 
 Sole
 Luna
 
 
-Go
+GO
 Rossa
-Blu[INT]/Verde[JP]
-Blu[JP]
+Blu [INT]/Verde [JP]
+Blu [JP]
 Gialla

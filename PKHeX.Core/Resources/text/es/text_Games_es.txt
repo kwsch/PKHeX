@@ -32,8 +32,8 @@ Sol
 Luna
 
 
-Go
+GO
 Roja
-Azul[INT]/Verde[JP]
-Azul[JP]
+Azul [INT]/Verde [JP]
+Azul [JP]
 Amarilla

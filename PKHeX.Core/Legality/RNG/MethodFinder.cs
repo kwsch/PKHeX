@@ -28,41 +28,43 @@ namespace PKHeX.Core
                 IVs[i] = (uint)iIVs[i];
 
             PIDIV pidiv;
-            if (getLCRNGMatch(top, bot, IVs, out pidiv))
+            if (GetLCRNGMatch(top, bot, IVs, out pidiv))
                 return pidiv;
-            if (pk.Species == 201 && getLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
+            if (pk.Species == 201 && GetLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
                 return pidiv;
-            if (getXDRNGMatch(top, bot, IVs, out pidiv))
+            if (GetXDRNGMatch(top, bot, IVs, out pidiv))
                 return pidiv;
 
             // Special cases
-            if (getLCRNGRoamerMatch(top, bot, IVs, out pidiv))
+            if (GetLCRNGRoamerMatch(top, bot, IVs, out pidiv))
                 return pidiv;
-            if (getChannelMatch(top, bot, IVs, out pidiv))
+            if (GetChannelMatch(top, bot, IVs, out pidiv))
                 return pidiv;
-            if (getMG4Match(pid, IVs, out pidiv))
+            if (GetMG4Match(pid, IVs, out pidiv))
                 return pidiv;
 
             if (pk.IsShiny)
             {
-                if (getChainShinyMatch(pk, pid, IVs, out pidiv))
+                if (GetChainShinyMatch(pk, pid, IVs, out pidiv))
                     return pidiv;
-                if (getModifiedPID(pk, pid, out pidiv))
+                if (GetModifiedPID(pk, pid, out pidiv))
                     return pidiv;
             }
-            if (pid <= 0xFF && getCuteCharmMatch(pk, pid, out pidiv))
+            if (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv))
                 return pidiv;
-            if (getBACDMatch(pk, pid, IVs, out pidiv))
+            if (GetBACDMatch(pk, pid, IVs, out pidiv))
+                return pidiv;
+            if (GetPokewalkerMatch(pk, pid, out pidiv))
                 return pidiv;
 
             return new PIDIV {Type=PIDType.None, NoSeed=true}; // no match
         }
 
-        private static bool getLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetLCRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            var reg = getSeedsFromPID(RNG.LCRNG, top, bot);
-            var iv1 = getIVChunk(IVs, 0);
-            var iv2 = getIVChunk(IVs, 3);
+            var reg = GetSeedsFromPID(RNG.LCRNG, top, bot);
+            var iv1 = GetIVChunk(IVs, 0);
+            var iv2 = GetIVChunk(IVs, 3);
             foreach (var seed in reg)
             {
                 // A and B are already used by PID
@@ -108,12 +110,12 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getLCRNGUnownMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetLCRNGUnownMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
             // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
-            var reg = getSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
-            var iv1 = getIVChunk(IVs, 0);
-            var iv2 = getIVChunk(IVs, 3);
+            var reg = GetSeedsFromPID(RNG.LCRNG, bot, top); // reversed!
+            var iv1 = GetIVChunk(IVs, 0);
+            var iv2 = GetIVChunk(IVs, 3);
             foreach (var seed in reg)
             {
                 // A and B are already used by PID
@@ -159,15 +161,15 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getLCRNGRoamerMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetLCRNGRoamerMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
             if (IVs.Skip(2).Any(iv => iv != 0) || IVs[1] > 7)
             {
                 pidiv = null;
                 return false;
             }
-            var iv1 = getIVChunk(IVs, 0);
-            var reg = getSeedsFromPID(RNG.LCRNG, top, bot);
+            var iv1 = GetIVChunk(IVs, 0);
+            var reg = GetSeedsFromPID(RNG.LCRNG, top, bot);
             foreach (var seed in reg)
             {
                 // Only the first 8 bits are kept
@@ -181,15 +183,15 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getXDRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetXDRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            var xdc = getSeedsFromPID(RNG.XDRNG, bot, top);
+            var xdc = GetSeedsFromPID(RNG.XDRNG, bot, top);
             foreach (var seed in xdc)
             {
                 var B = RNG.XDRNG.Prev(seed);
                 var A = RNG.XDRNG.Prev(B);
 
-                if (!getIVs(A >> 16, B >> 16).SequenceEqual(IVs))
+                if (!GetIVs(A >> 16, B >> 16).SequenceEqual(IVs))
                     continue;
 
                 pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXD};
@@ -198,13 +200,13 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            var channel = getSeedsFromPID(RNG.XDRNG, bot, top ^ 0x8000);
+            var channel = GetSeedsFromPID(RNG.XDRNG, bot, top ^ 0x8000);
             foreach (var seed in channel)
             {
                 var E = RNG.XDRNG.Advance(seed, 5);
-                if (!getIVs(RNG.XDRNG, E).SequenceEqual(IVs))
+                if (!GetIVs(RNG.XDRNG, E).SequenceEqual(IVs))
                     continue;
 
                 pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(seed), RNG = RNG.XDRNG, Type = PIDType.Channel};
@@ -213,16 +215,16 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getMG4Match(uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetMG4Match(uint pid, uint[] IVs, out PIDIV pidiv)
         {
             uint mg4Rev = RNG.ARNG.Prev(pid);
-            var mg4 = getSeedsFromPID(RNG.LCRNG, mg4Rev >> 16, mg4Rev & 0xFFFF);
+            var mg4 = GetSeedsFromPID(RNG.LCRNG, mg4Rev >> 16, mg4Rev & 0xFFFF);
             foreach (var seed in mg4)
             {
                 var B = RNG.LCRNG.Advance(seed, 2);
                 var C = RNG.LCRNG.Next(B);
                 var D = RNG.LCRNG.Next(C);
-                if (!getIVs(C >> 16, D >> 16).SequenceEqual(IVs))
+                if (!GetIVs(C >> 16, D >> 16).SequenceEqual(IVs))
                     continue;
 
                 pidiv = new PIDIV {OriginSeed = seed, RNG = RNG.LCRNG, Type = PIDType.G4MGAntiShiny};
@@ -231,14 +233,14 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getModifiedPID(PKM pk, uint pid, out PIDIV pidiv)
+        private static bool GetModifiedPID(PKM pk, uint pid, out PIDIV pidiv)
         {
             var low = pid & 0xFFFF;
             // generation 5 shiny PIDs
             if (low <= 0xFF)
             {
                 var high = pid >> 16;
-                if ((pk.TID ^ pk.SID ^ low) == high)
+                if (((pk.TID ^ pk.SID ^ low) - high & 0xFFFE) == 0)
                 {
                     pidiv = new PIDIV {NoSeed = true, Type = PIDType.G5MGShiny};
                     return true;
@@ -248,7 +250,7 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
+        private static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
         {
             int genderValue = pk.Gender;
             switch (genderValue)
@@ -277,15 +279,15 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getChainShinyMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetChainShinyMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
         {
             // 13 shiny bits
             // PIDH & 7
             // PIDL & 7
             // IVs
-            var bot = getIVChunk(IVs, 0);
-            var top = getIVChunk(IVs, 3);
-            var reg = getSeedsFromIVs(RNG.LCRNG, top, bot);
+            var bot = GetIVChunk(IVs, 0);
+            var top = GetIVChunk(IVs, 3);
+            var reg = GetSeedsFromIVs(RNG.LCRNG, top, bot);
             foreach (var seed in reg)
             {
                 // check the individual bits
@@ -322,11 +324,11 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool getBACDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
+        private static bool GetBACDMatch(PKM pk, uint pid, uint[] IVs, out PIDIV pidiv)
         {
-            var bot = getIVChunk(IVs, 0);
-            var top = getIVChunk(IVs, 3);
-            var reg = getSeedsFromIVs(RNG.LCRNG, top, bot);
+            var bot = GetIVChunk(IVs, 0);
+            var top = GetIVChunk(IVs, 3);
+            var reg = GetSeedsFromIVs(RNG.LCRNG, top, bot);
             foreach (var seed in reg)
             {
                 var B = seed;
@@ -386,13 +388,49 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
+        private static bool GetPokewalkerMatch(PKM pk, uint oldpid, out PIDIV pidiv)
+        {
+            var nature = oldpid % 25;
+            if (nature == 24)
+            {
+                pidiv = null;
+                return false;
+            }
+
+            uint pid = (uint)((pk.TID ^ pk.SID) >> 8 ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
+            pid += nature - pid % 25;
+            uint gv = 0;
+            switch (pk.Gender)
+            {
+                case 0: // Male
+                    var gr = pk.PersonalInfo.Gender + 1;
+                    gv = (uint) (((gr - (pid & 0xFF)) / 25 + 1) * 25); // Ensures gender is set to male without affecting nature.
+                    break;
+                case 1: // Female
+                    var gr2 = pk.PersonalInfo.Gender;
+                    gv = (uint) ((((pid & 0xFF) - gr2) / 25 + 1) * 25); // Ensures gender is set to female without affecting nature
+                    break;
+            }
+            pid += gv;
+            if ((nature & 1) != (pid & 1)) // If ability does not match the chosen ability
+                pid -= 25; // Switches ability without affecting nature
+
+            if (pid == oldpid)
+            {
+                pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.Pokewalker};
+                return true;
+            }
+
+            pidiv = null;
+            return false;
+        }
 
         private static PIDIV AnalyzeGB(PKM pk)
         {
             return null;
         }
 
-        private static IEnumerable<uint> getSeedsFromPID(RNG method, uint a, uint b)
+        private static IEnumerable<uint> GetSeedsFromPID(RNG method, uint a, uint b)
         {
             uint cmp = a << 16;
             uint x = b << 16;
@@ -403,7 +441,7 @@ namespace PKHeX.Core
                     yield return method.Prev(seed);
             }
         }
-        private static IEnumerable<uint> getSeedsFromIVs(RNG method, uint a, uint b)
+        private static IEnumerable<uint> GetSeedsFromIVs(RNG method, uint a, uint b)
         {
             uint cmp = a << 16 & 0x7FFF0000;
             uint x = b << 16 & 0x7FFF0000;
@@ -429,7 +467,7 @@ namespace PKHeX.Core
         /// <param name="r1">First rand frame</param>
         /// <param name="r2">Second rand frame</param>
         /// <returns>Array of 6 IVs</returns>
-        private static uint[] getIVs(uint r1, uint r2)
+        private static uint[] GetIVs(uint r1, uint r2)
         {
             return new[]
             {
@@ -447,7 +485,7 @@ namespace PKHeX.Core
         /// <param name="method">RNG advancement method</param>
         /// <param name="seed">RNG seed</param>
         /// <returns>Array of 6 IVs</returns>
-        private static uint[] getIVs(RNG method, uint seed)
+        private static uint[] GetIVs(RNG method, uint seed)
         {
             uint[] ivs = new uint[6];
             for (int i = 0; i < 6; i++)
@@ -457,7 +495,7 @@ namespace PKHeX.Core
             }
             return ivs;
         }
-        private static uint getIVChunk(uint[] IVs, int start)
+        private static uint GetIVChunk(uint[] IVs, int start)
         {
             uint val = 0;
             for (int i = 0; i < 3; i++)
@@ -465,7 +503,7 @@ namespace PKHeX.Core
             return val;
         }
 
-        public static IEnumerable<PIDIV> getPokeSpotSeeds(PKM pkm, int slot)
+        public static IEnumerable<PIDIV> GetPokeSpotSeeds(PKM pkm, int slot)
         {
             // Activate (rand % 3)
             // Munchlax / Bonsly (10%/30%)
@@ -473,7 +511,7 @@ namespace PKHeX.Core
             var pid = pkm.PID;
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
-            var seeds = getSeedsFromPID(RNG.XDRNG, bot, top);
+            var seeds = GetSeedsFromPID(RNG.XDRNG, bot, top);
             foreach (var seed in seeds)
             {
                 // check for valid encounter slot info
@@ -534,19 +572,34 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsCompatible4(this PIDType val, IEncounterable encounter)
+        public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
         {
             switch (encounter)
             {
                 case EncounterStatic s:
+                    if (s == Legal.SpikyEaredPichu) // nonshiny forced nature, undocumented
+                        return val == PIDType.None;
+                    if (s.Location == 233 && s.Gift)
+                        return val == PIDType.Pokewalker;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
                     return val == PIDType.Method_1;
-                case PGT g: // manaphy
-                    return val == PIDType.Method_1 || val == PIDType.None; // regular && antishiny
+                case PGT _: // manaphy
+                    return IsG4ManaphyPIDValid(val, pkm);
                 default:
                     return val == PIDType.None;
             }
+        }
+        private static bool IsG4ManaphyPIDValid(PIDType val, PKM pkm)
+        {
+            if (val == PIDType.Method_1)
+                return pkm.WasTradedEgg || !pkm.IsShiny; // can't be shiny on received game
+            if (val != PIDType.G4MGAntiShiny)
+                return false;
+            if (pkm.WasTradedEgg)
+                return true;
+            var shinyPID = RNG.ARNG.Prev(pkm.PID);
+            return (pkm.TID ^ pkm.SID ^ (shinyPID & 0xFFFF) ^ (shinyPID >> 16)) < 8; // shiny proc
         }
 
         private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };

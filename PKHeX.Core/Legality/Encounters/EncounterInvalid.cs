@@ -3,16 +3,18 @@
     public class EncounterInvalid : IEncounterable
     {
         public int Species { get; }
+        public int LevelMin { get; }
+        public int LevelMax { get; }
+        public bool EggEncounter { get; }
+
         public string Name => "Invalid";
-        public bool EggEncounter => false;
-        public int LevelMin => Level;
-        public int LevelMax => Level;
-        public readonly int Level;
 
         public EncounterInvalid(PKM pkm)
         {
             Species = pkm.Species;
-            Level = pkm.CurrentLevel;
+            LevelMin = pkm.Met_Level;
+            LevelMax = pkm.CurrentLevel;
+            EggEncounter = pkm.WasEgg;
         }
     }
 }

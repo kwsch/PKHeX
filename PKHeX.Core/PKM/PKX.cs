@@ -46,7 +46,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="len">Data length of the file/array.</param>
         /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
-        public static bool getIsPKM(long len)
+        public static bool IsPKM(long len)
         {
             return new[]
             {
@@ -171,17 +171,17 @@ namespace PKHeX.Core
 
         public static readonly string[][] SpeciesLang = 
         {
-            Util.getSpeciesList("ja"), // none
-            Util.getSpeciesList("ja"), // 1
-            Util.getSpeciesList("en"), // 2
-            Util.getSpeciesList("fr"), // 3
-            Util.getSpeciesList("it"), // 4
-            Util.getSpeciesList("de"), // 5
-            Util.getSpeciesList("es"), // none
-            Util.getSpeciesList("es"), // 7
-            Util.getSpeciesList("ko"), // 8
-            Util.getSpeciesList("zh"), // 9 Simplified
-            Util.getSpeciesList("zh2"), // 10 Traditional
+            Util.GetSpeciesList("ja"), // none
+            Util.GetSpeciesList("ja"), // 1
+            Util.GetSpeciesList("en"), // 2
+            Util.GetSpeciesList("fr"), // 3
+            Util.GetSpeciesList("it"), // 4
+            Util.GetSpeciesList("de"), // 5
+            Util.GetSpeciesList("es"), // none
+            Util.GetSpeciesList("es"), // 7
+            Util.GetSpeciesList("ko"), // 8
+            Util.GetSpeciesList("zh"), // 9 Simplified
+            Util.GetSpeciesList("zh2"), // 10 Traditional
         };
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace PKHeX.Core
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="lang">Language ID of the Pokémon</param>
         /// <returns>The Species name if within expected range, else an empty string.</returns>
-        public static string getSpeciesName(int species, int lang)
+        public static string GetSpeciesName(int species, int lang)
         {
             if (lang < 0 || SpeciesLang.Length <= lang)
                 return "";
@@ -207,9 +207,12 @@ namespace PKHeX.Core
         /// <param name="lang">Language ID of the Pokémon</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Generation specific default species name</returns>
-        public static string getSpeciesNameGeneration(int species, int lang, int generation)
+        public static string GetSpeciesNameGeneration(int species, int lang, int generation)
         {
-            string nick = getSpeciesName(species, lang);
+            if (generation == 3 && species == 0)
+                return "タマゴ";
+
+            string nick = GetSpeciesName(species, lang);
 
             if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
                 nick = nick.ToUpper();
@@ -225,7 +228,7 @@ namespace PKHeX.Core
         /// <param name="nick">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-        public static bool getIsNicknamedAnyLanguage(int species, string nick, int generation)
+        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation)
         {
             int len = SpeciesLang.Length;
             if (generation < 3)
@@ -234,7 +237,7 @@ namespace PKHeX.Core
                 len = 8;
 
             for (int i = 0; i < len; i++)
-                if (getSpeciesNameGeneration(species, i, generation) == nick)
+                if (GetSpeciesNameGeneration(species, i, generation) == nick)
                     return false;
             return true;
         }
@@ -246,7 +249,7 @@ namespace PKHeX.Core
         /// <param name="nick">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int getSpeciesNameLanguage(int species, string nick, int generation)
+        public static int GetSpeciesNameLanguage(int species, string nick, int generation)
         {
             int len = SpeciesLang.Length;
             if (generation < 3)
@@ -255,7 +258,7 @@ namespace PKHeX.Core
                 len = 8;
 
             for (int i = 0; i < len; i++)
-                if (getSpeciesNameGeneration(species, i, generation) == nick)
+                if (GetSpeciesNameGeneration(species, i, generation) == nick)
                     return i;
             return -1;
         }
@@ -265,18 +268,18 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
-        public static uint[] getRandomEVs(int generation = Generation)
+        public static uint[] GetRandomEVs(int generation = Generation)
         {
             if (generation > 2)
             {
                 uint[] evs = new uint[6];
                 do
                 {
-                    evs[0] = (byte)Math.Min(Util.rnd32() % 300, 252); // bias two to get maybe 252
-                    evs[1] = (byte)Math.Min(Util.rnd32() % 300, 252);
-                    evs[2] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1]), 252);
-                    evs[3] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2]), 252);
-                    evs[4] = (byte)Math.Min(Util.rnd32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
+                    evs[0] = (byte)Math.Min(Util.Rand32() % 300, 252); // bias two to get maybe 252
+                    evs[1] = (byte)Math.Min(Util.Rand32() % 300, 252);
+                    evs[2] = (byte)Math.Min(Util.Rand32() % (510 - evs[0] - evs[1]), 252);
+                    evs[3] = (byte)Math.Min(Util.Rand32() % (510 - evs[0] - evs[1] - evs[2]), 252);
+                    evs[4] = (byte)Math.Min(Util.Rand32() % (510 - evs[0] - evs[1] - evs[2] - evs[3]), 252);
                     evs[5] = (byte)Math.Min(510 - evs[0] - evs[1] - evs[2] - evs[3] - evs[4], 252);
                 } while (evs.Sum(b => b) > 510); // recalculate random EVs...
                 Util.Shuffle(evs);
@@ -286,7 +289,7 @@ namespace PKHeX.Core
             {
                 uint[] evs = new uint[6];
                 for (int i = 0; i < evs.Length; i++)
-                    evs[i] = Util.rnd32() & ushort.MaxValue;
+                    evs[i] = Util.Rand32() & ushort.MaxValue;
                 return evs;
             }
         }
@@ -297,7 +300,7 @@ namespace PKHeX.Core
         /// <param name="species">National Dex number of the Pokémon.</param>
         /// <param name="exp">Experience points</param>
         /// <returns>Current level of the species.</returns>
-        public static int getLevel(int species, uint exp)
+        public static int GetLevel(int species, uint exp)
         {
             int growth = Personal[species].EXPGrowth;
             int tl = 1; // Initial Level. Iterate upwards to find the level
@@ -312,7 +315,7 @@ namespace PKHeX.Core
         /// <param name="level">Current level</param>
         /// <param name="species">National Dex number of the Pokémon.</param>
         /// <returns>Experience points needed to have specified level.</returns>
-        public static uint getEXP(int level, int species)
+        public static uint GetEXP(int level, int species)
         {
             if (level <= 1) return 0;
             if (level > 100) level = 100;
@@ -324,7 +327,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="s">Gender string</param>
         /// <returns>Gender integer</returns>
-        public static int getGender(string s)
+        public static int GetGender(string s)
         {
             if (s == null) 
                 return -1;
@@ -338,7 +341,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Positions for shuffling.
         /// </summary>
-        public static readonly byte[][] blockPosition =
+        private static readonly byte[][] blockPosition =
         {
             new byte[] {0, 0, 0, 0, 0, 0, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3},
             new byte[] {1, 1, 2, 3, 2, 3, 0, 0, 0, 0, 0, 0, 2, 3, 1, 1, 3, 2, 2, 3, 1, 1, 3, 2},
@@ -349,7 +352,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Positions for unshuffling.
         /// </summary>
-        public static readonly byte[] blockPositionInvert =
+        internal static readonly byte[] blockPositionInvert =
         {
             0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23
         };
@@ -361,7 +364,7 @@ namespace PKHeX.Core
         /// <param name="data">Data to shuffle</param>
         /// <param name="sv">Block Shuffle order</param>
         /// <returns>Shuffled byte array</returns>
-        public static byte[] shuffleArray(byte[] data, uint sv)
+        public static byte[] ShuffleArray(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
@@ -383,7 +386,7 @@ namespace PKHeX.Core
         /// <param name="ekx">Encrypted <see cref="PKM"/> data.</param>
         /// <returns>Decrypted <see cref="PKM"/> data.</returns>
         /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] decryptArray(byte[] ekx)
+        public static byte[] DecryptArray(byte[] ekx)
         {
             byte[] pkx = (byte[])ekx.Clone();
 
@@ -397,7 +400,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkx, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkx, i);
 
             // Deshuffle
-            pkx = shuffleArray(pkx, sv);
+            pkx = ShuffleArray(pkx, sv);
 
             // Decrypt the Party Stats
             seed = pv;
@@ -412,7 +415,7 @@ namespace PKHeX.Core
         /// Encrypts a 232 byte + party stat byte array.
         /// </summary>
         /// <param name="pkx">Decrypted <see cref="PKM"/> data.</param>
-        public static byte[] encryptArray(byte[] pkx)
+        public static byte[] EncryptArray(byte[] pkx)
         {
             // Shuffle
             uint pv = BitConverter.ToUInt32(pkx, 0);
@@ -420,7 +423,7 @@ namespace PKHeX.Core
 
             byte[] ekx = (byte[])pkx.Clone();
 
-            ekx = shuffleArray(ekx, blockPositionInvert[sv]);
+            ekx = ShuffleArray(ekx, blockPositionInvert[sv]);
 
             uint seed = pv;
 
@@ -445,7 +448,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Decrypted <see cref="PKM"/> data.</param>
         /// <returns></returns>
-        public static ushort getCHK(byte[] data)
+        public static ushort GetCHK(byte[] data)
         {
             ushort chk = 0;
             for (int i = 8; i < 232; i += 2) // Loop through the entire PKX
@@ -460,7 +463,7 @@ namespace PKHeX.Core
         /// <param name="gen">Origin Generation</param>
         /// <param name="EC">Encryption Constant</param>
         /// <returns>Wurmple Evolution Value</returns>
-        public static uint getWurmpleEvoVal(int gen, uint EC)
+        public static uint GetWurmpleEvoVal(int gen, uint EC)
         {
             uint evoVal;
             switch (gen)
@@ -483,17 +486,17 @@ namespace PKHeX.Core
         /// <param name="OLDPID">Current PID</param>
         /// <remarks>Used to retain ability bits.</remarks>
         /// <returns>Rerolled PID.</returns>
-        public static uint getRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
+        public static uint GetRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
         {
             uint bits = OLDPID & 0x00010001;
             int gt = Personal[species].Gender;
             if (origin >= 24)
-                return Util.rnd32();
+                return Util.Rand32();
 
             bool g3unown = origin <= 5 && species == 201;
             while (true) // Loop until we find a suitable PID
             {
-                uint pid = Util.rnd32();
+                uint pid = Util.Rand32();
 
                 // Gen 3/4: Nature derived from PID
                 if (origin <= 15 && pid%25 != nature)
@@ -513,14 +516,14 @@ namespace PKHeX.Core
                     return pid; // PID can be anything
 
                 // Gen 3/4/5: Gender derived from PID
-                if (cg == getGender(pid, gt))
+                if (cg == GetGender(pid, gt))
                     return pid;
             }
         }
 
         // Data Requests
-        public static string getBallString(int ball) => "_ball" + ball;
-        public static string getSpriteString(int species, int form, int gender, int generation)
+        public static string GetResourceStringBall(int ball) => "_ball" + ball;
+        public static string GetResourceStringSprite(int species, int form, int gender, int generation)
         {
             if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
@@ -546,7 +549,7 @@ namespace PKHeX.Core
         /// <param name="g">List of gender names</param>
         /// <param name="generation">Generation number for exclusive formes</param>
         /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
-        public static string[] getFormList(int species, string[] t, string[] f, string[] g, int generation = Generation)
+        public static string[] GetFormList(int species, string[] t, string[] f, string[] g, int generation = Generation)
         {
             // Mega List            
             if (Array.IndexOf(new[] 
@@ -1039,7 +1042,7 @@ namespace PKHeX.Core
         /// <param name="type">Hidden Power Type</param>
         /// <param name="ivs">Individual Values (H/A/B/S/C/D)</param>
         /// <returns>Hidden Power Type</returns>
-        public static int[] setHPIVs(int type, int[] ivs)
+        public static int[] SetHPIVs(int type, int[] ivs)
         {
             for (int i = 0; i < 6; i++)
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
@@ -1121,7 +1124,7 @@ namespace PKHeX.Core
         /// <param name="data">Data to shuffle</param>
         /// <param name="sv">Block Shuffle order</param>
         /// <returns>Shuffled byte array</returns>
-        public static byte[] shuffleArray45(byte[] data, uint sv)
+        public static byte[] ShuffleArray45(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 8); // Copy unshuffled bytes
@@ -1142,7 +1145,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ekm">Encrypted <see cref="PKM"/> data.</param>
         /// <returns>Decrypted <see cref="PKM"/> data.</returns>
-        public static byte[] decryptArray45(byte[] ekm)
+        public static byte[] DecryptArray45(byte[] ekm)
         {
             byte[] pkm = (byte[])ekm.Clone();
 
@@ -1157,7 +1160,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(pkm, i) ^ LCRNG(ref seed) >> 16)).CopyTo(pkm, i);
 
             // Deshuffle
-            pkm = shuffleArray45(pkm, sv);
+            pkm = ShuffleArray45(pkm, sv);
 
             // Decrypt the Party Stats
             seed = pv;
@@ -1173,7 +1176,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">Decrypted <see cref="PKM"/> data.</param>
         /// <returns>Encrypted <see cref="PKM"/> data.</returns>
-        public static byte[] encryptArray45(byte[] pkm)
+        public static byte[] EncryptArray45(byte[] pkm)
         {
             uint pv = BitConverter.ToUInt32(pkm, 0);
             uint sv = ((pv & 0x3E000) >> 0xD) % 24;
@@ -1181,7 +1184,7 @@ namespace PKHeX.Core
             uint chk = BitConverter.ToUInt16(pkm, 6);
             byte[] ekm = (byte[])pkm.Clone();
 
-            ekm = shuffleArray45(ekm, blockPositionInvert[sv]);
+            ekm = ShuffleArray45(ekm, blockPositionInvert[sv]);
 
             uint seed = chk;
 
@@ -1207,7 +1210,7 @@ namespace PKHeX.Core
         /// <param name="PID">Personality ID</param>
         /// <remarks>Should only be used for 3rd Generation origin specimens.</remarks>
         /// <returns></returns>
-        public static int getUnownForm(uint PID)
+        public static int GetUnownForm(uint PID)
         {
             byte[] data = BitConverter.GetBytes(PID);
             return (((data[3] & 3) << 6) + ((data[2] & 3) << 4) + ((data[1] & 3) << 2) + ((data[0] & 3) << 0)) % 28;
@@ -1219,7 +1222,7 @@ namespace PKHeX.Core
         /// <param name="inputstr">Unicode string.</param>
         /// <param name="cht">Pkm language is Traditional Chinese.</param>
         /// <returns>In-game chinese string.</returns>
-        public static string str2binG7_zh(string inputstr, bool cht = false)
+        private static string ConvertString2BinG7_zh(string inputstr, bool cht = false)
         {
             string resultstr = "";
             bool IsCHT = inputstr.Any(chr => Gen7_CHT.Contains(chr) && !Gen7_CHS.Contains(chr));
@@ -1238,7 +1241,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="inputstr">In-game chinese string.</param>
         /// <returns>Unicode string.</returns>
-        public static string bin2strG7_zh(string inputstr)
+        private static string ConvertBin2StringG7_zh(string inputstr)
         {
             string resultstr = "";
             foreach (var val in inputstr)
@@ -1257,7 +1260,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="val">Encoded value.</param>
         /// <returns>Decoded value (unicode).</returns>
-        public static ushort val2charG4(ushort val)
+        private static ushort ConvertValue2CharG4(ushort val)
         {
             int index = Array.IndexOf(G4Values, val);
             return index > -1 ? G4Chars[index] : (ushort)0xFFFF;
@@ -1268,7 +1271,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="chr">Decoded value (unicode).</param>
         /// <returns>Encoded value.</returns>
-        public static ushort char2valG4(ushort chr)
+        private static ushort ConvertChar2ValueG4(ushort chr)
         {
             int index = Array.IndexOf(G4Chars, chr);
             return index > -1 ? G4Values[index] : (ushort)0xFFFF;
@@ -1281,14 +1284,14 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Converted string.</returns>
-        public static string getBEString4(byte[] strdata, int offset, int count)
+        public static string GetBEString4(byte[] strdata, int offset, int count)
         {
             string s = "";
             for (int i = 0; i < count; i += 2)
             {
                 ushort val = BigEndian.ToUInt16(strdata, offset + i);
                 if (val == 0xFFFF) break;
-                ushort chr = val2charG4(val);
+                ushort chr = ConvertValue2CharG4(val);
                 if (chr == 0xFFFF) break;
                 s += (char)chr;
             }
@@ -1303,7 +1306,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Byte array containing encoded character data</returns>
-        public static byte[] setBEString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetBEString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -1311,7 +1314,7 @@ namespace PKHeX.Core
             for (int i = 0; i < value.Length; i++)
             {
                 ushort chr = value[i];
-                ushort val = char2valG4(chr);
+                ushort val = ConvertChar2ValueG4(chr);
                 if (val == 0xFFFF || chr == 0xFFFF)
                 { Array.Resize(ref strdata, i * 2 + 2); break; }
                 BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
@@ -1333,7 +1336,7 @@ namespace PKHeX.Core
         /// <param name="val">Generation 3 encoded value.</param>
         /// <param name="jp">Value source is Japanese font.</param>
         /// <returns>Generation 4 encoded value.</returns>
-        public static ushort getG4Val(byte val, bool jp) => jp ? G34_4J[val] : G34_4E[val];
+        private static ushort GetG4Val(byte val, bool jp) => jp ? G34_4J[val] : G34_4E[val];
 
         /// <summary>
         /// Converts a Generation 3 encoded value to corresponding Generation 4 decoded character.
@@ -1341,7 +1344,7 @@ namespace PKHeX.Core
         /// <param name="val">Generation 3 encoded value.</param>
         /// <param name="jp">Value source is Japanese font.</param>
         /// <returns>Decoded value.</returns>
-        public static ushort getG3Char(byte val, bool jp) => val2charG4(getG4Val(val, jp));
+        private static ushort GetG3Char(byte val, bool jp) => ConvertValue2CharG4(GetG4Val(val, jp));
 
         /// <summary>
         /// Converts a Generation 4 decoded character to Generation 3 encoded value.
@@ -1349,9 +1352,9 @@ namespace PKHeX.Core
         /// <param name="chr">Generation 4 decoded character.</param>
         /// <param name="jp">Character destination is Japanese font.</param>
         /// <returns>Generation 3 encoded value.</returns>
-        public static byte setG3Char(ushort chr, bool jp)
+        private static byte SetG3Char(ushort chr, bool jp)
         {
-            int index = Array.IndexOf(jp ? G34_4J : G34_4E, char2valG4(chr));
+            int index = Array.IndexOf(jp ? G34_4J : G34_4E, ConvertChar2ValueG4(chr));
             return (byte)(index > -1 ? index : 0xFF);
         }
 
@@ -1363,7 +1366,7 @@ namespace PKHeX.Core
         /// <param name="count">Length of data to read.</param>
         /// <param name="jp">Value source is Japanese font.</param>
         /// <returns>Decoded string.</returns>
-        public static string getString3(byte[] strdata, int offset, int count, bool jp)
+        public static string GetString3(byte[] strdata, int offset, int count, bool jp)
         {
             StringBuilder s = new StringBuilder();
             for (int i = 0; i < count; i++)
@@ -1371,7 +1374,7 @@ namespace PKHeX.Core
                 byte val = strdata[offset + i];
                 if (val >= 247) // Take valid values
                     break;
-                var c = getG3Char(val, jp); // Convert to Unicode
+                var c = GetG3Char(val, jp); // Convert to Unicode
                 if (c == 0xFF) // Stop if Terminator
                     break;
                 s.Append((char)c);
@@ -1388,7 +1391,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns></returns>
-        public static byte[] setString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -1396,14 +1399,14 @@ namespace PKHeX.Core
             for (int i = 0; i < value.Length; i++)
             {
                 ushort chr = value[i];
-                byte val = setG3Char(chr, jp);
+                byte val = SetG3Char(chr, jp);
                 if (val == 0xFF || chr == 0xFF)
                 { Array.Resize(ref strdata, i); break; }
                 strdata[i] = val;
             }
             if (strdata.Length > 0)
                 strdata[strdata.Length - 1] = 0xFF;
-            if (strdata.Length > maxLength)
+            if (strdata.Length > maxLength && padTo <= maxLength)
                 Array.Resize(ref strdata, maxLength);
             if (strdata.Length < padTo)
             {
@@ -1420,7 +1423,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="g3index">Generation 3 species ID.</param>
         /// <returns>National Dex ID.</returns>
-        public static int getG4Species(int g3index)
+        public static int GetG4Species(int g3index)
         {
             int index = Array.IndexOf(oldindex, g3index);
             return newindex[index > -1 ? index : 0];
@@ -1431,7 +1434,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="g4index">National Dex ID</param>
         /// <returns>Generation 3 species ID.</returns>
-        public static int getG3Species(int g4index)
+        public static int GetG3Species(int g4index)
         {
             int index = Array.IndexOf(newindex, g4index);
             return oldindex[index > -1 ? index : 0];
@@ -1444,12 +1447,12 @@ namespace PKHeX.Core
         /// <param name="PID">Personality ID.</param>
         /// <returns>Gender ID (0/1/2)</returns>
         /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
-        public static int getGender(int species, uint PID)
+        public static int GetGender(int species, uint PID)
         {
             int genderratio = Personal[species].Gender;
-            return getGender(PID, genderratio);
+            return GetGender(PID, genderratio);
         }
-        public static int getGender(uint PID, int gr)
+        public static int GetGender(uint PID, int gr)
         {
             switch (gr)
             {
@@ -1506,7 +1509,7 @@ namespace PKHeX.Core
         #endregion
         #region Gen 3/4 Character Tables (Val->Unicode)
 
-        public static readonly ushort[] G4Values =
+        private static readonly ushort[] G4Values =
         {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
             22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48,
@@ -1665,7 +1668,7 @@ namespace PKHeX.Core
             3429, 65535
         };
 
-        public static readonly ushort[] G4Chars =
+        private static readonly ushort[] G4Chars =
         {
             12288, 12353, 12354, 12355, 12356, 12357, 12358, 12359, 12360, 12361, 12362, 12363,
             12364, 12365, 12366, 12367, 12368, 12369, 12370, 12371, 12372, 12373, 12374, 12375, 12376, 12377, 12378,
@@ -1856,7 +1859,7 @@ namespace PKHeX.Core
             4467, 4469, 47252, 49968, 50108, 50388, 52012, 65535
         };
 
-        public static readonly ushort[] G34_4E =
+        private static readonly ushort[] G34_4E =
         {
             478, 351, 352, 353, 358, 359, 360, 361, 362, 363, 020, 365, 366, 369, 370, 371, // 0
             415, 376, 377, 378, 368, 382, 383, 384, 046, 358, 359, 392, 393, 394, 395, 396, // 1
@@ -1876,7 +1879,7 @@ namespace PKHeX.Core
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
 
-        public static readonly ushort[] G34_4J =
+        private static readonly ushort[] G34_4J =
         {
             001, 003, 005, 007, 009, 011, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, // 0
             032, 034, 037, 039, 041, 043, 044, 045, 046, 047, 048, 051, 054, 057, 060, 063, // 1
@@ -1897,10 +1900,10 @@ namespace PKHeX.Core
         };
         #endregion
         #region Gen7 Chinese Character Tables
-        public static readonly char[] Gen7_CHS = Util.getStringList("Char", "zh")[0].ToCharArray();
-        public const ushort Gen7_CHS_Ofs = 0xE800;
-        public static readonly char[] Gen7_CHT = Util.getStringList("Char", "zh2")[0].ToCharArray();
-        public const ushort Gen7_CHT_Ofs = 0xEB0F;
+        private static readonly char[] Gen7_CHS = Util.GetStringList("Char", "zh")[0].ToCharArray();
+        private const ushort Gen7_CHS_Ofs = 0xE800;
+        private static readonly char[] Gen7_CHT = Util.GetStringList("Char", "zh2")[0].ToCharArray();
+        private const ushort Gen7_CHT_Ofs = 0xEB0F;
         #endregion
         /// <summary>
         /// Trash Bytes for Generation 3->4
@@ -1922,7 +1925,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ekm">Encrypted data.</param>
         /// <returns>Decrypted data.</returns>
-        public static byte[] decryptArray3(byte[] ekm)
+        public static byte[] DecryptArray3(byte[] ekm)
         {
             if (ekm.Length != SIZE_3PARTY && ekm.Length != SIZE_3STORED)
                 return null;
@@ -1934,7 +1937,7 @@ namespace PKHeX.Core
             byte[] xorkey = BitConverter.GetBytes(seed);
             for (int i = 32; i < 80; i++)
                 ekm[i] ^= xorkey[i % 4];
-            return shuffleArray3(ekm, PID%24);
+            return ShuffleArray3(ekm, PID%24);
         }
 
         /// <summary>
@@ -1943,7 +1946,7 @@ namespace PKHeX.Core
         /// <param name="data">Unshuffled data.</param>
         /// <param name="sv">Block order shuffle value</param>
         /// <returns></returns>
-        public static byte[] shuffleArray3(byte[] data, uint sv)
+        private static byte[] ShuffleArray3(byte[] data, uint sv)
         {
             byte[] sdata = new byte[data.Length];
             Array.Copy(data, sdata, 32); // Copy unshuffled bytes
@@ -1964,7 +1967,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">Decrypted data.</param>
         /// <returns>Encrypted data.</returns>
-        public static byte[] encryptArray3(byte[] pkm)
+        public static byte[] EncryptArray3(byte[] pkm)
         {
             if (pkm.Length != SIZE_3PARTY && pkm.Length != SIZE_3STORED)
                 return null;
@@ -1973,7 +1976,7 @@ namespace PKHeX.Core
             uint OID = BitConverter.ToUInt32(pkm, 4);
             uint seed = PID ^ OID;
 
-            byte[] ekm = shuffleArray3(pkm, blockPositionInvert[PID%24]);
+            byte[] ekm = ShuffleArray3(pkm, blockPositionInvert[PID%24]);
             byte[] xorkey = BitConverter.GetBytes(seed);
             for (int i = 32; i < 80; i++)
                 ekm[i] ^= xorkey[i % 4];
@@ -1988,7 +1991,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="g2val">Generation 2 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
-        public static ushort getG4Item(byte g2val)
+        public static ushort GetG4Item(byte g2val)
         {
             ushort[] arr =
             {
@@ -2029,7 +2032,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="g3val">Generation 3 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
-        public static ushort getG4Item(ushort g3val)
+        public static ushort GetG4Item(ushort g3val)
         {
             ushort[] arr =
             {
@@ -2079,10 +2082,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="item">Generation 3 Item ID.</param>
         /// <returns>True if transferrable, False if not transferrable.</returns>
-        public static bool isTransferrable34(ushort item)
-        {
-            return item != ITEM_UNK && item > 0;
-        }
+        public static bool IsItemTransferrable34(ushort item) => item != ITEM_UNK && item > 0;
 
         #region Gen 1 Character Tables
         private static Dictionary<byte, string> RBY2U_U => new Dictionary<byte, string>{
@@ -2599,7 +2599,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="raw_id">Generation 1 species ID.</param>
         /// <returns>National Dex ID.</returns>
-        public static int getG1Species(int raw_id)
+        public static int GetG1Species(int raw_id)
         {
             int[] table = { 0x00, 0x70, 0x73, 0x20, 0x23, 0x15, 0x64, 0x22, 0x50, 0x02, 0x67, 0x6C, 0x66, 0x58, 0x5E, 0x1D, 0x1F, 0x68, 0x6F, 0x83, 0x3B, 0x97, 0x82, 0x5A, 0x48, 0x5C, 0x7B, 0x78, 0x09, 0x7F, 0x72, 0x00, 0x00, 0x3A, 0x5F, 0x16, 0x10, 0x4F, 0x40, 0x4B, 0x71, 0x43, 0x7A, 0x6A, 0x6B, 0x18, 0x2F, 0x36, 0x60, 0x4C, 0x00, 0x7E, 0x00, 0x7D, 0x52, 0x6D, 0x00, 0x38, 0x56, 0x32, 0x80, 0x00, 0x00, 0x00, 0x53, 0x30, 0x95, 0x00, 0x00, 0x00, 0x54, 0x3C, 0x7C, 0x92, 0x90, 0x91, 0x84, 0x34, 0x62, 0x00, 0x00, 0x00, 0x25, 0x26, 0x19, 0x1A, 0x00, 0x00, 0x93, 0x94, 0x8C, 0x8D, 0x74, 0x75, 0x00, 0x00, 0x1B, 0x1C, 0x8A, 0x8B, 0x27, 0x28, 0x85, 0x88, 0x87, 0x86, 0x42, 0x29, 0x17, 0x2E, 0x3D, 0x3E, 0x0D, 0x0E, 0x0F, 0x00, 0x55, 0x39, 0x33, 0x31, 0x57, 0x00, 0x00, 0x0A, 0x0B, 0x0C, 0x44, 0x00, 0x37, 0x61, 0x2A, 0x96, 0x8F, 0x81, 0x00, 0x00, 0x59, 0x00, 0x63, 0x5B, 0x00, 0x65, 0x24, 0x6E, 0x35, 0x69, 0x00, 0x5D, 0x3F, 0x41, 0x11, 0x12, 0x79, 0x01, 0x03, 0x49, 0x00, 0x76, 0x77, 0x00, 0x00, 0x00, 0x00, 0x4D, 0x4E, 0x13, 0x14, 0x21, 0x1E, 0x4A, 0x89, 0x8E, 0x00, 0x51, 0x00, 0x00, 0x04, 0x07, 0x05, 0x08, 0x06, 0x00, 0x00, 0x00, 0x00, 0x2B, 0x2C, 0x2D, 0x45, 0x46, 0x47, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             return table[raw_id];
@@ -2610,7 +2610,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="dex_id">National Dex ID.</param>
         /// <returns>Generation 1 species ID.</returns>
-        public static int setG1Species(int dex_id)
+        public static int SetG1Species(int dex_id)
         {
             int[] table = { 0x00, 0x99, 0x09, 0x9A, 0xB0, 0xB2, 0xB4, 0xB1, 0xB3, 0x1C, 0x7B, 0x7C, 0x7D, 0x70, 0x71, 0x72, 0x24, 0x96, 0x97, 0xA5, 0xA6, 0x05, 0x23, 0x6C, 0x2D, 0x54, 0x55, 0x60, 0x61, 0x0F, 0xA8, 0x10, 0x03, 0xA7, 0x07, 0x04, 0x8E, 0x52, 0x53, 0x64, 0x65, 0x6B, 0x82, 0xB9, 0xBA, 0xBB, 0x6D, 0x2E, 0x41, 0x77, 0x3B, 0x76, 0x4D, 0x90, 0x2F, 0x80, 0x39, 0x75, 0x21, 0x14, 0x47, 0x6E, 0x6F, 0x94, 0x26, 0x95, 0x6A, 0x29, 0x7E, 0xBC, 0xBD, 0xBE, 0x18, 0x9B, 0xA9, 0x27, 0x31, 0xA3, 0xA4, 0x25, 0x08, 0xAD, 0x36, 0x40, 0x46, 0x74, 0x3A, 0x78, 0x0D, 0x88, 0x17, 0x8B, 0x19, 0x93, 0x0E, 0x22, 0x30, 0x81, 0x4E, 0x8A, 0x06, 0x8D, 0x0C, 0x0A, 0x11, 0x91, 0x2B, 0x2C, 0x0B, 0x37, 0x8F, 0x12, 0x01, 0x28, 0x1E, 0x02, 0x5C, 0x5D, 0x9D, 0x9E, 0x1B, 0x98, 0x2A, 0x1A, 0x48, 0x35, 0x33, 0x1D, 0x3C, 0x85, 0x16, 0x13, 0x4C, 0x66, 0x69, 0x68, 0x67, 0xAA, 0x62, 0x63, 0x5A, 0x5B, 0xAB, 0x84, 0x4A, 0x4B, 0x49, 0x58, 0x59, 0x42, 0x83, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             return table[dex_id];
@@ -2624,7 +2624,7 @@ namespace PKHeX.Core
         /// <param name="count"></param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string getString1(byte[] strdata, int offset, int count, bool jp)
+        public static string GetString1(byte[] strdata, int offset, int count, bool jp)
         {
             Dictionary<byte, string> dict = jp ? RBY2U_J : RBY2U_U;
 
@@ -2648,7 +2648,7 @@ namespace PKHeX.Core
         /// <param name="key">Encoded character.</param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string getG1Char(byte key, bool jp)
+        public static string GetG1Char(byte key, bool jp)
         {
             Dictionary<byte, string> dict = jp ? RBY2U_J : RBY2U_U;
             return dict.ContainsKey(key) ? dict[key] : "";
@@ -2660,7 +2660,7 @@ namespace PKHeX.Core
         /// <param name="strdata">Generation 1 encoded data.</param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string getG1ConvertedString(byte[] strdata, bool jp)
+        public static string GetG1ConvertedString(byte[] strdata, bool jp)
         {
             var us_table = new ushort[] { 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0000, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045, 0x0046, 0x0047, 0x0048, 0x0049, 0x004A, 0x004B, 0x004C, 0x004D, 0x004E, 0x004F, 0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057, 0x0058, 0x0059, 0x005A, 0x0028, 0x0029, 0x003A, 0x003B, 0x0028, 0x0029, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067, 0x0068, 0x0069, 0x006A, 0x006B, 0x006C, 0x006D, 0x006E, 0x006F, 0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077, 0x0078, 0x0079, 0x007A, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x00C4, 0x00D6, 0x00DC, 0x00E4, 0x00F6, 0x00FC, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0050, 0x004D, 0x002D, 0x0020, 0x0020, 0x003F, 0x0021, 0x002D, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0xE08E, 0x0020, 0x0078, 0x002E, 0x002F, 0x002C, 0xE08F, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020 };
             var jp_table = new ushort[] { 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30AC, 0x30AE, 0x30B0, 0x30B2, 0x30B4, 0x30B6, 0x30B8, 0x30BA, 0x30BC, 0x30BE, 0x30C0, 0x30C2, 0x30C5, 0x30C7, 0x30C9, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30D0, 0x30D3, 0x30D6, 0x30DC, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x304C, 0x304E, 0x3050, 0x3052, 0x3054, 0x3056, 0x3058, 0x305A, 0x305C, 0x305E, 0x3060, 0x3062, 0x3065, 0x3067, 0x3069, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3070, 0x3073, 0x3076, 0x30D9, 0x307C, 0x3000, 0x30D1, 0x30D4, 0x30D7, 0x30DD, 0x3071, 0x3074, 0x3077, 0x30DA, 0x307D, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x0000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A2, 0x30A4, 0x30A6, 0x30A8, 0x30AA, 0x30AB, 0x30AD, 0x30AF, 0x30B1, 0x30B3, 0x30B5, 0x30B7, 0x30B9, 0x30BB, 0x30BD, 0x30BF, 0x30C1, 0x30C4, 0x30C6, 0x30C8, 0x30CA, 0x30CB, 0x30CC, 0x30CD, 0x30CE, 0x30CF, 0x30D2, 0x30D5, 0x30DB, 0x30DE, 0x30DF, 0x30E0, 0x30E1, 0x30E2, 0x30E4, 0x30E6, 0x30E8, 0x30E9, 0x30EB, 0x30EC, 0x30ED, 0x30EF, 0x30F2, 0x30F3, 0x30C3, 0x30E3, 0x30E5, 0x30E7, 0x30A3, 0x3042, 0x3044, 0x3046, 0x3048, 0x304A, 0x304B, 0x304D, 0x304F, 0x3051, 0x3053, 0x3055, 0x3057, 0x3059, 0x305B, 0x305D, 0x305F, 0x3061, 0x3064, 0x3066, 0x3068, 0x306A, 0x306B, 0x306C, 0x306D, 0x306E, 0x306F, 0x3072, 0x3075, 0x30D8, 0x307B, 0x307E, 0x307F, 0x3080, 0x3081, 0x3082, 0x3084, 0x3086, 0x3088, 0x3089, 0x30EA, 0x308B, 0x308C, 0x308D, 0x308F, 0x3092, 0x3093, 0x3063, 0x3083, 0x3085, 0x3087, 0x30FC, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A1, 0x30A5, 0x30A7, 0x3000, 0x3000, 0x3000, 0x2642, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A9, 0x2640, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000 };
@@ -2677,7 +2677,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setString1(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString1(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -2689,8 +2689,7 @@ namespace PKHeX.Core
             List<byte> arr = new List<byte>();
             foreach (char c in value)
             {
-                byte val;
-                if (!dict.TryGetValue(c.ToString(), out val))
+                if (!dict.TryGetValue(c.ToString(), out byte val))
                     break;
                 arr.Add(val);
             }
@@ -2706,7 +2705,7 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string getBEString3(byte[] data, int offset, int count)
+        public static string GetBEString3(byte[] data, int offset, int count)
         {
             return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, count));
         }
@@ -2717,7 +2716,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setBEString3(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -2732,14 +2731,14 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string getString4(byte[] data, int offset, int count)
+        public static string GetString4(byte[] data, int offset, int count)
         {
             StringBuilder s = new StringBuilder();
             for (int i = 0; i < count; i += 2)
             {
                 ushort val = BitConverter.ToUInt16(data, offset + i);
                 if (val == 0xFFFF) break;
-                ushort chr = val2charG4(val);
+                ushort chr = ConvertValue2CharG4(val);
                 if (chr == 0xFFFF) break;
                 s.Append((char)chr);
             }
@@ -2752,7 +2751,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -2764,7 +2763,7 @@ namespace PKHeX.Core
             for (int i = 0; i < temp.Length; i++)
             {
                 ushort chr = temp[i];
-                ushort val = char2valG4(chr);
+                ushort val = ConvertChar2ValueG4(chr);
                 BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
             }
             return strdata;
@@ -2775,7 +2774,7 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string getString5(byte[] data, int offset, int count)
+        public static string GetString5(byte[] data, int offset, int count)
         {
             return SanitizeString(TrimFromFFFF(Encoding.Unicode.GetString(data, offset, count)));
         }
@@ -2786,7 +2785,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setString5(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString5(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -2801,7 +2800,7 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns> 
-        public static string getString6(byte[] data, int offset, int count)
+        public static string GetString6(byte[] data, int offset, int count)
         {
             return SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count)));
         }
@@ -2812,7 +2811,7 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns> 
-        public static byte[] setString6(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString6(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
@@ -2827,9 +2826,9 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string getString7(byte[] data, int offset, int count)
+        public static string GetString7(byte[] data, int offset, int count)
         {
-            return bin2strG7_zh(SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count))));
+            return ConvertBin2StringG7_zh(SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count))));
         }
 
         /// <summary>Gets the bytes for a Generation 7 string.</summary>
@@ -2839,11 +2838,11 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, 12); // Hard cap
-            string temp = str2binG7_zh(UnSanitizeString(value), language == 10)
+            string temp = ConvertString2BinG7_zh(UnSanitizeString(value), language == 10)
                 .PadRight(value.Length + 1, '\0') // Null Terminator
                 .PadRight(padTo, (char)padWith);
             return Encoding.Unicode.GetBytes(temp);
@@ -2859,20 +2858,20 @@ namespace PKHeX.Core
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Decoded string.</returns>
-        public static string getString(byte[] data, int generation, bool jp, bool bigendian, int count, int offset = 0)
+        public static string GetString(byte[] data, int generation, bool jp, bool bigendian, int count, int offset = 0)
         {
             if (bigendian)
-                return generation == 3 ? getBEString3(data, offset, count) : getBEString4(data, offset, count);
+                return generation == 3 ? GetBEString3(data, offset, count) : GetBEString4(data, offset, count);
 
             switch (generation)
             {
                 case 1:
-                case 2: return getString1(data, offset, count, jp);
-                case 3: return getString3(data, offset, count, jp);
-                case 4: return getString4(data, offset, count);
-                case 5: return getString5(data, offset, count);
-                case 6: return getString6(data, offset, count);
-                default: return getString7(data, offset, count);
+                case 2: return GetString1(data, offset, count, jp);
+                case 3: return GetString3(data, offset, count, jp);
+                case 4: return GetString4(data, offset, count);
+                case 5: return GetString5(data, offset, count);
+                case 6: return GetString6(data, offset, count);
+                default: return GetString7(data, offset, count);
             }
         }
 
@@ -2888,20 +2887,20 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] setString(string value, int generation, bool jp, bool bigendian, int maxLength, int language = 0, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString(string value, int generation, bool jp, bool bigendian, int maxLength, int language = 0, int padTo = 0, ushort padWith = 0)
         {
             if (bigendian)
-                return generation == 3 ? setBEString3(value, maxLength, padTo, padWith) : setBEString4(value, maxLength, padTo, padWith);
+                return generation == 3 ? SetBEString3(value, maxLength, padTo, padWith) : SetBEString4(value, maxLength, padTo, padWith);
 
             switch (generation)
             {
                 case 1:
-                case 2: return setString1(value, maxLength, jp, padTo, padWith);
-                case 3: return setString3(value, maxLength, jp, padTo, padWith);
-                case 4: return setString4(value, maxLength, padTo, padWith);
-                case 5: return setString5(value, maxLength, padTo, padWith);
-                case 6: return setString6(value, maxLength, padTo, padWith);
-                default: return setString7(value, maxLength, language, padTo, padWith);
+                case 2: return SetString1(value, maxLength, jp, padTo, padWith);
+                case 3: return SetString3(value, maxLength, jp, padTo, padWith);
+                case 4: return SetString4(value, maxLength, padTo, padWith);
+                case 5: return SetString5(value, maxLength, padTo, padWith);
+                case 6: return SetString6(value, maxLength, padTo, padWith);
+                default: return SetString7(value, maxLength, language, padTo, padWith);
             }
         }
 
@@ -2910,20 +2909,20 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">GameCube (C/XD) language ID.</param>
         /// <returns>Main Series language ID.</returns>
-        public static byte getMainLangIDfromGC(byte value) => value == 6 ? (byte)7 : value;
+        public static byte GetMainLangIDfromGC(byte value) => value == 6 ? (byte)7 : value;
 
         /// <summary>
         /// Gets the GameCube (C/XD) language ID from a Main Series language ID. Re-maps Spanish 7->6.
         /// </summary>
         /// <param name="value">Main Series language ID.</param>
         /// <returns>GameCube (C/XD) language ID.</returns>
-        public static byte getGCLangIDfromMain(byte value) => value == 7 ? (byte)6 : value;
+        public static byte GetGCLangIDfromMain(byte value) => value == 7 ? (byte)6 : value;
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
         /// </summary>
         /// <returns>Valid <see cref="PKM"/> file extensions.</returns>
-        public static string[] getPKMExtensions(int MaxGeneration = Generation)
+        public static string[] GetPKMExtensions(int MaxGeneration = Generation)
         {
             var result = new List<string>();
             result.AddRange(new [] {"ck3", "xk3", "bk4"}); // Special Cases
@@ -2933,7 +2932,7 @@ namespace PKHeX.Core
         }
 
         // Extensions
-        public static string getLocation(this PKM pk, bool eggmet)
+        public static string GetLocationString(this PKM pk, bool eggmet)
         {
             if (pk.Format < 2)
                 return "";
@@ -2969,12 +2968,12 @@ namespace PKHeX.Core
                     locval -= 1;
             }
 
-            var bank = GameInfo.getLocationNames(gen, bankID);
+            var bank = GameInfo.GetLocationNames(gen, bankID);
             if (bank == null || bank.Length <= locval)
                 return "";
             return bank[locval];
         }
-        public static string[] getQRText(this PKM pkm)
+        public static string[] GetQRLines(this PKM pkm)
         {
             var s = GameInfo.Strings;
             // Summarize

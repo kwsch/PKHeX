@@ -140,24 +140,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Console, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Console.4.0.0\lib\net46\System.Console.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime" />
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
@@ -165,6 +150,18 @@
     <Reference Include="System.Deployment" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\PKM Editor\ContestStat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ContestStat.Designer.cs">
+      <DependentUpon>ContestStat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ShinyLeaf.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PKM Editor\ShinyLeaf.Designer.cs">
+      <DependentUpon>ShinyLeaf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SAV Editor\BoxEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -263,11 +260,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Subforms\frmReport.cs">
+    <Compile Include="Subforms\ReportGrid.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\frmReport.Designer.cs">
-      <DependentUpon>frmReport.cs</DependentUpon>
+    <Compile Include="Subforms\ReportGrid.Designer.cs">
+      <DependentUpon>ReportGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Subforms\KChart.cs">
       <SubType>Form</SubType>
@@ -529,6 +526,12 @@
     <Compile Include="Util\QRCoder\QRCodeGenerator.cs" />
     <Compile Include="Util\SAVUtil.cs" />
     <Compile Include="Util\WinFormsUtil.cs" />
+    <EmbeddedResource Include="Controls\PKM Editor\ContestStat.resx">
+      <DependentUpon>ContestStat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PKM Editor\ShinyLeaf.resx">
+      <DependentUpon>ShinyLeaf.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SAV Editor\BoxEditor.resx">
       <DependentUpon>BoxEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -568,8 +571,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Subforms\frmReport.resx">
-      <DependentUpon>frmReport.cs</DependentUpon>
+    <EmbeddedResource Include="Subforms\ReportGrid.resx">
+      <DependentUpon>ReportGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\KChart.resx">
       <DependentUpon>KChart.cs</DependentUpon>
@@ -695,7 +698,6 @@
       <DependentUpon>SAV_MysteryGiftDB.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -708,6 +710,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\Pokemon Sprites\490-e.png" />
+    <None Include="Resources\img\misc\leaf.png" />
+    <None Include="Resources\img\misc\crown.png" />
     <EmbeddedResource Include="Resources\byte\fashion_f_sm" />
     <EmbeddedResource Include="Resources\byte\fashion_f_sm_illegal" />
     <EmbeddedResource Include="Resources\byte\fashion_m_sm" />
@@ -2691,7 +2696,6 @@
       <Name>PKHeX.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

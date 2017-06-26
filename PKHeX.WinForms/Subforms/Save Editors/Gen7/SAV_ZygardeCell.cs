@@ -66,7 +66,7 @@ namespace PKHeX.WinForms
             constants[cellscollected] = (ushort)NUD_Collected.Value;
 
             SAV.EventConsts = constants;
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
 
             Close();
         }

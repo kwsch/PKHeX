@@ -20,8 +20,8 @@ namespace PKHeX.WinForms
             TLP_Ribbons.SuspendLayout();
             FLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
             TLP_Ribbons.Scroll += WinFormsUtil.PanelScroll;
-            populateRibbons();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            PopulateRibbons();
             TLP_Ribbons.ResumeLayout();
         }
 
@@ -38,14 +38,14 @@ namespace PKHeX.WinForms
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            save();
+            Save();
             Close();
         }
 
-        private void populateRibbons()
+        private void PopulateRibbons()
         {
             // Get a list of all Ribbon Attributes in the PKM
-            var RibbonNames = ReflectUtil.getPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
+            var RibbonNames = ReflectFrameworkUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
             foreach (var RibbonName in RibbonNames)
             {
                 object RibbonValue = ReflectUtil.GetValue(pkm, RibbonName);
@@ -60,8 +60,8 @@ namespace PKHeX.WinForms
             // Add Ribbons
             foreach (var rib in riblist)
             {
-                addRibbonSprite(rib);
-                addRibbonChoice(rib);
+                AddRibbonSprite(rib);
+                AddRibbonChoice(rib);
             }
             
             // Force auto-size
@@ -70,10 +70,10 @@ namespace PKHeX.WinForms
             foreach (ColumnStyle style in TLP_Ribbons.ColumnStyles)
                 style.SizeType = SizeType.AutoSize;
         }
-        private void addRibbonSprite(RibbonInfo rib)
+        private void AddRibbonSprite(RibbonInfo rib)
         {
             PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + rib.Name };
-            var img = PKMUtil.getRibbonSprite(rib.Name);
+            var img = PKMUtil.GetRibbonSprite(rib.Name);
             if (img != null)
                 pb.BackgroundImage = (Bitmap)img;
             if (img == null)
@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
 
             FLP_Ribbons.Controls.Add(pb);
         }
-        private void addRibbonChoice(RibbonInfo rib)
+        private void AddRibbonChoice(RibbonInfo rib)
         {
             // Get row we add to
             int row = TLP_Ribbons.RowCount;
@@ -91,7 +91,7 @@ namespace PKHeX.WinForms
             {
                 Anchor = AnchorStyles.Left,
                 Name = PrefixLabel + rib.Name,
-                Text = rib.Name,
+                Text = RibbonStrings.GetName(rib.Name),
                 Padding = Padding.Empty,
                 Margin = Padding.Empty,
                 AutoSize = true,
@@ -99,82 +99,102 @@ namespace PKHeX.WinForms
             TLP_Ribbons.Controls.Add(label, 1, row);
 
             if (rib.RibbonCount >= 0) // numeric count ribbon
-            {
-                var nud = new NumericUpDown
-                {
-                    Anchor = AnchorStyles.Right,
-                    Name = PrefixNUD + rib.Name,
-                    Minimum = 0,
-                    Width = 35,
-                    Increment = 1,
-                    Padding = Padding.Empty,
-                    Margin = Padding.Empty,
-                };
-                if (rib.Name.Contains("MemoryContest"))
-                    nud.Maximum = 40;
-                else if (rib.Name.Contains("MemoryBattle"))
-                    nud.Maximum = 8;
-                else nud.Maximum = 4; // g3 contest ribbons
-
-                nud.ValueChanged += (sender, e) => 
-                {
-                    rib.RibbonCount = (int)nud.Value;
-                    FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.RibbonCount > 0;
-                    if (nud.Maximum == 4)
-                    {
-                        string n = rib.Name.Replace("Count", "");
-                        switch ((int)nud.Value)
-                        {
-                            case 2: n += "Super"; break;
-                            case 3: n += "Hyper"; break;
-                            case 4: n += "Master"; break;
-                        }
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(n.ToLower());
-                    }
-                    else if (nud.Maximum == nud.Value)
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() +"2");
-                    else
-                        FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage = (Bitmap)Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
-                };
-                nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
-                TLP_Ribbons.Controls.Add(nud, 0, row);
-            }
+                AddRibbonNumericUpDown(rib, row);
             else // boolean ribbon
-            {
-                var chk = new CheckBox
-                {
-                    Anchor = AnchorStyles.Right,
-                    Name = PrefixCHK + rib.Name,
-                    AutoSize = true,
-                    Padding = Padding.Empty,
-                    Margin = Padding.Empty,
-                };
-                chk.CheckedChanged += (sender, e) => { rib.HasRibbon = chk.Checked; FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.HasRibbon; };
-                chk.Checked = rib.HasRibbon;
-                TLP_Ribbons.Controls.Add(chk, 0, row);
-
-                label.Click += (sender, e) => { chk.Checked ^= true; };
-            }
+                AddRibbonCheckBox(rib, row, label);
         }
-        private void save()
+        private void AddRibbonNumericUpDown(RibbonInfo rib, int row)
+        {
+            var nud = new NumericUpDown
+            {
+                Anchor = AnchorStyles.Right,
+                Name = PrefixNUD + rib.Name,
+                Minimum = 0,
+                Width = 35,
+                Increment = 1,
+                Padding = Padding.Empty,
+                Margin = Padding.Empty,
+            };
+            if (rib.Name.Contains("MemoryContest"))
+                nud.Maximum = 40;
+            else if (rib.Name.Contains("MemoryBattle"))
+                nud.Maximum = 8;
+            else nud.Maximum = 4; // g3 contest ribbons
+
+            nud.ValueChanged += (sender, e) =>
+            {
+                rib.RibbonCount = (int) nud.Value;
+                FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.RibbonCount > 0;
+                if (nud.Maximum == 4)
+                {
+                    string n = rib.Name.Replace("Count", "");
+                    switch ((int) nud.Value)
+                    {
+                        case 2:
+                            n += "Super";
+                            break;
+                        case 3:
+                            n += "Hyper";
+                            break;
+                        case 4:
+                            n += "Master";
+                            break;
+                    }
+                    FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage =
+                        (Bitmap) Properties.Resources.ResourceManager.GetObject(n.ToLower());
+                }
+                else if (nud.Maximum == nud.Value)
+                    FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage =
+                        (Bitmap) Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower() + "2");
+                else
+                    FLP_Ribbons.Controls[PrefixPB + rib.Name].BackgroundImage =
+                        (Bitmap) Properties.Resources.ResourceManager.GetObject(rib.Name.ToLower());
+            };
+            nud.Value = rib.RibbonCount > nud.Maximum ? nud.Maximum : rib.RibbonCount;
+            TLP_Ribbons.Controls.Add(nud, 0, row);
+        }
+        private void AddRibbonCheckBox(RibbonInfo rib, int row, Control label)
+        {
+            var chk = new CheckBox
+            {
+                Anchor = AnchorStyles.Right,
+                Name = PrefixCHK + rib.Name,
+                AutoSize = true,
+                Padding = Padding.Empty,
+                Margin = Padding.Empty,
+            };
+            chk.CheckedChanged += (sender, e) =>
+            {
+                rib.HasRibbon = chk.Checked;
+                FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.HasRibbon;
+            };
+            chk.Checked = rib.HasRibbon;
+            TLP_Ribbons.Controls.Add(chk, 0, row);
+
+            label.Click += (s, e) => chk.Checked ^= true;
+        }
+
+        private void Save()
         {
             foreach (var rib in riblist)
                 ReflectUtil.SetValue(pkm, rib.Name, rib.RibbonCount < 0 ? rib.HasRibbon : (object) rib.RibbonCount);
         }
         
-        private class RibbonInfo
+        private sealed class RibbonInfo
         {
-            public readonly string Name;
-            public bool HasRibbon;
-            public int RibbonCount = -1;
-            public RibbonInfo(string name, bool hasRibbon)
+            internal readonly string Name;
+            internal bool HasRibbon { get; set; }
+            internal int RibbonCount { get; set; }
+            internal RibbonInfo(string name, bool hasRibbon)
             {
                 Name = name;
                 HasRibbon = hasRibbon;
+                RibbonCount = -1;
             }
-            public RibbonInfo(string name, int count)
+            internal RibbonInfo(string name, int count)
             {
                 Name = name;
+                HasRibbon = false;
                 RibbonCount = count;
             }
         }

@@ -11,11 +11,11 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class BoxEditor : UserControl
     {
-        public readonly List<PictureBox> SlotPictureBoxes;
-        public readonly int BoxSlotCount;
-        public SlotChangeManager M;
         private SaveFile SAV => M?.SE.SAV;
-        public bool FlagIllegal;
+        public List<PictureBox> SlotPictureBoxes { get; }
+        public int BoxSlotCount { get; }
+        public SlotChangeManager M { get; set; }
+        public bool FlagIllegal { get; set; }
 
         public BoxEditor()
         {
@@ -32,16 +32,16 @@ namespace PKHeX.WinForms.Controls
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
-                pb.MouseEnter += pbBoxSlot_MouseEnter;
-                pb.MouseLeave += pbBoxSlot_MouseLeave;
-                pb.MouseClick += pbBoxSlot_MouseClick;
-                pb.MouseMove += pbBoxSlot_MouseMove;
-                pb.MouseDown += pbBoxSlot_MouseDown;
-                pb.MouseUp += pbBoxSlot_MouseUp;
+                pb.MouseEnter += BoxSlot_MouseEnter;
+                pb.MouseLeave += BoxSlot_MouseLeave;
+                pb.MouseClick += BoxSlot_MouseClick;
+                pb.MouseMove += BoxSlot_MouseMove;
+                pb.MouseDown += BoxSlot_MouseDown;
+                pb.MouseUp += BoxSlot_MouseUp;
 
-                pb.DragEnter += pbBoxSlot_DragEnter;
-                pb.DragDrop += pbBoxSlot_DragDrop;
-                pb.QueryContinueDrag += pbBoxSlot_QueryContinueDrag;
+                pb.DragEnter += BoxSlot_DragEnter;
+                pb.DragDrop += BoxSlot_DragDrop;
+                pb.QueryContinueDrag += BoxSlot_QueryContinueDrag;
                 pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
                 pb.AllowDrop = true;
             }
@@ -53,11 +53,11 @@ namespace PKHeX.WinForms.Controls
             set => CB_BoxSelect.SelectedIndex = value;
         }
         public string CurrentBoxName => CB_BoxSelect.Text;
-        public int getOffset(int slot, int box)
+        public int GetOffset(int slot, int box)
         {
             if (box < 0)
                 box = CurrentBox;
-            return SAV.getBoxOffset(box) + slot * SAV.SIZE_STORED;
+            return SAV.GetBoxOffset(box) + slot * SAV.SIZE_STORED;
         }
         public void Setup(SlotChangeManager m)
         {
@@ -66,7 +66,7 @@ namespace PKHeX.WinForms.Controls
             FlagIllegal = M.SE.FlagIllegal;
             Reset();
         }
-        public void setSlotFiller(PKM p, int box = -1, int slot = -1, PictureBox pb = null)
+        public void SetSlotFiller(PKM p, int box = -1, int slot = -1, PictureBox pb = null)
         {
             if (pb == null)
                 pb = SlotPictureBoxes[slot];
@@ -96,7 +96,7 @@ namespace PKHeX.WinForms.Controls
             {
                 CB_BoxSelect.Items.Clear();
                 for (int i = 0; i < SAV.BoxCount; i++)
-                    CB_BoxSelect.Items.Add(SAV.getBoxName(i));
+                    CB_BoxSelect.Items.Add(SAV.GetBoxName(i));
             }
             catch
             {
@@ -110,8 +110,8 @@ namespace PKHeX.WinForms.Controls
         public void ResetSlots()
         {
             int box = CurrentBox;
-            int boxoffset = SAV.getBoxOffset(box);
-            int boxbgval = SAV.getBoxWallpaper(box);
+            int boxoffset = SAV.GetBoxOffset(box);
+            int boxbgval = SAV.GetBoxWallpaper(box);
             PAN_Box.BackgroundImage = SAV.WallpaperImage(boxbgval);
 
             int slot = M?.colorizedbox == box ? M.colorizedslot : -1;
@@ -120,7 +120,7 @@ namespace PKHeX.WinForms.Controls
             {
                 var pb = SlotPictureBoxes[i];
                 if (i < SAV.BoxSlotCount)
-                    getSlotFiller(boxoffset + SAV.SIZE_STORED * i, pb, box, i);
+                    GetSlotFiller(boxoffset + SAV.SIZE_STORED * i, pb, box, i);
                 else
                     pb.Visible = false;
                 pb.BackgroundImage = slot == i ? M?.colorizedcolor : null;
@@ -138,7 +138,7 @@ namespace PKHeX.WinForms.Controls
                 SaveFileDialog sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
-                File.WriteAllBytes(sfd.FileName, SAV.getPCBin());
+                File.WriteAllBytes(sfd.FileName, SAV.PCBinary);
                 return true;
             }
             if (dr == DialogResult.No)
@@ -146,30 +146,30 @@ namespace PKHeX.WinForms.Controls
                 SaveFileDialog sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
-                File.WriteAllBytes(sfd.FileName, SAV.getBoxBin(CurrentBox));
+                File.WriteAllBytes(sfd.FileName, SAV.GetBoxBinary(CurrentBox));
                 return true;
             }
             return false;
         }
 
-        public int getSlot(object sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
+        public int GetSlot(object sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
 
         private void Reset()
         {
             ResetBoxNames();
             ResetSlots();
         }
-        private void getBox(object sender, EventArgs e)
+        private void GetBox(object sender, EventArgs e)
         {
             if (SAV.CurrentBox != CurrentBox)
                 SAV.CurrentBox = CurrentBox;
             ResetSlots();
         }
-        private void clickBoxRight(object sender, EventArgs e) => CurrentBox = (CurrentBox + 1) % SAV.BoxCount;
-        private void clickBoxLeft(object sender, EventArgs e) => CurrentBox = (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
-        private void getSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
+        private void ClickBoxRight(object sender, EventArgs e) => CurrentBox = (CurrentBox + 1) % SAV.BoxCount;
+        private void ClickBoxLeft(object sender, EventArgs e) => CurrentBox = (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
+        private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
         {
-            if (SAV.getData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))
+            if (SAV.GetData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))
             {
                 // 00s present in slot.
                 pb.Image = null;
@@ -177,19 +177,19 @@ namespace PKHeX.WinForms.Controls
                 pb.Visible = true;
                 return;
             }
-            PKM p = SAV.getStoredSlot(offset);
-            setSlotFiller(p, box, slot, pb);
+            PKM p = SAV.GetStoredSlot(offset);
+            SetSlotFiller(p, box, slot, pb);
         }
 
         // Drag & Drop Handling
-        private void pbBoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);
-        private void pbBoxSlot_MouseLeave(object sender, EventArgs e) => M?.MouseLeave(sender, e);
-        private void pbBoxSlot_MouseClick(object sender, MouseEventArgs e) => M?.MouseClick(sender, e);
-        private void pbBoxSlot_MouseUp(object sender, MouseEventArgs e) => M?.MouseUp(sender, e);
-        private void pbBoxSlot_MouseDown(object sender, MouseEventArgs e) => M?.MouseDown(sender, e);
-        private void pbBoxSlot_DragEnter(object sender, DragEventArgs e) => M?.DragEnter(sender, e);
-        private void pbBoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
-        private void pbBoxSlot_MouseMove(object sender, MouseEventArgs e)
+        private void BoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);
+        private void BoxSlot_MouseLeave(object sender, EventArgs e) => M?.MouseLeave(sender, e);
+        private void BoxSlot_MouseClick(object sender, MouseEventArgs e) => M?.MouseClick(sender, e);
+        private void BoxSlot_MouseUp(object sender, MouseEventArgs e) => M?.MouseUp(sender, e);
+        private void BoxSlot_MouseDown(object sender, MouseEventArgs e) => M?.MouseDown(sender, e);
+        private void BoxSlot_DragEnter(object sender, DragEventArgs e) => M?.DragEnter(sender, e);
+        private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
+        private void BoxSlot_MouseMove(object sender, MouseEventArgs e)
         {
             if (M == null || M.DragActive)
                 return;
@@ -198,24 +198,24 @@ namespace PKHeX.WinForms.Controls
             PictureBox pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
-            int slot = getSlot(pb);
+            int slot = GetSlot(pb);
             int box = slot >= 30 ? -1 : CurrentBox;
-            if (SAV.getIsSlotLocked(box, slot))
+            if (SAV.IsSlotLocked(box, slot))
                 return;
 
             bool encrypt = ModifierKeys == Keys.Control;
             M.HandleMovePKM(pb, slot, box, encrypt);
         }
-        private void pbBoxSlot_DragDrop(object sender, DragEventArgs e)
+        private void BoxSlot_DragDrop(object sender, DragEventArgs e)
         {
             if (M == null)
                 return;
 
             // Abort if there is no Pokemon in the given slot.
             PictureBox pb = (PictureBox)sender;
-            int slot = getSlot(pb);
+            int slot = GetSlot(pb);
             int box = slot >= 30 ? -1 : CurrentBox;
-            if (SAV.getIsSlotLocked(box, slot) || slot >= 36)
+            if (SAV.IsSlotLocked(box, slot) || slot >= 36)
             {
                 SystemSounds.Asterisk.Play();
                 e.Effect = DragDropEffects.Copy;
@@ -226,7 +226,7 @@ namespace PKHeX.WinForms.Controls
             bool overwrite = ModifierKeys == Keys.Alt;
             bool clone = ModifierKeys == Keys.Control;
             M.DragInfo.Destination.Parent = FindForm();
-            M.DragInfo.Destination.Slot = getSlot(sender);
+            M.DragInfo.Destination.Slot = GetSlot(sender);
             M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : CurrentBox;
             M.HandleDropPKM(sender, e, overwrite, clone);
         }

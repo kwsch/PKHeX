@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class PK5 : PKM, IRibbonSet1, IRibbonSet2
+    public class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetUnique4
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -12,24 +12,24 @@ namespace PKHeX.Core
         public sealed override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         public override int Format => 5;
-        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.getFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
 
         public PK5(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
-            PKMConverter.checkEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new PK5(Data); }
 
-        public override string getString(int Offset, int Count) => PKX.getString5(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength) => PKX.setString5(value, maxLength);
+        public override string GetString(int Offset, int Count) => PKX.GetString5(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => PKX.SetString5(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => getData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => getData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
+        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
@@ -173,7 +173,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block C
-        public override string Nickname { get => getString(0x48, 22); set => setString(value, 11).CopyTo(Data, 0x48); }
+        public override string Nickname { get => GetString(0x48, 22); set => SetString(value, 11).CopyTo(Data, 0x48); }
         // 0x5E unused
         public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
         private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -216,7 +216,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Block D
-        public override string OT_Name { get => getString(0x68, 0x16); set => setString(value, 7).CopyTo(Data, 0x68); }
+        public override string OT_Name { get => GetString(0x68, 0x16); set => SetString(value, 7).CopyTo(Data, 0x68); }
         public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
         public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
         public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -282,13 +282,13 @@ namespace PKHeX.Core
         public override int NickLength => 10;
 
         // Methods
-        public override byte[] Encrypt()
+        protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.encryptArray45(Data);
+            return PKX.EncryptArray45(Data);
         }
 
-        public PK6 convertToPK6()
+        public PK6 ConvertToPK6()
         {
             PK6 pk6 = new PK6 // Convert away!
             {
@@ -341,10 +341,10 @@ namespace PKHeX.Core
             pk6.Move4_PPUps = Move4_PPUps;
 
             // Fix PP
-            pk6.Move1_PP = pk6.getMovePP(pk6.Move1, pk6.Move1_PPUps);
-            pk6.Move2_PP = pk6.getMovePP(pk6.Move2, pk6.Move2_PPUps);
-            pk6.Move3_PP = pk6.getMovePP(pk6.Move3, pk6.Move3_PPUps);
-            pk6.Move4_PP = pk6.getMovePP(pk6.Move4, pk6.Move4_PPUps);
+            pk6.Move1_PP = pk6.GetMovePP(pk6.Move1, pk6.Move1_PPUps);
+            pk6.Move2_PP = pk6.GetMovePP(pk6.Move2, pk6.Move2_PPUps);
+            pk6.Move3_PP = pk6.GetMovePP(pk6.Move3, pk6.Move3_PPUps);
+            pk6.Move4_PP = pk6.GetMovePP(pk6.Move4, pk6.Move4_PPUps);
 
             pk6.IV_HP = IV_HP;
             pk6.IV_ATK = IV_ATK;
@@ -361,8 +361,8 @@ namespace PKHeX.Core
             pk6.Nature = Nature;
 
             // Apply trash bytes for species name of current app language -- default to PKM's language if no match
-            int curLang = PKX.getSpeciesNameLanguage(Species, Nickname, Format);
-            pk6.Nickname = PKX.getSpeciesName(Species, curLang < 0 ? Language : curLang);
+            int curLang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
+            pk6.Nickname = PKX.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
             if (IsNicknamed)
                 pk6.Nickname = Nickname;
 
@@ -483,7 +483,7 @@ namespace PKHeX.Core
             pk6.Geo1_Country = PKMConverter.Country;
             pk6.HT_Intensity = 1;
             pk6.HT_Memory = 4;
-            pk6.HT_Feeling = (int)(Util.rnd32() % 10);
+            pk6.HT_Feeling = (int)(Util.Rand32() % 10);
             // When transferred, friendship gets reset.
             pk6.OT_Friendship = pk6.HT_Friendship = PersonalInfo.BaseFriendship;
 

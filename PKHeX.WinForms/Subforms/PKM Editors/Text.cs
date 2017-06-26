@@ -7,24 +7,24 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    public partial class f2_Text : Form
+    public partial class TrashEditor : Form
     {
         private readonly SaveFile SAV;
-        public f2_Text(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
+        public TrashEditor(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
         {
             SAV = sav;
             InitializeComponent();
             bigendian = new[] { GameVersion.COLO, GameVersion.XD, GameVersion.BATREV, }.Contains(SAV.Version);
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             FinalString = TB_NN.Text;
             Raw = FinalBytes = raw;
 
             editing = true;
             if (raw != null)
-                addTrashEditing(raw.Length);
+                AddTrashEditing(raw.Length);
 
-            addCharEditing();
+            AddCharEditing();
             TB_Text.MaxLength = TB_NN.MaxLength;
             TB_Text.Text = TB_NN.Text;
             TB_Text.Font = pkxFont;
@@ -45,7 +45,7 @@ namespace PKHeX.WinForms
         }
         
         private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
-        private readonly Font pkxFont = FontUtil.getPKXFont(12F);
+        private readonly Font pkxFont = FontUtil.GetPKXFont(12F);
         public string FinalString;
         public byte[] FinalBytes { get; private set; }
         private readonly byte[] Raw;
@@ -60,16 +60,16 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void addCharEditing()
+        private void AddCharEditing()
         {
-            ushort[] chars = getChars(SAV.Generation);
+            ushort[] chars = GetChars(SAV.Generation);
             if (chars.Length == 0)
                 return;
 
             FLP_Characters.Visible = true;
             foreach (ushort c in chars)
             {
-                var l = getLabel((char)c+"");
+                var l = GetLabel((char)c+"");
                 l.Font = pkxFont;
                 l.AutoSize = false;
                 l.Size = new Size(20, 20);
@@ -77,7 +77,7 @@ namespace PKHeX.WinForms
                 FLP_Characters.Controls.Add(l);
             }
         }
-        private void addTrashEditing(int count)
+        private void AddTrashEditing(int count)
         {
             FLP_Hex.Visible = true;
             GB_Trash.Visible = true;
@@ -85,9 +85,9 @@ namespace PKHeX.WinForms
             Font courier = new Font("Courier New", 8);
             for (int i = 0; i < count; i++)
             {
-                var l = getLabel($"${i:X2}");
+                var l = GetLabel($"${i:X2}");
                 l.Font = courier;
-                var n = getNUD(hex: true, min: 0, max: 255);
+                var n = GetNUD(hex: true, min: 0, max: 255);
                 n.Click += (s, e) =>
                 {
                     switch (ModifierKeys)
@@ -97,14 +97,14 @@ namespace PKHeX.WinForms
                     }
                 };
                 n.Value = Raw[i];
-                n.ValueChanged += updateNUD;
+                n.ValueChanged += UpdateNUD;
                 
 
                 FLP_Hex.Controls.Add(l);
                 FLP_Hex.Controls.Add(n);
                 Bytes.Add(n);
             }
-            TB_Text.TextChanged += updateString;
+            TB_Text.TextChanged += UpdateString;
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
@@ -112,13 +112,13 @@ namespace PKHeX.WinForms
 
             CB_Language.DisplayMember = "Text";
             CB_Language.ValueMember = "Value";
-            var languages = Util.getUnsortedCBList("languages");
+            var languages = Util.GetUnsortedCBList("languages");
             if (SAV.Generation < 7)
                 languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
             CB_Language.DataSource = languages;
         }
 
-        private void updateNUD(object sender, EventArgs e)
+        private void UpdateNUD(object sender, EventArgs e)
         {
             if (editing)
                 return;
@@ -128,17 +128,17 @@ namespace PKHeX.WinForms
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 
-            string str = PKX.getString(Raw, SAV.Generation, SAV.Japanese, bigendian, Raw.Length);
+            string str = PKX.GetString(Raw, SAV.Generation, SAV.Japanese, bigendian, Raw.Length);
             TB_Text.Text = str;
             editing = false;
         }
-        private void updateString(object sender, EventArgs e)
+        private void UpdateString(object sender, EventArgs e)
         {
             if (editing)
                 return;
             editing = true;
             // build bytes
-            byte[] data = PKX.setString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] data = PKX.SetString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
             Array.Copy(data, Raw, Math.Min(data.Length, Raw.Length));
             for (int i = 0; i < Raw.Length; i++)
                 Bytes[i].Value = Raw[i];
@@ -146,14 +146,14 @@ namespace PKHeX.WinForms
         }
         private void B_ApplyTrash_Click(object sender, EventArgs e)
         {
-            string species = PKX.getSpeciesNameGeneration(WinFormsUtil.getIndex(CB_Species),
-                WinFormsUtil.getIndex(CB_Language), (int) NUD_Generation.Value);
+            string species = PKX.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
+                WinFormsUtil.GetIndex(CB_Language), (int) NUD_Generation.Value);
 
             if (species == "") // no result
                 species = CB_Species.Text;
 
-            byte[] current = PKX.setString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
-            byte[] data = PKX.setString(species, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] current = PKX.SetString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] data = PKX.SetString(species, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
             if (data.Length <= current.Length)
             {
                 WinFormsUtil.Alert("Trash byte layer is hidden by current text.",
@@ -170,14 +170,14 @@ namespace PKHeX.WinForms
         }
         private void B_ClearTrash_Click(object sender, EventArgs e)
         {
-            byte[] current = PKX.setString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] current = PKX.SetString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
             for (int i = current.Length; i < Bytes.Count; i++)
                 Bytes[i].Value = 0;
         }
 
         // Helpers
-        private static Label getLabel(string str) => new Label {Text = str, AutoSize = true};
-        private static NumericUpDown getNUD(int min, int max, bool hex) => new NumericUpDown
+        private static Label GetLabel(string str) => new Label {Text = str, AutoSize = true};
+        private static NumericUpDown GetNUD(int min, int max, bool hex) => new NumericUpDown
         {
             Maximum = max,
             Minimum = min,
@@ -187,7 +187,7 @@ namespace PKHeX.WinForms
             Margin = new Padding(0),
         };
 
-        private static ushort[] getChars(int generation)
+        private static ushort[] GetChars(int generation)
         {
             switch (generation)
             {

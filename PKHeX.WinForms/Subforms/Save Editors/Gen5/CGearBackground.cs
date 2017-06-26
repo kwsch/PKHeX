@@ -51,13 +51,13 @@ namespace PKHeX.WinForms
 
             ColorPalette = new Color[0x10];
             for (int i = 0; i < 0x10; i++)
-                ColorPalette[i] = getRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
+                ColorPalette[i] = GetRGB555_16(BitConverter.ToUInt16(ColorData, i * 2));
 
             Tiles = new Tile[0xFF];
             for (int i = 0; i < 0xFF; i++)
             {
                 Tiles[i] = new Tile(Region1.Skip(i * Tile.SIZE_TILE).Take(Tile.SIZE_TILE).ToArray());
-                Tiles[i].setTile(ColorPalette);
+                Tiles[i].SetTile(ColorPalette);
             }
 
             Map = new TileMap(Region2);
@@ -70,16 +70,16 @@ namespace PKHeX.WinForms
                 Array.Copy(Tiles[i].Write(), 0, data, i*Tile.SIZE_TILE, Tile.SIZE_TILE);
 
             for (int i = 0; i < ColorPalette.Length; i++)
-                BitConverter.GetBytes(getRGB555(ColorPalette[i])).CopyTo(data, 0x1FE0 + i*2);
+                BitConverter.GetBytes(GetRGB555(ColorPalette[i])).CopyTo(data, 0x1FE0 + i*2);
 
             Array.Copy(Map.Write(), 0, data, 0x2000, 0x600);
 
             return data;
         }
 
-        public static bool getIsCGB(byte[] data)
+        public static bool IsCGB(byte[] data)
         {
-            return data[0x2001] == 0;
+            return data.Length == SIZE_CGB && data[0x2001] == 0;
         }
         public static byte[] CGBtoPSK(byte[] cgb, bool B2W2)
         {
@@ -144,7 +144,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < data.Length; i += bpp)
             {
                 uint val = BitConverter.ToUInt32(data, i);
-                colors[i/bpp] = getRGB555_32(val);
+                colors[i/bpp] = GetRGB555_32(val);
             }
             
             Color[] Palette = colors.Distinct().ToArray();
@@ -167,7 +167,7 @@ namespace PKHeX.WinForms
 
                         t.ColorChoices[ix%8 + iy*8] = Array.IndexOf(Palette, c);
                     }
-                t.setTile(Palette);
+                t.SetTile(Palette);
                 tiles[i] = t;
             }
 
@@ -177,7 +177,7 @@ namespace PKHeX.WinForms
             {
                 for (int j = 0; j < tilelist.Count; j++)
                 {
-                    int rotVal = tiles[i].getRotationValue(tilelist[j].ColorChoices);
+                    int rotVal = tiles[i].GetRotationValue(tilelist[j].ColorChoices);
                     if (rotVal <= -1) continue;
                     tm.TileChoices[i] = j;
                     tm.Rotations[i] = rotVal;
@@ -197,7 +197,7 @@ namespace PKHeX.WinForms
             Tiles = tilelist.ToArray();
         }
 
-        private class Tile : IDisposable
+        private sealed class Tile : IDisposable
         {
             public const int SIZE_TILE = 0x20;
             private const int TileWidth = 8;
@@ -206,7 +206,7 @@ namespace PKHeX.WinForms
             private Bitmap img;
             public void Dispose() => img.Dispose();
 
-            public Tile(byte[] data = null)
+            internal Tile(byte[] data = null)
             {
                 if (data == null)
                     data = new byte[SIZE_TILE];
@@ -220,7 +220,7 @@ namespace PKHeX.WinForms
                     ColorChoices[i*2+1] = data[i] >> 4;
                 }
             }
-            public void setTile(Color[] Palette)
+            internal void SetTile(Color[] Palette)
             {
                 img = new Bitmap(8, 8);
                 for (int x = 0; x < 8; x++)
@@ -231,7 +231,7 @@ namespace PKHeX.WinForms
                         img.SetPixel(x, y, choice);
                     }
             }
-            public byte[] Write()
+            internal byte[] Write()
             {
                 byte[] data = new byte[SIZE_TILE];
                 for (int i = 0; i < data.Length; i++)
@@ -242,7 +242,7 @@ namespace PKHeX.WinForms
                 return data;
             }
 
-            public Bitmap Rotate(int rotFlip)
+            internal Bitmap Rotate(int rotFlip)
             {
                 if (rotFlip == 0)
                     return img;
@@ -254,7 +254,7 @@ namespace PKHeX.WinForms
                 return tile;
             }
 
-            public int getRotationValue(int[] tileColors)
+            internal int GetRotationValue(int[] tileColors)
             {
                 // Check all rotation types
                 if (ColorChoices.SequenceEqual(tileColors))
@@ -281,12 +281,12 @@ namespace PKHeX.WinForms
                 return 12;
             }
         }
-        private class TileMap
+        private sealed class TileMap
         {
             public readonly int[] TileChoices;
             public readonly int[] Rotations;
 
-            public TileMap(byte[] data)
+            internal TileMap(byte[] data)
             {
                 TileChoices = new int[data.Length/2];
                 Rotations = new int[data.Length/2];
@@ -296,7 +296,7 @@ namespace PKHeX.WinForms
                     Rotations[i/2] = data[i+1];
                 }
             }
-            public byte[] Write()
+            internal byte[] Write()
             {
                 using (MemoryStream ms = new MemoryStream())
                 using (BinaryWriter bw = new BinaryWriter(ms))
@@ -323,33 +323,33 @@ namespace PKHeX.WinForms
             return ((val % 0x20) + 0x11 * (((val & 0x3FF) - 0xA0) / 0x20)) | (val & 0x5C00);
         }
         
-        private static byte convert8to5(int colorval)
+        private static byte Convert8to5(int colorval)
         {
             byte i = 0;
             while (colorval > Convert5To8[i]) i++;
             return i;
         }
-        private static Color getRGB555_32(uint val)
+        private static Color GetRGB555_32(uint val)
         {
             int R = (int)(val >> 0 >> 3) & 0x1F;
             int G = (int)(val >> 8 >> 3) & 0x1F;
             int B = (int)(val >> 16 >> 3) & 0x1F;
             return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
         }
-        private static Color getRGB555_16(ushort val)
+        private static Color GetRGB555_16(ushort val)
         {
             int R = (val >> 0) & 0x1F;
             int G = (val >> 5) & 0x1F;
             int B = (val >> 10) & 0x1F;
             return Color.FromArgb(0xFF, Convert5To8[R], Convert5To8[G], Convert5To8[B]);
         }
-        private static ushort getRGB555(Color c)
+        private static ushort GetRGB555(Color c)
         {
             int val = 0;
             // val += c.A >> 8; // unused
-            val |= convert8to5(c.R) << 0;
-            val |= convert8to5(c.G) << 5;
-            val |= convert8to5(c.B) << 10;
+            val |= Convert8to5(c.R) << 0;
+            val |= Convert8to5(c.G) << 5;
+            val |= Convert8to5(c.B) << 10;
             return (ushort)val;
         }
         private static readonly int[] Convert5To8 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,

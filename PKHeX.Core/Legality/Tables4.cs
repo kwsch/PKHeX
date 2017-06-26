@@ -675,6 +675,13 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 380, Level = 35, Version = GameVersion.HG, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, //Latias
             new EncounterStaticTyped { Species = 381, Level = 35, Version = GameVersion.SS, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, //Latios
         };
+        internal static readonly EncounterStatic SpikyEaredPichu = new EncounterStaticTyped // Spiky-Eared Pichu @ Ilex Forest
+        {
+            Species = 172, Level = 30, Gender = 1, Form = 1,
+            Nature = Nature.Naughty, Location = 214, Moves = new[] {344, 270, 207, 220},
+            TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,
+            Shiny = false
+        };
         internal static readonly EncounterStatic[] Encounter_HGSS_Regular =
         {
             //Starters
@@ -724,7 +731,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 143, Level = 50, Location = 159, }, //Snorlax @ Route 11
             new EncounterStatic { Species = 143, Level = 50, Location = 160, }, //Snorlax @ Route 12
             new EncounterStatic { Species = 185, Level = 20, Location = 184, }, //Sudowoodo @ Route 36, Encounter does not have type
-            new EncounterStaticTyped { Species = 172, Level = 30, Location = 214, Gender = 1, Form = 1, Moves = new[]{344,270,207,220}, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Shiny = false }, //Spiky-eared Pichu @ Ilex forest
+            SpikyEaredPichu,
             //Stationary Lengerdary
             new EncounterStaticTyped { Species = 144, Level = 50, Location = 203, TypeEncounter = EncounterType.Cave_HallOfOrigin }, //Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 158, }, //Zapdos @ Route 10
@@ -1224,7 +1231,7 @@ namespace PKHeX.Core
             183,194,195,298,399,400,        // Pre-National Pokédex
             046,102,115,193,285,316,452,454 // Post-National Pokédex
         };
-        private static readonly EncounterArea[] DP_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(DP_GreatMarshAlt_Species, new[] { 22, 22, 24, 24, 26, 26 }, 52, SlotType.Grass_Safari);
+        private static readonly EncounterArea[] DP_GreatMarshAlt = EncounterArea.GetSimpleEncounterArea(DP_GreatMarshAlt_Species, new[] { 22, 22, 24, 24, 26, 26 }, 52, SlotType.Grass_Safari);
 
         private static readonly int[] Pt_GreatMarshAlt_Species =
         {
@@ -1232,7 +1239,7 @@ namespace PKHeX.Core
             194,                            // Pre-National Pokédex
             046,102,115,285,316,352,452,454 // Post-National Pokédex
         };
-        private static readonly EncounterArea[] Pt_GreatMarshAlt = EncounterArea.getSimpleEncounterArea(Pt_GreatMarshAlt_Species, new[] { 27, 30 }, 52, SlotType.Grass_Safari);
+        private static readonly EncounterArea[] Pt_GreatMarshAlt = EncounterArea.GetSimpleEncounterArea(Pt_GreatMarshAlt_Species, new[] { 27, 30 }, 52, SlotType.Grass_Safari);
 
         private static readonly int[] Shellos_EastSeaLocation_DP =
         {

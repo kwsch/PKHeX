@@ -2,9 +2,9 @@
 
 namespace PKHeX.Core
 {
-    public class QRPK7
+    public struct QRPK7
     {
-        public byte[] Data;
+        private readonly byte[] Data;
 
         public uint EncryptionConstant => BitConverter.ToUInt32(Data, 0);
         public int HT_Flags => Data[4];

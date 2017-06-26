@@ -2,11 +2,12 @@
 
 namespace PKHeX.Core
 {
-    public class SeedInfo
+    public struct SeedInfo
     {
         public uint Seed;
         public bool Charm3;
-        public static IEnumerable<SeedInfo> getSeedsUntilNature(PIDIV pidiv, FrameGenerator info)
+
+        public static IEnumerable<SeedInfo> GetSeedsUntilNature(PIDIV pidiv, FrameGenerator info)
         {
             bool reverse = pidiv.Type.IsReversedPID();
             bool charm3 = false;
@@ -24,7 +25,7 @@ namespace PKHeX.Core
                 var pid = reverse ? a << 16 | b : b << 16 | a;
 
                 // Process Conditions
-                switch (verifyPIDCriteria(pid, info))
+                switch (VerifyPIDCriteria(pid, info))
                 {
                     case LockInfo.Pass:
                         yield break;
@@ -39,8 +40,7 @@ namespace PKHeX.Core
                 yield return new SeedInfo { Seed = s1, Charm3 = charm3 };
             }
         }
-
-        private static LockInfo verifyPIDCriteria(uint pid, FrameGenerator info)
+        private static LockInfo VerifyPIDCriteria(uint pid, FrameGenerator info)
         {
             // Nature locks are always a given
             var nval = pid % 25;

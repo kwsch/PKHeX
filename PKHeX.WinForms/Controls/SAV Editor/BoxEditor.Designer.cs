@@ -444,7 +444,7 @@
             this.B_BoxRight.TabIndex = 65;
             this.B_BoxRight.Text = ">>";
             this.B_BoxRight.UseVisualStyleBackColor = true;
-            this.B_BoxRight.Click += new System.EventHandler(this.clickBoxRight);
+            this.B_BoxRight.Click += new System.EventHandler(this.ClickBoxRight);
             // 
             // B_BoxLeft
             // 
@@ -455,7 +455,7 @@
             this.B_BoxLeft.TabIndex = 64;
             this.B_BoxLeft.Text = "<<";
             this.B_BoxLeft.UseVisualStyleBackColor = true;
-            this.B_BoxLeft.Click += new System.EventHandler(this.clickBoxLeft);
+            this.B_BoxLeft.Click += new System.EventHandler(this.ClickBoxLeft);
             // 
             // CB_BoxSelect
             // 
@@ -497,7 +497,7 @@
             this.CB_BoxSelect.Name = "CB_BoxSelect";
             this.CB_BoxSelect.Size = new System.Drawing.Size(127, 21);
             this.CB_BoxSelect.TabIndex = 63;
-            this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.getBox);
+            this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.GetBox);
             // 
             // BoxEditor
             // 

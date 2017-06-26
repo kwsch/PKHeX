@@ -4,33 +4,33 @@
     {
         public int Species { get; set; }
         public int[] Moves { get; set; }
-        public int Level;
+        public int Level { get; set; }
 
         public int LevelMin => Level;
         public int LevelMax => Level;
         public int Generation { get; set; } = -1;
-        public int Location;
-        public int Ability;
-        public int Form;
-        public bool? Shiny; // false = never, true = always, null = possible
-        public int[] Relearn = new int[4];
-        public int Gender = -1;
-        public int EggLocation;
-        public Nature Nature = Nature.Random;
-        public bool Gift;
-        public int Ball = 4; // Gift Only
+        public int Location { get; set; }
+        public int Ability { get; set; }
+        public int Form { get; set; }
+        public bool? Shiny { get; set; } // false = never, true = always, null = possible
+        public int[] Relearn { get; set; } = new int[4];
+        public int Gender { get; set; } = -1;
+        public int EggLocation { get; set; }
+        public Nature Nature { get; set; } = Nature.Random;
+        public bool Gift { get; set; }
+        public int Ball { get; set; } = 4; // Only checked when is Gift
         public GameVersion Version = GameVersion.Any;
-        public int[] IVs = { -1, -1, -1, -1, -1, -1 };
-        public bool IV3;
-        public int[] Contest = { 0, 0, 0, 0, 0, 0 };
+        public int[] IVs { get; set; } = { -1, -1, -1, -1, -1, -1 };
+        public bool IV3 { get; set; }
+        public int[] Contest { get; set; } = { 0, 0, 0, 0, 0, 0 };
         public int HeldItem { get; set; }
-        public int EggCycles;
+        public int EggCycles { get; set; }
 
-        public bool Fateful;
-        public bool RibbonWishing;
-        public bool SkipFormCheck;
-        public bool NSparkle;
-        public bool Roaming;
+        public bool Fateful { get; set; }
+        public bool RibbonWishing { get; set; }
+        public bool SkipFormCheck { get; set; }
+        public bool NSparkle { get; set; }
+        public bool Roaming { get; set; }
         public bool EggEncounter => EggLocation > 0;
 
         public EncounterStatic[] Clone(int[] locations)
@@ -162,13 +162,13 @@
 
     public class EncounterStaticShadow : EncounterStatic
     {
-        public EncounterLock[] Locks = new EncounterLock[0];
+        public EncounterLock[][] Locks = new EncounterLock[0][];
         public int Gauge;
         public bool EReader = false;
 
         public override EncounterStatic Clone(int location)
         {
-            throw new System.Exception();
+            throw new System.NotImplementedException();
         }
     }
 }

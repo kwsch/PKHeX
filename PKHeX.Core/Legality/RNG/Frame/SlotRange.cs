@@ -2,15 +2,15 @@
 {
     public static class SlotRange
     {
-        private static readonly Range[] H_OldRod = getRanges(70, 30);
-        private static readonly Range[] H_GoodRod = getRanges(60, 20, 20);
-        private static readonly Range[] H_SuperRod = getRanges(40, 30, 15, 10, 5);
-        private static readonly Range[] H_Surf = getRanges(60, 30, 5, 4, 1);
-        private static readonly Range[] H_Regular = getRanges(20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1);
+        private static readonly Range[] H_OldRod = GetRanges(70, 30);
+        private static readonly Range[] H_GoodRod = GetRanges(60, 20, 20);
+        private static readonly Range[] H_SuperRod = GetRanges(40, 30, 15, 10, 5);
+        private static readonly Range[] H_Surf = GetRanges(60, 30, 5, 4, 1);
+        private static readonly Range[] H_Regular = GetRanges(20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1);
 
-        private static readonly Range[] J_SuperRod = getRanges(40, 40, 15, 4, 1);
+        private static readonly Range[] J_SuperRod = GetRanges(40, 40, 15, 4, 1);
         private static readonly Range[] K_BCC = Reverse(H_Regular);
-        private static readonly Range[] K_Headbutt = getRanges(50, 15, 15, 10, 5, 5);
+        private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
 
         public static int GetSlot(SlotType type, uint rand, FrameType t)
         {
@@ -86,19 +86,19 @@
             }
         }
 
-        private class Range
+        private struct Range
         {
-            public Range(uint min, uint max)
+            internal Range(uint min, uint max)
             {
                 Min = min;
                 Max = max;
             }
 
-            public uint Min { get; }
-            public uint Max { get; }
+            internal uint Min { get; }
+            internal uint Max { get; }
         }
 
-        private static Range[] getRanges(params uint[] rates)
+        private static Range[] GetRanges(params uint[] rates)
         {
             var len = rates.Length;
             var arr = new Range[len];

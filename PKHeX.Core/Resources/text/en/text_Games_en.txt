@@ -20,20 +20,20 @@ Colosseum/XD
 
 White
 Black
-White2
-Black2
+White 2
+Black 2
 X
 Y
-AS
-OR
+Alpha Sapphire
+Omega Ruby
 
 
 Sun
 Moon
 
 
-Go
+GO
 Red
-Blue[INT]/Green[JP]
-Blue[JP]
+Blue [INT]/Green [JP]
+Blue [JP]
 Yellow

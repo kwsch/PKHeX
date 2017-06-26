@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
@@ -13,17 +14,19 @@ namespace PKHeX.WinForms.Controls
     /// <summary>
     /// Manager class for moving slots.
     /// </summary>
-    public class SlotChangeManager
+    public class SlotChangeManager : IDisposable
     {
+        // Disposeables
         public readonly SAVEditor SE;
-        private SaveFile SAV => SE.SAV;
         private Image OriginalBackground;
         private Image CurrentBackground;
+        public Image colorizedcolor;
+
+        private SaveFile SAV => SE.SAV;
         public SlotChangeInfo DragInfo;
         public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
         public int colorizedbox = -1;
         public int colorizedslot = -1;
-        public Image colorizedcolor;
         public event DragEventHandler RequestExternalDragDrop;
 
         public SlotChangeManager(SAVEditor se)
@@ -60,7 +63,7 @@ namespace PKHeX.WinForms.Controls
         public void MouseClick(object sender, MouseEventArgs e)
         {
             if (!DragInfo.DragDropInProgress)
-                SE.clickSlot(sender, e);
+                SE.ClickSlot(sender, e);
         }
         public void MouseUp(object sender, MouseEventArgs e)
         {
@@ -105,10 +108,10 @@ namespace PKHeX.WinForms.Controls
             DragInfo.Source.Parent = pb.Parent;
             DragInfo.Source.Slot = slot;
             DragInfo.Source.Box = box;
-            DragInfo.Source.Offset = SE.getPKXOffset(DragInfo.Source.Slot, DragInfo.Source.Box);
+            DragInfo.Source.Offset = SE.GetPKMOffset(DragInfo.Source.Slot, DragInfo.Source.Box);
 
             // Prepare Data
-            DragInfo.Source.OriginalData = SAV.getData(DragInfo.Source.Offset, SAV.SIZE_STORED);
+            DragInfo.Source.OriginalData = SAV.GetData(DragInfo.Source.Offset, SAV.SIZE_STORED);
 
             // Make a new file name based off the PID
             string newfile = CreateDragDropPKM(pb, box, encrypt, out bool external);
@@ -124,7 +127,7 @@ namespace PKHeX.WinForms.Controls
             }
             else
             {
-                new Thread(() =>
+                new Task(() =>
                 {
                     Thread.Sleep(500);
                     if (File.Exists(newfile) && DragInfo.CurrentPath == null)
@@ -132,13 +135,13 @@ namespace PKHeX.WinForms.Controls
                 }).Start();
             }
             if (DragInfo.Source.IsParty || DragInfo.Destination.IsParty)
-                SE.setParty();
+                SE.SetParty();
         }
         private string CreateDragDropPKM(PictureBox pb, int box, bool encrypt, out bool external)
         {
-            byte[] dragdata = SAV.decryptPKM(DragInfo.Source.OriginalData);
+            byte[] dragdata = SAV.DecryptPKM(DragInfo.Source.OriginalData);
             Array.Resize(ref dragdata, SAV.SIZE_STORED);
-            PKM pkx = SAV.getPKM(dragdata);
+            PKM pkx = SAV.GetPKM(dragdata);
             string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
             string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
 
@@ -156,7 +159,7 @@ namespace PKHeX.WinForms.Controls
 
             return newfile;
         }
-        private void TryMakeDragDropPKM(PictureBox pb, bool encrypt, PKM pkx, string newfile, out bool external)
+        private bool TryMakeDragDropPKM(PictureBox pb, bool encrypt, PKM pkx, string newfile, out bool external)
         {
             File.WriteAllBytes(newfile, encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData);
             var img = (Bitmap)pb.Image;
@@ -167,7 +170,7 @@ namespace PKHeX.WinForms.Controls
             DragInfo.CurrentPath = newfile;
             DragDropEffects result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             external = !DragInfo.Source.IsValid || result != DragDropEffects.Link;
-             if (external || DragInfo.SameSlot || result != DragDropEffects.Link) // not dropped to another box slot, restore img
+            if (external || DragInfo.SameSlot || result != DragDropEffects.Link) // not dropped to another box slot, restore img
             {
                 pb.Image = img;
                 pb.BackgroundImage = OriginalBackground;
@@ -179,13 +182,14 @@ namespace PKHeX.WinForms.Controls
                     SetColor(DragInfo.Source.Box, DragInfo.Source.Slot, Resources.slotView);
                 external = false;
             }
+            return true;
         }
 
-        private void SetSlotSprite(SlotChange loc, PKM pk, BoxEditor x = null) => (x ?? SE.Box).setSlotFiller(pk, loc.Box, loc.Slot);
+        private void SetSlotSprite(SlotChange loc, PKM pk, BoxEditor x = null) => (x ?? SE.Box).SetSlotFiller(pk, loc.Box, loc.Slot);
         
         public void HandleDropPKM(object sender, DragEventArgs e, bool overwrite, bool clone)
         {
-            DragInfo.Destination.Offset = SE.getPKXOffset(DragInfo.Destination.Slot, DragInfo.Destination.Box);
+            DragInfo.Destination.Offset = SE.GetPKMOffset(DragInfo.Destination.Slot, DragInfo.Destination.Box);
             // Check for In-Dropped files (PKX,SAV,ETC)
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (Directory.Exists(files[0])) { SE.LoadBoxes(out string _, files[0]); return; }
@@ -194,47 +198,59 @@ namespace PKHeX.WinForms.Controls
                 e.Effect = DragDropEffects.Link;
                 return;
             }
-            if (SAV.getIsSlotLocked(DragInfo.Destination.Box, DragInfo.Destination.Slot))
+            if (SAV.IsSlotLocked(DragInfo.Destination.Box, DragInfo.Destination.Slot))
             {
-                DragInfo.Destination.Slot = -1; // Invalidate
-                WinFormsUtil.Alert("Unable to set to locked slot.");
+                AlertInvalidate("Unable to set to locked slot.");
                 return;
             }
+            bool noEgg = DragInfo.Destination.IsParty && SE.SAV.IsPartyAllEggs(DragInfo.Destination.Slot - 30) && !SE.HaX;
             if (DragInfo.Source.Offset < 0) // external source
             {
-                TryLoadFiles(files, e);
+                if (!TryLoadFiles(files, e, noEgg))
+                    AlertInvalidate("Unable to set to this slot.");
                 return;
             }
-
-            TrySetPKMDestination(sender, e, overwrite, clone);
+            if (!TrySetPKMDestination(sender, e, overwrite, clone, noEgg))
+            {
+                AlertInvalidate("Unable to set to this slot.");
+                return;
+            }
 
             if (DragInfo.Source.Parent == null) // internal file
                 DragInfo.Reset();
         }
-        private void TryLoadFiles(string[] files, DragEventArgs e)
+        private void AlertInvalidate(string msg)
+        {
+            DragInfo.Destination.Slot = -1; // Invalidate
+            WinFormsUtil.Alert(msg);
+        }
+        private bool TryLoadFiles(string[] files, DragEventArgs e, bool noEgg)
         {
             if (files.Length <= 0)
-                return;
+                return false;
             string file = files[0];
             FileInfo fi = new FileInfo(file);
-            if (!PKX.getIsPKM(fi.Length) && !MysteryGift.getIsMysteryGift(fi.Length))
+            if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
             {
                 RequestExternalDragDrop?.Invoke(this, e); // pass thru
-                return;
+                return false;
             }
 
             byte[] data = File.ReadAllBytes(file);
-            MysteryGift mg = MysteryGift.getMysteryGift(data, fi.Extension);
-            PKM temp = mg?.convertToPKM(SAV) ?? PKMConverter.getPKMfromBytes(data,
+            MysteryGift mg = MysteryGift.GetMysteryGift(data, fi.Extension);
+            PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data,
                            prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30) & 7 : SAV.Generation);
 
-            PKM pk = PKMConverter.convertToFormat(temp, SAV.PKMType, out string c);
+            PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
             if (pk == null)
             {
                 WinFormsUtil.Error(c);
                 Console.WriteLine(c);
-                return;
+                return false;
             }
+
+            if (noEgg && (pk.Species == 0 || pk.IsEgg))
+                return false;
 
             string[] errata = SAV.IsPKMCompatible(pk);
             if (errata.Length > 0)
@@ -244,16 +260,20 @@ namespace PKHeX.WinForms.Controls
                 {
                     Console.WriteLine(c);
                     Console.WriteLine(concat);
-                    return;
+                    return false;
                 }
             }
 
             SetPKM(pk, false, Resources.slotSet);
             Console.WriteLine(c);
+            return true;
         }
-        private void TrySetPKMDestination(object sender, DragEventArgs e, bool overwrite, bool clone)
+        private bool TrySetPKMDestination(object sender, DragEventArgs e, bool overwrite, bool clone, bool noEgg)
         {
             PKM pkz = GetPKM(true);
+            if (noEgg && (pkz.Species == 0 || pkz.IsEgg))
+                return false;
+
             if (DragInfo.Source.IsValid)
                 TrySetPKMSource(sender, overwrite, clone);
 
@@ -262,8 +282,9 @@ namespace PKHeX.WinForms.Controls
 
             e.Effect = clone ? DragDropEffects.Copy : DragDropEffects.Link;
             SetCursor(SE.GetDefaultCursor, sender);
+            return true;
         }
-        private void TrySetPKMSource(object sender, bool overwrite, bool clone)
+        private bool TrySetPKMSource(object sender, bool overwrite, bool clone)
         {
             if (overwrite && DragInfo.Destination.IsValid) // overwrite delete old slot
             {
@@ -280,6 +301,9 @@ namespace PKHeX.WinForms.Controls
                 // Set destination pokemon data to source slot
                 SetPKM(pk, true, null);
             }
+            else
+                return false;
+            return true;
         }
 
         public void SetColor(int box, int slot, Image img)
@@ -298,15 +322,15 @@ namespace PKHeX.WinForms.Controls
         }
 
         // PKM Get Set
-        public PKM GetPKM(bool src) => GetPKM(src ? DragInfo.Source : DragInfo.Destination);
+        private PKM GetPKM(bool src) => GetPKM(src ? DragInfo.Source : DragInfo.Destination);
         public PKM GetPKM(SlotChange slot)
         {
             int o = slot.Offset;
             if (o < 0)
                 return slot.PKM;
-            return slot.IsParty ? SAV.getPartySlot(o) : SAV.getStoredSlot(o);
+            return slot.IsParty ? SAV.GetPartySlot(o) : SAV.GetStoredSlot(o);
         }
-        public void SetPKM(PKM pk, bool src, Image img) => SetPKM(pk, src ? DragInfo.Source : DragInfo.Destination, src, img);
+        private void SetPKM(PKM pk, bool src, Image img) => SetPKM(pk, src ? DragInfo.Source : DragInfo.Destination, src, img);
         public void SetPKM(PKM pk, SlotChange slot, bool src, Image img)
         {
             if (slot.IsParty)
@@ -319,7 +343,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             int o = slot.Offset;
-            SAV.setStoredSlot(pk, o);
+            SAV.SetStoredSlot(pk, o);
             if (slot.Slot >= 30)
             {
                 SetSlotSprite(slot, pk);
@@ -344,8 +368,8 @@ namespace PKHeX.WinForms.Controls
             {
                 if (pk.Species == 0) // Empty Slot
                 {
-                    SAV.deletePartySlot(slot.Slot - 30);
-                    SE.setParty();
+                    SAV.DeletePartySlot(slot.Slot - 30);
+                    SE.SetParty();
                     return;
                 }
             }
@@ -353,18 +377,26 @@ namespace PKHeX.WinForms.Controls
             {
                 if (30 + SAV.PartyCount < slot.Slot)
                 {
-                    o = SAV.getPartyOffset(SAV.PartyCount);
+                    o = SAV.GetPartyOffset(SAV.PartyCount);
                     slot.Slot = 30 + SAV.PartyCount;
                 }
             }
 
             if (pk.Stat_HPMax == 0) // Without Stats (Box)
             {
-                pk.setStats(pk.getStats(SAV.Personal.getFormeEntry(pk.Species, pk.AltForm)));
+                pk.SetStats(pk.GetStats(SAV.Personal.GetFormeEntry(pk.Species, pk.AltForm)));
                 pk.Stat_Level = pk.CurrentLevel;
             }
-            SAV.setPartySlot(pk, o);
-            SE.setParty();
+            SAV.SetPartySlot(pk, o);
+            SE.SetParty();
+        }
+
+        public void Dispose()
+        {
+            SE?.Dispose();
+            OriginalBackground?.Dispose();
+            CurrentBackground?.Dispose();
+            colorizedcolor?.Dispose();
         }
     }
 }

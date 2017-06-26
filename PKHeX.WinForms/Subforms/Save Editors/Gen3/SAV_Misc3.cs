@@ -14,17 +14,17 @@ namespace PKHeX.WinForms
         {
             SAV = (SAV3)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             if (SAV.FRLG || SAV.E)
-                readJoyful();
+                ReadJoyful();
             else
                 tabControl1.Controls.Remove(TAB_Joyful);
 
             if (SAV.E)
             {
-                readFerry();
-                readBF();
+                ReadFerry();
+                ReadBattleFrontier();
             }
             else
             {
@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
 
             if (SAV.FRLG)
             {
-                TB_OTName.Text = PKX.getString3(SAV.Data, SAV.getBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
+                TB_OTName.Text = PKX.GetString3(SAV.Data, SAV.GetBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
                 ComboBox[] cba = new[] { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
                 int[] HoennListMixed = new[] {
                      277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
                     Text = v.Text,
                     Value = v.Value < 252 ? v.Value : HoennListMixed[v.Value - 252],
                 }).ToList();
-                int ofsTCM = SAV.getBlockOffset(2) + 0x106;
+                int ofsTCM = SAV.GetBlockOffset(2) + 0x106;
                 for (int i = 0; i < cba.Length; i++)
                 {
                     cba[i].Items.Clear();
@@ -68,16 +68,16 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (tabControl1.Controls.Contains(TAB_Joyful))
-                saveJoyful();
+                SaveJoyful();
             if (tabControl1.Controls.Contains(TAB_Ferry))
-                saveFerry();
+                SaveFerry();
             if (tabControl1.Controls.Contains(TAB_BF))
-                saveBF();
+                SaveBattleFrontier();
             if (SAV.FRLG)
             {
-                SAV.setData(SAV.setString(TB_OTName.Text, TB_OTName.MaxLength), SAV.getBlockOffset(4) + 0xBCC);
+                SAV.SetData(SAV.SetString(TB_OTName.Text, TB_OTName.MaxLength), SAV.GetBlockOffset(4) + 0xBCC);
                 ComboBox[] cba = new[] { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
-                int ofsTCM = SAV.getBlockOffset(2) + 0x106;
+                int ofsTCM = SAV.GetBlockOffset(2) + 0x106;
                 for (int i = 0; i < cba.Length; i++)
                     BitConverter.GetBytes((ushort)(int)cba[i].SelectedValue).CopyTo(SAV.Data, ofsTCM + (i << 1));
             }
@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
             SAV.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -96,27 +96,27 @@ namespace PKHeX.WinForms
         #region Joyful
         private int JUMPS_IN_ROW, JUMPS_SCORE, JUMPS_5_IN_ROW;
         private int BERRIES_IN_ROW, BERRIES_SCORE, BERRIES_5_IN_ROW;
-        private void readJoyful()
+        private void ReadJoyful()
         {
             switch (SAV.Version)
             {
                 case GameVersion.E:
-                    JUMPS_IN_ROW = SAV.getBlockOffset(0) + 0x1fc;
-                    JUMPS_SCORE = SAV.getBlockOffset(0) + 0x208;
-                    JUMPS_5_IN_ROW = SAV.getBlockOffset(0) + 0x200;
+                    JUMPS_IN_ROW = SAV.GetBlockOffset(0) + 0x1fc;
+                    JUMPS_SCORE = SAV.GetBlockOffset(0) + 0x208;
+                    JUMPS_5_IN_ROW = SAV.GetBlockOffset(0) + 0x200;
 
-                    BERRIES_IN_ROW = SAV.getBlockOffset(0) + 0x210;
-                    BERRIES_SCORE = SAV.getBlockOffset(0) + 0x20c;
-                    BERRIES_5_IN_ROW = SAV.getBlockOffset(0) + 0x214;
+                    BERRIES_IN_ROW = SAV.GetBlockOffset(0) + 0x210;
+                    BERRIES_SCORE = SAV.GetBlockOffset(0) + 0x20c;
+                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0x214;
                     break;
                 case GameVersion.FRLG:
-                    JUMPS_IN_ROW = SAV.getBlockOffset(0) + 0xB00;
-                    JUMPS_SCORE = SAV.getBlockOffset(0) + 0xB0C;
-                    JUMPS_5_IN_ROW = SAV.getBlockOffset(0) + 0xB04;
+                    JUMPS_IN_ROW = SAV.GetBlockOffset(0) + 0xB00;
+                    JUMPS_SCORE = SAV.GetBlockOffset(0) + 0xB0C;
+                    JUMPS_5_IN_ROW = SAV.GetBlockOffset(0) + 0xB04;
 
-                    BERRIES_IN_ROW = SAV.getBlockOffset(0) + 0xB14;
-                    BERRIES_SCORE = SAV.getBlockOffset(0) + 0xB10;
-                    BERRIES_5_IN_ROW = SAV.getBlockOffset(0) + 0xB18;
+                    BERRIES_IN_ROW = SAV.GetBlockOffset(0) + 0xB14;
+                    BERRIES_SCORE = SAV.GetBlockOffset(0) + 0xB10;
+                    BERRIES_5_IN_ROW = SAV.GetBlockOffset(0) + 0xB18;
                     break;
             }
             TB_J1.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, JUMPS_IN_ROW)).ToString();
@@ -126,7 +126,7 @@ namespace PKHeX.WinForms
             TB_B2.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_SCORE)).ToString();
             TB_B3.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Data, BERRIES_5_IN_ROW)).ToString();
         }
-        private void saveJoyful()
+        private void SaveJoyful()
         {
             BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J1.Text)).CopyTo(SAV.Data, JUMPS_IN_ROW);
             BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J2.Text)).CopyTo(SAV.Data, JUMPS_SCORE);
@@ -142,12 +142,15 @@ namespace PKHeX.WinForms
         private void B_GetTickets_Click(object sender, EventArgs e)
         {
             var Pouches = SAV.Inventory;
-            string[] itemlist = GameInfo.Strings.getItemStrings(SAV.Generation, SAV.Version);
+            string[] itemlist = GameInfo.Strings.GetItemStrings(SAV.Generation, SAV.Version);
             for (int i = 0; i < itemlist.Length; i++)
                 if (string.IsNullOrEmpty(itemlist[i]))
                     itemlist[i] = $"(Item #{i:000})";
 
-            int[] tickets = {0x109, 0x113, 0x172, 0x173, 0x178}; // item IDs
+            const int oldsea = 0x178;
+            int[] tickets = {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
+            if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Add {itemlist[oldsea]}?"))
+                tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
             var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
             if (p == null)
@@ -192,40 +195,40 @@ namespace PKHeX.WinForms
 
             B_GetTickets.Enabled = false;
         }
-        private void readFerry()
+        private void ReadFerry()
         {
-            ofsFerry = SAV.getBlockOffset(2) + 0x2F0;
-            CHK_Catchable.Checked = getFerryFlagFromNum(0x864);
-            CHK_ReachSouthern.Checked = getFerryFlagFromNum(0x8B3);
-            CHK_ReachBirth.Checked = getFerryFlagFromNum(0x8D5);
-            CHK_ReachFaraway.Checked = getFerryFlagFromNum(0x8D6);
-            CHK_ReachNavel.Checked = getFerryFlagFromNum(0x8E0);
-            CHK_ReachBF.Checked = getFerryFlagFromNum(0x1D0);
-            CHK_InitialSouthern.Checked = getFerryFlagFromNum(0x1AE);
-            CHK_InitialBirth.Checked = getFerryFlagFromNum(0x1AF);
-            CHK_InitialFaraway.Checked = getFerryFlagFromNum(0x1B0);
-            CHK_InitialNavel.Checked = getFerryFlagFromNum(0x1DB);
+            ofsFerry = SAV.GetBlockOffset(2) + 0x2F0;
+            CHK_Catchable.Checked = IsFerryFlagActive(0x864);
+            CHK_ReachSouthern.Checked = IsFerryFlagActive(0x8B3);
+            CHK_ReachBirth.Checked = IsFerryFlagActive(0x8D5);
+            CHK_ReachFaraway.Checked = IsFerryFlagActive(0x8D6);
+            CHK_ReachNavel.Checked = IsFerryFlagActive(0x8E0);
+            CHK_ReachBF.Checked = IsFerryFlagActive(0x1D0);
+            CHK_InitialSouthern.Checked = IsFerryFlagActive(0x1AE);
+            CHK_InitialBirth.Checked = IsFerryFlagActive(0x1AF);
+            CHK_InitialFaraway.Checked = IsFerryFlagActive(0x1B0);
+            CHK_InitialNavel.Checked = IsFerryFlagActive(0x1DB);
         }
-        private bool getFerryFlagFromNum(int n)
+        private bool IsFerryFlagActive(int n)
         {
             return (SAV.Data[ofsFerry + (n >> 3)] >> (n & 7) & 1) != 0;
         }
-        private void setFerryFlagFromNum(int n, bool b)
+        private void SetFerryFlagFromNum(int n, bool b)
         {
             SAV.Data[ofsFerry + (n >> 3)] = (byte)(SAV.Data[ofsFerry + (n >> 3)] & ~(1 << (n & 7)) | (b ? 1 : 0) << (n & 7));
         }
-        private void saveFerry()
+        private void SaveFerry()
         {
-            setFerryFlagFromNum(0x864, CHK_Catchable.Checked);
-            setFerryFlagFromNum(0x8B3, CHK_ReachSouthern.Checked);
-            setFerryFlagFromNum(0x8D5, CHK_ReachBirth.Checked);
-            setFerryFlagFromNum(0x8D6, CHK_ReachFaraway.Checked);
-            setFerryFlagFromNum(0x8E0, CHK_ReachNavel.Checked);
-            setFerryFlagFromNum(0x1D0, CHK_ReachBF.Checked);
-            setFerryFlagFromNum(0x1AE, CHK_InitialSouthern.Checked);
-            setFerryFlagFromNum(0x1AF, CHK_InitialBirth.Checked);
-            setFerryFlagFromNum(0x1B0, CHK_InitialFaraway.Checked);
-            setFerryFlagFromNum(0x1DB, CHK_InitialNavel.Checked);
+            SetFerryFlagFromNum(0x864, CHK_Catchable.Checked);
+            SetFerryFlagFromNum(0x8B3, CHK_ReachSouthern.Checked);
+            SetFerryFlagFromNum(0x8D5, CHK_ReachBirth.Checked);
+            SetFerryFlagFromNum(0x8D6, CHK_ReachFaraway.Checked);
+            SetFerryFlagFromNum(0x8E0, CHK_ReachNavel.Checked);
+            SetFerryFlagFromNum(0x1D0, CHK_ReachBF.Checked);
+            SetFerryFlagFromNum(0x1AE, CHK_InitialSouthern.Checked);
+            SetFerryFlagFromNum(0x1AF, CHK_InitialBirth.Checked);
+            SetFerryFlagFromNum(0x1B0, CHK_InitialFaraway.Checked);
+            SetFerryFlagFromNum(0x1DB, CHK_InitialNavel.Checked);
         }
         #endregion
 
@@ -299,13 +302,13 @@ namespace PKHeX.WinForms
                 SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
                 if (SetValToSav < 0) return;
                 if (val > 9999) val = 9999;
-                BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.getBlockOffset(0) + BFF[Facility][2 + SetValToSav] + 4 * BattleType + 2 * RBi);
+                BitConverter.GetBytes(val).CopyTo(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + SetValToSav] + 4 * BattleType + 2 * RBi);
                 return;
             }
             if (SetValToSav == -1)
             {
                 int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
-                int offset = SAV.getBlockOffset(0) + 0xCDC;
+                int offset = SAV.GetBlockOffset(0) + 0xCDC;
                 BitConverter.GetBytes(BitConverter.ToUInt32(SAV.Data, offset) & (uint)~(1 << p) | (uint)((CHK_Continue.Checked ? 1 : 0) << p)).CopyTo(SAV.Data, offset);
                 return;
             }
@@ -315,11 +318,11 @@ namespace PKHeX.WinForms
             editingval = true;
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
-                int vali = BitConverter.ToUInt16(SAV.Data, SAV.getBlockOffset(0) + BFF[Facility][2 + i] + 4 * BattleType + 2 * RBi);
+                int vali = BitConverter.ToUInt16(SAV.Data, SAV.GetBlockOffset(0) + BFF[Facility][2 + i] + 4 * BattleType + 2 * RBi);
                 if (vali > 9999) vali = 9999;
                 StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali;
             }
-            CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Data, SAV.getBlockOffset(0) + 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
+            CHK_Continue.Checked = (BitConverter.ToUInt32(SAV.Data, SAV.GetBlockOffset(0) + 0xCDC) & 1 << (BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi)) != 0;
             editingval = false;
         }
         private void ChangeStatVal(object sender, EventArgs e)
@@ -336,7 +339,7 @@ namespace PKHeX.WinForms
             StatAddrControl(SetValToSav: -1, SetSavToVal: false);
         }
 
-        private void readBF()
+        private void ReadBattleFrontier()
         {
             loading = true;
             BFF = new[] {
@@ -369,13 +372,13 @@ namespace PKHeX.WinForms
             StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
             SymbolColorA = new[] { Color.Transparent, Color.Silver, Color.Silver, Color.Gold };
             SymbolButtonA = new[] { BTN_SymbolA, BTN_SymbolT, BTN_SymbolS, BTN_SymbolG, BTN_SymbolK, BTN_SymbolL, BTN_SymbolB };
-            ofsSymbols = SAV.getBlockOffset(2) + 0x408;
+            ofsSymbols = SAV.GetBlockOffset(2) + 0x408;
             int iSymbols = BitConverter.ToInt32(SAV.Data, ofsSymbols) >> 4 & 0x7FFF;
             CHK_ActivatePass.Checked = (iSymbols >> 14 & 1) != 0;
             Symbols = new int[7];
             for (int i = 0; i < 7; i++)
                 Symbols[i] = iSymbols >> i * 2 & 3;
-            setSymbols();
+            SetFrontierSymbols();
 
             CB_Stats1.Items.Clear();
             foreach (string t in BFN)
@@ -384,12 +387,12 @@ namespace PKHeX.WinForms
             loading = false;
             CB_Stats1.SelectedIndex = 0;
         }
-        private void setSymbols()
+        private void SetFrontierSymbols()
         {
             for (int i = 0; i < SymbolButtonA.Length; i++)
                 SymbolButtonA[i].BackColor = SymbolColorA[Symbols[i]];
         }
-        private void saveBF()
+        private void SaveBattleFrontier()
         {
             uint iSymbols = 0;
             for (int i = 0; i < 7; i++)
@@ -410,7 +413,7 @@ namespace PKHeX.WinForms
             if (Symbols[index] == 1) Symbols[index] = 3;
             else Symbols[index] = (Symbols[index] + 1) & 3;
 
-            setSymbols();
+            SetFrontierSymbols();
         }
         #endregion
 

@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class XK3 : PKM // 3rd Generation PKM File
+    public class XK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
     {
         public static readonly byte[] ExtraBytes =
         {
@@ -18,40 +18,40 @@ namespace PKHeX.Core
         public XK3(byte[] decryptedData = null, string ident = null)
         {
             Data = (byte[])(decryptedData ?? new byte[SIZE_PARTY]).Clone();
-            PKMConverter.checkEncrypted(ref Data);
+            PKMConverter.CheckEncrypted(ref Data);
             Identifier = ident;
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
         public override PKM Clone() { return new XK3(Data) {Purification = Purification}; }
 
-        public override string getString(int Offset, int Count) => PKX.getBEString3(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength) => PKX.setBEString3(value, maxLength);
+        public override string GetString(int Offset, int Count) => PKX.GetBEString3(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => PKX.SetBEString3(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => getData(0x4E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x4E); } }
-        public override byte[] OT_Trash { get => getData(0x38, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x38); } }
+        public override byte[] Nickname_Trash { get => GetData(0x4E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x4E); } }
+        public override byte[] OT_Trash { get => GetData(0x38, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x38); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
         public override int Nature { get => (int)(PID % 25); set { } }
-        public override int AltForm { get => Species == 201 ? PKX.getUnownForm(PID) : 0; set { } }
+        public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
 
-        public override bool IsNicknamed { get => PKX.getIsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
-        public override int Gender { get => PKX.getGender(Species, PID); set { } }
+        public override bool IsNicknamed { get => PKX.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
+        public override int Gender { get => PKX.GetGender(Species, PID); set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-        public override int Ability { get { int[] abils = PersonalTable.RS.getAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
+        public override int Ability { get { int[] abils = PersonalTable.RS.GetAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }
         public override int CurrentHandler { get => 0; set { } }
         public override int Egg_Location { get => 0; set { } }
 
         // Silly Attributes
         public override ushort Sanity { get => 0; set { } } // valid flag set in pkm structure.
-        public override ushort Checksum { get => SaveUtil.ccitt16(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
+        public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
         public override bool ChecksumValid => Valid;
 
-        public override int Species { get => PKX.getG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)PKX.getG3Species(value)).CopyTo(Data, 0x00); }
-        public override int SpriteItem => PKX.getG4Item((ushort)HeldItem);
+        public override int Species { get => PKX.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)PKX.GetG3Species(value)).CopyTo(Data, 0x00); }
+        public override int SpriteItem => PKX.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x02); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x04); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x04); }
         public override int OT_Friendship { get => Data[0x06]; set => Data[0x06] = (byte)value; }
@@ -86,13 +86,13 @@ namespace PKHeX.Core
         public override bool FatefulEncounter { get => Data[0x30] == 1; set => Data[0x30] = (byte)(value ? 1 : 0); }
         // 0x31-0x32 Unknown
         public new int EncounterType { get => Data[0x33]; set => Data[0x33] = (byte)value; }
-        public override int Version { get => SaveUtil.getG3VersionID(Data[0x34]); set => Data[0x34] = (byte)SaveUtil.getCXDVersionID(value); }
+        public override int Version { get => SaveUtil.GetG3VersionID(Data[0x34]); set => Data[0x34] = (byte)SaveUtil.GetCXDVersionID(value); }
         public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
-        public override int Language { get => PKX.getMainLangIDfromGC(Data[0x37]); set => Data[0x37] = PKX.getGCLangIDfromMain((byte)value); }
-        public override string OT_Name { get => getString(0x38, 20); set => setString(value, 10).CopyTo(Data, 0x38); } // +2 terminator
-        public override string Nickname { get => getString(0x4E, 20); set { setString(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get => getString(0x64, 20); set => setString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
+        public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = PKX.GetGCLangIDfromMain((byte)value); }
+        public override string OT_Name { get => GetString(0x38, 20); set => SetString(value, 10).CopyTo(Data, 0x38); } // +2 terminator
+        public override string Nickname { get => GetString(0x4E, 20); set { SetString(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
+        private string Nickname2 { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
         // 0x7A-0x7B Unknown
         private ushort RIB0 { get => BigEndian.ToUInt16(Data, 0x7C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x7C); }
         public bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)(RIB0 & ~(1 << 15) | (ushort)(value ? 1 << 15 : 0)); }
@@ -197,7 +197,7 @@ namespace PKHeX.Core
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => Language == 1;
 
-        public override byte[] Encrypt()
+        protected override byte[] Encrypt()
         {
             return (byte[])Data.Clone();
         }

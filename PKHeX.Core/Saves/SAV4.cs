@@ -19,13 +19,13 @@ namespace PKHeX.Core
                 Version = GameVersion.HGSS;
             else if (versionOverride != GameVersion.Any)
                 Version = versionOverride;
-            else Version = SaveUtil.getIsG4SAV(Data);
+            else Version = SaveUtil.GetIsG4SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
 
-            getActiveGeneralBlock();
-            getActiveStorageBlock();
-            getSAVOffsets();
+            GetActiveGeneralBlock();
+            GetActiveStorageBlock();
+            GetSAVOffsets();
 
             switch (Version)
             {
@@ -35,14 +35,14 @@ namespace PKHeX.Core
             }
 
             if (!Exportable)
-                resetBoxes();
+                ClearBoxes();
         }
 
         // Configuration
         public override SaveFile Clone() { return new SAV4(Data, Version); }
 
         public override int SIZE_STORED => PKX.SIZE_4STORED;
-        public override int SIZE_PARTY => PKX.SIZE_4PARTY;
+        protected override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override PKM BlankPKM => new PK4();
         public override Type PKMType => typeof(PK4);
 
@@ -64,7 +64,7 @@ namespace PKHeX.Core
         public override int MaxGameID => 15; // Colo/XD
 
         // Checksums
-        private static int[][] getCHKOffsets(GameVersion g)
+        private static int[][] GetChecksumOffsets(GameVersion g)
         {
             // start, end, chkoffset
             switch (g)
@@ -80,26 +80,26 @@ namespace PKHeX.Core
                     return null;
             }
         }
-        protected override void setChecksums()
+        protected override void SetChecksums()
         {
-            int[][] c = getCHKOffsets(Version);
+            int[][] c = GetChecksumOffsets(Version);
             if (c == null)
                 return;
 
-            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] - c[0][0]))).CopyTo(Data, c[0][2] + GBO);
-            BitConverter.GetBytes(SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] - c[1][0]))).CopyTo(Data, c[1][2] + SBO);
+            BitConverter.GetBytes(SaveUtil.CRC16_CCITT(Data, c[0][0] + GBO, c[0][1] - c[0][0])).CopyTo(Data, c[0][2] + GBO);
+            BitConverter.GetBytes(SaveUtil.CRC16_CCITT(Data, c[1][0] + SBO, c[1][1] - c[1][0])).CopyTo(Data, c[1][2] + SBO);
         }
         public override bool ChecksumsValid
         {
             get
             {
-                int[][] c = getCHKOffsets(Version);
+                int[][] c = GetChecksumOffsets(Version);
                 if (c == null)
                     return false;
 
-                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] - c[0][0])) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
+                if (SaveUtil.CRC16_CCITT(Data, c[0][0] + GBO, c[0][1] - c[0][0]) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
                     return false; // Small Fail
-                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] - c[1][0])) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
+                if (SaveUtil.CRC16_CCITT(Data, c[1][0] + SBO, c[1][1] - c[1][0]) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
                     return false; // Large Fail
 
                 return true;
@@ -109,14 +109,14 @@ namespace PKHeX.Core
         {
             get
             {
-                int[][] c = getCHKOffsets(Version);
+                int[][] c = GetChecksumOffsets(Version);
                 if (c == null)
                     return "Unable to check Save File.";
 
                 string r = "";
-                if (SaveUtil.ccitt16(getData(c[0][0] + GBO, c[0][1] - c[0][0])) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
+                if (SaveUtil.CRC16_CCITT(Data, c[0][0] + GBO, c[0][1] - c[0][0]) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
                     r += "Small block checksum is invalid" + Environment.NewLine;
-                if (SaveUtil.ccitt16(getData(c[1][0] + SBO, c[1][1] - c[1][0])) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
+                if (SaveUtil.CRC16_CCITT(Data, c[1][0] + SBO, c[1][1] - c[1][0]) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
                     r += "Large block checksum is invalid" + Environment.NewLine;
 
                 return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
@@ -130,8 +130,8 @@ namespace PKHeX.Core
         private int SBO => 0x40000 * storageBlock;
         private int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
-        public int getGBO => GBO;
-        private void getActiveGeneralBlock()
+        public int GetGBO => GBO;
+        private void GetActiveGeneralBlock()
         {
             if (Version < 0)
                 return;
@@ -139,9 +139,9 @@ namespace PKHeX.Core
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (getData(0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 1; return; }
-            if (getData(0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { generalBlock = 0; return; }
 
             // Check SaveCount for current save
@@ -150,7 +150,7 @@ namespace PKHeX.Core
             else if (Version == GameVersion.HGSS) ofs = 0xF618; // HGSS
             generalBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
         }
-        private void getActiveStorageBlock()
+        private void GetActiveStorageBlock()
         {
             if (Version < 0)
                 return;
@@ -163,14 +163,14 @@ namespace PKHeX.Core
 
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            if (getData(ofs + 0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(ofs + 0x00000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { storageBlock = 1; return; }
-            if (getData(ofs + 0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
+            if (GetData(ofs + 0x40000, 10).SequenceEqual(Enumerable.Repeat((byte)0xFF, 10)))
             { storageBlock = 0; return; }
 
             storageBlock = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000) ? 0 : 1;
         }
-        private void getSAVOffsets()
+        private void GetSAVOffsets()
         {
             if (Version < 0)
                 return;
@@ -206,6 +206,7 @@ namespace PKHeX.Core
                     EventConst = 0xD9C + GBO;
                     EventFlag = 0xFDC + GBO;
                     Daycare = 0x141C + GBO;
+                    OFS_HONEY = 0x72E4 + GBO;
                     Box = 0xC104 + SBO;
                     break;
                 case GameVersion.Pt:
@@ -234,8 +235,10 @@ namespace PKHeX.Core
                     LegalMailItems = Legal.Pouch_Mail_Pt;
 
                     HeldItems = Legal.HeldItems_Pt;
-
+                    EventConst = 0xDAC + GBO;
+                    EventFlag = 0xFEC + GBO;
                     Daycare = 0x1654 + GBO;
+                    OFS_HONEY = 0x7F38 + GBO;
                     Box = 0xCF30 + SBO;
                     break;
                 case GameVersion.HGSS:
@@ -283,23 +286,23 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch(InventoryType.Items, LegalItems, 995, OFS_PouchHeldItem),
+                    new InventoryPouch(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
                     new InventoryPouch(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 95, OFS_PouchTMHM),
-                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 995, OFS_PouchMedicine),
-                    new InventoryPouch(InventoryType.Berries, LegalBerries, 995, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.Balls, LegalBalls, 995, OFS_PouchBalls),
-                    new InventoryPouch(InventoryType.BattleItems, LegalBattleItems, 995, OFS_BattleItems),
-                    new InventoryPouch(InventoryType.MailItems, LegalMailItems, 995, OFS_MailItems),
+                    new InventoryPouch(InventoryType.TMHMs, LegalTMHMs, 99, OFS_PouchTMHM),
+                    new InventoryPouch(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
+                    new InventoryPouch(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
+                    new InventoryPouch(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls),
+                    new InventoryPouch(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
+                    new InventoryPouch(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
                 };
                 foreach (var p in pouch)
-                    p.getPouch(ref Data);
+                    p.GetPouch(ref Data);
                 return pouch;
             }
             set
             {
                 foreach (var p in value)
-                    p.setPouch(ref Data);
+                    p.SetPouch(ref Data);
             }
         }
 
@@ -309,11 +312,11 @@ namespace PKHeX.Core
             get => Data[Party - 4];
             protected set => Data[Party - 4] = (byte)value;
         }
-        public override int getBoxOffset(int box)
+        public override int GetBoxOffset(int box)
         {
             return Box + SIZE_STORED*box*30 + (Version == GameVersion.HGSS ? box * 0x10 : 0);
         }
-        public override int getPartyOffset(int slot)
+        public override int GetPartyOffset(int slot)
         {
             return Party + SIZE_PARTY*slot;
         }
@@ -321,8 +324,8 @@ namespace PKHeX.Core
         // Trainer Info
         public override string OT
         {
-            get => getString(Trainer1, 16);
-            set => setString(value, OTLength).CopyTo(Data, Trainer1);
+            get => GetString(Trainer1, 16);
+            set => SetString(value, OTLength).CopyTo(Data, Trainer1);
         }
         public override ushort TID
         {
@@ -503,12 +506,13 @@ namespace PKHeX.Core
         }
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
+        public int CurrentPoketchApp { get => Data[0x1162]; set => Data[0x1162] = (byte)Math.Min(24, value); /* Alarm Clock */ }
 
         // Storage
         public override int CurrentBox
         {
-            get => Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4];
-            set => Data[Version == GameVersion.HGSS ? getBoxOffset(BoxCount) : Box - 4] = (byte)value;
+            get => Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4];
+            set => Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4] = (byte)value;
         }
         private static int InvertHGSSBoxWallpaperAlias(int value)
         {
@@ -517,75 +521,75 @@ namespace PKHeX.Core
                 return value ^ 0x30;
             return value;
         }
-        public override int getBoxWallpaper(int box)
+        public override int GetBoxWallpaper(int box)
         {
-            int value = base.getBoxWallpaper(box);
+            int value = base.GetBoxWallpaper(box);
             return Version == GameVersion.HGSS ? InvertHGSSBoxWallpaperAlias(value) : value;
         }
-        public override void setBoxWallpaper(int box, int value)
+        public override void SetBoxWallpaper(int box, int value)
         {
             if (Version == GameVersion.HGSS)
                 value = InvertHGSSBoxWallpaperAlias(value);
-            base.setBoxWallpaper(box, value);
+            base.SetBoxWallpaper(box, value);
         }
-        protected override int getBoxWallpaperOffset(int box)
+        protected override int GetBoxWallpaperOffset(int box)
         {
             // Box Wallpaper is directly after the Box Names
-            int offset = getBoxOffset(BoxCount);
+            int offset = GetBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
             offset += BoxCount*0x28 + box;
             return offset;
         }
-        public override string getBoxName(int box)
+        public override string GetBoxName(int box)
         {
-            int offset = getBoxOffset(BoxCount);
+            int offset = GetBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            return getString(offset + box*0x28, 0x28);
+            return GetString(offset + box*0x28, 0x28);
         }
-        public override void setBoxName(int box, string value)
+        public override void SetBoxName(int box, string value)
         {
             if (value.Length > 13)
                 value = value.Substring(0, 13); // Hard cap
-            int offset = getBoxOffset(BoxCount);
+            int offset = GetBoxOffset(BoxCount);
             if (Version == GameVersion.HGSS) offset += 0x8;
-            setData(setString(value, 13), offset + box*0x28);
+            SetData(SetString(value, 13), offset + box*0x28);
         }
-        public override PKM getPKM(byte[] data)
+        public override PKM GetPKM(byte[] data)
         {
             return new PK4(data);
         }
-        public override byte[] decryptPKM(byte[] data)
+        public override byte[] DecryptPKM(byte[] data)
         {
-            return PKX.decryptArray45(data);
+            return PKX.DecryptArray45(data);
         }
 
         // Daycare
-        public override int getDaycareSlotOffset(int loc, int slot)
+        public override int GetDaycareSlotOffset(int loc, int slot)
         {
             return Daycare + slot * SIZE_PARTY;
         }
-        public override uint? getDaycareEXP(int loc, int slot)
+        public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = Daycare + (slot+1)*SIZE_PARTY - 4;
             return BitConverter.ToUInt32(Data, ofs);
         }
-        public override bool? getDaycareOccupied(int loc, int slot)
+        public override bool? IsDaycareOccupied(int loc, int slot)
         {
             return null;
         }
-        public override void setDaycareEXP(int loc, int slot, uint EXP)
+        public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = Daycare + (slot+1)*SIZE_PARTY - 4;
             BitConverter.GetBytes(EXP).CopyTo(Data, ofs);
         }
-        public override void setDaycareOccupied(int loc, int slot, bool occupied)
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
 
         }
 
         // Mystery Gift
-        public bool MysteryGiftActive { get => (Data[GBO + 72] & 1) == 1; set => Data[GBO + 72] = (byte)((Data[GBO + 72] & 0xFE) | (value ? 1 : 0)); }
-        private static bool getIsMysteryGiftAvailable(MysteryGift[] value)
+        private bool MysteryGiftActive { get => (Data[GBO + 72] & 1) == 1; set => Data[GBO + 72] = (byte)((Data[GBO + 72] & 0xFE) | (value ? 1 : 0)); }
+        private static bool IsMysteryGiftAvailable(MysteryGift[] value)
         {
             if (value == null)
                 return false;
@@ -598,7 +602,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static int[] matchMysteryGifts(MysteryGift[] value)
+        private static int[] MatchMysteryGifts(MysteryGift[] value)
         {
             if (value == null)
                 return null;
@@ -647,7 +651,7 @@ namespace PKHeX.Core
             }
             set
             {
-                bool available = getIsMysteryGiftAvailable(value.Gifts);
+                bool available = IsMysteryGiftAvailable(value.Gifts);
                 MysteryGiftActive |= available;
                 value.Flags[2047] = available;
 
@@ -716,7 +720,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < value.Length; i++)
                 {
                     byte[] magic = BitConverter.GetBytes(value[i] ? MysteryGiftDPSlotActive : 0); // 4 bytes
-                    setData(magic, ofs + 4*i);
+                    SetData(magic, ofs + 4*i);
                 }
             }
         }
@@ -727,9 +731,9 @@ namespace PKHeX.Core
             {
                 MysteryGift[] cards = new MysteryGift[8 + 3];
                 for (int i = 0; i < 8; i++) // 8 PGT
-                    cards[i] = new PGT(getData(WondercardData + i * PGT.Size, PGT.Size));
+                    cards[i] = new PGT(GetData(WondercardData + i * PGT.Size, PGT.Size));
                 for (int i = 8; i < 11; i++) // 3 PCD
-                    cards[i] = new PCD(getData(WondercardData + 8 * PGT.Size + (i-8) * PCD.Size, PCD.Size));
+                    cards[i] = new PCD(GetData(WondercardData + 8 * PGT.Size + (i-8) * PCD.Size, PCD.Size));
                 return cards;
             }
             set
@@ -737,20 +741,20 @@ namespace PKHeX.Core
                 if (value == null)
                     return;
 
-                var Matches = matchMysteryGifts(value); // automatically applied
+                var Matches = MatchMysteryGifts(value); // automatically applied
                 if (Matches == null)
                     return;
 
                 for (int i = 0; i < 8; i++) // 8 PGT
                     if (value[i] is PGT)
-                        setData(value[i].Data, WondercardData + i*PGT.Size);
+                        SetData(value[i].Data, WondercardData + i*PGT.Size);
                 for (int i = 8; i < 11; i++) // 3 PCD
                     if (value[i] is PCD)
-                        setData(value[i].Data, WondercardData + 8*PGT.Size + (i - 8)*PCD.Size);
+                        SetData(value[i].Data, WondercardData + 8*PGT.Size + (i - 8)*PCD.Size);
             }
         }
 
-        protected override void setDex(PKM pkm)
+        protected override void SetDex(PKM pkm)
         {
             if (pkm.Species == 0)
                 return;
@@ -811,7 +815,7 @@ namespace PKHeX.Core
             }
 
             int FormOffset1 = PokeDex + 4 + brSize * 4 + 4;
-            var forms = getForms(pkm.Species);
+            var forms = GetForms(pkm.Species);
             if (forms != null)
             {
                 if (pkm.Species == 201) // Unown
@@ -830,8 +834,8 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    checkInsertForm(ref forms, pkm.AltForm);
-                    setForms(pkm.Species, forms);
+                    CheckInsertForm(ref forms, pkm.AltForm);
+                    SetForms(pkm.Species, forms);
                 }
             }
 
@@ -848,7 +852,7 @@ namespace PKHeX.Core
             Data[PokeDexLanguageFlags + (DP ? dpl : pkm.Species)] |= (byte)(1 << lang);
         }
 
-        public override bool getCaught(int species)
+        public override bool GetCaught(int species)
         {
             int bit = species - 1;
             int bd = bit >> 3; // div8
@@ -857,7 +861,7 @@ namespace PKHeX.Core
                       + 0x4; // Magic
             return (1 << bm & Data[ofs + bd]) != 0;
         }
-        public override bool getSeen(int species)
+        public override bool GetSeen(int species)
         {
             const int brSize = 0x40;
 
@@ -870,28 +874,28 @@ namespace PKHeX.Core
             return (1 << bm & Data[ofs + bd + brSize*1]) != 0;
         }
 
-        public int[] getForms(int species)
+        public int[] GetForms(int species)
         {
             const int brSize = 0x40;
             if (species == 386)
             {
                 uint val = (uint) (Data[PokeDex + 0x4 + 1*brSize - 1] | Data[PokeDex + 0x4 + 2*brSize - 1] << 8);
-                return getDexFormValues(val, 4, 4);
+                return GetDexFormValues(val, 4, 4);
             }
 
             int FormOffset1 = PokeDex + 4 + 4*brSize + 4;
             switch (species)
             {
                 case 422: // Shellos
-                    return getDexFormValues(Data[FormOffset1 + 0], 1, 2);
+                    return GetDexFormValues(Data[FormOffset1 + 0], 1, 2);
                 case 423: // Gastrodon
-                    return getDexFormValues(Data[FormOffset1 + 1], 1, 2);
+                    return GetDexFormValues(Data[FormOffset1 + 1], 1, 2);
                 case 412: // Burmy
-                    return getDexFormValues(Data[FormOffset1 + 2], 2, 3);
+                    return GetDexFormValues(Data[FormOffset1 + 2], 2, 3);
                 case 413: // Wormadam
-                    return getDexFormValues(Data[FormOffset1 + 3], 2, 3);
+                    return GetDexFormValues(Data[FormOffset1 + 3], 2, 3);
                 case 201: // Unown
-                    return getData(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
+                    return GetData(FormOffset1 + 4, 0x1C).Select(i => (int)i).ToArray();
             }
             if (DP)
                 return null;
@@ -901,26 +905,26 @@ namespace PKHeX.Core
             switch (species)
             {
                 case 479: // Rotom
-                    return getDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6);
+                    return GetDexFormValues(BitConverter.ToUInt32(Data, FormOffset2), 3, 6);
                 case 492: // Shaymin
-                    return getDexFormValues(Data[FormOffset2 + 4], 1, 2);
+                    return GetDexFormValues(Data[FormOffset2 + 4], 1, 2);
                 case 487: // Giratina
-                    return getDexFormValues(Data[FormOffset2 + 5], 1, 2);
+                    return GetDexFormValues(Data[FormOffset2 + 5], 1, 2);
                 case 172:
                     if (!HGSS)
                         return null;
-                    return getDexFormValues(Data[FormOffset2 + 6], 2, 3);
+                    return GetDexFormValues(Data[FormOffset2 + 6], 2, 3);
             }
 
             return null;
         }
-        public void setForms(int spec, int[] forms)
+        public void SetForms(int spec, int[] forms)
         {
             const int brSize = 0x40;
             switch (spec)
             {
                 case 386: // Deoxys
-                    uint newval = setDexFormValues(forms, 4, 4);
+                    uint newval = SetDexFormValues(forms, 4, 4);
                     Data[PokeDex + 0x4 + 1*brSize - 1] = (byte) (newval & 0xFF);
                     Data[PokeDex + 0x4 + 2*brSize - 1] = (byte) ((newval >> 8) & 0xFF);
                     break;
@@ -930,16 +934,16 @@ namespace PKHeX.Core
             switch (spec)
             {
                 case 422: // Shellos
-                    Data[FormOffset1 + 0] = (byte)setDexFormValues(forms, 1, 2);
+                    Data[FormOffset1 + 0] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
                 case 423: // Gastrodon
-                    Data[FormOffset1 + 1] = (byte)setDexFormValues(forms, 1, 2);
+                    Data[FormOffset1 + 1] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
                 case 412: // Burmy
-                    Data[FormOffset1 + 2] = (byte)setDexFormValues(forms, 2, 3);
+                    Data[FormOffset1 + 2] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
                 case 413: // Wormadam
-                    Data[FormOffset1 + 3] = (byte)setDexFormValues(forms, 2, 3);
+                    Data[FormOffset1 + 3] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
                 case 201: // Unown
                     int ofs = FormOffset1 + 4;
@@ -959,23 +963,23 @@ namespace PKHeX.Core
             switch (spec)
             {
                 case 479: // Rotom
-                    BitConverter.GetBytes(setDexFormValues(forms, 3, 6)).CopyTo(Data, FormOffset2);
+                    BitConverter.GetBytes(SetDexFormValues(forms, 3, 6)).CopyTo(Data, FormOffset2);
                     return;
                 case 492: // Shaymin
-                    Data[FormOffset2 + 4] = (byte)setDexFormValues(forms, 1, 2);
+                    Data[FormOffset2 + 4] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
                 case 487: // Giratina
-                    Data[FormOffset2 + 5] = (byte)setDexFormValues(forms, 1, 2);
+                    Data[FormOffset2 + 5] = (byte)SetDexFormValues(forms, 1, 2);
                     return;
                 case 172: // Pichu
                     if (!HGSS)
                         return;
-                    Data[FormOffset2 + 6] = (byte)setDexFormValues(forms, 2, 3);
+                    Data[FormOffset2 + 6] = (byte)SetDexFormValues(forms, 2, 3);
                     return;
             }
         }
 
-        private static int[] getDexFormValues(uint Value, int BitsPerForm, int readCt)
+        private static int[] GetDexFormValues(uint Value, int BitsPerForm, int readCt)
         {
             int[] Forms = new int[readCt];
             int n1 = 0xFF >> (8 - BitsPerForm);
@@ -989,7 +993,7 @@ namespace PKHeX.Core
             }
             return Forms;
         }
-        private static uint setDexFormValues(int[] Forms, int BitsPerForm, int readCt)
+        private static uint SetDexFormValues(int[] Forms, int BitsPerForm, int readCt)
         {
             int n1 = 0xFF >> (8 - BitsPerForm);
             uint Value = 0xFFFFFFFF << (Forms.Length*BitsPerForm);
@@ -1003,7 +1007,7 @@ namespace PKHeX.Core
             }
             return Value;
         }
-        private static bool checkInsertForm(ref int[] Forms, int FormNum)
+        private static bool CheckInsertForm(ref int[] Forms, int FormNum)
         {
             if (Forms.Any(num => num == FormNum))
             {
@@ -1030,17 +1034,22 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.DP:
-                        if ((Data[0x1413 + GBO] & 1) != 0) return 4;
-                        else if ((Data[0x1415 + GBO] & 1) != 0) return 3;
-                        else if ((Data[0x1404 + GBO] & 1) != 0) return 2;
-                        else if ((Data[0x1414 + GBO] & 1) != 0) return 1;
+                        if (Data[0x1413 + GBO] != 0) return 4;
+                        else if (Data[0x1415 + GBO] != 0) return 3;
+                        else if (Data[0x1404 + GBO] != 0) return 2;
+                        else if (Data[0x1414 + GBO] != 0) return 1;
                         else return 0;
                     case GameVersion.HGSS:
-                        if ((Data[0x15ED + GBO] & 1) != 0) return 3;
-                        else if ((Data[0x15EF + GBO] & 1) != 0) return 2;
-                        else if ((Data[0x15EE + GBO] & 1) != 0 && (Data[0x10D1 + GBO] & 8) != 0) return 1;
+                        if (Data[0x15ED + GBO] != 0) return 3;
+                        else if (Data[0x15EF + GBO] != 0) return 2;
+                        else if (Data[0x15EE + GBO] != 0 && (Data[0x10D1 + GBO] & 8) != 0) return 1;
                         else return 0;
-                    // case GameVersion.Pt: break;
+                    case GameVersion.Pt:
+                        if (Data[0x1641 + GBO] != 0) return 4;
+                        else if (Data[0x1643 + GBO] != 0) return 3;
+                        else if (Data[0x1640 + GBO] != 0) return 2;
+                        else if (Data[0x1642 + GBO] != 0) return 1;
+                        else return 0;
                     default: return 0;
                 }
             }
@@ -1049,53 +1058,41 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.DP:
-                        Data[0x1413 + GBO] = (byte)((Data[0x1413 + GBO] & 0xFE) | (value == 4 ? 1 : 0));
-                        Data[0x1415 + GBO] = (byte)((Data[0x1415 + GBO] & 0xFE) | (value >= 3 ? 1 : 0));
-                        Data[0x1404 + GBO] = (byte)((Data[0x1404 + GBO] & 0xFE) | (value >= 2 ? 1 : 0));
-                        Data[0x1414 + GBO] = (byte)((Data[0x1414 + GBO] & 0xFE) | (value >= 1 ? 1 : 0));
+                        Data[0x1413 + GBO] = (byte)(value == 4 ? 1 : 0);
+                        Data[0x1415 + GBO] = (byte)(value >= 3 ? 1 : 0);
+                        Data[0x1404 + GBO] = (byte)(value >= 2 ? 1 : 0);
+                        Data[0x1414 + GBO] = (byte)(value >= 1 ? 1 : 0);
                         break;
                     case GameVersion.HGSS:
-                        Data[0x15ED + GBO] = (byte)((Data[0x15ED + GBO] & 0xFE) | (value == 3 ? 1 : 0));
-                        Data[0x15EF + GBO] = (byte)((Data[0x15EF + GBO] & 0xFE) | (value >= 2 ? 1 : 0));
-                        Data[0x15EE + GBO] = (byte)((Data[0x15EE + GBO] & 0xFE) | (value >= 1 ? 1 : 0));
-                        Data[0x10D1 + GBO] = (byte)((Data[0x10D1 + GBO] & 0xF7) | (value >= 1 ? 8 : 0));
+                        Data[0x15ED + GBO] = (byte)(value == 3 ? 1 : 0);
+                        Data[0x15EF + GBO] = (byte)(value >= 2 ? 1 : 0);
+                        Data[0x15EE + GBO] = (byte)(value >= 1 ? 1 : 0);
+                        Data[0x10D1 + GBO] = (byte)(Data[0x10D1 + GBO] & ~8 | (value >= 1 ? 8 : 0));
                         break;
-                    // case GameVersion.Pt: break;
+                    case GameVersion.Pt:
+                        Data[0x1641 + GBO] = (byte)(value == 4 ? 1 : 0);
+                        Data[0x1643 + GBO] = (byte)(value >= 3 ? 1 : 0);
+                        Data[0x1640 + GBO] = (byte)(value >= 2 ? 1 : 0);
+                        Data[0x1642 + GBO] = (byte)(value >= 1 ? 1 : 0);
+                        break;
                     default: return;
                 }
             }
         }
 
         // Honey Trees
-        private const int HONEY_DP = 0x72E4;
-        private const int HONEY_PT = 0x7F38;
+        private int OFS_HONEY = int.MinValue;
         private const int HONEY_SIZE = 8;
-        public HoneyTree getHoneyTree(int index)
+        public HoneyTree GetHoneyTree(int index)
         {
-            if (index > 21)
+            if (OFS_HONEY <= 0 || index > 21)
                 return null;
-            switch (Version)
-            {
-                case GameVersion.DP:
-                    return new HoneyTree(getData(HONEY_DP + HONEY_SIZE*index, HONEY_SIZE));
-                case GameVersion.Pt:
-                    return new HoneyTree(getData(HONEY_PT + HONEY_SIZE*index, HONEY_SIZE));
-            }
-            return null;
+            return new HoneyTree(GetData(OFS_HONEY + HONEY_SIZE * index, HONEY_SIZE));
         }
-        public void setHoneyTree(HoneyTree tree, int index)
+        public void SetHoneyTree(HoneyTree tree, int index)
         {
-            if (index > 21)
-                return;
-            switch (Version)
-            {
-                case GameVersion.DP:
-                    setData(tree.Data, HONEY_DP + HONEY_SIZE*index);
-                    break;
-                case GameVersion.Pt:
-                    setData(tree.Data, HONEY_PT + HONEY_SIZE*index);
-                    break;
-            }
+            if (index <= 21 && OFS_HONEY > 0)
+                SetData(tree.Data, OFS_HONEY + HONEY_SIZE * index);
         }
         public int[] MunchlaxTrees
         {
@@ -1116,85 +1113,13 @@ namespace PKHeX.Core
                 return new[] { A, B, C, D };
             }
         }
-        public int PoketchApps
-        {
-            get
-            {
-                int ret = 0;
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x114F; break;
-                    default: return ret;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 25; i++)
-                {
-                    if (Data[ofs + i] != 0) ret |= 1 << i;
-                }
-                return ret;
-            }
-            set
-            {
-                int c = 0;
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x114F; break;
-                    default: return;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 25; i++)
-                {
-                    if ((value & 1 << i) != 0)
-                    {
-                        c++;
-                        if (Data[ofs + i] == 0)
-                            Data[ofs + i] = 1;
-                    }
-                    else Data[ofs + i] = 0;
-                }
-                Data[ofs - 2] = (byte)c;
-                Data[ofs - 1] = 0; // current used, force set for first App.
-            }
-        }
-        public byte[] PoketchDotArtist
-        {
-            get
-            {
-                byte[] ret = new byte[120]; // 2bit*24px*20px
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x1176; break;
-                    default: return ret;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 120; i++)
-                    ret[i] = Data[ofs + i];
-                return ret;
-            }
-            set
-            {
-                int ofs;
-                switch (Version)
-                {
-                    case GameVersion.DP: ofs = 0x1176; break;
-                    default: return;
-                }
-                ofs += GBO;
-                for (int i = 0; i < 120; i++)
-                    Data[ofs + i] = value[i];
-                Data[ofs - 0x2A] |= 0x04; // 0x114C "Touch!"
-            }
-        }
         
-        public override string getString(int Offset, int Count) => PKX.getString4(Data, Offset, Count);
-        public override byte[] setString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
+        public override string GetString(int Offset, int Count) => PKX.GetString4(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.setString4(value, maxLength, PadToSize, PadWith);
+            return PKX.SetString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

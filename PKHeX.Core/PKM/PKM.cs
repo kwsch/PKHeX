@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     public abstract class PKM
     {
-        public static readonly string[] Extensions = PKX.getPKMExtensions();
+        public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
         public string Extension => GetType().Name.ToLower();
@@ -23,14 +23,14 @@ namespace PKHeX.Core
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
-        public abstract string getString(int Offset, int Length);
-        public abstract byte[] setString(string value, int maxLength);
+        public abstract string GetString(int Offset, int Length);
+        public abstract byte[] SetString(string value, int maxLength);
 
         // Trash Bytes
         public abstract byte[] Nickname_Trash { get; set; }
         public abstract byte[] OT_Trash { get; set; }
         public virtual byte[] HT_Trash { get; set; }
-        public byte[] getData(int Offset, int Length)
+        protected byte[] GetData(int Offset, int Length)
         {
             if (Offset + Length > Data.Length)
                 return null;
@@ -55,9 +55,9 @@ namespace PKHeX.Core
                     return chk;
             }
         }
-        public abstract byte[] Encrypt();
+        protected abstract byte[] Encrypt();
         public abstract int Format { get; }
-        public byte[] Write()
+        private byte[] Write()
         {
             RefreshChecksum();
             return Data;
@@ -325,15 +325,15 @@ namespace PKHeX.Core
         public bool PKRS_Infected => PKRS_Strain > 0;
         public bool PKRS_Cured => PKRS_Days == 0 && PKRS_Strain > 0;
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
-        public int CurrentLevel { get => PKX.getLevel(Species, EXP); set => EXP = PKX.getEXP(value, Species); }
+        public int CurrentLevel { get => PKX.GetLevel(Species, EXP); set => EXP = PKX.GetEXP(value, Species); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
         public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
         public int MarkSquare      { get => Markings[2]; set { var marks = Markings; marks[2] = value; Markings = marks; } }
         public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
         public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
-        public string ShowdownText => ShowdownSet.getShowdownText(this);
-        public string[] QRText => this.getQRText();
+        public string ShowdownText => ShowdownSet.GetShowdownText(this);
+        public string[] QRText => this.GetQRLines();
 
         public virtual string FileName
         {
@@ -419,14 +419,14 @@ namespace PKHeX.Core
             set { if (value?.Length != 6) return; CNT_Cool = value[0]; CNT_Beauty = value[1]; CNT_Cute = value[2]; CNT_Smart = value[3]; CNT_Tough = value[4]; CNT_Sheen = value[5]; }
         }
 
-        protected static int getHiddenPowerBitVal(int[] ivs)
+        protected static int GetHiddenPowerBitVal(int[] ivs)
         {
             int sum = 0;
             for (int i = 0; i < ivs.Length; i++)
                 sum |= (ivs[i] & 1) << i;
             return sum;
         }
-        private int HPVal => getHiddenPowerBitVal(new[] {IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD});
+        private int HPVal => GetHiddenPowerBitVal(new[] {IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD});
         public virtual int HPPower => Format < 6 ? 40*HPVal/63 + 30 : 60;
         public virtual int HPType
         {
@@ -484,10 +484,11 @@ namespace PKHeX.Core
         public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
-        public virtual bool IsOriginValid => Species <= Legal.getMaxSpeciesOrigin(Format);
+        public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
 
         public virtual bool SecretSuperTrainingUnlocked { get => false; set { } }
         public virtual bool SecretSuperTrainingComplete { get => false; set { } }
+        public virtual int SuperTrainingMedalCount(int maxCount = 30) => 0;
 
         public virtual int HyperTrainFlags { get => 0; set { } }
         public virtual bool HT_HP { get => false; set { } }
@@ -532,7 +533,7 @@ namespace PKHeX.Core
                 return false;
 
             // Sanity Check Species ID
-            if (Legal.getMaxSpeciesOrigin(GenNumber) < species && !Legal.getFutureGenEvolutions(GenNumber).Contains(species))
+            if (Legal.GetMaxSpeciesOrigin(GenNumber) < species && !Legal.GetFutureGenEvolutions(GenNumber).Contains(species))
                 return false;
 
             // Trade generation 1 -> 2 
@@ -571,7 +572,7 @@ namespace PKHeX.Core
         /// Checks if the current <see cref="Gender"/> is valid.
         /// </summary>
         /// <returns>True if valid, False if invalid.</returns>
-        public virtual bool getGenderIsValid()
+        public virtual bool IsGenderValid()
         {
             int gender = Gender;
             int gv = PersonalInfo.Gender;
@@ -585,7 +586,7 @@ namespace PKHeX.Core
             if (GenNumber >= 6)
                 return true;
 
-            return gender == PKX.getGender(PID, gv);
+            return gender == PKX.GetGender(PID, gv);
         }
 
         /// <summary>
@@ -670,7 +671,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="p"><see cref="PersonalInfo"/> entry containing Base Stat Info</param>
         /// <returns>Battle Stats (H/A/B/S/C/D)</returns>
-        public virtual ushort[] getStats(PersonalInfo p)
+        public virtual ushort[] GetStats(PersonalInfo p)
         {
             int level = CurrentLevel;
             ushort[] Stats = new ushort[6];
@@ -693,7 +694,7 @@ namespace PKHeX.Core
         /// Applies the specified stats to the <see cref="PKM"/>.
         /// </summary>
         /// <param name="Stats">Battle Stats (H/A/B/S/C/D)</param>
-        public void setStats(ushort[] Stats)
+        public void SetStats(ushort[] Stats)
         {
             Stat_HPMax = Stat_HPCurrent = Stats[0];
             Stat_ATK = Stats[1];
@@ -725,9 +726,9 @@ namespace PKHeX.Core
         /// <param name="move">Move ID</param>
         /// <param name="ppup">PP Ups count</param>
         /// <returns>Current PP for the move.</returns>
-        public virtual int getMovePP(int move, int ppup)
+        public virtual int GetMovePP(int move, int ppup)
         {
-            return getBasePP(move) * (5 + ppup) / 5;
+            return GetBasePP(move) * (5 + ppup) / 5;
         }
 
         /// <summary>
@@ -735,7 +736,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="move">Move ID</param>
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-        protected int getBasePP(int move)
+        protected int GetBasePP(int move)
         {
             int[] pptable;
             switch (Format)
@@ -760,20 +761,20 @@ namespace PKHeX.Core
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
-        public void setShinyPID()
+        public void SetShinyPID()
         {
-            do PID = PKX.getRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
+            do PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
             if (GenNumber < 6)
                 EncryptionConstant = PID;
         }
         /// <summary>
         /// Applies a shiny SID to the <see cref="PKM"/>.
         /// </summary>
-        public void setShinySID()
+        public void SetShinySID()
         {
             if (IsShiny) return;
             var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
-            SID = (int)((xor & 0xFFF8) | (Util.rnd32() & 7));
+            SID = (int)((xor & 0xFFF8) | (Util.Rand32() & 7));
         }
         /// <summary>
         /// Applies a PID to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
@@ -781,9 +782,9 @@ namespace PKHeX.Core
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
-        public void setPIDGender(int gender)
+        public void SetPIDGender(int gender)
         {
-            do PID = PKX.getRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
+            do PID = PKX.GetRandomPID(Species, gender, Version, Nature, AltForm, PID); while (IsShiny);
             if (GenNumber < 6)
                 EncryptionConstant = PID;
         }
@@ -793,9 +794,9 @@ namespace PKHeX.Core
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
-        public void setPIDNature(int nature)
+        public void SetPIDNature(int nature)
         {
-            do PID = PKX.getRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
+            do PID = PKX.GetRandomPID(Species, Gender, Version, nature, AltForm, PID); while (IsShiny);
             if (GenNumber < 6)
                 EncryptionConstant = PID;
         }
@@ -806,20 +807,20 @@ namespace PKHeX.Core
         /// This method should only be used for Unown originating in Generation 3 games.
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
-        public void setPIDUnown3(int form)
+        public void SetPIDUnown3(int form)
         {
-            do PID = Util.rnd32(); while (PKX.getUnownForm(PID) != form);
+            do PID = Util.Rand32(); while (PKX.GetUnownForm(PID) != form);
         }
 
         /// <summary>
         /// Randomizes the IVs within game constraints.
         /// </summary>
         /// <returns>Randomized IVs if desired.</returns>
-        public int[] randomizeIVs()
+        public int[] SetRandomIVs()
         {
             int[] ivs = new int[6];
             for (int i = 0; i < 6; i++)
-                ivs[i] = (int)(Util.rnd32() & MaxIV);
+                ivs[i] = (int)(Util.Rand32() & MaxIV);
 
             bool IV3 = GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species));
             if (IV3)
@@ -836,7 +837,7 @@ namespace PKHeX.Core
         /// Converts a <see cref="XK3"/> or <see cref="PK3"/> to <see cref="CK3"/>.
         /// </summary>
         /// <returns><see cref="CK3"/> format <see cref="PKM"/></returns>
-        public PKM convertToCK3()
+        public PKM ConvertToCK3()
         {
             if (Format != 3)
                 return null;
@@ -844,14 +845,14 @@ namespace PKHeX.Core
                 return this;
             var pk = new CK3();
             TransferPropertiesWithReflection(this, pk);
-            pk.setStats(getStats(PersonalTable.RS[pk.Species]));
+            pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
             return pk;
         }
         /// <summary>
         /// Converts a <see cref="PK3"/> or <see cref="CK3"/> to <see cref="XK3"/>.
         /// </summary>
         /// <returns><see cref="XK3"/> format <see cref="PKM"/></returns>
-        public PKM convertToXK3()
+        public PKM ConvertToXK3()
         {
             if (Format != 3)
                 return null;
@@ -859,14 +860,14 @@ namespace PKHeX.Core
                 return this;
             var pk = new XK3();
             TransferPropertiesWithReflection(this, pk);
-            pk.setStats(getStats(PersonalTable.RS[pk.Species]));
+            pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
             return pk;
         }
         /// <summary>
         /// Converts a <see cref="CK3"/> or <see cref="XK3"/> to <see cref="PK3"/>.
         /// </summary>
         /// <returns><see cref="PK3"/> format <see cref="PKM"/></returns>
-        public PKM convertToPK3()
+        public PKM ConvertToPK3()
         {
             if (Format != 3)
                 return null;
@@ -886,14 +887,41 @@ namespace PKHeX.Core
         public void TransferPropertiesWithReflection(PKM Source, PKM Destination)
         {
             // Only transfer declared properties not defined in PKM.cs but in the actual type
-            var SourceProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Source.GetType());
-            var DestinationProperties = ReflectUtil.getPropertiesCanWritePublicDeclared(Destination.GetType());
+            var SourceProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Source.GetType());
+            var DestinationProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(Destination.GetType());
             foreach (string property in SourceProperties.Intersect(DestinationProperties))
             {
                 var prop = ReflectUtil.GetValue(this, property);
                 if (prop != null)
                     ReflectUtil.SetValue(Destination, property, prop);
             }
+        }
+
+        /// <summary>
+        /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
+        /// </summary>
+        public void ClearInvalidMoves()
+        {
+            uint invalid = 0;
+            var moves = Moves;
+            for (var i = 0; i < moves.Length; i++)
+            {
+                if (moves[i] <= MaxMoveID)
+                    continue;
+
+                invalid++;
+                moves[i] = 0;
+            }
+            if (invalid == 0)
+                return;
+            if (invalid == 4) // no moves remain
+            {
+                moves[0] = 1; // Pound
+                Move1_PP = GetMovePP(1, Move1_PPUps);
+            }
+
+            Moves = moves;
+            FixMoves();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace PKHeX.WinForms
             FormLen = SAV.B2W2 ? 0xB : 0x9;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             editing = true;
             // Clear Listbox and ComboBox
@@ -33,9 +33,10 @@ namespace PKHeX.WinForms
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
                 LB_Species.Items.Add(i.ToString("000") + " - " + GameInfo.Strings.specieslist[i]);
 
-            getData();
+            GetData();
             editing = false;
             LB_Species.SelectedIndex = 0;
+            CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;
         }
 
         private readonly CheckBox[] CP;
@@ -49,34 +50,30 @@ namespace PKHeX.WinForms
         private readonly int FormLen;
         private const int LangSize = 0x238; // 649*7/8 = 237.xxx
 
-        private void changeCBSpecies(object sender, EventArgs e)
+        private void ChangeCBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
-            setEntry();
+            SetEntry();
 
             editing = true;
             species = (int)CB_Species.SelectedValue;
             LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
             LB_Species.TopIndex = LB_Species.SelectedIndex;
-            getEntry();
+            GetEntry();
             editing = false;
         }
-        private void changeLBSpecies(object sender, EventArgs e)
+        private void ChangeLBSpecies(object sender, EventArgs e)
         {
             if (editing) return;
-            setEntry();
+            SetEntry();
 
             editing = true;
             species = LB_Species.SelectedIndex + 1;
             CB_Species.SelectedValue = species;
-            getEntry();
+            GetEntry();
             editing = false;
         }
-        private void removedropCB(object sender, KeyEventArgs e)
-        {
-            ((ComboBox)sender).DroppedDown = false;
-        }
-        private void changeDisplayed(object sender, EventArgs e)
+        private void ChangeDisplayed(object sender, EventArgs e)
         {
             if (!((CheckBox) sender).Checked)
                 return;
@@ -91,7 +88,7 @@ namespace PKHeX.WinForms
             CHK_P4.Checked |= CHK_P8.Checked;
             CHK_P5.Checked |= CHK_P9.Checked;
         }
-        private void changeEncountered(object sender, EventArgs e)
+        private void ChangeEncountered(object sender, EventArgs e)
         {
             if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
                 CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
@@ -108,7 +105,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void getEntry()
+        private void GetEntry()
         {
             // Load Bools for the data
             int pk = species;
@@ -128,10 +125,10 @@ namespace PKHeX.WinForms
             CLB_FormDisplayed.Items.Clear();
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SAV.B2W2 ? SaveUtil.getDexFormIndexB2W2(species, fc) : SaveUtil.getDexFormIndexBW(species, fc);
+            int f = SAV.B2W2 ? SaveUtil.GetDexFormIndexB2W2(species, fc) : SaveUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.getFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.gendersymbols);
+            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols);
             if (forms.Length < 1)
                 return;
             
@@ -145,7 +142,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < forms.Length; i++) // Displayed Shiny
                 CLB_FormDisplayed.Items.Add("* " + forms[i], formbools[f + i + 3*FormLen*8]);
         }
-        private void setEntry()
+        private void SetEntry()
         {
             if (species < 0) 
                 return;
@@ -169,7 +166,7 @@ namespace PKHeX.WinForms
             langbools[6, species - 1] = CHK_L7.Checked;
 
             int fc = SAV.Personal[species].FormeCount;
-            int f = SAV.B2W2 ? SaveUtil.getDexFormIndexB2W2(species, fc) : SaveUtil.getDexFormIndexBW(species, fc);
+            int f = SAV.B2W2 ? SaveUtil.GetDexFormIndexB2W2(species, fc) : SaveUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
 
@@ -186,7 +183,7 @@ namespace PKHeX.WinForms
             editing = false;
         }
 
-        private void getData()
+        private void GetData()
         {
             // Fill Bit arrays
             int arrCount = specbools.GetLength(0);
@@ -212,7 +209,7 @@ namespace PKHeX.WinForms
             Array.Copy(SAV.Data, FormDex, formdata, 0, formdata.Length);
             formbools = new BitArray(formdata);
         }
-        private void setData()
+        private void SetData()
         {
             // Save back the Species Bools 
             // Return to Byte Array        
@@ -255,10 +252,10 @@ namespace PKHeX.WinForms
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            setEntry();
-            setData();
+            SetEntry();
+            SetData();
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
 
@@ -295,7 +292,7 @@ namespace PKHeX.WinForms
             Button btn = (Button)sender;
             modifyMenu.Show(btn.PointToScreen(new Point(0, btn.Height)));
         }
-        private void modifyAll(object sender, EventArgs e)
+        private void ModifyAll(object sender, EventArgs e)
         {
             int lang = SAV.Language;
             if (lang > 5) lang -= 1;
@@ -362,14 +359,14 @@ namespace PKHeX.WinForms
                     }
                 }
 
-            setEntry();
-            setData();
+            SetEntry();
+            SetData();
 
-            getData();
-            getEntry();
+            GetData();
+            GetEntry();
         }
 
-        private void updateDisplayedForm(object sender, ItemCheckEventArgs e)
+        private void UpdateDisplayedForm(object sender, ItemCheckEventArgs e)
         {
             if (editing)
                 return;
@@ -387,12 +384,12 @@ namespace PKHeX.WinForms
             Button btn = (Button)sender;
             modifyMenuForms.Show(btn.PointToScreen(new Point(0, btn.Height)));
         }
-        private void modifyAllForms(object sender, EventArgs e)
+        private void ModifyAllForms(object sender, EventArgs e)
         {
             if (sender == mnuFormNone)
             {
                 formbools = new BitArray(new bool[formbools.Length]); // reset false
-                getEntry();
+                GetEntry();
                 return;
             }
 

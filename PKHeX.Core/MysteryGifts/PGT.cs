@@ -52,7 +52,7 @@ namespace PKHeX.Core
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
         public override bool IsPokémon { get => Gift.IsPokémon; set => Gift.IsPokémon = value; }
         public override bool IsItem { get => Gift.IsItem; set => Gift.IsItem = value; }
-        public override int Item { get => Gift.Item; set => Gift.Item = value; }
+        public override int ItemID { get => Gift.ItemID; set => Gift.ItemID = value; }
         public override int CardID
         {
             get => BitConverter.ToUInt16(Data, 0x150);
@@ -60,10 +60,10 @@ namespace PKHeX.Core
         }
         public override string CardTitle
         {
-            get => PKX.getString4(Data, 0x104, 0x48);
+            get => PKX.GetString4(Data, 0x104, 0x48);
             set
             {
-                byte[] data = PKX.setString4(value, 0x48/2-1, 0x48/2, 0xFFFF);
+                byte[] data = PKX.SetString4(value, 0x48/2-1, 0x48/2, 0xFFFF);
                 int len = data.Length;
                 Array.Resize(ref data, 0x48);
                 for (int i = 0; i < len; i++)
@@ -71,6 +71,7 @@ namespace PKHeX.Core
                 data.CopyTo(Data, 0x104);
             }
         }
+        public ushort CardCompatibility => BitConverter.ToUInt16(Data, 0x14C); // rest of bytes we don't really care about
 
         public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
         public override int[] Moves { get => Gift.Moves; set => Gift.Moves = value; }
@@ -95,10 +96,12 @@ namespace PKHeX.Core
             return true;
         }
 
-        public override PKM convertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(SaveFile SAV)
         {
-            return Gift.convertToPKM(SAV);
+            return Gift.ConvertToPKM(SAV);
         }
+
+        public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
     }
     public sealed class PGT : MysteryGift
     {
@@ -146,7 +149,7 @@ namespace PKHeX.Core
         // Unused 0x01
         public byte Slot { get => Data[2]; set => Data[2] = value; }
         public byte Detail { get => Data[3]; set => Data[3] = value; }
-        public override int Item { get => BitConverter.ToUInt16(Data, 0x4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4); }
+        public override int ItemID { get => BitConverter.ToUInt16(Data, 0x4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4); }
 
         public PK4 PK
         {
@@ -155,7 +158,7 @@ namespace PKHeX.Core
                 byte[] ekdata = new byte[PKX.SIZE_4PARTY];
                 Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
                 bool empty = ekdata.SequenceEqual(new byte[ekdata.Length]);
-                return new PK4(empty ? ekdata : PKX.decryptArray45(ekdata));
+                return new PK4(empty ? ekdata : PKX.DecryptArray45(ekdata));
             }
             set
             {
@@ -164,24 +167,8 @@ namespace PKHeX.Core
 
                 var pkdata = value.Data.SequenceEqual(new byte[value.Data.Length])
                     ? value.Data
-                    : PKX.encryptArray45(value.Data);
+                    : PKX.EncryptArray45(value.Data);
                 pkdata.CopyTo(Data, 8);
-            }
-        }
-
-        private byte[] Unknown
-        {
-            get
-            {
-                var data = new byte[0x10];
-                Array.Copy(Data, 0xF4, data, 0, 0x10);
-                return data;
-            }
-            set
-            {
-                if (value == null || value.Length != 10)
-                    return;
-                value.CopyTo(Data, 0xF4);
             }
         }
 
@@ -198,13 +185,13 @@ namespace PKHeX.Core
         public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
         public override bool IsShiny => PK.IsShiny;
 
-        public override PKM convertToPKM(SaveFile SAV)
+        public override PKM ConvertToPKM(SaveFile SAV)
         {
             if (!IsPokémon)
                 return null;
 
             PK4 pk4 = new PK4(PK.Data);
-            var pi = PersonalTable.HGSS.getFormeEntry(Species, PK.AltForm);
+            var pi = PersonalTable.HGSS.GetFormeEntry(Species, PK.AltForm);
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = SAV.OT;
@@ -232,7 +219,7 @@ namespace PKHeX.Core
             pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
             // Generate IV
-            uint seed = Util.rnd32();
+            uint seed = Util.Rand32();
             if (pk4.PID == 1) // Create Nonshiny
             {
                 uint pid1 = PKX.LCRNG(ref seed) >> 16;
@@ -243,20 +230,22 @@ namespace PKHeX.Core
                     uint testPID = pid1 | pid2 << 16;
 
                     // Call the ARNG to change the PID
-                    testPID = testPID * 0x6c078965 + 1;
+                    testPID = RNG.ARNG.Next(testPID);
 
                     pid1 = testPID & 0xFFFF;
                     pid2 = testPID >> 16;
                 }
                 pk4.PID = pid1 | (pid2 << 16);
             }
+            if (!IsManaphyEgg)
+                seed = Util.Rand32(); // reseed, do not have method 1 correlation
 
             // Generate IVs
             if (pk4.IV32 == 0)
             {
-                uint iv1 = PKX.LCRNG(ref seed) >> 16;
-                uint iv2 = PKX.LCRNG(ref seed) >> 16;
-                pk4.IV32 = (iv1 | iv2 << 16) & 0x3FFFFFFF;
+                uint iv1 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
+                uint iv2 = (PKX.LCRNG(ref seed) >> 16) & 0x7FFF;
+                pk4.IV32 = iv1 | iv2 << 15;
             }
 
             // Generate Met Info
@@ -275,7 +264,7 @@ namespace PKHeX.Core
                     pk4.Met_Location = pk4.Egg_Location + 3000;
                     pk4.Egg_Location = 0;
                     pk4.IsNicknamed = true;
-                    pk4.Nickname = PKX.getSpeciesName(0, pk4.Language).ToUpper();
+                    pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
                     pk4.MetDate = DateTime.Now;
                 }
                 else
@@ -287,7 +276,7 @@ namespace PKHeX.Core
                 }
             }
             if (pk4.Species == 201) // Never will be true; Unown was never distributed.
-                pk4.AltForm = PKX.getUnownForm(pk4.PID);
+                pk4.AltForm = PKX.GetUnownForm(pk4.PID);
 
             pk4.RefreshChecksum();
             return pk4;

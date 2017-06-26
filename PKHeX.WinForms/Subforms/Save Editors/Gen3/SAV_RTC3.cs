@@ -12,18 +12,18 @@ namespace PKHeX.WinForms
         {
             SAV = (SAV3)(Origin = sav).Clone();
             InitializeComponent();
-            WinFormsUtil.TranslateInterface(this, Main.curlanguage);
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             ClockInitial = SAV.ClockInitial;
             ClockElapsed = SAV.ClockElapsed;
-            loadData();
+            LoadData();
         }
 
         private readonly SAV3.RTC3 ClockInitial;
         private readonly SAV3.RTC3 ClockElapsed;
 
 
-        private void loadData()
+        private void LoadData()
         {
             NUD_IDay.Value = ClockInitial.Day;
             NUD_IHour.Value = Math.Min(NUD_IHour.Maximum, ClockInitial.Hour);
@@ -35,7 +35,7 @@ namespace PKHeX.WinForms
             NUD_EMinute.Value = Math.Min(NUD_EMinute.Maximum, ClockElapsed.Minute);
             NUD_ESecond.Value = Math.Min(NUD_ESecond.Maximum, ClockElapsed.Second);
         }
-        private void saveData()
+        private void SaveData()
         {
             ClockInitial.Day = (ushort)NUD_IDay.Value;
             ClockInitial.Hour = (byte)NUD_IHour.Value;
@@ -49,12 +49,12 @@ namespace PKHeX.WinForms
         }
         private void B_Save_Click(object sender, EventArgs e)
         {
-            saveData();
+            SaveData();
             
             SAV.ClockInitial = ClockInitial;
             SAV.ClockElapsed = ClockElapsed;
 
-            Origin.setData(SAV.Data, 0);
+            Origin.SetData(SAV.Data, 0);
             Close();
         }
         private void B_Cancel_Click(object sender, EventArgs e)

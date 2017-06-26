@@ -11,7 +11,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
-        public static bool getIsMysteryGift(long len)
+        public static bool IsMysteryGift(long len)
         {
             return new[] { WC6.SizeFull, WC6.Size, PGF.Size, PGT.Size, PCD.Size }.Contains((int)len);
         }
@@ -22,8 +22,8 @@ namespace PKHeX.Core
         /// <param name="data">Raw data of the mystery gift.</param>
         /// <param name="ext">Extension of the file from which the <paramref name="data"/> was retrieved.</param>
         /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> or <paramref name="ext"/> is invalid.</returns>
-        /// <remarks>This overload differs from <see cref="getMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
-        public static MysteryGift getMysteryGift(byte[] data, string ext)
+        /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
+        public static MysteryGift GetMysteryGift(byte[] data, string ext)
         {
             // Generation 7
             if (data.Length == WC7.SizeFull && ext == ".wc7full")
@@ -55,7 +55,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Raw data of the mystery gift.</param>
         /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> is invalid.</returns>
-        public static MysteryGift getMysteryGift(byte[] data)
+        public static MysteryGift GetMysteryGift(byte[] data)
         {
             switch (data.Length)
             {
@@ -81,15 +81,15 @@ namespace PKHeX.Core
         }
 
         public string Extension => GetType().Name.ToLower();
-        public string FileName => getCardHeader() + "." + Extension;
+        public string FileName => CardHeader + "." + Extension;
         public byte[] Data { get; set; }
-        public abstract PKM convertToPKM(SaveFile SAV);
+        public abstract PKM ConvertToPKM(SaveFile SAV);
         public abstract int Format { get; }
 
         public MysteryGift Clone()
         {
             byte[] data = (byte[])Data.Clone();
-            return getMysteryGift(data);
+            return GetMysteryGift(data);
         }
         public string Type => GetType().Name;
         public string Name => $"Event Gift ({Type})";
@@ -101,7 +101,7 @@ namespace PKHeX.Core
         public abstract int CardID { get; set; }
 
         public abstract bool IsItem { get; set; }
-        public abstract int Item { get; set; }
+        public abstract int ItemID { get; set; }
 
         public abstract bool IsPokémon { get; set; }
         public virtual int Quantity { get => 1; set { } }
@@ -113,7 +113,7 @@ namespace PKHeX.Core
         public virtual int Bean { get => 0; set { } }
         public virtual int BeanCount { get => 0; set { } }
 
-        public virtual string getCardHeader() => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
+        public virtual string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         public override int GetHashCode()
         {

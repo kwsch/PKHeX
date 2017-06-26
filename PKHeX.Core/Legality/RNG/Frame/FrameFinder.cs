@@ -10,7 +10,7 @@ namespace PKHeX.Core
         /// <param name="pidiv">Matched <see cref="PIDIV"/> containing <see cref="PIDIV.RNG"/> info and <see cref="PIDIV.OriginSeed"/>.</param>
         /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
-        public static IEnumerable<Frame> getFrames(PIDIV pidiv, PKM pk)
+        public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
             FrameGenerator info = new FrameGenerator(pidiv, pk);
             if (info.FrameType == FrameType.None)
@@ -19,25 +19,25 @@ namespace PKHeX.Core
             info.Nature = pk.EncryptionConstant % 25;
 
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            IEnumerable<SeedInfo> seeds = SeedInfo.getSeedsUntilNature(pidiv, info);
+            IEnumerable<SeedInfo> seeds = SeedInfo.GetSeedsUntilNature(pidiv, info);
 
             var frames = pidiv.Type == PIDType.CuteCharm 
-                ? filterCuteCharm(seeds, pidiv, info) 
-                : filterNatureSync(seeds, pidiv, info);
+                ? FilterCuteCharm(seeds, pidiv, info) 
+                : FilterNatureSync(seeds, pidiv, info);
 
-            var refined = refineFrames(frames, info);
+            var refined = RefineFrames(frames, info);
             foreach (var z in refined)
                 yield return z;
         }
 
-        private static IEnumerable<Frame> refineFrames(IEnumerable<Frame> frames, FrameGenerator info)
+        private static IEnumerable<Frame> RefineFrames(IEnumerable<Frame> frames, FrameGenerator info)
         {
             return info.FrameType == FrameType.MethodH
-                ? refineFrames3(frames, info)
-                : refineFrames4(frames, info);
+                ? RefineFrames3(frames, info)
+                : RefineFrames4(frames, info);
         }
 
-        private static IEnumerable<Frame> refineFrames3(IEnumerable<Frame> frames, FrameGenerator info)
+        private static IEnumerable<Frame> RefineFrames3(IEnumerable<Frame> frames, FrameGenerator info)
         {
             var list = new List<Frame>();
             foreach (var f in frames)
@@ -76,7 +76,7 @@ namespace PKHeX.Core
                 yield return info.GetFrame(prev, LeadRequired.MagnetPull, rand);
             }
         }
-        private static IEnumerable<Frame> refineFrames4(IEnumerable<Frame> frames, FrameGenerator info)
+        private static IEnumerable<Frame> RefineFrames4(IEnumerable<Frame> frames, FrameGenerator info)
         {
             var list = new List<Frame>();
             foreach (var f in frames)
@@ -121,7 +121,7 @@ namespace PKHeX.Core
         /// <param name="pidiv">PIDIV Info for the frame</param>
         /// <param name="info">Search Info for the frame</param>
         /// <returns>Possible matches to the Nature Lock frame generation pattern</returns>
-        private static IEnumerable<Frame> filterNatureSync(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
+        private static IEnumerable<Frame> FilterNatureSync(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
         {
             foreach (var seed in seeds)
             {
@@ -158,7 +158,7 @@ namespace PKHeX.Core
         /// <param name="pidiv">PIDIV Info for the frame</param>
         /// <param name="info">Search Info for the frame</param>
         /// <returns>Possible matches to the Cute Charm frame generation pattern</returns>
-        private static IEnumerable<Frame> filterCuteCharm(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
+        private static IEnumerable<Frame> FilterCuteCharm(IEnumerable<SeedInfo> seeds, PIDIV pidiv, FrameGenerator info)
         {
             foreach (var seed in seeds)
             {
