@@ -797,9 +797,6 @@ namespace PKHeX.Core
         {
             005, // Safari Ball
             016, // Cherish Ball
-            210, // Custap Berry
-            211, // Jaboca Berry
-            212, // Rowap Berry
             492, // Fast Ball
             493, // Level Ball
             494, // Lure Ball
