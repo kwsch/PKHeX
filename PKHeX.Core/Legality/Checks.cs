@@ -154,7 +154,7 @@ namespace PKHeX.Core
                 var langset = PKX.SpeciesLang.FirstOrDefault(s => s.Contains(pk)) ?? PKX.SpeciesLang[2];
                 int lang = Array.IndexOf(PKX.SpeciesLang, langset);
 
-                if (pk.Length > (lang == 2 ? 10 : 5))
+                if (pk.Length > (lang != 1 ? 10 : 5))
                     AddLine(Severity.Invalid, V1, CheckIdentifier.Nickname);
             }
             else if (EncounterMatch is MysteryGift m)
