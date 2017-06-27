@@ -856,7 +856,7 @@ namespace PKHeX.Core
 
                 if (!wc.IsEgg)
                 {
-                    if (wc.SID != pkm.SID) continue;
+                    if (wc.SID != -1 && wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
                     if (wc.OT_Name != pkm.OT_Name) continue;
                     if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
