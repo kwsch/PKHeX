@@ -258,9 +258,6 @@ namespace PKHeX.Core
             int[] generations = GetGenMovesCheckOrder(pkm);
             foreach (var gen in generations)
             {
-                if (!pkm.InhabitedGeneration(gen))
-                    continue;
-
                 var HMLearned = new int[0];
                 // Check if pokemon knows HM moves from generation 3 and 4 but are not valid yet, that means it cant learn the HMs in future generations
                 bool KnowDefogWhirlpool = false;

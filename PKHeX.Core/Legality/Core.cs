@@ -2132,7 +2132,7 @@ namespace PKHeX.Core
         private static int GetMaxLevelGeneration(PKM pkm, int generation)
         {
             if (!pkm.InhabitedGeneration(generation))
-                return -1;
+                return pkm.Met_Level;
 
             if (pkm.Format <= 2)
             {
