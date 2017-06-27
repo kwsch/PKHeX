@@ -25,26 +25,38 @@
     {
         private static readonly string[] RibbonSetNamesCommon6Bool =
         {
-            nameof(IRibbonSetCommon6.RibbonChampionKalos), nameof(IRibbonSetCommon6.RibbonChampionG6Hoenn), nameof(IRibbonSetCommon6.RibbonBestFriends),
+            nameof(IRibbonSetCommon6.RibbonChampionKalos), nameof(IRibbonSetCommon6.RibbonChampionG6Hoenn), // nameof(IRibbonSetCommon6.RibbonBestFriends),
             nameof(IRibbonSetCommon6.RibbonTraining), nameof(IRibbonSetCommon6.RibbonBattlerSkillful), nameof(IRibbonSetCommon6.RibbonBattlerExpert),
             nameof(IRibbonSetCommon6.RibbonContestStar), nameof(IRibbonSetCommon6.RibbonMasterCoolness), nameof(IRibbonSetCommon6.RibbonMasterBeauty),
             nameof(IRibbonSetCommon6.RibbonMasterCuteness), nameof(IRibbonSetCommon6.RibbonMasterCleverness), nameof(IRibbonSetCommon6.RibbonMasterToughness),
-
         };
         internal static bool[] RibbonBits(this IRibbonSetCommon6 set)
         {
             if (set == null)
-                return new bool[12];
+                return new bool[11];
             return new[]
             {
                 set.RibbonChampionKalos,
                 set.RibbonChampionG6Hoenn,
-                set.RibbonBestFriends,
+                //set.RibbonBestFriends,
                 set.RibbonTraining,
                 set.RibbonBattlerSkillful,
                 set.RibbonBattlerExpert,
 
                 set.RibbonContestStar,
+                set.RibbonMasterCoolness,
+                set.RibbonMasterBeauty,
+                set.RibbonMasterCuteness,
+                set.RibbonMasterCleverness,
+                set.RibbonMasterToughness,
+            };
+        }
+        internal static bool[] RibbonBitsContest(this IRibbonSetCommon6 set)
+        {
+            if (set == null)
+                return new bool[5];
+            return new[]
+            {
                 set.RibbonMasterCoolness,
                 set.RibbonMasterBeauty,
                 set.RibbonMasterCuteness,

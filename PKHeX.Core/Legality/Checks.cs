@@ -782,29 +782,29 @@ namespace PKHeX.Core
 
                 var c3 = u4.RibbonBitsContest3(); var c3n = u4.RibbonNamesContest3();
                 var c4 = u4.RibbonBitsContest4(); var c4n = u4.RibbonNamesContest4();
-                var iter3 = gen == 3 ? getGapRibbons(c3, c3n) : GetRibbonMessageNone(c3, c3n);
-                var iter4 = gen == 4 && IsAllowedInContest4(pkm.Species) ? getGapRibbons(c4, c4n) : GetRibbonMessageNone(c4, c4n);
+                var iter3 = gen == 3 ? getMissingContestRibbons(c3, c3n) : GetRibbonMessageNone(c3, c3n);
+                var iter4 = gen == 4 && IsAllowedInContest4(pkm.Species) ? getMissingContestRibbons(c4, c4n) : GetRibbonMessageNone(c4, c4n);
                 foreach (var z in iter3.Concat(iter4))
                     yield return z;
 
-                IEnumerable<RibbonResult> getGapRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
+                IEnumerable<RibbonResult> getMissingContestRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
                 {
                     for (int i = 0; i < bits.Count; i += 4)
                     {
                         bool required = false;
-                        for (int j = i; j < i + 4; j++)
+                        for (int j = i + 3; j >= i; j--)
                             if (bits[j])
                                 required = true;
                             else if (required)
-                                yield return new RibbonResult(names[j]);
+                                yield return new RibbonResult(names[j], false);
                     }
                 }
             }
             if (pkm is IRibbonSetCommon4 s4)
             {
-                bool inhabited45 = 4 <= gen && gen <= 5;
+                bool inhabited4 = 3 <= gen && gen <= 4;
                 IEnumerable<RibbonResult> iterate = GetRibbonMessage4Any(pkm, s4, gen);
-                if (!inhabited45)
+                if (!inhabited4)
                     iterate = iterate.Concat(GetRibbonMessageNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
                 foreach (var z in iterate)
                     yield return z;
@@ -824,6 +824,9 @@ namespace PKHeX.Core
                     if (s6.RibbonCountMemoryBattle > 0)
                         yield return new RibbonResult(nameof(s6.RibbonCountMemoryBattle));
                 }
+
+                if (s6.RibbonBestFriends && pkm.OT_Affection < 255 && pkm.IsUntraded) // can't lower affection
+                    yield return new RibbonResult(nameof(s6.RibbonBestFriends));
             }
             if (pkm is IRibbonSetCommon7 s7)
             {
@@ -838,24 +841,28 @@ namespace PKHeX.Core
                     yield return new RibbonResult(nameof(s3.RibbonChampionG3Hoenn)); // RSE HoF
                 if (s3.RibbonArtist && (gen != 3 || !artist))
                     yield return new RibbonResult(nameof(s3.RibbonArtist)); // RSE Master Rank Portrait
+                if (s3.RibbonEffort && gen == 5 && pkm.Format == 5) // unobtainable in Gen 5
+                    yield return new RibbonResult(nameof(s3.RibbonEffort));
             }
         }
         private static IEnumerable<RibbonResult> GetRibbonMessage4Any(PKM pkm, IRibbonSetCommon4 s4, int gen)
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
-            if (s4.RibbonFootprint && gen >= 6 && pkm.CurrentLevel - pkm.Met_Level < 30)
+            if (s4.RibbonFootprint && (pkm.Format < 6 && gen == 5 || gen >= 6 && pkm.CurrentLevel - pkm.Met_Level < 30))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
-            if (pkm.Format < 6 || gen > 6 || pkm.IsUntraded && pkm.XY)
-            {
-                if (s4.RibbonGorgeous)
-                    yield return new RibbonResult(nameof(s4.RibbonGorgeous));
-                if (s4.RibbonRoyal)
-                    yield return new RibbonResult(nameof(s4.RibbonRoyal));
-                if (s4.RibbonGorgeousRoyal)
-                    yield return new RibbonResult(nameof(s4.RibbonGorgeousRoyal));
-            }
+            bool gen34 = gen == 3 || gen == 4;
+            bool not6 = pkm.Format < 6 || gen > 6 || gen < 3;
+            bool noDaily = !gen34 && (not6 || pkm.AO && pkm.IsUntraded);
+            bool noCosmetic = !gen34 && (not6 || pkm.XY && pkm.IsUntraded);
+
+            if (noDaily)
+                foreach (var z in GetRibbonMessageNone(s4.RibbonBitsDaily(), s4.RibbonNamesDaily()))
+                    yield return z;
+            if (noCosmetic)
+                foreach (var z in GetRibbonMessageNone(s4.RibbonBitsCosmetic(), s4.RibbonNamesCosmetic()))
+                    yield return z;
         }
         private static IEnumerable<RibbonResult> GetRibbonMessage6Any(PKM pkm, IRibbonSetCommon6 s6, int gen)
         {
@@ -867,14 +874,18 @@ namespace PKHeX.Core
             foreach (var p in iter)
                 yield return p;
 
+            bool allContest = s6.RibbonBitsContest().All(z => z);
+            if (allContest ^ s6.RibbonContestStar && !(untraded && pkm.XY)) // if not already checked
+                yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
+
             const int mem_Chatelaine = 30;
-            if (pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine)
-            {
-                if (!s6.RibbonBattlerSkillful)
-                    yield return new RibbonResult(nameof(s6.RibbonBattlerSkillful), false);
-                else if (!s6.RibbonBattlerExpert)
-                    yield return new RibbonResult(nameof(s6.RibbonBattlerExpert), false);
-            }
+            bool hasChampMemory = pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine;
+            if (!hasChampMemory || s6.RibbonBattlerSkillful || s6.RibbonBattlerExpert)
+                yield break;
+
+            var result = new RibbonResult(nameof(s6.RibbonBattlerSkillful), false);
+            result.Combine(new RibbonResult(nameof(s6.RibbonBattlerExpert)));
+            yield return result;
         }
         private static IEnumerable<RibbonResult> GetRibbonMessage6Memory(PKM pkm, IRibbonSetCommon6 s6, int gen)
         {
@@ -898,13 +909,11 @@ namespace PKHeX.Core
         }
         private static IEnumerable<RibbonResult> GetRibbonMessage6Untraded(PKM pkm, IRibbonSetCommon6 s6)
         {
-            if (s6.RibbonBestFriends && pkm.OT_Affection != 255) // can't lower affection
-                yield return new RibbonResult(nameof(s6.RibbonBestFriends), false);
-
             if (pkm.XY)
             {
                 if (s6.RibbonChampionG6Hoenn)
                     yield return new RibbonResult(nameof(s6.RibbonChampionG6Hoenn));
+
                 if (s6.RibbonContestStar)
                     yield return new RibbonResult(nameof(s6.RibbonContestStar));
                 if (s6.RibbonMasterCoolness)
@@ -926,20 +935,6 @@ namespace PKHeX.Core
         }
         private static IEnumerable<RibbonResult> GetRibbonMessage6Traded(PKM pkm, IRibbonSetCommon6 s6)
         {
-            if (s6.RibbonContestStar)
-            {
-                if (!s6.RibbonMasterCoolness)
-                    yield return new RibbonResult(nameof(s6.RibbonMasterCoolness));
-                if (!s6.RibbonMasterBeauty)
-                    yield return new RibbonResult(nameof(s6.RibbonMasterBeauty));
-                if (!s6.RibbonMasterCuteness)
-                    yield return new RibbonResult(nameof(s6.RibbonMasterCuteness));
-                if (!s6.RibbonMasterCleverness)
-                    yield return new RibbonResult(nameof(s6.RibbonMasterCleverness));
-                if (!s6.RibbonMasterToughness)
-                    yield return new RibbonResult(nameof(s6.RibbonMasterToughness));
-            }
-
             if (s6.RibbonTraining)
             {
                 const int req = 12; // only first 12
@@ -949,8 +944,13 @@ namespace PKHeX.Core
             }
 
             const int mem_Champion = 27;
-            if ((pkm.HT_Memory == mem_Champion || pkm.OT_Memory == mem_Champion) && !s6.RibbonChampionKalos && !s6.RibbonChampionG6Hoenn)
-                yield return new RibbonResult(pkm.XY ? nameof(s6.RibbonChampionKalos) : nameof(s6.RibbonChampionG6Hoenn), false);
+            bool hasChampMemory = pkm.HT_Memory == mem_Champion || pkm.OT_Memory == mem_Champion;
+            if (!hasChampMemory || s6.RibbonChampionKalos || s6.RibbonChampionG6Hoenn)
+                yield break;
+
+            var result = new RibbonResult(nameof(s6.RibbonChampionKalos), false);
+            result.Combine(new RibbonResult(nameof(s6.RibbonChampionG6Hoenn)));
+            yield return result;
         }
         private static IEnumerable<RibbonResult> GetRibbonMessage7Any(PKM pkm, IRibbonSetCommon7 s7, int gen)
         {
@@ -976,7 +976,7 @@ namespace PKHeX.Core
             if (gen == 4 && species == 172 && form == 1) // spiky
                 return false;
 
-            return Legal.BattleFrontierBanlist.Contains(species);
+            return !Legal.BattleFrontierBanlist.Contains(species);
         }
         private void VerifyRibbonsEgg(object encounter)
         {
@@ -1043,7 +1043,7 @@ namespace PKHeX.Core
         private class RibbonResult
         {
             /// <summary>Ribbon Display Name</summary>
-            public string Name { get; }
+            public string Name { get; private set; }
 
             /// <summary> Ribbon should not be present. </summary>
             /// <remarks> If this is false, the Ribbon is missing. </remarks>
@@ -1053,6 +1053,11 @@ namespace PKHeX.Core
             {
                 Name = RibbonStrings.GetName(prop) ?? prop;
                 Invalid = invalid;
+            }
+
+            public void Combine(RibbonResult other)
+            {
+                Name += " / " + other.Name;
             }
         }
 
