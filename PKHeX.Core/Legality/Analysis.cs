@@ -126,6 +126,7 @@ namespace PKHeX.Core
             }
             VerifyNickname();
             VerifyDVs();
+            VerifyEVs();
             VerifyG1OT();
             VerifyMiscG1();
         }

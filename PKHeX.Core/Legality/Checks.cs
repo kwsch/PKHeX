@@ -335,7 +335,7 @@ namespace PKHeX.Core
             int sum = evs.Sum();
             if (sum > 0 && pkm.IsEgg)
                 AddLine(Severity.Invalid, V22, CheckIdentifier.EVs);
-            if (sum > 510)
+            if (pkm.Format >= 3 && sum > 510)
                 AddLine(Severity.Invalid, V25, CheckIdentifier.EVs);
             if (pkm.Format >= 6 && evs.Any(ev => ev > 252))
                 AddLine(Severity.Invalid, V26, CheckIdentifier.EVs);
@@ -351,6 +351,9 @@ namespace PKHeX.Core
                 // Cannot EV train above 100 without increasing EXP
                 if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
                     AddLine(Severity.Invalid, string.Format(V418, maxEV), CheckIdentifier.EVs);
+
+                if (pkm.Format < 3)
+                    return;
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
