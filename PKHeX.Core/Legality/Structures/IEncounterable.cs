@@ -18,7 +18,11 @@
         public static bool IsWithinRange(this IEncounterable encounter, PKM pkm)
         {
             if (pkm.HasOriginalMetLocation)
+            {
+                if (encounter.EggEncounter)
+                    return pkm.CurrentLevel == Legal.GetEggHatchLevel(pkm);
                 return pkm.CurrentLevel == pkm.Met_Level;
+            }
             return encounter.IsWithinRange(pkm.CurrentLevel);
         }
     }

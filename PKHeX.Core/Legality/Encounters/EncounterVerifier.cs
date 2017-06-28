@@ -149,6 +149,9 @@ namespace PKHeX.Core
         }
         private static CheckResult VerifyUnhatchedEgg(PKM pkm, int tradeLoc)
         {
+            var eggLevel = pkm.Format < 5 ? 0 : 1;
+            if (pkm.Met_Level != eggLevel)
+                return new CheckResult(Severity.Invalid, string.Format(V52, eggLevel), CheckIdentifier.Encounter);
             if (pkm.Egg_Location == tradeLoc)
                 return new CheckResult(Severity.Invalid, V62, CheckIdentifier.Encounter);
 
