@@ -33,6 +33,15 @@
             this.B_Cancel = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TAB_Main = new System.Windows.Forms.TabPage();
+            this.GB_TCM = new System.Windows.Forms.GroupBox();
+            this.CB_TCM6 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM5 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM4 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM3 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM2 = new System.Windows.Forms.ComboBox();
+            this.CB_TCM1 = new System.Windows.Forms.ComboBox();
+            this.NUD_Coins = new System.Windows.Forms.NumericUpDown();
+            this.L_Coins = new System.Windows.Forms.Label();
             this.TB_OTName = new System.Windows.Forms.TextBox();
             this.L_TrainerName = new System.Windows.Forms.Label();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
@@ -52,22 +61,20 @@
             this.L_JFlaw = new System.Windows.Forms.Label();
             this.L_JHigh = new System.Windows.Forms.Label();
             this.L_JRow = new System.Windows.Forms.Label();
-            this.NUD_Coins = new System.Windows.Forms.NumericUpDown();
-            this.L_Coins = new System.Windows.Forms.Label();
             this.TAB_Ferry = new System.Windows.Forms.TabPage();
-            this.CHK_Catchable = new System.Windows.Forms.CheckBox();
-            this.GB_Reachable = new System.Windows.Forms.GroupBox();
-            this.CHK_ReachSouthern = new System.Windows.Forms.CheckBox();
-            this.CHK_ReachNavel = new System.Windows.Forms.CheckBox();
-            this.CHK_ReachBirth = new System.Windows.Forms.CheckBox();
-            this.CHK_ReachFaraway = new System.Windows.Forms.CheckBox();
-            this.CHK_ReachBF = new System.Windows.Forms.CheckBox();
+            this.B_GetTickets = new System.Windows.Forms.Button();
             this.GB_InitialEvent = new System.Windows.Forms.GroupBox();
             this.CHK_InitialSouthern = new System.Windows.Forms.CheckBox();
             this.CHK_InitialNavel = new System.Windows.Forms.CheckBox();
             this.CHK_InitialBirth = new System.Windows.Forms.CheckBox();
             this.CHK_InitialFaraway = new System.Windows.Forms.CheckBox();
-            this.B_GetTickets = new System.Windows.Forms.Button();
+            this.GB_Reachable = new System.Windows.Forms.GroupBox();
+            this.CHK_ReachBF = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachFaraway = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachBirth = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachNavel = new System.Windows.Forms.CheckBox();
+            this.CHK_ReachSouthern = new System.Windows.Forms.CheckBox();
+            this.CHK_Catchable = new System.Windows.Forms.CheckBox();
             this.TAB_BF = new System.Windows.Forms.TabPage();
             this.GB_Streaks = new System.Windows.Forms.GroupBox();
             this.NUD_Stat3 = new System.Windows.Forms.NumericUpDown();
@@ -93,15 +100,9 @@
             this.BTN_SymbolT = new System.Windows.Forms.Button();
             this.BTN_SymbolA = new System.Windows.Forms.Button();
             this.CHK_ActivatePass = new System.Windows.Forms.CheckBox();
-            this.GB_TCM = new System.Windows.Forms.GroupBox();
-            this.CB_TCM1 = new System.Windows.Forms.ComboBox();
-            this.CB_TCM2 = new System.Windows.Forms.ComboBox();
-            this.CB_TCM3 = new System.Windows.Forms.ComboBox();
-            this.CB_TCM4 = new System.Windows.Forms.ComboBox();
-            this.CB_TCM5 = new System.Windows.Forms.ComboBox();
-            this.CB_TCM6 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.TAB_Main.SuspendLayout();
+            this.GB_TCM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.TAB_Joyful.SuspendLayout();
@@ -116,7 +117,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).BeginInit();
             this.GB_FrontierPass.SuspendLayout();
             this.GB_Icons.SuspendLayout();
-            this.GB_TCM.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Save
@@ -172,6 +172,101 @@
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
             this.TAB_Main.UseVisualStyleBackColor = true;
+            // 
+            // GB_TCM
+            // 
+            this.GB_TCM.Controls.Add(this.CB_TCM6);
+            this.GB_TCM.Controls.Add(this.CB_TCM5);
+            this.GB_TCM.Controls.Add(this.CB_TCM4);
+            this.GB_TCM.Controls.Add(this.CB_TCM3);
+            this.GB_TCM.Controls.Add(this.CB_TCM2);
+            this.GB_TCM.Controls.Add(this.CB_TCM1);
+            this.GB_TCM.Location = new System.Drawing.Point(6, 123);
+            this.GB_TCM.Name = "GB_TCM";
+            this.GB_TCM.Size = new System.Drawing.Size(249, 74);
+            this.GB_TCM.TabIndex = 36;
+            this.GB_TCM.TabStop = false;
+            this.GB_TCM.Text = "Trainer Card Pokémon Icons";
+            // 
+            // CB_TCM6
+            // 
+            this.CB_TCM6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM6.FormattingEnabled = true;
+            this.CB_TCM6.Location = new System.Drawing.Point(168, 46);
+            this.CB_TCM6.Name = "CB_TCM6";
+            this.CB_TCM6.Size = new System.Drawing.Size(75, 21);
+            this.CB_TCM6.TabIndex = 5;
+            // 
+            // CB_TCM5
+            // 
+            this.CB_TCM5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM5.FormattingEnabled = true;
+            this.CB_TCM5.Location = new System.Drawing.Point(87, 46);
+            this.CB_TCM5.Name = "CB_TCM5";
+            this.CB_TCM5.Size = new System.Drawing.Size(75, 21);
+            this.CB_TCM5.TabIndex = 4;
+            // 
+            // CB_TCM4
+            // 
+            this.CB_TCM4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM4.FormattingEnabled = true;
+            this.CB_TCM4.Location = new System.Drawing.Point(6, 46);
+            this.CB_TCM4.Name = "CB_TCM4";
+            this.CB_TCM4.Size = new System.Drawing.Size(75, 21);
+            this.CB_TCM4.TabIndex = 3;
+            // 
+            // CB_TCM3
+            // 
+            this.CB_TCM3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM3.FormattingEnabled = true;
+            this.CB_TCM3.Location = new System.Drawing.Point(168, 18);
+            this.CB_TCM3.Name = "CB_TCM3";
+            this.CB_TCM3.Size = new System.Drawing.Size(75, 21);
+            this.CB_TCM3.TabIndex = 2;
+            // 
+            // CB_TCM2
+            // 
+            this.CB_TCM2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM2.FormattingEnabled = true;
+            this.CB_TCM2.Location = new System.Drawing.Point(87, 18);
+            this.CB_TCM2.Name = "CB_TCM2";
+            this.CB_TCM2.Size = new System.Drawing.Size(75, 21);
+            this.CB_TCM2.TabIndex = 1;
+            // 
+            // CB_TCM1
+            // 
+            this.CB_TCM1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TCM1.FormattingEnabled = true;
+            this.CB_TCM1.Location = new System.Drawing.Point(6, 18);
+            this.CB_TCM1.Name = "CB_TCM1";
+            this.CB_TCM1.Size = new System.Drawing.Size(75, 21);
+            this.CB_TCM1.TabIndex = 0;
+            // 
+            // NUD_Coins
+            // 
+            this.NUD_Coins.Location = new System.Drawing.Point(120, 51);
+            this.NUD_Coins.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_Coins.Name = "NUD_Coins";
+            this.NUD_Coins.Size = new System.Drawing.Size(47, 20);
+            this.NUD_Coins.TabIndex = 35;
+            this.NUD_Coins.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
+            // L_Coins
+            // 
+            this.L_Coins.Location = new System.Drawing.Point(33, 49);
+            this.L_Coins.Name = "L_Coins";
+            this.L_Coins.Size = new System.Drawing.Size(81, 20);
+            this.L_Coins.TabIndex = 34;
+            this.L_Coins.Text = "Coins:";
+            this.L_Coins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_OTName
             // 
@@ -369,32 +464,6 @@
             this.L_JRow.TabIndex = 51;
             this.L_JRow.Text = "In a Row:";
             // 
-            // NUD_Coins
-            // 
-            this.NUD_Coins.Location = new System.Drawing.Point(120, 51);
-            this.NUD_Coins.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Coins.Name = "NUD_Coins";
-            this.NUD_Coins.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Coins.TabIndex = 35;
-            this.NUD_Coins.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            // 
-            // L_Coins
-            // 
-            this.L_Coins.Location = new System.Drawing.Point(33, 49);
-            this.L_Coins.Name = "L_Coins";
-            this.L_Coins.Size = new System.Drawing.Size(81, 20);
-            this.L_Coins.TabIndex = 34;
-            this.L_Coins.Text = "Coins:";
-            this.L_Coins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // TAB_Ferry
             // 
             this.TAB_Ferry.Controls.Add(this.B_GetTickets);
@@ -409,15 +478,68 @@
             this.TAB_Ferry.Text = "Ferry";
             this.TAB_Ferry.UseVisualStyleBackColor = true;
             // 
-            // CHK_Catchable
+            // B_GetTickets
             // 
-            this.CHK_Catchable.AutoSize = true;
-            this.CHK_Catchable.Location = new System.Drawing.Point(6, 140);
-            this.CHK_Catchable.Name = "CHK_Catchable";
-            this.CHK_Catchable.Size = new System.Drawing.Size(85, 16);
-            this.CHK_Catchable.TabIndex = 0;
-            this.CHK_Catchable.Text = "can get ride";
-            this.CHK_Catchable.UseVisualStyleBackColor = true;
+            this.B_GetTickets.Location = new System.Drawing.Point(128, 141);
+            this.B_GetTickets.Name = "B_GetTickets";
+            this.B_GetTickets.Size = new System.Drawing.Size(96, 23);
+            this.B_GetTickets.TabIndex = 4;
+            this.B_GetTickets.Text = "Get Tickets";
+            this.B_GetTickets.UseVisualStyleBackColor = true;
+            this.B_GetTickets.Click += new System.EventHandler(this.B_GetTickets_Click);
+            // 
+            // GB_InitialEvent
+            // 
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialSouthern);
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialNavel);
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialBirth);
+            this.GB_InitialEvent.Controls.Add(this.CHK_InitialFaraway);
+            this.GB_InitialEvent.Location = new System.Drawing.Point(123, 6);
+            this.GB_InitialEvent.Name = "GB_InitialEvent";
+            this.GB_InitialEvent.Size = new System.Drawing.Size(108, 106);
+            this.GB_InitialEvent.TabIndex = 3;
+            this.GB_InitialEvent.TabStop = false;
+            this.GB_InitialEvent.Text = "Initial Event";
+            // 
+            // CHK_InitialSouthern
+            // 
+            this.CHK_InitialSouthern.AutoSize = true;
+            this.CHK_InitialSouthern.Location = new System.Drawing.Point(6, 18);
+            this.CHK_InitialSouthern.Name = "CHK_InitialSouthern";
+            this.CHK_InitialSouthern.Size = new System.Drawing.Size(100, 17);
+            this.CHK_InitialSouthern.TabIndex = 4;
+            this.CHK_InitialSouthern.Text = "Southern Island";
+            this.CHK_InitialSouthern.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InitialNavel
+            // 
+            this.CHK_InitialNavel.AutoSize = true;
+            this.CHK_InitialNavel.Location = new System.Drawing.Point(6, 40);
+            this.CHK_InitialNavel.Name = "CHK_InitialNavel";
+            this.CHK_InitialNavel.Size = new System.Drawing.Size(83, 17);
+            this.CHK_InitialNavel.TabIndex = 5;
+            this.CHK_InitialNavel.Text = "Navel Rock";
+            this.CHK_InitialNavel.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InitialBirth
+            // 
+            this.CHK_InitialBirth.AutoSize = true;
+            this.CHK_InitialBirth.Location = new System.Drawing.Point(6, 62);
+            this.CHK_InitialBirth.Name = "CHK_InitialBirth";
+            this.CHK_InitialBirth.Size = new System.Drawing.Size(78, 17);
+            this.CHK_InitialBirth.TabIndex = 6;
+            this.CHK_InitialBirth.Text = "Birth Island";
+            this.CHK_InitialBirth.UseVisualStyleBackColor = true;
+            // 
+            // CHK_InitialFaraway
+            // 
+            this.CHK_InitialFaraway.AutoSize = true;
+            this.CHK_InitialFaraway.Location = new System.Drawing.Point(6, 84);
+            this.CHK_InitialFaraway.Name = "CHK_InitialFaraway";
+            this.CHK_InitialFaraway.Size = new System.Drawing.Size(97, 17);
+            this.CHK_InitialFaraway.TabIndex = 7;
+            this.CHK_InitialFaraway.Text = "Faraway Island";
+            this.CHK_InitialFaraway.UseVisualStyleBackColor = true;
             // 
             // GB_Reachable
             // 
@@ -433,118 +555,65 @@
             this.GB_Reachable.TabStop = false;
             this.GB_Reachable.Text = "Reachable";
             // 
-            // CHK_ReachSouthern
+            // CHK_ReachBF
             // 
-            this.CHK_ReachSouthern.AutoSize = true;
-            this.CHK_ReachSouthern.Location = new System.Drawing.Point(6, 18);
-            this.CHK_ReachSouthern.Name = "CHK_ReachSouthern";
-            this.CHK_ReachSouthern.Size = new System.Drawing.Size(84, 16);
-            this.CHK_ReachSouthern.TabIndex = 0;
-            this.CHK_ReachSouthern.Text = "Southern Is.";
-            this.CHK_ReachSouthern.UseVisualStyleBackColor = true;
-            // 
-            // CHK_ReachNavel
-            // 
-            this.CHK_ReachNavel.AutoSize = true;
-            this.CHK_ReachNavel.Location = new System.Drawing.Point(6, 40);
-            this.CHK_ReachNavel.Name = "CHK_ReachNavel";
-            this.CHK_ReachNavel.Size = new System.Drawing.Size(83, 16);
-            this.CHK_ReachNavel.TabIndex = 1;
-            this.CHK_ReachNavel.Text = "Navel Rock";
-            this.CHK_ReachNavel.UseVisualStyleBackColor = true;
-            // 
-            // CHK_ReachBirth
-            // 
-            this.CHK_ReachBirth.AutoSize = true;
-            this.CHK_ReachBirth.Location = new System.Drawing.Point(6, 62);
-            this.CHK_ReachBirth.Name = "CHK_ReachBirth";
-            this.CHK_ReachBirth.Size = new System.Drawing.Size(64, 16);
-            this.CHK_ReachBirth.TabIndex = 2;
-            this.CHK_ReachBirth.Text = "Birth Is.";
-            this.CHK_ReachBirth.UseVisualStyleBackColor = true;
+            this.CHK_ReachBF.AutoSize = true;
+            this.CHK_ReachBF.Location = new System.Drawing.Point(6, 106);
+            this.CHK_ReachBF.Name = "CHK_ReachBF";
+            this.CHK_ReachBF.Size = new System.Drawing.Size(91, 17);
+            this.CHK_ReachBF.TabIndex = 4;
+            this.CHK_ReachBF.Text = "Battle Frontier";
+            this.CHK_ReachBF.UseVisualStyleBackColor = true;
             // 
             // CHK_ReachFaraway
             // 
             this.CHK_ReachFaraway.AutoSize = true;
             this.CHK_ReachFaraway.Location = new System.Drawing.Point(6, 84);
             this.CHK_ReachFaraway.Name = "CHK_ReachFaraway";
-            this.CHK_ReachFaraway.Size = new System.Drawing.Size(82, 16);
+            this.CHK_ReachFaraway.Size = new System.Drawing.Size(97, 17);
             this.CHK_ReachFaraway.TabIndex = 3;
-            this.CHK_ReachFaraway.Text = "Faraway Is.";
+            this.CHK_ReachFaraway.Text = "Faraway Island";
             this.CHK_ReachFaraway.UseVisualStyleBackColor = true;
             // 
-            // CHK_ReachBF
+            // CHK_ReachBirth
             // 
-            this.CHK_ReachBF.AutoSize = true;
-            this.CHK_ReachBF.Location = new System.Drawing.Point(6, 106);
-            this.CHK_ReachBF.Name = "CHK_ReachBF";
-            this.CHK_ReachBF.Size = new System.Drawing.Size(99, 16);
-            this.CHK_ReachBF.TabIndex = 4;
-            this.CHK_ReachBF.Text = "Battle Frontier";
-            this.CHK_ReachBF.UseVisualStyleBackColor = true;
+            this.CHK_ReachBirth.AutoSize = true;
+            this.CHK_ReachBirth.Location = new System.Drawing.Point(6, 62);
+            this.CHK_ReachBirth.Name = "CHK_ReachBirth";
+            this.CHK_ReachBirth.Size = new System.Drawing.Size(78, 17);
+            this.CHK_ReachBirth.TabIndex = 2;
+            this.CHK_ReachBirth.Text = "Birth Island";
+            this.CHK_ReachBirth.UseVisualStyleBackColor = true;
             // 
-            // GB_InitialEvent
+            // CHK_ReachNavel
             // 
-            this.GB_InitialEvent.Controls.Add(this.CHK_InitialSouthern);
-            this.GB_InitialEvent.Controls.Add(this.CHK_InitialNavel);
-            this.GB_InitialEvent.Controls.Add(this.CHK_InitialBirth);
-            this.GB_InitialEvent.Controls.Add(this.CHK_InitialFaraway);
-            this.GB_InitialEvent.Location = new System.Drawing.Point(123, 6);
-            this.GB_InitialEvent.Name = "GB_InitialEvent";
-            this.GB_InitialEvent.Size = new System.Drawing.Size(96, 106);
-            this.GB_InitialEvent.TabIndex = 3;
-            this.GB_InitialEvent.TabStop = false;
-            this.GB_InitialEvent.Text = "Initial Event";
+            this.CHK_ReachNavel.AutoSize = true;
+            this.CHK_ReachNavel.Location = new System.Drawing.Point(6, 40);
+            this.CHK_ReachNavel.Name = "CHK_ReachNavel";
+            this.CHK_ReachNavel.Size = new System.Drawing.Size(83, 17);
+            this.CHK_ReachNavel.TabIndex = 1;
+            this.CHK_ReachNavel.Text = "Navel Rock";
+            this.CHK_ReachNavel.UseVisualStyleBackColor = true;
             // 
-            // CHK_InitialSouthern
+            // CHK_ReachSouthern
             // 
-            this.CHK_InitialSouthern.AutoSize = true;
-            this.CHK_InitialSouthern.Location = new System.Drawing.Point(6, 18);
-            this.CHK_InitialSouthern.Name = "CHK_InitialSouthern";
-            this.CHK_InitialSouthern.Size = new System.Drawing.Size(84, 16);
-            this.CHK_InitialSouthern.TabIndex = 4;
-            this.CHK_InitialSouthern.Text = "Southern Is.";
-            this.CHK_InitialSouthern.UseVisualStyleBackColor = true;
+            this.CHK_ReachSouthern.AutoSize = true;
+            this.CHK_ReachSouthern.Location = new System.Drawing.Point(6, 18);
+            this.CHK_ReachSouthern.Name = "CHK_ReachSouthern";
+            this.CHK_ReachSouthern.Size = new System.Drawing.Size(100, 17);
+            this.CHK_ReachSouthern.TabIndex = 0;
+            this.CHK_ReachSouthern.Text = "Southern Island";
+            this.CHK_ReachSouthern.UseVisualStyleBackColor = true;
             // 
-            // CHK_InitialNavel
+            // CHK_Catchable
             // 
-            this.CHK_InitialNavel.AutoSize = true;
-            this.CHK_InitialNavel.Location = new System.Drawing.Point(6, 40);
-            this.CHK_InitialNavel.Name = "CHK_InitialNavel";
-            this.CHK_InitialNavel.Size = new System.Drawing.Size(83, 16);
-            this.CHK_InitialNavel.TabIndex = 5;
-            this.CHK_InitialNavel.Text = "Navel Rock";
-            this.CHK_InitialNavel.UseVisualStyleBackColor = true;
-            // 
-            // CHK_InitialBirth
-            // 
-            this.CHK_InitialBirth.AutoSize = true;
-            this.CHK_InitialBirth.Location = new System.Drawing.Point(6, 62);
-            this.CHK_InitialBirth.Name = "CHK_InitialBirth";
-            this.CHK_InitialBirth.Size = new System.Drawing.Size(64, 16);
-            this.CHK_InitialBirth.TabIndex = 6;
-            this.CHK_InitialBirth.Text = "Birth Is.";
-            this.CHK_InitialBirth.UseVisualStyleBackColor = true;
-            // 
-            // CHK_InitialFaraway
-            // 
-            this.CHK_InitialFaraway.AutoSize = true;
-            this.CHK_InitialFaraway.Location = new System.Drawing.Point(6, 84);
-            this.CHK_InitialFaraway.Name = "CHK_InitialFaraway";
-            this.CHK_InitialFaraway.Size = new System.Drawing.Size(82, 16);
-            this.CHK_InitialFaraway.TabIndex = 7;
-            this.CHK_InitialFaraway.Text = "Faraway Is.";
-            this.CHK_InitialFaraway.UseVisualStyleBackColor = true;
-            // 
-            // B_GetTickets
-            // 
-            this.B_GetTickets.Location = new System.Drawing.Point(123, 133);
-            this.B_GetTickets.Name = "B_GetTickets";
-            this.B_GetTickets.Size = new System.Drawing.Size(96, 23);
-            this.B_GetTickets.TabIndex = 4;
-            this.B_GetTickets.Text = "Get Tickets";
-            this.B_GetTickets.UseVisualStyleBackColor = true;
-            this.B_GetTickets.Click += new System.EventHandler(this.B_GetTickets_Click);
+            this.CHK_Catchable.AutoSize = true;
+            this.CHK_Catchable.Location = new System.Drawing.Point(12, 143);
+            this.CHK_Catchable.Name = "CHK_Catchable";
+            this.CHK_Catchable.Size = new System.Drawing.Size(83, 17);
+            this.CHK_Catchable.TabIndex = 0;
+            this.CHK_Catchable.Text = "Can get ride";
+            this.CHK_Catchable.UseVisualStyleBackColor = true;
             // 
             // TAB_BF
             // 
@@ -554,7 +623,7 @@
             this.TAB_BF.Name = "TAB_BF";
             this.TAB_BF.Size = new System.Drawing.Size(266, 218);
             this.TAB_BF.TabIndex = 3;
-            this.TAB_BF.Text = "B.Frontier";
+            this.TAB_BF.Text = "Battle Frontier";
             this.TAB_BF.UseVisualStyleBackColor = true;
             // 
             // GB_Streaks
@@ -656,7 +725,7 @@
             this.L_Stat3.AutoSize = true;
             this.L_Stat3.Location = new System.Drawing.Point(6, 185);
             this.L_Stat3.Name = "L_Stat3";
-            this.L_Stat3.Size = new System.Drawing.Size(34, 12);
+            this.L_Stat3.Size = new System.Drawing.Size(35, 13);
             this.L_Stat3.TabIndex = 13;
             this.L_Stat3.Text = "Trade";
             // 
@@ -665,16 +734,16 @@
             this.L_Stat2.AutoSize = true;
             this.L_Stat2.Location = new System.Drawing.Point(6, 159);
             this.L_Stat2.Name = "L_Stat2";
-            this.L_Stat2.Size = new System.Drawing.Size(26, 12);
+            this.L_Stat2.Size = new System.Drawing.Size(42, 13);
             this.L_Stat2.TabIndex = 9;
-            this.L_Stat2.Text = "Max";
+            this.L_Stat2.Text = "Record";
             // 
             // L_Stat1
             // 
             this.L_Stat1.AutoSize = true;
             this.L_Stat1.Location = new System.Drawing.Point(6, 133);
             this.L_Stat1.Name = "L_Stat1";
-            this.L_Stat1.Size = new System.Drawing.Size(34, 12);
+            this.L_Stat1.Size = new System.Drawing.Size(35, 13);
             this.L_Stat1.TabIndex = 8;
             this.L_Stat1.Text = "Trade";
             // 
@@ -683,7 +752,7 @@
             this.L_Stat0.AutoSize = true;
             this.L_Stat0.Location = new System.Drawing.Point(6, 107);
             this.L_Stat0.Name = "L_Stat0";
-            this.L_Stat0.Size = new System.Drawing.Size(43, 12);
+            this.L_Stat0.Size = new System.Drawing.Size(41, 13);
             this.L_Stat0.TabIndex = 7;
             this.L_Stat0.Text = "Current";
             // 
@@ -692,7 +761,7 @@
             this.CHK_Continue.AutoSize = true;
             this.CHK_Continue.Location = new System.Drawing.Point(6, 85);
             this.CHK_Continue.Name = "CHK_Continue";
-            this.CHK_Continue.Size = new System.Drawing.Size(69, 16);
+            this.CHK_Continue.Size = new System.Drawing.Size(68, 17);
             this.CHK_Continue.TabIndex = 5;
             this.CHK_Continue.Text = "Continue";
             this.CHK_Continue.UseVisualStyleBackColor = true;
@@ -701,9 +770,9 @@
             // RB_Stats3_02
             // 
             this.RB_Stats3_02.AutoSize = true;
-            this.RB_Stats3_02.Location = new System.Drawing.Point(59, 65);
+            this.RB_Stats3_02.Location = new System.Drawing.Point(63, 65);
             this.RB_Stats3_02.Name = "RB_Stats3_02";
-            this.RB_Stats3_02.Size = new System.Drawing.Size(49, 16);
+            this.RB_Stats3_02.Size = new System.Drawing.Size(51, 17);
             this.RB_Stats3_02.TabIndex = 4;
             this.RB_Stats3_02.TabStop = true;
             this.RB_Stats3_02.Text = "Open";
@@ -715,10 +784,10 @@
             this.RB_Stats3_01.AutoSize = true;
             this.RB_Stats3_01.Location = new System.Drawing.Point(6, 65);
             this.RB_Stats3_01.Name = "RB_Stats3_01";
-            this.RB_Stats3_01.Size = new System.Drawing.Size(47, 16);
+            this.RB_Stats3_01.Size = new System.Drawing.Size(55, 17);
             this.RB_Stats3_01.TabIndex = 3;
             this.RB_Stats3_01.TabStop = true;
-            this.RB_Stats3_01.Text = "Lv50";
+            this.RB_Stats3_01.Text = "Lv. 50";
             this.RB_Stats3_01.UseVisualStyleBackColor = true;
             this.RB_Stats3_01.CheckedChanged += new System.EventHandler(this.ChangeStat);
             // 
@@ -728,7 +797,7 @@
             this.CB_Stats2.FormattingEnabled = true;
             this.CB_Stats2.Location = new System.Drawing.Point(6, 41);
             this.CB_Stats2.Name = "CB_Stats2";
-            this.CB_Stats2.Size = new System.Drawing.Size(68, 20);
+            this.CB_Stats2.Size = new System.Drawing.Size(68, 21);
             this.CB_Stats2.TabIndex = 1;
             this.CB_Stats2.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
             // 
@@ -738,7 +807,7 @@
             this.CB_Stats1.FormattingEnabled = true;
             this.CB_Stats1.Location = new System.Drawing.Point(6, 17);
             this.CB_Stats1.Name = "CB_Stats1";
-            this.CB_Stats1.Size = new System.Drawing.Size(68, 20);
+            this.CB_Stats1.Size = new System.Drawing.Size(68, 21);
             this.CB_Stats1.TabIndex = 0;
             this.CB_Stats1.SelectedIndexChanged += new System.EventHandler(this.ChangeStat1);
             // 
@@ -858,79 +927,10 @@
             this.CHK_ActivatePass.AutoSize = true;
             this.CHK_ActivatePass.Location = new System.Drawing.Point(6, 17);
             this.CHK_ActivatePass.Name = "CHK_ActivatePass";
-            this.CHK_ActivatePass.Size = new System.Drawing.Size(73, 16);
+            this.CHK_ActivatePass.Size = new System.Drawing.Size(71, 17);
             this.CHK_ActivatePass.TabIndex = 0;
             this.CHK_ActivatePass.Text = "Activated";
             this.CHK_ActivatePass.UseVisualStyleBackColor = true;
-            // 
-            // GB_TCM
-            // 
-            this.GB_TCM.Controls.Add(this.CB_TCM6);
-            this.GB_TCM.Controls.Add(this.CB_TCM5);
-            this.GB_TCM.Controls.Add(this.CB_TCM4);
-            this.GB_TCM.Controls.Add(this.CB_TCM3);
-            this.GB_TCM.Controls.Add(this.CB_TCM2);
-            this.GB_TCM.Controls.Add(this.CB_TCM1);
-            this.GB_TCM.Location = new System.Drawing.Point(6, 123);
-            this.GB_TCM.Name = "GB_TCM";
-            this.GB_TCM.Size = new System.Drawing.Size(249, 74);
-            this.GB_TCM.TabIndex = 36;
-            this.GB_TCM.TabStop = false;
-            this.GB_TCM.Text = "TrainerCard Pokemon Icons";
-            // 
-            // CB_TCM1
-            // 
-            this.CB_TCM1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TCM1.FormattingEnabled = true;
-            this.CB_TCM1.Location = new System.Drawing.Point(6, 18);
-            this.CB_TCM1.Name = "CB_TCM1";
-            this.CB_TCM1.Size = new System.Drawing.Size(75, 20);
-            this.CB_TCM1.TabIndex = 0;
-            // 
-            // CB_TCM2
-            // 
-            this.CB_TCM2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TCM2.FormattingEnabled = true;
-            this.CB_TCM2.Location = new System.Drawing.Point(87, 18);
-            this.CB_TCM2.Name = "CB_TCM2";
-            this.CB_TCM2.Size = new System.Drawing.Size(75, 20);
-            this.CB_TCM2.TabIndex = 1;
-            // 
-            // CB_TCM3
-            // 
-            this.CB_TCM3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TCM3.FormattingEnabled = true;
-            this.CB_TCM3.Location = new System.Drawing.Point(168, 18);
-            this.CB_TCM3.Name = "CB_TCM3";
-            this.CB_TCM3.Size = new System.Drawing.Size(75, 20);
-            this.CB_TCM3.TabIndex = 2;
-            // 
-            // CB_TCM4
-            // 
-            this.CB_TCM4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TCM4.FormattingEnabled = true;
-            this.CB_TCM4.Location = new System.Drawing.Point(6, 46);
-            this.CB_TCM4.Name = "CB_TCM4";
-            this.CB_TCM4.Size = new System.Drawing.Size(75, 20);
-            this.CB_TCM4.TabIndex = 3;
-            // 
-            // CB_TCM5
-            // 
-            this.CB_TCM5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TCM5.FormattingEnabled = true;
-            this.CB_TCM5.Location = new System.Drawing.Point(87, 46);
-            this.CB_TCM5.Name = "CB_TCM5";
-            this.CB_TCM5.Size = new System.Drawing.Size(75, 20);
-            this.CB_TCM5.TabIndex = 4;
-            // 
-            // CB_TCM6
-            // 
-            this.CB_TCM6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_TCM6.FormattingEnabled = true;
-            this.CB_TCM6.Location = new System.Drawing.Point(168, 46);
-            this.CB_TCM6.Name = "CB_TCM6";
-            this.CB_TCM6.Size = new System.Drawing.Size(75, 20);
-            this.CB_TCM6.TabIndex = 5;
             // 
             // SAV_Misc3
             // 
@@ -948,10 +948,11 @@
             this.tabControl1.ResumeLayout(false);
             this.TAB_Main.ResumeLayout(false);
             this.TAB_Main.PerformLayout();
+            this.GB_TCM.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).EndInit();
             this.TAB_Joyful.ResumeLayout(false);
             this.TAB_Joyful.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coins)).EndInit();
             this.TAB_Ferry.ResumeLayout(false);
             this.TAB_Ferry.PerformLayout();
             this.GB_InitialEvent.ResumeLayout(false);
@@ -968,7 +969,6 @@
             this.GB_FrontierPass.ResumeLayout(false);
             this.GB_FrontierPass.PerformLayout();
             this.GB_Icons.ResumeLayout(false);
-            this.GB_TCM.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
