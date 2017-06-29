@@ -42,6 +42,7 @@ namespace PKHeX.WinForms
             Close();
         }
 
+        private readonly ToolTip tipName = new ToolTip();
         private void PopulateRibbons()
         {
             // Get a list of all Ribbon Attributes in the PKM
@@ -59,10 +60,9 @@ namespace PKHeX.WinForms
             
             // Add Ribbons
             foreach (var rib in riblist)
-            {
                 AddRibbonSprite(rib);
+            foreach (var rib in riblist.OrderBy(z => RibbonStrings.GetName(z.Name)))
                 AddRibbonChoice(rib);
-            }
             
             // Force auto-size
             foreach (RowStyle style in TLP_Ribbons.RowStyles)
@@ -78,6 +78,11 @@ namespace PKHeX.WinForms
                 pb.BackgroundImage = (Bitmap)img;
             if (img == null)
                 return;
+
+            pb.MouseEnter += (s, e) => 
+            {
+                tipName.SetToolTip(pb, RibbonStrings.GetName(rib.Name));
+            };
 
             FLP_Ribbons.Controls.Add(pb);
         }
