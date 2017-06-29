@@ -33,6 +33,7 @@
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
             this.TAB_Main = new System.Windows.Forms.TabPage();
+            this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_UGFlags = new System.Windows.Forms.Label();
             this.NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
@@ -95,7 +96,6 @@
             this.NUD_CastleRankItem = new System.Windows.Forms.NumericUpDown();
             this.NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
             this.L_CastleRank01 = new System.Windows.Forms.Label();
-            this.L_CurrentMap = new System.Windows.Forms.Label();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
@@ -185,6 +185,15 @@
             this.TAB_Main.UseVisualStyleBackColor = true;
             this.TAB_Main.DragDrop += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragDrop);
             this.TAB_Main.DragEnter += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragEnter);
+            // 
+            // L_CurrentMap
+            // 
+            this.L_CurrentMap.Location = new System.Drawing.Point(4, 51);
+            this.L_CurrentMap.Name = "L_CurrentMap";
+            this.L_CurrentMap.Size = new System.Drawing.Size(71, 25);
+            this.L_CurrentMap.TabIndex = 8;
+            this.L_CurrentMap.Text = "Current Map";
+            this.L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_UGFlags
             // 
@@ -435,7 +444,7 @@
             this.GB_Streaks.Controls.Add(this.L_Stat1);
             this.GB_Streaks.Controls.Add(this.L_Stat2);
             this.GB_Streaks.Controls.Add(this.L_Stat3);
-            this.GB_Streaks.Location = new System.Drawing.Point(90, 3);
+            this.GB_Streaks.Location = new System.Drawing.Point(90, 7);
             this.GB_Streaks.Name = "GB_Streaks";
             this.GB_Streaks.Size = new System.Drawing.Size(114, 228);
             this.GB_Streaks.TabIndex = 1;
@@ -574,9 +583,9 @@
             this.L_Stat0.AutoSize = true;
             this.L_Stat0.Location = new System.Drawing.Point(6, 126);
             this.L_Stat0.Name = "L_Stat0";
-            this.L_Stat0.Size = new System.Drawing.Size(48, 13);
+            this.L_Stat0.Size = new System.Drawing.Size(41, 13);
             this.L_Stat0.TabIndex = 9;
-            this.L_Stat0.Text = "Previous";
+            this.L_Stat0.Text = "Current";
             // 
             // L_Stat1
             // 
@@ -1083,15 +1092,6 @@
             this.L_CastleRank01.TabIndex = 3;
             this.L_CastleRank01.Text = "Recovery / Item / Info";
             this.L_CastleRank01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // L_CurrentMap
-            // 
-            this.L_CurrentMap.Location = new System.Drawing.Point(4, 51);
-            this.L_CurrentMap.Name = "L_CurrentMap";
-            this.L_CurrentMap.Size = new System.Drawing.Size(71, 25);
-            this.L_CurrentMap.TabIndex = 8;
-            this.L_CurrentMap.Text = "Current Map";
-            this.L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Misc4
             // 
