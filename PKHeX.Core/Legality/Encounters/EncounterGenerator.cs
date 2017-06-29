@@ -871,7 +871,7 @@ namespace PKHeX.Core
                 {
                     if (pkm.IsNative)
                     {
-                        if (wc.Level != pkm.Met_Level)
+                        if (pkm.Met_Level != 0)
                             continue;
                     }
                     else

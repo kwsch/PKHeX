@@ -271,34 +271,39 @@ namespace PKHeX.Core
 
         internal static readonly MysteryGift[] Encounter_Event3_FRLG =
         {
-            // Egg Pokémon Present Eggs
-            new WC3 { Species = 043, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{073} }, // Oddish with Leech Seed
-            new WC3 { Species = 052, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{080} }, // Meowth with Petal Dance
-            new WC3 { Species = 060, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{186} }, // Poliwag with Sweet Kiss
-            new WC3 { Species = 069, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{298} }, // Bellsprout with Teeter Dance
-            // Wish Egg
-            new WC3 { Species = 083, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
-            new WC3 { Species = 096, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
-            new WC3 { Species = 102, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
-            new WC3 { Species = 108, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
-            new WC3 { Species = 113, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
-            new WC3 { Species = 115, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
+            // PCJP - Egg Pokémon Present Eggs (March 21 to April 4, 2004)
+            new WC3 { Species = 043, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{073} }, // Oddish with Leech Seed
+            new WC3 { Species = 052, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{080} }, // Meowth with Petal Dance
+            new WC3 { Species = 060, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new WC3 { Species = 069, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+            // PCNY - Wish Eggs (December 16, 2004, to January 2, 2005)
+            new WC3 { Species = 083, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
+            new WC3 { Species = 096, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
+            new WC3 { Species = 102, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
+            new WC3 { Species = 108, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
+            new WC3 { Species = 113, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
+            new WC3 { Species = 115, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_RS =
         {   
-            // Pokémon Center 5th Anniversary Eggs
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{298} }, // Pichu with Teeter Dance
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Pichu with Wish
-            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{204} }, // Ralts with Charm
-            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Ralts with Wish
-            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{180} }, // Absol with Spite
-            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Absol with Wish
-            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{334} }, // Bagon with Iron Defense
-            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Moves = new[]{273} }, // Bagon with Wish
-
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY" },
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE" },
+            // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{298} }, // Pichu with Teeter Dance
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Pichu with Wish
+            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{204} }, // Ralts with Charm
+            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Ralts with Wish
+            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{180} }, // Absol with Spite
+            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Absol with Wish
+            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{334} }, // Bagon with Iron Defense
+            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Bagon with Wish
+            
+            // Berry Glitch Fix
+            // PCJP - (December 29, 2003 to March 31, 2004)
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", Language = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", Language = 1 },
+            // EBGames/GameStop (March 1, 2004 to April 22, 2007), also via multi-game discs
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", Language = 2 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", Language = 2 },
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_Common =

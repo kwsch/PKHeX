@@ -614,11 +614,18 @@ namespace PKHeX.Core
         {
             if (EncounterMatch is MysteryGift gift)
             {
-                if (gift.Level != pkm.Met_Level)
-                if (pkm.HasOriginalMetLocation && (!(gift is WC7 wc7) || wc7.MetLevel != pkm.Met_Level))
+                if (gift.Level != pkm.Met_Level && pkm.HasOriginalMetLocation)
                 {
-                    AddLine(new CheckResult(Severity.Invalid, V83, CheckIdentifier.Level));
-                    return;
+                    switch (gift)
+                    {
+                        case WC3 wc3 when wc3.IsEgg && pkm.Met_Level == 0:
+                            break;
+                        case WC7 wc7 when wc7.MetLevel == pkm.Met_Level:
+                            break;
+                        default:
+                            AddLine(new CheckResult(Severity.Invalid, V83, CheckIdentifier.Level));
+                            return;
+                    }
                 }
                 if (gift.Level > pkm.CurrentLevel)
                 {
@@ -766,7 +773,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetUnique3 u3)
             {
-                if (gen != 3 || IsAllowedBattleFrontier(pkm.Species))
+                if (gen != 3 || !IsAllowedBattleFrontier(pkm.Species))
                 {
                     if (u3.RibbonWinning)
                         yield return new RibbonResult(nameof(u3.RibbonWinning));
