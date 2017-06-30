@@ -262,8 +262,6 @@ namespace PKHeX.Core
             if (!safari)
             foreach (var z in GetValidStaticEncounter(pkm))
                 yield return z;
-            foreach (var z in GetValidFriendSafari(pkm))
-                yield return z;
             foreach (var z in GetValidWildEncounters(pkm))
                 yield return z;
             foreach (var z in GetValidEncounterTrades(pkm))
@@ -479,11 +477,13 @@ namespace PKHeX.Core
             var deferred = new List<EncounterSlot>();
             foreach (EncounterSlot slot in s)
             {
+                // check for petty rejection scenarios that will be flagged by other legality checks
+                // defer these edge case scenarios in the event that a later encounter ends up passing
                 if (slot.Species == 265 && species != 265 && !IsWurmpleEvoValid(pkm)) { } // bad wurmple evolution
                 else if (IsHidden ^ IsHiddenAbilitySlot(slot)) { } // ability mismatch
                 else if (IsSafariBall ^ IsSafariSlot(slot.Type)) { } // Safari Zone only ball
                 else if (IsSportsBall ^ slot.Type == SlotType.BugContest) { } // BCC only ball
-                else if (CheckEncounterType && !slot.TypeEncounter.Contains(pkm.EncounterType)) { } // mismatch
+                else if (CheckEncounterType && !slot.TypeEncounter.Contains(pkm.EncounterType)) { } // incorrect encounter type
                 else
                 {
                     yield return slot;
@@ -533,33 +533,33 @@ namespace PKHeX.Core
             IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
 
             bool IsRGBKadabra = false;
-            if (pkm.Format == 1 && pkm.Gen1_NotTradeback)
+            if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
             {
                 // Pure gen 1, slots can be filter by catch rate
-                if ((pkm.Species == 25 || pkm.Species == 26) && (pkm as PK1).Catch_Rate == 163)
+                if ((pkm.Species == 25 || pkm.Species == 26) && pk1.Catch_Rate == 163)
                     // Yellow Pikachu, is not a wild encounter
                     return slotdata;
-                if ((pkm.Species == 64 || pkm.Species == 65) && (pkm as PK1).Catch_Rate == 96)
+                if ((pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 96)
                     // Yellow Kadabra, ignore Abra encounters
                     vs = vs.Where(s => s.Species == 64);
-                if ((pkm.Species == 148 || pkm.Species == 149) && (pkm as PK1).Catch_Rate == 27)
+                if ((pkm.Species == 148 || pkm.Species == 149) && pk1.Catch_Rate == 27)
                     // Yellow Dragonair, ignore Dratini encounters
                     vs = vs.Where(s => s.Species == 148);
                 else
                 {
-                    IsRGBKadabra = (pkm.Species == 64 || pkm.Species == 65) && (pkm as PK1).Catch_Rate == 100;
-                    vs = vs.Where(s => (pkm as PK1).Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                    IsRGBKadabra = (pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 100;
+                    vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
                 }
             }
-
-            // Get slots where pokemon can exist
-            bool ignoreSlotLevel = ignoreLevel;
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
 
             int lvl = GetMinLevelEncounter(pkm);
             if (lvl <= 0)
                 return slotdata;
             int gen = pkm.GenNumber;
+
+            // Get slots where pokemon can exist
+            bool ignoreSlotLevel = ignoreLevel;
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
 
             List<EncounterSlot> encounterSlots;
             if (ignoreLevel)
