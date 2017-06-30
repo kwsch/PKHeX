@@ -299,11 +299,14 @@ namespace PKHeX.Core
             
             // Berry Glitch Fix
             // PCJP - (December 29, 2003 to March 31, 2004)
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", Language = 1 },
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", Language = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", Language = 1, OT_Gender = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", Language = 1, OT_Gender = 0 },
             // EBGames/GameStop (March 1, 2004 to April 22, 2007), also via multi-game discs
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", Language = 2 },
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", Language = 2 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", Language = 2, OT_Gender = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", Language = 2, OT_Gender = 0 },
+
+            // Channel Jirachi
+            new WC3 { Species = 385, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.Channel, TID = 40122, SID = -1, OT_Name = "CHANNEL", Met_Level = 0 },
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_Common =

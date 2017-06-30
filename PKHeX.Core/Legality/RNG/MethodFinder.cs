@@ -38,7 +38,7 @@ namespace PKHeX.Core
             // Special cases
             if (GetLCRNGRoamerMatch(top, bot, IVs, out pidiv))
                 return pidiv;
-            if (GetChannelMatch(top, bot, IVs, out pidiv))
+            if (GetChannelMatch(top, bot, IVs, out pidiv, pk))
                 return pidiv;
             if (GetMG4Match(pid, IVs, out pidiv))
                 return pidiv;
@@ -200,13 +200,33 @@ namespace PKHeX.Core
             pidiv = null;
             return false;
         }
-        private static bool GetChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv, PKM pk)
         {
+            var ver = pk.Version;
+            if (ver != (int) GameVersion.R && ver != (int) GameVersion.S)
+            {
+                pidiv = null;
+                return false;
+            }
+
             var channel = GetSeedsFromPID(RNG.XDRNG, bot, top ^ 0x8000);
             foreach (var seed in channel)
             {
-                var E = RNG.XDRNG.Advance(seed, 5);
+                var C = RNG.XDRNG.Advance(seed, 3); // held item
+                // no checks, held item can be swapped
+
+                var D = RNG.XDRNG.Next(C); // Version
+                if ((D >> 31) + 1 != ver) // (0-Sapphire, 1-Ruby)
+                    continue;
+
+                var E = RNG.XDRNG.Next(D); // OT Gender
+                if (E >> 31 != pk.OT_Gender)
+                    continue;
+
                 if (!GetIVs(RNG.XDRNG, E).SequenceEqual(IVs))
+                    continue;
+
+                if (seed >> 16 != pk.SID)
                     continue;
 
                 pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(seed), RNG = RNG.XDRNG, Type = PIDType.Channel};

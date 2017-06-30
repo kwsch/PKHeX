@@ -646,51 +646,8 @@ namespace PKHeX.WinForms.Controls
             UpdateLegality(skipMoveRepop: true);
             if (Legality.Valid)
                 return;
-
-            var encounter = Legality.GetSuggestedMetInfo();
-            if (encounter == null || (pkm.Format >= 3 && encounter.Location < 0))
-            {
-                WinFormsUtil.Alert("Unable to provide a suggestion.");
+            if (!SetSuggestedMetLocation())
                 return;
-            }
-
-            int level = encounter.Level;
-            int location = encounter.Location;
-            int minlvl = Legal.GetLowestLevel(pkm, encounter.Species);
-            if (minlvl == 0)
-                minlvl = level;
-
-            if (pkm.CurrentLevel >= minlvl && pkm.Met_Level == level && pkm.Met_Location == location)
-                return;
-            if (minlvl < level)
-                minlvl = level;
-
-            var suggestion = new List<string> { "Suggested:" };
-            if (pkm.Format >= 3)
-            {
-                var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                var locstr = met_list.FirstOrDefault(loc => loc.Value == location).Text;
-                suggestion.Add($"Met Location: {locstr}");
-                suggestion.Add($"Met Level: {level}");
-            }
-            if (pkm.CurrentLevel < minlvl)
-                suggestion.Add($"Current Level: {minlvl}");
-
-            if (suggestion.Count == 1) // no suggestion
-                return;
-
-            string suggest = string.Join(Environment.NewLine, suggestion);
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggest) != DialogResult.Yes)
-                return;
-
-            if (pkm.Format >= 3)
-            {
-                TB_MetLevel.Text = level.ToString();
-                CB_MetLocation.SelectedValue = location;
-            }
-
-            if (pkm.CurrentLevel < minlvl)
-                TB_Level.Text = minlvl.ToString();
 
             pkm = PreparePKM();
             UpdateLegality();
@@ -733,12 +690,13 @@ namespace PKHeX.WinForms.Controls
 
             UpdateLegality();
         }
-        private bool SetSuggestedMoves(bool random = false)
+        private bool SetSuggestedMoves(bool random = false, bool silent = false)
         {
             int[] m = Legality.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
             if (m == null)
             {
-                WinFormsUtil.Alert("Suggestions are not enabled for this PKM format.");
+                if (!silent)
+                    WinFormsUtil.Alert("Suggestions are not enabled for this PKM format.");
                 return false;
             }
 
@@ -751,10 +709,13 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Moves.SequenceEqual(m))
                 return false;
 
-            string r = string.Join(Environment.NewLine,
-                m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]));
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
-                return false;
+            if (!silent)
+            {
+                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]);
+                string r = string.Join(Environment.NewLine, movestrings);
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested current moves?", r))
+                    return false;
+            }
 
             CB_Move1.SelectedValue = m[0];
             CB_Move2.SelectedValue = m[1];
@@ -764,6 +725,9 @@ namespace PKHeX.WinForms.Controls
         }
         private bool SetSuggestedRelearnMoves(bool silent = false)
         {
+            if (pkm.Format < 6)
+                return false;
+
             int[] m = Legality.GetSuggestedRelearn();
             if (m.All(z => z == 0))
                 if (!pkm.WasEgg && !pkm.WasEvent && !pkm.WasEventEgg && !pkm.WasLink)
@@ -776,15 +740,71 @@ namespace PKHeX.WinForms.Controls
             if (pkm.RelearnMoves.SequenceEqual(m))
                 return false;
 
-            string r = string.Join(Environment.NewLine,
-                m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]));
-            if (!silent && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
-                return false;
+            if (!silent)
+            {
+                var movestrings = m.Select(v => v >= GameInfo.Strings.movelist.Length ? "ERROR" : GameInfo.Strings.movelist[v]);
+                string r = string.Join(Environment.NewLine, movestrings);
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Apply suggested relearn moves?", r))
+                    return false;
+            }
 
             CB_RelearnMove1.SelectedValue = m[0];
             CB_RelearnMove2.SelectedValue = m[1];
             CB_RelearnMove3.SelectedValue = m[2];
             CB_RelearnMove4.SelectedValue = m[3];
+            return true;
+        }
+        private bool SetSuggestedMetLocation(bool silent = false)
+        {
+            var encounter = Legality.GetSuggestedMetInfo();
+            if (encounter == null || pkm.Format >= 3 && encounter.Location < 0)
+            {
+                if (!silent)
+                    WinFormsUtil.Alert("Unable to provide a suggestion.");
+                return false;
+            }
+
+            int level = encounter.Level;
+            int location = encounter.Location;
+            int minlvl = Legal.GetLowestLevel(pkm, encounter.Species);
+            if (minlvl == 0)
+                minlvl = level;
+
+            if (pkm.CurrentLevel >= minlvl && pkm.Met_Level == level && pkm.Met_Location == location)
+                return false;
+            if (minlvl < level)
+                minlvl = level;
+
+            if (!silent)
+            {
+                var suggestion = new List<string> { "Suggested:" };
+                if (pkm.Format >= 3)
+                {
+                    var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
+                    var locstr = met_list.FirstOrDefault(loc => loc.Value == location).Text;
+                    suggestion.Add($"Met Location: {locstr}");
+                    suggestion.Add($"Met Level: {level}");
+                }
+                if (pkm.CurrentLevel < minlvl)
+                    suggestion.Add($"Current Level: {minlvl}");
+
+                if (suggestion.Count == 1) // no suggestion
+                    return false;
+
+                string suggest = string.Join(Environment.NewLine, suggestion);
+                if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, suggest) != DialogResult.Yes)
+                    return false;
+            }
+
+            if (pkm.Format >= 3)
+            {
+                TB_MetLevel.Text = level.ToString();
+                CB_MetLocation.SelectedValue = location;
+            }
+
+            if (pkm.CurrentLevel < minlvl)
+                TB_Level.Text = minlvl.ToString();
+
             return true;
         }
 

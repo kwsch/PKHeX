@@ -35,7 +35,7 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(PIDType.CXD, MethodFinder.Analyze(pk3)?.Type, "Unable to match PID to CXD spread");
 
             // Channel Jirachi
-            var pkC = new PK3 {PID = 0x9E27D2F6, IVs = new[] {04, 15, 21, 14, 18, 29}};
+            var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
             Assert.AreEqual(PIDType.Channel, MethodFinder.Analyze(pkC)?.Type, "Unable to match PID to Channel spread");
         }
 

@@ -372,7 +372,7 @@ namespace PKHeX.Core
                 InvalidLines.Add("Unknown EV input.");
             for (int i = 0; i < evlist.Length / 2; i++)
             {
-               bool valid =  ushort.TryParse(evlist[i * 2 + 0], out ushort EV);
+                bool valid = ushort.TryParse(evlist[i * 2 + 0], out ushort EV);
                 int index = Array.IndexOf(StatNames, evlist[i * 2 + 1]);
                 if (valid && index > -1)
                     EVs[index] = EV;
