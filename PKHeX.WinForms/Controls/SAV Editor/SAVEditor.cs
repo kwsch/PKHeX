@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Properties;
@@ -13,7 +14,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class SAVEditor : UserControl
     {
-        public SaveFile SAV = SaveUtil.GetBlankSAV(GameVersion.SN, "PKHeX");
+        public SaveFile SAV;
         public readonly PictureBox[] SlotPictureBoxes;
         public readonly SlotChangeManager M;
         public readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
@@ -37,11 +38,10 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        public SAVEditor()
+        public SAVEditor(SaveFile sav = null)
         {
+            var z = Task.Run(() => sav ?? SaveUtil.GetBlankSAV(GameVersion.SN, "PKHeX"));
             InitializeComponent();
-            Box.Setup(M = new SlotChangeManager(this));
-
             var SupplementarySlots = new[]
             {
                 ppkx1, ppkx2, ppkx3, ppkx4, ppkx5, ppkx6,
@@ -49,8 +49,9 @@ namespace PKHeX.WinForms.Controls
 
                 dcpkx1, dcpkx2, gtspkx, fusedpkx, subepkx1, subepkx2, subepkx3,
             };
-
             GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            SAV = z.Result;
+            Box.Setup(M = new SlotChangeManager(this));
             foreach (PictureBox pb in SupplementarySlots)
             {
                 pb.MouseEnter += M.MouseEnter;
