@@ -1183,10 +1183,14 @@ namespace PKHeX.Core
             
             int lvl = pkm.GenNumber < 4 ? 5 : 1;
             var ver = (GameVersion) pkm.Version; // version is a true indicator for all generation 3+ origins
-            yield return new EncounterEgg { Game = (GameVersion)pkm.Version, Level = lvl, Species = GetBaseSpecies(pkm, 0) };
+            int max = GetMaxSpeciesOrigin(pkm.GenNumber);
 
-            if (GetSplitBreedGeneration(pkm).Contains(pkm.Species))
-                yield return new EncounterEgg { Game = ver, Level = lvl, Species = GetBaseSpecies(pkm, 1), SplitBreed = true };
+            var baseSpecies = GetBaseSpecies(pkm, 0);
+            if (baseSpecies <= max)
+                yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies };
+
+            if (GetSplitBreedGeneration(pkm).Contains(pkm.Species) && (baseSpecies = GetBaseSpecies(pkm, 1)) <= max)
+                yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
         }
 
         // Utility
