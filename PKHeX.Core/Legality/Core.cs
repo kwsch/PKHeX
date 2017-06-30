@@ -2157,7 +2157,7 @@ namespace PKHeX.Core
             if (pkm.Format == 3 && pkm.WasEgg)
                 // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
                 return 5;
-            if (pkm.Format == 4 && pkm.GenNumber == 4 && pkm.WasEgg) 
+            if (pkm.Format == 4 && pkm.GenNumber == 4 && pkm.WasEgg)
                 // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
                 return 1;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);

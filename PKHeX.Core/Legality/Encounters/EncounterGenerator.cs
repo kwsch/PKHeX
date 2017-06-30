@@ -457,16 +457,19 @@ namespace PKHeX.Core
         }
 
         // EncounterSlot
-        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, GameVersion gameSource = GameVersion.Any)
         {
-            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, DexNav: pkm.AO, gameSource: gameSource));
+            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, DexNav: pkm.AO, lvl: lvl, gameSource: gameSource));
         }
         private static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var s = GetRawEncounterSlots(pkm, gameSource);
+            int lvl = GetMinLevelEncounter(pkm);
+            if (lvl <= 0)
+                yield break;
+            var s = GetRawEncounterSlots(pkm, lvl, gameSource);
             bool IsSafariBall = pkm.Ball == 5;
             bool IsSportsBall = pkm.Ball == 0x18;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
@@ -516,18 +519,23 @@ namespace PKHeX.Core
                 };
             }
         }
-        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, bool ignoreLevel = false, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, int lvl = -1, bool ignoreLevel = false, GameVersion gameSource = GameVersion.Any)
         {
-            int fluteBoost = pkm.Format < 3 ? 0 : 4;
+            if (lvl < 0)
+                lvl = GetMinLevelEncounter(pkm);
+            if (lvl <= 0)
+                yield break;
+
+            int gen = pkm.GenNumber;
+            int fluteBoost = gen < 3 ? 0 : 4;
             const int dexnavBoost = 30;
 
             int df = DexNav ? fluteBoost : 0;
             int dn = DexNav ? fluteBoost + dexnavBoost : 0;
-            List<EncounterSlot> slotdata = new List<EncounterSlot>();
 
             var maxspeciesorigin = -1;
             if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
-            if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
+            else if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
 
             // Get Valid levels
             IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
@@ -538,7 +546,7 @@ namespace PKHeX.Core
                 // Pure gen 1, slots can be filter by catch rate
                 if ((pkm.Species == 25 || pkm.Species == 26) && pk1.Catch_Rate == 163)
                     // Yellow Pikachu, is not a wild encounter
-                    return slotdata;
+                    yield break;
                 if ((pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 96)
                     // Yellow Kadabra, ignore Abra encounters
                     vs = vs.Where(s => s.Species == 64);
@@ -552,14 +560,8 @@ namespace PKHeX.Core
                 }
             }
 
-            int lvl = GetMinLevelEncounter(pkm);
-            if (lvl <= 0)
-                return slotdata;
-            int gen = pkm.GenNumber;
-
-            // Get slots where pokemon can exist
-            bool ignoreSlotLevel = ignoreLevel;
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreSlotLevel || evo.Level >= slot.LevelMin - df)));
+            // Get slots where pokemon can exist with respect to the evolution chain
+            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreLevel || evo.Level >= slot.LevelMin - df)));
 
             List<EncounterSlot> encounterSlots;
             if (ignoreLevel)
@@ -571,48 +573,41 @@ namespace PKHeX.Core
 
             if (gen <= 2)
             {
-                if (IsRGBKadabra)
-                    //Red Kadabra slots : Level 49 and 51 in RGB, but level 20 and 27 in Yellow
+                if (IsRGBKadabra) //Red Kadabra slots : Level 49 and 51 in RGB, but level 20 and 27 in Yellow
                     encounterSlots = encounterSlots.Where(slot => slot.LevelMin >= 49).ToList();
 
-                // For gen 1 and 2 return Minimum level slot
-                // Minimum level is needed to check available moves, because there is no move reminder in gen 1,
-                // There are moves in the level up table that cant be legally obtained
-                EncounterSlot slotMin = encounterSlots.OrderBy(slot => slot.LevelMin).FirstOrDefault();
-                if (slotMin != null)
-                    slotdata.Add(slotMin);
-                return slotdata;
+                foreach (var s in encounterSlots.OrderBy(slot => slot.LevelMin))
+                    yield return s;
+                yield break;
             }
 
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
-            if (slotMax != null)
-            {
-                slotMax = slotMax.Clone();
-                slotMax.Permissions.Pressure = true;
-                slotMax.Form = pkm.AltForm;
-            }
 
             if (gen >= 6 && !DexNav)
             {
-                // Filter for Form Specific
-                slotdata.AddRange(WildForms.Contains(pkm.Species)
+                var slotdata = WildForms.Contains(pkm.Species)
                     ? encounterSlots.Where(slot => slot.Form == pkm.AltForm)
-                    : encounterSlots);
+                    : encounterSlots;
+
+                foreach (var z in slotdata)
+                    yield return z;
+
+                // Filter for Form Specific
                 if (slotMax != null)
-                    slotdata.Add(slotMax);
-                return slotdata;
+                    yield return getPressureSlot(slotMax);
+                yield break;
             }
 
-            List<EncounterSlot> eslots = encounterSlots.Where(slot => !WildForms.Contains(pkm.Species) || slot.Form == pkm.AltForm).ToList();
+            IEnumerable<EncounterSlot> formMatchSlots = encounterSlots.Where(slot => !WildForms.Contains(pkm.Species) || slot.Form == pkm.AltForm);
             if (gen <= 5)
             {
-                slotdata.AddRange(eslots);
-                return slotdata;
+                foreach (var z in formMatchSlots)
+                    yield return z;
+                yield break;
             }
-            if (slotMax != null)
-                eslots.Add(slotMax);
-            foreach (EncounterSlot s in eslots)
+
+            foreach (EncounterSlot s in formMatchSlots)
             {
                 bool nav = s.Permissions.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
                 EncounterSlot slot = s.Clone();
@@ -624,9 +619,18 @@ namespace PKHeX.Core
                     slot.Permissions.BlackFlute = true;
                 if (slot.LevelMax != lvl && slot.Permissions.AllowDexNav)
                     slot.Permissions.DexNav = true;
-                slotdata.Add(slot);
+                yield return slot;
             }
-            return slotdata;
+            if (slotMax != null)
+                yield return getPressureSlot(slotMax);
+
+            EncounterSlot getPressureSlot(EncounterSlot s)
+            {
+                var max = s.Clone();
+                max.Permissions.Pressure = true;
+                max.Form = pkm.AltForm;
+                return max;
+            }
         }
 
         private static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
