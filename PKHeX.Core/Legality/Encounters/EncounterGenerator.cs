@@ -866,7 +866,6 @@ namespace PKHeX.Core
                     if (wc.TID != pkm.TID) continue;
                     if (wc.OT_Name != pkm.OT_Name) continue;
                     if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
-                    if (wc.Language != 0 && wc.Language != pkm.Language) continue;
 
                     if (wc.Met_Location != pkm.Met_Location && pkm.HasOriginalMetLocation)
                         continue;
@@ -886,7 +885,8 @@ namespace PKHeX.Core
                             continue;
                     }
                 }
-                
+
+                if (wc.Language != -1 && wc.Language != pkm.Language) continue;
                 if (wc.Ball != pkm.Ball) continue;
 
                 // Some checks are best performed separately as they are caused by users screwing up valid data.

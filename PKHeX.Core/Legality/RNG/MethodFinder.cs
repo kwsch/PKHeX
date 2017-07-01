@@ -468,16 +468,11 @@ namespace PKHeX.Core
             for (uint i = 0; i <= 0xFFFF; i++)
             {
                 var seed = x | i;
-                if ((method.Next(seed) & 0x7FFF0000) == cmp)
-                    yield return method.Prev(seed);
-            }
-
-            x |= 0x80000000;
-            for (uint i = 0; i <= 0xFFFF; i++)
-            {
-                var seed = x | i;
-                if ((method.Next(seed) & 0x7FFF0000) == cmp)
-                    yield return method.Prev(seed);
+                if ((method.Next(seed) & 0x7FFF0000) != cmp)
+                    continue;
+                var prev = method.Prev(seed);
+                yield return prev;
+                yield return prev ^ 0x80000000;
             }
         }
 

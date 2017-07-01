@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class WC3 : MysteryGift
+    public class WC3 : MysteryGift, IRibbonSetEvent3
     {
         // Template Properties
 
@@ -58,5 +58,12 @@ namespace PKHeX.Core
         {
             throw new NotImplementedException();
         }
+
+        public bool RibbonEarth { get; set; }
+        public bool RibbonNational { get; set; }
+        public bool RibbonCountry { get; set; }
+        public bool RibbonChampionBattle { get; set; }
+        public bool RibbonChampionRegional { get; set; }
+        public bool RibbonChampionNational { get; set; }
     }
 }

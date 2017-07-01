@@ -21,7 +21,12 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(PIDType.Method_2, MethodFinder.Analyze(pk2)?.Type, "Unable to match PID to Method 2 spread");
             var pk4 = new PK3 {PID = 0x31B05271, IVs = new[] {02, 18, 03, 05, 30, 11}};
             Assert.AreEqual(PIDType.Method_4, MethodFinder.Analyze(pk4)?.Type, "Unable to match PID to Method 4 spread");
+        }
 
+        [TestMethod]
+        [TestCategory(PIDIVTestCategory)]
+        public void PIDIVMatchingTest3Unown()
+        {
             // Method 1/2/4, reversed for Unown.
             var pk1U = new PK3 {PID = 0x815549A2, IVs = new[] {02, 26, 30, 30, 11, 26}, Species = 201}; // Unown-C
             Assert.AreEqual(PIDType.Method_1_Unown, MethodFinder.Analyze(pk1U)?.Type, "Unable to match PID to Method 1 Unown spread");
@@ -29,7 +34,12 @@ namespace PKHeX.Tests.PKM
             Assert.AreEqual(PIDType.Method_2_Unown, MethodFinder.Analyze(pk2U)?.Type, "Unable to match PID to Method 2 Unown spread");
             var pk4U = new PK3 {PID = 0x5FA80D70, IVs = new[] {02, 06, 03, 26, 04, 19}, Species = 201}; // Unown-A
             Assert.AreEqual(PIDType.Method_4_Unown, MethodFinder.Analyze(pk4U)?.Type, "Unable to match PID to Method 4 Unown spread");
+        }
 
+        [TestMethod]
+        [TestCategory(PIDIVTestCategory)]
+        public void PIDIVMatchingTest3Misc()
+        {
             // Colosseum / XD
             var pk3 = new PK3 {PID = 0x0985A297, IVs = new[] {06, 01, 00, 07, 17, 07}};
             Assert.AreEqual(PIDType.CXD, MethodFinder.Analyze(pk3)?.Type, "Unable to match PID to CXD spread");
