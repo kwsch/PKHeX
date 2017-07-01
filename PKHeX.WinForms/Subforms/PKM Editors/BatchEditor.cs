@@ -86,12 +86,6 @@ namespace PKHeX.WinForms
         }
         private void B_Go_Click(object sender, EventArgs e)
         {
-            if (b.IsBusy)
-            { WinFormsUtil.Alert("Currently executing instruction list."); return; }
-
-            if (RTB_Instructions.Lines.Any(line => line.Length == 0))
-            { WinFormsUtil.Error("Line length error in instruction list."); return; }
-
             RunBackgroundWorker();
         }
         private void B_Add_Click(object sender, EventArgs e)
@@ -148,28 +142,30 @@ namespace PKHeX.WinForms
             RB_Path.Checked = true;
         }
 
-        private BackgroundWorker b = new BackgroundWorker { WorkerReportsProgress = true };
+        private BackgroundWorker b;
         private void RunBackgroundWorker()
         {
+            if (RTB_Instructions.Lines.Any(line => line.Length == 0))
+            { WinFormsUtil.Error("Line length error in instruction list."); return; }
+
             var Filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
             if (Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
             { WinFormsUtil.Error("Empty Filter Value detected."); return; }
 
             var Instructions = StringInstruction.GetInstructions(RTB_Instructions.Lines).ToArray();
+            if (!Instructions.Any())
+            { WinFormsUtil.Error("No instructions defined."); return; }
+
             var emptyVal = Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue)).ToArray();
             if (emptyVal.Any())
             {
                 string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
-                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, 
-                    $"Empty Property Value{(emptyVal.Length > 1 ? "s" : "")} detected:" + Environment.NewLine + props,
-                    "Continue?"))
+                string invalid = $"Empty Property Value{(emptyVal.Length > 1 ? "s" : "")} detected:" + Environment.NewLine + props;
+                if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, invalid, "Continue?"))
                     return;
             }
 
-            if (!Instructions.Any())
-            { WinFormsUtil.Error("No instructions defined."); return; }
-
-            string destPath = "";
+            string destPath = null;
             if (RB_Path.Checked)
             {
                 WinFormsUtil.Alert("Please select the folder where the files will be saved to.", "This can be the same folder as the source of PKM files.");
@@ -183,42 +179,24 @@ namespace PKHeX.WinForms
 
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
-            b = new BackgroundWorker {WorkerReportsProgress = true};
             ScreenStrings(Filters);
             ScreenStrings(Instructions);
-
-            b.DoWork += (sender, e) => {
-
-                len = err = ctr = 0;
-                if (RB_SAV.Checked)
-                {
-                    if (SAV.HasParty)
-                    {
-                        var data = SAV.PartyData;
-                        SetupProgressBar(data.Length);
-                        ProcessSAV(data, Filters, Instructions);
-                        SAV.PartyData = data;
-                    }
-                    if (SAV.HasBox)
-                    {
-                        var data = SAV.BoxData;
-                        SetupProgressBar(data.Length);
-                        ProcessSAV(data, Filters, Instructions);
-                        SAV.BoxData = data;
-                    }
-                }
-                else
-                {
-                    var files = Directory.GetFiles(TB_Folder.Text, "*", SearchOption.AllDirectories);
-                    SetupProgressBar(files.Length);
-                    ProcessFolder(files, Filters, Instructions, destPath);
-                }
-            };
-            b.ProgressChanged += (sender, e) =>
+            RunBatchEdit(Filters, Instructions, TB_Folder.Text, destPath);
+        }
+        private void RunBatchEdit(StringInstruction[] Filters, StringInstruction[] Instructions, string source, string destination)
+        {
+            len = err = ctr = 0;
+            b = new BackgroundWorker { WorkerReportsProgress = true };
+            b.DoWork += (sender, e) =>
             {
-                SetProgressBar(e.ProgressPercentage);
+                if (RB_SAV.Checked)
+                    RunBatchEditSaveFile(Filters, Instructions);
+                else
+                    RunBatchEditFolder(Filters, Instructions, source, destination);
             };
-            b.RunWorkerCompleted += (sender, e) => {
+            b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
+            b.RunWorkerCompleted += (sender, e) =>
+            {
                 string result = $"Modified {ctr}/{len} files.";
                 if (err > 0)
                     result += Environment.NewLine + $"{err} files ignored due to an internal error.";
@@ -227,6 +205,26 @@ namespace PKHeX.WinForms
                 SetupProgressBar(0);
             };
             b.RunWorkerAsync();
+        }
+        private void RunBatchEditFolder(StringInstruction[] Filters, StringInstruction[] Instructions, string source, string destination)
+        {
+            var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
+            SetupProgressBar(files.Length);
+            ProcessFolder(files, Filters, Instructions, destination);
+        }
+        private void RunBatchEditSaveFile(StringInstruction[] Filters, StringInstruction[] Instructions)
+        {
+            PKM[] data;
+            if (SAV.HasParty && process(data = SAV.PartyData))
+                SAV.PartyData = data;
+            if (SAV.HasBox && process(data = SAV.BoxData))
+                SAV.BoxData = data;
+            bool process(PKM[] d)
+            {
+                SetupProgressBar(d.Length);
+                ProcessSAV(d, Filters, Instructions);
+                return d.Length != 0;
+            }
         }
 
         // Progress Bar
