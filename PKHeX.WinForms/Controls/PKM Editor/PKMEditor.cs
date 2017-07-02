@@ -1582,7 +1582,7 @@ namespace PKHeX.WinForms.Controls
 
             string IDstr = $"TSV: {pkm.TSV:d4}";
             if (pkm.Format > 6)
-                IDstr += Environment.NewLine + $"G7TID: {pkm.TrainerID7:d7}";
+                IDstr += Environment.NewLine + $"G7TID: {pkm.TrainerID7:d6}";
 
             Tip1.SetToolTip(TB_TID, IDstr);
             Tip2.SetToolTip(TB_SID, IDstr);
