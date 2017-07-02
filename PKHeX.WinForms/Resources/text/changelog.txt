@@ -1,7 +1,24 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/05/30 - New Update:
+17/07/02 - New Update:
+ - Legality:
+ - - Added: All-generation ribbon legality checks. Thanks White-Canary!
+ - - Added: Strengthened PIDIV detection & enforcement for gen 3/4 encounters.
+ - - Added: Met location legality checks for GSC origin pk2's. Thanks pokecal!
+ - - Added: Poke Pelago level range checks. Thanks SciresM!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Gen4 shiny leaf editing (pkm edits while Generation Format = 4). Thanks sora10pls!
+ - Added: pkmdb now fetches pkm data from backed up save files (only if the program is compiled with debug flag)
+ - Added: More misc editing for gen3/4/5 save files. Thanks pokecal!
+ - Added: Holding control when setting shiny will modify the SID instead of PID/EC. Thanks javierhimura!
+ - Fixed: Honey Tree editor now saves checksums correctly. Thanks pokecal!
+ - Fixed: Batch Editor now accesses pkm properties for filtering correctly. Thanks sora10pls!
+ - Fixed: Can now load boxdata/pcdata binaries on Gen<=3. Thanks PKMWM1!
+ - Changed: Ribbons in Ribbon Editor are now sorted alphabetically, and hovering over an image displays the ribbon name.
+ - Changed: Various speed improvements for legality checking and program loading have been made.
+
+17/05/30 - New Update: (37561) [586892]
  - Program Internals:
  - - PKHeX now uses C# 7 language features.
  - - PKHeX.Core is now a .NET Standard class library.
