@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -193,7 +194,7 @@ namespace PKHeX.Core
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
                 if (value[0].Species == 0)
-                    Console.WriteLine($"Empty first slot, received {value.Length}.");
+                    Debug.WriteLine($"Empty first slot, received {value.Length}.");
 
                 PKM[] newParty = value.Where(pk => pk.Species != 0).ToArray();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using static PKHeX.Core.LegalityCheckStrings;
@@ -91,7 +92,7 @@ namespace PKHeX.Core
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
                 Valid = false;
                 AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
                 pkm = pk;

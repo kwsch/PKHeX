@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -197,7 +198,7 @@ namespace PKHeX.Core
             Type fromType = pk.GetType();
             int fromFormat = int.Parse(fromType.Name.Last().ToString());
             int toFormat = int.Parse(PKMType.Name.Last().ToString());
-            Console.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
+            Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
 
             PKM pkm = null;
 

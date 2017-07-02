@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -119,13 +120,13 @@ namespace PKHeX.Core
         public int[] GetAbilities(int species, int forme)
         {
             if (species >= Table.Length)
-            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
+            { species = 0; Debug.WriteLine("Requested out of bounds SpeciesID"); }
             return this[GetFormeIndex(species, forme)].Abilities;
         }
         public int GetFormeIndex(int species, int forme)
         {
             if (species >= Table.Length)
-            { species = 0; Console.WriteLine("Requested out of bounds SpeciesID"); }
+            { species = 0; Debug.WriteLine("Requested out of bounds SpeciesID"); }
             return this[species].FormeIndex(species, forme);
         }
         public PersonalInfo GetFormeEntry(int species, int forme)

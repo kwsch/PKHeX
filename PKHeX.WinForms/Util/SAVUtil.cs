@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using PKHeX.Core;
@@ -115,7 +116,7 @@ namespace PKHeX.WinForms
                 PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
 
                 if (pk == null)
-                { Console.WriteLine(c); continue; }
+                { Debug.WriteLine(c); continue; }
 
                 if (SAV.IsPKMCompatible(pk).Length > 0)
                     continue;

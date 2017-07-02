@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
@@ -46,7 +47,7 @@ namespace PKHeX.WinForms
 #endif
 
             }
-            catch (Exception ex) { Console.WriteLine("Unable to add ingame font: " + ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("Unable to add ingame font: " + ex.Message); }
         }
     }
 }

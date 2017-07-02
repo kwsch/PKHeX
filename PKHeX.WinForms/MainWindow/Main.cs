@@ -595,7 +595,7 @@ namespace PKHeX.WinForms
             }
             
             PKME_Tabs.PopulateFields(pk);
-            Console.WriteLine(c);
+            Debug.WriteLine(c);
             return true;
         }
         private bool TryLoadPCBoxBin(byte[] input)
@@ -619,7 +619,7 @@ namespace PKHeX.WinForms
             BattleVideo b = BattleVideo.GetVariantBattleVideo(input);
             bool result = C_SAV.OpenBattleVideo(b, out string c);
             WinFormsUtil.Alert(c);
-            Console.WriteLine(c);
+            Debug.WriteLine(c);
             return result;
         }
         private bool TryLoadMysteryGift(byte[] input, string path, string ext)
@@ -643,7 +643,7 @@ namespace PKHeX.WinForms
             }
 
             PKME_Tabs.PopulateFields(pk);
-            Console.WriteLine(c);
+            Debug.WriteLine(c);
             return true;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -130,14 +131,14 @@ namespace PKHeX.Core
             // Check for invalid block lengths
             if (Blocks.Length < 3) // arbitrary...
             {
-                Console.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
+                Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
                 return;
             }
             // Apply checksums
             for (int i = 0; i < Blocks.Length; i++)
             {
                 if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                { Console.WriteLine("Block {0} has invalid offset/length value.", i); return; }
+                { Debug.WriteLine("Block {0} has invalid offset/length value.", i); return; }
                 byte[] array = new byte[Blocks[i].Length];
                 Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
                 BitConverter.GetBytes(SaveUtil.CRC16_7(array, Blocks[i].ID)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);

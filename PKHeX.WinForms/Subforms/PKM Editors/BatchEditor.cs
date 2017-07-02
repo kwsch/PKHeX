@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -279,7 +280,7 @@ namespace PKHeX.WinForms
             if (!pkm.Valid || pkm.Locked)
             {
                 len++;
-                Console.WriteLine("Skipped a pkm due to disallowed input: " + (pkm.Locked ? "Locked." : "Not Valid."));
+                Debug.WriteLine("Skipped a pkm due to disallowed input: " + (pkm.Locked ? "Locked." : "Not Valid."));
                 return false;
             }
 
@@ -348,7 +349,7 @@ namespace PKHeX.WinForms
                 if (Min == Max)
                 {
                     PropertyValue = Min.ToString();
-                    Console.WriteLine(PropertyName + " randomization range Min/Max same?");
+                    Debug.WriteLine(PropertyName + " randomization range Min/Max same?");
                 }
                 else
                     Random = true;
@@ -439,7 +440,7 @@ namespace PKHeX.WinForms
                     if (IsPKMFiltered(pkm, cmd, info, out result))
                         return result; // why it was filtered out
                 }
-                catch { Console.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
 
             foreach (var cmd in Instructions)
@@ -448,7 +449,7 @@ namespace PKHeX.WinForms
                 {
                     result = SetPKMProperty(PKM, info, cmd);
                 }
-                catch { Console.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                catch { Debug.WriteLine($"Unable to set {cmd.PropertyName} to {cmd.PropertyValue}."); }
             }
             return result;
         }

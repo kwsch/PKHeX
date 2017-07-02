@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -418,7 +419,7 @@ namespace PKHeX.WinForms
             catch (Exception e)
             {
                 WinFormsUtil.Error("An unexpected error has occurred.", e);
-                Console.Write(e);
+                Debug.WriteLine(e);
             }
             TB_IsSet.Text = tbIsSet;
             TB_UnSet.Text = tbUnSet;
@@ -438,7 +439,7 @@ namespace PKHeX.WinForms
             catch (Exception e)
             {
                 WinFormsUtil.Error("An unexpected error has occurred.", e);
-                Console.Write(e);
+                Debug.WriteLine(e);
             }
 
             if (string.IsNullOrEmpty(r))

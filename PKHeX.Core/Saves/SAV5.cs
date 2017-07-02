@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -290,7 +291,7 @@ namespace PKHeX.Core
             // Check for invalid block lengths
             if (Blocks.Length < 3) // arbitrary...
             {
-                Console.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
+                Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
                 return;
             }
             // Apply checksums
@@ -309,7 +310,7 @@ namespace PKHeX.Core
                 // Check for invalid block lengths
                 if (Blocks.Length < 3) // arbitrary...
                 {
-                    Console.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
+                    Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
                     return false;
                 }
 
@@ -332,7 +333,7 @@ namespace PKHeX.Core
                 // Check for invalid block lengths
                 if (Blocks.Length < 3) // arbitrary...
                 {
-                    Console.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
+                    Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
                     return "Not a valid save to check.";
                 }
                 string r = "";

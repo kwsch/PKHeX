@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -199,7 +200,7 @@ namespace PKHeX.Core
                 }
                 catch
                 {
-                    Console.WriteLine($"Property not present: {prop} || Value written: {value}");
+                    Debug.WriteLine($"Property not present: {prop} || Value written: {value}");
                 }
             }
         }
