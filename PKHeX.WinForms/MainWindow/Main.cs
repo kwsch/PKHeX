@@ -964,19 +964,23 @@ namespace PKHeX.WinForms
         {
             if (ModifierKeys == Keys.Alt)
             {
-                if (Clipboard.ContainsText())
-                    ClickShowdownImportPKM(sender, e);
-                else
-                    ImportQRToTabs();
+                string url = Clipboard.GetText();
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    if (!url.StartsWith("http") || url.Contains('\n'))
+                        ClickShowdownImportPKM(sender, e);
+                    else
+                        ImportQRToTabs(url);
+                    return;
+                }
             }
-            else
-                ExportQRFromTabs();
+            ExportQRFromTabs();
         }
 
-        private void ImportQRToTabs()
+        private void ImportQRToTabs(string url)
         {
             // Fetch data from QR code...
-            byte[] ekx = QR.GetQRData();
+            byte[] ekx = QR.GetQRData(url);
             if (ekx == null)
                 return;
 

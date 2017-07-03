@@ -296,9 +296,15 @@ namespace PKHeX.WinForms
         private void ClickQR(object sender, EventArgs e)
         {
             if (ModifierKeys == Keys.Alt)
-                ImportQRToView();
-            else
-                ExportQRFromView();
+            {
+                string url = Clipboard.GetText();
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    ImportQRToView(url);
+                    return;
+                }
+            }
+            ExportQRFromView();
         }
         private void ExportQRFromView()
         {
@@ -322,9 +328,9 @@ namespace PKHeX.WinForms
 
             new QR(qr, PB_Preview.Image, null, desc + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
         }
-        private void ImportQRToView()
+        private void ImportQRToView(string url)
         {
-            byte[] data = QR.GetQRData();
+            byte[] data = QR.GetQRData(url);
             if (data == null)
                 return;
 

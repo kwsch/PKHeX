@@ -80,12 +80,9 @@ namespace PKHeX.WinForms
         private const string QR6PathBad = "null/#"; // prefix to prevent URL from loading
         private const string QR6Path = @"http://lunarcookies.github.io/b1s1.html#";
 
-        internal static byte[] GetQRData()
+        internal static byte[] GetQRData(string address)
         {
             // Fetch data from QR code...
-            string address;
-            try { address = Clipboard.GetText(); }
-            catch { WinFormsUtil.Alert("No text (url) in clipboard."); return null; }
             try { if (address.Length < 4 || address.Substring(0, 3) != "htt") { WinFormsUtil.Alert("Clipboard text is not a valid URL:", address); return null; } }
             catch { WinFormsUtil.Alert("Clipboard text is not a valid URL:", address); return null; }
             string webURL = "http://api.qrserver.com/v1/read-qr-code/?fileurl=" + HttpUtility.UrlEncode(address);
