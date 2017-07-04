@@ -93,7 +93,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] FutureEvolutionsGen3 =
         {
-            407,424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,700
+            407,424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,700
         };
 
         internal static readonly int[] FutureEvolutionsGen3_LevelUpGen4 = 
