@@ -895,6 +895,10 @@ namespace PKHeX.Core
                 if (prop != null)
                     ReflectUtil.SetValue(Destination, property, prop);
             }
+
+            // Transferring XK3 to PK3 when it originates from XD sets the fateful encounter (obedience) flag.
+            if (Source is XK3 xk3 && xk3.Version == 15 && new LegalityAnalysis(xk3).Info.WasXD)
+                Destination.FatefulEncounter = true;
         }
 
         /// <summary>

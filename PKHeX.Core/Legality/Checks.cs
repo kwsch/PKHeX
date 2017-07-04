@@ -2331,6 +2331,9 @@ namespace PKHeX.Core
         }
         private void VerifyFatefulIngameActive()
         {
+            if (pkm.Version == 15 && pkm is XK3 && Info.WasXD)
+                return; // fateful is set when transferred away
+
             if (pkm.FatefulEncounter)
                 AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
             else

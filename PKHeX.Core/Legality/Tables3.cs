@@ -833,7 +833,7 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic[] Encounter_XD =
         {
-            new EncounterStatic { Fateful = false, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
+            new EncounterStatic { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
             new EncounterStatic { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
             new EncounterStatic { Fateful = true, Gift = true, Species = 155, Level = 05, Location = 016, Moves = new[] {179,033,043,307} }, // Cyndaquil
             new EncounterStatic { Fateful = true, Gift = true, Species = 158, Level = 05, Location = 016, Moves = new[] {242,010,043,308} }, // Totodile
