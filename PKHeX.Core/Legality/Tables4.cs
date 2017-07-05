@@ -228,7 +228,7 @@ namespace PKHeX.Core
         };
         internal static readonly int[] DPPt_MtCoronetExteriorEncounters =
         {
-            4, 5
+            4, 5, 70
         };
         internal static readonly int[] HGSS_CaveLocations =
         {
