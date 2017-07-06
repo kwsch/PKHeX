@@ -382,21 +382,21 @@ namespace PKHeX.Core
             new WC3 { Species = 172, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{057}, Method = PIDType.BACD_U }, // Pichu Egg with Surf
  
             // PokePark Eggs - DS Download Play
-            new WC3 { Species = 054, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Psyduck with Mud Sport
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{266}, Method = PIDType.BACD_R }, // Pichu with Follow me
-            new WC3 { Species = 174, IsEgg = true, Level = 05, Moves = new[]{321}, Method = PIDType.BACD_R }, // Igglybuff with Tickle
-            new WC3 { Species = 222, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Corsola with Mud Sport
-            new WC3 { Species = 276, IsEgg = true, Level = 05, Moves = new[]{294}, Method = PIDType.BACD_R }, // Taillow with Feather Dance
-            new WC3 { Species = 283, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Surskit with Mud Sport
-            new WC3 { Species = 293, IsEgg = true, Level = 05, Moves = new[]{298}, Method = PIDType.BACD_R }, // Whismur with Teeter Dance
-            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{205}, Method = PIDType.BACD_R }, // Skitty with Rollout
-            new WC3 { Species = 311, IsEgg = true, Level = 05, Moves = new[]{346}, Method = PIDType.BACD_R }, // Plusle with Water Sport
-            new WC3 { Species = 312, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Minun with Mud Sport
-            new WC3 { Species = 325, IsEgg = true, Level = 05, Moves = new[]{253}, Method = PIDType.BACD_R }, // Spoink with Uproar
-            new WC3 { Species = 327, IsEgg = true, Level = 05, Moves = new[]{047}, Method = PIDType.BACD_R }, // Spinda with Sing
-            new WC3 { Species = 331, IsEgg = true, Level = 05, Moves = new[]{227}, Method = PIDType.BACD_R }, // Cacnea with Encore
-            new WC3 { Species = 341, IsEgg = true, Level = 05, Moves = new[]{346}, Method = PIDType.BACD_R }, // Corphish with Water Sport
-            new WC3 { Species = 360, IsEgg = true, Level = 05, Moves = new[]{321}, Method = PIDType.BACD_R }, // Wynaut with Tickle
+            new WC3 { Species = 054, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{300}, Method = PIDType.BACD_R }, // Psyduck with Mud Sport
+            new WC3 { Species = 172, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{266}, Method = PIDType.BACD_R }, // Pichu with Follow me
+            new WC3 { Species = 174, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{321}, Method = PIDType.BACD_R }, // Igglybuff with Tickle
+            new WC3 { Species = 222, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{300}, Method = PIDType.BACD_R }, // Corsola with Mud Sport
+            new WC3 { Species = 276, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{294}, Method = PIDType.BACD_R }, // Taillow with Feather Dance
+            new WC3 { Species = 283, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{300}, Method = PIDType.BACD_R }, // Surskit with Mud Sport
+            new WC3 { Species = 293, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{298}, Method = PIDType.BACD_R }, // Whismur with Teeter Dance
+            new WC3 { Species = 300, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{205}, Method = PIDType.BACD_R }, // Skitty with Rollout
+            new WC3 { Species = 311, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{346}, Method = PIDType.BACD_R }, // Plusle with Water Sport
+            new WC3 { Species = 312, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{300}, Method = PIDType.BACD_R }, // Minun with Mud Sport
+            new WC3 { Species = 325, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{253}, Method = PIDType.BACD_R }, // Spoink with Uproar
+            new WC3 { Species = 327, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{047}, Method = PIDType.BACD_R }, // Spinda with Sing
+            new WC3 { Species = 331, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{227}, Method = PIDType.BACD_R }, // Cacnea with Encore
+            new WC3 { Species = 341, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{346}, Method = PIDType.BACD_R }, // Corphish with Water Sport
+            new WC3 { Species = 360, IsEgg = true, Level = 05, TID = 50813, SID = 0, OT_Name = "ポケパーク", Moves = new[]{321}, Method = PIDType.BACD_R }, // Wynaut with Tickle
 
             // PokePark Eggs - Wondercard
             new WC3 { Species = 054, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{300}, Method = PIDType.Method_2 }, // Psyduck with Mud Sport
