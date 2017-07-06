@@ -130,8 +130,8 @@ namespace PKHeX.WinForms
             C_SAV.PKME_Tabs = PKME_Tabs;
             C_SAV.Menu_Redo = Menu_Redo;
             C_SAV.Menu_Undo = Menu_Undo;
-            dragout.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
-            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            dragout.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
+            GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
             PKME_Tabs.EnableDragDrop(Main_DragEnter, Main_DragDrop);
             C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
 

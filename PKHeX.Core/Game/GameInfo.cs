@@ -233,7 +233,8 @@ namespace PKHeX.Core
 
                 // Set the first entry of a met location to "" (nothing)
                 // Fix (None) tags
-                abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = "(" + itemlist[0] + ")";
+                var none = $"({itemlist[0]})";
+                abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = none;
             }
             private string[] Get(string ident)
             {

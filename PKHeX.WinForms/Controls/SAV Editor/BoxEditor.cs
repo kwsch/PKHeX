@@ -42,7 +42,7 @@ namespace PKHeX.WinForms.Controls
                 pb.DragEnter += BoxSlot_DragEnter;
                 pb.DragDrop += BoxSlot_DragDrop;
                 pb.QueryContinueDrag += BoxSlot_QueryContinueDrag;
-                pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+                pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
                 pb.AllowDrop = true;
             }
         }
@@ -165,8 +165,20 @@ namespace PKHeX.WinForms.Controls
                 SAV.CurrentBox = CurrentBox;
             ResetSlots();
         }
-        private void ClickBoxRight(object sender, EventArgs e) => CurrentBox = (CurrentBox + 1) % SAV.BoxCount;
-        private void ClickBoxLeft(object sender, EventArgs e) => CurrentBox = (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
+        private void ClickBoxLeft(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control)
+                CurrentBox = 0;
+            else
+                CurrentBox = (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
+        }
+        private void ClickBoxRight(object sender, EventArgs e)
+        {
+            if (ModifierKeys == Keys.Control)
+                CurrentBox = SAV.BoxCount - 1;
+            else
+                CurrentBox = (CurrentBox + 1) % SAV.BoxCount;
+        }
         private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
         {
             if (SAV.GetData(offset, SAV.SIZE_STORED).SequenceEqual(new byte[SAV.SIZE_STORED]))

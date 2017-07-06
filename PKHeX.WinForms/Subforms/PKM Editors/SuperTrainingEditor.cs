@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
                 AutoSize = true,
                 Padding = Padding.Empty,
             };
-            chk.CheckedChanged += (sender, e) => { reg.CompletedRegimen = chk.Checked; };
+            chk.CheckedChanged += (sender, e) => reg.CompletedRegimen = chk.Checked;
             chk.Checked = reg.CompletedRegimen;
             TLP.Controls.Add(chk, 0, row);
         }

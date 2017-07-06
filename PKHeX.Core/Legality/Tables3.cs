@@ -259,13 +259,13 @@ namespace PKHeX.Core
             new WC3 { Species = 239, Level = 20, Language = 2, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "HORDEL", CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
             new WC3 { Species = 307, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
             new WC3 { Species = 213, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
-            new WC3 { Species = 239, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
+            new WC3 { Species = 246, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
             new WC3 { Species = 311, Level = 13, Language = 2, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
 
             new WC3 { Species = 239, Level = 20, Language = 1, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "ダニー",   CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
             new WC3 { Species = 307, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
             new WC3 { Species = 213, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
-            new WC3 { Species = 239, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
+            new WC3 { Species = 246, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
             new WC3 { Species = 311, Level = 13, Language = 1, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
         };
 
@@ -833,7 +833,7 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic[] Encounter_XD =
         {
-            new EncounterStatic { Fateful = false, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
+            new EncounterStatic { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
             new EncounterStatic { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
             new EncounterStatic { Fateful = true, Gift = true, Species = 155, Level = 05, Location = 016, Moves = new[] {179,033,043,307} }, // Cyndaquil
             new EncounterStatic { Fateful = true, Gift = true, Species = 158, Level = 05, Location = 016, Moves = new[] {242,010,043,308} }, // Totodile

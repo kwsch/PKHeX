@@ -56,6 +56,7 @@ namespace PKHeX.WinForms
         private const string CONST_RAND = "$rand";
         private const string CONST_SHINY = "$shiny";
         private const string CONST_SUGGEST = "$suggest";
+        private const string CONST_BYTES = "$[]";
 
         private const string PROP_LEGAL = "Legal";
         private static readonly string[] CustomProperties = {PROP_LEGAL};
@@ -398,7 +399,7 @@ namespace PKHeX.WinForms
             foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
             {
                 string pv = i.PropertyValue;
-                if (pv.StartsWith("$") && pv.Contains(','))
+                if (pv.StartsWith("$") && !pv.StartsWith(CONST_BYTES) && pv.Contains(','))
                     i.SetRandRange(pv);
 
                 SetInstructionScreenedValue(i);
@@ -455,6 +456,11 @@ namespace PKHeX.WinForms
         }
         private static ModifyResult SetPKMProperty(PKM PKM, PKMInfo info, StringInstruction cmd)
         {
+            if (cmd.PropertyValue.StartsWith(CONST_BYTES))
+                return SetByteArrayProperty(PKM, cmd)
+                    ? ModifyResult.Modified
+                    : ModifyResult.Error;
+
             if (cmd.PropertyValue == CONST_SUGGEST)
                 return SetSuggestedPKMProperty(PKM, cmd, info)
                     ? ModifyResult.Modified
@@ -515,6 +521,21 @@ namespace PKHeX.WinForms
                 default:
                     return false;
             }
+        }
+        private static bool SetByteArrayProperty(PKM PKM, StringInstruction cmd)
+        {
+            switch (cmd.PropertyName)
+            {
+                case nameof(PKM.Nickname_Trash):
+                    PKM.Nickname_Trash = string2arr(cmd.PropertyValue);
+                    return true;
+                case nameof(PKM.OT_Trash):
+                    PKM.OT_Trash = string2arr(cmd.PropertyValue);
+                    return true;
+                default:
+                    return false;
+            }
+            byte[] string2arr(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
         }
         private static void SetProperty(PKM PKM, StringInstruction cmd)
         {

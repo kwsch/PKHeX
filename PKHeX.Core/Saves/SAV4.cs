@@ -188,11 +188,11 @@ namespace PKHeX.Core
                     OFS_PouchHeldItem = 0x624 + GBO;
                     OFS_PouchKeyItem = 0x8B8 + GBO;
                     OFS_PouchTMHM = 0x980 + GBO;
+                    OFS_MailItems = 0xB10 + GBO;
                     OFS_PouchMedicine = 0xB40 + GBO;
                     OFS_PouchBerry = 0xBE0 + GBO;
                     OFS_PouchBalls = 0xCE0 + GBO;
                     OFS_BattleItems = 0xD1C + GBO;
-                    OFS_MailItems = 0xD50 + GBO;
                     LegalItems = Legal.Pouch_Items_DP;
                     LegalKeyItems = Legal.Pouch_Key_DP;
                     LegalTMHMs = Legal.Pouch_TMHM_DP;

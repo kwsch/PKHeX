@@ -566,6 +566,8 @@ namespace PKHeX.Core
             {
                 case WC3 g:
                     return val == g.Method;
+                case EncounterStaticShadow d when d.EReader:
+                    return val == PIDType.None; // All IVs are 0
                 case EncounterStatic s:
                     switch (pkm.Version)
                     {
@@ -598,7 +600,7 @@ namespace PKHeX.Core
                         return val == PIDType.Pokewalker;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
-                    return val == PIDType.Method_1;
+                    return val == PIDType.Method_1 || val == PIDType.CuteCharm;
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 default:
@@ -607,14 +609,24 @@ namespace PKHeX.Core
         }
         private static bool IsG4ManaphyPIDValid(PIDType val, PKM pkm)
         {
+            if (pkm.IsEgg)
+            {
+                if (pkm.IsShiny)
+                    return false;
+                if (val == PIDType.Method_1)
+                    return true;
+                return val == PIDType.G4MGAntiShiny && IsAntiShinyARNG();
+            }
+
             if (val == PIDType.Method_1)
                 return pkm.WasTradedEgg || !pkm.IsShiny; // can't be shiny on received game
-            if (val != PIDType.G4MGAntiShiny)
-                return false;
-            if (pkm.WasTradedEgg)
-                return true;
-            var shinyPID = RNG.ARNG.Prev(pkm.PID);
-            return (pkm.TID ^ pkm.SID ^ (shinyPID & 0xFFFF) ^ (shinyPID >> 16)) < 8; // shiny proc
+            return val == PIDType.G4MGAntiShiny && (pkm.WasTradedEgg || IsAntiShinyARNG());
+
+            bool IsAntiShinyARNG()
+            {
+                var shinyPID = RNG.ARNG.Prev(pkm.PID);
+                return (pkm.TID ^ pkm.SID ^ (shinyPID & 0xFFFF) ^ (shinyPID >> 16)) < 8; // shiny proc
+            }
         }
 
         private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };
