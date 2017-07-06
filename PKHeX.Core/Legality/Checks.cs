@@ -794,6 +794,9 @@ namespace PKHeX.Core
                 foreach (var z in iter3.Concat(iter4))
                     yield return z;
 
+                for (int i = 0; i < 5; ++i)
+                    artist |= c3[3 | i << 2]; // any master rank ribbon
+
                 IEnumerable<RibbonResult> getMissingContestRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
                 {
                     for (int i = 0; i < bits.Count; i += 4)
