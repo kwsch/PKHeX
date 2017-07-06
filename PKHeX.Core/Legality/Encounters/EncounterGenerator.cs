@@ -903,12 +903,14 @@ namespace PKHeX.Core
         }
         private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
         {
-            if (DB == null)
+            if (DB == null || pkm.IsEgg && pkm.Format != 4) // transferred
                 yield break;
 
             if (IsRangerManaphy(pkm))
+            {
                 yield return new PGT { Data = { [0] = 7, [8] = 1 } };
-            yield break;
+                yield break;
+            }
 
             var validPCD = new List<MysteryGift>();
             var vs = GetValidPreEvolutions(pkm).ToArray();

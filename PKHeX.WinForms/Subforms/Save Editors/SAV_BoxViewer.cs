@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             CenterToParent();
 
             AllowDrop = true;
-            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
             DragEnter += Main_DragEnter;
             DragDrop += (sender, e) =>
             {

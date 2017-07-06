@@ -49,7 +49,7 @@ namespace PKHeX.WinForms.Controls
 
                 dcpkx1, dcpkx2, gtspkx, fusedpkx, subepkx1, subepkx2, subepkx3,
             };
-            GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+            GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
             SAV = z.Result;
             Box.Setup(M = new SlotChangeManager(this));
             foreach (PictureBox pb in SupplementarySlots)
@@ -64,7 +64,7 @@ namespace PKHeX.WinForms.Controls
                 pb.DragEnter += M.DragEnter;
                 pb.DragDrop += BoxSlot_DragDrop;
                 pb.QueryContinueDrag += M.QueryContinueDrag;
-                pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+                pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
                 pb.AllowDrop = true;
             }
             foreach (TabPage tab in tabBoxMulti.TabPages)
