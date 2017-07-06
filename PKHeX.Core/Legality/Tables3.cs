@@ -272,17 +272,18 @@ namespace PKHeX.Core
         internal static readonly MysteryGift[] Encounter_Event3_FRLG =
         {
             // PCJP - Egg Pokémon Present Eggs (March 21 to April 4, 2004)
-            new WC3 { Species = 043, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{073} }, // Oddish with Leech Seed
-            new WC3 { Species = 052, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{080} }, // Meowth with Petal Dance
-            new WC3 { Species = 060, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{186} }, // Poliwag with Sweet Kiss
-            new WC3 { Species = 069, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+            new WC3 { Species = 043, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{073} }, // Oddish with Leech Seed
+            new WC3 { Species = 052, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{080} }, // Meowth with Petal Dance
+            new WC3 { Species = 060, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{186} }, // Poliwag with Sweet Kiss
+            new WC3 { Species = 069, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.BACD_U, Moves = new[]{298} }, // Bellsprout with Teeter Dance
+
             // PCNY - Wish Eggs (December 16, 2004, to January 2, 2005)
-            new WC3 { Species = 083, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
-            new WC3 { Species = 096, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
-            new WC3 { Species = 102, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
-            new WC3 { Species = 108, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
-            new WC3 { Species = 113, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
-            new WC3 { Species = 115, IsEgg = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
+            new WC3 { Species = 083, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Farfetch'd with Wish & Yawn
+            new WC3 { Species = 096, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 187} }, // Drowzee with Wish & Belly Drum
+            new WC3 { Species = 102, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Exeggcute with Wish & Sweet Scent
+            new WC3 { Species = 108, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
+            new WC3 { Species = 113, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
+            new WC3 { Species = 115, IsEgg = true, Fateful = true, Level = 05, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_RS =
@@ -299,10 +300,11 @@ namespace PKHeX.Core
             
             // Berry Glitch Fix
             // PCJP - (December 29, 2003 to March 31, 2004)
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.R, Language = 1, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 1, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1 },
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 1, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", OT_Gender = 0 },
+            
             // EBGames/GameStop (March 1, 2004 to April 22, 2007), also via multi-game discs
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", OT_Gender = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 2, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", OT_Gender = 1 },
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 2, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", OT_Gender = 0 },
 
             // Channel Jirachi
@@ -378,22 +380,40 @@ namespace PKHeX.Core
             new WC3 { Species = 263, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{245}, Method = PIDType.BACD_U }, // Zigzagoon Egg with Extreme Speed
             new WC3 { Species = 300, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{006}, Method = PIDType.BACD_U }, // Skitty Egg with Pay Day
             new WC3 { Species = 172, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{057}, Method = PIDType.BACD_U }, // Pichu Egg with Surf
-            // PokePark Eggs
-            new WC3 { Species = 054, IsEgg = true, Level = 05, Moves = new[]{300} }, // Psyduck with Mud Sport
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{266} }, // Pichu with Follow me
-            new WC3 { Species = 174, IsEgg = true, Level = 05, Moves = new[]{321} }, // Igglybuff with Tickle
-            new WC3 { Species = 222, IsEgg = true, Level = 05, Moves = new[]{300} }, // Corsola with Mud Sport
-            new WC3 { Species = 276, IsEgg = true, Level = 05, Moves = new[]{294} }, // Taillow with Feather Dance
-            new WC3 { Species = 283, IsEgg = true, Level = 05, Moves = new[]{300} }, // Surskit with Mud Sport
-            new WC3 { Species = 293, IsEgg = true, Level = 05, Moves = new[]{298} }, // Whismur with Teeter Dance
-            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{205} }, // Skitty with Rollout
-            new WC3 { Species = 311, IsEgg = true, Level = 05, Moves = new[]{346} }, // Plusle with Water Sport
-            new WC3 { Species = 312, IsEgg = true, Level = 05, Moves = new[]{300} }, // Minun with Mud Sport
-            new WC3 { Species = 325, IsEgg = true, Level = 05, Moves = new[]{253} }, // Spoink with Uproar
-            new WC3 { Species = 327, IsEgg = true, Level = 05, Moves = new[]{047} }, // Spinda with Sing
-            new WC3 { Species = 331, IsEgg = true, Level = 05, Moves = new[]{227} }, // Cacnea with Encore
-            new WC3 { Species = 341, IsEgg = true, Level = 05, Moves = new[]{346} }, // Corphish with Water Sport
-            new WC3 { Species = 360, IsEgg = true, Level = 05, Moves = new[]{321} }, // Wynaut with Tickle
+ 
+            // PokePark Eggs - DS Download Play
+            new WC3 { Species = 054, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Psyduck with Mud Sport
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{266}, Method = PIDType.BACD_R }, // Pichu with Follow me
+            new WC3 { Species = 174, IsEgg = true, Level = 05, Moves = new[]{321}, Method = PIDType.BACD_R }, // Igglybuff with Tickle
+            new WC3 { Species = 222, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Corsola with Mud Sport
+            new WC3 { Species = 276, IsEgg = true, Level = 05, Moves = new[]{294}, Method = PIDType.BACD_R }, // Taillow with Feather Dance
+            new WC3 { Species = 283, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Surskit with Mud Sport
+            new WC3 { Species = 293, IsEgg = true, Level = 05, Moves = new[]{298}, Method = PIDType.BACD_R }, // Whismur with Teeter Dance
+            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{205}, Method = PIDType.BACD_R }, // Skitty with Rollout
+            new WC3 { Species = 311, IsEgg = true, Level = 05, Moves = new[]{346}, Method = PIDType.BACD_R }, // Plusle with Water Sport
+            new WC3 { Species = 312, IsEgg = true, Level = 05, Moves = new[]{300}, Method = PIDType.BACD_R }, // Minun with Mud Sport
+            new WC3 { Species = 325, IsEgg = true, Level = 05, Moves = new[]{253}, Method = PIDType.BACD_R }, // Spoink with Uproar
+            new WC3 { Species = 327, IsEgg = true, Level = 05, Moves = new[]{047}, Method = PIDType.BACD_R }, // Spinda with Sing
+            new WC3 { Species = 331, IsEgg = true, Level = 05, Moves = new[]{227}, Method = PIDType.BACD_R }, // Cacnea with Encore
+            new WC3 { Species = 341, IsEgg = true, Level = 05, Moves = new[]{346}, Method = PIDType.BACD_R }, // Corphish with Water Sport
+            new WC3 { Species = 360, IsEgg = true, Level = 05, Moves = new[]{321}, Method = PIDType.BACD_R }, // Wynaut with Tickle
+
+            // PokePark Eggs - Wondercard
+            new WC3 { Species = 054, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{300}, Method = PIDType.Method_2 }, // Psyduck with Mud Sport
+            new WC3 { Species = 172, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{266}, Method = PIDType.Method_2 }, // Pichu with Follow me
+            new WC3 { Species = 174, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{321}, Method = PIDType.Method_2 }, // Igglybuff with Tickle
+            new WC3 { Species = 222, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{300}, Method = PIDType.Method_2 }, // Corsola with Mud Sport
+            new WC3 { Species = 276, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{294}, Method = PIDType.Method_2 }, // Taillow with Feather Dance
+            new WC3 { Species = 283, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{300}, Method = PIDType.Method_2 }, // Surskit with Mud Sport
+            new WC3 { Species = 293, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{298}, Method = PIDType.Method_2 }, // Whismur with Teeter Dance
+            new WC3 { Species = 300, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{205}, Method = PIDType.Method_2 }, // Skitty with Rollout
+            new WC3 { Species = 311, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{346}, Method = PIDType.Method_2 }, // Plusle with Water Sport
+            new WC3 { Species = 312, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{300}, Method = PIDType.Method_2 }, // Minun with Mud Sport
+            new WC3 { Species = 325, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{253}, Method = PIDType.Method_2 }, // Spoink with Uproar
+            new WC3 { Species = 327, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{047}, Method = PIDType.Method_2 }, // Spinda with Sing
+            new WC3 { Species = 331, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{227}, Method = PIDType.Method_2 }, // Cacnea with Encore
+            new WC3 { Species = 341, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{346}, Method = PIDType.Method_2 }, // Corphish with Water Sport
+            new WC3 { Species = 360, IsEgg = true, Fateful = true, Level = 05, Moves = new[]{321}, Method = PIDType.Method_2 }, // Wynaut with Tickle
         };
 
         internal static readonly MysteryGift[] Encounter_WC3 = Encounter_Event3.Concat(Encounter_Event3_RS).Concat(Encounter_Event3_FRLG.Concat(Encounter_Event3_Common)).ToArray();
