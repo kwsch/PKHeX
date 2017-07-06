@@ -42,7 +42,7 @@ namespace PKHeX.WinForms.Controls
                 pb.DragEnter += BoxSlot_DragEnter;
                 pb.DragDrop += BoxSlot_DragDrop;
                 pb.QueryContinueDrag += BoxSlot_QueryContinueDrag;
-                pb.GiveFeedback += (sender, e) => { e.UseDefaultCursors = false; };
+                pb.GiveFeedback += (sender, e) => e.UseDefaultCursors = false;
                 pb.AllowDrop = true;
             }
         }

@@ -176,7 +176,7 @@ namespace PKHeX.WinForms
                     AutoSize = true
                 };
                 chk.CheckStateChanged += ToggleFlag;
-                lbl.Click += (sender, e) => { chk.Checked ^= true; };
+                lbl.Click += (sender, e) => chk.Checked ^= true;
                 TLP_Flags.Controls.Add(chk, 0, i);
                 TLP_Flags.Controls.Add(lbl, 1, i);
             }

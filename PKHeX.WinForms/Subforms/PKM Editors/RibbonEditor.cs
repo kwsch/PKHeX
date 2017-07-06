@@ -72,18 +72,16 @@ namespace PKHeX.WinForms
         }
         private void AddRibbonSprite(RibbonInfo rib)
         {
-            PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + rib.Name };
-            var img = PKMUtil.GetRibbonSprite(rib.Name);
+            var name = rib.Name;
+            PictureBox pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
+            var img = PKMUtil.GetRibbonSprite(name);
             if (img != null)
                 pb.BackgroundImage = (Bitmap)img;
             if (img == null)
                 return;
 
-            pb.MouseEnter += (s, e) => 
-            {
-                tipName.SetToolTip(pb, RibbonStrings.GetName(rib.Name));
-            };
-
+            var display = RibbonStrings.GetName(name);
+            pb.MouseEnter += (s, e) => tipName.SetToolTip(pb, display);
             FLP_Ribbons.Controls.Add(pb);
         }
         private void AddRibbonChoice(RibbonInfo rib)

@@ -42,16 +42,10 @@ namespace PKHeX.Core
         public override bool IsPokémon { get; set; }
 
         // Synthetic
-        private int _metLevel = -1;
+        private int? _metLevel;
         public int Met_Level
         {
-            get
-            {
-                if (IsEgg && _metLevel < 0)
-                    return 0;
-
-                return _metLevel < 0 ? Level : _metLevel;
-            }
+            get => _metLevel ?? (IsEgg ? 0 : Level);
             set => _metLevel = value;
         }
 
