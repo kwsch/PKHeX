@@ -289,14 +289,14 @@ namespace PKHeX.Core
         internal static readonly MysteryGift[] Encounter_Event3_RS =
         {   
             // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{298} }, // Pichu with Teeter Dance
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Pichu with Wish
-            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{204} }, // Ralts with Charm
-            new WC3 { Species = 280, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Ralts with Wish
-            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{180} }, // Absol with Spite
-            new WC3 { Species = 359, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Absol with Wish
-            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{334} }, // Bagon with Iron Defense
-            new WC3 { Species = 371, IsEgg = true, Level = 05, Version = (int)GameVersion.RS, Method = PIDType.BACD_U, Moves = new[]{273} }, // Bagon with Wish
+            new WC3 { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{298} }, // Pichu with Teeter Dance
+            new WC3 { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Pichu with Wish
+            new WC3 { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{204} }, // Ralts with Charm
+            new WC3 { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Ralts with Wish
+            new WC3 { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{180} }, // Absol with Spite
+            new WC3 { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Absol with Wish
+            new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{334} }, // Bagon with Iron Defense
+            new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Bagon with Wish
             
             // Berry Glitch Fix
             // PCJP - (December 29, 2003 to March 31, 2004)
