@@ -415,6 +415,7 @@ namespace PKHeX.Core
             new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV" }, // Entei
             new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV" }, // Suicune
             new WC3 { Species = 248, Level = 70, Version = (int)GameVersion.R, Moves = new[] {037,184,242,089}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV" }, // Tyranitar
+            new WC3 { Species = 251, Level = 70, Version = (int)GameVersion.R, Moves = new[] {246,248,226,195}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV" }, // Celebi
             new WC3 { Species = 257, Level = 70, Version = (int)GameVersion.R, Moves = new[] {299,163,119,327}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV" }, // Blaziken
             new WC3 { Species = 359, Level = 70, Version = (int)GameVersion.R, Moves = new[] {104,163,248,195}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV" }, // Absol
             new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 191 }, // Latias
