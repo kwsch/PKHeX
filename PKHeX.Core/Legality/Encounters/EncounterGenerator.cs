@@ -860,6 +860,8 @@ namespace PKHeX.Core
                 if (wc.Version != 0 && !((GameVersion)wc.Version).Contains((GameVersion)pkm.Version))
                     continue;
 
+                if (wc.Fateful != pkm.FatefulEncounter) continue;
+
                 if (!wc.IsEgg)
                 {
                     if (wc.SID != -1 && wc.SID != pkm.SID) continue;
@@ -872,9 +874,20 @@ namespace PKHeX.Core
                 }
                 else if (wc.IsEgg)
                 {
+                    if (pkm.WasEventEgg)
+                    {
+                        if (wc.TID > 0 && (wc.TID != pkm.TID || wc.SID != pkm.SID)) continue;
+
+                        if (wc.OT_Name != null && wc.OT_Name != pkm.OT_Name) continue;
+
+                        if (wc.Met_Location != pkm.Met_Location) continue;
+
+                        if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
+                    }
+
                     if (pkm.IsNative)
                     {
-                        if (pkm.Met_Level != 0)
+                        if (wc.Met_Level != pkm.Met_Level)
                             continue;
                     }
                     else

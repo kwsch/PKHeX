@@ -47,8 +47,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (IsEgg)
+                if (IsEgg && _metLevel < 0)
                     return 0;
+
                 return _metLevel < 0 ? Level : _metLevel;
             }
             set => _metLevel = value;
