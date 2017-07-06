@@ -25,6 +25,7 @@
         /* VC2*/ GD = 39, SV = 40, C,
 
         // Game Groupings (SaveFile type)
+        RB = 97,
         RBY = 98,
         GSC = 99,
         RS = 100,
@@ -58,8 +59,10 @@
 
             switch (g1)
             {
+                case GameVersion.RB:
+                    return g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.GN;
                 case GameVersion.RBY:
-                    return g2 == GameVersion.RD || g2 == GameVersion.BU || g2 == GameVersion.YW || g2 == GameVersion.GN;
+                    return GameVersion.RB.Contains(g2) || g2 == GameVersion.YW;
                 case GameVersion.Gen1:
                     return GameVersion.RBY.Contains(g2) || g2 == GameVersion.Stadium || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.VCEvents;
                 case GameVersion.Stadium:

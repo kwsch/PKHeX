@@ -96,6 +96,7 @@
     <None Remove="Resources\byte\personal_xy" />
     <None Remove="Resources\byte\personal_y" />
     <None Remove="Resources\byte\pgf.pkl" />
+    <None Remove="Resources\byte\trees_h_c.pkl" />
     <None Remove="Resources\byte\tutors_g3.pkl" />
     <None Remove="Resources\byte\tutors_g4.pkl" />
     <None Remove="Resources\byte\wc6.pkl" />
@@ -192,6 +193,7 @@
     <EmbeddedResource Include="Resources\byte\personal_xy" />
     <EmbeddedResource Include="Resources\byte\personal_y" />
     <EmbeddedResource Include="Resources\byte\pgf.pkl" />
+    <EmbeddedResource Include="Resources\byte\trees_h_c.pkl" />
     <EmbeddedResource Include="Resources\byte\tutors_g3.pkl" />
     <EmbeddedResource Include="Resources\byte\tutors_g4.pkl" />
     <EmbeddedResource Include="Resources\byte\wc6.pkl" />

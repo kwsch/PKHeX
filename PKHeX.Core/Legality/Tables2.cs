@@ -69,6 +69,24 @@ namespace PKHeX.Core
                 new EncounterSlot1 {Species = 127, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 9}, // Pinsir
             }
         }};
+
+        internal static readonly EncounterArea[] EncounterSafari_GSC = { new EncounterArea {
+            Location = 81,
+            Slots = new EncounterSlot[]
+            {
+                new EncounterSlot1 {Species = 129, LevelMin = 10, LevelMax = 10, Type = SlotType.Old_Rod_Safari}, // Magikarp
+                new EncounterSlot1 {Species = 098, LevelMin = 10, LevelMax = 10, Type = SlotType.Old_Rod_Safari}, // Krabby
+                new EncounterSlot1 {Species = 098, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Krabby
+                new EncounterSlot1 {Species = 129, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Magikarp
+                new EncounterSlot1 {Species = 222, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Corsola
+                new EncounterSlot1 {Species = 120, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Staryu
+                new EncounterSlot1 {Species = 098, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Krabby
+                new EncounterSlot1 {Species = 222, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Corsola
+                new EncounterSlot1 {Species = 120, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Staryu
+                new EncounterSlot1 {Species = 121, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Kingler
+            }
+        }};
+
         internal static readonly EncounterStatic[] Encounter_GSC_Common =
         {
             new EncounterStatic { Species = 152, Level = 05, Location = 001, Version = GameVersion.GSC }, // Chikorita @ New Bark Town

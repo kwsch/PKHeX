@@ -61,6 +61,7 @@ namespace PKHeX.Core
         private static readonly EvolutionTree Evolves2;
         private static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
         private static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
+        private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
 
         // Gen 3
         private static readonly Learnset[] LevelUpE = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
@@ -323,6 +324,12 @@ namespace PKHeX.Core
             foreach (EncounterStatic Encounter in Encounters)
                 Encounter.Generation = Generation;
         }
+        private static void MarkEncountersVersion(ref EncounterArea[] Areas, GameVersion Version)
+        {
+            foreach (EncounterArea Area in Areas)
+                foreach (EncounterSlot1 Slot in Area.Slots)
+                    Slot.Version = Version;
+        }
         private static void MarkEncountersGeneration(ref EncounterArea[] Areas, int Generation)
         {
             foreach (EncounterArea Area in Areas)
@@ -337,6 +344,16 @@ namespace PKHeX.Core
                 Location = a.First().Location,
                 Slots = a.SelectMany(m => m.Slots).ToArray()
             }).ToArray();
+        }
+        private static void MarkSlotLocation(ref EncounterArea[] Areas)
+        {
+            foreach(EncounterArea Area in Areas)
+            {
+                foreach (EncounterSlot Slot in Area.Slots)
+                {
+                    Slot.Location = Area.Location;
+                }
+            }
         }
         private static void MarkG2Slots(ref EncounterArea[] Areas)
         {
@@ -717,6 +734,12 @@ namespace PKHeX.Core
             var rb_fish = EncounterArea.GetArray1_F(Util.GetBinaryResource("encounter_rb_f.pkl"));
             var ylw_fish = EncounterArea.GetArray1_FY(Util.GetBinaryResource("encounter_yellow_f.pkl"));
 
+            MarkEncountersVersion(ref red_gw, GameVersion.RD);
+            MarkEncountersVersion(ref blu_gw, GameVersion.BW);
+            MarkEncountersVersion(ref ylw_gw, GameVersion.YW);
+            MarkEncountersVersion(ref rb_fish, GameVersion.RB);
+            MarkEncountersVersion(ref ylw_fish, GameVersion.YW);
+
             var table = AddExtraTableSlots(red_gw, blu_gw, ylw_gw, rb_fish, ylw_fish);
             Array.Resize(ref table, table.Length + 1);
             table[table.Length - 1] = FishOldGood_RBY;
@@ -728,6 +751,7 @@ namespace PKHeX.Core
             EncounterArea[] Slots = null;
             // Fishing
             var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
+
             if (Version == GameVersion.GS || Version == GameVersion.GSC)
             {
                 // Grass/Water
@@ -736,8 +760,18 @@ namespace PKHeX.Core
                 // Headbutt/Rock Smash
                 var h_g = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_gold_h.pkl"));
                 var h_s = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_silver_h.pkl"));
+                var safari_gs = EncounterSafari_GSC;
+                var bcc_gs = EncounterBCC_GSC;
 
-                Slots = AddExtraTableSlots(g, s, h_g, h_s, f, EncounterBCC_GSC);
+                MarkEncountersVersion(ref bcc_gs, GameVersion.GS);
+                MarkEncountersVersion(ref f, GameVersion.GS);
+                MarkEncountersVersion(ref g, GameVersion.GD);
+                MarkEncountersVersion(ref s, GameVersion.SV);
+                MarkEncountersVersion(ref h_g, GameVersion.GD);
+                MarkEncountersVersion(ref h_s, GameVersion.SV);
+                MarkEncountersVersion(ref safari_gs, GameVersion.GS);
+
+                Slots = AddExtraTableSlots(g, s, h_g, h_s, f, bcc_gs, safari_gs);
             }
             if (Version == GameVersion.C || Version == GameVersion.GSC)
             {
@@ -745,8 +779,16 @@ namespace PKHeX.Core
                 var c = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_crystal.pkl"));
                 // Headbutt/Rock Smash
                 var h_c = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_crystal_h.pkl"));
+                var safari_c= EncounterSafari_GSC;
+                var bcc_c = EncounterBCC_GSC;
 
-                var extra = AddExtraTableSlots(c, h_c, f, EncounterBCC_GSC);
+                MarkEncountersVersion(ref bcc_c, GameVersion.C);
+                MarkEncountersVersion(ref safari_c, GameVersion.C);
+                MarkEncountersVersion(ref f, GameVersion.C);
+                MarkEncountersVersion(ref c, GameVersion.C);
+                MarkEncountersVersion(ref h_c, GameVersion.C);
+
+                var extra = AddExtraTableSlots(c, h_c, f, bcc_c, safari_c);
                 return Version == GameVersion.C ? extra : AddExtraTableSlots(Slots, extra);
             }
 
@@ -776,6 +818,7 @@ namespace PKHeX.Core
                 MarkG2Slots(ref SlotsGS);
                 MarkG2Slots(ref SlotsC);
                 MarkG2Slots(ref SlotsGSC);
+                MarkSlotLocation(ref SlotsC);
                 MarkEncountersGeneration(ref SlotsGS, 2);
                 MarkEncountersGeneration(ref SlotsC, 2);
                 MarkEncountersGeneration(ref SlotsGSC, 2);
@@ -820,6 +863,12 @@ namespace PKHeX.Core
                 SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
                 SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGAlt);
                 SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGAlt);
+
+                MarkSlotLocation(ref SlotsR);
+                MarkSlotLocation(ref SlotsS);
+                MarkSlotLocation(ref SlotsE);
+                MarkSlotLocation(ref SlotsFR);
+                MarkSlotLocation(ref SlotsLG);
 
                 Evolves3 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g3.pkl") }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
 
@@ -917,7 +966,13 @@ namespace PKHeX.Core
                 MarkDPPtEncounterTypeSlots(ref SlotsPt);
                 MarkHGSSEncounterTypeSlots(ref SlotsHG);
                 MarkHGSSEncounterTypeSlots(ref SlotsSS);
-                
+
+                MarkSlotLocation(ref SlotsD);
+                MarkSlotLocation(ref SlotsP);
+                MarkSlotLocation(ref SlotsPt);
+                MarkSlotLocation(ref SlotsHG);
+                MarkSlotLocation(ref SlotsSS);
+
                 Evolves4 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g4.pkl") }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
 
                 // Update Personal Entries with Tutor Data
@@ -1412,24 +1467,22 @@ namespace PKHeX.Core
         }
 
         // Encounter
-        internal static GameVersion[] GetGen2GameEncounter(PKM pkm)
+        internal static GameVersion[] GetGen2GameEncounter(PKM pkm, LegalInfo Info)
         {
-            return AllowGen2VCCrystal ? new[] { GameVersion.GS, GameVersion.C } : new[] { GameVersion.GS};
+            if (AllowGen2Crystal && Info.Game == GameVersion.C)
+                return new[] { GameVersion.C };
+            // Any encounter marked with version GSC is for pokemon with the same moves in g/s and crystal, it is enought to check only g/s moves
+            return new[] { GameVersion.GS };
         }
-        internal static GameVersion[] GetGen1GameEncounter(PKM pkm)
+        internal static GameVersion[] GetGen1GameEncounter(PKM pkm, LegalInfo Info)
         {
-            if (!(pkm is PK1 pk) || !pkm.Gen1_NotTradeback)
-                return new[] { GameVersion.RD, GameVersion.YW };
-            if (25 <= pk.Species && pk.Species <= 26)
-                // Yellow Pikachu detected by its special catch rate
-                return new[] { pk.Catch_Rate == 163 ? GameVersion.YW : GameVersion.RD };
-            if (64 <= pk.Species && pk.Species <= 65)
-                // Yellow Kadabra detected by its special catch rate
-                return new[] { pk.Catch_Rate == 96 ? GameVersion.YW : GameVersion.RD };
-            if (148 <= pk.Species && pk.Species <= 149 && pk.Catch_Rate == 27)
-                // Yellow Dragonair detected by its special catch rate, is have another catch rate could be red/blue dratini or yellow dratini
+            if (Info.EncounterMatch.Species == 133 && Info.Game == GameVersion.Stadium)
+                // Staidum eevee, check for red/blue and yellow initial moves
+                return new[] { GameVersion.RB, GameVersion.YW };
+            if (Info.Game == GameVersion.YW)
                 return new[] { GameVersion.YW };
-            return new[] { GameVersion.RD, GameVersion.YW };
+            // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in red/blue and yellow, it is enought to check only red/blue moves
+            return new[] { GameVersion.RB };
         }
         internal static IEnumerable<int> GetInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
         {
@@ -1442,6 +1495,7 @@ namespace PKHeX.Core
                 case GameVersion.RD:
                 case GameVersion.BU:
                 case GameVersion.GN:
+                case GameVersion.RB:
                     {
                         var LevelTable = ver == GameVersion.YW ? LevelUpY : LevelUpRB;
                         int index = PersonalTable.RB.GetFormeIndex(species, 0);
@@ -1455,6 +1509,8 @@ namespace PKHeX.Core
                         break;
                     }
                 case GameVersion.C:
+                case GameVersion.GD:
+                case GameVersion.SV:
                 case GameVersion.GS:
                     {
                         if (species == 235)
@@ -2928,6 +2984,11 @@ namespace PKHeX.Core
                 return Outsider;
             Outsider |= Savegame_Gender != pkm.OT_Gender || Savegame_Version != (GameVersion) pkm.Version;
             return Outsider;
+        }
+
+        internal static TreesArea GetCrystalTreeArea(PKM pkm,EncounterSlot Slot)
+        {
+            return HeadbuttTreesC.FirstOrDefault(a => a.Location == Slot.Location);
         }
     }
 }

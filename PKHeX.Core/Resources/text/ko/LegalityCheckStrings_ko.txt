@@ -344,3 +344,6 @@ V602 = 모든 리본이 채워졌습니다.
 V600 = 없는 리본: {0}
 V601 = 사용할 수 없는 리본: {0}
 V603 = 알은 리본을 얻을 수 없습니다.
+V604 = Found a tree for crystal heabutt encounter that matches OTID.
+V605 = Found an unreacheable tree for crystal heabutt encounter that matches OTID.
+V606 = Could not found a tree for crystal heabutt encounter that matches OTID.

@@ -15,6 +15,7 @@
     }
     public class EncounterSlot : IEncounterable, IGeneration
     {
+        public int Location { get; set; } = -1;
         public int Species { get; set; }
         public int Form { get; set; }
         public int LevelMin { get; set; }
@@ -54,6 +55,8 @@
     public class EncounterSlot1 : EncounterSlot
     {
         public int Rate;
+        public EncounterTime Time = EncounterTime.Any;
+        public GameVersion Version = GameVersion.Any;
         public override EncounterSlot Clone()
         {
             return new EncounterSlot1
@@ -64,7 +67,9 @@
                 Type = Type,
                 SlotNumber = SlotNumber,
                 _perm = _perm,
-                Rate = Rate
+                Rate = Rate,
+                Time = Time,
+                Generation = Generation,
             };
         }
     }

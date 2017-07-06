@@ -344,3 +344,6 @@ V602 = All ribbons accounted for.
 V600 = Missing Ribbons: {0}
 V601 = Invalid Ribbons: {0}
 V603 = Can't receive Ribbon(s) as an Egg.
+V604 = Found a tree for crystal heabutt encounter that matches OTID.
+V605 = Found an unreacheable tree for crystal heabutt encounter that matches OTID.
+V606 = Could not found a tree for crystal heabutt encounter that matches OTID.
