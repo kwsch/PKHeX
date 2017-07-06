@@ -416,11 +416,10 @@ namespace PKHeX.Core
                         if (e.Species == 054 && !japanese && catch_rate != 168)
                             continue;
                     }
+                    // Encounter with the different catch rate in yellow and redblue are duplicated with different gameverion
                     else if (e.Version == GameVersion.YW && catch_rate != PersonalTable.Y[e.Species].CatchRate)
                         continue;
-                    else if (e.Version == GameVersion.RB && catch_rate != PersonalTable.RB[e.Species].CatchRate)
-                        continue;
-                    else if (catch_rate != PersonalTable.RB[e.Species].CatchRate && catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                    else if (e.Version != GameVersion.YW && catch_rate != PersonalTable.RB[e.Species].CatchRate)
                         continue;
                 }
 
@@ -781,10 +780,18 @@ namespace PKHeX.Core
 
                 // Even if the in game trade uses the tables with source pokemon allowing generation 2 games, the traded pokemon could be a non-tradeback pokemon
                 var rate = (pkm as PK1)?.Catch_Rate;
-                if (z is EncounterTradeCatchRate r && rate != r.Catch_Rate)
-                    continue;
-                if (rate != PersonalTable.RB[z.Species].CatchRate && rate != PersonalTable.Y[z.Species].CatchRate)
-                    continue;
+                if (z is EncounterTradeCatchRate r )
+                {
+                    if (rate != r.Catch_Rate)
+                        continue;
+                }
+                else
+                {
+                    if (z.Version == GameVersion.YW && rate != PersonalTable.Y[z.Species].CatchRate)
+                        continue;
+                    if (z.Version != GameVersion.YW && rate != PersonalTable.RB[z.Species].CatchRate)
+                        continue;
+                }
 
                 yield return z;
             }
