@@ -21,7 +21,7 @@ namespace PKHeX.Core
                 {
                     bool PIDMatch = info.PIDIVMatches;
                     var EncounterMatch = info.EncounterMatch = encounter.Current;
-                    var e = EncounterValidator(pkm, EncounterMatch);
+                    var e = EncounterValidator(pkm, info, EncounterMatch);
                     if (!e.Valid && encounter.PeekIsNext())
                         continue;
                     info.Parse.Add(e);
@@ -81,7 +81,7 @@ namespace PKHeX.Core
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
         }
-        private static Func<PKM, IEncounterable, CheckResult> GetEncounterVerifierMethod(PKM pkm)
+        private static Func<PKM, LegalInfo,IEncounterable, CheckResult> GetEncounterVerifierMethod(PKM pkm)
         {
             switch (pkm.GenNumber)
             {

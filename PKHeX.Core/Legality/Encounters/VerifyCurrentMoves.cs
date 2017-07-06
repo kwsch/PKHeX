@@ -182,7 +182,7 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMovesGenGB(PKM pkm, int[] Moves, LegalInfo info)
         {
-            GameVersion[] games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1GameEncounter(pkm) : Legal.GetGen2GameEncounter(pkm);
+            GameVersion[] games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1GameEncounter(pkm, info) : Legal.GetGen2GameEncounter(pkm, info);
             CheckMoveResult[] res = new CheckMoveResult[4];
             var G1Encounter = info.EncounterMatch;
             if (G1Encounter == null)

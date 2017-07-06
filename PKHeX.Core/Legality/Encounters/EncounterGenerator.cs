@@ -416,7 +416,10 @@ namespace PKHeX.Core
                         if (e.Species == 054 && !japanese && catch_rate != 168)
                             continue;
                     }
-                    else if (catch_rate != PersonalTable.RB[e.Species].CatchRate && catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                    // Encounter with the different catch rate in yellow and redblue are duplicated with different gameverion
+                    else if (e.Version == GameVersion.YW && catch_rate != PersonalTable.Y[e.Species].CatchRate)
+                        continue;
+                    else if (e.Version != GameVersion.YW && catch_rate != PersonalTable.RB[e.Species].CatchRate)
                         continue;
                 }
 
@@ -540,7 +543,8 @@ namespace PKHeX.Core
             // Get Valid levels
             IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
 
-            bool IsRGBKadabra = false;
+            bool RBDragonair = false;
+            GameVersion Gen1Version = GameVersion.RBY;
             if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
             {
                 // Pure gen 1, slots can be filter by catch rate
@@ -548,14 +552,31 @@ namespace PKHeX.Core
                     // Yellow Pikachu, is not a wild encounter
                     yield break;
                 if ((pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 96)
+                {
                     // Yellow Kadabra, ignore Abra encounters
                     vs = vs.Where(s => s.Species == 64);
-                if ((pkm.Species == 148 || pkm.Species == 149) && pk1.Catch_Rate == 27)
-                    // Yellow Dragonair, ignore Dratini encounters
-                    vs = vs.Where(s => s.Species == 148);
+                    Gen1Version = GameVersion.YW;
+                }
+                if (pkm.Species == 148 || pkm.Species == 149)
+                {
+                    if (pk1.Catch_Rate == 27)
+                    {
+                        // Yellow Dragonair, ignore Dratini encounters
+                        vs = vs.Where(s => s.Species == 148);
+                        Gen1Version = GameVersion.YW;
+                    }
+                    else
+                        // Red blue dragonair have the same catch rate as dratini, it could also be a dratini from any game
+                        RBDragonair = true;
+                }
                 else
                 {
-                    IsRGBKadabra = (pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 100;
+                   if((pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 100)
+                    {
+                        // Red Blue Kadabra
+                        vs = vs.Where(s => s.Species == 64);
+                        Gen1Version = GameVersion.RB;
+                    }
                     vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
                 }
             }
@@ -573,8 +594,21 @@ namespace PKHeX.Core
 
             if (gen <= 2)
             {
-                if (IsRGBKadabra) //Red Kadabra slots : Level 49 and 51 in RGB, but level 20 and 27 in Yellow
-                    encounterSlots = encounterSlots.Where(slot => slot.LevelMin >= 49).ToList();
+                if (gen == 1 && Gen1Version != GameVersion.RBY)
+                {
+                    encounterSlots = encounterSlots.Where(slot => Gen1Version.Contains(((EncounterSlot1)slot).Version)).ToList();
+                }
+
+                if (gen == 1 && RBDragonair)
+                {
+                    // Red Blue dragonair or dratini from any gen 1 games
+                    encounterSlots = encounterSlots.Where(slot => GameVersion.RB.Contains(((EncounterSlot1)slot).Version) || slot.Species == 147).ToList();
+                }
+
+                if (gen == 2 && pkm is PK2 pk2 && pk2.Met_Day != 0)
+                {
+                    encounterSlots = encounterSlots.Where(slot => ((EncounterSlot1)slot).Time.Contains(pk2.Met_Day)).ToList();
+                }
 
                 foreach (var s in encounterSlots.OrderBy(slot => slot.LevelMin))
                     yield return s;
@@ -746,10 +780,18 @@ namespace PKHeX.Core
 
                 // Even if the in game trade uses the tables with source pokemon allowing generation 2 games, the traded pokemon could be a non-tradeback pokemon
                 var rate = (pkm as PK1)?.Catch_Rate;
-                if (z is EncounterTradeCatchRate r && rate != r.Catch_Rate)
-                    continue;
-                if (rate != PersonalTable.RB[z.Species].CatchRate && rate != PersonalTable.Y[z.Species].CatchRate)
-                    continue;
+                if (z is EncounterTradeCatchRate r )
+                {
+                    if (rate != r.Catch_Rate)
+                        continue;
+                }
+                else
+                {
+                    if (z.Version == GameVersion.YW && rate != PersonalTable.Y[z.Species].CatchRate)
+                        continue;
+                    if (z.Version != GameVersion.YW && rate != PersonalTable.RB[z.Species].CatchRate)
+                        continue;
+                }
 
                 yield return z;
             }
