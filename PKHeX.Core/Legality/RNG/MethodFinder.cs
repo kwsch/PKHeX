@@ -566,6 +566,8 @@ namespace PKHeX.Core
             {
                 case WC3 g:
                     return val == g.Method;
+                case EncounterStaticShadow d when d.EReader:
+                    return val == PIDType.None; // All IVs are 0
                 case EncounterStatic s:
                     switch (pkm.Version)
                     {
