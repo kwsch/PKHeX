@@ -901,18 +901,6 @@ namespace PKHeX.Core
             foreach (var z in validWC3)
                 yield return z;
         }
-        private static bool IsRangerManaphy(PKM pkm)
-        {
-            var egg = pkm.Egg_Location;
-            const int ranger = 3001;
-            const int linkegg = 2002;
-            if (!pkm.IsEgg) // Link Trade Egg or Ranger
-                return egg == linkegg || egg == ranger;
-            if (egg != ranger)
-                return false;
-            var met = pkm.Met_Location;
-            return met == linkegg || met == 0;
-        }
         private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
@@ -1204,6 +1192,18 @@ namespace PKHeX.Core
         }
 
         // Utility
+        private static bool IsRangerManaphy(PKM pkm)
+        {
+            var egg = pkm.Egg_Location;
+            const int ranger = 3001;
+            const int linkegg = 2002;
+            if (!pkm.IsEgg) // Link Trade Egg or Ranger
+                return egg == linkegg || egg == ranger;
+            if (egg != ranger)
+                return false;
+            var met = pkm.Met_Location;
+            return met == linkegg || met == 0;
+        }
         private static bool IsHiddenAbilitySlot(EncounterSlot slot)
         {
             return slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
