@@ -347,3 +347,6 @@ V603 = 蛋不能接受奖章。
 V604 = Found a tree for crystal heabutt encounter that matches OTID.
 V605 = Found an unreacheable tree for crystal heabutt encounter that matches OTID.
 V606 = Could not found a tree for crystal heabutt encounter that matches OTID.
+V607 = Kanto Route 14 fishing encounter. Unreachable Water tiles.
+V608 = National Park fishing encounter. Unreachable Water tiles.
+V609 = Generation 2 safari zone fishing encounter. Unreachable zone.
