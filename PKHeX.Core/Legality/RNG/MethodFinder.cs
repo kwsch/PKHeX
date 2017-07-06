@@ -598,7 +598,7 @@ namespace PKHeX.Core
                         return val == PIDType.Pokewalker;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot _:
-                    return val == PIDType.Method_1;
+                    return val == PIDType.Method_1 || val == PIDType.CuteCharm;
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 default:
