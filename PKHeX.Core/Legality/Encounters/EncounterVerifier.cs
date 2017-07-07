@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyWildEncounterCrystalHeadbutt(PKM pkm, EncounterSlot1 encounter)
         {
-            var Area = Legal.GetCrystalTreeArea(pkm, encounter);
+            var Area = Legal.GetCrystalTreeArea(encounter);
             if (Area == null)  // Failsafe, every area with headbutt encounters have a tree area
                 return new CheckResult(Severity.Invalid, V605, CheckIdentifier.Encounter);
             var trainerpivot = pkm.TID % 10;
