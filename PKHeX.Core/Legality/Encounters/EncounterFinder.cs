@@ -81,7 +81,7 @@ namespace PKHeX.Core
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
         }
-        private static Func<PKM, LegalInfo,IEncounterable, CheckResult> GetEncounterVerifierMethod(PKM pkm)
+        private static Func<PKM, LegalInfo, IEncounterable, CheckResult> GetEncounterVerifierMethod(PKM pkm)
         {
             switch (pkm.GenNumber)
             {

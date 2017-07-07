@@ -416,7 +416,7 @@ namespace PKHeX.Core
                         if (e.Species == 054 && !japanese && catch_rate != 168)
                             continue;
                     }
-                    // Encounter with the different catch rate in yellow and redblue are duplicated with different gameverion
+                    // Encounters with different catch rates in yellow and redblue are duplicated with different gameverion
                     else if (e.Version == GameVersion.YW && catch_rate != PersonalTable.Y[e.Species].CatchRate)
                         continue;
                     else if (e.Version != GameVersion.YW && catch_rate != PersonalTable.RB[e.Species].CatchRate)
@@ -542,44 +542,8 @@ namespace PKHeX.Core
 
             // Get Valid levels
             IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
-
-            bool RBDragonair = false;
-            GameVersion Gen1Version = GameVersion.RBY;
-            if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
-            {
-                // Pure gen 1, slots can be filter by catch rate
-                if ((pkm.Species == 25 || pkm.Species == 26) && pk1.Catch_Rate == 163)
-                    // Yellow Pikachu, is not a wild encounter
-                    yield break;
-                if ((pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 96)
-                {
-                    // Yellow Kadabra, ignore Abra encounters
-                    vs = vs.Where(s => s.Species == 64);
-                    Gen1Version = GameVersion.YW;
-                }
-                if (pkm.Species == 148 || pkm.Species == 149)
-                {
-                    if (pk1.Catch_Rate == 27)
-                    {
-                        // Yellow Dragonair, ignore Dratini encounters
-                        vs = vs.Where(s => s.Species == 148);
-                        Gen1Version = GameVersion.YW;
-                    }
-                    else
-                        // Red blue dragonair have the same catch rate as dratini, it could also be a dratini from any game
-                        RBDragonair = true;
-                }
-                else
-                {
-                   if((pkm.Species == 64 || pkm.Species == 65) && pk1.Catch_Rate == 100)
-                    {
-                        // Red Blue Kadabra
-                        vs = vs.Where(s => s.Species == 64);
-                        Gen1Version = GameVersion.RB;
-                    }
-                    vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
-                }
-            }
+            if (!FilterGBSlotsCatchRate(pkm, ref vs, out GameVersion Gen1Version, out bool RBDragonair))
+                yield break;
 
             // Get slots where pokemon can exist with respect to the evolution chain
             IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreLevel || evo.Level >= slot.LevelMin - df)));
@@ -594,23 +558,8 @@ namespace PKHeX.Core
 
             if (gen <= 2)
             {
-                if (gen == 1 && Gen1Version != GameVersion.RBY)
-                {
-                    encounterSlots = encounterSlots.Where(slot => Gen1Version.Contains(((EncounterSlot1)slot).Version)).ToList();
-                }
-
-                if (gen == 1 && RBDragonair)
-                {
-                    // Red Blue dragonair or dratini from any gen 1 games
-                    encounterSlots = encounterSlots.Where(slot => GameVersion.RB.Contains(((EncounterSlot1)slot).Version) || slot.Species == 147).ToList();
-                }
-
-                if (gen == 2 && pkm is PK2 pk2 && pk2.Met_Day != 0)
-                {
-                    encounterSlots = encounterSlots.Where(slot => ((EncounterSlot1)slot).Time.Contains(pk2.Met_Day)).ToList();
-                }
-
-                foreach (var s in encounterSlots.OrderBy(slot => slot.LevelMin))
+                var gbslots = FilterGBSlots(pkm, gen, Gen1Version, encounterSlots, RBDragonair);
+                foreach (var s in gbslots.OrderBy(slot => slot.LevelMin))
                     yield return s;
                 yield break;
             }
@@ -666,7 +615,78 @@ namespace PKHeX.Core
                 return max;
             }
         }
+        private static bool FilterGBSlotsCatchRate(PKM pkm, ref IEnumerable<DexLevel> vs, out GameVersion Gen1Version, out bool RBDragonair)
+        {
+            RBDragonair = false;
+            Gen1Version = GameVersion.RBY;
+            if (!(pkm is PK1 pk1) || !pkm.Gen1_NotTradeback)
+                return true;
 
+            // Pure gen 1, slots can be filter by catch rate
+            switch (pkm.Species)
+            {
+                // Pikachu
+                case 25 when pk1.Catch_Rate == 163:
+                case 26 when pk1.Catch_Rate == 163:
+                    return false; // Yellow Pikachu is not a wild encounter
+
+                // Kadabra (YW)
+                case 64 when pk1.Catch_Rate == 96:
+                case 65 when pk1.Catch_Rate == 96:
+                    vs = vs.Where(s => s.Species == 64);
+                    Gen1Version = GameVersion.YW;
+                    return true;
+
+                // Kadabra (RB)
+                case 64 when pk1.Catch_Rate == 100:
+                case 65 when pk1.Catch_Rate == 100:
+                    vs = vs.Where(s => s.Species == 64);
+                    Gen1Version = GameVersion.RB;
+                    return true;
+
+                // Dragonair (YW)
+                case 148 when pk1.Catch_Rate == 27:
+                case 149 when pk1.Catch_Rate == 27:
+                    vs = vs.Where(s => s.Species == 148); // Yellow Dragonair, ignore Dratini encounters
+                    Gen1Version = GameVersion.YW;
+                    return true;
+                
+                // Dragonair (RB)
+                case 148:
+                case 149:
+                    // Red blue dragonair have the same catch rate as dratini, it could also be a dratini from any game
+                    vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                    RBDragonair = true;
+                    return true;
+
+                default:
+                    vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                    return true;
+            }
+        }
+        private static IEnumerable<EncounterSlot> FilterGBSlots(PKM pkm, int gen, GameVersion Gen1Version, IEnumerable<EncounterSlot> slots, bool RBDragonair)
+        {
+            switch (gen)
+            {
+                case 1:
+                    if (Gen1Version != GameVersion.RBY)
+                        slots = slots.Where(slot => Gen1Version.Contains(((EncounterSlot1)slot).Version));
+
+                    // Red Blue dragonair or dratini from any gen 1 games
+                    if (RBDragonair)
+                        return slots.Where(slot => GameVersion.RB.Contains(((EncounterSlot1)slot).Version) || slot.Species == 147);
+
+                    return slots;
+
+                case 2:
+                    if (pkm is PK2 pk2 && pk2.Met_Day != 0)
+                        slots = slots.Where(slot => ((EncounterSlot1)slot).Time.Contains(pk2.Met_Day));
+                    return slots;
+
+                default:
+                    return slots;
+            }
+        }
         private static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)

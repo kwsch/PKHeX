@@ -11,20 +11,17 @@
 
     public static class EncounterTimeExtension
     {
-        public static bool Contains(this EncounterTime t1, int t2)
-        {
-            return t1.Contains((EncounterTime)t2);
-        }
+        public static bool Contains(this EncounterTime t1, int t2) => t1.Contains((EncounterTime)t2);
         private static bool Contains(this EncounterTime t1, EncounterTime t2)
         {
             if (t1 == t2 || t1 == EncounterTime.Any || t2 == EncounterTime.Any)
                 return true;
 
             if (t1 == EncounterTime.MorningDay)
-                return (t2 == EncounterTime.Morning || t2 == EncounterTime.Day);
+                return t2 == EncounterTime.Morning || t2 == EncounterTime.Day;
 
             if (t2 == EncounterTime.MorningDay)
-                return (t1 == EncounterTime.Morning || t1 == EncounterTime.Day);
+                return t1 == EncounterTime.Morning || t1 == EncounterTime.Day;
 
             return false;
         }

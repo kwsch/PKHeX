@@ -327,7 +327,7 @@ namespace PKHeX.Core
         private static void MarkEncountersVersion(ref EncounterArea[] Areas, GameVersion Version)
         {
             foreach (EncounterArea Area in Areas)
-                foreach (EncounterSlot1 Slot in Area.Slots)
+                foreach (var Slot in Area.Slots.OfType<EncounterSlot1>())
                     Slot.Version = Version;
         }
         private static void MarkEncountersGeneration(ref EncounterArea[] Areas, int Generation)
@@ -1467,14 +1467,14 @@ namespace PKHeX.Core
         }
 
         // Encounter
-        internal static GameVersion[] GetGen2GameEncounter(PKM pkm, LegalInfo Info)
+        internal static GameVersion[] GetGen2Versions(LegalInfo Info)
         {
             if (AllowGen2Crystal && Info.Game == GameVersion.C)
                 return new[] { GameVersion.C };
             // Any encounter marked with version GSC is for pokemon with the same moves in g/s and crystal, it is enought to check only g/s moves
             return new[] { GameVersion.GS };
         }
-        internal static GameVersion[] GetGen1GameEncounter(PKM pkm, LegalInfo Info)
+        internal static GameVersion[] GetGen1Versions(LegalInfo Info)
         {
             if (Info.EncounterMatch.Species == 133 && Info.Game == GameVersion.Stadium)
                 // Staidum eevee, check for red/blue and yellow initial moves
@@ -2719,7 +2719,7 @@ namespace PKHeX.Core
             return r;
         }
 
-        internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion Version = GameVersion.Any)
+        internal static int[] GetEggMoves(PKM pkm, int species, int formnum)
         {
             if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255)
                 return new int[0];
@@ -2986,7 +2986,7 @@ namespace PKHeX.Core
             return Outsider;
         }
 
-        internal static TreesArea GetCrystalTreeArea(PKM pkm,EncounterSlot Slot)
+        internal static TreesArea GetCrystalTreeArea(EncounterSlot Slot)
         {
             return HeadbuttTreesC.FirstOrDefault(a => a.Location == Slot.Location);
         }

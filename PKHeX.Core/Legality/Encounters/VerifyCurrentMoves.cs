@@ -182,7 +182,7 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMovesGenGB(PKM pkm, int[] Moves, LegalInfo info)
         {
-            GameVersion[] games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1GameEncounter(pkm, info) : Legal.GetGen2GameEncounter(pkm, info);
+            GameVersion[] games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
             CheckMoveResult[] res = new CheckMoveResult[4];
             var G1Encounter = info.EncounterMatch;
             if (G1Encounter == null)
@@ -214,7 +214,7 @@ namespace PKHeX.Core
             var emptyegg = new int[0];
 
             var e = info.EncounterMatch as EncounterEgg;
-            var EggMoves = e != null ? Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game) : emptyegg;
+            var EggMoves = e != null ? Legal.GetEggMoves(pkm, e.Species, pkm.AltForm) : emptyegg;
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151 && pkm.InhabitedGeneration(1);
             var NonTradebackLvlMoves = TradebackPreevo ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray() : new int[0];
             
