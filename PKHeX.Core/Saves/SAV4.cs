@@ -208,6 +208,8 @@ namespace PKHeX.Core
                     Daycare = 0x141C + GBO;
                     OFS_HONEY = 0x72E4 + GBO;
                     Box = 0xC104 + SBO;
+
+                    _currentPoketchApp = 0x114E;
                     break;
                 case GameVersion.Pt:
                     AdventureInfo = 0 + GBO;
@@ -240,6 +242,8 @@ namespace PKHeX.Core
                     Daycare = 0x1654 + GBO;
                     OFS_HONEY = 0x7F38 + GBO;
                     Box = 0xCF30 + SBO;
+
+                    _currentPoketchApp = 0x1162;
                     break;
                 case GameVersion.HGSS:
                     AdventureInfo = 0 + GBO;
@@ -506,7 +510,8 @@ namespace PKHeX.Core
         }
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
-        public int CurrentPoketchApp { get => Data[0x1162]; set => Data[0x1162] = (byte)Math.Min(24, value); /* Alarm Clock */ }
+        public int CurrentPoketchApp { get => Data[_currentPoketchApp]; set => Data[_currentPoketchApp] = (byte)Math.Min(24, value); /* Alarm Clock */ }
+        private int _currentPoketchApp;
 
         // Storage
         public override int CurrentBox
