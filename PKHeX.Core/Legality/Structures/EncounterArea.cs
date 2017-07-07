@@ -78,7 +78,7 @@ namespace PKHeX.Core
                     int index = i + r*slotCount;
                     slots[index].Rate = rates[r];
                     slots[index].SlotNumber = i;
-                    slots[i].Time = r == 1 ? EncounterTime.Day : EncounterTime.Night;
+                    slots[index].Time = r == 1 ? EncounterTime.Day : EncounterTime.Night;
                 }
             }
 
@@ -148,10 +148,9 @@ namespace PKHeX.Core
             var areas = new List<EncounterArea>();
             while (data[ofs] != 0xFF) // end
             {
-                int _Location = data[ofs++] << 8 | data[ofs++];
                 areas.Add(new EncounterArea
                 {
-                    Location = _Location,
+                    Location = data[ofs++] << 8 | data[ofs++],
                     Slots = GetSlots2_GW(data, ref ofs, t, slotSets, slotCount),
                 });
             }
