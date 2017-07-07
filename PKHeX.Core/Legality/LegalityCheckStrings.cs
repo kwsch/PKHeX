@@ -407,12 +407,12 @@ namespace PKHeX.Core
         public static string V601 { get; set; } = "Missing Ribbons: {0}";
         public static string V602 { get; set; } = "All ribbons accounted for.";
         public static string V603 { get; set; } = "Can't receive Ribbon(s) as an Egg.";
-        public static string V604 { get; set; } = "Found a tree for crystal heabutt encounter that matches OTID";
-        public static string V605 { get; set; } = "Found an unreacheable tree for crystal heabutt encounter that matches OTID.";
-        public static string V606 { get; set; } = "Could not found a tree for crystal heabutt encounter that matches OTID.";
+        public static string V604 { get; set; } = "Found a tree for Crystal headbutt encounter that matches OTID";
+        public static string V605 { get; set; } = "Found an unreacheable tree for Crystal headbutt encounter that matches OTID.";
+        public static string V606 { get; set; } = "Could not find a tree for Crystal headbutt encounter that matches OTID.";
         public static string V607 { get; set; } = "Kanto Route 14 fishing encounter. Unreachable Water tiles.";
         public static string V608 { get; set; } = "National Park fishing encounter. Unreachable Water tiles.";
-        public static string V609 { get; set; } = "Generation 2 safari zone fishing encounter. Unreachable zone.";
+        public static string V609 { get; set; } = "Generation 2 Safari Zone fishing encounter. Unreachable zone.";
         #endregion
 
     }
