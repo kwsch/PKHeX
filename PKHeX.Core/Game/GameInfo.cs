@@ -144,7 +144,7 @@ namespace PKHeX.Core
             {
                 // Gen4 Mail names not stored in future games. No clever solution like for HM's, so improvise.
                 for (int i = 137; i <= 148; i++)
-                    itemlist[i] = $"Mail #{i - 137 + 1} (G4)";
+                    itemlist[i] = $"Mail #{i - 137 + 1:00} (G4/G5)";
 
                 // Fix Item Names (Duplicate entries)
                 int len = itemlist[425].Length;

@@ -44,10 +44,12 @@
             this.giveMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.giveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.giveNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.giveModify = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Count = new System.Windows.Forms.Label();
             this.NUD_Count = new System.Windows.Forms.NumericUpDown();
             this.CHK_NEW = new System.Windows.Forms.CheckBox();
-            this.giveModify = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSortIndex = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSortIndexReverse = new System.Windows.Forms.ToolStripMenuItem();
             this.sortMenu.SuspendLayout();
             this.giveMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Count)).BeginInit();
@@ -133,9 +135,11 @@
             this.mnuSortName,
             this.mnuSortNameReverse,
             this.mnuSortCount,
-            this.mnuSortCountReverse});
+            this.mnuSortCountReverse,
+            this.mnuSortIndex,
+            this.mnuSortIndexReverse});
             this.sortMenu.Name = "modifyMenu";
-            this.sortMenu.Size = new System.Drawing.Size(159, 92);
+            this.sortMenu.Size = new System.Drawing.Size(159, 158);
             // 
             // mnuSortName
             // 
@@ -172,21 +176,28 @@
             this.giveNone,
             this.giveModify});
             this.giveMenu.Name = "modifyMenu";
-            this.giveMenu.Size = new System.Drawing.Size(153, 92);
+            this.giveMenu.Size = new System.Drawing.Size(113, 70);
             // 
             // giveAll
             // 
             this.giveAll.Name = "giveAll";
-            this.giveAll.Size = new System.Drawing.Size(152, 22);
+            this.giveAll.Size = new System.Drawing.Size(112, 22);
             this.giveAll.Text = "All";
             this.giveAll.Click += new System.EventHandler(this.GiveAllItems);
             // 
             // giveNone
             // 
             this.giveNone.Name = "giveNone";
-            this.giveNone.Size = new System.Drawing.Size(152, 22);
+            this.giveNone.Size = new System.Drawing.Size(112, 22);
             this.giveNone.Text = "None";
             this.giveNone.Click += new System.EventHandler(this.RemoveAllItems);
+            // 
+            // giveModify
+            // 
+            this.giveModify.Name = "giveModify";
+            this.giveModify.Size = new System.Drawing.Size(112, 22);
+            this.giveModify.Text = "Modify";
+            this.giveModify.Click += new System.EventHandler(this.ModifyAllItems);
             // 
             // L_Count
             // 
@@ -229,12 +240,19 @@
             this.CHK_NEW.Text = "Flag NEW";
             this.CHK_NEW.UseVisualStyleBackColor = true;
             // 
-            // giveModify
+            // mnuSortIndex
             // 
-            this.giveModify.Name = "giveModify";
-            this.giveModify.Size = new System.Drawing.Size(152, 22);
-            this.giveModify.Text = "Modify";
-            this.giveModify.Click += new System.EventHandler(this.ModifyAllItems);
+            this.mnuSortIndex.Name = "mnuSortIndex";
+            this.mnuSortIndex.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortIndex.Text = "Index";
+            this.mnuSortIndex.Click += new System.EventHandler(this.SortByIndex);
+            // 
+            // mnuSortIndexReverse
+            // 
+            this.mnuSortIndexReverse.Name = "mnuSortIndexReverse";
+            this.mnuSortIndexReverse.Size = new System.Drawing.Size(158, 22);
+            this.mnuSortIndexReverse.Text = "Index (Reverse)";
+            this.mnuSortIndexReverse.Click += new System.EventHandler(this.SortByIndex);
             // 
             // SAV_Inventory
             // 
@@ -283,5 +301,7 @@
         private System.Windows.Forms.NumericUpDown NUD_Count;
         private System.Windows.Forms.CheckBox CHK_NEW;
         private System.Windows.Forms.ToolStripMenuItem giveModify;
+        private System.Windows.Forms.ToolStripMenuItem mnuSortIndex;
+        private System.Windows.Forms.ToolStripMenuItem mnuSortIndexReverse;
     }
 }

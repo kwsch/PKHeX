@@ -411,5 +411,17 @@ namespace PKHeX.WinForms
                 p.SortByCount(reverse:true);
             GetBag(dgv, p);
         }
+        private void SortByIndex(object sender, EventArgs e)
+        {
+            int pouch = CurrentPouch;
+            var dgv = Controls.Find(DGVPrefix + Pouches[pouch].Type, true).FirstOrDefault() as DataGridView;
+            var p = Pouches[pouch];
+            SetBag(dgv, p);
+            if (sender == mnuSortIndex)
+                p.SortByIndex(reverse: false);
+            if (sender == mnuSortIndexReverse)
+                p.SortByIndex(reverse: true);
+            GetBag(dgv, p);
+        }
     }
 }

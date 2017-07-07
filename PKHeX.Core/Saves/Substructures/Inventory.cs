@@ -253,6 +253,15 @@ namespace PKHeX.Core
                 Items = Items.Where(item => item.Index != 0).OrderByDescending(item => item.Count)
                         .Concat(Items.Where(item => item.Index == 0)).ToArray();
         }
+        public void SortByIndex(bool reverse = false)
+        {
+            if (reverse)
+                Items = Items.Where(item => item.Index != 0).OrderByDescending(item => item.Index)
+                    .Concat(Items.Where(item => item.Index == 0)).ToArray();
+            else
+                Items = Items.Where(item => item.Index != 0).OrderBy(item => item.Index)
+                    .Concat(Items.Where(item => item.Index == 0)).ToArray();
+        }
         public void SortByName(string[] names, bool reverse = false)
         {
             if (reverse)
