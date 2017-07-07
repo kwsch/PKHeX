@@ -922,47 +922,33 @@ namespace PKHeX.Core
                 if (wc.Version != 0 && !((GameVersion)wc.Version).Contains((GameVersion)pkm.Version))
                     continue;
 
-                if (wc.Fateful != pkm.FatefulEncounter) continue;
-
-                if (!wc.IsEgg)
+                bool hatchedEgg = wc.IsEgg && !pkm.IsEgg;
+                if (!hatchedEgg)
                 {
                     if (wc.SID != -1 && wc.SID != pkm.SID) continue;
-                    if (wc.TID != pkm.TID) continue;
-                    if (wc.OT_Name != pkm.OT_Name) continue;
+                    if (wc.TID != -1 && wc.TID != pkm.TID) continue;
+                    if (wc.OT_Name != null && wc.OT_Name != pkm.OT_Name) continue;
                     if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
-
-                    if (wc.Met_Location != pkm.Met_Location && pkm.HasOriginalMetLocation)
-                        continue;
-                }
-                else if (wc.IsEgg)
-                {
-                    if (pkm.WasEventEgg)
-                    {
-                        if (wc.TID > 0 && (wc.TID != pkm.TID || wc.SID != pkm.SID)) continue;
-
-                        if (wc.OT_Name != null && wc.OT_Name != pkm.OT_Name) continue;
-
-                        if (wc.Met_Location != pkm.Met_Location) continue;
-
-                        if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
-                    }
-
-                    if (pkm.IsNative)
-                    {
-                        if (wc.Met_Level != pkm.Met_Level)
-                            continue;
-                    }
-                    else
-                    {
-                        if (wc.Level > pkm.Met_Level)
-                            continue;
-                        if (pkm.IsEgg)
-                            continue;
-                    }
                 }
 
                 if (wc.Language != -1 && wc.Language != pkm.Language) continue;
                 if (wc.Ball != pkm.Ball) continue;
+                if (wc.Fateful != pkm.FatefulEncounter) continue;
+
+                if (pkm.IsNative)
+                {
+                    if (wc.Met_Level != pkm.Met_Level)
+                        continue;
+                    if (wc.Met_Location != pkm.Met_Location && (!wc.IsEgg || pkm.IsEgg))
+                        continue;
+                }
+                else
+                {
+                    if (pkm.IsEgg)
+                        break;
+                    if (wc.Level > pkm.Met_Level)
+                        continue;
+                }
 
                 // Some checks are best performed separately as they are caused by users screwing up valid data.
                 // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
