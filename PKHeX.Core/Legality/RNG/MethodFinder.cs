@@ -599,8 +599,18 @@ namespace PKHeX.Core
                     if (s.Location == 233 && s.Gift)
                         return val == PIDType.Pokewalker;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
-                case EncounterSlot _:
-                    return val == PIDType.Method_1 || val == PIDType.CuteCharm;
+                case EncounterSlot sl:
+                    if (val == PIDType.Method_1)
+                        return true;
+                    if (val == PIDType.CuteCharm)
+                        // Cute charm does not work with swarms pokemon
+                        return sl.Type != SlotType.Swarm;
+                    if (val != PIDType.ChainShiny)
+                        return false;
+                    // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
+                    // TypeEncounter TallGrass discard any cave or city
+                    var IsDPPt = GameVersion.DP.Contains((GameVersion)pkm.Version) || (GameVersion)pkm.Version == GameVersion.Pt;
+                    return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Legal.SafariZoneLocation_4.Contains(sl.Location);
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 default:

@@ -2,17 +2,17 @@
 
 namespace PKHeX.Core
 {
-    // Pokemon Crystal Headbutt tree encounters by trainer id, base on mechanics described in
+    // Pokemon Crystal Headbutt tree encounters by trainer id, based on mechanics described in
     // https://bulbapedia.bulbagarden.net/wiki/Headbutt_tree#Mechanics
 
     public enum TreeEncounterAvailable
     {
-        ValidTree, // Encounter is possible a reacheable tree
-        InvalidTree, // Encounter is only possible a tree reacheable only with walk-trought walls cheats
+        ValidTree, // Encounter is possible a reachable tree
+        InvalidTree, // Encounter is only possible a tree reachable only with walk-trough walls cheats
         Impossible // Encounter is not possible in any tree
     }
 
-    public class TreeCoordinates
+    internal class TreeCoordinates
     {
         internal int X { get; set; }
         internal int Y { get; set; }
@@ -72,8 +72,8 @@ namespace PKHeX.Core
 
         private void ReadAreaRawData(byte[] entrie)
         {
-            // Coordinates of trees for every are obtained with programa G2Map
-            // ValidTrees are those accesible from the player
+            // Coordinates of trees for every are obtained with the program G2Map
+            // ValidTrees are those accessible by the player
             // Invalid tress are trees that the player can not reach without cheating devices, like a tree beyond other trees
             Location = entrie[0];
             ValidTrees = new TreeCoordinates[entrie[1]];
@@ -103,14 +103,14 @@ namespace PKHeX.Core
 
         private void GenerateAreaTreeIndex()
         {
-            // For legallity purpose only the tree index is needed, group the trees data by their index, trees with the same index are indistinguible
+            // For legality purpose only the tree index is needed, group the trees data by their index, trees with the same index are indistinguishable
             ValidTreeIndex = ValidTrees.Select(t => t.Index).Distinct().OrderBy(i => i).ToArray();
             InvalidTreeIndex = InvalidTrees.Select(t => t.Index).Distinct().OrderBy(i => i).Except(ValidTreeIndex).ToArray();
         }
 
         private void GenerateAreaTrainerEncounters()
         {
-            // Check for every trainer pivot index if there is trees with low encounter and moderate encounter available in the area
+            // Check for every trainer pivot index if there are trees with low encounter and moderate encounter available in the area
             TrainerModerateEncounterTree = new TreeEncounterAvailable[10];
             TrainerLowEncounterTree = new TreeEncounterAvailable[10];
             for (int pivotindex = 0; pivotindex < 10; pivotindex++)

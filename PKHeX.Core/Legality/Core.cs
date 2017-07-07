@@ -789,6 +789,7 @@ namespace PKHeX.Core
                 MarkEncountersVersion(ref h_c, GameVersion.C);
 
                 var extra = AddExtraTableSlots(c, h_c, f, bcc_c, safari_c);
+                MarkSlotLocation(ref extra);
                 return Version == GameVersion.C ? extra : AddExtraTableSlots(Slots, extra);
             }
 
@@ -818,7 +819,6 @@ namespace PKHeX.Core
                 MarkG2Slots(ref SlotsGS);
                 MarkG2Slots(ref SlotsC);
                 MarkG2Slots(ref SlotsGSC);
-                MarkSlotLocation(ref SlotsC);
                 MarkEncountersGeneration(ref SlotsGS, 2);
                 MarkEncountersGeneration(ref SlotsC, 2);
                 MarkEncountersGeneration(ref SlotsGSC, 2);
