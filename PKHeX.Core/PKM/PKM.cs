@@ -846,6 +846,7 @@ namespace PKHeX.Core
             var pk = new CK3();
             TransferPropertiesWithReflection(this, pk);
             pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
+            pk.Stat_Level = pk.CurrentLevel;
             return pk;
         }
         /// <summary>
@@ -861,6 +862,7 @@ namespace PKHeX.Core
             var pk = new XK3();
             TransferPropertiesWithReflection(this, pk);
             pk.SetStats(GetStats(PersonalTable.RS[pk.Species]));
+            pk.Stat_Level = pk.CurrentLevel;
             return pk;
         }
         /// <summary>
