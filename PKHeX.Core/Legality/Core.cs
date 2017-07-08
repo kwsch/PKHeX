@@ -1471,7 +1471,7 @@ namespace PKHeX.Core
         {
             if (AllowGen2Crystal && Info.Game == GameVersion.C)
                 return new[] { GameVersion.C };
-            // Any encounter marked with version GSC is for pokemon with the same moves in g/s and crystal, it is enought to check only g/s moves
+            // Any encounter marked with version GSC is for pokemon with the same moves in g/s and Crystal, it is enought to check only g/s moves
             return new[] { GameVersion.GS };
         }
         internal static GameVersion[] GetGen1Versions(LegalInfo Info)
@@ -1817,7 +1817,7 @@ namespace PKHeX.Core
                         return SlotsGSC;
 
                     if (pkm.HasOriginalMetLocation)
-                        // Format 2 with met location, encounter should be from crystal
+                        // Format 2 with met location, encounter should be from Crystal
                         return SlotsC;
 
                     if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
@@ -1826,7 +1826,7 @@ namespace PKHeX.Core
                         return SlotsGS;
 
                     // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
-                    // or it can be a crystal pokemon that lost met location after being tradeback to gen 1 games
+                    // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
                     return SlotsGSC;
 
                 case GameVersion.R: return SlotsR;

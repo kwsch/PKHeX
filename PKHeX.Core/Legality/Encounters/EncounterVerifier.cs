@@ -50,7 +50,7 @@ namespace PKHeX.Core
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot1 encounter)
         {
             if (encounter.Type == SlotType.Old_Rod_Safari || encounter.Type == SlotType.Good_Rod_Safari || encounter.Type == SlotType.Super_Rod_Safari)
-                // Fishing in the beta gen 2 safari zone
+                // Fishing in the beta gen 2 Safari Zone
                 return new CheckResult(Severity.Invalid, V609, CheckIdentifier.Encounter);
 
             if (encounter.Version == GameVersion.C)

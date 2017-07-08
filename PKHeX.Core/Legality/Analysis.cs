@@ -238,7 +238,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Format == 2 || pkm.VC2)
             {
-                // Eggs, pokemon with non-empty crystal met location, and generation 2 species without generation 1 preevolutions can't be traded to generation 1.
+                // Eggs, pokemon with non-empty Crystal met location, and generation 2 species without generation 1 preevolutions can't be traded to generation 1.
                 if (pkm.IsEgg || pkm.HasOriginalMetLocation || (pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species)))
                     pkm.TradebackStatus = TradebackType.Gen2_NotTradeback;
                 else
