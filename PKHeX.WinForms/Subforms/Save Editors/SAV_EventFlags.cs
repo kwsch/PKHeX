@@ -246,12 +246,13 @@ namespace PKHeX.WinForms
                     ValueMember = "Value",
                     DisplayMember = "Text",
                     Margin = Padding.Empty,
-                    Width = 80,
+                    Width = 150,
                     Name = constCBTag + num[i].ToString("0000"),
                     DropDownStyle = ComboBoxStyle.DropDownList,
                     BindingContext = BindingContext,
                     DataSource = map,
-                    SelectedIndex = 0
+                    SelectedIndex = 0,
+                    DropDownWidth = Width + 100
                 };
                 cb.SelectedValueChanged += ToggleConst;
                 mtb.TextChanged += ToggleConst;
