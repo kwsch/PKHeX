@@ -794,27 +794,29 @@ namespace PKHeX.Core
             // Check if already Seen
             if ((Data[ofs + brSize * 1] & mask) == 0) // Not seen
             {
+                Data[ofs + brSize * 1] |= mask; // Set seen
                 int gr = pkm.PersonalInfo.Gender;
                 switch (gr)
                 {
                     case 255: // Genderless
                     case 0: // Male Only
-                        Data[ofs + brSize * 1] &= mask;
                         Data[ofs + brSize * 2] &= mask;
+                        Data[ofs + brSize * 3] &= mask;
                         break;
                     case 254: // Female Only
-                        Data[ofs + brSize * 1] |= mask;
                         Data[ofs + brSize * 2] |= mask;
+                        Data[ofs + brSize * 3] |= mask;
                         break;
                     default: // Male or Female
-                        bool m = (Data[ofs + brSize * 1] & mask) != 0;
-                        bool f = (Data[ofs + brSize * 2] & mask) != 0;
-                        if (!(m || f)) // Add both forms (not a single form == 00 or 11).
-                        {
-                            int gender = pkm.Gender & 1;
-                            gender ^= 1; // Set OTHER gender seen bit so it appears second
-                            Data[ofs + brSize * (1 + gender)] |= mask;
-                        }
+                        bool m = (Data[ofs + brSize * 2] & mask) != 0;
+                        bool f = (Data[ofs + brSize * 3] & mask) != 0;
+                        if (m || f) // bit already set?
+                            break;
+                        int gender = pkm.Gender & 1;
+                        Data[ofs + brSize * 2] &= (byte)~mask; // unset
+                        Data[ofs + brSize * 3] &= (byte)~mask; // unset
+                        gender ^= 1; // Set OTHER gender seen bit so it appears second
+                        Data[ofs + brSize * (2 + gender)] |= mask;
                         break;
                 }
             }
