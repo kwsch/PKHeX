@@ -119,12 +119,6 @@ namespace PKHeX.Core
 
             UpdateInfo();
             UpdateTypeInfo();
-            if (pk.Format > 2) // transferred
-            {
-                EncounterOriginalGB = EncounterMatch;
-                foreach (var z in VerifyVCEncounter(pkm, EncounterMatch.Species, EncounterMatch as GBEncounterData))
-                    AddLine(z);
-            }
             VerifyNickname();
             VerifyDVs();
             VerifyEVs();
@@ -188,17 +182,28 @@ namespace PKHeX.Core
             { AddLine(Severity.Invalid, V187, CheckIdentifier.GameOrigin); return; }
 
             UpdateInfo();
+            if (pkm.VC)
+                UpdateVCTransferInfo();
             UpdateTypeInfo();
             UpdateChecks();
         }
 
+        private void UpdateVCTransferInfo()
+        {
+            EncounterOriginalGB = EncounterMatch;
+            if (pkm.VC1)
+                Info.EncounterMatch = EncounterGenerator.GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
+            else if (pkm.VC2)
+                Info.EncounterMatch = EncounterGenerator.GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
+            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB.Species, EncounterOriginalGB as GBEncounterData, Info.EncounterMatch as EncounterStatic))
+                AddLine(z);
+        }
         private void UpdateInfo()
         {
             Info = EncounterFinder.FindVerifiedEncounter(pkm);
             Encounter = Info.Parse[0];
             Parse.AddRange(Info.Parse);
         }
-        
         private void UpdateTradebackG12()
         {
             if (pkm.Format == 1)
@@ -260,9 +265,9 @@ namespace PKHeX.Core
             if (pkm.Format >= 7)
             {
                 if (pkm.VC1)
-                    Info.EncounterMatch = EncounterGenerator.GetRBYStaticTransfer(pkm.Species);
+                    Info.EncounterMatch = EncounterGenerator.GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
                 else if (pkm.VC2)
-                    Info.EncounterMatch = EncounterGenerator.GetGSStaticTransfer(pkm.Species);
+                    Info.EncounterMatch = EncounterGenerator.GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
             }
 
             if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && (EncounterMatch as GBEncounterData)?.Generation != pkm.GenNumber)

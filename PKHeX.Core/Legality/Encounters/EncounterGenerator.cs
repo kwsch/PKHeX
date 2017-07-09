@@ -1301,12 +1301,14 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 1:
-                    return GetRBYStaticTransfer(species);
+                    return GetRBYStaticTransfer(species, pkm.Met_Level);
+                case 2:
+                    return GetGSStaticTransfer(species, pkm.Met_Level);
                 default:
                     return GetStaticEncounters(pkm, 100).OrderBy(s => s.Level).FirstOrDefault();
             }
         }
-        internal static EncounterStatic GetRBYStaticTransfer(int species)
+        internal static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
             return new EncounterStatic
             {
@@ -1318,10 +1320,11 @@ namespace PKHeX.Core
                 Location = 30013,
                 EggLocation = 0,
                 IV3 = true,
+                Level = pkmMetLevel,
                 Version = GameVersion.RBY
             };
         }
-        internal static EncounterStatic GetGSStaticTransfer(int species)
+        internal static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
         {
             return new EncounterStatic
             {
@@ -1333,6 +1336,7 @@ namespace PKHeX.Core
                 Location = 30004, // todo
                 EggLocation = 0,
                 IV3 = true,
+                Level = pkmMetLevel,
                 Version = GameVersion.GS
             };
         }

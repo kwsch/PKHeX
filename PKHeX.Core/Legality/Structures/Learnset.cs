@@ -20,6 +20,8 @@ namespace PKHeX.Core
         {
             if (minLevel <= 1 && maxLevel >= 100)
                 return Moves;
+            if (minLevel > maxLevel)
+                return new int[0];
             int start = Array.FindIndex(Levels, z => z >= minLevel);
             if (start < 0)
                 return new int[0];

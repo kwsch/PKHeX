@@ -580,16 +580,10 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, int baseSpecies, GBEncounterData encounter)
+        private static IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, int baseSpecies, GBEncounterData encounter, EncounterStatic transfer)
         {
-            // Sanitize Species to non-future species#
-            int species = pkm.Species;
-            if (pkm.VC1 && species > Legal.MaxSpeciesID_1 ||
-                pkm.VC2 && species > Legal.MaxSpeciesID_2)
-                species = baseSpecies;
-
             // Check existing EncounterMatch
-            if (encounter == null)
+            if (encounter == null || transfer == null)
                 yield break; // Avoid duplicate invaild message
 
             if (encounter.Encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
@@ -600,13 +594,12 @@ namespace PKHeX.Core
                     yield return new CheckResult(Severity.Invalid, V79, CheckIdentifier.Encounter);
             }
 
-            var ematch = EncounterGenerator.GetRBYStaticTransfer(species);
-            if (pkm.Met_Location != ematch.Location)
+            if (pkm.Met_Location != transfer.Location)
                 yield return new CheckResult(Severity.Invalid, V81, CheckIdentifier.Encounter);
-            if (pkm.Egg_Location != ematch.EggLocation)
+            if (pkm.Egg_Location != transfer.EggLocation)
                 yield return new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
 
-            if (species == 150 && pkm.Moves.Contains(6)) // pay day
+            if (baseSpecies == 150 && pkm.Moves.Contains(6)) // pay day
                 yield return new CheckResult(Severity.Invalid, V82, CheckIdentifier.Encounter);
         }
         #endregion
