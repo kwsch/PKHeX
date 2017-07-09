@@ -40,8 +40,9 @@ namespace PKHeX.Core
             // PKM Info
             public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
                 memories, genloc, trainingbags, trainingstage, characteristics,
-                encountertypelist, gamelanguages, balllist, gamelist, pokeblocks,
-                g3coloitems, g3xditems, g3items, g2items, g1items, ribbons;
+                encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, ribbons;
+                
+            private readonly string[] mail4, g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
 
             // Met Locations
             public readonly string[] metGSC_00000, metRSEFRLG_00000, metCXD_00000;
@@ -58,7 +59,7 @@ namespace PKHeX.Core
             public GameStrings(string l)
             {
                 lang = l;
-                ribbons = Get("Ribbons");
+                ribbons = Get("ribbons");
                 // Past Generation strings
                 g3items = Get("ItemsG3");
                 // XD and Colosseum
@@ -121,6 +122,7 @@ namespace PKHeX.Core
                 puffs = Get("puff");
 
                 eggname = specieslist[0];
+                mail4 = Get("mail4");
                 metHGSS_00000 = Get("hgss_00000");
                 metHGSS_02000 = Get("hgss_02000");
                 metHGSS_03000 = Get("hgss_03000");
@@ -138,14 +140,14 @@ namespace PKHeX.Core
                 metSM_60000 = Get("sm_60000");
 
                 Sanitize();
+
+                g4items = (string[])itemlist.Clone();
+                for (int i = 137; i <= 148; i++)
+                    g4items[i] = mail4[i - 137];
             }
 
             private void Sanitize()
             {
-                // Gen4 Mail names not stored in future games. No clever solution like for HM's, so improvise.
-                for (int i = 137; i <= 148; i++)
-                    itemlist[i] = $"Mail #{i - 137 + 1:00} (G4/G5)";
-
                 // Fix Item Names (Duplicate entries)
                 int len = itemlist[425].Length;
                 itemlist[426] = itemlist[425].Substring(0, len - 1) + (char)(itemlist[425][len - 1] + 1) + " (G4)";
@@ -270,6 +272,8 @@ namespace PKHeX.Core
                                 g3itemsEBerry[175] = Legal.EReaderBerryDisplayName;
                                 return g3itemsEBerry;
                         }
+                    case 4:
+                        return g4items; // mail names changed 4->5
                     default:
                         return itemlist;
                 }

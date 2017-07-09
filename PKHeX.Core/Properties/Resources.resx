@@ -1483,34 +1483,52 @@
   <data name="flags_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\flags_pt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="text_Ribbons_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\de\text_Ribbons_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\en\text_Ribbons_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_en1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\en\text_Ribbons_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="text_Ribbons_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\es\text_Ribbons_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\fr\text_Ribbons_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\it\text_Ribbons_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ja\text_Ribbons_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_Ribbons_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\text_Ribbons_pt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="text_Ribbons_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="text_ribbons_zh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_Ribbons_zh.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_Mail4_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_Mail4_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_Mail4_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_Mail4_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_Mail4_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_Mail4_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_mail4_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_Mail4_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

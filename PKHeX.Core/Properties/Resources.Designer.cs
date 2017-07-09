@@ -3417,8 +3417,7 @@ namespace PKHeX.Core.Properties {
         ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦
-        /// [rest of string was truncated]&quot;;.
+        ///预知梦        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_abilities_zh {
             get {
@@ -3535,8 +3534,7 @@ namespace PKHeX.Core.Properties {
         ///超幸运
         ///引爆
         ///危险预知
-        ///预知梦
-        /// [rest of string was truncated]&quot;;.
+        ///预知梦        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Abilities_zh1 {
             get {
@@ -5002,7 +5000,8 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Outskirt Stand (C) Cipher Lab (XD)
+        ///   Looks up a localized string similar to 
+        ///Outskirt Stand (C) Cipher Lab (XD)
         ///Outskirt Stand (C)
         ///Phenac City (C)
         ///Phenac City (C)
@@ -5020,7 +5019,7 @@ namespace PKHeX.Core.Properties {
         ///Pyrite Town (C) Mt. Battle (XD)
         ///Pyrite Town (C) Mt. Battle (XD)
         ///Pyrite Town (C) Mt. Battle (XD)
-        ///Pyrite T [rest of string was truncated]&quot;;.
+        ///Pyrite  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_cxd_00000_en {
             get {
@@ -5545,8 +5544,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_de {
             get {
@@ -5808,8 +5806,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_en {
             get {
@@ -6590,8 +6587,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_fr {
             get {
@@ -6850,8 +6846,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_fr1 {
             get {
@@ -7111,8 +7106,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_it {
             get {
@@ -7372,8 +7366,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Forms_it1 {
             get {
@@ -7892,8 +7885,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_ko {
             get {
@@ -8153,8 +8145,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///
-        /// [rest of string was truncated]&quot;;.
+        ///        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_forms_zh {
             get {
@@ -9573,8 +9564,7 @@ namespace PKHeX.Core.Properties {
         ///마니아터널
         ///자랑의 뒷마당
         ///갖철섬
-        ///숲의 양옥집
-        /// [rest of string was truncated]&quot;;.
+        ///숲의 양옥집        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_hgss_00000_ko {
             get {
@@ -9660,8 +9650,7 @@ namespace PKHeX.Core.Properties {
         ///睿智湖畔
         ///隐泉之路
         ///心齐湖
-        ///立志湖
-        /// [rest of string was truncated]&quot;;.
+        ///立志湖        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_hgss_00000_zh {
             get {
@@ -10448,8 +10437,7 @@ namespace PKHeX.Core.Properties {
         ///Éter
         ///Éter Máximo
         ///Elixir
-        ///Elixir Máximo
-        /// [rest of string was truncated]&quot;;.
+        ///Elixir Máximo        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_es {
             get {
@@ -10621,8 +10609,7 @@ namespace PKHeX.Core.Properties {
         ///クリティカット
         ///プラスパワー
         ///ディフェンダー
-        ///スピーダー
-        /// [rest of string was truncated]&quot;;.
+        ///スピーダー        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_ja {
             get {
@@ -10710,8 +10697,7 @@ namespace PKHeX.Core.Properties {
         ///실버스프레이
         ///골드스프레이
         ///동굴탈출로프
-        ///벌레회피스프레이
-        /// [rest of string was truncated]&quot;;.
+        ///벌레회피스프레이        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_ko {
             get {
@@ -11642,6 +11628,146 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wiesenbrief
+        ///Feuerbrief
+        ///Wasserbrief
+        ///Blütenbrief
+        ///Minenbrief
+        ///Stahlbrief
+        ///Rosabrief
+        ///Schneebrief
+        ///Sternbrief
+        ///Luftbrief
+        ///Mosaikbrief
+        ///Ziegelbrief.
+        /// </summary>
+        internal static string text_mail4_de {
+            get {
+                return ResourceManager.GetString("text_mail4_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grass Mail
+        ///Flame Mail
+        ///Bubble Mail
+        ///Bloom Mail
+        ///Tunnel Mail
+        ///Steel Mail
+        ///Heart Mail
+        ///Snow Mail
+        ///Space Mail
+        ///Air Mail
+        ///Mosaic Mail
+        ///Brick Mail.
+        /// </summary>
+        internal static string text_mail4_en {
+            get {
+                return ResourceManager.GetString("text_mail4_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grass Mail
+        ///Flame Mail
+        ///Bubble Mail
+        ///Bloom Mail
+        ///Tunnel Mail
+        ///Steel Mail
+        ///Heart Mail
+        ///Snow Mail
+        ///Space Mail
+        ///Air Mail
+        ///Mosaic Mail
+        ///Brick Mail.
+        /// </summary>
+        internal static string text_mail4_es {
+            get {
+                return ResourceManager.GetString("text_mail4_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lettre Herbe
+        ///Lettre Feu
+        ///Lettre Mer
+        ///Lett. Pétale
+        ///Lettre Mine
+        ///Lettre Acier
+        ///Lettre Coeur
+        ///Lettre Neige
+        ///Lettre Cosmo
+        ///Lettre Avion
+        ///Lettremosaik
+        ///Lettre Brik.
+        /// </summary>
+        internal static string text_mail4_fr {
+            get {
+                return ResourceManager.GetString("text_mail4_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mess. Erba
+        ///Mess. Fiamma
+        ///Mess. Bolla
+        ///Mess. Petalo
+        ///Mess. Tunnel
+        ///Mess. Lega
+        ///Mess. Cuore
+        ///Mess. Neve
+        ///Mess. Spazio
+        ///Mess. Aereo
+        ///Mess. Iride
+        ///Mess. Muro.
+        /// </summary>
+        internal static string text_mail4_it {
+            get {
+                return ResourceManager.GetString("text_mail4_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to グラスメール
+        ///フレイムメール
+        ///ブルーメール
+        ///ブルームメール
+        ///トンネルメール
+        ///スチールメール
+        ///ラブラブメール
+        ///ブリザードメール
+        ///スペースメール
+        ///エアメール
+        ///モザイクメール
+        ///ブリックメール.
+        /// </summary>
+        internal static string text_mail4_ja {
+            get {
+                return ResourceManager.GetString("text_mail4_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 잔디메일
+        ///플레임메일
+        ///블루메일
+        ///블룸메일
+        ///터널메일
+        ///스틸메일
+        ///러브러브메일
+        ///블리자드메일
+        ///스페이스메일
+        ///에어메일
+        ///모자이크메일
+        ///브릭메일.
+        /// </summary>
+        internal static string text_mail4_ko {
+            get {
+                return ResourceManager.GetString("text_mail4_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///
         ///Es erinnert sich daran,
@@ -12164,8 +12290,7 @@ namespace PKHeX.Core.Properties {
         ///Dard-Nuée
         ///Groz’Yeux
         ///Morsure
-        ///Rugissement
-        /// [rest of string was truncated]&quot;;.
+        ///Rugissement        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_fr {
             get {
@@ -12298,8 +12423,7 @@ namespace PKHeX.Core.Properties {
         ///じごくぐるま
         ///けたぐり
         ///カウンター
-        ///ちきゅうなげ
-        /// [rest of string was truncated]&quot;;.
+        ///ちきゅうなげ        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_ja {
             get {
@@ -12395,8 +12519,7 @@ namespace PKHeX.Core.Properties {
         ///전기쇼크
         ///10만볼트
         ///전기자석파
-        ///번개
-        /// [rest of string was truncated]&quot;;.
+        ///번개        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_ko {
             get {
@@ -12511,8 +12634,7 @@ namespace PKHeX.Core.Properties {
         ///刺耳声
         ///影子分身
         ///自我再生
-        ///变硬
-        /// [rest of string was truncated]&quot;;.
+        ///变硬        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_moves_zh {
             get {
@@ -13059,8 +13181,7 @@ namespace PKHeX.Core.Properties {
         ///[~ 48]
         ///[~ 49]
         ///[~ 50]
-        ///[VAR 01A3(0000)]
-        /// [rest of string was truncated]&quot;;.
+        ///[VAR 01A3(0000)]        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_pokeblock_zh {
             get {
@@ -13347,9 +13468,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonRoyal	Königlich
         ///RibbonGorgeou [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_de {
+        internal static string text_ribbons_de {
             get {
-                return ResourceManager.GetString("text_Ribbons_de", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_de", resourceCulture);
             }
         }
         
@@ -13374,36 +13495,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonGorgeousRoyal	Gorgeous Royal
         ///RibbonArtist	 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_en {
+        internal static string text_ribbons_en {
             get {
-                return ResourceManager.GetString("text_Ribbons_en", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RibbonChampionKalos	Kalos Champion
-        ///RibbonChampionG3Hoenn	Hoenn Champion (RSE)
-        ///RibbonChampionSinnoh	Sinnoh Champion
-        ///RibbonBestFriends	Best Friends
-        ///RibbonTraining	Training
-        ///RibbonBattlerSkillful	Skillful Battler
-        ///RibbonBattlerExpert	Expert Battler
-        ///RibbonEffort	Effort
-        ///RibbonAlert	Alert
-        ///RibbonShock	Shock
-        ///RibbonDowncast	Downcast
-        ///RibbonCareless	Careless
-        ///RibbonRelax	Relax
-        ///RibbonSnooze	Snooze
-        ///RibbonSmile	Smile
-        ///RibbonGorgeous	Gorgeous
-        ///RibbonRoyal	Royal
-        ///RibbonGorgeousRoyal	Gorgeous Royal
-        ///RibbonArtist	 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string text_Ribbons_en1 {
-            get {
-                return ResourceManager.GetString("text_Ribbons_en1", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_en", resourceCulture);
             }
         }
         
@@ -13427,9 +13521,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonRoyal	Realeza
         ///RibbonGorgeousRoyal	Realez [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_es {
+        internal static string text_ribbons_es {
             get {
-                return ResourceManager.GetString("text_Ribbons_es", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_es", resourceCulture);
             }
         }
         
@@ -13453,9 +13547,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonRoyal = Royal
         ///RibbonGorgeousRoyal = Royal Subl [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_fr {
+        internal static string text_ribbons_fr {
             get {
-                return ResourceManager.GetString("text_Ribbons_fr", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_fr", resourceCulture);
             }
         }
         
@@ -13480,9 +13574,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonGorgeousRoyal	Gorgeous Royal
         ///RibbonArtist	 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_it {
+        internal static string text_ribbons_it {
             get {
-                return ResourceManager.GetString("text_Ribbons_it", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_it", resourceCulture);
             }
         }
         
@@ -13511,9 +13605,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonLegend	レジェンド
         ///RibbonC [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_ja {
+        internal static string text_ribbons_ja {
             get {
-                return ResourceManager.GetString("text_Ribbons_ja", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_ja", resourceCulture);
             }
         }
         
@@ -13539,12 +13633,11 @@ namespace PKHeX.Core.Properties {
         ///RibbonArtist	브로마이드리본
         ///RibbonFootprint	발자국리본
         ///RibbonRecord	레코드리본
-        ///RibbonLegend	레전드리본
-        /// [rest of string was truncated]&quot;;.
+        ///RibbonLegend	레전드리본        /// [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_ko {
+        internal static string text_ribbons_ko {
             get {
-                return ResourceManager.GetString("text_Ribbons_ko", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_ko", resourceCulture);
             }
         }
         
@@ -13568,9 +13661,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonRoyal	Nobre
         ///RibbonGo [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_pt {
+        internal static string text_ribbons_pt {
             get {
-                return ResourceManager.GetString("text_Ribbons_pt", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_pt", resourceCulture);
             }
         }
         
@@ -13602,9 +13695,9 @@ namespace PKHeX.Core.Properties {
         ///RibbonEarth	大地
         ///RibbonWorld	 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string text_Ribbons_zh {
+        internal static string text_ribbons_zh {
             get {
-                return ResourceManager.GetString("text_Ribbons_zh", resourceCulture);
+                return ResourceManager.GetString("text_ribbons_zh", resourceCulture);
             }
         }
         
@@ -15358,8 +15451,7 @@ namespace PKHeX.Core.Properties {
         ///Diglett
         ///Dugtrio
         ///Meowth
-        ///Persian
-        /// [rest of string was truncated]&quot;;.
+        ///Persian        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_it {
             get {
@@ -15558,8 +15650,7 @@ namespace PKHeX.Core.Properties {
         ///킹크랩
         ///찌리리공
         ///붐볼
-        ///아라리
-        /// [rest of string was truncated]&quot;;.
+        ///아라리        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_species_ko {
             get {
@@ -15855,8 +15946,7 @@ namespace PKHeX.Core.Properties {
         ///¡Ráfaga de tiros de Fraxure!
         ///¡Tentacruel y sus globos de bits!
         ///¡Dale a Aerodactyl con tiros rápidos!
-        ///¡Destruye la barrera de Graveler!
-        /// [rest of string was truncated]&quot;;.
+        ///¡Destruye la barrera de Graveler!        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_supertraining_es {
             get {
@@ -17119,8 +17209,7 @@ namespace PKHeX.Core.Properties {
         ///
         ///Route 10
         ///Menhir-Weg
-        ///Cromlexia
-        /// [rest of string was truncated]&quot;;.
+        ///Cromlexia        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_00000_de {
             get {
@@ -17843,8 +17932,7 @@ namespace PKHeX.Core.Properties {
         ///VGE 2014
         ///VGE 2015
         ///VGE 2016
-        ///VGE 2017
-        /// [rest of string was truncated]&quot;;.
+        ///VGE 2017        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_xy_40000_de {
             get {

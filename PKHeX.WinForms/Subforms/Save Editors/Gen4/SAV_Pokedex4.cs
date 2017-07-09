@@ -284,7 +284,7 @@ namespace PKHeX.WinForms
         }
         private void ModifyAll(object sender, EventArgs e)
         {
-            int lang = SAV.Language;
+            int lang = SAV.Language - 1;
             if (lang > 5 || lang < 0) // KOR or Invalid
                 lang = 0;
 
