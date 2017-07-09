@@ -52,6 +52,12 @@ namespace PKHeX.Core
         {
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
+        internal static readonly int[] Roaming_MetLocation_GSC_Grass =
+        {
+            // Routes 29, 30-31, 33, 34, 35, 36-37, 38-39, 42, 43, 44, 45-46 can be encountered in grass
+            2, 4, 5, 8, 11, 15, 18, 20, 21,
+            25, 26, 34, 37, 39, 43, 45,
+        };
 
         internal static readonly EncounterArea[] EncounterBCC_GSC = { new EncounterArea {
             Location = 19,
@@ -158,9 +164,16 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 202, Level = 15, Location = 016, Version = GameVersion.C }, // Wobbuffet @ Goldenrod City (Game Corner)
         };
 
-        internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).ToArray();
-        internal static readonly EncounterStatic[] Encounter_C = Encounter_GSC_Common.Concat(Encounter_C_Exclusive).ToArray();
-        internal static readonly EncounterStatic[] Encounter_GSC = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_C_Exclusive).ToArray();
+        internal static readonly EncounterStatic[] Encounter_GSC_Roam =
+        {
+            new EncounterStatic { Species = 243, Level = 40, Roaming = true }, // Raikou
+            new EncounterStatic { Species = 244, Level = 40, Roaming = true }, // Entei
+            new EncounterStatic { Species = 245, Level = 40, Roaming = true, Version = GameVersion.GS }, // Suicune
+        };
+
+        internal static readonly EncounterStatic[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_GSC_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_GSC_Grass))).ToArray();
+        internal static readonly EncounterStatic[] Encounter_C = Encounter_GSC_Common.Concat(Encounter_C_Exclusive).Concat(Encounter_GSC_Roam.Take(2).SelectMany(e => e.Clone(Roaming_MetLocation_GSC_Grass))).ToArray();
+        internal static readonly EncounterStatic[] Encounter_GSC = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_C_Exclusive).Concat(Encounter_GSC_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_GSC_Grass))).ToArray();
 
         internal static readonly EncounterTrade[] TradeGift_GSC =
         {
