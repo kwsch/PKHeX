@@ -604,7 +604,6 @@ namespace PKHeX.Core
 
         // Legality Properties
         public override bool WasLink => Met_Location == 30011;
-        public override bool WasEgg => GenNumber < 6 ? base.WasEgg : Legal.EggLocations.Contains(Egg_Location);
         public override bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
         public override bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;

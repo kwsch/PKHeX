@@ -265,9 +265,6 @@ namespace PKHeX.Core
                 return pm6stat * 5 + maxIV % 5;
             }
         }
-
-        // Legality Extensions
-        public override bool WasEgg => GenNumber < 5 ? base.WasEgg : Legal.EggLocations5.Contains(Egg_Location);
         
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_5;

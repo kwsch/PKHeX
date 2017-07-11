@@ -226,7 +226,7 @@ namespace PKHeX.Core
 
         #endregion
         
-        internal static readonly int[] EggLocations = {60002, 30002};
+        internal static readonly int[] EggLocations6 = {60002, 30002, 60004};
         internal static readonly int[] ValidMet_XY =
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,

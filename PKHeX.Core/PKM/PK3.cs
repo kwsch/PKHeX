@@ -157,7 +157,6 @@ namespace PKHeX.Core
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
         public bool Japanese => IsEgg || Language == 1;
-        public override bool WasEgg => Met_Level == 0;
         public override bool WasEvent => Met_Location == 255; // Fateful
         public override bool WasIngameTrade => Met_Location == 254; // Trade
         public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch

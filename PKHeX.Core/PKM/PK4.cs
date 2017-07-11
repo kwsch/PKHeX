@@ -345,7 +345,6 @@ namespace PKHeX.Core
             }
         }
         // Legality Extensions
-        public override bool WasEgg => GenNumber < 4 ? base.WasEgg : Species == 490 && Egg_Location == 3001 || Legal.EggLocations4.Contains(Egg_Location);
         public override bool WasEvent => Met_Location >= 3000 && Met_Location <= 3076 || FatefulEncounter;
         public override bool WasIngameTrade => Met_Location == 2001; // Trade
         public override bool WasEventEgg => WasEgg && Species == 490; // Manaphy was the only generation 4 released event egg
