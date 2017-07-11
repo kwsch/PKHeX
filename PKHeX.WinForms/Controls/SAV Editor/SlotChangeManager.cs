@@ -225,6 +225,8 @@ namespace PKHeX.WinForms.Controls
                 return false;
             string file = files[0];
             FileInfo fi = new FileInfo(file);
+            if (!fi.Exists)
+                return false;
             if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
             {
                 RequestExternalDragDrop?.Invoke(this, e); // pass thru
