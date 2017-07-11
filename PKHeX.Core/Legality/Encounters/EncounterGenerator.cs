@@ -330,7 +330,7 @@ namespace PKHeX.Core
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
-                if (pkm.WasEgg ^ e.EggEncounter)
+                if (pkm.WasEgg ^ e.EggEncounter && pkm.Egg_Location == 0)
                     continue;
                 if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
                 {
