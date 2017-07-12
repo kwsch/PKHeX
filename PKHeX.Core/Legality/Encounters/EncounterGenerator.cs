@@ -294,7 +294,7 @@ namespace PKHeX.Core
             IEnumerable<EncounterStatic> poss = GetStaticEncounters(pkm, gameSource: gameSource);
 
             int lvl = GetMinLevelEncounter(pkm);
-            if (lvl <= 0)
+            if (lvl < 0)
                 yield break;
 
             // Back Check against pkm
@@ -330,7 +330,7 @@ namespace PKHeX.Core
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
-                if (pkm.WasEgg ^ e.EggEncounter && pkm.Egg_Location == 0)
+                if (pkm.WasEgg ^ e.EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3)
                     continue;
                 if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
                 {
@@ -386,7 +386,10 @@ namespace PKHeX.Core
                     if (!e.EggEncounter && e.Location != 0 && e.Location != pkm.Met_Location)
                         continue;
                     if (e.Level != lvl)
-                        continue;
+                    {
+                        if (!(pkm.Format == 3 && e.EggEncounter && lvl == 0))
+                            continue;
+                    }
                 }
                 else if (e.Level > lvl)
                     continue;
