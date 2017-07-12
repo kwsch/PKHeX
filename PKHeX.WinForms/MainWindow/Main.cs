@@ -855,6 +855,8 @@ namespace PKHeX.WinForms
                         $"Generation {sav.Generation} Save File detected. Allow tradebacks from Generation 2 for legality purposes?",
                         "Yes: Allow Generation 2 tradeback learnsets" + Environment.NewLine +
                         "No: Don't allow Generation 2 tradeback learnsets");
+                    if (drTradeback == DialogResult.Cancel)
+                        return false;
                     Legal.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
                 }
                 else
@@ -900,7 +902,17 @@ namespace PKHeX.WinForms
                 var dialog = new SAV_GameSelect(games);
                 dialog.ShowDialog();
 
-                sav.Personal = dialog.Result == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
+                switch (dialog.Result)
+                {
+                    case GameVersion.FR:
+                        sav.Personal = PersonalTable.FR;
+                        break;
+                    case GameVersion.LG:
+                        sav.Personal = PersonalTable.LG;
+                        break;
+                    default:
+                        return false;
+                }
             }
 
             return true;
