@@ -14,16 +14,19 @@ namespace PKHeX.Core
             using (var encounter = new PeekEnumerator<IEncounterable>(encounters.GetEnumerator()))
             {
                 if (!encounter.PeekIsNext())
-                { return VerifyWithoutEncounter(pkm, info);}
+                    return VerifyWithoutEncounter(pkm, info);
 
                 var EncounterValidator = GetEncounterVerifierMethod(pkm);
                 while (encounter.MoveNext())
                 {
                     bool PIDMatch = info.PIDIVMatches;
-                    var EncounterMatch = info.EncounterMatch = encounter.Current;
-                    var e = EncounterValidator(pkm, info, EncounterMatch);
+                    info.EncounterMatch = encounter.Current;
+                    var e = EncounterValidator(pkm, info);
                     if (!e.Valid && encounter.PeekIsNext())
+                    {
+                        info.Reject(e);
                         continue;
+                    }
                     info.Parse.Add(e);
 
                     if (VerifySecondaryChecks(pkm, info, PIDMatch, encounter))
@@ -81,7 +84,7 @@ namespace PKHeX.Core
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
         }
-        private static Func<PKM, LegalInfo, IEncounterable, CheckResult> GetEncounterVerifierMethod(PKM pkm)
+        private static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
         {
             switch (pkm.GenNumber)
             {

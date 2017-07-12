@@ -376,6 +376,11 @@ namespace PKHeX.Core
                     lines.Add(string.Format(V248, pidiv.OriginSeed.ToString("X8")));
                 lines.Add(string.Format(V249, pidiv.Type));
             }
+            if (!Valid && Info.InvalidMatches != null)
+            {
+                lines.Add("Other match(es):");
+                lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Name}: {z.Reason}"));
+            }
             
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }

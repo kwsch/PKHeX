@@ -49,5 +49,32 @@ namespace PKHeX.Core
             Game = (GameVersion) pkm.Version;
             Generation = pkm.GenNumber;
         }
+
+        internal void Reject(CheckResult c)
+        {
+            if (InvalidMatches == null)
+                InvalidMatches = new List<RejectedEncounter>();
+            InvalidMatches.Add(new RejectedEncounter(EncounterMatch, c));
+        }
+
+        public class RejectedEncounter : IEncounterable
+        {
+            public readonly IEncounterable Encounter;
+            public readonly CheckResult Check;
+            public string Reason => Check.Comment;
+
+            public int Species => Encounter.Species;
+            public string Name => Encounter.Name;
+            public bool EggEncounter => Encounter.EggEncounter;
+            public int LevelMin => Encounter.LevelMin;
+            public int LevelMax => Encounter.LevelMax;
+
+            public RejectedEncounter(IEncounterable encounter, CheckResult check)
+            {
+                Encounter = encounter;
+                Check = check;
+            }
+        }
+        public List<RejectedEncounter> InvalidMatches;
     }
 }

@@ -5,8 +5,9 @@ namespace PKHeX.Core
 {
     public static class EncounterVerifier
     {
-        public static CheckResult VerifyEncounter(PKM pkm, LegalInfo info, IEncounterable encounter)
+        public static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
         {
+            var encounter = info.EncounterMatch;
             if (encounter is EncounterEgg e)
             {
                 pkm.WasEgg = true;
@@ -25,8 +26,9 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
-        public static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info, IEncounterable encounter)
+        public static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
         {
+            var encounter = info.EncounterMatch;
             var EncounterMatch = encounter is GBEncounterData g ? g.Encounter : encounter;
             if (encounter.EggEncounter)
             {
