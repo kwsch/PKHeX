@@ -215,6 +215,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < statdata.Length / 2; i++)
                 CB_Stats.Items.Add(statdata[2 * i + 1]);
             CB_Stats.SelectedIndex = 0;
+
+            CHK_MegaUnlocked.Checked = SAV.IsMegaEvolutionUnlocked;
         }
         private readonly string[] statdata;
         private bool editing;
@@ -571,6 +573,8 @@ namespace PKHeX.WinForms
 
             if (SAV.LastSavedDate.HasValue)
                 SAV.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+
+            SAV.IsMegaEvolutionUnlocked = CHK_MegaUnlocked.Checked;
         }
 
         private void ClickOT(object sender, MouseEventArgs e)

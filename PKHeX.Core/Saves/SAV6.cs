@@ -429,6 +429,11 @@ namespace PKHeX.Core
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, TrainerCard + 0x7C + 0x22 * 4, 0x22));
             set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, TrainerCard + 0x7C + 0x22 * 4);
         }
+        public bool IsMegaEvolutionUnlocked
+        {
+            get => Data[TrainerCard + 0x14A] == 1;
+            set => Data[TrainerCard + 0x14A] = (byte)(value ? 1 : 0);
+        }
 
         public int M
         {

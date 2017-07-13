@@ -202,8 +202,9 @@ namespace PKHeX.WinForms
             this.Tab_Multiplayer = new System.Windows.Forms.TabPage();
             this.Tab_Maison = new System.Windows.Forms.TabPage();
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
-            this.TB_TRNick = new System.Windows.Forms.TextBox();
             this.L_TRNick = new System.Windows.Forms.Label();
+            this.TB_TRNick = new System.Windows.Forms.TextBox();
+            this.CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
@@ -2071,6 +2072,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Multiplayer
             // 
+            this.Tab_Multiplayer.Controls.Add(this.CHK_MegaUnlocked);
             this.Tab_Multiplayer.Controls.Add(this.L_MultiplayerSprite);
             this.Tab_Multiplayer.Controls.Add(this.GB_Sayings);
             this.Tab_Multiplayer.Controls.Add(this.PB_Sprite);
@@ -2147,6 +2149,15 @@ namespace PKHeX.WinForms
             this.Tab_Appearance.Text = "Appearance";
             this.Tab_Appearance.UseVisualStyleBackColor = true;
             // 
+            // L_TRNick
+            // 
+            this.L_TRNick.Location = new System.Drawing.Point(68, 230);
+            this.L_TRNick.Name = "L_TRNick";
+            this.L_TRNick.Size = new System.Drawing.Size(128, 20);
+            this.L_TRNick.TabIndex = 74;
+            this.L_TRNick.Text = "Trainer Nickname:";
+            this.L_TRNick.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // TB_TRNick
             // 
             this.TB_TRNick.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2158,14 +2169,15 @@ namespace PKHeX.WinForms
             this.TB_TRNick.Text = "WWWWWWWWWWWW";
             this.TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // L_TRNick
+            // CHK_MegaUnlocked
             // 
-            this.L_TRNick.Location = new System.Drawing.Point(68, 230);
-            this.L_TRNick.Name = "L_TRNick";
-            this.L_TRNick.Size = new System.Drawing.Size(128, 20);
-            this.L_TRNick.TabIndex = 74;
-            this.L_TRNick.Text = "Trainer Nickname:";
-            this.L_TRNick.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_MegaUnlocked.AutoSize = true;
+            this.CHK_MegaUnlocked.Location = new System.Drawing.Point(123, 216);
+            this.CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
+            this.CHK_MegaUnlocked.Size = new System.Drawing.Size(149, 17);
+            this.CHK_MegaUnlocked.TabIndex = 76;
+            this.CHK_MegaUnlocked.Text = "Mega Evolution Unlocked";
+            this.CHK_MegaUnlocked.UseVisualStyleBackColor = true;
             // 
             // SAV_Trainer
             // 
@@ -2397,5 +2409,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.DateTimePicker CAL_HoFTime;
         private System.Windows.Forms.Label L_TRNick;
         private System.Windows.Forms.TextBox TB_TRNick;
+        private System.Windows.Forms.CheckBox CHK_MegaUnlocked;
     }
 }
