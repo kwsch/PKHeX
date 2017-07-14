@@ -326,6 +326,8 @@ namespace PKHeX.Core
         }
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
         {
+            // check for petty rejection scenarios that will be flagged by other legality checks
+            var deferred = new List<EncounterStatic>();
             foreach (EncounterStatic e in poss)
             {
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
@@ -437,8 +439,13 @@ namespace PKHeX.Core
                 if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
 
-                yield return e;
+                if (pkm.FatefulEncounter ^ e.Fateful)
+                    deferred.Add(e);
+                else
+                    yield return e;
             }
+            foreach (var e in deferred)
+                yield return e;
         }
         private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
         {
