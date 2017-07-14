@@ -215,8 +215,10 @@ namespace PKHeX.Core
                 pk4.Language = 2; // English
                 pk4.Nickname = "MANAPHY";
                 pk4.Egg_Location = 1; // Ranger (will be +3000 later)
+                pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);
+                pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, 0);
+                pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, 0);
             }
-            pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
             // Generate IV
             uint seed = Util.Rand32();
@@ -258,12 +260,11 @@ namespace PKHeX.Core
             }
             else
             {
+                pk4.Egg_Location = pk4.Egg_Location + 3000;
                 if (SAV.Generation == 4)
                 {
                     pk4.IsEgg = true;
-                    pk4.Met_Location = pk4.Egg_Location + 3000;
-                    pk4.Egg_Location = 0;
-                    pk4.IsNicknamed = true;
+                    pk4.IsNicknamed = false;
                     pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
                     pk4.MetDate = DateTime.Now;
                 }
@@ -271,10 +272,12 @@ namespace PKHeX.Core
                 {
                     pk4.IsEgg = false;
                     // Met Location is modified when transferred to pk5; don't worry about it.
-                    pk4.Egg_Location = pk4.Egg_Location + 3000;
                     pk4.EggMetDate = DateTime.Now;
                 }
+                while (pk4.IsShiny)
+                    pk4.PID = RNG.ARNG.Next(pk4.PID);
             }
+            pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
             if (pk4.Species == 201) // Never will be true; Unown was never distributed.
                 pk4.AltForm = PKX.GetUnownForm(pk4.PID);
 

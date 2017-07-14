@@ -209,7 +209,6 @@ namespace PKHeX.Core
 
                 FatefulEncounter = true,
             };
-            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
             pk.Move1_PP = pk.GetMovePP(Move1, 0);
             pk.Move2_PP = pk.GetMovePP(Move2, 0);
             pk.Move3_PP = pk.GetMovePP(Move3, 0);
@@ -283,12 +282,12 @@ namespace PKHeX.Core
 
             if (IsEgg)
             {
-                // pk.IsEgg = true;
+                pk.IsEgg = true;
                 pk.EggMetDate = Date;
-                // Force hatch
-                pk.IsEgg = false;
-                pk.Met_Location = 4; // Nuvema Town
+                pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+                pk.IsNicknamed = true;
             }
+            pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
             pk.RefreshChecksum();
             return pk;

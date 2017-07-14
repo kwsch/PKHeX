@@ -1738,7 +1738,7 @@ namespace PKHeX.Core
             }
             else // Is Traded
             {
-                if (pkm.Format == 6 && pkm.HT_Memory == 0)
+                if (pkm.Format == 6 && pkm.HT_Memory == 0 && !pkm.IsEgg)
                     return new CheckResult(Severity.Invalid, V150, CheckIdentifier.History);
             }
 
