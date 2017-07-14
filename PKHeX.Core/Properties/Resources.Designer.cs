@@ -100,6 +100,45 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0x4001	VAR_0x4001	
+        ///0x4002	VAR_0x4002
+        ///0x4003	VAR_0x4003
+        ///0x4004	VAR_0x4004
+        ///0x4005	VAR_0x4005
+        ///0x4006	VAR_0x4006
+        ///0x4007	VAR_0x4007
+        ///0x4008	VAR_0x4008
+        ///0x4009	VAR_0x4009
+        ///0x400A	VAR_0x400A
+        ///0x401F	VAR_0x401F
+        ///0x4020	VAR_RECYCLE_GOODS
+        ///0x4021	VAR_REPEL_STEP_COUNT
+        ///0x4022	VAR_ICE_STEP_COUNT
+        ///0x4023	VAR_FIRST_POKE
+        ///0x4024	VAR_MIRAGE_RND_H
+        ///0x4025	VAR_MIRAGE_RND_L
+        ///0x4026	VAR_SECRET_BASE_MAP
+        ///	
+        ///0x402A	VAR_HAPPINESS_STEP_COUNTER
+        ///0x402B	VAR_POISON_STEP_COUNTER
+        ///0x402C	VAR_RESET_RTC_ENABLE	00:Disabled,2336:Enab [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string const_e {
+            get {
+                return ResourceManager.GetString("const_e", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string const_frlg {
+            get {
+                return ResourceManager.GetString("const_frlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0299	Spiky-eared Pichu(IlexForest)	0:Not appeared,2:disappeared
         ///0161	Beasts(BurnedTower)	0:stay,1:roamed/fleed
         ///0304	Lati@s(Roamer)	0:Not appeared,1:Ready to roam,2:roamed
@@ -141,6 +180,36 @@ namespace PKHeX.Core.Properties {
         internal static string const_pt {
             get {
                 return ResourceManager.GetString("const_pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0x4001	VAR_0x4001	
+        ///0x4002	VAR_0x4002
+        ///0x4003	VAR_0x4003
+        ///0x4004	VAR_0x4004
+        ///0x4005	VAR_0x4005
+        ///0x4006	VAR_0x4006
+        ///0x4007	VAR_0x4007
+        ///0x4008	VAR_0x4008
+        ///0x4009	VAR_0x4009
+        ///0x400A	VAR_0x400A
+        ///0x401F	VAR_0x401F
+        ///0x4020	VAR_RECYCLE_GOODS
+        ///0x4021	VAR_REPEL_STEP_COUNT
+        ///0x4022	VAR_ICE_STEP_COUNT
+        ///0x4023	VAR_FIRST_POKE
+        ///0x4024	VAR_MIRAGE_RND_H
+        ///0x4025	VAR_MIRAGE_RND_L
+        ///0x4026	VAR_SECRET_BASE_MAP
+        ///	
+        ///0x402A	VAR_HAPPINESS_STEP_COUNTER
+        ///0x402B	VAR_POISON_STEP_COUNTER
+        ///0x402C	VAR_RESET_RTC_ENABLE	00:Disabled,2336:Enab [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string const_rs {
+            get {
+                return ResourceManager.GetString("const_rs", resourceCulture);
             }
         }
         
@@ -243,6 +312,50 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0x800	SYS_POKEMON_GET
+        ///0x801	SYS_POKEDEX_GET
+        ///0x802	SYS_POKENAV_GET
+        ///0x804	SYS_GAME_CLEAR
+        ///0x805	SYS_CHAT_USED
+        ///0x806	SYS_HIPSTER_MEET
+        ///
+        ///0x807	BADGE01_GET
+        ///0x808	BADGE02_GET
+        ///0x809	BADGE03_GET
+        ///0x80A	BADGE04_GET
+        ///0x80B	BADGE05_GET
+        ///0x80C	BADGE06_GET
+        ///0x80D	BADGE07_GET
+        ///0x80E	BADGE08_GET
+        ///
+        ///0x828	SYS_USE_FLASH
+        ///0x829	SYS_USE_STRENGTH
+        ///0x82A	SYS_WEATHER_CTRL
+        ///0x82B	SYS_CYCLING_ROAD
+        ///0x82C	SYS_SAFARI_MODE
+        ///0x82D	SYS_CRUISE_MODE
+        ///
+        ///0x830	SYS_TV_HOME
+        ///0x831	SYS_TV_WATCH
+        ///0x832	SYS_TV_START
+        ///0x833	SYS_POPWORD_IN [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string flags_e {
+            get {
+                return ResourceManager.GetString("flags_e", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string flags_frlg {
+            get {
+                return ResourceManager.GetString("flags_frlg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0607	Red(Mt.Silver) disappeared
         ///0774	Articuno disappeared
         ///0663	Zapdos disappeared
@@ -317,6 +430,41 @@ namespace PKHeX.Core.Properties {
         internal static string flags_pt {
             get {
                 return ResourceManager.GetString("flags_pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0x800	SYS_POKEMON_GET
+        ///0x801	SYS_POKEDEX_GET
+        ///0x802	SYS_POKENAV_GET
+        ///0x804	SYS_GAME_CLEAR
+        ///0x805	SYS_CHAT_USED
+        ///0x806	SYS_HIPSTER_MEET
+        ///
+        ///0x807	BADGE01_GET
+        ///0x808	BADGE02_GET
+        ///0x809	BADGE03_GET
+        ///0x80A	BADGE04_GET
+        ///0x80B	BADGE05_GET
+        ///0x80C	BADGE06_GET
+        ///0x80D	BADGE07_GET
+        ///0x80E	BADGE08_GET
+        ///
+        ///0x828	SYS_USE_FLASH
+        ///0x829	SYS_USE_STRENGTH
+        ///0x82A	SYS_WEATHER_CTRL
+        ///0x82B	SYS_CYCLING_ROAD
+        ///0x82C	SYS_SAFARI_MODE
+        ///0x82D	SYS_CRUISE_MODE
+        ///
+        ///0x830	SYS_TV_HOME
+        ///0x831	SYS_TV_WATCH
+        ///0x832	SYS_TV_START
+        ///0x833	SYS_POPWORD_IN [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string flags_rs {
+            get {
+                return ResourceManager.GetString("flags_rs", resourceCulture);
             }
         }
         

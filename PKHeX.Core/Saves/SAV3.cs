@@ -116,6 +116,8 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
                     Personal = PersonalTable.RS;
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
+                    EventFlag = BlockOfs[2] + 0x2A0;
+                    EventConst = EventFlag + EventFlagMax / 8;
                     break;
                 case GameVersion.E:
                     LegalKeyItems = Legal.Pouch_Key_E;
@@ -127,6 +129,8 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     Personal = PersonalTable.E;
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
+                    EventFlag = BlockOfs[2] + 0x2F0;
+                    EventConst = EventFlag + EventFlagMax / 8;
                     break;
                 case GameVersion.FRLG:
                     LegalKeyItems = Legal.Pouch_Key_FRLG;
@@ -138,6 +142,8 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     Personal = PersonalTable.FR;
                     SeenFlagOffsets = new[] {BlockOfs[0] + 0x5C, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
+                    EventFlag = BlockOfs[2] + 0x000;
+                    EventConst = EventFlag + EventFlagMax / 8;
                     break;
             }
             LoadEReaderBerryData();
@@ -199,6 +205,8 @@ namespace PKHeX.Core
         public override int OTLength => 7;
         public override int NickLength => 10;
         public override int MaxMoney => 999999;
+        protected override int EventFlagMax => EventFlag > 0 ? 0x900 : int.MinValue;
+        protected override int EventConstMax => EventConst > 0 ? 0x100 : int.MinValue;
 
         public override bool HasParty => true;
 

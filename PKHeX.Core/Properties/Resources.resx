@@ -1531,4 +1531,22 @@
   <data name="text_mail4_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_Mail4_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="const_e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\const_e.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="const_frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\const_frlg.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="const_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\const_rs.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="flags_e" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_e.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="flags_frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_frlg.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="flags_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\flags_rs.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

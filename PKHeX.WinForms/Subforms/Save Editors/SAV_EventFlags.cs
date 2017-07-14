@@ -90,7 +90,6 @@ namespace PKHeX.WinForms
             {
                 BitConverter.GetBytes(flags[3100] ? MagearnaConst : 0).CopyTo(SAV.Data, ((SAV7)SAV).QRSaveData + 0x168);
             }
-
         }
 
         private string[] GetStringList(string type)
@@ -124,6 +123,19 @@ namespace PKHeX.WinForms
                 case GameVersion.B2W2:
                     gamePrefix = "b2w2";
                     break;
+                case GameVersion.R:
+                case GameVersion.S:
+                case GameVersion.RS:
+                    gamePrefix = "rs";
+                    break;
+                case GameVersion.E:
+                    gamePrefix = "e";
+                    break;
+                case GameVersion.FR:
+                case GameVersion.LG:
+                case GameVersion.FRLG:
+                    gamePrefix = "e";
+                    break;
                 default:
                     return null;
             }
@@ -145,7 +157,17 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    int n = Convert.ToInt32(split[0]);
+                    var flag = split[0];
+
+                    int n;
+                    if (flag.StartsWith("0x"))
+                    {
+                        flag = flag.Substring(2);
+                        n = Convert.ToInt16(flag, 16);
+                    }
+                    else
+                        n = Convert.ToInt16(flag);
+
                     if (num.Contains(n))
                         continue;
                     num.Add(n);
@@ -198,7 +220,16 @@ namespace PKHeX.WinForms
             {
                 try
                 {
-                    int n = Convert.ToInt32(split[0]);
+                    var c = split[0];
+                    int n;
+                    if (c.StartsWith("0x40"))
+                    {
+                        c = c.Substring(4);
+                        n = Convert.ToInt16(c, 16);
+                    }
+                    else
+                        n = Convert.ToInt16(c);
+
                     if (num.Contains(n))
                         continue;
                     num.Add(n);
