@@ -284,6 +284,23 @@ namespace PKHeX.Core
             new WC3 { Species = 108, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 215} }, // Lickitung with Wish & Heal Bell
             new WC3 { Species = 113, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 230} }, // Chansey with Wish & Sweet Scent
             new WC3 { Species = 115, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Method = PIDType.Method_2, Moves = new[]{273, 281} }, // Kangaskhan with Wish & Yawn
+
+            // PokePark Eggs - Wondercard
+            new WC3 { Species = 054, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Psyduck with Mud Sport
+            new WC3 { Species = 172, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{266}, Method = PIDType.Method_2 }, // Pichu with Follow me
+            new WC3 { Species = 174, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{321}, Method = PIDType.Method_2 }, // Igglybuff with Tickle
+            new WC3 { Species = 222, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Corsola with Mud Sport
+            new WC3 { Species = 276, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{297}, Method = PIDType.Method_2 }, // Taillow with Feather Dance
+            new WC3 { Species = 283, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Surskit with Mud Sport
+            new WC3 { Species = 293, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{298}, Method = PIDType.Method_2 }, // Whismur with Teeter Dance
+            new WC3 { Species = 300, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{205}, Method = PIDType.Method_2 }, // Skitty with Rollout
+            new WC3 { Species = 311, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{346}, Method = PIDType.Method_2 }, // Plusle with Water Sport
+            new WC3 { Species = 312, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Minun with Mud Sport
+            new WC3 { Species = 325, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{253}, Method = PIDType.Method_2 }, // Spoink with Uproar
+            new WC3 { Species = 327, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{047}, Method = PIDType.Method_2 }, // Spinda with Sing
+            new WC3 { Species = 331, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{227}, Method = PIDType.Method_2 }, // Cacnea with Encore
+            new WC3 { Species = 341, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{346}, Method = PIDType.Method_2 }, // Corphish with Water Sport
+            new WC3 { Species = 360, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{321}, Method = PIDType.Method_2 }, // Wynaut with Tickle
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_RS =
@@ -298,6 +315,9 @@ namespace PKHeX.Core
             new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{334} }, // Bagon with Iron Defense
             new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Bagon with Wish
             
+            // Negai Boshi Jirachi
+            new WC3 { Species = 385, Level = 05, TID = 30719, OT_Gender = 0, OT_Name = "ネガイボシ", Method = PIDType.BACD_R, Language = 1 },
+
             // Berry Glitch Fix
             // PCJP - (December 29, 2003 to March 31, 2004)
             new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 1, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1 },
@@ -309,6 +329,13 @@ namespace PKHeX.Core
 
             // Channel Jirachi
             new WC3 { Species = 385, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.Channel, TID = 40122, SID = -1, OT_Name = "CHANNEL", Met_Level = 0 },
+
+            // Aura Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 3, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 4, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 5, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 7, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
 
             // English Events
             new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV" }, // Charizard
@@ -373,8 +400,8 @@ namespace PKHeX.Core
             new WC3 { Species = 375, Level = 30, Version = (int)GameVersion.R, Moves = new[] {036,093,232,287}, Language = 2, Method = PIDType.BACD_R, TID = 02005, OT_Name = "ROCKS", OT_Gender = 0, RibbonNational = true }, // Metang
             new WC3 { Species = 386, Level = 70, Version = (int)GameVersion.R, Moves = new[] {322,105,354,063}, Language = 2, Method = PIDType.BACD_R, TID = 28606, OT_Name = "DOEL", Fateful = true }, // Deoxys
             new WC3 { Species = 386, Level = 70, Version = (int)GameVersion.R, Moves = new[] {322,105,354,063}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "SPACE C", Fateful = true }, // Deoxys
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Moves = new[] {036,093,232,287}, Language = 2, Method = PIDType.BACD_U, TID = 06930, OT_Name = "MYSTRY", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Moves = new[] {036,093,232,287}, Language = 2, Method = PIDType.BACD_R, TID = 06930, OT_Name = "MYSTRY", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_U, TID = 06930, OT_Name = "MYSTRY", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_R, TID = 06930, OT_Name = "MYSTRY", Fateful = true }, // Mew
 
             // Party of the Decade
             new WC3 { Species = 001, Level = 70, Version = (int)GameVersion.R, Moves = new[] {230,074,076,235}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV" }, // Bulbasaur
@@ -425,17 +452,17 @@ namespace PKHeX.Core
         internal static readonly MysteryGift[] Encounter_Event3_Common =
         {
             // Pokémon Box
-            new WC3 { Species = 333, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{206}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Swablu Egg with False Swipe
-            new WC3 { Species = 263, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{245}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Zigzagoon Egg with Extreme Speed
-            new WC3 { Species = 300, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{006}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Skitty Egg with Pay Day
-            new WC3 { Species = 172, IsEgg = true, Level = 05, /*Version = (int)GameVersion.RSBOX,*/ Moves = new[]{057}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Pichu Egg with Surf
+            new WC3 { Species = 333, IsEgg = true, Level = 05, Moves = new[]{206}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Swablu Egg with False Swipe
+            new WC3 { Species = 263, IsEgg = true, Level = 05, Moves = new[]{245}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Zigzagoon Egg with Extreme Speed
+            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{006}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Skitty Egg with Pay Day
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{057}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Pichu Egg with Surf
  
             // PokePark Eggs - DS Download Play
             new WC3 { Species = 054, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{300}, Method = PIDType.BACD_R }, // Psyduck with Mud Sport
             new WC3 { Species = 172, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{266}, Method = PIDType.BACD_R }, // Pichu with Follow me
             new WC3 { Species = 174, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{321}, Method = PIDType.BACD_R }, // Igglybuff with Tickle
             new WC3 { Species = 222, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{300}, Method = PIDType.BACD_R }, // Corsola with Mud Sport
-            new WC3 { Species = 276, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{294}, Method = PIDType.BACD_R }, // Taillow with Feather Dance
+            new WC3 { Species = 276, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{297}, Method = PIDType.BACD_R }, // Taillow with Feather Dance
             new WC3 { Species = 283, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{300}, Method = PIDType.BACD_R }, // Surskit with Mud Sport
             new WC3 { Species = 293, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{298}, Method = PIDType.BACD_R }, // Whismur with Teeter Dance
             new WC3 { Species = 300, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{205}, Method = PIDType.BACD_R }, // Skitty with Rollout
@@ -446,23 +473,6 @@ namespace PKHeX.Core
             new WC3 { Species = 331, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{227}, Method = PIDType.BACD_R }, // Cacnea with Encore
             new WC3 { Species = 341, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{346}, Method = PIDType.BACD_R }, // Corphish with Water Sport
             new WC3 { Species = 360, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = (int)GameVersion.R, Moves = new[]{321}, Method = PIDType.BACD_R }, // Wynaut with Tickle
-
-            // PokePark Eggs - Wondercard
-            new WC3 { Species = 054, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Psyduck with Mud Sport
-            new WC3 { Species = 172, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{266}, Method = PIDType.Method_2 }, // Pichu with Follow me
-            new WC3 { Species = 174, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{321}, Method = PIDType.Method_2 }, // Igglybuff with Tickle
-            new WC3 { Species = 222, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Corsola with Mud Sport
-            new WC3 { Species = 276, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{294}, Method = PIDType.Method_2 }, // Taillow with Feather Dance
-            new WC3 { Species = 283, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Surskit with Mud Sport
-            new WC3 { Species = 293, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{298}, Method = PIDType.Method_2 }, // Whismur with Teeter Dance
-            new WC3 { Species = 300, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{205}, Method = PIDType.Method_2 }, // Skitty with Rollout
-            new WC3 { Species = 311, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{346}, Method = PIDType.Method_2 }, // Plusle with Water Sport
-            new WC3 { Species = 312, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{300}, Method = PIDType.Method_2 }, // Minun with Mud Sport
-            new WC3 { Species = 325, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{253}, Method = PIDType.Method_2 }, // Spoink with Uproar
-            new WC3 { Species = 327, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{047}, Method = PIDType.Method_2 }, // Spinda with Sing
-            new WC3 { Species = 331, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{227}, Method = PIDType.Method_2 }, // Cacnea with Encore
-            new WC3 { Species = 341, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{346}, Method = PIDType.Method_2 }, // Corphish with Water Sport
-            new WC3 { Species = 360, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = (int)GameVersion.FRLG, Moves = new[]{321}, Method = PIDType.Method_2 }, // Wynaut with Tickle
         };
 
         internal static readonly MysteryGift[] Encounter_WC3 = Encounter_Event3.Concat(Encounter_Event3_RS).Concat(Encounter_Event3_FRLG.Concat(Encounter_Event3_Common)).ToArray();
