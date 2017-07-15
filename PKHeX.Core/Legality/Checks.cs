@@ -1034,8 +1034,6 @@ namespace PKHeX.Core
             var sb = set2.RibbonBits();
             var eb = (encounterContent as IRibbonSetEvent4).RibbonBits();
 
-            if (encounterContent is EncounterLink)
-                eb[0] = true; // require Classic Ribbon
             if (encounterContent is EncounterStatic s && s.RibbonWishing)
                 eb[1] = true; // require Wishing Ribbon
 

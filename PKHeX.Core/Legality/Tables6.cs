@@ -564,8 +564,8 @@ namespace PKHeX.Core
             new EncounterLink { Species = 378, Level = 50, Ability = 4, RelearnMoves = new[] {85, 133, 58, 258}, XY = true, ORAS = true }, // Regice
             new EncounterLink { Species = 379, Level = 50, Ability = 4, RelearnMoves = new[] {442, 157, 356, 334}, XY = true, ORAS = true }, // Registeel
 
-            new EncounterLink { Species = 208, Level = 40, Ability = 1, Classic = false, ORAS = true, OT = false }, // Steelix
-            new EncounterLink { Species = 362, Level = 40, Ability = 1, Classic = false, ORAS = true, OT = false }, // Glalie
+            new EncounterLink { Species = 208, Level = 40, Ability = 1, RibbonClassic = false, ORAS = true, OT = false }, // Steelix
+            new EncounterLink { Species = 362, Level = 40, Ability = 1, RibbonClassic = false, ORAS = true, OT = false }, // Glalie
         };
 
         #endregion
