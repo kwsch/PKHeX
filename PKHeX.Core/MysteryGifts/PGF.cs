@@ -213,19 +213,19 @@ namespace PKHeX.Core
             pk.Move2_PP = pk.GetMovePP(Move2, 0);
             pk.Move3_PP = pk.GetMovePP(Move3, 0);
             pk.Move4_PP = pk.GetMovePP(Move4, 0);
-            if (OTGender == 3) // User's
+            if (IsEgg) // User's
             {
                 pk.TID = SAV.TID;
                 pk.SID = SAV.SID;
                 pk.OT_Name = SAV.OT;
                 pk.OT_Gender = 1; // Red PKHeX OT
             }
-            else
+            else // Hardcoded
             {
-                pk.TID = IsEgg ? SAV.TID : TID;
-                pk.SID = IsEgg ? SAV.SID : SID;
-                pk.OT_Name = OT.Length > 0 ? OT : SAV.OT;
-                pk.OT_Gender = OTGender % 2; // %2 just in case?
+                pk.TID = TID;
+                pk.SID = SID;
+                pk.OT_Name = OT;
+                pk.OT_Gender = (OTGender == 3 ? SAV.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
             }
             pk.IsNicknamed = IsNicknamed;
             pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);

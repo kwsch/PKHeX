@@ -960,10 +960,6 @@ namespace PKHeX.Core
                         continue;
                 }
 
-                // Some checks are best performed separately as they are caused by users screwing up valid data.
-                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
-                // RIBBONS: Defer to ribbon legality
-
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;
                 else
@@ -988,27 +984,14 @@ namespace PKHeX.Core
             foreach (PCD mg in DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
                 var wc = mg.Gift.PK;
-                if (pkm.Egg_Location == 0) // Not Egg
+                if (!wc.IsEgg)
                 {
                     if (wc.TID != pkm.TID) continue;
                     if (wc.SID != pkm.SID) continue;
                     if (wc.OT_Name != pkm.OT_Name) continue;
                     if (wc.OT_Gender != pkm.OT_Gender) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
-                }
-                if (wc.AltForm != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) continue;
 
-                if (wc.IsEgg)
-                {
-                    if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != 2002) // traded
-                        continue;
-                    if (wc.CurrentLevel != pkm.Met_Level)
-                        continue;
-                    if (pkm.IsEgg && !pkm.IsNative)
-                        continue;
-                }
-                else
-                {
                     if (pkm.Format != 4) // transferred
                     {
                         // met location: deferred to general transfer check
@@ -1020,6 +1003,17 @@ namespace PKHeX.Core
                         if (wc.CurrentLevel != pkm.Met_Level) continue;
                     }
                 }
+                else // Egg
+                {
+                    if (wc.Egg_Location + 3000 != pkm.Egg_Location && pkm.Egg_Location != 2002) // traded
+                        continue;
+                    if (wc.CurrentLevel != pkm.Met_Level)
+                        continue;
+                    if (pkm.IsEgg && !pkm.IsNative)
+                        continue;
+                }
+
+                if (wc.AltForm != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) continue;
 
                 if (wc.Ball != pkm.Ball) continue;
                 if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) continue;
@@ -1032,10 +1026,6 @@ namespace PKHeX.Core
                 if (wc.CNT_Smart > pkm.CNT_Smart) continue;
                 if (wc.CNT_Tough > pkm.CNT_Tough) continue;
                 if (wc.CNT_Sheen > pkm.CNT_Sheen) continue;
-
-                // Some checks are best performed separately as they are caused by users screwing up valid data.
-                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
-                // RIBBONS: Defer to ribbon legality
 
                 bool receivable = mg.CanBeReceivedBy(pkm.Version);
                 if (wc.Species == pkm.Species && receivable) // best match
@@ -1055,35 +1045,33 @@ namespace PKHeX.Core
             var vs = GetValidPreEvolutions(pkm).ToArray();
             foreach (PGF wc in DB.OfType<PGF>().Where(wc => vs.Any(dl => dl.Species == wc.Species)))
             {
-                if (pkm.Egg_Location == 0) // Not Egg
+                if (!wc.IsEgg)
                 {
                     if (wc.SID != pkm.SID) continue;
                     if (wc.TID != pkm.TID) continue;
                     if (wc.OT != pkm.OT_Name) continue;
+                    if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
                     if (wc.PID != 0 && pkm.PID != wc.PID) continue;
                     if (wc.PIDType == 0 && pkm.IsShiny) continue;
                     if (wc.PIDType == 2 && !pkm.IsShiny) continue;
                     if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) continue;
                     if (wc.Language != 0 && wc.Language != pkm.Language) continue;
-                }
-                if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) continue;
 
-                if (wc.IsEgg)
+                    if (wc.EggLocation != pkm.Egg_Location) continue;
+                    if (wc.MetLocation != pkm.Met_Location) continue;
+                }
+                else
                 {
                     if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
                         continue;
                     if (pkm.IsEgg && !pkm.IsNative)
                         continue;
                 }
-                else
-                {
-                    if (wc.EggLocation != pkm.Egg_Location) continue;
-                    if (wc.MetLocation != pkm.Met_Location) continue;
-                }
+
+                if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) continue;
 
                 if (wc.Level != pkm.Met_Level) continue;
                 if (wc.Ball != pkm.Ball) continue;
-                if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) continue;
                 if (wc.Nature != 0xFF && wc.Nature != pkm.Nature) continue;
                 if (wc.Gender != 2 && wc.Gender != pkm.Gender) continue;
 
@@ -1093,10 +1081,6 @@ namespace PKHeX.Core
                 if (wc.CNT_Smart > pkm.CNT_Smart) continue;
                 if (wc.CNT_Tough > pkm.CNT_Tough) continue;
                 if (wc.CNT_Sheen > pkm.CNT_Sheen) continue;
-
-                // Some checks are best performed separately as they are caused by users screwing up valid data.
-                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
-                // RIBBONS: Defer to ribbon legality
 
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;
@@ -1154,13 +1138,6 @@ namespace PKHeX.Core
                 if (wc.CNT_Smart > pkm.CNT_Smart) continue;
                 if (wc.CNT_Tough > pkm.CNT_Tough) continue;
                 if (wc.CNT_Sheen > pkm.CNT_Sheen) continue;
-
-                // Some checks are best performed separately as they are caused by users screwing up valid data.
-                // if (!wc.RelearnMoves.SequenceEqual(pkm.RelearnMoves)) continue; // Defer to relearn legality
-                // if (wc.OT.Length > 0 && pkm.CurrentHandler != 1) continue; // Defer to ownership legality
-                // if (wc.OT.Length > 0 && pkm.OT_Friendship != PKX.getBaseFriendship(pkm.Species)) continue; // Friendship
-                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
-                // RIBBONS: Defer to ribbon legality
 
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;
@@ -1229,13 +1206,6 @@ namespace PKHeX.Core
                     continue;
                 }
                 if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
-
-                // Some checks are best performed separately as they are caused by users screwing up valid data.
-                // if (!wc.RelearnMoves.SequenceEqual(pkm.RelearnMoves)) continue; // Defer to relearn legality
-                // if (wc.OT.Length > 0 && pkm.CurrentHandler != 1) continue; // Defer to ownership legality
-                // if (wc.OT.Length > 0 && pkm.OT_Friendship != PKX.getBaseFriendship(pkm.Species)) continue; // Friendship
-                // if (wc.Level > pkm.CurrentLevel) continue; // Defer to level legality
-                // RIBBONS: Defer to ribbon legality
 
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;

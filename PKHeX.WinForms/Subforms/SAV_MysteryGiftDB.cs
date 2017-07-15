@@ -120,6 +120,8 @@ namespace PKHeX.WinForms
         private void ClickView(object sender, EventArgs e)
         {
             int index = GetSenderIndex(sender);
+            if (index < 0)
+                return;
             PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
@@ -129,6 +131,8 @@ namespace PKHeX.WinForms
         private void ClickSavePK(object sender, EventArgs e)
         {
             int index = GetSenderIndex(sender);
+            if (index < 0)
+                return;
             var gift = Results[index];
             var pk = gift.ConvertToPKM(SAV);
             WinFormsUtil.SavePKMDialog(pk);
@@ -136,6 +140,8 @@ namespace PKHeX.WinForms
         private void ClickSaveMG(object sender, EventArgs e)
         {
             int index = GetSenderIndex(sender);
+            if (index < 0)
+                return;
             var gift = Results[index];
             WinFormsUtil.SaveMGDialog(gift);
         }
