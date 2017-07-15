@@ -149,30 +149,8 @@ namespace PKHeX.WinForms.Controls
             if (pk7 == null)
                 return null;
 
-            // Repopulate PK6 with Edited Stuff
-            if (WinFormsUtil.GetIndex(CB_GameOrigin) < 24)
-            {
-                uint EC = Util.GetHexValue(TB_EC.Text);
-                uint PID = Util.GetHexValue(TB_PID.Text);
-                uint SID = Util.ToUInt32(TB_TID.Text);
-                uint TID = Util.ToUInt32(TB_TID.Text);
-                uint LID = PID & 0xFFFF;
-                uint HID = PID >> 16;
-                uint XOR = TID ^ LID ^ SID ^ HID;
-
-                // Ensure we don't have a shiny.
-                if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
-                {
-                    // Keep as shiny, so we have to mod the PID
-                    PID ^= XOR;
-                    TB_PID.Text = PID.ToString("X8");
-                    TB_EC.Text = PID.ToString("X8");
-                }
-                else if ((XOR ^ 0x8000) >> 3 == 1 && PID != EC)
-                    TB_EC.Text = (PID ^ 0x80000000).ToString("X8");
-                else // Not Illegal, no fix.
-                    TB_EC.Text = PID.ToString("X8");
-            }
+            // Repopulate PK7 with Edited Stuff
+            CheckTransferPIDValid();
 
             pk7.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
             pk7.Checksum = 0; // 0 CHK for now
@@ -190,7 +168,6 @@ namespace PKHeX.WinForms.Controls
                 pk7.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);   // Number
             }
             
-            // pkx[0x16], pkx[0x17] are handled by the Medals UI (Hits & Training Bag)
             pk7.PID = Util.GetHexValue(TB_PID.Text);
             pk7.Nature = (byte)WinFormsUtil.GetIndex(CB_Nature);
             pk7.FatefulEncounter = CHK_Fateful.Checked;

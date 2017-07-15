@@ -150,29 +150,7 @@ namespace PKHeX.WinForms.Controls
                 return null;
 
             // Repopulate PK6 with Edited Stuff
-            if (WinFormsUtil.GetIndex(CB_GameOrigin) < 24)
-            {
-                uint EC = Util.GetHexValue(TB_EC.Text);
-                uint PID = Util.GetHexValue(TB_PID.Text);
-                uint SID = Util.ToUInt32(TB_TID.Text);
-                uint TID = Util.ToUInt32(TB_TID.Text);
-                uint LID = PID & 0xFFFF;
-                uint HID = PID >> 16;
-                uint XOR = TID ^ LID ^ SID ^ HID;
-
-                // Ensure we don't have a shiny.
-                if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
-                {
-                    // Keep as shiny, so we have to mod the PID
-                    PID ^= XOR;
-                    TB_PID.Text = PID.ToString("X8");
-                    TB_EC.Text = PID.ToString("X8");
-                }
-                else if ((XOR ^ 0x8000) >> 3 == 1 && PID != EC)
-                    TB_EC.Text = (PID ^ 0x80000000).ToString("X8");
-                else // Not Illegal, no fix.
-                    TB_EC.Text = PID.ToString("X8");
-            }
+            CheckTransferPIDValid();
 
             pk6.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
             pk6.Checksum = 0; // 0 CHK for now
