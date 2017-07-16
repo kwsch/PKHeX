@@ -70,64 +70,61 @@ namespace PKHeX.Core
                 RibbonChampionRegional = RibbonChampionRegional,
                 RibbonChampionNational = RibbonChampionNational,
 
-                Language = Language < 0 ? SAV.Language : Language,
                 FatefulEncounter = Fateful,
             };
-            if (IsEgg)
-            {
-                pk.IsEgg = true;
-                pk.IsNicknamed = true;
-            }
 
+            if (Version == 0)
+            {
+                bool gen3 = SAV.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)SAV.Game);
+                pk.Version = gen3 ? SAV.Game : (int)GameVersion.R;
+            }
+            else
+            {
+                pk.Version = GetRandomVersion(Version);
+            }
+            int lang = GetSafeLanguage(SAV.Language, Language);
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg) // ugly workaround for character table interactions
             {
-                pk.IsEgg = false;
-                pk.Language = SAV.Language;
+                pk.Language = 2;
                 pk.OT_Name = "PKHeX";
                 pk.OT_Gender = SAV.Gender;
                 pk.TID = SAV.TID;
                 pk.SID = SAV.SID;
                 pk.OT_Friendship = pi.BaseFriendship;
-                pk.IsEgg = true;
+                pk.Met_Location = 32;
             }
             else
             {
+                if (IsEgg)
+                {
+                    pk.IsEgg = true;
+                    pk.IsNicknamed = true;
+                    pk.Language = 1; // JPN
+                    if (SID >= 0)
+                        pk.SID = SID;
+                    if (TID >= 0)
+                        pk.SID = TID;
+                }
+                else
+                    pk.Language = lang;
+
                 pk.OT_Name = OT_Name ?? SAV.OT;
+                if (string.IsNullOrWhiteSpace(pk.OT_Name))
+                {
+                    // Try again (only happens for eggs)
+                    pk.IsEgg = false;
+                    pk.Language = 2;
+                    pk.OT_Name = SAV.OT;
+                    pk.Language = 1;
+                    pk.IsEgg = true;
+                }
                 pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : SAV.Gender;
                 pk.TID = TID;
                 pk.SID = SID;
                 pk.OT_Friendship = IsEgg ? pi.HatchCycles : pi.BaseFriendship;
             }
             pk.Nickname = PKX.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
-
-            if (Version == 0)
-            {
-                if (SAV.Game > 15) // above CXD
-                    pk.Version = (int) GameVersion.R;
-                else
-                    pk.Version = SAV.Game;
-            }
-            else
-            {
-                if (Version < 100) // single game
-                    pk.Version = Version;
-                else
-                {
-                    int rand = Util.Rand.Next(1);
-                    switch (Version)
-                    {
-                        case (int) GameVersion.FRLG:
-                            pk.Version = (int)GameVersion.FR + rand; // or LG
-                            break;
-                        case (int)GameVersion.RS:
-                            pk.Version = (int)GameVersion.R + rand; // or S
-                            break;
-                        default:
-                            throw new Exception($"Unknown GameVersion: {Version}");
-                    }
-                }
-            }
 
             // Generate PIDIV
             var seed = Util.Rand32();
@@ -142,13 +139,48 @@ namespace PKHeX.Core
             }
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
 
-            var moves = Moves ?? Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
-            if (moves.Length != 4)
+            if (Moves == null) // not completely defined
+                Moves = Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
+            if (Moves.Length != 4)
+            {
+                var moves = Moves;
                 Array.Resize(ref moves, 4);
-            pk.Moves = moves;
+                Moves = moves;
+            }
+
+            pk.Moves = Moves;
+            pk.Move1_PP = pk.GetMovePP(Moves[0], 0);
+            pk.Move2_PP = pk.GetMovePP(Moves[1], 0);
+            pk.Move3_PP = pk.GetMovePP(Moves[2], 0);
+            pk.Move4_PP = pk.GetMovePP(Moves[3], 0);
             pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
             pk.RefreshChecksum();
             return pk;
+        }
+
+        private static int GetSafeLanguage(int hatchLang, int supplied)
+        {
+            if (supplied >= 1)
+                return supplied;
+            if (hatchLang < 0)
+                return 2;
+            return hatchLang;
+        }
+        private static int GetRandomVersion(int version)
+        {
+            if (version < 100 && version > 0) // single game
+                return version;
+
+            int rand = Util.Rand.Next(1);
+            switch (version)
+            {
+                case (int)GameVersion.FRLG:
+                    return (int)GameVersion.FR + rand; // or LG
+                case (int)GameVersion.RS:
+                    return (int)GameVersion.R + rand; // or S
+                default:
+                    throw new Exception($"Unknown GameVersion: {version}");
+            }
         }
 
         public bool RibbonEarth { get; set; }
