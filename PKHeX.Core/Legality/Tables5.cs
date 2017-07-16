@@ -144,32 +144,32 @@ namespace PKHeX.Core
         #region Dream Radar Tables
         internal static readonly EncounterStatic[] Encounter_DreamRadar =
         {
-            new EncounterStatic { Species=120, Ability = 4 },
-            new EncounterStatic { Species=137, Ability = 4 },
-            new EncounterStatic { Species=174, Ability = 4 },
-            new EncounterStatic { Species=175, Ability = 4 },
-            new EncounterStatic { Species=213, Ability = 4 },
-            new EncounterStatic { Species=238, Ability = 4 },
-            new EncounterStatic { Species=280, Ability = 4 },
-            new EncounterStatic { Species=333, Ability = 4 },
-            new EncounterStatic { Species=425, Ability = 4 },
-            new EncounterStatic { Species=436, Ability = 4 },
-            new EncounterStatic { Species=442, Ability = 4 },
-            new EncounterStatic { Species=447, Ability = 4 },
-            new EncounterStatic { Species=479,},             // Rotom has no HA
-            new EncounterStatic { Species=517, Ability = 4 },
-            new EncounterStatic { Species=561, Ability = 4 },
-            new EncounterStatic { Species=641, Ability = 4, Form = 1}, //Tornadus-T
-            new EncounterStatic { Species=642, Ability = 4, Form = 1}, //Thunderus-T
-            new EncounterStatic { Species=645, Ability = 4, Form = 1}, //Landorus-T
-            new EncounterStatic { Species=249, Ability = 4 }, //SS
-            new EncounterStatic { Species=250, Ability = 4 }, //HG
-            new EncounterStatic { Species=483, Ability = 4 }, //D
-            new EncounterStatic { Species=484, Ability = 4 }, //P
-            new EncounterStatic { Species=487, Ability = 4 }, //Pt
-            new EncounterStatic { Species=079, Ability = 4 }, //Slowpoke
-            new EncounterStatic { Species=163, Ability = 4 }, //Hoothoot
-            new EncounterStatic { Species=374, Ability = 4 }, //Beldum
+            new EncounterStatic { Shiny=false, Species=120, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=137, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=174, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=175, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=213, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=238, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=280, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=333, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=425, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=436, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=442, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=447, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=479,},             // Rotom has no HA
+            new EncounterStatic { Shiny=false, Species=517, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=561, Ability = 4 },
+            new EncounterStatic { Shiny=false, Species=641, Ability = 4, Form = 1}, //Tornadus-T
+            new EncounterStatic { Shiny=false, Species=642, Ability = 4, Form = 1}, //Thundurus-T
+            new EncounterStatic { Shiny=false, Species=645, Ability = 4, Form = 1}, //Landorus-T
+            new EncounterStatic { Shiny=false, Species=249, Ability = 4 }, //SS
+            new EncounterStatic { Shiny=false, Species=250, Ability = 4 }, //HG
+            new EncounterStatic { Shiny=false, Species=483, Ability = 4 }, //D
+            new EncounterStatic { Shiny=false, Species=484, Ability = 4 }, //P
+            new EncounterStatic { Shiny=false, Species=487, Ability = 4 }, //Pt
+            new EncounterStatic { Shiny=false, Species=079, Ability = 4 }, //Slowpoke
+            new EncounterStatic { Shiny=false, Species=163, Ability = 4 }, //Hoothoot
+            new EncounterStatic { Shiny=false, Species=374, Ability = 4 }, //Beldum
         };
         #endregion
         #region DreamWorld Encounter

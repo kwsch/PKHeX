@@ -637,6 +637,7 @@ namespace PKHeX.Core
             {
                 s.Location = 75;  //Entree Forest
                 s.Ability = PersonalTable.B2W2.GetAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
+                s.Shiny = false;
             }
 
             // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
