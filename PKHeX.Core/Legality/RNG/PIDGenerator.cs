@@ -71,8 +71,16 @@
             var D = rng.Next(C); // Version
             var E = rng.Next(D); // OT Gender
 
-            pk.SID = (int)(O >> 16);
-            pk.PID = (A & 0xFFFF0000 | B >> 16) ^ 0x80000000;
+            var TID = 40122;
+            var SID = (int)(O >> 16);
+            var pid1 = A >> 16;
+            var pid2 = B >> 16;
+            pk.TID = TID;
+            pk.SID = SID;
+            var pid = pid1 << 16 | pid2;
+            if ((pid2 > 7 ? 0 : 1) != (pid1 ^ SID ^ TID))
+                pid ^= 0x80000000;
+            pk.PID = pid;
             pk.HeldItem = (int)(C >> 31) + 169; // 0-Ganlon, 1-Salac
             pk.Version = (int)(D >> 31) + 1; // 0-Sapphire, 1-Ruby
             pk.OT_Gender = (int)(E >> 31);

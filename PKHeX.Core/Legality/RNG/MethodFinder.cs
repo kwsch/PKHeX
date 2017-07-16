@@ -209,7 +209,10 @@ namespace PKHeX.Core
                 return false;
             }
 
-            var channel = GetSeedsFromPID(RNG.XDRNG, bot, top ^ 0x8000);
+            var undo = top ^ 0x8000;
+            if ((undo > 7 ? 0 : 1) != (bot ^ pk.SID ^ 40122))
+                top = undo;
+            var channel = GetSeedsFromPID(RNG.XDRNG, bot, top);
             foreach (var seed in channel)
             {
                 var C = RNG.XDRNG.Advance(seed, 3); // held item
