@@ -30,5 +30,31 @@
                 seed = Prev(seed);
             return seed;
         }
+
+        /// <summary>
+        /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
+        /// </summary>
+        /// <param name="seed">RNG seed</param>
+        /// <returns>Array of 6 IVs</returns>
+        internal uint[] GetSequentialIVsUInt32(uint seed)
+        {
+            uint[] ivs = new uint[6];
+            for (int i = 0; i < 6; i++)
+            {
+                seed = Next(seed);
+                ivs[i] = seed >> 27;
+            }
+            return ivs;
+        }
+        internal int[] GetSequentialIVsInt32(uint seed)
+        {
+            int[] ivs = new int[6];
+            for (int i = 0; i < 6; i++)
+            {
+                seed = Next(seed);
+                ivs[i] = (int)(seed >> 27);
+            }
+            return ivs;
+        }
     }
 }

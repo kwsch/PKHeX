@@ -90,7 +90,7 @@ namespace PKHeX.WinForms
             RawDB.AddRange(Legal.MGDB_G6);
             RawDB.AddRange(Legal.MGDB_G7);
 
-            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().OrderBy(mg => mg.Species));
+            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().Concat(Legal.MGDB_G3).OrderBy(mg => mg.Species));
             foreach (var mg in RawDB)
                 mg.GiftUsed = false;
             SetResults(RawDB);
@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
             PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
             slotSelected = index;
             slotColor = Properties.Resources.slotView;
-            FillPKXBoxes(SCR_Box.Value);
+            UpdateSlotColor(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
         private void ClickSavePK(object sender, EventArgs e)
@@ -143,6 +143,11 @@ namespace PKHeX.WinForms
             if (index < 0)
                 return;
             var gift = Results[index];
+            if (gift.Data == null) // WC3
+            {
+                WinFormsUtil.Alert("Unable to save WC3 data. No data to save!");
+                return;
+            }
             WinFormsUtil.SaveMGDialog(gift);
         }
 
@@ -234,7 +239,7 @@ namespace PKHeX.WinForms
             if (!Directory.Exists(path)) // just in case...
                 Directory.CreateDirectory(path);
 
-            foreach (var gift in Results)
+            foreach (var gift in Results.Where(g => g.Data != null)) // WC3 have no data
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Data);
         }
 
@@ -345,7 +350,10 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = Results[i + begin].Sprite(SAV);
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
-
+            UpdateSlotColor(start);
+        }
+        private void UpdateSlotColor(int start)
+        {
             for (int i = 0; i < RES_MAX; i++)
                 PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < RES_MIN * start + RES_MAX)

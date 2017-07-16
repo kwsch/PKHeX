@@ -105,7 +105,7 @@ namespace PKHeX.Core
 
         public abstract bool IsPokémon { get; set; }
         public virtual int Quantity { get => 1; set { } }
-        public bool Empty => Data.SequenceEqual(new byte[Data.Length]);
+        public virtual bool Empty => Data.All(z => z == 0);
 
         public virtual bool IsBP { get => false; set { } }
         public virtual int BP { get => 0; set { } }

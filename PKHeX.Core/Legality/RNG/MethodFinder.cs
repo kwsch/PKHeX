@@ -223,7 +223,7 @@ namespace PKHeX.Core
                 if (E >> 31 != pk.OT_Gender)
                     continue;
 
-                if (!GetIVs(RNG.XDRNG, E).SequenceEqual(IVs))
+                if (!RNG.XDRNG.GetSequentialIVsUInt32(E).SequenceEqual(IVs))
                     continue;
 
                 if (seed >> 16 != pk.SID)
@@ -494,21 +494,17 @@ namespace PKHeX.Core
                 r2 >> 10 & 31,
             };
         }
-        /// <summary>
-        /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
-        /// </summary>
-        /// <param name="method">RNG advancement method</param>
-        /// <param name="seed">RNG seed</param>
-        /// <returns>Array of 6 IVs</returns>
-        private static uint[] GetIVs(RNG method, uint seed)
+        internal static int[] GetIVsInt32(uint r1, uint r2)
         {
-            uint[] ivs = new uint[6];
-            for (int i = 0; i < 6; i++)
+            return new[]
             {
-                seed = method.Next(seed);
-                ivs[i] = seed >> 27;
-            }
-            return ivs;
+                (int)r1 & 31,
+                (int)r1 >> 5 & 31,
+                (int)r1 >> 10 & 31,
+                (int)r2 & 31,
+                (int)r2 >> 5 & 31,
+                (int)r2 >> 10 & 31,
+            };
         }
         private static uint GetIVChunk(uint[] IVs, int start)
         {

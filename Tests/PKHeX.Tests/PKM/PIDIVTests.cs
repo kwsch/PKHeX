@@ -16,11 +16,17 @@ namespace PKHeX.Tests.PKM
         {
             // Method 1/2/4
             var pk1 = new PK3 {PID = 0xE97E0000, IVs = new[] {17, 19, 20, 16, 13, 12}};
-            Assert.AreEqual(PIDType.Method_1, MethodFinder.Analyze(pk1)?.Type, "Unable to match PID to Method 1 spread");
+            var ga1 = MethodFinder.Analyze(pk1);
+            Assert.AreEqual(PIDType.Method_1, ga1.Type, "Unable to match PID to Method 1 spread");
             var pk2 = new PK3 {PID = 0x5271E97E, IVs = new[] {02, 18, 03, 12, 22, 24}};
             Assert.AreEqual(PIDType.Method_2, MethodFinder.Analyze(pk2)?.Type, "Unable to match PID to Method 2 spread");
             var pk4 = new PK3 {PID = 0x31B05271, IVs = new[] {02, 18, 03, 05, 30, 11}};
             Assert.AreEqual(PIDType.Method_4, MethodFinder.Analyze(pk4)?.Type, "Unable to match PID to Method 4 spread");
+
+            var gk1 = new PK3();
+            PIDGenerator.SetValuesFromSeed(gk1, ga1.Type, ga1.OriginSeed);
+            Assert.AreEqual(pk1.PID, gk1.PID, "Unable to match generated PID to Method 1 PID");
+            Assert.IsTrue(gk1.IVs.SequenceEqual(pk1.IVs), "Unable to match generated PID to Method 1 IVs");
         }
 
         [TestMethod]
@@ -42,11 +48,23 @@ namespace PKHeX.Tests.PKM
         {
             // Colosseum / XD
             var pk3 = new PK3 {PID = 0x0985A297, IVs = new[] {06, 01, 00, 07, 17, 07}};
+            var ak3 = MethodFinder.Analyze(pk3);
             Assert.AreEqual(PIDType.CXD, MethodFinder.Analyze(pk3)?.Type, "Unable to match PID to CXD spread");
+
+            var gk3 = new PK3();
+            PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, ak3.OriginSeed);
+            Assert.AreEqual(pk3.PID, gk3.PID, "Unable to match generated PID to Channel spread");
+            Assert.IsTrue(pk3.IVs.SequenceEqual(gk3.IVs), "Unable to match generated IVs to Channel spread");
 
             // Channel Jirachi
             var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
-            Assert.AreEqual(PIDType.Channel, MethodFinder.Analyze(pkC)?.Type, "Unable to match PID to Channel spread");
+            var akC = MethodFinder.Analyze(pkC);
+            Assert.AreEqual(PIDType.Channel,akC.Type, "Unable to match PID to Channel spread");
+
+            var gkC = new PK3();
+            PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, akC.OriginSeed);
+            Assert.AreEqual(pkC.PID, gkC.PID, "Unable to match generated PID to Channel spread");
+            Assert.IsTrue(pkC.IVs.SequenceEqual(gkC.IVs), "Unable to match generated IVs to Channel spread");
         }
 
         [TestMethod]
@@ -74,6 +92,11 @@ namespace PKHeX.Tests.PKM
             var a_pkRS = MethodFinder.Analyze(pkRS);
             Assert.AreEqual(PIDType.BACD_R_S, a_pkRS?.Type, "Unable to match PID to BACD-R shiny spread");
             Assert.IsTrue(0x0020 == a_pkRS?.OriginSeed, "Unable to match PID to BACD-R shiny spread origin seed");
+
+            var gkRS = new PK3 { TID = 30317, SID = 00000 };
+            PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);
+            Assert.AreEqual(pkRS.PID, gkRS.PID, "Unable to match generated PID to BACD-R shiny spread");
+            Assert.IsTrue(pkRS.IVs.SequenceEqual(gkRS.IVs), "Unable to match generated IVs to BACD-R shiny spread");
         }
 
         [TestMethod]

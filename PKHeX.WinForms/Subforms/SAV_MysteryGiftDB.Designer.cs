@@ -1418,7 +1418,8 @@
             ".wc7",
             ".wc6",
             ".pgf",
-            ".pcd/pgt"});
+            ".pcd/pgt",
+            ".wc3"});
             this.CB_Format.Location = new System.Drawing.Point(54, 0);
             this.CB_Format.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Format.Name = "CB_Format";

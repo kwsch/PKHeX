@@ -221,6 +221,8 @@ namespace PKHeX.Core
                         pkm.Met_Location = 16; // Route 16
                     else
                         pkm.Met_Location = 30001; // Pokétransfer
+                    pkm.IsNicknamed = false;
+                    pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, fromFormat);
                 }
                 switch (fromType.Name)
                 {
