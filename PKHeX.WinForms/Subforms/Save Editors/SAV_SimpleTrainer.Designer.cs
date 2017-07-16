@@ -94,6 +94,8 @@
             this.LBL_BattleStyle = new System.Windows.Forms.Label();
             this.CB_BattleStyle = new System.Windows.Forms.ComboBox();
             this.CHK_BattleEffects = new System.Windows.Forms.CheckBox();
+            this.L_Location = new System.Windows.Forms.Label();
+            this.CB_Location = new System.Windows.Forms.ComboBox();
             this.GB_Adventure.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
@@ -107,6 +109,8 @@
             // 
             // GB_Adventure
             // 
+            this.GB_Adventure.Controls.Add(this.CB_Location);
+            this.GB_Adventure.Controls.Add(this.L_Location);
             this.GB_Adventure.Controls.Add(this.L_PikaFriend);
             this.GB_Adventure.Controls.Add(this.MT_PikaFriend);
             this.GB_Adventure.Controls.Add(this.L_Started);
@@ -818,6 +822,26 @@
             this.CHK_BattleEffects.Text = "Use Battle Effects";
             this.CHK_BattleEffects.UseVisualStyleBackColor = true;
             // 
+            // L_Location
+            // 
+            this.L_Location.Location = new System.Drawing.Point(12, 81);
+            this.L_Location.Name = "L_Location";
+            this.L_Location.Size = new System.Drawing.Size(64, 20);
+            this.L_Location.TabIndex = 74;
+            this.L_Location.Text = "Location:";
+            this.L_Location.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CB_Location
+            // 
+            this.CB_Location.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Location.FormattingEnabled = true;
+            this.CB_Location.Items.AddRange(new object[] {
+            "Default"});
+            this.CB_Location.Location = new System.Drawing.Point(82, 82);
+            this.CB_Location.Name = "CB_Location";
+            this.CB_Location.Size = new System.Drawing.Size(106, 21);
+            this.CB_Location.TabIndex = 75;
+            // 
             // SAV_SimpleTrainer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -919,5 +943,7 @@
         private System.Windows.Forms.CheckBox CHK_BattleEffects;
         private System.Windows.Forms.Label L_PikaFriend;
         private System.Windows.Forms.MaskedTextBox MT_PikaFriend;
+        private System.Windows.Forms.ComboBox CB_Location;
+        private System.Windows.Forms.Label L_Location;
     }
 }

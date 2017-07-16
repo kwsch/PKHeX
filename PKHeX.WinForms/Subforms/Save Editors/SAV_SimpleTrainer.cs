@@ -32,6 +32,10 @@ namespace PKHeX.WinForms
 
             L_PikaFriend.Visible = MT_PikaFriend.Visible = SAV.Generation == 1;
 
+            L_Location.Visible = SAV.Generation == 3;
+            CB_Location.Visible = SAV.Generation == 3;
+            CB_Location.SelectedIndex = 0;
+
             TB_OTName.Text = SAV.OT;
             CB_Gender.SelectedIndex = SAV.Gender;
             MT_TID.Text = SAV.TID.ToString("00000");
