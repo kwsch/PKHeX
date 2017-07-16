@@ -746,6 +746,7 @@ namespace PKHeX.WinForms
             if (!SanityCheckSAV(ref sav, path))
                 return;
             StoreLegalSaveGameData(sav);
+            PKMUtil.Initialize(sav); // refresh sprite generator
 
             // clean fields
             C_SAV.M.Reset();

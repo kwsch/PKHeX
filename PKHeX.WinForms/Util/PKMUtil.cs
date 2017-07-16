@@ -6,6 +6,32 @@ namespace PKHeX.WinForms
 {
     public static class PKMUtil
     {
+        public static void Initialize(SaveFile sav)
+        {
+            if (sav.Generation != 3)
+                return;
+
+            Game = sav.Version;
+            if (Game == GameVersion.FRLG)
+                Game = sav.Personal == PersonalTable.FR ? GameVersion.FR : GameVersion.LG;
+        }
+        private static GameVersion Game;
+
+        private static int GetDeoxysForm()
+        {
+            switch (Game)
+            {
+                default:
+                    return 0;
+                case GameVersion.FR: // Attack
+                    return 1;
+                case GameVersion.LG: // Defense
+                    return 2;
+                case GameVersion.E: // Speed
+                    return 3;
+            }
+        }
+
         public static Image GetBallSprite(int ball)
         {
             string str = PKX.GetResourceStringBall(ball);
@@ -15,6 +41,9 @@ namespace PKHeX.WinForms
         {
             if (species == 0)
                 return Resources._0;
+
+            if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
+                form = GetDeoxysForm();
 
             string file = PKX.GetResourceStringSprite(species, form, gender, generation);
 
