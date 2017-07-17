@@ -1055,23 +1055,8 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             int wIndex = Array.IndexOf(Legal.WurmpleEvolutions, WinFormsUtil.GetIndex(CB_Species));
-            if (wIndex < 0)
-            {
-                TB_EC.Text = Util.Rand32().ToString("X8");
-            }
-            else
-            {
-                int gen = pkm.GenNumber;
-                uint EC;
-                bool valid;
-                do
-                {
-                    EC = Util.Rand32();
-                    uint evoVal = PKX.GetWurmpleEvoVal(gen, EC);
-                    valid = evoVal == wIndex / 2;
-                } while (!valid);
-                TB_EC.Text = EC.ToString("X8");
-            }
+            uint EC = wIndex < 0 ? Util.Rand32() : PKX.GetWurmpleEC(wIndex/2);
+            TB_EC.Text = EC.ToString("X8");
             UpdateLegality();
         }
         private void UpdateHackedStats(object sender, EventArgs e)

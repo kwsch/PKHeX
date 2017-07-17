@@ -458,21 +458,28 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the Wurmple Evolution Value for a given <see cref="PKM.GenNumber"/> and <see cref="PKM.EncryptionConstant"/>
+        /// Gets the Wurmple Evolution Value for a given <see cref="PKM.EncryptionConstant"/>
         /// </summary>
-        /// <param name="gen">Origin Generation</param>
         /// <param name="EC">Encryption Constant</param>
         /// <returns>Wurmple Evolution Value</returns>
-        public static uint GetWurmpleEvoVal(int gen, uint EC)
+        public static uint GetWurmpleEvoVal(uint EC)
         {
-            uint evoVal;
-            switch (gen)
-            {
-                case 4:
-                case 3: evoVal = EC & 0xFFFF; break;
-                default: evoVal = EC >> 16; break;
-            }
+            var evoVal = EC >> 16;
             return evoVal % 10 / 5;
+        }
+
+        /// <summary>
+        /// Gets the Wurmple <see cref="PKM.EncryptionConstant"/> for a given Evolution Value
+        /// </summary>
+        /// <param name="evoVal">Wurmple Evolution Value</param>
+        /// <remarks>0 = Silcoon, 1 = Cascoon</remarks>
+        /// <returns>Encryption Constan</returns>
+        public static uint GetWurmpleEC(int evoVal)
+        {
+            uint EC;
+            while (true)
+                if (evoVal == GetWurmpleEvoVal(EC = Util.Rand32()))
+                    return EC;
         }
 
         /// <summary>

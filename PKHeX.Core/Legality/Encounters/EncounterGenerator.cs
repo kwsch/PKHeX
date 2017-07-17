@@ -1328,7 +1328,7 @@ namespace PKHeX.Core
         }
         private static bool IsWurmpleEvoValid(PKM pkm)
         {
-            uint evoVal = PKX.GetWurmpleEvoVal(pkm.GenNumber, pkm.EncryptionConstant);
+            uint evoVal = PKX.GetWurmpleEvoVal(pkm.EncryptionConstant);
             int wIndex = Array.IndexOf(WurmpleEvolutions, pkm.Species) / 2;
             return evoVal == wIndex;
         }
