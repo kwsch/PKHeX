@@ -256,6 +256,8 @@ namespace PKHeX.Core
             var IncenseMovesLearned = new List<int>();
             // Check moves going backwards, marking the move valid in the most current generation when it can be learned
             int[] generations = GetGenMovesCheckOrder(pkm);
+            if (pkm.Format <= 2)
+                generations = generations.Where(z => z < info.EncounterMoves.LevelUpMoves.Length).ToArray();
             foreach (var gen in generations)
             {
                 var HMLearned = new int[0];
@@ -290,7 +292,7 @@ namespace PKHeX.Core
                     else if (gen == pkm.GenNumber && special.Contains(moves[m]))
                         res[m] = new CheckMoveResult(MoveSource.Special, gen, Severity.Valid, V175, CheckIdentifier.Move);
 
-                    if (res[m] == null || gen < 3)
+                    if (res[m] == null || gen >= 3)
                         continue;
 
                     if (res[m].Valid && gen == 2 && NonTradebackLvlMoves.Contains(m))

@@ -1,6 +1,7 @@
-﻿using System;
+﻿#define SUPPRESS
+
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using static PKHeX.Core.LegalityCheckStrings;
@@ -55,7 +56,9 @@ namespace PKHeX.Core
 
         public LegalityAnalysis(PKM pk)
         {
+#if SUPPRESS
             try
+#endif
             {
                 switch (pk.Format) // prior to storing GameVersion
                 {
@@ -90,14 +93,16 @@ namespace PKHeX.Core
                         AddLine(Severity.Indeterminate, V188, CheckIdentifier.Fateful);
                 }
             }
+#if SUPPRESS
             catch (Exception e)
             {
-                Debug.WriteLine(e.Message);
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
                 AddLine(Severity.Invalid, V190, CheckIdentifier.Misc);
                 pkm = pk;
                 Error = true;
             }
+#endif
             Parsed = true;
         }
 
