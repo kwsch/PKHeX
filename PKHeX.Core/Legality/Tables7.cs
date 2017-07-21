@@ -1303,7 +1303,6 @@ namespace PKHeX.Core
             589, // Relic Statue
             590, // Relic Crown
             658, // Ampharosite
-            667, // Aggronite
             684, // Latiasite
             685, // Latiosite
             710, // Jaw Fossil
