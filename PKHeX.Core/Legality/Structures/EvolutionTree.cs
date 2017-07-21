@@ -364,7 +364,7 @@ namespace PKHeX.Core
                 }
                 evos.Add(new EvolutionSet4 { PossibleEvolutions = m_list.ToArray() });
             }
-            return evos.ToList();
+            return evos;
         }
     }
     public class EvolutionSet5 : EvolutionSet
@@ -411,16 +411,15 @@ namespace PKHeX.Core
                 }
                 evos.Add(new EvolutionSet5 { PossibleEvolutions = m_list.ToArray() });
             }
-            return evos.ToList();
+            return evos;
         }
     }
     public class EvolutionSet6 : EvolutionSet
     {
+        private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29, 30, 32, 33, 34};
         private const int SIZE = 6;
         public EvolutionSet6(byte[] data)
         {
-            if (data.Length < SIZE || data.Length % SIZE != 0) return;
-            int[] argEvos = {6, 8, 16, 17, 18, 19, 20, 21, 22, 29, 30, 31, 32, 33, 34};
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
@@ -447,7 +446,6 @@ namespace PKHeX.Core
         private const int SIZE = 8;
         public EvolutionSet7(byte[] data)
         {
-            if (data.Length < SIZE || data.Length % SIZE != 0) return;
             PossibleEvolutions = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
@@ -554,7 +552,6 @@ namespace PKHeX.Core
 
         public DexLevel GetDexLevel(int species, int lvl)
         {
-
             return new DexLevel
             {
                 Species = species,
