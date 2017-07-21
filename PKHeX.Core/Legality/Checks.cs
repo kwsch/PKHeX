@@ -857,7 +857,7 @@ namespace PKHeX.Core
 
             bool gen34 = gen == 3 || gen == 4;
             bool not6 = pkm.Format < 6 || gen > 6 || gen < 3;
-            bool noDaily = !gen34 && (not6 || pkm.AO && pkm.IsUntraded);
+            bool noDaily = !gen34 && not6;
             bool noCosmetic = !gen34 && (not6 || pkm.XY && pkm.IsUntraded);
 
             if (noDaily)
