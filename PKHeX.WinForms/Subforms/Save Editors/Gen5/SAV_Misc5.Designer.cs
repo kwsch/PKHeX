@@ -78,10 +78,6 @@
             this.CB_PassPower3 = new System.Windows.Forms.ComboBox();
             this.CB_PassPower2 = new System.Windows.Forms.ComboBox();
             this.CB_PassPower1 = new System.Windows.Forms.ComboBox();
-            this.CHK_641_0x40 = new System.Windows.Forms.CheckBox();
-            this.CHK_642_0x40 = new System.Windows.Forms.CheckBox();
-            this.CHK_642_0x80 = new System.Windows.Forms.CheckBox();
-            this.CHK_641_0x80 = new System.Windows.Forms.CheckBox();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
@@ -195,17 +191,13 @@
             // 
             // GB_Roamer
             // 
-            this.GB_Roamer.Controls.Add(this.CHK_641_0x80);
-            this.GB_Roamer.Controls.Add(this.CHK_642_0x80);
-            this.GB_Roamer.Controls.Add(this.CHK_642_0x40);
-            this.GB_Roamer.Controls.Add(this.CHK_641_0x40);
             this.GB_Roamer.Controls.Add(this.L_Roamer642);
             this.GB_Roamer.Controls.Add(this.L_Roamer641);
             this.GB_Roamer.Controls.Add(this.CB_Roamer642);
             this.GB_Roamer.Controls.Add(this.CB_Roamer641);
             this.GB_Roamer.Location = new System.Drawing.Point(6, 151);
             this.GB_Roamer.Name = "GB_Roamer";
-            this.GB_Roamer.Size = new System.Drawing.Size(227, 76);
+            this.GB_Roamer.Size = new System.Drawing.Size(212, 76);
             this.GB_Roamer.TabIndex = 1;
             this.GB_Roamer.TabStop = false;
             this.GB_Roamer.Text = "Roamer";
@@ -230,18 +222,22 @@
             // 
             // CB_Roamer642
             // 
+            this.CB_Roamer642.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Roamer642.FormattingEnabled = true;
             this.CB_Roamer642.Location = new System.Drawing.Point(88, 48);
             this.CB_Roamer642.Name = "CB_Roamer642";
-            this.CB_Roamer642.Size = new System.Drawing.Size(82, 21);
+            this.CB_Roamer642.Size = new System.Drawing.Size(118, 21);
             this.CB_Roamer642.TabIndex = 1;
             // 
             // CB_Roamer641
             // 
+            this.CB_Roamer641.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CB_Roamer641.FormattingEnabled = true;
             this.CB_Roamer641.Location = new System.Drawing.Point(88, 20);
             this.CB_Roamer641.Name = "CB_Roamer641";
-            this.CB_Roamer641.Size = new System.Drawing.Size(82, 21);
+            this.CB_Roamer641.Size = new System.Drawing.Size(118, 21);
             this.CB_Roamer641.TabIndex = 0;
             // 
             // GB_FlyDest
@@ -712,42 +708,6 @@
             this.CB_PassPower1.Size = new System.Drawing.Size(125, 21);
             this.CB_PassPower1.TabIndex = 0;
             // 
-            // CHK_641_0x40
-            // 
-            this.CHK_641_0x40.AutoSize = true;
-            this.CHK_641_0x40.Location = new System.Drawing.Point(175, 23);
-            this.CHK_641_0x40.Name = "CHK_641_0x40";
-            this.CHK_641_0x40.Size = new System.Drawing.Size(15, 14);
-            this.CHK_641_0x40.TabIndex = 4;
-            this.CHK_641_0x40.UseVisualStyleBackColor = true;
-            // 
-            // CHK_642_0x40
-            // 
-            this.CHK_642_0x40.AutoSize = true;
-            this.CHK_642_0x40.Location = new System.Drawing.Point(175, 52);
-            this.CHK_642_0x40.Name = "CHK_642_0x40";
-            this.CHK_642_0x40.Size = new System.Drawing.Size(15, 14);
-            this.CHK_642_0x40.TabIndex = 5;
-            this.CHK_642_0x40.UseVisualStyleBackColor = true;
-            // 
-            // CHK_642_0x80
-            // 
-            this.CHK_642_0x80.AutoSize = true;
-            this.CHK_642_0x80.Location = new System.Drawing.Point(192, 52);
-            this.CHK_642_0x80.Name = "CHK_642_0x80";
-            this.CHK_642_0x80.Size = new System.Drawing.Size(15, 14);
-            this.CHK_642_0x80.TabIndex = 6;
-            this.CHK_642_0x80.UseVisualStyleBackColor = true;
-            // 
-            // CHK_641_0x80
-            // 
-            this.CHK_641_0x80.AutoSize = true;
-            this.CHK_641_0x80.Location = new System.Drawing.Point(192, 23);
-            this.CHK_641_0x80.Name = "CHK_641_0x80";
-            this.CHK_641_0x80.Size = new System.Drawing.Size(15, 14);
-            this.CHK_641_0x80.TabIndex = 7;
-            this.CHK_641_0x80.UseVisualStyleBackColor = true;
-            // 
             // SAV_Misc5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -765,7 +725,6 @@
             this.TAB_Main.PerformLayout();
             this.GB_KeySystem.ResumeLayout(false);
             this.GB_Roamer.ResumeLayout(false);
-            this.GB_Roamer.PerformLayout();
             this.GB_FlyDest.ResumeLayout(false);
             this.TAB_Entralink.ResumeLayout(false);
             this.GB_EntreeLevel.ResumeLayout(false);
@@ -837,9 +796,5 @@
         private System.Windows.Forms.CheckBox CHK_FMNew;
         private System.Windows.Forms.NumericUpDown NUD_EntreeWhiteEXP;
         private System.Windows.Forms.NumericUpDown NUD_EntreeBlackEXP;
-        private System.Windows.Forms.CheckBox CHK_641_0x80;
-        private System.Windows.Forms.CheckBox CHK_642_0x80;
-        private System.Windows.Forms.CheckBox CHK_642_0x40;
-        private System.Windows.Forms.CheckBox CHK_641_0x40;
     }
 }

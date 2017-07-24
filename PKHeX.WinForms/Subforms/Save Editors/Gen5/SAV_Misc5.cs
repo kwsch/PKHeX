@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -32,7 +33,6 @@ namespace PKHeX.WinForms
         }
 
         private ComboBox[] cbr;
-        private CheckBox[][] chk;
         private int ofsFly;
         private int[] FlyDestC;
         private const int ofsRoamer = 0x21B00;
@@ -108,8 +108,7 @@ namespace PKHeX.WinForms
                 GB_KeySystem.Visible = false;
                 // Roamer
                 cbr = new[] { CB_Roamer642, CB_Roamer641 };
-                chk = new[] {new[] {CHK_642_0x40, CHK_642_0x80}, new[] {CHK_641_0x40, CHK_641_0x80}};
-                ComboItem[] states = {
+                List<ComboItem> getStates() => new List<ComboItem> {
                     new ComboItem { Text = "Not roamed", Value = 0 },
                     new ComboItem { Text = "Roaming", Value = 1 },
                     new ComboItem { Text = "Defeated", Value = 2 },
@@ -123,18 +122,16 @@ namespace PKHeX.WinForms
                 // Top 2 bit acts as flags of some sorts
                 for (int i = 0; i < cbr.Length; i++)
                 {
-                    var val = SAV.Data[ofsRoamer + 0x2E + i];
-                    int c = val & 0x3F;
+                    int c = SAV.Data[ofsRoamer + 0x2E + i];
 
+                    var states = getStates();
+                    if (states.All(z => z.Value != c))
+                        states.Add(new ComboItem {Text = $"Unknown (0x{c:X2})", Value = c});
                     cbr[i].Items.Clear();
                     cbr[i].DisplayMember = "Text";
                     cbr[i].ValueMember = "Value";
                     cbr[i].DataSource = new BindingSource(states.Where(v => v.Value >= 2 || v.Value == c).ToList(), null);
                     cbr[i].SelectedValue = c;
-
-                    var ck = chk[i];
-                    for (int j = 0; j < ck.Length; j++)
-                        ck[j].Checked = (val & 1 << 6 + j) != 0;
                 }
 
                 // LibertyPass
@@ -185,11 +182,7 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < cbr.Length; i++)
                 {
                     int c = SAV.Data[ofsRoamer + 0x2E + i];
-                    var ck = chk[i];
                     var d = (int)cbr[i].SelectedValue;
-                    for (int j = 0; j < ck.Length; j++)
-                        if (ck[j].Checked)
-                            d |= 1 << (6 + j);
 
                     if (c == d)
                         continue;
