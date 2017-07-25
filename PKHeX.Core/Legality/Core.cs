@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static PKHeX.Core.Encounters1;
+using static PKHeX.Core.Encounters2;
+using static PKHeX.Core.Encounters3;
+using static PKHeX.Core.Encounters4;
+using static PKHeX.Core.Encounters5;
+using static PKHeX.Core.Encounters6;
+using static PKHeX.Core.Encounters7;
+using static PKHeX.Core.EncountersWC3;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -50,8 +58,6 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
         private static readonly Learnset[] LevelUpY = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
         private static readonly EvolutionTree Evolves1;
-        private static readonly EncounterArea[] SlotsRBY;
-        private static readonly EncounterStatic[] StaticRBY;
 
         // Gen 2
         private static readonly EggMoves[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
@@ -59,9 +65,6 @@ namespace PKHeX.Core
         private static readonly EggMoves[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpC = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
         private static readonly EvolutionTree Evolves2;
-        private static readonly EncounterArea[] SlotsGSC, SlotsGS, SlotsC;
-        private static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
-        private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
 
         // Gen 3
         private static readonly Learnset[] LevelUpE = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
@@ -70,8 +73,6 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpLG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
         private static readonly EggMoves[] EggMovesRS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
         private static readonly EvolutionTree Evolves3;
-        private static readonly EncounterArea[] SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG;
-        private static readonly EncounterStatic[] StaticR, StaticS, StaticE, StaticFR, StaticLG;
 
         // Gen 4
         private static readonly Learnset[] LevelUpDP = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
@@ -80,16 +81,12 @@ namespace PKHeX.Core
         private static readonly EggMoves[] EggMovesDPPt = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
         private static readonly EggMoves[] EggMovesHGSS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
         private static readonly EvolutionTree Evolves4;
-        private static readonly EncounterArea[] SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS;
-        private static readonly EncounterStatic[] StaticD, StaticP, StaticPt, StaticHG, StaticSS;
 
         // Gen 5
         private static readonly Learnset[] LevelUpBW = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
         private static readonly Learnset[] LevelUpB2W2 = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
         private static readonly EggMoves[] EggMovesBW = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
         private static readonly EvolutionTree Evolves5;
-        private static readonly EncounterArea[] SlotsB, SlotsW, SlotsB2, SlotsW2;
-        private static readonly EncounterStatic[] StaticB, StaticW, StaticB2, StaticW2;
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
@@ -97,15 +94,11 @@ namespace PKHeX.Core
         private static readonly EggMoves[] EggMovesAO = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
         private static readonly Learnset[] LevelUpAO = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
         private static readonly EvolutionTree Evolves6;
-        private static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;
-        private static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
 
         // Gen 7
         private static readonly EggMoves[] EggMovesSM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
         private static readonly Learnset[] LevelUpSM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
         private static readonly EvolutionTree Evolves7;
-        private static readonly EncounterArea[] SlotsSN, SlotsMN;
-        private static readonly EncounterStatic[] StaticSN, StaticMN;
 
         // Setup Help
         private static HashSet<MysteryGift> GetPCDDB(byte[] bin)
@@ -195,868 +188,43 @@ namespace PKHeX.Core
             MGDB_G7 = g7.ToArray();
         }
 
-        private static EncounterStatic[] GetStaticEncounters(GameVersion Game)
-        {
-            EncounterStatic[] table;
-            switch (Game)
-            {
-                case GameVersion.RBY:
-                    return Encounter_RBY; // GameVersion filtering not possible, return immediately
-                case GameVersion.GS:
-                    return Encounter_GS;
-                case GameVersion.C:
-                    return Encounter_C;
-                case GameVersion.GSC:
-                    return Encounter_GSC;
-
-                case GameVersion.R: case GameVersion.S: case GameVersion.E:
-                    table = Encounter_RSE;
-                    break;
-                case GameVersion.FR: case GameVersion.LG:
-                    table = Encounter_FRLG;
-                    break;
-                case GameVersion.CXD:
-                    table = Encounter_CXD;
-                    break;
-
-                case GameVersion.D: case GameVersion.P: case GameVersion.Pt:
-                    table = Encounter_DPPt;
-                    break;
-                case GameVersion.HG: case GameVersion.SS:
-                    table = Encounter_HGSS.Concat(Encounter_PokeWalker).ToArray();
-                    break;
-
-                case GameVersion.B: case GameVersion.W:
-                    table = Encounter_BW.Concat(BW_DreamWorld).ToArray();
-                    break;
-                case GameVersion.B2: case GameVersion.W2:
-                    table = Encounter_B2W2.Concat(B2W2_DreamWorld).ToArray();
-                    break;
-
-                case GameVersion.X: case GameVersion.Y:
-                    table = Encounter_XY;
-                    break;
-                case GameVersion.AS: case GameVersion.OR:
-                    table = Encounter_AO;
-                    break;
-                case GameVersion.SN: case GameVersion.MN:
-                    table = Encounter_SM;
-                    break;
-
-                default: return null;
-            }
-            return table?.Where(s => s.Version.Contains(Game)).ToArray();
-        }
-        private static EncounterArea[] GetEncounterTables(GameVersion Game)
-        {
-            string ident = null;
-            byte[] tables = null;
-            switch (Game)
-            {
-                case GameVersion.R: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_r.pkl"), "ru"));
-                case GameVersion.S: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_s.pkl"), "sa"));
-                case GameVersion.E: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_e.pkl"), "em"));
-                case GameVersion.FR: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_fr.pkl"), "fr"));
-                case GameVersion.LG: return EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource("encounter_lg.pkl"), "lg"));
-                case GameVersion.D: return EncounterArea.GetArray4DPPt(Data.UnpackMini(Util.GetBinaryResource("encounter_d.pkl"), "da"));
-                case GameVersion.P: return EncounterArea.GetArray4DPPt(Data.UnpackMini(Util.GetBinaryResource("encounter_p.pkl"), "pe"));
-                case GameVersion.Pt: return EncounterArea.GetArray4DPPt(Data.UnpackMini(Util.GetBinaryResource("encounter_pt.pkl"), "pt"));
-                case GameVersion.HG: return EncounterArea.GetArray4HGSS(Data.UnpackMini(Util.GetBinaryResource("encounter_hg.pkl"), "hg"));
-                case GameVersion.SS: return EncounterArea.GetArray4HGSS(Data.UnpackMini(Util.GetBinaryResource("encounter_ss.pkl"), "ss"));
-                case GameVersion.B: ident = "51"; tables = Util.GetBinaryResource("encounter_b.pkl"); break;
-                case GameVersion.W: ident = "51"; tables = Util.GetBinaryResource("encounter_w.pkl"); break;
-                case GameVersion.B2: ident = "52"; tables = Util.GetBinaryResource("encounter_b2.pkl"); break;
-                case GameVersion.W2: ident = "52"; tables = Util.GetBinaryResource("encounter_w2.pkl"); break;
-                case GameVersion.X: ident = "xy"; tables = Util.GetBinaryResource("encounter_x.pkl"); break;
-                case GameVersion.Y: ident = "xy"; tables = Util.GetBinaryResource("encounter_y.pkl"); break; 
-                case GameVersion.AS: ident = "ao"; tables = Util.GetBinaryResource("encounter_a.pkl"); break;
-                case GameVersion.OR: ident = "ao"; tables = Util.GetBinaryResource("encounter_o.pkl"); break;
-                case GameVersion.SN: ident = "sm"; tables = Util.GetBinaryResource("encounter_sn.pkl"); break;
-                case GameVersion.MN: ident = "sm"; tables = Util.GetBinaryResource("encounter_mn.pkl"); break;
-            }
-            if (ident == null)
-                return new EncounterArea[0];
-
-            return GetEncounterTables(tables, ident);
-        }
-        private static EncounterArea[] GetEncounterTables(byte[] mini, string ident)
-        {
-            return EncounterArea.GetArray(Data.UnpackMini(mini, ident));
-        }
-        private static EncounterArea[] AddExtraTableSlots(params EncounterArea[][] tables)
-        {
-            return tables.SelectMany(s => s).GroupBy(l => l.Location)
-                .Select(t => t.Count() == 1 
-                    ? t.First() // only one table, just return the area
-                    : new EncounterArea {Location = t.First().Location, Slots = t.SelectMany(s => s.Slots).ToArray()})
-                .ToArray();
-        }
-        private static void MarkEncountersStaticMagnetPull(ref EncounterArea[] Areas, PersonalTable t)
-        {
-            const int steel = 8;
-            const int electric = 12;
-            foreach (EncounterArea Area in Areas)
-            {
-                var s = new List<EncounterSlot>(); // Static
-                var m = new List<EncounterSlot>(); // Magnet Pull
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    var types = t[Slot.Species].Types;
-                    if (types[0] == steel || types[1] == steel)
-                        m.Add(Slot);
-                    if (types[0] == electric || types[1] == electric)
-                        s.Add(Slot);
-                }
-                foreach (var slot in s)
-                {
-                    slot.Permissions.Static = true;
-                    slot.Permissions.StaticCount = s.Count;
-                }
-                foreach (var slot in m)
-                {
-                    slot.Permissions.MagnetPull = true;
-                    slot.Permissions.MagnetPullCount = s.Count;
-                }
-            }
-        }
-        private static void MarkEncountersGeneration(ref EncounterStatic[] Encounters, int Generation)
-        {
-            foreach (EncounterStatic Encounter in Encounters)
-                Encounter.Generation = Generation;
-        }
-        private static void MarkEncountersVersion(ref EncounterArea[] Areas, GameVersion Version)
-        {
-            foreach (EncounterArea Area in Areas)
-                foreach (var Slot in Area.Slots.OfType<EncounterSlot1>())
-                    Slot.Version = Version;
-        }
-        private static void MarkEncountersGeneration(ref EncounterArea[] Areas, int Generation)
-        {
-            foreach (EncounterArea Area in Areas)
-                foreach (EncounterSlot Slot in Area.Slots)
-                    Slot.Generation = Generation;
-        }
-        private static void ReduceAreasSize(ref EncounterArea[] Areas)
-        {
-            // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
-            {
-                Location = a.First().Location,
-                Slots = a.SelectMany(m => m.Slots).ToArray()
-            }).ToArray();
-        }
-        private static void MarkSlotLocation(ref EncounterArea[] Areas)
-        {
-            foreach(EncounterArea Area in Areas)
-            {
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.Location = Area.Location;
-                }
-            }
-        }
-        private static void MarkG2Slots(ref EncounterArea[] Areas)
-        {
-            ReduceAreasSize(ref Areas);
-        }
-        private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)
-        {
-            // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
-            // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.Where(a => a.Location < 188 || a.Location > 194).GroupBy(a => a.Location).Select(a => new EncounterArea
-            {
-                Location = a.First().Location,
-                Slots = a.SelectMany(m => m.Slots).ToArray()
-            }).ToArray();
-        }
-        private static void MarkG3Slots_RSE(ref EncounterArea[] Areas)
-        {
-            ReduceAreasSize(ref Areas);
-        }
-        private static void MarkG3SlotsSafariZones(ref EncounterArea[] Areas, int location)
-        {
-            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
-            {
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    SlotType t;
-                    switch (Slot.Type)
-                    {
-                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
-                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
-                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
-                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
-                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
-                        case SlotType.Rock_Smash: t = SlotType.Rock_Smash_Safari; break;
-                        default: continue;
-                    }
-                    Slot.Type = t;
-                }
-            }
-        }
-        private static void MarkG4PokeWalker(ref EncounterStatic[] t)
-        {
-            foreach (EncounterStatic s in t)
-            {
-                s.Location = 233;  //Pokéwalker
-                s.Gift = true;    //Pokeball only
-            }
-        }
-        private static void MarkG4SlotsGreatMarsh(ref EncounterArea[] Areas, int location)
-        {
-            foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
-            {
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    SlotType t;
-                    switch (Slot.Type)
-                    {
-                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
-                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
-                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
-                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
-                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
-                        case SlotType.Pokeradar: t = SlotType.Pokeradar_Safari; break;
-                        default: continue;
-                    }
-                    Slot.Type = t;
-                }
-            }
-        }
-        private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
-        {
-            // Grass Swarm slots replace slots 0 and 1 from encounters data
-            // for surfing only replace slots 0 from encounters data
-            // for fishing replace one or several random slots from encounters data, but all slots have the same level, it's ok to only replace the first
-            // Species id are not included in encounter tables but levels can be copied from the encounter raw data
-            foreach (EncounterArea Area in Areas)
-            {
-                var SwarmSlots = SwarmAreas.Where(a => a.Location == Area.Location).SelectMany(s => s.Slots);
-                var OutputSlots = new List<EncounterSlot>();
-                foreach (EncounterSlot SwarmSlot in SwarmSlots)
-                {
-                    int slotsnum = SwarmSlot.Type == SlotType.Grass ? 2 : 1;
-                    foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(slotsnum).Select(slot => slot.Clone()))
-                    {
-                        swarmSlot.Species = SwarmSlot.Species;
-                        OutputSlots.Add(swarmSlot);
-                    }
-                }
-                Area.Slots = Area.Slots.Concat(OutputSlots).Where(a => a.Species > 0).ToArray();
-            }
-        }
-        // Gen 4 raw encounter data does not contains info for alt slots
-        // Shellos and Gastrodom East Sea form should be modified 
-        private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
-        {
-            foreach(EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
-            {
-                foreach (EncounterSlot Slot in Area.Slots.Where(s=>s.Species == Species))
-                {
-                    Slot.Form = form;
-                }
-            }
-        }
-        private static void MarkG4Slots(ref EncounterArea[] Areas)
-        {
-            ReduceAreasSize(ref Areas);
-        }
-        private static EncounterType GetEncounterTypeBySlotDPPt(SlotType Type, EncounterType GrassType)
-        {
-            switch (Type)
-            {
-                case SlotType.Pokeradar:
-                case SlotType.Pokeradar_Safari:
-                case SlotType.Swarm:
-                case SlotType.Grass: return GrassType;
-                case SlotType.Surf:
-                case SlotType.Old_Rod:
-                case SlotType.Good_Rod:
-                case SlotType.Super_Rod:
-                case SlotType.Surf_Safari:
-                case SlotType.Old_Rod_Safari:
-                case SlotType.Good_Rod_Safari:
-                case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
-                case SlotType.Grass_Safari: return EncounterType.MarshSafari;
-                case SlotType.HoneyTree: return EncounterType.None;
-            }
-            return EncounterType.None;
-        }
-        private static EncounterType GetEncounterTypeBySlotHGSS(SlotType Type, EncounterType GrassType, EncounterType HeadbuttType)
-        {
-            switch (Type)
-            {
-                // HGSS Safari encounters have normal water/grass encounter type, not safari encounter type
-                case SlotType.Grass:
-                case SlotType.Grass_Safari:
-                case SlotType.BugContest: return GrassType;
-                case SlotType.Surf:
-                case SlotType.Old_Rod:
-                case SlotType.Good_Rod:
-                case SlotType.Super_Rod:
-                case SlotType.Surf_Safari:
-                case SlotType.Old_Rod_Safari:
-                case SlotType.Good_Rod_Safari:
-                case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
-                case SlotType.Rock_Smash:
-                case SlotType.Rock_Smash_Safari: return EncounterType.RockSmash;
-                case SlotType.Headbutt: return HeadbuttType;
-                case SlotType.Headbutt_Special: return EncounterType.None;
-            }
-            return EncounterType.None;
-        }
-        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
-        {
-            // Area with two different encounter type for grass encounters
-            // SpecialEncounterFile is tall grass encounter type, the other files have the normal encounter type for this location
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
-                }
-            }
-        }
-        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
-        {
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
-                }
-            }
-        }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
-        {
-            // Area with two different encounter type for grass encounters
-            // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
-            var HeadbuttType = GetHeadbuttEncounterType(Location);
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
-                }
-            }
-        }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
-        {
-            var HeadbuttType = GetHeadbuttEncounterType(Location);
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
-                }
-            }
-        }
-        private static void MarkDPPtEncounterTypeSlots(ref EncounterArea[] Areas)
-        {
-            foreach(EncounterArea Area in Areas)
-            {
-                if (DPPt_MixInteriorExteriorLocations.Contains(Area.Location))
-                    continue;
-                var GrassType = (Area.Location == 70) ? EncounterType.Building_EnigmaStone :// Old Chateau
-                                DPPt_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin :
-                                EncounterType.TallGrass;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotDPPt(Slot.Type, GrassType);
-                }
-            }
-        }
-        private static EncounterType GetHeadbuttEncounterType(int Location)
-        {
-            // Routes with trees adjacent to water tiles
-            var allowsurf= HGSS_SurfingHeadbutt_Locations.Contains(Location);
-            // Cities
-            if (HGSS_CityLocations.Contains(Location))
-                return allowsurf ? EncounterType.Headbutt_CitySurf : EncounterType.Building_EnigmaStone;
-            // Caves with no exterior zones
-            if (!HGSS_MixInteriorExteriorLocations.Contains(Location) && HGSS_CaveLocations.Contains(Location))
-                return allowsurf ? EncounterType.Headbutt_CaveSurf : EncounterType.Cave_HallOfOrigin;
-            
-            // Routes and exterior areas
-            // Routes with trees adjacent to grass tiles
-            var allowgrass = HGSS_GrassHeadbutt_Locations.Contains(Location);
-            return allowgrass && allowsurf ? EncounterType.Headbutt_GrassSurf :
-                   allowgrass ? EncounterType.Headbutt_Grass :
-                   allowsurf ?  EncounterType.Headbutt_Surf :
-                   EncounterType.None;
-        }
-
-        private static void MarkHGSSEncounterTypeSlots(ref EncounterArea[] Areas)
-        {
-            foreach (EncounterArea Area in Areas)
-            {
-                if (HGSS_MixInteriorExteriorLocations.Contains(Area.Location))
-                    continue;
-                var GrassType = HGSS_CaveLocations.Contains(Area.Location) ? EncounterType.Cave_HallOfOrigin: EncounterType.TallGrass;
-                var HeadbuttType = GetHeadbuttEncounterType(Area.Location);
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
-                }
-            }
-        }
-        private static void MarkBWSwarmSlots(ref EncounterArea[] Areas)
-        {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-            {
-                s.LevelMin = 15; s.LevelMax = 55; s.Type = SlotType.Swarm;
-            }
-        }
-        private static void MarkB2W2SwarmSlots(ref EncounterArea[] Areas)
-        {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-            {
-                s.LevelMin = 40; s.LevelMax = 55; s.Type = SlotType.Swarm;
-            }
-        }
-        private static void MarkG5HiddenGrottoSlots(ref EncounterArea[] Areas)
-        {
-            foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
-                s.Type = SlotType.HiddenGrotto; 
-        }
-        private static void MarkG5DreamWorld(ref EncounterStatic[] t)
-        {
-            foreach (EncounterStatic s in t)
-            {
-                s.Location = 75;  //Entree Forest
-                s.Ability = PersonalTable.B2W2.GetAbilities(s.Species, s.Form)[2] == 0 ? 1 : 4; // Check if has HA
-                s.Shiny = false;
-            }
-
-            // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
-            var list = new List<EncounterStatic>();
-            foreach (EncounterStatic s in t)
-            {
-                if (s.Moves == null || s.Moves.Length <= 1) // no special moves
-                {
-                    list.Add(s);
-                    continue;
-                }
-
-                var loc = s.Location;
-                for (int i = 0; i < s.Moves.Length; i++)
-                {
-                    var clone = s.Clone(loc);
-                    clone.Moves = new[] {s.Moves[i]};
-                    list.Add(clone);
-                }
-            }
-            t = list.ToArray();
-        }
-        private static void MarkG5Slots(ref EncounterArea[] Areas)
-        {
-            foreach (var area in Areas)
-            {
-                int ctr = 0;
-                do
-                {
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Single
-
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Double
-
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Shaking
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Surf; // Surf
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Surf; // Surf Spot
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish Spot
-                } while (ctr != area.Slots.Length);
-                area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
-            }
-            ReduceAreasSize(ref Areas);
-        }
-        private static void MarkG6XYSlots(ref EncounterArea[] Areas)
-        {
-            foreach (var area in Areas)
-            {
-                int slotct = area.Slots.Length;
-                for (int i = slotct - 15; i < slotct; i++)
-                    area.Slots[i].Type = SlotType.Horde;
-            }
-            ReduceAreasSize(ref Areas);
-        }
-        private static void MarkG6AOSlots(ref EncounterArea[] Areas)
-        {
-            foreach (var area in Areas)
-            {
-                for (int i = 32; i < 37; i++)
-                    area.Slots[i].Type = SlotType.Rock_Smash;
-                int slotct = area.Slots.Length;
-                for (int i = slotct - 15; i < slotct; i++)
-                    area.Slots[i].Type = SlotType.Horde;
-
-                for (int i = 0; i < slotct; i++)
-                    area.Slots[i].Permissions.AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
-            }
-            ReduceAreasSize(ref Areas);
-        }
-        private static void MarkG7REGSlots(ref EncounterArea[] Areas)
-        {
-            ReduceAreasSize(ref Areas);
-        }
-        private static void MarkG7SMSlots(ref EncounterArea[] Areas)
-        {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-                s.Type = SlotType.SOS;
-            ReduceAreasSize(ref Areas);
-        }
-        private static EncounterArea[] GetTables1()
-        {
-            var red_gw = EncounterArea.GetArray1_GW(Util.GetBinaryResource("encounter_red.pkl"));
-            var blu_gw = EncounterArea.GetArray1_GW(Util.GetBinaryResource("encounter_blue.pkl"));
-            var ylw_gw = EncounterArea.GetArray1_GW(Util.GetBinaryResource("encounter_yellow.pkl"));
-            var rb_fish = EncounterArea.GetArray1_F(Util.GetBinaryResource("encounter_rb_f.pkl"));
-            var ylw_fish = EncounterArea.GetArray1_FY(Util.GetBinaryResource("encounter_yellow_f.pkl"));
-
-            MarkEncountersVersion(ref red_gw, GameVersion.RD);
-            MarkEncountersVersion(ref blu_gw, GameVersion.BW);
-            MarkEncountersVersion(ref ylw_gw, GameVersion.YW);
-            MarkEncountersVersion(ref rb_fish, GameVersion.RB);
-            MarkEncountersVersion(ref ylw_fish, GameVersion.YW);
-
-            var table = AddExtraTableSlots(red_gw, blu_gw, ylw_gw, rb_fish, ylw_fish);
-            Array.Resize(ref table, table.Length + 1);
-            table[table.Length - 1] = FishOldGood_RBY;
-
-            return table;
-        }
-        private static EncounterArea[] GetTables2(GameVersion Version)
-        {
-            EncounterArea[] Slots = null;
-            // Fishing
-            var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
-
-            if (Version == GameVersion.GS || Version == GameVersion.GSC)
-            {
-                // Grass/Water
-                var g = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_gold.pkl"));
-                var s = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_silver.pkl"));
-                // Headbutt/Rock Smash
-                var h_g = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_gold_h.pkl"));
-                var h_s = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_silver_h.pkl"));
-                var safari_gs = EncounterSafari_GSC;
-                var bcc_gs = EncounterBCC_GSC;
-
-                MarkEncountersVersion(ref bcc_gs, GameVersion.GS);
-                MarkEncountersVersion(ref f, GameVersion.GS);
-                MarkEncountersVersion(ref g, GameVersion.GD);
-                MarkEncountersVersion(ref s, GameVersion.SV);
-                MarkEncountersVersion(ref h_g, GameVersion.GD);
-                MarkEncountersVersion(ref h_s, GameVersion.SV);
-                MarkEncountersVersion(ref safari_gs, GameVersion.GS);
-
-                Slots = AddExtraTableSlots(g, s, h_g, h_s, f, bcc_gs, safari_gs);
-            }
-            if (Version == GameVersion.C || Version == GameVersion.GSC)
-            {
-                // Grass/Water
-                var c = EncounterArea.GetArray2_GW(Util.GetBinaryResource("encounter_crystal.pkl"));
-                // Headbutt/Rock Smash
-                var h_c = EncounterArea.GetArray2_H(Util.GetBinaryResource("encounter_crystal_h.pkl"));
-                var safari_c= EncounterSafari_GSC;
-                var bcc_c = EncounterBCC_GSC;
-
-                MarkEncountersVersion(ref bcc_c, GameVersion.C);
-                MarkEncountersVersion(ref safari_c, GameVersion.C);
-                MarkEncountersVersion(ref f, GameVersion.C);
-                MarkEncountersVersion(ref c, GameVersion.C);
-                MarkEncountersVersion(ref h_c, GameVersion.C);
-
-                var extra = AddExtraTableSlots(c, h_c, f, bcc_c, safari_c);
-                MarkSlotLocation(ref extra);
-                return Version == GameVersion.C ? extra : AddExtraTableSlots(Slots, extra);
-            }
-
-            return Slots;
-        }
-
         static Legal() // Setup
         {
-            // Gen 1
-            {
-                StaticRBY = GetStaticEncounters(GameVersion.RBY);
-                SlotsRBY = GetTables1();
-                // Gen 1 is the only gen where ReduceAreasSize is not needed
-                MarkEncountersGeneration(ref SlotsRBY, 1);
-                MarkEncountersGeneration(ref StaticRBY, 1);
-                Evolves1 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_rby.pkl") }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
-                FixPersonalTableY();
-            }
-            // Gen 2
-            {
-                StaticGS = GetStaticEncounters(GameVersion.GS);
-                StaticC = GetStaticEncounters(GameVersion.C);
-                StaticGSC = GetStaticEncounters(GameVersion.GSC);
-                SlotsGS = GetTables2(GameVersion.GS);
-                SlotsC = GetTables2(GameVersion.C);
-                SlotsGSC = GetTables2(GameVersion.GSC);
-                MarkG2Slots(ref SlotsGS);
-                MarkG2Slots(ref SlotsC);
-                MarkG2Slots(ref SlotsGSC);
-                MarkEncountersGeneration(ref SlotsGS, 2);
-                MarkEncountersGeneration(ref SlotsC, 2);
-                MarkEncountersGeneration(ref SlotsGSC, 2);
-                MarkEncountersGeneration(ref StaticGS, 2);
-                MarkEncountersGeneration(ref StaticC, 2);
-                MarkEncountersGeneration(ref StaticGSC, 2);
-                Evolves2 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_gsc.pkl") }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
-            }
-            // Gen3
-            {
-                StaticR = GetStaticEncounters(GameVersion.R);
-                StaticS = GetStaticEncounters(GameVersion.S);
-                StaticE = GetStaticEncounters(GameVersion.E);
-                StaticFR = GetStaticEncounters(GameVersion.FR);
-                StaticLG = GetStaticEncounters(GameVersion.LG);
+            // Evolution tables need Personal Tables initialized beforehand, hence why the EvolutionTree data is initialized here.
+            Evolves1 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_rby.pkl") }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
+            Evolves2 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_gsc.pkl") }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
+            Evolves3 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g3.pkl") }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
+            Evolves4 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g4.pkl") }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
+            Evolves5 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g5.pkl") }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
+            Evolves6 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_ao.pkl"), "ao"), GameVersion.ORAS, PersonalTable.AO, MaxSpeciesID_6);
+            Evolves7 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_sm.pkl"), "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
 
-                var R_Slots = GetEncounterTables(GameVersion.R);
-                var S_Slots = GetEncounterTables(GameVersion.S);
-                var E_Slots = GetEncounterTables(GameVersion.E);
-                var FR_Slots = GetEncounterTables(GameVersion.FR);
-                var LG_Slots = GetEncounterTables(GameVersion.LG);
-
-                MarkG3Slots_RSE(ref R_Slots);
-                MarkG3Slots_RSE(ref S_Slots);
-                MarkG3Slots_RSE(ref E_Slots);
-                MarkG3Slots_FRLG(ref FR_Slots);
-                MarkG3Slots_FRLG(ref LG_Slots);
-                MarkG3SlotsSafariZones(ref R_Slots, 57);
-                MarkG3SlotsSafariZones(ref S_Slots, 57);
-                MarkG3SlotsSafariZones(ref E_Slots, 57);
-                MarkG3SlotsSafariZones(ref FR_Slots, 136);
-                MarkG3SlotsSafariZones(ref LG_Slots, 136);
-
-                MarkEncountersStaticMagnetPull(ref R_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref S_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref E_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref FR_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref LG_Slots, PersonalTable.SM);
-
-                SlotsR = AddExtraTableSlots(R_Slots, SlotsRSEAlt);
-                SlotsS = AddExtraTableSlots(S_Slots, SlotsRSEAlt);
-                SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
-                SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGAlt);
-                SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGAlt);
-
-                MarkSlotLocation(ref SlotsR);
-                MarkSlotLocation(ref SlotsS);
-                MarkSlotLocation(ref SlotsE);
-                MarkSlotLocation(ref SlotsFR);
-                MarkSlotLocation(ref SlotsLG);
-
-                Evolves3 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g3.pkl") }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
-
-                // Update Personal Entries with TM/Tutor Data
-                var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
-                for (int i = 0; i <= MaxSpeciesID_3; i++)
-                    PersonalTable.E[i].AddTMHM(TMHM[i]);
-                // Tutors g3 contains tutor compatiblity data extracted from emerald, 
-                // fire red and leaf green tutors data is a subset of emerald data
-                var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
-                for (int i = 0; i <= MaxSpeciesID_3; i++)
-                    PersonalTable.E[i].AddTypeTutors(tutors[i]);
-            }
-            // Gen 4
-            {
-                MarkG4PokeWalker(ref Encounter_PokeWalker);
-                StaticD = GetStaticEncounters(GameVersion.D);
-                StaticP = GetStaticEncounters(GameVersion.P);
-                StaticPt = GetStaticEncounters(GameVersion.Pt);
-                StaticHG = GetStaticEncounters(GameVersion.HG);
-                StaticSS = GetStaticEncounters(GameVersion.SS);
-
-                var D_Slots = GetEncounterTables(GameVersion.D);
-                var P_Slots = GetEncounterTables(GameVersion.P);
-                var Pt_Slots = GetEncounterTables(GameVersion.Pt);
-                var HG_Slots = GetEncounterTables(GameVersion.HG);
-                var SS_Slots = GetEncounterTables(GameVersion.SS);
-
-                MarkEncountersStaticMagnetPull(ref D_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref P_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref Pt_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref HG_Slots, PersonalTable.SM);
-                MarkEncountersStaticMagnetPull(ref SS_Slots, PersonalTable.SM);
-
-                var DP_Trophy = EncounterArea.GetTrophyArea(TrophyDP, new[] {16, 18});
-                var Pt_Trophy = EncounterArea.GetTrophyArea(TrophyPt, new[] {22, 22});
-                var HG_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(Data.UnpackMini(Util.GetBinaryResource("encunters_hb_hg.pkl"), "hg"));
-                var SS_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(Data.UnpackMini(Util.GetBinaryResource("encunters_hb_ss.pkl"), "ss"));
-
-                var D_HoneyTrees_Slots = SlotsD_HoneyTree.Clone(HoneyTreesLocation);
-                var P_HoneyTrees_Slots = SlotsP_HoneyTree.Clone(HoneyTreesLocation);
-                var Pt_HoneyTrees_Slots = SlotsPt_HoneyTree.Clone(HoneyTreesLocation);
-                
-                MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
-                MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
-
-                MarkG4AltFormSlots(ref D_Slots, 422, 1, Shellos_EastSeaLocation_DP);
-                MarkG4AltFormSlots(ref D_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
-                MarkG4AltFormSlots(ref P_Slots, 422, 1, Shellos_EastSeaLocation_DP);
-                MarkG4AltFormSlots(ref P_Slots, 423, 1, Gastrodon_EastSeaLocation_DP);
-                MarkG4AltFormSlots(ref Pt_Slots, 422, 1, Shellos_EastSeaLocation_Pt);
-                MarkG4AltFormSlots(ref Pt_Slots, 423, 1, Gastrodon_EastSeaLocation_Pt);
-
-                // Route 209
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, 24, 1, EncounterType.Building_EnigmaStone);
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, 24, 1, EncounterType.Building_EnigmaStone);
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, 24, 1, EncounterType.Building_EnigmaStone);
-
-                // Stark Mountain
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, 84, 1, EncounterType.Cave_HallOfOrigin);
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, 84, 1, EncounterType.Cave_HallOfOrigin);
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, 84, 1, EncounterType.Cave_HallOfOrigin);
-                // Mt Coronet
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref D_Slots, 50, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, 50, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-                MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, 50, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-
-                // Ruins of Alph
-                MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, 209, 1, EncounterType.Cave_HallOfOrigin);
-                MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, 209, 1, EncounterType.Cave_HallOfOrigin);
-                // Mt Silver Cave
-                MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, 219, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-                MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, 219, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-
-                MarkG4Slots(ref D_Slots);
-                MarkG4Slots(ref P_Slots);
-                MarkG4Slots(ref Pt_Slots);
-                MarkG4Slots(ref HG_Slots);
-                MarkG4Slots(ref SS_Slots);
-                MarkG4Slots(ref HG_Headbutt_Slots);
-                MarkG4Slots(ref SS_Headbutt_Slots);
-
-                MarkG4SlotsGreatMarsh(ref D_Slots, 52);
-                MarkG4SlotsGreatMarsh(ref P_Slots, 52);
-                MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
-
-                SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
-                SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
-                SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, SlotsDPPPtAlt, Pt_Trophy);
-                SlotsHG = AddExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
-                SlotsSS = AddExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
-
-                MarkDPPtEncounterTypeSlots(ref SlotsD);
-                MarkDPPtEncounterTypeSlots(ref SlotsP);
-                MarkDPPtEncounterTypeSlots(ref SlotsPt);
-                MarkHGSSEncounterTypeSlots(ref SlotsHG);
-                MarkHGSSEncounterTypeSlots(ref SlotsSS);
-
-                MarkSlotLocation(ref SlotsD);
-                MarkSlotLocation(ref SlotsP);
-                MarkSlotLocation(ref SlotsPt);
-                MarkSlotLocation(ref SlotsHG);
-                MarkSlotLocation(ref SlotsSS);
-
-                Evolves4 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g4.pkl") }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
-
-                // Update Personal Entries with Tutor Data
-                var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
-                for (int i = 0; i <= MaxSpeciesID_4; i++)
-                    PersonalTable.HGSS[i].AddTypeTutors(tutors[i]);
-            }
-            // Gen 5
-            {
-                MarkG5DreamWorld(ref BW_DreamWorld);
-                MarkG5DreamWorld(ref B2W2_DreamWorld);
-                StaticB = GetStaticEncounters(GameVersion.B);
-                StaticW = GetStaticEncounters(GameVersion.W);
-                StaticB2 = GetStaticEncounters(GameVersion.B2);
-                StaticW2 = GetStaticEncounters(GameVersion.W2);
-
-                var BSlots = GetEncounterTables(GameVersion.B);
-                var WSlots = GetEncounterTables(GameVersion.W);
-                MarkG5Slots(ref BSlots);
-                MarkG5Slots(ref WSlots);
-                MarkBWSwarmSlots(ref SlotsB_Swarm);
-                MarkBWSwarmSlots(ref SlotsW_Swarm);
-                SlotsB = AddExtraTableSlots(BSlots, SlotsB_Swarm);
-                SlotsW = AddExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
-
-                var B2Slots = GetEncounterTables(GameVersion.B2);
-                var W2Slots = GetEncounterTables(GameVersion.W2);
-                MarkG5Slots(ref B2Slots);
-                MarkG5Slots(ref W2Slots);
-                MarkB2W2SwarmSlots(ref SlotsB2_Swarm);
-                MarkB2W2SwarmSlots(ref SlotsW2_Swarm);
-                MarkG5HiddenGrottoSlots(ref SlotsB2_HiddenGrotto);
-                MarkG5HiddenGrottoSlots(ref SlotsW2_HiddenGrotto);
-                SlotsB2 = AddExtraTableSlots(B2Slots, SlotsB2_Swarm, SlotsB2_HiddenGrotto);
-                SlotsW2 = AddExtraTableSlots(W2Slots, SlotsW2_Swarm, SlotsW2_HiddenGrotto);
-
-                Evolves5 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g5.pkl") }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
-            }
-            // Gen 6
-            {
-                StaticX = GetStaticEncounters(GameVersion.X);
-                StaticY = GetStaticEncounters(GameVersion.Y);
-                StaticA = GetStaticEncounters(GameVersion.AS);
-                StaticO = GetStaticEncounters(GameVersion.OR);
-
-                var XSlots = GetEncounterTables(GameVersion.X);
-                var YSlots = GetEncounterTables(GameVersion.Y);
-                MarkG6XYSlots(ref XSlots);
-                MarkG6XYSlots(ref YSlots);
-                SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
-                SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
-
-                SlotsA = GetEncounterTables(GameVersion.AS);
-                SlotsO = GetEncounterTables(GameVersion.OR);
-                MarkG6AOSlots(ref SlotsA);
-                MarkG6AOSlots(ref SlotsO);
-
-                Evolves6 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_ao.pkl"), "ao"), GameVersion.ORAS, PersonalTable.AO, MaxSpeciesID_6);
-            }
-            // Gen 7
-            {
-                StaticSN = GetStaticEncounters(GameVersion.SN);
-                StaticMN = GetStaticEncounters(GameVersion.MN);
-                var REG_SN = GetEncounterTables(GameVersion.SN);
-                var REG_MN = GetEncounterTables(GameVersion.MN);
-                var SOS_SN = GetEncounterTables(Util.GetBinaryResource("encounter_sn_sos.pkl"), "sm");
-                var SOS_MN = GetEncounterTables(Util.GetBinaryResource("encounter_mn_sos.pkl"), "sm");
-                MarkG7REGSlots(ref REG_SN);
-                MarkG7REGSlots(ref REG_MN);
-                MarkG7SMSlots(ref SOS_SN);
-                MarkG7SMSlots(ref SOS_MN);
-                SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, Encounter_Pelago_SM, Encounter_Pelago_SN);
-                SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, Encounter_Pelago_SM, Encounter_Pelago_MN);
-
-                Evolves7 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_sm.pkl"), "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
-            }
+            FixPersonalTableY();
+            PopulateGen3Tutors();
+            PopulateGen4Tutors();
         }
-
         private static void FixPersonalTableY()
         {
             // Personal Table from Yellow do not have yellow catch rate for Pikachu and Kadabra, have RedBlue instead
             PersonalTable.Y[25].CatchRate = 163; // Pikachu
             PersonalTable.Y[64].CatchRate = 96; // Kadabra
+        }
+        private static void PopulateGen3Tutors()
+        {
+            // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
+            var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
+            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            for (int i = 0; i <= MaxSpeciesID_3; i++)
+            {
+                PersonalTable.E[i].AddTMHM(TMHM[i]);
+                PersonalTable.E[i].AddTypeTutors(tutors[i]);
+            }
+        }
+        private static void PopulateGen4Tutors()
+        {
+            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            for (int i = 0; i <= MaxSpeciesID_4; i++)
+                PersonalTable.HGSS[i].AddTypeTutors(tutors[i]);
         }
 
         // Moves

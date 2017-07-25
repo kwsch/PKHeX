@@ -732,7 +732,7 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 6:
-                    return LinkGifts6.Where(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
+                    return Encounters6.LinkGifts6.Where(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
                     return new EncounterLink[0];
             }
@@ -744,15 +744,15 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 3:
-                    return pkm.FRLG ? TradeGift_FRLG : TradeGift_RSE;
+                    return pkm.FRLG ? Encounters3.TradeGift_FRLG : Encounters3.TradeGift_RSE;
                 case 4:
-                    return pkm.HGSS ? TradeGift_HGSS : TradeGift_DPPt;
+                    return pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt;
                 case 5:
-                    return pkm.B2W2 ? TradeGift_B2W2 : TradeGift_BW;
+                    return pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW;
                 case 6:
-                    return pkm.XY ? TradeGift_XY : TradeGift_AO;
+                    return pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO;
                 case 7:
-                    return pkm.SM ? TradeGift_SM : null;
+                    return pkm.SM ? Encounters7.TradeGift_SM : null;
             }
             return null;
         }
@@ -763,7 +763,7 @@ namespace PKHeX.Core
             switch (gameSource)
             {
                 case GameVersion.RBY:
-                    var table = !AllowGen1Tradeback ? TradeGift_RBY_NoTradeback : TradeGift_RBY_Tradeback;
+                    var table = !AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
                     return GetValidEncounterTradesVC1(pkm, p, table);
                 case GameVersion.GSC:
                 case GameVersion.C:
@@ -775,7 +775,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC2(PKM pkm, DexLevel[] p)
         {
             // Check GSC trades. Reuse generic table fetch-match
-            var possible = GetValidEncounterTradesVC1(pkm, p, TradeGift_GSC);
+            var possible = GetValidEncounterTradesVC1(pkm, p, Encounters2.TradeGift_GSC);
 
             foreach (var z in possible)
             {
@@ -789,8 +789,8 @@ namespace PKHeX.Core
                 if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
                     continue;
 
-                int index = Array.IndexOf(TradeGift_GSC, z);
-                if (TradeGift_GSC_OTs[index].All(ot => ot != pkm.OT_Name))
+                int index = Array.IndexOf(Encounters2.TradeGift_GSC, z);
+                if (Encounters2.TradeGift_GSC_OTs[index].All(ot => ot != pkm.OT_Name))
                     continue;
 
                 yield return z;

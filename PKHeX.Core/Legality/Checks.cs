@@ -273,13 +273,13 @@ namespace PKHeX.Core
             int index = -1;
             if (pkm.XY)
             {
-                validOT = Legal.TradeXY[pkm.Language];
-                index = Array.IndexOf(Legal.TradeGift_XY, EncounterMatch);
+                validOT = Encounters6.TradeXY[pkm.Language];
+                index = Array.IndexOf(Encounters6.TradeGift_XY, EncounterMatch);
             }
             else if (pkm.AO)
             {
-                validOT = Legal.TradeAO[pkm.Language];
-                index = Array.IndexOf(Legal.TradeGift_AO, EncounterMatch);
+                validOT = Encounters6.TradeAO[pkm.Language];
+                index = Array.IndexOf(Encounters6.TradeGift_AO, EncounterMatch);
             }
             else if (pkm.SM)
             {
@@ -1017,7 +1017,7 @@ namespace PKHeX.Core
                 if (pkm.Version == 15 && encounterContent is EncounterStaticShadow s)
                 {
                     // only require national ribbon if no longer on origin game
-                    bool xd = !Legal.Encounter_Colo.Contains(s);
+                    bool xd = !Encounters3.Encounter_Colo.Contains(s);
                     eb[1] = !(xd && pkm is XK3 x && !x.RibbonNational || !xd && pkm is CK3 c && !c.RibbonNational);
                 }
             }

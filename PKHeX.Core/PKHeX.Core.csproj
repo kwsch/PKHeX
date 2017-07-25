@@ -52,8 +52,8 @@
     <None Remove="Resources\byte\encounter_y.pkl" />
     <None Remove="Resources\byte\encounter_yellow.pkl" />
     <None Remove="Resources\byte\encounter_yellow_f.pkl" />
-    <None Remove="Resources\byte\encunters_hb_hg.pkl" />
-    <None Remove="Resources\byte\encunters_hb_ss.pkl" />
+    <None Remove="Resources\byte\encounter_hb_hg.pkl" />
+    <None Remove="Resources\byte\encounter_hb_ss.pkl" />
     <None Remove="Resources\byte\evos_ao.pkl" />
     <None Remove="Resources\byte\evos_g3.pkl" />
     <None Remove="Resources\byte\evos_g4.pkl" />
@@ -149,8 +149,8 @@
     <EmbeddedResource Include="Resources\byte\encounter_y.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_yellow.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_yellow_f.pkl" />
-    <EmbeddedResource Include="Resources\byte\encunters_hb_hg.pkl" />
-    <EmbeddedResource Include="Resources\byte\encunters_hb_ss.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_hb_hg.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_hb_ss.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_ao.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_g3.pkl" />
     <EmbeddedResource Include="Resources\byte\evos_g4.pkl" />

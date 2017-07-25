@@ -27,7 +27,7 @@ namespace PKHeX.Core
             }
         }
 
-        public bool WasXD => pkm?.Version == 15 && EncounterMatch != null && !Legal.Encounter_Colo.Contains(EncounterMatch);
+        public bool WasXD => pkm?.Version == 15 && EncounterMatch != null && !Encounters3.Encounter_Colo.Contains(EncounterMatch);
         public int[] RelearnBase { get; set; }
 
         public readonly List<CheckResult> Parse = new List<CheckResult>();
