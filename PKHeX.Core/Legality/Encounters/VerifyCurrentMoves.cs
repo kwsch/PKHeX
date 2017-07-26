@@ -204,10 +204,20 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMovesSpecialMoveset(PKM pkm, int[] Moves, LegalInfo info)
         {
-            var mg = info.EncounterMatch as IMoveset;
-            int[] SpecialMoves = mg?.Moves ?? new int[0];
+            int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
             var emptyegg = new int[0];
             return ParseMoves(pkm, Moves, SpecialMoves, emptyegg, emptyegg, emptyegg, new int[0], new int[0], info);
+        }
+        private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
+        {
+            switch (EncounterMatch)
+            {
+                case IMoveset mg:
+                    return mg.Moves ?? new int[0];
+                case EncounterSlot s when s.Type == SlotType.Swarm && (s.Species == 273 || s.Species == 274):
+                    return new[] {73}; // Leech Seed for RSE Swarm (Seedot || Nuzleaf); only matches for RSE origin encounters.
+            }
+            return new int[0];
         }
         private static CheckMoveResult[] ParseMovesRelearn(PKM pkm, int[] Moves, LegalInfo info)
         {

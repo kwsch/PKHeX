@@ -263,71 +263,44 @@ namespace PKHeX.Core
         };
         private static readonly EncounterArea[] SlotsRSEAlt =
         {
-            // Swarm can be passed from one game to another via mixing records, that means emerald swarms can occurs in r/s and r/s swarms in emerald
-            // Ruby and Sapphire Swarm
+            // Swarm can be passed from R/S<->E via mixing records
             new EncounterArea {
                 Location = 17, // Route 102
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 3, LevelMax = 3, Type = SlotType.Grass}, // Surskit
+                    new EncounterSlot { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm}, // Surskit (R/S)
+                    new EncounterSlot { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm}, // Seedot (E)
                 },},
             new EncounterArea {
                 Location = 29, // Route 114
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Grass}, // Surskit
+                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Surskit (R/S)
+                    new EncounterSlot { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Nuzleaf (E)
                 },},
             new EncounterArea {
                 Location = 31, // Route 116
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Grass}, // Skitty
+                    new EncounterSlot { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Skitty (R/S)
+                    new EncounterSlot { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm}, // Skitty (E)
                 },},
             new EncounterArea {
                 Location = 32, // Route 117
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Grass}, // Surskit
+                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Surskit (R/S)
+                    new EncounterSlot { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm}, // Seedot (E)
                 },},
             new EncounterArea {
                 Location = 35, // Route 120
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Grass}, // Surskit
+                    new EncounterSlot { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Swarm}, // Surskit (R/S)
+                    new EncounterSlot { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Swarm}, // Seedot (E)
                 },},
 
-            //Emerald Swarm
-            new EncounterArea {
-                Location = 17, // Route 102
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 273, LevelMin = 3, LevelMax = 3, Type = SlotType.Grass}, // Seedot
-                },},
-            new EncounterArea {
-                Location = 29, // Route 114
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Grass}, // Nuzleaf
-                },},
-            new EncounterArea {
-                Location = 31, // Route 116
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 300, LevelMin = 8, LevelMax = 8, Type = SlotType.Grass}, // Skitty
-                },},
-            new EncounterArea {
-                Location = 32, // Route 117
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Grass}, // Seedot
-                },},
-            new EncounterArea {
-                Location = 35, // Route 120
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass}, // Seedot
-                },},
-            //Feebas fishing spot
+            // Feebas fishing spot
             new EncounterArea {
                 Location = 34, // Route 119
                 Slots = new[]
