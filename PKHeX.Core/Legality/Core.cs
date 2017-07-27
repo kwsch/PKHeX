@@ -1767,6 +1767,10 @@ namespace PKHeX.Core
                             r.AddRange(LevelUpDP[index].GetMoves(lvl));
                             r.AddRange(LevelUpPt[index].GetMoves(lvl));
                             r.AddRange(LevelUpHGSS[index].GetMoves(lvl));
+                            if (species == 492) // Shaymin
+                            {
+                                r.AddRange(new List<int>() { 403, 098, 437 }); // Air Slash, Quick Attack, Leaf Storm
+                            }
                         }
                         if (Machine)
                         {
