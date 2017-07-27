@@ -129,7 +129,15 @@ namespace PKHeX.WinForms.Controls
                     CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             }
 
-            ShinyLeaf.Value = ((PK4)pk4).ShinyLeaf;
+            // Minor properties
+            switch (pk4)
+            {
+                case PK4 p4: ShinyLeaf.Value = p4.ShinyLeaf;
+                    break;
+                case BK4 b4:
+                    ShinyLeaf.Value = b4.ShinyLeaf;
+                    break;
+            }
         }
         private PKM PreparePK4()
         {
@@ -236,7 +244,16 @@ namespace PKHeX.WinForms.Controls
                 pk4.Stat_Level = (byte)Math.Min(Convert.ToInt32(MT_Level.Text), byte.MaxValue);
             }
 
-            ((PK4)pk4).ShinyLeaf = ShinyLeaf.Value;
+            // Minor properties
+            switch (pk4)
+            {
+                case PK4 p4:
+                    p4.ShinyLeaf = ShinyLeaf.Value;
+                    break;
+                case BK4 b4:
+                    b4.ShinyLeaf = ShinyLeaf.Value;
+                    break;
+            }
 
             // Fix Moves if a slot is empty 
             pk4.FixMoves();
