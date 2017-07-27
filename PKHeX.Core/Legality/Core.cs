@@ -1759,12 +1759,13 @@ namespace PKHeX.Core
                     }
                 case 4:
                     {
-                        int index = PersonalTable.HGSS.GetFormeIndex(species, 0);
+                        int index = PersonalTable.HGSS.GetFormeIndex(species, form);
                         if (index == 0)
                             return r;
                         if (LVL)
                         {
-                            r.AddRange(LevelUpDP[index].GetMoves(lvl));
+                            if (index < LevelUpDP.Length)
+                                r.AddRange(LevelUpDP[index].GetMoves(lvl));
                             r.AddRange(LevelUpPt[index].GetMoves(lvl));
                             r.AddRange(LevelUpHGSS[index].GetMoves(lvl));
                         }
