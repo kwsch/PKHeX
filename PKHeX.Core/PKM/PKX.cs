@@ -234,7 +234,7 @@ namespace PKHeX.Core
             if (generation < 3)
                 len = 3;
             else if (generation < 7)
-                len = 8;
+                len = 9; // chinese (CHS/CHT) introduced in Gen7
 
             for (int i = 0; i < len; i++)
                 if (GetSpeciesNameGeneration(species, i, generation) == nick)
