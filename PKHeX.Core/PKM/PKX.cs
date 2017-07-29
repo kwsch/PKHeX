@@ -1073,19 +1073,21 @@ namespace PKHeX.Core
             { 1, 0, 1, 1, 1, 1 }, // Dragon
             { 1, 1, 1, 1, 1, 1 }, // Dark
         };
-        
+
         /// <summary>
         /// Converts full width to single width
         /// </summary>
         /// <param name="str">Input string to sanitize.</param>
         /// <returns></returns>
-        public static string SanitizeString(string str)
+        private static string SanitizeString(string str)
         {
             if (str.Length == 0)
                 return str;
             var s = str.Replace("\u2019", "\u0027"); // farfetch'd
-            s = s.Replace("\uE08F", "\u2640"); // ♀
-            s = s.Replace("\uE08E", "\u2642"); // ♂
+            s = s.Replace("\uE08F", "\u2640"); // ♀ (gen6+)
+            s = s.Replace("\uE08E", "\u2642"); // ♂ (gen6+)
+            s = s.Replace("\u246E", "\u2640"); // ♀ (gen5)
+            s = s.Replace("\u246D", "\u2642"); // ♂ (gen5)
             return s;
         }
 
@@ -1093,12 +1095,20 @@ namespace PKHeX.Core
         /// Converts full width to half width when appropriate
         /// </summary>
         /// <param name="str">Input string to set.</param>
+        /// <param name="generation"></param>
         /// <param name="species"></param>
         /// <param name="nicknamed"></param>
         /// <returns></returns>
-        public static string UnSanitizeString(string str, int species = -1, bool nicknamed = true)
+        private static string UnSanitizeString(string str, int generation, int species = -1, bool nicknamed = true)
         {
             var s = str.Replace("\u0027", "\u2019"); // farfetch'd
+
+            if (generation == 5)
+            {
+                s = s.Replace("\u2640", "\u246E"); // ♀
+                s = s.Replace("\u2642", "\u246D"); // ♂
+                return s;
+            }
 
             bool foreign = true;
             if ((species == 029 || species == 032) && !nicknamed)
@@ -1106,9 +1116,9 @@ namespace PKHeX.Core
             else if (nicknamed)
                 foreign = str.Select(c => c >> 12).Any(c => c != 0 && c != 0xE);
 
+            // Convert back to half width
             if (foreign)
                 return s;
-            // Convert back to half width
             s = s.Replace("\u2640", "\uE08F"); // ♀
             s = s.Replace("\u2642", "\uE08E"); // ♂
             return s;
@@ -2762,7 +2772,7 @@ namespace PKHeX.Core
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
-            string temp = UnSanitizeString(value) // Replace Special Characters and add Terminator
+            string temp = UnSanitizeString(value, 4) // Replace Special Characters and add Terminator
                 .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
                 .PadRight(padTo, (char)padWith); // Padding
 
@@ -2796,7 +2806,7 @@ namespace PKHeX.Core
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
-            string temp = UnSanitizeString(value)
+            string temp = UnSanitizeString(value, 5)
                 .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
                 .PadRight(padTo, (char)padWith); // Padding
             return Encoding.Unicode.GetBytes(temp);
@@ -2822,7 +2832,7 @@ namespace PKHeX.Core
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
-            string temp = UnSanitizeString(value)
+            string temp = UnSanitizeString(value, 6)
                 .PadRight(value.Length + 1, '\0') // Null Terminator
                 .PadRight(padTo, (char)padWith);
             return Encoding.Unicode.GetBytes(temp);
@@ -2849,7 +2859,7 @@ namespace PKHeX.Core
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, 12); // Hard cap
-            string temp = ConvertString2BinG7_zh(UnSanitizeString(value), language == 10)
+            string temp = ConvertString2BinG7_zh(UnSanitizeString(value, 7), language == 10)
                 .PadRight(value.Length + 1, '\0') // Null Terminator
                 .PadRight(padTo, (char)padWith);
             return Encoding.Unicode.GetBytes(temp);
