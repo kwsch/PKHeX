@@ -6,6 +6,49 @@ namespace PKHeX.Core
 {
     public class EvolutionTree
     {
+        private static readonly EvolutionTree Evolves1;
+        private static readonly EvolutionTree Evolves2;
+        private static readonly EvolutionTree Evolves3;
+        private static readonly EvolutionTree Evolves4;
+        private static readonly EvolutionTree Evolves5;
+        private static readonly EvolutionTree Evolves6;
+        private static readonly EvolutionTree Evolves7;
+
+        static EvolutionTree()
+        {
+            // Evolution tables need Personal Tables initialized beforehand, hence why the EvolutionTree data is initialized here.
+            byte[] get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
+            byte[][] unpack(string resource) => Data.UnpackMini(get(resource), resource);
+
+            Evolves1 = new EvolutionTree(new[] { get("rby") }, GameVersion.RBY, PersonalTable.Y, Legal.MaxSpeciesID_1);
+            Evolves2 = new EvolutionTree(new[] { get("gsc") }, GameVersion.GSC, PersonalTable.C, Legal.MaxSpeciesID_2);
+            Evolves3 = new EvolutionTree(new[] { get("g3") }, GameVersion.RS, PersonalTable.RS, Legal.MaxSpeciesID_3);
+            Evolves4 = new EvolutionTree(new[] { get("g4") }, GameVersion.DP, PersonalTable.DP, Legal.MaxSpeciesID_4);
+            Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.BW, PersonalTable.BW, Legal.MaxSpeciesID_5);
+            Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.ORAS, PersonalTable.AO, Legal.MaxSpeciesID_6);
+            Evolves7 = new EvolutionTree(unpack("sm"), GameVersion.SM, PersonalTable.SM, Legal.MaxSpeciesID_7);
+        }
+        internal static EvolutionTree GetEvolutionTree(int generation)
+        {
+            switch (generation)
+            {
+                case 1:
+                    return Evolves1;
+                case 2:
+                    return Evolves2;
+                case 3:
+                    return Evolves3;
+                case 4:
+                    return Evolves4;
+                case 5:
+                    return Evolves5;
+                case 6:
+                    return Evolves6;
+                default:
+                    return Evolves7;
+            }
+        }
+
         private List<EvolutionSet> Entries { get; } = new List<EvolutionSet>();
         private readonly EvolutionLineage[] Lineage;
         private readonly GameVersion Game;

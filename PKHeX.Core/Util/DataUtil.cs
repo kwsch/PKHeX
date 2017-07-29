@@ -321,7 +321,6 @@ namespace PKHeX.Core
                 });
                 indices[s] = index + 1;
             }
-
             
             return cbList;
         }

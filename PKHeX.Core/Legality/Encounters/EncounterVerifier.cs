@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
     public static class EncounterVerifier
     {
-        public static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
+        private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
         {
             var encounter = info.EncounterMatch;
             if (encounter is EncounterEgg e)
@@ -26,7 +27,7 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
-        public static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
+        private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
         {
             var encounter = info.EncounterMatch;
             var EncounterMatch = encounter is GBEncounterData g ? g.Encounter : encounter;
@@ -48,7 +49,6 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
-
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot1 encounter)
         {
             if (encounter.Type == SlotType.Old_Rod_Safari || encounter.Type == SlotType.Good_Rod_Safari || encounter.Type == SlotType.Super_Rod_Safari)
@@ -60,7 +60,6 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
         }
-
         private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot1 encounter)
         {
             if(encounter.Type == SlotType.Headbutt || encounter.Type == SlotType.Headbutt_Special)
@@ -79,7 +78,6 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
         }
-
         private static CheckResult VerifyWildEncounterCrystalHeadbutt(PKM pkm, EncounterSlot1 encounter)
         {
             var Area = Legal.GetCrystalTreeArea(encounter);
@@ -95,6 +93,18 @@ namespace PKHeX.Core
                     return new CheckResult(Severity.Invalid, V604, CheckIdentifier.Encounter);
                 default: //reeEncounterAvailable.Impossible
                     return new CheckResult(Severity.Invalid, V605, CheckIdentifier.Encounter);
+            }
+        }
+
+        public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
+        {
+            switch (pkm.GenNumber)
+            {
+                case 1:
+                case 2:
+                    return VerifyEncounterG12;
+                default:
+                    return VerifyEncounter;
             }
         }
 
@@ -217,7 +227,7 @@ namespace PKHeX.Core
                 : new CheckResult(Severity.Invalid, V59, CheckIdentifier.Encounter);
         }
 
-        // Etc
+        // Other
         private static CheckResult VerifyEncounterWild(PKM pkm, LegalInfo info, EncounterSlot slot)
         {
             // Check for Unreleased Encounters / Collisions

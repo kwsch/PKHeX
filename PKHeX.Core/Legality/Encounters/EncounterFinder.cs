@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -16,10 +15,9 @@ namespace PKHeX.Core
                 if (!encounter.PeekIsNext())
                     return VerifyWithoutEncounter(pkm, info);
 
-                var EncounterValidator = GetEncounterVerifierMethod(pkm);
+                var EncounterValidator = EncounterVerifier.GetEncounterVerifierMethod(pkm);
                 while (encounter.MoveNext())
                 {
-                    bool PIDMatch = info.PIDIVMatches;
                     info.EncounterMatch = encounter.Current;
                     var e = EncounterValidator(pkm, info);
                     if (!e.Valid && encounter.PeekIsNext())
@@ -29,14 +27,14 @@ namespace PKHeX.Core
                     }
                     info.Parse.Add(e);
 
-                    if (VerifySecondaryChecks(pkm, info, PIDMatch, encounter))
+                    if (VerifySecondaryChecks(pkm, info, encounter))
                         break; // passes
                 }
                 return info;
             }
         }
 
-        private static bool VerifySecondaryChecks(PKM pkm, LegalInfo info, bool PIDMatch, PeekEnumerator<IEncounterable> iterator)
+        private static bool VerifySecondaryChecks(PKM pkm, LegalInfo info, PeekEnumerator<IEncounterable> iterator)
         {
             if (pkm.Format >= 6)
             {
@@ -57,7 +55,7 @@ namespace PKHeX.Core
                 return false;
             info.Parse.Add(evo);
 
-            if (!PIDMatch)
+            if (!info.PIDIVMatches)
             {
                 if (iterator.PeekIsNext())
                     return false; // continue to next
@@ -83,17 +81,6 @@ namespace PKHeX.Core
             info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
-        }
-        private static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
-        {
-            switch (pkm.GenNumber)
-            {
-                case 1:
-                case 2:
-                    return EncounterVerifier.VerifyEncounterG12;
-                default:
-                    return EncounterVerifier.VerifyEncounter;
-            }
         }
     }
 }

@@ -57,14 +57,12 @@ namespace PKHeX.Core
         // Gen 1
         private static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
         private static readonly Learnset[] LevelUpY = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
-        private static readonly EvolutionTree Evolves1;
 
         // Gen 2
         private static readonly EggMoves[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpGS = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
         private static readonly EggMoves[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
         private static readonly Learnset[] LevelUpC = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
-        private static readonly EvolutionTree Evolves2;
 
         // Gen 3
         private static readonly Learnset[] LevelUpE = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
@@ -72,7 +70,6 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpFR = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
         private static readonly Learnset[] LevelUpLG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
         private static readonly EggMoves[] EggMovesRS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
-        private static readonly EvolutionTree Evolves3;
 
         // Gen 4
         private static readonly Learnset[] LevelUpDP = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
@@ -80,25 +77,21 @@ namespace PKHeX.Core
         private static readonly Learnset[] LevelUpHGSS = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
         private static readonly EggMoves[] EggMovesDPPt = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
         private static readonly EggMoves[] EggMovesHGSS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
-        private static readonly EvolutionTree Evolves4;
 
         // Gen 5
         private static readonly Learnset[] LevelUpBW = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
         private static readonly Learnset[] LevelUpB2W2 = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
         private static readonly EggMoves[] EggMovesBW = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
-        private static readonly EvolutionTree Evolves5;
 
         // Gen 6
         private static readonly EggMoves[] EggMovesXY = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
         private static readonly Learnset[] LevelUpXY = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
         private static readonly EggMoves[] EggMovesAO = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
         private static readonly Learnset[] LevelUpAO = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
-        private static readonly EvolutionTree Evolves6;
 
         // Gen 7
         private static readonly EggMoves[] EggMovesSM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
         private static readonly Learnset[] LevelUpSM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
-        private static readonly EvolutionTree Evolves7;
 
         // Setup Help
         private static HashSet<MysteryGift> GetPCDDB(byte[] bin)
@@ -186,45 +179,6 @@ namespace PKHeX.Core
             MGDB_G5 = g5.ToArray();
             MGDB_G6 = g6.ToArray();
             MGDB_G7 = g7.ToArray();
-        }
-
-        static Legal() // Setup
-        {
-            // Evolution tables need Personal Tables initialized beforehand, hence why the EvolutionTree data is initialized here.
-            Evolves1 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_rby.pkl") }, GameVersion.RBY, PersonalTable.Y, MaxSpeciesID_1);
-            Evolves2 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_gsc.pkl") }, GameVersion.GSC, PersonalTable.C, MaxSpeciesID_2);
-            Evolves3 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g3.pkl") }, GameVersion.RS, PersonalTable.RS, MaxSpeciesID_3);
-            Evolves4 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g4.pkl") }, GameVersion.DP, PersonalTable.DP, MaxSpeciesID_4);
-            Evolves5 = new EvolutionTree(new[] { Util.GetBinaryResource("evos_g5.pkl") }, GameVersion.BW, PersonalTable.BW, MaxSpeciesID_5);
-            Evolves6 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_ao.pkl"), "ao"), GameVersion.ORAS, PersonalTable.AO, MaxSpeciesID_6);
-            Evolves7 = new EvolutionTree(Data.UnpackMini(Util.GetBinaryResource("evos_sm.pkl"), "sm"), GameVersion.SM, PersonalTable.SM, MaxSpeciesID_7);
-
-            FixPersonalTableY();
-            PopulateGen3Tutors();
-            PopulateGen4Tutors();
-        }
-        private static void FixPersonalTableY()
-        {
-            // Personal Table from Yellow do not have yellow catch rate for Pikachu and Kadabra, have RedBlue instead
-            PersonalTable.Y[25].CatchRate = 163; // Pikachu
-            PersonalTable.Y[64].CatchRate = 96; // Kadabra
-        }
-        private static void PopulateGen3Tutors()
-        {
-            // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
-            var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
-            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
-            for (int i = 0; i <= MaxSpeciesID_3; i++)
-            {
-                PersonalTable.E[i].AddTMHM(TMHM[i]);
-                PersonalTable.E[i].AddTypeTutors(tutors[i]);
-            }
-        }
-        private static void PopulateGen4Tutors()
-        {
-            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
-            for (int i = 0; i <= MaxSpeciesID_4; i++)
-                PersonalTable.HGSS[i].AddTypeTutors(tutors[i]);
         }
 
         // Moves
@@ -880,30 +834,6 @@ namespace PKHeX.Core
         }
 
         // Generation Specific Fetching
-        private static EvolutionTree GetEvolutionTable(PKM pkm)
-        {
-            return GetEvolutionTable(pkm.Format);
-        }
-        private static EvolutionTree GetEvolutionTable(int generation)
-        {
-            switch (generation)
-            {
-                case 1:
-                    return Evolves1;
-                case 2:
-                    return Evolves2;
-                case 3:
-                    return Evolves3;
-                case 4:
-                    return Evolves4;
-                case 5:
-                    return Evolves5;
-                case 6:
-                    return Evolves6;
-                default:
-                    return Evolves7;
-            }
-        }
         internal static EncounterStatic[] GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -1045,7 +975,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return new[] {pkm.Species};
 
-            var table = GetEvolutionTable(pkm);
+            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
             var lineage = table.GetValidPreEvolutions(pkm, pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
         }
@@ -1175,7 +1105,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            var table = GetEvolutionTable(pkm);
+            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
             var lineage = table.GetValidPreEvolutions(pkm, 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
         }
@@ -1266,7 +1196,7 @@ namespace PKHeX.Core
                 refSpecies = GetBaseSpecies(pkm);
             for (int i = 0; i < 100; i++)
             {
-                var table = GetEvolutionTable(pkm);
+                var table = EvolutionTree.GetEvolutionTree(pkm.Format);
                 var evos = table.GetValidPreEvolutions(pkm, i, skipChecks:true).ToArray();
                 if (evos.Any(evo => evo.Species == refSpecies))
                     return evos.OrderByDescending(evo => evo.Level).First().Level;
@@ -1341,7 +1271,8 @@ namespace PKHeX.Core
             if (pkm.Species == 242 && pkm.CurrentLevel < 3) // Never Cleffa
                 return 113;
 
-            var table = generation != -1 ? GetEvolutionTable(generation): GetEvolutionTable(pkm);
+            int tree = generation != -1 ? generation : pkm.Format;
+            var table = EvolutionTree.GetEvolutionTree(tree);
             int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : - 1;
             var evos = table.GetValidPreEvolutions(pkm, 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
 
@@ -1525,12 +1456,6 @@ namespace PKHeX.Core
                 d.Level = Math.Min(d.Level, maxlevel);
             return vs;
         }
-        internal static string GetEncounterTypeName(IEncounterable Encounter)
-        {
-            if (Encounter == null)
-                return "Unknown";
-            return Encounter.Name;
-        }
         private static IEnumerable<int> GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum)
         {
             List<int> moves = new List<int>();
@@ -1573,7 +1498,8 @@ namespace PKHeX.Core
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
-            var et = maxspeciesorigin == MaxSpeciesID_2 ? GetEvolutionTable(2) : GetEvolutionTable(pkm);
+            int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
+            var et = EvolutionTree.GetEvolutionTree(tree);
             return et.GetValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<DexLevel[]> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)

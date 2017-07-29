@@ -18,7 +18,7 @@ namespace PKHeX.Core
         private IEncounterable EncounterMatch => Info.EncounterMatch;
         private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
         private Type MatchedType; // Child class if applicable (WC6, PGF, etc)
-        private string EncounterName => Legal.GetEncounterTypeName(EncounterOriginalGB ?? EncounterMatch) + $" ({SpeciesStrings[EncounterMatch.Species]})";
+        private string EncounterName => (EncounterOriginalGB ?? EncounterMatch).GetEncounterTypeName() + $" ({SpeciesStrings[EncounterMatch.Species]})";
         private CheckResult Encounter, History;
 
         public bool Parsed { get; }

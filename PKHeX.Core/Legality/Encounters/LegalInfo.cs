@@ -41,6 +41,11 @@ namespace PKHeX.Core
         private DexLevel[][] _evochains;
         private IEncounterable _match;
         public PIDIV PIDIV { get; set; }
+
+        /// <summary>
+        /// Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/>.
+        /// </summary>
+        /// <remarks>This boolean is true until all valid PIDIV encounters are tested, at which time it is false.</remarks>
         public bool PIDIVMatches { get; set; } = true;
 
         public LegalInfo(PKM pk)

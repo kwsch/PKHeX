@@ -27,5 +27,6 @@
             }
             return encounter.IsWithinRange(pkm.CurrentLevel);
         }
+        internal static string GetEncounterTypeName(this IEncounterable Encounter) => Encounter?.Name ?? "Unknown";
     }
 }
