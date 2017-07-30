@@ -17,8 +17,7 @@ namespace PKHeX.Core
         private IEncounterable EncounterOriginalGB;
         private IEncounterable EncounterMatch => Info.EncounterMatch;
         private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
-        private Type MatchedType; // Child class if applicable (WC6, PGF, etc)
-        private string EncounterName => (EncounterOriginalGB ?? EncounterMatch).GetEncounterTypeName() + $" ({SpeciesStrings[EncounterMatch.Species]})";
+        private string EncounterName => $"{(EncounterOriginalGB ?? EncounterMatch).GetEncounterTypeName()} ({SpeciesStrings[EncounterMatch.Species]})";
         private CheckResult Encounter, History;
 
         public bool Parsed { get; }
@@ -213,43 +212,14 @@ namespace PKHeX.Core
         {
             if (pkm.Format == 1)
             {
-                if (!Legal.AllowGen1Tradeback)
-                {
-                    pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
-                    ((PK1)pkm).CatchRateIsItem = false;
-                    return;
-                }
-
-                // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pkm's evolution chain.
-                var catch_rate = ((PK1)pkm).Catch_Rate;
-
-                // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-                var Lineage = Legal.GetLineage(pkm).Where(s => !Legal.Species_NotAvailable_CatchRate.Contains(s)).ToList();
-                // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
-                var RGBCatchRate = Lineage.Any(s => catch_rate == PersonalTable.RB[s].CatchRate);
-                var YCatchRate = Lineage.Any(s => s != 149 && catch_rate == PersonalTable.Y[s].CatchRate);
-                // Krabby encounter trade special catch rate
-                var TradeCatchRate = ((pkm.Species == 098 || pkm.Species == 099) && catch_rate == 204);
-                var StadiumCatchRate = Legal.Stadium_GiftSpecies.Contains(pkm.Species) && Legal.Stadium_CatchRate.Contains(catch_rate);
-                bool matchAny = RGBCatchRate || YCatchRate || TradeCatchRate || StadiumCatchRate;
-
-                // If the catch rate value has been modified, the item has either been removed or swapped in Generation 2.
-                var HeldItemCatchRate = catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate);
-                if (HeldItemCatchRate && !matchAny)
-                    pkm.TradebackStatus = TradebackType.WasTradeback;
-                else if (!HeldItemCatchRate && matchAny)
-                    pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
-                else
-                    pkm.TradebackStatus = TradebackType.Any;
-
-
-                // Update the editing settings for the PKM to acknowledge the tradeback status if the species is changed.
-                ((PK1)pkm).CatchRateIsItem = !pkm.Gen1_NotTradeback && HeldItemCatchRate && !matchAny;
+                Legal.GetTradebackStatusRBY(pkm);
+                return;
             }
-            else if (pkm.Format == 2 || pkm.VC2)
+
+            if (pkm.Format == 2 || pkm.VC2)
             {
-                // Eggs, pokemon with non-empty Crystal met location, and generation 2 species without generation 1 preevolutions can't be traded to generation 1.
-                if (pkm.IsEgg || pkm.HasOriginalMetLocation || (pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species)))
+                // check for impossible tradeback scenarios
+                if (pkm.IsEgg || pkm.HasOriginalMetLocation || pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species))
                     pkm.TradebackStatus = TradebackType.Gen2_NotTradeback;
                 else
                     pkm.TradebackStatus = TradebackType.Any;
@@ -279,7 +249,7 @@ namespace PKHeX.Core
                 // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
                 pkm.TradebackStatus = TradebackType.WasTradeback;
 
-            MatchedType = Type = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
+            Type = (EncounterOriginalGB ?? EncounterMatch)?.GetType();
             var bt = Type.GetTypeInfo().BaseType;
             if (bt != null && !(bt == typeof(Array) || bt == typeof(object) || bt.GetTypeInfo().IsPrimitive)) // a parent exists
                 Type = bt; // use base type

@@ -3,15 +3,30 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Verify Evolution Information for a matched <see cref="IEncounterable"/>
+    /// </summary>
     public static class EvolutionVerifier
     {
-        // Evolutions
+        /// <summary>
+        /// Verifies Evolution scenarios of an <see cref="IEncounterable"/> for an input <see cref="PKM"/> and relevant <see cref="LegalInfo"/>.
+        /// </summary>
+        /// <param name="pkm">Source data to verify</param>
+        /// <param name="info">Source supporting information to verify with</param>
+        /// <returns></returns>
         public static CheckResult VerifyEvolution(PKM pkm, LegalInfo info)
         {
             return IsValidEvolution(pkm, info) 
                 ? new CheckResult(CheckIdentifier.Evolution) 
                 : new CheckResult(Severity.Invalid, V86, CheckIdentifier.Evolution);
         }
+
+        /// <summary>
+        /// Checks if the Evolution from the source <see cref="IEncounterable"/> is valid.
+        /// </summary>
+        /// <param name="pkm">Source data to verify</param>
+        /// <param name="info">Source supporting information to verify with</param>
+        /// <returns>Evolution is valid or not</returns>
         private static bool IsValidEvolution(PKM pkm, LegalInfo info)
         {
             int species = pkm.Species;

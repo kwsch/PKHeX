@@ -13,8 +13,12 @@ namespace PKHeX.Core
         {
             MarkG5DreamWorld(BW_DreamWorld);
             MarkG5DreamWorld(B2W2_DreamWorld);
-            StaticB = StaticW = Encounter_BW.Concat(BW_DreamWorld).ToArray();
-            StaticB2 = StaticW2 = Encounter_B2W2.Concat(B2W2_DreamWorld).ToArray();
+            var staticbw = Encounter_BW.Concat(BW_DreamWorld).ToArray();
+            var staticb2w2 = Encounter_BW.Concat(BW_DreamWorld).ToArray();
+            StaticB = GetStaticEncounters(staticbw, GameVersion.B);
+            StaticW = GetStaticEncounters(staticbw, GameVersion.W);
+            StaticB2 = GetStaticEncounters(staticb2w2, GameVersion.B2);
+            StaticW2 = GetStaticEncounters(staticb2w2, GameVersion.W2);
 
             var BSlots = GetEncounterTables(GameVersion.B);
             var WSlots = GetEncounterTables(GameVersion.W);

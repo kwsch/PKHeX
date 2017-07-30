@@ -9,8 +9,10 @@ namespace PKHeX.Core
 
         static Encounters6()
         {
-            StaticX = StaticY = Encounter_XY;
-            StaticA = StaticO = Encounter_AO;
+            StaticX = GetStaticEncounters(Encounter_XY, GameVersion.X);
+            StaticY = GetStaticEncounters(Encounter_XY, GameVersion.Y);
+            StaticA = GetStaticEncounters(Encounter_AO, GameVersion.AS);
+            StaticO = GetStaticEncounters(Encounter_AO, GameVersion.OR);
 
             var XSlots = GetEncounterTables(GameVersion.X);
             var YSlots = GetEncounterTables(GameVersion.Y);

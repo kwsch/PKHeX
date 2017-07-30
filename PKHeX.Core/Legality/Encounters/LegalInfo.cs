@@ -11,7 +11,7 @@ namespace PKHeX.Core
         /// <summary>The generation of games the PKM originated from.</summary>
         public int Generation { get; set; }
 
-        /// <summary> The Game the PPKM originated from.</summary>
+        /// <summary> The Game the PKM originated from.</summary>
         public GameVersion Game { get; set; }
 
         /// <summary>The matched Encounter details for the <see cref="PKM"/>. </summary>

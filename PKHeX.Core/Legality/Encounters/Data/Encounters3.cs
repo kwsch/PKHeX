@@ -15,11 +15,11 @@ namespace PKHeX.Core
 
         static Encounters3()
         {
-            StaticR = Encounter_RSE;
-            StaticS = Encounter_RSE;
-            StaticE = Encounter_RSE;
-            StaticFR = Encounter_FRLG;
-            StaticLG = Encounter_FRLG;
+            StaticR = GetStaticEncounters(Encounter_RSE, GameVersion.R);
+            StaticS = GetStaticEncounters(Encounter_RSE, GameVersion.S);
+            StaticE = GetStaticEncounters(Encounter_RSE, GameVersion.E);
+            StaticFR = GetStaticEncounters(Encounter_FRLG, GameVersion.FR);
+            StaticLG = GetStaticEncounters(Encounter_FRLG, GameVersion.LG);
 
             EncounterArea[] get(string resource, string ident) 
                 => EncounterArea.GetArray3(Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));

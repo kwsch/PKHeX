@@ -3,11 +3,31 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Miscellaneous setup utility for legality checking <see cref="IEncounterable"/> data sources.
+    /// </summary>
     internal static class EncounterUtil
     {
-        internal static EncounterArea[] GetEncounterTables(GameVersion Game)
+        /// <summary>
+        /// Gets the relevant <see cref="EncounterStatic"/> objects that appear in the relevant game.
+        /// </summary>
+        /// <param name="source">Table of valid encounters that appear for the game pairing</param>
+        /// <param name="game">Game to filter for</param>
+        /// <returns>Array of encounter objects that are encounterable on the input game</returns>
+        internal static EncounterStatic[] GetStaticEncounters(IEnumerable<EncounterStatic> source, GameVersion game)
         {
-            switch (Game)
+            return source.Where(s => s.Version.Contains(game)).ToArray();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="EncounterArea"/> data for the input game via the program's resource streams.
+        /// </summary>
+        /// <param name="game">Game to fetch for</param>
+        /// <remarks> <see cref="EncounterSlot.SlotNumber"/> data is not marked, as the RNG seed is 64 bits (permitting sufficient randomness).</remarks>
+        /// <returns>Array of areas that are encounterable on the input game.</returns>
+        internal static EncounterArea[] GetEncounterTables(GameVersion game)
+        {
+            switch (game)
             {
                 case GameVersion.B:  return GetEncounterTables("51", "b");
                 case GameVersion.W:  return GetEncounterTables("51", "w");
@@ -23,12 +43,23 @@ namespace PKHeX.Core
             return null; // bad request
         }
 
+        /// <summary>
+        /// Direct fetch for <see cref="EncounterArea"/> data; can also be used to fetch supplementary encounter streams.
+        /// </summary>
+        /// <param name="ident">Unpacking identification ASCII characters (first two bytes of binary)</param>
+        /// <param name="resource">Resource name (will be prefixed with "encounter_"</param>
+        /// <returns>Array of encounter areas</returns>
         internal static EncounterArea[] GetEncounterTables(string ident, string resource)
         {
             byte[] mini = Util.GetBinaryResource($"encounter_{resource}.pkl");
             return EncounterArea.GetArray(Data.UnpackMini(mini, ident));
         }
 
+        /// <summary>
+        /// Combines <see cref="EncounterArea"/> slot arrays with the same <see cref="EncounterArea.Location"/>.
+        /// </summary>
+        /// <param name="tables">Input encounter areas to combine</param>
+        /// <returns>Combined Array of encounter areas. No duplicate location IDs will be present.</returns>
         internal static EncounterArea[] AddExtraTableSlots(params EncounterArea[][] tables)
         {
             return tables.SelectMany(s => s).GroupBy(l => l.Location)
@@ -38,6 +69,12 @@ namespace PKHeX.Core
                 .ToArray();
         }
 
+        /// <summary>
+        /// Marks Encounter Slots for party lead's ability slot influencing.
+        /// </summary>
+        /// <remarks>Magnet Pull attracts Steel type slots, and Static attracts Electric</remarks>
+        /// <param name="Areas">Encounter Area array for game</param>
+        /// <param name="t">Personal data for use with a given species' type</param>
         internal static void MarkEncountersStaticMagnetPull(ref EncounterArea[] Areas, PersonalTable t)
         {
             const int steel = 8;
@@ -67,19 +104,37 @@ namespace PKHeX.Core
             }
         }
 
-        internal static void MarkEncountersGeneration(EncounterStatic[] Encounters, int Generation)
+        /// <summary>
+        /// Sets the <see cref="EncounterStatic.Generation"/> value, for use in determining split-generation origins.
+        /// </summary>
+        /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
+        /// <param name="Encounters">Ingame encounter data</param>
+        /// <param name="Generation">Generation number to set</param>
+        internal static void MarkEncountersGeneration(IEnumerable<EncounterStatic> Encounters, int Generation)
         {
             foreach (EncounterStatic Encounter in Encounters)
                 Encounter.Generation = Generation;
         }
 
-        internal static void MarkEncountersVersion(EncounterArea[] Areas, GameVersion Version)
+        /// <summary>
+        /// Sets the <see cref="EncounterSlot1.Version"/> value, for use in determining split-generation origins.
+        /// </summary>
+        /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
+        /// <param name="Areas">Ingame encounter data</param>
+        /// <param name="Version">Version ID to set</param>
+        internal static void MarkEncountersVersion(IEnumerable<EncounterArea> Areas, GameVersion Version)
         {
             foreach (EncounterArea Area in Areas)
             foreach (var Slot in Area.Slots.OfType<EncounterSlot1>())
                 Slot.Version = Version;
         }
 
+        /// <summary>
+        /// Sets the <see cref="EncounterStatic.Generation"/> value, for use in determining split-generation origins.
+        /// </summary>
+        /// <remarks>Only used for Gen 1 & 2, as <see cref="PKM.Version"/> data is not present.</remarks>
+        /// <param name="Areas">Ingame encounter data</param>
+        /// <param name="Generation">Generation number to set</param>
         internal static void MarkEncountersGeneration(IEnumerable<EncounterArea> Areas, int Generation)
         {
             foreach (EncounterArea Area in Areas)
@@ -87,9 +142,13 @@ namespace PKHeX.Core
                 Slot.Generation = Generation;
         }
 
+        /// <summary>
+        /// Groups areas by location id, raw data has areas with different slots but the same location id.
+        /// </summary>
+        /// <remarks>Similar to <see cref="AddExtraTableSlots"/>, this method combines a single array.</remarks>
+        /// <param name="Areas">Ingame encounter data</param>
         internal static void ReduceAreasSize(ref EncounterArea[] Areas)
         {
-            // Group areas by location id, the raw data have areas with different slots but the same location id
             Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
             {
                 Location = a.First().Location,
@@ -97,15 +156,16 @@ namespace PKHeX.Core
             }).ToArray();
         }
 
+        /// <summary>
+        /// Sets the <see cref="EncounterArea.Location"/> to the <see cref="EncounterSlot.Location"/> for identifying where the slot is encountered.
+        /// </summary>
+        /// <remarks>Some games / transferred <see cref="PKM"/> data do not contain original encounter location IDs; is mainly for info purposes.</remarks>
+        /// <param name="Areas">Ingame encounter data</param>
         internal static void MarkSlotLocation(ref EncounterArea[] Areas)
         {
             foreach (EncounterArea Area in Areas)
-            {
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.Location = Area.Location;
-                }
-            }
+            foreach (EncounterSlot Slot in Area.Slots)
+                Slot.Location = Area.Location;
         }
     }
 }

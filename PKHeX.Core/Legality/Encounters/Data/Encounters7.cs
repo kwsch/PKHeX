@@ -10,7 +10,9 @@ namespace PKHeX.Core
 
         static Encounters7()
         {
-            StaticSN = StaticMN = Encounter_SM;
+            StaticSN = GetStaticEncounters(Encounter_SM, GameVersion.SN);
+            StaticMN = GetStaticEncounters(Encounter_SM, GameVersion.MN);
+
             var REG_SN = GetEncounterTables(GameVersion.SN);
             var REG_MN = GetEncounterTables(GameVersion.MN);
             var SOS_SN = GetEncounterTables("sm", "sn_sos");

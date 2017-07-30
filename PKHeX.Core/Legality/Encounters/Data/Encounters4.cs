@@ -12,8 +12,12 @@ namespace PKHeX.Core
         static Encounters4()
         {
             MarkG4PokeWalker(Encounter_PokeWalker);
-            StaticD = StaticP = StaticPt = Encounter_DPPt;
-            StaticHG = StaticSS = Encounter_HGSS.Concat(Encounter_PokeWalker).ToArray();
+            StaticD = GetStaticEncounters(Encounter_DPPt, GameVersion.B);
+            StaticP = GetStaticEncounters(Encounter_DPPt, GameVersion.W);
+            StaticPt = GetStaticEncounters(Encounter_DPPt, GameVersion.Pt);
+            var staticHGSS = Encounter_HGSS.Concat(Encounter_PokeWalker).ToArray();
+            StaticHG = GetStaticEncounters(staticHGSS, GameVersion.HG);
+            StaticSS = GetStaticEncounters(staticHGSS, GameVersion.SS);
 
             byte[][] get(string resource, string ident)
                 => Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
