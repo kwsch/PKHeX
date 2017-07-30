@@ -172,7 +172,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 448, Level = 32, Location = 60, Ability = 1, Nature = Nature.Hasty, Gender = 0, IVs = new[] {6, 25, 16, 31, 25, 19}, Gift = true, Shiny = false }, // Lucario
             new EncounterStatic { Species = 131, Level = 30, Location = 62, Nature = Nature.Docile, IVs = new[] {31, 20, 20, 20, 20, 20}, Gift = true }, // Lapras
             
-            new EncounterStatic { Species = 143, Level = 15, Location = 38 }, // Snorlax
+            new EncounterStatic { Species = 143, Level = 15, Location = 038, Shiny = false, }, // Snorlax
             new EncounterStatic { Species = 568, Level = 35, Location = 142 }, // Trubbish
             new EncounterStatic { Species = 569, Level = 36, Location = 142 }, // Garbodor
             new EncounterStatic { Species = 569, Level = 37, Location = 142 }, // Garbodor
@@ -190,15 +190,15 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 354, Level = 49, Location = 98 }, // Banette
             new EncounterStatic { Species = 354, Level = 50, Location = 98 }, // Banette
             
-            new EncounterStatic { Species = 716, Level = 50, Location = 138, Version = GameVersion.X, Shiny = false, IV3 = true }, // Xerneas
-            new EncounterStatic { Species = 717, Level = 50, Location = 138, Version = GameVersion.Y, Shiny = false, IV3 = true }, // Yveltal
-            new EncounterStatic { Species = 718, Level = 70, Location = 140, Shiny = false, IV3 = true }, // Zygarde
+            new EncounterStatic { Species = 716, Level = 50, Location = 138, Ability = 1, Version = GameVersion.X, Shiny = false, IV3 = true }, // Xerneas
+            new EncounterStatic { Species = 717, Level = 50, Location = 138, Ability = 1, Version = GameVersion.Y, Shiny = false, IV3 = true }, // Yveltal
+            new EncounterStatic { Species = 718, Level = 70, Location = 140, Ability = 1, Shiny = false, IV3 = true }, // Zygarde
             
-            new EncounterStatic { Species = 150, Level = 70, Location = 168, Shiny = false, IV3 = true }, // Mewtwo
+            new EncounterStatic { Species = 150, Level = 70, Location = 168, Ability = 1, Shiny = false, IV3 = true }, // Mewtwo
 
-            new EncounterStatic { Species = 144, Level = 70, Location = 146, Shiny = false, IV3 = true }, // Articuno
-            new EncounterStatic { Species = 145, Level = 70, Location = 146, Shiny = false, IV3 = true }, // Zapdos
-            new EncounterStatic { Species = 146, Level = 70, Location = 146, Shiny = false, IV3 = true }, // Moltres
+            new EncounterStatic { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = false, IV3 = true }, // Articuno
+            new EncounterStatic { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = false, IV3 = true }, // Zapdos
+            new EncounterStatic { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = false, IV3 = true }, // Moltres
         };
         private static readonly EncounterStatic[] Encounter_AO =
         {

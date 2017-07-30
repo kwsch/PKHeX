@@ -26,8 +26,8 @@ Menu_Exit = 退出
 --
 Menu_Tools = 工具
 Menu_Showdown = Showdown
-Menu_ShowdownImportPKM = 从剪贴板导入组合
-Menu_ShowdownExportPKM = 导出组合到剪贴板
+Menu_ShowdownImportPKM = 从剪贴板导入宝可梦
+Menu_ShowdownExportPKM = 导出宝可梦到剪贴板
 Menu_ShowdownExportParty = 导出同行队伍到剪贴板
 Menu_ShowdownExportBattleBox = 导出战斗盒子到剪贴板
 Menu_Data = 数据
@@ -43,7 +43,7 @@ Menu_Options = 设置
 Menu_Language = 语言
 Menu_Modify = 对SAV的设置
 Menu_ModifyDex = 修改图鉴
-Menu_ModifyPKM = 修改PKM信息
+Menu_ModifyPKM = 修改宝可梦
 Menu_Unicode = Unicode
 Menu_About = 关于PKHeX
 --------------------Context Menus----------------------
@@ -117,14 +117,14 @@ Label_Sheen = 光泽
 Tab_Attacks = 招式
 GB_CurrentMoves = 招式
 Label_CurPP = PP
-Label_PPups = PP上升数
+Label_PPups = PP提升
 GB_RelearnMoves = 回忆招式
 -------------------OT/Misc Tab Data---------------------
 Tab_OTMisc = 初训家/杂项
-GB_OT = 相关信息
+GB_OT = 初训家信息
 Label_TID = 表ID
 Label_SID = 里ID
-Label_OT = OT
+Label_OT = 名字
 GB_nOT = 最近持有人（非初训家）
 Label_PrevOT = 名字
 GB_ExtraBytes = 额外字节
@@ -147,7 +147,7 @@ B_OUTPasserby = 路人
 B_OpenBoxLayout = 盒子布局
 B_OpenWondercards = 神秘礼物
 B_OpenSuperTraining = 超级训练
-B_OpenHallofFame = 殿堂
+B_OpenHallofFame = 名人堂
 B_OpenOPowers =  O-Power
 B_OpenEventFlags = 事件旗标
 B_OpenPokedex = 宝可梦图鉴
@@ -161,9 +161,9 @@ B_CGearSkin = C装置皮肤
 L_Party = 同行
 L_BattleBox = 战斗箱
 L_ReadOnlyPBB = 只读
-GB_Daycare = 饲育屋
+GB_Daycare = 寄放屋
 GB_GTS = GTS
-GB_Fused = Fused
+GB_Fused = 合体
 GB_SUBE = SUBE
 DayCare_HasEgg = 拥有蛋
 L_DaycareSeed = Seed
@@ -180,10 +180,10 @@ L_Secure2 = Secure Value 2:
 ! RibbonEditor = Ribbon Editor
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
-BTN_All = 获得全部
-BTN_None = 全部清除
-BTN_Cancel = 取消
-BTN_Save = 保存
+B_All = 获得全部
+B_None = 全部清除
+B_Cancel = 取消
+B_Save = 保存
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
 ! SuperTrainingEditor = Medal Editor
@@ -241,10 +241,10 @@ L_Handler = 现在的主人:
 -
 Tab_OTMemory = 与初训家的回忆
 L_OT_Friendship = 亲密度:
-L_OT_Affection = 牵绊度:
+L_OT_Affection = 友好度:
 Tab_CTMemory = 与持有人的回忆
 L_CT_Friendship = 亲密度:
-L_cT_Affection = 牵绊度:
+L_cT_Affection = 友好度:
 Tab_Residence = 居住地
 --
 L_Country = 国家
@@ -255,7 +255,7 @@ L_Geo2 = 故居2:
 L_Geo3 = 故居3:
 L_Geo4 = 故居4:
 --
-L_Arguments = 关闭 ; 从未离开 ; 原主人 ; 前作 ; 回忆 ; 宝可梦 ; 地区 ; 道具 ; 移动 ; 位置 ;
+L_Arguments = 关闭 ; 从未离开 ; 初训家 ; 前代 ; 回忆 ; 宝可梦 ; 地区 ; 道具 ; 移动 ; 位置 ;
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION. 
@@ -277,7 +277,7 @@ L_Yellow = 黄色宝可方块:
 L_Rainbow = 彩虹宝可方块:
 L_Red = 红色宝可方块+:
 L_Blue = 蓝色宝可方块+:
-L_Pink = 粉色宝可方块 +:
+L_Pink = 粉色宝可方块+:
 L_Green = 绿色宝可方块+:
 L_Yellow = 黄色宝可方块+:
 L_Rainbow = 彩虹宝可方块+:
@@ -294,8 +294,8 @@ B_Save = 保存
 TAB_Main = 主界面
 TAB_PKM = 宝可梦
 TAB_Items = 道具
-L_BP = 战斗点数BP:
-L_Pokemiles: 宝可梦里程
+L_BP = 对战点数:
+L_Pokemiles = 宝可里程:
 CHK_LinkAvailable = 宝可梦连接开启
 B_Import = 导入
 B_Export = 导出
@@ -673,8 +673,8 @@ L_DEF = 防御
 L_SpA = 特攻
 L_SpD = 特防
 L_SPE = 速度
-L_PKFriendship = 友谊:
-L_PPUps = PP上升
+L_PKFriendship = 亲密度:
+L_PPUps = PP提升
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
@@ -718,16 +718,16 @@ L_SuperC = 超级
 L_NormalC = 普通
 L_MultiC = 多人:
 L_RotationC = 轮盘:
-L_TriplesC = 3v3:
-L_DoublesC = 2v2:
+L_TriplesC = 三打:
+L_DoublesC = 双打:
 L_SinglesC = 单打:
 GB_MaisonBest = 对战宅第连胜数 (最佳)
 L_SuperB = 超级
 L_NormalB = 普通
 L_MultiB = 多人:
 L_RotationB = 轮盘:
-L_TriplesB = 3v3:
-L_DoublesB = 2v2:
+L_TriplesB = 三打:
+L_DoublesB = 双打:
 L_SinglesB = 单打:
 B_Save = 保存
 L_Stats = 统计
@@ -749,11 +749,11 @@ L_Seconds = 秒:
 L_Minutes = 分:
 L_Hours = 时:
 L_Started = 游戏已进行:
-L_Fame = 进入殿堂:
+L_Fame = 登入名人堂:
 L_LastSaved = 上一次保存:
 -
-L_PM = 宝可梦里程:
-L_BP = BP:
+L_PM = 宝可里程:
+L_BP = 对战点数:
 L_Style = 风格:
 L_Value = 值
 L_Offset = (偏移)
