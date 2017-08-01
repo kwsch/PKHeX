@@ -243,7 +243,7 @@ namespace PKHeX.Core
             // if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm))
             { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
+            if (ctr != 0 && pkm.HasOriginalMetLocation) yield break; // EncounterTrade abra/gengar will match wild slots
             foreach (var z in GetValidEncounterTrades(pkm))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;

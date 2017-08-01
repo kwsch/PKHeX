@@ -1237,7 +1237,7 @@ namespace PKHeX.Core
             new EncounterSlot { Species = 406, LevelMin = 40, LevelMax = 40, Type = SlotType.Grass_Safari }, // Budew
             new EncounterSlot { Species = 443, LevelMin = 44, LevelMax = 44, Type = SlotType.Grass_Safari }, // Gible
         };
-        private static EncounterSlot[] SAFARIZONE_WASTELAND =
+        private static readonly EncounterSlot[] SAFARIZONE_WASTELAND =
         {
             new EncounterSlot { Species = 022, LevelMin = 15, LevelMax = 17, Type = SlotType.Grass_Safari }, // Fearow
             new EncounterSlot { Species = 055, LevelMin = 45, LevelMax = 45, Type = SlotType.Grass_Safari }, // Golduck
@@ -1339,6 +1339,7 @@ namespace PKHeX.Core
         };
         private static readonly EncounterArea[] SlotsHGSSAlt =
         {
+            SlotsHGSS_BCC,
             new EncounterArea {
                 Location = 209, // Ruins of Alph
                 Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file

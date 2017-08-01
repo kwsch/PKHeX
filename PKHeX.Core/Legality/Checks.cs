@@ -1989,7 +1989,11 @@ namespace PKHeX.Core
                 return;
 
             if (pkm.Format < 4)
-                return;
+                return; // no forms exist
+
+            int count = pkm.PersonalInfo.FormeCount;
+            if (count == 1 && pkm.AltForm == 0)
+                return; // no forms to check
 
             if (pkm.AltForm > pkm.PersonalInfo.FormeCount)
             {

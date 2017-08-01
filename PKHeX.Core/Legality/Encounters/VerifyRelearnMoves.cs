@@ -90,7 +90,7 @@ namespace PKHeX.Core
 
             // Obtain level1 moves
             var baseMoves = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 1);
-            int baseCt = Math.Max(4, baseMoves.Length);
+            int baseCt = Math.Min(4, baseMoves.Length);
 
             // Obtain Inherited moves
             var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, inheritLvlMoves).ToList();
