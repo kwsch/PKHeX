@@ -440,7 +440,7 @@ namespace PKHeX.Core
         {
             var str = new StringBuilder();
             foreach (var val in inputstr)
-                str.Append(Getg7zhChar(val));
+                str.Append((char)Getg7zhChar(val));
             return str.ToString();
         }
 
