@@ -12,8 +12,8 @@ namespace PKHeX.Core
         static Encounters4()
         {
             MarkG4PokeWalker(Encounter_PokeWalker);
-            StaticD = GetStaticEncounters(Encounter_DPPt, GameVersion.B);
-            StaticP = GetStaticEncounters(Encounter_DPPt, GameVersion.W);
+            StaticD = GetStaticEncounters(Encounter_DPPt, GameVersion.D);
+            StaticP = GetStaticEncounters(Encounter_DPPt, GameVersion.P);
             StaticPt = GetStaticEncounters(Encounter_DPPt, GameVersion.Pt);
             var staticHGSS = Encounter_HGSS.Concat(Encounter_PokeWalker).ToArray();
             StaticHG = GetStaticEncounters(staticHGSS, GameVersion.HG);
