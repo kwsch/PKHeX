@@ -60,10 +60,10 @@ namespace PKHeX.Core
         }
         public override string CardTitle
         {
-            get => PKX.GetString4(Data, 0x104, 0x48);
+            get => StringConverter.GetString4(Data, 0x104, 0x48);
             set
             {
-                byte[] data = PKX.SetString4(value, 0x48/2-1, 0x48/2, 0xFFFF);
+                byte[] data = StringConverter.SetString4(value, 0x48/2-1, 0x48/2, 0xFFFF);
                 int len = data.Length;
                 Array.Resize(ref data, 0x48);
                 for (int i = 0; i < len; i++)

@@ -1312,12 +1312,12 @@ namespace PKHeX.Core
 
         public override bool RequiresMemeCrypto => true;
 
-        public override string GetString(int Offset, int Count) => PKX.GetString7(Data, Offset, Count);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.SetString7(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetString7(value, maxLength, PadToSize, PadWith);
         }
     }
 }

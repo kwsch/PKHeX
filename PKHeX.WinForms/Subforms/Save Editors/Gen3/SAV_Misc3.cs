@@ -34,9 +34,9 @@ namespace PKHeX.WinForms
 
             if (SAV.FRLG)
             {
-                TB_OTName.Text = PKX.GetString3(SAV.Data, SAV.GetBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
-                ComboBox[] cba = new[] { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
-                int[] HoennListMixed = new[] {
+                TB_OTName.Text = StringConverter.GetString3(SAV.Data, SAV.GetBlockOffset(4) + 0xBCC, 8, SAV.Japanese);
+                ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
+                int[] HoennListMixed = {
                      277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
                  304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
                                          322,355,382,383,384,356,357,337,338,353,354,386,387,363,367,368,330,331,313,314,

@@ -24,8 +24,8 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new PK3(Data); }
 
-        public override string GetString(int Offset, int Count) => PKX.GetString3(Data, Offset, Count, Japanese);
-        public override byte[] SetString(string value, int maxLength) => PKX.SetString3(value, maxLength, Japanese);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
+        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x08, 10); set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }
@@ -56,8 +56,8 @@ namespace PKHeX.Core
         public override ushort Sanity { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1E); }
 
         #region Block A
-        public override int Species { get => PKX.GetG4Species(BitConverter.ToUInt16(Data, 0x20)); set => BitConverter.GetBytes((ushort)PKX.GetG3Species(value)).CopyTo(Data, 0x20); }
-        public override int SpriteItem => PKX.GetG4Item((ushort)HeldItem);
+        public override int Species { get => SpeciesConverter.GetG4Species(BitConverter.ToUInt16(Data, 0x20)); set => BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x20); }
+        public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
 
         public override uint EXP { get => BitConverter.ToUInt32(Data, 0x24); set => BitConverter.GetBytes(value).CopyTo(Data, 0x24); }
@@ -273,7 +273,7 @@ namespace PKHeX.Core
             pk4.RibbonG3ToughMaster   |= RibbonCountG3Tough > 3;
 
             // Yay for reusing string buffers!
-            PKX.G4TransferTrashBytes[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
+            StringConverter.G4TransferTrashBytes[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
             pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, pk4.Format) : Nickname;
             Array.Copy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
             pk4.OT_Name = OT_Name;
@@ -288,8 +288,8 @@ namespace PKHeX.Core
 
             if (HeldItem > 0)
             {
-                ushort item = PKX.GetG4Item((ushort)HeldItem);
-                if (PKX.IsItemTransferrable34(item))
+                ushort item = ItemConverter.GetG4Item((ushort)HeldItem);
+                if (ItemConverter.IsItemTransferrable34(item))
                     pk4.HeldItem = item;
             }
 

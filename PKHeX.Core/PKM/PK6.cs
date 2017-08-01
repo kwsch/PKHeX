@@ -25,8 +25,8 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new PK6(Data); }
 
-        public override string GetString(int Offset, int Count) => PKX.GetString6(Data, Offset, Count);
-        public override byte[] SetString(string value, int maxLength) => PKX.SetString6(value, maxLength);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString6(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }

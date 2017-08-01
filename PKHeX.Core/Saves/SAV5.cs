@@ -448,7 +448,7 @@ namespace PKHeX.Core
         {
             if (box >= BoxCount)
                 return "";
-            return PKX.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + 0x28 * box + 4, 0x28));
+            return StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, PCLayout + 0x28 * box + 4, 0x28));
         }
         public override void SetBoxName(int box, string val)
         {
@@ -696,12 +696,12 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override string GetString(int Offset, int Count) => PKX.GetString5(Data, Offset, Count);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.SetString5(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetString5(value, maxLength, PadToSize, PadWith);
         }
     }
 }

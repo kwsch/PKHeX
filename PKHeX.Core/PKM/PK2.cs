@@ -21,8 +21,8 @@ namespace PKHeX.Core
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
 
-        public override string GetString(int Offset, int Count) => PKX.GetString1(Data, Offset, Count, Japanese);
-        public override byte[] SetString(string value, int maxLength) => PKX.SetString1(value, maxLength, Japanese);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
+        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength, Japanese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }
@@ -64,7 +64,7 @@ namespace PKHeX.Core
         }
         public override string Nickname
         {
-            get => PKX.GetString1(nick, 0, nick.Length, Japanese);
+            get => StringConverter.GetString1(nick, 0, nick.Length, Japanese);
             set
             {
                 byte[] strdata = SetString(value, StringLength);
@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => PKX.GetString1(otname, 0, otname.Length, Japanese);
+            get => StringConverter.GetString1(otname, 0, otname.Length, Japanese);
             set
             {
                 byte[] strdata = SetString(value, StringLength);
@@ -134,7 +134,7 @@ namespace PKHeX.Core
             get => Data[0];
             set => Data[0] = (byte)value;
         }
-        public override int SpriteItem => PKX.GetG4Item((byte)HeldItem);
+        public override int SpriteItem => ItemConverter.GetG4Item((byte)HeldItem);
         public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
         public override int Move1 { get => Data[2]; set => Data[2] = (byte)value; }
         public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
@@ -396,7 +396,7 @@ namespace PKHeX.Core
                 Move4_PP = Move4_PP,
                 Met_Location = 30004,
                 Gender = PersonalTable.SM[Species].RandomGender,
-                OT_Name = PKX.GetG1ConvertedString(otname, Japanese),
+                OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
 
                 Country = PKMConverter.Country,
@@ -412,7 +412,7 @@ namespace PKHeX.Core
             pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
             if (otname[0] == 0x5D) // Ingame Trade
             {
-                var s = PKX.GetG1Char(0x5D, Japanese);
+                var s = StringConverter.GetG1Char(0x5D, Japanese);
                 pk7.OT_Name = s.Substring(0, 1) + s.Substring(1).ToLower();
             }
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
@@ -440,7 +440,7 @@ namespace PKHeX.Core
             else if (IsNicknamed)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = PKX.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = StringConverter.GetG1ConvertedString(nick, Japanese);
             }
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm

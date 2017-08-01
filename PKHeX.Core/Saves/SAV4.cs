@@ -1121,12 +1121,12 @@ namespace PKHeX.Core
             }
         }
         
-        public override string GetString(int Offset, int Count) => PKX.GetString4(Data, Offset, Count);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.SetString4(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetString4(value, maxLength, PadToSize, PadWith);
         }
     }
 }

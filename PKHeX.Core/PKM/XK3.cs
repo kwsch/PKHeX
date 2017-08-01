@@ -25,8 +25,8 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new XK3(Data) {Purification = Purification}; }
 
-        public override string GetString(int Offset, int Count) => PKX.GetBEString3(Data, Offset, Count);
-        public override byte[] SetString(string value, int maxLength) => PKX.SetBEString3(value, maxLength);
+        public override string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x4E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x4E); } }
@@ -50,8 +50,8 @@ namespace PKHeX.Core
         public override ushort Checksum { get => SaveUtil.CRC16_CCITT(Data); set { } } // totally false, just a way to get a 'random' ident for the pkm.
         public override bool ChecksumValid => Valid;
 
-        public override int Species { get => PKX.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)PKX.GetG3Species(value)).CopyTo(Data, 0x00); }
-        public override int SpriteItem => PKX.GetG4Item((ushort)HeldItem);
+        public override int Species { get => SpeciesConverter.GetG4Species(BigEndian.ToUInt16(Data, 0x00)); set => BigEndian.GetBytes((ushort)SpeciesConverter.GetG3Species(value)).CopyTo(Data, 0x00); }
+        public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x02); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x04); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x04); }
         public override int OT_Friendship { get => Data[0x06]; set => Data[0x06] = (byte)value; }

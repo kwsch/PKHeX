@@ -393,12 +393,12 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { }
 
-        public override string GetString(int Offset, int Count) => PKX.GetBEString3(Data, Offset, Count);
+        public override string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.SetBEString3(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetBEString3(value, maxLength, PadToSize, PadWith);
         }
     }
 }

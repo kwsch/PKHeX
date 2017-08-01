@@ -54,11 +54,11 @@ namespace PKHeX.Core
                 get
                 {
                     int val = BigEndian.ToUInt16(Data, 0) & 0x1FF;
-                    return PKX.GetG4Species(val);
+                    return SpeciesConverter.GetG4Species(val);
                 }
                 set
                 {
-                    value = PKX.GetG3Species(value);
+                    value = SpeciesConverter.GetG3Species(value);
                     int cval = BigEndian.ToUInt16(Data, 0);
                     cval &= 0xE00; value &= 0x1FF; cval |= value;
                     BigEndian.GetBytes((ushort)cval).CopyTo(Data, 0);

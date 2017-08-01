@@ -1033,12 +1033,12 @@ namespace PKHeX.Core
                 $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
         }
 
-        public override string GetString(int Offset, int Count) => PKX.GetString6(Data, Offset, Count);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return PKX.SetString6(value, maxLength, PadToSize, PadWith);
+            return StringConverter.SetString6(value, maxLength, PadToSize, PadWith);
         }
     }
 }

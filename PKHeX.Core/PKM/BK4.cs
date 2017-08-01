@@ -33,8 +33,8 @@ namespace PKHeX.Core
         }
         public override PKM Clone() { return new BK4(Encrypt()); }
 
-        public override string GetString(int Offset, int Count) => PKX.GetBEString4(Data, Offset, Count);
-        public override byte[] SetString(string value, int maxLength) => PKX.SetBEString4(value, maxLength);
+        public override string GetString(int Offset, int Count) => StringConverter.GetBEString4(Data, Offset, Count);
+        public override byte[] SetString(string value, int maxLength) => StringConverter.SetBEString4(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x48, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x48); } }

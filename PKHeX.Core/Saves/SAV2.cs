@@ -496,7 +496,7 @@ namespace PKHeX.Core
         }
         public override string GetBoxName(int box)
         {
-            return PKX.GetString1(Data, BoxNamesOffset + box*9, 9, Japanese);
+            return StringConverter.GetString1(Data, BoxNamesOffset + box*9, 9, Japanese);
         }
         public override void SetBoxName(int box, string value)
         {
@@ -584,7 +584,7 @@ namespace PKHeX.Core
             return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
         }
 
-        public override string GetString(int Offset, int Count) => PKX.GetString1(Data, Offset, Count, Japanese);
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => PKX.SetString1(value, maxLength, Japanese);
+        public override string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => StringConverter.SetString1(value, maxLength, Japanese);
     }
 }

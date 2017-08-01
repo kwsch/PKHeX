@@ -305,7 +305,7 @@ namespace PKHeX.Core
         {
             int method = BitConverter.ToUInt16(data, offset + 0);
             int arg =  BitConverter.ToUInt16(data, offset + 2);
-            int species = PKX.GetG4Species(BitConverter.ToUInt16(data, offset + 4));
+            int species = SpeciesConverter.GetG4Species(BitConverter.ToUInt16(data, offset + 4));
             //2 bytes padding
 
             switch (method)
@@ -338,7 +338,7 @@ namespace PKHeX.Core
             evos[0] = new EvolutionSet3 { PossibleEvolutions = new EvolutionMethod[0] };
             for (int i = 0; i <= Legal.MaxSpeciesIndex_3; i++)
             {
-                int g4species = PKX.GetG4Species(i);
+                int g4species = SpeciesConverter.GetG4Species(i);
                 if (g4species == 0)
                     continue;
                 
