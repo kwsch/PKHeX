@@ -1,5 +1,6 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary> Identification flair for what properties a <see cref="CheckResult"/> pertains to </summary>
     internal enum CheckIdentifier
     {
         /// <summary>

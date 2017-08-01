@@ -70,7 +70,6 @@ namespace PKHeX.Core
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
-            info.RelearnBase = new int[4];
 
             // No relearn moves should be present.
             for (int i = 0; i < 4; i++)
@@ -78,64 +77,70 @@ namespace PKHeX.Core
                     ? new CheckResult(Severity.Invalid, V184, CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
 
+            info.RelearnBase = new int[4];
             return res;
         }
         private static CheckResult[] VerifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
         {
             int[] RelearnMoves = pkm.RelearnMoves;
-            info.RelearnBase = new int[4];
             CheckResult[] res = new CheckResult[4];
-            // Level up moves could not be inherited if Ditto is parent, 
+            // Level up moves cannot be inherited if Ditto is the parent
             // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
-            var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
+            bool inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
 
             // Obtain level1 moves
-            List<int> baseMoves = new List<int>(Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 1));
-            int baseCt = baseMoves.Count;
-            if (baseCt > 4) baseCt = 4;
+            var baseMoves = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 1);
+            int baseCt = Math.Max(4, baseMoves.Length);
 
             // Obtain Inherited moves
             var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, inheritLvlMoves).ToList();
-            var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
-            int inheritCt = inherited.Count;
-
-
-            // Get required amount of base moves
-            int unique = baseMoves.Concat(inherited).Distinct().Count();
-            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
-            if (RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
-                reqBase = Math.Min(4, unique);
+            int reqBase = GetRequiredBaseMoves(RelearnMoves, baseMoves, baseCt, inheritMoves);
 
             // Check if the required amount of Base Egg Moves are present.
-            for (int i = 0; i < reqBase; i++)
-            {
-                if (baseMoves.Contains(RelearnMoves[i]))
-                    res[i] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
-                else
-                {
-                    // mark remaining base egg moves missing
-                    for (int z = i; z < reqBase; z++)
-                        res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
-
-                    // provide the list of suggested base moves for the last required slot
-                    string em = string.Join(", ", baseMoves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]));
-                    res[reqBase - 1].Comment += string.Format(Environment.NewLine + V181, em);
-                    break;
-                }
-            }
+            FlagBaseEggMoves(res, reqBase, baseMoves, RelearnMoves);
 
             // Non-Base moves that can magically appear in the regular movepool
             if (Legal.LightBall.Contains(pkm.Species))
-                inheritMoves.Add(344);
-
-            // Begin verification of moves
+                inheritMoves.Add(344); // Volt Tackle
 
             // If any splitbreed moves are invalid, flag accordingly
-            var splitInvalid = false;
             var splitMoves = e.SplitBreed ? Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), inheritLvlMoves).ToList() : new List<int>();
 
             // Inherited moves appear after the required base moves.
-            for (int i = reqBase; i < 4; i++)
+            // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.
+            bool splitInvalid = FlagInvalidInheritedMoves(res, reqBase, e, RelearnMoves, inheritMoves, splitMoves);
+            if (splitInvalid)
+                FlagSplitbreedMoves(res, reqBase, e, pkm);
+
+            info.RelearnBase = baseMoves;
+            return res;
+        }
+
+        private static void FlagBaseEggMoves(CheckResult[] res, int required, IReadOnlyList<int> baseMoves, IReadOnlyList<int> RelearnMoves)
+        {
+            for (int i = 0; i < required; i++)
+            {
+                if (!baseMoves.Contains(RelearnMoves[i]))
+                {
+                    FlagRelearnMovesMissing(res, required, baseMoves, i);
+                    return;
+                }
+                res[i] = new CheckResult(Severity.Valid, V179, CheckIdentifier.RelearnMove);
+            }
+        }
+        private static void FlagRelearnMovesMissing(CheckResult[] res, int required, IReadOnlyList<int> baseMoves, int start)
+        {
+            for (int z = start; z < required; z++)
+                res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
+
+            // provide the list of suggested base moves for the last required slot
+            string em = string.Join(", ", baseMoves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]));
+            res[required - 1].Comment += string.Format(Environment.NewLine + V181, em);
+        }
+        private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, EncounterEgg e, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)
+        {
+            bool splitInvalid = false;
+            for (int i = required; i < 4; i++)
             {
                 if (RelearnMoves[i] == 0) // empty
                     res[i] = new CheckResult(Severity.Valid, V167, CheckIdentifier.RelearnMove);
@@ -147,20 +152,32 @@ namespace PKHeX.Core
                     res[i] = new CheckResult(Severity.Invalid, V182, CheckIdentifier.RelearnMove);
             }
 
-            if (splitInvalid)
+            return splitInvalid;
+        }
+        private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEgg e, PKM pkm)
+        {
+            var splitSpecies = Legal.GetBaseEggSpecies(pkm, e.SplitBreed ? 0 : 1);
+            for (int i = required; i < 4; i++)
             {
-                var splitSpecies = Legal.GetBaseEggSpecies(pkm);
-                for (int i = reqBase; i < 4; i++)
-                {
-                    if (inheritMoves.Contains(RelearnMoves[i]) && !splitMoves.Contains(RelearnMoves[i]))
-                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, SpeciesStrings[splitSpecies], SpeciesStrings[e.Species]), CheckIdentifier.RelearnMove);
-                    if (!inheritMoves.Contains(RelearnMoves[i]) && splitMoves.Contains(RelearnMoves[i]))
-                        res[i] = new CheckResult(Severity.Invalid, string.Format(V379, SpeciesStrings[e.Species], SpeciesStrings[splitSpecies]), CheckIdentifier.RelearnMove);
-                }
-            }
+                if (res[i] != null)
+                    continue;
 
-            info.RelearnBase = baseMoves.ToArray();
-            return res;
+                string message = string.Format(V379, SpeciesStrings[splitSpecies], SpeciesStrings[e.Species]);
+                res[i] = new CheckResult(Severity.Invalid, message, CheckIdentifier.RelearnMove);
+            }
+        }
+
+        private static int GetRequiredBaseMoves(int[] RelearnMoves, IReadOnlyList<int> baseMoves, int baseCt, IReadOnlyList<int> inheritMoves)
+        {
+            var inherited = RelearnMoves.Where(m => m != 0 && (!baseMoves.Contains(m) || inheritMoves.Contains(m))).ToList();
+            int inheritCt = inherited.Count;
+
+            // Get required amount of base moves
+            int unique = baseMoves.Concat(inherited).Distinct().Count();
+            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
+            if (RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
+                reqBase = Math.Min(4, unique);
+            return reqBase;
         }
     }
 }

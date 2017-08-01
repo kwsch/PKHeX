@@ -128,7 +128,7 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMovesWasEggPreRelearn(PKM pkm, int[] Moves, LegalInfo info, EncounterEgg e)
         {
-            var EventEggMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
+            var EventEggMoves = GetSpecialMoves(info.EncounterMatch);
             // Level up moves could not be inherited if Ditto is parent, 
             // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
             var inheritLvlMoves = pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
@@ -167,10 +167,10 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg && info.EncounterMatch is EncounterEgg egg)
             {
-                int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves;
+                int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
                 // Gift do not have special moves but also should not have normal egg moves
                 var allowinherited = SpecialMoves == null && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
-                return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves ?? new int[0], allowinherited, egg);
+                return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves, allowinherited, egg);
             }
             var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder;
             if (pkm.GenNumber <= 2 && NoMoveReminder)
@@ -188,7 +188,7 @@ namespace PKHeX.Core
             if (G1Encounter == null)
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = new int[0];
-            int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
+            int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
             var emptyegg = new int[0];
             foreach (GameVersion ver in games)
             {
@@ -229,7 +229,7 @@ namespace PKHeX.Core
             var NonTradebackLvlMoves = TradebackPreevo ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray() : new int[0];
             
             int[] RelearnMoves = pkm.RelearnMoves;
-            int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
+            int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
 
             CheckMoveResult[] res = ParseMoves(pkm, Moves, SpecialMoves, new int[0], EggMoves, NonTradebackLvlMoves, new int[0], new int[0], info);
 
@@ -286,7 +286,7 @@ namespace PKHeX.Core
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
-                    if (res[m]?.Valid ?? false)
+                    if (res[m]?.Valid ?? false) // already validated with another generation
                         continue;
                     if (moves[m] == 0)
                         continue;

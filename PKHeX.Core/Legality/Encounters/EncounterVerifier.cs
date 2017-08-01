@@ -6,26 +6,43 @@ namespace PKHeX.Core
 {
     public static class EncounterVerifier
     {
+        /// <summary>
+        /// Gets the method to verify the <see cref="IEncounterable"/> data.
+        /// </summary>
+        /// <param name="pkm">Source data to verify</param>
+        /// <returns>Returns the verification method appropriate for the input PKM</returns>
+        public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
+        {
+            switch (pkm.GenNumber)
+            {
+                case 1:
+                case 2:
+                    return VerifyEncounterG12;
+                default:
+                    return VerifyEncounter;
+            }
+        }
+
         private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
         {
-            var encounter = info.EncounterMatch;
-            if (encounter is EncounterEgg e)
+            switch (info.EncounterMatch)
             {
-                pkm.WasEgg = true;
-                return VerifyEncounterEgg(pkm, e);
+                case EncounterEgg e:
+                    pkm.WasEgg = true;
+                    return VerifyEncounterEgg(pkm, e);
+                case EncounterLink l:
+                    return VerifyEncounterLink(pkm, l);
+                case EncounterTrade t:
+                    return VerifyEncounterTrade(pkm, t);
+                case EncounterSlot w:
+                    return VerifyEncounterWild(pkm, w);
+                case EncounterStatic s:
+                    return VerifyEncounterStatic(pkm, s);
+                case MysteryGift g:
+                    return VerifyEncounterEvent(pkm, g);
+                default:
+                    return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
             }
-            if (encounter is EncounterLink l)
-                return VerifyEncounterLink(pkm, l);
-            if (encounter is EncounterTrade t)
-                return VerifyEncounterTrade(pkm, t);
-            if (encounter is EncounterSlot w)
-                return VerifyEncounterWild(pkm, info, w);
-            if (encounter is EncounterStatic s)
-                return VerifyEncounterStatic(pkm, s, null);
-            if (encounter is MysteryGift g)
-                return VerifyEncounterEvent(pkm, g);
-
-            return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
         private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
         {
@@ -43,17 +60,24 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
             }
             if (EncounterMatch is EncounterStatic s)
-                return VerifyEncounterStatic(pkm, s, null);
+                return VerifyEncounterStatic(pkm, s);
             if (EncounterMatch is EncounterTrade t)
                 return VerifyEncounterTrade(pkm, t);
 
             return new CheckResult(Severity.Invalid, V80, CheckIdentifier.Encounter);
         }
+
+        // Gen2 Wild Encounters
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot1 encounter)
         {
-            if (encounter.Type == SlotType.Old_Rod_Safari || encounter.Type == SlotType.Good_Rod_Safari || encounter.Type == SlotType.Super_Rod_Safari)
+            switch (encounter.Type)
+            {
                 // Fishing in the beta gen 2 Safari Zone
-                return new CheckResult(Severity.Invalid, V609, CheckIdentifier.Encounter);
+                case SlotType.Old_Rod_Safari:
+                case SlotType.Good_Rod_Safari:
+                case SlotType.Super_Rod_Safari:
+                    return new CheckResult(Severity.Invalid, V609, CheckIdentifier.Encounter);
+            }
 
             if (encounter.Version == GameVersion.C)
                 return VerifyWildEncounterCrystal(pkm, encounter);
@@ -62,18 +86,23 @@ namespace PKHeX.Core
         }
         private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot1 encounter)
         {
-            if(encounter.Type == SlotType.Headbutt || encounter.Type == SlotType.Headbutt_Special)
+            switch (encounter.Type)
             {
-                return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
-            }
-            if (encounter.Type == SlotType.Old_Rod || encounter.Type == SlotType.Good_Rod || encounter.Type == SlotType.Super_Rod)
-            {
-                if (encounter.Location == 19)
-                    // Fishing in National Park
-                    return new CheckResult(Severity.Invalid, V607, CheckIdentifier.Encounter);
-                if (encounter.Location == 76)
-                    // Fishing in Route 14
-                    return new CheckResult(Severity.Invalid, V608, CheckIdentifier.Encounter);
+                case SlotType.Headbutt:
+                case SlotType.Headbutt_Special:
+                    return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
+
+                case SlotType.Old_Rod:
+                case SlotType.Good_Rod:
+                case SlotType.Super_Rod:
+                    switch (encounter.Location)
+                    {
+                        case 19: // National Park
+                            return new CheckResult(Severity.Invalid, V608, CheckIdentifier.Encounter);
+                        case 76: // Route 14
+                            return new CheckResult(Severity.Invalid, V607, CheckIdentifier.Encounter);
+                    }
+                    break;
             }
 
             return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
@@ -81,30 +110,19 @@ namespace PKHeX.Core
         private static CheckResult VerifyWildEncounterCrystalHeadbutt(PKM pkm, EncounterSlot1 encounter)
         {
             var Area = Legal.GetCrystalTreeArea(encounter);
-            if (Area == null)  // Failsafe, every area with headbutt encounters have a tree area
+            if (Area == null)  // Failsafe, every area with headbutt encounters has a tree area
                 return new CheckResult(Severity.Invalid, V605, CheckIdentifier.Encounter);
+
+            var table = Area.GetTrees(encounter.Type);
             var trainerpivot = pkm.TID % 10;
-            var availabletree = encounter.Type == SlotType.Headbutt ? Area.TrainerModerateEncounterTree[trainerpivot] : Area.TrainerLowEncounterTree[trainerpivot];
-            switch (availabletree)
+            switch (table[trainerpivot])
             {
                 case TreeEncounterAvailable.ValidTree:
                     return new CheckResult(Severity.Valid, V604, CheckIdentifier.Encounter);
                 case TreeEncounterAvailable.InvalidTree:
-                    return new CheckResult(Severity.Invalid, V604, CheckIdentifier.Encounter);
-                default: //reeEncounterAvailable.Impossible
                     return new CheckResult(Severity.Invalid, V605, CheckIdentifier.Encounter);
-            }
-        }
-
-        public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
-        {
-            switch (pkm.GenNumber)
-            {
-                case 1:
-                case 2:
-                    return VerifyEncounterG12;
-                default:
-                    return VerifyEncounter;
+                default: // Impossible
+                    return new CheckResult(Severity.Invalid, V606, CheckIdentifier.Encounter);
             }
         }
 
@@ -228,17 +246,14 @@ namespace PKHeX.Core
         }
 
         // Other
-        private static CheckResult VerifyEncounterWild(PKM pkm, LegalInfo info, EncounterSlot slot)
+        private static CheckResult VerifyEncounterWild(PKM pkm, EncounterSlot slot)
         {
             // Check for Unreleased Encounters / Collisions
             switch (pkm.GenNumber)
             {
                 case 4:
-                    if (slot.Location == 193 && slot.Type == SlotType.Surf)
-                    {
-                        // Pokemon surfing in Johto Route 45
+                    if (slot.Location == 193 && slot.Type == SlotType.Surf) // surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
-                    }
                     break;
             }
 
@@ -264,7 +279,7 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Valid, V73, CheckIdentifier.Encounter);
         }
-        private static CheckResult VerifyEncounterStatic(PKM pkm, EncounterStatic s, CheckResult[] vRelearn)
+        private static CheckResult VerifyEncounterStatic(PKM pkm, EncounterStatic s)
         {
             // Check for Unreleased Encounters / Collisions
             switch (pkm.GenNumber)

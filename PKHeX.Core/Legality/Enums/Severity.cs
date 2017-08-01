@@ -2,6 +2,12 @@
 
 namespace PKHeX.Core
 {
+    /// <summary> Severity indication of the associated <see cref="CheckResult"/> </summary>
+    /// <remarks>
+    /// Severity &gt;= <see cref="Valid"/> is green
+    /// Severity == <see cref="Fishy"/> is yellow
+    /// Severity &lt;= <see cref="Invalid"/> is red
+    /// </remarks>
     public enum Severity
     {
         Indeterminate = -2,
