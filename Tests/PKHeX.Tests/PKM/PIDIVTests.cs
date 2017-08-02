@@ -144,10 +144,16 @@ namespace PKHeX.Tests.PKM
         {
             var pkPW = new[]
             {
-                new PK4 { Species = 025, PID = 0x34000089, TID = 20790, SID = 39664}, // Pikachu
-                //new PK4 { Species = 025, PID = 0x7DFFFF60, TID = 30859, SID = 63760}, // Pikachu
-                //new PK4 { Species = 025, PID = 0x7DFFFF65, TID = 30859, SID = 63760}, // Pikachu
-                //new PK4 { Species = 025, PID = 0x7E000003, TID = 30859, SID = 63760}, // Pikachu
+                new PK4 { Species = 025, PID = 0x34000089, TID = 20790, SID = 39664, Gender = 0}, // Pikachu
+                new PK4 { Species = 025, PID = 0x7DFFFF60, TID = 30859, SID = 63760, Gender = 1}, // Pikachu
+                new PK4 { Species = 025, PID = 0x7DFFFF65, TID = 30859, SID = 63760, Gender = 1}, // Pikachu
+                new PK4 { Species = 025, PID = 0x7E000003, TID = 30859, SID = 63760, Gender = 1}, // Pikachu
+                
+                new PK4 { Species = 025, PID = 0x2100008F, TID = 31526, SID = 42406, Gender = 0}, // Pikachu
+                new PK4 { Species = 025, PID = 0x71FFFF5A, TID = 49017, SID = 12807, Gender = 1}, // Pikachu
+                new PK4 { Species = 025, PID = 0xC0000001, TID = 17398, SID = 31936, Gender = 1}, // Pikachu
+                new PK4 { Species = 025, PID = 0x2FFFFF5E, TID = 27008, SID = 42726, Gender = 1}, // Pikachu
+                new PK4 { Species = 025, PID = 0x59FFFFFE, TID = 51223, SID = 28044, Gender = 0}, // Pikachu
             };
             foreach (var pk in pkPW)
                 Assert.AreEqual(PIDType.Pokewalker, MethodFinder.Analyze(pk)?.Type, "Unable to match PID to Pokewalker method");

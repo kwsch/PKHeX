@@ -421,22 +421,32 @@ namespace PKHeX.Core
             }
 
             uint pid = (uint)((pk.TID ^ pk.SID) >> 8 ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
+            // Ensure nature is set to required nature without affecting shininess
             pid += nature - pid % 25;
-            uint gv = 0;
-            switch (pk.Gender)
+
+            // Ensure Gender is set to required gender without affecting other properties
+            // If Gender is modified, modify the ability if appropriate
+            int currentGender = pk.Gender;
+            if (currentGender != 2) // either m/f
             {
-                case 0: // Male
-                    var gr = pk.PersonalInfo.Gender + 1;
-                    gv = (uint) (((gr - (pid & 0xFF)) / 25 + 1) * 25); // Ensures gender is set to male without affecting nature.
-                    break;
-                case 1: // Female
-                    var gr2 = pk.PersonalInfo.Gender;
-                    gv = (uint) ((((pid & 0xFF) - gr2) / 25 + 1) * 25); // Ensures gender is set to female without affecting nature
-                    break;
+                var gr = pk.PersonalInfo.Gender;
+                var pidGender = (pid & 0xFF) < gr ? 1 : 0;
+                if (currentGender != pidGender)
+                {
+                    if (currentGender == 0) // Male
+                    {
+                        pid += (uint) (((gr - (pid & 0xFF)) / 25 + 1) * 25);
+                        if ((nature & 1) != (pid & 1))
+                            pid += 25;
+                    }
+                    else
+                    {
+                        pid -= (uint) ((((pid & 0xFF) - gr) / 25 + 1) * 25);
+                        if ((nature & 1) != (pid & 1))
+                            pid -= 25;
+                    }
+                }
             }
-            pid += gv;
-            if ((nature & 1) != (pid & 1)) // If ability does not match the chosen ability
-                pid -= 25; // Switches ability without affecting nature
 
             if (pid == oldpid)
             {
