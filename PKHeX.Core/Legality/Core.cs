@@ -1471,17 +1471,19 @@ namespace PKHeX.Core
 
             int minindex = Math.Max(0, Array.FindIndex(vs, p => p.Species == minspec));
             Array.Resize(ref vs, minindex + 1);
-            if (vs.Last().MinLevel > 1) // Last entry from vs is removed, turn next entry into the wild/hatched pokemon
+            var last = vs.Last();
+            if (last.MinLevel > 1) // Last entry from vs is removed, turn next entry into the wild/hatched pokemon
             {
-                vs.Last().MinLevel = 1;
-                vs.Last().RequiresLvlUp = false;
-                if (vs.First().MinLevel == 2 && !vs.First().RequiresLvlUp)
+                last.MinLevel = 1;
+                last.RequiresLvlUp = false;
+                var first = vs.First();
+                if (first.MinLevel == 2 && !first.RequiresLvlUp)
                 {
                     // Example Raichu in gen 2 or later, 
                     // because Pichu requires level up Minimum level of Raichu would be 2
                     // but after removing Pichu because the origin species is Pikachu, Raichu min level should be 1
-                    vs.First().MinLevel = 1;
-                    vs.First().RequiresLvlUp = false;
+                    first.MinLevel = 1;
+                    first.RequiresLvlUp = false;
                 }
             }
             // Maxspec is used to remove future gen evolutions, to gather evolution chain of a pokemon in previous generations
@@ -1496,27 +1498,21 @@ namespace PKHeX.Core
         }
         private static IEnumerable<int> GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum)
         {
-            List<int> moves = new List<int>();
-            switch (pkm.GenNumber)
+            // A pkm can only have levelup relearn moves from the game it originated on
+            // eg Plusle/Minun have Charm/Fake Tears (respectively) only in OR/AS, not X/Y
+            switch (pkm.Version)
             {
-                case 6:
-                    if (pkm.InhabitedGeneration(6))
-                    {
-                        int ind_XY = PersonalTable.XY.GetFormeIndex(species, formnum);
-                        moves.AddRange(LevelUpXY[ind_XY].GetMoves(lvl));
-                        int ind_AO = PersonalTable.AO.GetFormeIndex(species, formnum);
-                        moves.AddRange(LevelUpAO[ind_AO].GetMoves(lvl));
-                    }
-                    break;
-                case 7:
-                    if (pkm.InhabitedGeneration(7))
-                    {
-                        int ind_SM = PersonalTable.SM.GetFormeIndex(species, formnum);
-                        moves.AddRange(LevelUpSM[ind_SM].GetMoves(lvl));
-                    }
-                    break;
+                case (int)GameVersion.X: case (int)GameVersion.Y:
+                    return getMoves(LevelUpXY, PersonalTable.XY);
+                case (int)GameVersion.AS: case (int)GameVersion.OR:
+                    return getMoves(LevelUpAO, PersonalTable.AO);
+
+                case (int)GameVersion.SN: case (int)GameVersion.MN:
+                    return getMoves(LevelUpSM, PersonalTable.SM);
             }
-            return moves;
+            return new int[0];
+
+            int[] getMoves(Learnset[] moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
         }
         internal static IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, bool skipChecks = false)
         {
@@ -1848,9 +1844,6 @@ namespace PKHeX.Core
                         }
                     }
                     break;
-
-                default:
-                    return r;
             }
             return r;
         }
@@ -1887,7 +1880,14 @@ namespace PKHeX.Core
                 case 5:
                     return EggMovesBW[species].Moves;
                 case 6: // entries per species
-                    return EggMovesAO[species].Moves.Concat(EggMovesXY[species].Moves).ToArray();
+                    switch (pkm.Version)
+                    {
+                        case (int)GameVersion.OR:
+                        case (int)GameVersion.AS:
+                            return EggMovesAO[species].Moves;
+                        default:
+                            return EggMovesXY[species].Moves;
+                    }
 
                 case 7: // entries per form if required
                     var entry = EggMovesSM[species];
