@@ -52,10 +52,10 @@ namespace PKHeX.Core
                         forms[806], // Mega Y
                     };
                 case 025:
-                    return GetFormsPikachu(generation, forms, types);
+                    return GetFormsPikachu(generation, types, forms);
 
                 default:
-                    return GetFormsAlolan(generation, forms, types, species);
+                    return GetFormsAlolan(generation, types, forms, species);
             }
         }
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
