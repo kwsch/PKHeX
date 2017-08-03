@@ -467,26 +467,16 @@ namespace PKHeX.Core
         {
             uint cmp = a << 16;
             uint x = b << 16;
-            for (uint i = 0; i <= 0xFFFF; i++)
-            {
-                var seed = x | i;
-                if ((method.Next(seed) & 0xFFFF0000) == cmp)
-                    yield return method.Prev(seed);
-            }
+            return method.RecoverLower16Bits(x, cmp);
         }
         private static IEnumerable<uint> GetSeedsFromIVs(RNG method, uint a, uint b)
         {
             uint cmp = a << 16 & 0x7FFF0000;
             uint x = b << 16 & 0x7FFF0000;
-            for (uint i = 0; i <= 0xFFFF; i++)
-            {
-                var seed = x | i;
-                if ((method.Next(seed) & 0x7FFF0000) != cmp)
-                    continue;
-                var prev = method.Prev(seed);
-                yield return prev;
-                yield return prev ^ 0x80000000;
-            }
+            return method.RecoverLower16Bits(x ^ 0x00000000, cmp ^ 0x00000000).Concat(
+            method.RecoverLower16Bits(x ^ 0x80000000, cmp ^ 0x00000000).Concat(
+            method.RecoverLower16Bits(x ^ 0x00000000, cmp ^ 0x80000000).Concat(
+            method.RecoverLower16Bits(x ^ 0x80000000, cmp ^ 0x80000000))));
         }
 
         /// <summary>
