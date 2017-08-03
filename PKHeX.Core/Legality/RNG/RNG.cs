@@ -37,8 +37,9 @@ namespace PKHeX.Core
                 flags[val] = true;
                 low8[val] = (byte)i;
 
-                // when calculating the left side, sometimes the low bits might not carry 
-                // (something not considered in loop's calc?)
+                // the second rand() also has 16 bits that aren't known. It is a 16 bit value added to either side.
+                // to consider these bits and their impact, they can at most increment/decrement the result by 1.
+                // with the current calc setup, the search loop's calculated value may be -1 (loop does subtraction)
                 // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
                 // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
                 --val;
