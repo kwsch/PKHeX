@@ -37,12 +37,14 @@ namespace PKHeX.Core
                 flags[val] = true;
                 low8[val] = (byte)i;
 
-                // when calculating the left side, sometimes the low bits might not carry (not considered in calc)
-                // since LCGs are linear, there are no collisions if we mark the next adjacent with the prior val
-                // we do this now so that the search only has to access the array once per loop.
-                ++val;
+                // when calculating the left side, sometimes the low bits might not carry 
+                // (something not considered in loop's calc?)
+                // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
+                // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
+                --val;
                 flags[val] = true;
                 low8[val] = (byte)i;
+                // now the search only has to access the flags array once per loop.
             }
         }
 
