@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -465,18 +466,39 @@ namespace PKHeX.Core
 
         private static IEnumerable<uint> GetSeedsFromPID(RNG method, uint a, uint b)
         {
-            uint cmp = a << 16;
-            uint x = b << 16;
-            return method.RecoverLower16Bits(x, cmp);
+            Debug.Assert(a >> 16 == 0);
+            Debug.Assert(b >> 16 == 0);
+            uint second = a << 16;
+            uint first = b << 16;
+            return method.RecoverLower16Bits(first, second);
         }
         private static IEnumerable<uint> GetSeedsFromIVs(RNG method, uint a, uint b)
         {
-            uint cmp = a << 16 & 0x7FFF0000;
-            uint x = b << 16 & 0x7FFF0000;
-            return method.RecoverLower16Bits(x ^ 0x00000000, cmp ^ 0x00000000).Concat(
-            method.RecoverLower16Bits(x ^ 0x80000000, cmp ^ 0x00000000).Concat(
-            method.RecoverLower16Bits(x ^ 0x00000000, cmp ^ 0x80000000).Concat(
-            method.RecoverLower16Bits(x ^ 0x80000000, cmp ^ 0x80000000))));
+            Debug.Assert(a >> 15 == 0);
+            Debug.Assert(b >> 15 == 0);
+            uint second = a << 16;
+            uint first = b << 16;
+            var pairs = method.RecoverLower16Bits(first, second)
+                .Concat(method.RecoverLower16Bits(first, second ^ 0x80000000));
+            foreach (var z in pairs)
+            {
+                yield return z;
+                yield return z ^ 0x80000000; // sister bitflip
+            }
+        }
+        public static IEnumerable<uint> GetSeedsFromIVsSkip(RNG method, uint rand1, uint rand3)
+        {
+            Debug.Assert(rand1 >> 15 == 0);
+            Debug.Assert(rand3 >> 15 == 0);
+            rand1 <<= 16;
+            rand3 <<= 16;
+            var seeds = method.RecoverLower16BitsGap(rand1, rand3)
+                .Concat(method.RecoverLower16BitsGap(rand1, rand3 ^ 0x80000000));
+            foreach (var z in seeds)
+            {
+                yield return z;
+                yield return z ^ 0x80000000; // sister bitflip
+            }
         }
 
         /// <summary>

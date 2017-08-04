@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using PKHeX.Core;
 
@@ -197,6 +198,27 @@ namespace PKHeX.Tests.PKM
                 // pk.Version = (int)GameVersion.S;
                 // var results = FrameFinder.GetFrames(pidiv, pk);
             }
+        }
+
+        [TestMethod]
+        [TestCategory(PIDIVTestCategory)]
+        public void PIDIVMethod4IVs()
+        {
+            // 17	19	20	18	3	2
+            var pk4 = new PK3 { PID = 0xFEE73213, IVs = new[] { 03, 29, 23, 30, 28, 24 } };
+            Assert.AreEqual(PIDType.Method_4, MethodFinder.Analyze(pk4)?.Type, "Unable to match PID to Method 4 spread");
+
+            // See if any origin seed for the IVs matches what we expect
+            // Load the IVs
+            uint rand1 = 0; // HP/ATK/DEF
+            uint rand3 = 0; // SPE/SPA/SPD
+            var IVs = pk4.IVs;
+            for (int i = 0; i < 3; i++)
+            {
+                rand1 |= (uint)IVs[i] << (5 * i);
+                rand3 |= (uint)IVs[i+3] << (5 * i);
+            }
+            Assert.IsTrue(MethodFinder.GetSeedsFromIVsSkip(RNG.LCRNG, rand1, rand3).Any(z => z == 0xFEE7047C));
         }
     }
 }

@@ -12,9 +12,15 @@ namespace PKHeX.Core
 
         // Bruteforce cache for searching seeds
         private const int cacheSize = 1 << 16;
-        private readonly uint k2;
+        // 1,2 (no gap)
+        private readonly uint k2; // Mult<<8
         private readonly byte[] low8 = new byte[cacheSize];
         private readonly bool[] flags = new bool[cacheSize];
+        // 1,3 (single gap)
+        private readonly uint k0g; // Mult*Mult
+        private readonly uint k2s; // Mult*Mult<<8
+        private readonly byte[] g_low8 = new byte[cacheSize];
+        private readonly bool[] g_flags = new bool[cacheSize];
 
         private RNG(uint f_mult, uint f_add, uint r_mult, uint r_add)
         {
@@ -25,28 +31,35 @@ namespace PKHeX.Core
 
             // Set up bruteforce utility
             k2 = Mult << 8;
+            k0g = Mult * Mult;
+            k2s = k0g << 8;
             PopulateMeetMiddleArrays();
         }
 
         private void PopulateMeetMiddleArrays()
         {
+            uint k4g = Add * (Mult + 1); // 1,3's multiplier
             for (uint i = 0; i <= byte.MaxValue; i++)
             {
-                uint right = Mult * i;
-                ushort val = (ushort)(right >> 16);
-                flags[val] = true;
-                low8[val] = (byte)i;
-
-                // the second rand() also has 16 bits that aren't known. It is a 16 bit value added to either side.
-                // to consider these bits and their impact, they can at most increment/decrement the result by 1.
-                // with the current calc setup, the search loop's calculated value may be -1 (loop does subtraction)
-                // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
-                // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
-                --val;
-                flags[val] = true;
-                low8[val] = (byte)i;
-                // now the search only has to access the flags array once per loop.
+                SetFlagData(i, Mult, Add, flags, low8); // 1,2
+                SetFlagData(i, k0g,  k4g, g_flags, g_low8); // 1,3
             }
+        }
+
+        private static void SetFlagData(uint i, uint mult, uint add, bool[] f, byte[] v)
+        {
+            // the second rand() also has 16 bits that aren't known. It is a 16 bit value added to either side.
+            // to consider these bits and their impact, they can at most increment/decrement the result by 1.
+            // with the current calc setup, the search loop's calculated value may be -1 (loop does subtraction)
+            // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
+            // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
+            uint right = mult * i + add;
+            ushort val = (ushort) (right >> 16);
+
+            f[val] = true; v[val] = (byte)i;
+            --val;
+            f[val] = true; v[val] = (byte)i;
+            // now the search only has to access the flags array once per loop.
         }
 
         public uint Next(uint seed) => seed * Mult + Add;
@@ -103,12 +116,32 @@ namespace PKHeX.Core
         /// <returns>Possible origin seeds that generate the 2 random numbers</returns>
         internal IEnumerable<uint> RecoverLower16Bits(uint first, uint second)
         {
-            uint k1 = second - (first * Mult + Add);
+            uint k1 = second - first * Mult;
             for (uint i = 0, k3 = k1; i <= 255; ++i, k3 -= k2)
             {
                 ushort val = (ushort)(k3 >> 16);
                 if (flags[val])
                     yield return Prev(first | i << 8 | low8[val]);
+            }
+        }
+        /// <summary>
+        /// Recovers sets of lower 16 bit seeds, then returns the origin seed.
+        /// </summary>
+        /// <param name="first">First rand() call, 16 bits, already shifted left 16 bits.</param>
+        /// <param name="third">Third rand() call, 16 bits, already shifted left 16 bits.</param>
+        /// <remarks>
+        /// Use a meet-in-the-middle attack to reduce the search space to 2^8 instead of 2^16
+        /// flag/2^8 tables are precomputed and constant (unrelated to rand pairs)
+        /// </remarks>
+        /// <returns>Possible origin seeds that generate the 2 random numbers</returns>
+        internal IEnumerable<uint> RecoverLower16BitsGap(uint first, uint third)
+        {
+            uint k1 = third - first * k0g;
+            for (uint i = 0, k3 = k1; i <= 255; ++i, k3 -= k2s)
+            {
+                ushort val = (ushort)(k3 >> 16);
+                if (g_flags[val])
+                    yield return Prev(first | i << 8 | g_low8[val]);
             }
         }
     }
