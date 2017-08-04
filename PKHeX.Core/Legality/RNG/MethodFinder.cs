@@ -615,9 +615,8 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic s:
-                    if (s == Encounters4.SpikyEaredPichu) // nonshiny forced nature, undocumented
-                        return val == PIDType.None;
-                    if (s.Location == 233 && s.Gift)
+                    if (s == Encounters4.SpikyEaredPichu // nonshiny forced nature
+                     || s.Location == 233 && s.Gift) // Pokewalker
                         return val == PIDType.Pokewalker;
                     return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
                 case EncounterSlot sl:
