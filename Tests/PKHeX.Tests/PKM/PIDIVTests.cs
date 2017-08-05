@@ -204,7 +204,6 @@ namespace PKHeX.Tests.PKM
         [TestCategory(PIDIVTestCategory)]
         public void PIDIVMethod4IVs()
         {
-            // 17	19	20	18	3	2
             var pk4 = new PK3 { PID = 0xFEE73213, IVs = new[] { 03, 29, 23, 30, 28, 24 } };
             Assert.AreEqual(PIDType.Method_4, MethodFinder.Analyze(pk4)?.Type, "Unable to match PID to Method 4 spread");
 
@@ -219,6 +218,19 @@ namespace PKHeX.Tests.PKM
                 rand3 |= (uint)IVs[i+3] << (5 * i);
             }
             Assert.IsTrue(MethodFinder.GetSeedsFromIVsSkip(RNG.LCRNG, rand1, rand3).Any(z => z == 0xFEE7047C));
+        }
+
+        [TestMethod]
+        [TestCategory(PIDIVTestCategory)]
+        public void PIDIVSearchEuclid()
+        {
+            const uint seed = 0x2E15555E;
+            const uint rand0 = 0x20AD96A9;
+            const uint rand1 = 0x7E1DBEC8;
+            var pidseeds = MethodFinder.GetSeedsFromPIDEuclid(RNG.XDRNG, rand0 >> 16,            rand1 >> 16);
+            var ivseeds = MethodFinder.GetSeedsFromIVsEuclid(RNG.XDRNG, (rand0 >> 16) & 0x7FFF, (rand1 >> 16) & 0x7FFF);
+            Assert.IsTrue(pidseeds.Any(z => z == seed));
+            Assert.IsTrue(ivseeds.Any(z => z == seed));
         }
     }
 }

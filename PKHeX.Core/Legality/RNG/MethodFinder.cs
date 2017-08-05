@@ -186,7 +186,7 @@ namespace PKHeX.Core
         }
         private static bool GetXDRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            var xdc = GetSeedsFromPID(RNG.XDRNG, bot, top);
+            var xdc = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
             foreach (var seed in xdc)
             {
                 var B = RNG.XDRNG.Prev(seed);
@@ -213,7 +213,7 @@ namespace PKHeX.Core
             var undo = top ^ 0x8000;
             if ((undo > 7 ? 0 : 1) != (bot ^ pk.SID ^ 40122))
                 top = undo;
-            var channel = GetSeedsFromPID(RNG.XDRNG, bot, top);
+            var channel = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
             foreach (var seed in channel)
             {
                 var C = RNG.XDRNG.Advance(seed, 3); // held item
@@ -500,6 +500,14 @@ namespace PKHeX.Core
                 yield return z ^ 0x80000000; // sister bitflip
             }
         }
+        public static IEnumerable<uint> GetSeedsFromPIDEuclid(RNG method, uint rand1, uint rand2)
+        {
+            return method.RecoverLower16BitsEuclid16(rand1 << 16, rand2 << 16);
+        }
+        public static IEnumerable<uint> GetSeedsFromIVsEuclid(RNG method, uint rand1, uint rand2)
+        {
+            return method.RecoverLower16BitsEuclid15(rand1 << 16, rand2 << 16);
+        }
 
         /// <summary>
         /// Generates IVs from 2 RNG calls using 15 bits of each to generate 6 IVs (5bits each).
@@ -547,7 +555,7 @@ namespace PKHeX.Core
             var pid = pkm.PID;
             var top = pid >> 16;
             var bot = pid & 0xFFFF;
-            var seeds = GetSeedsFromPID(RNG.XDRNG, bot, top);
+            var seeds = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
             foreach (var seed in seeds)
             {
                 // check for valid encounter slot info

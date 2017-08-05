@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
@@ -21,6 +22,9 @@ namespace PKHeX.Core
         private readonly uint k2s; // Mult*Mult<<8
         private readonly byte[] g_low8 = new byte[cacheSize];
         private readonly bool[] g_flags = new bool[cacheSize];
+        // Euclidean division approach
+        private readonly long t0; // Add - 0xFFFF
+        private readonly long t1; // 0xFFFF * ((long)Mult + 1)
 
         private RNG(uint f_mult, uint f_add, uint r_mult, uint r_add)
         {
@@ -34,6 +38,8 @@ namespace PKHeX.Core
             k0g = Mult * Mult;
             k2s = k0g << 8;
             PopulateMeetMiddleArrays();
+            t0 = Add - 0xFFFF;
+            t1 = 0xFFFF * ((long) Mult + 1);
         }
 
         private void PopulateMeetMiddleArrays()
@@ -62,15 +68,19 @@ namespace PKHeX.Core
             // now the search only has to access the flags array once per loop.
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Next(uint seed) => seed * Mult + Add;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Prev(uint seed) => seed * rMult + rAdd;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Advance(uint seed, int frames)
         {
             for (int i = 0; i < frames; i++)
                 seed = Next(seed);
             return seed;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Reverse(uint seed, int frames)
         {
             for (int i = 0; i < frames; i++)
@@ -83,6 +93,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="seed">RNG seed</param>
         /// <returns>Array of 6 IVs</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal uint[] GetSequentialIVsUInt32(uint seed)
         {
             uint[] ivs = new uint[6];
@@ -93,6 +104,7 @@ namespace PKHeX.Core
             }
             return ivs;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int[] GetSequentialIVsInt32(uint seed)
         {
             int[] ivs = new int[6];
@@ -105,15 +117,17 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Recovers sets of lower 16 bit seeds, then returns the origin seed.
+        /// Gets the origin seeds for two successive 16 bit rand() calls using a meet-in-the-middle approach.
         /// </summary>
         /// <param name="first">First rand() call, 16 bits, already shifted left 16 bits.</param>
         /// <param name="second">Second rand() call, 16 bits, already shifted left 16 bits.</param>
         /// <remarks>
         /// Use a meet-in-the-middle attack to reduce the search space to 2^8 instead of 2^16
         /// flag/2^8 tables are precomputed and constant (unrelated to rand pairs)
+        /// https://crypto.stackexchange.com/a/10609
         /// </remarks>
         /// <returns>Possible origin seeds that generate the 2 random numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal IEnumerable<uint> RecoverLower16Bits(uint first, uint second)
         {
             uint k1 = second - first * Mult;
@@ -125,15 +139,17 @@ namespace PKHeX.Core
             }
         }
         /// <summary>
-        /// Recovers sets of lower 16 bit seeds, then returns the origin seed.
+        /// Gets the origin seeds for two 16 bit rand() calls (ignoring a rand() in between) using a meet-in-the-middle approach.
         /// </summary>
         /// <param name="first">First rand() call, 16 bits, already shifted left 16 bits.</param>
         /// <param name="third">Third rand() call, 16 bits, already shifted left 16 bits.</param>
         /// <remarks>
         /// Use a meet-in-the-middle attack to reduce the search space to 2^8 instead of 2^16
         /// flag/2^8 tables are precomputed and constant (unrelated to rand pairs)
+        /// https://crypto.stackexchange.com/a/10609
         /// </remarks>
         /// <returns>Possible origin seeds that generate the 2 random numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal IEnumerable<uint> RecoverLower16BitsGap(uint first, uint third)
         {
             uint k1 = third - first * k0g;
@@ -142,6 +158,58 @@ namespace PKHeX.Core
                 ushort val = (ushort)(k3 >> 16);
                 if (g_flags[val])
                     yield return Prev(first | i << 8 | g_low8[val]);
+            }
+        }
+        /// <summary>
+        /// Gets the origin seeds for two successive 16 bit rand() calls using a Euclidean division approach.
+        /// </summary>
+        /// <param name="first">First rand() call, 16 bits, already shifted left 16 bits.</param>
+        /// <param name="second">Second rand() call, 16 bits, already shifted left 16 bits.</param>
+        /// <remarks>
+        /// For favorable multiplier values, this k_max gives a search space less than 2^8 (meet-in-the-middle)
+        /// For the programmed methods in this program, it is only advantageous to use this with <see cref="XDRNG"/>.
+        /// https://crypto.stackexchange.com/a/10629
+        /// </remarks>
+        /// <returns>Possible origin seeds that generate the 2 random numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal IEnumerable<uint> RecoverLower16BitsEuclid16(uint first, uint second)
+        {
+            const int bitshift = 32;
+            const long inc = 0x100000000; // 1 << 32;
+            return GetPossibleSeedsEuclid(first, second, bitshift, inc);
+        }
+        /// <summary>
+        /// Gets the origin seeds for two successive 15 bit rand() calls using a Euclidean division approach.
+        /// </summary>
+        /// <param name="first">First rand() call, 15 bits, already shifted left 16 bits.</param>
+        /// <param name="second">Second rand() call, 15 bits, already shifted left 16 bits.</param>
+        /// <remarks>
+        /// Calculate the quotient of the Euclidean division (k_max) attack to reduce the search space.
+        /// For favorable multiplier values, this k_max gives a search space less than 2^8 (meet-in-the-middle)
+        /// For the programmed methods in this program, it is only advantageous to use this with <see cref="XDRNG"/>.
+        /// https://crypto.stackexchange.com/a/10629
+        /// </remarks>
+        /// <returns>Possible origin seeds that generate the 2 random numbers</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal IEnumerable<uint> RecoverLower16BitsEuclid15(uint first, uint second)
+        {
+            const int bitshift = 31;
+            const long inc = 0x080000000; // 1 << 32;
+            return GetPossibleSeedsEuclid(first, second, bitshift, inc);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private IEnumerable<uint> GetPossibleSeedsEuclid(uint first, uint second, int bitshift, long inc)
+        {
+            long t = second - Mult * first - t0;
+            long kmax = (((t1 - t) >> bitshift) << bitshift) + t;
+            for (long k = t; k <= kmax; k += inc)
+            {
+                // compute modulo in steps for reuse in yielded value (x % Mult)
+                long fix = k / Mult;
+                long remainder = k - Mult * fix;
+                if (remainder >> 16 == 0)
+                    yield return Prev(first | (uint) fix);
             }
         }
     }
