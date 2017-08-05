@@ -519,22 +519,25 @@ namespace PKHeX.Core
             get => Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4];
             set => Data[Version == GameVersion.HGSS ? GetBoxOffset(BoxCount) : Box - 4] = (byte)value;
         }
-        private static int InvertHGSSBoxWallpaperAlias(int value)
+        private static int AdjustWallpaper(int value, int shift)
         {
-            // HG/SS Special Wallpapers 1-8 (Primo Phrases) are shifted by +0x10; swap 0x2_ and 0x1_ by xoring with 0x30
-            if (value >= 0x10)
-                return value ^ 0x30;
+            // Pt's  Special Wallpapers 1-8 are shifted by +0x8
+            // HG/SS Special Wallpapers 1-8 (Primo Phrases) are shifted by +0x10
+            if (value >= 0x10) // special
+                return value + shift;
             return value;
         }
         public override int GetBoxWallpaper(int box)
         {
             int value = base.GetBoxWallpaper(box);
-            return Version == GameVersion.HGSS ? InvertHGSSBoxWallpaperAlias(value) : value;
+            if (Version != GameVersion.DP)
+                value = AdjustWallpaper(value, -(Version == GameVersion.Pt ? 0x8 : 0x10));
+            return value;
         }
         public override void SetBoxWallpaper(int box, int value)
         {
-            if (Version == GameVersion.HGSS)
-                value = InvertHGSSBoxWallpaperAlias(value);
+            if (Version != GameVersion.DP)
+                value = AdjustWallpaper(value, Version == GameVersion.Pt ? 0x8 : 0x10);
             base.SetBoxWallpaper(box, value);
         }
         protected override int GetBoxWallpaperOffset(int box)
