@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
@@ -27,6 +28,9 @@ namespace PKHeX.Core
             var Pt_Slots = EncounterArea.GetArray4DPPt(get("pt", "pt"));
             var HG_Slots = EncounterArea.GetArray4HGSS(get("hg", "hg"));
             var SS_Slots = EncounterArea.GetArray4HGSS(get("ss", "ss"));
+
+            var DP_Feebas = GetFeebasArea(D_Slots[10]);
+            var Pt_Feebas = GetFeebasArea(Pt_Slots[10]);
 
             MarkEncountersStaticMagnetPull(ref D_Slots, PersonalTable.SM);
             MarkEncountersStaticMagnetPull(ref P_Slots, PersonalTable.SM);
@@ -60,9 +64,9 @@ namespace PKHeX.Core
             MarkG4SlotsGreatMarsh(ref P_Slots, 52);
             MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
-            SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
-            SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, SlotsDPPPtAlt, DP_Trophy);
-            SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, SlotsDPPPtAlt, Pt_Trophy);
+            SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
+            SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
+            SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, DPPt_Unown, Pt_Trophy, Pt_Feebas);
             SlotsHG = AddExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
             SlotsSS = AddExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
@@ -77,6 +81,26 @@ namespace PKHeX.Core
             MarkSlotLocation(ref SlotsPt);
             MarkSlotLocation(ref SlotsHG);
             MarkSlotLocation(ref SlotsSS);
+        }
+
+        private static EncounterArea[] GetFeebasArea(EncounterArea template)
+        {
+            Debug.Assert(template.Location == 50); // Mt Coronet
+            Debug.Assert(template.Slots.Last().Species == 340); // Whiscash
+            var slots = template.Slots.Where(z => z.Type.IsFishingRodType()).Select(z => z.Clone()).ToArray();
+            Debug.Assert(slots[0].Species == 129); // Magikarp
+            foreach (var s in slots)
+            {
+                s.Species = 349; // Feebas
+                s.TypeEncounter = EncounterType.Surfing_Fishing;
+            }
+
+            var area = new EncounterArea
+            {
+                Location = template.Location,
+                Slots = slots,
+            };
+            return new[] {area};
         }
 
         private static void MarkEncounterTypeData(ref EncounterArea[] D_Slots, ref EncounterArea[] P_Slots, ref EncounterArea[] Pt_Slots, ref EncounterArea[] HG_Slots, ref EncounterArea[] SS_Slots)
@@ -120,23 +144,8 @@ namespace PKHeX.Core
         private static void MarkG4SlotsGreatMarsh(ref EncounterArea[] Areas, int location)
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
-            {
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    SlotType t;
-                    switch (Slot.Type)
-                    {
-                        case SlotType.Grass: t = SlotType.Grass_Safari; break;
-                        case SlotType.Surf: t = SlotType.Surf_Safari; break;
-                        case SlotType.Old_Rod: t = SlotType.Old_Rod_Safari; break;
-                        case SlotType.Good_Rod: t = SlotType.Good_Rod_Safari; break;
-                        case SlotType.Super_Rod: t = SlotType.Super_Rod_Safari; break;
-                        case SlotType.Pokeradar: t = SlotType.Pokeradar_Safari; break;
-                        default: continue;
-                    }
-                    Slot.Type = t;
-                }
-            }
+            foreach (EncounterSlot Slot in Area.Slots)
+                Slot.Type = Slot.Type.GetSafariSlotType4();
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {
@@ -917,16 +926,8 @@ namespace PKHeX.Core
             52, 202
         };
 
-        private static readonly EncounterArea[] SlotsDPPPtAlt =
+        private static readonly EncounterArea[] DPPt_Unown =
         {
-            new EncounterArea {
-                Location = 50, // Mount Coronet
-                Slots = new[]
-                {
-                    new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Old_Rod }, // Feebas
-                    new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Good_Rod }, // Feebas
-                    new EncounterSlot { Species = 349, LevelMin = 10, LevelMax = 20, Type = SlotType.Super_Rod }, // Feebas
-                },},
             new EncounterArea {
                 Location = 53, // Solaceon Ruins
                 Slots = new int[25].Select((s, i) => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file

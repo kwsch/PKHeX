@@ -76,20 +76,7 @@ namespace PKHeX.Core
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
             foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Type = Slot.Type.GetSafariSlotType();
-        }
-        private static SlotType GetSafariSlotType(this SlotType t)
-        {
-            switch (t)
-            {
-                case SlotType.Grass: return SlotType.Grass_Safari;
-                case SlotType.Surf: return SlotType.Surf_Safari;
-                case SlotType.Old_Rod: return SlotType.Old_Rod_Safari;
-                case SlotType.Good_Rod: return SlotType.Good_Rod_Safari;
-                case SlotType.Super_Rod: return SlotType.Super_Rod_Safari;
-                case SlotType.Rock_Smash: return SlotType.Rock_Smash_Safari;
-                default: return t;
-            }
+                Slot.Type = Slot.Type.GetSafariSlotType3();
         }
 
         private static readonly int[] Roaming_MetLocation_FRLG =
