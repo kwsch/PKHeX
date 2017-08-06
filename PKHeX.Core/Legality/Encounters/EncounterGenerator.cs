@@ -106,6 +106,13 @@ namespace PKHeX.Core
                     deferred.Add(s);
                     continue;
                 }
+                if (s.Version == GameVersion.EventsGBGen2 && s.Species != 251)
+                {
+                    // no Gen2 events outside of Japan besides Celebi
+                    var jp = (pkm as PK2)?.Japanese ?? (pkm as PK1)?.Japanese;
+                    if (jp != true)
+                        continue;
+                }
                 if (game == GameVersion.GSC && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
                     continue;
                 yield return new GBEncounterData(pkm, gen, s, game);

@@ -194,7 +194,7 @@ namespace PKHeX.Core
         internal IEnumerable<uint> RecoverLower16BitsEuclid15(uint first, uint second)
         {
             const int bitshift = 31;
-            const long inc = 0x080000000; // 1 << 32;
+            const long inc = 0x080000000; // 1 << 31;
             return GetPossibleSeedsEuclid(first, second, bitshift, inc);
         }
 

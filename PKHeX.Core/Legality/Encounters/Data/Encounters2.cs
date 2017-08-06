@@ -147,6 +147,29 @@ namespace PKHeX.Core
             
             new EncounterStatic { Species = 083, Level = 05, Moves = new [] { 226, 14, 97, 37 }, Version = GameVersion.Stadium2 }, // Stadium 2 Baton Pass Farfetch'd
             new EncounterStatic { Species = 207, Level = 05, Moves = new [] { 89, 68, 17 }, Version = GameVersion.Stadium2 }, // Stadium 2 Earthquake Gligar
+
+            // Gen2 Events
+            // Pokémon Center Mystery Egg #1 (December 15, 2001 to January 14, 2002)
+            new EncounterStatic { Species = 152, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Chikorita Petal Dance
+            new EncounterStatic { Species = 173, Level = 05, Moves = new [] { 129 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Cleffa Swift
+            new EncounterStatic { Species = 194, Level = 05, Moves = new [] { 187 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Wooper Belly Drum
+            new EncounterStatic { Species = 231, Level = 05, Moves = new [] { 227 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Phanpy Encore
+            new EncounterStatic { Species = 238, Level = 05, Moves = new [] { 118 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Smoochum Metronome
+
+            // Pokémon Center Mystery Egg #2 (March 16 to April 7, 2002)
+            new EncounterStatic { Species = 047, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Psyduck Petal Dance
+            // new EncounterStatic { Species = 152, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Chikorita Petal Dance
+            new EncounterStatic { Species = 172, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Pichu Petal Dance
+            new EncounterStatic { Species = 173, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Cleffa Petal Dance
+            new EncounterStatic { Species = 174, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Igglybuff Petal Dance
+            new EncounterStatic { Species = 238, Level = 05, Moves = new [] { 080 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Smoochum Petal Dance
+
+            // Pokémon Center Mystery Egg #3 (April 27 to May 12, 2002)
+            new EncounterStatic { Species = 001, Level = 05, Moves = new [] { 246 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Bulbasaur Ancientpower
+            new EncounterStatic { Species = 004, Level = 05, Moves = new [] { 242 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Charmander Crunch
+            new EncounterStatic { Species = 158, Level = 05, Moves = new [] { 066 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Totodile Submission
+            new EncounterStatic { Species = 163, Level = 05, Moves = new [] { 101 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Hoot-Hoot Night Shade
+            new EncounterStatic { Species = 158, Level = 05, Moves = new [] { 047 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Pichu Sing
         };
 
         private static readonly EncounterStatic[] Encounter_GS_Exclusive =
