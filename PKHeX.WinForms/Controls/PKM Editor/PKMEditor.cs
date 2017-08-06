@@ -800,6 +800,15 @@ namespace PKHeX.WinForms.Controls
             {
                 TB_MetLevel.Text = level.ToString();
                 CB_MetLocation.SelectedValue = location;
+
+                if (pkm.GenNumber == 6 && pkm.WasEgg && ModifyPKM)
+                {
+                    pkm.OT_Memory = 2;
+                    pkm.OT_Affection = 0;
+                    pkm.OT_Feeling = Util.Rand.Next(0, 9);
+                    pkm.OT_Intensity = 1;
+                    pkm.OT_TextVar = pkm.XY ? 43 : 27; // riverside road : battling spot
+                }
             }
 
             if (pkm.CurrentLevel < minlvl)
@@ -1489,6 +1498,11 @@ namespace PKHeX.WinForms.Controls
                     if (pkm.Format != 4) // eggs in gen4 do not have nickname flag
                         CHK_Nicknamed.Checked = true;
                 }
+
+                // Wipe egg memories
+                if (pkm.Format >= 6 && ModifyPKM)
+                    pkm.OT_Memory = pkm.OT_Affection = pkm.OT_Feeling = pkm.OT_Intensity = pkm.OT_TextVar =
+                    pkm.HT_Memory = pkm.HT_Affection = pkm.HT_Feeling = pkm.HT_Intensity = pkm.HT_TextVar = 0;
             }
             else // Not Egg
             {
@@ -1796,7 +1810,7 @@ namespace PKHeX.WinForms.Controls
             CB_Ability.Visible = !DEV_Ability.Enabled && gen >= 3;
             FLP_Nature.Visible = gen >= 3;
             FLP_Ability.Visible = gen >= 3;
-            FLP_Language.Visible = gen >= 3;
+            // FLP_Language.Visible = gen >= 3; // not directly used by gen1/2, useful for providing species names for another language
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
             GB_Markings.Visible = gen >= 3;
             BTN_Ribbons.Visible = gen >= 3;
