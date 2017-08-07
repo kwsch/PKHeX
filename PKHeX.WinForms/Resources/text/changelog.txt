@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/07/02 - New Update:
+17/08/07 - New Update:
+ - Legality:
+ - - Changed: XD/Colo PIDIV detection speed improved by a factor of ~8000x
+ - - Changed: Method# PIDIV detection speed improved by a factor of ~250x
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - - Fixed: Pokewalker PID detection now recognizes PIDs correctly.
+ - - Fixed: Air Cutter switched with Roost in OR/AS tutor compatibility list. Thanks @architdate!
+ - - Changed: Updated Chinese translation files. Thanks @wwwwwwzx!
+ - - Added: Gen2 headbutt encounters are now checked for headbutt legality. Thanks @javierhimura!
+ - - Added: Transferring a pkm from XD to any other game will now receive a Fateful Encounter flag if appropriate.
+ - Added: WC3 (gen3 event template) -> pkm conversion. Use the Mystery Gift Database.
+ - Added: Ability to batch edit trash bytes (.Nickname_Trash=$[]43,00,...)
+ - Added: Inventory items can now be sorted by index number.
+ - Changed: Event Flag/Constant editor redesigned to separate tabs.
+ - Changed: Deoxys in Gen3 now shows up with the game-specific form.
+ - Fixed: Platinum special wallpapers now appear correctly. Thanks @sora10pls!
+ - Fixed: D/P current poketch app now loads correctly. Thanks @sora10pls!
+ - Fixed: D/P mail item inventory now loads correctly. Thanks @sora10pls!
+ - Fixed: Importing qr from url now behaves correctly. Thanks @ForcedToRock!
+ - Fixed: Battle Revolution data now loads correctly. Thanks Maddaren!
+
+17/07/02 - New Update: (47985) [634877]
  - Legality:
  - - Added: All-generation ribbon legality checks. Thanks White-Canary!
  - - Added: Strengthened PIDIV detection & enforcement for gen 3/4 encounters.

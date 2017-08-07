@@ -950,7 +950,13 @@ namespace PKHeX.Core
 
                 if (wc.Language != -1 && wc.Language != pkm.Language) continue;
                 if (wc.Ball != pkm.Ball) continue;
-                if (wc.Fateful != pkm.FatefulEncounter) continue;
+                if (wc.Fateful != pkm.FatefulEncounter)
+                {
+                    // XD Gifts only at level 20 get flagged after transfer
+                    bool valid = wc.Level == 20 && pkm is XK3;
+                    if (!valid)
+                        continue;
+                }
 
                 if (pkm.IsNative)
                 {
