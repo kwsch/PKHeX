@@ -41,7 +41,6 @@ namespace PKHeX.WinForms
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-
             int badgeval = 0;
             if (SAV is SAV1 sav1)
             {
@@ -108,6 +107,7 @@ namespace PKHeX.WinForms
                 L_Started.Visible = L_Fame.Visible = false;
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
                 CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
+                GB_Adventure.Visible = false;
                 return;
             }
 
