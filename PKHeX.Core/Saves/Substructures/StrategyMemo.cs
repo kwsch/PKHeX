@@ -10,6 +10,7 @@ namespace PKHeX.Core
         private const int SIZE_ENTRY = 12;
         private readonly List<StrategyMemoEntry> Entries = new List<StrategyMemoEntry>();
         private StrategyMemoEntry this[int Species] => Entries.FirstOrDefault(e => e.Species == Species);
+        private readonly byte[] _unk;
 
         public StrategyMemo(byte[] input, int offset, bool xd)
         {
@@ -17,6 +18,7 @@ namespace PKHeX.Core
             int count = BigEndian.ToInt16(input, offset);
             if (count > 500)
                 count = 500;
+            _unk = input.Skip(offset + 2).Take(2).ToArray();
             for (int i = 0; i < count; i++)
             {
                 byte[] data = new byte[SIZE_ENTRY];
@@ -24,8 +26,8 @@ namespace PKHeX.Core
                 Entries.Add(new StrategyMemoEntry(XD, data));
             }
         }
-        public byte[] FinalData => BigEndian.GetBytes(Entries.Count) // count followed by populated entries
-            .Concat(Entries.Where(entry => entry.Species != 0).SelectMany(entry => entry.Data)).ToArray();
+        public byte[] FinalData => BigEndian.GetBytes((short)Entries.Count).Concat(_unk) // count followed by populated entries
+            .Concat(Entries.SelectMany(entry => entry.Data)).ToArray();
 
         public StrategyMemoEntry GetEntry(int Species)
         {

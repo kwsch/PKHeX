@@ -20,7 +20,7 @@ namespace PKHeX.Core
                 Array.Copy(data, i*eSize, d, 0, eSize);
 
                 var entry = new ShadowInfoEntryXD(d);
-                if (entry.Species != 0)
+                //if (entry.Species != 0)
                     Entries.Add(entry);
             }
         }
