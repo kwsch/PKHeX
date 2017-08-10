@@ -1146,7 +1146,6 @@ namespace PKHeX.Core
             710, // Jaw Fossil
             711, // Sail Fossil
             715, // Fairy Gem
-            764, // Diancite
         };
         #endregion
         internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
