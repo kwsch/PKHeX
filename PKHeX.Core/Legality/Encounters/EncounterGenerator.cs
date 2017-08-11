@@ -94,6 +94,11 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, game))
             {
+                if (pkm.Format >= 7)
+                {
+                    deferred.Add(t);
+                    continue;
+                }
                 yield return new GBEncounterData(pkm, gen, t, game);
             }
             foreach (var s in GetValidStaticEncounter(pkm, game).Where(z => species.Contains(z.Species)))
