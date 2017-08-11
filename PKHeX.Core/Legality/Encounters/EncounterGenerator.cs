@@ -96,12 +96,10 @@ namespace PKHeX.Core
             {
                 yield return new GBEncounterData(pkm, gen, t, game);
             }
-            foreach (var s in GetValidStaticEncounter(pkm, game))
+            foreach (var s in GetValidStaticEncounter(pkm, game).Where(z => species.Contains(z.Species)))
             {
                 // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
-                if (!species.Contains(s.Species))
-                    continue;
-                if (game == GameVersion.RBY && s.Species != 54 && s.Version == GameVersion.Stadium)
+                if (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2)
                 {
                     deferred.Add(s);
                     continue;
@@ -110,8 +108,9 @@ namespace PKHeX.Core
                 {
                     // no Gen2 events outside of Japan besides Celebi
                     var jp = (pkm as PK2)?.Japanese ?? (pkm as PK1)?.Japanese;
-                    if (jp != true)
-                        continue;
+                    if (jp == true)
+                        deferred.Add(s);
+                    continue;
                 }
                 if (game == GameVersion.GSC && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
                     continue;
