@@ -243,10 +243,18 @@ namespace PKHeX.Core
                 { yield return z; ++ctr; }
             }
 
+            var deferred = new List<IEncounterable>();
             bool safariSport = pkm.Ball == 0x05 || pkm.Ball == 0x18; // never static encounters
             if (!safariSport)
             foreach (var z in GetValidStaticEncounter(pkm))
-            { yield return z; ++ctr; }
+            {
+                if (z.Gift && pkm.Ball != 4)
+                    deferred.Add(z);
+                else
+                {
+                    yield return z; ++ctr;
+                } 
+            }
             // if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm))
             { yield return z; ++ctr; }
@@ -258,6 +266,8 @@ namespace PKHeX.Core
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safariSport)
             foreach (var z in GetValidStaticEncounter(pkm))
+                yield return z;
+            foreach (var z in deferred)
                 yield return z;
         }
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm)

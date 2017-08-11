@@ -190,7 +190,7 @@ namespace PKHeX.Core
             if (!IsPokémon)
                 return null;
 
-            PK4 pk4 = new PK4(PK.Data);
+            PK4 pk4 = new PK4(PK.Data) {Sanity = 0};
             var pi = PersonalTable.HGSS.GetFormeEntry(Species, PK.AltForm);
             if (!IsHatched && Detail == 0)
             {

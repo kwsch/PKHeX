@@ -15,15 +15,13 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
-            pfa = GameInfo.Strings.puffs;
-            pfa[0] = "---";
             Setup();
 
             new ToolTip().SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
             new ToolTip().SetToolTip(B_All, "Hold CTRL to best instead of varied.");
         }
 
-        private readonly string[] pfa;
+        private readonly string[] pfa = GameInfo.Strings.puffs;
         private int PuffCount { get; set; }
         private void Setup()
         {

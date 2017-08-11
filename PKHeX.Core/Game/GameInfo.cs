@@ -120,6 +120,8 @@ namespace PKHeX.Core
                 trainingbags = Get("trainingbag");
                 trainingstage = Get("supertraining");
                 puffs = Get("puff");
+                Array.Resize(ref puffs, puffs.Length + 1);
+                Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
 
                 eggname = specieslist[0];
                 mail4 = Get("mail4");
@@ -236,7 +238,7 @@ namespace PKHeX.Core
                 // Set the first entry of a met location to "" (nothing)
                 // Fix (None) tags
                 var none = $"({itemlist[0]})";
-                abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = none;
+                abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = puffs[0] = none;
             }
             private string[] Get(string ident)
             {

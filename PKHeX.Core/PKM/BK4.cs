@@ -78,10 +78,10 @@ namespace PKHeX.Core
         public override int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
         public override int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
 
-        private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
-        private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
-        private byte RIB2 { get => Data[0x26]; set => Data[0x26] = value; } // Unova 1
-        private byte RIB3 { get => Data[0x27]; set => Data[0x27] = value; } // Unova 2
+        private byte RIB3 { get => Data[0x24]; set => Data[0x24] = value; } // Unova 2
+        private byte RIB2 { get => Data[0x25]; set => Data[0x25] = value; } // Unova 1
+        private byte RIB1 { get => Data[0x26]; set => Data[0x26] = value; } // Sinnoh 2
+        private byte RIB0 { get => Data[0x27]; set => Data[0x27] = value; } // Sinnoh 1
         public bool RibbonChampionSinnoh { get => (RIB0 & (1 << 0)) == 1 << 0; set => RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool RibbonAbility { get => (RIB0 & (1 << 1)) == 1 << 1; set => RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool RibbonAbilityGreat { get => (RIB0 & (1 << 2)) == 1 << 2; set => RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); }
@@ -139,10 +139,10 @@ namespace PKHeX.Core
         public override bool IsNicknamed { get => ((IV32 >> 0) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x00000001) | (uint)(value ? 0x00000001 : 0)); }
         public override bool IsEgg { get => ((IV32 >> 1) & 1) == 1; set => IV32 = (uint)((IV32 & ~0x00000002) | (uint)(value ? 0x00000002 : 0)); }
 
-        private byte RIB4 { get => Data[0x3C]; set => Data[0x3C] = value; } // Hoenn 1a
-        private byte RIB5 { get => Data[0x3D]; set => Data[0x3D] = value; } // Hoenn 1b
-        private byte RIB6 { get => Data[0x3E]; set => Data[0x3E] = value; } // Hoenn 2a
-        private byte RIB7 { get => Data[0x3F]; set => Data[0x3F] = value; } // Hoenn 2b
+        private byte RIB7 { get => Data[0x3C]; set => Data[0x3C] = value; } // Hoenn 2b
+        private byte RIB6 { get => Data[0x3D]; set => Data[0x3D] = value; } // Hoenn 2a
+        private byte RIB5 { get => Data[0x3E]; set => Data[0x3E] = value; } // Hoenn 1b
+        private byte RIB4 { get => Data[0x3F]; set => Data[0x3F] = value; } // Hoenn 1a
         public bool RibbonG3Cool { get => (RIB4 & (1 << 0)) == 1 << 0; set => RIB4 = (byte)(RIB4 & ~(1 << 0) | (value ? 1 << 0 : 0)); }
         public bool RibbonG3CoolSuper { get => (RIB4 & (1 << 1)) == 1 << 1; set => RIB4 = (byte)(RIB4 & ~(1 << 1) | (value ? 1 << 1 : 0)); }
         public bool RibbonG3CoolHyper { get => (RIB4 & (1 << 2)) == 1 << 2; set => RIB4 = (byte)(RIB4 & ~(1 << 2) | (value ? 1 << 2 : 0)); }
