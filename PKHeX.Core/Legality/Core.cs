@@ -1850,7 +1850,7 @@ namespace PKHeX.Core
 
         internal static int[] GetEggMoves(PKM pkm, int species, int formnum)
         {
-            if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255)
+            if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255 && !GenderlessFromGender.Contains(species))
                 return new int[0];
 
             switch (pkm.GenNumber)

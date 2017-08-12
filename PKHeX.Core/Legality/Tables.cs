@@ -361,12 +361,17 @@ namespace PKHeX.Core
             // Tsareena (Steenee with Stomp)
             new [] { false, false, false, false, false, false, false, false },
         };
-        internal static readonly int[] MixedGenderBreeding =
+        internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
         {
             29, // Nidoran♀
             32, // Nidoran♂
             314, // Volbeat
             314, // Illumise
+        };
+        internal static readonly HashSet<int> GenderlessFromGender = new HashSet<int>
+        {
+            290, // Nincada
+            292, // Shedinja
         };
         #region Games
 
