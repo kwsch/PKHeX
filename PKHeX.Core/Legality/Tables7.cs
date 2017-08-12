@@ -209,6 +209,10 @@ namespace PKHeX.Core
             439, // Via Mr. Mime
             446, // Via Snorlax
             458, // Via Mantine
+            358, // Via Chingling
+            172, // Via Pikachu
+            173, // Via Clefairy
+            174, // Via Jigglypuff
         };
         internal static readonly int[] AlolanCaptureOffspring =
         {

@@ -1089,7 +1089,7 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30002) // traded
+                    if (wc.EggLocation != pkm.Egg_Location && pkm.Egg_Location != 30003) // traded
                         continue;
                     if (pkm.IsEgg && !pkm.IsNative)
                         continue;

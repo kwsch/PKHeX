@@ -2359,10 +2359,23 @@ namespace PKHeX.Core
             {
                 if (pkm.IVs.Any(iv => iv != 30))
                     AddLine(Severity.Invalid, V218, CheckIdentifier.IVs);
-                if (pkm.OT_Name != "N" || pkm.TID != 00002 || pkm.SID != 00000)
+                if (!VerifyNsPKMOTValid())
                     AddLine(Severity.Invalid, V219, CheckIdentifier.Trainer);
                 if (pkm.IsShiny)
                     AddLine(Severity.Invalid, V220, CheckIdentifier.Shiny);
+            }
+        }
+        private bool VerifyNsPKMOTValid()
+        {
+            if (pkm.TID != 00002 || pkm.SID != 00000)
+                return false;
+
+            switch (pkm.Language)
+            {
+                case 1: // jp
+                    return pkm.OT_Name == "Ｎ";
+                default:
+                    return pkm.OT_Name == "N";
             }
         }
         private void VerifyVersionEvolution()
