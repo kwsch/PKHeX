@@ -1305,8 +1305,8 @@ namespace PKHeX.Core
         }
         public bool MegaUnlocked
         {
-            get => (Data[0x1278] & 0x01) != 0;
-            set => Data[0x1278] = (byte)((Data[0x1278] & 0xFE) | (value ? 1 : 0)); // in battle
+            get => (Data[TrainerCard + 0x78] & 0x01) != 0;
+            set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & 0xFE) | (value ? 1 : 0)); // in battle
             // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
         }
 

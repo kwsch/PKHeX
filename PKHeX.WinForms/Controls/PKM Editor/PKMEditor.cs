@@ -423,19 +423,27 @@ namespace PKHeX.WinForms.Controls
             PB_MarkVC.Image = ImageUtil.ChangeOpacity(PB_MarkVC.InitialImage, getOpacity(pkm.VC));
             PB_MarkHorohoro.Image = ImageUtil.ChangeOpacity(PB_MarkHorohoro.InitialImage, getOpacity(pkm.Horohoro));
 
+            var markings = pkm.Markings;
             for (int i = 0; i < pba.Length; i++)
+                if (GetMarkingColor(markings[i], out Color c))
+                    pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, c);
+        }
+        private static bool GetMarkingColor(int markval, out Color c)
+        {
+            switch (markval)
             {
-                switch (pkm.Markings[i])
-                {
-                    case 1:
-                        pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, Color.FromArgb(000, 191, 255));
-                        break;
-                    case 2:
-                        pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, Color.FromArgb(255, 117, 179));
-                        break;
-                }
+                case 1:
+                    c = Color.FromArgb(000, 191, 255);
+                    return true;
+                case 2:
+                    c = Color.FromArgb(255, 117, 179);
+                    return true;
+                default:
+                    c = Color.Black;
+                    return false;
             }
         }
+
         private void UpdateGender()
         {
             int cg = PKX.GetGender(Label_Gender.Text);
@@ -1281,22 +1289,26 @@ namespace PKHeX.WinForms.Controls
                 CB_MetLocation.ValueMember = "Value";
                 CB_MetLocation.DataSource = new BindingSource(met_list, null);
 
-                int metLoc = 0; // transporter or pal park for past gen pkm
-                switch (newTrack)
+                if (fieldsLoaded)
                 {
-                    case GameVersion.GO: metLoc = 30012; break;
-                    case GameVersion.RBY: metLoc = 30013; break;
+                    int metLoc = 0; // transporter or pal park for past gen pkm
+                    switch (newTrack)
+                    {
+                        case GameVersion.GO: metLoc = 30012; break;
+                        case GameVersion.RBY: metLoc = 30013; break;
+                    }
+                    if (metLoc != 0)
+                        CB_MetLocation.SelectedValue = metLoc;
+                    else
+                        CB_MetLocation.SelectedIndex = metLoc;
                 }
-                if (metLoc != 0)
-                    CB_MetLocation.SelectedValue = metLoc;
-                else
-                    CB_MetLocation.SelectedIndex = metLoc;
 
                 var egg_list = GameInfo.GetLocationList(Version, pkm.Format, egg: true);
                 CB_EggLocation.DisplayMember = "Text";
                 CB_EggLocation.ValueMember = "Value";
                 CB_EggLocation.DataSource = new BindingSource(egg_list, null);
-                CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
+                if (fieldsLoaded)
+                    CB_EggLocation.SelectedIndex = CHK_AsEgg.Checked ? 1 : 0; // daycare : none
 
                 origintrack = newTrack;
 
@@ -1305,6 +1317,9 @@ namespace PKHeX.WinForms.Controls
                 if (Version == GameVersion.CXD && pkm.Format == 3)
                     width = 2 * width;
                 CB_MetLocation.DropDownWidth = width;
+
+                if (!fieldsLoaded)
+                    ValidateChildren(); // prevent value resetting when finishing load routine
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
@@ -1726,7 +1741,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (e.Index < 0) return;
 
-            var i = (ComboItem)(sender as ComboBox).Items[e.Index];
+            var i = (ComboItem)((ComboBox)sender).Items[e.Index];
             var moves = Legality.AllSuggestedMovesAndRelearn;
             bool vm = moves != null && moves.Contains(i.Value) && !HaX;
 

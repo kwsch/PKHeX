@@ -85,16 +85,27 @@ namespace PKHeX.Core
                 case EncounterStatic s:
                     if (s.Shiny != null && (bool)s.Shiny ^ pkm.IsShiny)
                         AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
+                    if (pkm.GenNumber == 5 && !s.Gift && !s.Roaming && s.Ability != 4)
+                        VerifyG5PID_IDCorrelation();
                     break;
                 case EncounterSlot w:
                     if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
                         AddLine(Severity.Invalid, V221, CheckIdentifier.Shiny);
+                    if (pkm.GenNumber == 5 && pkm.AbilityNumber != 4)
+                        VerifyG5PID_IDCorrelation();
                     break;
                 case PCD d: // fixed PID
                     if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
                         AddLine(Severity.Invalid, V410, CheckIdentifier.Shiny);
                     break;
             }
+        }
+        private void VerifyG5PID_IDCorrelation()
+        {
+            var pid = pkm.EncryptionConstant;
+            var result = (pid & 1) ^ (pid >> 31) ^ (pkm.TID & 1) ^ (pkm.SID & 1);
+            if (result != 0)
+                AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
         }
         private void VerifyECPIDWurmple()
         {
@@ -783,7 +794,7 @@ namespace PKHeX.Core
                 var c3 = u4.RibbonBitsContest3(); var c3n = u4.RibbonNamesContest3();
                 var c4 = u4.RibbonBitsContest4(); var c4n = u4.RibbonNamesContest4();
                 var iter3 = gen == 3 ? getMissingContestRibbons(c3, c3n) : GetRibbonMessageNone(c3, c3n);
-                var iter4 = gen == 4 && IsAllowedInContest4(pkm.Species) ? getMissingContestRibbons(c4, c4n) : GetRibbonMessageNone(c4, c4n);
+                var iter4 = (gen == 3 || gen == 4) && IsAllowedInContest4(pkm.Species) ? getMissingContestRibbons(c4, c4n) : GetRibbonMessageNone(c4, c4n);
                 foreach (var z in iter3.Concat(iter4))
                     yield return z;
 

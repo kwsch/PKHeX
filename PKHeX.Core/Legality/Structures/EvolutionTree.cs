@@ -165,15 +165,15 @@ namespace PKHeX.Core
             var evo1 = raichu1.Chain[0].StageEntryMethods[0].Copy();
             Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo1 } });
             var evo2 = raichu1.Chain[1].StageEntryMethods[0].Copy();
-            evo2.Form = -1; evo2.Banlist = new[] { GameVersion.SN, GameVersion.MN };
+            evo2.Form = -1; evo2.Banlist = EvolutionMethod.BanSM;
             Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo2 } });
 
             var exegg = Lineage[Personal.GetFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy();
-            exegg.Form = -1; exegg.Banlist = new[] { GameVersion.SN, GameVersion.MN }; exegg.Method = 8; // No night required (doesn't matter)
+            exegg.Form = -1; exegg.Banlist = EvolutionMethod.BanSM; exegg.Method = 8; // No night required (doesn't matter)
             Lineage[103].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { exegg } });
 
             var marowak = Lineage[Personal.GetFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy();
-            marowak.Form = -1; marowak.Banlist = new[] {GameVersion.SN, GameVersion.MN};
+            marowak.Form = -1; marowak.Banlist = EvolutionMethod.BanSM;
             Lineage[105].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { marowak } });
         }
 
@@ -512,8 +512,11 @@ namespace PKHeX.Core
         public int Level;
 
         public bool RequiresLevelUp;
-        public static readonly int[] TradeMethods = {5, 6, 7};
-        public GameVersion[] Banlist = new GameVersion[0];
+
+        internal static readonly int[] TradeMethods = {5, 6, 7};
+        private static readonly IReadOnlyCollection<GameVersion> NoBanlist = new GameVersion[0];
+        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
+        internal IReadOnlyCollection<GameVersion> Banlist = NoBanlist;
 
         public bool Valid(PKM pkm, int lvl, bool skipChecks)
         {

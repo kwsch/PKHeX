@@ -431,8 +431,8 @@ namespace PKHeX.Core
         }
         public bool IsMegaEvolutionUnlocked
         {
-            get => Data[TrainerCard + 0x14A] == 1;
-            set => Data[TrainerCard + 0x14A] = (byte)(value ? 1 : 0);
+            get => (Data[TrainerCard + 0x14A] & 0x01) != 0;
+            set => Data[TrainerCard + 0x14A] = (byte)((Data[TrainerCard + 0x14A] & 0xFE) | (value ? 1 : 0)); // in battle
         }
 
         public int M
