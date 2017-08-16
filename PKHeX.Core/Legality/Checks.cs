@@ -85,13 +85,22 @@ namespace PKHeX.Core
                 case EncounterStatic s:
                     if (s.Shiny != null && (bool)s.Shiny ^ pkm.IsShiny)
                         AddLine(Severity.Invalid, V209, CheckIdentifier.Shiny);
-                    if (pkm.GenNumber == 5 && !s.Gift && !s.Roaming && s.Ability != 4)
-                        VerifyG5PID_IDCorrelation();
+                    
+                    // gen5 correlation
+                    if (pkm.GenNumber != 5)
+                        break;
+                    if (s.Location == 75) // Entree Forest
+                        break;
+                    if (s.Gift || s.Roaming || s.Ability != 4)
+                        break;
+                    if (s.NSparkle)
+                        break;
+                    VerifyG5PID_IDCorrelation();
                     break;
                 case EncounterSlot w:
                     if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
                         AddLine(Severity.Invalid, V221, CheckIdentifier.Shiny);
-                    if (pkm.GenNumber == 5 && pkm.AbilityNumber != 4)
+                    if (pkm.GenNumber == 5 && w.Type != SlotType.HiddenGrotto)
                         VerifyG5PID_IDCorrelation();
                     break;
                 case PCD d: // fixed PID

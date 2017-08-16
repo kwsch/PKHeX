@@ -656,6 +656,19 @@ namespace PKHeX.WinForms
             {172, "Berry Tree Battles won"},
             {173, "Bubbling Spot Encounters/Items"},
             {174, "Times laid down in Own Bed"},
+
+            {175, "Trade Pokémon at the GTS!"},
+            {176, "176 - Global Mission"},
+            {177, "Hatch a lot of Eggs!"},
+            {178, "Harvest Poké Beans!"},
+            {179, "179 - Global Mission"},
+            {180, "Find Pokémon using Island Scan!"},
+            {181, "181 - Global Mission"},
+            {182, "Defend your Champion title!"},
+            {183, "Fish Pokémon at rare spots!"},
+            {185, "Try your luck!"},
+            {186, "186 - Global Mission"},
+            {187, "Catch a lot of Pokémon!"},
         };
     }
 }

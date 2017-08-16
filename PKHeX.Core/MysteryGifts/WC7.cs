@@ -15,7 +15,9 @@ namespace PKHeX.Core
             Data = (byte[])(data?.Clone() ?? new byte[Size]);
             if (Data.Length == SizeFull)
             {
-                Data = Data.Skip(SizeFull - Size).ToArray();
+                byte[] wc6 = new byte[Size];
+                Array.Copy(Data, SizeFull - Size, wc6, 0, wc6.Length);
+                Data = wc6;
                 DateTime now = DateTime.Now;
                 Year = (uint)now.Year;
                 Month = (uint)now.Month;

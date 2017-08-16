@@ -20,8 +20,8 @@ namespace PKHeX.Core
         private string EncounterName => $"{(EncounterOriginalGB ?? EncounterMatch).GetEncounterTypeName()} ({SpeciesStrings[EncounterMatch.Species]})";
         private CheckResult Encounter, History;
 
-        public bool Parsed { get; }
-        public bool Valid { get; }
+        public readonly bool Parsed;
+        public readonly bool Valid;
         public LegalInfo Info { get; private set; }
         public bool ParsedValid => Parsed && Valid;
         public bool ParsedInvalid => Parsed && !Valid;
@@ -360,6 +360,7 @@ namespace PKHeX.Core
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }
 
+        // Suggestions
         public int[] GetSuggestedRelearn()
         {
             if (Info.RelearnBase == null || pkm.GenNumber < 6 || !pkm.IsOriginValid)
@@ -369,12 +370,13 @@ namespace PKHeX.Core
                 return Info.RelearnBase;
 
             List<int> window = new List<int>(Info.RelearnBase);
-            var vMoves = Info.Moves;
-            window.AddRange(pkm.Moves.Where((v, i) => !vMoves[i].Valid || vMoves[i].Flag));
+            window.AddRange(pkm.Moves.Where((v, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
             window = window.Distinct().ToList();
-            if (window.Count < 4)
-                window.AddRange(new int[4 - window.Count]);
-            return window.Skip(window.Count - 4).ToArray();
+            int[] moves = new int[4];
+            int start = Math.Max(0, window.Count - 4);
+            int count = Math.Min(4, window.Count);
+            window.CopyTo(start, moves, 0, count);
+            return moves;
         }
         public int[] GetSuggestedMoves(bool tm, bool tutor, bool reminder)
         {
@@ -384,102 +386,6 @@ namespace PKHeX.Core
                 return new int[4];
             return Legal.GetValidMoves(pkm, Info.EvoChainsAllGens, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
-
-        public EncounterStatic GetSuggestedMetInfo()
-        {
-            if (pkm == null)
-                return null;
-
-            int loc = GetSuggestedTransferLocation(pkm);
-            if (pkm.WasEgg)
-            {
-                int lvl = 1; // gen5+
-                if (!pkm.IsNative)
-                    lvl = pkm.CurrentLevel; // be generous with transfer conditions
-                else if (pkm.Format < 5) // and native
-                    lvl = 0;
-                return new EncounterStatic
-                {
-                    Species = Legal.GetBaseSpecies(pkm),
-                    Location = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm),
-                    Level = lvl,
-                };
-            }
-
-            var area = EncounterGenerator.GetCaptureLocation(pkm);
-            if (area != null)
-            {
-                var slots = area.Slots.OrderBy(s => s.LevelMin);
-                return new EncounterStatic
-                {
-                    Species = slots.First().Species,
-                    Location = loc != -1 ? loc : area.Location,
-                    Level = slots.First().LevelMin,
-                };
-            }
-
-            var encounter = EncounterGenerator.GetStaticLocation(pkm);
-            if (loc != -1 && encounter != null)
-                encounter.Location = loc;
-            return encounter;
-        }
-        private static int GetSuggestedEggMetLocation(PKM pkm)
-        {
-            // Return one of legal hatch locations for game
-            switch ((GameVersion)pkm.Version)
-            {
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.E:
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    switch (pkm.Format)
-                    {
-                        case 3:
-                            return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
-                        case 4:
-                            return 0x37; // Pal Park
-                        default:
-                            return 30001; // Transporter
-                    }
-
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.Pt:
-                    return pkm.Format > 4 ? 30001 /* Transporter */ : 4; // Solaceon Town
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    return pkm.Format > 4 ? 30001 /* Transporter */ : 182; // Route 34
-
-                case GameVersion.B:
-                case GameVersion.W:
-                    return 16; // Route 3
-
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return 38; // Route 7
-                case GameVersion.AS:
-                case GameVersion.OR:
-                    return 318; // Battle Resort
-
-                case GameVersion.SN:
-                case GameVersion.MN:
-                    return 50; // Route 4
-            }
-            return -1;
-        }
-        private static int GetSuggestedTransferLocation(PKM pkm)
-        {
-            // Return one of legal hatch locations for game
-            if (pkm.HasOriginalMetLocation)
-                return -1;
-            if (pkm.VC1)
-                return 30013;
-            if (pkm.Format == 4) // Pal Park
-                return 0x37;
-            if (pkm.Format == 5) // Transporter
-                return 30001;
-            return -1;
-        }
+        public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
 }

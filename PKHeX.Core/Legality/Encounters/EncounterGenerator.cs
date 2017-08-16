@@ -354,7 +354,10 @@ namespace PKHeX.Core
                 if (e.Nature != Nature.Random && pkm.Nature != (int)e.Nature)
                     continue;
                 if (pkm.WasEgg ^ e.EggEncounter && pkm.Egg_Location == 0 && pkm.Format > 3)
-                    continue;
+                {
+                    if (!pkm.IsEgg)
+                        continue;
+                }
                 if (pkm.Gen3 && e.EggLocation != 0) // Gen3 Egg
                 {
                     if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
