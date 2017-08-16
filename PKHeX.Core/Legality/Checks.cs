@@ -486,16 +486,22 @@ namespace PKHeX.Core
             }
             if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
             {
-                if (tr == "STADIUM" && pkm.TID == 2000)
-                    AddLine(Severity.Valid, V403, CheckIdentifier.Trainer);
-                else if (tr == "スタジアム" && pkm.TID == 1999)
-                    AddLine(Severity.Valid, V404, CheckIdentifier.Trainer);
+                bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != 2;
+                bool valid = GetIsStadiumOTIDValid(jp, tr);
+                if (!valid)
+                    AddLine(Severity.Valid, V402, CheckIdentifier.Trainer);
                 else
-                    AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, jp ? V404 : V403, CheckIdentifier.Trainer);
             }
 
             if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || !Info.Game.Contains(GameVersion.C)))
                 AddLine(Severity.Invalid, V408, CheckIdentifier.Trainer);
+        }
+        private bool GetIsStadiumOTIDValid(bool jp, string tr)
+        {
+            if (jp)
+                return tr == "スタジアム" && pkm.TID == 1999;
+            return tr == "STADIUM" && pkm.TID == 2000;
         }
         #endregion
         private void VerifyHyperTraining()
