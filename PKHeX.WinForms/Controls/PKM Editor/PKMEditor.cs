@@ -1318,8 +1318,8 @@ namespace PKHeX.WinForms.Controls
                     width = 2 * width;
                 CB_MetLocation.DropDownWidth = width;
 
-                if (fieldsLoaded)
-                    ValidateChildren(); // prevent value resetting when finishing load routine
+                if (!fieldsLoaded)
+                    CB_GameOrigin.Focus(); // hacky validation forcing
             }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
