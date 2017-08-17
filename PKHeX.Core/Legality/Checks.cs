@@ -489,9 +489,9 @@ namespace PKHeX.Core
                 bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != 2;
                 bool valid = GetIsStadiumOTIDValid(jp, tr);
                 if (!valid)
-                    AddLine(Severity.Valid, V402, CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
                 else
-                    AddLine(Severity.Invalid, jp ? V404 : V403, CheckIdentifier.Trainer);
+                    AddLine(Severity.Valid, jp ? V404 : V403, CheckIdentifier.Trainer);
             }
 
             if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || !Info.Game.Contains(GameVersion.C)))

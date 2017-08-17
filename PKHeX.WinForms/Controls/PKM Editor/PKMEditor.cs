@@ -1318,7 +1318,7 @@ namespace PKHeX.WinForms.Controls
                     width = 2 * width;
                 CB_MetLocation.DropDownWidth = width;
 
-                if (!fieldsLoaded)
+                if (fieldsLoaded)
                     ValidateChildren(); // prevent value resetting when finishing load routine
             }
 
