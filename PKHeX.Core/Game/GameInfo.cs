@@ -42,7 +42,7 @@ namespace PKHeX.Core
                 memories, genloc, trainingbags, trainingstage, characteristics,
                 encountertypelist, gamelanguages, balllist, gamelist, pokeblocks, ribbons;
                 
-            private readonly string[] mail4, g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
+            private readonly string[] g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
 
             // Met Locations
             public readonly string[] metGSC_00000, metRSEFRLG_00000, metCXD_00000;
@@ -69,14 +69,14 @@ namespace PKHeX.Core
                     Array.Resize(ref g3coloitems, 500 + tmp.Length);
                     for (int i = g3items.Length; i < g3coloitems.Length; i++)
                         g3coloitems[i] = $"UNUSED {i}";
-                    Array.Copy(tmp, 0, g3coloitems, g3coloitems.Length - tmp.Length, tmp.Length);
+                    tmp.CopyTo(g3coloitems, g3coloitems.Length - tmp.Length);
 
                     g3xditems = (string[])g3items.Clone();
                     string[] tmp2 = Get("ItemsG3XD");
                     Array.Resize(ref g3xditems, 500 + tmp2.Length);
                     for (int i = g3items.Length; i < g3xditems.Length; i++)
                         g3xditems[i] = $"UNUSED {i}";
-                    Array.Copy(tmp2, 0, g3xditems, g3xditems.Length - tmp2.Length, tmp2.Length);
+                    tmp2.CopyTo(g3xditems, g3xditems.Length - tmp2.Length);
                 }
                 g2items = Get("ItemsG2");
                 g1items = Get("ItemsG1");
@@ -124,7 +124,6 @@ namespace PKHeX.Core
                 Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
 
                 eggname = specieslist[0];
-                mail4 = Get("mail4");
                 metHGSS_00000 = Get("hgss_00000");
                 metHGSS_02000 = Get("hgss_02000");
                 metHGSS_03000 = Get("hgss_03000");
@@ -144,16 +143,27 @@ namespace PKHeX.Core
                 Sanitize();
 
                 g4items = (string[])itemlist.Clone();
-                for (int i = 137; i <= 148; i++)
-                    g4items[i] = mail4[i - 137];
+                Get("mail4").CopyTo(g4items, 137);
             }
 
             private void Sanitize()
             {
+                SanitizeItemNames();
+                SanitizeMetLocations();
+
+                // Replace the Egg Name with ---; egg name already stored to eggname
+                specieslist[0] = "---";
+                // Fix (None) tags
+                var none = $"({itemlist[0]})";
+                abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = puffs[0] = none;
+            }
+            private void SanitizeItemNames()
+            {
                 // Fix Item Names (Duplicate entries)
-                int len = itemlist[425].Length;
-                itemlist[426] = itemlist[425].Substring(0, len - 1) + (char)(itemlist[425][len - 1] + 1) + " (G4)";
-                itemlist[427] = itemlist[425].Substring(0, len - 1) + (char)(itemlist[425][len - 1] + 2) + " (G4)";
+                var HM06 = itemlist[425];
+                var HM0 = HM06.Substring(0, HM06.Length - 1); // language ambiguous!
+                itemlist[426] = $"{HM0}7 (G4)";
+                itemlist[427] = $"{HM0}8 (G4)";
                 itemlist[456] += " (HG/SS)"; // S.S. Ticket
                 itemlist[736] += " (OR/AS)"; // S.S. Ticket
                 itemlist[463] += " (DPPt)"; // Storage Key
@@ -177,19 +187,16 @@ namespace PKHeX.Core
                 // Append Z-Crystal flagging
                 foreach (var i in Legal.Pouch_ZCrystal_SM)
                     itemlist[i] += " [Z]";
-
-                // Replace the Egg Name with ---; egg name already stored to eggname
-                specieslist[0] = "---";
-
-                // Get the met locations... for all of the games...
-
-                // Fix up some of the Location strings to make them more descriptive:
-                metHGSS_02000[1] += " (NPC)";         // Anything from an NPC
-                metHGSS_02000[2] += " (" + eggname + ")"; // Egg From Link Trade
-                metBW2_00000[36] = metBW2_00000[84] + "/" + metBW2_00000[36]; // Cold Storage in BW = PWT in BW2
+            }
+            private void SanitizeMetLocations()
+            {
+                const string NPC = "NPC";
+                // Fix up some of the Location strings to make them more descriptive
+                metHGSS_02000[1] += $" ({NPC})";     // Anything from an NPC
+                metHGSS_02000[2] += $" ({eggname})"; // Egg From Link Trade
+                metBW2_00000[36] = $"{metBW2_00000[84]}/{metBW2_00000[36]}"; // Cold Storage in BW = PWT in BW2
                 metBW2_00000[40] += "(B/W)"; // Victory Road in BW 
                 metBW2_00000[134] += "(B2/W2)"; // Victory Road in B2W2
-
                 // BW2 Entries from 76 to 105 are for Entralink in BW
                 for (int i = 76; i < 106; i++)
                     metBW2_00000[i] = metBW2_00000[i] + "●";
@@ -200,23 +207,23 @@ namespace PKHeX.Core
 
                 // Localize the Poketransfer to the language (30001)
                 metBW2_30000[1 - 1] = GetTransporterName(lang); // Default to English
-                metBW2_30000[2 - 1] += " (NPC)";            // Anything from an NPC
-                metBW2_30000[3 - 1] += $" ({eggname})";     // Link Trade (Egg)
+                metBW2_30000[2 - 1] += $" ({NPC})";             // Anything from an NPC
+                metBW2_30000[3 - 1] += $" ({eggname})";         // Link Trade (Egg)
 
                 // Zorua/Zoroark events
-                metBW2_30000[10 - 1] = specieslist[251] + " (" + specieslist[570] + " 1)"; // Celebi's Zorua Event
-                metBW2_30000[11 - 1] = specieslist[251] + " (" + specieslist[570] + " 2)"; // Celebi's Zorua Event
-                metBW2_30000[12 - 1] = specieslist[571] + " (" + "1)"; // Zoroark
-                metBW2_30000[13 - 1] = specieslist[571] + " (" + "2)"; // Zoroark
+                metBW2_30000[10 - 1] = $"{specieslist[251]} ({specieslist[570]} 1)"; // Celebi's Zorua Event
+                metBW2_30000[11 - 1] = $"{specieslist[251]} ({specieslist[570]} 2)"; // Celebi's Zorua Event
+                metBW2_30000[12 - 1] = $"{specieslist[571]} (1)"; // Zoroark
+                metBW2_30000[13 - 1] = $"{specieslist[571]} (2)"; // Zoroark
 
-                metBW2_60000[3 - 1] += " (" + eggname + ")";  // Egg Treasure Hunter/Breeder, whatever...
+                metBW2_60000[3 - 1] += $" ({eggname})";  // Egg Treasure Hunter/Breeder, whatever...
 
-                metXY_00000[104] += " (X/Y)";              // Victory Road
-                metXY_00000[106] += " (X/Y)";              // Pokémon League
-                metXY_00000[202] += " (OR/AS)";            // Pokémon League
-                metXY_00000[298] += " (OR/AS)";            // Victory Road
-                metXY_30000[0] += " (NPC)";                // Anything from an NPC
-                metXY_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
+                metXY_00000[104] += " (X/Y)";      // Victory Road
+                metXY_00000[106] += " (X/Y)";      // Pokémon League
+                metXY_00000[202] += " (OR/AS)";    // Pokémon League
+                metXY_00000[298] += " (OR/AS)";    // Victory Road
+                metXY_30000[0] += $" ({NPC})";     // Anything from an NPC
+                metXY_30000[1] += $" ({eggname})"; // Egg From Link Trade
 
                 // Sun/Moon duplicates -- elaborate!
                 var metSM_00000_good = (string[])metSM_00000.Clone();
@@ -230,16 +237,12 @@ namespace PKHeX.Core
                 }
                 metSM_00000_good.CopyTo(metSM_00000, 0);
 
-                metSM_30000[0] += " (NPC)";                // Anything from an NPC
-                metSM_30000[1] += " (" + eggname + ")";    // Egg From Link Trade
+                metSM_30000[0] += $" ({NPC})";      // Anything from an NPC
+                metSM_30000[1] += $" ({eggname})";  // Egg From Link Trade
                 for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
                     metSM_30000[i] += " (-)";
-
-                // Set the first entry of a met location to "" (nothing)
-                // Fix (None) tags
-                var none = $"({itemlist[0]})";
-                abilitylist[0] = itemlist[0] = movelist[0] = metXY_00000[0] = metBW2_00000[0] = metHGSS_00000[0] = metCXD_00000[0] = puffs[0] = none;
             }
+
             private string[] Get(string ident)
             {
                 string[] data = Util.GetStringList(ident, lang);
