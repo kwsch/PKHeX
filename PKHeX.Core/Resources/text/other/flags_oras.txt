@@ -19,6 +19,7 @@
 2834	(OR) Latias Captured
 0420	(AS) Latios Defeated
 2835	(AS) Latios Captured
+2915  Eon Ticket Event Completed
 0945	Deoxys Defeated @ Sky Tower
 2842	Deoxys Captured @ Sky Tower
 0173	Raikou Defeated
