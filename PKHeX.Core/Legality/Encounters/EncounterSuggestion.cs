@@ -44,8 +44,8 @@ namespace PKHeX.Core
             var first = slots.First();
             var encounter = new EncounterStatic
             {
+                Location = area.Location,
                 Species = first.Species,
-                Location = first.Location,
                 Level = first.LevelMin,
             };
             if (loc != -1) // forced location
