@@ -855,11 +855,21 @@ namespace PKHeX.Core
                 return;
 
             // Set the Language
-            int lang = pkm.Language - 1;
-            if (lang > 5) lang = 0; // no KOR
-            if (lang < 0) lang = 1;
             int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
+            int lang = GetGen4LanguageBitIndex(pkm.Language);
             Data[PokeDexLanguageFlags + (DP ? dpl : pkm.Species)] |= (byte)(1 << lang);
+        }
+        private static int GetGen4LanguageBitIndex(int lang)
+        {
+            lang -= 1;
+            switch (lang) // invert ITA/GER
+            {
+                case 3: return 4;
+                case 4: return 3;
+            }
+            if (lang > 5)
+                return 0; // no KOR+
+            return lang < 0 ? 1 : lang; // default English
         }
 
         public override bool GetCaught(int species)

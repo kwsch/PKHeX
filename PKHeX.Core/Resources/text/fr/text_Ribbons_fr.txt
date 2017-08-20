@@ -1,49 +1,49 @@
-﻿RibbonChampionKalos = Maître Kalos
-RibbonChampionG3Hoenn = Maître Hoenn (RSE)
-RibbonChampionSinnoh = Maître Sinnoh
-RibbonBestFriends = Affection
-RibbonTraining = Perfectionnement
-RibbonBattlerSkillful = Élite
-RibbonBattlerExpert = Génie
-RibbonEffort = Effort
-RibbonAlert = Alerte
-RibbonShock = Choc
-RibbonDowncast = Déprime
-RibbonCareless = Négligence
-RibbonRelax = Détente
-RibbonSnooze = Sieste
-RibbonSmile = Sourire
-RibbonGorgeous = Sublime
-RibbonRoyal = Royal
-RibbonGorgeousRoyal = Royal Sublime
-RibbonArtist = Artiste
-RibbonFootprint = Empreinte
-RibbonRecord = Record
-RibbonLegend = Légende
-RibbonCountry = Pays
-RibbonNational = National
-RibbonEarth = Terre
-RibbonWorld = Monde
-RibbonClassic = Classique
-RibbonPremier = Premier
-RibbonEvent = Événement
-RibbonBirthday = Anniversaire
-RibbonSpecial = Spécial
-RibbonSouvenir = Souvenir
-RibbonWishing = Souhait
-RibbonChampionBattle = Vainqueur Championnat
-RibbonChampionRegional = Champion Régional
-RibbonChampionNational = Champion National
-RibbonChampionWorld = Champion du Monde
-RibbonCountMemoryContest = Souvenir Concours
-RibbonCountMemoryBattle = Souvenir Combat
-RibbonChampionG6Hoenn = Hoenn Champion (ORAS)
-RibbonContestStar = Contest Star
-RibbonMasterCoolness = Coolness Master
-RibbonMasterBeauty = Beauty Master
-RibbonMasterCuteness = Cuteness Master
-RibbonMasterCleverness = Cleverness Master
-RibbonMasterToughness = Toughness Master
+﻿RibbonChampionKalos	Maître Kalos
+RibbonChampionG3Hoenn	Maître Hoenn (RSE)
+RibbonChampionSinnoh	Maître Sinnoh
+RibbonBestFriends	Affection
+RibbonTraining	Perfectionnement
+RibbonBattlerSkillful	Élite
+RibbonBattlerExpert	Génie
+RibbonEffort	Effort
+RibbonAlert	Alerte
+RibbonShock	Choc
+RibbonDowncast	Déprime
+RibbonCareless	Négligence
+RibbonRelax	Détente
+RibbonSnooze	Sieste
+RibbonSmile	Sourire
+RibbonGorgeous	Sublime
+RibbonRoyal	Royal
+RibbonGorgeousRoyal	Royal Sublime
+RibbonArtist	Artiste
+RibbonFootprint	Empreinte
+RibbonRecord	Record
+RibbonLegend	Légende
+RibbonCountry	Pays
+RibbonNational	National
+RibbonEarth	Terre
+RibbonWorld	Monde
+RibbonClassic	Classique
+RibbonPremier	Premier
+RibbonEvent	Événement
+RibbonBirthday	Anniversaire
+RibbonSpecial	Spécial
+RibbonSouvenir	Souvenir
+RibbonWishing	Souhait
+RibbonChampionBattle	Vainqueur Championnat
+RibbonChampionRegional	Champion Régional
+RibbonChampionNational	Champion National
+RibbonChampionWorld	Champion du Monde
+RibbonCountMemoryContest	Souvenir Concours
+RibbonCountMemoryBattle	Souvenir Combat
+RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
+RibbonContestStar	Contest Star
+RibbonMasterCoolness	Coolness Master
+RibbonMasterBeauty	Beauty Master
+RibbonMasterCuteness	Cuteness Master
+RibbonMasterCleverness	Cleverness Master
+RibbonMasterToughness	Toughness Master
 RibbonChampionAlola	Alola Champion
 RibbonBattleRoyale	Battle Royal Champion
 RibbonBattleTreeGreat	Battle Tree Great
@@ -100,4 +100,4 @@ RibbonCountG3Cool	Cool
 RibbonCountG3Beauty	Beauty
 RibbonCountG3Cute	Cute
 RibbonCountG3Smart	Smart
-RibbonCountG3Tough = Tough
+RibbonCountG3Tough	Tough

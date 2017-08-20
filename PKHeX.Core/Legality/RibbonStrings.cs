@@ -12,13 +12,15 @@ namespace PKHeX.Core
         /// <param name="lines">Array of strings that are tab separated with Property Name, \t, and Display Name.</param>
         public static void ResetDictionary(IEnumerable<string> lines)
         {
-            RibbonNames.Clear();
             foreach (var line in lines)
             {
                 string[] split = line.Split('\t');
                 if (split.Length != 2)
                     continue;
-                RibbonNames.Add(split[0], split[1]);
+                if (RibbonNames.ContainsKey(split[0]))
+                    RibbonNames[split[0]] = split[1];
+                else
+                    RibbonNames.Add(split[0], split[1]);
             }
         }
 
