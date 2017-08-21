@@ -2362,8 +2362,14 @@ namespace PKHeX.Core
         }
         private void VerifyFatefulIngameActive()
         {
-            if (pkm.Version == 15 && pkm is XK3 && Info.WasXD)
+            if (pkm.Version == 15 && pkm is XK3 xk3 && Info.WasXD)
+            {
+                // can't have fateful until traded away, which clears ShadowID
+                if (xk3.FatefulEncounter && xk3.ShadowID != 0)
+                    AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
+
                 return; // fateful is set when transferred away
+            }
 
             if (pkm.FatefulEncounter)
                 AddLine(Severity.Valid, V323, CheckIdentifier.Fateful);
