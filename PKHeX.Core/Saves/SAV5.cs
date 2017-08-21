@@ -620,7 +620,6 @@ namespace PKHeX.Core
 
             const int brSize = 0x54;
             int bit = pkm.Species - 1;
-            int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
             int gender = pkm.Gender % 2; // genderless -> male
             int shiny = pkm.IsShiny ? 1 : 0;
             int shift = shiny*2 + gender + 1;
@@ -643,8 +642,12 @@ namespace PKHeX.Core
                 Data[ofs + brSize*(shift + 4)] |= (byte)(1 << (bit&7));
 
             // Set the Language
-            if (lang < 0) lang = 1;
-            Data[PokeDexLanguageFlags + ((bit*7 + lang)>>3)] |= (byte)(1 << ((bit*7 + lang) & 7));
+            if (bit >= 493) // shifted by 1, Gen5 species do not have international language bits
+            {
+                int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
+                if (lang < 0) lang = 1;
+                Data[PokeDexLanguageFlags + ((bit*7 + lang)>>3)] |= (byte)(1 << ((bit*7 + lang) & 7));
+            }
 
             // Formes
             int fc = Personal[pkm.Species].FormeCount;

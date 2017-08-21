@@ -42,13 +42,13 @@ namespace PKHeX.WinForms
         private readonly CheckBox[] CP;
         private readonly CheckBox[] CL;
         private readonly bool[,] specbools = new bool[9, brSize * 8];
-        private readonly bool[,] langbools = new bool[7, brSize * 8];
+        private const int LangSize = 0x1B0; // 493*7/8 = 0x1B0
+        private readonly bool[,] langbools = new bool[7, LangSize * 8]; // 493*7 bits
         private BitArray formbools;
         private bool editing;
         private int species = -1;
         private const int brSize = 0x54;
         private readonly int FormLen;
-        private const int LangSize = 0x238; // 649*7/8 = 237.xxx
 
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
@@ -113,8 +113,19 @@ namespace PKHeX.WinForms
             // Load Partitions
             for (int i = 0; i < 9; i++)
                 CP[i].Checked = specbools[i, pk - 1];
-            for (int i = 0; i < 7; i++)
-                CL[i].Checked = langbools[i, pk - 1];
+
+            if (species > 493)
+            {
+                for (int i = 0; i < 7; i++)
+                    CL[i].Checked = false;
+                GB_Language.Enabled = false;
+            }
+            else
+            {
+                for (int i = 0; i < 7; i++)
+                    CL[i].Checked = langbools[i, pk - 1];
+                GB_Language.Enabled = true;
+            }
             
             int gt = SAV.Personal[pk].Gender;
 
@@ -147,23 +158,12 @@ namespace PKHeX.WinForms
             if (species < 0) 
                 return;
 
-            specbools[0, species - 1] = CHK_P1.Checked;
-            specbools[1, species - 1] = CHK_P2.Checked;
-            specbools[2, species - 1] = CHK_P3.Checked;
-            specbools[3, species - 1] = CHK_P4.Checked;
-            specbools[4, species - 1] = CHK_P5.Checked;
-            specbools[5, species - 1] = CHK_P6.Checked;
-            specbools[6, species - 1] = CHK_P7.Checked;
-            specbools[7, species - 1] = CHK_P8.Checked;
-            specbools[8, species - 1] = CHK_P9.Checked;
+            for (int i = 0; i < 9; i++)
+                specbools[i, species - 1] = CP[i].Checked;
 
-            langbools[0, species - 1] = CHK_L1.Checked;
-            langbools[1, species - 1] = CHK_L2.Checked;
-            langbools[2, species - 1] = CHK_L3.Checked;
-            langbools[3, species - 1] = CHK_L4.Checked;
-            langbools[4, species - 1] = CHK_L5.Checked;
-            langbools[5, species - 1] = CHK_L6.Checked;
-            langbools[6, species - 1] = CHK_L7.Checked;
+            if (species <= 493)
+                for (int i = 0; i < 7; i++)
+                    langbools[i, species - 1] = CL[i].Checked;
 
             int fc = SAV.Personal[species].FormeCount;
             int f = SAV.B2W2 ? SaveUtil.GetDexFormIndexB2W2(species, fc) : SaveUtil.GetDexFormIndexBW(species, fc);
@@ -200,7 +200,7 @@ namespace PKHeX.WinForms
             byte[] langdata = new byte[LangSize];
             Array.Copy(SAV.Data, SAV.PokeDexLanguageFlags, langdata, 0, LangSize);
             BitArray LangRegion = new BitArray(langdata);
-            for (int b = 0; b < SAV.MaxSpeciesID; b++)
+            for (int b = 0; b < 493; b++)
                 for (int i = 0; i < 7; i++) // 7 Languages
                     langbools[i, b] = LangRegion[7 * b + i];
             
@@ -331,7 +331,10 @@ namespace PKHeX.WinForms
                     foreach (CheckBox t in new[] { CHK_P1 })
                         t.Checked = mnuCaughtNone != sender;
                     for (int j = 0; j < CL.Length; j++)
-                        CL[j].Checked = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
+                    {
+                        bool yes = sender == mnuComplete || (mnuCaughtNone != sender && j == lang);
+                        CL[j].Checked = i < 493 && yes;
+                    }
 
                     if (mnuCaughtNone == sender)
                     {
