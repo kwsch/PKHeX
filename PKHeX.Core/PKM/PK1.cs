@@ -137,7 +137,7 @@ namespace PKHeX.Core
                 Data[0] = (byte)SpeciesConverter.SetG1Species(value);
 
                 // Before updating catch rate, check if non-standard
-                if (!CatchRateIsItem)
+                if (TradebackStatus != TradebackType.WasTradeback && !CatchRateIsItem)
                 {
                     int baseSpecies = Legal.GetBaseSpecies(this);
                     int Rate = Catch_Rate;

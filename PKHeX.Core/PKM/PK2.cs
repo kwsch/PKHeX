@@ -348,7 +348,7 @@ namespace PKHeX.Core
 
         public PK1 ConvertToPK1()
         {
-            PK1 pk1 = new PK1(null, Identifier, Japanese);
+            PK1 pk1 = new PK1(null, Identifier, Japanese) {TradebackStatus = TradebackType.WasTradeback};
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
             pk1.Stat_HPCurrent = Stat_HPCurrent;
