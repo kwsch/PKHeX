@@ -56,6 +56,7 @@
             // 
             // B_Save
             // 
+            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Save.Location = new System.Drawing.Point(269, 223);
             this.B_Save.Margin = new System.Windows.Forms.Padding(4);
             this.B_Save.Name = "B_Save";
@@ -67,6 +68,7 @@
             // 
             // B_Cancel
             // 
+            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.B_Cancel.Location = new System.Drawing.Point(161, 223);
             this.B_Cancel.Margin = new System.Windows.Forms.Padding(4);
             this.B_Cancel.Name = "B_Cancel";
