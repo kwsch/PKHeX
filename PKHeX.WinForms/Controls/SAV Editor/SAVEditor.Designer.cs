@@ -109,6 +109,7 @@
             this.B_OpenHoneyTreeEditor = new System.Windows.Forms.Button();
             this.B_OpenFriendSafari = new System.Windows.Forms.Button();
             this.B_OpenRTCEditor = new System.Windows.Forms.Button();
+            this.B_OpenUGSEditor = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -164,10 +165,10 @@
             // Tab_Box
             // 
             this.Tab_Box.Controls.Add(this.Box);
-            this.Tab_Box.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Box.Location = new System.Drawing.Point(4, 25);
             this.Tab_Box.Name = "Tab_Box";
             this.Tab_Box.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Box.Size = new System.Drawing.Size(302, 199);
+            this.Tab_Box.Size = new System.Drawing.Size(302, 196);
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
@@ -176,7 +177,9 @@
             // 
             this.Box.AllowDrop = true;
             this.Box.CurrentBox = -1;
+            this.Box.FlagIllegal = false;
             this.Box.Location = new System.Drawing.Point(26, 7);
+            this.Box.M = null;
             this.Box.Name = "Box";
             this.Box.Size = new System.Drawing.Size(251, 185);
             this.Box.TabIndex = 1;
@@ -188,10 +191,10 @@
             this.Tab_PartyBattle.Controls.Add(this.L_BattleBox);
             this.Tab_PartyBattle.Controls.Add(this.L_Party);
             this.Tab_PartyBattle.Controls.Add(this.PAN_Party);
-            this.Tab_PartyBattle.Location = new System.Drawing.Point(4, 22);
+            this.Tab_PartyBattle.Location = new System.Drawing.Point(4, 25);
             this.Tab_PartyBattle.Name = "Tab_PartyBattle";
             this.Tab_PartyBattle.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PartyBattle.Size = new System.Drawing.Size(302, 199);
+            this.Tab_PartyBattle.Size = new System.Drawing.Size(302, 196);
             this.Tab_PartyBattle.TabIndex = 1;
             this.Tab_PartyBattle.Text = "Party-Battle Box";
             this.Tab_PartyBattle.UseVisualStyleBackColor = true;
@@ -291,7 +294,7 @@
             this.L_BattleBox.AutoSize = true;
             this.L_BattleBox.Location = new System.Drawing.Point(179, 13);
             this.L_BattleBox.Name = "L_BattleBox";
-            this.L_BattleBox.Size = new System.Drawing.Size(58, 13);
+            this.L_BattleBox.Size = new System.Drawing.Size(75, 17);
             this.L_BattleBox.TabIndex = 1;
             this.L_BattleBox.Text = "Battle Box:";
             this.L_BattleBox.Click += new System.EventHandler(this.ClickShowdownExportBattleBox);
@@ -301,7 +304,7 @@
             this.L_Party.AutoSize = true;
             this.L_Party.Location = new System.Drawing.Point(29, 13);
             this.L_Party.Name = "L_Party";
-            this.L_Party.Size = new System.Drawing.Size(34, 13);
+            this.L_Party.Size = new System.Drawing.Size(45, 17);
             this.L_Party.TabIndex = 0;
             this.L_Party.Text = "Party:";
             this.L_Party.Click += new System.EventHandler(this.ClickShowdownExportParty);
@@ -382,9 +385,9 @@
             this.Tab_Other.Controls.Add(this.GB_Fused);
             this.Tab_Other.Controls.Add(this.L_ReadOnlyOther);
             this.Tab_Other.Controls.Add(this.GB_SUBE);
-            this.Tab_Other.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Other.Location = new System.Drawing.Point(4, 25);
             this.Tab_Other.Name = "Tab_Other";
-            this.Tab_Other.Size = new System.Drawing.Size(302, 199);
+            this.Tab_Other.Size = new System.Drawing.Size(302, 196);
             this.Tab_Other.TabIndex = 2;
             this.Tab_Other.Text = "Other";
             this.Tab_Other.UseVisualStyleBackColor = true;
@@ -414,7 +417,7 @@
             this.L_XP2.AutoSize = true;
             this.L_XP2.Location = new System.Drawing.Point(74, 88);
             this.L_XP2.Name = "L_XP2";
-            this.L_XP2.Size = new System.Drawing.Size(30, 13);
+            this.L_XP2.Size = new System.Drawing.Size(38, 17);
             this.L_XP2.TabIndex = 17;
             this.L_XP2.Text = "+XP:";
             // 
@@ -423,7 +426,7 @@
             this.L_XP1.AutoSize = true;
             this.L_XP1.Location = new System.Drawing.Point(74, 35);
             this.L_XP1.Name = "L_XP1";
-            this.L_XP1.Size = new System.Drawing.Size(30, 13);
+            this.L_XP1.Size = new System.Drawing.Size(38, 17);
             this.L_XP1.TabIndex = 16;
             this.L_XP1.Text = "+XP:";
             // 
@@ -432,7 +435,7 @@
             this.TB_Daycare2XP.Location = new System.Drawing.Point(108, 85);
             this.TB_Daycare2XP.Name = "TB_Daycare2XP";
             this.TB_Daycare2XP.ReadOnly = true;
-            this.TB_Daycare2XP.Size = new System.Drawing.Size(73, 20);
+            this.TB_Daycare2XP.Size = new System.Drawing.Size(73, 22);
             this.TB_Daycare2XP.TabIndex = 15;
             // 
             // TB_Daycare1XP
@@ -440,7 +443,7 @@
             this.TB_Daycare1XP.Location = new System.Drawing.Point(108, 32);
             this.TB_Daycare1XP.Name = "TB_Daycare1XP";
             this.TB_Daycare1XP.ReadOnly = true;
-            this.TB_Daycare1XP.Size = new System.Drawing.Size(73, 20);
+            this.TB_Daycare1XP.Size = new System.Drawing.Size(73, 22);
             this.TB_Daycare1XP.TabIndex = 14;
             // 
             // L_DC2
@@ -448,7 +451,7 @@
             this.L_DC2.AutoSize = true;
             this.L_DC2.Location = new System.Drawing.Point(74, 71);
             this.L_DC2.Name = "L_DC2";
-            this.L_DC2.Size = new System.Drawing.Size(19, 13);
+            this.L_DC2.Size = new System.Drawing.Size(24, 17);
             this.L_DC2.TabIndex = 13;
             this.L_DC2.Text = "2: ";
             // 
@@ -457,7 +460,7 @@
             this.L_DC1.AutoSize = true;
             this.L_DC1.Location = new System.Drawing.Point(74, 18);
             this.L_DC1.Name = "L_DC1";
-            this.L_DC1.Size = new System.Drawing.Size(19, 13);
+            this.L_DC1.Size = new System.Drawing.Size(24, 17);
             this.L_DC1.TabIndex = 12;
             this.L_DC1.Text = "1: ";
             // 
@@ -466,7 +469,7 @@
             this.L_DaycareSeed.AutoSize = true;
             this.L_DaycareSeed.Location = new System.Drawing.Point(23, 143);
             this.L_DaycareSeed.Name = "L_DaycareSeed";
-            this.L_DaycareSeed.Size = new System.Drawing.Size(35, 13);
+            this.L_DaycareSeed.Size = new System.Drawing.Size(45, 17);
             this.L_DaycareSeed.TabIndex = 9;
             this.L_DaycareSeed.Text = "Seed:";
             // 
@@ -476,7 +479,7 @@
             this.TB_RNGSeed.Location = new System.Drawing.Point(61, 140);
             this.TB_RNGSeed.MaxLength = 16;
             this.TB_RNGSeed.Name = "TB_RNGSeed";
-            this.TB_RNGSeed.Size = new System.Drawing.Size(120, 20);
+            this.TB_RNGSeed.Size = new System.Drawing.Size(120, 23);
             this.TB_RNGSeed.TabIndex = 8;
             this.TB_RNGSeed.Text = "0123456789ABCDEF";
             this.TB_RNGSeed.Validated += new System.EventHandler(this.UpdateStringSeed);
@@ -507,7 +510,7 @@
             this.DayCare_HasEgg.Enabled = false;
             this.DayCare_HasEgg.Location = new System.Drawing.Point(61, 123);
             this.DayCare_HasEgg.Name = "DayCare_HasEgg";
-            this.DayCare_HasEgg.Size = new System.Drawing.Size(91, 17);
+            this.DayCare_HasEgg.Size = new System.Drawing.Size(116, 21);
             this.DayCare_HasEgg.TabIndex = 7;
             this.DayCare_HasEgg.Text = "Egg Available";
             this.DayCare_HasEgg.UseVisualStyleBackColor = true;
@@ -617,9 +620,9 @@
             this.Tab_SAV.Controls.Add(this.TB_GameSync);
             this.Tab_SAV.Controls.Add(this.B_SaveBoxBin);
             this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
-            this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
+            this.Tab_SAV.Location = new System.Drawing.Point(4, 25);
             this.Tab_SAV.Name = "Tab_SAV";
-            this.Tab_SAV.Size = new System.Drawing.Size(302, 199);
+            this.Tab_SAV.Size = new System.Drawing.Size(302, 196);
             this.Tab_SAV.TabIndex = 3;
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
@@ -630,7 +633,7 @@
             this.CB_SaveSlot.FormattingEnabled = true;
             this.CB_SaveSlot.Location = new System.Drawing.Point(150, 148);
             this.CB_SaveSlot.Name = "CB_SaveSlot";
-            this.CB_SaveSlot.Size = new System.Drawing.Size(121, 21);
+            this.CB_SaveSlot.Size = new System.Drawing.Size(121, 24);
             this.CB_SaveSlot.TabIndex = 20;
             this.CB_SaveSlot.Validated += new System.EventHandler(this.UpdateSaveSlot);
             // 
@@ -639,7 +642,7 @@
             this.L_SaveSlot.AutoSize = true;
             this.L_SaveSlot.Location = new System.Drawing.Point(92, 151);
             this.L_SaveSlot.Name = "L_SaveSlot";
-            this.L_SaveSlot.Size = new System.Drawing.Size(56, 13);
+            this.L_SaveSlot.Size = new System.Drawing.Size(72, 17);
             this.L_SaveSlot.TabIndex = 19;
             this.L_SaveSlot.Text = "Save Slot:";
             // 
@@ -659,7 +662,7 @@
             this.TB_Secure2.Location = new System.Drawing.Point(151, 113);
             this.TB_Secure2.MaxLength = 16;
             this.TB_Secure2.Name = "TB_Secure2";
-            this.TB_Secure2.Size = new System.Drawing.Size(120, 20);
+            this.TB_Secure2.Size = new System.Drawing.Size(120, 23);
             this.TB_Secure2.TabIndex = 17;
             this.TB_Secure2.Text = "0000000000000000";
             this.TB_Secure2.Validated += new System.EventHandler(this.UpdateStringSeed);
@@ -680,7 +683,7 @@
             this.TB_Secure1.Location = new System.Drawing.Point(151, 91);
             this.TB_Secure1.MaxLength = 16;
             this.TB_Secure1.Name = "TB_Secure1";
-            this.TB_Secure1.Size = new System.Drawing.Size(120, 20);
+            this.TB_Secure1.Size = new System.Drawing.Size(120, 23);
             this.TB_Secure1.TabIndex = 15;
             this.TB_Secure1.Text = "0000000000000000";
             this.TB_Secure1.Validated += new System.EventHandler(this.UpdateStringSeed);
@@ -711,7 +714,7 @@
             this.TB_GameSync.Location = new System.Drawing.Point(151, 69);
             this.TB_GameSync.MaxLength = 16;
             this.TB_GameSync.Name = "TB_GameSync";
-            this.TB_GameSync.Size = new System.Drawing.Size(120, 20);
+            this.TB_GameSync.Size = new System.Drawing.Size(120, 23);
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
             this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
@@ -777,6 +780,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenHoneyTreeEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
             this.FLP_SAVtools.Controls.Add(this.B_OpenRTCEditor);
+            this.FLP_SAVtools.Controls.Add(this.B_OpenUGSEditor);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 88);
@@ -844,7 +848,7 @@
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Location = new System.Drawing.Point(3, 61);
+            this.B_OpenPokedex.Location = new System.Drawing.Point(84, 61);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokedex.TabIndex = 11;
@@ -854,7 +858,7 @@
             // 
             // B_OpenLinkInfo
             // 
-            this.B_OpenLinkInfo.Location = new System.Drawing.Point(96, 61);
+            this.B_OpenLinkInfo.Location = new System.Drawing.Point(177, 61);
             this.B_OpenLinkInfo.Name = "B_OpenLinkInfo";
             this.B_OpenLinkInfo.Size = new System.Drawing.Size(87, 23);
             this.B_OpenLinkInfo.TabIndex = 23;
@@ -864,7 +868,7 @@
             // 
             // B_OpenBerryField
             // 
-            this.B_OpenBerryField.Location = new System.Drawing.Point(189, 61);
+            this.B_OpenBerryField.Location = new System.Drawing.Point(3, 90);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
             this.B_OpenBerryField.Size = new System.Drawing.Size(87, 23);
             this.B_OpenBerryField.TabIndex = 12;
@@ -874,7 +878,7 @@
             // 
             // B_OpenPokeblocks
             // 
-            this.B_OpenPokeblocks.Location = new System.Drawing.Point(3, 90);
+            this.B_OpenPokeblocks.Location = new System.Drawing.Point(96, 90);
             this.B_OpenPokeblocks.Name = "B_OpenPokeblocks";
             this.B_OpenPokeblocks.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokeblocks.TabIndex = 22;
@@ -885,7 +889,7 @@
             // 
             // B_OpenSecretBase
             // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(189, 90);
             this.B_OpenSecretBase.Name = "B_OpenSecretBase";
             this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
             this.B_OpenSecretBase.TabIndex = 21;
@@ -896,7 +900,7 @@
             // 
             // B_OpenPokepuffs
             // 
-            this.B_OpenPokepuffs.Location = new System.Drawing.Point(189, 90);
+            this.B_OpenPokepuffs.Location = new System.Drawing.Point(3, 119);
             this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
             this.B_OpenPokepuffs.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokepuffs.TabIndex = 1;
@@ -907,7 +911,7 @@
             // B_OpenSuperTraining
             // 
             this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 119);
+            this.B_OpenSuperTraining.Location = new System.Drawing.Point(96, 119);
             this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
             this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
             this.B_OpenSuperTraining.TabIndex = 7;
@@ -917,7 +921,7 @@
             // 
             // B_OpenHallofFame
             // 
-            this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 119);
+            this.B_OpenHallofFame.Location = new System.Drawing.Point(189, 119);
             this.B_OpenHallofFame.Name = "B_OpenHallofFame";
             this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
             this.B_OpenHallofFame.TabIndex = 8;
@@ -927,7 +931,7 @@
             // 
             // B_OUTPasserby
             // 
-            this.B_OUTPasserby.Location = new System.Drawing.Point(189, 119);
+            this.B_OUTPasserby.Location = new System.Drawing.Point(3, 148);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
             this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
             this.B_OUTPasserby.TabIndex = 4;
@@ -937,7 +941,7 @@
             // 
             // B_CGearSkin
             // 
-            this.B_CGearSkin.Location = new System.Drawing.Point(3, 148);
+            this.B_CGearSkin.Location = new System.Drawing.Point(96, 148);
             this.B_CGearSkin.Name = "B_CGearSkin";
             this.B_CGearSkin.Size = new System.Drawing.Size(87, 23);
             this.B_CGearSkin.TabIndex = 24;
@@ -947,7 +951,7 @@
             // 
             // B_OpenPokeBeans
             // 
-            this.B_OpenPokeBeans.Location = new System.Drawing.Point(96, 148);
+            this.B_OpenPokeBeans.Location = new System.Drawing.Point(189, 148);
             this.B_OpenPokeBeans.Name = "B_OpenPokeBeans";
             this.B_OpenPokeBeans.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokeBeans.TabIndex = 25;
@@ -957,7 +961,7 @@
             // 
             // B_OpenZygardeCells
             // 
-            this.B_OpenZygardeCells.Location = new System.Drawing.Point(189, 148);
+            this.B_OpenZygardeCells.Location = new System.Drawing.Point(3, 177);
             this.B_OpenZygardeCells.Name = "B_OpenZygardeCells";
             this.B_OpenZygardeCells.Size = new System.Drawing.Size(87, 23);
             this.B_OpenZygardeCells.TabIndex = 26;
@@ -967,7 +971,7 @@
             // 
             // B_OpenMiscEditor
             // 
-            this.B_OpenMiscEditor.Location = new System.Drawing.Point(3, 177);
+            this.B_OpenMiscEditor.Location = new System.Drawing.Point(96, 177);
             this.B_OpenMiscEditor.Name = "B_OpenMiscEditor";
             this.B_OpenMiscEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenMiscEditor.TabIndex = 27;
@@ -977,7 +981,7 @@
             // 
             // B_OpenHoneyTreeEditor
             // 
-            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(96, 177);
+            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(189, 177);
             this.B_OpenHoneyTreeEditor.Name = "B_OpenHoneyTreeEditor";
             this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenHoneyTreeEditor.TabIndex = 28;
@@ -987,7 +991,7 @@
             // 
             // B_OpenFriendSafari
             // 
-            this.B_OpenFriendSafari.Location = new System.Drawing.Point(189, 177);
+            this.B_OpenFriendSafari.Location = new System.Drawing.Point(3, 206);
             this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
             this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
             this.B_OpenFriendSafari.TabIndex = 28;
@@ -997,13 +1001,23 @@
             // 
             // B_OpenRTCEditor
             // 
-            this.B_OpenRTCEditor.Location = new System.Drawing.Point(3, 206);
+            this.B_OpenRTCEditor.Location = new System.Drawing.Point(96, 206);
             this.B_OpenRTCEditor.Name = "B_OpenRTCEditor";
             this.B_OpenRTCEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenRTCEditor.TabIndex = 29;
             this.B_OpenRTCEditor.Text = "Clock (RTC)";
             this.B_OpenRTCEditor.UseVisualStyleBackColor = true;
             this.B_OpenRTCEditor.Click += new System.EventHandler(this.B_OpenRTCEditor_Click);
+            // 
+            // B_OpenUGSEditor
+            // 
+            this.B_OpenUGSEditor.Location = new System.Drawing.Point(189, 206);
+            this.B_OpenUGSEditor.Name = "B_OpenUGSEditor";
+            this.B_OpenUGSEditor.Size = new System.Drawing.Size(87, 23);
+            this.B_OpenUGSEditor.TabIndex = 2;
+            this.B_OpenUGSEditor.Text = "UG Scores";
+            this.B_OpenUGSEditor.UseVisualStyleBackColor = true;
+            this.B_OpenUGSEditor.Click += new System.EventHandler(this.B_OpenUGSEditor_Click);
             // 
             // SAVEditor
             // 
@@ -1139,5 +1153,6 @@
         private System.Windows.Forms.Button B_OpenFriendSafari;
         private System.Windows.Forms.Button B_OpenRTCEditor;
         public BoxEditor Box;
+        private System.Windows.Forms.Button B_OpenUGSEditor;
     }
 }

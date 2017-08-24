@@ -242,7 +242,7 @@ namespace PKHeX.Core
                     Daycare = 0x1654 + GBO;
                     OFS_HONEY = 0x7F38 + GBO;
                     Box = 0xCF30 + SBO;
-
+                    
                     _currentPoketchApp = 0x1162;
                     break;
                 case GameVersion.HGSS:
@@ -1133,7 +1133,16 @@ namespace PKHeX.Core
                 return new[] { A, B, C, D };
             }
         }
-        
+
+        //Underground Scores
+        public int UG_PlayersMet { get => BitConverter.ToInt32(Data, 0x3CB4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CB4); }
+        public int UG_Gifts { get => BitConverter.ToInt32(Data, 0x3CB8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CB8); }
+        public int UG_Spheres { get => BitConverter.ToInt32(Data, 0x3CC0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CC0); }
+        public int UG_Fossils { get => BitConverter.ToInt32(Data, 0x3CC4); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CC4); }
+        public int UG_TrapsAvoided { get => BitConverter.ToInt32(Data, 0x3CCC); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CCC); }
+        public int UG_TrapsTriggered { get => BitConverter.ToInt32(Data, 0x3CD0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CD0); }
+        public int UG_Flags { get => BitConverter.ToInt32(Data, 0x3CE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3CE8); }
+
         public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
