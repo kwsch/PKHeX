@@ -242,7 +242,7 @@ namespace PKHeX.Core
                     Daycare = 0x1654 + GBO;
                     OFS_HONEY = 0x7F38 + GBO;
                     Box = 0xCF30 + SBO;
-                    
+
                     _currentPoketchApp = 0x1162;
                     break;
                 case GameVersion.HGSS:
