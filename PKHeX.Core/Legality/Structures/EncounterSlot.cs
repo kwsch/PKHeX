@@ -12,6 +12,7 @@
         public bool WhiteFlute { get; set; }
         public bool BlackFlute { get; set; }
         public bool IsNormalLead => !(WhiteFlute || BlackFlute || DexNav);
+        public bool IsDexNav => AllowDexNav && DexNav;
     }
     public class EncounterSlot : IEncounterable, IGeneration
     {
