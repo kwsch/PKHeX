@@ -848,7 +848,7 @@
             // 
             // B_OpenPokedex
             // 
-            this.B_OpenPokedex.Location = new System.Drawing.Point(84, 61);
+            this.B_OpenPokedex.Location = new System.Drawing.Point(3, 61);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokedex.TabIndex = 11;
@@ -858,7 +858,7 @@
             // 
             // B_OpenLinkInfo
             // 
-            this.B_OpenLinkInfo.Location = new System.Drawing.Point(177, 61);
+            this.B_OpenLinkInfo.Location = new System.Drawing.Point(96, 61);
             this.B_OpenLinkInfo.Name = "B_OpenLinkInfo";
             this.B_OpenLinkInfo.Size = new System.Drawing.Size(87, 23);
             this.B_OpenLinkInfo.TabIndex = 23;
@@ -868,7 +868,7 @@
             // 
             // B_OpenBerryField
             // 
-            this.B_OpenBerryField.Location = new System.Drawing.Point(3, 90);
+            this.B_OpenBerryField.Location = new System.Drawing.Point(189, 61);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
             this.B_OpenBerryField.Size = new System.Drawing.Size(87, 23);
             this.B_OpenBerryField.TabIndex = 12;
@@ -878,7 +878,7 @@
             // 
             // B_OpenPokeblocks
             // 
-            this.B_OpenPokeblocks.Location = new System.Drawing.Point(96, 90);
+            this.B_OpenPokeblocks.Location = new System.Drawing.Point(3, 90);
             this.B_OpenPokeblocks.Name = "B_OpenPokeblocks";
             this.B_OpenPokeblocks.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokeblocks.TabIndex = 22;
@@ -889,7 +889,7 @@
             // 
             // B_OpenSecretBase
             // 
-            this.B_OpenSecretBase.Location = new System.Drawing.Point(189, 90);
+            this.B_OpenSecretBase.Location = new System.Drawing.Point(96, 90);
             this.B_OpenSecretBase.Name = "B_OpenSecretBase";
             this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
             this.B_OpenSecretBase.TabIndex = 21;
@@ -900,7 +900,7 @@
             // 
             // B_OpenPokepuffs
             // 
-            this.B_OpenPokepuffs.Location = new System.Drawing.Point(3, 119);
+            this.B_OpenPokepuffs.Location = new System.Drawing.Point(189, 90);
             this.B_OpenPokepuffs.Name = "B_OpenPokepuffs";
             this.B_OpenPokepuffs.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokepuffs.TabIndex = 1;
@@ -911,7 +911,7 @@
             // B_OpenSuperTraining
             // 
             this.B_OpenSuperTraining.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.B_OpenSuperTraining.Location = new System.Drawing.Point(96, 119);
+            this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 119);
             this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
             this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
             this.B_OpenSuperTraining.TabIndex = 7;
@@ -921,7 +921,7 @@
             // 
             // B_OpenHallofFame
             // 
-            this.B_OpenHallofFame.Location = new System.Drawing.Point(189, 119);
+            this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 119);
             this.B_OpenHallofFame.Name = "B_OpenHallofFame";
             this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
             this.B_OpenHallofFame.TabIndex = 8;
@@ -931,7 +931,7 @@
             // 
             // B_OUTPasserby
             // 
-            this.B_OUTPasserby.Location = new System.Drawing.Point(3, 148);
+            this.B_OUTPasserby.Location = new System.Drawing.Point(189, 119);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
             this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
             this.B_OUTPasserby.TabIndex = 4;
@@ -941,7 +941,7 @@
             // 
             // B_CGearSkin
             // 
-            this.B_CGearSkin.Location = new System.Drawing.Point(96, 148);
+            this.B_CGearSkin.Location = new System.Drawing.Point(3, 148);
             this.B_CGearSkin.Name = "B_CGearSkin";
             this.B_CGearSkin.Size = new System.Drawing.Size(87, 23);
             this.B_CGearSkin.TabIndex = 24;
@@ -951,7 +951,7 @@
             // 
             // B_OpenPokeBeans
             // 
-            this.B_OpenPokeBeans.Location = new System.Drawing.Point(189, 148);
+            this.B_OpenPokeBeans.Location = new System.Drawing.Point(96, 148);
             this.B_OpenPokeBeans.Name = "B_OpenPokeBeans";
             this.B_OpenPokeBeans.Size = new System.Drawing.Size(87, 23);
             this.B_OpenPokeBeans.TabIndex = 25;
@@ -961,7 +961,7 @@
             // 
             // B_OpenZygardeCells
             // 
-            this.B_OpenZygardeCells.Location = new System.Drawing.Point(3, 177);
+            this.B_OpenZygardeCells.Location = new System.Drawing.Point(189, 148);
             this.B_OpenZygardeCells.Name = "B_OpenZygardeCells";
             this.B_OpenZygardeCells.Size = new System.Drawing.Size(87, 23);
             this.B_OpenZygardeCells.TabIndex = 26;
@@ -971,7 +971,7 @@
             // 
             // B_OpenMiscEditor
             // 
-            this.B_OpenMiscEditor.Location = new System.Drawing.Point(96, 177);
+            this.B_OpenMiscEditor.Location = new System.Drawing.Point(3, 177);
             this.B_OpenMiscEditor.Name = "B_OpenMiscEditor";
             this.B_OpenMiscEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenMiscEditor.TabIndex = 27;
@@ -981,7 +981,7 @@
             // 
             // B_OpenHoneyTreeEditor
             // 
-            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(189, 177);
+            this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(96, 177);
             this.B_OpenHoneyTreeEditor.Name = "B_OpenHoneyTreeEditor";
             this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenHoneyTreeEditor.TabIndex = 28;
@@ -991,7 +991,7 @@
             // 
             // B_OpenFriendSafari
             // 
-            this.B_OpenFriendSafari.Location = new System.Drawing.Point(3, 206);
+            this.B_OpenFriendSafari.Location = new System.Drawing.Point(189, 177);
             this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
             this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
             this.B_OpenFriendSafari.TabIndex = 28;
@@ -1001,7 +1001,7 @@
             // 
             // B_OpenRTCEditor
             // 
-            this.B_OpenRTCEditor.Location = new System.Drawing.Point(96, 206);
+            this.B_OpenRTCEditor.Location = new System.Drawing.Point(3, 206);
             this.B_OpenRTCEditor.Name = "B_OpenRTCEditor";
             this.B_OpenRTCEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenRTCEditor.TabIndex = 29;
@@ -1011,11 +1011,11 @@
             // 
             // B_OpenUGSEditor
             // 
-            this.B_OpenUGSEditor.Location = new System.Drawing.Point(189, 206);
+            this.B_OpenUGSEditor.Location = new System.Drawing.Point(96, 206);
             this.B_OpenUGSEditor.Name = "B_OpenUGSEditor";
             this.B_OpenUGSEditor.Size = new System.Drawing.Size(87, 23);
             this.B_OpenUGSEditor.TabIndex = 2;
-            this.B_OpenUGSEditor.Text = "UG Scores";
+            this.B_OpenUGSEditor.Text = "Underground";
             this.B_OpenUGSEditor.UseVisualStyleBackColor = true;
             this.B_OpenUGSEditor.Click += new System.EventHandler(this.B_OpenUGSEditor_Click);
             // 

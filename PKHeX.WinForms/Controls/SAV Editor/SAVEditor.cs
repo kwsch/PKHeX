@@ -1100,10 +1100,12 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
         {
-            if (SAV.Generation!=4 && !SAV.DP || SAV.Generation != 4 && !SAV.Pt)
-                return;
-            else
-                new SAV_Underground(SAV).ShowDialog();
+            switch (SAV.Version)
+            {
+                case GameVersion.DP:
+                case GameVersion.Pt:
+                    new SAV_Underground(SAV).ShowDialog(); break;
+            }
         }
     }
 }
