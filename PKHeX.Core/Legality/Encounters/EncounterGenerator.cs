@@ -99,7 +99,7 @@ namespace PKHeX.Core
                     deferred.Add(t);
                     continue;
                 }
-                yield return new GBEncounterData(pkm, gen, t, game);
+                yield return new GBEncounterData(pkm, gen, t, t.Version);
             }
             foreach (var s in GetValidStaticEncounter(pkm, game).Where(z => species.Contains(z.Species)))
             {
@@ -119,13 +119,13 @@ namespace PKHeX.Core
                 }
                 if (game == GameVersion.GSC && !s.EggEncounter && s.Version == GameVersion.C && !pkm.HasOriginalMetLocation)
                     continue;
-                yield return new GBEncounterData(pkm, gen, s, game);
+                yield return new GBEncounterData(pkm, gen, s, s.Version);
             }
-            foreach (var e in GetValidWildEncounters(pkm, game))
+            foreach (var e in GetValidWildEncounters(pkm, game).OfType<EncounterSlot1>())
             {
                 if (!species.Contains(e.Species))
                     continue;
-                yield return new GBEncounterData(pkm, gen, e, game);
+                yield return new GBEncounterData(pkm, gen, e, e.Version);
             }
 
             if (game == GameVersion.GSC || game == GameVersion.C)
