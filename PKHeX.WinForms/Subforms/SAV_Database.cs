@@ -471,65 +471,12 @@ namespace PKHeX.WinForms
                 res = res.Where(pk => pk.PSV == Convert.ToInt16(MT_ESV.Text));
 
             // Tertiary Searchables
-            if (TB_Level.Text != "") // Level
-            {
-                int level = Convert.ToInt16(TB_Level.Text);
-                if (level <= 100)
-                switch (CB_Level.SelectedIndex)
-                {
-                    case 0: break; // Any 
-                    case 1: // <=
-                        res = res.Where(pk => pk.Stat_Level <= level);
-                        break;
-                    case 2: // == 
-                        res = res.Where(pk => pk.Stat_Level == level);
-                        break;
-                    case 3: // >=
-                        res = res.Where(pk => pk.Stat_Level >= level);
-                        break;
-                }
-            }
-            switch (CB_IV.SelectedIndex)
-            {
-                case 0: break; // Do nothing
-                case 1: // <= 90
-                    res = res.Where(pk => pk.IVs.Sum() <= 90);
-                    break;
-                case 2: // 91-120
-                    res = res.Where(pk => pk.IVs.Sum() > 90 && pk.IVs.Sum() <= 120);
-                    break;
-                case 3: // 121-150
-                    res = res.Where(pk => pk.IVs.Sum() > 120 && pk.IVs.Sum() <= 150);
-                    break;
-                case 4: // 151-179
-                    res = res.Where(pk => pk.IVs.Sum() > 150 && pk.IVs.Sum() < 180);
-                    break;
-                case 5: // 180+
-                    res = res.Where(pk => pk.IVs.Sum() >= 180);
-                    break;
-                case 6: // == 186
-                    res = res.Where(pk => pk.IVs.Sum() == 186);
-                    break;
-            }
-            switch (CB_EVTrain.SelectedIndex)
-            {
-                case 0: break; // Do nothing
-                case 1: // None (0)
-                    res = res.Where(pk => pk.EVs.Sum() == 0);
-                    break;
-                case 2: // Some (127-0)
-                    res = res.Where(pk => pk.EVs.Sum() < 128);
-                    break;
-                case 3: // Half (128-507)
-                    res = res.Where(pk => pk.EVs.Sum() >= 128 && pk.EVs.Sum() < 508);
-                    break;
-                case 4: // Full (508+)
-                    res = res.Where(pk => pk.EVs.Sum() >= 508);
-                    break;
-            }
+            res = FilterByLVL(res, CB_Level.SelectedIndex, TB_Level.Text);
+            res = FilterByIVs(res, CB_IV.SelectedIndex);
+            res = FilterByEVs(res, CB_EVTrain.SelectedIndex);
 
             slotSelected = -1; // reset the slot last viewed
-            
+
             if (Menu_SearchLegal.Checked && !Menu_SearchIllegal.Checked)
                 res = res.Where(pk => new LegalityAnalysis(pk).ParsedValid);
             if (!Menu_SearchLegal.Checked && Menu_SearchIllegal.Checked)
@@ -547,7 +494,7 @@ namespace PKHeX.WinForms
                             return pkm.Identifier.Contains(cmd.PropertyValue);
                         if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
-                        try { if (ReflectUtil.IsValueEqual(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
+                        try { if (pkm.GetType().IsValueEqual(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
                         return false;
                     }
@@ -560,6 +507,64 @@ namespace PKHeX.WinForms
 
             return res;
         }
+        private static IEnumerable<PKM> FilterByLVL(IEnumerable<PKM> res, int option, string lvl)
+        {
+            if (string.IsNullOrWhiteSpace(lvl))
+                return res;
+            if (!int.TryParse(lvl, out int level))
+                return res;
+            if (level > 100)
+                return res;
+
+            switch (option)
+            {
+                case 0: break; // Any (Do nothing)
+                case 1: // <=
+                    return res.Where(pk => pk.Stat_Level <= level);
+                case 2: // == 
+                    return res.Where(pk => pk.Stat_Level == level);
+                case 3: // >=
+                    return res.Where(pk => pk.Stat_Level >= level);
+            }
+            return res;
+        }
+        private static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option)
+        {
+            switch (option)
+            {
+                case 0: break; // Any (Do nothing)
+                case 1: // None (0)
+                    return res.Where(pk => pk.EVs.Sum() == 0);
+                case 2: // Some (127-0)
+                    return res.Where(pk => pk.EVs.Sum() < 128);
+                case 3: // Half (128-507)
+                    return res.Where(pk => pk.EVs.Sum() >= 128 && pk.EVs.Sum() < 508);
+                case 4: // Full (508+)
+                    return res.Where(pk => pk.EVs.Sum() >= 508);
+            }
+            return res;
+        }
+        private static IEnumerable<PKM> FilterByIVs(IEnumerable<PKM> res, int option)
+        {
+            switch (option)
+            {
+                case 0: break; // Do nothing
+                case 1: // <= 90
+                    return res.Where(pk => pk.IVs.Sum() <= 90);
+                case 2: // 91-120
+                    return res.Where(pk => pk.IVs.Sum() > 90 && pk.IVs.Sum() <= 120);
+                case 3: // 121-150
+                    return res.Where(pk => pk.IVs.Sum() > 120 && pk.IVs.Sum() <= 150);
+                case 4: // 151-179
+                    return res.Where(pk => pk.IVs.Sum() > 150 && pk.IVs.Sum() < 180);
+                case 5: // 180+
+                    return res.Where(pk => pk.IVs.Sum() >= 180);
+                case 6: // == 186
+                    return res.Where(pk => pk.IVs.Sum() == 186);
+            }
+            return res;
+        }
+
         private async void B_Search_Click(object sender, EventArgs e)
         {
             B_Search.Enabled = false;
