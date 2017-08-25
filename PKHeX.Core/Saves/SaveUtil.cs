@@ -35,6 +35,16 @@ namespace PKHeX.Core
         public const int SIZE_G2BAT_J = 0x1002C;
         public const int SIZE_G1RAW = 0x8000;
         public const int SIZE_G1BAT = 0x802C;
+        private static readonly HashSet<int> SIZES = new HashSet<int>
+        {
+            SIZE_G7SM,
+            SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
+            SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
+            SIZE_G4BR, SIZE_G4RAW,
+            SIZE_G3BOX, SIZE_G3BOXGCI, SIZE_G3COLO, SIZE_G3COLOGCI, SIZE_G3XD, SIZE_G3XDGCI, SIZE_G3RAW, SIZE_G3RAWHALF,
+            SIZE_G2RAW_U, SIZE_G2VC, SIZE_G2BAT_U, SIZE_G2EMU, SIZE_G2RAW_J, SIZE_G2BAT_J,
+            SIZE_G1RAW, SIZE_G1BAT
+        };
 
         public static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
         public static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
@@ -568,25 +578,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-        private static bool IsSizeValid(int size)
-        {
-            switch (size)
-            {
-                case SIZE_G3RAW:
-                case SIZE_G3RAWHALF:
-
-                case SIZE_G4RAW: // Gen4/5
-
-                case SIZE_G6XY:
-                case SIZE_G6ORASDEMO:
-                case SIZE_G6ORAS:
-                    
-                case SIZE_G7SM:
-                    return true;
-                default:
-                    return false;
-            }
-        }
+        private static bool IsSizeValid(int size) => SIZES.Contains(size);
 
         // SAV Manipulation
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>

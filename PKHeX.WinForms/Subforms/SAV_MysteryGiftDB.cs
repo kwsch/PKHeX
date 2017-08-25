@@ -303,7 +303,7 @@ namespace PKHeX.WinForms
                     {
                         if (!gift.GetType().HasPropertyAll(cmd.PropertyName))
                             return false;
-                        try { if (ReflectUtil.IsValueEqual(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
+                        try { if (gift.GetType().IsValueEqual(gift, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
                         catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
                         return false;
                     }
@@ -313,9 +313,8 @@ namespace PKHeX.WinForms
 
             var results = res.ToArray();
             if (results.Length == 0)
-            {
                 WinFormsUtil.Alert("No results found!");
-            }
+
             SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
             System.Media.SystemSounds.Asterisk.Play();
         }
