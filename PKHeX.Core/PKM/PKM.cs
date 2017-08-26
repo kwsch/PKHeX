@@ -756,19 +756,49 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Applies a shiny PID to the <see cref="PKM"/>.
+        /// Applies <see cref="IVs"/> to the <see cref="PKM"/> to make it shiny.
+        /// </summary>
+        /// <remarks>
+        /// Should only be used on <see cref="PK1"/> or <see cref="PK2"/> <see cref="PKM"/>s.
+        /// </remarks>
+        public void SetShinyIVs()
+        {
+            int[] and2 = { 2, 3, 6, 7, 10, 11, 14, 15 };
+            switch (Format)
+            {
+                default:
+                    return;
+                case 1:
+                    IV_ATK = 10; // an attempt was made
+                    IV_DEF = randIV();
+                    break;
+                case 2:
+                    IV_DEF = 10;
+                    IV_ATK = randIV();
+                    break;
+            }
+            IV_SPE = 10;
+            IV_SPA = 10;
+            int randIV() => and2[Util.Rand32() & 7];
+        }
+
+        /// <summary>
+        /// Applies a shiny <see cref="PID"/> to the <see cref="PKM"/>.
         /// </summary>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
         /// </remarks>
         public void SetShinyPID()
         {
+            if (Format <= 2)
+                SetShinyIVs();
+
             do PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
             if (GenNumber < 6)
                 EncryptionConstant = PID;
         }
         /// <summary>
-        /// Applies a shiny SID to the <see cref="PKM"/>.
+        /// Applies a shiny <see cref="SID"/> to the <see cref="PKM"/>.
         /// </summary>
         public void SetShinySID()
         {
@@ -777,7 +807,7 @@ namespace PKHeX.Core
             SID = (int)((xor & 0xFFF8) | (Util.Rand32() & 7));
         }
         /// <summary>
-        /// Applies a PID to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
+        /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
@@ -789,7 +819,7 @@ namespace PKHeX.Core
                 EncryptionConstant = PID;
         }
         /// <summary>
-        /// Applies a PID to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
+        /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Gender"/>.
         /// </summary>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
@@ -801,7 +831,7 @@ namespace PKHeX.Core
                 EncryptionConstant = PID;
         }
         /// <summary>
-        /// Applies a PID to the <see cref="PKM"/> according to the specified <see cref="AltForm"/>.
+        /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="AltForm"/>.
         /// </summary>
         /// <remarks>
         /// This method should only be used for Unown originating in Generation 3 games.
