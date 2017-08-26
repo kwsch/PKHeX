@@ -1149,7 +1149,7 @@ namespace PKHeX.Core
             if (wc.CNT_Tough > pkm.CNT_Tough) return false;
             if (wc.CNT_Sheen > pkm.CNT_Sheen) return false;
 
-            return false;
+            return true;
         }
         private static bool GetIsMatchPGF(PKM pkm, PGF wc, IEnumerable<DexLevel> vs)
         {
@@ -1282,6 +1282,7 @@ namespace PKHeX.Core
 
             if (wc.PIDType == 2 && !pkm.IsShiny) return false;
             if (wc.PIDType == 3 && pkm.IsShiny) return false;
+
             return true;
         }
 
