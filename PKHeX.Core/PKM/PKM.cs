@@ -790,7 +790,7 @@ namespace PKHeX.Core
         /// </remarks>
         public void SetShinyPID()
         {
-            if (Format < 2)
+            if (Format <= 2)
                 SetShinyIVs();
 
             do PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID); while (!IsShiny);
