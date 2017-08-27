@@ -72,6 +72,8 @@ namespace PKHeX.WinForms
             ofsFly = ofsFlag + 0x136;
             ReadMain();
             ReadBattleFrontier();
+            if (!SAV.HGSS)
+                TC_Misc.Controls.Remove(TAB_Walker);
         }
 
         private void B_Save_Click(object sender, EventArgs e)
@@ -725,5 +727,9 @@ namespace PKHeX.WinForms
         }
         #endregion
 
+        private void B_UnlockCourses_Click(object sender, EventArgs e)
+        {
+            SAV.PokewalkerCoursesUnlockAll();
+        }
     }
 }

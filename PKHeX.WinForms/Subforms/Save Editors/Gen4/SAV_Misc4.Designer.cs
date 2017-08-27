@@ -96,6 +96,8 @@
             this.NUD_CastleRankItem = new System.Windows.Forms.NumericUpDown();
             this.NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
             this.L_CastleRank01 = new System.Windows.Forms.Label();
+            this.TAB_Walker = new System.Windows.Forms.TabPage();
+            this.B_UnlockCourses = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
@@ -133,6 +135,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankRcv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
+            this.TAB_Walker.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -161,6 +164,7 @@
             // 
             this.TC_Misc.Controls.Add(this.TAB_Main);
             this.TC_Misc.Controls.Add(this.TAB_BF);
+            this.TC_Misc.Controls.Add(this.TAB_Walker);
             this.TC_Misc.Location = new System.Drawing.Point(12, 13);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
@@ -1093,6 +1097,27 @@
             this.L_CastleRank01.Text = "Recovery / Item / Info";
             this.L_CastleRank01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // TAB_Walker
+            // 
+            this.TAB_Walker.Controls.Add(this.B_UnlockCourses);
+            this.TAB_Walker.Location = new System.Drawing.Point(4, 22);
+            this.TAB_Walker.Name = "TAB_Walker";
+            this.TAB_Walker.Padding = new System.Windows.Forms.Padding(3);
+            this.TAB_Walker.Size = new System.Drawing.Size(373, 239);
+            this.TAB_Walker.TabIndex = 2;
+            this.TAB_Walker.Text = "Pokewalker";
+            this.TAB_Walker.UseVisualStyleBackColor = true;
+            // 
+            // B_UnlockCourses
+            // 
+            this.B_UnlockCourses.Location = new System.Drawing.Point(153, 98);
+            this.B_UnlockCourses.Name = "B_UnlockCourses";
+            this.B_UnlockCourses.Size = new System.Drawing.Size(75, 55);
+            this.B_UnlockCourses.TabIndex = 0;
+            this.B_UnlockCourses.Text = "Unlock All Courses";
+            this.B_UnlockCourses.UseVisualStyleBackColor = true;
+            this.B_UnlockCourses.Click += new System.EventHandler(this.B_UnlockCourses_Click);
+            // 
             // SAV_Misc4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1145,6 +1170,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankRcv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
+            this.TAB_Walker.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1218,5 +1244,7 @@
         private System.Windows.Forms.ComboBox CB_CurrentApp;
         private System.Windows.Forms.Label L_CurrentApp;
         private System.Windows.Forms.Label L_CurrentMap;
+        private System.Windows.Forms.TabPage TAB_Walker;
+        private System.Windows.Forms.Button B_UnlockCourses;
     }
 }
