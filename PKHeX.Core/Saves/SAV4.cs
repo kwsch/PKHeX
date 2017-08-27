@@ -209,13 +209,7 @@ namespace PKHeX.Core
                     OFS_HONEY = 0x72E4 + GBO;
                     Box = 0xC104 + SBO;
 
-                    OFS_UG_PlayersMet = 0x3A2C + GBO;
-                    OFS_UG_Gifts = 0x3A30 + GBO;
-                    OFS_UG_Spheres = 0x3A38 + GBO;
-                    OFS_UG_Fossils = 0x3A3C + GBO;
-                    OFS_UG_TrapsAvoided = 0x3A44 + GBO;
-                    OFS_UG_TrapsTriggered = 0x3A48 + GBO;
-                    OFS_UG_Flags = 0x3A60 + GBO;
+                    OFS_UG_Stats = 0x3A2C + GBO;
 
                     _currentPoketchApp = 0x114E;
                     break;
@@ -251,13 +245,7 @@ namespace PKHeX.Core
                     OFS_HONEY = 0x7F38 + GBO;
                     Box = 0xCF30 + SBO;
 
-                    OFS_UG_PlayersMet = 0x3CB4 + GBO;
-                    OFS_UG_Gifts = 0x3CB8 + GBO;
-                    OFS_UG_Spheres = 0x3CC0 + GBO;
-                    OFS_UG_Fossils = 0x3CC4 + GBO;
-                    OFS_UG_TrapsAvoided = 0x3CCC + GBO;
-                    OFS_UG_TrapsTriggered = 0x3CD0 + GBO;
-                    OFS_UG_Flags = 0x3CE8 + GBO;
+                    OFS_UG_Stats = 0x3CB4 + GBO;
 
                     _currentPoketchApp = 0x1162;
                     break;
@@ -295,14 +283,6 @@ namespace PKHeX.Core
                     break;
             }
         }
-
-        private int OFS_UG_PlayersMet = int.MinValue;
-        private int OFS_UG_Flags = int.MinValue;
-        private int OFS_UG_Gifts = int.MinValue;
-        private int OFS_UG_Fossils = int.MinValue;
-        private int OFS_UG_Spheres = int.MinValue;
-        private int OFS_UG_TrapsAvoided = int.MinValue;
-        private int OFS_UG_TrapsTriggered = int.MinValue;
 
         private int WondercardFlags = int.MinValue;
         private int AdventureInfo = int.MinValue;
@@ -1182,13 +1162,14 @@ namespace PKHeX.Core
             }
         }
         //Underground Scores
-        public int UG_PlayersMet { get => BitConverter.ToInt32(Data, OFS_UG_PlayersMet); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_PlayersMet); }
-        public int UG_Gifts { get => BitConverter.ToInt32(Data, OFS_UG_Gifts); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_Gifts); }
-        public int UG_Spheres { get => BitConverter.ToInt32(Data, OFS_UG_Spheres); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_Spheres); }
-        public int UG_Fossils { get => BitConverter.ToInt32(Data, OFS_UG_Fossils); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_Fossils); }
-        public int UG_TrapsAvoided { get => BitConverter.ToInt32(Data, OFS_UG_TrapsAvoided); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_TrapsAvoided); }
-        public int UG_TrapsTriggered { get => BitConverter.ToInt32(Data, OFS_UG_TrapsTriggered); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_TrapsTriggered); }
-        public int UG_Flags { get => BitConverter.ToInt32(Data, OFS_UG_Flags); set => BitConverter.GetBytes(value).CopyTo(Data, OFS_UG_Flags); }
+        private int OFS_UG_Stats = int.MinValue;
+        public int UG_PlayersMet { get => BitConverter.ToInt32(Data, OFS_UG_Stats); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats); }
+        public int UG_Gifts { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x4); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x4); }
+        public int UG_Spheres { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0xC); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0xC); }
+        public int UG_Fossils { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x10); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x10); }
+        public int UG_TrapsAvoided { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x18); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x18); }
+        public int UG_TrapsTriggered { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x1C); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x1C); }
+        public int UG_Flags { get => BitConverter.ToInt32(Data, OFS_UG_Stats + 0x34); set => SetData(BitConverter.GetBytes(value), OFS_UG_Stats + 0x34); }
 
         public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
