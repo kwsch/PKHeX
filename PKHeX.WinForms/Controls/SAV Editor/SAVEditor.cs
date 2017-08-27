@@ -1098,5 +1098,15 @@ namespace PKHeX.WinForms.Controls
             catch { }
             WinFormsUtil.Alert("Showdown Team (Battle Box) set to Clipboard.");
         }
+
+        private void B_OpenUGSEditor_Click(object sender, EventArgs e)
+        {
+            switch (SAV.Version)
+            {
+                case GameVersion.DP:
+                case GameVersion.Pt:
+                    new SAV_Underground(SAV).ShowDialog(); break;
+            }
+        }
     }
 }

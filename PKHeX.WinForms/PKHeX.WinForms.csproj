@@ -332,6 +332,12 @@
     <Compile Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.Designer.cs">
       <DependentUpon>SAV_Pokedex4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_Underground.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen4\SAV_Underground.Designer.cs">
+      <DependentUpon>SAV_Underground.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen5\CGearBackground.cs" />
     <Compile Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.cs">
       <SubType>Form</SubType>
@@ -606,6 +612,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Pokedex4.resx">
       <DependentUpon>SAV_Pokedex4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen4\SAV_Underground.resx">
+      <DependentUpon>SAV_Underground.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen5\SAV_CGearSkin.resx">
       <DependentUpon>SAV_CGearSkin.cs</DependentUpon>
