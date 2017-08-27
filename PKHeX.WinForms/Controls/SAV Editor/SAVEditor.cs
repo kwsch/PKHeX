@@ -859,6 +859,7 @@ namespace PKHeX.WinForms.Controls
 
             SAV.LoadBoxes(path, out result, Box.CurrentBox, clearAll, noSetb);
             SetPKMBoxes();
+            UpdateBoxViewers();
             return true;
         }
 
