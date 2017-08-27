@@ -76,6 +76,9 @@ namespace PKHeX.Core
                 else
                     deferred.Add(z);
             }
+            if (deferred.Count == 0)
+                yield break;
+
             info.PIDIVMatches = false;
             foreach (var z in deferred)
                 yield return z;

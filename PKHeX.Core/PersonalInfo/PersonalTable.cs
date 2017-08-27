@@ -111,7 +111,7 @@ namespace PKHeX.Core
         private static void PopulateGen4Tutors()
         {
             var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
-            for (int i = 0; i <= Legal.MaxSpeciesID_4; i++)
+            for (int i = 0; i < tutors.Length; i++)
                 HGSS[i].AddTypeTutors(tutors[i]);
         }
 

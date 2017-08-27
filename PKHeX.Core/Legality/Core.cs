@@ -2046,7 +2046,7 @@ namespace PKHeX.Core
 
                     break;
                 case 4:
-                    info = PersonalTable.HGSS[species];
+                    info = PersonalTable.HGSS.GetFormeEntry(species, form);
                     moves.AddRange(Tutors_4.Where((t, i) => info.TypeTutors[i]));
                     moves.AddRange(SpecialTutors_4.Where((t, i) => SpecialTutors_Compatibility_4[i].Any(e => e == species)));
                     break;
