@@ -274,6 +274,7 @@ namespace PKHeX.Core
                     EventConst = 0xDE4 + GBO;
                     EventFlag = 0x10C4 + GBO;
                     Daycare = 0x15FC + GBO;
+                    OFS_WALKER = 0xE70C + GBO;
                     Box = 0xF700 + SBO;
                     break;
             }
@@ -1133,7 +1134,30 @@ namespace PKHeX.Core
                 return new[] { A, B, C, D };
             }
         }
-        
+
+        // Pokewalker
+        private int OFS_WALKER = int.MinValue;
+        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes((uint)0x7FFFFFFF), OFS_WALKER);
+        public bool[] PokewalkerCoursesUnlocked
+        {
+            get
+            {
+                var val = BitConverter.ToUInt32(Data, OFS_WALKER);
+                bool[] courses = new bool[32];
+                for (int i = 0; i < courses.Length; i++)
+                    courses[i] = ((val >> i) & 1) == 1;
+                return courses;
+            }
+            set
+            {
+                uint val = 0;
+                bool[] courses = new bool[32];
+                for (int i = 0; i < courses.Length; i++)
+                    val |= value[i] ? (uint)1 << i : 0;
+                SetData(BitConverter.GetBytes(val), OFS_WALKER);
+            }
+        }
+
         public override string GetString(int Offset, int Count) => StringConverter.GetString4(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
