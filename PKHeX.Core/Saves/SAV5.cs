@@ -642,7 +642,7 @@ namespace PKHeX.Core
                 Data[ofs + brSize*(shift + 4)] |= (byte)(1 << (bit&7));
 
             // Set the Language
-            if (bit >= 493) // shifted by 1, Gen5 species do not have international language bits
+            if (bit < 493) // shifted by 1, Gen5 species do not have international language bits
             {
                 int lang = pkm.Language - 1; if (lang > 5) lang--; // 0-6 language vals
                 if (lang < 0) lang = 1;
