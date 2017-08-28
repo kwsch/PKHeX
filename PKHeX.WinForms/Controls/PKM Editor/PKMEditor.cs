@@ -1993,11 +1993,30 @@ namespace PKHeX.WinForms.Controls
             // Set Ability and Moves
             CB_Ability.SelectedIndex = Math.Max(0, Array.IndexOf(pkm.PersonalInfo.Abilities, Set.Ability));
             ComboBox[] m = { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
-            for (int i = 0; i < 4; i++) m[i].SelectedValue = Set.Moves[i];
+            ComboBox[] p = { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
+            for (int i = 0; i < 4; i++)
+            {
+                m[i].SelectedValue = Set.Moves[i];
+                p[i].SelectedIndex = Set.Moves[i] != 0 ? 3 : 0; // max PP
+            }
 
             // Set Item and Nature
             CB_HeldItem.SelectedValue = Set.HeldItem < 0 ? 0 : Set.HeldItem;
             CB_Nature.SelectedValue = Set.Nature < 0 ? 0 : Set.Nature;
+
+            // Set Level and Friendship
+            TB_Level.Text = Set.Level.ToString();
+            TB_Friendship.Text = Set.Friendship.ToString();
+
+            if (pkm.Format >= 7) // hyper train IVs as appropriate
+            {
+                pkm.HT_HP = Set.IVs[0] != 31;
+                pkm.HT_ATK = Set.IVs[1] != 31 && Set.IVs[1] > 2;
+                pkm.HT_DEF = Set.IVs[2] != 31;
+                pkm.HT_SPA = Set.IVs[4] != 31;
+                pkm.HT_SPD = Set.IVs[5] != 31;
+                pkm.HT_SPE = Set.IVs[3] != 31 & Set.IVs[3] > 2;
+            }
 
             // Set IVs
             TB_HPIV.Text = Set.IVs[0].ToString();
@@ -2015,16 +2034,9 @@ namespace PKHeX.WinForms.Controls
             TB_SPDEV.Text = Set.EVs[5].ToString();
             TB_SPEEV.Text = Set.EVs[3].ToString();
 
-            // Set Level and Friendship
-            TB_Level.Text = Set.Level.ToString();
-            TB_Friendship.Text = Set.Friendship.ToString();
-
             // Reset IV/EVs
             UpdateRandomPID(null, null);
             UpdateRandomEC(null, null);
-            ComboBox[] p = { CB_PPu1, CB_PPu2, CB_PPu3, CB_PPu4 };
-            for (int i = 0; i < 4; i++)
-                p[i].SelectedIndex = m[i].SelectedIndex != 0 ? 3 : 0; // max PP
 
             if (Set.Shiny) UpdateShiny(true);
             pkm = PreparePKM();
