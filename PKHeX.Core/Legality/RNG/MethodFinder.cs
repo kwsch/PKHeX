@@ -414,8 +414,15 @@ namespace PKHeX.Core
         }
         private static bool GetPokewalkerMatch(PKM pk, uint oldpid, out PIDIV pidiv)
         {
+            // check surface compatibility
+            var mid = oldpid & 0x00FFFF00;
+            if (mid != 0 && mid != 0x00FFFF00) // not expected bits
+            {
+                pidiv = null;
+                return false;
+            }
             var nature = oldpid % 25;
-            if (nature == 24)
+            if (nature == 24) // impossible nature
             {
                 pidiv = null;
                 return false;
