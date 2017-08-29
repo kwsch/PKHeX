@@ -976,7 +976,7 @@ namespace PKHeX.Core
                 return new[] {pkm.Species};
 
             var table = EvolutionTree.GetEvolutionTree(pkm.Format);
-            var lineage = table.GetValidPreEvolutions(pkm, pkm.CurrentLevel);
+            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
         }
         internal static int[] GetWildBalls(PKM pkm)
@@ -1106,7 +1106,7 @@ namespace PKHeX.Core
                 return false;
 
             var table = EvolutionTree.GetEvolutionTree(pkm.Format);
-            var lineage = table.GetValidPreEvolutions(pkm, 100, skipChecks:true);
+            var lineage = table.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks:true);
             return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
         }
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1)
@@ -1190,18 +1190,21 @@ namespace PKHeX.Core
             return false;
         }
         
-        public static int GetLowestLevel(PKM pkm, int refSpecies = -1)
+        public static int GetLowestLevel(PKM pkm, int startLevel)
         {
-            if (refSpecies == -1)
-                refSpecies = GetBaseSpecies(pkm);
-            for (int i = 0; i < 100; i++)
+            if (startLevel == -1)
+                startLevel = 100;
+
+            var table = EvolutionTree.GetEvolutionTree(pkm.Format);
+            int count = 1;
+            for (int i = 100; i >= startLevel; i--)
             {
-                var table = EvolutionTree.GetEvolutionTree(pkm.Format);
-                var evos = table.GetValidPreEvolutions(pkm, i, skipChecks:true).ToArray();
-                if (evos.Any(evo => evo.Species == refSpecies))
-                    return evos.OrderByDescending(evo => evo.Level).First().Level;
+                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks:true).ToArray();
+                if (evos.Length < count) // lost an evolution, prior level was minimum current level
+                    return evos.Max(evo => evo.Level) + 1;
+                count = evos.Length;
             }
-            return 100;
+            return startLevel;
         }
         internal static bool GetCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)
         {
@@ -1274,7 +1277,7 @@ namespace PKHeX.Core
             int tree = generation != -1 ? generation : pkm.Format;
             var table = EvolutionTree.GetEvolutionTree(tree);
             int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : - 1;
-            var evos = table.GetValidPreEvolutions(pkm, 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
+            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks:true).ToArray();
 
             switch (skipOption)
             {
@@ -1534,7 +1537,7 @@ namespace PKHeX.Core
 
             int tree = maxspeciesorigin == MaxSpeciesID_2 ? 2 : pkm.Format;
             var et = EvolutionTree.GetEvolutionTree(tree);
-            return et.GetValidPreEvolutions(pkm, lvl: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
+            return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks);
         }
         private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion Version, IReadOnlyList<DexLevel[]> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
         {

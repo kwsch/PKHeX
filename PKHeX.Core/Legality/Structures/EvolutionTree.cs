@@ -198,12 +198,12 @@ namespace PKHeX.Core
 
             return Personal.GetFormeIndex(evolvesToSpecies, evolvesToForm);
         }
-        public IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int lvl, int maxSpeciesOrigin = -1, bool skipChecks = false)
+        public IEnumerable<DexLevel> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             int index = GetIndex(pkm);
             if (maxSpeciesOrigin <= 0)
                 maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
-            return Lineage[index].GetExplicitLineage(pkm, lvl, skipChecks, MaxSpeciesTree, maxSpeciesOrigin);
+            return Lineage[index].GetExplicitLineage(pkm, maxLevel, skipChecks, MaxSpeciesTree, maxSpeciesOrigin, minLevel);
         }
     }
 
@@ -574,6 +574,8 @@ namespace PKHeX.Core
                         return false;
 
                     RequiresLevelUp = true;
+                    if (skipChecks)
+                        return lvl >= Level;
 
                     // Check Met Level for extra validity
                     switch (pkm.GenNumber)
@@ -644,8 +646,9 @@ namespace PKHeX.Core
             Chain.Insert(0, evo);
         }
 
-        public IEnumerable<DexLevel> GetExplicitLineage(PKM pkm, int lvl, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin)
+        public IEnumerable<DexLevel> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
         {
+            int lvl = maxLevel;
             List<DexLevel> dl = new List<DexLevel> { new DexLevel { Species = pkm.Species, Level = lvl, Form = pkm.AltForm } };
             for (int i = Chain.Count - 1; i >= 0; i--) // reverse evolution!
             {
@@ -654,6 +657,9 @@ namespace PKHeX.Core
                 {
                     if (!evo.Valid(pkm, lvl, skipChecks))
                         continue;
+
+                    if (evo.RequiresLevelUp && minLevel >= lvl)
+                        break; // impossible evolution
 
                     oneValid = true;
                     UpdateMinValues(dl, evo);

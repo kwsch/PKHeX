@@ -503,7 +503,7 @@ namespace PKHeX.WinForms
 
                     int level = encounter.Level;
                     int location = encounter.Location;
-                    int minlvl = Legal.GetLowestLevel(PKM, encounter.Species);
+                    int minlvl = Legal.GetLowestLevel(PKM, encounter.LevelMin);
 
                     PKM.Met_Level = level;
                     PKM.Met_Location = location;

@@ -282,10 +282,16 @@ namespace PKHeX.Core
             foreach (var z in GetValidGifts(pkm))
                 yield return z;
 
+            var deferred = new List<IEncounterable>();
             bool safari = pkm.Ball == 0x05; // never static encounters
             if (!safari)
             foreach (var z in GetValidStaticEncounter(pkm))
-                yield return z;
+            {
+                if (z.Gift && pkm.Ball != 4)
+                    deferred.Add(z);
+                else
+                    yield return z;
+            }
             foreach (var z in GetValidWildEncounters(pkm))
                 yield return z;
             foreach (var z in GetValidEncounterTrades(pkm))
@@ -300,6 +306,9 @@ namespace PKHeX.Core
                 yield break; // no eggs in C/XD
 
             foreach (var z in GenerateEggs(pkm))
+                yield return z;
+
+            foreach (var z in deferred)
                 yield return z;
         }
 
@@ -474,7 +483,7 @@ namespace PKHeX.Core
             foreach (var e in deferred)
                 yield return e;
         }
-        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -483,16 +492,16 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 1:
-                    return GetStatic(pkm, table, maxspeciesorigin: MaxSpeciesID_1, lvl: lvl);
+                    return GetStatic(pkm, table, maxspeciesorigin: MaxSpeciesID_1);
                 case 2:
-                    return GetStatic(pkm, table, maxspeciesorigin: MaxSpeciesID_2, lvl: lvl);
+                    return GetStatic(pkm, table, maxspeciesorigin: MaxSpeciesID_2);
                 default:
-                    return GetStatic(pkm, table, lvl);
+                    return GetStatic(pkm, table);
             }
         }
-        private static IEnumerable<EncounterStatic> GetStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin = -1, int lvl = -1)
+        private static IEnumerable<EncounterStatic> GetStatic(PKM pkm, IEnumerable<EncounterStatic> table, int maxspeciesorigin = -1, int lvl = -1, bool skip = false)
         {
-            IEnumerable<DexLevel> dl = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: lvl);
+            IEnumerable<DexLevel> dl = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: lvl, skipChecks: skip);
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
 
@@ -1364,7 +1373,8 @@ namespace PKHeX.Core
                 case 2:
                     return GetGSStaticTransfer(species, pkm.Met_Level);
                 default:
-                    return GetStaticEncounters(pkm, 100).OrderBy(s => s.Level).FirstOrDefault();
+                    var table = GetEncounterStaticTable(pkm, (GameVersion)pkm.Version);
+                    return GetStatic(pkm, table, lvl: 100, skip: true).FirstOrDefault();
             }
         }
         internal static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
