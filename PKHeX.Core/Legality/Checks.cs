@@ -2112,7 +2112,7 @@ namespace PKHeX.Core
                         AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
                         return;
                     }
-                    if (pkm.AltForm != 0 ^ Type == typeof(MysteryGift)) // Formes are not breedable
+                    if (pkm.AltForm != 0 && Type != typeof(MysteryGift)) // Formes are not breedable, MysteryGift already checked
                     {
                         AddLine(Severity.Invalid, string.Format(V304, 0, pkm.AltForm), CheckIdentifier.Form);
                         return;
