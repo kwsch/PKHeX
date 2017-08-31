@@ -35,7 +35,7 @@ namespace PKHeX.Core
             ReduceAreasSize(ref Areas);
         }
 
-        internal static readonly EncounterStatic[] Encounter_SM = // @ a\1\5\5
+        private static readonly EncounterStatic[] Encounter_SM = // @ a\1\5\5
         {
             // Gifts - 0.bin
             new EncounterStatic { Gift = true, Species = 722, Level = 5,  Location = 24, }, // Rowlet
@@ -151,7 +151,7 @@ namespace PKHeX.Core
             new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
         };
 
-        internal static readonly EncounterArea[] Encounter_Pelago_SM =
+        private static readonly EncounterArea[] Encounter_Pelago_SM =
         {
             new EncounterArea
             {
@@ -189,7 +189,7 @@ namespace PKHeX.Core
                 },
             }
         };
-        internal static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 627, LevelMin = 1, LevelMax = 55 }, /* Rufflet SUN  */ } } };
-        internal static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 629, LevelMin = 1, LevelMax = 55 }, /* Vullaby MOON */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 627, LevelMin = 1, LevelMax = 55 }, /* Rufflet SUN  */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 629, LevelMin = 1, LevelMax = 55 }, /* Vullaby MOON */ } } };
     }
 }

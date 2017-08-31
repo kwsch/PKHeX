@@ -318,6 +318,32 @@ namespace PKHeX.Core
             return type == 0 && !(e is EncounterStaticTyped)
                    || e is EncounterStaticTyped t && t.TypeEncounter.Contains(type);
         }
+        private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
+        {
+            var catch_rate = pk1.Catch_Rate;
+            // Pure gen 1, trades can be filter by catch rate
+            if ((pk1.Species == 25 || pk1.Species == 26) && catch_rate == 190)
+                // Red Blue Pikachu, is not a static encounter
+                return false;
+
+            if (e.Version == GameVersion.Stadium)
+            {
+                switch (e.Species)
+                {
+                    default:
+                        return Stadium_CatchRate.Contains(catch_rate);
+                    case 054: // Psyduck
+                        // Amnesia Psyduck has different catch rates depending on language
+                        return catch_rate == (pk1.Japanese ? 167 : 168);
+                }
+            }
+
+            // Encounters can have different Catch Rates (RBG vs Y)
+            var rate = e.Version == GameVersion.Y
+                ? PersonalTable.Y[e.Species].CatchRate
+                : PersonalTable.RB[e.Species].CatchRate;
+            return catch_rate == rate;
+        }
         private static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -438,32 +464,6 @@ namespace PKHeX.Core
                 if (e.EggLocation == 60002 && e.Relearn[0] == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                     continue;
 
-                if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
-                {
-                    var catch_rate = pk1.Catch_Rate;
-                    var japanese = pk1.Japanese;
-                    // Pure gen 1, trades can be filter by catch rate
-                    if ((pkm.Species == 25 || pkm.Species == 26) && catch_rate == 190)
-                        // Red Blue Pikachu, is not a static encounter
-                        continue;
-
-                    if (e.Version == GameVersion.Stadium)
-                    {
-                        if (e.Species != 054 && !Stadium_CatchRate.Contains(catch_rate))
-                            continue;
-                        // Amnesia Psyduck have different catch rate in japanese stadium and international stadium
-                        if (e.Species == 054 && japanese && catch_rate != 167)
-                            continue;
-                        if (e.Species == 054 && !japanese && catch_rate != 168)
-                            continue;
-                    }
-                    // Encounters with different catch rates in yellow and redblue are duplicated with different gameverion
-                    else if (e.Version == GameVersion.YW && catch_rate != PersonalTable.Y[e.Species].CatchRate)
-                        continue;
-                    else if (e.Version != GameVersion.YW && catch_rate != PersonalTable.RB[e.Species].CatchRate)
-                        continue;
-                }
-
                 // Defer to EC/PID check
                 // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
                 // continue;
@@ -471,6 +471,10 @@ namespace PKHeX.Core
                 // Defer ball check to later
                 // if (e.Gift && pkm.Ball != 4) // PokéBall
                 // continue;
+
+                if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback)
+                    if (!IsValidCatchRatePK1(e, pk1))
+                        continue;
 
                 if (!AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
                     continue; // disallow gb cart era encounters (as they aren't obtainable by Main/VC series)
@@ -669,30 +673,31 @@ namespace PKHeX.Core
                 return true;
 
             // Pure gen 1, slots can be filter by catch rate
+            var rate = pk1.Catch_Rate;
             switch (pkm.Species)
             {
                 // Pikachu
-                case 25 when pk1.Catch_Rate == 163:
-                case 26 when pk1.Catch_Rate == 163:
+                case 25 when rate == 163:
+                case 26 when rate == 163:
                     return false; // Yellow Pikachu is not a wild encounter
 
                 // Kadabra (YW)
-                case 64 when pk1.Catch_Rate == 96:
-                case 65 when pk1.Catch_Rate == 96:
+                case 64 when rate == 96:
+                case 65 when rate == 96:
                     vs = vs.Where(s => s.Species == 64);
                     Gen1Version = GameVersion.YW;
                     return true;
 
                 // Kadabra (RB)
-                case 64 when pk1.Catch_Rate == 100:
-                case 65 when pk1.Catch_Rate == 100:
+                case 64 when rate == 100:
+                case 65 when rate == 100:
                     vs = vs.Where(s => s.Species == 64);
                     Gen1Version = GameVersion.RB;
                     return true;
 
                 // Dragonair (YW)
-                case 148 when pk1.Catch_Rate == 27:
-                case 149 when pk1.Catch_Rate == 27:
+                case 148 when rate == 27:
+                case 149 when rate == 27:
                     vs = vs.Where(s => s.Species == 148); // Yellow Dragonair, ignore Dratini encounters
                     Gen1Version = GameVersion.YW;
                     return true;
@@ -701,12 +706,12 @@ namespace PKHeX.Core
                 case 148:
                 case 149:
                     // Red blue dragonair have the same catch rate as dratini, it could also be a dratini from any game
-                    vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                    vs = vs.Where(s => rate == PersonalTable.RB[s.Species].CatchRate);
                     RBDragonair = true;
                     return true;
 
                 default:
-                    vs = vs.Where(s => pk1.Catch_Rate == PersonalTable.RB[s.Species].CatchRate);
+                    vs = vs.Where(s => rate == PersonalTable.RB[s.Species].CatchRate);
                     return true;
             }
         }
@@ -983,11 +988,12 @@ namespace PKHeX.Core
 
             if (IsRangerManaphy(pkm))
             {
-                yield return new PGT { Data = { [0] = 7, [8] = 1 } };
+                if (pkm.Language != 8) // never korean
+                    yield return new PGT { Data = { [0] = 7, [8] = 1 } };
                 yield break;
             }
 
-            var validPCD = new List<MysteryGift>();
+            var deferred = new List<MysteryGift>();
             var vs = GetValidPreEvolutions(pkm).ToArray();
             var enumerable = DB.OfType<PCD>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (PCD mg in enumerable)
@@ -1000,9 +1006,9 @@ namespace PKHeX.Core
                 if (wc.Species == pkm.Species && receivable) // best match
                     yield return mg;
                 else
-                    validPCD.Add(mg);
+                    deferred.Add(mg);
             }
-            foreach (var z in validPCD)
+            foreach (var z in deferred)
                 yield return z;
         }
         private static IEnumerable<MysteryGift> GetMatchingPGF(PKM pkm, IEnumerable<MysteryGift> DB)
@@ -1010,7 +1016,7 @@ namespace PKHeX.Core
             if (DB == null)
                 yield break;
 
-            var validPGF = new List<MysteryGift>();
+            var deferred = new List<MysteryGift>();
             var vs = GetValidPreEvolutions(pkm).ToArray();
             var enumerable = DB.OfType<PGF>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (PGF wc in enumerable)
@@ -1021,16 +1027,16 @@ namespace PKHeX.Core
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;
                 else
-                    validPGF.Add(wc);
+                    deferred.Add(wc);
             }
-            foreach (var z in validPGF)
+            foreach (var z in deferred)
                 yield return z;
         }
         private static IEnumerable<MysteryGift> GetMatchingWC6(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
                 yield break;
-            List<MysteryGift> validWC6 = new List<MysteryGift>();
+            var deferred = new List<MysteryGift>();
             var vs = GetValidPreEvolutions(pkm).ToArray();
             var enumerable = DB.OfType<WC6>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC6 wc in enumerable)
@@ -1041,16 +1047,16 @@ namespace PKHeX.Core
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;
                 else
-                    validWC6.Add(wc);
+                    deferred.Add(wc);
             }
-            foreach (var z in validWC6)
+            foreach (var z in deferred)
                 yield return z;
         }
         private static IEnumerable<MysteryGift> GetMatchingWC7(PKM pkm, IEnumerable<MysteryGift> DB)
         {
             if (DB == null)
                 yield break;
-            List<MysteryGift> validWC7 = new List<MysteryGift>();
+            var deferred = new List<MysteryGift>();
             var vs = GetValidPreEvolutions(pkm).ToArray();
             var enumerable = DB.OfType<WC7>().Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (WC7 wc in enumerable)
@@ -1061,17 +1067,18 @@ namespace PKHeX.Core
                 if ((pkm.SID << 16 | pkm.TID) == 0x79F57B49) // Greninja WC has variant PID and can arrive @ 36 or 37
                 {
                     if (!pkm.IsShiny)
-                        validWC7.Add(wc);
+                        deferred.Add(wc);
                     continue;
                 }
-                if (wc.PIDType == 0 && pkm.PID != wc.PID) continue;
+                if (wc.PIDType == 0 && pkm.PID != wc.PID)
+                    continue;
 
                 if (wc.Species == pkm.Species) // best match
                     yield return wc;
                 else
-                    validWC7.Add(wc);
+                    deferred.Add(wc);
             }
-            foreach (var z in validWC7)
+            foreach (var z in deferred)
                 yield return z;
         }
         private static bool GetIsMatchWC3(PKM pkm, WC3 wc)
@@ -1314,7 +1321,7 @@ namespace PKHeX.Core
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies };
 
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
-                yield break;
+                yield break; // no other possible species
 
             baseSpecies = GetBaseSpecies(pkm, 1);
             if (baseSpecies <= max)
