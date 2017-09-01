@@ -92,6 +92,8 @@ namespace PKHeX.Core
         // Gen 7
         private static readonly EggMoves[] EggMovesSM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
         private static readonly Learnset[] LevelUpSM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+        private static readonly EggMoves[] EggMovesUSUM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
+        private static readonly Learnset[] LevelUpUSUM = Learnset7.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
 
         // Setup Help
         private static HashSet<MysteryGift> GetPCDDB(byte[] bin)
@@ -370,8 +372,20 @@ namespace PKHeX.Core
                             {
                                 int index = PersonalTable.SM.GetFormeIndex(species, form);
                                 r.AddRange(LevelUpSM[index].GetMoves(lvl));
+                                if (ver == GameVersion.Any) // Fall Through
+                                    goto case GameVersion.USUM;
                                 break;
                             }
+                        case GameVersion.US:
+                        case GameVersion.UM:
+                        case GameVersion.USUM:
+                        {
+                            int index = PersonalTable.USUM.GetFormeIndex(species, form);
+                            if (index == 0)
+                                return r;
+                            r.AddRange(LevelUpUSUM[index].GetMoves(lvl));
+                            break;
+                        }
                     }
                     break;
                 default:
@@ -458,18 +472,14 @@ namespace PKHeX.Core
             switch (gameSource)
             {
                 case GameVersion.GS:
+                    // If checking back-transfer specimen (GSC->RBY), remove moves that must be deleted prior to transfer
+                    int[] getRBYCompatibleMoves(int[] moves) => pkm.Format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
                     if (pkm.InhabitedGeneration(2))
-                        if (pkm.Format == 1)
-                            return LevelUpGS[species].GetMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
-                        else
-                            return LevelUpGS[species].GetMoves(lvl);
+                        return getRBYCompatibleMoves(LevelUpGS[species].GetMoves(lvl));
                     break;
                 case GameVersion.C:
                     if (pkm.InhabitedGeneration(2))
-                        if (pkm.Format == 1)
-                            return LevelUpC[species].GetMoves(lvl).Where(m => m <= MaxMoveID_1).ToArray();
-                        else
-                            return LevelUpC[species].GetMoves(lvl);
+                        return getRBYCompatibleMoves(LevelUpC[species].GetMoves(lvl));
                     break;
 
                 case GameVersion.R:
@@ -538,9 +548,21 @@ namespace PKHeX.Core
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
-                    int index = PersonalTable.SM.GetFormeIndex(species, pkm.AltForm);
                     if (pkm.InhabitedGeneration(7))
+                    {
+                        int index = PersonalTable.SM.GetFormeIndex(species, pkm.AltForm);
                         return LevelUpSM[index].GetMoves(lvl);
+                    }
+                    break;
+
+                case GameVersion.US:
+                case GameVersion.UM:
+                case GameVersion.USUM:
+                    if (pkm.InhabitedGeneration(7))
+                    {
+                        int index = PersonalTable.USUM.GetFormeIndex(species, pkm.AltForm);
+                        return LevelUpUSUM[index].GetMoves(lvl);
+                    }
                     break;
             }
             return new int[0];
@@ -834,7 +856,7 @@ namespace PKHeX.Core
         }
 
         // Generation Specific Fetching
-        internal static EncounterStatic[] GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        internal static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -852,14 +874,7 @@ namespace PKHeX.Core
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
-                    if (!AllowGen2Crystal)
-                        return StaticGS;
-                    if (pkm.Format != 2)
-                        return StaticGSC;
-
-                    if (pkm.HasOriginalMetLocation)
-                        return StaticC;
-                    return StaticGSC;
+                    return GetEncounterStaticTableGSC(pkm);
 
                 case GameVersion.R: return StaticR;
                 case GameVersion.S: return StaticS;
@@ -886,11 +901,13 @@ namespace PKHeX.Core
 
                 case GameVersion.SN: return StaticSN;
                 case GameVersion.MN: return StaticMN;
+                case GameVersion.US: return StaticUS;
+                case GameVersion.UM: return StaticUM;
 
                 default: return new EncounterStatic[0];
             }
         }
-        internal static EncounterArea[] GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        internal static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -908,25 +925,7 @@ namespace PKHeX.Core
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
-                    if (!AllowGen2Crystal)
-                        return SlotsGS;
-
-                    if (pkm.Format != 2)
-                        // Gen 2 met location is lost outside gen 2 games
-                        return SlotsGSC;
-
-                    if (pkm.HasOriginalMetLocation)
-                        // Format 2 with met location, encounter should be from Crystal
-                        return SlotsC;
-
-                    if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                        // Format 2 without met location but pokemon could not be tradeback to gen 1, 
-                        // encounter should be from gold or silver
-                        return SlotsGS;
-
-                    // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
-                    // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
-                    return SlotsGSC;
+                    return GetEncounterTableGSC(pkm);
 
                 case GameVersion.R: return SlotsR;
                 case GameVersion.S: return SlotsS;
@@ -953,9 +952,44 @@ namespace PKHeX.Core
 
                 case GameVersion.SN: return SlotsSN;
                 case GameVersion.MN: return SlotsMN;
+                case GameVersion.US: return SlotsUS;
+                case GameVersion.UM: return SlotsUM;
 
                 default: return new EncounterArea[0];
             }
+        }
+        private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
+        {
+            if (!AllowGen2Crystal)
+                return StaticGS;
+            if (pkm.Format != 2)
+                return StaticGSC;
+
+            if (pkm.HasOriginalMetLocation)
+                return StaticC;
+            return StaticGSC;
+        }
+        private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)
+        {
+            if (!AllowGen2Crystal)
+                return SlotsGS;
+
+            if (pkm.Format != 2)
+                // Gen 2 met location is lost outside gen 2 games
+                return SlotsGSC;
+
+            if (pkm.HasOriginalMetLocation)
+                // Format 2 with met location, encounter should be from Crystal
+                return SlotsC;
+
+            if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+                // Format 2 without met location but pokemon could not be tradeback to gen 1, 
+                // encounter should be from gold or silver
+                return SlotsGS;
+
+            // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
+            // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
+            return SlotsGSC;
         }
         internal static IEnumerable<EncounterArea> GetDexNavAreas(PKM pkm)
         {
@@ -1512,6 +1546,8 @@ namespace PKHeX.Core
 
                 case (int)GameVersion.SN: case (int)GameVersion.MN:
                     return getMoves(LevelUpSM, PersonalTable.SM);
+                case (int)GameVersion.US: case (int)GameVersion.UM:
+                    return getMoves(LevelUpUSUM, PersonalTable.USUM);
             }
             return new int[0];
 
@@ -1843,6 +1879,25 @@ namespace PKHeX.Core
                                 PersonalInfo pi = PersonalTable.SM.GetFormeEntry(species, form);
                                 r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
                             }
+                            if (ver == GameVersion.Any) // Fall Through
+                                goto case GameVersion.USUM;
+                            break;
+                        }
+                        case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
+                        {
+                            int index = PersonalTable.USUM.GetFormeIndex(species, form);
+                            if (MoveReminder)
+                                lvl = 100; // Move reminder can teach any level in movepool now!
+
+                            if (LVL)
+                                r.AddRange(LevelUpUSUM[index].GetMoves(lvl));
+                            if (moveTutor)
+                                r.AddRange(GetTutorMoves(pkm, species, form, specialTutors, Generation));
+                            if (Machine)
+                            {
+                                PersonalInfo pi = PersonalTable.USUM.GetFormeEntry(species, form);
+                                r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
+                            }
                             break;
                         }
                     }
@@ -1893,9 +1948,21 @@ namespace PKHeX.Core
                     }
 
                 case 7: // entries per form if required
-                    var entry = EggMovesSM[species];
+                    EggMoves[] table;
+                    switch (pkm.Version)
+                    {
+                        case (int)GameVersion.US:
+                        case (int)GameVersion.UM:
+                            table = EggMovesUSUM;
+                            break;
+                        default:
+                            table = EggMovesSM;
+                            break;
+                    }
+
+                    var entry = table[species];
                     if (formnum > 0 && AlolanOriginForms.Contains(species))
-                        entry = EggMovesSM[entry.FormTableIndex + formnum - 1];
+                        entry = table[entry.FormTableIndex + formnum - 1];
                     return entry.Moves;
 
                 default:
@@ -2009,11 +2076,11 @@ namespace PKHeX.Core
                     }
                     break;
                 case 7:
-                    index = PersonalTable.SM.GetFormeIndex(species, form);
+                    index = PersonalTable.USUM.GetFormeIndex(species, form);
                     if (index == 0)
                         return moves;
 
-                    PersonalInfo pi_sm = PersonalTable.SM[index];
+                    PersonalInfo pi_sm = PersonalTable.USUM[index];
                     moves.AddRange(TMHM_SM.Where((t, m) => pi_sm.TMHM[m]));
                     break;
             }
@@ -2078,7 +2145,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 7:
-                    info = PersonalTable.SM.GetFormeEntry(species, form);
+                    info = PersonalTable.USUM.GetFormeEntry(species, form);
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     // No special tutors in G7
                     break;

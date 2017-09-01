@@ -6,6 +6,7 @@ namespace PKHeX.Core
 {
     public class PersonalTable
     {
+        public static readonly PersonalTable USUM = GetTable("sm", GameVersion.USUM);
         public static readonly PersonalTable SM = GetTable("sm", GameVersion.SM);
         public static readonly PersonalTable AO = GetTable("ao", GameVersion.ORAS);
         public static readonly PersonalTable XY = GetTable("xy", GameVersion.XY);
@@ -59,6 +60,8 @@ namespace PKHeX.Core
                     return z => new PersonalInfoORAS(z);
                 case GameVersion.SM:
                     return z => new PersonalInfoSM(z);
+                case GameVersion.USUM:
+                    return z => new PersonalInfoSM(z);
             }
             return null;
         }
@@ -80,7 +83,8 @@ namespace PKHeX.Core
                 case GameVersion.B2W2: return PersonalInfoB2W2.SIZE;
                 case GameVersion.XY: return PersonalInfoXY.SIZE;
                 case GameVersion.ORAS: return PersonalInfoORAS.SIZE;
-                case GameVersion.SM: return PersonalInfoSM.SIZE;
+                case GameVersion.SM:
+                case GameVersion.USUM: return PersonalInfoSM.SIZE;
 
                 default: return -1;
             }

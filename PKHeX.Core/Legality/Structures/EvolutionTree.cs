@@ -26,7 +26,7 @@ namespace PKHeX.Core
             Evolves4 = new EvolutionTree(new[] { get("g4") }, GameVersion.DP, PersonalTable.DP, Legal.MaxSpeciesID_4);
             Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.BW, PersonalTable.BW, Legal.MaxSpeciesID_5);
             Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.ORAS, PersonalTable.AO, Legal.MaxSpeciesID_6);
-            Evolves7 = new EvolutionTree(unpack("sm"), GameVersion.SM, PersonalTable.SM, Legal.MaxSpeciesID_7);
+            Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.USUM, PersonalTable.USUM, Legal.MaxSpeciesID_7);
         }
         internal static EvolutionTree GetEvolutionTree(int generation)
         {
@@ -80,7 +80,7 @@ namespace PKHeX.Core
                 case GameVersion.ORAS:
                     Entries.AddRange(data.Select(d => new EvolutionSet6(d)));
                     break;
-                case GameVersion.SM:
+                case GameVersion.USUM:
                     Entries.AddRange(data.Select(d => new EvolutionSet7(d)));
                     break;
             }

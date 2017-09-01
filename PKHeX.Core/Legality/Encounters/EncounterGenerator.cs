@@ -793,7 +793,7 @@ namespace PKHeX.Core
                 case 6:
                     return pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO;
                 case 7:
-                    return pkm.SM ? Encounters7.TradeGift_SM : null;
+                    return pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM;
             }
             return null;
         }
