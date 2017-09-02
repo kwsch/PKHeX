@@ -1988,6 +1988,7 @@ namespace PKHeX.WinForms.Controls
             for (int i = 0; i < formStrings.Length; i++)
                 if (formStrings[i].Contains(Set.Form ?? ""))
                 { form = i; break; }
+            if (Set.Form == "Blue Striped") form = 1;
             CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, form);
 
             // Set Ability and Moves
