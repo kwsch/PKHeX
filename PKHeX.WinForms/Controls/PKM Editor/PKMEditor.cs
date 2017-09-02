@@ -1984,11 +1984,8 @@ namespace PKHeX.WinForms.Controls
             string[] formStrings = PKX.GetFormList(Set.Species,
                 Util.GetTypesList("en"),
                 Util.GetFormsList("en"), gendersymbols, pkm.Format);
-            int form = 0;
-            for (int i = 0; i < formStrings.Length; i++)
-                if (formStrings[i].Contains(Set.Form ?? ""))
-                { form = i; break; }
-            CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, form);
+            int form = Array.FindIndex(formStrings, z => z.Contains(Set.Form ?? ""));
+            CB_Form.SelectedIndex = Math.Min(CB_Form.Items.Count - 1, Math.Max(0, form));
 
             // Set Ability and Moves
             CB_Ability.SelectedIndex = Math.Max(0, Array.IndexOf(pkm.PersonalInfo.Abilities, Set.Ability));

@@ -55,7 +55,7 @@ namespace PKHeX.Core
 
             // Seek for start of set
             int start = Array.FindIndex(lines, line => line.Contains(" @ "));
-            
+
             if (start != -1) // Has Item -- skip to start.
                 lines = lines.Skip(start).Take(lines.Length - start).ToArray();
             else // Has no Item -- try parsing the first line anyway.
@@ -91,9 +91,9 @@ namespace PKHeX.Core
                 {
                     case "Trait":
                     case "Ability": { Ability = Array.IndexOf(abilities, brokenline[1].Trim()); break; }
-                    case "Level": { Level = Util.ToInt32(brokenline[1].Trim()); break; }
+                    case "Level": { if (int.TryParse(brokenline[1].Trim(), out int val)) Level = val; else InvalidLines.Add(line); break; }
                     case "Shiny": { Shiny = brokenline[1].Trim() == "Yes"; break; }
-                    case "Happiness": { Friendship = Util.ToInt32(brokenline[1].Trim()); break; }
+                    case "Happiness": { if (int.TryParse(brokenline[1].Trim(), out int val)) Friendship = val; else InvalidLines.Add(line); break; }
                     case "Nature": { Nature = Array.IndexOf(natures, brokenline[1].Trim()); break; }
                     case "EV":
                     case "EVs": { ParseLineEVs(brokenline[1].Trim()); break; }
@@ -142,24 +142,7 @@ namespace PKHeX.Core
             EVs = EVsSpeedFirst;
 
             // Showdown Quirks
-            switch (Species)
-            {
-                case 658: // Greninja
-                    if (Ability == 210) Form = "Ash"; // Battle Bond
-                    break;
-                case 666: // Vivillon
-                    if (Form == "Pokeball") Form = "Poké Ball";
-                    break;
-                case 718: // Zygarde
-                    if (string.IsNullOrEmpty(Form)) Form = "50%";
-                    else if (Form == "Complete") Form = "100%";
-                    if (Ability == 211) Form += "-C"; // Power Construct
-                    break;
-                case 774: // Minior
-                    if (!string.IsNullOrWhiteSpace(Form) && Form != "Meteor")
-                        Form = "C-" + Form;
-                    break;
-            }
+            Form = ConvertFormFromShowdown(Form, Species, Ability);
         }
 
         public string Text => GetText();
@@ -171,7 +154,7 @@ namespace PKHeX.Core
             var result = new List<string>();
 
             // First Line: Name, Nickname, Gender, Item
-            string form = GetStringForm(Form);
+            string form = ConvertFormToShowdown(Form, Species);
             result.Add(GetStringFirstLine(form));
 
             // IVs
@@ -196,35 +179,6 @@ namespace PKHeX.Core
             result.AddRange(GetStringMoves());
 
             return string.Join(Environment.NewLine, result);
-        }
-        private string GetStringForm(string form)
-        {
-            if (string.IsNullOrWhiteSpace(form))
-            {
-                if (Species == 774) // Minior
-                    form = "Meteor";
-                return form;
-            }
-
-            switch (Species)
-            {
-                case 658: // Greninja
-                    form = form.Replace("Ash", "");
-                    form = form.Replace("Active", "");
-                    break;
-                case 718: // Zygarde
-                    form = form.Replace("-C", "");
-                    form = form.Replace("50%", "");
-                    form = form.Replace("100%", "Complete");
-                    break;
-                case 774: // Minior
-                    if (form.StartsWith("M-"))
-                        form = "Meteor";
-                    form = form.Replace("C-", "");
-                    break;
-            }
-
-            return form;
         }
         private string GetStringFirstLine(string form)
         {
@@ -290,9 +244,8 @@ namespace PKHeX.Core
                 Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : "",
             };
 
-            if (Set.Form == "F") Set.Gender = "";
-            else if (Set.Species == 676) Set.Form = ""; // Furfrou
-            else if (Set.Species == 666 && Set.Form == "Poké Ball") Set.Form = "Pokeball"; // Vivillon
+            if (Set.Form == "F")
+                Set.Gender = "";
 
             return Set.Text;
         }
@@ -393,6 +346,65 @@ namespace PKHeX.Core
                     IVs[index] = IV;
                 else
                     InvalidLines.Add($"Unknown IV Type input: {ivlist[i * 2]}");
+            }
+        }
+        private static string ConvertFormToShowdown(string form, int spec)
+        {
+            if (string.IsNullOrWhiteSpace(form))
+            {
+                if (spec == 774) // Minior
+                    form = "Meteor";
+                return form;
+            }
+
+            switch (spec)
+            {
+                case 550 when form == "Blue":
+                    return "Blue Striped";
+                case 666 when form == "Poké Ball":
+                    return "Pokeball"; // Vivillon
+                case 676:
+                    return ""; // Furfrou
+                case 658: // Greninja
+                    return "";
+                case 718: // Zygarde
+                    form = form.Replace("-C", "");
+                    form = form.Replace("50%", "");
+                    return form.Replace("100%", "Complete");
+                case 774: // Minior
+                    if (form.StartsWith("M-"))
+                        return "Meteor";
+                    return form.Replace("C-", "");
+
+                default:
+                    return form;
+            }
+        }
+        private static string ConvertFormFromShowdown(string form, int spec, int ability)
+        {
+            switch (spec)
+            {
+                case 550 when form == "Blue Striped": // Basculin
+                    return "Blue";
+                case 658 when ability == 210: // Greninja
+                    return "Ash"; // Battle Bond
+                case 666 when form == "Pokeball": // Vivillon
+                    return "Poké Ball";
+
+                // Zygarde
+                case 718 when string.IsNullOrWhiteSpace(form):
+                    return "50%";
+                case 718 when form == "Complete":
+                    return "100%";
+                case 718 when ability == 211:
+                    return "-C"; // Power Construct
+
+                // Minior
+                case 774 when !string.IsNullOrWhiteSpace(form) && form != "Meteor":
+                    return "C-" + form;
+
+                default:
+                    return form;
             }
         }
 
