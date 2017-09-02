@@ -43,8 +43,9 @@ namespace PKHeX.Core
             {
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
                 UptateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
-                if(!Legal.AllowGen2MoveReminder && pkm.InhabitedGeneration(2))
-                    // The same for Generation 2 if move reminder from Stadium 2 is not allowed
+
+                // The same for Generation 2; if move reminder from Stadium 2 is not allowed
+                if (!Legal.AllowGen2MoveReminder && pkm.InhabitedGeneration(2))
                     UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
             }
 
@@ -144,13 +145,13 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMovesGenGB(PKM pkm, int[] Moves, LegalInfo info)
         {
-            GameVersion[] games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
             CheckMoveResult[] res = new CheckMoveResult[4];
             var G1Encounter = info.EncounterMatch;
             if (G1Encounter == null)
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = new int[0];
             int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
+            IEnumerable<GameVersion> games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
             foreach (GameVersion ver in games)
             {
                 var VerInitialMoves = Legal.GetInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();
@@ -587,7 +588,7 @@ namespace PKHeX.Core
                 return;
 
             var ValidMoves = Legal.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
-            // Add the evolution moves to valid moves in case some of this moves could not be learned after evolving
+            // Add the evolution moves to valid moves in case some of these moves could not be learned after evolving
             switch (pkm.Species)
             {
                 case 122: // Mr. Mime (Mime Jr with Mimic)

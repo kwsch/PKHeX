@@ -195,12 +195,12 @@ namespace PKHeX.Core
                         if (index == 0)
                             return r;
 
-                        var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
-                        var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
+                        var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
+                        var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
 
                         for (int m = 0; m < moves.Count; m++)
                         {
-                            if (pi_rb.Moves.Contains(moves[m]) || pi_y.Moves.Contains(moves[m]))
+                            if (pi_rb.Contains(moves[m]) || pi_y.Contains(moves[m]))
                                 r[m] = 1;
                             else
                             {
@@ -228,15 +228,13 @@ namespace PKHeX.Core
                         if (index == 0)
                             return r;
 
-                        var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
-                        var pi_y = (PersonalInfoG1)PersonalTable.Y[index];
+                        var pi_rb = ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
+                        var pi_y = ((PersonalInfoG1)PersonalTable.Y[index]).Moves;
 
                         for (int m = 0; m < moves.Count; m++)
                         {
-                            if (pi_rb.Moves.Contains(moves[m]) && pi_y.Moves.Contains(moves[m]))
-                                r[m] = 1;
-                            else
-                                r[m] = Math.Max(LevelUpRB[index].GetLevelLearnMove(moves[m]), LevelUpY[index].GetLevelLearnMove(moves[m]));
+                            bool start = pi_rb.Contains(moves[m]) && pi_y.Contains(moves[m]);
+                            r[m] = start ? 1 : Math.Max(LevelUpRB[index].GetLevelLearnMove(moves[m]), LevelUpY[index].GetLevelLearnMove(moves[m]));
                         }
                         break;
                     }
@@ -600,34 +598,34 @@ namespace PKHeX.Core
             {
                 var evo = evoChain[i];
                 var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
-                if (i >= index)
-                    // Moves from Species or any species bellow in the evolution phase
-                    preevomoves.AddRange(moves);
-                else
-                    // Moves in phase evolutions after the limit species, this moves should be removed
-                    evomoves.AddRange(moves);
+                var list = i >= index ? preevomoves : evomoves;
+                list.AddRange(moves);
             }
-            preevomoves.RemoveAll(x => evomoves.Contains(x));
-            return preevomoves.Distinct().ToList();
+            return preevomoves.Where(z => !evomoves.Contains(z)).Distinct().ToList();
         }
 
         // Encounter
-        internal static GameVersion[] GetGen2Versions(LegalInfo Info)
+        internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info)
         {
             if (AllowGen2Crystal && Info.Game == GameVersion.C)
-                return new[] { GameVersion.C };
+                yield return GameVersion.C;
+
             // Any encounter marked with version GSC is for pokemon with the same moves in g/s and Crystal, it is enought to check only g/s moves
-            return new[] { GameVersion.GS };
+            yield return GameVersion.GS;
         }
-        internal static GameVersion[] GetGen1Versions(LegalInfo Info)
+        internal static IEnumerable<GameVersion> GetGen1Versions(LegalInfo Info)
         {
             if (Info.EncounterMatch.Species == 133 && Info.Game == GameVersion.Stadium)
-                // Staidum eevee, check for red/blue and yellow initial moves
-                return new[] { GameVersion.RB, GameVersion.YW };
+            { 
+                // Stadium Eevee; check for RB and yellow initial moves
+                yield return GameVersion.RB;
+                yield return GameVersion.YW;
+            }
             if (Info.Game == GameVersion.YW)
-                return new[] { GameVersion.YW };
+                yield return GameVersion.YW;
+
             // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in red/blue and yellow, it is enought to check only red/blue moves
-            return new[] { GameVersion.RB };
+            yield return GameVersion.RB;
         }
         internal static IEnumerable<int> GetInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
         {
