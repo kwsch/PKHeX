@@ -105,8 +105,11 @@
                     return GameVersion.XY.Contains(g2) || GameVersion.ORAS.Contains(g2);
 
                 case GameVersion.SM:
-                case GameVersion.Gen7:
                     return g2 == GameVersion.SN || g2 == GameVersion.MN;
+                case GameVersion.USUM:
+                    return g2 == GameVersion.US || g2 == GameVersion.UM;
+                case GameVersion.Gen7:
+                    return GameVersion.SM.Contains(g2) || GameVersion.USUM.Contains(g2);
 
                 default: return false;
             }

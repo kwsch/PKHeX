@@ -70,6 +70,10 @@
                 case GameVersion.MN:
                     return GameVersion.SM;
 
+                case GameVersion.US:
+                case GameVersion.UM:
+                    return GameVersion.USUM;
+
                 default:
                     return GameVersion.Invalid;
             }

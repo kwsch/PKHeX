@@ -129,7 +129,7 @@ namespace PKHeX.Core
         // There's always oddballs.
         private void FixEvoTreeManually()
         {
-            if (Game == GameVersion.SM)
+            if (Game == GameVersion.USUM)
                 FixEvoTreeSM();
         }
         private void FixEvoTreeSM()
