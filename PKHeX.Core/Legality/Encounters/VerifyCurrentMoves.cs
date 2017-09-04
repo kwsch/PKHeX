@@ -27,12 +27,12 @@ namespace PKHeX.Core
                 return ParseMovesForSmeargle(pkm, Moves, info); // Smeargle can have any moves except a few
 
             // Iterate over encounters
-            bool pre3DS = pkm.GenNumber < 6;
+            bool pre3DS = info.Generation < 6;
 
             // gather valid moves for encounter species
             info.EncounterMoves = new ValidEncounterMoves(pkm, info);
 
-            if (pkm.GenNumber <= 3)
+            if (info.Generation <= 3)
                 pkm.WasEgg = info.EncounterMatch.EggEncounter;
 
             var EncounterMatchGen = info.EncounterMatch as IGeneration;
@@ -95,7 +95,7 @@ namespace PKHeX.Core
                 NonTradebackLvlMoves = Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray();
             var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm);
 
-            bool volt = (pkm.GenNumber > 3 || e.Game == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
+            bool volt = (info.Generation > 3 || e.Game == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             var Special = volt && EventEggMoves.Length == 0 ? new[] { 344 } : new int[0]; // Volt Tackle for bred Pichu line
 
             var source = new MoveParseSource
@@ -121,7 +121,7 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMoves3DS(PKM pkm, int[] Moves, LegalInfo info)
         {
-            info.EncounterMoves.Relearn = pkm.GenNumber >= 6 ? pkm.RelearnMoves : new int[0];
+            info.EncounterMoves.Relearn = info.Generation >= 6 ? pkm.RelearnMoves : new int[0];
             if (info.EncounterMatch is IMoveset)
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
 
@@ -136,7 +136,7 @@ namespace PKHeX.Core
                 return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves, egg);
             }
             var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder;
-            if (pkm.GenNumber <= 2 && NoMoveReminder)
+            if (info.Generation <= 2 && NoMoveReminder)
                 return ParseMovesGenGB(pkm, Moves, info);
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
@@ -234,7 +234,7 @@ namespace PKHeX.Core
                 if (source.CurrentMoves[m] == 0)
                     res[m] = new CheckMoveResult(MoveSource.None, pkm.Format, m < required ? Severity.Fishy : Severity.Valid, V167, CheckIdentifier.Move);
                 else if (info.EncounterMoves.Relearn.Contains(source.CurrentMoves[m]))
-                    res[m] = new CheckMoveResult(MoveSource.Relearn, pkm.GenNumber, Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
+                    res[m] = new CheckMoveResult(MoveSource.Relearn, info.Generation, Severity.Valid, V172, CheckIdentifier.Move) { Flag = true };
             }
 
             if (AllParsed())
@@ -266,7 +266,7 @@ namespace PKHeX.Core
             for (int m = 0; m < 4; m++)
             {
                 if (res[m] == null)
-                    res[m] = new CheckMoveResult(MoveSource.Unknown, pkm.GenNumber, Severity.Invalid, V176, CheckIdentifier.Move);
+                    res[m] = new CheckMoveResult(MoveSource.Unknown, info.Generation, Severity.Invalid, V176, CheckIdentifier.Move);
             }
             return res;
         }
@@ -317,7 +317,7 @@ namespace PKHeX.Core
                     res[m] = new CheckMoveResult(MoveSource.TMHM, gen, Severity.Valid, native ? V173 : string.Format(V331, gen), CheckIdentifier.Move);
                 else if (info.EncounterMoves.TutorMoves[gen].Contains(moves[m]))
                     res[m] = new CheckMoveResult(MoveSource.Tutor, gen, Severity.Valid, native ? V174 : string.Format(V332, gen), CheckIdentifier.Move);
-                else if (gen == pkm.GenNumber && learnInfo.Source.SpecialSource.Contains(moves[m]))
+                else if (gen == info.Generation && learnInfo.Source.SpecialSource.Contains(moves[m]))
                     res[m] = new CheckMoveResult(MoveSource.Special, gen, Severity.Valid, V175, CheckIdentifier.Move);
 
                 if (res[m] == null || gen >= 3)
@@ -332,7 +332,7 @@ namespace PKHeX.Core
                         learnInfo.MixedGen12NonTradeback = true;
                 }
 
-                if (res[m].Valid && gen <= 2 && pkm.TradebackStatus == TradebackType.Any && pkm.GenNumber != gen)
+                if (res[m].Valid && gen <= 2 && pkm.TradebackStatus == TradebackType.Any && info.Generation != gen)
                     pkm.TradebackStatus = TradebackType.WasTradeback;
             }
         }
@@ -699,7 +699,7 @@ namespace PKHeX.Core
                     res[z] = new CheckMoveResult(MoveSource.Initial, gen, Severity.Invalid, V180, CheckIdentifier.Move);
 
                 // provide the list of suggested base moves for the last required slot
-                em = string.Join(", ", infoset.Base.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]));
+                em = string.Join(", ", getMoveNames(infoset.Base));
                 break;
             }
 
@@ -719,10 +719,10 @@ namespace PKHeX.Core
                     res[z] = new CheckMoveResult(MoveSource.SpecialEgg, gen, Severity.Invalid, V342, CheckIdentifier.Move);
 
                 // provide the list of suggested base moves and species moves for the last required slot
-                if (!string.IsNullOrEmpty(em)) em += ", ";
-                else
-                    em = string.Join(", ", infoset.Base.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m])) + ", ";
-                em += string.Join(", ", infoset.Special.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]));
+                if (string.IsNullOrEmpty(em))
+                    em = string.Join(", ", getMoveNames(infoset.Base));
+                em += ", ";
+                em += string.Join(", ", getMoveNames(infoset.Special));
                 break;
             }
 

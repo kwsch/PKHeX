@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         public static CheckResult[] VerifyRelearn(PKM pkm, LegalInfo info)
         {
-            if (pkm.GenNumber < 6 || pkm.VC1)
+            if (info.Generation < 6 || pkm.VC1)
                 return VerifyRelearnNone(pkm, info);
 
             if (info.EncounterMatch is EncounterLink l)
@@ -143,7 +143,7 @@ namespace PKHeX.Core
                 res[z] = new CheckResult(Severity.Invalid, V180, CheckIdentifier.RelearnMove);
 
             // provide the list of suggested base moves for the last required slot
-            string em = string.Join(", ", baseMoves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]));
+            string em = string.Join(", ", getMoveNames(baseMoves));
             res[required - 1].Comment += string.Format(Environment.NewLine + V181, em);
         }
         private static bool FlagInvalidInheritedMoves(CheckResult[] res, int required, EncounterEgg e, IReadOnlyList<int> RelearnMoves, IReadOnlyList<int> inheritMoves, IReadOnlyList<int> splitMoves)

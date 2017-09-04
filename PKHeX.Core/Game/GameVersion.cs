@@ -2,13 +2,6 @@
 {
     public enum GameVersion
     {
-        // Not actually stored values, but assigned as properties.
-        XD = -11,
-        COLO = -10,
-        BATREV = -7,
-        RSBOX = -5,
-        GS = -4,
-
         // Indicators
         Invalid = -2,
         Any = -1,
@@ -22,23 +15,18 @@
         /*Gen7*/ SN = 30, MN = 31, US = 32, UM = 33,
         /* GO */ GO = 34,
         /* VC1*/ RD = 35, GN = 36, BU = 37, YW = 38, // GN = Blue for international release
-        /* VC2*/ GD = 39, SV = 40, C,
+        /* VC2*/ GD = 39, SV = 40, C = 41, // Crystal is unused
+
+        // Not actually stored values, but assigned as properties.
 
         // Game Groupings (SaveFile type)
-        RB = 97,
-        RBY = 98,
-        GSC = 99,
-        RS = 100,
-        FRLG = 101,
-        DP = 102,
-        HGSS = 103,
-        BW = 104,
-        B2W2 = 105,
-        XY = 106,
-        ORASDEMO = 107,
-        ORAS = 108,
-        SM = 109,
-        USUM = 110,
+        /*SAV1*/ RB, RBY,
+        /*SAV2*/ GS, GSC,
+        /*SAV3*/ RS, FRLG, RSBOX, COLO, XD,
+        /*SAV4*/ DP, HGSS, BATREV,
+        /*SAV5*/ BW, B2W2,
+        /*SAV6*/ XY, ORASDEMO, ORAS,
+        /*SAV7*/ SM, USUM,
 
         // Extra Game Groupings (Generation)
         Gen1, Gen2, Gen3, Gen4, Gen5, Gen6, Gen7,
@@ -68,7 +56,7 @@
                 case GameVersion.Stadium:
                 case GameVersion.EventsGBGen1:
                 case GameVersion.VCEvents:
-                    return GameVersion.RBY.Contains(g2);
+                    goto case GameVersion.RBY;
 
                 case GameVersion.GS: return g2 == GameVersion.GD || g2 == GameVersion.SV;
                 case GameVersion.GSC:
@@ -77,7 +65,7 @@
                     return GameVersion.GSC.Contains(g2) || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen2;
                 case GameVersion.Stadium2:
                 case GameVersion.EventsGBGen2:
-                    return GameVersion.GSC.Contains(g2);
+                    goto case GameVersion.GSC;
                 case GameVersion.GBCartEraOnly:
                     return g2 == GameVersion.Stadium || g2 == GameVersion.Stadium2 || g2 == GameVersion.EventsGBGen1 || g2 == GameVersion.EventsGBGen2;
 
