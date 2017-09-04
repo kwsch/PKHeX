@@ -610,7 +610,8 @@ namespace PKHeX.Core
             if (AllowGen2Crystal && Info.Game == GameVersion.C)
                 yield return GameVersion.C;
 
-            // Any encounter marked with version GSC is for pokemon with the same moves in g/s and Crystal, it is enought to check only g/s moves
+            // Any encounter marked with version GSC is for pokemon with the same moves in GS and C
+            // it is sufficient to check just GS's case
             yield return GameVersion.GS;
         }
         internal static IEnumerable<GameVersion> GetGen1Versions(LegalInfo Info)
@@ -621,10 +622,11 @@ namespace PKHeX.Core
                 yield return GameVersion.RB;
                 yield return GameVersion.YW;
             }
-            if (Info.Game == GameVersion.YW)
+            else if (Info.Game == GameVersion.YW)
                 yield return GameVersion.YW;
 
-            // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in red/blue and yellow, it is enought to check only red/blue moves
+            // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in RB and Y, 
+            // it is sufficient to check just RS's case
             yield return GameVersion.RB;
         }
         internal static IEnumerable<int> GetInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
@@ -685,8 +687,8 @@ namespace PKHeX.Core
         }
         internal static int GetRequiredMoveCount(PKM pk, int[] moves, LegalInfo info, int[] initialmoves)
         {
-            if (pk.Format != 1 || !pk.Gen1_NotTradeback) // No MoveDeleter
-                return 1; // Move deleter exits, slots from 2 onwards can allways be empty
+            if (pk.Format != 1 || !pk.Gen1_NotTradeback) // No Move Deleter in Gen 1
+                return 1; // Move Deleter exits, slots from 2 onwards can allways be empty
 
             int required = GetRequiredMoveCount(pk, moves, info.EncounterMoves.LevelUpMoves, initialmoves);
             if (required >= 4)
@@ -754,48 +756,42 @@ namespace PKHeX.Core
         }
         private static int GetRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
         {
-            int catch_rate = (pk as PK1).Catch_Rate;
             int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
-            // Yellow optional moves, reduce usedslots if the yellow move is not present
-            // The count wont go bellow 1 because the yellow moves were already counted and are not the only initial or level up moves
-            if (pk.Species == 031) //Venonat
+            switch (pk.Species)
             {
-                // ignore Venomoth, by the time Venonat evolved it will always have 4 moves
-                if (pk.CurrentLevel >= 11 && !moves.Contains(48)) // Supersonic
+                case 031: // Venonat; ignore Venomoth (by the time Venonat evolves it will always have 4 moves)
+                    if (pk.CurrentLevel >= 11 && !moves.Contains(48)) // Supersonic
+                        usedslots--;
+                    if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
+                        usedslots--;
+                    break;
+                case 064: case 065: // Abra & Kadabra
+                    int catch_rate = (pk as PK1).Catch_Rate;
+                    if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
+                        usedslots--;
+                    if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
+                        usedslots--;
+                    break;
+                case 104: case 105: // Cubone & Marowak
+                    if (!moves.Contains(39)) // Initial Yellow Tail Whip 
+                        usedslots--;
+                    if (!moves.Contains(125)) // Initial Yellow Bone Club
+                        usedslots--;
+                    if (pk.Species == 105 && pk.CurrentLevel < 33 && !moves.Contains(116)) // Marowak evolved without Focus Energy
+                        usedslots--;
+                    break;
+                case 113:
+                    if (!moves.Contains(39)) // Yellow Initial Tail Whip 
+                        usedslots--;
+                    if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
+                        usedslots--;
+                    break;
+                case 056 when pk.CurrentLevel >= 9 && !moves.Contains(67): // Mankey (Low Kick)
+                case 127 when pk.CurrentLevel >= 21 && !moves.Contains(20): // Pinsir (Bind)
+                case 130 when pk.CurrentLevel < 32: // Gyarados
                     usedslots--;
-                if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
-                    usedslots--;
+                    break;
             }
-            if (pk.Species == 056 && pk.CurrentLevel >= 9 && !moves.Contains(67)) // Mankey Yellow Low Kick, Primeape will always have 4 moves
-                usedslots--;
-
-            if (064 == pk.Species || pk.Species == 065)
-            {
-                if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
-                    usedslots--;
-                if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
-                    usedslots--;
-            }
-            if (104 == pk.Species || pk.Species == 105) // Cubone and Marowak
-            {
-                if (!moves.Contains(39)) // Initial Yellow Tail Whip 
-                    usedslots--;
-                if (!moves.Contains(125)) // Initial Yellow Bone Club
-                    usedslots--;
-                if (pk.Species == 105 && pk.CurrentLevel < 33 && !moves.Contains(116)) // Marowak evolved without Focus Energy
-                    usedslots--;
-            }
-            if (pk.Species == 113) // Chansey 
-            {
-                if (!moves.Contains(39)) // Yellow Initial Tail Whip 
-                    usedslots--;
-                if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
-                    usedslots--;
-            }
-            if (pk.Species == 130 && pk.CurrentLevel < 32) // Wild Gyarados from yellow do not learn splash, evolved gyarados do not learn tackle 
-                usedslots--;
-            if (pk.Species == 127 && pk.CurrentLevel >= 21 && !moves.Contains(20)) // Pinsir Yellow Bind
-                usedslots--;
             return usedslots;
         }
         private static int GetRequiredMoveCountSpecial(PKM pk, int[] moves, List<int>[] learn)
@@ -803,33 +799,47 @@ namespace PKHeX.Core
             // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
             // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves, 
             // every other move could be avoided switching game or evolving
-            var basespecies = GetBaseSpecies(pk);
-            var maxlevel = 1;
-            var minlevel = 1;
-            if (029 <= pk.Species && pk.Species <= 034 && pk.CurrentLevel >= 8)
-                maxlevel = 8; // Always lean a third move at level 8
-            if (pk.Species == 114)
+            var mandatory = GetRequiredMoveCountLevel(pk);
+            switch (pk.Species)
             {
-                //Tangela moves before level 32 are different in red/blue and yellow
-                minlevel = 32;
-                maxlevel = pk.CurrentLevel;
+                case 103 when pk.CurrentLevel >= 28: // Exeggutor
+                    // At level 28 learn different move if is a Exeggute or Exeggutor
+                    if (moves.Contains(73))
+                        mandatory.Add(73); // Leech Seed level 28 Exeggute
+                    if (moves.Contains(23))
+                        mandatory.Add(23); // Stomp level 28 Exeggutor
+                    break;
+                case 25 when pk.CurrentLevel >= 33:
+                    mandatory.Add(97); // Pikachu always learns Agility
+                    break;
+                case 114:
+                    mandatory.Add(132); // Tangela always has Constrict as Initial Move
+                    break;
             }
-            var mandatory = minlevel <= pk.CurrentLevel ? GetLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList() : new List<int>();
-            if (pk.Species == 103 && pk.CurrentLevel >= 28) // Exeggutor
-            {
-                // At level 28 learn different move if is a Exeggute or Exeggutor
-                if (moves.Contains(73))
-                    mandatory.Add(73); // Leech Seed level 28 Exeggute
-                if (moves.Contains(23))
-                    mandatory.Add(23); // Stomp level 28 Exeggutor
-            }
-            if (pk.Species == 25 && pk.CurrentLevel >= 33)
-                mandatory.Add(97); // Pikachu always learn Agility
-            if (pk.Species == 114)
-                mandatory.Add(132); // Tangela always learn Constrict as Initial Move
 
             // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
             return mandatory.Count + moves.Where(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m)).Count();
+        }
+        private static List<int> GetRequiredMoveCountLevel(PKM pk)
+        {
+            int species = pk.Species;
+            int basespecies = GetBaseSpecies(pk);
+            int maxlevel = 1;
+            int minlevel = 1;
+
+            if (species == 114) // Tangela moves before level 32 are different in RB vs Y
+            {
+                minlevel = 32;
+                maxlevel = pk.CurrentLevel;
+            }
+            else if (029 <= species && species <= 034 && pk.CurrentLevel >= 8)
+            {
+                maxlevel = 8; // Always learns a third move at level 8
+            }
+
+            return minlevel <= pk.CurrentLevel
+                ? GetLvlMoves(basespecies, 0, 1, minlevel, maxlevel).Where(m => m != 0).Distinct().ToList()
+                : new List<int>();
         }
 
         internal static bool GetWasEgg23(PKM pkm)
@@ -845,7 +855,7 @@ namespace PKHeX.Core
             if (lvl < 5)
                 return false;
 
-            if (pkm.Format > 3 && pkm.Met_Level <5)
+            if (pkm.Format > 3 && pkm.Met_Level < 5)
                 return false;
             if (pkm.Format > 3 && pkm.FatefulEncounter)
                 return false;

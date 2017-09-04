@@ -193,19 +193,13 @@ namespace PKHeX.Core
         }
         private static CheckMoveResult[] ParseMovesRelearn(PKM pkm, int[] Moves, LegalInfo info)
         {
-            var emptyegg = new int[0];
             var source = new MoveParseSource
             {
-                Base = emptyegg,
                 CurrentMoves = Moves,
                 SpecialSource = GetSpecialMoves(info.EncounterMatch),
-
-                EggLevelUpSource = emptyegg,
-                EggEventSource = emptyegg,
             };
 
-            var e = info.EncounterMatch as EncounterEgg;
-            if (e != null)
+            if (info.EncounterMatch is EncounterEgg e)
             {
                 source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm);
                 bool TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151 && pkm.InhabitedGeneration(1);
@@ -671,18 +665,7 @@ namespace PKHeX.Core
             CheckMoveResult[] res = new CheckMoveResult[4];
             var gen = pkm.GenNumber;
             // Obtain level1 moves
-            int baseCt = infoset.Base.Count;
-            if (baseCt > 4) baseCt = 4;
-
-            // Obtain Inherited moves
-            var inherited = Moves.Where(m => m != 0 && (!infoset.Base.Contains(m) || infoset.Special.Contains(m) || infoset.Egg.Contains(m) || infoset.LevelUp.Contains(m) || infoset.TMHM.Contains(m) || infoset.Tutor.Contains(m))).ToList();
-            int inheritCt = inherited.Count;
-
-            // Get required amount of base moves
-            int unique = infoset.Base.Concat(inherited).Distinct().Count();
-            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
-            if (Moves.Where(m => m != 0).Count() < Math.Min(4, infoset.Base.Count))
-                reqBase = Math.Min(4, unique);
+            var reqBase = GetRequiredBaseMoveCount(Moves, infoset);
 
             var em = string.Empty;
             // Check if the required amount of Base Egg Moves are present.
@@ -748,6 +731,22 @@ namespace PKHeX.Core
             }
 
             return res;
+        }
+        private static int GetRequiredBaseMoveCount(int[] Moves, EggInfoSource infoset)
+        {
+            int baseCt = infoset.Base.Count;
+            if (baseCt > 4) baseCt = 4;
+
+            // Obtain Inherited moves
+            var inherited = Moves.Where(m => m != 0 && infoset.IsInherited(m)).ToList();
+            int inheritCt = inherited.Count;
+
+            // Get required amount of base moves
+            int unique = infoset.Base.Concat(inherited).Distinct().Count();
+            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
+            if (Moves.Count(m => m != 0) < Math.Min(4, infoset.Base.Count))
+                reqBase = Math.Min(4, unique);
+            return reqBase;
         }
 
         private static void VerifyNoEmptyDuplicates(int[] Moves, CheckMoveResult[] res)
