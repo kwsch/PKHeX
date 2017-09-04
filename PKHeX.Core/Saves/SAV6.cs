@@ -1005,6 +1005,40 @@ namespace PKHeX.Core
             Edited = true;
         }
 
+        // Gym History
+        private ushort[][] GymTeams
+        {
+            get
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return null; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                var data = GetData(ofs, size);
+                ushort[][] teams = new ushort[8][];
+                for (int i = 0; i < teams.Length; i++)
+                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
+                return teams;
+            }
+            set
+            {
+                if (SUBE < 0 || ORASDEMO)
+                    return; // no gym data
+
+                const int teamsize = 2 * 6; // 2byte/species, 6species/team
+                const int size = teamsize * 8; // 8 gyms
+                int ofs = SUBE - size - 4;
+
+                byte[] data = new byte[size];
+                for (int i = 0; i < value.Length; i++)
+                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
+                SetData(data, ofs);
+            }
+        }
+
         // Writeback Validity
         public override string MiscSaveChecks()
         {
