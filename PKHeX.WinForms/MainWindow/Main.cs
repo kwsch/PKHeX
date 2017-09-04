@@ -792,7 +792,13 @@ namespace PKHeX.WinForms
         }
         private static string GetProgramTitle(SaveFile sav, string path)
         {
-            string title = $"PKH{(HaX ? "a" : "e")}X ({Resources.ProgramVersion}) - " + $"{sav.GetType().Name}: ";
+#if DEBUG
+            var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
+            string date = "d-" + d.ToString("yyyyMMdd");
+#else
+            string date = Resources.ProgramVersion;
+#endif
+            string title = $"PKH{(HaX ? "a" : "e")}X ({date}) - " + $"{sav.GetType().Name}: ";
             if (string.IsNullOrWhiteSpace(path)) // Blank save file
             {
                 sav.FilePath = null;
