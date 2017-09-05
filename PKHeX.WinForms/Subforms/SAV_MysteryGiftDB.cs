@@ -184,6 +184,7 @@ namespace PKHeX.WinForms
 
             // Trigger a Reset
             ResetFilters(null, null);
+            B_Search.Enabled = true;
         }
         private void ResetFilters(object sender, EventArgs e)
         {

@@ -1,7 +1,23 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/08/07 - New Update:
+17/09/05 - New Update:
+ - Legality:
+ - - Added: Gen5 PID/TID/SID correlation check for wild encounters.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: HGSS Pokewalker locations unlock all button.
+ - Added: Gen1/2 PKM can now be made shiny in the batch editor (.PID=$shiny)
+ - Added: Database/MGDB searches can now be made on the abstract class properties (PKM/MysteryGift).
+ - Added: PKM Database now loads pkm data from save files that have been backed up. Tons to search!
+ - Added: Gen4 (DPPt) Underground Score editor. Thanks @egzonqj!
+ - Changed: Box Legality checking setting is turned on by default for new users. Too many don't know it exists :)
+ - Fixed: Gen6 OR/AS mega forms are now selectable again. Thanks @SwampyGator!
+ - Fixed: Gen5 pokedex international language bitflag setting fixed (no longer corrupts repel data). Thanks @NinFanBoyFTW!
+ - Fixed: Gen4 pokedex international language bitflags for GER/ITA swapped (now correct). Thanks @wrathsoffire76!
+ - Fixed: Importing PKMs from folder now updates any active box viewers. Thanks @NinFanBoyFTW!
+ - Fixed: French Ribbon names now display correctly in the Ribbon Editor. Thanks @Odaxis!
+
+17/08/07 - New Update: (41989) [676866]
  - Legality:
  - - Changed: XD/Colo PIDIV detection speed improved by a factor of ~8000x
  - - Changed: Method# PIDIV detection speed improved by a factor of ~250x
