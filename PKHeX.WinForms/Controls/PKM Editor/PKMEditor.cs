@@ -2005,7 +2005,7 @@ namespace PKHeX.WinForms.Controls
             TB_Level.Text = Set.Level.ToString();
             TB_Friendship.Text = Set.Friendship.ToString();
 
-            if (pkm.Format >= 7) // hyper train IVs as appropriate
+            if (pkm.Format >= 7 && pkm.CurrentLevel == 100) // hyper train IVs as appropriate
             {
                 pkm.HT_HP = Set.IVs[0] != 31;
                 pkm.HT_ATK = Set.IVs[1] != 31 && Set.IVs[1] > 2;
