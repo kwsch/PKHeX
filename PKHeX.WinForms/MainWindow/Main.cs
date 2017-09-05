@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
             // Set up Language Selection
             foreach (var cbItem in main_langlist)
                 CB_MainLanguage.Items.Add(cbItem);
-            C_SAV.HaX = PKME_Tabs.HaX = HaX = AppDomain.CurrentDomain.FriendlyName.ToLower().Contains("pkhax");
+            C_SAV.HaX = PKME_Tabs.HaX = HaX = AppDomain.CurrentDomain.FriendlyName.ToLower().Contains("pkhax") || args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase));
             PB_Legal.Visible = !HaX;
 
             int languageID = 1; // English
