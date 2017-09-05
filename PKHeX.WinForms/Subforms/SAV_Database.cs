@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define LOADALL
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -157,7 +158,7 @@ namespace PKHeX.WinForms
             var pk = Results[index];
             string path = pk.Identifier;
 
-#if DEBUG
+#if LOADALL
             if (path.StartsWith(EXTERNAL_SAV))
             {
                 WinFormsUtil.Alert("Can't delete from a backup save.");
@@ -338,7 +339,7 @@ namespace PKHeX.WinForms
                     dbTemp.Add(pk);
             });
 
-#if DEBUG
+#if LOADALL
             if (SaveUtil.GetSavesFromFolder(Main.BackupPath, false, out IEnumerable<string> result))
             {
                 Parallel.ForEach(result, file =>
@@ -405,7 +406,7 @@ namespace PKHeX.WinForms
             if (!Menu_SearchDatabase.Checked)
             {
                 res = res.Where(pk => !pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal));
-#if DEBUG
+#if LOADALL
                 res = res.Where(pk => !pk.Identifier.StartsWith(EXTERNAL_SAV, StringComparison.Ordinal));
 #endif
             }
