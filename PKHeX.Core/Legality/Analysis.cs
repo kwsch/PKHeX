@@ -279,7 +279,7 @@ namespace PKHeX.Core
                 VerifyHTMemory();
                 VerifyHyperTraining();
                 VerifyMedals();
-                VerifyRegion();
+                VerifyConsoleRegion();
                 VerifyVersionEvolution();
             }
 

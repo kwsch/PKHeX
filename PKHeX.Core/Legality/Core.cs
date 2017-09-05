@@ -626,7 +626,7 @@ namespace PKHeX.Core
                 yield return GameVersion.YW;
 
             // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in RB and Y, 
-            // it is sufficient to check just RS's case
+            // it is sufficient to check just RB's case
             yield return GameVersion.RB;
         }
         internal static IEnumerable<int> GetInitialMovesGBEncounter(int species, int lvl, GameVersion ver)
@@ -699,7 +699,8 @@ namespace PKHeX.Core
             var learn = info.EncounterMoves.LevelUpMoves;
             var tmhm = info.EncounterMoves.TMHMMoves;
             var tutor = info.EncounterMoves.TutorMoves;
-            required += moves.Where(m => m != 0 && initialmoves.Union(learn[1]).All(l => l != m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m))).Count();
+            var union = initialmoves.Union(learn[1]);
+            required += moves.Count(m => m != 0 && union.All(t => t != m) && (tmhm[1].Any(t => t == m) || tutor[1].Any(t => t == m)));
 
             return Math.Min(4, required);
         }
@@ -766,7 +767,7 @@ namespace PKHeX.Core
                         usedslots--;
                     break;
                 case 064: case 065: // Abra & Kadabra
-                    int catch_rate = (pk as PK1).Catch_Rate;
+                    int catch_rate = ((PK1) pk).Catch_Rate;
                     if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
                         usedslots--;
                     if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
@@ -818,7 +819,7 @@ namespace PKHeX.Core
             }
 
             // Add to used slots the non-mandatory moves from the learnset table that the pokemon have learned
-            return mandatory.Count + moves.Where(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m)).Count();
+            return mandatory.Count + moves.Count(m => m != 0 && mandatory.All(l => l != m) && learn[1].Any(t => t == m));
         }
         private static List<int> GetRequiredMoveCountLevel(PKM pk)
         {

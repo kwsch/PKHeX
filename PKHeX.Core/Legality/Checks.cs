@@ -507,7 +507,7 @@ namespace PKHeX.Core
         private void VerifyHyperTraining()
         {
             if (pkm.Format < 7)
-                return; // No Hyper Training before Gen VII
+                return; // No Hyper Training before Gen7
 
             var IVs = new[] { pkm.IV_HP, pkm.IV_ATK, pkm.IV_DEF, pkm.IV_SPA, pkm.IV_SPD, pkm.IV_SPE };
             var HTs = new[] { pkm.HT_HP, pkm.HT_ATK, pkm.HT_DEF, pkm.HT_SPA, pkm.HT_SPD, pkm.HT_SPE };
@@ -521,8 +521,10 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < 6; i++) // Check individual IVs
                 {
-                    if ((IVs[i] == 31) && HTs[i])
-                        AddLine(Severity.Invalid, V42, CheckIdentifier.IVs);
+                    if (!HTs[i] || IVs[i] != 31)
+                        continue;
+                    AddLine(Severity.Invalid, V42, CheckIdentifier.IVs);
+                    break;
                 }
             }
         }
@@ -1328,28 +1330,25 @@ namespace PKHeX.Core
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, string.Format(V131, pkm.HT_Gender), CheckIdentifier.History);
             
-            MysteryGift mg = EncounterMatch as MysteryGift;
-            WC6 MatchedWC6 = EncounterMatch as WC6;
-            WC7 MatchedWC7 = EncounterMatch as WC7;
-            if (MatchedWC6?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC6=null
+            if (EncounterMatch is WC6 wc6 && wc6.OT.Length > 0)
             {
-                if (pkm.OT_Friendship != PersonalTable.AO[MatchedWC6.Species].BaseFriendship)
+                if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
                 if (pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
-            else if (MatchedWC7?.OT.Length > 0) // Has Event OT -- null propagation yields false if MatchedWC7=null
+            else if (EncounterMatch is WC7 wc7 && wc7.OT.Length > 0)
             {
-                if (pkm.OT_Friendship != PersonalTable.SM[MatchedWC7.Species].BaseFriendship)
+                if (pkm.OT_Friendship != PersonalTable.SM[EncounterMatch.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
                 if (pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
-            else if (mg != null && mg.Format < 6 && pkm.Format >= 6)
+            else if (EncounterMatch is MysteryGift mg && mg.Format < 6 && pkm.Format >= 6)
             {
                 if (pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);
@@ -1378,41 +1377,7 @@ namespace PKHeX.Core
                 geoEnd = true;
             }
             if (pkm.Format >= 7)
-            {
-                if (pkm.VC1)
-                {
-                    var hasGeo = geo.Any(d => d != 0);
-
-                    if (!hasGeo)
-                        return new CheckResult(Severity.Invalid, V137, CheckIdentifier.History);
-                }
-                
-                if (Info.Generation >= 7 && pkm.CNTs.Any(stat => stat > 0))
-                    return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
-                
-                if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
-                {
-                    if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                        return new CheckResult(Severity.Invalid, V139, CheckIdentifier.History);
-                    if (pkm.HT_Friendship != 0)
-                        return new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
-                    if (pkm.HT_Affection != 0)
-                        return new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
-
-                    // We know it is untraded (HT is empty), if it must be trade evolved flag it.
-                    if (Legal.IsTradeEvolved(pkm) && EncounterMatch.Species != pkm.Species)
-                    {
-                        if (pkm.Species != 350) // Milotic
-                            return new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
-                        if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                            return new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
-                        if (pkm.CurrentLevel == 1)
-                            return new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
-                    }
-                }
-
-                return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
-            }
+                return VerifyHistory7(geo);
 
             // Determine if we should check for Handling Trainer Memories
             // A Pokémon is untraded if...
@@ -1445,16 +1410,10 @@ namespace PKHeX.Core
                 if (pkm.XY && pkm.CNTs.Any(stat => stat > 0))
                     return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
 
-                // We know it is untraded (HT is empty), if it must be trade evolved flag it.
-                if (Legal.IsTradeEvolved(pkm) && EncounterMatch.Species != pkm.Species)
-                {
-                    if (pkm.Species != 350) // Milotic
-                        return new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
-                    if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                        return new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
-                    if (pkm.CurrentLevel == 1)
-                        return new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
-                }
+                if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
+                    return chk1;
+                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, out CheckResult chk2))
+                    return chk2;
             }
             else // Is Traded
             {
@@ -1480,6 +1439,65 @@ namespace PKHeX.Core
             // Unimplemented: Ingame Trade Memories
 
             return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
+        }
+        private CheckResult VerifyHistory7(int[] geo)
+        {
+            if (pkm.VC1)
+            {
+                var hasGeo = geo.Any(d => d != 0);
+
+                if (!hasGeo)
+                    return new CheckResult(Severity.Invalid, V137, CheckIdentifier.History);
+            }
+
+            if (Info.Generation >= 7 && pkm.CNTs.Any(stat => stat > 0))
+                return new CheckResult(Severity.Invalid, V138, CheckIdentifier.History);
+
+            if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
+            {
+                if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
+                    return chk1;
+                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, out CheckResult chk2))
+                    return chk2;
+            }
+
+            return new CheckResult(Severity.Valid, V145, CheckIdentifier.History);
+        }
+        private static bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
+        {
+            result = null;
+            if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
+                result = new CheckResult(Severity.Invalid, V139, CheckIdentifier.History);
+            else if (pkm.HT_Friendship != 0)
+                result = new CheckResult(Severity.Invalid, V140, CheckIdentifier.History);
+            else if (pkm.HT_Affection != 0)
+                result = new CheckResult(Severity.Invalid, V141, CheckIdentifier.History);
+            else
+                return false;
+
+            return true;
+        }
+        private static bool VerifyHistoryUntradedEvolution(PKM pkm, out CheckResult result)
+        {
+            result = null;
+            // Handling Trainer string is empty implying it has not been traded.
+            // If it must be trade evolved, flag it.
+            if (!Legal.IsTradeEvolved(pkm))
+                return false;
+
+            if (pkm.Species == 350) // Milotic
+            {
+                if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
+                    result = new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
+                else if (pkm.CurrentLevel == 1)
+                    result = new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
+                else
+                    return false;
+            }
+            else
+                result = new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
+
+            return true;
         }
         private CheckResult VerifyCommonMemory(int handler)
         {
@@ -1669,41 +1687,38 @@ namespace PKHeX.Core
             }
             AddLine(VerifyCommonMemory(1));
         }
-        private void VerifyRegion()
+        private void VerifyConsoleRegion()
         {
-            if (pkm.Format < 6)
-                return;
-
-            bool pass;
-            switch (pkm.ConsoleRegion)
+            AddLine(VerifyConsoleRegion(pkm));
+        }
+        private static CheckResult VerifyConsoleRegion(PKM pkm)
+        {
+            int consoleRegion = pkm.ConsoleRegion;
+            if (consoleRegion >= 7)
+                return new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography);
+            return IsConsoleRegionCountryValid(consoleRegion, pkm.Country) 
+                ? new CheckResult(Severity.Valid, V303, CheckIdentifier.Geography) 
+                : new CheckResult(Severity.Invalid, V302, CheckIdentifier.Geography);
+        }
+        private static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
+        {
+            switch (consoleRegion)
             {
                 case 0: // Japan
-                    pass = pkm.Country == 1;
-                    break;
+                    return country == 1;
                 case 1: // Americas
-                    pass = 8 <= pkm.Country && pkm.Country <= 52 || new[] {153, 156, 168, 174, 186}.Contains(pkm.Country);
-                    break;
+                    return 8 <= country && country <= 52 || new[] {153, 156, 168, 174, 186}.Contains(country);
                 case 2: // Europe
-                    pass = 64 <= pkm.Country && pkm.Country <= 127 || new[] {169, 184, 185}.Contains(pkm.Country);
-                    break;
+                    return 64 <= country && country <= 127 || new[] {169, 184, 185}.Contains(country);
                 case 4: // China
-                    pass = pkm.Country == 144 || pkm.Country == 160;
-                    break;
+                    return country == 144 || country == 160;
                 case 5: // Korea
-                    pass = pkm.Country == 136;
-                    break;
+                    return country == 136;
                 case 6: // Taiwan
-                    pass = pkm.Country == 128;
-                    break;
+                    return country == 128;
                 default:
-                    AddLine(new CheckResult(Severity.Invalid, V301, CheckIdentifier.Geography));
-                    return;
+                    return false;
             }
-
-            if (!pass)
-                AddLine(Severity.Invalid, V302, CheckIdentifier.Geography);
-            else
-                AddLine(Severity.Valid, V303, CheckIdentifier.Geography);
         }
         private void VerifyForm()
         {
@@ -1717,26 +1732,12 @@ namespace PKHeX.Core
             if (count == 1 && pkm.AltForm == 0)
                 return; // no forms to check
 
-            if (pkm.AltForm > pkm.PersonalInfo.FormeCount)
+            if (pkm.AltForm > count && !IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
             {
-                bool valid = false;
-                int species = pkm.Species;
-                if (species == 201) // Unown
-                {
-                    int maxCount = Info.Generation == 2 ? 26 : 28; // A-Z : A-Z?!
-                    if (pkm.AltForm < maxCount)
-                        valid = true;
-                }
-                if (species == 414 && pkm.AltForm < 3) // Wormadam base form kept
-                    valid = true;
-
-                if ((species == 664 || species == 665) && pkm.AltForm < 18) // Vivillon Pre-evolutions
-                    valid = true;
-
-                if (!valid) // ignore list
-                { AddLine(Severity.Invalid, string.Format(V304, pkm.PersonalInfo.FormeCount, pkm.AltForm), CheckIdentifier.Form); return; }
+                AddLine(Severity.Invalid, string.Format(V304, count, pkm.AltForm), CheckIdentifier.Form);
+                return;
             }
-            
+
             if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
                 VerifyFormFriendSafari();
 
@@ -1769,10 +1770,11 @@ namespace PKHeX.Core
                     {
                         int item = pkm.HeldItem;
                         int form = 0;
-                        if ((298 <= item && item <= 313) || item == 644)
+                        if (298 <= item && item <= 313 || item == 644)
                             form = Array.IndexOf(Legal.Arceus_Plate, item) + 1;
                         else if (777 <= item && item <= 793)
                             form = Array.IndexOf(Legal.Arceus_ZCrystal, item) + 1;
+
                         if (form != pkm.AltForm)
                             AddLine(Severity.Invalid, V308, CheckIdentifier.Form);
                         else if (form != 0)
@@ -1897,6 +1899,20 @@ namespace PKHeX.Core
 
             AddLine(Severity.Valid, V318, CheckIdentifier.Form);
         }
+        private static bool IsValidOutOfBoundsForme(int species, int form, int generation)
+        {
+            switch (species)
+            {
+                case 201: // Unown
+                    return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
+                case 414: // Wormadam base form is kept
+                    return form < 3;
+                case 664: case 665: // Vivillon Pre-evolutions
+                    return form < 18;
+                default:
+                    return false;
+            }
+        }
         private void VerifyMiscG1()
         {
             if (pkm.IsEgg)
@@ -1905,11 +1921,16 @@ namespace PKHeX.Core
                 if (pkm.PKRS_Cured || pkm.PKRS_Infected)
                     AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
             }
-            if (pkm.Format > 1)
+            if (!(pkm is PK1 pk1))
                 return;
 
-            var Type_A = (pkm as PK1).Type_A;
-            var Type_B = (pkm as PK1).Type_B;
+            VerifyMiscG1Types(pk1);
+            VerifyMiscG1CatchRate(pk1);
+        }
+        private void VerifyMiscG1Types(PK1 pk1)
+        {
+            var Type_A = pk1.Type_A;
+            var Type_B = pk1.Type_B;
             if (pkm.Species == 137)
             {
                 // Porygon can have any type combination of any generation 1 species because of the move Conversion,
@@ -1933,34 +1954,35 @@ namespace PKHeX.Core
             {
                 var Type_A_Match = Type_A == PersonalTable.RB[pkm.Species].Types[0];
                 var Type_B_Match = Type_B == PersonalTable.RB[pkm.Species].Types[1];
-                
-                AddLine(Type_A_Match ? Severity.Valid : Severity.Invalid, Type_A_Match ? V392 : V389, CheckIdentifier.Misc);
 
+                AddLine(Type_A_Match ? Severity.Valid : Severity.Invalid, Type_A_Match ? V392 : V389, CheckIdentifier.Misc);
                 AddLine(Type_B_Match ? Severity.Valid : Severity.Invalid, Type_B_Match ? V393 : V390, CheckIdentifier.Misc);
             }
-            var catch_rate =(pkm as PK1).Catch_Rate;
+        }
+        private void VerifyMiscG1CatchRate(PK1 pk1)
+        {
+            var catch_rate = pk1.Catch_Rate;
             switch (pkm.TradebackStatus)
             {
                 case TradebackType.Any:
                 case TradebackType.WasTradeback:
                     if (catch_rate == 0 || Legal.HeldItems_GSC.Any(h => h == catch_rate))
-                    { AddLine(Severity.Valid, V394, CheckIdentifier.Misc); }
+                        AddLine(Severity.Valid, V394, CheckIdentifier.Misc);
                     else if (pkm.TradebackStatus == TradebackType.WasTradeback)
-                    { AddLine(Severity.Invalid, V395, CheckIdentifier.Misc); }
+                        AddLine(Severity.Invalid, V395, CheckIdentifier.Misc);
                     else
                         goto case TradebackType.Gen1_NotTradeback;
                     break;
                 case TradebackType.Gen1_NotTradeback:
                     if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium || EncounterMatch is EncounterTradeCatchRate)
-                    // Encounters detected by the catch rate, cant be invalid if match this encounters
-                    { AddLine(Severity.Valid, V398, CheckIdentifier.Misc); }
-                    if (pkm.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate ||
-                         Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && catch_rate == PersonalTable.RB[pkm.Species].CatchRate)
-                    { AddLine(Severity.Invalid, V396, CheckIdentifier.Misc); }
+                        // Encounters detected by the catch rate, cant be invalid if match this encounters
+                        AddLine(Severity.Valid, V398, CheckIdentifier.Misc);
+                    if (pkm.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate || Legal.Species_NotAvailable_CatchRate.Contains(pkm.Species) && catch_rate == PersonalTable.RB[pkm.Species].CatchRate)
+                        AddLine(Severity.Invalid, V396, CheckIdentifier.Misc);
                     else if (!Info.EvoChainsAllGens[1].Any(e => catch_rate == PersonalTable.RB[e.Species].CatchRate || catch_rate == PersonalTable.Y[e.Species].CatchRate))
-                    { AddLine(Severity.Invalid, pkm.Gen1_NotTradeback? V397: V399, CheckIdentifier.Misc); }
+                        AddLine(Severity.Invalid, pkm.Gen1_NotTradeback ? V397 : V399, CheckIdentifier.Misc);
                     else
-                    { AddLine(Severity.Valid, V398, CheckIdentifier.Misc); }
+                        AddLine(Severity.Valid, V398, CheckIdentifier.Misc);
                     break;
             }
         }
