@@ -44,18 +44,8 @@ namespace PKHeX.WinForms
             };
 
             // Enable Scrolling when hovered over
-            PAN_Box.MouseWheel += (sender, e) =>
-            {
-                if (ActiveForm == this)
-                    SCR_Box.Focus();
-            };
             foreach (var slot in PKXBOXES)
             {
-                slot.MouseWheel += (sender, e) =>
-                {
-                    if (ActiveForm == this)
-                        SCR_Box.Focus();
-                };
                 // Enable Click
                 slot.MouseClick += (sender, e) =>
                 {
@@ -91,43 +81,9 @@ namespace PKHeX.WinForms
                 p.ContextMenuStrip = mnu;
 
             // Load Data
-            var dbTemp = new ConcurrentBag<PKM>();
-            var files = Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories);
-            Parallel.ForEach(files, file =>
-            {
-                FileInfo fi = new FileInfo(file);
-                if (!fi.Extension.Contains(".pk") || !PKX.IsPKM(fi.Length)) return;
-                var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - 0x30)&7);
-                if (pk != null)
-                    dbTemp.Add(pk);
-            });
-
-#if DEBUG
-            if (SaveUtil.GetSavesFromFolder(Main.BackupPath, false, out IEnumerable<string> result))
-            {
-                Parallel.ForEach(result, file =>
-                {
-                    var sav = SaveUtil.GetVariantSAV(File.ReadAllBytes(file));
-                    var path = EXTERNAL_SAV + new FileInfo(file).Name;
-                    if (sav.HasBox)
-                        foreach (var pk in sav.BoxData)
-                            addPKM(pk);
-
-                    void addPKM(PKM pk)
-                    {
-                        pk.Identifier = Path.Combine(path, pk.Identifier);
-                        dbTemp.Add(pk);
-                    }
-                });
-            }
-#endif
-
-            // Prepare Database
-            RawDB = new List<PKM>(dbTemp.OrderBy(pk => pk.Identifier)
-                                        .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
-                                        .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
-                                        .Distinct());
-            SetResults(RawDB);
+            B_Search.Enabled = false;
+            L_Count.Text = "Loading...";
+            new Task(LoadDatabase).Start();
 
             Menu_SearchSettings.DropDown.Closing += (sender, e) =>
             {
@@ -369,6 +325,48 @@ namespace PKHeX.WinForms
             reportGrid.PopulateData(Results.ToArray());
         }
 
+        private void LoadDatabase()
+        {
+            var dbTemp = new ConcurrentBag<PKM>();
+            var files = Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories);
+            Parallel.ForEach(files, file =>
+            {
+                FileInfo fi = new FileInfo(file);
+                if (!fi.Extension.Contains(".pk") || !PKX.IsPKM(fi.Length)) return;
+                var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - 0x30) & 7);
+                if (pk != null)
+                    dbTemp.Add(pk);
+            });
+
+#if DEBUG
+            if (SaveUtil.GetSavesFromFolder(Main.BackupPath, false, out IEnumerable<string> result))
+            {
+                Parallel.ForEach(result, file =>
+                {
+                    var sav = SaveUtil.GetVariantSAV(File.ReadAllBytes(file));
+                    var path = EXTERNAL_SAV + new FileInfo(file).Name;
+                    if (sav.HasBox)
+                        foreach (var pk in sav.BoxData)
+                            addPKM(pk);
+
+                    void addPKM(PKM pk)
+                    {
+                        pk.Identifier = Path.Combine(path, pk.Identifier);
+                        dbTemp.Add(pk);
+                    }
+                });
+            }
+#endif
+
+            // Prepare Database
+            RawDB = new List<PKM>(dbTemp.OrderBy(pk => pk.Identifier)
+                .Concat(SAV.BoxData.Where(pk => pk.Species != 0)) // Fetch from save file
+                .Where(pk => pk.ChecksumValid && pk.Species != 0 && pk.Sanity == 0)
+                .Distinct());
+
+            BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
+        }
+
         // IO Usage
         private void OpenDB(object sender, EventArgs e)
         {
@@ -597,6 +595,7 @@ namespace PKHeX.WinForms
             FillPKXBoxes(0);
 
             L_Count.Text = string.Format(Counter, Results.Count);
+            B_Search.Enabled = true;
         }
         private void FillPKXBoxes(int start)
         {

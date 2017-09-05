@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.WinForms.Controls;
@@ -40,18 +41,8 @@ namespace PKHeX.WinForms
             };
 
             // Enable Scrolling when hovered over
-            PAN_Box.MouseWheel += (sender, e) =>
-            {
-                if (ActiveForm == this)
-                    SCR_Box.Focus();
-            };
             foreach (var slot in PKXBOXES)
             {
-                slot.MouseWheel += (sender, e) =>
-                {
-                    if (ActiveForm == this)
-                        SCR_Box.Focus();
-                };
                 // Enable Click
                 slot.MouseClick += (sender, e) =>
                 {
@@ -84,30 +75,21 @@ namespace PKHeX.WinForms
                 p.ContextMenuStrip = mnu;
 
             // Load Data
-            RawDB = new List<MysteryGift>();
-            RawDB.AddRange(Legal.MGDB_G4);
-            RawDB.AddRange(Legal.MGDB_G5);
-            RawDB.AddRange(Legal.MGDB_G6);
-            RawDB.AddRange(Legal.MGDB_G7);
-
-            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().Concat(Legal.MGDB_G3).OrderBy(mg => mg.Species));
-            foreach (var mg in RawDB)
-                mg.GiftUsed = false;
-            SetResults(RawDB);
+            B_Search.Enabled = false;
+            L_Count.Text = "Loading...";
+            new Task(LoadDatabase).Start();
 
             Menu_SearchSettings.DropDown.Closing += (sender, e) =>
             {
                 if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
                     e.Cancel = true;
             };
-
-            PopulateComboBoxes();
             CenterToParent();
         }
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.MGDatabasePath;
         private List<MysteryGift> Results;
-        private readonly List<MysteryGift> RawDB;
+        private List<MysteryGift> RawDB;
         private int slotSelected = -1; // = null;
         private Image slotColor;
         private const int RES_MAX = 66;
@@ -215,6 +197,23 @@ namespace PKHeX.WinForms
 
             if (sender != null)
                 System.Media.SystemSounds.Asterisk.Play();
+        }
+        private void LoadDatabase()
+        {
+            RawDB = new List<MysteryGift>();
+            RawDB.AddRange(Legal.MGDB_G4);
+            RawDB.AddRange(Legal.MGDB_G5);
+            RawDB.AddRange(Legal.MGDB_G6);
+            RawDB.AddRange(Legal.MGDB_G7);
+
+            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().Concat(Legal.MGDB_G3).OrderBy(mg => mg.Species));
+            foreach (var mg in RawDB)
+                mg.GiftUsed = false;
+            BeginInvoke(new MethodInvoker(delegate
+            {
+                SetResults(RawDB);
+                PopulateComboBoxes();
+            }));
         }
 
         // IO Usage
