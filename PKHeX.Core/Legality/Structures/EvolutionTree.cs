@@ -690,7 +690,7 @@ namespace PKHeX.Core
         private static void UpdateMinValues(IReadOnlyCollection<DexLevel> dl, EvolutionMethod evo)
         {
             var last = dl.Last();
-            if (evo.Level == 0) // Evolutions like elemental stones, trade, etc
+            if (evo.Level == 0 || !evo.RequiresLevelUp) // Evolutions like elemental stones, trade, etc
             {
                 if (!evo.RequiresLevelUp)
                     last.MinLevel = 1;
