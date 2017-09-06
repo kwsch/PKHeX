@@ -303,7 +303,7 @@ namespace PKHeX.Core
             032, // Via Nidoran-F
             313, // Via Illumise
 
-            440, // Via Chansey
+            173, // Via Clefairy
             239, // Via Electabuzz
             240, // Via Magmar
             298, // Via Marill
@@ -311,6 +311,7 @@ namespace PKHeX.Core
             406, // Via Roselia
             433, // Via Chimecho
             439, // Via Mr. Mime
+            440, // Via Chansey
         };
         internal static readonly int[] Inherit_Dream =
         {

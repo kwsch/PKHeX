@@ -480,7 +480,21 @@ namespace PKHeX.Core
         }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
         public virtual bool WasEventEgg => GenNumber == 4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
-        public virtual bool WasTradedEgg => Egg_Location == 30002 || GenNumber == 4 && Egg_Location == 2002;
+        public bool WasTradedEgg
+        {
+            get
+            {
+                switch (GenNumber)
+                {
+                    case 4:
+                        return Egg_Location == 2002;
+                    case 5:
+                        return Egg_Location == 30003;
+                    default:
+                        return Egg_Location == 30002;
+                }
+            }
+        }
         public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;

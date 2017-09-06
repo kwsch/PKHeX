@@ -957,6 +957,12 @@ namespace PKHeX.Core
                     if (pkm.AbilityNumber == 4 ^ grotto)
                         AddLine(Severity.Invalid, grotto ? V217 : V108, CheckIdentifier.Ability);
                     break;
+
+                case EncounterEgg e when pkm.AbilityNumber == 4:
+                    // Hidden Abilities for some are unbreedable (male only distribution)
+                    if ((pkm.PersonalInfo.Gender & 0xFF) == 0 || Legal.Ban_BreedHidden.Contains(e.Species))
+                        AddLine(Severity.Invalid, V112, CheckIdentifier.Ability);
+                    break;
             }
         }
         private void VerifyAbility6(int[] abilities)

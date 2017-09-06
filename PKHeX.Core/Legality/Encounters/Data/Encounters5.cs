@@ -710,7 +710,7 @@ namespace PKHeX.Core
             new EncounterArea {Location = 27, Slots = new[]{new EncounterSlot {Species = 193},},},// Yanma @ Route 14
             new EncounterArea {Location = 28, Slots = new[]{new EncounterSlot {Species = 056},},},// Mankey @ Route 15
             new EncounterArea {Location = 29, Slots = new[]{new EncounterSlot {Species = 204},},},// Pineco @ Route 16
-            new EncounterArea {Location = 30, Slots = new[]{new EncounterSlot {Species = 102},},},// Exeggcutes @ Route 18
+            new EncounterArea {Location = 31, Slots = new[]{new EncounterSlot {Species = 102},},},// Exeggcutes @ Route 18
         };
 
         private static readonly EncounterArea[] SlotsB_Swarm = SlotsBW_Swarm.Concat(new[] {
@@ -824,7 +824,7 @@ namespace PKHeX.Core
             new EncounterSlot{ Species = 055, LevelMin = 35, LevelMax = 40, }, // Golduck @ Shrine
             new EncounterSlot{ Species = 333, LevelMin = 35, LevelMax = 40, }, // Swablu @ Shrine
             new EncounterSlot{ Species = 436, LevelMin = 35, LevelMax = 40, }, // Bronzor @ Near Youngster
-            new EncounterSlot{ Species = 619, LevelMin = 35, LevelMax = 40, }, // Amoonguss @ Both
+            new EncounterSlot{ Species = 591, LevelMin = 35, LevelMax = 40, }, // Amoonguss @ Both
             // Lostlorn Forest
             new EncounterSlot{ Species = 127, LevelMin = 20, LevelMax = 25, }, // Pinsir
             new EncounterSlot{ Species = 214, LevelMin = 20, LevelMax = 25, }, // Heracross

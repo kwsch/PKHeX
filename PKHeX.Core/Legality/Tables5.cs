@@ -169,5 +169,27 @@ namespace PKHeX.Core
             60002, // Daycare
             60003, // Breeder (NPC)
         };
+
+        /// <summary>
+        /// Some mixed-gender species were only distributed male-only. Ban hidden abilities on these species when bred in Gen5.
+        /// </summary>
+        internal static readonly int[] Ban_BreedHidden =
+        {
+            001, // Bulbasaur
+            004, // Charmander
+            007, // Squirtle
+            152, // Chikorita
+            155, // Cyndaquil
+            158, // Totodile
+            252, // Treecko
+            255, // Torchic
+            258, // Mudkip
+            387, // Turtwig
+            390, // Chimchar
+            393, // Piplup
+            511, // Pansage
+            513, // Pansear
+            515, // Panpour
+        };
     }
 }
