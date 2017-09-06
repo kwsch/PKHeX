@@ -91,15 +91,19 @@ namespace PKHeX.Core
         }
         static PersonalTable() // Finish Setup
         {
-            FixPersonalTableY();
+            FixPersonalTableG1();
             PopulateGen3Tutors();
             PopulateGen4Tutors();
         }
-        private static void FixPersonalTableY()
+        private static void FixPersonalTableG1()
         {
             // Update Yellow's catch rates; currently matches Red/Blue's values.
             Y[25].CatchRate = 163; // Pikachu
             Y[64].CatchRate = 96; // Kadabra
+
+            // Load Gen2 Gender Ratios into Gen1
+            for (int i = 0; i < 151; i++)
+                RB[i].Gender = Y[i].Gender = GS[i].Gender;
         }
         private static void PopulateGen3Tutors()
         {

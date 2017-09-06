@@ -777,23 +777,14 @@ namespace PKHeX.Core
         /// </remarks>
         public void SetShinyIVs()
         {
-            int[] and2 = { 2, 3, 6, 7, 10, 11, 14, 15 };
-            switch (Format)
-            {
-                default:
-                    return;
-                case 1:
-                    IV_ATK = 10; // an attempt was made
-                    IV_DEF = randIV();
-                    break;
-                case 2:
-                    IV_DEF = 10;
-                    IV_ATK = randIV();
-                    break;
-            }
+            if (Format > 2)
+                return;
+
+            int[] and2 = {2, 3, 6, 7, 10, 11, 14, 15};
+            IV_ATK = and2[Util.Rand32() & 7];
+            IV_DEF = 10;
             IV_SPE = 10;
             IV_SPA = 10;
-            int randIV() => and2[Util.Rand32() & 7];
         }
 
         /// <summary>

@@ -1918,6 +1918,10 @@ namespace PKHeX.Core
                 if (pkm.PKRS_Cured || pkm.PKRS_Infected)
                     AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
             }
+
+            if (pkm.Format > 2 && pkm.VC2 && pkm.Gender == 1 && pkm.PersonalInfo.Gender == 31 && pkm.IsShiny)
+                AddLine(Severity.Invalid, V209, CheckIdentifier.PID);
+
             if (!(pkm is PK1 pk1))
                 return;
 

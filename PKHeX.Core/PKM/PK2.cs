@@ -395,7 +395,7 @@ namespace PKHeX.Core
                 Move3_PP = Move3_PP,
                 Move4_PP = Move4_PP,
                 Met_Location = 30004,
-                Gender = PersonalTable.SM[Species].RandomGender,
+                Gender = Gender,
                 OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
 

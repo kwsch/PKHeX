@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public override int[] Items { get => new[] { 0, 0 }; set { } }
         public override int[] EggGroups { get => new[] { 0, 0 }; set { } }
         public override int[] Abilities { get => new[] { 0, 0 }; set { } }
-        public override int Gender { get => 0; set { } }
+        public override int Gender { get; set; }
         public override int HatchCycles { get => 0; set { } }
         public override int BaseFriendship { get => 0; set { } }
         public override int EscapeRate { get => 0; set { } }

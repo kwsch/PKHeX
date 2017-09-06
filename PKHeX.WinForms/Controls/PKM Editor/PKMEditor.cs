@@ -530,7 +530,7 @@ namespace PKHeX.WinForms.Controls
             // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
 
             int newGender = PKX.GetGender(Label_Gender.Text) ^ 1;
-            if (pkm.Format == 2)
+            if (pkm.Format <= 2)
                 do { TB_ATKIV.Text = (Util.Rand32() & pkm.MaxIV).ToString(); } while (PKX.GetGender(Label_Gender.Text) != newGender);
             else if (pkm.Format <= 4)
             {
@@ -879,7 +879,7 @@ namespace PKHeX.WinForms.Controls
             {
                 TB_HPIV.Text = pkm.IV_HP.ToString();
                 TB_SPDIV.Text = TB_SPAIV.Text;
-                if (pkm.Format == 2)
+                if (pkm.Format <= 2)
                 {
                     Label_Gender.Text = gendersymbols[pkm.Gender];
                     Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
@@ -1823,9 +1823,10 @@ namespace PKHeX.WinForms.Controls
 
             FLP_FriendshipForm.Visible = gen >= 2;
             FLP_HeldItem.Visible = gen >= 2;
-            CHK_IsEgg.Visible = Label_Gender.Visible = gen >= 2;
+            CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
             Label_OTGender.Visible = gen >= 2;
+            Label_Gender.Visible = gen >= 1;
 
             // HaX override, needs to be after DEV_Ability enabled assignment.
             TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;

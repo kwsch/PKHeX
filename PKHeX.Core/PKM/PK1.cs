@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -234,10 +235,9 @@ namespace PKHeX.Core
         public override int Nature { get => 0; set { } }
         public override int AltForm { get => 0; set { } }
         public override bool IsEgg { get => false; set { } }
-        public override int Gender { get => 0; set { } }
         public override int HeldItem { get => 0; set { } }
         public override bool CanHoldItem(ushort[] ValidArray) => false;
-        public override bool IsShiny => IV_ATK == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_DEF & 2) == 2;
+        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
         public override ushort Sanity { get => 0; set { } }
         public override bool ChecksumValid => true;
         public override ushort Checksum { get => 0; set { } }
@@ -267,6 +267,34 @@ namespace PKHeX.Core
         public override int CNT_Sheen { get => 0; set { } }
         #endregion
         public bool CatchRateIsItem = false;
+
+        public override int Gender
+        {
+            get
+            {
+                int gv = PersonalInfo.Gender;
+                if (gv == 255)
+                    return 2;
+                if (gv == 254)
+                    return 1;
+                if (gv == 0)
+                    return 0;
+                switch (gv)
+                {
+                    case 31:
+                        return IV_ATK >= 2 ? 0 : 1;
+                    case 63:
+                        return IV_ATK >= 5 ? 0 : 1;
+                    case 127:
+                        return IV_ATK >= 7 ? 0 : 1;
+                    case 191:
+                        return IV_ATK >= 12 ? 0 : 1;
+                }
+                Debug.WriteLine("Unknown Gender value: " + gv);
+                return 0;
+            }
+            set { }
+        }
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;
@@ -347,7 +375,7 @@ namespace PKHeX.Core
                 Move3_PP = Move3_PP,
                 Move4_PP = Move4_PP,
                 Met_Location = 30013, // "Kanto region", hardcoded.
-                Gender = PersonalTable.SM[Species].RandomGender,
+                Gender = Gender,
                 OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
 
