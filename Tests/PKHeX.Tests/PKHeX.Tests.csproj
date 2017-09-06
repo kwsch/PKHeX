@@ -72,6 +72,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Legality\LegalityTests.cs" />
     <Compile Include="PKM\DateTestPKM.cs" />
     <Compile Include="PKM\PIDIVTests.cs" />
     <Compile Include="PKM\PKMTests.cs" />

@@ -1549,4 +1549,7 @@
   <data name="flags_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\flags_rs.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="badwords" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\locale\badwords.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

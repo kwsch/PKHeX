@@ -20,7 +20,7 @@ namespace PKHeX.Core.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -58,6 +58,52 @@ namespace PKHeX.Core.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .*(ca|k|ka)ralh(inh|o|ã|õ).*
+        ///.*[gj]ilip.*
+        ///.*[늬니]미.*
+        ///.*[뒈디]져.*
+        ///.*[백빽]보지.*
+        ///.*[붕븅빙]신.*
+        ///.*[뻑뽀]큐.*
+        ///.*[시씨]벨넘.*
+        ///.*[좃좆]까.*
+        ///.*[크클]리토리스.*
+        ///.*[페패]니스.*
+        ///.*[买卖]春.*
+        ///.*[做作]爱.*
+        ///.*[買賣]春.*
+        ///.*18(넘|뇬|놈|롬|새끼|쉐리).*
+        ///.*18禁.*
+        ///.*A[级片].*
+        ///.*aambei.*
+        ///.*aarslik.*
+        ///.*aarsneg.*
+        ///.*abortus.*
+        ///.*achterlijk.*
+        ///.*aftrekken.*
+        ///.*afzuig.*
+        ///.*agilipolla.*
+        ///.*aidslijer.*
+        ///.*amaricona.*
+        ///.*analintruder.*
+        ///.*anorexia.*
+        ///.*anuslik.*
+        ///.*apollarda.*
+        ///.*asshole.*
+        ///.*b[uo]cet[iuãaoõ].*
+        ///.*baiser?.*
+        ///.*bastard.*
+        ///.*beflap.*
+        ///.*bignews.*
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string badwords {
+            get {
+                return ResourceManager.GetString("badwords", resourceCulture);
             }
         }
         
@@ -10384,7 +10430,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kein Item
+        ///   Looks up a localized string similar to Keiner
         ///Meisterball
         ///Hyperball
         ///Superball
@@ -10429,7 +10475,7 @@ namespace PKHeX.Core.Properties {
         ///Lavakeks
         ///Beerensaft
         ///Zauberasche
-        /// [rest of string was truncated]&quot;;.
+        ///KP- [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_de {
             get {
@@ -10438,7 +10484,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kein Item
+        ///   Looks up a localized string similar to Keiner
         ///Meisterball
         ///Hyperball
         ///Superball
@@ -10483,7 +10529,7 @@ namespace PKHeX.Core.Properties {
         ///Lavakeks
         ///Beerensaft
         ///Zauberasche
-        /// [rest of string was truncated]&quot;;.
+        ///KP- [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_Items_de1 {
             get {
@@ -10594,7 +10640,7 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aucun objet
+        ///   Looks up a localized string similar to Aucun
         ///Master Ball
         ///Hyper Ball
         ///Super Ball
@@ -10637,7 +10683,8 @@ namespace PKHeX.Core.Properties {
         ///Élixir
         ///Max Élixir
         ///Lava Cookie
-        ///Jus de Baie [rest of string was truncated]&quot;;.
+        ///Jus de Baie
+        ///Cend [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_items_fr {
             get {
@@ -13676,24 +13723,26 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RibbonChampionKalos = Maître Kalos
-        ///RibbonChampionG3Hoenn = Maître Hoenn (RSE)
-        ///RibbonChampionSinnoh = Maître Sinnoh
-        ///RibbonBestFriends = Affection
-        ///RibbonTraining = Perfectionnement
-        ///RibbonBattlerSkillful = Élite
-        ///RibbonBattlerExpert = Génie
-        ///RibbonEffort = Effort
-        ///RibbonAlert = Alerte
-        ///RibbonShock = Choc
-        ///RibbonDowncast = Déprime
-        ///RibbonCareless = Négligence
-        ///RibbonRelax = Détente
-        ///RibbonSnooze = Sieste
-        ///RibbonSmile = Sourire
-        ///RibbonGorgeous = Sublime
-        ///RibbonRoyal = Royal
-        ///RibbonGorgeousRoyal = Royal Subl [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to RibbonChampionKalos	Maître Kalos
+        ///RibbonChampionG3Hoenn	Maître Hoenn (RSE)
+        ///RibbonChampionSinnoh	Maître Sinnoh
+        ///RibbonBestFriends	Affection
+        ///RibbonTraining	Perfectionnement
+        ///RibbonBattlerSkillful	Élite
+        ///RibbonBattlerExpert	Génie
+        ///RibbonEffort	Effort
+        ///RibbonAlert	Alerte
+        ///RibbonShock	Choc
+        ///RibbonDowncast	Déprime
+        ///RibbonCareless	Négligence
+        ///RibbonRelax	Détente
+        ///RibbonSnooze	Sieste
+        ///RibbonSmile	Sourire
+        ///RibbonGorgeous	Sublime
+        ///RibbonRoyal	Royal
+        ///RibbonGorgeousRoyal	Royal Sublime
+        ///RibbonArtist	Artiste
+        ///RibbonFoo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_ribbons_fr {
             get {
@@ -13817,31 +13866,31 @@ namespace PKHeX.Core.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to RibbonChampionKalos	卡洛斯冠军
-        ///RibbonChampionG3Hoenn	丰缘冠军 (RSE)
+        ///RibbonChampionG3Hoenn	冠军 (3代)
         ///RibbonChampionSinnoh	神奥冠军
-        ///RibbonBestFriends	友谊
-        ///RibbonTraining	苦练
-        ///RibbonBattlerSkillful	战技
-        ///RibbonBattlerExpert	战王
+        ///RibbonBestFriends	好友
+        ///RibbonTraining	修行
+        ///RibbonBattlerSkillful	高手对战
+        ///RibbonBattlerExpert	大师对战
         ///RibbonEffort	努力
-        ///RibbonAlert	警告
-        ///RibbonShock	震惊
-        ///RibbonDowncast	低落
-        ///RibbonCareless	疏忽
-        ///RibbonRelax	放松
-        ///RibbonSnooze	小憩
-        ///RibbonSmile	微笑
-        ///RibbonGorgeous	光辉
-        ///RibbonRoyal	皇家
-        ///RibbonGorgeousRoyal	光辉皇家
+        ///RibbonAlert	振奋
+        ///RibbonShock	心跳
+        ///RibbonDowncast	失望
+        ///RibbonCareless	大意
+        ///RibbonRelax	畅快
+        ///RibbonSnooze	酣睡
+        ///RibbonSmile	欢笑
+        ///RibbonGorgeous	豪华
+        ///RibbonRoyal	高贵
+        ///RibbonGorgeousRoyal	豪华高贵
         ///RibbonArtist	肖像
-        ///RibbonFootprint	足迹
-        ///RibbonRecord	记录
+        ///RibbonFootprint	脚印
+        ///RibbonRecord	纪录
         ///RibbonLegend	传说
-        ///RibbonCountry	国家
-        ///RibbonNational	国际
-        ///RibbonEarth	大地
-        ///RibbonWorld	 [rest of string was truncated]&quot;;.
+        ///RibbonCountry	地区
+        ///RibbonNational	国家
+        ///RibbonEarth	地球
+        ///RibbonWorld [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string text_ribbons_zh {
             get {
