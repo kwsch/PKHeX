@@ -261,6 +261,10 @@ namespace PKHeX.Core
                 else
                     AddLine(Severity.Valid, V18, CheckIdentifier.Nickname);
             }
+
+            // Non-nicknamed strings have already been checked.
+            if (Legal.CheckWordFilter && pkm.IsNicknamed && WordFilter.IsFiltered(nickname, out string bad))
+                AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);
         }
         private void VerifyNicknameEgg()
         {
@@ -469,6 +473,14 @@ namespace PKHeX.Core
 
             if (pkm.VC)
                 VerifyG1OT();
+
+            if (Legal.CheckWordFilter)
+            {
+                if (WordFilter.IsFiltered(pkm.OT_Name, out string bad))
+                    AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);
+                if (WordFilter.IsFiltered(pkm.HT_Name, out bad))
+                    AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);
+            }
         }
         private void VerifyG1OT()
         {

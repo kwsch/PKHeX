@@ -39,6 +39,8 @@ namespace PKHeX.Core
         public static bool AllowGen2Crystal => AllowGBCartEra || AllowGen2VCCrystal;
         public static bool AllowGen2MoveReminder => AllowGBCartEra;
 
+        public static bool CheckWordFilter { get; set; } = true;
+
         /// <summary> e-Reader Berry originates from a Japanese SaveFile </summary>
         public static bool SavegameJapanese { get; set; }
         /// <summary> e-Reader Berry is Enigma or special berry </summary>
