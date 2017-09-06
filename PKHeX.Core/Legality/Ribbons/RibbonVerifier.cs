@@ -21,6 +21,26 @@ namespace PKHeX.Core
                 result.Add(string.Format(V601, string.Join(", ", invalidRibbons.Select(z => z.Replace("Ribbon", "")))));
             return result;
         }
+        internal static bool GetIncorrectRibbonsEgg(PKM pkm, object encounterContent)
+        {
+            var event3 = encounterContent as IRibbonSetEvent3;
+            var event4 = encounterContent as IRibbonSetEvent4;
+            var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
+            if (event3 != null)
+                RibbonNames = RibbonNames.Except(event3.RibbonNames());
+            if (event4 != null)
+                RibbonNames = RibbonNames.Except(event4.RibbonNames());
+
+            foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
+            {
+                if (HasFlag(RibbonValue) || HasCount(RibbonValue))
+                    return true;
+
+                bool HasFlag(object o) => o is bool z && z;
+                bool HasCount(object o) => o is int z && z > 0;
+            }
+            return false;
+        }
         private static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, object encounterContent, int gen)
         {
             return GetInvalidRibbons(pkm, gen)

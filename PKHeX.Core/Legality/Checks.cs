@@ -753,7 +753,8 @@ namespace PKHeX.Core
             var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
             if (pkm.IsEgg)
             {
-                VerifyRibbonsEgg(encounterContent);
+                if (RibbonVerifier.GetIncorrectRibbonsEgg(pkm, encounterContent))
+                    AddLine(Severity.Invalid, V603, CheckIdentifier.Ribbon);
                 return;
             }
 
@@ -762,28 +763,6 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, string.Join(Environment.NewLine, result.Where(s => !string.IsNullOrEmpty(s))), CheckIdentifier.Ribbon);
             else
                 AddLine(Severity.Valid, V602, CheckIdentifier.Ribbon);
-        }
-        private void VerifyRibbonsEgg(object encounter)
-        {
-            var event3 = encounter as IRibbonSetEvent3;
-            var event4 = encounter as IRibbonSetEvent4;
-            var RibbonNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
-            if (event3 != null)
-                RibbonNames = RibbonNames.Except(event3.RibbonNames());
-            if (event4 != null)
-                RibbonNames = RibbonNames.Except(event4.RibbonNames());
-
-            foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
-            {
-                if (!HasFlag(RibbonValue) && !HasCount(RibbonValue))
-                    continue;
-
-                AddLine(Severity.Invalid, V603, CheckIdentifier.Ribbon);
-                return;
-
-                bool HasFlag(object o) => o is bool z && z;
-                bool HasCount(object o) => o is int z && z > 0;
-            }
         }
 
         private void VerifyCXD()
@@ -2017,7 +1996,7 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            if (Info.Generation == 5 && ((EncounterMatch as EncounterStatic)?.NSparkle ?? false))
+            if (Info.Generation == 5)
                 VerifyNsPKM();
 
             switch (EncounterMatch)
@@ -2102,7 +2081,7 @@ namespace PKHeX.Core
         }
         private void VerifyNsPKM()
         {
-            bool req = (EncounterMatch as EncounterStatic)?.NSparkle ?? false;
+            bool req = EncounterMatch is EncounterStatic s && s.NSparkle;
             if (pkm.Format == 5)
             {
                 bool has = ((PK5)pkm).NPokémon;

@@ -138,7 +138,7 @@ namespace PKHeX.Core
                 case 2: return new CheckResult(CheckIdentifier.Encounter); // no met location info
                 case 3: return pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm);
                 case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 02002) : VerifyEncounterEgg4(pkm);
-                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg5(pkm);
+                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30003) : VerifyEncounterEgg5(pkm);
                 case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg6(pkm);
                 case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, 30002) : VerifyEncounterEgg7(pkm);
 
