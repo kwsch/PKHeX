@@ -49,7 +49,9 @@
             this.Box.AllowDrop = true;
             this.Box.CurrentBox = -1;
             this.Box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Box.FlagIllegal = false;
             this.Box.Location = new System.Drawing.Point(0, 0);
+            this.Box.M = null;
             this.Box.Name = "Box";
             this.Box.Size = new System.Drawing.Size(250, 185);
             this.Box.TabIndex = 68;
@@ -64,6 +66,8 @@
             this.Controls.Add(this.Box);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SAV_BoxViewer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Box Viewer";
