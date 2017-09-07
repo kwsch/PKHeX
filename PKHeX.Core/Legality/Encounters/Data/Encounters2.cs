@@ -34,7 +34,7 @@ namespace PKHeX.Core
             var f = EncounterArea.GetArray2_F(Util.GetBinaryResource("encounter_gsc_f.pkl"));
 
             EncounterArea[] Slots = new EncounterArea[0];
-            if (GameVersion.GS.Contains(Version))
+            if (Version.Contains(GameVersion.GS))
                 Slots = GetSlots_GS(f);
             if (Version.Contains(GameVersion.C))
                 Slots = AddExtraTableSlots(Slots, GetSlots_C(f));
