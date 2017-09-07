@@ -35,6 +35,7 @@ namespace PKHeX.WinForms.Controls
             {
                 Box.FlagIllegal = value && !HaX;
                 UpdateBoxViewers(all: true);
+                ResetNonBoxSlots();
             }
         }
 
@@ -145,66 +146,28 @@ namespace PKHeX.WinForms.Controls
             if (SAV.HasBox)
                 Box.ResetSlots();
 
-            // Reload Party
-            if (SAV.HasParty)
-            {
-                for (int i = 0; i < 6; i++)
-                    GetSlotFiller(SAV.GetPartyOffset(i), SlotPictureBoxes[i + 30]);
-            }
+            ResetNonBoxSlots();
 
-            // Reload Battle Box
-            if (SAV.HasBattleBox)
-            {
-                for (int i = 0; i < 6; i++)
-                    GetSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
-            }
-
-            // Reload Daycare
-            if (SAV.HasDaycare)
-            {
-                Label[] L_SlotOccupied = { L_DC1, L_DC2 };
-                TextBox[] TB_SlotEXP = { TB_Daycare1XP, TB_Daycare2XP };
-                Label[] L_SlotEXP = { L_XP1, L_XP2 };
-
-                for (int i = 0; i < 2; i++)
-                {
-                    GetSlotFiller(SAV.GetDaycareSlotOffset(SAV.DaycareIndex, i), SlotPictureBoxes[i + 42]);
-                    uint? exp = SAV.GetDaycareEXP(SAV.DaycareIndex, i);
-                    TB_SlotEXP[i].Visible = L_SlotEXP[i].Visible = exp != null;
-                    TB_SlotEXP[i].Text = exp.ToString();
-                    bool? occ = SAV.IsDaycareOccupied(SAV.DaycareIndex, i);
-                    L_SlotOccupied[i].Visible = occ != null;
-                    if (occ == true)   // If Occupied
-                        L_SlotOccupied[i].Text = $"{i + 1}: ✓";
-                    else
-                    {
-                        L_SlotOccupied[i].Text = $"{i + 1}: ✘";
-                        SlotPictureBoxes[i + 42].Image = ImageUtil.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
-                    }
-                }
-                bool? egg = SAV.IsDaycareHasEgg(SAV.DaycareIndex);
-                DayCare_HasEgg.Visible = egg != null;
-                DayCare_HasEgg.Checked = egg == true;
-
-                var seed = SAV.GetDaycareRNGSeed(SAV.DaycareIndex);
-                L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
-                if (seed != null)
-                {
-                    TB_RNGSeed.MaxLength = SAV.DaycareSeedSize;
-                    TB_RNGSeed.Text = seed;
-                }
-            }
-
-            // GTS
-            if (SAV.HasGTS)
+            // Recoloring of a storage box slot (to not show for other storage boxes)
+            if (M?.colorizedslot >= 30)
+                SlotPictureBoxes[M.colorizedslot].BackgroundImage = M.colorizedcolor;
+        }
+        private void ResetNonBoxSlots()
+        {
+            ResetParty();
+            ResetBattleBox();
+            ResetDaycare();
+            ResetMiscSlots();
+        }
+        private void ResetMiscSlots()
+        {
+            if (SAV.HasGTS) // GTS
                 GetSlotFiller(SAV.GTS, SlotPictureBoxes[44]);
-
-            // Fused
-            if (SAV.HasFused)
+            
+            if (SAV.HasFused) // Fused
                 GetSlotFiller(SAV.Fused, SlotPictureBoxes[45]);
 
-            // SUBE
-            if (SAV.HasSUBE)
+            if (SAV.HasSUBE) // SUBE
                 for (int i = 0; i < 3; i++)
                 {
                     int offset = SAV.SUBE + i * (SAV.SIZE_STORED + 4);
@@ -212,10 +175,61 @@ namespace PKHeX.WinForms.Controls
                         GetSlotFiller(offset, SlotPictureBoxes[46 + i]);
                     else SlotPictureBoxes[46 + i].Image = null;
                 }
+        }
 
-            // Recoloring of a storage box slot (to not show for other storage boxes)
-            if (M?.colorizedslot >= 30)
-                SlotPictureBoxes[M.colorizedslot].BackgroundImage = M.colorizedcolor;
+        private void ResetParty()
+        {
+            if (!SAV.HasParty)
+                return;
+
+            for (int i = 0; i < 6; i++)
+                GetSlotFiller(SAV.GetPartyOffset(i), SlotPictureBoxes[i + 30]);
+        }
+        private void ResetBattleBox()
+        {
+            if (!SAV.HasBattleBox)
+                return;
+
+            for (int i = 0; i < 6; i++)
+                GetSlotFiller(SAV.BattleBox + SAV.SIZE_STORED * i, SlotPictureBoxes[i + 36]);
+        }
+        private void ResetDaycare()
+        {
+            if (!SAV.HasDaycare)
+                return;
+
+            Label[] L_SlotOccupied = {L_DC1, L_DC2};
+            TextBox[] TB_SlotEXP = {TB_Daycare1XP, TB_Daycare2XP};
+            Label[] L_SlotEXP = {L_XP1, L_XP2};
+
+            for (int i = 0; i < 2; i++)
+            {
+                GetSlotFiller(SAV.GetDaycareSlotOffset(SAV.DaycareIndex, i), SlotPictureBoxes[i + 42]);
+                uint? exp = SAV.GetDaycareEXP(SAV.DaycareIndex, i);
+                TB_SlotEXP[i].Visible = L_SlotEXP[i].Visible = exp != null;
+                TB_SlotEXP[i].Text = exp.ToString();
+                bool? occ = SAV.IsDaycareOccupied(SAV.DaycareIndex, i);
+                L_SlotOccupied[i].Visible = occ != null;
+                if (occ == true) // If Occupied
+                    L_SlotOccupied[i].Text = $"{i + 1}: ✓";
+                else
+                {
+                    L_SlotOccupied[i].Text = $"{i + 1}: ✘";
+                    SlotPictureBoxes[i + 42].Image = ImageUtil.ChangeOpacity(SlotPictureBoxes[i + 42].Image, 0.6);
+                }
+            }
+
+            bool? egg = SAV.IsDaycareHasEgg(SAV.DaycareIndex);
+            DayCare_HasEgg.Visible = egg != null;
+            DayCare_HasEgg.Checked = egg == true;
+
+            var seed = SAV.GetDaycareRNGSeed(SAV.DaycareIndex);
+            if (seed != null)
+            {
+                TB_RNGSeed.MaxLength = SAV.DaycareSeedSize;
+                TB_RNGSeed.Text = seed;
+            }
+            L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
         }
         public void SetParty()
         {
