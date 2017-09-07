@@ -182,17 +182,17 @@ namespace PKHeX.WinForms
         private void ReadPoketch()
         {
             string[] PoketchTitle = new[] {
-                "01 - Digital Watch", "02 - Calculator", "03 - Memo Pad", "04 - Pedometer", "05 - Pokémon List",
+                "Unavailable", "01 - Digital Watch", "02 - Calculator", "03 - Memo Pad", "04 - Pedometer", "05 - Pokémon List",
                 "06 - Friendship Checker", "07 - Dowsing Machine", "08 - Berry Searcher", "09 - Day Care Checker", "10 - Pokémon History",
                 "11 - Counter", "12 - Analog Watch", "13 - Marking Map", "14 - Link Searcher", "15 - Coin Toss",
                 "16 - Move Tester", "17 - Calendar", "18 - Dot Artist", "19 - Roulette", "20 - Trainer Counter",
                 "21 - Kitchen Timer", "22 - Color Changer", "23 - Matchup Checker", "24 - Stopwatch", "25 - Alarm Clock"
             };
             CB_CurrentApp.Items.AddRange(PoketchTitle);
-            CB_CurrentApp.SelectedIndex = SAV.CurrentPoketchApp;
+            CB_CurrentApp.SelectedIndex = SAV.CurrentPoketchApp + 1;
             oldPoketchVal = new bool[PoketchTitle.Length];
             CLB_Poketch.Items.Clear();
-            for (int i = 0; i < PoketchTitle.Length; i++)
+            for (int i = 1; i < PoketchTitle.Length; i++)
             {
                 oldPoketchVal[i] = SAV.Data[ofsPoketch + i] != 0;
                 CLB_Poketch.Items.Add(PoketchTitle[i], oldPoketchVal[i]);
@@ -229,7 +229,7 @@ namespace PKHeX.WinForms
                 SAV.Data[ofsPoketch - 1] = 0;
             DotArtistByte.CopyTo(SAV.Data, ofsPoketch + 0x27);
             SAV.Data[ofsPoketch - 3] |= 0x04; // "Touch!"
-            SAV.CurrentPoketchApp = CB_CurrentApp.SelectedIndex;
+            SAV.CurrentPoketchApp = CB_CurrentApp.SelectedIndex - 1;
         }
 
         private void SetPictureBoxFromFlags(byte[] inp)
