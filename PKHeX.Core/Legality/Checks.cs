@@ -1919,8 +1919,14 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V368, CheckIdentifier.Egg);
             }
 
-            if (pkm.Format > 2 && pkm.VC2 && pkm.Gender == 1 && pkm.PersonalInfo.Gender == 31 && pkm.IsShiny)
-                AddLine(Severity.Invalid, V209, CheckIdentifier.PID);
+            if (pkm.Format > 2)
+            {
+                // Female Shinies for a 12.5%-F species are not possible with the 'correct' correlation
+                // Original Transporter code generated a random nature (VC1 only), so we can ignore in this case
+                bool checkShiny = pkm.VC2 || pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1;
+                if (checkShiny && pkm.Gender == 1 && pkm.PersonalInfo.Gender == 31 && pkm.IsShiny)
+                    AddLine(Severity.Invalid, V209, CheckIdentifier.PID);
+            }
 
             if (!(pkm is PK1 pk1))
                 return;
