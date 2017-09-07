@@ -1593,10 +1593,12 @@ namespace PKHeX.WinForms.Controls
             else
             {
                 pkm.SetShinyIVs();
+                changingFields = true;
                 TB_ATKIV.Text = pkm.IV_ATK.ToString();
                 TB_DEFIV.Text = pkm.IV_DEF.ToString();
                 TB_SPEIV.Text = pkm.IV_SPE.ToString();
                 TB_SPAIV.Text = pkm.IV_SPA.ToString();
+                changingFields = true;
                 UpdateIVs(null, null);
             }
 
