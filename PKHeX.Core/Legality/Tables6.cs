@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -473,6 +474,11 @@ namespace PKHeX.Core
             },
             new[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // Region matching
         };
+        public static readonly HashSet<int> MemoryGeneral = new HashSet<int> { 1, 2, 3, 4, 19, 24, 31, 32, 33, 35, 36, 37, 38, 39, 42, 52, 59 };
+        public static readonly HashSet<int> MemorySpecific = new HashSet<int> { 6 };
+        public static readonly HashSet<int> MemoryMove = new HashSet<int> { 12, 16, 48, 49 };
+        public static readonly HashSet<int> MemoryItem = new HashSet<int> { 5, 15, 26, 34, 40, 51 };
+        public static readonly HashSet<int> MemorySpecies = new HashSet<int> { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60 };
         #endregion
 
         internal static readonly int[] MovePP_XY =

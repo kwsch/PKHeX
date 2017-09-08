@@ -222,7 +222,7 @@ namespace PKHeX.WinForms
                 CB_OTFeel.Items.Add(GameInfo.Strings.memories[10 + i]);
             }
         }
-        private void GetMemoryArguments(string ARG, ComboBox sender)
+        private void GetMemoryArguments(MemoryType ARG, object sender)
         {
             var argvals = Util.GetCBList(new[] { "" }, null);
 
@@ -230,19 +230,19 @@ namespace PKHeX.WinForms
             bool enabled = true;
             switch (ARG)
             {
-                case "NONE":
+                case MemoryType.None:
                     enabled = false;
                     vs = "";
                     break;
-                case "PKM":
+                case MemoryType.Species:
                     argvals = Util.GetCBList(GameInfo.Strings.specieslist.Take(pkm.MaxSpeciesID+1).ToArray(), null);
                     vs = vartypes[0];
                     break;
-                case "GENLOC":
+                case MemoryType.GeneralLocation:
                     argvals = Util.GetCBList(GameInfo.Strings.genloc, null);
                     vs = vartypes[1];
                     break;
-                case "ITEM":
+                case MemoryType.Item:
                 {
                     #region Items
                     int[] items_allowed =
@@ -271,11 +271,11 @@ namespace PKHeX.WinForms
                     vs = vartypes[2];
                 }
                     break;
-                case "MOVE":
+                case MemoryType.Move:
                     argvals = Util.GetCBList(GameInfo.Strings.movelist.Take(622).ToArray(), null); // Hyperspace Fury
                     vs = vartypes[3];
                     break;
-                case "LOCATION":
+                case MemoryType.SpecificLocation:
                     argvals = Util.GetCBList(GameInfo.Strings.metXY_00000, Legal.Met_XY_0);
                     vs = vartypes[4];
                     break;
@@ -298,18 +298,20 @@ namespace PKHeX.WinForms
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = enabled;
             }
         }
-        private string GetMemoryString(ComboBox m, ComboBox arg, ComboBox q, ComboBox f, string tr)
+        private string GetMemoryString(ComboBox m, Control arg, Control q, Control f, string tr)
         {
             string result;
-            string nn = pkm.Nickname;
-            string a = ((ComboItem)arg.SelectedItem).Text;
+            bool enabled;
             int mem = WinFormsUtil.GetIndex(m);
-
-            bool enabled = false;
             if (mem == 0)
+            {
                 result = GameInfo.Strings.memories[38];
+                enabled = false;
+            }
             else
             {
+                string nn = pkm.Nickname;
+                string a = arg.Text;
                 result = string.Format(GameInfo.Strings.memories[mem + 38], nn, tr, a, f.Text, q.Text);
                 enabled = true;
             }
@@ -329,84 +331,34 @@ namespace PKHeX.WinForms
         private void ChangeMemory(object sender, EventArgs e)
         {
             ComboBox m = (ComboBox)sender;
-            if (m == CB_CTMemory || m == CB_OTMemory)
-            {
-                int memory = WinFormsUtil.GetIndex(m);
-                switch (memory) // Memory Case Switchtable
-                {
-                    case 0: GetMemoryArguments("NONE", m); break;
-                    case 1: GetMemoryArguments("GENLOC", m); break;
-                    case 2: GetMemoryArguments("GENLOC", m); break;
-                    case 3: GetMemoryArguments("GENLOC", m); break;
-                    case 4: GetMemoryArguments("GENLOC", m); break;
-                    case 5: GetMemoryArguments("ITEM", m); break;
-                    case 6: GetMemoryArguments("LOCATION", m); break;
-                    case 7: GetMemoryArguments("PKM", m); break;
-                    case 8: GetMemoryArguments("NONE", m); break;
-                    case 9: GetMemoryArguments("PKM", m); break;
-                    case 10: GetMemoryArguments("NONE", m); break;
-                    case 11: GetMemoryArguments("NONE", m); break;
-                    case 12: GetMemoryArguments("MOVE", m); break;
-                    case 13: GetMemoryArguments("PKM", m); break;
-                    case 14: GetMemoryArguments("PKM", m); break;
-                    case 15: GetMemoryArguments("ITEM", m); break;
-                    case 16: GetMemoryArguments("MOVE", m); break;
-                    case 17: GetMemoryArguments("PKM", m); break;
-                    case 18: GetMemoryArguments("PKM", m); break;
-                    case 19: GetMemoryArguments("GENLOC", m); break;
-                    case 20: GetMemoryArguments("NONE", m); break;
-                    case 21: GetMemoryArguments("PKM", m); break;
-                    case 22: GetMemoryArguments("NONE", m); break;
-                    case 23: GetMemoryArguments("NONE", m); break;
-                    case 24: GetMemoryArguments("GENLOC", m); break;
-                    case 25: GetMemoryArguments("PKM", m); break;
-                    case 26: GetMemoryArguments("ITEM", m); break;
-                    case 27: GetMemoryArguments("NONE", m); break;
-                    case 28: GetMemoryArguments("NONE", m); break;
-                    case 29: GetMemoryArguments("PKM", m); break;
-                    case 30: GetMemoryArguments("NONE", m); break;
-                    case 31: GetMemoryArguments("GENLOC", m); break;
-                    case 32: GetMemoryArguments("GENLOC", m); break;
-                    case 33: GetMemoryArguments("GENLOC", m); break;
-                    case 34: GetMemoryArguments("ITEM", m); break;
-                    case 35: GetMemoryArguments("GENLOC", m); break;
-                    case 36: GetMemoryArguments("GENLOC", m); break;
-                    case 37: GetMemoryArguments("GENLOC", m); break;
-                    case 38: GetMemoryArguments("GENLOC", m); break;
-                    case 39: GetMemoryArguments("GENLOC", m); break;
-                    case 40: GetMemoryArguments("ITEM", m); break;
-                    case 41: GetMemoryArguments("NONE", m); break;
-                    case 42: GetMemoryArguments("GENLOC", m); break;
-                    case 43: GetMemoryArguments("NONE", m); break;
-                    case 44: GetMemoryArguments("PKM", m); break;
-                    case 45: GetMemoryArguments("PKM", m); break;
-                    case 46: GetMemoryArguments("NONE", m); break;
-                    case 47: GetMemoryArguments("NONE", m); break;
-                    case 48: GetMemoryArguments("MOVE", m); break;
-                    case 49: GetMemoryArguments("MOVE", m); break;
-                    case 50: GetMemoryArguments("PKM", m); break;
-                    case 51: GetMemoryArguments("ITEM", m); break;
-                    case 52: GetMemoryArguments("GENLOC", m); break;
-                    case 53: GetMemoryArguments("NONE", m); break;
-                    case 54: GetMemoryArguments("NONE", m); break;
-                    case 55: GetMemoryArguments("NONE", m); break;
-                    case 56: GetMemoryArguments("NONE", m); break;
-                    case 57: GetMemoryArguments("NONE", m); break;
-                    case 58: GetMemoryArguments("NONE", m); break;
-                    case 59: GetMemoryArguments("GENLOC", m); break;
-                    case 60: GetMemoryArguments("PKM", m); break;
-                    case 61: GetMemoryArguments("NONE", m); break;
-                    case 62: GetMemoryArguments("NONE", m); break;
-                    case 63: GetMemoryArguments("NONE", m); break;
-                    case 64: GetMemoryArguments("NONE", m); break;
-                    default: GetMemoryArguments("NONE", m); break;
-                }
-            }
+            if (m != CB_CTMemory && m != CB_OTMemory)
+                return;
+
+            int memory = WinFormsUtil.GetIndex(m);
+            var t = GetMemoryType(memory);
+            GetMemoryArguments(t, m);
 
             if (!init) return;
             RTB_OT.Text = GetMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, pkm.OT_Name);
             RTB_CT.Text = GetMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, pkm.HT_Name);
         }
+
+        private static MemoryType GetMemoryType(int memory)
+        {
+            if (Legal.MemoryGeneral.Contains(memory))
+                return MemoryType.GeneralLocation;
+            if (Legal.MemorySpecific.Contains(memory))
+                return MemoryType.SpecificLocation;
+            if (Legal.MemoryItem.Contains(memory))
+                return MemoryType.Item;
+            if (Legal.MemoryMove.Contains(memory))
+                return MemoryType.Move;
+            if (Legal.MemorySpecies.Contains(memory))
+                return MemoryType.Species;
+
+            return MemoryType.None;
+        }
+
         private void ChangeCountryIndex(object sender, EventArgs e)
         {
             int index = Array.IndexOf(cba, sender);
@@ -424,11 +376,10 @@ namespace PKHeX.WinForms
         }
         private void ChangeCountryText(object sender, EventArgs e)
         {
-            if (((ComboBox) sender).Text == "")
-            {
-                ((ComboBox) sender).SelectedValue = 0;
-                ChangeCountryIndex(sender, e);
-            }
+            if (!(sender is ComboBox cb) || !string.IsNullOrWhiteSpace(cb.Text))
+                return;
+            cb.SelectedValue = 0;
+            ChangeCountryIndex(sender, e);
         }
 
         private void Update255_MTB(object sender, EventArgs e)
@@ -458,6 +409,16 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < 5; i++)
                 cba[i].SelectedValue = 0;
+        }
+
+        private enum MemoryType
+        {
+            None,
+            GeneralLocation,
+            SpecificLocation,
+            Species,
+            Move,
+            Item,
         }
     }
 }
