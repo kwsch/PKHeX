@@ -65,7 +65,7 @@ namespace PKHeX.Core
         /// <summary> 
         /// Gets a valid Egg hatch location for the origin game.
         /// </summary>
-        private static int GetSuggestedEggMetLocation(PKM pkm)
+        public static int GetSuggestedEggMetLocation(PKM pkm)
         {
             // Return one of legal hatch locations for game
             switch ((GameVersion)pkm.Version)

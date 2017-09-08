@@ -130,9 +130,9 @@ namespace PKHeX.Core
         /// Checks if the input PK6 file is really a PK7.
         /// </summary>
         /// <param name="pk">PK6 to check</param>
-        /// <param name="prefer">Prefer a certain generation over another</param>
+        /// <param name="preferredFormat">Prefer a certain generation over another</param>
         /// <returns>Boolean is a PK7</returns>
-        private static bool IsPK6FormatReallyPK7(PK6 pk, int prefer)
+        private static bool IsPK6FormatReallyPK7(PK6 pk, int preferredFormat)
         {
             if (pk.Version > Legal.MaxGameID_6)
                 return true;
@@ -170,7 +170,7 @@ namespace PKHeX.Core
                 if ((mb >> (i << 1) & 3) == 3) // markings are 10 or 01 (or 00), never 11
                     return false;
 
-            return prefer > 6;
+            return preferredFormat > 6;
         }
 
         /// <summary>
@@ -187,139 +187,174 @@ namespace PKHeX.Core
                 return false; // pk1/2->upward has to be 7 or greater
             return true;
         }
+
+        /// <summary>
+        /// Converts a PKM from one Generation 3 format to another. If it matches the destination format, the conversion will automatically return.
+        /// </summary>
+        /// <param name="pk">PKM to convert</param>
+        /// <param name="PKMType">Format/Type to convert to</param>
+        /// <param name="comment">Comments regarding the transfer's success/failure</param>        
+        /// <returns>Converted PKM</returns>
         public static PKM ConvertToType(PKM pk, Type PKMType, out string comment)
         {
             if (pk == null || pk.Species == 0)
             {
-                comment = "Null input. Aborting.";
+                comment = $"Bad {nameof(pk)} input. Aborting.";
                 return null;
             }
 
             Type fromType = pk.GetType();
-            int fromFormat = int.Parse(fromType.Name.Last().ToString());
-            int toFormat = int.Parse(PKMType.Name.Last().ToString());
-            Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
-
-            PKM pkm = null;
-
             if (fromType == PKMType)
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
             }
-            if (fromFormat <= toFormat || fromFormat == 2)
-            {
-                pkm = pk.Clone();
-                if (pkm.IsEgg) // force hatch
-                {
-                    pkm.IsEgg = false;
-                    if (pkm.AO)
-                        pkm.Met_Location = 318; // Battle Resort
-                    else if (pkm.XY)
-                        pkm.Met_Location = 38; // Route 7
-                    else if (pkm.Gen5)
-                        pkm.Met_Location = 16; // Route 16
-                    else
-                        pkm.Met_Location = 30001; // Pokétransfer
-                    pkm.IsNicknamed = false;
-                    pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, fromFormat);
-                }
-                switch (fromType.Name)
-                {
-                    case nameof(PK1):
-                        if (toFormat == 2)
-                        {
-                            pkm = PKMType == typeof (PK2) ? ((PK1) pk).ConvertToPK2() : null;
-                            break;
-                        }
-                        if (toFormat == 7)
-                            pkm = ((PK1) pk).ConvertToPK7();
-                        break;
-                    case nameof(PK2):
-                        if (PKMType == typeof (PK1))
-                        {
-                            if (pk.Species > 151)
-                            {
-                                comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
-                                return null;
-                            }
-                            pkm = ((PK2) pk).ConvertToPK1();
-                            pkm.ClearInvalidMoves();
-                        }
-                        else
-                            pkm = null;
-                        break;
-                    case nameof(CK3):
-                    case nameof(XK3):
-                        // interconverting C/XD needs to visit main series format
-                        // ends up stripping purification/shadow etc stats
-                        pkm = pkm.ConvertToPK3();
-                        goto case nameof(PK3); // fall through
-                    case nameof(PK3):
-                        if (toFormat == 3) // Gen3 Inter-trading
-                        {
-                            switch (PKMType.Name)
-                            {
-                                case nameof(CK3): pkm = pkm.ConvertToCK3(); break;
-                                case nameof(XK3): pkm = pkm.ConvertToXK3(); break;
-                                case nameof(PK3): pkm = pkm.ConvertToPK3(); break; // already converted, instantly returns
-                                default: throw new FormatException();
-                            }
-                            break;
-                        }
-                        if (fromType.Name != nameof(PK3))
-                            pkm = pkm.ConvertToPK3();
 
-                        pkm = ((PK3)pkm).ConvertToPK4();
-                        if (toFormat == 4)
-                            break;
-                        goto case nameof(PK4);
-                    case nameof(BK4):
-                        pkm = ((BK4)pkm).ConvertToPK4();
-                        if (toFormat == 4)
-                            break;
-                        goto case nameof(PK4);
-                    case nameof(PK4):
-                        if (PKMType == typeof(BK4))
+            Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
+
+            int fromFormat = int.Parse(fromType.Name.Last().ToString());
+            int toFormat = int.Parse(PKMType.Name.Last().ToString());
+            if (fromFormat > toFormat && fromFormat != 2)
+            {
+                comment = $"Cannot convert a {fromType.Name} to a {PKMType.Name}.";
+                return null;
+            }
+
+            PKM pkm = pk.Clone();
+            if (pkm.IsEgg)
+                ForceHatchPKM(pkm);
+
+            switch (fromType.Name)
+            {
+                case nameof(PK1):
+                    if (toFormat == 7) // VC->Bank
+                        pkm = ((PK1)pk).ConvertToPK7();
+                    else if (toFormat == 2) // GB<->GB
+                        pkm = ((PK1)pk).ConvertToPK2();
+                    break;
+                case nameof(PK2):
+                    if (toFormat == 7) // VC->Bank
+                        pkm = ((PK2)pk).ConvertToPK7();
+                    else if (toFormat == 1) // GB<->GB
+                    {
+                        if (pk.Species > 151)
                         {
-                            pkm = ((PK4)pkm).ConvertToBK4();
-                            break;
-                        }
-                        if (pkm.Species == 172 && pkm.AltForm != 0)
-                        {
-                            comment = "Cannot transfer Spiky-Eared Pichu forward.";
+                            comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
                             return null;
                         }
-                        pkm = ((PK4)pkm).ConvertToPK5();
-                        if (toFormat == 5)
-                            break;
-                        goto case nameof(PK5);
-                    case nameof(PK5):
-                        pkm = ((PK5)pkm).ConvertToPK6();
-                        if (toFormat == 6)
-                            break;
-                        goto case nameof(PK6);
-                    case nameof(PK6):
-                        if (pkm.Species == 25 && pkm.AltForm != 0) // cosplay pikachu
-                        {
-                            comment = "Cannot transfer Cosplay Pikachu forward.";
-                            return null;
-                        }
-                        pkm = ((PK6)pkm).ConvertToPK7();
-                        if (toFormat == 7)
-                            break;
-                        goto case nameof(PK7);
-                    case nameof(PK7):
+                        pkm = ((PK2)pk).ConvertToPK1();
+                        pkm.ClearInvalidMoves();
+                    }
+                    break;
+                case nameof(CK3):
+                case nameof(XK3):
+                    // interconverting C/XD needs to visit main series format
+                    // ends up stripping purification/shadow etc stats
+                    pkm = pkm.ConvertToPK3();
+                    goto case nameof(PK3); // fall through
+                case nameof(PK3):
+                    if (toFormat == 3) // Gen3 Inter-trading
+                    {
+                        pkm = InterConvertPK3(pkm, PKMType);
                         break;
-                }
+                    }
+                    if (fromType.Name != nameof(PK3))
+                        pkm = pkm.ConvertToPK3();
+
+                    pkm = ((PK3) pkm).ConvertToPK4();
+                    if (toFormat == 4)
+                        break;
+                    goto case nameof(PK4);
+                case nameof(BK4):
+                    pkm = ((BK4) pkm).ConvertToPK4();
+                    if (toFormat == 4)
+                        break;
+                    goto case nameof(PK4);
+                case nameof(PK4):
+                    if (PKMType == typeof(BK4))
+                    {
+                        pkm = ((PK4) pkm).ConvertToBK4();
+                        break;
+                    }
+                    if (pkm.Species == 172 && pkm.AltForm != 0)
+                    {
+                        comment = "Cannot transfer Spiky-Eared Pichu forward.";
+                        return null;
+                    }
+                    pkm = ((PK4) pkm).ConvertToPK5();
+                    if (toFormat == 5)
+                        break;
+                    goto case nameof(PK5);
+                case nameof(PK5):
+                    pkm = ((PK5) pkm).ConvertToPK6();
+                    if (toFormat == 6)
+                        break;
+                    goto case nameof(PK6);
+                case nameof(PK6):
+                    if (pkm.Species == 25 && pkm.AltForm != 0) // cosplay pikachu
+                    {
+                        comment = "Cannot transfer Cosplay Pikachu forward.";
+                        return null;
+                    }
+                    pkm = ((PK6) pkm).ConvertToPK7();
+                    if (toFormat == 7)
+                        break;
+                    goto case nameof(PK7);
+                case nameof(PK7):
+                    break;
             }
 
             comment = pkm == null
-                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}." 
+                ? $"Cannot convert a {fromType.Name} to a {PKMType.Name}."
                 : $"Converted from {fromType.Name} to {PKMType.Name}.";
 
             return pkm;
         }
+
+        /// <summary>
+        /// Converts a PKM from one Generation 3 format to another. If it matches the destination format, the conversion will automatically return.
+        /// </summary>
+        /// <param name="pk">PKM to convert</param>
+        /// <param name="desiredFormatType">Format/Type to convert to</param>
+        /// <remarks><see cref="PK3"/>, <see cref="CK3"/>, and <see cref="XK3"/> are supported.</remarks>
+        /// <returns>Converted PKM</returns>
+        private static PKM InterConvertPK3(PKM pk, Type desiredFormatType)
+        {
+            // if already converted it instantly returns
+            switch (desiredFormatType.Name)
+            {
+                case nameof(CK3):
+                    return pk.ConvertToCK3();
+                case nameof(XK3):
+                    return pk.ConvertToXK3();
+                case nameof(PK3):
+                    return pk.ConvertToPK3();
+                default: throw new FormatException();
+            }
+        }
+
+        /// <summary>
+        /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
+        /// </summary>
+        /// <param name="pkm">PKM to apply hatch details to</param>
+        /// <remarks>
+        /// <see cref="PKM.IsEgg"/> is not checked; can be abused to re-hatch already hatched <see cref="PKM"/> inputs.
+        /// <see cref="PKM.MetDate"/> is not modified; must be updated manually if desired.
+        /// </remarks>
+        private static void ForceHatchPKM(PKM pkm)
+        {
+            pkm.IsEgg = false;
+            pkm.Nickname = PKX.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format);
+            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
+            if (loc >= 0)
+                pkm.Met_Location = loc;
+        }
+
+        /// <summary>
+        /// Checks if a PKM is encrypted; if encrypted, decrypts the PKM.
+        /// </summary>
+        /// <remarks>The input PKM object is decrypted; no new object is returned.</remarks>
+        /// <param name="pkm">PKM to check encryption for (and decrypt if appropriate).</param>
         public static void CheckEncrypted(ref byte[] pkm)
         {
             int format = GetPKMDataFormat(pkm);
