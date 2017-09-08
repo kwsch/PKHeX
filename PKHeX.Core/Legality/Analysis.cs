@@ -316,7 +316,7 @@ namespace PKHeX.Core
         }
         private string GetVerboseLegalityReport()
         {
-            if (!Parsed)
+            if (!Parsed || pkm == null)
                 return V189;
 
             const string separator = "===";

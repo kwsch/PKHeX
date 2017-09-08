@@ -37,3 +37,6 @@ Rote
 Blaue [INT]/Grüne [JP]
 Blaue [JP]
 Gelbe
+Goldene
+Silberne
+Kristall

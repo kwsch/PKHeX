@@ -9,7 +9,7 @@ namespace PKHeX.Core
         internal const int MaxItemID_7 = 920;
         internal const int MaxAbilityID_7 = 232;
         internal const int MaxBallID_7 = 0x1A; // 26
-        internal const int MaxGameID_7 = 38; // Yellow VC
+        internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
         #region Met Locations
 

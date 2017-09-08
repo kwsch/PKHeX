@@ -37,3 +37,6 @@ Rossa
 Blu [INT]/Verde [JP]
 Blu [JP]
 Gialla
+Oro
+Argento
+Cristallo

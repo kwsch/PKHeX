@@ -37,3 +37,6 @@ Red
 Blue [INT]/Green [JP]
 Blue [JP]
 Yellow
+Gold
+Silver
+Crystal

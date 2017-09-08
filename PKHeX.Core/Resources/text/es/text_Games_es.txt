@@ -37,3 +37,6 @@ Roja
 Azul [INT]/Verde [JP]
 Azul [JP]
 Amarilla
+Oro
+Plata
+Cristal

@@ -37,3 +37,6 @@ Rouge
 Bleue [INT]/Vert [JP]
 Bleue [JP]
 Jaune
+Or
+Argent
+Cristal

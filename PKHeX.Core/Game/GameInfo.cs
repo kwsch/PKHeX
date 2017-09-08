@@ -315,6 +315,7 @@ namespace PKHeX.Core
             AbilityDataSource = Util.GetCBList(s.abilitylist, null);
             VersionDataSource = Util.GetCBList(s.gamelist, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
             VersionDataSource.AddRange(Util.GetCBList(s.gamelist, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
+            VersionDataSource.AddRange(Util.GetCBList(s.gamelist, Legal.Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
             VersionDataSource.AddRange(Util.GetCBList(s.gamelist, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
 
             HaXMoveDataSource = Util.GetCBList(s.movelist, null);
