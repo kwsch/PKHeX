@@ -73,7 +73,7 @@ namespace PKHeX.Core
                     case 5: ParsePK5(pk); break;
                     case 6: ParsePK6(pk); break;
 
-                    case 1: ParsePK7(pk); break;
+                    case 1: case 2:
                     case 7: ParsePK7(pk); break;
                 }
 
@@ -344,6 +344,8 @@ namespace PKHeX.Core
 
             lines.AddRange(br);
             lines.Add(string.Format(V195, EncounterName));
+            if (pkm.VC)
+                lines.Add(string.Format(V196, nameof(GameVersion), Info.Game));
             var pidiv = Info.PIDIV ?? MethodFinder.Analyze(pkm);
             if (pidiv != null)
             {

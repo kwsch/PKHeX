@@ -34,7 +34,7 @@ namespace PKHeX.Core
         /// <summary>Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.</summary>
         public static bool AllowGBCartEra { get; set; }
         public static bool AllowGen1Tradeback { get; set; }
-        public static bool AllowGen2VCTransfer => AllowGen1Tradeback;
+        public static bool AllowGen2VCTransfer => true;
         public static bool AllowGen2VCCrystal => false;
         public static bool AllowGen2Crystal => AllowGBCartEra || AllowGen2VCCrystal;
         public static bool AllowGen2MoveReminder => AllowGBCartEra;
