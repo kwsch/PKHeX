@@ -168,14 +168,9 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.VC)
+            if (pkm.VC && pkm.IsNicknamed)
             {
-                string pk = pkm.Nickname;
-                var langset = PKX.SpeciesLang.FirstOrDefault(s => s.Contains(pk)) ?? PKX.SpeciesLang[2];
-                int lang = Array.IndexOf(PKX.SpeciesLang, langset);
-
-                if (pk.Length > (lang != 1 ? 10 : 5))
-                    AddLine(Severity.Invalid, V1, CheckIdentifier.Nickname);
+                VerifyG1NicknameWithinBounds(pkm.Nickname);
             }
             else if (EncounterMatch is MysteryGift m)
             {
@@ -485,29 +480,62 @@ namespace PKHeX.Core
         private void VerifyG1OT()
         {
             string tr = pkm.OT_Name;
-            string pk = pkm.Nickname;
-            var langset = PKX.SpeciesLang.FirstOrDefault(s => s.Contains(pk)) ?? PKX.SpeciesLang[2];
-            int lang = Array.IndexOf(PKX.SpeciesLang, langset);
 
-            if (tr.Length > (lang == 2 ? 7 : 5))
-                AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
+            VerifyG1OTWithinBounds(tr);
+            if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
+                VerifyG1OTStadium(tr);
+
             if (pkm.Species == 151)
             {
                 if (tr != "GF" && tr != "ゲーフリ") // if there are more events with special OTs, may be worth refactoring
                     AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
-            if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
-            {
-                bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != 2;
-                bool valid = GetIsStadiumOTIDValid(jp, tr);
-                if (!valid)
-                    AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
-                else
-                    AddLine(Severity.Valid, jp ? V404 : V403, CheckIdentifier.Trainer);
-            }
 
             if (pkm.OT_Gender == 1 && (pkm.Format == 2 && pkm.Met_Location == 0 || !Info.Game.Contains(GameVersion.C)))
                 AddLine(Severity.Invalid, V408, CheckIdentifier.Trainer);
+        }
+        private void VerifyG1OTWithinBounds(string str)
+        {
+            if (StringConverter.GetIsG1English(str))
+            {
+                if (str.Length > 7)
+                    AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
+            }
+            else if (StringConverter.GetIsG1Japanese(str))
+            {
+                if (str.Length > 5)
+                    AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
+            }
+            else
+            {
+                AddLine(Severity.Invalid, V421, CheckIdentifier.Trainer);
+            }
+        }
+        private void VerifyG1NicknameWithinBounds(string str)
+        {
+            if (StringConverter.GetIsG1English(str))
+            {
+                if (str.Length > 10)
+                    AddLine(Severity.Invalid, V1, CheckIdentifier.Trainer);
+            }
+            else if (StringConverter.GetIsG1Japanese(str))
+            {
+                if (str.Length > 5)
+                    AddLine(Severity.Invalid, V1, CheckIdentifier.Trainer);
+            }
+            else
+            {
+                AddLine(Severity.Invalid, V422, CheckIdentifier.Trainer);
+            }
+        }
+        private void VerifyG1OTStadium(string tr)
+        {
+            bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != 2;
+            bool valid = GetIsStadiumOTIDValid(jp, tr);
+            if (!valid)
+                AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
+            else
+                AddLine(Severity.Valid, jp ? V404 : V403, CheckIdentifier.Trainer);
         }
         private bool GetIsStadiumOTIDValid(bool jp, string tr)
         {
@@ -815,7 +843,7 @@ namespace PKHeX.Core
             var SIDf = pidiv.RNG.Reverse(seed, rev);
             var TIDf = pidiv.RNG.Prev(SIDf);
             if (SIDf >> 16 != pkm.SID || TIDf >> 16 != pkm.TID)
-                AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
+                AddLine(Severity.Invalid, V400 + $" {TIDf>>16}/{SIDf>>16}", CheckIdentifier.PID);
         }
 
         private void VerifyAbility()

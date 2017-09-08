@@ -406,6 +406,9 @@ namespace PKHeX.Core
             return dict.ContainsKey(key) ? dict[key] : "";
         }
 
+        public static bool GetIsG1Japanese(string str) => str.All(z => U2RBY_J.ContainsKey(z.ToString()));
+        public static bool GetIsG1English(string str) => str.All(z => U2RBY_U.ContainsKey(z.ToString()));
+
         /// <summary>
         /// Converts a Unicode string to Generation 7 in-game chinese string.
         /// </summary>
