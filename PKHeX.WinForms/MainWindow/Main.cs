@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
         public static string MGDatabasePath => Path.Combine(WorkingDirectory, "mgdb");
         public static string BackupPath => Path.Combine(WorkingDirectory, "bak");
         private static string TemplatePath => Path.Combine(WorkingDirectory, "template");
-        private const string ThreadPath = @"https://projectpokemon.org/PKHeX/";
+        private const string ThreadPath = @"https://projectpokemon.org/pkhex/";
         private const string VersionPath = @"https://raw.githubusercontent.com/kwsch/PKHeX/master/PKHeX.WinForms/Resources/text/version.txt";
 
         #endregion
