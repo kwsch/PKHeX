@@ -402,8 +402,8 @@ namespace PKHeX.Core
         public static string V418 {get; set;} = "Individual EV without changing EXP cannot be greater than {0}.";
         public static string V419 {get; set;} = "Eggs cannot hold items.";
         public static string V420 {get; set;} = "Eggs cannot have modified move PP counts.";
-        public static string V421 {get; set;} = "OT from Generation 1/2 is uses unavailable characters.";
-        public static string V422 {get; set;} = "Nickname from Generation 1/2 is uses unavailable characters.";
+        public static string V421 {get; set;} = "OT from Generation 1/2 uses unavailable characters.";
+        public static string V422 {get; set;} = "Nickname from Generation 1/2 uses unavailable characters.";
 
         public static string V600 { get; set; } = "Invalid Ribbons: {0}";
         public static string V601 { get; set; } = "Missing Ribbons: {0}";
