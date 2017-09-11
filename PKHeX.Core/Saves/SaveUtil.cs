@@ -133,10 +133,13 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
 
             // Check if it's not an american save or a japanese save
-            if (GetIsG2SAVU(data) != GameVersion.Invalid)
-                return GetIsG2SAVU(data);
-            if (GetIsG2SAVJ(data) != GameVersion.Invalid)
-                return GetIsG2SAVJ(data);
+            GameVersion result;
+            if ((result = GetIsG2SAVU(data)) != GameVersion.Invalid)
+                return result;
+            if ((result = GetIsG2SAVJ(data)) != GameVersion.Invalid)
+                return result;
+            if ((result = GetIsG2SAVK(data)) != GameVersion.Invalid)
+                return result;
             return GameVersion.Invalid;
         }
         /// <summary>Determines if 2nd gen save is non-japanese</summary>
@@ -188,6 +191,19 @@ namespace PKHeX.Core
             if (c)
                 return GameVersion.C;
             return GameVersion.Invalid;
+        }
+        /// <summary>Determines if 2nd gen save is Korean</summary>
+        /// <param name="data">Save data of which to determine the region</param>
+        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        internal static GameVersion GetIsG2SAVK(byte[] data)
+        {
+            foreach (int ofs in new[] { 0x28CC, 0x2DAE })
+            {
+                byte num_entries = data[ofs];
+                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
+                    return GameVersion.Invalid;
+            }
+            return GameVersion.GS;
         }
         /// <summary>Determines the type of 3rd gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
