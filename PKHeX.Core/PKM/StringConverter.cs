@@ -102,7 +102,7 @@ namespace PKHeX.Core
             {
                 byte val = strdata[offset + i];
                 var dict = val <= 0xB ? GSC2U_KOR[val] : RBY2U_U;
-                if (val <= 0xB)
+                if (val <= 0xB && val != 0)
                     val = strdata[offset + ++i];
                 if (!dict.TryGetValue(val, out string c)) // Take valid values
                     break;
@@ -477,6 +477,7 @@ namespace PKHeX.Core
 
         public static bool GetIsG1Japanese(string str) => str.All(z => U2RBY_J.ContainsKey(z.ToString()));
         public static bool GetIsG1English(string str) => str.All(z => U2RBY_U.ContainsKey(z.ToString()));
+        public static bool GetIsG2Korean(string str) => str.All(z => U2GSC_KOR.Any(x => x.ContainsKey(z.ToString())));
 
         /// <summary>
         /// Converts a Unicode string to Generation 7 in-game chinese string.

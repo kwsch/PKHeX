@@ -506,6 +506,11 @@ namespace PKHeX.Core
                 if (str.Length > 5)
                     AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
             }
+            else if (pkm is PK2 pk2 && pk2.Korean)
+            {
+                if (str.Length > 5)
+                    AddLine(Severity.Invalid, V38, CheckIdentifier.Trainer);
+            }
             else
             {
                 AddLine(Severity.Invalid, V421, CheckIdentifier.Trainer);

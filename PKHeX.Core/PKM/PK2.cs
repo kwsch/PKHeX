@@ -20,9 +20,21 @@ namespace PKHeX.Core
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
+        public bool Korean => otname[0] <= 0xB;
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
-        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength, Japanese);
+        public override string GetString(int Offset, int Count)
+        {
+            if (Korean)
+                return StringConverter.GetString2KOR(Data, Offset, Count);
+            return StringConverter.GetString1(Data, Offset, Count, Japanese);
+        }
+
+        public override byte[] SetString(string value, int maxLength)
+        {
+            if (Korean)
+                return StringConverter.SetString2KOR(value, maxLength);
+            return StringConverter.SetString1(value, maxLength, Japanese);
+        }
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }
@@ -64,7 +76,12 @@ namespace PKHeX.Core
         }
         public override string Nickname
         {
-            get => StringConverter.GetString1(nick, 0, nick.Length, Japanese);
+            get
+            {
+                if (Korean)
+                    return StringConverter.GetString2KOR(nick, 0, nick.Length);
+                return StringConverter.GetString1(nick, 0, nick.Length, Japanese);
+            }
             set
             {
                 byte[] strdata = SetString(value, StringLength);
@@ -82,7 +99,12 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => StringConverter.GetString1(otname, 0, otname.Length, Japanese);
+            get
+            {
+                if (Korean)
+                    return StringConverter.GetString2KOR(otname, 0, otname.Length);
+                return StringConverter.GetString1(otname, 0, otname.Length, Japanese); 
+            }
             set
             {
                 byte[] strdata = SetString(value, StringLength);
