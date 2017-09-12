@@ -98,6 +98,11 @@ namespace PKHeX.Tests.PKM
             PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);
             Assert.AreEqual(pkRS.PID, gkRS.PID, "Unable to match generated PID to BACD-R shiny spread");
             Assert.IsTrue(pkRS.IVs.SequenceEqual(gkRS.IVs), "Unable to match generated IVs to BACD-R shiny spread");
+
+            // Unrestricted Antishiny nyx
+            var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = new[] {00, 15, 05, 04, 21, 05}, TID = 80, SID = 0};
+            var nyx_pkUA = MethodFinder.Analyze(nyxUA);
+            Assert.AreEqual(PIDType.BACD_U_AX, nyx_pkUA?.Type, "Unable to match PID to BACD-U antishiny nyx spread");
         }
 
         [TestMethod]

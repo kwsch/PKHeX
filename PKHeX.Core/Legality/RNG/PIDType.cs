@@ -44,6 +44,14 @@
         /// Event Reversed Order PID without Origin Seed restrictions, shiny
         /// </summary>
         BACD_U_S,
+        /// <summary>
+        /// Event Reversed Order PID restricted to 16bit Origin Seed, antishiny (nyx)
+        /// </summary>
+        BACD_R_AX,
+        /// <summary>
+        /// Event Reversed Order PID without Origin Seed restrictions, antishiny (nyx)
+        /// </summary>
+        BACD_U_AX,
 
         /// <summary>
         /// Generation 4 Cute Charm forced 8 bit

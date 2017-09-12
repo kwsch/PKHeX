@@ -40,6 +40,11 @@
 
                 pk.PID = PID;
             }
+            else if (type == PIDType.BACD_R_AX || type == PIDType.BACD_U_AX)
+            {
+                uint low = B >> 16;
+                pk.PID = A & 0xFFFF0000 ^ (((uint)pk.TID ^ (uint)pk.SID ^ low) << 16) | low;
+            }
             else
                 pk.PID = A & 0xFFFF0000 | B >> 16;
 

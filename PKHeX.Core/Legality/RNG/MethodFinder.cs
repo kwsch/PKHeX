@@ -354,43 +354,36 @@ namespace PKHeX.Core
             var bot = GetIVChunk(IVs, 0);
             var top = GetIVChunk(IVs, 3);
             var reg = GetSeedsFromIVs(RNG.LCRNG, top, bot);
+            PIDType type = PIDType.BACD_U;
             foreach (var seed in reg)
             {
                 var B = seed;
                 var A = RNG.LCRNG.Prev(B);
+                var low = B >> 16;
 
-                var PID = A & 0xFFFF0000 | B >> 16;
-                bool isShiny = (pk.TID ^ pk.SID ^ PID >> 16 ^ PID & 0xFFFF) < 8;
-                bool forceShiny = false;
-                bool antiShiny = false;
+                var PID = A & 0xFFFF0000 | low;
                 if (PID != pid)
                 {
+                    uint idxor = (uint)(pk.TID ^ pk.SID);
+                    bool isShiny = (idxor ^ PID >> 16 ^ PID & 0xFFFF) < 8;
                     if (!isShiny)
                     {
-                        // check for force shiny pkm
-                        if (!pk.IsShiny)
-                            continue; // obviously not force shiny
-                        
-                        // 0-Origin
-                        // 1-PIDH
-                        // 2-PIDL (ends up unused)
-                        // 3-FORCEBITS
-                        // PID = PIDH << 16 | (SID ^ TID ^ PIDH)
-                       
-                        var X = RNG.LCRNG.Prev(A);
-                        PID = X & 0xFFFF0000 | (uint)pk.SID ^ (uint)pk.TID ^ X >> 16;
-                        PID &= 0xFFFFFFF8;
-                        PID |= B >> 16 & 0x7; // lowest 3 bits
-
-                        if (PID != pid)
-                            continue;
-                        forceShiny = true;
+                        if (!pk.IsShiny) // check for nyx antishiny
+                        {
+                            if (!IsBACD_U_AX(idxor, pid, low, A, ref type))
+                                continue;
+                        }
+                        else // check for force shiny pkm
+                        {
+                            if (!IsBACD_U_S(idxor, pid, low, ref A, ref type))
+                                continue;
+                        }
                     }
-                    if (!forceShiny)
+                    else if (!IsBACD_U_AX(idxor, pid, low, A, ref type))
                     {
                         if ((PID + 8 & 0xFFFFFFF8) != pid)
                             continue;
-                        antiShiny = true;
+                        type = PIDType.BACD_U_A;
                     }
                 }
                 var s = RNG.LCRNG.Prev(A);
@@ -401,13 +394,12 @@ namespace PKHeX.Core
                 {
                     if ((sn & 0xFFFF0000) != 0)
                         continue;
-                    var type = forceShiny ? PIDType.BACD_R_S : antiShiny ? PIDType.BACD_R_A : PIDType.BACD_R;
-                    pidiv = new PIDIV {OriginSeed = sn, RNG = RNG.LCRNG, Type = type};
+                    // shift from unrestricted enum val to restricted enum val
+                    pidiv = new PIDIV {OriginSeed = sn, RNG = RNG.LCRNG, Type = --type };
                     return true;
                 }
                 // no restricted seed found, thus unrestricted
-                var t = forceShiny ? PIDType.BACD_U_S : antiShiny ? PIDType.BACD_U_A : PIDType.BACD_U;
-                pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = t};
+                pidiv = new PIDIV {OriginSeed = s, RNG = RNG.LCRNG, Type = type};
                 return true;
             }
             return GetNonMatch(out pidiv);
@@ -465,6 +457,64 @@ namespace PKHeX.Core
         {
             pidiv = null;
             return false;
+        }
+        /// <summary>
+        /// Checks if the PID is a <see cref="PIDType.BACD_U_S"></see> match.
+        /// </summary>
+        /// <param name="idxor"><see cref="PKM.TID"/> ^ <see cref="PKM.SID"/></param>
+        /// <param name="pid">Full actual PID</param>
+        /// <param name="low">Low portion of PID (B)</param>
+        /// <param name="A">First RNG call</param>
+        /// <param name="type">PID Type is updated if successful</param>
+        /// <returns>True/False if the PID matches</returns>
+        /// <remarks>First RNG call is unrolled once if the PID is valid with this correlation</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsBACD_U_S(uint idxor, uint pid, uint low, ref uint A, ref PIDType type)
+        {
+            // 0-Origin
+            // 1-PIDH
+            // 2-PIDL (ends up unused)
+            // 3-FORCEBITS
+            // PID = PIDH << 16 | (SID ^ TID ^ PIDH)
+
+            var X = RNG.LCRNG.Prev(A); // unroll once as there's 3 calls instead of 2
+            uint PID = X & 0xFFFF0000 | idxor ^ X >> 16;
+            PID &= 0xFFFFFFF8;
+            PID |= low & 0x7; // lowest 3 bits
+
+            if (PID != pid)
+                return false;
+            A = X; // keep the unrolled seed
+            type = PIDType.BACD_U_S;
+            return true;
+        }
+        /// <summary>
+        /// Checks if the PID is a <see cref="PIDType.BACD_U_AX"></see> match.
+        /// </summary>
+        /// <param name="idxor"><see cref="PKM.TID"/> ^ <see cref="PKM.SID"/></param>
+        /// <param name="pid">Full actual PID</param>
+        /// <param name="low">Low portion of PID (B)</param>
+        /// <param name="A">First RNG call</param>
+        /// <param name="type">PID Type is updated if successful</param>
+        /// <returns>True/False if the PID matches</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsBACD_U_AX(uint idxor, uint pid, uint low, uint A, ref PIDType type)
+        {
+            if ((pid & 0xFFFF) != low)
+                return false;
+
+            // 0-Origin
+            // 1-ushort rnd, do until >8
+            // 2-PIDL
+
+            uint rnd = A >> 16;
+            if (rnd < 8)
+                return false;
+            uint PID = ((rnd ^ idxor ^ low) << 16) | low;
+            if (PID != pid)
+                return false;
+            type = PIDType.BACD_U_AX;
+            return true;
         }
 
         private static PIDIV AnalyzeGB(PKM pk)
