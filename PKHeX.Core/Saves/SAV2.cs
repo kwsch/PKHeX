@@ -438,7 +438,8 @@ namespace PKHeX.Core
 
         public override string GetBoxName(int box)
         {
-            return GetString(Offsets.BoxNames + box * 9, 9);
+            int len = Korean ? 17 : 9;
+            return GetString(Offsets.BoxNames + box * len, len);
         }
         public override void SetBoxName(int box, string value)
         {

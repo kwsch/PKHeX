@@ -184,9 +184,11 @@ namespace PKHeX.Core
                     var table = U2GSC_KOR[i];
                     if (!table.TryGetValue(c.ToString(), out byte val))
                         continue;
+                    koreanChar = true;
+                    if (arr.Count + 1 >= maxLength)
+                        break; // adding 2 characters will overflow requested buffer cap
                     arr.Add(i);
                     arr.Add(val);
-                    koreanChar = true;
                     break;
                 }
                 if (!koreanChar)
@@ -196,6 +198,8 @@ namespace PKHeX.Core
                     arr.Add(val);
                 }
             }
+            while (arr.Count >= maxLength)
+                arr.RemoveAt(arr.Count - 1);
             arr.Add(0x50); // terminator
             while (arr.Count < padTo)
                 arr.Add((byte)padWith);

@@ -155,10 +155,10 @@
             Palette = 0x2065;
             Money = 0x23D3;
             JohtoBadges = 0x23DC;
-            BoxNames = 0x2727;
-            Party = 0x288A;
-            PokedexCaught = 0x2A4C;
-            PokedexSeen = 0x2A6C;
+            BoxNames = 0x26FF;
+            Party = 0x28CC;
+            PokedexCaught = 0x2AAE;
+            PokedexSeen = 0x2ACE;
             CurrentBox = 0x26FC;
             CurrentBoxIndex = 0x2DAE;
             Gender = -1; // No gender in GS
