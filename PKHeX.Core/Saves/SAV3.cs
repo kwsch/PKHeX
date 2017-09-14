@@ -269,7 +269,11 @@ namespace PKHeX.Core
         public override string OT
         {
             get => GetString(BlockOfs[0], 0x10);
-            set => SetString(value, OTLength, PadWith:0xFF).CopyTo(Data, BlockOfs[0]);
+            set
+            {
+                int len = Japanese ? 5 : OTLength;
+                SetString(value, len, PadWith: 0xFF, PadToSize: len).CopyTo(Data, BlockOfs[0]);
+            }
         }
         public override int Gender
         {
