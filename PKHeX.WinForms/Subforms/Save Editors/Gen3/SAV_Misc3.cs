@@ -138,7 +138,6 @@ namespace PKHeX.WinForms
         #endregion
 
         #region Ferry
-        private int ofsFerry;
         private void B_GetTickets_Click(object sender, EventArgs e)
         {
             var Pouches = SAV.Inventory;
@@ -197,7 +196,6 @@ namespace PKHeX.WinForms
         }
         private void ReadFerry()
         {
-            ofsFerry = SAV.GetBlockOffset(2) + 0x2F0;
             CHK_Catchable.Checked = IsFerryFlagActive(0x864);
             CHK_ReachSouthern.Checked = IsFerryFlagActive(0x8B3);
             CHK_ReachBirth.Checked = IsFerryFlagActive(0x8D5);
@@ -211,11 +209,11 @@ namespace PKHeX.WinForms
         }
         private bool IsFerryFlagActive(int n)
         {
-            return (SAV.Data[ofsFerry + (n >> 3)] >> (n & 7) & 1) != 0;
+            return SAV.GetEventFlag(n);
         }
         private void SetFerryFlagFromNum(int n, bool b)
         {
-            SAV.Data[ofsFerry + (n >> 3)] = (byte)(SAV.Data[ofsFerry + (n >> 3)] & ~(1 << (n & 7)) | (b ? 1 : 0) << (n & 7));
+            SAV.SetEventFlag(n, b);
         }
         private void SaveFerry()
         {

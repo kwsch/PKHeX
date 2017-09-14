@@ -225,6 +225,7 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary> All Event Flag values for the savegame </summary>
         public bool[] EventFlags
         {
             get
@@ -252,6 +253,7 @@ namespace PKHeX.Core
                 data.CopyTo(Data, EventFlag);
             }
         }
+        /// <summary> All Event Constant values for the savegame </summary>
         public ushort[] EventConsts
         {
             get
@@ -274,6 +276,35 @@ namespace PKHeX.Core
                 for (int i = 0; i < value.Length; i++)
                     BitConverter.GetBytes(value[i]).CopyTo(Data, EventConst + i * 2);
             }
+        }
+        /// <summary>
+        /// Gets the <see cref="bool"/> status of a desired Event Flag
+        /// </summary>
+        /// <param name="flagNumber">Event Flag to check</param>
+        /// <returns>Flag is Set (true) or not Set (false)</returns>
+        public bool GetEventFlag(int flagNumber)
+        {
+            if (flagNumber > EventFlagMax)
+                throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
+            int ofs = EventFlag + flagNumber >> 3;
+            var n = flagNumber & 7;
+            return (Data[ofs] >> n & 1) != 0;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="bool"/> status of a desired Event Flag
+        /// </summary>
+        /// <param name="flagNumber">Event Flag to check</param>
+        /// <param name="value">Event Flag status to set</param>
+        /// <remarks>Flag is Set (true) or not Set (false)</remarks>
+        public void SetEventFlag(int flagNumber, bool value)
+        {
+            if (flagNumber > EventFlagMax)
+                throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
+            int ofs = EventFlag + flagNumber >> 3;
+            var n = flagNumber & 7;
+            Data[ofs] &= (byte)~(1 << (n & 7));
+            Data[ofs] |= (byte)((value ? 1 : 0) << n);
         }
 
         // Inventory
