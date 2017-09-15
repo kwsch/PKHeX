@@ -368,10 +368,20 @@ namespace PKHeX.Core
             314, // Volbeat
             314, // Illumise
         };
-        internal static readonly HashSet<int> GenderlessFromGender = new HashSet<int>
+        internal static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
         {
             290, // Nincada
-            292, // Shedinja
+            292, // Shedinja (G)
+
+            412, // Burmy
+            413, // Wormadam (F)
+            414, // Mothim (M)
+
+            280, // Ralts
+            475, // Gallade (M)
+
+            677, // Espurr
+            678, // Meowstic (M/F) forme specific
         };
         #region Games
 

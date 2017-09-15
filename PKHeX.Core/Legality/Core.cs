@@ -1235,6 +1235,17 @@ namespace PKHeX.Core
             return false;
         }
         
+        internal static bool GetCanInheritMoves(PKM pkm, IEncounterable e)
+        {
+            if (FixedGenderFromBiGender.Contains(e.Species)) // Nincada -> Shedinja loses gender causing 'false', edge case
+                return true;
+            int ratio = pkm.PersonalInfo.Gender;
+            if (ratio > 0 && ratio < 255)
+                return true;
+            if (MixedGenderBreeding.Contains(e.Species))
+                return true;
+            return false;
+        }
         public static int GetLowestLevel(PKM pkm, int startLevel)
         {
             if (startLevel == -1)
@@ -1919,7 +1930,7 @@ namespace PKHeX.Core
 
         internal static int[] GetEggMoves(PKM pkm, int species, int formnum)
         {
-            if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255 && !GenderlessFromGender.Contains(species))
+            if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species))
                 return new int[0];
 
             switch (pkm.GenNumber)

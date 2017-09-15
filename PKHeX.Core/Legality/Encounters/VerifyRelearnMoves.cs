@@ -86,7 +86,7 @@ namespace PKHeX.Core
             CheckResult[] res = new CheckResult[4];
             // Level up moves cannot be inherited if Ditto is the parent
             // that means genderless species and male only species except Nidoran and Volbet (they breed with female nidoran and illumise) could not have level up moves as an egg
-            bool inheritLvlMoves = GetShouldInheritMoves(pkm, e);
+            bool inheritLvlMoves = Legal.GetCanInheritMoves(pkm, e);
 
             // Obtain level1 moves
             var baseMoves = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 1);
@@ -114,16 +114,6 @@ namespace PKHeX.Core
 
             info.RelearnBase = baseMoves;
             return res;
-        }
-        private static bool GetShouldInheritMoves(PKM pkm, IEncounterable e)
-        {
-            if (Legal.GenderlessFromGender.Contains(e.Species)) // Nincada -> Shedinja loses gender causing 'false', edge case
-                return true;
-            if (pkm.PersonalInfo.Gender > 0 && pkm.PersonalInfo.Gender < 255)
-                return true;
-            if (Legal.MixedGenderBreeding.Contains(e.Species))
-                return true;
-            return false;
         }
         private static void FlagBaseEggMoves(CheckResult[] res, int required, IReadOnlyList<int> baseMoves, IReadOnlyList<int> RelearnMoves)
         {

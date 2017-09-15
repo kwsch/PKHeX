@@ -13,8 +13,7 @@ namespace PKHeX.Core
             AllowInherited = notSpecial && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
 
             // Level up moves can only be inherited if ditto is not the mother.
-            var ratio = pkm.PersonalInfo.Gender; // Genderless/Male Only (except a few) cannot inherit.
-            bool AllowLevelUp = ratio > 0 && ratio < 255 || Legal.MixedGenderBreeding.Contains(e.Species);
+            bool AllowLevelUp = Legal.GetCanInheritMoves(pkm, e);
             Base = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, e.LevelMin).ToList();
 
             Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm).ToList();
