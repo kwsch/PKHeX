@@ -187,12 +187,7 @@ namespace PKHeX.WinForms
             {
                 sav1.Coin = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
                 sav1.Badges = badgeval & 0xFF;
-
-                var pf = Util.ToUInt32(MT_PikaFriend.Text);
-                if (pf > 255)
-                    pf = 255;
-                sav1.PikaFriendship = (byte)pf;
-
+                sav1.PikaFriendship = (byte)Math.Min(255, Util.ToUInt32(MT_PikaFriend.Text));
                 sav1.BattleEffects = CHK_BattleEffects.Checked;
                 sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
                 sav1.Sound = CB_SoundType.SelectedIndex;

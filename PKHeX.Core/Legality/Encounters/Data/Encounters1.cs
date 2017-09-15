@@ -146,7 +146,7 @@ namespace PKHeX.Core
             new EncounterTradeCatchRate { Species = 098, Generation = 1, Level = 15, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Wild Growlithe (GSC: 5)
             
             //new EncounterTrade { Species = 122, Generation = 1, Level = 08 }, // Mr. Mime - Wild Clefairy (GSC: 6)
-            new EncounterTradeCatchRate { Species = 067, Generation = 1, Level = 20, Catch_Rate = 180, EvolveOnTrade = true, Version = GameVersion.RBY }, // Machoke - Wild Cubone (GSC: 10)
+            new EncounterTradeCatchRate { Species = 067, Generation = 1, Level = 16, Catch_Rate = 180, EvolveOnTrade = true, Version = GameVersion.RBY }, // Machoke - Wild Cubone (GSC: 10)
             new EncounterTrade { Species = 112, Generation = 1, Level = 15, Version = GameVersion.RBY }, // Rhydon - Surf Golduck (GSC: 10)
             new EncounterTrade { Species = 087, Generation = 1, Level = 15, Version = GameVersion.RBY }, // Dewgong - Wild Growlithe (GSC: 5)
             new EncounterTrade { Species = 089, Generation = 1, Level = 25, Version = GameVersion.RBY }, // Muk - Wild Kangaskhan (GSC: 14)
