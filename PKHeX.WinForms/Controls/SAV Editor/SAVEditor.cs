@@ -1091,6 +1091,18 @@ namespace PKHeX.WinForms.Controls
             M.DragInfo.Destination.Box = M.DragInfo.Destination.IsParty ? -1 : Box.CurrentBox;
             M.HandleDropPKM(sender, e, overwrite, clone);
         }
+        private void MultiDragOver(object sender, DragEventArgs e)
+        {
+            // iterate over all tabs to see if a tab switch should occur when drag/dropping
+            Point pt = tabBoxMulti.PointToClient(new Point(e.X, e.Y));
+            for (int i = 0; i < tabBoxMulti.TabCount; i++)
+            {
+                if (tabBoxMulti.SelectedIndex == i || !tabBoxMulti.GetTabRect(i).Contains(pt))
+                    continue;
+                tabBoxMulti.SelectedIndex = i;
+                return;
+            }
+        }
         private void ClickShowdownExportParty(object sender, EventArgs e)
         {
             try
