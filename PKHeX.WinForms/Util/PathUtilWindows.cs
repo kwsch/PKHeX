@@ -39,6 +39,7 @@ namespace PKHeX.WinForms
                 Path.Combine(root, "TWLSaveTool"),
                 Path.Combine(root, "fbi", "save"),
                 Path.Combine(root, "gm9", "out"),
+                Path.Combine(root, "3ds", "data", "JKSV", "Saves"),
             };
         }
 
