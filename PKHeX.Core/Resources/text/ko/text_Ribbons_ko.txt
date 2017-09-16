@@ -97,7 +97,7 @@ RibbonCountG3Beauty	뷰티리본
 RibbonCountG3Cute	큐트리본
 RibbonCountG3Smart	지니어스리본
 RibbonCountG3Tough = 파워풀리본
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionAlola	알로라챔피언리본
+RibbonBattleRoyale	로열마스터리본
+RibbonBattleTreeGreat	그레이트트리리본
+RibbonBattleTreeMaster	마스터트리리본
