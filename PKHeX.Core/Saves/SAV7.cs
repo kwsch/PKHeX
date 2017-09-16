@@ -1250,14 +1250,6 @@ namespace PKHeX.Core
         {
             var r = new StringBuilder();
 
-            // MemeCrypto check
-            if (RequiresMemeCrypto && !MemeCrypto.CanUseMemeCrypto())
-            {
-                r.AppendLine("Platform does not support required cryptography providers.");
-                r.AppendLine("Checksum will be broken until the file is saved using an OS without FIPS compliance enabled or a newer OS.");
-                r.AppendLine();
-            }
-
             // FFFF checks
             byte[] FFFF = Enumerable.Repeat((byte)0xFF, 0x200).ToArray();
             for (int i = 0; i < Data.Length / 0x200; i++)

@@ -77,7 +77,6 @@
     <Compile Include="PKM\PIDIVTests.cs" />
     <Compile Include="PKM\PKMTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Saves\Substructures\MemeCryptoTests.cs" />
     <Compile Include="Util\DateUtilTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +89,9 @@
       <Name>PKHeX.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Saves\Substructures\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

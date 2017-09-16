@@ -168,15 +168,18 @@ namespace PKHeX.Core
         };
         #endregion
 
+        /// <summary>
+        /// Species name lists indexed by the <see cref="PKM.Language"/> value.
+        /// </summary>
         public static readonly string[][] SpeciesLang = 
         {
-            Util.GetSpeciesList("ja"), // none
+            Util.GetSpeciesList("ja"), // 0 (unused, invalid)
             Util.GetSpeciesList("ja"), // 1
             Util.GetSpeciesList("en"), // 2
             Util.GetSpeciesList("fr"), // 3
             Util.GetSpeciesList("it"), // 4
             Util.GetSpeciesList("de"), // 5
-            Util.GetSpeciesList("es"), // none
+            Util.GetSpeciesList("es"), // 6 (reserved for Gen3 KO?, unused)
             Util.GetSpeciesList("es"), // 7
             Util.GetSpeciesList("ko"), // 8
             Util.GetSpeciesList("zh"), // 9 Simplified
@@ -570,6 +573,14 @@ namespace PKHeX.Core
                 ivs[i] = (ivs[i] & 0x1E) + hpivs[type, i];
             return ivs;
         }
+
+        /// <summary>
+        /// Hidden Power IV values (even or odd) to achieve a specified Hidden Power Type
+        /// </summary>
+        /// <remarks>
+        /// There are other IV combinations to achieve the same Hidden Power Type.
+        /// These are just precomputed for fast modification.
+        /// </remarks>
         public static readonly int[,] hpivs = {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
             { 0, 0, 0, 0, 0, 1 }, // Flying
@@ -801,46 +812,19 @@ namespace PKHeX.Core
         }
 
         // Extensions
+        /// <summary>
+        /// Gets the Location Name for the <see cref="PKM"/>
+        /// </summary>
+        /// <param name="pk">PKM to fetch data for</param>
+        /// <param name="eggmet">Location requested is the egg obtained location, not met location.</param>
+        /// <returns>Location string</returns>
         public static string GetLocationString(this PKM pk, bool eggmet)
         {
             if (pk.Format < 2)
                 return "";
 
-            int gen = -1;
-            int bankID = 0;
             int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-
-            if (pk.Format == 2)
-                gen = 2;
-            else if (pk.Format == 3)
-                gen = 3;
-            else if (pk.Gen4 && (eggmet || pk.Format == 4)) // 4
-            {
-                const int size = 1000;
-                bankID = locval/size;
-                gen = 4;
-                locval %= size;
-            }
-            else // 5-7+
-            {
-                const int size = 10000;
-                bankID = locval/size;
-
-                int g = pk.GenNumber;
-                if (g >= 5)
-                    gen = g;
-                else if (pk.Format >= 5)
-                    gen = pk.Format;
-
-                locval %= size;
-                if (bankID >= 3)
-                    locval -= 1;
-            }
-
-            var bank = GameInfo.GetLocationNames(gen, bankID);
-            if (bank == null || bank.Length <= locval)
-                return "";
-            return bank[locval];
+            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber);
         }
         public static string[] GetQRLines(this PKM pkm)
         {

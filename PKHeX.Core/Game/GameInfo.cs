@@ -567,7 +567,7 @@ namespace PKHeX.Core
         /// <param name="gen">Generation to get location names for.</param>
         /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <returns>List of location names.</returns>
-        public static string[] GetLocationNames(int gen, int bankID)
+        private static string[] GetLocationNames(int gen, int bankID)
         {
             switch (gen)
             {
@@ -610,6 +610,52 @@ namespace PKHeX.Core
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Gets the location name for the specified parameters.
+        /// </summary>
+        /// <param name="eggmet">Location is from the <see cref="PKM.Egg_Location"/></param>
+        /// <param name="locval">Location value</param>
+        /// <param name="format">Current <see cref="PKM.Format"/></param>
+        /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
+        /// <returns>Location name</returns>
+        public static string GetLocationName(bool eggmet, int locval, int format, int generation)
+        {
+            int gen = -1;
+            int bankID = 0;
+
+            if (format == 2)
+                gen = 2;
+            else if (format == 3)
+                gen = 3;
+            else if (generation == 4 && (eggmet || format == 4)) // 4
+            {
+                const int size = 1000;
+                bankID = locval / size;
+                gen = 4;
+                locval %= size;
+            }
+            else // 5-7+
+            {
+                const int size = 10000;
+                bankID = locval / size;
+
+                int g = generation;
+                if (g >= 5)
+                    gen = g;
+                else if (format >= 5)
+                    gen = format;
+
+                locval %= size;
+                if (bankID >= 3)
+                    locval -= 1;
+            }
+
+            var bank = GetLocationNames(gen, bankID);
+            if (bank == null || bank.Length <= locval)
+                return string.Empty;
+            return bank[locval];
         }
     }
 }

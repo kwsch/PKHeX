@@ -743,7 +743,7 @@ namespace PKHeX.WinForms
             if (sav == null || sav.Version == GameVersion.Invalid)
             { WinFormsUtil.Error("Invalid save file loaded. Aborting.", path); return; }
 
-            if (!SanityCheckSAV(ref sav, path))
+            if (!SanityCheckSAV(ref sav))
                 return;
             StoreLegalSaveGameData(sav);
             PKMUtil.Initialize(sav); // refresh sprite generator
@@ -834,17 +834,8 @@ namespace PKHeX.WinForms
                 "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             return false;
         }
-        private static bool SanityCheckSAV(ref SaveFile sav, string path)
+        private static bool SanityCheckSAV(ref SaveFile sav)
         {
-            if (!string.IsNullOrWhiteSpace(path)) // If path is null, this is the default save
-            {
-                if (sav.RequiresMemeCrypto && !MemeCrypto.CanUseMemeCrypto())
-                {
-                    WinFormsUtil.Error("Your platform does not support the required cryptography components.",
-                        "In order to be able to save your changes, you must either upgrade to a newer version of Windows or disable FIPS compliance mode.");
-                    // Don't abort loading; user can still view save and fix checksum on another platform.
-                }
-            }
             // Finish setting up the save file.
             if (sav.Generation == 1)
             {

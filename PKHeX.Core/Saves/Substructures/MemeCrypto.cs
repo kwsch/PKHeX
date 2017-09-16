@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -12,19 +11,17 @@ namespace PKHeX.Core
         private static byte[] AESECBEncrypt(byte[] key, byte[] data)
         {
             using (var ms = new MemoryStream())
+            using (var aes = Aes.Create())
             {
-                using (var aes = Util.GetAesProvider())
+                aes.Mode = CipherMode.ECB;
+                aes.Padding = PaddingMode.None;
+
+                using (var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write))
                 {
-                    aes.Mode = CipherMode.ECB;
-                    aes.Padding = PaddingMode.None;
+                    cs.Write(data, 0, data.Length);
+                    cs.FlushFinalBlock();
 
-                    using (var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write))
-                    {
-                        cs.Write(data, 0, data.Length);
-                        cs.FlushFinalBlock();
-
-                        return ms.ToArray();
-                    }
+                    return ms.ToArray();
                 }
             }
         }
@@ -32,19 +29,17 @@ namespace PKHeX.Core
         private static byte[] AESECBDecrypt(byte[] key, byte[] data)
         {
             using (var ms = new MemoryStream())
+            using (var aes = Aes.Create())
             {
-                using (var aes = Util.GetAesProvider())
+                aes.Mode = CipherMode.ECB;
+                aes.Padding = PaddingMode.None;
+
+                using (var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write))
                 {
-                    aes.Mode = CipherMode.ECB;
-                    aes.Padding = PaddingMode.None;
+                    cs.Write(data, 0, data.Length);
+                    cs.FlushFinalBlock();
 
-                    using (var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write))
-                    {
-                        cs.Write(data, 0, data.Length);
-                        cs.FlushFinalBlock();
-
-                        return ms.ToArray();
-                    }
+                    return ms.ToArray();
                 }
             }
         }
@@ -171,10 +166,9 @@ namespace PKHeX.Core
         private static byte[] ReverseCrypt(byte[] input, int meme_ofs, int memeindex)
         {
             var output = (byte[])input.Clone();
-
             var memekey = MemeKeys[memeindex];
 
-            using (var sha1 = Util.GetSHA1Provider())
+            using (var sha1 = SHA1.Create())
             {
                 var enc = new byte[0x60];
                 Array.Copy(input, meme_ofs, enc, 0, 0x60);
@@ -202,6 +196,7 @@ namespace PKHeX.Core
             return null;
         }
 
+        private const uint POKE = 0x454B4F50;
         public static byte[] VerifyMemeData(byte[] input)
         {
             if (input.Length < 0x60)
@@ -211,7 +206,7 @@ namespace PKHeX.Core
 
             for (var i = input.Length - 8; i >= 0; i--)
             {
-                if (BitConverter.ToUInt32(input, i) != 0x454B4F50 ||
+                if (BitConverter.ToUInt32(input, i) != POKE ||
                     BitConverter.ToUInt32(input, i + 4) >= MemeKeys.Length) continue;
 
                 meme_ofs = i - 0x60;
@@ -236,7 +231,7 @@ namespace PKHeX.Core
             if (input.Length < 0x60)
                 throw new ArgumentException("Bad Meme input!");
             const int memeindex = 3;
-            using (var sha1 = Util.GetSHA1Provider())
+            using (var sha1 = SHA1.Create())
             {
                 var key = sha1.ComputeHash(MemeKeys[memeindex].DER.Concat(input.Take(input.Length - 0x60)).ToArray()).Take(0x10).ToArray();
 
@@ -251,66 +246,40 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        ///     Resigns save data.
+        /// Resigns save data.
         /// </summary>
-        /// <param name="sav7">The save data to resign.</param>
-        /// <param name="throwIfUnsupported">
-        ///     If true, throw an <see cref="InvalidOperationException" /> if MemeCrypto is
-        ///     unsupported.  If false, calling this function will have no effect.
-        /// </param>
-        /// <exception cref="InvalidOperationException">
-        ///     Thrown if the current platform has FIPS mode enabled on a platform that
-        ///     does not support the required crypto service providers.
-        /// </exception>
         /// <returns>The resigned save data.</returns>
-        public static byte[] Resign(byte[] sav7, bool throwIfUnsupported = true)
+        public static byte[] Resign(byte[] sav7)
         {
-            if (sav7 == null || sav7.Length != 0x6BE00)
+            if (sav7 == null || sav7.Length != SaveUtil.SIZE_G7SM && sav7.Length != SaveUtil.SIZE_G7USUM)
                 return null;
 
-            try
+            // Save Chunks are 0x200 bytes each; Memecrypto signature is 0x100 bytes into the 2nd to last chunk.
+            int ChecksumTableOffset = sav7.Length - 0x200;
+            int MemeCryptoOffset = ChecksumTableOffset - 0x100;
+            const int ChecksumSignatureLength = 0x140;
+            const int MemeCryptoSignatureLength = 0x80;
+
+            var outSav = (byte[])sav7.Clone();
+
+            using (var sha256 = SHA256.Create())
             {
-                var outSav = (byte[])sav7.Clone();
+                // Store current signature
+                var CurSig = new byte[MemeCryptoSignatureLength];
+                Buffer.BlockCopy(sav7, MemeCryptoOffset, CurSig, 0, MemeCryptoSignatureLength);
 
-                using (var sha256 = Util.GetSHA256Provider())
-                {
-                    var CurSig = new byte[0x80];
-                    Array.Copy(sav7, 0x6BB00, CurSig, 0, 0x80);
+                var ChecksumTableSignature = new byte[ChecksumSignatureLength];
+                Buffer.BlockCopy(sav7, ChecksumTableOffset, ChecksumTableSignature, 0, ChecksumSignatureLength);
 
-                    var ChecksumTable = new byte[0x140];
-                    Array.Copy(sav7, 0x6BC00, ChecksumTable, 0, 0x140);
+                var newSig = new byte[MemeCryptoSignatureLength];
+                sha256.ComputeHash(ChecksumTableSignature).CopyTo(newSig, 0);
+                var memeSig = VerifyMemeData(CurSig);
+                if (memeSig != null)
+                    Buffer.BlockCopy(memeSig, 0x20, newSig, 0x20, 0x60);
 
-                    var newSig = new byte[0x80];
-                    sha256.ComputeHash(ChecksumTable).CopyTo(newSig, 0);
-                    var memeSig = VerifyMemeData(CurSig);
-                    if (memeSig != null)
-                        Array.Copy(memeSig, 0x20, newSig, 0x20, 0x60);
-
-                    SignMemeData(newSig).CopyTo(outSav, 0x6BB00);
-                }
-                return outSav;
+                SignMemeData(newSig).CopyTo(outSav, MemeCryptoOffset);
             }
-            catch (InvalidOperationException)
-            {
-                if (throwIfUnsupported)
-                {
-                    throw;
-                }
-                return (byte[])sav7.Clone();
-            }
-        }
-
-        public static bool CanUseMemeCrypto()
-        {
-            try
-            {
-                Util.GetSHA256Provider();
-            }
-            catch (InvalidOperationException)
-            {
-                return false;
-            }
-            return true;
+            return outSav;
         }
 
         #region Meme Key Data
@@ -399,14 +368,6 @@ namespace PKHeX.Core
             for (var i = 0; i < b1.Length; i++)
                 x[i] = (byte)(b1[i] ^ b2[i]);
             return x;
-        }
-
-        public static string ToHexString(this byte[] ba)
-        {
-            var hex = new StringBuilder(ba.Length * 2);
-            foreach (var b in ba)
-                hex.AppendFormat("{0:X2}", b);
-            return hex.ToString();
         }
     }
 }
