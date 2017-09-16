@@ -627,7 +627,7 @@ namespace PKHeX.Core
             new EncounterStatic{ Species = 095, Gender = 1, Level = 05, Moves = new[]{088}, }, // Onix: Rock Throw
             new EncounterStatic{ Species = 025, Gender = 0, Level = 15, Moves = new[]{019}, }, // Pikachu: Fly
             new EncounterStatic{ Species = 025, Gender = 1, Level = 14, Moves = new[]{057}, }, // Pikachu: Surf
-            new EncounterStatic{ Species = 025, Gender = 1, Level = 12, Moves = new[]{344}, }, // Pikachu: Volt Tackle
+            new EncounterStatic{ Species = 025, Gender = 1, Level = 12, Moves = new[]{344, 252}, }, // Pikachu: Volt Tackle, Fake Out
             new EncounterStatic{ Species = 025, Gender = 0, Level = 13, Moves = new[]{175}, }, // Pikachu: Flail
             new EncounterStatic{ Species = 025, Gender = 0, Level = 10, }, // Pikachu
             new EncounterStatic{ Species = 025, Gender = 1, Level = 10, }, // Pikachu

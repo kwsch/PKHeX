@@ -310,7 +310,7 @@ namespace PKHeX.Core
                 if (chr == 0xFFFF) break;
                 s += (char)chr;
             }
-            return s;
+            return SanitizeString(s);
         }
 
         /// <summary>
@@ -325,22 +325,17 @@ namespace PKHeX.Core
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
-            byte[] strdata = new byte[value.Length * 2 + 2]; // +2 for 0xFFFF
-            for (int i = 0; i < value.Length; i++)
+
+            string temp = UnSanitizeString(value, 4) // Replace Special Characters and add Terminator
+                .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
+                .PadRight(padTo, (char)padWith); // Padding
+
+            byte[] strdata = new byte[temp.Length * 2];
+            for (int i = 0; i < temp.Length; i++)
             {
-                ushort chr = value[i];
+                ushort chr = temp[i];
                 ushort val = ConvertChar2ValueG4(chr);
-                if (val == 0xFFFF || chr == 0xFFFF)
-                { Array.Resize(ref strdata, i * 2 + 2); break; }
                 BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
-            }
-            BitConverter.GetBytes((ushort)0xFFFF).CopyTo(strdata, strdata.Length - 2);
-            if (padTo > strdata.Length)
-            {
-                int start = strdata.Length;
-                Array.Resize(ref strdata, padTo);
-                for (int i = start; i < padTo; i += 2)
-                    BitConverter.GetBytes(padWith).CopyTo(strdata, i);
             }
             return strdata;
         }
@@ -361,7 +356,7 @@ namespace PKHeX.Core
                 if (chr == 0xFFFF) break;
                 s.Append((char)chr);
             }
-            return s.ToString();
+            return SanitizeString(s.ToString());
         }
 
         /// <summary>Gets the bytes for a 4th Generation String</summary>
@@ -1937,7 +1932,7 @@ namespace PKHeX.Core
         {
             var s = str.Replace("\u0027", "\u2019"); // farfetch'd
 
-            if (generation == 5)
+            if (generation == 5 || generation == 4)
             {
                 s = s.Replace("\u2640", "\u246E"); // ♀
                 s = s.Replace("\u2642", "\u246D"); // ♂
