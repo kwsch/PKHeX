@@ -108,9 +108,8 @@ namespace PKHeX.Core
         public static string V11 {get; set;} = "Ingame Trade OT and Nickname have not been altered."; // Valid
         public static string V1 {get; set;} = "Nickname too long."; // Invalid
         public static string V2 {get; set;} = "Nickname is empty."; // Invalid
-        public static string V4 {get; set;} = "Language ID > 8."; // Invalid
-        public static string V5 {get; set;} = "Language ID > 10."; // Invalid
-        public static string V222 { get; set; } = "Cannot be given this Nickname."; // Invalid
+        public static string V5 {get; set;} = "Language ID should be {0}, not {1}."; // Invalid
+        public static string V222 {get; set;} = "Cannot be given this Nickname."; // Invalid
         public static string V3 {get; set;} = "Species index invalid for Nickname comparison."; // Invalid
         public static string V20 {get; set;} = "Nickname does not match species name."; // Invalid
         public static string V13 {get; set;} = "Egg name does not match language Egg name."; // Invalid

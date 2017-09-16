@@ -181,14 +181,10 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            if (pkm.Format <= 6 && pkm.Language > 8)
+            int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
+            if (pkm.Language == 6 || pkm.Language > maxLanguageID)
             {
-                AddLine(Severity.Indeterminate, V4, CheckIdentifier.Language);
-                return;
-            }
-            if (pkm.Format <= 7 && pkm.Language > 10)
-            {
-                AddLine(Severity.Indeterminate, V5, CheckIdentifier.Language);
+                AddLine(Severity.Indeterminate, string.Format(V5, "<=" + maxLanguageID, pkm.Language), CheckIdentifier.Language);
                 return;
             }
 
@@ -321,7 +317,11 @@ namespace PKHeX.Core
                 return;
             }
             else if (3 <= Info.Generation && Info.Generation <= 5)
-            { 
+            {
+                // Trades for JPN games have language ID of 0, not 1.
+                if (pkm.BW && pkm.Format == 5 && pkm.Language == 1)
+                    AddLine(Severity.Invalid, string.Format(V5, 0, 1), CheckIdentifier.Language);
+
                 // Suppressing temporarily
                 return;
             }

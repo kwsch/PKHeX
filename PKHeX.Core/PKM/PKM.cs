@@ -292,6 +292,7 @@ namespace PKHeX.Core
         public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
         public bool Pt => (int)GameVersion.Pt == Version;
         public bool HGSS => Version == (int)GameVersion.HG || Version == (int)GameVersion.SS;
+        public bool BW => Version == (int)GameVersion.B || Version == (int)GameVersion.W;
         public bool B2W2 => Version == (int)GameVersion.B2 || Version == (int)GameVersion.W2;
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;

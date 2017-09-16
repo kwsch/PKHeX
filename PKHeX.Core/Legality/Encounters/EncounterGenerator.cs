@@ -883,7 +883,9 @@ namespace PKHeX.Core
             }
 
             int lang = pkm.Language;
-            if (lang == 0 || lang == 6)
+            if (lang == 6) // invalid language
+                yield break;
+            if (lang == 0 && (pkm.Format != 5 || !pkm.BW)) // Japanese trades in BW have no language ID
                 yield break;
 
             int lvl = GetMinLevelEncounter(pkm);

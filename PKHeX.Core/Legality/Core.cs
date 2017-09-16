@@ -1101,6 +1101,23 @@ namespace PKHeX.Core
             }
         }
 
+        internal static int GetMaxLanguageID(int generation)
+        {
+            switch (generation)
+            {
+                case 1:
+                case 2:
+                case 7:
+                    return 10; // VC -> Gen7
+                case 3:
+                    return 7; // 1-7 except 6
+                case 4:
+                case 5:
+                case 6:
+                    return 8;
+            }
+            return -1;
+        }
         private static bool[] GetReleasedHeldItems(int generation)
         {
             switch (generation)

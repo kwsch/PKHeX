@@ -310,7 +310,7 @@ namespace PKHeX.Core
                 else pk6.AbilityNumber = Gen5 ? 1 << (int)(PID >> 16 & 1) : 1 << (int)(PID & 1);
             }
             pk6.Markings = Markings;
-            pk6.Language = Language;
+            pk6.Language = Math.Max(1, Language); // Hacked or Bad IngameTrade (Japanese B/W)
 
             pk6.CNT_Cool = CNT_Cool;
             pk6.CNT_Beauty = CNT_Beauty;
