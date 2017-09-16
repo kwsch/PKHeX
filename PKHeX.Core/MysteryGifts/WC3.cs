@@ -168,7 +168,7 @@ namespace PKHeX.Core
         }
         private static int GetRandomVersion(int version)
         {
-            if (version < 100 && version > 0) // single game
+            if (version <= 15 && version > 0) // single game
                 return version;
 
             int rand = Util.Rand.Next(1);
