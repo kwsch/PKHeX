@@ -142,5 +142,13 @@
                     break;
             }
         }
+
+        public static uint GetMG5ShinyPID(uint gval, uint av, int TID, int SID)
+        {
+            uint PID = (uint)((TID ^ SID ^ gval) << 16 | gval);
+            if ((PID & 0x10000) != av << 16)
+                PID ^= 0x10000;
+            return PID;
+        }
     }
 }

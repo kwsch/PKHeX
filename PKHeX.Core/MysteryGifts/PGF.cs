@@ -269,13 +269,11 @@ namespace PKHeX.Core
                 if (PIDType == 2) // Force Shiny
                 {
                     uint gb = pk.PID & 0xFF;
-                    pk.PID = (uint)((gb ^ pk.TID ^ pk.SID) << 16) | gb;
-                    // double check forced ability
-                    if (av == 1) pk.PID |= 0x10001; else pk.PID &= 0xFFFEFFFE;
+                    pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID, pk.SID);
                 }
                 else if (PIDType != 1) // Force Not Shiny
                 {
-                    if (((pk.PID >> 16) ^ (pk.PID & 0xffff) ^ pk.SID ^ pk.TID) < 8)
+                    if (pk.IsShiny)
                         pk.PID ^= 0x10000000;
                 }
             }

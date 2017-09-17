@@ -266,8 +266,9 @@ namespace PKHeX.Core
             // generation 5 shiny PIDs
             if (low <= 0xFF)
             {
-                var high = pid >> 16;
-                if (((pk.TID ^ pk.SID ^ low) - high & 0xFFFE) == 0)
+                var av = (pid >> 16) & 1;
+                var genPID = PIDGenerator.GetMG5ShinyPID(low, av, pk.TID, pk.SID);
+                if (genPID == pid)
                 {
                     pidiv = new PIDIV {NoSeed = true, Type = PIDType.G5MGShiny};
                     return true;

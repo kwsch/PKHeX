@@ -333,13 +333,21 @@ namespace PKHeX.Core
         public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
         public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
-        protected int SwapBits(int n, int p1, int p2)
+        /// <summary>
+        /// Swaps bits at a given position
+        /// </summary>
+        /// <param name="value">Value to swap bits for</param>
+        /// <param name="p1">Position of first bit to be swapped</param>
+        /// <param name="p2">Position of second bit to be swapped</param>
+        /// <remarks>Generation 3 marking values are swapped (Square-Triangle, instead of Triangle-Square).</remarks>
+        /// <returns>Swapped bits value</returns>
+        protected static int SwapBits(int value, int p1, int p2)
         {
-            int bit1 = (n >> p1) & 1;
-            int bit2 = (n >> p2) & 1;
+            int bit1 = (value >> p1) & 1;
+            int bit2 = (value >> p2) & 1;
             int x = bit1 ^ bit2;
             x = (x << p1) | (x << p2);
-            return n ^ x;
+            return value ^ x;
         }
         public string ShowdownText => ShowdownSet.GetShowdownText(this);
         public string[] QRText => this.GetQRLines();
