@@ -178,7 +178,7 @@ namespace PKHeX.Core
         public override int AbilityNumber { get => 1 << Data[0xCC]; set => Data[0xCC] = (byte)((value >> 1) & 1); }
         public override bool Valid { get => Data[0xCD] == 0; set { if (value) Data[0xCD] = 0; } }
         // 0xCE unknown
-        public override int MarkValue { get => Data[0xCF]; protected set => Data[0xCF] = (byte)value; }
+        public override int MarkValue { get => SwapBits(Data[0xCF], 1, 2); protected set => Data[0xCF] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0xD0], (sbyte)0); set => Data[0xD0] = (byte)(value == 0 ? 0xFF : value & 0xF); }
         public int ShadowID { get => BigEndian.ToUInt16(Data, 0xD8); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0xD8); }
         public int Purification { get => BigEndian.ToInt32(Data, 0xDC); set => BigEndian.GetBytes(value).CopyTo(Data, 0xDC); }

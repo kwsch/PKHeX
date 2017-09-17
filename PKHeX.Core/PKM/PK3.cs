@@ -51,7 +51,7 @@ namespace PKHeX.Core
         public override string Nickname { get => GetString(0x08, 10); set => SetString(IsEgg ? "タマゴ" : value, 10).CopyTo(Data, 0x08); }
         public override int Language { get => BitConverter.ToUInt16(Data, 0x12) & 0xFF; set => BitConverter.GetBytes((ushort)(IsEgg ? 0x601 : value | 0x200)).CopyTo(Data, 0x12); }
         public override string OT_Name { get => GetString(0x14, 7); set => SetString(value, 7).CopyTo(Data, 0x14); }
-        public override int MarkValue { get => Data[0x1B]; protected set => Data[0x1B] = (byte)value; }
+        public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); protected set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
         public override ushort Checksum { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C); }
         public override ushort Sanity { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1E); }
 

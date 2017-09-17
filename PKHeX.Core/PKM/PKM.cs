@@ -333,6 +333,14 @@ namespace PKHeX.Core
         public int MarkHeart       { get => Markings[3]; set { var marks = Markings; marks[3] = value; Markings = marks; } }
         public int MarkStar        { get => Markings[4]; set { var marks = Markings; marks[4] = value; Markings = marks; } }
         public int MarkDiamond     { get => Markings[5]; set { var marks = Markings; marks[5] = value; Markings = marks; } }
+        protected int SwapBits(int n, int p1, int p2)
+        {
+            int bit1 = (n >> p1) & 1;
+            int bit2 = (n >> p2) & 1;
+            int x = bit1 ^ bit2;
+            x = (x << p1) | (x << p2);
+            return n ^ x;
+        }
         public string ShowdownText => ShowdownSet.GetShowdownText(this);
         public string[] QRText => this.GetQRLines();
 
