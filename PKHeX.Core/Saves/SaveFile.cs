@@ -286,7 +286,7 @@ namespace PKHeX.Core
         {
             if (flagNumber > EventFlagMax)
                 throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
-            int ofs = EventFlag + flagNumber >> 3;
+            int ofs = EventFlag + (flagNumber >> 3);
             var n = flagNumber & 7;
             return (Data[ofs] >> n & 1) != 0;
         }
@@ -301,7 +301,7 @@ namespace PKHeX.Core
         {
             if (flagNumber > EventFlagMax)
                 throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
-            int ofs = EventFlag + flagNumber >> 3;
+            int ofs = EventFlag + (flagNumber >> 3);
             var n = flagNumber & 7;
             Data[ofs] &= (byte)~(1 << (n & 7));
             Data[ofs] |= (byte)((value ? 1 : 0) << n);

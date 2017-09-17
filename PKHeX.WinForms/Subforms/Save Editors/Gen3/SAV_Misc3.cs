@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
 
             const int oldsea = 0x178;
             int[] tickets = {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
-            if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Add {itemlist[oldsea]}?"))
+            if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[oldsea]} (unreleased)?"))
                 tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
             var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
@@ -174,6 +174,17 @@ namespace PKHeX.WinForms
                 return;
             }
 
+            var added = string.Join(", ", missing.Select(u => itemlist[u]));
+            var addmsg = $"Add the following items?{Environment.NewLine}{added}";
+            if (have.Any())
+            {
+                string had = string.Join(", ", have.Select(u => itemlist[u]));
+                var havemsg = $"Already have:{Environment.NewLine}{had}";
+                addmsg += Environment.NewLine + Environment.NewLine + havemsg;
+            }
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, addmsg))
+                return;
+
             // insert items at the end
             for (int i = 0; i < missing.Count; i++)
             {
@@ -182,13 +193,7 @@ namespace PKHeX.WinForms
                 item.Count = 1;
             }
 
-            var added = string.Join(", ", missing.Select(u => itemlist[u]));
-            string alert = "Inserted the following items to the Key Items Pouch:" + Environment.NewLine + added;
-            if (have.Any())
-            {
-                string had = string.Join(", ", have.Select(u => itemlist[u]));
-                alert += string.Format("{0}{0}Already had the following items:{0}{1}", Environment.NewLine, had);
-            }
+            string alert = $"Inserted the following items to the Key Items Pouch:{Environment.NewLine}{added}";
             WinFormsUtil.Alert(alert);
             SAV.Inventory = Pouches;
 
