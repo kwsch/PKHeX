@@ -326,7 +326,8 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.E:
-                        BitConverter.GetBytes(BitConverter.ToUInt16(Data, BlockOfs[2] + 0x3FC) & ~(0xFF << 7) | (value << 7)).CopyTo(Data, BlockOfs[2] + 0x3FC);
+                        var val = BitConverter.ToUInt16(Data, BlockOfs[2] + 0x3FC) & ~(0xFF << 7) | (value << 7);
+                        BitConverter.GetBytes((ushort)val).CopyTo(Data, BlockOfs[2] + 0x3FC);
                         break;
                     case GameVersion.FRLG: Data[BlockOfs[2] + 0x64] = (byte)value; break;
                     default: return; // RS
