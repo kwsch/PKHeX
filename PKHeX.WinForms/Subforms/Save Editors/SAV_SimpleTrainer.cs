@@ -108,6 +108,7 @@ namespace PKHeX.WinForms
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
                 CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
                 GB_Adventure.Visible = false;
+                CB_Gender.Visible = false;
                 return;
             }
 
