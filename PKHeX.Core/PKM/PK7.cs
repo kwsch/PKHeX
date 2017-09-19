@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public sealed override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;
         public override int Format => 7;
-        public override PersonalInfo PersonalInfo => PersonalTable.SM.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
         public PK7(byte[] decryptedData = null, string ident = null)
         {

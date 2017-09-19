@@ -35,8 +35,8 @@ namespace PKHeX.Core
             BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
             basedata[0x2A] = (byte)formnum;
             basedata[0x2C] = (byte)(shiny ? 1 : 0);
-            var forme_index = PersonalTable.SM[species].FormeIndex(species, formnum);
-            var raw_gender = PersonalTable.SM[forme_index].Gender;
+            var forme_index = PersonalTable.USUM[species].FormeIndex(species, formnum);
+            var raw_gender = PersonalTable.USUM[forme_index].Gender;
             switch (raw_gender)
             {
                 case 0:

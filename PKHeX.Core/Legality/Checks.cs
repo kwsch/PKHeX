@@ -1373,7 +1373,7 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is WC7 wc7 && wc7.OT.Length > 0)
             {
-                if (pkm.OT_Friendship != PersonalTable.SM[EncounterMatch.Species].BaseFriendship)
+                if (pkm.OT_Friendship != PersonalTable.USUM[EncounterMatch.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
                 if (pkm.OT_Affection != 0)
                     return new CheckResult(Severity.Invalid, V133, CheckIdentifier.History);

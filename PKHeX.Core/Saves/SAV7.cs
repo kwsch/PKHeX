@@ -28,7 +28,7 @@ namespace PKHeX.Core
             GetSAVOffsets();
 
             HeldItems = Legal.HeldItems_SM;
-            Personal = PersonalTable.SM;
+            Personal = USUM ? PersonalTable.USUM : PersonalTable.SM;
             if (!Exportable)
                 ClearBoxes();
 

@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKX
     {
-        private static readonly PersonalTable Personal = PersonalTable.SM;
+        private static readonly PersonalTable Personal = PersonalTable.USUM;
         private const int Generation = 7;
 
         internal const int SIZE_1ULIST = 69;

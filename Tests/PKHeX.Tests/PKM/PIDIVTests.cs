@@ -54,8 +54,8 @@ namespace PKHeX.Tests.PKM
 
             var gk3 = new PK3();
             PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, ak3.OriginSeed);
-            Assert.AreEqual(pk3.PID, gk3.PID, "Unable to match generated PID to Channel spread");
-            Assert.IsTrue(pk3.IVs.SequenceEqual(gk3.IVs), "Unable to match generated IVs to Channel spread");
+            Assert.AreEqual(pk3.PID, gk3.PID, "Unable to match generated PID to CXD spread");
+            Assert.IsTrue(pk3.IVs.SequenceEqual(gk3.IVs), "Unable to match generated IVs to CXD spread");
 
             // Channel Jirachi
             var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
