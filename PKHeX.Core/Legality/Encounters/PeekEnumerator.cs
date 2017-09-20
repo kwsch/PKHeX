@@ -33,6 +33,11 @@ namespace PKHeX.Core
         
         public PeekEnumerator(IEnumerator<T> enumerator) => Enumerator = enumerator ?? throw new ArgumentNullException(nameof(enumerator));
 
+        /// <summary>
+        /// Fetch the next element, if not already performed.
+        /// </summary>
+        /// <returns>True/False that a Next element exists</returns>
+        /// <remarks>Advances the enumerator if Next has not been peeked already</remarks>
         private bool TryFetchPeek()
         {
             if (!didPeek && (didPeek = Enumerator.MoveNext()))
@@ -40,6 +45,11 @@ namespace PKHeX.Core
             return didPeek;
         }
 
+        /// <summary>
+        /// Peeks to the next element
+        /// </summary>
+        /// <returns>Next element</returns>
+        /// <remarks>Throws an exception if no element exists</remarks>
         public T Peek()
         {
             if (!TryFetchPeek())
@@ -51,6 +61,10 @@ namespace PKHeX.Core
         {
             return !TryFetchPeek() ? default(T) : peek;
         }
+        /// <summary>
+        /// Checks if a Next element exists
+        /// </summary>
+        /// <returns>True/False that a Next element exists</returns>
         public bool PeekIsNext()
         {
             return TryFetchPeek();

@@ -5,8 +5,21 @@ using static PKHeX.Core.Legal;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generates matching <see cref="IEncounterable"/> data and relevant <see cref="LegalInfo"/> for a <see cref="PKM"/>.
+    /// Logic for generating possible in-game encounter data.
+    /// </summary>
     public static class EncounterGenerator
     {
+        /// <summary>
+        /// Generates possible <see cref="IEncounterable"/> data according to the input PKM data and legality info.
+        /// </summary>
+        /// <param name="pkm">PKM data</param>
+        /// <param name="info">Legality information</param>
+        /// <returns>Possible encounters</returns>
+        /// <remarks>
+        /// The iterator lazily finds possible encounters. If no encounters are possible, the enumerable will be empty.
+        /// </remarks>
         public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, LegalInfo info)
         {
             switch (info.Generation)
@@ -318,8 +331,7 @@ namespace PKHeX.Core
         // EncounterStatic
         private static bool IsEncounterTypeMatch(IEncounterable e, int type)
         {
-            return type == 0 && !(e is EncounterStaticTyped)
-                   || e is EncounterStaticTyped t && t.TypeEncounter.Contains(type);
+            return e is EncounterStaticTyped t ? t.TypeEncounter.Contains(type) : type == 0;
         }
         private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
         {
@@ -858,7 +870,7 @@ namespace PKHeX.Core
 
                 // Even if the in game trade uses the tables with source pokemon allowing generation 2 games, the traded pokemon could be a non-tradeback pokemon
                 var rate = (pkm as PK1)?.Catch_Rate;
-                if (z is EncounterTradeCatchRate r )
+                if (z is EncounterTradeCatchRate r)
                 {
                     if (rate != r.Catch_Rate)
                         continue;

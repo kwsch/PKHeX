@@ -490,8 +490,8 @@ namespace PKHeX.WinForms
         }
         private void SaveBattleFrontier()
         {
-            if(ofsPrints > 0)
-                for(int i = 0; i < Prints.Length; i++)
+            if (ofsPrints > 0)
+                for (int i = 0; i < Prints.Length; i++)
                 {
                     if (Prints[i] == 1 + Math.Sign((BitConverter.ToUInt16(SAV.Data, ofsPrints + (i << 1)) >> 1) - 1)) continue;
                     BitConverter.GetBytes(Prints[i] << 1).CopyTo(SAV.Data, ofsPrints + (i << 1));

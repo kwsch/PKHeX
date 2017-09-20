@@ -308,7 +308,7 @@ namespace PKHeX.WinForms
             };
             ComboItem[] PassPowerB = PassPowerA.Zip(PassPowerC, (f, s) => new ComboItem { Text = f, Value = s }).ToArray();
             cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
-            for(int i = 0; i < cba.Length; i++)
+            for (int i = 0; i < cba.Length; i++)
             {
                 cba[i].Items.Clear();
                 cba[i].DisplayMember = "Text";

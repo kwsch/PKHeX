@@ -894,10 +894,10 @@ namespace PKHeX.WinForms.Controls
             changingFields = false;
 
             // Potential Reading
-            L_Potential.Text = (Unicode
-                ? new[] { "★☆☆☆", "★★☆☆", "★★★☆", "★★★★" }
-                : new[] { "+", "++", "+++", "++++" }
-            )[pkm.PotentialRating];
+            var arr = Unicode 
+                ? new[] {"★☆☆☆", "★★☆☆", "★★★☆", "★★★★"} 
+                : new[] {"+", "++", "+++", "++++"};
+            L_Potential.Text = arr[pkm.PotentialRating];
 
             TB_IVTotal.Text = pkm.IVs.Sum().ToString();
 
