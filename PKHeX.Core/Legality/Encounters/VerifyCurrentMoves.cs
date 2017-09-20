@@ -300,18 +300,21 @@ namespace PKHeX.Core
             {
                 if (IsCheckValid(res[m])) // already validated with another generation
                     continue;
-                if (moves[m] == 0)
+                int move = moves[m];
+                if (move == 0)
                     continue;
 
-                if (gen == 1 && learnInfo.Source.Base.Contains(moves[m]))
+                if (gen == 1 && learnInfo.Source.Base.Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.Initial, gen, Severity.Valid, native ? V361 : string.Format(V362, gen), CheckIdentifier.Move);
-                else if (info.EncounterMoves.LevelUpMoves[gen].Contains(moves[m]))
+                if (gen == 2 && !native && move > Legal.MaxMoveID_1 && pkm.VC1)
+                    res[m] = new CheckMoveResult(MoveSource.Unknown, gen, Severity.Invalid, V176, CheckIdentifier.Move);
+                else if (info.EncounterMoves.LevelUpMoves[gen].Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.LevelUp, gen, Severity.Valid, native ? V177 : string.Format(V330, gen), CheckIdentifier.Move);
-                else if (info.EncounterMoves.TMHMMoves[gen].Contains(moves[m]))
+                else if (info.EncounterMoves.TMHMMoves[gen].Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.TMHM, gen, Severity.Valid, native ? V173 : string.Format(V331, gen), CheckIdentifier.Move);
-                else if (info.EncounterMoves.TutorMoves[gen].Contains(moves[m]))
+                else if (info.EncounterMoves.TutorMoves[gen].Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.Tutor, gen, Severity.Valid, native ? V174 : string.Format(V332, gen), CheckIdentifier.Move);
-                else if (gen == info.Generation && learnInfo.Source.SpecialSource.Contains(moves[m]))
+                else if (gen == info.Generation && learnInfo.Source.SpecialSource.Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.Special, gen, Severity.Valid, V175, CheckIdentifier.Move);
 
                 if (res[m] == null || gen >= 3)

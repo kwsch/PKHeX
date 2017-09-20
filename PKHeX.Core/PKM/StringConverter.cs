@@ -1930,7 +1930,9 @@ namespace PKHeX.Core
         /// <returns></returns>
         private static string UnSanitizeString(string str, int generation, int species = -1, bool nicknamed = true)
         {
-            var s = str.Replace("\u0027", "\u2019"); // farfetch'd
+            var s = str;
+            if (generation > 6)
+                s = str.Replace("\u0027", "\u2019"); // farfetch'd
 
             if (generation == 5 || generation == 4)
             {
