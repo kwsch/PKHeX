@@ -1753,7 +1753,7 @@ namespace PKHeX.Core
                 case 5: // Korea
                     return country == 136;
                 case 6: // Taiwan
-                    return country == 128;
+                    return country == 144 || country == 128;
                 default:
                     return false;
             }
