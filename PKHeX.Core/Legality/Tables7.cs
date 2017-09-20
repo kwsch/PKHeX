@@ -316,6 +316,9 @@ namespace PKHeX.Core
 
             30016 // Poké Pelago
         };
+        internal static readonly int[] ValidMet_USUM =
+        {
+        };
 
         private static readonly int[] TMHM_SM =
         {

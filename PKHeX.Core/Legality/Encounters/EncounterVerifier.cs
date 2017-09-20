@@ -218,6 +218,8 @@ namespace PKHeX.Core
         {
             if (pkm.SM)
                 return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_SM);
+            if (pkm.USUM)
+                return VerifyEncounterEggLevelLoc(pkm, 1, Legal.ValidMet_USUM);
 
             // no other games
             return new CheckResult(Severity.Invalid, V51, CheckIdentifier.Encounter);

@@ -297,6 +297,7 @@ namespace PKHeX.Core
         public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
         public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
         public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
+        public bool USUM => Version == (int)GameVersion.US || Version == (int)GameVersion.UM;
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
         public bool Gen7 => Version >= 30 && Version <= 33;

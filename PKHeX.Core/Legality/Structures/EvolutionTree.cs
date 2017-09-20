@@ -515,7 +515,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] TradeMethods = {5, 6, 7};
         private static readonly IReadOnlyCollection<GameVersion> NoBanlist = new GameVersion[0];
-        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
+        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN, GameVersion.US, GameVersion.UM};
         internal IReadOnlyCollection<GameVersion> Banlist = NoBanlist;
 
         public bool Valid(PKM pkm, int lvl, bool skipChecks)

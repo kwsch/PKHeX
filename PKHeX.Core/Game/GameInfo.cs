@@ -456,13 +456,17 @@ namespace PKHeX.Core
 
                 case GameVersion.SN:
                 case GameVersion.MN:
+                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Outer Cape
+
+                case GameVersion.US:
+                case GameVersion.UM:
 
                 case GameVersion.GO:
                 case GameVersion.RD:
                 case GameVersion.BU:
                 case GameVersion.GN:
                 case GameVersion.YW:
-                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Secret Base
+                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Outer Cape
             }
 
             // Currently on a future game, return corresponding list for generation

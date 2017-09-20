@@ -106,6 +106,8 @@ namespace PKHeX.Core
 
                 case GameVersion.SN:
                 case GameVersion.MN:
+                case GameVersion.US:
+                case GameVersion.UM:
                     return 50; // Route 4
             }
             return -1;

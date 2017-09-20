@@ -302,6 +302,12 @@ namespace PKHeX.Core
                 AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
                 return;
             }
+            else if (pkm.USUM)
+            {
+                // TODO
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+                return;
+            }
             else if (pkm.Format <= 2 || pkm.VC)
             {
                 var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
@@ -2173,13 +2179,8 @@ namespace PKHeX.Core
             if (pkm.TID != 00002 || pkm.SID != 00000)
                 return false;
 
-            switch (pkm.Language)
-            {
-                case 1: // jp
-                    return pkm.OT_Name == "Ｎ";
-                default:
-                    return pkm.OT_Name == "N";
-            }
+            var OT = pkm.Language == 1 ? "Ｎ" : "N";
+            return OT == pkm.OT_Name;
         }
         private void VerifyVersionEvolution()
         {
@@ -2187,20 +2188,22 @@ namespace PKHeX.Core
                 return;
 
             // No point using the evolution tree. Just handle certain species.
+            bool Sun() => pkm.Version == (int)GameVersion.SN || pkm.Version == (int)GameVersion.US;
+            bool Moon() => pkm.Version == (int)GameVersion.MN || pkm.Version == (int)GameVersion.UM;
             switch (pkm.Species)
             {
                 case 745: // Lycanroc
                     if (!pkm.WasEgg)
                         break;
 
-                    if (pkm.AltForm == 0 && pkm.Version == 31 // Moon
-                        || pkm.AltForm == 1 && pkm.Version == 30) // Sun
+                    if (pkm.AltForm == 0 && Moon()
+                        || pkm.AltForm == 1 && Sun())
                         if (pkm.IsUntraded)
                             AddLine(Severity.Invalid, V328, CheckIdentifier.Evolution);
                     break;
 
                 case 791: // Solgaleo
-                    if (pkm.Version == 31 && pkm.IsUntraded)
+                    if (Moon() && pkm.IsUntraded)
                     {
                         if (EncounterMatch is MysteryGift g && g.Species == pkm.Species) // Gifted via Mystery Gift
                             break;
@@ -2208,7 +2211,7 @@ namespace PKHeX.Core
                     }
                     break;
                 case 792: // Lunala
-                    if (pkm.Version == 30 && pkm.IsUntraded)
+                    if (Sun() && pkm.IsUntraded)
                     {
                         if (EncounterMatch is MysteryGift g && g.Species == pkm.Species) // Gifted via Mystery Gift
                             break;
@@ -2217,8 +2220,6 @@ namespace PKHeX.Core
                     break;
             }
         }
-        #region VerifyMoves
-        #endregion
         public static string[] MoveStrings { internal get; set; } = Util.GetMovesList("en");
         public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList("en");
         internal static IEnumerable<string> getMoveNames(IEnumerable<int> moves) => moves.Select(m => m >= MoveStrings.Length ? V190 : MoveStrings[m]);
