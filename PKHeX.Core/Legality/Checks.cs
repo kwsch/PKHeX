@@ -2056,9 +2056,22 @@ namespace PKHeX.Core
             if (Info.Generation == 5)
                 VerifyNsPKM();
 
+            VerifyMiscFatefulEncounter();
+        }
+        private void VerifyMiscFatefulEncounter()
+        {
             switch (EncounterMatch)
             {
                 case WC3 w when w.Fateful:
+                    if (w.IsEgg)
+                    {
+                        // Eggs hatched in RS clear the obedience flag!
+                        if (pkm.Format != 3)
+                            return; // possible hatched in either game, don't bother checking
+                        if (pkm.Met_Location <= 087) // hatched in RS
+                            break; // ensure fateful is not active
+                        // else, ensure fateful is active (via below)
+                    }
                     VerifyFatefulIngameActive();
                     return;
                 case MysteryGift g when g.Format != 3: // WC3
@@ -2068,11 +2081,9 @@ namespace PKHeX.Core
                 case EncounterSlot _ when pkm.Version == 15: // ingame pokespot
                     VerifyFatefulIngameActive();
                     return;
-                default:
-                    if (pkm.FatefulEncounter)
-                        AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
-                    return;
             }
+            if (pkm.FatefulEncounter)
+                AddLine(Severity.Invalid, V325, CheckIdentifier.Fateful);
         }
         private void VerifyMiscEggCommon()
         {
