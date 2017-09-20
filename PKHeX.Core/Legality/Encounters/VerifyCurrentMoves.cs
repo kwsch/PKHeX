@@ -241,7 +241,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 2)
                 generations = generations.Where(z => z < info.EncounterMoves.LevelUpMoves.Length).ToArray();
 
-            int lastgen = generations.Last();
+            int lastgen = generations.LastOrDefault();
             foreach (var gen in generations)
             {
                 ParseMovesByGeneration(pkm, res, gen, info, moveInfo, lastgen);

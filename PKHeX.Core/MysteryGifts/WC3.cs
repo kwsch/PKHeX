@@ -20,7 +20,7 @@ namespace PKHeX.Core
         public int Language { get; set; } = -1;
         public override int Species { get; set; }
         public override bool IsEgg { get; set; }
-        public override int[] Moves { get; set; }
+        public override int[] Moves { get; set; } = new int[0];
         public bool NotDistributed { get; set; }
         public bool? Shiny { get; set; } // null = allow, false = never, true = always
         public bool Fateful { get; set; } // Obedience Flag
