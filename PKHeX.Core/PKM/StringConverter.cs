@@ -1963,5 +1963,26 @@ namespace PKHeX.Core
             int index = input.IndexOf((char)0xFFFF);
             return index < 0 ? input : input.Substring(0, index);
         }
+
+        /// <summary>
+        /// Strips diacritics on gen1-4 french pkm names
+        /// </summary>
+        /// <param name="input">String to clean</param>
+        /// <returns>Cleaned string</returns>
+        /// <remarks>Only 4 characters are accented in gen1-4</remarks>
+        public static string StripDiacriticsFR4(string input)
+        {
+            var result = new StringBuilder(input.Length);
+            foreach (var c in input)
+                result.Append(FrDiacritic.TryGetValue(c, out char o) ? o : c);
+            return result.ToString();
+        }
+        private static readonly Dictionary<char, char> FrDiacritic = new Dictionary<char, char>
+        {
+            { 'È', 'E' },
+            { 'É', 'E' },
+            { 'Ê', 'E' },
+            { 'Ï', 'I' },
+        };
     }
 }
