@@ -1931,7 +1931,7 @@ namespace PKHeX.Core
         private static string UnSanitizeString(string str, int generation, int species = -1, bool nicknamed = true)
         {
             var s = str;
-            if (generation > 6)
+            if (generation >= 6)
                 s = str.Replace("\u0027", "\u2019"); // farfetch'd
 
             if (generation == 5 || generation == 4)
@@ -1943,7 +1943,7 @@ namespace PKHeX.Core
 
             bool foreign = true;
             if ((species == 029 || species == 032) && !nicknamed)
-                foreign = str[0] != 'N';
+                foreign = str[0] != 'N'; // idoran
             else if (nicknamed)
                 foreign = str.Select(c => c >> 12).Any(c => c != 0 && c != 0xE);
 

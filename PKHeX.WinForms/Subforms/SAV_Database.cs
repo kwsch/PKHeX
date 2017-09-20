@@ -568,7 +568,13 @@ namespace PKHeX.WinForms
         {
             B_Search.Enabled = false;
             var search = SearchDatabase();
+
+            bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
+            if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Check wordfilter legality?") == DialogResult.No)
+                Legal.CheckWordFilter = false;
             var results = await Task.Run(() => search.ToArray());
+            Legal.CheckWordFilter = true;
+
             if (results.Length == 0)
             {
                 if (!Menu_SearchBoxes.Checked && !Menu_SearchDatabase.Checked)
