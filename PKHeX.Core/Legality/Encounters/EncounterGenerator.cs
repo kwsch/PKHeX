@@ -325,9 +325,13 @@ namespace PKHeX.Core
         {
             var catch_rate = pk1.Catch_Rate;
             // Pure gen 1, trades can be filter by catch rate
-            if ((pk1.Species == 25 || pk1.Species == 26) && catch_rate == 190)
-                // Red Blue Pikachu, is not a static encounter
-                return false;
+            if (pk1.Species == 25 || pk1.Species == 26)
+            {
+                if (catch_rate == 190) // Red Blue Pikachu, is not a static encounter
+                    return false;
+                if (catch_rate == 163 && e.Level == 5) // Light Ball (Yellow) starter
+                    return true;
+            }
 
             if (e.Version == GameVersion.Stadium)
             {
