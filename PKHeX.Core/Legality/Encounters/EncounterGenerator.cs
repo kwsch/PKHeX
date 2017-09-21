@@ -281,7 +281,7 @@ namespace PKHeX.Core
             // if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm))
             { yield return z; ++ctr; }
-            if (ctr != 0 && pkm.HasOriginalMetLocation) yield break; // EncounterTrade abra/gengar will match wild slots
+            if (ctr != 0 && pkm.HasOriginalMetLocation && pkm.TID != 1000) yield break; // EncounterTrade abra/gengar will match wild slots
             foreach (var z in GetValidEncounterTrades(pkm))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
@@ -928,8 +928,20 @@ namespace PKHeX.Core
                 if (z.IVs[i] != -1 && z.IVs[i] != pkm.IVs[i])
                     return false;
 
-            if (z.Shiny ^ pkm.IsShiny) // Are PIDs static?
-                return false;
+            if (z is EncounterTradePID p)
+            {
+                if (p.PID != pkm.EncryptionConstant)
+                    return false;
+            }
+            else
+            {
+                if (z.Shiny ^ pkm.IsShiny)
+                    return false;
+                if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
+                    return false;
+                if (z.Gender != -1 && z.Gender != pkm.Gender)
+                    return false;
+            }
             if (z.TID != pkm.TID)
                 return false;
             if (z.SID != pkm.SID)
@@ -950,11 +962,12 @@ namespace PKHeX.Core
             else if (z.Level > lvl)
                 return false;
 
-            if (z.Nature != Nature.Random && (int)z.Nature != pkm.Nature)
+            if (z.CurrentLevel != -1 && z.CurrentLevel > pkm.CurrentLevel)
                 return false;
-            if (z.Gender != -1 && z.Gender != pkm.Gender)
-                return false;
+
             if (z.OTGender != -1 && z.OTGender != pkm.OT_Gender)
+                return false;
+            if (z.Egg_Location != pkm.Egg_Location)
                 return false;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability 
             //    countinue;

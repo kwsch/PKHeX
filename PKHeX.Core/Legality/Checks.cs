@@ -308,6 +308,26 @@ namespace PKHeX.Core
                 AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
                 return;
             }
+            else if (pkm.Gen4)
+            {
+                if (pkm.TID != 1000)
+                    return; // only care about Ranch atm
+
+                string[] OTs = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
+                int lang = pkm.Language;
+                if (OTs.Length <= lang)
+                {
+                    AddLine(Severity.Valid, V8, CheckIdentifier.Trainer);
+                    return;
+                }
+                if (pkm.IsNicknamed)
+                    AddLine(Severity.Valid, V9, CheckIdentifier.Nickname);
+                else if (OTs[lang] != pkm.OT_Name)
+                    AddLine(Severity.Valid, V10, CheckIdentifier.Trainer);
+                else
+                    AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+                return;
+            }
             else if (pkm.Format <= 2 || pkm.VC)
             {
                 var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
@@ -2085,6 +2105,7 @@ namespace PKHeX.Core
                     return;
                 case EncounterStatic s when s.Fateful: // ingame fateful
                 case EncounterSlot _ when pkm.Version == 15: // ingame pokespot
+                case EncounterTrade t when t.Fateful:
                     VerifyFatefulIngameActive();
                     return;
             }

@@ -894,13 +894,38 @@ namespace PKHeX.Core
             Encounter_HGSS_Regular).ToArray();
         #endregion
         #region Trade Tables
-        internal static readonly EncounterTrade[] TradeGift_DPPt =
+        private static readonly EncounterTrade[] RanchGifts =
+        {
+            new EncounterTradePID { Species = 025, Level = 18, Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, Version = GameVersion.D, Location = 0068, Gender = 0, PID = 323975838, CurrentLevel = 20, }, // Pikachu
+            new EncounterTradePID { Species = 037, Level = 16, Moves = new[] {412,109,053,219}, TID = 1000, SID = 21150, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 0, PID = 323977664, CurrentLevel = 30, }, // Vulpix
+            new EncounterTradePID { Species = 077, Level = 13, Moves = new[] {036,033,039,052}, TID = 1000, SID = 01123, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 0, PID = 323975579, CurrentLevel = 16, }, // Ponyta
+            new EncounterTradePID { Species = 108, Level = 34, Moves = new[] {076,111,014,205}, TID = 1000, SID = 03050, OTGender = 1, Version = GameVersion.D, Location = 0077, Gender = 0, PID = 323975564, CurrentLevel = 40, }, // Lickitung
+            new EncounterTradePID { Species = 114, Level = 01, Moves = new[] {437,438,079,246}, TID = 1000, SID = 49497, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 1, PID = 323977579, }, // Tangela
+            new EncounterTradePID { Species = 133, Level = 16, Moves = new[] {363,270,098,247}, TID = 1000, SID = 47710, OTGender = 1, Version = GameVersion.D, Location = 0068, Gender = 0, PID = 323977675, CurrentLevel = 30, }, // Eevee
+            new EncounterTradePID { Species = 142, Level = 20, Moves = new[] {363,089,444,332}, TID = 1000, SID = 43066, OTGender = 1, Version = GameVersion.D, Location = 0094, Gender = 0, PID = 323977588, CurrentLevel = 50, }, // Aerodactyl
+            new EncounterTrade    { Species = 151, Level = 50, Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 2, Fateful = true, Ball = 0x10, }, // Mew
+            new EncounterTradePID { Species = 193, Level = 22, Moves = new[] {318,095,246,138}, TID = 1000, SID = 42301, OTGender = 1, Version = GameVersion.D, Location = 0052, Gender = 0, PID = 232975554, CurrentLevel = 45, Ball = 0x05, }, // Yanma
+            new EncounterTradePID { Species = 241, Level = 16, Moves = new[] {208,215,360,359}, TID = 1000, SID = 02707, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 1, PID = 323975570, CurrentLevel = 48, }, // Miltank
+            new EncounterTradePID { Species = 285, Level = 22, Moves = new[] {402,147,206,078}, TID = 1000, SID = 02788, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 0, PID = 323975563, CurrentLevel = 45, Ball = 0x05, }, // Shroomish
+            new EncounterTradePID { Species = 320, Level = 30, Moves = new[] {156,323,133,058}, TID = 1000, SID = 27046, OTGender = 1, Version = GameVersion.D, Location = 0038, Gender = 0, PID = 323975559, CurrentLevel = 45, }, // Wailmer
+            new EncounterTradePID { Species = 360, Level = 01, Moves = new[] {204,150,227,000}, TID = 1000, SID = 01788, OTGender = 1, Version = GameVersion.D, Location = 0004, Gender = 0, PID = 323977657, Egg_Location = 2000, }, // Wynaut
+            new EncounterTradePID { Species = 397, Level = 02, Moves = new[] {355,017,283,018}, TID = 1000, SID = 59298, OTGender = 1, Version = GameVersion.D, Location = 0016, Gender = 0, PID = 323975563, CurrentLevel = 23, }, // Staravia
+            new EncounterTradePID { Species = 415, Level = 05, Moves = new[] {230,016,000,000}, TID = 1000, SID = 54140, OTGender = 1, Version = GameVersion.D, Location = 0020, Gender = 1, PID = 323970584, CurrentLevel = 20, }, // Combee
+            new EncounterTradePID { Species = 417, Level = 09, Moves = new[] {447,045,351,098}, TID = 1000, SID = 18830, OTGender = 1, Version = GameVersion.D, Location = 0020, Gender = 1, PID = 323977539, CurrentLevel = 10, }, // Pachirisu
+            new EncounterTradePID { Species = 422, Level = 20, Moves = new[] {363,352,426,104}, TID = 1000, SID = 39272, OTGender = 1, Version = GameVersion.D, Location = 0028, Gender = 0, PID = 323974107, CurrentLevel = 25, }, // Shellos
+            new EncounterTradePID { Species = 427, Level = 10, Moves = new[] {204,193,409,098}, TID = 1000, SID = 31045, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 1, PID = 323977566, CurrentLevel = 16, }, // Buneary
+            new EncounterTradePID { Species = 453, Level = 22, Moves = new[] {310,207,426,389}, TID = 1000, SID = 41342, OTGender = 1, Version = GameVersion.D, Location = 0052, Gender = 0, PID = 323975579, CurrentLevel = 31, Ball = 0x05, }, // Croagunk
+            new EncounterTradePID { Species = 456, Level = 15, Moves = new[] {213,352,219,392}, TID = 1000, SID = 48348, OTGender = 1, Version = GameVersion.D, Location = 0020, Gender = 1, PID = 323977566, CurrentLevel = 35, }, // Finneon
+            new EncounterTradePID { Species = 459, Level = 32, Moves = new[] {452,420,275,059}, TID = 1000, SID = 23360, OTGender = 1, Version = GameVersion.D, Location = 0031, Gender = 0, PID = 323975582, CurrentLevel = 41, }, // Snover
+            new EncounterTrade    { Species = 489, Level = 01, Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Version = GameVersion.D, Location = 3000, Gender = 2, Fateful = true, CurrentLevel = 50, Ball = 0x10, Egg_Location = 3000, }, // Phione
+        };
+        internal static readonly EncounterTrade[] TradeGift_DPPt = new[]
         {
             new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25}, Nature = Nature.Quiet,}, // Abra
             new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
             new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter
             new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15}, Nature = Nature.Mild}, // Magikarp
-        };
+        }.Concat(RanchGifts).ToArray();
         internal static readonly EncounterTrade[] TradeGift_HGSS =
         {
             new EncounterTrade { Species = 095, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15}, Nature = Nature.Hasty,}, // Onix

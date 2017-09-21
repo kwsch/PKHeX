@@ -22,10 +22,13 @@
         public int Gender { get; set; } = -1;
         public int OTGender { get; set; } = -1;
         public bool EggEncounter => false;
+        public int Egg_Location { get; set; }
         public bool EvolveOnTrade { get; set; }
         public int Ball { get; set; } = 4;
+        public int CurrentLevel { get; set; } = -1;
 
         public string Name => "In-game Trade";
+        public bool Fateful { get; set; }
 
         public static readonly int[] DefaultMetLocation = 
         {
