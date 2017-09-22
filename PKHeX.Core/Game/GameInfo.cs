@@ -240,6 +240,7 @@ namespace PKHeX.Core
                 metSM_30000[0] += $" ({NPC})";      // Anything from an NPC
                 metSM_30000[1] += $" ({eggname})";  // Egg From Link Trade
                 for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
+                    if (i != 3) // except 30004, which is used for VC2
                     metSM_30000[i] += " (-)";
             }
 
@@ -466,6 +467,10 @@ namespace PKHeX.Core
                 case GameVersion.BU:
                 case GameVersion.GN:
                 case GameVersion.YW:
+
+                case GameVersion.GD:
+                case GameVersion.SV:
+                case GameVersion.C:
                     return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Outer Cape
             }
 
