@@ -891,6 +891,7 @@ namespace PKHeX.WinForms.Controls
             WindowTranslationRequired |= ToggleViewBox(SAV);
             WindowTranslationRequired |= ToggleViewParty(SAV, BoxTab);
             WindowTranslationRequired |= ToggleViewDaycare(SAV, BoxTab, PartyTab);
+            SetPKMBoxes();   // Reload all of the PKX Windows
 
             ToggleViewMisc(SAV);
 
@@ -923,7 +924,6 @@ namespace PKHeX.WinForms.Controls
             int startBox = !sav.Exportable ? 0 : sav.CurrentBox; // FF if BattleBox
             if (startBox > sav.BoxCount - 1) { tabBoxMulti.SelectedIndex = 1; Box.CurrentBox = 0; }
             else { tabBoxMulti.SelectedIndex = 0; Box.CurrentBox = startBox; }
-            SetPKMBoxes();   // Reload all of the PKX Windows
 
             if (tabBoxMulti.TabPages.Contains(Tab_Box))
                 return false;
