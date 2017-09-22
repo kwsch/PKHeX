@@ -666,7 +666,7 @@ namespace PKHeX.Core
                         int index = PersonalTable.C.GetFormeIndex(species, 0);
                         if (index == 0)
                             return new int[0];
-                        LevelUpMoves = LevelTable[species].GetEncounterMoves(2, lvl);
+                        LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl, 4);
                         diff = 4 - LevelUpMoves.Length;
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
