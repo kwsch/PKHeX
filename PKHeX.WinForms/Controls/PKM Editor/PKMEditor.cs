@@ -467,14 +467,16 @@ namespace PKHeX.WinForms.Controls
         private void UpdateStats()
         {
             // Generate the stats.
-            pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
-
-            Stat_HP.Text = pkm.Stat_HPCurrent.ToString();
-            Stat_ATK.Text = pkm.Stat_ATK.ToString();
-            Stat_DEF.Text = pkm.Stat_DEF.ToString();
-            Stat_SPA.Text = pkm.Stat_SPA.ToString();
-            Stat_SPD.Text = pkm.Stat_SPD.ToString();
-            Stat_SPE.Text = pkm.Stat_SPE.ToString();
+            if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
+            {
+                pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
+                Stat_HP.Text = pkm.Stat_HPCurrent.ToString();
+                Stat_ATK.Text = pkm.Stat_ATK.ToString();
+                Stat_DEF.Text = pkm.Stat_DEF.ToString();
+                Stat_SPA.Text = pkm.Stat_SPA.ToString();
+                Stat_SPD.Text = pkm.Stat_SPD.ToString();
+                Stat_SPE.Text = pkm.Stat_SPE.ToString();
+            }
 
             // Recolor the Stat Labels based on boosted stats.
             {
@@ -1078,12 +1080,11 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateHackedStats(object sender, EventArgs e)
         {
-            Stat_HP.Enabled =
-                Stat_ATK.Enabled =
-                    Stat_DEF.Enabled =
-                        Stat_SPA.Enabled =
-                            Stat_SPD.Enabled =
-                                Stat_SPE.Enabled = CHK_HackedStats.Checked;
+            var stats = new[] {Stat_HP, Stat_ATK, Stat_DEF, Stat_SPA, Stat_SPD, Stat_SPE};
+            foreach (var s in stats)
+                s.Enabled = CHK_HackedStats.Enabled;
+            if (!CHK_HackedStats.Checked)
+                UpdateStats();
         }
         private void UpdateHackedStatText(object sender, EventArgs e)
         {
