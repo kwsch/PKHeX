@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/09/05 - New Update:
+17/09/22 - New Update:
+ - Added: Gen2 G/S Korean Save File/PKM editing support.
+ - Added: Gen2 transporter code for pk2->pk7 (hypothetical).
+ - Changed: Gen1 Shininess correlation changed to match the updated (correct) IV relationship.
+ - Legality:
+ - - Added: Gen2->Gen7 VC legality checking (hypothetical).
+ - - Added: Word Filter legality (badwords)
+ - - Added: Gen3 PCNYa/b/c/d PIDIV method recognition. Thanks Sabresite! (gen3=complete!)
+ - - Added: Gen4 Pokémon Ranch Trade recognition (no PIDIV detection for Mew/Phione yet).
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Fixed: Emerald Flyto locations no longer clear.
+ - Fixed: Gen3 Japanese save files no longer recognize incorrectly as International after editing trainer info.
+
+17/09/05 - New Update: (20961) [697827]
  - Legality:
  - - Added: Gen5 PID/TID/SID correlation check for wild encounters.
  - - Changed: Another round of legality check updates. Thanks (so many different users)!
