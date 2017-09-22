@@ -420,6 +420,7 @@ namespace PKHeX.Core
                 Gender = Gender,
                 OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
+                AltForm = AltForm,
 
                 Country = PKMConverter.Country,
                 Region = PKMConverter.Region,
