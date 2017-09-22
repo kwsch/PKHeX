@@ -837,7 +837,7 @@ namespace PKHeX.WinForms
         private static bool SanityCheckSAV(ref SaveFile sav)
         {
             // Finish setting up the save file.
-            if (sav.Generation == 1)
+            if (sav.Generation < 3)
             {
                 // Ask the user if it is a VC save file or if it is from a physical cartridge.
                 // Necessary for legality checking possibilities that are only obtainable on GSC (non VC) or event distributions.
