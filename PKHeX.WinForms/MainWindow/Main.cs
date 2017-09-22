@@ -775,7 +775,7 @@ namespace PKHeX.WinForms
             C_SAV.SAV = sav;
 
             // Initialize Overall Info
-            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = C_SAV.SAV.HasBox;
+            Menu_LoadBoxes.Enabled = Menu_DumpBoxes.Enabled = Menu_DumpBox.Enabled = Menu_Report.Enabled = Menu_Modify.Enabled = C_SAV.SAV.HasBox;
 
             // Initialize Subviews
             bool WindowTranslationRequired = false;
