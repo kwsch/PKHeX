@@ -365,7 +365,7 @@ namespace PKHeX.Core
         {
             29, // Nidoran♀
             32, // Nidoran♂
-            314, // Volbeat
+            313, // Volbeat
             314, // Illumise
         };
         internal static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>

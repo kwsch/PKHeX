@@ -127,7 +127,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon7 s7)
             {
-                bool inhabited7 = 3 <= gen && gen <= 7 || gen == 1;
+                bool inhabited7 = gen <= 7;
                 var iterate = inhabited7 ? GetInvalidRibbons7Any(pkm, s7) : GetInvalidRibbonsNone(s7.RibbonBits(), s7.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
