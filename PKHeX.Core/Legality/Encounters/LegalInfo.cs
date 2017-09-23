@@ -51,9 +51,12 @@ namespace PKHeX.Core
         /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, at which time it is false.</remarks>
         public bool PIDIVMatches { get; set; } = true;
 
+        public readonly bool Korean;
+
         public LegalInfo(PKM pk)
         {
             pkm = pk;
+            Korean = pk.Korean;
 
             // Store repeatedly accessed values
             Game = (GameVersion)pkm.Version;

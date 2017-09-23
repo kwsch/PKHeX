@@ -151,7 +151,7 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = new int[0];
             int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            IEnumerable<GameVersion> games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info, pkm.Korean);
+            IEnumerable<GameVersion> games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
             foreach (GameVersion ver in games)
             {
                 var VerInitialMoves = Legal.GetInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();

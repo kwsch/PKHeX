@@ -154,18 +154,30 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, xorPID ? V215 : V216, CheckIdentifier.EC);
         }
         #region verifyLanguage
-        private bool verifyLanguage()
+        private bool VerifyLanguage()
         {
             int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
+
+            // Language ID 6 is unused; flag if an impossible language is used
             if (pkm.Language == 6 || pkm.Language > maxLanguageID)
             {
                 AddLine(Severity.Invalid, string.Format(V5, "<=" + maxLanguageID, pkm.Language), CheckIdentifier.Language);
                 return false;
             }
-            if(pkm.Format == 4 && pkm.Gen4 && (pkm.Language == 8) != (Legal.SavegameLanguage == 8))
+
+            // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
+            if (pkm.Format == 4 && pkm.Gen4 && pkm.Language == 8 != (Legal.SavegameLanguage == 8))
             {
-                // Korean gen 4 games can not trade with non-korean gen 4 games, but can use palpark with any gen3 game
-                AddLine(Severity.Invalid, pkm.Language == 8 ? V610 : V611, CheckIdentifier.Language);
+                var currentpkm = pkm.Language == 8 ? V611 : V612;
+                var currentsav = pkm.Language == 8 ? V612 : V611;
+                AddLine(Severity.Invalid, string.Format(V610, currentpkm, currentsav), CheckIdentifier.Language);
+                return false;
+            }
+
+            // Korean Crystal does not exist
+            if (pkm.Version == (int)GameVersion.C && pkm.Korean)
+            {
+                AddLine(Severity.Invalid, string.Format(V5, "!=" + pkm.Language, pkm.Language), CheckIdentifier.Language);
                 return false;
             }
 
@@ -200,7 +212,7 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            if (!verifyLanguage())
+            if (!VerifyLanguage())
                 return;
 
             if (Type == typeof(EncounterTrade))

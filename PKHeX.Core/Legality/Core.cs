@@ -258,7 +258,7 @@ namespace PKHeX.Core
             moves2.RemoveAll(x => !hashMoves.Contains(x) || common.Contains(x));
             return new[] { moves1, moves2 };
         }
-        private static IEnumerable<int> GetLvlMoves(int species, int form, int Generation, int minlvl, int lvl, bool korean, GameVersion Version = GameVersion.Any)
+        private static IEnumerable<int> GetLvlMoves(int species, int form, int Generation, int minlvl, int lvl, bool korean = true, GameVersion Version = GameVersion.Any)
         {
             var r = new List<int>();
             var ver = Version;
@@ -587,7 +587,7 @@ namespace PKHeX.Core
             for (int i = 0; i <= index; i++)
             {
                 var evo = evoChain[i];
-                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation, Korean: pkm.Korean);
+                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
                 // Moves from Species or any species after in the evolution phase
                 evomoves.AddRange(moves);
             }
@@ -601,7 +601,7 @@ namespace PKHeX.Core
             for (int i = 0; i < evoChain.Length; i++)
             {
                 var evo = evoChain[i];
-                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation, Korean: pkm.Korean);
+                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, Generation: Generation);
                 var list = i >= index ? preevomoves : evomoves;
                 list.AddRange(moves);
             }
@@ -609,9 +609,9 @@ namespace PKHeX.Core
         }
 
         // Encounter
-        internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info, bool Korean)
+        internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info)
         {
-            if (AllowGen2Crystal(Korean) && Info.Game == GameVersion.C)
+            if (AllowGen2Crystal(Info.Korean) && Info.Game == GameVersion.C)
                 yield return GameVersion.C;
 
             // Any encounter marked with version GSC is for pokemon with the same moves in GS and C
@@ -1655,7 +1655,7 @@ namespace PKHeX.Core
                     // In gen 3 deoxys has different forms depending on the current game, in personal info there is no alter form info
                     formcount = 4;
                 for (int i = 0; i < formcount; i++)
-                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation, pkm.Korean));
+                    r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, vs.First().Level, i, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
                 if (Relearn) r.AddRange(pkm.RelearnMoves);
                 return r.Distinct();
             }
@@ -1678,7 +1678,7 @@ namespace PKHeX.Core
                     if (evo.MinLevel > 1)
                         minlvlevo2 = Math.Min(pkm.CurrentLevel, evo.MinLevel);
                 }
-                r.AddRange(GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation, pkm.Korean));
+                r.AddRange(GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, evo.Level, pkm.AltForm, moveTutor, Version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, Generation));
             }
 
             if (pkm.Format <= 3)
@@ -1712,7 +1712,7 @@ namespace PKHeX.Core
                 r.AddRange(pkm.RelearnMoves);
             return r.Distinct();
         }
-        private static IEnumerable<int> GetMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation,bool Korean)
+        private static IEnumerable<int> GetMoves(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, bool moveTutor, GameVersion Version, bool LVL, bool specialTutors, bool Machine, bool MoveReminder, bool RemoveTransferHM, int Generation)
         {
             List<int> r = new List<int>();
 
