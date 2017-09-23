@@ -153,6 +153,25 @@ namespace PKHeX.Core
             if (!valid)
                 AddLine(Severity.Invalid, xorPID ? V215 : V216, CheckIdentifier.EC);
         }
+        #region verifyLanguage
+        private bool verifyLanguage()
+        {
+            int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
+            if (pkm.Language == 6 || pkm.Language > maxLanguageID)
+            {
+                AddLine(Severity.Invalid, string.Format(V5, "<=" + maxLanguageID, pkm.Language), CheckIdentifier.Language);
+                return false;
+            }
+            if(pkm.Format == 4 && pkm.Gen4 && (pkm.Language == 8) != (Legal.SavegameLanguage == 8))
+            {
+                // Korean gen 4 games can not trade with non-korean gen 4 games, but can use palpark with any gen3 game
+                AddLine(Severity.Invalid, pkm.Language == 8 ? V610 : V611, CheckIdentifier.Language);
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
         #region verifyNickname
         private void VerifyNickname()
         {
@@ -181,12 +200,8 @@ namespace PKHeX.Core
             if (!Encounter.Valid)
                 return;
 
-            int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
-            if (pkm.Language == 6 || pkm.Language > maxLanguageID)
-            {
-                AddLine(Severity.Indeterminate, string.Format(V5, "<=" + maxLanguageID, pkm.Language), CheckIdentifier.Language);
+            if (!verifyLanguage())
                 return;
-            }
 
             if (Type == typeof(EncounterTrade))
             {

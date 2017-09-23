@@ -710,6 +710,7 @@ namespace PKHeX.WinForms
 
         private static void StoreLegalSaveGameData(SaveFile sav)
         {
+            Legal.SavegameLanguage= sav.Language;
             Legal.SavegameJapanese = sav.Japanese;
             Legal.EReaderBerryIsEnigma = sav.IsEBerryIsEnigma;
             Legal.EReaderBerryName = sav.EBerryName;

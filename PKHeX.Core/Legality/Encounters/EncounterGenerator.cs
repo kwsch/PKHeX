@@ -162,7 +162,7 @@ namespace PKHeX.Core
                 if (WasEgg)
                 {
                     int eggspec = GetBaseEggSpecies(pkm);
-                    if (AllowGen2Crystal)
+                    if (AllowGen2Crystal(pkm))
                         yield return new GBEncounterData(eggspec, GameVersion.C); // gen2 egg
                     yield return new GBEncounterData(eggspec, GameVersion.GS); // gen2 egg
                 }

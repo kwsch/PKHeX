@@ -351,3 +351,5 @@ V606 = 크리스탈 버전 어버이 ID와 일치하는 박치기 인카운터�
 V607 = 관동 14번 도로의 낚시 인카운터입니다. 물 타일에 접근할 수 없는 지역입니다.
 V608 = 자연공원의 낚시 인카운터입니다. 물 타일에 접근할 수 없는 지역입니다.
 V609 = 2세대 사파리존의 낚시 인카운터입니다. 접근할 수 없는 지역입니다.
+V610 = Korean gen4 pokemon in non-korean savegame.
+V611 = Non-korean gen4 pokemon in korean savegame.
