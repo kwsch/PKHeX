@@ -236,16 +236,15 @@ namespace PKHeX.Core
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
         public static bool IsNicknamedAnyLanguage(int species, string nick, int generation)
         {
-            int len = SpeciesLang.Length;
+            IEnumerable<int> len;
             if (generation < 3)
-                len = 3;
+                len = new[] {1,2,8}; // check Korean for the VC case, never possible to match string outside of this case
             else if (generation < 7)
-                len = 9; // chinese (CHS/CHT) introduced in Gen7
+                len = Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
+            else
+                len = Enumerable.Range(1, SpeciesLang.Length - 1);
 
-            for (int i = 0; i < len; i++)
-                if (GetSpeciesNameGeneration(species, i, generation) == nick)
-                    return false;
-            return true;
+            return len.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
         }
 
         /// <summary>
