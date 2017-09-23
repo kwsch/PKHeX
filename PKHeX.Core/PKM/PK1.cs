@@ -31,7 +31,8 @@ namespace PKHeX.Core
 
         public override int Format => 1;
 
-        public bool Japanese => otname.Length == STRLEN_J;
+        public override bool Japanese => otname.Length == STRLEN_J;
+        public override bool Korean => false;
 
         public override string FileName => $"{Species:000} - {Nickname} - {SaveUtil.CRC16_CCITT(Encrypt()):X4}.{Extension}";
 

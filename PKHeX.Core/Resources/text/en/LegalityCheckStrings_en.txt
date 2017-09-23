@@ -351,3 +351,5 @@ V606 = Could not find a tree for Crystal headbutt encounter that matches OTID.
 V607 = Kanto Route 14 fishing encounter. Unreachable Water tiles.
 V608 = National Park fishing encounter. Unreachable Water tiles.
 V609 = Generation 2 Safari Zone fishing encounter. Unreachable zone.
+V610 = Korean gen4 pokemon in non-korean savegame.
+V611 = Non-korean gen4 pokemon in korean savegame.

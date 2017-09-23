@@ -45,7 +45,7 @@ namespace PKHeX.Core
                 UptateGen1LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen1, EncounterMatchGen.Generation, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
-                if (!Legal.AllowGen2MoveReminder && pkm.InhabitedGeneration(2))
+                if (!Legal.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
                     UptateGen2LevelUpMoves(pkm, info.EncounterMoves, info.EncounterMoves.MinimumLevelGen2, EncounterMatchGen.Generation, info);
             }
 
@@ -135,7 +135,7 @@ namespace PKHeX.Core
                 int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
                 return ParseMovesIsEggPreRelearn(pkm, Moves, SpecialMoves, egg);
             }
-            var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder;
+            var NoMoveReminder = (info.EncounterMatch as IGeneration)?.Generation == 1 || (info.EncounterMatch as IGeneration)?.Generation == 2 && !Legal.AllowGen2MoveReminder(pkm);
             if (info.Generation <= 2 && NoMoveReminder)
                 return ParseMovesGenGB(pkm, Moves, info);
             if (info.EncounterMatch is EncounterEgg e)
@@ -151,7 +151,7 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = new int[0];
             int[] SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            IEnumerable<GameVersion> games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info);
+            IEnumerable<GameVersion> games = (info.EncounterMatch as IGeneration)?.Generation == 1 ? Legal.GetGen1Versions(info) : Legal.GetGen2Versions(info, pkm.Korean);
             foreach (GameVersion ver in games)
             {
                 var VerInitialMoves = Legal.GetInitialMovesGBEncounter(G1Encounter.Species, G1Encounter.LevelMin, ver).ToArray();
@@ -522,7 +522,7 @@ namespace PKHeX.Core
             if (134 <= pkm.Species && pkm.Species <= 136)
             {
                 previousspecies = species[133];
-                var ExclusiveMoves = Legal.GetExclusiveMoves(133, pkm.Species, 1, tmhm, moves);
+                var ExclusiveMoves = Legal.GetExclusiveMoves(133, pkm.Species, 1, tmhm, moves, pkm.Korean);
                 var EeveeLevels = Legal.GetMinLevelLearnMove(133, 1, ExclusiveMoves[0]);
                 var EvoLevels = Legal.GetMaxLevelLearnMove(pkm.Species, 1, ExclusiveMoves[1]);
 

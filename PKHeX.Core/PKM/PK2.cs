@@ -21,7 +21,7 @@ namespace PKHeX.Core
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
-        public bool Korean => otname[0] <= 0xB;
+        public override bool Korean => otname[0] <= 0xB;
 
         public override string GetString(int Offset, int Count)
         {
@@ -43,7 +43,7 @@ namespace PKHeX.Core
 
         public override int Format => 2;
 
-        public bool Japanese => otname.Length == STRLEN_J;
+        public override bool Japanese => otname.Length == STRLEN_J;
         public override string FileName
         {
             get
