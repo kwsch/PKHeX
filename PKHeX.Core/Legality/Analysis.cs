@@ -219,6 +219,7 @@ namespace PKHeX.Core
             if (pkm.Format == 2 || pkm.VC2)
             {
                 // check for impossible tradeback scenarios
+                // Korean gen2 games can't tradeback because there is no gen1 korean games released
                 if (pkm.Korean || pkm.IsEgg || pkm.HasOriginalMetLocation || pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species))
                     pkm.TradebackStatus = TradebackType.Gen2_NotTradeback;
                 else

@@ -164,6 +164,7 @@ namespace PKHeX.Core
             }
             if(pkm.Format == 4 && pkm.Gen4 && (pkm.Language == 8) != (Legal.SavegameLanguage == 8))
             {
+                // Korean gen 4 games can not trade with non-korean gen 4 games, but can use palpark with any gen3 game
                 AddLine(Severity.Invalid, pkm.Language == 8 ? V610 : V611, CheckIdentifier.Language);
                 return false;
             }
