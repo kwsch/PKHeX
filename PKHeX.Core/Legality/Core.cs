@@ -1530,8 +1530,16 @@ namespace PKHeX.Core
                     GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= GetMinLevelGeneration(pkm, gen)).ToArray();
 
                 if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
+                {
                     // Remove generation 2 pre-evolutions
                     GensEvoChains[gen] = GensEvoChains[gen].Take(GensEvoChains[gen].Length - 1).ToArray();
+                    if (pkm.VC1)
+                    {
+                        // Remove generation 2 pre-evolutions from gen 7 and future generations
+                        for ( int fgen = 7; fgen <= maxgen; fgen++)
+                            GensEvoChains[fgen] = GensEvoChains[fgen].Take(GensEvoChains[fgen].Length - 1).ToArray();
+                    }
+                }
             }
             return GensEvoChains;
         }
