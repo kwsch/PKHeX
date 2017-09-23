@@ -743,7 +743,7 @@ namespace PKHeX.WinForms
             if (sav == null || sav.Version == GameVersion.Invalid)
             { WinFormsUtil.Error("Invalid save file loaded. Aborting.", path); return; }
 
-            if (!SanityCheckSAV(ref sav))
+            if (!SanityCheckSAV(ref sav, path))
                 return;
             StoreLegalSaveGameData(sav);
             PKMUtil.Initialize(sav); // refresh sprite generator
@@ -834,19 +834,14 @@ namespace PKHeX.WinForms
                 "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             return false;
         }
-        private static bool SanityCheckSAV(ref SaveFile sav)
+        private static bool SanityCheckSAV(ref SaveFile sav, string path)
         {
             // Finish setting up the save file.
             if (sav.Generation < 3)
             {
-                // Ask the user if it is a VC save file or if it is from a physical cartridge.
-                // Necessary for legality checking possibilities that are only obtainable on GSC (non VC) or event distributions.
-                var drVC = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
-                    $"{sav.Version} Save File detected. Is this a Virtual Console Save File?",
-                    "Yes: Virtual Console" + Environment.NewLine + "No: Physical Cartridge");
-                if (drVC == DialogResult.Cancel)
-                    return false;
-                Legal.AllowGBCartEra = drVC == DialogResult.No; // physical cart selected
+                bool vc = path.EndsWith("dat");
+                Legal.AllowGBCartEra = !vc; // physical cart selected
+                Legal.AllowGen1Tradeback = true;
                 if (Legal.AllowGBCartEra && sav.Generation == 1)
                 {
                     var drTradeback = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel,
@@ -857,11 +852,12 @@ namespace PKHeX.WinForms
                         return false;
                     Legal.AllowGen1Tradeback = drTradeback == DialogResult.Yes;
                 }
-                else
-                    Legal.AllowGen1Tradeback = false;
             }
             else
-                Legal.AllowGBCartEra = Legal.AllowGen1Tradeback = sav.Generation == 2;
+            {
+                Legal.AllowGBCartEra = false;
+                Legal.AllowGen1Tradeback = true;
+            }
 
             if (sav.Generation == 3 && (sav.IndeterminateGame || ModifierKeys == Keys.Control))
             {

@@ -1297,6 +1297,7 @@ namespace PKHeX.WinForms.Controls
                     {
                         case GameVersion.GO: metLoc = 30012; break;
                         case GameVersion.RBY: metLoc = 30013; break;
+                        case GameVersion.GSC: metLoc = 30004; break;
                     }
                     if (metLoc != 0)
                         CB_MetLocation.SelectedValue = metLoc;

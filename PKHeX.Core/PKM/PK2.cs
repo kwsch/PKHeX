@@ -418,7 +418,6 @@ namespace PKHeX.Core
                 Move4_PP = Move4_PP,
                 Met_Location = 30004,
                 Gender = Gender,
-                OT_Name = StringConverter.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
                 AltForm = AltForm,
 
@@ -463,8 +462,11 @@ namespace PKHeX.Core
             else if (IsNicknamed)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = StringConverter.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = Korean ? Nickname 
+                    : StringConverter.GetG1ConvertedString(nick, Japanese);
             }
+            pk7.OT_Name = Korean ? OT_Name
+                : StringConverter.GetG1ConvertedString(otname, Japanese);
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
 
