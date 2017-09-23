@@ -529,6 +529,16 @@ namespace PKHeX.Core
             return (Data[Offsets.PokedexCaught + ofs] & bitval) != 0;
         }
 
+        // Misc
+        public ushort ResetKey => GetResetKey();
+        private ushort GetResetKey()
+        {
+            var val = (TID >> 8) + (TID & 0xFF) + (Money >> 8) + (Money & 0xFF);
+            var ot = Data.Skip(Offsets.Trainer1 + 2).TakeWhile((z, i) => i < 5 && z != 0x50);
+            var tr = ot.Sum(z => z);
+            return (ushort)(val + tr);
+        }
+
         public override string GetString(int Offset, int Count)
         {
             if (Korean)
