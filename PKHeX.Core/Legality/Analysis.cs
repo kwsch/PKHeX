@@ -224,16 +224,11 @@ namespace PKHeX.Core
                 else
                     pkm.TradebackStatus = TradebackType.Any;
             }
-            else if (pkm.VC1)
-            {
-                // If VC2 is ever released, we can assume it will be TradebackType.Any.
-                // Met date cannot be used definitively as the player can change their system clock.
-                pkm.TradebackStatus = TradebackType.Gen1_NotTradeback;
-            }
-            else
-            {
-                pkm.TradebackStatus = TradebackType.Any;
-            }
+
+            // VC2 is released, we can assume it will be TradebackType.Any.
+            // Met date cannot be used definitively as the player can change their system clock.
+            // Is impossible to difference between a VC1 pokemon trade to gen7 after or before VC2 release.
+            pkm.TradebackStatus = TradebackType.Any;
         }
         private void UpdateTypeInfo()
         {

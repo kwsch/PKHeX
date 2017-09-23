@@ -1459,7 +1459,7 @@ namespace PKHeX.Core
         {
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter).ToArray();
             int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
-            int mingen = pkm.Format == 2 && !pkm.Gen2_NotTradeback || pkm.Format >= 7 && pkm.GenNumber < 3 ? 1 : pkm.GenNumber;
+            int mingen = (pkm.Format == 2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
             DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
             for (int i = 0; i <= maxgen; i++)
                 GensEvoChains[i] = new DexLevel[0];
