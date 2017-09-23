@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 
-            string str = StringConverter.GetString(Raw, SAV.Generation, SAV.Japanese, bigendian, Raw.Length);
+            string str = GetString();
             TB_Text.Text = str;
             editing = false;
         }
@@ -138,7 +138,7 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             // build bytes
-            byte[] data = StringConverter.SetString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] data = SetString(TB_Text.Text);
             Array.Copy(data, Raw, Math.Min(data.Length, Raw.Length));
             for (int i = 0; i < Raw.Length; i++)
                 Bytes[i].Value = Raw[i];
@@ -152,8 +152,8 @@ namespace PKHeX.WinForms
             if (species == "") // no result
                 species = CB_Species.Text;
 
-            byte[] current = StringConverter.SetString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
-            byte[] data = StringConverter.SetString(species, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] current = SetString(TB_Text.Text);
+            byte[] data = SetString(species);
             if (data.Length <= current.Length)
             {
                 WinFormsUtil.Alert("Trash byte layer is hidden by current text.",
@@ -170,9 +170,21 @@ namespace PKHeX.WinForms
         }
         private void B_ClearTrash_Click(object sender, EventArgs e)
         {
-            byte[] current = StringConverter.SetString(TB_Text.Text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+            byte[] current = SetString(TB_Text.Text);
             for (int i = current.Length; i < Bytes.Count; i++)
                 Bytes[i].Value = 0;
+        }
+        private byte[] SetString(string text)
+        {
+            return SAV is SAV2 s && s.Korean
+                ? StringConverter.SetString2KOR(text, Raw.Length)
+                : StringConverter.SetString(text, SAV.Generation, SAV.Japanese, bigendian, Raw.Length, SAV.Language);
+        }
+        private string GetString()
+        {
+            return SAV is SAV2 s && s.Korean
+                ? StringConverter.GetString2KOR(Raw, 0, Raw.Length)
+                : StringConverter.GetString(Raw, SAV.Generation, SAV.Japanese, bigendian, Raw.Length);
         }
 
         // Helpers
