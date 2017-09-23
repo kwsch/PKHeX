@@ -1494,6 +1494,8 @@ namespace PKHeX.Core
                 }
 
                 int maxspeciesgen = GetMaxSpeciesOrigin(gen);
+                if (gen == 2 && pkm.VC1)
+                    maxspeciesgen = MaxSpeciesID_1;
 
                 // Remove future gen evolutions after a few special considerations, 
                 // it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
