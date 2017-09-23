@@ -1459,7 +1459,7 @@ namespace PKHeX.Core
         {
             var CompleteEvoChain = GetEvolutionChain(pkm, Encounter).ToArray();
             int maxgen = pkm.Format == 1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
-            int mingen = pkm.Format == 2 && !pkm.Gen2_NotTradeback || pkm.Format >= 7 && pkm.GenNumber < 3 ? 1 : pkm.GenNumber;
+            int mingen = (pkm.Format == 2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkm.GenNumber;
             DexLevel[][] GensEvoChains = new DexLevel[maxgen + 1][];
             for (int i = 0; i <= maxgen; i++)
                 GensEvoChains[i] = new DexLevel[0];
@@ -1494,6 +1494,8 @@ namespace PKHeX.Core
                 }
 
                 int maxspeciesgen = GetMaxSpeciesOrigin(gen);
+                if (gen == 2 && pkm.VC1)
+                    maxspeciesgen = MaxSpeciesID_1;
 
                 // Remove future gen evolutions after a few special considerations, 
                 // it the pokemon origin is illegal like a "gen 3" Infernape the list will be emptied, it didnt existed in gen 3 in any evolution phase
@@ -1528,8 +1530,16 @@ namespace PKHeX.Core
                     GensEvoChains[gen] = GensEvoChains[gen].Where(e => e.Level >= GetMinLevelGeneration(pkm, gen)).ToArray();
 
                 if (gen == 1 && GensEvoChains[gen].LastOrDefault()?.Species > MaxSpeciesID_1)
+                {
                     // Remove generation 2 pre-evolutions
                     GensEvoChains[gen] = GensEvoChains[gen].Take(GensEvoChains[gen].Length - 1).ToArray();
+                    if (pkm.VC1)
+                    {
+                        // Remove generation 2 pre-evolutions from gen 7 and future generations
+                        for ( int fgen = 7; fgen <= maxgen; fgen++)
+                            GensEvoChains[fgen] = GensEvoChains[fgen].Take(GensEvoChains[fgen].Length - 1).ToArray();
+                    }
+                }
             }
             return GensEvoChains;
         }
