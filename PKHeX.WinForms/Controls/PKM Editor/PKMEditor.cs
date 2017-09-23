@@ -533,7 +533,11 @@ namespace PKHeX.WinForms.Controls
 
             int newGender = PKX.GetGender(Label_Gender.Text) ^ 1;
             if (pkm.Format <= 2)
-                do { TB_ATKIV.Text = (Util.Rand32() & pkm.MaxIV).ToString(); } while (PKX.GetGender(Label_Gender.Text) != newGender);
+            {
+                do { TB_ATKIV.Text = (pkm.IV_ATK = (int)(Util.Rand32() & pkm.MaxIV)).ToString(); }
+                while (PKX.GetGender(Label_Gender.Text = gendersymbols[pkm.Gender]) != newGender);
+                SetIsShiny(null);
+            }
             else if (pkm.Format <= 4)
             {
                 if (fieldsLoaded)
@@ -1600,7 +1604,7 @@ namespace PKHeX.WinForms.Controls
                 TB_DEFIV.Text = pkm.IV_DEF.ToString();
                 TB_SPEIV.Text = pkm.IV_SPE.ToString();
                 TB_SPAIV.Text = pkm.IV_SPA.ToString();
-                changingFields = true;
+                changingFields = false;
                 UpdateIVs(null, null);
             }
 
