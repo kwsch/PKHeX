@@ -616,7 +616,7 @@ namespace PKHeX.WinForms.Controls
             switch (SAV.Generation)
             {
                 case 2:
-                    WinFormsUtil.Alert($"Reset key: {((SAV2)SAV).ResetKey:00000}"); break;
+                    WinFormsUtil.Alert($"Reset Password: {((SAV2)SAV).ResetKey:00000}"); break;
                 case 3:
                     new SAV_RTC3(SAV).ShowDialog(); break;
             }
