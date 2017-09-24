@@ -615,6 +615,8 @@ namespace PKHeX.WinForms.Controls
         {
             switch (SAV.Generation)
             {
+                case 2:
+                    WinFormsUtil.Alert($"Reset key: {((SAV2)SAV).ResetKey:00000}"); break;
                 case 3:
                     new SAV_RTC3(SAV).ShowDialog(); break;
             }
@@ -1002,7 +1004,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 B_OpenHoneyTreeEditor.Enabled = sav.DP || sav.Pt;
-                B_OpenRTCEditor.Enabled = sav.RS || sav.E;
+                B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);

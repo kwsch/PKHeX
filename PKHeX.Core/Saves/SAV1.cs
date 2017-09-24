@@ -101,7 +101,9 @@ namespace PKHeX.Core
             Array.Copy(rawDC, 1 + 2 * StringLength, TempDaycare, 2 + 1, PKX.SIZE_1STORED);
             PokemonList1 daycareList = new PokemonList1(TempDaycare, PokemonList1.CapacityType.Single, Japanese);
             daycareList.GetBytes().CopyTo(Data, GetPartyOffset(7));
-            Daycare = GetPartyOffset(7); 
+            Daycare = GetPartyOffset(7);
+
+            EventFlag = Japanese ? 0x9E9 : 0x29F3;
 
             // Enable Pokedex editing
             PokeDex = 0;
@@ -109,6 +111,10 @@ namespace PKHeX.Core
             if (!Exportable)
                 ClearBoxes();
         }
+
+        // Event Flags
+        protected override int EventFlagMax => EventFlag > 0 ? 0xA00 : int.MinValue; // 320 * 8
+        protected override int EventConstMax => 0;
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
 

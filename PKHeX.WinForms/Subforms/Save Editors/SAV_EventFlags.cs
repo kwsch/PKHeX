@@ -44,10 +44,16 @@ namespace PKHeX.WinForms
 
             Text = $"Event Flag Editor ({gamePrefix.ToUpper()})";
 
-
-            CB_Stats.SelectedIndex = 0;
+            if (CB_Stats.Items.Count > 0)
+                CB_Stats.SelectedIndex = 0;
+            else
+            {
+                L_Stats.Visible = CB_Stats.Visible = MT_Stat.Visible = false;
+                tabControl1.TabPages.Remove(GB_Constants);
+            }
             NUD_Flag.Maximum = flags.Length - 1;
             NUD_Flag.Text = "0";
+            c_CustomFlag.Checked = flags[0];
         }
 
         private readonly bool[] flags;
@@ -366,6 +372,8 @@ namespace PKHeX.WinForms
         }
         private void ChangeConstantIndex(object sender, EventArgs e)
         {
+            if (Constants.Length == 0)
+                return;
             if (constEntry > -1) // Set Entry
                 Constants[constEntry] = (ushort)Math.Min(Util.ToUInt32(MT_Stat.Text), 0xFFFF);
 
