@@ -651,10 +651,11 @@ namespace PKHeX.Core
                         if (index == 0)
                             return new int[0];
                         LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
-                        diff = 4 - LevelUpMoves.Length;
+                        diff = 4 - LevelUpMoves.Count(z => z != 0);
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
-                        InitialMoves = ver == GameVersion.YW ? ((PersonalInfoG1)PersonalTable.Y[index]).Moves : ((PersonalInfoG1)PersonalTable.RB[index]).Moves;
+                        var table = ver == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+                        InitialMoves = ((PersonalInfoG1)table[index]).Moves;
                         break;
                     }
                 case GameVersion.C:
@@ -668,12 +669,12 @@ namespace PKHeX.Core
                         int index = PersonalTable.C.GetFormeIndex(species, 0);
                         if (index == 0)
                             return new int[0];
-                        LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl, 4);
-                        diff = 4 - LevelUpMoves.Length;
+                        LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
+                        diff = 4 - LevelUpMoves.Count(z => z != 0);
                         if (diff == 0)
                             return LevelUpMoves.ToArray();
                         // Level Up 1 moves are initial moves, it can be duplicated in levels 2-100
-                        InitialMoves = LevelTable[species].GetEncounterMoves(1, 1);
+                        InitialMoves = LevelTable[species].GetEncounterMoves(1);
                         break;
                     }
                 default:
