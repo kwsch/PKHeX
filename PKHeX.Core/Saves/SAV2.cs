@@ -533,7 +533,7 @@ namespace PKHeX.Core
         public ushort ResetKey => GetResetKey();
         private ushort GetResetKey()
         {
-            var val = (TID >> 8) + (TID & 0xFF) + (Money >> 8) + (Money & 0xFF);
+            var val = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
             var ot = Data.Skip(Offsets.Trainer1 + 2).TakeWhile((z, i) => i < 5 && z != 0x50);
             var tr = ot.Sum(z => z);
             return (ushort)(val + tr);
