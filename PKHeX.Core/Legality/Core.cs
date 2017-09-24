@@ -1431,7 +1431,7 @@ namespace PKHeX.Core
             bool IsCatchRateTrade() => (pkm.Species == 098 || pkm.Species == 099) && catch_rate == 204;
             bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
         }
-        internal static void GetTradebackStatusRBY(PKM pkm)
+        internal static void SetTradebackStatusRBY(PKM pkm)
         {
             if (!AllowGen1Tradeback)
             {

@@ -212,23 +212,23 @@ namespace PKHeX.Core
         {
             if (pkm.Format == 1)
             {
-                Legal.GetTradebackStatusRBY(pkm);
+                Legal.SetTradebackStatusRBY(pkm);
                 return;
             }
 
             if (pkm.Format == 2 || pkm.VC2)
             {
-                // check for impossible tradeback scenarios
-                // Korean gen2 games can't tradeback because there is no gen1 korean games released
-                if (pkm.Korean || pkm.IsEgg || pkm.HasOriginalMetLocation || pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species))
-                    pkm.TradebackStatus = TradebackType.Gen2_NotTradeback;
-                else
-                    pkm.TradebackStatus = TradebackType.Any;
+                // Check for impossible tradeback scenarios
+                // Korean Gen2 games can't tradeback because there are no Gen1 Korean games released
+                bool g2only = pkm.Korean || pkm.IsEgg || pkm.HasOriginalMetLocation ||
+                              pkm.Species > Legal.MaxSpeciesID_1 && !Legal.FutureEvolutionsGen1.Contains(pkm.Species);
+                pkm.TradebackStatus = g2only ? TradebackType.Gen2_NotTradeback : TradebackType.Any;
+                return;
             }
 
             // VC2 is released, we can assume it will be TradebackType.Any.
-            // Met date cannot be used definitively as the player can change their system clock.
-            // Is impossible to difference between a VC1 pokemon trade to gen7 after or before VC2 release.
+            // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
+            // Met Date cannot be used definitively as the player can change their system clock.
             pkm.TradebackStatus = TradebackType.Any;
         }
         private void UpdateTypeInfo()

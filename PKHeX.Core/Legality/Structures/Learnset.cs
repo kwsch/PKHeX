@@ -44,11 +44,23 @@ namespace PKHeX.Core
             int end = Array.FindLastIndex(Levels, z => z <= level);
             if (end < 0)
                 return new int[0];
-            count = Math.Min(count, 4);
-            int start = end - count + 1;
-            if (start < 0) start = 0;
-            int[] result = new int[end - start + 1];
-            Array.Copy(Moves, start, result, 0, result.Length);
+
+            // Moves can be duplicated in the learnset.
+            // When generating the encounter, loop backwards until all moves are filled or no moves are left.
+            // Insert moves in reverse so that the first move is from the earliest position in the learnset.
+            int[] result = new int[count];
+            var list = new List<int>{Moves[end]};
+            while (end-- > 0)
+            {
+                int move = Moves[end];
+                if (list.Contains(move))
+                    continue;
+
+                list.Insert(0, move);
+                if (list.Count == count)
+                    break;
+            }
+            list.CopyTo(result);
             return result;
         }
         /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
