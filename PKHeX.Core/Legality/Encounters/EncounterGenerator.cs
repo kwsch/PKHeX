@@ -1078,7 +1078,9 @@ namespace PKHeX.Core
                 if (!GetIsMatchWC6(pkm, wc, vs))
                     continue;
 
-                if (wc.Species == pkm.Species) // best match
+                if (wc.CardID == 0525 && wc.IV_HP == 0xFE) // 3IV collision, yield the non 3IV first
+                    deferred.Add(wc);
+                else if (wc.Species == pkm.Species) // best match
                     yield return wc;
                 else
                     deferred.Add(wc);
