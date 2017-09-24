@@ -329,7 +329,7 @@ namespace PKHeX.WinForms
         private void LoadDatabase()
         {
             var dbTemp = new ConcurrentBag<PKM>();
-            var files = Directory.GetFiles(DatabasePath, "*", SearchOption.AllDirectories);
+            var files = Directory.EnumerateFiles(DatabasePath, "*", SearchOption.AllDirectories);
             Parallel.ForEach(files, file =>
             {
                 FileInfo fi = new FileInfo(file);

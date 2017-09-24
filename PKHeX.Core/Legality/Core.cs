@@ -164,7 +164,7 @@ namespace PKHeX.Core
             var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
 
             if (Directory.Exists(localDbPath))
-                foreach (var file in Directory.GetFiles(localDbPath, "*", SearchOption.AllDirectories))
+                foreach (var file in Directory.EnumerateFiles(localDbPath, "*", SearchOption.AllDirectories))
                 {
                     var fi = new FileInfo(file);
                     if (!MysteryGift.IsMysteryGift(fi.Length))

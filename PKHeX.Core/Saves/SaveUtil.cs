@@ -581,7 +581,7 @@ namespace PKHeX.Core
             try
             {
                 var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                var files = Directory.GetFiles(folderPath, "*", searchOption);
+                var files = Directory.EnumerateFiles(folderPath, "*", searchOption);
                 result = files.Where(f => IsSizeValid((int)new FileInfo(f).Length));
                 return true;
             }
@@ -1015,7 +1015,7 @@ namespace PKHeX.Core
         /// <param name="input">Encrypted byte array of savedata to decrypt.</param>
         /// <param name="XORpads">Array of possible paths to check for xorpad compatibility.</param>
         /// <returns>Returns a <see cref="SaveFile"/> if decryption was successful, else null.</returns>
-        public static SaveFile GetSAVfromXORpads(byte[] input, string[] XORpads)
+        public static SaveFile GetSAVfromXORpads(byte[] input, IEnumerable<string> XORpads)
         {
             byte[] savID = new byte[0x10];
             Array.Copy(input, 0x10, savID, 0, 0x10);

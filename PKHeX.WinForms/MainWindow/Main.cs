@@ -651,13 +651,13 @@ namespace PKHeX.WinForms
         {
             // try to get a save file via xorpad in same folder
             var folder = new DirectoryInfo(path).Parent.FullName;
-            string[] pads = Directory.GetFiles(folder);
+            var pads = Directory.EnumerateFiles(folder);
             var s = SaveUtil.GetSAVfromXORpads(input, pads);
 
             if (s == null) // failed to find xorpad in path folder
             {
                 // try again
-                pads = Directory.GetFiles(WorkingDirectory);
+                pads = Directory.EnumerateFiles(WorkingDirectory);
                 s = SaveUtil.GetSAVfromXORpads(input, pads);
             }
 

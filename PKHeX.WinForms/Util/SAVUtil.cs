@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
             int maxCount = SAV.BoxCount*SAV.BoxSlotCount;
             int ctr = startCount;
             int pastctr = 0;
-            string[] filepaths = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
+            var filepaths = Directory.EnumerateFiles(path, "*.*", SearchOption.TopDirectoryOnly);
 
             foreach (var file in filepaths)
             {
