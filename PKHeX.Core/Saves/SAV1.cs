@@ -27,7 +27,8 @@ namespace PKHeX.Core
             else Version = SaveUtil.GetIsG1SAV(Data);
             if (Version == GameVersion.Invalid)
                 return;
-            Version = Yellow ? GameVersion.Y : GameVersion.RB;
+            if (Starter != 0)
+                Version = Yellow ? GameVersion.Y : GameVersion.RB;
 
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
@@ -253,7 +254,8 @@ namespace PKHeX.Core
             set { }
         }
 
-        public bool Yellow => Data[Japanese ? 0x29B9 : 0x29C3] == 0x54; // Player Starter == Pikachu
+        public bool Yellow => Starter == 0x54; // Pikachu
+        public int Starter => Data[Japanese ? 0x29B9 : 0x29C3];
         public byte PikaFriendship
         {
             get => Data[Japanese ? 0x2712 : 0x271C];
