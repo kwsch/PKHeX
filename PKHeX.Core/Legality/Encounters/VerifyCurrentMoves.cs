@@ -304,7 +304,7 @@ namespace PKHeX.Core
                 if (move == 0)
                     continue;
 
-                if (gen == 1 && learnInfo.Source.Base.Contains(move))
+                if (gen <= 2 && learnInfo.Source.Base.Contains(move))
                     res[m] = new CheckMoveResult(MoveSource.Initial, gen, Severity.Valid, native ? V361 : string.Format(V362, gen), CheckIdentifier.Move);
                 if (gen == 2 && !native && move > Legal.MaxMoveID_1 && pkm.VC1)
                     res[m] = new CheckMoveResult(MoveSource.Unknown, gen, Severity.Invalid, V176, CheckIdentifier.Move);
@@ -791,18 +791,34 @@ namespace PKHeX.Core
         }
         private static int[] GetGenMovesCheckOrder(PKM pkm)
         {
-            if (pkm.Format == 1)
-                return new[] { 1, 2 };
-            if (pkm.Format == 2)
-                return new[] { 2, 1 };
-            if (pkm.Format == 7 && pkm.VC1)
-                return new[] { 7, 1 };
-            if (pkm.Format == 7 && pkm.VC2)
-                return new[] { 7, 2, 1 };
+            if (pkm.Format < 3)
+                return GetGenMovesCheckOrderGB(pkm, pkm.Format);
+            if (pkm.VC)
+                return GetGenMovesOrderVC(pkm);
 
-            var order = new int[pkm.Format - pkm.GenNumber + 1];
+            return GetGenMovesOrder(pkm.Format, pkm.GenNumber);
+        }
+        private static int[] GetGenMovesOrderVC(PKM pkm)
+        {
+            // VC case: check transfer games in reverse order (8, 7..) then past games.
+            int[] xfer = GetGenMovesOrder(pkm.Format, pkm.GenNumber);
+            int[] past = GetGenMovesCheckOrderGB(pkm, pkm.GenNumber);
+            int end = xfer.Length;
+            Array.Resize(ref xfer, xfer.Length + past.Length);
+            past.CopyTo(xfer, end);
+            return xfer;
+        }
+        private static int[] GetGenMovesCheckOrderGB(PKM pkm, int originalGeneration)
+        {
+            if (originalGeneration == 2)
+                return pkm.Korean ? new[] {2} : new[] {2, 1};
+            return new[] {1, 2}; // RBY
+        }
+        private static int[] GetGenMovesOrder(int start, int end)
+        {
+            var order = new int[start - end + 1];
             for (int i = 0; i < order.Length; i++)
-                order[i] = pkm.Format - i;
+                order[i] = start - i;
             return order;
         }
     }
