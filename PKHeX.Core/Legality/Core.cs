@@ -653,7 +653,7 @@ namespace PKHeX.Core
                         LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
                         diff = 4 - LevelUpMoves.Count(z => z != 0);
                         if (diff == 0)
-                            return LevelUpMoves.ToArray();
+                            return LevelUpMoves;
                         var table = ver == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
                         InitialMoves = ((PersonalInfoG1)table[index]).Moves;
                         break;
@@ -672,7 +672,7 @@ namespace PKHeX.Core
                         LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
                         diff = 4 - LevelUpMoves.Count(z => z != 0);
                         if (diff == 0)
-                            return LevelUpMoves.ToArray();
+                            return LevelUpMoves;
                         // Level Up 1 moves are initial moves, it can be duplicated in levels 2-100
                         InitialMoves = LevelTable[species].GetEncounterMoves(1);
                         break;
@@ -681,9 +681,9 @@ namespace PKHeX.Core
                     return new int[0];
             }
             // Initial Moves could be duplicated in the level up table
-            // level up table moves have preferences
+            // level up table moves have preference
             var moves = InitialMoves.Where(p => p != 0 && !LevelUpMoves.Any(m => m == p)).ToList();
-            // If not all the personal table move cant be included the last moves have preference
+            // If all of the personal table moves can't be included, the last moves have preference.
             int pop = moves.Count - diff;
             if (pop > 0)
                 moves.RemoveRange(0, pop);

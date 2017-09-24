@@ -35,15 +35,15 @@ RibbonChampionBattle	バトルチャンプ
 RibbonChampionRegional	エリアチャンプ
 RibbonChampionNational	ナショナルチャンプ
 RibbonChampionWorld	ワールドチャンプ
-RibbonCountMemoryContest	過去のコンテストリボン
-RibbonCountMemoryBattle	過去のバトルリボン
-RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
-RibbonContestStar	Contest Star
-RibbonMasterCoolness	Coolness Master
-RibbonMasterBeauty	Beauty Master
-RibbonMasterCuteness	Cuteness Master
-RibbonMasterCleverness	Cleverness Master
-RibbonMasterToughness	Toughness Master
+RibbonCountMemoryContest	おもいでコンテスト
+RibbonCountMemoryBattle	おもいでバトル
+RibbonChampionG6Hoenn	ホウエン　チャンプ (ORAS)
+RibbonContestStar	コンテストスター
+RibbonMasterCoolness	かっこよさマスター
+RibbonMasterBeauty	うつくしさマスター
+RibbonMasterCuteness	かわいさマスター
+RibbonMasterCleverness	かしこさマスター
+RibbonMasterToughness	たくましさマスター
 RibbonG3Cool	Cool (G3)
 RibbonG3CoolSuper	Cool Super
 RibbonG3CoolHyper	Cool Hyper
@@ -97,7 +97,7 @@ RibbonCountG3Beauty	Beauty
 RibbonCountG3Cute	Cute
 RibbonCountG3Smart	Smart
 RibbonCountG3Tough	Tough
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionAlola	アローラ　チャンプ
+RibbonBattleRoyale	ロイヤルマスター
+RibbonBattleTreeGreat	グレートツリー
+RibbonBattleTreeMaster	マスターツリー
