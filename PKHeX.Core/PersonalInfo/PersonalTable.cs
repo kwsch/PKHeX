@@ -102,7 +102,7 @@ namespace PKHeX.Core
             Y[64].CatchRate = 96; // Kadabra
 
             // Load Gen2 Gender Ratios into Gen1
-            for (int i = 0; i < 151; i++)
+            for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
                 RB[i].Gender = Y[i].Gender = GS[i].Gender;
         }
         private static void PopulateGen3Tutors()

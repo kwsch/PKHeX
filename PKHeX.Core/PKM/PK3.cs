@@ -156,7 +156,7 @@ namespace PKHeX.Core
         public override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // 1/2 -> 0/1
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
-        public bool Japanese => IsEgg || Language == 1;
+        public override bool Japanese => IsEgg || Language == 1;
         public override bool WasEvent => Met_Location == 255; // Fateful
         public override bool WasIngameTrade => Met_Location == 254; // Trade
         public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
