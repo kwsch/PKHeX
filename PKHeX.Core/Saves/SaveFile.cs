@@ -236,7 +236,7 @@ namespace PKHeX.Core
 
                 bool[] Flags = new bool[EventFlagMax];
                 for (int i = 0; i < Flags.Length; i++)
-                    Flags[i] = (Data[EventFlag + (i >> 3)] >> (i & 7) & 0x1) == 1;
+                    Flags[i] = GetEventFlag(i);
                 return Flags;
             }
             set
@@ -245,13 +245,8 @@ namespace PKHeX.Core
                     return;
                 if (value.Length != EventFlagMax)
                     return;
-
-                byte[] data = new byte[value.Length>>3];
                 for (int i = 0; i < value.Length; i++)
-                    if (value[i])
-                        data[i >> 3] |= (byte)(1 << (i & 7));
-
-                data.CopyTo(Data, EventFlag);
+                    SetEventFlag(i, value[i]);
             }
         }
         /// <summary> All Event Constant values for the savegame </summary>
@@ -287,9 +282,7 @@ namespace PKHeX.Core
         {
             if (flagNumber > EventFlagMax)
                 throw new ArgumentException($"Event Flag to get ({flagNumber}) is greater than max ({EventFlagMax}).");
-            int ofs = EventFlag + (flagNumber >> 3);
-            var n = flagNumber & 7;
-            return (Data[ofs] >> n & 1) != 0;
+            return GetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7);
         }
 
         /// <summary>
@@ -302,8 +295,14 @@ namespace PKHeX.Core
         {
             if (flagNumber > EventFlagMax)
                 throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
-            int ofs = EventFlag + (flagNumber >> 3);
-            var n = flagNumber & 7;
+            SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
+        }
+        public bool GetFlag(int ofs, int n)
+        {
+            return (Data[ofs] >> n & 1) != 0;
+        }
+        public void SetFlag(int ofs, int n, bool value)
+        {
             Data[ofs] &= (byte)~(1 << (n & 7));
             Data[ofs] |= (byte)((value ? 1 : 0) << n);
         }
