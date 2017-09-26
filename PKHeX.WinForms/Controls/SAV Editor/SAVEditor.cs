@@ -513,11 +513,15 @@ namespace PKHeX.WinForms.Controls
         private void B_OpenItemPouch_Click(object sender, EventArgs e) => new SAV_Inventory(SAV).ShowDialog();
         private void B_OpenBerryField_Click(object sender, EventArgs e) => new SAV_BerryFieldXY(SAV).ShowDialog();
         private void B_OpenPokeblocks_Click(object sender, EventArgs e) => new SAV_PokeBlockORAS(SAV).ShowDialog();
-        private void B_OpenEventFlags_Click(object sender, EventArgs e) => new SAV_EventFlags(SAV).ShowDialog();
         private void B_OpenSuperTraining_Click(object sender, EventArgs e) => new SAV_SuperTrain(SAV).ShowDialog();
         private void B_OpenSecretBase_Click(object sender, EventArgs e) => new SAV_SecretBase(SAV).ShowDialog();
         private void B_OpenZygardeCells_Click(object sender, EventArgs e) => new SAV_ZygardeCell(SAV).ShowDialog();
         private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6(SAV).ShowDialog();
+        private void B_OpenEventFlags_Click(object sender, EventArgs e)
+        {
+            var form = SAV.Generation == 1 ? new SAV_EventReset1(SAV) as Form : new SAV_EventFlags(SAV);
+            form.ShowDialog();
+        }
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
             new SAV_BoxLayout(SAV, Box.CurrentBox).ShowDialog();
