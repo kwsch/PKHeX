@@ -312,7 +312,7 @@ namespace PKHeX.Core
             new MemeKey(DER_6),      // Moncolle GET QRs
             new MemeKey(DER_7),      // Unknown (7)
             new MemeKey(DER_8),      // Unknown (8)
-            new MemeKey(DER_9),      // Unknown (9)
+            new MemeKey(DER_9),      // USUM Cap Pikachu QRs
             new MemeKey(DER_A),      // Unknown (10)
             new MemeKey(DER_B),      // Unknown (11)
             new MemeKey(DER_C),      // Unknown (12)
