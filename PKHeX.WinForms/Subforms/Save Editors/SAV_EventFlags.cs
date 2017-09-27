@@ -140,7 +140,7 @@ namespace PKHeX.WinForms
                 case GameVersion.FR:
                 case GameVersion.LG:
                 case GameVersion.FRLG:
-                    gamePrefix = "e";
+                    gamePrefix = "frlg";
                     break;
                 default:
                     return null;
