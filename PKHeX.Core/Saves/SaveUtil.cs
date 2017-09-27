@@ -608,24 +608,17 @@ namespace PKHeX.Core
         /// <returns>Checksum</returns>
         public static ushort CRC16_CCITT(byte[] data, int start, int length)
         {
-            const ushort init = 0xFFFF;
-            const ushort poly = 0x1021;
-
-            ushort crc = init;
+            byte top = 0xFF;
+            byte bot = 0xFF;
             int end = start + length;
             for (int i = start; i < end; i++)
             {
-                byte b = data[i];
-                crc ^= (ushort)(b << 8);
-                for (int j = 0; j < 8; j++)
-                {
-                    bool flag = (crc & 0x8000) > 0;
-                    crc <<= 1;
-                    if (flag)
-                        crc ^= poly;
-                }
+                var x = data[i] ^ top;
+                x ^= (x >> 4);
+                top = (byte) (bot ^ (x >> 3) ^ (x << 4));
+                bot = (byte) (x ^ (x << 5));
             }
-            return crc;
+            return (ushort)(top << 8 | bot);
         }
 
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
