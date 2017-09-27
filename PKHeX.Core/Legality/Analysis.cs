@@ -367,7 +367,7 @@ namespace PKHeX.Core
             if (!pkm.WasEgg)
                 return Info.RelearnBase;
 
-            List<int> window = new List<int>(Info.RelearnBase);
+            List<int> window = new List<int>(Info.RelearnBase.Where(z => z != 0));
             window.AddRange(pkm.Moves.Where((v, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
             window = window.Distinct().ToList();
             int[] moves = new int[4];

@@ -420,7 +420,7 @@ namespace PKHeX.Core
                     if (pkm.Format == 3 && pkm.IsEgg && e.EggLocation != pkm.Met_Location)
                         continue;
                 }
-                else if (pkm.VC || e.EggLocation != 0) // Gen2 Egg
+                else if (pkm.VC || pkm.GenNumber <= 2 && e.EggLocation != 0) // Gen2 Egg
                 {
                     if (pkm.Format <= 2)
                     {
