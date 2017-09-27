@@ -788,18 +788,44 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the Main Series language ID from a GameCube (C/XD) language ID. Re-maps Spanish 6->7.
+        /// Gets the Main Series language ID from a GameCube (C/XD) language ID.
         /// </summary>
         /// <param name="value">GameCube (C/XD) language ID.</param>
         /// <returns>Main Series language ID.</returns>
-        public static byte GetMainLangIDfromGC(byte value) => value == 6 ? (byte)7 : value;
+        public static byte GetMainLangIDfromGC(byte value)
+        {
+            if (value <= 2 || value > 7)
+                return value;
+            return GCtoMainSeries[value];
+        }
+        private static readonly Dictionary<byte, byte> GCtoMainSeries = new Dictionary<byte, byte>
+        {
+            {3, 5}, // German
+            {4, 3}, // French
+            {5, 4}, // Italian
+            {6, 7}, // Spanish
+            {7, 6}, // Korean (Unused)
+        };
 
         /// <summary>
-        /// Gets the GameCube (C/XD) language ID from a Main Series language ID. Re-maps Spanish 7->6.
+        /// Gets the GameCube (C/XD) language ID from a Main Series language ID.
         /// </summary>
         /// <param name="value">Main Series language ID.</param>
         /// <returns>GameCube (C/XD) language ID.</returns>
-        public static byte GetGCLangIDfromMain(byte value) => value == 7 ? (byte)6 : value;
+        public static byte GetGCLangIDfromMain(byte value)
+        {
+            if (value <= 2 || value > 7)
+                return value;
+            return MainSeriesToGC[value];
+        }
+        private static readonly Dictionary<byte, byte> MainSeriesToGC = new Dictionary<byte, byte>
+        {
+            {5, 3}, // German
+            {3, 4}, // French
+            {4, 5}, // Italian
+            {7, 6}, // Spanish
+            {6, 7}, // Korean (Unused)
+        };
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.
