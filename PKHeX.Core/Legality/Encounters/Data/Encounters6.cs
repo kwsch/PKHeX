@@ -342,7 +342,7 @@ namespace PKHeX.Core
         {
             new EncounterLink { Species = 154, Level = 50, Ability = 4, XY = true, ORAS = true }, // Meganium
             new EncounterLink { Species = 157, Level = 50, Ability = 4, XY = true, ORAS = true }, // Typhlosion
-            new EncounterLink { Species = 160, Level = 50, Ability = 4, XY = true, ORAS = true }, // Feraligatr
+            new EncounterLink { Species = 160, Level = 50, Ability = 4, XY = true, ORAS = true, Moves = new [] {8} }, // Feraligatr with Ice Punch (not relearn)
 
             new EncounterLink { Species = 251, Level = 10, Ability = 1, RelearnMoves = new[] {610, 0, 0, 0}, Ball = 11, XY = true }, // Celebi
 

@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class EncounterLink : IEncounterable, IRibbonSetEvent4
+    public class EncounterLink : IEncounterable, IRibbonSetEvent4, IMoveset
     {
         public int Species { get; set; }
         public int Level { get; set; }
@@ -17,6 +17,8 @@
 
         public bool XY { get; set; }
         public bool ORAS { get; set; }
+
+        public int[] Moves { get; set; } = new int[0];
 
         public string Name => "Pokémon Link Gift";
 
