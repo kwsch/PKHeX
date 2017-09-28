@@ -84,6 +84,18 @@ namespace PKHeX.Core
 
             return GameVersion.Invalid;
         }
+        /// <summary>
+        /// Determines if a Gen2 Pokémon List is Invalid
+        /// </summary>
+        /// <param name="data">Save data</param>
+        /// <param name="offset">Offset the list starts at</param>
+        /// <param name="listCount">Max count of Pokémon in the list</param>
+        /// <returns>True if a valid list, False otherwise</returns>
+        private static bool IsG12ListValid(byte[] data, int offset, int listCount)
+        {
+            byte num_entries = data[offset];
+            return num_entries <= listCount && data[offset + 1 + num_entries] == 0xFF;
+        }
         /// <summary>Determines the type of 1st gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
@@ -104,26 +116,14 @@ namespace PKHeX.Core
         /// <returns>True if a valid non-japanese save, False otherwise.</returns>
         private static bool GetIsG1SAVU(byte[] data)
         {
-            foreach (int ofs in new[] { 0x2F2C, 0x30C0 })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
-                    return false;
-            }
-            return true;
+            return IsG12ListValid(data, 0x2F2C, 20) && IsG12ListValid(data, 0x30C0, 20);
         }
         /// <summary>Determines if 1st gen save is japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
         /// <returns>True if a valid japanese save, False otherwise.</returns>
         internal static bool GetIsG1SAVJ(byte[] data)
         {
-            foreach (int ofs in new[] { 0x2ED5, 0x302D })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
-                    return false;
-            }
-            return true;
+            return IsG12ListValid(data, 0x2ED5, 30) && IsG12ListValid(data, 0x302D, 30);
         }
         /// <summary>Determines the type of 2nd gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -145,66 +145,36 @@ namespace PKHeX.Core
         }
         /// <summary>Determines if 2nd gen save is non-japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
-        /// <returns>True if a valid non-japanese save, False otherwise.</returns>
+        /// <returns>True if a valid international save, False otherwise.</returns>
         private static GameVersion GetIsG2SAVU(byte[] data)
         {
-            bool gs = true;
-            bool c = true;
-            foreach (int ofs in new[] { 0x288A, 0x2D6C })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
-                    gs = false;
-            }
-            foreach (int ofs in new[] { 0x2865, 0x2D10 })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
-                    c = false;
-            }
-            if (gs)
+            if (IsG12ListValid(data, 0x288A, 30) && IsG12ListValid(data, 0x2D6C, 30))
                 return GameVersion.GS;
-            if (c)
+            if (IsG12ListValid(data, 0x2865, 30) && IsG12ListValid(data, 0x2D10, 30))
                 return GameVersion.C;
             return GameVersion.Invalid;
         }
         /// <summary>Determines if 2nd gen save is japanese</summary>
         /// <param name="data">Save data of which to determine the region</param>
-        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        /// <returns>True if a valid Japanese save, False otherwise.</returns>
         internal static GameVersion GetIsG2SAVJ(byte[] data)
         {
-            bool gs = true;
-            bool c = true;
-            foreach (int ofs in new[] { 0x283E, 0x2D10 })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
-                    gs = false;
-            }
-            foreach (int ofs in new[] { 0x281A, 0x2D10 })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 30 || data[ofs + 1 + num_entries] != 0xFF)
-                    c = false;
-            }
-            if (gs)
+            if (!IsG12ListValid(data, 0x2D10, 20))
+                return GameVersion.Invalid;
+            if (IsG12ListValid(data, 0x283E, 20))
                 return GameVersion.GS;
-            if (c)
+            if (IsG12ListValid(data, 0x281A, 20))
                 return GameVersion.C;
             return GameVersion.Invalid;
         }
         /// <summary>Determines if 2nd gen save is Korean</summary>
         /// <param name="data">Save data of which to determine the region</param>
-        /// <returns>True if a valid japanese save, False otherwise.</returns>
+        /// <returns>True if a valid Korean save, False otherwise.</returns>
         internal static GameVersion GetIsG2SAVK(byte[] data)
         {
-            foreach (int ofs in new[] { 0x28CC, 0x2DAE })
-            {
-                byte num_entries = data[ofs];
-                if (num_entries > 20 || data[ofs + 1 + num_entries] != 0xFF)
-                    return GameVersion.Invalid;
-            }
-            return GameVersion.GS;
+            if (IsG12ListValid(data, 0x2DAE, 30) && IsG12ListValid(data, 0x28CC, 30))
+                return GameVersion.GS;
+            return GameVersion.Invalid;
         }
         /// <summary>Determines the type of 3rd gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -260,18 +230,16 @@ namespace PKHeX.Core
             byte[] sav = data;
 
             // Verify first checksum
-            uint chk = 0; // initial value
+            ushort chk = 0; // initial value
             var ofs = data.Length - SIZE_G3BOX + 0x2000;
-            for (int j = 0x4; j < 0x1FFC; j += 2)
-            {
-                chk += (ushort)(sav[ofs + j] << 8);
-                chk += sav[ofs + j + 1];
-            }
-            ushort chkA = (ushort)chk;
+            for (int i = 0x4; i < 0x1FFC; i += 2)
+                chk += BigEndian.ToUInt16(sav, ofs + i);
+
+            ushort chkA = chk;
             ushort chkB = (ushort)(0xF004 - chkA);
 
-            ushort CHK_A = (ushort)((sav[ofs + 0] << 8) | sav[ofs + 1]);
-            ushort CHK_B = (ushort)((sav[ofs + 2] << 8) | sav[ofs + 3]);
+            ushort CHK_A = BigEndian.ToUInt16(sav, ofs + 0);
+            ushort CHK_B = BigEndian.ToUInt16(sav, ofs + 2);
 
             return CHK_A == chkA && CHK_B == chkB ? GameVersion.RSBOX : GameVersion.Invalid;
         }
@@ -284,12 +252,11 @@ namespace PKHeX.Core
                 return GameVersion.Invalid;
 
             // Check the intro bytes for each save slot
-            byte[] slotintroColo = {0x01, 0x01, 0x00, 0x00};
             int offset = data.Length - SIZE_G3COLO;
             for (int i = 0; i < 3; i++)
             {
-                var ident = data.Skip(0x6000 + offset + 0x1E000*i).Take(4);
-                if (!ident.SequenceEqual(slotintroColo))
+                var ofs = 0x6000 + offset + 0x1E000 * i;
+                if (BitConverter.ToUInt32(data, ofs) != 0x00000101)
                     return GameVersion.Invalid;
             }
             return GameVersion.COLO;
@@ -299,21 +266,18 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3XDSAV(byte[] data)
         {
-            if (!new[] {  SIZE_G3XD, SIZE_G3XDGCI }.Contains(data.Length))
+            if (!new[] { SIZE_G3XD, SIZE_G3XDGCI }.Contains(data.Length))
                 return GameVersion.Invalid;
 
             // Check the intro bytes for each save slot
-            byte[] slotintroXD = { 0x01, 0x01, 0x01, 0x00 };
             int offset = data.Length - SIZE_G3XD;
-            // For XD savegames inside a memory card only the first sequence is equal to slotintroXD
-            bool valid = false;
             for (int i = 0; i < 2; i++)
             {
-                var ident = data.Skip(0x6000 + offset + 0x28000 * i).Take(4);
-                if (ident.SequenceEqual(slotintroXD))
-                    valid = true;
+                var ofs = 0x6000 + offset + 0x28000 * i;
+                if ((BitConverter.ToUInt32(data, ofs) & 0xFFFE_FFFF) != 0x00000101)
+                    return GameVersion.Invalid;
             }
-            return valid ? GameVersion.XD : GameVersion.Invalid;
+            return GameVersion.XD;
         }
         /// <summary>Determines the type of 4th gen save</summary>
         /// <param name="data">Save data of which to determine the type</param>
@@ -690,46 +654,39 @@ namespace PKHeX.Core
             uint val = 0;
             for (int i = 0; i < data.Length; i += 4)
                 val += BitConverter.ToUInt32(data, i);
-            return (ushort)((val & 0xFFFF) + (val >> 16));
+            return (ushort)(val + (val >> 16));
         }
         private static void CheckHeaderFooter(ref byte[] input, ref byte[] header, ref byte[] footer)
         {
             if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
             {
-                bool dsv = FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length));
-                if (dsv)
-                {
-                    footer = input.Skip(SIZE_G4RAW).ToArray();
-                    input = input.Take(SIZE_G4RAW).ToArray();
-                }
+                if (!FOOTER_DSV.SequenceEqual(input.Skip(input.Length - FOOTER_DSV.Length)))
+                    return;
+                footer = input.Skip(SIZE_G4RAW).ToArray();
+                input = input.Take(SIZE_G4RAW).ToArray();
             }
-            if (input.Length == SIZE_G3BOXGCI)
+            else if (input.Length == SIZE_G3BOXGCI)
             {
-                string game = Encoding.ASCII.GetString(input, 0, 4);
-                if (HEADER_RSBOX.Any(id => id == game)) // gci
-                {
-                    header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
-                    input = input.Skip(header.Length).ToArray();
-                }
+                if (!IsGameMatchHeader(HEADER_RSBOX, input))
+                    return; // not gci
+                header = input.Take(SIZE_G3BOXGCI - SIZE_G3BOX).ToArray();
+                input = input.Skip(header.Length).ToArray();
             }
-            if (input.Length == SIZE_G3COLOGCI)
+            else if (input.Length == SIZE_G3COLOGCI)
             {
-                string game = Encoding.ASCII.GetString(input, 0, 4);
-                if (HEADER_COLO.Any(id => id == game)) // gci
-                {
-                    header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
-                    input = input.Skip(header.Length).ToArray();
-                }
+                if (!IsGameMatchHeader(HEADER_COLO, input))
+                    return; // not gci
+                header = input.Take(SIZE_G3COLOGCI - SIZE_G3COLO).ToArray();
+                input = input.Skip(header.Length).ToArray();
             }
-            if (input.Length == SIZE_G3XDGCI)
+            else if (input.Length == SIZE_G3XDGCI)
             {
-                string game = Encoding.ASCII.GetString(input, 0, 4);
-                if (HEADER_XD.Any(id => id == game)) // gci
-                {
-                    header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
-                    input = input.Skip(header.Length).ToArray();
-                }
+                if (!IsGameMatchHeader(HEADER_XD, input))
+                    return; // not gci
+                header = input.Take(SIZE_G3XDGCI - SIZE_G3XD).ToArray();
+                input = input.Skip(header.Length).ToArray();
             }
+            bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
         }
 
         public static int GetDexFormIndexBW(int species, int formct)
