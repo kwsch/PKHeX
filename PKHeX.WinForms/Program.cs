@@ -108,12 +108,13 @@ namespace PKHeX.WinForms
                 // Todo: make this translatable
                 ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
             }
-            catch
+            catch (Exception reportingException)
             {
                 try
                 {
                     // Todo: make this translatable
-                    MessageBox.Show("A fatal error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show("A fatal error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    EmergencyErrorLog(t.Exception, reportingException);
                 }
                 finally
                 {
@@ -132,24 +133,53 @@ namespace PKHeX.WinForms
         // log the event, and inform the user about it. 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            var ex = e.ExceptionObject as Exception;
             try
             {
-                var ex = (Exception)e.ExceptionObject;
-                // Todo: make this translatable
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
+                if (ex != null)
+                {
+                    // Todo: make this translatable
+                    ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
+                }
+                else
+                {
+                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                }
             }
-            catch
+            catch (Exception reportingException)
             {
                 try
                 {
                     // Todo: make this translatable
-                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    EmergencyErrorLog(ex, reportingException);
                 }
                 finally
                 {
                     Application.Exit();
                 }
             }
+        }
+
+        /// <summary>
+        /// Attempt to log exceptions to a file when there's an error displaying exception details.
+        /// </summary>
+        /// <param name="originalException"></param>
+        /// <param name="errorHandlingException"></param>
+        private static bool EmergencyErrorLog(Exception originalException, Exception errorHandlingException)
+        {
+            try
+            {
+                // Not using a string builder because something's very wrong, and we don't want to make things worse
+                var message = (originalException?.ToString() ?? "null first exception") + "\n\n" + errorHandlingException.ToString();
+                File.WriteAllText("PKHeX_Error_Report " + DateTime.Now.ToString("YYYYMMDDhhmmss") + ".txt", message);
+            }
+            catch (Exception)
+            {
+                // We've failed to save the error details twice now. There's nothing else we can do.
+                return false;
+            }
+            return true;
         }
     }
 }
