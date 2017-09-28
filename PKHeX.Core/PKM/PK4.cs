@@ -432,6 +432,7 @@ namespace PKHeX.Core
             pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Array.IndexOf(Legal.CrownBeasts, pk5.Species) >= 0
                 ? (pk5.Species == 251 ? 30010 : 30012) // Celebi : Beast
                 : 30001; // Pokétransfer (not Crown)
+            pk5.Egg_Location = Egg_Location;
             
             // Delete HGSS Data
             BitConverter.GetBytes((ushort)0).CopyTo(pk5.Data, 0x86);
