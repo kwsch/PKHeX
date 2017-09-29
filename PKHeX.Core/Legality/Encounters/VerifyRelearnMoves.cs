@@ -93,7 +93,7 @@ namespace PKHeX.Core
             int baseCt = Math.Min(4, baseMoves.Length);
 
             // Obtain Inherited moves
-            var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, inheritLvlMoves).ToList();
+            var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, inheritLvlMoves, e.Game).ToList();
             int reqBase = GetRequiredBaseMoves(RelearnMoves, baseMoves, baseCt, inheritMoves);
 
             // Check if the required amount of Base Egg Moves are present.
@@ -104,7 +104,7 @@ namespace PKHeX.Core
                 inheritMoves.Add(344); // Volt Tackle
 
             // If any splitbreed moves are invalid, flag accordingly
-            var splitMoves = e.SplitBreed ? Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), inheritLvlMoves).ToList() : new List<int>();
+            var splitMoves = e.SplitBreed ? Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), inheritLvlMoves, e.Game).ToList() : new List<int>();
 
             // Inherited moves appear after the required base moves.
             // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.

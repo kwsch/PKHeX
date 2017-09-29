@@ -1347,21 +1347,34 @@ namespace PKHeX.Core
         {
             if (NoHatchFromEgg.Contains(pkm.Species))
                 yield break;
-            
-            int lvl = pkm.GenNumber < 4 ? 5 : 1;
-            var ver = (GameVersion) pkm.Version; // version is a true indicator for all generation 3+ origins
-            int max = GetMaxSpeciesOrigin(pkm.GenNumber);
+
+            int gen = pkm.GenNumber;
+            // version is a true indicator for all generation 3-5 origins
+            var ver = (GameVersion) pkm.Version;
+            int max = GetMaxSpeciesOrigin(gen);
 
             var baseSpecies = GetBaseSpecies(pkm, 0);
+            int lvl = gen < 4 ? 5 : 1;
             if (baseSpecies <= max)
+            {
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies };
+                if (gen > 5 && pkm.WasTradedEgg)
+                    yield return new EncounterEgg { Game = tradePair(), Level = lvl, Species = baseSpecies };
+            }
 
             if (!GetSplitBreedGeneration(pkm).Contains(pkm.Species))
                 yield break; // no other possible species
 
             baseSpecies = GetBaseSpecies(pkm, 1);
             if (baseSpecies <= max)
+            {
                 yield return new EncounterEgg { Game = ver, Level = lvl, Species = baseSpecies, SplitBreed = true };
+                if (gen > 5 && pkm.WasTradedEgg)
+                    yield return new EncounterEgg { Game = tradePair(), Level = lvl, Species = baseSpecies, SplitBreed = true };
+            }
+
+            // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
+            GameVersion tradePair() => (GameVersion) (((int) ver - 4 * gen) ^ 2 + 4 * gen);
         }
 
         // Utility

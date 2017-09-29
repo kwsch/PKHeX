@@ -419,13 +419,13 @@ namespace PKHeX.Core
                 version = GameVersion.Any;
             return GetValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
-        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, bool inheritlvlmoves)
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
             List<int> r = new List<int> { 0 };
             if (pkm.GenNumber < 6 || pkm.VC)
                 return r;
 
-            r.AddRange(GetRelearnLVLMoves(pkm, species, 1, pkm.AltForm));
+            r.AddRange(GetRelearnLVLMoves(pkm, species, 1, pkm.AltForm, version));
 
             int form = pkm.AltForm;
             if (pkm.Format == 6 && pkm.Species != 678)
@@ -433,7 +433,7 @@ namespace PKHeX.Core
 
             r.AddRange(GetEggMoves(pkm, species, form));
             if (inheritlvlmoves)
-                r.AddRange(GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm));
+                r.AddRange(GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm, version));
             return r.Distinct();
         }
         internal static List<int>[] GetShedinjaEvolveMoves(PKM pkm, int lvl = -1, int generation = 0)
@@ -1585,20 +1585,22 @@ namespace PKHeX.Core
                 d.Level = Math.Min(d.Level, maxlevel);
             return vs;
         }
-        private static IEnumerable<int> GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum)
+        private static IEnumerable<int> GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum, GameVersion version = GameVersion.Any)
         {
+            if (version == GameVersion.Any)
+                version = (GameVersion)pkm.Version;
             // A pkm can only have levelup relearn moves from the game it originated on
             // eg Plusle/Minun have Charm/Fake Tears (respectively) only in OR/AS, not X/Y
-            switch (pkm.Version)
+            switch (version)
             {
-                case (int)GameVersion.X: case (int)GameVersion.Y:
+                case GameVersion.X: case GameVersion.Y:
                     return getMoves(LevelUpXY, PersonalTable.XY);
-                case (int)GameVersion.AS: case (int)GameVersion.OR:
+                case GameVersion.AS: case GameVersion.OR:
                     return getMoves(LevelUpAO, PersonalTable.AO);
 
-                case (int)GameVersion.SN: case (int)GameVersion.MN:
+                case GameVersion.SN: case GameVersion.MN:
                     return getMoves(LevelUpSM, PersonalTable.SM);
-                case (int)GameVersion.US: case (int)GameVersion.UM:
+                case GameVersion.US: case GameVersion.UM:
                     return getMoves(LevelUpUSUM, PersonalTable.USUM);
             }
             return new int[0];
