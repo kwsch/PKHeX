@@ -171,7 +171,7 @@ namespace PKHeX.WinForms.Controls
             pk7.PID = Util.GetHexValue(TB_PID.Text);
             pk7.Nature = (byte)WinFormsUtil.GetIndex(CB_Nature);
             pk7.FatefulEncounter = CHK_Fateful.Checked;
-            pk7.Gender = PKX.GetGender(Label_Gender.Text);
+            pk7.Gender = PKX.GetGenderFromPID(Label_Gender.Text);
             pk7.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk7.EV_HP = Util.ToInt32(TB_HPEV.Text);       // EVs
             pk7.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
@@ -233,7 +233,7 @@ namespace PKHeX.WinForms.Controls
             pk7.HT_Name = TB_OTt2.Text;
 
             // 0x90-0xAF
-            pk7.HT_Gender = PKX.GetGender(Label_CTGender.Text) & 1;
+            pk7.HT_Gender = PKX.GetGenderFromPID(Label_CTGender.Text) & 1;
             // Plus more, set by MemoryAmie (already in buff)
 
             // Block D
@@ -261,7 +261,7 @@ namespace PKHeX.WinForms.Controls
 
             pk7.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk7.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk7.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk7.OT_Gender = PKX.GetGenderFromPID(Label_OTGender.Text);
             pk7.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
             pk7.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
             pk7.Country = WinFormsUtil.GetIndex(CB_Country);

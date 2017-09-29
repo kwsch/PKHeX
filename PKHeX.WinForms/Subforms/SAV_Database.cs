@@ -334,7 +334,7 @@ namespace PKHeX.WinForms
             {
                 FileInfo fi = new FileInfo(file);
                 if (!fi.Extension.Contains(".pk") || !PKX.IsPKM(fi.Length)) return;
-                var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - 0x30) & 7);
+                var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(file), file, prefer: (fi.Extension.Last() - '0') & 0xF);
                 if (pk != null)
                     dbTemp.Add(pk);
             });

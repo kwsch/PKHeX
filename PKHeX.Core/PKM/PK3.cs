@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
 
         public override bool IsNicknamed { get => PKX.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
-        public override int Gender { get => PKX.GetGender(Species, PID); set { } }
+        public override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
         public override int Ability { get { int[] abils = PersonalInfo.Abilities; return abils[AbilityBit && abils[1] != 0 ? 1 : 0]; } set { } }
@@ -280,7 +280,7 @@ namespace PKHeX.Core
             
             // Set Final Data
             pk4.Met_Level = PKX.GetLevel(pk4.Species, pk4.EXP);
-            pk4.Gender = PKX.GetGender(pk4.Species, pk4.PID);
+            pk4.Gender = PKX.GetGenderFromPID(pk4.Species, pk4.PID);
             pk4.IsNicknamed = IsNicknamed;
 
             // Unown Form

@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
         /// <returns></returns>
         public static bool DumpBoxes(this SaveFile SAV, string path, out string result, bool boxFolders = false)
         {
-            PKM[] boxdata = SAV.BoxData;
+            var boxdata = SAV.BoxData;
             if (boxdata == null)
             { result = "Invalid Box Data, unable to dump."; return false; }
 
@@ -58,7 +58,7 @@ namespace PKHeX.WinForms
         /// <returns></returns>
         public static bool DumpBox(this SaveFile SAV, string path, out string result, int currentBox)
         {
-            PKM[] boxdata = SAV.BoxData;
+            var boxdata = SAV.BoxData;
             if (boxdata == null)
             { result = "Invalid Box Data, unable to dump."; return false; }
 

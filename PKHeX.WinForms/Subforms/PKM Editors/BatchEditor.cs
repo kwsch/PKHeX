@@ -216,16 +216,16 @@ namespace PKHeX.WinForms
         }
         private void RunBatchEditSaveFile(StringInstruction[] Filters, StringInstruction[] Instructions)
         {
-            PKM[] data;
+            IList<PKM> data;
             if (SAV.HasParty && process(data = SAV.PartyData))
                 SAV.PartyData = data;
             if (SAV.HasBox && process(data = SAV.BoxData))
                 SAV.BoxData = data;
-            bool process(PKM[] d)
+            bool process(IList<PKM> d)
             {
-                SetupProgressBar(d.Length);
+                SetupProgressBar(d.Count);
                 ProcessSAV(d, Filters, Instructions);
-                return d.Length != 0;
+                return d.Count != 0;
             }
         }
 
@@ -247,17 +247,17 @@ namespace PKHeX.WinForms
         
         // Mass Editing
         private int ctr, len, err;
-        private void ProcessSAV(PKM[] data, StringInstruction[] Filters, StringInstruction[] Instructions)
+        private void ProcessSAV(IList<PKM> data, StringInstruction[] Filters, StringInstruction[] Instructions)
         {
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < data.Count; i++)
             {
                 ProcessPKM(data[i], Filters, Instructions);
                 b.ReportProgress(i);
             }
         }
-        private void ProcessFolder(string[] files, StringInstruction[] Filters, StringInstruction[] Instructions, string destPath)
+        private void ProcessFolder(IReadOnlyList<string> files, StringInstruction[] Filters, StringInstruction[] Instructions, string destPath)
         {
-            for (int i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Count; i++)
             {
                 string file = files[i];
                 var fi = new FileInfo(file);
@@ -267,7 +267,7 @@ namespace PKHeX.WinForms
                     continue;
                 }
 
-                int format = fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30) & 7 : SAV.Generation;
+                int format = fi.Extension.Length > 0 ? (fi.Extension.Last() - '0') & 0xF : SAV.Generation;
                 byte[] data = File.ReadAllBytes(file);
                 var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
                 if (ProcessPKM(pkm, Filters, Instructions))

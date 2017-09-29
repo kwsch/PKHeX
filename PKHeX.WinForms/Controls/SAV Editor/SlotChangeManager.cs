@@ -236,7 +236,7 @@ namespace PKHeX.WinForms.Controls
             byte[] data = File.ReadAllBytes(file);
             MysteryGift mg = MysteryGift.GetMysteryGift(data, fi.Extension);
             PKM temp = mg?.ConvertToPKM(SAV) ?? PKMConverter.GetPKMfromBytes(data,
-                           prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - 0x30) & 7 : SAV.Generation);
+                           prefer: fi.Extension.Length > 0 ? (fi.Extension.Last() - '0') & 0xF : SAV.Generation);
 
             PKM pk = PKMConverter.ConvertToType(temp, SAV.PKMType, out string c);
             if (pk == null)

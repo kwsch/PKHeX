@@ -236,18 +236,18 @@ namespace PKHeX.WinForms.Controls
             // Refresh slots
             if (SAV.HasParty)
             {
-                PKM[] party = SAV.PartyData;
-                for (int i = 0; i < party.Length; i++)
+                var party = SAV.PartyData;
+                for (int i = 0; i < party.Count; i++)
                     SlotPictureBoxes[i + 30].Image = GetSprite(party[i], i + 30);
-                for (int i = party.Length; i < 6; i++)
+                for (int i = party.Count; i < 6; i++)
                     SlotPictureBoxes[i + 30].Image = null;
             }
             if (SAV.HasBattleBox)
             {
-                PKM[] battle = SAV.BattleBoxData;
-                for (int i = 0; i < battle.Length; i++)
+                var battle = SAV.BattleBoxData;
+                for (int i = 0; i < battle.Count; i++)
                     SlotPictureBoxes[i + 36].Image = GetSprite(battle[i], i + 36);
-                for (int i = battle.Length; i < 6; i++)
+                for (int i = battle.Count; i < 6; i++)
                     SlotPictureBoxes[i + 36].Image = null;
             }
         }

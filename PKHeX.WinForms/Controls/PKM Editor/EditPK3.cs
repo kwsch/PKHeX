@@ -116,7 +116,7 @@ namespace PKHeX.WinForms.Controls
             pk3.AbilityNumber = 1 << CB_Ability.SelectedIndex; // to match gen6+
 
             pk3.FatefulEncounter = CHK_Fateful.Checked;
-            pk3.Gender = PKX.GetGender(Label_Gender.Text);
+            pk3.Gender = PKX.GetGenderFromPID(Label_Gender.Text);
             pk3.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk3.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
             pk3.EV_DEF = Util.ToInt32(TB_DEFEV.Text);
@@ -161,7 +161,7 @@ namespace PKHeX.WinForms.Controls
 
             pk3.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk3.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk3.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk3.OT_Gender = PKX.GetGenderFromPID(Label_OTGender.Text);
             pk3.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
             pk3.Language = WinFormsUtil.GetIndex(CB_Language);
 

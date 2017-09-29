@@ -1302,8 +1302,6 @@ namespace PKHeX.Core
             // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
         }
 
-        public override bool RequiresMemeCrypto => true;
-
         public override string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

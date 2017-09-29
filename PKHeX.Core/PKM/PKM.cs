@@ -621,7 +621,7 @@ namespace PKHeX.Core
             if (GenNumber >= 6)
                 return true;
 
-            return gender == PKX.GetGender(PID, gv);
+            return gender == PKX.GetGenderFromPIDAndRatio(PID, gv);
         }
 
         /// <summary>

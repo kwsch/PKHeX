@@ -160,7 +160,7 @@ namespace PKHeX.WinForms
 
             dgData.ContextMenuStrip = mnu;
         }
-        public void PopulateData(PKM[] Data)
+        public void PopulateData(IList<PKM> Data)
         {
             SuspendLayout();
             BoxBar.Step = 1;
@@ -174,7 +174,7 @@ namespace PKHeX.WinForms
 
             dgData.DataSource = PL;
             dgData.AutoGenerateColumns = true;
-            BoxBar.Maximum = Data.Length + dgData.Columns.Count;
+            BoxBar.Maximum = Data.Count + dgData.Columns.Count;
             for (int i = 0; i < dgData.Columns.Count; i++)
             {
                 BoxBar.PerformStep();

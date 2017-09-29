@@ -40,7 +40,7 @@ namespace PKHeX.Core
         public override int AltForm { get => Species == 201 ? PKX.GetUnownForm(PID) : 0; set { } }
 
         public override bool IsNicknamed { get => PKX.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
-        public override int Gender { get => PKX.GetGender(Species, PID); set { } }
+        public override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
         public override int Ability { get { int[] abils = PersonalTable.RS.GetAbilities(Species, 0); return abils[abils[1] == 0 ? 0 : AbilityNumber >> 1]; } set { } }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -57,8 +58,8 @@ namespace PKHeX.Core
                 return Header.Concat(Data).ToArray();
             return Data;
         }
-        public virtual string MiscSaveChecks() { return ""; }
-        public virtual string MiscSaveInfo() { return ""; }
+        public virtual string MiscSaveChecks() => string.Empty;
+        public virtual string MiscSaveInfo() => string.Empty;
         public virtual GameVersion Version { get; protected set; }
         public abstract bool ChecksumsValid { get; }
         public abstract string ChecksumInfo { get; }
@@ -149,7 +150,7 @@ namespace PKHeX.Core
         public int HoF { get; protected set; } = int.MinValue;
 
         // SAV Properties
-        public PKM[] BoxData
+        public IList<PKM> BoxData
         {
             get
             {
@@ -168,16 +169,16 @@ namespace PKHeX.Core
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                if (value.Length != BoxCount*BoxSlotCount)
-                    throw new ArgumentException($"Expected {BoxCount*BoxSlotCount}, got {value.Length}");
+                if (value.Count != BoxCount*BoxSlotCount)
+                    throw new ArgumentException($"Expected {BoxCount*BoxSlotCount}, got {value.Count}");
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
 
-                for (int i = 0; i < value.Length; i++)
+                for (int i = 0; i < value.Count; i++)
                     SetStoredSlot(value[i], GetBoxOffset(i/BoxSlotCount) + SIZE_STORED*(i%BoxSlotCount));
             }
         }
-        public PKM[] PartyData
+        public IList<PKM> PartyData
         {
             get
             {
@@ -190,12 +191,12 @@ namespace PKHeX.Core
             {
                 if (value == null)
                     throw new ArgumentNullException();
-                if (value.Length == 0 || value.Length > 6)
-                    throw new ArgumentException("Expected 1-6, got " + value.Length);
+                if (value.Count == 0 || value.Count > 6)
+                    throw new ArgumentException("Expected 1-6, got " + value.Count);
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
                 if (value[0].Species == 0)
-                    Debug.WriteLine($"Empty first slot, received {value.Length}.");
+                    Debug.WriteLine($"Empty first slot, received {value.Count}.");
 
                 PKM[] newParty = value.Where(pk => pk.Species != 0).ToArray();
 
@@ -207,7 +208,7 @@ namespace PKHeX.Core
                     SetPartySlot(newParty[i], GetPartyOffset(i));
             }
         }
-        public PKM[] BattleBoxData
+        public IList<PKM> BattleBoxData
         {
             get
             {
@@ -368,7 +369,7 @@ namespace PKHeX.Core
                 return false;
 
             var party = PartyData;
-            return party.Length == party.Where((t, i) => t.IsEgg || except.Contains(i)).Count();
+            return party.Count == party.Where((t, i) => t.IsEgg || except.Contains(i)).Count();
         }
 
         // Varied Methods
@@ -435,7 +436,7 @@ namespace PKHeX.Core
                         ++ctr;
                     b = ctr++;
                 }
-                Array.Copy(boxdata, len*i, Data, GetBoxOffset(b), len);
+                Buffer.BlockCopy(boxdata, len*i, Data, GetBoxOffset(b), len);
                 SetBoxName(b, boxNames[i]);
                 SetBoxWallpaper(b, boxWallpapers[i]);
             }
@@ -467,9 +468,9 @@ namespace PKHeX.Core
             int b2o = GetBoxOffset(box2);
             int len = BoxSlotCount*SIZE_STORED;
             byte[] b1 = new byte[len];
-            Array.Copy(Data, b1o, b1, 0, len);
-            Array.Copy(Data, b2o, Data, b1o, len);
-            Array.Copy(b1, 0, Data, b2o, len);
+            Buffer.BlockCopy(Data, b1o, b1, 0, len);
+            Buffer.BlockCopy(Data, b2o, Data, b1o, len);
+            Buffer.BlockCopy(b1, 0, Data, b2o, len);
 
             // Name
             string b1n = GetBoxName(box1);
@@ -570,20 +571,15 @@ namespace PKHeX.Core
 
         public void SortBoxes(int BoxStart = 0, int BoxEnd = -1)
         {
-            PKM[] BD = BoxData;
-            var Section = BD.Skip(BoxStart*BoxSlotCount);
+            var BD = BoxData;
+            int start = BoxSlotCount * BoxStart;
+            var Section = BD.Skip(start);
             if (BoxEnd > BoxStart)
-                Section = Section.Take(BoxSlotCount*(BoxEnd - BoxStart));
+                Section = Section.Take(BoxSlotCount * (BoxEnd - BoxStart));
 
-            var Sorted = Section
-                .OrderBy(p => p.Species == 0) // empty slots at end
-                .ThenBy(p => p.IsEgg) // eggs to the end
-                .ThenBy(p => p.Species) // species sorted
-                .ThenBy(p => p.AltForm) // altforms sorted
-                .ThenBy(p => p.Gender) // gender sorted
-                .ThenBy(p => p.IsNicknamed).ToArray();
+            var Sorted = PKX.SortPKMs(Section);
 
-            Array.Copy(Sorted, 0, BD, BoxStart*BoxSlotCount, Sorted.Length);
+            Sorted.CopyTo(BD, start);
             BoxData = BD;
         }
         public void ClearBoxes(int BoxStart = 0, int BoxEnd = -1)
@@ -612,43 +608,25 @@ namespace PKHeX.Core
             if (data.Length != PCBinary.Length)
                 return false;
 
-            int len = BlankPKM.EncryptedBoxData.Length;
-
-            // split up data to individual pkm
-            byte[][] pkdata = new byte[data.Length/len][];
-            for (int i = 0; i < data.Length; i += len)
-            {
-                pkdata[i/len] = new byte[len];
-                Array.Copy(data, i, pkdata[i/len], 0, len);
-            }
-            
-            PKM[] pkms = BoxData;
-            for (int i = 0; i < pkms.Length; i++)
-                pkms[i] = GetPKM(DecryptPKM(pkdata[i]));
-            BoxData = pkms;
+            var BD = BoxData;
+            var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD);
+            BoxData = BD;
             return true;
         }
         public bool SetBoxBinary(byte[] data, int box)
         {
-            if (LockedSlots.Any(slot => box * BoxSlotCount <= slot && slot < (box + 1) * BoxSlotCount))
+            int start = box * BoxSlotCount;
+            int end = start + BoxSlotCount;
+            if (LockedSlots.Any(slot => start <= slot && slot < end))
                 return false;
             if (data.Length != GetBoxBinary(box).Length)
                 return false;
 
-            int len = BlankPKM.EncryptedBoxData.Length;
-
-            // split up data to individual pkm
-            byte[][] pkdata = new byte[data.Length/len][];
-            for (int i = 0; i < data.Length; i += len)
-            {
-                pkdata[i/len] = new byte[len];
-                Array.Copy(data, i, pkdata[i/len], 0, len);
-            }
-
-            PKM[] pkms = BoxData;
-            for (int i = 0; i < BoxSlotCount; i++)
-                pkms[box*BoxSlotCount + i] = GetPKM(DecryptPKM(pkdata[i]));
-            BoxData = pkms;
+            var BD = BoxData;
+            var pkdata = PKX.GetPKMDataFromConcatenatedBinary(data, BlankPKM.EncryptedBoxData.Length);
+            pkdata.Select(z => GetPKM(DecryptPKM(z))).CopyTo(BD, start);
+            BoxData = BD;
             return true;
         }
 
@@ -668,7 +646,7 @@ namespace PKHeX.Core
                 return null;
 
             byte[] data = new byte[Length];
-            Array.Copy(Data, Offset, data, 0, Length);
+            Buffer.BlockCopy(Data, Offset, data, 0, Length);
             return data;
         }
         public void SetData(byte[] input, int Offset)
@@ -679,8 +657,6 @@ namespace PKHeX.Core
 
         public abstract string GetString(int Offset, int Length);
         public abstract byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0);
-
-        public virtual bool RequiresMemeCrypto => false;
 
         public virtual string EBerryName => string.Empty;
         public virtual bool IsEBerryIsEnigma => true;

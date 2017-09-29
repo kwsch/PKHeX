@@ -91,7 +91,7 @@ namespace PKHeX.WinForms.Controls
             pk2.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk2.IsEgg = CHK_IsEgg.Checked;
             pk2.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
-            pk2.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk2.OT_Gender = PKX.GetGenderFromPID(Label_OTGender.Text);
             pk2.Met_Level = Util.ToInt32(TB_MetLevel.Text);
             pk2.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
             pk2.Met_TimeOfDay = CB_MetTimeOfDay.SelectedIndex;

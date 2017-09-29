@@ -275,7 +275,7 @@ namespace PKHeX.WinForms
             pkm[0x14] = (byte)WinFormsUtil.GetIndex(CB_Nature);
 
             int fegform = 0;
-            fegform += PKX.GetGender(Label_Gender.Text) << 1;
+            fegform += PKX.GetGenderFromPID(Label_Gender.Text) << 1;
             fegform += CB_Form.SelectedIndex << 3;
             pkm[0x15] = (byte)fegform;
 
@@ -463,7 +463,7 @@ namespace PKHeX.WinForms
             SetAbilityList();
             
             // If form has a single gender, account for it.
-            if (PKX.GetGender(CB_Form.Text) < 2)
+            if (PKX.GetGenderFromPID(CB_Form.Text) < 2)
                 Label_Gender.Text = Main.GenderSymbols[CB_Form.SelectedIndex];
         }
 
@@ -477,7 +477,7 @@ namespace PKHeX.WinForms
                 return;
 
             if (gt < 256) // If not a single gender(less) species:
-                Label_Gender.Text = Main.GenderSymbols[PKX.GetGender(Label_Gender.Text) ^ 1];
+                Label_Gender.Text = Main.GenderSymbols[PKX.GetGenderFromPID(Label_Gender.Text) ^ 1];
         }
         private void SetGenderLabel()
         {

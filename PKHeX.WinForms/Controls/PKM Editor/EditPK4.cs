@@ -158,7 +158,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             pk4.FatefulEncounter = CHK_Fateful.Checked;
-            pk4.Gender = PKX.GetGender(Label_Gender.Text);
+            pk4.Gender = PKX.GetGenderFromPID(Label_Gender.Text);
             pk4.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             pk4.EV_HP = Util.ToInt32(TB_HPEV.Text);
             pk4.EV_ATK = Util.ToInt32(TB_ATKEV.Text);
@@ -204,7 +204,7 @@ namespace PKHeX.WinForms.Controls
 
             pk4.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk4.Met_Level = Util.ToInt32(TB_MetLevel.Text);
-            pk4.OT_Gender = PKX.GetGender(Label_OTGender.Text);
+            pk4.OT_Gender = PKX.GetGenderFromPID(Label_OTGender.Text);
             pk4.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
             pk4.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
             pk4.Language = WinFormsUtil.GetIndex(CB_Language);

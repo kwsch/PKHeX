@@ -258,7 +258,7 @@ namespace PKHeX.WinForms
             uint rawslgf = BitConverter.ToUInt32(data, offset + 0x14);
             uint slgf = 0;
             slgf |= (uint)(CB_Form.SelectedIndex & 0x1F);
-            slgf |= (uint)((PKX.GetGender(Label_Gender.Text) & 0x3) << 5);
+            slgf |= (uint)((PKX.GetGenderFromPID(Label_Gender.Text) & 0x3) << 5);
             slgf |= (uint)((Convert.ToUInt16(TB_Level.Text) & 0x7F) << 7);
             if (CHK_Shiny.Checked)
                 slgf |= 1 << 14;
@@ -291,7 +291,7 @@ namespace PKHeX.WinForms
             vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            bpkx.Image = PKMUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGender(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = PKMUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromPID(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
             DisplayEntry(null, null); // refresh text view
         }
         private void Validate_TextBoxes()
@@ -340,7 +340,7 @@ namespace PKHeX.WinForms
         {
             if (!editing)
                 return; //Don't do writing until loaded
-            bpkx.Image = PKMUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGender(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
+            bpkx.Image = PKMUtil.GetSprite(WinFormsUtil.GetIndex(CB_Species), CB_Form.SelectedIndex & 0x1F, PKX.GetGenderFromPID(Label_Gender.Text), WinFormsUtil.GetIndex(CB_HeldItem), false, CHK_Shiny.Checked);
 
             Write_Entry(null, null);
         }
@@ -362,16 +362,16 @@ namespace PKHeX.WinForms
 
             if (gt < 256) // If not a single gender(less) species:
             {
-                Label_Gender.Text = PKX.GetGender(Label_Gender.Text) == 0 ? gendersymbols[1] : gendersymbols[0];
+                Label_Gender.Text = PKX.GetGenderFromPID(Label_Gender.Text) == 0 ? gendersymbols[1] : gendersymbols[0];
 
-                if (PKX.GetGender(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
+                if (PKX.GetGenderFromPID(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
                     CB_Form.SelectedIndex = 1;
-                else if (PKX.GetGender(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
+                else if (PKX.GetGenderFromPID(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
                     CB_Form.SelectedIndex = 0;
             }
 
             if (species == 668)
-                CB_Form.SelectedIndex = PKX.GetGender(Label_Gender.Text);
+                CB_Form.SelectedIndex = PKX.GetGenderFromPID(Label_Gender.Text);
 
             Write_Entry(null, null);
         }

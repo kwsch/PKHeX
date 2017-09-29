@@ -284,12 +284,12 @@ namespace PKHeX.WinForms.Controls
                 TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont(11);
             }
             // Switch active gender labels to new if they are active.
-            if (PKX.GetGender(Label_Gender.Text) < 2)
-                Label_Gender.Text = gendersymbols[PKX.GetGender(Label_Gender.Text)];
-            if (PKX.GetGender(Label_OTGender.Text) < 2)
-                Label_OTGender.Text = gendersymbols[PKX.GetGender(Label_OTGender.Text)];
-            if (PKX.GetGender(Label_CTGender.Text) < 2)
-                Label_CTGender.Text = gendersymbols[PKX.GetGender(Label_CTGender.Text)];
+            if (PKX.GetGenderFromPID(Label_Gender.Text) < 2)
+                Label_Gender.Text = gendersymbols[PKX.GetGenderFromPID(Label_Gender.Text)];
+            if (PKX.GetGenderFromPID(Label_OTGender.Text) < 2)
+                Label_OTGender.Text = gendersymbols[PKX.GetGenderFromPID(Label_OTGender.Text)];
+            if (PKX.GetGenderFromPID(Label_CTGender.Text) < 2)
+                Label_CTGender.Text = gendersymbols[PKX.GetGenderFromPID(Label_CTGender.Text)];
         }
         private void UpdateSprite()
         {
@@ -446,7 +446,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateGender()
         {
-            int cg = PKX.GetGender(Label_Gender.Text);
+            int cg = PKX.GetGenderFromPID(Label_Gender.Text);
             int gt = pkm.PersonalInfo.Gender;
 
             int Gender;
@@ -531,11 +531,11 @@ namespace PKHeX.WinForms.Controls
             if (gt >= 255) return;
             // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
 
-            int newGender = PKX.GetGender(Label_Gender.Text) ^ 1;
+            int newGender = PKX.GetGenderFromPID(Label_Gender.Text) ^ 1;
             if (pkm.Format <= 2)
             {
                 do { TB_ATKIV.Text = (pkm.IV_ATK = (int)(Util.Rand32() & pkm.MaxIV)).ToString(); }
-                while (PKX.GetGender(Label_Gender.Text = gendersymbols[pkm.Gender]) != newGender);
+                while (PKX.GetGenderFromPID(Label_Gender.Text = gendersymbols[pkm.Gender]) != newGender);
                 SetIsShiny(null);
             }
             else if (pkm.Format <= 4)
@@ -553,8 +553,8 @@ namespace PKHeX.WinForms.Controls
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
 
-            if (PKX.GetGender(CB_Form.Text) < 2) // Gendered Forms
-                CB_Form.SelectedIndex = PKX.GetGender(Label_Gender.Text);
+            if (PKX.GetGenderFromPID(CB_Form.Text) < 2) // Gendered Forms
+                CB_Form.SelectedIndex = PKX.GetGenderFromPID(Label_Gender.Text);
 
             UpdatePreviewSprite(Label_Gender, null);
         }
@@ -644,7 +644,7 @@ namespace PKHeX.WinForms.Controls
             Label lbl = sender as Label;
             if (!string.IsNullOrWhiteSpace(lbl?.Text)) // set gender label (toggle M/F)
             {
-                int gender = PKX.GetGender(lbl.Text) ^ 1;
+                int gender = PKX.GetGenderFromPID(lbl.Text) ^ 1;
                 lbl.Text = gendersymbols[gender];
                 lbl.ForeColor = GetGenderColor(gender);
             }
@@ -1133,10 +1133,10 @@ namespace PKHeX.WinForms.Controls
                         UpdateRandomIVs(null, null);
                 }
             }
-            else if (PKX.GetGender(CB_Form.Text) < 2)
+            else if (PKX.GetGenderFromPID(CB_Form.Text) < 2)
             {
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
-                    Label_Gender.Text = gendersymbols[PKX.GetGender(CB_Form.Text)];
+                    Label_Gender.Text = gendersymbols[PKX.GetGenderFromPID(CB_Form.Text)];
             }
 
             if (changingFields)
@@ -1576,7 +1576,7 @@ namespace PKHeX.WinForms.Controls
             pkm.SID = Util.ToInt32(TB_SID.Text);
             pkm.PID = Util.GetHexValue(TB_PID.Text);
             pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
-            pkm.Gender = PKX.GetGender(Label_Gender.Text);
+            pkm.Gender = PKX.GetGenderFromPID(Label_Gender.Text);
             pkm.AltForm = CB_Form.SelectedIndex;
             pkm.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
 
@@ -1984,7 +1984,7 @@ namespace PKHeX.WinForms.Controls
                 TB_Nickname.Text = Set.Nickname;
             if (Set.Gender != null)
             {
-                int Gender = PKX.GetGender(Set.Gender);
+                int Gender = PKX.GetGenderFromPID(Set.Gender);
                 Label_Gender.Text = gendersymbols[Gender];
                 Label_Gender.ForeColor = GetGenderColor(Gender);
             }

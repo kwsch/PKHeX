@@ -332,7 +332,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="s">Gender string</param>
         /// <returns>Gender integer</returns>
-        public static int GetGender(string s)
+        public static int GetGenderFromPID(string s)
         {
             if (s == null) 
                 return -1;
@@ -528,7 +528,7 @@ namespace PKHeX.Core
                     return pid; // PID can be anything
 
                 // Gen 3/4/5: Gender derived from PID
-                if (cg == GetGender(pid, gt))
+                if (cg == GetGenderFromPIDAndRatio(pid, gt))
                     return pid;
             }
         }
@@ -708,12 +708,12 @@ namespace PKHeX.Core
         /// <param name="PID">Personality ID.</param>
         /// <returns>Gender ID (0/1/2)</returns>
         /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
-        public static int GetGender(int species, uint PID)
+        public static int GetGenderFromPID(int species, uint PID)
         {
             int genderratio = Personal[species].Gender;
-            return GetGender(PID, genderratio);
+            return GetGenderFromPIDAndRatio(PID, genderratio);
         }
-        public static int GetGender(uint PID, int gr)
+        public static int GetGenderFromPIDAndRatio(uint PID, int gr)
         {
             switch (gr)
             {
@@ -874,6 +874,53 @@ namespace PKHeX.Core
                 moves,
                 IVs + "   " + EVs,
             };
+        }
+
+        /// <summary>
+        /// Copies an <see cref="Enumerable"/> list to the destination list, with an option to copy to a starting point.
+        /// </summary>
+        /// <param name="list">Source list to copy from</param>
+        /// <param name="dest">Destination list/array</param>
+        /// <param name="start">Starting point to copy to</param>
+        public static void CopyTo(this IEnumerable<PKM> list, IList<PKM> dest, int start = 0)
+        {
+            int ctr = 0;
+            foreach (var z in list)
+                dest[start + ctr++] = z;
+        }
+
+        /// <summary>
+        /// Gets an <see cref="Enumerable"/> list of PKM data from a concatenated byte array binary.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="len">Length of each PKM byte[]</param>
+        /// <returns>Enumerable list of PKM byte arrays</returns>
+        public static IEnumerable<byte[]> GetPKMDataFromConcatenatedBinary(byte[] data, int len)
+        {
+            // split up data to individual pkm
+            for (int i = 0; i < data.Length; ++i)
+            {
+                int offset = i * len;
+                var pk = new byte[len];
+                Buffer.BlockCopy(data, offset, pk, 0, len);
+                yield return pk;
+            }
+        }
+
+        /// <summary>
+        /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects according to common-usage.
+        /// </summary>
+        /// <param name="list">Source list to sort</param>
+        /// <returns>Enumerable list that is sorted</returns>
+        public static IEnumerable<PKM> SortPKMs(IEnumerable<PKM> list)
+        {
+            return list
+                .OrderBy(p => p.Species == 0) // empty slots at end
+                .ThenBy(p => p.IsEgg) // eggs to the end
+                .ThenBy(p => p.Species) // species sorted
+                .ThenBy(p => p.AltForm) // altforms sorted
+                .ThenBy(p => p.Gender) // gender sorted
+                .ThenBy(p => p.IsNicknamed);
         }
     }
 }

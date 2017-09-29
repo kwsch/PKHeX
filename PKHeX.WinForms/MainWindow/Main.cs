@@ -435,7 +435,7 @@ namespace PKHeX.WinForms
         }
         private void ClickShowdownExportParty(object sender, EventArgs e)
         {
-            if (C_SAV.SAV.PartyData.Length <= 0) return;
+            if (C_SAV.SAV.PartyData.Count <= 0) return;
             try
             {
                 Clipboard.SetText(
@@ -447,7 +447,7 @@ namespace PKHeX.WinForms
         }
         private void ClickShowdownExportBattleBox(object sender, EventArgs e)
         {
-            if (C_SAV.SAV.BattleBoxData.Length <= 0) return;
+            if (C_SAV.SAV.BattleBoxData.Count <= 0) return;
             try
             {
                 Clipboard.SetText(
@@ -575,7 +575,7 @@ namespace PKHeX.WinForms
         }
         private bool TryLoadPKM(byte[] input, string path, string ext, SaveFile SAV)
         {
-            var temp = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - 0x30) & 7 : C_SAV.SAV.Generation);
+            var temp = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
             if (temp == null)
                 return false;
 
