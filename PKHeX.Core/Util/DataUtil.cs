@@ -123,9 +123,13 @@ namespace PKHeX.Core
         {
             try
             {
-                string[] newlist = new string[ToInt32(SimpleStringList[SimpleStringList.Length - 1].Split(',')[0]) + 1];
+                int len = ToInt32(SimpleStringList.Last().Split(',')[0]) + 1;
+                string[] newlist = new string[len];
                 for (int i = 1; i < SimpleStringList.Length; i++)
-                    newlist[ToInt32(SimpleStringList[i].Split(',')[0])] = SimpleStringList[i].Split(',')[1];
+                {
+                    var split = SimpleStringList[i].Split(',');
+                    newlist[ToInt32(split[0])] = split[1];
+                }
                 return newlist;
             }
             catch { return null; }
@@ -239,143 +243,54 @@ namespace PKHeX.Core
             // Get Language we're fetching for
             int index = Array.IndexOf(new[] { "ja", "en", "fr", "de", "it", "es", "ko", "zh", }, lang);
 
-            // Set up our Temporary Storage
-            string[] unsortedList = new string[inputCSV.Length - 1];
-            int[] indexes = new int[inputCSV.Length - 1];
-
             // Gather our data from the input file
-            for (int i = 1; i < inputCSV.Length; i++)
-            {
-                string[] countryData = inputCSV[i].Split(',');
-                indexes[i - 1] = Convert.ToInt32(countryData[0]);
-                unsortedList[i - 1] = countryData[index + 1];
-            }
-
-            // Sort our input data
-            string[] sortedList = new string[inputCSV.Length - 1];
-            Array.Copy(unsortedList, sortedList, unsortedList.Length);
-            Array.Sort(sortedList);
-
-            // Arrange the input data based on original number
-            return sortedList.Select(s => new ComboItem
-            {
-                Text = s,
-                Value = indexes[Array.IndexOf(unsortedList, s)]
-            }).ToList();
+            return inputCSV.Skip(1)
+                .Select(entry => entry.Split(','))
+                .Select(data => new ComboItem { Text = data[1 + index], Value = Convert.ToInt32(data[0]) })
+                .OrderBy(z => z.Text)
+                .ToList();
+        }
+        public static List<ComboItem> GetUnsortedCBList(string textfile)
+        {
+            string[] inputCSV = GetStringList(textfile);
+            return inputCSV.Skip(1)
+                .Select(entry => entry.Split(','))
+                .Select(data => new ComboItem { Text = data[1], Value = Convert.ToInt32(data[0]) })
+                .ToList();
         }
         public static List<ComboItem> GetCBList(string[] inStrings, params int[][] allowed)
         {
-            List<ComboItem> cbList = new List<ComboItem>();
             if (allowed?.First() == null)
                 allowed = new[] { Enumerable.Range(0, inStrings.Length).ToArray() };
 
-            foreach (int[] list in allowed)
-            {
-                // Sort the Rest based on String Name
-                string[] unsortedChoices = new string[list.Length];
-                for (int i = 0; i < list.Length; i++)
-                    unsortedChoices[i] = inStrings[list[i]];
-
-                string[] sortedChoices = new string[unsortedChoices.Length];
-                Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
-                Array.Sort(sortedChoices);
-
-                // Add the rest of the items
-                cbList.AddRange(sortedChoices.Select(s => new ComboItem
-                {
-                    Text = s,
-                    Value = list[Array.IndexOf(unsortedChoices, s)]
-                }));
-            }
-            return cbList;
+            return allowed.SelectMany(list => list
+                .Select(z => new ComboItem { Text = inStrings[z], Value = z })
+                .OrderBy(z => z.Text))
+                .ToList();
         }
         public static List<ComboItem> GetOffsetCBList(List<ComboItem> cbList, string[] inStrings, int offset, int[] allowed)
         {
             if (allowed == null)
                 allowed = Enumerable.Range(0, inStrings.Length).ToArray();
 
-            int[] list = (int[])allowed.Clone();
-            for (int i = 0; i < list.Length; i++)
-                list[i] -= offset;
+            var list = allowed
+                .Select((z, i) => new ComboItem {Text = inStrings[z - offset], Value = z})
+                .OrderBy(z => z.Text);
 
-            // Sort the Rest based on String Name
-            string[] unsortedChoices = new string[allowed.Length];
-            for (int i = 0; i < allowed.Length; i++)
-                unsortedChoices[i] = inStrings[list[i]];
-
-            string[] sortedChoices = new string[unsortedChoices.Length];
-            Array.Copy(unsortedChoices, sortedChoices, unsortedChoices.Length);
-            Array.Sort(sortedChoices);
-
-            var indices = new Dictionary<string, int>();
-            foreach (var str in unsortedChoices.Where(str => !indices.ContainsKey(str)))
-                indices.Add(str, 0);
-
-            // Add the rest of the items
-            foreach (var s in sortedChoices)
-            {
-                var index = Array.IndexOf(unsortedChoices, s, indices[s]);
-                cbList.Add(new ComboItem
-                {
-                    Text = s,
-                    Value = allowed[index]
-                });
-                indices[s] = index + 1;
-            }
-            
+            cbList.AddRange(list);
             return cbList;
         }
-        public static List<ComboItem> GetVariedCBList(string[] inStrings, int[] stringNum, int[] stringVal)
+        public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)
         {
-            // Set up
+            // First 3 Balls are always first
             List<ComboItem> newlist = new List<ComboItem>();
-
             for (int i = 4; i > 1; i--) // add 4,3,2
-            {
-                // First 3 Balls are always first
-                ComboItem ncbi = new ComboItem
-                {
-                    Text = inStrings[i],
-                    Value = i
-                };
-                newlist.Add(ncbi);
-            }
+                newlist.Add(new ComboItem { Text = inStrings[i], Value = i });
 
-            // Sort the Rest based on String Name
-            string[] ballnames = new string[stringNum.Length];
-            for (int i = 0; i < stringNum.Length; i++)
-                ballnames[i] = inStrings[stringNum[i]];
-
-            string[] sortedballs = new string[stringNum.Length];
-            Array.Copy(ballnames, sortedballs, ballnames.Length);
-            Array.Sort(sortedballs);
-
-            // Add the rest of the balls
-            newlist.AddRange(sortedballs.Select(s => new ComboItem
-            {
-                Text = s,
-                Value = stringVal[Array.IndexOf(ballnames, s)]
-            }));
+            newlist.AddRange(stringNum
+                .Select((z, i) => new ComboItem{ Text = inStrings[z], Value = stringVal[i]})
+                .OrderBy(z => z.Text));
             return newlist;
-        }
-        public static List<ComboItem> GetUnsortedCBList(string textfile)
-        {
-            // Set up
-            List<ComboItem> cbList = new List<ComboItem>();
-            string[] inputCSV = GetStringList(textfile);
-
-            // Gather our data from the input file
-            for (int i = 1; i < inputCSV.Length; i++)
-            {
-                string[] inputData = inputCSV[i].Split(',');
-                ComboItem ncbi = new ComboItem
-                {
-                    Text = inputData[1],
-                    Value = Convert.ToInt32(inputData[0])
-                };
-                cbList.Add(ncbi);
-            }
-            return cbList;
         }
         #endregion
     }
