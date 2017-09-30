@@ -159,8 +159,8 @@
             Party = 0x28CC;
             PokedexCaught = 0x2AAE;
             PokedexSeen = 0x2ACE;
-            CurrentBox = 0x26FC;
-            CurrentBoxIndex = 0x2DAE;
+            CurrentBox = 0x2DAE;
+            CurrentBoxIndex = 0x26FC;
             Gender = -1; // No gender in GS
             AccumulatedChecksumEnd = 0x2DAA;
             OverallChecksumPosition = 0x2DAB;
