@@ -1027,7 +1027,7 @@ namespace PKHeX.Core
             var lineage = table.GetValidPreEvolutions(pkm, maxLevel: pkm.CurrentLevel);
             return lineage.Select(evolution => evolution.Species);
         }
-        internal static int[] GetWildBalls(PKM pkm)
+        internal static ICollection<int> GetWildBalls(PKM pkm)
         {
             switch (pkm.GenNumber)
             {
@@ -1051,22 +1051,22 @@ namespace PKHeX.Core
             }
         }
         internal static int GetEggHatchLevel(PKM pkm) => pkm.Format <= 3 ? 5 : 1;
-        internal static int[] GetSplitBreedGeneration(PKM pkm)
+        internal static ICollection<int> GetSplitBreedGeneration(PKM pkm)
         {
             return GetSplitBreedGeneration(pkm.GenNumber);
         }
-        private static int[] GetSplitBreedGeneration(int generation)
+        private static ICollection<int> GetSplitBreedGeneration(int generation)
         {
             switch (generation)
             {
-                case 1: return new int[0];
-                case 2: return new int[0];
+                case 1: return Empty;
+                case 2: return Empty;
                 case 3: return SplitBreed_3;
                 case 4: return SplitBreed;
                 case 5: return SplitBreed;
                 case 6: return SplitBreed;
                 case 7: return SplitBreed;
-                default: return new int[0];
+                default: return Empty;
             }
         }
         internal static int GetMaxSpeciesOrigin(PKM pkm)

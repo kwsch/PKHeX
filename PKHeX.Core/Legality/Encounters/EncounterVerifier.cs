@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -224,7 +225,7 @@ namespace PKHeX.Core
             // no other games
             return new CheckResult(Severity.Invalid, V51, CheckIdentifier.Encounter);
         }
-        private static CheckResult VerifyEncounterEggLevelLoc(PKM pkm, int eggLevel, int[] MetLocations)
+        private static CheckResult VerifyEncounterEggLevelLoc(PKM pkm, int eggLevel, ICollection<int> MetLocations)
         {
             if (pkm.Met_Level != eggLevel)
                 return new CheckResult(Severity.Invalid, string.Format(V52, eggLevel), CheckIdentifier.Encounter);

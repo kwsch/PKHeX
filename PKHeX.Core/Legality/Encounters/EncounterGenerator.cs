@@ -579,7 +579,7 @@ namespace PKHeX.Core
                 yield break;
 
             IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm);
-            foreach (DexLevel d in vs.Where(d => FriendSafari.Contains(d.Species) && d.Level >= 30))
+            foreach (DexLevel d in vs.Where(d => d.Level >= 30 && FriendSafari.Contains(d.Species)))
             {
                 yield return new EncounterSlot
                 {

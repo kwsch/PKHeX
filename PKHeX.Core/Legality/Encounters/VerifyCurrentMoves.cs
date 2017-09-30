@@ -632,7 +632,7 @@ namespace PKHeX.Core
             if (gen == 3 && pkm.Format > 3)
                 IsHMSource(ref HMLearned, Legal.HM_3);
 
-            void IsHMSource(ref bool[] flags, int[] source)
+            void IsHMSource(ref bool[] flags, ICollection<int> source)
             {
                 for (int i = 0; i < 4; i++)
                     flags[i] = IsCheckInvalid(res[i]) && source.Contains(moves[i]);

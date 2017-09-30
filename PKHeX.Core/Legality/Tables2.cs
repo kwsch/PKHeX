@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -48,7 +49,7 @@ namespace PKHeX.Core
         internal static readonly int[] Tutors_GSC = {53, 85, 58}; // Flamethrower, Thunderbolt & Ice Beam
         internal static readonly int[] WildPokeBalls2 = { 4 };
 
-        internal static readonly int[] FutureEvolutionsGen2 =
+        internal static readonly HashSet<int> FutureEvolutionsGen2 = new HashSet<int>
         {
             424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,700
         };
@@ -57,6 +58,6 @@ namespace PKHeX.Core
             // todo
         };
         internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i) && !UnreleasedItems_2.Contains(i)).ToArray();
-        internal static readonly int[] TransferSpeciesDefaultAbility_2 = {92, 93, 94, 109, 110, 151, 200, 201, 247, 251}; // todo VC2: 247 (pupitar)
+        internal static readonly HashSet<int> TransferSpeciesDefaultAbility_2 = new HashSet<int> { 92, 93, 94, 109, 110, 151, 200, 201, 247, 251}; // todo VC2: 247 (pupitar)
     }
 }

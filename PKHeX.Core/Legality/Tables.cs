@@ -5,29 +5,24 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
+        public static readonly HashSet<int> Empty = new HashSet<int>();
         public static readonly int[] Items_Ball =
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
             013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
             851
         };
-        public static readonly int[] Items_CommonBall = { 4, 3, 2, 1 };
-        public static readonly int[] Items_UncommonBall =
-        {
-            7, 576, 13, 492, 497, 14, 495, 493, 496, 494, 11, 498, 8, 6,
-            12, 15, 9, 5, 499, 10, 16
-        };
         public static readonly int[] Gen4EncounterTypes = { 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
-        public static readonly int[] LightBall = { 25, 26, 172 };
+        public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
         public static readonly int[] Fossils = { 138, 140, 142, 345, 347, 408, 410, 564, 566, 696, 698 };
         public static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
-        public static readonly int[] WildForms =
+        public static readonly HashSet<int> WildForms = new HashSet<int>
         {
             422, 423, // Shellos
             550, // Basculin
             669, 670, 671 // Flabébé
         };
-        public static readonly int[] SplitBreed =
+        public static readonly HashSet<int> SplitBreed = new HashSet<int>
         {
             // Incense
             113, 242, // Chansey
@@ -40,7 +35,7 @@ namespace PKHeX.Core
             315, 407, // Roselia
             358, // Chimecho
         };
-        public static readonly int[] FormChange = // Pokémon that can change form and retain it
+        public static readonly HashSet<int> FormChange = new HashSet<int> // Pokémon that can change form and retain it
         {
             386, // Deoxys
             412, // Burmy
@@ -60,14 +55,14 @@ namespace PKHeX.Core
             741, // Oricorio
             773, // Silvally
         };
-        public static readonly int[] FormChangeMoves =
+        public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
         {
             386, // Deoxys
             487, // Giratina
             492, // Shaymin
             720, // Hoopa
         };
-        public static readonly int[] BreedMaleOnly =
+        public static readonly HashSet<int> BreedMaleOnly = new HashSet<int>
         {
             128, // Tauros
             627, 628, // Rufflet
@@ -75,7 +70,7 @@ namespace PKHeX.Core
             538, 539, // Sawk & Throh
         };
 
-        public static readonly int[] NoHatchFromEgg =
+        public static readonly HashSet<int> NoHatchFromEgg = new HashSet<int>
         {
             132, // Ditto
             144, // Articuno
@@ -202,7 +197,7 @@ namespace PKHeX.Core
             802, // Marshadow
         };
 
-        public static readonly int[] BattleForms =
+        public static readonly HashSet<int> BattleForms = new HashSet<int>
         {
             351, // Castform
             421, // Cherrim
@@ -213,7 +208,7 @@ namespace PKHeX.Core
             746, // Wishiwashi
             778, // Mimikyu
         };
-        public static readonly int[] BattleMegas =
+        public static readonly HashSet<int> BattleMegas = new HashSet<int>
         {
             // XY
             3,6,9,65,80,
@@ -230,24 +225,24 @@ namespace PKHeX.Core
             531,
             719
         };
-        public static readonly int[] BattlePrimals = { 382, 383 };
+        public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
 
-        public static readonly int[] Z_Moves =
+        public static readonly HashSet<int> Z_Moves = new HashSet<int>
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
             695, 696, 697, 698, 699, 700, 701, 702, 703,
             719,
         };
-        internal static readonly int[] InvalidSketch = new[] { 165, 448 }.Concat(Z_Moves).ToArray(); // Struggle & Chatter
+        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves)); // Struggle & Chatter
 
-        public static readonly int[] Legends =
+        public static readonly HashSet<int> Legends = new HashSet<int>
         {
             150, 151, 249, 250, 251, 382, 383, 384, 385, 386, 483,
             484, 487, 489, 490, 491, 492, 493, 494, 643, 644, 646,
             647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
             791, 792, 800, 801, 802
         };
-        public static readonly int[] SubLegends =
+        public static readonly HashSet<int> SubLegends = new HashSet<int>
         {
             144, 145, 146, 243, 244, 245, 377, 378, 379, 380, 381,
             480, 481, 482, 485, 486, 488, 638, 639, 640, 641, 642,

@@ -228,7 +228,7 @@ namespace PKHeX.Core
         #endregion
         
         internal static readonly int[] EggLocations6 = {60002, 30002};
-        internal static readonly int[] ValidMet_XY =
+        internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,
             038, 039, 040, 042, 043, 044, 046, 047, 048, 050, 051, 052, 054, 055, 056, 058, 060, 062, 063, 064, 066, 067,
@@ -236,7 +236,7 @@ namespace PKHeX.Core
             100, 101, 102, 103, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 135, 136,
             138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168
         };
-        internal static readonly int[] ValidMet_AO =
+        internal static readonly HashSet<int> ValidMet_AO = new HashSet<int>
         {
             170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198,
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232, 234, 236, 238, 240, 242,
@@ -244,7 +244,7 @@ namespace PKHeX.Core
             288, 290, 292, 294, 296, 298, 300, 302, 304, 306, 308, 310, 312, 314, 316, 318, 320, 322, 324, 326, 328, 330,
             332, 334, 336, 338, 340, 342, 344, 346, 348, 350, 352, 354
         };
-        internal static readonly int[] FriendSafari =
+        internal static readonly HashSet<int> FriendSafari = new HashSet<int>
         {
             190, 206, 216, 506, 294, 352, 531, 572, 113, 132, 133, 235,
             012, 046, 165, 415, 267, 284, 313, 314, 049, 127, 214, 666,

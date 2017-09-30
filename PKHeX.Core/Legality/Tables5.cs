@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -99,20 +100,20 @@ namespace PKHeX.Core
             15, 15, 15, 15, 10, 10, 10, 10, 10, 15, 15, 15, 15, 05, 05, 15, 05, 10, 10, 10, 20, 20, 20, 10, 10, 30, 15, 15, 10, 15, 25, 10, 20, 10, 10, 10, 20, 10, 10, 10, 10, 10, 15, 15, 05, 05, 10, 10, 10, 05,
             05, 10, 05, 05, 15, 10, 05, 05, 05,
         };
-        internal static readonly int[] WildPokeBalls5 =
+        internal static readonly HashSet<int> WildPokeBalls5 = new HashSet<int>
         {
             1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
             // Cherish ball not usable
             // HGSS balls not usable
             // Dream ball not usable in wild
         };
-        internal static readonly int[] DreamWorldBalls = WildPokeBalls5.Concat(new[] { 25 }).ToArray();
+        internal static readonly HashSet<int> DreamWorldBalls = new HashSet<int> (WildPokeBalls5.Concat(new[] { 25 }));
 
         internal static readonly int[] FutureEvolutionsGen5 =
         {
             700
         };
-        internal static readonly int[] UnreleasedItems_5 =
+        internal static readonly HashSet<int> UnreleasedItems_5 = new HashSet<int>
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -141,7 +142,7 @@ namespace PKHeX.Core
             new[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 } // Nacrene City
         };
 
-        internal static readonly int[] ValidMet_BW =
+        internal static readonly HashSet<int> ValidMet_BW = new HashSet<int>
         {
                            004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
             021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040,
@@ -151,7 +152,7 @@ namespace PKHeX.Core
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
 
         };
-        internal static readonly int[] ValidMet_B2W2 =
+        internal static readonly HashSet<int> ValidMet_B2W2 = new HashSet<int>
         {
                            004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
             021, 022,      024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,      //023 Route 10, 040->134 Victory Road
@@ -162,7 +163,7 @@ namespace PKHeX.Core
             121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137,      139, 140, //138 ---
             141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153,
         };
-        internal static readonly int[] EggLocations5 =
+        internal static readonly HashSet<int> EggLocations5 = new HashSet<int>
         {
             30002, // Link Trade (NPC)
             30003, // Link Trade

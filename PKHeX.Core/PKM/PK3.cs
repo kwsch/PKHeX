@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -275,7 +274,7 @@ namespace PKHeX.Core
             // Yay for reusing string buffers!
             StringConverter.G4TransferTrashBytes[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
             pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, pk4.Format) : Nickname;
-            Array.Copy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
+            Buffer.BlockCopy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
             pk4.OT_Name = OT_Name;
             
             // Set Final Data

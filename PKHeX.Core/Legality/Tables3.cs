@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -11,7 +12,7 @@ namespace PKHeX.Core
         internal const int MaxAbilityID_3 = 77;
         internal const int MaxBallID_3 = 0xC;
 
-        public static readonly int[] SplitBreed_3 =
+        public static readonly HashSet<int> SplitBreed_3 = new HashSet<int>
         {
             // Incense
             183, 184, // Marill
@@ -89,25 +90,25 @@ namespace PKHeX.Core
             580, 581, 582, 583, 584, 585, 586, 587, 588, 589,
             590, 591, 592, 593
         };
-        internal static readonly int[] WildPokeBalls3 = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12};
+        internal static readonly HashSet<int> WildPokeBalls3 = new HashSet<int> { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12};
 
-        internal static readonly int[] FutureEvolutionsGen3 =
+        internal static readonly HashSet<int> FutureEvolutionsGen3 = new HashSet<int>
         {
             407,424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,700
         };
 
-        internal static readonly int[] FutureEvolutionsGen3_LevelUpGen4 = 
+        internal static readonly HashSet<int> FutureEvolutionsGen3_LevelUpGen4 = new HashSet<int>
         {
+            // Ambipom Weavile Magnezone Lickilicky Tangrowth
+            // Yanmega Leafeon Glaceon Mamoswine Gliscor Probopass
             424, 461, 462, 463, 465, 469, 470, 471, 472, 473, 476
         };
-        // Ambipom Weavile Magnezone Lickilicky Tangrowth
-        // Yanmega Leafeon Glaceon Mamoswine Gliscor Probopass
         internal static readonly int[] UnreleasedItems_3 =
         {
             005, // Safari Ball
         };
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
-        internal static readonly string[] EReaderBerriesNames_USA =
+        internal static readonly HashSet<string> EReaderBerriesNames_USA = new HashSet<string>
         {
             // USA Series 1
             "PUMKIN",
@@ -117,7 +118,7 @@ namespace PKHeX.Core
             "CHILAN",
             "NUTPEA",
         };
-        internal static readonly string[] EReaderBerriesNames_JP =
+        internal static readonly HashSet<string> EReaderBerriesNames_JP = new HashSet<string>
         {
             // JP Series 1
             "カチャ", // PUMKIN
@@ -143,7 +144,7 @@ namespace PKHeX.Core
             280, 104, 115, 351, 053, 188, 201, 126, 317, 332,
             259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
         };
-        internal static readonly int[] HM_3 = {15, 19, 57, 70, 148, 249, 127, 291};
+        internal static readonly HashSet<int> HM_3 = new HashSet<int> { 15, 19, 57, 70, 148, 249, 127, 291};
         internal static readonly int[] TypeTutor3 = {338, 307, 308};
         internal static readonly int[] Tutor_3Mew =
         {
@@ -234,7 +235,7 @@ namespace PKHeX.Core
         };
         // 064 is an unused location for metor falls
         // 084 is Inside of a truck, no possible pokemon can be hatched there
-        internal static readonly int[] ValidMet_RS =
+        internal static readonly HashSet<int> ValidMet_RS = new HashSet<int>
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
             020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,
@@ -244,7 +245,7 @@ namespace PKHeX.Core
         };
         // 155 - 158 Sevii Isle 6-9 Unused
         // 171 - 173 Sevii Isle 22-24 Unused
-        internal static readonly int[] ValidMet_FRLG =
+        internal static readonly HashSet<int> ValidMet_FRLG = new HashSet<int>
         {
             087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099,
             100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
@@ -253,9 +254,9 @@ namespace PKHeX.Core
             164, 165, 166, 167, 168, 169, 170, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186,
             187, 188, 189, 190, 191, 192, 193, 194, 195, 196
         };
-        internal static readonly int[] ValidMet_E = ValidMet_RS.Concat(new[]
+        internal static readonly HashSet<int> ValidMet_E = new HashSet<int>(ValidMet_RS.Concat(new[]
         {
             196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
-        }).ToArray();
+        }));
     }
 }

@@ -1085,10 +1085,11 @@ namespace PKHeX.Core
                 AddLine(Severity.Invalid, V110, CheckIdentifier.Ability);
         }
         #region VerifyBall
-        private void VerifyBallEquals(params int[] balls)
+        private void VerifyBallEquals(int ball) => AddBallLine(ball == pkm.Ball);
+        private void VerifyBallEquals(ICollection<int> balls) => AddBallLine(balls.Contains(pkm.Ball));
+        private void AddBallLine(bool valid)
         {
-            int ball = pkm.Ball;
-            if (balls.Any(b => b == ball))
+            if (valid)
                 AddLine(Severity.Valid, V119, CheckIdentifier.Ball);
             else
                 AddLine(Severity.Invalid, V118, CheckIdentifier.Ball);

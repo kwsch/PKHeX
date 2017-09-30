@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -9,14 +10,22 @@ namespace PKHeX.Core
         internal const int MaxItemID_1 = 255; 
         internal const int MaxAbilityID_1 = 0;
         
-        internal static readonly ushort[] Pouch_Items_RBY = Enumerable.Range(0, 7)     // 0-6
-           .Concat(Enumerable.Range(10, 11))  // 10-20
-           .Concat(Enumerable.Range(29, 15))  // 29-43
-           .Concat(Enumerable.Range(45, 5))   // 45-49
-           .Concat(Enumerable.Range(51, 8))   // 51-58
-           .Concat(Enumerable.Range(60, 24))  // 60-83
-           .Concat(Enumerable.Range(196, 55)) // 196-250
-           .Select(i => (ushort)i).ToArray();
+        internal static readonly ushort[] Pouch_Items_RBY =
+        {
+            000,001,002,003,004,005,006,            010,011,012,013,014,015,
+            016,017,018,019,020,                                029,030,031,
+            032,033,034,035,036,037,038,039,040,041,042,043,    045,046,047,
+            048,049,    051,052,053,054,055,056,057,058,    060,061,062,063,
+            064,065,066,067,068,069,070,071,072,073,074,075,076,077,078,079,
+            080,081,082,083,
+
+            // ...
+
+            196,197,198,199,200,201,202,203,204,205,206,207,
+            208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,
+            224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,
+            240,241,242,243,244,245,246,247,248,249,250,
+        };
 
         internal static readonly int[] MovePP_RBY =
         {
@@ -29,7 +38,7 @@ namespace PKHeX.Core
             00, 00, 00, 00, 00, 00
         };
 
-        internal static readonly int[] TransferSpeciesDefaultAbility_1 = {92, 93, 94, 109, 110, 151};
+        internal static readonly HashSet<int> TransferSpeciesDefaultAbility_1 = new HashSet<int> {92, 93, 94, 109, 110, 151};
 
         internal static readonly int[] TMHM_RBY =
         {
@@ -50,25 +59,25 @@ namespace PKHeX.Core
 
         internal static readonly int[] WildPokeBalls1 = {4};
 
-        internal static readonly int[] FutureEvolutionsGen1 =
+        internal static readonly HashSet<int> FutureEvolutionsGen1 = new HashSet<int>
         {
             169,182,186,196,197,199,208,212,230,233,242,462,463,464,465,466,467,470,471,474,700
         };
 
-        internal static readonly int[] FutureEvolutionsGen1_Gen2LevelUp =
+        internal static readonly HashSet<int> FutureEvolutionsGen1_Gen2LevelUp = new HashSet<int>
         {
             // Crobat Espeon Umbreon Blissey
             169,196,197,242
         };
-        internal static readonly int[] SpecialMinMoveSlots =
+        internal static readonly HashSet<int> SpecialMinMoveSlots = new HashSet<int>
         {
             25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
         };
-        internal static readonly int[] Types_Gen1 =
+        internal static readonly HashSet<int> Types_Gen1 = new HashSet<int>
         {
             0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
         };
-        internal static readonly int[] Species_NotAvailable_CatchRate =
+        internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new HashSet<int>
         {
             12, 18, 31, 34, 36, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
         };
@@ -77,7 +86,7 @@ namespace PKHeX.Core
             167, // Normal Box
             168, // Gorgeous Box
         };
-        internal static readonly int[] Stadium_GiftSpecies =
+        internal static readonly HashSet<int> Stadium_GiftSpecies = new HashSet<int>
         {
             001, // Bulbasaur
             004, // Charmander
@@ -89,7 +98,7 @@ namespace PKHeX.Core
             138, // Omanyte
             140, // Kabuto
         };
-        internal static readonly int[] Trade_Evolution1 =
+        internal static readonly HashSet<int> Trade_Evolution1 = new HashSet<int>
         {
             064,
             067,
