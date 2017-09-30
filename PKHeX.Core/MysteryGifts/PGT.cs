@@ -32,12 +32,15 @@ namespace PKHeX.Core
         {
             get
             {
+                if (_gift != null)
+                    return _gift;
                 byte[] giftData = new byte[PGT.Size];
                 Array.Copy(Data, 0, giftData, 0, PGT.Size);
-                return new PGT(giftData);
+                return _gift = new PGT(giftData);
             }
-            set => value?.Data.CopyTo(Data, 0);
+            set => (_gift = value)?.Data.CopyTo(Data, 0);
         }
+        private PGT _gift;
         public byte[] Information
         {
             get
@@ -155,14 +158,16 @@ namespace PKHeX.Core
         {
             get
             {
+                if (_pk != null)
+                    return _pk;
                 byte[] ekdata = new byte[PKX.SIZE_4PARTY];
                 Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
                 bool empty = ekdata.SequenceEqual(new byte[ekdata.Length]);
-                return new PK4(empty ? ekdata : PKX.DecryptArray45(ekdata));
+                return _pk = new PK4(empty ? ekdata : PKX.DecryptArray45(ekdata));
             }
             set
             {
-                if (value == null)
+                if ((_pk = value) == null)
                     return;
 
                 var pkdata = value.Data.SequenceEqual(new byte[value.Data.Length])
@@ -171,6 +176,7 @@ namespace PKHeX.Core
                 pkdata.CopyTo(Data, 8);
             }
         }
+        private PK4 _pk;
 
         private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
@@ -191,7 +197,6 @@ namespace PKHeX.Core
                 return null;
 
             PK4 pk4 = new PK4(PK.Data) {Sanity = 0};
-            var pi = PersonalTable.HGSS.GetFormeEntry(Species, PK.AltForm);
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = SAV.OT;
@@ -277,6 +282,7 @@ namespace PKHeX.Core
                 while (pk4.IsShiny)
                     pk4.PID = RNG.ARNG.Next(pk4.PID);
             }
+            var pi = pk4.PersonalInfo;
             pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
             if (pk4.Species == 201) // Never will be true; Unown was never distributed.
                 pk4.AltForm = PKX.GetUnownForm(pk4.PID);
