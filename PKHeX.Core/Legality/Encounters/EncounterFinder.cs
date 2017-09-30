@@ -45,6 +45,10 @@ namespace PKHeX.Core
                     if (VerifySecondaryChecks(pkm, info, encounter))
                         break; // passes
                 }
+
+                if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
+                    info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
+
                 return info;
             }
         }
@@ -82,12 +86,6 @@ namespace PKHeX.Core
                 return false;
             info.Parse.Add(evo);
 
-            if (!info.PIDIVMatches)
-            {
-                if (iterator.PeekIsNext())
-                    return false; // continue to next
-                info.Parse.Add(new CheckResult(Severity.Invalid, V411, CheckIdentifier.PID));
-            }
             return true;
         }
 
