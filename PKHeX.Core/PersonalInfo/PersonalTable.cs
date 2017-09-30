@@ -177,7 +177,7 @@ namespace PKHeX.Core
                 if (FormCount <= 0) continue;
                 FormList[i][0] = species[i];
                 for (int j = 1; j < FormCount; j++)
-                    FormList[i][j] = $"{species[i]} " + j;
+                    FormList[i][j] = $"{species[i]} {j}";
             }
 
             return FormList;

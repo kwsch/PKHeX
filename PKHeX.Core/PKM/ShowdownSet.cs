@@ -184,13 +184,13 @@ namespace PKHeX.Core
         {
             string specForm = species[Species];
             if (!string.IsNullOrWhiteSpace(form))
-                specForm += "-" + form.Replace("Mega ", "Mega-");
+                specForm += $"-{form.Replace("Mega ", "Mega-")}";
 
             string result = Nickname != null && species[Species] != Nickname ? $"{Nickname} ({specForm})" : $"{specForm}";
             if (!string.IsNullOrEmpty(Gender))
                 result += $" ({Gender})";
             if (HeldItem > 0 && HeldItem < items.Length)
-                result += " @ " + items[HeldItem];
+                result += $" @ {items[HeldItem]}";
             return result;
         }
         private static bool GetStringStats(out IEnumerable<string> result, int[] stats, int ignore)
@@ -275,7 +275,7 @@ namespace PKHeX.Core
             Species = Array.IndexOf(species, tmp[0].Trim());
             Form = tmp[1].Trim();
             if (tmp.Length > 2)
-                Form += " " + tmp[2];
+                Form += $" {tmp[2]}";
         }
         private void ParseSpeciesNickname(ref string line)
         {
@@ -401,7 +401,7 @@ namespace PKHeX.Core
 
                 // Minior
                 case 774 when !string.IsNullOrWhiteSpace(form) && form != "Meteor":
-                    return "C-" + form;
+                    return $"C-{form}";
 
                 default:
                     return form;

@@ -347,7 +347,7 @@ namespace PKHeX.Core
             {
                 case PCD pcd:
                     if (!pcd.CanBeReceivedBy(pkm.Version))
-                        return new CheckResult(Severity.Invalid, string.Format(V21, MatchedGift.CardHeader, "-- " + V416), CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Invalid, string.Format(V21, MatchedGift.CardHeader, $"-- {V416}"), CheckIdentifier.Encounter);
                     break;
             }
             // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.

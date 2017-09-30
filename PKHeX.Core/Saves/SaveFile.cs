@@ -192,7 +192,7 @@ namespace PKHeX.Core
                 if (value == null)
                     throw new ArgumentNullException();
                 if (value.Count == 0 || value.Count > 6)
-                    throw new ArgumentException("Expected 1-6, got " + value.Count);
+                    throw new ArgumentException($"Expected 1-6, got {value.Count}");
                 if (value.Any(pk => PKMType != pk.GetType()))
                     throw new ArgumentException($"Not {PKMType} array.");
                 if (value[0].Species == 0)

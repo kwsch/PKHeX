@@ -593,8 +593,8 @@ namespace PKHeX.WinForms
             uint TID = Util.ToUInt32(MT_TID.Text);
             uint SID = Util.ToUInt32(MT_SID.Text);
             uint tsv = (TID ^ SID) >> 4;
-            Tip1.SetToolTip(MT_TID, "TSV: " + tsv.ToString("0000"));
-            Tip2.SetToolTip(MT_SID, "TSV: " + tsv.ToString("0000"));
+            Tip1.SetToolTip(MT_TID, $"TSV: {tsv:0000}");
+            Tip2.SetToolTip(MT_SID, $"TSV: {tsv:0000}");
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -638,7 +638,7 @@ namespace PKHeX.WinForms
             editing = true;
             int offset = Convert.ToInt32(statdata[CB_Stats.SelectedIndex * 2].Substring(2), 16);
             MT_Stat.Text = SAV.GetPSSStat(offset/4).ToString();
-            L_Offset.Text = "0x" + offset.ToString("X3");
+            L_Offset.Text = $"0x{offset:X3}";
             editing = false;
         }
         private void ChangeStatVal(object sender, EventArgs e)
@@ -663,8 +663,9 @@ namespace PKHeX.WinForms
 
         private void UpdateCountry(object sender, EventArgs e)
         {
-            if (WinFormsUtil.GetIndex(sender as ComboBox) > 0)
-                Main.SetCountrySubRegion(CB_Region, "sr_" + WinFormsUtil.GetIndex(sender as ComboBox).ToString("000"));
+            int index;
+            if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
+                Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
         }
         private void ToggleBadge(object sender, EventArgs e)
         {

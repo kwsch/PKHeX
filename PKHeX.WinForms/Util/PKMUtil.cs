@@ -51,7 +51,7 @@ namespace PKHeX.WinForms
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
             if (baseImage == null)
             {
-                baseImage = (Image) Resources.ResourceManager.GetObject("_" + species);
+                baseImage = (Image) Resources.ResourceManager.GetObject($"_{species}");
                 baseImage = baseImage != null ? ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, .5) : Resources.unknown;
             }
             if (isegg)
@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
             }
             if (item > 0)
             {
-                Image itemimg = (Image)Resources.ResourceManager.GetObject("item_" + item) ?? Resources.helditem;
+                Image itemimg = (Image)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
                 if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                     itemimg = Resources.item_tm;
 
@@ -87,7 +87,7 @@ namespace PKHeX.WinForms
         }
         public static Image GetTypeSprite(int type)
         {
-            return Resources.ResourceManager.GetObject("type_icon_" + type.ToString("00")) as Image;
+            return Resources.ResourceManager.GetObject($"type_icon_{type:00}") as Image;
         }
 
         private static Image GetSprite(MysteryGift gift, SaveFile SAV)
@@ -117,7 +117,7 @@ namespace PKHeX.WinForms
         {
             string file = "tr_00";
             if (SAV.Generation == 6 && (SAV.ORAS || SAV.ORASDEMO))
-                file = "tr_" + SAV.MultiplayerSpriteID.ToString("00");
+                file = $"tr_{SAV.MultiplayerSpriteID:00}";
             return Resources.ResourceManager.GetObject(file) as Image;
         }
         private static Image GetWallpaper(SaveFile SAV, int box)

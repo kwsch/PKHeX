@@ -17,7 +17,7 @@
 
         public void Combine(RibbonResult other)
         {
-            Name += " / " + other.Name;
+            Name += $" / {other.Name}";
         }
     }
 }

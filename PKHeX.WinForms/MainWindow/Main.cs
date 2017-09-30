@@ -726,7 +726,7 @@ namespace PKHeX.WinForms
                 return null;
 
             var blank = sav.BlankPKM;
-            string path = Path.Combine(TemplatePath, new DirectoryInfo(TemplatePath).Name + "." + blank.Extension);
+            string path = Path.Combine(TemplatePath, $"{new DirectoryInfo(TemplatePath).Name}.{blank.Extension}");
 
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
                 return null;
@@ -795,11 +795,11 @@ namespace PKHeX.WinForms
         {
 #if DEBUG
             var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string date = "d-" + d.ToString("yyyyMMdd");
+            string date = $"d-{d:yyyyMMdd}";
 #else
             string date = Resources.ProgramVersion;
 #endif
-            string title = $"PKH{(HaX ? "a" : "e")}X ({date}) - " + $"{sav.GetType().Name}: ";
+            string title = $"PKH{(HaX ? "a" : "e")}X ({date}) - {sav.GetType().Name}: ";
             if (string.IsNullOrWhiteSpace(path)) // Blank save file
             {
                 sav.FilePath = null;
@@ -831,7 +831,7 @@ namespace PKHeX.WinForms
             if (!locked)
                 return true;
 
-            WinFormsUtil.Alert("File's location is write protected:\n" + path,
+            WinFormsUtil.Alert("File's location is write protected:" + Environment.NewLine + path,
                 "If the path is a removable disk (SD card), please ensure the write protection switch is not set.");
             return false;
         }
@@ -1145,7 +1145,7 @@ namespace PKHeX.WinForms
             PKM pkx = PreparePKM();
             bool encrypt = ModifierKeys == Keys.Control;
             string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
-            string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
+            string filename = $"{fn}{(encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}")}";
             byte[] dragdata = encrypt ? pkx.EncryptedBoxData : pkx.DecryptedBoxData;
             // Make file
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));

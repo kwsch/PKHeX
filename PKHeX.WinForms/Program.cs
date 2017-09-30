@@ -171,8 +171,8 @@ namespace PKHeX.WinForms
             try
             {
                 // Not using a string builder because something's very wrong, and we don't want to make things worse
-                var message = (originalException?.ToString() ?? "null first exception") + "\n\n" + errorHandlingException;
-                File.WriteAllText("PKHeX_Error_Report " + DateTime.Now.ToString("YYYYMMDDhhmmss") + ".txt", message);
+                var message = (originalException?.ToString() ?? "null first exception") + Environment.NewLine + errorHandlingException;
+                File.WriteAllText($"PKHeX_Error_Report {DateTime.Now:YYYYMMDDhhmmss}.txt", message);
             }
             catch (Exception)
             {

@@ -49,7 +49,7 @@
                 const string wild = "Wild Encounter";
                 if (Type == SlotType.Any)
                     return wild;
-                return wild + " " + $"{Type.ToString().Replace("_", " ")}";
+                return $"{wild} {Type.ToString().Replace("_", " ")}";
             }
         }
     }

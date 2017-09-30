@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
-                LB_Species.Items.Add(i.ToString("000") + " - " + GameInfo.Strings.specieslist[i]);
+                LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
 
             editing = false;
             LB_Species.SelectedIndex = 0;

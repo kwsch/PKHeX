@@ -118,7 +118,7 @@
                 const string game = "Static Encounter";
                 if (Version == GameVersion.Any)
                     return game;
-                return game + " " + $"({Version})";
+                return $"{game} ({Version})";
             }
         }
     }

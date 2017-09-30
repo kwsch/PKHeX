@@ -460,7 +460,7 @@ namespace PKHeX.WinForms.Controls
             string filterText = Util.GetOnlyHex(tb.Text);
             if (filterText.Length != tb.Text.Length)
             {
-                WinFormsUtil.Alert("Expected HEX (0-9, A-F).", "Received: " + Environment.NewLine + tb.Text);
+                WinFormsUtil.Alert("Expected HEX (0-9, A-F).", $"Received: {Environment.NewLine}{tb.Text}");
                 tb.Undo();
                 return;
             }
@@ -640,15 +640,14 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Export Passerby Info to Clipboard?"))
                 return;
-            string result = "PSS List" + Environment.NewLine;
+            var result = new List<string> {"PSS List"};
             string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
             int offset = ((SAV6)SAV).PSS;
             for (int g = 0; g < 3; g++)
             {
-                result += Environment.NewLine
-                          + "----" + Environment.NewLine
-                          + headers[g] + Environment.NewLine
-                          + "----" + Environment.NewLine;
+                result.Add("----");
+                result.Add(headers[g]);
+                result.Add("----");
                 // uint count = BitConverter.ToUInt32(savefile, offset + 0x4E20);
                 int r_offset = offset;
 
@@ -656,7 +655,8 @@ namespace PKHeX.WinForms.Controls
                 {
                     ulong unkn = BitConverter.ToUInt64(SAV.Data, r_offset);
                     if (unkn == 0) break; // No data present here
-                    if (i > 0) result += Environment.NewLine + Environment.NewLine;
+                    if (i > 0)
+                        result.Add("");
 
                     string otname = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, r_offset + 8, 0x1A));
                     string message = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, r_offset + 0x22, 0x22));
@@ -677,19 +677,18 @@ namespace PKHeX.WinForms.Controls
                     catch { gamename = "UNKNOWN GAME"; }
 
                     var cr = GameInfo.GetCountryRegionText(country, region, GameInfo.CurrentLanguage);
-                    result +=
-                        "OT: " + otname + Environment.NewLine +
-                        "Message: " + message + Environment.NewLine +
-                        "Game: " + gamename + Environment.NewLine +
-                        "Country: " + cr.Item1 + Environment.NewLine +
-                        "Region: " + cr.Item2 + Environment.NewLine +
-                        "Favorite: " + GameInfo.Strings.specieslist[favpkm];
+                    result.Add($"OT: {otname}");
+                    result.Add($"Message: {message}");
+                    result.Add($"Game: {gamename}");
+                    result.Add($"Country: {cr.Item1}");
+                    result.Add($"Region: {cr.Item2}");
+                    result.Add($"Favorite: {GameInfo.Strings.specieslist[favpkm]}");
 
                     r_offset += 0xC8; // Advance to next entry
                 }
                 offset += 0x5000; // Advance to next block
             }
-            Clipboard.SetText(result);
+            Clipboard.SetText(string.Join(Environment.NewLine, result));
         }
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
         {
@@ -770,7 +769,7 @@ namespace PKHeX.WinForms.Controls
                 if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
                 { c = "Battle Box slots prevent loading of PC data."; return false; }
                 if (!SAV.SetPCBinary(input))
-                { c = "Current SAV Generation: " + SAV.Generation; return false; }
+                { c = $"Current SAV Generation: {SAV.Generation}"; return false; }
 
                 c = "PC Binary loaded.";
             }
@@ -779,13 +778,13 @@ namespace PKHeX.WinForms.Controls
                 if (SAV.IsAnySlotLockedInBox(Box.CurrentBox, Box.CurrentBox))
                 { c = "Battle Box slots in box prevent loading of box data."; return false; }
                 if (!SAV.SetBoxBinary(input, Box.CurrentBox))
-                { c = "Current SAV Generation: " + SAV.Generation; return false; }
+                { c = $"Current SAV Generation: {SAV.Generation}"; return false; }
 
                 c = "Box Binary loaded.";
             }
             else
             {
-                c = "Current SAV Generation: " + SAV.Generation;
+                c = $"Current SAV Generation: {SAV.Generation}";
                 return false;
             }
             SetPKMBoxes();

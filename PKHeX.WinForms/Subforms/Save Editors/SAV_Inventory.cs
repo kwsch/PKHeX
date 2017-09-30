@@ -157,7 +157,8 @@ namespace PKHeX.WinForms
                 var incorrectPouch = invalid.Where(item => item.Index < itemlist.Length).ToArray();
 
                 if (outOfBounds.Any())
-                    WinFormsUtil.Error("Unknown item detected.", "Item ID(s): " + string.Join(", ", outOfBounds.Select(item => item.Index)));
+                    WinFormsUtil.Error("Unknown item detected.",
+                        $"Item ID(s): {string.Join(", ", outOfBounds.Select(item => item.Index))}");
                 if (!Main.HaX && incorrectPouch.Any())
                     WinFormsUtil.Alert($"The following item(s) have been removed from {pouch.Type} pouch.",
                         string.Join(", ", incorrectPouch.Select(item => itemlist[item.Index])), 

@@ -1253,8 +1253,9 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateCountry(object sender, EventArgs e)
         {
-            if (WinFormsUtil.GetIndex(sender as ComboBox) > 0)
-                SetCountrySubRegion(CB_SubRegion, "sr_" + WinFormsUtil.GetIndex(sender as ComboBox).ToString("000"));
+            int index;
+            if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
+                SetCountrySubRegion(CB_SubRegion, $"sr_{index:000}");
         }
         private void UpdateSpecies(object sender, EventArgs e)
         {

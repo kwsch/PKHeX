@@ -81,7 +81,7 @@ namespace PKHeX.Core
         }
 
         public string Extension => GetType().Name.ToLower();
-        public string FileName => CardHeader + "." + Extension;
+        public string FileName => $"{CardHeader}.{Extension}";
         public byte[] Data { get; set; }
         public abstract PKM ConvertToPKM(SaveFile SAV);
         public abstract int Format { get; }

@@ -35,7 +35,7 @@ namespace PKHeX.WinForms
             {
                 Size = new Size { Height = 30, Width = 130 },
                 Text = name,
-                Name = "B_" + name,
+                Name = $"B_{name}",
                 Enabled = new DirectoryInfo(path).Exists,
             };
             button.Click += (s, e) =>

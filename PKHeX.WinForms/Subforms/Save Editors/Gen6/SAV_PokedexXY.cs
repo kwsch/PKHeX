@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
 
             for (int i = 1; i < SAV.MaxSpeciesID + 1; i++)
-                LB_Species.Items.Add(i.ToString("000") + " - " + GameInfo.Strings.specieslist[i]);
+                LB_Species.Items.Add($"{i:000} - {GameInfo.Strings.specieslist[i]}");
 
             GetData();
             editing = false;
@@ -140,12 +140,12 @@ namespace PKHeX.WinForms
             for (int i = 0; i < forms.Length; i++) // Seen
                 CLB_FormsSeen.Items.Add(forms[i], formbools[f + i + 0*FormLen*8]);
             for (int i = 0; i < forms.Length; i++) // Seen Shiny
-                CLB_FormsSeen.Items.Add("* " + forms[i], formbools[f + i + 1*FormLen*8]);
+                CLB_FormsSeen.Items.Add($"* {forms[i]}", formbools[f + i + 1*FormLen*8]);
 
             for (int i = 0; i < forms.Length; i++) // Displayed
                 CLB_FormDisplayed.Items.Add(forms[i], formbools[f + i + 2*FormLen*8]);
             for (int i = 0; i < forms.Length; i++) // Displayed Shiny
-                CLB_FormDisplayed.Items.Add("* " + forms[i], formbools[f + i + 3*FormLen*8]);
+                CLB_FormDisplayed.Items.Add($"* {forms[i]}", formbools[f + i + 3*FormLen*8]);
         }
         private void SetEntry()
         {

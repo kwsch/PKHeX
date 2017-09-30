@@ -123,7 +123,7 @@ namespace PKHeX.WinForms
                         GB_M_CT.Text = $"{args[1]} {args[2]} - {args[0]}"; // Never Left : OT : Disabled
                     }
                     else
-                        GB_M_CT.Text = args[4] + " " + pkm.HT_Name;
+                        GB_M_CT.Text = $"{args[4]} {pkm.HT_Name}";
                 }
                 RTB_OT.Visible = CB_OTQual.Enabled = CB_OTMemory.Enabled = CB_OTFeel.Enabled = CB_OTVar.Enabled = M_OT_Affection.Enabled = enable;
             }
@@ -362,9 +362,10 @@ namespace PKHeX.WinForms
         private void ChangeCountryIndex(object sender, EventArgs e)
         {
             int index = Array.IndexOf(cba, sender);
-            if (WinFormsUtil.GetIndex(sender as ComboBox) > 0)
+            int val;
+            if (sender is ComboBox c && (val = WinFormsUtil.GetIndex(c)) > 0)
             {
-                Main.SetCountrySubRegion(mta[index], "sr_" + WinFormsUtil.GetIndex(sender as ComboBox).ToString("000"));
+                Main.SetCountrySubRegion(mta[index], $"sr_{val:000}");
                 mta[index].Enabled = true;
             }
             else

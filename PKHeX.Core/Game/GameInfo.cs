@@ -550,7 +550,7 @@ namespace PKHeX.Core
             // Get Region Text
             try
             {
-                string[] inputCSV = Util.GetStringList("sr_" + country.ToString("000"));
+                string[] inputCSV = Util.GetStringList($"sr_{country:000}");
                 // Set up our Temporary Storage
                 string[] unsortedList = new string[inputCSV.Length - 1];
                 int[] indexes = new int[inputCSV.Length - 1];

@@ -75,7 +75,7 @@ namespace PKHeX.WinForms
                 return;
 
             File.WriteAllBytes(sfd.FileName, LinkInfo.Data);
-            WinFormsUtil.Alert("Pokémon Link data saved to:\r" + sfd.FileName + ".");
+            WinFormsUtil.Alert("Pokémon Link data saved to:" + Environment.NewLine + sfd.FileName);
         }
         
         private void LoadLinkData(byte[] data)

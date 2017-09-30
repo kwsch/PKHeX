@@ -14,13 +14,13 @@ namespace PKHeX.WinForms
         internal static void TranslateInterface(Control form, string lang)
         {
             // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = "lang_" + lang + ".txt";
+            string externalLangPath = $"lang_{lang}.txt";
             string[] rawlist;
             if (File.Exists(externalLangPath))
                 rawlist = File.ReadAllLines(externalLangPath);
             else
             {
-                var file = "lang_" + lang;
+                var file = $"lang_{lang}";
                 rawlist = Util.GetStringList(file);
                 if (rawlist.Length == 0)
                 {
@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < rawlist.Length; i++)
             {
                 // Find our starting point
-                if (!rawlist[i].Contains("! " + form.Name)) continue;
+                if (!rawlist[i].Contains($"! {form.Name}")) continue;
                 start = i;
                 break;
             }
@@ -211,7 +211,7 @@ namespace PKHeX.WinForms
         /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
         public static bool OpenSAVPKMDialog(string[] Extensions, out string path)
         {
-            string supported = string.Join(";", Extensions.Select(s => "*." + s).Concat(new[] { "*.pkm" }));
+            string supported = string.Join(";", Extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
@@ -275,9 +275,9 @@ namespace PKHeX.WinForms
                 }
             }
 
-            if (new[] { ".ekx", "." + ekx, ".bin" }.Contains(ext))
+            if (new[] { ".ekx", $".{ekx}", ".bin" }.Contains(ext))
                 File.WriteAllBytes(path, pk.EncryptedPartyData);
-            else if (new[] { "." + pkx }.Contains(ext))
+            else if (new[] {$".{pkx}"}.Contains(ext))
                 File.WriteAllBytes(path, pk.DecryptedBoxData);
             else
             {

@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
                     File.WriteAllBytes(Path.Combine(Path.Combine(path, boxfolder), fileName), pk.DecryptedBoxData);
             }
 
-            result = $"Dumped Boxes ({ctr} pkm) to path:\n" + path;
+            result = $"Dumped Boxes ({ctr} pkm) to path:" + Environment.NewLine + path;
             return true;
         }
 
@@ -74,7 +74,7 @@ namespace PKHeX.WinForms
                     File.WriteAllBytes(Path.Combine(path, fileName), pk.DecryptedBoxData);
             }
 
-            result = $"Dumped Box ({ctr} pkm) to path:\n" + path;
+            result = $"Dumped Box ({ctr} pkm) to path:" + Environment.NewLine + path;
             return true;
         }
 

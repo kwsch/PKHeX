@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
                 var pkmname = GameInfo.Strings.specieslist[species];
 
                 if (split.Length != 1)
-                    pkmname += " " + split[1];
+                    pkmname += $" {split[1]}";
                 var b = new Button
                 {
                     Text = pkmname, Enabled = pair.IsDespawned,

@@ -86,7 +86,7 @@ namespace PKHeX.WinForms
                             "Do you want to remove the USED flag so that it is UNUSED?"))
                     g.GiftUsed = false;
 
-                RTB.Text = GetDescription(g, SAV);
+                RTB.Lines = GetDescription(g, SAV).ToArray();
                 PB_Preview.Image = g.Sprite(SAV);
                 mg = g;
             }
@@ -468,22 +468,21 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
         }
         private int wc_slot = -1;
-        private static string GetDescription(MysteryGift gift, SaveFile SAV)
+        private static IEnumerable<string> GetDescription(MysteryGift gift, SaveFile SAV)
         {
             if (gift.Empty)
-                return "Empty Slot. No data!";
+                return new[] {"Empty Slot. No data!"};
 
-            string s = gift.CardHeader + Environment.NewLine;
+            var result = new List<string> {gift.CardHeader};
             if (gift.IsItem)
             {
-                s += $"Item: {GameInfo.Strings.itemlist[gift.ItemID]} (Quantity: {gift.Quantity})" + Environment.NewLine;
-                if (gift is WC7)
+                result.Add($"Item: {GameInfo.Strings.itemlist[gift.ItemID]} (Quantity: {gift.Quantity})");
+                if (gift is WC7 wc7)
                 {
                     var ind = 1;
-                    var wc7 = (WC7) gift;
                     while (wc7.GetItem(ind) != 0)
                     {
-                        s += $"Item: {GameInfo.Strings.itemlist[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})" + Environment.NewLine;
+                        result.Add($"Item: {GameInfo.Strings.itemlist[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
                         ind++;
                     }
                 }
@@ -494,35 +493,38 @@ namespace PKHeX.WinForms
 
                 try
                 {
-                    s += $"{GameInfo.Strings.specieslist[pk.Species]} @ {GameInfo.Strings.itemlist[pk.HeldItem]}  --- ";
-                    s += (pk.IsEgg ? GameInfo.Strings.eggname : $"{pk.OT_Name} - {pk.TID:00000}/{pk.SID:00000}") + Environment.NewLine;
-                    s += $"{GameInfo.Strings.movelist[pk.Move1]} / {GameInfo.Strings.movelist[pk.Move2]} / {GameInfo.Strings.movelist[pk.Move3]} / {GameInfo.Strings.movelist[pk.Move4]}" + Environment.NewLine;
-                    if (gift is WC7)
+                    var first =
+                        $"{GameInfo.Strings.specieslist[pk.Species]} @ {GameInfo.Strings.itemlist[pk.HeldItem]}  --- "
+                        + (pk.IsEgg ? GameInfo.Strings.eggname : $"{pk.OT_Name} - {pk.TID:00000}/{pk.SID:00000}");
+                    result.Add(first);
+                    result.Add(string.Join(" / ", pk.Moves.Select(z => GameInfo.Strings.movelist[z])));
+                    
+                    if (gift is WC7 wc7)
                     {
-                        var addItem = ((WC7) gift).AdditionalItem;
+                        var addItem = wc7.AdditionalItem;
                         if (addItem != 0)
-                            s += $"+ {GameInfo.Strings.itemlist[addItem]}" + Environment.NewLine;
+                            result.Add($"+ {GameInfo.Strings.itemlist[addItem]}");
                     }
                 }
-                catch { s += "Unable to create gift description." + Environment.NewLine; }
+                catch { result.Add("Unable to create gift description."); }
             }
             else if (gift.IsBP)
             {
-                s += "BP: " + gift.BP + Environment.NewLine;
+                result.Add($"BP: {gift.BP}");
             }
             else if (gift.IsBean)
             {
-                s += "Bean ID: " + gift.Bean + Environment.NewLine + "Quantity: " + gift.Quantity + Environment.NewLine;
+                result.Add($"Bean ID: {gift.Bean}");
+                result.Add($"Quantity: {gift.Quantity}");
             }
-            else { s += "Unknown Wonder Card Type!" + Environment.NewLine; }
-            if (gift is WC7)
+            else { result.Add("Unknown Wonder Card Type!"); }
+            if (gift is WC7 w7)
             {
-                var wc7 = (WC7) gift;
-                s += $"Repeatable: {wc7.GiftRepeatable}" + Environment.NewLine;
-                s += $"Collected: {wc7.GiftUsed}" + Environment.NewLine;
-                s += $"Once Per Day: {wc7.GiftOncePerDay}" + Environment.NewLine;
+                result.Add($"Repeatable: {w7.GiftRepeatable}");
+                result.Add($"Collected: {w7.GiftUsed}");
+                result.Add($"Once Per Day: {w7.GiftOncePerDay}");
             }
-            return s;
+            return result;
         }
 
         // UI Generation

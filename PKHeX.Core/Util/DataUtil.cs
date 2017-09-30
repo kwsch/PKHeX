@@ -98,16 +98,16 @@ namespace PKHeX.Core
         {
             var txt = Properties.Resources.ResourceManager.GetString(f); // Fetch File, \n to list.
             if (txt == null) return new string[0];
-            string[] rawlist = (txt).Split('\n');
+            string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
             return rawlist;
         }
         public static string[] GetStringList(string f, string l)
         {
-            var txt = Properties.Resources.ResourceManager.GetString("text_" + f + "_" + l); // Fetch File, \n to list.
+            var txt = Properties.Resources.ResourceManager.GetString($"text_{f}_{l}"); // Fetch File, \n to list.
             if (txt == null) return new string[0];
-            string[] rawlist = (txt).Split('\n');
+            string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
             return rawlist;
@@ -133,7 +133,8 @@ namespace PKHeX.Core
 
         public static byte[] GetBinaryResource(string name)
         {
-            using (var resource = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceStream("PKHeX.Core.Resources.byte." + name))
+            using (var resource = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceStream(
+                $"PKHeX.Core.Resources.byte.{name}"))
             {
                 var buffer = new byte[resource.Length];
                 resource.Read(buffer, 0, (int)resource.Length);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -238,16 +239,16 @@ namespace PKHeX.Core
         {
             get
             {
-                string r = "";
+                var list = new List<string>();
                 for (int i = 0; i < BLOCK_COUNT; i++)
                 {
                     byte[] chunk = Data.Skip(ABO + i * SIZE_BLOCK).Take(chunkLength[BlockOrder[i]]).ToArray();
                     ushort chk = SaveUtil.CRC32(chunk);
                     ushort old = BitConverter.ToUInt16(Data, ABO + i*SIZE_BLOCK + 0xFF6);
                     if (chk != old)
-                        r += $"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid." + Environment.NewLine;
+                        list.Add($"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid.");
                 }
-                return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
+                return list.Any() ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
         }
 

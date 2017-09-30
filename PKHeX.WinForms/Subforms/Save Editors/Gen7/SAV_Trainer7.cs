@@ -357,9 +357,9 @@ namespace PKHeX.WinForms
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
             SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
             int tsv = (SAV.TID ^ SAV.SID) >> 4;
-            string IDstr = "TSV: " + tsv.ToString("0000");
+            string IDstr = $"TSV: {tsv:0000}";
             if (SAV.Generation > 6) // always true for G7
-                IDstr += Environment.NewLine + "G7TID: " + SAV.TrainerID7.ToString("000000");
+                IDstr += Environment.NewLine + $"G7TID: {SAV.TrainerID7:000000}";
             Tip1.SetToolTip(MT_TID, IDstr);
             Tip2.SetToolTip(MT_SID, IDstr);
         }
@@ -393,8 +393,9 @@ namespace PKHeX.WinForms
         }
         private void UpdateCountry(object sender, EventArgs e)
         {
-            if (WinFormsUtil.GetIndex(sender as ComboBox) > 0)
-                Main.SetCountrySubRegion(CB_Region, "sr_" + WinFormsUtil.GetIndex(sender as ComboBox).ToString("000"));
+            int index;
+            if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
+                Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
         }
         private void B_Fashion_Click(object sender, EventArgs e)
         {
@@ -453,7 +454,7 @@ namespace PKHeX.WinForms
             NUD_Stat.Value = SAV.GetRecord(index);
 
             int offset = SAV.GetRecordOffset(index);
-            L_Offset.Text = "Offset: 0x" + offset.ToString("X3");
+            L_Offset.Text = $"Offset: 0x{offset:X3}";
             UpdateTip(index, true);
             editing = false;
         }
@@ -491,7 +492,7 @@ namespace PKHeX.WinForms
                 tip += value / 86400 + "d ";
             tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
             if (refval >= 0)
-                tip += Environment.NewLine + "Date: " + new DateTime(2000, 1, 1).AddSeconds(refval + value);
+                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(refval + value)}";
             return tip;
         }
 

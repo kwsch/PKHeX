@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -126,8 +127,7 @@ namespace PKHeX.Core
         {
             get
             {
-                int invalid = 0;
-                string rv = "";
+                var list = new List<string>();
                 for (int i = 0; i < Blocks.Length; i++)
                 {
                     if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
@@ -137,12 +137,11 @@ namespace PKHeX.Core
                     if (SaveUtil.CRC16_CCITT(array) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
                         continue;
 
-                    invalid++;
-                    rv += $"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}" + Environment.NewLine;
+                    list.Add($"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}");
                 }
                 // Return Outputs
-                rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
-                return rv;
+                list.Add($"SAV: {Blocks.Length - list.Count}/{Blocks.Length}");
+                return string.Join(Environment.NewLine, list);
             }   
         }
         public override ulong? Secure1

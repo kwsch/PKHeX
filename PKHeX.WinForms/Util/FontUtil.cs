@@ -47,7 +47,7 @@ namespace PKHeX.WinForms
 #endif
 
             }
-            catch (Exception ex) { Debug.WriteLine("Unable to add ingame font: " + ex.Message); }
+            catch (Exception ex) { Debug.WriteLine($"Unable to add ingame font: {ex.Message}"); }
         }
     }
 }

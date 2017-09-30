@@ -62,13 +62,13 @@ namespace PKHeX.WinForms
             int playeroff = SAV.SecretBase + 0x326;
             int favoff = SAV.SecretBase + 0x63A;
             string OT = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, playeroff + 0x218, 0x1A));
-            LB_Favorite.Items.Add("* " + OT);
+            LB_Favorite.Items.Add($"* {OT}");
             for (int i = 0; i < 30; i++)
             {
                 string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, favoff + i * 0x3E0 + 0x218, 0x1A));
                 if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                     BaseTrainer = "Empty";
-                LB_Favorite.Items.Add(i + " " + BaseTrainer);
+                LB_Favorite.Items.Add($"{i} {BaseTrainer}");
             }
         }
         private void B_SAV2FAV(object sender, EventArgs e)

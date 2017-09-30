@@ -555,14 +555,14 @@ namespace PKHeX.WinForms
             StatAddrControl(SetValToSav: -2, SetSavToVal: true);
             if (GB_Hall.Visible)
             {
-                GB_Hall.Text = "Battle Hall (" + (string)CB_Stats2.SelectedItem + ")";
+                GB_Hall.Text = $"Battle Hall ({(string) CB_Stats2.SelectedItem})";
                 editing = true;
                 GetHallStat();
                 editing = false;
             }
             else if (GB_Castle.Visible)
             {
-                GB_Castle.Text = "Battle Castle (" + (string)CB_Stats2.SelectedItem + ")";
+                GB_Castle.Text = $"Battle Castle ({(string) CB_Stats2.SelectedItem})";
                 editing = true;
                 GetCastleStat();
                 editing = false;

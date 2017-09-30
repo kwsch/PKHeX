@@ -534,17 +534,17 @@ namespace PKHeX.Core
         }
 
         // Data Requests
-        public static string GetResourceStringBall(int ball) => "_ball" + ball;
+        public static string GetResourceStringBall(int ball) => $"_ball{ball}";
         public static string GetResourceStringSprite(int species, int form, int gender, int generation)
         {
             if (new[] { 778, 664, 665, 414, 493, 773 }.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            string file = "_" + species;
+            string file = $"_{species}";
             if (form > 0) // Alt Form Handling
-                file += "_" + form;
+                file += $"_{form}";
             else if (gender == 1 && new[] { 592, 593, 521, 668 }.Contains(species)) // Frillish & Jellicent, Unfezant & Pyroar
-                file += "_" + gender;
+                file += $"_{gender}";
 
             if (species == 25 && form > 0 && generation >= 7) // Pikachu
                 file += "c"; // Cap

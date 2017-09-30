@@ -138,7 +138,7 @@ namespace PKHeX.WinForms.Controls
             Array.Resize(ref dragdata, SAV.SIZE_STORED);
             PKM pkx = SAV.GetPKM(dragdata);
             string fn = pkx.FileName; fn = fn.Substring(0, fn.LastIndexOf('.'));
-            string filename = $"{fn}{(encrypt ? ".ek" + pkx.Format : "." + pkx.Extension)}";
+            string filename = $"{fn}{(encrypt ? $".ek{pkx.Format}" : $".{pkx.Extension}")}";
 
             // Make File
             string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(filename));

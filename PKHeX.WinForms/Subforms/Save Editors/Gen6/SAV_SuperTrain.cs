@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             string[] stages = GameInfo.Strings.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 30; i++)
-                listBox1.Items.Add((i + 1).ToString("00") + " - " + stages[i + 2]);
+                listBox1.Items.Add($"{(i + 1):00} - {stages[i + 2]}");
 
             Setup();
         }

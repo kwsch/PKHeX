@@ -161,7 +161,7 @@ namespace PKHeX.Core
             // Language ID 6 is unused; flag if an impossible language is used
             if (pkm.Language == 6 || pkm.Language > maxLanguageID)
             {
-                AddLine(Severity.Invalid, string.Format(V5, "<=" + maxLanguageID, pkm.Language), CheckIdentifier.Language);
+                AddLine(Severity.Invalid, string.Format(V5, $"<={maxLanguageID}", pkm.Language), CheckIdentifier.Language);
                 return false;
             }
 
@@ -177,7 +177,7 @@ namespace PKHeX.Core
             // Korean Crystal does not exist
             if (pkm.Version == (int)GameVersion.C && pkm.Korean)
             {
-                AddLine(Severity.Invalid, string.Format(V5, "!=" + pkm.Language, pkm.Language), CheckIdentifier.Language);
+                AddLine(Severity.Invalid, string.Format(V5, $"!={pkm.Language}", pkm.Language), CheckIdentifier.Language);
                 return false;
             }
 

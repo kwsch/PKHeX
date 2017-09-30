@@ -282,7 +282,7 @@ namespace PKHeX.Core
                     case 191:
                         return IV_ATK >= 12 ? 0 : 1;
                 }
-                Debug.WriteLine("Unknown Gender value: " + gv);
+                Debug.WriteLine($"Unknown Gender value: {gv}");
                 return 0;
             }
             set { }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -113,13 +114,13 @@ namespace PKHeX.Core
                 if (c == null)
                     return "Unable to check Save File.";
 
-                string r = "";
+                var list = new List<string>();
                 if (SaveUtil.CRC16_CCITT(Data, c[0][0] + GBO, c[0][1] - c[0][0]) != BitConverter.ToUInt16(Data, c[0][2] + GBO))
-                    r += "Small block checksum is invalid" + Environment.NewLine;
+                    list.Add("Small block checksum is invalid");
                 if (SaveUtil.CRC16_CCITT(Data, c[1][0] + SBO, c[1][1] - c[1][0]) != BitConverter.ToUInt16(Data, c[1][2] + SBO))
-                    r += "Large block checksum is invalid" + Environment.NewLine;
+                    list.Add("Large block checksum is invalid");
 
-                return r.Length == 0 ? "Checksums valid." : r.TrimEnd();
+                return list.Any() ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
         }
 

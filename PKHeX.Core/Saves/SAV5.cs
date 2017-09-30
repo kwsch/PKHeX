@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -336,26 +337,20 @@ namespace PKHeX.Core
                     Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
                     return "Not a valid save to check.";
                 }
-                string r = "";
-                int invalid = 0;
+
+                var list = new List<string>();
                 for (int i = 0; i < Blocks.Length; i++)
                 {
                     BlockInfo b = Blocks[i];
                     byte[] array = Data.Skip(b.Offset).Take(b.Length).ToArray();
                     ushort chk = SaveUtil.CRC16_CCITT(array);
                     if (chk != BitConverter.ToUInt16(Data, b.ChecksumOffset))
-                    {
-                        r += $"Block {i} has been modified." + Environment.NewLine;
-                        invalid++;
-                    }
+                        list.Add($"Block {i} has been modified.");
                     else if (chk != BitConverter.ToUInt16(Data, b.ChecksumMirror))
-                    {
-                        r += $"Block {i} mirror does not match." + Environment.NewLine;
-                        invalid++;
-                    }
+                        list.Add($"Block {i} mirror does not match.");
                 }
-                r += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
-                return r;
+                list.Add($"SAV: {Blocks.Length - list.Count}/{Blocks.Length}");
+                return string.Join(Environment.NewLine, list);
             }
         }
         

@@ -110,9 +110,9 @@ namespace PKHeX.WinForms
         {
             switch (pk.Format)
             {
-                case 1: return pk.Species.ToString("000") + ((PK1)pk).DV16.ToString("X4");
-                case 2: return pk.Species.ToString("000") + ((PK2)pk).DV16.ToString("X4");
-                default: return pk.Species.ToString("000") + pk.PID.ToString("X8") + string.Join(" ", pk.IVs) + pk.AltForm.ToString("00");
+                case 1: return $"{pk.Species:000}{((PK1) pk).DV16:X4}";
+                case 2: return $"{pk.Species:000}{((PK2) pk).DV16:X4}";
+                default: return $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.AltForm:00}";
             }
         }
 
@@ -454,10 +454,9 @@ namespace PKHeX.WinForms
             int move2 = WinFormsUtil.GetIndex(CB_Move2);
             int move3 = WinFormsUtil.GetIndex(CB_Move3);
             int move4 = WinFormsUtil.GetIndex(CB_Move4);
-            if (move1 != -1) res = res.Where(pk => pk.Moves.Contains(move1));
-            if (move2 != -1) res = res.Where(pk => pk.Moves.Contains(move2));
-            if (move3 != -1) res = res.Where(pk => pk.Moves.Contains(move3));
-            if (move4 != -1) res = res.Where(pk => pk.Moves.Contains(move4));
+            var moves = new[] {move1, move2, move3, move4}.Where(z => z > 0).ToList();
+            int count = moves.Count;
+            if (count > 0) res = res.Where(pk => pk.Moves.Intersect(moves).Count() == count);
             int vers = WinFormsUtil.GetIndex(CB_GameOrigin);
             if (vers != -1) res = res.Where(pk => pk.Version == vers);
             int hptype = WinFormsUtil.GetIndex(CB_HPType);
@@ -466,7 +465,7 @@ namespace PKHeX.WinForms
             if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
             if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
-            if (CHK_IsEgg.CheckState == CheckState.Checked && MT_ESV.Text != "")
+            if (CHK_IsEgg.CheckState == CheckState.Checked && string.IsNullOrWhiteSpace(MT_ESV.Text))
                 res = res.Where(pk => pk.PSV == Convert.ToInt16(MT_ESV.Text));
 
             // Tertiary Searchables
@@ -485,20 +484,7 @@ namespace PKHeX.WinForms
             {
                 var filters = BatchEditor.StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
                 BatchEditor.ScreenStrings(filters);
-                res = res.Where(pkm => // Compare across all filters
-                {
-                    foreach (var cmd in filters)
-                    {
-                        if (cmd.PropertyName == nameof(PKM.Identifier) + "Contains")
-                            return pkm.Identifier.Contains(cmd.PropertyValue);
-                        if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
-                            return false;
-                        try { if (pkm.GetType().IsValueEqual(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
-                        catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
-                        return false;
-                    }
-                    return true;
-                });
+                res = res.Where(pkm => IsPKMFiltered(pkm, filters)); // Compare across all filters
             }
 
             if (Menu_SearchClones.Checked)
@@ -506,6 +492,22 @@ namespace PKHeX.WinForms
 
             return res;
         }
+
+        private static bool IsPKMFiltered(PKM pkm, IEnumerable<BatchEditor.StringInstruction> filters)
+        {
+            foreach (var cmd in filters)
+            {
+                if (cmd.PropertyName == nameof(PKM.Identifier) + "Contains")
+                    return pkm.Identifier.Contains(cmd.PropertyValue);
+                if (!pkm.GetType().HasPropertyAll(cmd.PropertyName))
+                    return false;
+                try { if (pkm.GetType().IsValueEqual(pkm, cmd.PropertyName, cmd.PropertyValue) == cmd.Evaluator) continue; }
+                catch { Debug.WriteLine($"Unable to compare {cmd.PropertyName} to {cmd.PropertyValue}."); }
+                return false;
+            }
+            return true;
+        }
+
         private static IEnumerable<PKM> FilterByLVL(IEnumerable<PKM> res, int option, string lvl)
         {
             if (string.IsNullOrWhiteSpace(lvl))

@@ -839,7 +839,7 @@ namespace PKHeX.Core
         public override string GetBoxName(int box)
         {
             if (PCLayout < 0)
-                return "B" + (box + 1);
+                return $"B{box + 1}";
             return Util.TrimFromZero(Encoding.Unicode.GetString(Data, PCLayout + 0x22*box, 0x22));
         }
         public override void SetBoxName(int box, string val)

@@ -5,7 +5,7 @@
         public static string GetWallpaper(SaveFile SAV, int index)
         {
             index++;
-            string s = "box_wp" + index.ToString("00");
+            string s = $"box_wp{index:00}";
             switch (SAV.Generation)
             {
                 case 7: s += "xy";
