@@ -102,6 +102,9 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
+        public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_SM
+            .Zip(Pouch_ZCrystalHeld_SM, (k, v) => new { Key = (int)k, Value = (int)v })
+            .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
 
         private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {

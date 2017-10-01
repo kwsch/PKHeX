@@ -101,7 +101,12 @@ namespace PKHeX.WinForms
             else if (gift.IsPokémon)
                 img = GetSprite(gift.ConvertToPKM(SAV));
             else if (gift.IsItem)
-                img = (Image)(Resources.ResourceManager.GetObject("item_" + gift.ItemID) ?? Resources.unknown);
+            {
+                int item = gift.ItemID;
+                if (Legal.ZCrystalDictionary.TryGetValue(item, out int value))
+                    item = value;
+                img = (Image)(Resources.ResourceManager.GetObject("item_" + item) ?? Resources.unknown);
+            }
             else
                 img = Resources.unknown;
 
