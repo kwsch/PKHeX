@@ -11,106 +11,161 @@ namespace PKHeX.WinForms
     public static class WinFormsUtil
     {
         #region Form Translation
+        private static readonly string[] Splitter = {" = "};
+        private const char Comment = '-';
+        private const char FormStart = '!';
         internal static void TranslateInterface(Control form, string lang)
         {
-            // Check to see if a the translation file exists in the same folder as the executable
-            string externalLangPath = $"lang_{lang}.txt";
-            string[] rawlist;
-            if (File.Exists(externalLangPath))
-                rawlist = File.ReadAllLines(externalLangPath);
-            else
-            {
-                var file = $"lang_{lang}";
-                rawlist = Util.GetStringList(file);
-                if (rawlist.Length == 0)
-                {
-                    // Translation file does not exist as a resource; abort this function and don't translate UI.
-                    return;
-                }
-            }
+            if (!TryGetTranslationFile(lang, out string[] rawlist))
+                return; // no translation data retrieved
 
-            List<string> stringdata = new List<string>();
-            int start = -1;
-            for (int i = 0; i < rawlist.Length; i++)
-            {
-                // Find our starting point
-                if (!rawlist[i].Contains($"! {form.Name}")) continue;
-                start = i;
-                break;
-            }
-            if (start < 0)
+            // Find Starting Point
+            int start = GetTranslationStart(rawlist, form.Name);
+            if (start < 0) // no form info found
                 return;
 
             // Rename Window Title
-            string[] WindowName = rawlist[start].Split(new[] { " = " }, StringSplitOptions.None);
-            if (WindowName.Length > 1) form.Text = WindowName[1];
+            string[] WindowName = rawlist[start].Split(Splitter, StringSplitOptions.None);
+            if (WindowName.Length > 1) // window title is specified
+                form.Text = WindowName[1];
 
             // Fetch controls to rename
-            for (int i = start + 1; i < rawlist.Length; i++)
+            var stringdata = GetTranslationList(rawlist, start);
+            if (stringdata.Count == 0) // no translation data available
+                return;
+
+            // Execute Translation
+            form.SuspendLayout();
+            TranslateForm(form, stringdata);
+            form.ResumeLayout();
+        }
+        private static bool TryGetTranslationFile(string lang, out string[] rawlist)
+        {
+            var file = $"lang_{lang}";
+            // Check to see if a the translation file exists in the same folder as the executable
+            string externalLangPath = $"{file}.txt";
+            if (File.Exists(externalLangPath))
             {
-                if (rawlist[i].Length == 0) continue; // Skip Over Empty Lines, errhandled
-                if (rawlist[i][0] == '-') continue; // Keep translating if line is a comment line
-                if (rawlist[i][0] == '!') // Stop if we have reached the end of translation
+                try 
+                {
+                    rawlist = File.ReadAllLines(externalLangPath);
+                    return true;
+                }
+                catch { /* In use? Just return the internal resource. */ }
+            }
+
+            rawlist = Util.GetStringList(file);
+            // If there's no strings (or null), the translation file does not exist.
+            // No file => abort this function and don't translate UI.
+            return rawlist?.Length > 0; 
+        }
+        private static int GetTranslationStart(IReadOnlyList<string> rawlist, string name)
+        {
+            for (int i = 0; i < rawlist.Count; i++)
+                if (rawlist[i].StartsWith($"{FormStart} {name}"))
+                    return i;
+            return -1;
+        }
+        private static List<string> GetTranslationList(IReadOnlyList<string> rawlist, int start)
+        {
+            List<string> stringdata = new List<string>();
+            for (int i = start + 1; i < rawlist.Count; i++)
+            {
+                var line = rawlist[i];
+                if (line.Length == 0) continue; // Skip Over Empty Lines
+                if (line[0] == Comment) continue; // Keep translating if line is a comment line
+                if (line[0] == FormStart) // Stop if we have reached the end of translation
                     break;
                 stringdata.Add(rawlist[i]); // Add the entry to process later.
             }
+            return stringdata;
+        }
 
-            if (stringdata.Count == 0)
-                return;
-
-            // Find control then change display Text.
-            form.SuspendLayout();
+        private static void TranslateForm(Control form, IEnumerable<string> stringdata)
+        {
+            // Only fetch the list of controls once; store in dictionary for faster translation
+            var controls = GetControlDictionary(form);
             foreach (string str in stringdata)
             {
-                string[] SplitString = str.Split(new[] { " = " }, StringSplitOptions.None);
-                if (SplitString.Length < 2)
+                string[] SplitString = str.Split(Splitter, StringSplitOptions.None);
+                if (SplitString.Length != 2)
                     continue;
 
-                object c = FindControl(SplitString[0], form.Controls); // Find control within Form's controls
-                if (c == null) // Not found
-                    continue;
+                var controlName = SplitString[0];
+                if (!controls.TryGetValue(controlName, out object c))
+                    continue; // control not found
 
-                string text = SplitString[1]; // Text to set Control.Text to...
-
-                if (c is Control)
-                    (c as Control).Text = text;
-                else if (c is ToolStripItem)
-                    (c as ToolStripItem).Text = text;
+                string text = SplitString[1];
+                if (c is Control r)
+                    r.Text = text;
+                else if (c is ToolStripItem t)
+                    t.Text = text;
             }
-            form.ResumeLayout();
         }
-        private static object FindControl(string name, Control.ControlCollection c)
+        private static Dictionary<string, object> GetControlDictionary(Control form)
         {
-            Control control = c.Find(name, true).FirstOrDefault();
-            if (control != null)
-                return control;
-            foreach (MenuStrip menu in c.OfType<MenuStrip>())
-            {
-                var item = menu.Items.Find(name, true).FirstOrDefault();
-                if (item != null)
-                    return item;
-            }
-            foreach (ContextMenuStrip strip in FindContextMenuStrips(c.OfType<Control>()))
-            {
-                var item = strip.Items.Find(name, true).FirstOrDefault();
-                if (item != null)
-                    return item;
-            }
-            return null;
+            return GetTranslatableControls(form)
+                            .GroupBy(p => p.Key, StringComparer.OrdinalIgnoreCase)
+                            .ToDictionary(g => g.Key, g => g.First().Value, StringComparer.OrdinalIgnoreCase);
         }
-        private static List<ContextMenuStrip> FindContextMenuStrips(IEnumerable<Control> c)
+        private static IEnumerable<KeyValuePair<string, object>> GetTranslatableControls(Control f)
         {
-            List<ContextMenuStrip> cs = new List<ContextMenuStrip>();
-            foreach (Control control in c)
+            foreach (var z in f.GetChildrenOfType<Control>())
             {
-                if (control.ContextMenuStrip != null)
-                    cs.Add(control.ContextMenuStrip);
+                switch (z)
+                {
+                    case ToolStrip menu:
+                        foreach (var pair in GetToolStripMenuItems(menu))
+                            yield return pair;
 
-                else if (control.Controls.Count > 0)
-                    cs.AddRange(FindContextMenuStrips(control.Controls.OfType<Control>()));
+                        break;
+                    default:
+                        if (string.IsNullOrWhiteSpace(z.Name))
+                            break;
+
+                        yield return new KeyValuePair<string, object>(z.Name, z);
+
+                        if (z.ContextMenuStrip != null) // control has attached menustrip
+                            foreach (var pair in GetToolStripMenuItems(z.ContextMenuStrip))
+                                yield return pair;
+                        break;
+                }
             }
-            return cs;
         }
+        private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
+        {
+            foreach (Control child in control.Controls)
+            {
+                T childOfT = child as T;
+                if (childOfT != null)
+                    yield return childOfT;
+
+                if (!child.HasChildren) continue;
+                foreach (T descendant in GetChildrenOfType<T>(child))
+                    yield return descendant;
+            }
+        }
+        private static IEnumerable<KeyValuePair<string, object>> GetToolStripMenuItems(ToolStrip menu)
+        {
+            foreach (var i in menu.Items.OfType<ToolStripMenuItem>())
+            {
+                yield return new KeyValuePair<string, object>(i.Name, i);
+                foreach (var sub in GetToolsStripDropDownItems(i))
+                    yield return new KeyValuePair<string, object>(sub.Name, sub);
+            }
+        }
+        private static IEnumerable<ToolStripMenuItem> GetToolsStripDropDownItems(ToolStripDropDownItem item)
+        {
+            foreach (var dropDownItem in item.DropDownItems.OfType<ToolStripMenuItem>())
+            {
+                if (dropDownItem.HasDropDownItems)
+                    foreach (ToolStripMenuItem subItem in GetToolsStripDropDownItems(dropDownItem))
+                        yield return subItem;
+
+                yield return dropDownItem;
+            }
+        }
+
         internal static void CenterToForm(this Control child, Control parent)
         {
             int x = parent.Location.X + (parent.Width - child.Width) / 2;
