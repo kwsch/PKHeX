@@ -618,5 +618,13 @@ namespace PKHeX.WinForms
                 Margin = new Padding(1),
             };
         }
+
+        private void B_ModifyAll_Click(object sender, EventArgs e)
+        {
+            foreach (var g in mga.Gifts)
+                g.GiftUsed = sender == B_UsedAll;
+            SetGiftBoxes();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }

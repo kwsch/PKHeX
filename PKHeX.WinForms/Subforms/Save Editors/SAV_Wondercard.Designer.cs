@@ -47,6 +47,8 @@
             this.mnuSet = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.FLP_Gifts = new System.Windows.Forms.FlowLayoutPanel();
+            this.B_UnusedAll = new System.Windows.Forms.Button();
+            this.B_UsedAll = new System.Windows.Forms.Button();
             this.mnuDel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).BeginInit();
             this.mnuVSD.SuspendLayout();
@@ -212,12 +214,36 @@
             this.FLP_Gifts.Size = new System.Drawing.Size(355, 153);
             this.FLP_Gifts.TabIndex = 92;
             // 
+            // B_UnusedAll
+            // 
+            this.B_UnusedAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_UnusedAll.Location = new System.Drawing.Point(111, 326);
+            this.B_UnusedAll.Name = "B_UnusedAll";
+            this.B_UnusedAll.Size = new System.Drawing.Size(71, 23);
+            this.B_UnusedAll.TabIndex = 94;
+            this.B_UnusedAll.Text = "All Unused";
+            this.B_UnusedAll.UseVisualStyleBackColor = true;
+            this.B_UnusedAll.Click += new System.EventHandler(this.B_ModifyAll_Click);
+            // 
+            // B_UsedAll
+            // 
+            this.B_UsedAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_UsedAll.Location = new System.Drawing.Point(182, 326);
+            this.B_UsedAll.Name = "B_UsedAll";
+            this.B_UsedAll.Size = new System.Drawing.Size(75, 23);
+            this.B_UsedAll.TabIndex = 93;
+            this.B_UsedAll.Text = "All Used";
+            this.B_UsedAll.UseVisualStyleBackColor = true;
+            this.B_UsedAll.Click += new System.EventHandler(this.B_ModifyAll_Click);
+            // 
             // SAV_Wondercard
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 361);
+            this.Controls.Add(this.B_UnusedAll);
+            this.Controls.Add(this.B_UsedAll);
             this.Controls.Add(this.FLP_Gifts);
             this.Controls.Add(this.PB_Preview);
             this.Controls.Add(this.L_QR);
@@ -264,5 +290,7 @@
         private System.Windows.Forms.ContextMenuStrip mnuDel;
         private System.Windows.Forms.ToolStripMenuItem flagDel;
         private System.Windows.Forms.FlowLayoutPanel FLP_Gifts;
+        private System.Windows.Forms.Button B_UnusedAll;
+        private System.Windows.Forms.Button B_UsedAll;
     }
 }
