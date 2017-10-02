@@ -682,16 +682,18 @@ namespace PKHeX.Core
             switch (encounter)
             {
                 case EncounterStatic s:
-                    if (s == Encounters4.SpikyEaredPichu // nonshiny forced nature
-                     || s.Location == 233 && s.Gift) // Pokewalker
+                    if (s == Encounters4.SpikyEaredPichu || s.Location == 233 && s.Gift) // Pokewalker
                         return val == PIDType.Pokewalker;
-                    return s.Shiny == true ? val == PIDType.ChainShiny : val == PIDType.Method_1;
+                    if (s.Shiny == true)
+                        return val == PIDType.ChainShiny;
+                    if (val == PIDType.CuteCharm)
+                        return true;
+                    return val == PIDType.Method_1;
                 case EncounterSlot sl:
                     if (val == PIDType.Method_1)
                         return true;
                     if (val == PIDType.CuteCharm)
-                        // Cute charm does not work with swarms pokemon
-                        return sl.Type != SlotType.Swarm;
+                        return sl.Type != SlotType.Swarm; // Cute Charm does not work with Swarm
                     if (val != PIDType.ChainShiny)
                         return false;
                     // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
@@ -700,7 +702,7 @@ namespace PKHeX.Core
                     return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Encounters4.SafariZoneLocation_4.Contains(sl.Location);
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
-                default:
+                default: // eggs
                     return val == PIDType.None;
             }
         }

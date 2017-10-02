@@ -122,12 +122,16 @@ namespace PKHeX.WinForms
                     default:
                         if (string.IsNullOrWhiteSpace(z.Name))
                             break;
-
-                        yield return new KeyValuePair<string, object>(z.Name, z);
-
+                        
                         if (z.ContextMenuStrip != null) // control has attached menustrip
                             foreach (var pair in GetToolStripMenuItems(z.ContextMenuStrip))
                                 yield return pair;
+
+                        if (z is ComboBox || z is TextBox || z is MaskedTextBox || z is LinkLabel)
+                            break; // undesirable to modify, ignore
+
+                        if (!string.IsNullOrWhiteSpace(z.Text))
+                            yield return new KeyValuePair<string, object>(z.Name, z);
                         break;
                 }
             }
@@ -149,8 +153,9 @@ namespace PKHeX.WinForms
         {
             foreach (var i in menu.Items.OfType<ToolStripMenuItem>())
             {
-                yield return new KeyValuePair<string, object>(i.Name, i);
-                foreach (var sub in GetToolsStripDropDownItems(i))
+                if (!string.IsNullOrWhiteSpace(i.Text))
+                    yield return new KeyValuePair<string, object>(i.Name, i);
+                foreach (var sub in GetToolsStripDropDownItems(i).Where(z => !string.IsNullOrWhiteSpace(z.Text)))
                     yield return new KeyValuePair<string, object>(sub.Name, sub);
             }
         }
@@ -284,10 +289,13 @@ namespace PKHeX.WinForms
             if (Directory.Exists(pathCache))
                 cgse = Path.Combine(pathCache);
             if (!PathUtilWindows.DetectSaveFile(out path, cgse) && !string.IsNullOrEmpty(path))
+            {
                 Error(path); // `path` contains the error message
+                path = null;
+            }
 
             if (path != null)
-            { ofd.FileName = path; }
+                ofd.FileName = path;
 
             if (ofd.ShowDialog() != DialogResult.OK)
                 return false;
@@ -322,7 +330,7 @@ namespace PKHeX.WinForms
             if (File.Exists(path))
             {
                 // File already exists, save a .bak
-                string bakpath = path + ".bak";
+                string bakpath = $"{path}.bak";
                 if (!File.Exists(bakpath))
                 {
                     byte[] backupfile = File.ReadAllBytes(path);
@@ -407,12 +415,9 @@ namespace PKHeX.WinForms
             if (File.Exists(path))
             {
                 // File already exists, save a .bak
-                string bakpath = path + ".bak";
+                string bakpath = $"{path}.bak";
                 if (!File.Exists(bakpath))
-                {
-                    byte[] backupfile = File.ReadAllBytes(path);
-                    File.WriteAllBytes(bakpath, backupfile);
-                }
+                    File.Move(path, bakpath);
             }
 
             File.WriteAllBytes(path, gift.Data);

@@ -28,19 +28,12 @@ namespace PKHeX.WinForms
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
-            Bitmap bmp = (Bitmap)img.Clone();
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            IntPtr ptr = bmpData.Scan0;
+            var bmp = (Bitmap)img.Clone();
+            GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
-            int len = bmp.Width * bmp.Height * 4;
-            byte[] data = new byte[len];
-
-            Marshal.Copy(ptr, data, 0, len);
-
-            for (int i = 0; i < data.Length; i += 4)
-                data[i + 3] = (byte)(data[i + 3] * trans);
-
-            Marshal.Copy(data, 0, ptr, len);
+            Marshal.Copy(ptr, data, 0, data.Length);
+            SetAllTransparencyTo(data, trans);
+            Marshal.Copy(data, 0, ptr, data.Length);
             bmp.UnlockBits(bmpData);
 
             return bmp;
@@ -52,27 +45,12 @@ namespace PKHeX.WinForms
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
-            Bitmap bmp = (Bitmap)img.Clone();
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            IntPtr ptr = bmpData.Scan0;
+            var bmp = (Bitmap)img.Clone();
+            GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
-            int len = bmp.Width * bmp.Height * 4;
-            byte[] data = new byte[len];
-
-            Marshal.Copy(ptr, data, 0, len);
-
-            byte R = c.R;
-            byte G = c.G;
-            byte B = c.B;
-            for (int i = 0; i < data.Length; i += 4)
-                if (data[i + 3] != 0)
-                {
-                    data[i + 0] = B;
-                    data[i + 1] = G;
-                    data[i + 2] = R;
-                }
-
-            Marshal.Copy(data, 0, ptr, len);
+            Marshal.Copy(ptr, data, 0, data.Length);
+            SetAllColorTo(data, c);
+            Marshal.Copy(data, 0, ptr, data.Length);
             bmp.UnlockBits(bmpData);
 
             return bmp;
@@ -84,28 +62,52 @@ namespace PKHeX.WinForms
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
-            Bitmap bmp = (Bitmap)img.Clone();
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            IntPtr ptr = bmpData.Scan0;
+            var bmp = (Bitmap)img.Clone();
+            GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
-            int len = bmp.Width * bmp.Height * 4;
-            byte[] data = new byte[len];
-
-            Marshal.Copy(ptr, data, 0, len);
-
-            for (int i = 0; i < data.Length; i += 4)
-                if (data[i + 3] != 0)
-                {
-                    byte greyS = (byte)((0.3 * data[i + 2] + 0.59 * data[i + 1] + 0.11 * data[i + 0]) / 3);
-                    data[i + 0] = greyS;
-                    data[i + 1] = greyS;
-                    data[i + 2] = greyS;
-                }
-
-            Marshal.Copy(data, 0, ptr, len);
+            Marshal.Copy(ptr, data, 0, data.Length);
+            SetAllColorToGrayScale(data);
+            Marshal.Copy(data, 0, ptr, data.Length);
             bmp.UnlockBits(bmpData);
 
             return bmp;
+        }
+        private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data)
+        {
+            bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            ptr = bmpData.Scan0;
+            data = new byte[bmp.Width * bmp.Height * 4];
+        }
+        private static void SetAllTransparencyTo(byte[] data, double trans)
+        {
+            for (int i = 0; i < data.Length; i += 4)
+                data[i + 3] = (byte)(data[i + 3] * trans);
+        }
+        private static void SetAllColorTo(byte[] data, Color c)
+        {
+            byte R = c.R;
+            byte G = c.G;
+            byte B = c.B;
+            for (int i = 0; i < data.Length; i += 4)
+            {
+                if (data[i + 3] == 0)
+                    continue;
+                data[i + 0] = B;
+                data[i + 1] = G;
+                data[i + 2] = R;
+            }
+        }
+        private static void SetAllColorToGrayScale(byte[] data)
+        {
+            for (int i = 0; i < data.Length; i += 4)
+            {
+                if (data[i + 3] == 0)
+                    continue;
+                byte greyS = (byte)((0.3 * data[i + 2] + 0.59 * data[i + 1] + 0.11 * data[i + 0]) / 3);
+                data[i + 0] = greyS;
+                data[i + 1] = greyS;
+                data[i + 2] = greyS;
+            }
         }
     }
 }
