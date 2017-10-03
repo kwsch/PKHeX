@@ -300,7 +300,7 @@ namespace PKHeX.Core
         public int Badges
         {
             get => BitConverter.ToUInt16(Data, Offsets.JohtoBadges);
-            set { if (value < 0) return; BitConverter.GetBytes(value).CopyTo(Data, Offsets.JohtoBadges); }
+            set { if (value < 0) return; BitConverter.GetBytes((ushort)value).CopyTo(Data, Offsets.JohtoBadges); }
         }
         private byte Options
         {
