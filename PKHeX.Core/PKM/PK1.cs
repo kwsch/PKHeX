@@ -59,6 +59,9 @@ namespace PKHeX.Core
             get => StringConverter.GetString1(nick, 0, nick.Length, Japanese);
             set
             {
+                if (!IsNicknamed)
+                    return;
+
                 byte[] strdata = SetString(value, StringLength);
                 if (nick.Any(b => b == 0) && nick[StringLength - 1] == 0x50 && Array.FindIndex(nick, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
                 {
@@ -96,10 +99,16 @@ namespace PKHeX.Core
         public override byte[] DecryptedBoxData => Encrypt().ToArray();
         public override byte[] DecryptedPartyData => Encrypt().ToArray();
 
+        private bool? _isnicknamed;
         public override bool IsNicknamed
         {
-            get => !nick.SequenceEqual(GetNonNickname());
-            set { if (!value) SetNotNicknamed(); }
+            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname())));
+            set
+            {
+                _isnicknamed = value;
+                if (_isnicknamed == false)
+                    SetNotNicknamed();
+            }
         }
         public void SetNotNicknamed() => nick = GetNonNickname().ToArray();
         private IEnumerable<byte> GetNonNickname()

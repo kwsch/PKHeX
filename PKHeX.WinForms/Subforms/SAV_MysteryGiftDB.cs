@@ -236,8 +236,7 @@ namespace PKHeX.WinForms
                 return;
 
             string path = fbd.SelectedPath;
-            if (!Directory.Exists(path)) // just in case...
-                Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
             foreach (var gift in Results.Where(g => g.Data != null)) // WC3 have no data
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Data);

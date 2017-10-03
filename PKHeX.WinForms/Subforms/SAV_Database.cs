@@ -203,8 +203,7 @@ namespace PKHeX.WinForms
                 return;
 
             PKM pk = PKME_Tabs.PreparePKM();
-            if (!Directory.Exists(DatabasePath))
-                Directory.CreateDirectory(DatabasePath);
+            Directory.CreateDirectory(DatabasePath);
 
             string path = Path.Combine(DatabasePath, Util.CleanFileName(pk.FileName));
 
@@ -387,8 +386,7 @@ namespace PKHeX.WinForms
                 return;
 
             string path = fbd.SelectedPath;
-            if (!Directory.Exists(path)) // just in case...
-                Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
             foreach (PKM pkm in Results)
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedBoxData);

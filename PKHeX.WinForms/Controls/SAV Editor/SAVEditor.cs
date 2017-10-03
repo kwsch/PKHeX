@@ -834,8 +834,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
             SAV.DumpBoxes(path, out result, separate);
             return true;
@@ -848,8 +847,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+            Directory.CreateDirectory(path);
 
             SAV.DumpBox(path, out result, Box.CurrentBox);
             return true;

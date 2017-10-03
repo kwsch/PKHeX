@@ -284,12 +284,12 @@ namespace PKHeX.WinForms.Controls
                 TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont(11);
             }
             // Switch active gender labels to new if they are active.
-            if (PKX.GetGenderFromPID(Label_Gender.Text) < 2)
-                Label_Gender.Text = gendersymbols[PKX.GetGenderFromPID(Label_Gender.Text)];
-            if (PKX.GetGenderFromPID(Label_OTGender.Text) < 2)
-                Label_OTGender.Text = gendersymbols[PKX.GetGenderFromPID(Label_OTGender.Text)];
-            if (PKX.GetGenderFromPID(Label_CTGender.Text) < 2)
-                Label_CTGender.Text = gendersymbols[PKX.GetGenderFromPID(Label_CTGender.Text)];
+            if (PKX.GetGenderFromString(Label_Gender.Text) < 2)
+                Label_Gender.Text = gendersymbols[PKX.GetGenderFromString(Label_Gender.Text)];
+            if (PKX.GetGenderFromString(Label_OTGender.Text) < 2)
+                Label_OTGender.Text = gendersymbols[PKX.GetGenderFromString(Label_OTGender.Text)];
+            if (PKX.GetGenderFromString(Label_CTGender.Text) < 2)
+                Label_CTGender.Text = gendersymbols[PKX.GetGenderFromString(Label_CTGender.Text)];
         }
         private void UpdateSprite()
         {
@@ -374,13 +374,22 @@ namespace PKHeX.WinForms.Controls
             if (abils[1] == 0 && pkm.Format != 3)
                 abils[1] = abils[0];
             string[] abilIdentifier = { " (1)", " (2)", " (H)" };
-            List<string> ability_list = abils.Where(a => a != 0).Select((t, i) => GameInfo.Strings.abilitylist[t] + abilIdentifier[i]).ToList();
+            var ability_list = abils.Where(a => a != 0)
+                .Select((t, i) => new ComboItem
+                {
+                    Text = GameInfo.Strings.abilitylist[t] + abilIdentifier[i],
+                    Value = t
+                }).ToList();
+
             if (!ability_list.Any())
-                ability_list.Add(GameInfo.Strings.abilitylist[0] + abilIdentifier[0]);
+                ability_list.Add(new ComboItem {Value = 0, Text = GameInfo.Strings.abilitylist[0] + abilIdentifier[0]});
 
             bool tmp = fieldsLoaded;
             fieldsLoaded = false;
             int abil = CB_Ability.SelectedIndex;
+
+            CB_Ability.DisplayMember = "Text";
+            CB_Ability.ValueMember = "Value";
             CB_Ability.DataSource = ability_list;
             CB_Ability.SelectedIndex = abil < 0 || abil >= CB_Ability.Items.Count ? 0 : abil;
             fieldsLoaded = tmp;
@@ -446,7 +455,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateGender()
         {
-            int cg = PKX.GetGenderFromPID(Label_Gender.Text);
+            int cg = PKX.GetGenderFromString(Label_Gender.Text);
             int gt = pkm.PersonalInfo.Gender;
 
             int Gender;
@@ -470,12 +479,7 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
             {
                 pkm.SetStats(pkm.GetStats(pkm.PersonalInfo));
-                Stat_HP.Text = pkm.Stat_HPCurrent.ToString();
-                Stat_ATK.Text = pkm.Stat_ATK.ToString();
-                Stat_DEF.Text = pkm.Stat_DEF.ToString();
-                Stat_SPA.Text = pkm.Stat_SPA.ToString();
-                Stat_SPD.Text = pkm.Stat_SPD.ToString();
-                Stat_SPE.Text = pkm.Stat_SPE.ToString();
+                LoadPartyStats(pkm);
             }
 
             // Recolor the Stat Labels based on boosted stats.
@@ -531,11 +535,11 @@ namespace PKHeX.WinForms.Controls
             if (gt >= 255) return;
             // If not a single gender(less) species: (should be <254 but whatever, 255 never happens)
 
-            int newGender = PKX.GetGenderFromPID(Label_Gender.Text) ^ 1;
+            int newGender = PKX.GetGenderFromString(Label_Gender.Text) ^ 1;
             if (pkm.Format <= 2)
             {
                 do { TB_ATKIV.Text = (pkm.IV_ATK = (int)(Util.Rand32() & pkm.MaxIV)).ToString(); }
-                while (PKX.GetGenderFromPID(Label_Gender.Text = gendersymbols[pkm.Gender]) != newGender);
+                while (PKX.GetGenderFromString(Label_Gender.Text = gendersymbols[pkm.Gender]) != newGender);
                 SetIsShiny(null);
             }
             else if (pkm.Format <= 4)
@@ -553,8 +557,8 @@ namespace PKHeX.WinForms.Controls
             Label_Gender.Text = gendersymbols[pkm.Gender];
             Label_Gender.ForeColor = GetGenderColor(pkm.Gender);
 
-            if (PKX.GetGenderFromPID(CB_Form.Text) < 2) // Gendered Forms
-                CB_Form.SelectedIndex = PKX.GetGenderFromPID(Label_Gender.Text);
+            if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
+                CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
 
             UpdatePreviewSprite(Label_Gender, null);
         }
@@ -644,7 +648,7 @@ namespace PKHeX.WinForms.Controls
             Label lbl = sender as Label;
             if (!string.IsNullOrWhiteSpace(lbl?.Text)) // set gender label (toggle M/F)
             {
-                int gender = PKX.GetGenderFromPID(lbl.Text) ^ 1;
+                int gender = PKX.GetGenderFromString(lbl.Text) ^ 1;
                 lbl.Text = gendersymbols[gender];
                 lbl.ForeColor = GetGenderColor(gender);
             }
@@ -830,33 +834,6 @@ namespace PKHeX.WinForms.Controls
 
             return true;
         }
-        private void CheckTransferPIDValid()
-        {
-            if (pkm.Version >= 24)
-                return;
-
-            uint EC = Util.GetHexValue(TB_EC.Text);
-            uint PID = Util.GetHexValue(TB_PID.Text);
-            uint SID = Util.ToUInt32(TB_SID.Text);
-            uint TID = Util.ToUInt32(TB_TID.Text);
-            uint LID = PID & 0xFFFF;
-            uint HID = PID >> 16;
-            uint XOR = TID ^ LID ^ SID ^ HID;
-
-            // Ensure we don't have a shiny.
-            if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
-            {
-                // Keep as shiny, so we have to mod the PID
-                PID ^= XOR;
-                TB_PID.Text = PID.ToString("X8");
-                TB_EC.Text = PID.ToString("X8");
-            }
-            else if ((XOR ^ 0x8000) >> 3 == 1 && PID != EC)
-                TB_EC.Text = (PID ^ 0x80000000).ToString("X8");
-            else // Not Illegal, no fix.
-                TB_EC.Text = PID.ToString("X8");
-        }
-
         private void UpdateIVs(object sender, EventArgs e)
         {
             if (changingFields || !fieldsInitialized) return;
@@ -1133,10 +1110,10 @@ namespace PKHeX.WinForms.Controls
                         UpdateRandomIVs(null, null);
                 }
             }
-            else if (PKX.GetGenderFromPID(CB_Form.Text) < 2)
+            else if (PKX.GetGenderFromString(CB_Form.Text) < 2)
             {
                 if (CB_Form.Items.Count == 2) // actually M/F; Pumpkaboo formes in German are S,M,L,XL
-                    Label_Gender.Text = gendersymbols[PKX.GetGenderFromPID(CB_Form.Text)];
+                    Label_Gender.Text = gendersymbols[PKX.GetGenderFromString(CB_Form.Text)];
             }
 
             if (changingFields)
@@ -1577,7 +1554,7 @@ namespace PKHeX.WinForms.Controls
             pkm.SID = Util.ToInt32(TB_SID.Text);
             pkm.PID = Util.GetHexValue(TB_PID.Text);
             pkm.Nature = WinFormsUtil.GetIndex(CB_Nature);
-            pkm.Gender = PKX.GetGenderFromPID(Label_Gender.Text);
+            pkm.Gender = PKX.GetGenderFromString(Label_Gender.Text);
             pkm.AltForm = CB_Form.SelectedIndex;
             pkm.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
 
@@ -1985,7 +1962,7 @@ namespace PKHeX.WinForms.Controls
                 TB_Nickname.Text = Set.Nickname;
             if (Set.Gender != null)
             {
-                int Gender = PKX.GetGenderFromPID(Set.Gender);
+                int Gender = PKX.GetGenderFromString(Set.Gender);
                 Label_Gender.Text = gendersymbols[Gender];
                 Label_Gender.ForeColor = GetGenderColor(Gender);
             }

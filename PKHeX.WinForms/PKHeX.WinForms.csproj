@@ -156,6 +156,9 @@
     <Compile Include="Controls\PKM Editor\ContestStat.Designer.cs">
       <DependentUpon>ContestStat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PKM Editor\LoadSave.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\PKM Editor\ShinyLeaf.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -194,9 +197,6 @@
     <Compile Include="MainWindow\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PKM Editor\EditCK3.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Controls\PKM Editor\EditPK1.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -216,9 +216,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\PKM Editor\EditPK7.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\PKM Editor\EditXK3.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SAV Editor\SlotChange.cs" />

@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class CK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3
+    public class CK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
     {
         public static readonly byte[] ExtraBytes =
         {

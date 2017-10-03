@@ -85,6 +85,9 @@ namespace PKHeX.Core
             }
             set
             {
+                if (!IsNicknamed)
+                    return;
+
                 byte[] strdata = SetString(value, StringLength);
                 if (nick.Any(b => b == 0) && nick[StringLength - 1] == 0x50 && Array.FindIndex(nick, b => b == 0) == strdata.Length - 1) // Handle JP Mew event with grace
                 {
@@ -127,10 +130,16 @@ namespace PKHeX.Core
         public override byte[] DecryptedBoxData => Encrypt().ToArray();
         public override byte[] DecryptedPartyData => Encrypt().ToArray();
 
+        private bool? _isnicknamed;
         public override bool IsNicknamed
         {
-            get => !nick.SequenceEqual(GetNonNickname());
-            set { if (!value) SetNotNicknamed(); }
+            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname())));
+            set
+            {
+                _isnicknamed = value;
+                if (_isnicknamed == false)
+                    SetNotNicknamed();
+            }
         }
         public void SetNotNicknamed() => nick = GetNonNickname().ToArray();
         private IEnumerable<byte> GetNonNickname()
@@ -308,17 +317,15 @@ namespace PKHeX.Core
             {
                 if (Species != 201) // Unown
                     return 0;
-                else
-                {
-                    uint formeVal = 0;
-                    formeVal |= (uint)((IV_ATK & 0x6) << 5);
-                    formeVal |= (uint)((IV_DEF & 0x6) << 3);
-                    formeVal |= (uint)((IV_SPE & 0x6) << 1);
-                    formeVal |= (uint)((IV_SPC & 0x6) >> 1);
-                    return (int)(formeVal / 10);
-                }
+
+                uint formeVal = 0;
+                formeVal |= (uint)((IV_ATK & 0x6) << 5);
+                formeVal |= (uint)((IV_DEF & 0x6) << 3);
+                formeVal |= (uint)((IV_SPE & 0x6) << 1);
+                formeVal |= (uint)((IV_SPC & 0x6) >> 1);
+                return (int)(formeVal / 10);
             }
-            set{ }
+            set { }
         }
 
         private int HPVal => GetHiddenPowerBitVal(new[] {IV_SPC, IV_SPE, IV_DEF, IV_ATK});

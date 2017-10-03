@@ -332,7 +332,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="s">Gender string</param>
         /// <returns>Gender integer</returns>
-        public static int GetGenderFromPID(string s)
+        public static int GetGenderFromString(string s)
         {
             if (s == null) 
                 return -1;
