@@ -898,11 +898,10 @@ namespace PKHeX.Core
         public static IEnumerable<byte[]> GetPKMDataFromConcatenatedBinary(byte[] data, int len)
         {
             // split up data to individual pkm
-            for (int i = 0; i < data.Length; ++i)
+            for (int i = 0; i < data.Length; i += len)
             {
-                int offset = i * len;
                 var pk = new byte[len];
-                Buffer.BlockCopy(data, offset, pk, 0, len);
+                Buffer.BlockCopy(data, i, pk, 0, len);
                 yield return pk;
             }
         }
