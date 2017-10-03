@@ -139,7 +139,7 @@ namespace PKHeX.Core
             }
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
 
-            if (Moves == null) // not completely defined
+            if (Moves == null || Moves.Length == 0) // not completely defined
                 Moves = Legal.GetBaseEggMoves(pk, Species, (GameVersion)pk.Version, Level);
             if (Moves.Length != 4)
             {
