@@ -22,10 +22,10 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new PK5(Data); }
+        public override PKM Clone() => new PK5(Data);
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
-        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
+        private string GetString(int Offset, int Count) => StringConverter.GetString5(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }

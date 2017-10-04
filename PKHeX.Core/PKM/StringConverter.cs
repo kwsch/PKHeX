@@ -452,11 +452,13 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] SetString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
         {
+            if (chinese)
+                value = ConvertString2BinG7_zh(value, language);
             if (value.Length > maxLength)
                 value = value.Substring(0, 12); // Hard cap
-            string temp = ConvertString2BinG7_zh(UnSanitizeString(value, 7), language == 10)
+            string temp = UnSanitizeString(value, 7)
                 .PadRight(value.Length + 1, '\0') // Null Terminator
                 .PadRight(padTo, (char)padWith);
             return Encoding.Unicode.GetBytes(temp);
@@ -484,10 +486,11 @@ namespace PKHeX.Core
         /// <param name="inputstr">Unicode string.</param>
         /// <param name="cht">Pkm language is Traditional Chinese.</param>
         /// <returns>In-game chinese string.</returns>
-        private static string ConvertString2BinG7_zh(string inputstr, bool cht = false)
+        private static string ConvertString2BinG7_zh(string inputstr, int lang)
         {
             var str = new StringBuilder();
 
+            bool cht = lang == 10;
             // A string cannot contain a mix of CHS and CHT characters.
             bool IsCHT = inputstr.Any(chr => Gen7_CHT.Contains(chr) && !Gen7_CHS.Contains(chr));
             IsCHT |= cht && !inputstr.Any(chr => Gen7_CHT.Contains(chr) ^ Gen7_CHS.Contains(chr)); // CHS and CHT have the same display name

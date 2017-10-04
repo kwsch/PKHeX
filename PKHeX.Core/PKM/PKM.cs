@@ -23,9 +23,6 @@ namespace PKHeX.Core
         public virtual byte[] DecryptedBoxData => Write().Take(SIZE_STORED).ToArray();
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
-        public abstract string GetString(int Offset, int Length);
-        public abstract byte[] SetString(string value, int maxLength);
-
         // Trash Bytes
         public abstract byte[] Nickname_Trash { get; set; }
         public abstract byte[] OT_Trash { get; set; }
@@ -144,6 +141,7 @@ namespace PKHeX.Core
         public abstract int OT_Friendship { get; set; }
         public virtual bool Japanese => Language == 1;
         public virtual bool Korean => Language == 8;
+        public virtual bool Chinese => Language == 9 || Language == 10;
 
         // Future Properties
         public virtual int Met_Year { get => 0; set { } }

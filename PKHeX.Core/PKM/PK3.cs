@@ -21,10 +21,10 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new PK3(Data); }
+        public override PKM Clone() => new PK3(Data);
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
-        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese);
+        private string GetString(int Offset, int Count) => StringConverter.GetString3(Data, Offset, Count, Japanese);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString3(value, maxLength, Japanese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x08, 10); set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }

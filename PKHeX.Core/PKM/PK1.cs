@@ -22,8 +22,8 @@ namespace PKHeX.Core
         internal const int STRLEN_U = 11;
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
-        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength, Japanese);
+        private string GetString(int Offset, int Count) => StringConverter.GetString1(Data, Offset, Count, Japanese);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString1(value, maxLength, Japanese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }

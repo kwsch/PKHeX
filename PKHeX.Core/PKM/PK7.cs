@@ -24,10 +24,10 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new PK7(Data); }
+        public override PKM Clone() => new PK7(Data);
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
-        public override byte[] SetString(string value, int maxLength) => StringConverter.SetString7(value, maxLength, Language);
+        private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }
@@ -218,7 +218,7 @@ namespace PKHeX.Core
         public uint FormDuration { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
         #endregion
         #region Block B
-        public override string Nickname { get => GetString(0x40, 24); set => SetString(value, 12).CopyTo(Data, 0x40); }
+        public override string Nickname { get => GetString(0x40, 24); set => SetString(value, 12, !IsNicknamed && Chinese).CopyTo(Data, 0x40); }
         public override int Move1
         {
             get => BitConverter.ToUInt16(Data, 0x5A);

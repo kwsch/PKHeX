@@ -23,14 +23,14 @@ namespace PKHeX.Core
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public override bool Korean => !Japanese && otname[0] <= 0xB;
 
-        public override string GetString(int Offset, int Count)
+        private string GetString(int Offset, int Count)
         {
             if (Korean)
                 return StringConverter.GetString2KOR(Data, Offset, Count);
             return StringConverter.GetString1(Data, Offset, Count, Japanese);
         }
 
-        public override byte[] SetString(string value, int maxLength)
+        private byte[] SetString(string value, int maxLength)
         {
             if (Korean)
                 return StringConverter.SetString2KOR(value, maxLength);

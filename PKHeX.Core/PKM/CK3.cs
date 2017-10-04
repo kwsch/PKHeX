@@ -25,10 +25,10 @@ namespace PKHeX.Core
             if (Data.Length != SIZE_PARTY)
                 Array.Resize(ref Data, SIZE_PARTY);
         }
-        public override PKM Clone() { return new CK3(Data); }
+        public override PKM Clone() => new CK3(Data);
 
-        public override string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
-        public override byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);
+        private string GetString(int Offset, int Count) => StringConverter.GetBEString3(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetBEString3(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
