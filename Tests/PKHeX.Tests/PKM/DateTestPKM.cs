@@ -28,8 +28,8 @@ namespace PKHeX.Tests.PKM
         public override int OTLength => -1;
         public override int NickLength => -1;
 
-        public override string GetString(int Offset, int Count) { throw new NotImplementedException(); }
-        public override byte[] SetString(string value, int maxLength) { throw new NotImplementedException(); }
+        public string GetString(int Offset, int Count) => throw new NotImplementedException();
+        public byte[] SetString(string value, int maxLength) => throw new NotImplementedException();
 
         public override byte[] Nickname_Trash
         {
