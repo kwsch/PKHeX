@@ -218,7 +218,24 @@ namespace PKHeX.Core
         public uint FormDuration { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
         #endregion
         #region Block B
-        public override string Nickname { get => GetString(0x40, 24); set => SetString(value, 12, !IsNicknamed && Chinese).CopyTo(Data, 0x40); }
+        public override string Nickname
+        {
+            get => GetString(0x40, 24);
+            set
+            {
+                if (!IsNicknamed)
+                {
+                    int lang = PKX.GetSpeciesNameLanguage(Species, value, 7);
+                    if (lang == 9 || lang == 10)
+                    {
+                        StringConverter.SetString7(value, 12, lang, chinese: true).CopyTo(Data, 0x40);
+                        return;
+                    }
+                }
+                SetString(value, 12).CopyTo(Data, 0x40);
+            }
+        }
+
         public override int Move1
         {
             get => BitConverter.ToUInt16(Data, 0x5A);
