@@ -49,6 +49,7 @@ namespace PKHeX.WinForms
             yield return Path.Combine(root, "TWLSaveTool");
             yield return Path.Combine(root, "fbi", "save");
             yield return Path.Combine(root, "gm9", "out");
+            yield return Path.Combine(root, "3ds", "Checkpoint", "saves");
         }
 
         /// <summary>
