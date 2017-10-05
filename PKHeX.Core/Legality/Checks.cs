@@ -348,9 +348,9 @@ namespace PKHeX.Core
                     return;
                 }
                 if (pkm.IsNicknamed)
-                    AddLine(Severity.Valid, V9, CheckIdentifier.Nickname);
+                    AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
                 else if (OTs[lang] != pkm.OT_Name)
-                    AddLine(Severity.Valid, V10, CheckIdentifier.Trainer);
+                    AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
                 else
                     AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
                 return;

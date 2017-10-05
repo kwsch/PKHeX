@@ -139,9 +139,6 @@ namespace PKHeX.Core
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
 
-            if (jp)
-                value = value.Replace("\u30d8", "\u3078"); // Katakana ヘ => Hiragana へ
-
             Dictionary<string, byte> dict = jp ? U2RBY_J : U2RBY_U;
             if (dict.ContainsKey(value)) // Handle "[TRAINER]"
                 return new[] { dict[value], dict["\0"] };
@@ -454,6 +451,7 @@ namespace PKHeX.Core
         /// <param name="language">Language specific conversion (Chinese)</param>
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
+        /// <param name="chinese">Chinese string remapping should be attempted</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
         {
@@ -487,7 +485,7 @@ namespace PKHeX.Core
         /// Converts a Unicode string to Generation 7 in-game chinese string.
         /// </summary>
         /// <param name="inputstr">Unicode string.</param>
-        /// <param name="cht">Pkm language is Traditional Chinese.</param>
+        /// <param name="lang">Detection of language for Traditional Chinese check</param>
         /// <returns>In-game chinese string.</returns>
         private static string ConvertString2BinG7_zh(string inputstr, int lang)
         {
@@ -1084,6 +1082,7 @@ namespace PKHeX.Core
             {"ひ", 0xCB},
             {"ふ", 0xCC},
             {"へ", 0xCD},
+            {"ヘ", 0xCD}, // Katakana ヘ => Hiragana へ
             {"ほ", 0xCE},
             {"ま", 0xCF},
             {"み", 0xD0},
