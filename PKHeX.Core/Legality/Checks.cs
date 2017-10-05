@@ -540,7 +540,7 @@ namespace PKHeX.Core
 
             if (pkm.Species == 151)
             {
-                if (tr != "GF" && tr != "ゲーフリ") // if there are more events with special OTs, may be worth refactoring
+                if (tr != "GF" && tr != "ゲーフリ" || pkm.TID != 22796) // if there are more events with special OTs, may be worth refactoring
                     AddLine(Severity.Invalid, V39, CheckIdentifier.Trainer);
             }
 

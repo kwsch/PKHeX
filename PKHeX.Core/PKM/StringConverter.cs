@@ -139,6 +139,9 @@ namespace PKHeX.Core
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
 
+            if (jp)
+                value = value.Replace("\u30d8", "\u3078"); // Katakana ヘ => Hiragana へ
+
             Dictionary<string, byte> dict = jp ? U2RBY_J : U2RBY_U;
             if (dict.ContainsKey(value)) // Handle "[TRAINER]"
                 return new[] { dict[value], dict["\0"] };
