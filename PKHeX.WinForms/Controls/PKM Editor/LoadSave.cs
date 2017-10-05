@@ -238,7 +238,6 @@ namespace PKHeX.WinForms.Controls
         private void SaveMisc1(PKM pk)
         {
             SaveSpeciesLevelEXP(pk);
-            TB_Friendship.Text = pk.CurrentFriendship.ToString();
             SaveNickname(pk);
             SaveOTID(pk);
             SaveIVs(pk);
@@ -252,6 +251,7 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Checked = pk.IsEgg;
             CB_HeldItem.SelectedValue = pk.HeldItem;
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
+            TB_Friendship.Text = pk.CurrentFriendship.ToString();
         }
         private void SaveMisc2(PKM pk)
         {
@@ -259,6 +259,7 @@ namespace PKHeX.WinForms.Controls
             pk.IsEgg = CHK_IsEgg.Checked;
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
+            pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
         }
 
         private void LoadMisc3(PKM pk)
