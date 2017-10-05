@@ -85,10 +85,9 @@ namespace PKHeX.WinForms
                 cba = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_6, CHK_5, CHK_7, CHK_8, CHK_H1, CHK_H2, CHK_H3, CHK_H4, CHK_H5, CHK_H6, CHK_H7, CHK_H8 };
             }
 
-            if (SAV is SAV3)
+            if (SAV is SAV3 sav3)
             {
                 GB_Map.Visible = false;
-                SAV3 sav3 = (SAV3)SAV;
                 switch (sav3.Version)
                 {
                     case GameVersion.E: badgeval = sav3.Badges; break;
@@ -167,7 +166,8 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            SAV.OT = TB_OTName.Text;
+            if (SAV.OT != TB_OTName.Text) // only modify if changed (preserve trash bytes?)
+                SAV.OT = TB_OTName.Text;
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
