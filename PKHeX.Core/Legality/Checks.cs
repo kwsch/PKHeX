@@ -1466,10 +1466,10 @@ namespace PKHeX.Core
             // Determine if we should check for Handling Trainer Memories
             // A Pokémon is untraded if...
             bool untraded = pkm.HT_Name.Length == 0 || pkm.Geo1_Country == 0;
-            if (Type == typeof(MysteryGift))
+            if (EncounterMatch is MysteryGift gift)
             {
                 untraded |= !pkm.WasEventEgg;
-                untraded &= pkm.WasEgg;
+                untraded &= gift.IsEgg;
             }
 
             if (pkm.WasLink && (EncounterMatch as EncounterLink)?.OT == false)
@@ -1646,30 +1646,26 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (Type == typeof(EncounterTrade))
+            switch (EncounterMatch)
             {
-                switch (Info.Generation)
-                {
-                    case 6:
-                        break; // Undocumented, uncommon, and insignificant -- don't bother.
-                    case 7:
-                        VerifyOTMemoryIs(new[] { 1, 3, 40, 5 });
-                        break;
-                }
-                return;
+                case EncounterTrade _:
+                    switch (Info.Generation)
+                    {
+                        case 6:
+                            break; // Undocumented, uncommon, and insignificant -- don't bother.
+                        case 7:
+                            VerifyOTMemoryIs(new[] { 1, 3, 40, 5 });
+                            break;
+                    }
+                    return;
+                case WC6 g when !g.IsEgg:
+                    VerifyOTMemoryIs(new[] { g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling });
+                    return;
+                case WC7 g when !g.IsEgg:
+                    VerifyOTMemoryIs(new[] { g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling });
+                    return;
             }
-            if (EncounterMatch is WC6 wc6)
-            {
-                var g = wc6;
-                VerifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
-                return;
-            }
-            if (EncounterMatch is WC7 wc7)
-            {
-                var g = wc7;
-                VerifyOTMemoryIs(new[] {g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling});
-                return;
-            }
+
             if (Info.Generation >= 7)
             {
                 VerifyOTMemoryIs(new[] {0, 0, 0, 0}); // empty
@@ -1679,7 +1675,7 @@ namespace PKHeX.Core
             switch (pkm.OT_Memory)
             {
                 case 2: // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-                    if (!pkm.WasEgg && pkm.Egg_Location != 60004)
+                    if (pkm.Egg_Location == 0)
                         AddLine(Severity.Invalid, string.Format(V160, V205), CheckIdentifier.Memory);
                     break;
 

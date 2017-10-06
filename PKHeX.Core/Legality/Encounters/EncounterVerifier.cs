@@ -351,6 +351,13 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, string.Format(V21, MatchedGift.CardHeader, $"-- {V416}"), CheckIdentifier.Encounter);
                     break;
             }
+            if (!pkm.IsEgg && MatchedGift.IsEgg) // hatched
+            {
+                var hatchCheck = VerifyEncounterEgg(pkm, null);
+                if (!hatchCheck.Valid)
+                    return hatchCheck;
+            }
+
             // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.
             return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.CardHeader, ""), CheckIdentifier.Encounter);
         }

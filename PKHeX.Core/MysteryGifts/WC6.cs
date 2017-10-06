@@ -358,6 +358,7 @@ namespace PKHeX.Core
                 pk.Version = (int)GameVersion.OR;
             }
 
+            if (!IsEgg)
             if (pk.CurrentHandler == 0) // OT
             {
                 pk.OT_Memory = 3;
