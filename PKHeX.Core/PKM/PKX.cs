@@ -186,6 +186,10 @@ namespace PKHeX.Core
             Util.GetSpeciesList("zh2"), // 10 Traditional
         };
 
+        public static readonly Dictionary<string, int>[] SpeciesDict = SpeciesLang.Select(z => z
+            .Select((value, index) => new {value, index}).ToDictionary(pair => pair.value, pair => pair.index))
+            .ToArray();
+
         /// <summary>
         /// Gets a Pokémon's default name for the desired language ID.
         /// </summary>

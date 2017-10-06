@@ -1087,7 +1087,7 @@ namespace PKHeX.Core
                 case 4: return MaxSpeciesID_4;
                 case 5: return MaxSpeciesID_5;
                 case 6: return MaxSpeciesID_6;
-                case 7: return MaxSpeciesID_7;
+                case 7: return MaxSpeciesID_7_USUM;
                 default: return -1;
             }
         }

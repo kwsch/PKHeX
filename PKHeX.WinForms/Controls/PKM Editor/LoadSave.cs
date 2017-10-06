@@ -228,7 +228,6 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc1(PKM pk)
         {
             LoadSpeciesLevelEXP(pk);
-            TB_Friendship.Text = pk.CurrentFriendship.ToString();
             LoadNickname(pk);
             LoadOTID(pk);
             LoadIVs(pk);
@@ -348,7 +347,6 @@ namespace PKHeX.WinForms.Controls
         private void SaveMisc6(PKM pk)
         {
             pk.EncryptionConstant = Util.GetHexValue(TB_EC.Text);
-            pk.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);
             pk.AbilityNumber = Util.ToInt32(TB_AbilityNumber.Text);
 
             SaveRelearnMoves(pk);

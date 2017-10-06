@@ -625,8 +625,8 @@ namespace PKHeX.Core
         public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location == 30002)) && Met_Level == 1;
 
         // Maximums
-        public override int MaxMoveID => Legal.MaxMoveID_7;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_7;
+        public override int MaxMoveID => Legal.MaxMoveID_7_USUM;
+        public override int MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
         public override int MaxAbilityID => Legal.MaxAbilityID_7;
         public override int MaxItemID => Legal.MaxItemID_7;
         public override int MaxBallID => Legal.MaxBallID_7;

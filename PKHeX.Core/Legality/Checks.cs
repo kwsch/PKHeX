@@ -232,9 +232,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < PKX.SpeciesLang.Length; i++)
                 {
-                    string[] lang = PKX.SpeciesLang[i];
-                    int index = Array.IndexOf(lang, nickname);
-                    if (index < 0)
+                    if (!PKX.SpeciesDict[i].TryGetValue(nickname, out int index))
                         continue;
 
                     AddLine(Severity.Fishy, index == pkm.Species && i != pkm.Language

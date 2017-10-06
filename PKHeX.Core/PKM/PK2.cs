@@ -125,10 +125,10 @@ namespace PKHeX.Core
         }
 
         protected override byte[] Encrypt() => new PokemonList2(this).GetBytes();
-        public override byte[] EncryptedPartyData => Encrypt().ToArray();
-        public override byte[] EncryptedBoxData => Encrypt().ToArray();
-        public override byte[] DecryptedBoxData => Encrypt().ToArray();
-        public override byte[] DecryptedPartyData => Encrypt().ToArray();
+        public override byte[] EncryptedPartyData => Encrypt();
+        public override byte[] EncryptedBoxData => Encrypt();
+        public override byte[] DecryptedBoxData => Encrypt();
+        public override byte[] DecryptedPartyData => Encrypt();
 
         private bool? _isnicknamed;
         public override bool IsNicknamed
@@ -530,14 +530,13 @@ namespace PKHeX.Core
             for (int i = 0; i < Capacity; i++)
             {
                 int base_ofs = 2 + Capacity;
-                byte[] dat = Data.Skip(base_ofs + Entry_Size * i).Take(Entry_Size).ToArray();
-                Pokemon[i] = new PK2(dat, null, jp)
-                {
-                    IsEgg = Data[1 + i] == 0xFD,
-                    otname = Data.Skip(base_ofs + Capacity*Entry_Size + StringLength*i).Take(StringLength).ToArray(),
-                    nick = Data.Skip(base_ofs + Capacity*Entry_Size + StringLength*Capacity + StringLength*i)
-                            .Take(StringLength).ToArray()
-                };
+                byte[] dat = new byte[Entry_Size];
+                byte[] otname = new byte[StringLength];
+                byte[] nick = new byte[StringLength];
+                Buffer.BlockCopy(Data, base_ofs + Entry_Size * i, dat, 0, Entry_Size);
+                Buffer.BlockCopy(Data, base_ofs + Capacity * Entry_Size + StringLength * i, otname, 0, StringLength);
+                Buffer.BlockCopy(Data, base_ofs + Capacity * Entry_Size + StringLength * (i + Capacity), nick, 0, StringLength);
+                Pokemon[i] = new PK2(dat, null, jp) {IsEgg = Data[1 + i] == 0xFD, otname = otname, nick = nick};
             }
         }
 
@@ -579,10 +578,8 @@ namespace PKHeX.Core
 
         private void Update()
         {
-            if (Pokemon.Any(pk => pk.Species == 0))
-                Count = (byte)Array.FindIndex(Pokemon, pk => pk.Species == 0);
-            else
-                Count = Capacity;
+            int count = Array.FindIndex(Pokemon, pk => pk.Species == 0);
+            Count = count < 0 ? Capacity : (byte)count;
             for (int i = 0; i < Count; i++)
             {
                 Data[1 + i] = Pokemon[i].IsEgg ? (byte)0xFD : (byte)Pokemon[i].Species;
