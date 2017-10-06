@@ -330,6 +330,7 @@ namespace PKHeX.WinForms.Controls
             if (pk.IsEgg && pk.Met_Location == 0) // If still an egg, it has no hatch location/date. Zero it!
                 pk.MetDate = null;
 
+            pk.Met_Level = Util.ToInt32(TB_MetLevel.Text);
             pk.Ability = (byte)WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
         }
 
