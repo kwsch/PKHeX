@@ -291,6 +291,8 @@ namespace PKHeX.WinForms.Controls
             pk.Ball = WinFormsUtil.GetIndex(CB_Ball);
             pk.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
             pk.Language = WinFormsUtil.GetIndex(CB_Language);
+            pk.Met_Level = Util.ToInt32(TB_MetLevel.Text);
+            pk.Met_Location = WinFormsUtil.GetIndex(CB_MetLocation);
         }
 
         private void LoadMisc4(PKM pk)
