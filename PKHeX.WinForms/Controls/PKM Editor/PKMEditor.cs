@@ -493,7 +493,7 @@ namespace PKHeX.WinForms.Controls
                     label.ResetForeColor();
 
                 // Set Colored StatLabels only if Nature isn't Neutral
-                if (incr == decr) return;
+                if (incr == decr || incr >= labarray.Length) return;
                 labarray[incr].ForeColor = Color.Red;
                 labarray[decr].ForeColor = Color.Blue;
             }

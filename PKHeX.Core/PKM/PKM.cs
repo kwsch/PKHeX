@@ -718,7 +718,7 @@ namespace PKHeX.Core
             // Account for nature
             int incr = Nature / 5 + 1;
             int decr = Nature % 5 + 1;
-            if (incr == decr) return Stats;
+            if (incr == decr || incr >= Stats.Length) return Stats;
             Stats[incr] *= 11; Stats[incr] /= 10;
             Stats[decr] *= 9; Stats[decr] /= 10;
             return Stats;
