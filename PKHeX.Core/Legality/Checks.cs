@@ -417,13 +417,13 @@ namespace PKHeX.Core
             }
             else if (pkm.Format < 5)
             {
-                var maxEV = pkm.Format <= 2 ? 25600 : 100; // Vitamin Max
-                // Cannot EV train above 100 without increasing EXP
+                // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level. 
+                if (pkm.Format < 3) // can abuse daycare for EV training without EXP gain
+                    return;
+
+                const int maxEV = 100; // Vitamin Max
                 if (PKX.GetEXP(EncounterMatch.LevelMin, pkm.Species) == pkm.EXP && evs.Any(ev => ev > maxEV))
                     AddLine(Severity.Invalid, string.Format(V418, maxEV), CheckIdentifier.EVs);
-
-                if (pkm.Format < 3)
-                    return;
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
