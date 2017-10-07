@@ -33,8 +33,6 @@ namespace PKHeX.Core
                 return;
 
             Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
-            if (Japanese && Data.Length < SaveUtil.SIZE_G2RAW_J)
-                Array.Resize(ref Data, SaveUtil.SIZE_G2RAW_J);
             if (!Japanese)
                 Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
 
