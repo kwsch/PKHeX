@@ -172,9 +172,9 @@ namespace PKHeX.Core
             int inheritCt = inherited.Count;
 
             // Get required amount of base moves
-            int unique = baseMoves.Concat(inherited).Distinct().Count();
+            int unique = baseMoves.Union(inherited).Count();
             int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
-            if (RelearnMoves.Where(m => m != 0).Count() < Math.Min(4, baseMoves.Count))
+            if (RelearnMoves.Count(m => m != 0) < Math.Min(4, baseMoves.Count))
                 reqBase = Math.Min(4, unique);
             return reqBase;
         }

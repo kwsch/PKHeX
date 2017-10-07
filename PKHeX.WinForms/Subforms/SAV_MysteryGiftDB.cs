@@ -207,7 +207,8 @@ namespace PKHeX.WinForms
             RawDB.AddRange(Legal.MGDB_G6);
             RawDB.AddRange(Legal.MGDB_G7);
 
-            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct().Concat(Legal.MGDB_G3).OrderBy(mg => mg.Species));
+            RawDB = new List<MysteryGift>(RawDB.Where(mg => !mg.IsItem && mg.IsPokémon && mg.Species > 0).Distinct()
+                .Concat(Legal.MGDB_G3).OrderBy(mg => mg.Species));
             foreach (var mg in RawDB)
                 mg.GiftUsed = false;
             BeginInvoke(new MethodInvoker(delegate

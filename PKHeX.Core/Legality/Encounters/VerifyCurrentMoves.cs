@@ -745,7 +745,7 @@ namespace PKHeX.Core
             int inheritCt = inherited.Count;
 
             // Get required amount of base moves
-            int unique = infoset.Base.Concat(inherited).Distinct().Count();
+            int unique = infoset.Base.Union(inherited).Count();
             int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
             if (Moves.Count(m => m != 0) < Math.Min(4, infoset.Base.Count))
                 reqBase = Math.Min(4, unique);

@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
                 p[i] = ReflectFrameworkUtil.GetPropertiesCanWritePublicDeclared(types[i]).Concat(CustomProperties).OrderBy(a => a).ToArray();
 
             // Properties for any PKM
-            var any = ReflectFrameworkUtil.GetPropertiesCanWritePublic(typeof(PK1)).Concat(p.SelectMany(a => a)).Distinct().OrderBy(a => a).ToArray();
+            var any = ReflectFrameworkUtil.GetPropertiesCanWritePublic(typeof(PK1)).Union(p.SelectMany(a => a)).OrderBy(a => a).ToArray();
             // Properties shared by all PKM
             var all = p.Aggregate(new HashSet<string>(p.First()), (h, e) => { h.IntersectWith(e); return h; }).OrderBy(a => a).ToArray();
 
