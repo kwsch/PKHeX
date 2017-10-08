@@ -226,10 +226,7 @@ namespace PKHeX.Core
         }
 
         #region Future, Unused Attributes
-        public override bool IsGenderValid()
-        {
-            return true;
-        }
+        public override bool IsGenderValid() => true; // not a separate property, derived via IVs
         public override uint EncryptionConstant { get => 0; set { } }
         public override uint PID { get => 0; set { } }
         public override int Met_Level { get => 0; set { } }
@@ -287,7 +284,7 @@ namespace PKHeX.Core
                     case 63:
                         return IV_ATK >= 5 ? 0 : 1;
                     case 127:
-                        return IV_ATK >= 7 ? 0 : 1;
+                        return IV_ATK >= 8 ? 0 : 1;
                     case 191:
                         return IV_ATK >= 12 ? 0 : 1;
                 }

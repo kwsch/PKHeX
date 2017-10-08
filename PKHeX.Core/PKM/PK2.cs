@@ -249,31 +249,6 @@ namespace PKHeX.Core
             return Stats;
         }
 
-        public override bool IsGenderValid()
-        {
-            int gv = PersonalInfo.Gender;
-
-            switch (gv)
-            {
-                case 255:
-                    return Gender == 2;
-                case 254:
-                    return Gender == 1;
-                case 0:
-                    return Gender == 0;
-
-                case 31:
-                    return IV_ATK >= 2 ? Gender == 0 : Gender == 1;
-                case 63:
-                    return IV_ATK >= 5 ? Gender == 0 : Gender == 1;
-                case 127:
-                    return IV_ATK >= 7 ? Gender == 0 : Gender == 1;
-                case 191:
-                    return IV_ATK >= 12 ? Gender == 0 : Gender == 1;
-            }
-            return false;
-        }
-
         public override bool IsEgg { get; set; }
 
         public override int Gender
@@ -294,7 +269,7 @@ namespace PKHeX.Core
                     case 63:
                         return IV_ATK >= 5 ? 0 : 1;
                     case 127:
-                        return IV_ATK >= 7 ? 0 : 1;
+                        return IV_ATK >= 8 ? 0 : 1;
                     case 191:
                         return IV_ATK >= 12 ? 0 : 1;
                 }
@@ -307,6 +282,7 @@ namespace PKHeX.Core
         public override bool HasOriginalMetLocation => CaughtData != 0;
 
         #region Future, Unused Attributes
+        public override bool IsGenderValid() => true; // not a separate property, derived via IVs
         public override uint EncryptionConstant { get => 0; set { } }
         public override uint PID { get => 0; set { } }
         public override int Nature { get => 0; set { } }
