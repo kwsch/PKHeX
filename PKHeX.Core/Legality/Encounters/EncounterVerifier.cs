@@ -308,6 +308,12 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, V74, CheckIdentifier.RelearnMove); // not gift egg
                     break;
             }
+            if (s.EggEncounter && !pkm.IsEgg) // hatched
+            {
+                var hatchCheck = VerifyEncounterEgg(pkm, null);
+                if (!hatchCheck.Valid)
+                    return hatchCheck;
+            }
 
             return new CheckResult(Severity.Valid, V75, CheckIdentifier.Encounter);
         }
