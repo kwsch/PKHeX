@@ -5222,6 +5222,39 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///町外れのスタンド (C) / シャドーのラボ (XD)
+        ///町外れのスタンド (C)
+        ///フェナスシティ (C)
+        ///フェナスシティ (C)
+        ///市長の家 (C)
+        ///市長の家 (C)
+        ///フェナスシティ (C) / シャドーのラボ (XD)
+        ///フェナスシティ (C) / シャドーのラボ (XD)
+        ///フェナスシティ (C) / シャドーのラボ (XD)
+        ///フェナスシティ (C) / シャドーのラボ (XD)
+        ///トレーナーズトレーニングセンター (C) / シャドーのラボ (XD)
+        ///トレーナーズトレーニングセンター (C) / バトル山 (XD)
+        ///フェナススタジアム (C) / バトル山 (XD)
+        ///フェナススタジアム (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタウン (C)
+        ///パイラタウン (C) / バトル山 (XD)
+        ///パイラタ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_cxd_00000_ja {
+            get {
+                return ResourceManager.GetString("text_cxd_00000_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kein
         ///ZertrÃ¼mmerer (HGSS)
         ///Hohes GraÃŸ
@@ -5388,21 +5421,19 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to None
-        ///Rock Smash (HGSS)
-        ///Tall Grass
+        ///   Looks up a localized string similar to 指定なし
+        ///いわくだき (HGSS)
+        ///草むら
         ///
-        ///Dialga/Palkia
-        ///Cave/Hall of Origin
+        ///ディアルガ / パルキア
+        ///洞窟 / はじまりのま
         ///
-        ///Surfing/Fishing
+        ///なみのり / 釣り
         ///
-        ///Building/Enigma Stone
-        ///Marsh/Safari
+        ///建物 / なぞのすいしょう
+        ///サファリ / 大湿原
         ///
-        ///Starter/Fossil/Gift (DP)
-        ///
-        ///
+        ///御三家 / 化石 / 交換 (DP)
         ///
         ///
         ///
@@ -5411,8 +5442,10 @@ namespace PKHeX.Core.Properties {
         ///
         ///
         ///
-        ///Distortion World (Pt)
-        ///Starter/Fossil/Gift (Pt/DP Trio).
+        ///
+        ///
+        ///やぶれたせかい (Pt)
+        ///御三家 / 化石 / 交換 (Pt/DP Trio).
         /// </summary>
         internal static string text_encountertype_ja {
             get {
@@ -8386,7 +8419,10 @@ namespace PKHeX.Core.Properties {
         ///Rote
         ///Blaue [INT]/Grüne [JP]
         ///Blaue [JP]
-        ///Gelbe.
+        ///Gelbe
+        ///Goldene
+        ///Silberne
+        ///Kristall.
         /// </summary>
         internal static string text_games_de {
             get {
@@ -8433,7 +8469,10 @@ namespace PKHeX.Core.Properties {
         ///Red
         ///Blue [INT]/Green [JP]
         ///Blue [JP]
-        ///Yellow.
+        ///Yellow
+        ///Gold
+        ///Silver
+        ///Crystal.
         /// </summary>
         internal static string text_games_en {
             get {
@@ -8480,7 +8519,10 @@ namespace PKHeX.Core.Properties {
         ///Roja
         ///Azul [INT]/Verde [JP]
         ///Azul [JP]
-        ///Amarilla.
+        ///Amarilla
+        ///Oro
+        ///Plata
+        ///Cristal.
         /// </summary>
         internal static string text_games_es {
             get {
@@ -8527,7 +8569,10 @@ namespace PKHeX.Core.Properties {
         ///Rouge
         ///Bleue [INT]/Vert [JP]
         ///Bleue [JP]
-        ///Jaune.
+        ///Jaune
+        ///Or
+        ///Argent
+        ///Cristal.
         /// </summary>
         internal static string text_games_fr {
             get {
@@ -8574,7 +8619,10 @@ namespace PKHeX.Core.Properties {
         ///Rossa
         ///Blu [INT]/Verde [JP]
         ///Blu [JP]
-        ///Gialla.
+        ///Gialla
+        ///Oro
+        ///Argento
+        ///Cristallo.
         /// </summary>
         internal static string text_games_it {
             get {
@@ -8621,7 +8669,10 @@ namespace PKHeX.Core.Properties {
         ///赤
         ///青 [INT]/緑 [JP]
         ///青 [JP]
-        ///黄.
+        ///黄
+        ///金
+        ///銀
+        ///クリスタル.
         /// </summary>
         internal static string text_games_ja {
             get {
@@ -8668,7 +8719,10 @@ namespace PKHeX.Core.Properties {
         ///레드
         ///블루 [INT]/그린 [JP]
         ///블루 [JP]
-        ///옐로.
+        ///피카츄
+        ///금
+        ///은
+        ///크리스탈.
         /// </summary>
         internal static string text_games_ko {
             get {
@@ -8715,7 +8769,10 @@ namespace PKHeX.Core.Properties {
         ///红
         ///蓝 [国际]/绿 [日]
         ///蓝 [日]
-        ///黄.
+        ///黄
+        ///金
+        ///银
+        ///水晶.
         /// </summary>
         internal static string text_games_zh {
             get {
@@ -9235,6 +9292,82 @@ namespace PKHeX.Core.Properties {
         internal static string text_gsc_00000_es {
             get {
                 return ResourceManager.GetString("text_gsc_00000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (なし)
+        ///ワカバタウン
+        ///２９ばんどうろ
+        ///ヨシノシティ
+        ///３０ばんどうろ
+        ///３１ばんどうろ
+        ///キキョウシティ
+        ///マダツボミのとう
+        ///３２ばんどうろ
+        ///アルフのいせき
+        ///つながりのどうくつ
+        ///３３ばんどうろ
+        ///ヒワダタウン
+        ///ヤドンのいど
+        ///ウバメのもり
+        ///３４ばんどうろ
+        ///コガネシティ
+        ///ラジオとう
+        ///３５ばんどうろ
+        ///しぜんこうえん
+        ///３６ばんどうろ
+        ///３７ばんどうろ
+        ///エンジュシティ
+        ///スズのとう
+        ///やけたとう
+        ///３８ばんどうろ
+        ///３９ばんどうろ
+        ///アサギシティ
+        ///アサギのとうだい
+        ///バトルタワー
+        ///４０ばんすいどう
+        ///うずまきじま
+        ///４１ばんすいどう
+        ///タンバシティ
+        ///４２ばんどうろ
+        ///スリバチやま
+        ///チョウジタウン
+        ///４３ばんどうろ
+        ///いかりのみずうみ
+        ///４４ばんどうろ
+        ///こおりのぬけみち
+        ///フスベシティ
+        ///りゅうのあな
+        ///４５ばんどうろ
+        ///くらやみのほらあな
+        ///４６ばんどうろ
+        ///シロガネやま
+        ///マサラタウン
+        ///１ばんどうろ
+        ///トキワシティ
+        ///２ばんどうろ
+        ///ニビシティ
+        ///３ばんどうろ
+        ///おつきみやま
+        ///４ばんどうろ
+        ///ハナダシティ
+        ///２４ばんどうろ
+        ///２５ばんどうろ
+        ///５ばんどうろ
+        ///ちかつうろ
+        ///６ばんどうろ
+        ///クチバシティ
+        ///ディグダのあな
+        ///７ばんどうろ
+        ///８ばんどうろ
+        ///９ばんどうろ
+        ///イワヤマトンネル
+        ///１０ばんどう [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_gsc_00000_ja {
+            get {
+                return ResourceManager.GetString("text_gsc_00000_ja", resourceCulture);
             }
         }
         
@@ -11108,6 +11241,82 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (なし)
+        ///マスターボール
+        ///ハイパーボール
+        ///スーパーボール
+        ///モンスターボール
+        ///タウンマップ
+        ///じてんしゃ
+        ///？？？？？ (７)
+        ///サファリボール
+        ///ポケモンずかん
+        ///つきのいし
+        ///どくけし
+        ///やけどなおし
+        ///こおりなおし
+        ///ねむけざまし
+        ///まひなおし
+        ///かいふくのくすり
+        ///まんたんのくすり
+        ///すごいキズぐすり
+        ///いいキズぐすり
+        ///キズぐすり
+        ///グレーバッジ
+        ///ブルーバッジ
+        ///かみなりバッジ
+        ///レインボーバッジ
+        ///ピンクバッジ
+        ///ゴールドバッジ
+        ///クリムゾンバッジ
+        ///グリーンバッジ
+        ///あなぬけのひも
+        ///むしよけスプレー
+        ///ひみつのコハク
+        ///ほのおのいし
+        ///かみなりのいし
+        ///みずのいし
+        ///マックスアップ
+        ///タウリン
+        ///ブロムヘキシン
+        ///インドメタシン
+        ///リゾチウム
+        ///ふしぎなアメ
+        ///こうらのカセキ
+        ///かいのカセキ
+        ///ひみつのカギ
+        ///？？？？？ (４４)
+        ///ひきかえけん
+        ///ヨクアタール
+        ///リーフのいし
+        ///カードキー
+        ///きんのたま
+        ///ポイントアップ (未使用)
+        ///ピッピにんぎょう
+        ///なんでもなおし
+        ///げんきのかけら
+        ///げんきのかたまり
+        ///エフェクトガード
+        ///シルバースプレー
+        ///ゴールドスプレー
+        ///クリティカット
+        ///コイン
+        ///おいしいみず
+        ///サイコソーダ
+        ///ミックスオレ
+        ///ふねのチケット
+        ///きんのいれば
+        ///プラスパワー
+        ///ディフェンダー
+        ///ス [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG1_ja {
+            get {
+                return ResourceManager.GetString("text_ItemsG1_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (无)
         ///大师球
         ///高级球
@@ -11394,6 +11603,80 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (なし)
+        ///マスターボール
+        ///ハイパーボール
+        ///ひかりのこな
+        ///スーパーボール
+        ///モンスターボール
+        ///カビチュウ (０)
+        ///じてんしゃ
+        ///つきのいし
+        ///どくけし
+        ///やけどなおし
+        ///こおりなおし
+        ///ねむけざまし
+        ///まひなおし
+        ///かいふくのくすり
+        ///まんたんのくすり
+        ///すごいキズぐすり
+        ///いいキズぐすり
+        ///キズぐすり
+        ///あなぬけのひも
+        ///むしよけスプレー
+        ///ピーピーマックス
+        ///ほのおのいし
+        ///かみなりのいし
+        ///みずのいし
+        ///カビチュウ (１)
+        ///ポイントアップ
+        ///タウリン
+        ///ブロムヘキシン
+        ///インドメタシン
+        ///ラッキーパンチ
+        ///リゾチウム
+        ///ふしぎなアメ
+        ///ヨクアタール
+        ///リーフのいし
+        ///メタルパウダー
+        ///きんのたま
+        ///ピッピにんぎょう
+        ///なんでもなおし
+        ///げんきのかけら
+        ///げんきのかたまり
+        ///エフェクトガード
+        ///シルバースプレー
+        ///ゴールドスプレー
+        ///クリティカッター
+        ///カビチュウ (２)
+        ///おいしいみず
+        ///サイコソーダ
+        ///ミックスオレ
+        ///プラスパワー
+        ///カビチュウ (３)
+        ///ディフェンダー
+        ///スピーダー
+        ///スペシャルアップ
+        ///コインケース
+        ///ダウンジングマシン
+        ///カビチュウ (４)
+        ///がくしゅうそうち
+        ///ボロのつりざお
+        ///いいつりざお
+        ///ぎんのはっぱ
+        ///すごいつりざお
+        ///ポイントアップ
+        ///ピーピーエイド
+        ///ピーピーリカバー
+        ///ピーピーエ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG2_ja {
+            get {
+                return ResourceManager.GetString("text_ItemsG2_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (无)
         ///大师球
         ///高级球
@@ -11596,6 +11879,88 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (なし)
+        ///マスターボール
+        ///ハイパーボール
+        ///スーパーボール
+        ///モンスターボール
+        ///サファリボール
+        ///ネットボール
+        ///ダイブボール
+        ///ネストボール
+        ///リピートボール
+        ///タイマーボール
+        ///ゴージャスボール
+        ///プレミアボール
+        ///キズぐすり
+        ///どくけし
+        ///やけどなおし
+        ///こおりなおし
+        ///ねむけざまし
+        ///まひなおし
+        ///かいふくのくすり
+        ///まんたんのくすり
+        ///すごいキズぐすり
+        ///いいキズぐすり
+        ///なんでもなおし
+        ///げんきのかけら
+        ///げんきのかたまり
+        ///おいしいみず
+        ///サイコソーダ
+        ///ミックスオレ
+        ///モーモーミルク
+        ///ちからのこな
+        ///ちからのねっこ
+        ///ばんのうごな
+        ///ふっかつそう
+        ///ピーピーエイド
+        ///ピーピーリカバー
+        ///ピーピーエイダー
+        ///ピーピーマックス
+        ///フエンせんべい
+        ///あおいビードロ
+        ///きいろビードロ
+        ///あかいビードロ
+        ///くろいビードロ
+        ///しろいビードロ
+        ///きのみジュース
+        ///せいなるはい
+        ///あさせのしお
+        ///あさせのかいがら
+        ///あかいかけら
+        ///あおいかけら
+        ///きいろいかけら
+        ///みどりのかけら
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///？？？
+        ///ピーピーアップ
+        ///タウリン
+        ///ブロムヘキシン
+        ///インドメタシン
+        ///リゾチウム
+        ///ふしぎなアメ
+        ///ピーピーアップ
+        ///キトサン
+        ///ポイントマックス
+        ///？？？
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3_ja {
+            get {
+                return ResourceManager.GetString("text_ItemsG3_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (无)
         ///大师球
         ///高级球
@@ -11771,6 +12136,62 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ろうやのカギ
+        ///エレベーターキー
+        ///ちいさなせきばん
+        ///Ｆ－ディスク
+        ///Ｒ－ディスク
+        ///Ｌ－ディスク
+        ///Ｄ－ディスク
+        ///Ｕ－ディスク
+        ///ちかてつのカギ
+        ///メインゲートキー
+        ///カードキー
+        ///ちかつうろのカギ
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///ＤＮＡサンプル
+        ///データロム
+        ///はがねのいれば
+        ///はぐるま
+        ///ＩＤバッジあか
+        ///ＩＤバッジみどり
+        ///ＩＤバッジあお
+        ///ＩＤバッジきいろ
+        ///ときのふえ
+        ///ボルグファイルＳ
+        ///ボルグファイルＨ
+        ///ボルグファイルＣ
+        ///ボルグファイルＰ
+        ///コロンケース
+        ///ルンルンのかおり
+        ///ワクワクのかおり
+        ///ドキドキのかおり
+        ///きょうかパーツ
+        ///ボルグファイルＦ.
+        /// </summary>
+        internal static string text_ItemsG3Colosseum_ja {
+            get {
+                return ResourceManager.GetString("text_ItemsG3Colosseum_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Safe Key
         ///Elevator Key
         ///Bonsly Card
@@ -11819,6 +12240,74 @@ namespace PKHeX.Core.Properties {
         internal static string text_ItemsG3XD_en {
             get {
                 return ResourceManager.GetString("text_ItemsG3XD_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to きんこのカギ
+        ///エレベーターキー
+        ///ウソハチシート
+        ///マシンパーツ
+        ///ゴンザのカギ
+        ///データロム
+        ///ＩＤカード
+        ///おんがくソフト
+        ///かいじょレバー
+        ///しちょうのてがみ
+        ///ミラーボレーダー
+        ///ポケまんま
+        ///コロンケース
+        ///ルンルンのかおり
+        ///ワクワクのかおり
+        ///ドキドキのかおり
+        ///たいようのかけら
+        ///つきのかけら
+        ///ウソハチフォト
+        ///かいどくそうち
+        ///？？？
+        ///？？？
+        ///？？？
+        ///クレインメモ１
+        ///クレインメモ２
+        ///クレインメモ３
+        ///クレインメモ４
+        ///クレインメモ５
+        ///こえカプセル１
+        ///こえカプセル２
+        ///こえカプセル３
+        ///こえカプセル４
+        ///こえカプセル５
+        ///ディスクケース
+        ///バトルディスク０１
+        ///バトルディスク０２
+        ///バトルディスク０３
+        ///バトルディスク０４
+        ///バトルディスク０５
+        ///バトルディスク０６
+        ///バトルディスク０７
+        ///バトルディスク０８
+        ///バトルディスク０９
+        ///バトルディスク１０
+        ///バトルディスク１１
+        ///バトルディスク１２
+        ///バトルディスク１３
+        ///バトルディスク１４
+        ///バトルディスク１５
+        ///バトルディスク１６
+        ///バトルディスク１７
+        ///バトルディスク１８
+        ///バトルディスク１９
+        ///バトルディスク２０
+        ///バトルディスク２１
+        ///バトルディスク２２
+        ///バトルディスク２３
+        ///バトルディスク２４
+        ///バトルディスク２５
+        ///バトルディス [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3XD_ja {
+            get {
+                return ResourceManager.GetString("text_ItemsG3XD_ja", resourceCulture);
             }
         }
         
@@ -14002,6 +14491,69 @@ namespace PKHeX.Core.Properties {
         internal static string text_rsefrlg_00000_es {
             get {
                 return ResourceManager.GetString("text_rsefrlg_00000_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ミシロタウン
+        ///コトキタウン
+        ///ムロタウン
+        ///フエンタウン
+        ///ハジツゲタウン
+        ///シダケタウン
+        ///キナギタウン
+        ///トウカシティ
+        ///カイナシティ
+        ///キンセツシティ
+        ///カナズミシティ
+        ///ヒワマキシティ
+        ///ミナモシティ
+        ///トクサネシティ
+        ///ルネシティ
+        ///サイユウシティ
+        ///１０１ばんどうろ
+        ///１０２ばんどうろ
+        ///１０３ばんどうろ
+        ///１０４ばんどうろ
+        ///１０５ばんすいどう
+        ///１０６ばんすいどう
+        ///１０７ばんすいどう
+        ///１０８ばんすいどう
+        ///１０９ばんすいどう
+        ///１１０ばんどうろ
+        ///１１１ばんどうろ
+        ///１１２ばんどうろ
+        ///１１３ばんどうろ
+        ///１１４ばんどうろ
+        ///１１５ばんどうろ
+        ///１１６ばんどうろ
+        ///１１７ばんどうろ
+        ///１１８ばんどうろ
+        ///１１９ばんどうろ
+        ///１２０ばんどうろ
+        ///１２１ばんどうろ
+        ///１２２ばんすいどう
+        ///１２３ばんどうろ
+        ///１２４ばんすいどう
+        ///１２５ばんすいどう
+        ///１２６ばんすいどう
+        ///１２７ばんすいどう
+        ///１２８ばんすいどう
+        ///１２９ばんすいどう
+        ///１３０ばんすいどう
+        ///１３１ばんすいどう
+        ///１３２ばんすいどう
+        ///１３３ばんすいどう
+        ///１３４ばんすいどう
+        ///すいちゅう (１２４ばんすいどう)
+        ///すいちゅう (１２６ばんすいどう)
+        ///すいちゅう (１２７ばんすいどう)
+        ///すいちゅう (１２８ばんすいどう)
+        ///す [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_rsefrlg_00000_ja {
+            get {
+                return ResourceManager.GetString("text_rsefrlg_00000_ja", resourceCulture);
             }
         }
         

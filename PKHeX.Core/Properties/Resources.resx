@@ -1552,4 +1552,28 @@
   <data name="badwords" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\locale\badwords.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="text_cxd_00000_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_cxd_00000_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_gsc_00000_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_gsc_00000_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG1_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_ItemsG1_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG2_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_ItemsG2_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemsG3Colosseum_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_ItemsG3Colosseum_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG3XD_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_ItemsG3XD_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_ItemsG3_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_ItemsG3_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
+  <data name="text_rsefrlg_00000_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\other\text_rsefrlg_00000_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
+  </data>
 </root>
