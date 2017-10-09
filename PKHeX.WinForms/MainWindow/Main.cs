@@ -435,24 +435,26 @@ namespace PKHeX.WinForms
         }
         private void ClickShowdownExportParty(object sender, EventArgs e)
         {
-            if (C_SAV.SAV.PartyData.Count <= 0) return;
+            var data = C_SAV.SAV.PartyData;
+            if (data.Count <= 0) return;
             try
             {
-                Clipboard.SetText(
-                    C_SAV.SAV.PartyData.Aggregate("", (current, pk) => current + pk.ShowdownText
-                            + Environment.NewLine + Environment.NewLine).Trim());
+                var split = Environment.NewLine + Environment.NewLine;
+                var sets = data.Select(z => z.ShowdownText);
+                Clipboard.SetText(string.Join(split, sets));
                 WinFormsUtil.Alert("Showdown Team (Party) set to Clipboard.");
             }
             catch { }
         }
         private void ClickShowdownExportBattleBox(object sender, EventArgs e)
         {
-            if (C_SAV.SAV.BattleBoxData.Count <= 0) return;
+            var data = C_SAV.SAV.BattleBoxData;
+            if (data.Count <= 0) return;
             try
             {
-                Clipboard.SetText(
-                    C_SAV.SAV.BattleBoxData.Aggregate("", (current, pk) => current + pk.ShowdownText
-                            + Environment.NewLine + Environment.NewLine).Trim());
+                var split = Environment.NewLine + Environment.NewLine;
+                var sets = data.Select(z => z.ShowdownText);
+                Clipboard.SetText(string.Join(split, sets));
                 WinFormsUtil.Alert("Showdown Team (Battle Box) set to Clipboard.");
             }
             catch { }
@@ -710,7 +712,7 @@ namespace PKHeX.WinForms
 
         private static void StoreLegalSaveGameData(SaveFile sav)
         {
-            Legal.SavegameLanguage= sav.Language;
+            Legal.SavegameLanguage = sav.Language;
             Legal.SavegameJapanese = sav.Japanese;
             Legal.EReaderBerryIsEnigma = sav.IsEBerryIsEnigma;
             Legal.EReaderBerryName = sav.EBerryName;

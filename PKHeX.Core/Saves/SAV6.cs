@@ -1062,8 +1062,8 @@ namespace PKHeX.Core
         }
         public override string MiscSaveInfo()
         {
-            return Blocks.Aggregate("", (current, b) => current +
-                $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}{Environment.NewLine}");
+            return string.Join(Environment.NewLine,
+                Blocks.Select(b => $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}"));
         }
 
         public override string GetString(int Offset, int Count) => StringConverter.GetString6(Data, Offset, Count);
