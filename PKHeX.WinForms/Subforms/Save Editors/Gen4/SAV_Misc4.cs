@@ -27,7 +27,7 @@ namespace PKHeX.WinForms
                     ofsFlag = GBO + 0xFDC;
                     ofsBP = GBO + 0x65F8;
                     ofsUGFlagCount = GBO + 0x3A60;
-                    ofsPoketch = GBO + 0x114F;
+                    ofsPoketch = GBO + 0x114E;
                     L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
                     BFF = new[] { new[] { 0, 1, 0x5FCA, 0x04, 0x6601 }, };
@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
                     ofsFlag = GBO + 0xFEC;
                     ofsBP = GBO + 0x7234;
                     ofsUGFlagCount = GBO + 0x3CE8;
-                    ofsPoketch = GBO + 0x1163;
+                    ofsPoketch = GBO + 0x1162;
                     L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     ofsPrints = GBO + 0xE4A;
                     BFF = new[] {
