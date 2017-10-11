@@ -10,14 +10,13 @@ namespace PKHeX.Core
         
         public Roamer3(SAV3 sav)
         {
+            SAV = sav;
             Offset = sav.GetBlockOffset(4);
             if (GameVersion.FRLG.Contains(SAV.Version))
                 Offset += 0x250; // 0x250 - FRLG
             else
                 Offset += 0x35C; // 0x35C - RSE
             IsGlitched = SAV.Version != GameVersion.E;
-
-            SAV = sav;
         }
 
         private uint IV32

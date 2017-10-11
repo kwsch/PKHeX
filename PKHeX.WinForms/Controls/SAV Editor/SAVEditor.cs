@@ -517,6 +517,7 @@ namespace PKHeX.WinForms.Controls
         private void B_OpenSecretBase_Click(object sender, EventArgs e) => new SAV_SecretBase(SAV).ShowDialog();
         private void B_OpenZygardeCells_Click(object sender, EventArgs e) => new SAV_ZygardeCell(SAV).ShowDialog();
         private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6(SAV).ShowDialog();
+        private void B_Roamer_Click(object sender, EventArgs e) => new SAV_Roamer3(SAV).ShowDialog();
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
             var form = SAV.Generation == 1 ? new SAV_EventReset1(SAV) as Form : new SAV_EventFlags(SAV);
@@ -1003,6 +1004,7 @@ namespace PKHeX.WinForms.Controls
 
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = sav.HasParty; // Box RS
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
+                B_Roamer.Enabled = sav is SAV3;
 
                 B_OpenHoneyTreeEditor.Enabled = sav.DP || sav.Pt;
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;

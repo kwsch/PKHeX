@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAVEditor));
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
-            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.PB_Locked = new System.Windows.Forms.PictureBox();
@@ -110,6 +109,8 @@
             this.B_OpenFriendSafari = new System.Windows.Forms.Button();
             this.B_OpenRTCEditor = new System.Windows.Forms.Button();
             this.B_OpenUGSEditor = new System.Windows.Forms.Button();
+            this.B_Roamer = new System.Windows.Forms.Button();
+            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -173,17 +174,6 @@
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
-            // 
-            // Box
-            // 
-            this.Box.AllowDrop = true;
-            this.Box.CurrentBox = -1;
-            this.Box.FlagIllegal = false;
-            this.Box.Location = new System.Drawing.Point(26, 7);
-            this.Box.M = null;
-            this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(251, 185);
-            this.Box.TabIndex = 1;
             // 
             // Tab_PartyBattle
             // 
@@ -782,6 +772,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
             this.FLP_SAVtools.Controls.Add(this.B_OpenRTCEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenUGSEditor);
+            this.FLP_SAVtools.Controls.Add(this.B_Roamer);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 88);
@@ -1020,6 +1011,27 @@
             this.B_OpenUGSEditor.UseVisualStyleBackColor = true;
             this.B_OpenUGSEditor.Click += new System.EventHandler(this.B_OpenUGSEditor_Click);
             // 
+            // B_Roamer
+            // 
+            this.B_Roamer.Location = new System.Drawing.Point(189, 206);
+            this.B_Roamer.Name = "B_Roamer";
+            this.B_Roamer.Size = new System.Drawing.Size(87, 23);
+            this.B_Roamer.TabIndex = 30;
+            this.B_Roamer.Text = "Roamer";
+            this.B_Roamer.UseVisualStyleBackColor = true;
+            this.B_Roamer.Click += new System.EventHandler(this.B_Roamer_Click);
+            // 
+            // Box
+            // 
+            this.Box.AllowDrop = true;
+            this.Box.CurrentBox = -1;
+            this.Box.FlagIllegal = false;
+            this.Box.Location = new System.Drawing.Point(26, 7);
+            this.Box.M = null;
+            this.Box.Name = "Box";
+            this.Box.Size = new System.Drawing.Size(251, 185);
+            this.Box.TabIndex = 1;
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1155,5 +1167,6 @@
         private System.Windows.Forms.Button B_OpenRTCEditor;
         public BoxEditor Box;
         private System.Windows.Forms.Button B_OpenUGSEditor;
+        private System.Windows.Forms.Button B_Roamer;
     }
 }
