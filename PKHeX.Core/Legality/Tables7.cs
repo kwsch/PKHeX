@@ -14,6 +14,7 @@ namespace PKHeX.Core
 
         internal const int MaxSpeciesID_7_USUM = 802;
         internal const int MaxMoveID_7_USUM = 720;
+        internal const int MaxItemID_7_USUM = 920;
 
         #region Met Locations
 
@@ -470,6 +471,6 @@ namespace PKHeX.Core
             715, // Fairy Gem
         };
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_USUM+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
     }
 }
