@@ -145,7 +145,7 @@ namespace PKHeX.WinForms
                 default:
                     return null;
             }
-            return Util.GetStringList($"{type}_{gamePrefix}");
+            return GameInfo.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
         private void AddFlagList(string[] list)
         {

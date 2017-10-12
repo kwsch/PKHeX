@@ -244,14 +244,7 @@ namespace PKHeX.Core
                     metSM_30000[i] += " (-)";
             }
 
-            private string[] Get(string ident)
-            {
-                string[] data = Util.GetStringList(ident, lang);
-                if (data == null || data.Length == 0)
-                    data = Util.GetStringList(ident, DefaultLanguage);
-
-                return data;
-            }
+            private string[] Get(string ident) => GetStrings(ident, lang);
 
             public string[] GetItemStrings(int generation, GameVersion game)
             {
@@ -286,6 +279,14 @@ namespace PKHeX.Core
             }
         }
         public static GameStrings Strings { get; set; }
+        public static string[] GetStrings(string ident, string lang, string type = "text")
+        {
+            string[] data = Util.GetStringList(ident, lang, type);
+            if (data == null || data.Length == 0)
+                data = Util.GetStringList(ident, DefaultLanguage, type);
+
+            return data;
+        }
 
         // DataSource providing
         public static List<ComboItem> ItemDataSource { get; private set; }

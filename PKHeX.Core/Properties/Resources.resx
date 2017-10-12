@@ -1234,14 +1234,14 @@
   <data name="text_tradexy_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_tradexy_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="const_oras" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_oras.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="const_oras_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_oras_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="flags_oras" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_oras.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="flags_oras_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_oras_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="flags_xy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_xy.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="flags_xy_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_xy_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="text_ItemsG3_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\gen3\text_ItemsG3_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
@@ -1432,11 +1432,11 @@
   <data name="text_species_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_Species_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
-  <data name="const_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_sm.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="const_sm_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_sm_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="flags_sm" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_sm.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="flags_sm_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_sm_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="LegalityCheckStrings_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\en\LegalityCheckStrings_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
@@ -1453,35 +1453,35 @@
   <data name="text_Char_zh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\zh\text_Char_zh2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="const_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_dp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="const_dp_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_dp_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="flags_dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_dp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="flags_dp_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_dp_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="const_hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_hgss.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="const_hgss_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_hgss_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="flags_hgss" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_hgss.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="flags_hgss_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_hgss_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="const_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_bw.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="const_bw_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_bw_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="flags_bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_bw.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="flags_bw_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_bw_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="const_b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_b2w2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="const_b2w2_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_b2w2_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="flags_b2w2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_b2w2.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="flags_b2w2_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_b2w2_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="const_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_pt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="const_pt_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_pt_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
-  <data name="flags_pt" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_pt.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  <data name="flags_pt_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_pt_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
   </data>
   <data name="text_ribbons_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\de\text_Ribbons_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -1531,23 +1531,23 @@
   <data name="text_mail4_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\ko\text_Mail4_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="const_e" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_e.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="const_e_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_e_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="const_frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_frlg.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="const_frlg_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_frlg_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="const_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\const_rs.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="const_rs_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\const_rs_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="flags_e" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_e.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="flags_e_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_e_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="flags_frlg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_frlg.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="flags_frlg_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_frlg_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="flags_rs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\text\script\flags_rs.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="flags_rs_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\script\flags_rs_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="badwords" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\locale\badwords.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
