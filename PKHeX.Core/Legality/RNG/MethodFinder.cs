@@ -281,15 +281,16 @@ namespace PKHeX.Core
             if (pid > 0xFF)
                 return GetNonMatch(out pidiv);
 
-            int genderValue = pk.Gender;
+            GetCuteCharmGenderSpecies(pk, pid, out int genderValue, out int species);
+            int getRatio() => PersonalTable.HGSS[species].Gender;
             switch (genderValue)
             {
                 case 2: break; // can't cute charm a genderless pkm
                 case 0: // male
-                    var gr = pk.PersonalInfo.Gender;
+                    var gr = getRatio();
                     if (254 <= gr) // no modification for PID
                         break;
-                    var rate = pk.Gender == 1 ? 0 : 25*(gr/25 + 1); // buffered
+                    var rate = 25*(gr/25 + 1); // buffered
                     var nature = pid % 25;
                     if (nature + rate != pid)
                         break;
@@ -299,7 +300,7 @@ namespace PKHeX.Core
                 case 1: // female
                     if (pid >= 25)
                         break; // nope
-                    if (254 <= pk.PersonalInfo.Gender) // no modification for PID
+                    if (254 <= getRatio()) // no modification for PID
                         break;
 
                     pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.CuteCharm};
@@ -676,7 +677,6 @@ namespace PKHeX.Core
                     return val == PIDType.None;
             }
         }
-
         public static bool IsCompatible4(this PIDType val, IEncounterable encounter, PKM pkm)
         {
             switch (encounter)
@@ -686,13 +686,13 @@ namespace PKHeX.Core
                         return val == PIDType.Pokewalker;
                     if (s.Shiny == true)
                         return val == PIDType.ChainShiny;
-                    if (val == PIDType.CuteCharm)
+                    if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
                         return true;
                     return val == PIDType.Method_1;
                 case EncounterSlot sl:
                     if (val == PIDType.Method_1)
                         return true;
-                    if (val == PIDType.CuteCharm)
+                    if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
                         return sl.Type != SlotType.Swarm; // Cute Charm does not work with Swarm
                     if (val != PIDType.ChainShiny)
                         return false;
@@ -726,6 +726,51 @@ namespace PKHeX.Core
                 var shinyPID = RNG.ARNG.Prev(pkm.PID);
                 return (pkm.TID ^ pkm.SID ^ (shinyPID & 0xFFFF) ^ (shinyPID >> 16)) < 8; // shiny proc
             }
+        }
+        private static bool IsCuteCharm4Valid(IEncounterable encounter, PKM pkm)
+        {
+            if (pkm.Species == 183 || pkm.Species == 184)
+                return !IsCuteCharmAzurillMale(pkm.PID) // recognized as not Azurill
+                       || encounter.Species == 298; // encounter must be male Azurill
+
+            return true;
+        }
+        private static bool IsCuteCharmAzurillMale(uint pid) => pid >= 0xC8 && pid <= 0xE0;
+        private static void GetCuteCharmGenderSpecies(PKM pk, uint pid, out int genderValue, out int species)
+        {
+            // There are some edge cases when the gender ratio changes across evolutions.
+            species = pk.Species;
+            if (species == 292)
+            {
+                species = 290; // Nincada evo chain travels from M/F -> Genderless Shedinja
+                genderValue = PKX.GetGenderFromPID(290, pid);
+                return;
+            }
+
+            switch (species)
+            {
+                // These evolved species cannot be encountered with cute charm.
+                // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
+                // We can assume the re-mapped species's [gender ratio] is what was encountered.
+
+                case 413: species = 412; break; // Wormadam -> Burmy
+                case 414: species = 412; break; // Mothim -> Burmy
+                case 416: species = 415; break; // Vespiquen -> Combee
+                case 475: species = 281; break; // Gallade -> Kirlia/Ralts
+                case 478: species = 361; break; // Froslass -> Snorunt
+
+                // Changed gender ratio (25% M -> 50% M) needs special treatment.
+                // Double check the encounter species with IsCuteCharm4Valid afterwards.
+                case 183: case 184: // Azurill & Marill/Azumarill collision
+                    if (IsCuteCharmAzurillMale(pid))
+                    {
+                        species = 298;
+                        genderValue = 0;
+                        return;
+                    }
+                    break;
+            }
+            genderValue = pk.Gender;
         }
 
         private static readonly PIDType[] MethodH = { PIDType.Method_1, PIDType.Method_2, PIDType.Method_4 };
