@@ -200,7 +200,7 @@ namespace PKHeX.Core
         {
             if (SM)
             {
-                /* 00 */ Bag           = 0x00000;  // [DE0]    MyItem
+                /* 00 */ Bag            = 0x00000;  // [DE0]    MyItem
                 /* 01 */ Trainer1       = 0x00E00;  // [07C]    Situation
                 /* 02 */            //  = 0x01000;  // [014]    RandomGroup
                 /* 03 */ TrainerCard    = 0x01200;  // [0C0]    MyStatus
@@ -227,7 +227,7 @@ namespace PKHeX.Core
                 /* 24 */            //  = 0x54600;  // [10528]  LiveMatchData
                 /* 25 */            //  = 0x64C00;  // [204]    BattleSpotData
                 /* 26 */ PokeFinderSave = 0x65000;  // [B60]    PokeFinderSave
-                /* 27 */ WondercardFlags = 0x65C00; // [3F50]   MysteryGiftSave
+                /* 27 */ WondercardFlags= 0x65C00; // [3F50]   MysteryGiftSave
                 /* 28 */ Record         = 0x69C00;  // [358]    Record
                 /* 29 */            //  = 0x6A000;  // [728]    Data Block
                 /* 30 */            //  = 0x6A800;  // [200]    GameSyncSave
