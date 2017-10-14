@@ -150,15 +150,14 @@ namespace PKHeX.WinForms
             if (RTB_Instructions.Lines.Any(line => line.Length == 0))
             { WinFormsUtil.Error("Line length error in instruction list."); return; }
 
-            var Filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
-            if (Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue)))
+            var sets = StringInstructionSet.GetBatchSets(RTB_Instructions.Lines).ToArray();
+            if (sets.Any(s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
             { WinFormsUtil.Error("Empty Filter Value detected."); return; }
 
-            var Instructions = StringInstruction.GetInstructions(RTB_Instructions.Lines).ToArray();
-            if (!Instructions.Any())
-            { WinFormsUtil.Error("No instructions defined."); return; }
+            if (sets.Any(z => !z.Instructions.Any()))
+            { WinFormsUtil.Error("No instructions defined for a modification set."); return; }
 
-            var emptyVal = Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue)).ToArray();
+            var emptyVal = sets.SelectMany(s => s.Instructions.Where(z => string.IsNullOrWhiteSpace(z.PropertyValue))).ToArray();
             if (emptyVal.Any())
             {
                 string props = string.Join(", ", emptyVal.Select(z => z.PropertyName));
@@ -181,40 +180,47 @@ namespace PKHeX.WinForms
 
             FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = false;
 
-            ScreenStrings(Filters);
-            ScreenStrings(Instructions);
-            RunBatchEdit(Filters, Instructions, TB_Folder.Text, destPath);
+            foreach (var set in sets)
+            {
+                ScreenStrings(set.Filters);
+                ScreenStrings(set.Instructions);
+            }
+            RunBatchEdit(sets, TB_Folder.Text, destPath);
         }
-        private void RunBatchEdit(StringInstruction[] Filters, StringInstruction[] Instructions, string source, string destination)
+        private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
         {
             len = err = ctr = 0;
             b = new BackgroundWorker { WorkerReportsProgress = true };
             b.DoWork += (sender, e) =>
             {
                 if (RB_SAV.Checked)
-                    RunBatchEditSaveFile(Filters, Instructions);
+                    RunBatchEditSaveFile(sets);
                 else
-                    RunBatchEditFolder(Filters, Instructions, source, destination);
+                    RunBatchEditFolder(sets, source, destination);
             };
             b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
             b.RunWorkerCompleted += (sender, e) =>
             {
-                string result = $"Modified {ctr}/{len} files.";
+                ctr /= sets.Length;
+                len /= sets.Length;
+                string maybe = sets.Length == 0 ? string.Empty : "~";
+                string result = $"Modified {maybe}{ctr}/{len} files.";
                 if (err > 0)
-                    result += Environment.NewLine + $"{err} files ignored due to an internal error.";
+                    result += Environment.NewLine + $"{maybe}{err} files ignored due to an internal error.";
                 WinFormsUtil.Alert(result);
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 SetupProgressBar(0);
             };
             b.RunWorkerAsync();
         }
-        private void RunBatchEditFolder(StringInstruction[] Filters, StringInstruction[] Instructions, string source, string destination)
+        private void RunBatchEditFolder(IList<StringInstructionSet> sets, string source, string destination)
         {
             var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
-            SetupProgressBar(files.Length);
-            ProcessFolder(files, Filters, Instructions, destination);
+            SetupProgressBar(files.Length * sets.Count);
+            foreach (var set in sets)
+            ProcessFolder(files, set.Filters, set.Instructions, destination);
         }
-        private void RunBatchEditSaveFile(StringInstruction[] Filters, StringInstruction[] Instructions)
+        private void RunBatchEditSaveFile(IList<StringInstructionSet> sets)
         {
             IList<PKM> data;
             if (SAV.HasParty && process(data = SAV.PartyData))
@@ -223,8 +229,9 @@ namespace PKHeX.WinForms
                 SAV.BoxData = data;
             bool process(IList<PKM> d)
             {
-                SetupProgressBar(d.Count);
-                ProcessSAV(d, Filters, Instructions);
+                SetupProgressBar(d.Count * sets.Count);
+                foreach (var set in sets)
+                ProcessSAV(d, set.Filters, set.Instructions);
                 return d.Count != 0;
             }
         }
@@ -247,7 +254,7 @@ namespace PKHeX.WinForms
         
         // Mass Editing
         private int ctr, len, err;
-        private void ProcessSAV(IList<PKM> data, StringInstruction[] Filters, StringInstruction[] Instructions)
+        private void ProcessSAV(IList<PKM> data, IList<StringInstruction> Filters, IList<StringInstruction> Instructions)
         {
             for (int i = 0; i < data.Count; i++)
             {
@@ -255,7 +262,7 @@ namespace PKHeX.WinForms
                 b.ReportProgress(i);
             }
         }
-        private void ProcessFolder(IReadOnlyList<string> files, StringInstruction[] Filters, StringInstruction[] Instructions, string destPath)
+        private void ProcessFolder(IReadOnlyList<string> files, IList<StringInstruction> Filters, IList<StringInstruction> Instructions, string destPath)
         {
             for (int i = 0; i < files.Count; i++)
             {
@@ -324,6 +331,37 @@ namespace PKHeX.WinForms
             Error,
             Filtered,
             Modified,
+        }
+
+        public class StringInstructionSet
+        {
+            public IList<StringInstruction> Filters { get; private set; }
+            public IList<StringInstruction> Instructions { get; private set; }
+
+            private const string SetSeparator = ";";
+            public static IEnumerable<StringInstructionSet> GetBatchSets(string[] lines)
+            {
+                int start = 0;
+                while (start < lines.Length)
+                {
+                    var list = lines.Skip(start).TakeWhile(z => !lines[start++].StartsWith(SetSeparator)).ToList();
+                    yield return GetBatchSet(list);
+                }
+            }
+
+            private static IEnumerable<StringInstructionSet> GetBatchSets(IEnumerable<IEnumerable<string>> sets)
+            {
+                return sets.Select(set => GetBatchSet(set.ToList()));
+            }
+
+            private static StringInstructionSet GetBatchSet(IList<string> set)
+            {
+                return new StringInstructionSet
+                {
+                    Filters = StringInstruction.GetFilters(set).ToList(),
+                    Instructions = StringInstruction.GetInstructions(set).ToList(),
+                };
+            }
         }
         public class StringInstruction
         {
