@@ -1576,4 +1576,13 @@
   <data name="text_rsefrlg_00000_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\other\text_rsefrlg_00000_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-16</value>
   </data>
+  <data name="text_ItemsG1_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG1_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemsG2_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG2_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_ItemsG3_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\gen3\text_ItemsG3_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

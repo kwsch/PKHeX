@@ -111,9 +111,9 @@ namespace PKHeX.Core.Properties {
         ///   Looks up a localized string similar to 0077	Entralink	6:Finished tutorial
         ///0268	Rati@s	5:Battleable,6:Disappeared.
         /// </summary>
-        internal static string const_b2w2 {
+        internal static string const_b2w2_en {
             get {
-                return ResourceManager.GetString("const_b2w2", resourceCulture);
+                return ResourceManager.GetString("const_b2w2_en", resourceCulture);
             }
         }
         
@@ -122,9 +122,9 @@ namespace PKHeX.Core.Properties {
         ///0145	Victini	0:Event,1:Event,2:Battleable,3:Defeated,4:Captured,5:All event finished
         ///0206	Landorus	0:Event,1:Event,2:Event,3:Battleable,4:Disappeared.
         /// </summary>
-        internal static string const_bw {
+        internal static string const_bw_en {
             get {
-                return ResourceManager.GetString("const_bw", resourceCulture);
+                return ResourceManager.GetString("const_bw_en", resourceCulture);
             }
         }
         
@@ -139,9 +139,9 @@ namespace PKHeX.Core.Properties {
         ///0068	Oak Letter	0:Not activated,4370:Activated
         ///0069	Azure Flute	0:Not activated,4387:Activated.
         /// </summary>
-        internal static string const_dp {
+        internal static string const_dp_en {
             get {
-                return ResourceManager.GetString("const_dp", resourceCulture);
+                return ResourceManager.GetString("const_dp_en", resourceCulture);
             }
         }
         
@@ -169,18 +169,18 @@ namespace PKHeX.Core.Properties {
         ///0x402B	VAR_POISON_STEP_COUNTER
         ///0x402C	VAR_RESET_RTC_ENABLE	00:Disabled,2336:Enab [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string const_e {
+        internal static string const_e_en {
             get {
-                return ResourceManager.GetString("const_e", resourceCulture);
+                return ResourceManager.GetString("const_e_en", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string const_frlg {
+        internal static string const_frlg_en {
             get {
-                return ResourceManager.GetString("const_frlg", resourceCulture);
+                return ResourceManager.GetString("const_frlg_en", resourceCulture);
             }
         }
         
@@ -192,9 +192,9 @@ namespace PKHeX.Core.Properties {
         ///0249	Embedded Tower	0:Not obtained Kanto starter,1:Obtained Kanto starter,2:Obtained Orb,3:Kyogre activated,4:Kyogre disappeared,6:Rayquaza activated,7:Rayquaza caught,9:Rayquaza defeated/runaway
         ///0251	Sinjoh Ruins	1:Not entered,4:teleported(1st),5:went outside,6:Cynthia talkable(cabin), [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string const_hgss {
+        internal static string const_hgss_en {
             get {
-                return ResourceManager.GetString("const_hgss", resourceCulture);
+                return ResourceManager.GetString("const_hgss_en", resourceCulture);
             }
         }
         
@@ -204,9 +204,9 @@ namespace PKHeX.Core.Properties {
         ///22	Test2
         ///24	Test3.
         /// </summary>
-        internal static string const_oras {
+        internal static string const_oras_en {
             get {
-                return ResourceManager.GetString("const_oras", resourceCulture);
+                return ResourceManager.GetString("const_oras_en", resourceCulture);
             }
         }
         
@@ -223,9 +223,9 @@ namespace PKHeX.Core.Properties {
         ///0068	Oak Letter	0:Not activated,4370:Activated
         ///0069	Azure Flute	0:Not activat [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string const_pt {
+        internal static string const_pt_en {
             get {
-                return ResourceManager.GetString("const_pt", resourceCulture);
+                return ResourceManager.GetString("const_pt_en", resourceCulture);
             }
         }
         
@@ -253,9 +253,9 @@ namespace PKHeX.Core.Properties {
         ///0x402B	VAR_POISON_STEP_COUNTER
         ///0x402C	VAR_RESET_RTC_ENABLE	00:Disabled,2336:Enab [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string const_rs {
+        internal static string const_rs_en {
             get {
-                return ResourceManager.GetString("const_rs", resourceCulture);
+                return ResourceManager.GetString("const_rs_en", resourceCulture);
             }
         }
         
@@ -266,9 +266,9 @@ namespace PKHeX.Core.Properties {
         ///434	Tapu Bulu	01:Battleable,02:Defeated,03:Captured
         ///404	Tapu Fini	03:Battleable,04:Defeated,05:Captured.
         /// </summary>
-        internal static string const_sm {
+        internal static string const_sm_en {
             get {
-                return ResourceManager.GetString("const_sm", resourceCulture);
+                return ResourceManager.GetString("const_sm_en", resourceCulture);
             }
         }
         
@@ -308,9 +308,9 @@ namespace PKHeX.Core.Properties {
         ///0924	Regigigas disappeared
         ///0897	Cresselia disappeared.
         /// </summary>
-        internal static string flags_b2w2 {
+        internal static string flags_b2w2_en {
             get {
-                return ResourceManager.GetString("flags_b2w2", resourceCulture);
+                return ResourceManager.GetString("flags_b2w2_en", resourceCulture);
             }
         }
         
@@ -326,9 +326,9 @@ namespace PKHeX.Core.Properties {
         ///0652	Obstacle(VictoryRoad) cleared
         ///0653	Obstacle(PinwheelForest) cleared.
         /// </summary>
-        internal static string flags_bw {
+        internal static string flags_bw_en {
             get {
-                return ResourceManager.GetString("flags_bw", resourceCulture);
+                return ResourceManager.GetString("flags_bw_en", resourceCulture);
             }
         }
         
@@ -351,9 +351,9 @@ namespace PKHeX.Core.Properties {
         ///2404	HOF(TrainerCard Upgrade)
         ///2408	Cool [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string flags_dp {
+        internal static string flags_dp_en {
             get {
-                return ResourceManager.GetString("flags_dp", resourceCulture);
+                return ResourceManager.GetString("flags_dp_en", resourceCulture);
             }
         }
         
@@ -386,18 +386,18 @@ namespace PKHeX.Core.Properties {
         ///0x832	SYS_TV_START
         ///0x833	SYS_POPWORD_IN [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string flags_e {
+        internal static string flags_e_en {
             get {
-                return ResourceManager.GetString("flags_e", resourceCulture);
+                return ResourceManager.GetString("flags_e_en", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string flags_frlg {
+        internal static string flags_frlg_en {
             get {
-                return ResourceManager.GetString("flags_frlg", resourceCulture);
+                return ResourceManager.GetString("flags_frlg_en", resourceCulture);
             }
         }
         
@@ -421,9 +421,9 @@ namespace PKHeX.Core.Properties {
         ///0388	ShinyLeaf(TrainerCard Upgrade)
         ///0241	Pokeat [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string flags_hgss {
+        internal static string flags_hgss_en {
             get {
-                return ResourceManager.GetString("flags_hgss", resourceCulture);
+                return ResourceManager.GetString("flags_hgss_en", resourceCulture);
             }
         }
         
@@ -448,9 +448,9 @@ namespace PKHeX.Core.Properties {
         ///0419	(OR) Latias Defeated
         ///2834	(OR) Latias Captu [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string flags_oras {
+        internal static string flags_oras_en {
             get {
-                return ResourceManager.GetString("flags_oras", resourceCulture);
+                return ResourceManager.GetString("flags_oras_en", resourceCulture);
             }
         }
         
@@ -473,9 +473,9 @@ namespace PKHeX.Core.Properties {
         ///0301	Oak(R224)#1 disappeared
         ///0594	Oak(R224)#2 disappea [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string flags_pt {
+        internal static string flags_pt_en {
             get {
-                return ResourceManager.GetString("flags_pt", resourceCulture);
+                return ResourceManager.GetString("flags_pt_en", resourceCulture);
             }
         }
         
@@ -508,9 +508,9 @@ namespace PKHeX.Core.Properties {
         ///0x832	SYS_TV_START
         ///0x833	SYS_POPWORD_IN [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string flags_rs {
+        internal static string flags_rs_en {
             get {
-                return ResourceManager.GetString("flags_rs", resourceCulture);
+                return ResourceManager.GetString("flags_rs_en", resourceCulture);
             }
         }
         
@@ -521,9 +521,9 @@ namespace PKHeX.Core.Properties {
         ///0499	Received Gift Type:Null
         ///0160	Moone[0] / Sunne Portal [1].
         /// </summary>
-        internal static string flags_sm {
+        internal static string flags_sm_en {
             get {
-                return ResourceManager.GetString("flags_sm", resourceCulture);
+                return ResourceManager.GetString("flags_sm_en", resourceCulture);
             }
         }
         
@@ -548,9 +548,9 @@ namespace PKHeX.Core.Properties {
         ///0675	50: Beat Chatelaine
         ///2546	Pokédex Obtained.
         /// </summary>
-        internal static string flags_xy {
+        internal static string flags_xy_en {
             get {
-                return ResourceManager.GetString("flags_xy", resourceCulture);
+                return ResourceManager.GetString("flags_xy_en", resourceCulture);
             }
         }
         
@@ -11131,6 +11131,61 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Keins)
+        ///Meisterball
+        ///Hyperball
+        ///Superball
+        ///Pokéball
+        ///Karte
+        ///Fahrrad
+        ///????? (7)
+        ///Safariball
+        ///Pokédex
+        ///Mondstein
+        ///Gegengift
+        ///Feuerheiler
+        ///Eisheiler
+        ///Aufwecker
+        ///Para-Heiler
+        ///Top-Genesung
+        ///Top-Trank
+        ///Hypertrank
+        ///Supertrank
+        ///Trank
+        ///Felsorden
+        ///Quellorden
+        ///Donnerorden
+        ///Farborden
+        ///Seelenorden
+        ///Sumpforden
+        ///Vulkanorden
+        ///Erdorden
+        ///Fluchtseil
+        ///Schutz
+        ///Altbernstein
+        ///Feuerstein
+        ///Donnerstein
+        ///Wasserstein
+        ///KP-Plus
+        ///Protein
+        ///Eisen
+        ///Carbon
+        ///Kalzium
+        ///Sonderbonbon
+        ///Domfossil
+        ///Helixfossil
+        ///?-Öffner
+        ///????? (44)
+        ///Rad-Coupon
+        ///X-T [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG1_de {
+            get {
+                return ResourceManager.GetString("text_ItemsG1_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (None)
         ///Master Ball
         ///Ultra Ball
@@ -11499,6 +11554,60 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Keins)
+        ///Meisterball
+        ///Hyperball
+        ///Blendpuder
+        ///Superball
+        ///Pokéball
+        ///Teru-sama (0)
+        ///Fahrrad
+        ///Mondstein
+        ///Gegengift
+        ///Feuerheiler
+        ///Eisheiler
+        ///Aufwecker
+        ///Para-Heiler
+        ///Top-Genesung
+        ///Top-Trank
+        ///Hypertrank
+        ///Supertrank
+        ///Trank
+        ///Fluchtseil
+        ///Schutz
+        ///Top-Elixier
+        ///Feuerstein
+        ///Donnerstein
+        ///Wasserstein
+        ///Teru-sama (1)
+        ///KP-Plus
+        ///Protein
+        ///Eisen
+        ///Carbon
+        ///Lucky Punch
+        ///Kalzium
+        ///Sonderbonbon
+        ///X-Treffer
+        ///Blattstein
+        ///Metallstaub
+        ///Nugget
+        ///Poképuppe
+        ///Hyperheiler
+        ///Beleber
+        ///Top-Beleber
+        ///Megablock
+        ///Superschutz
+        ///Top-Schutz
+        ///Angriffplus
+        ///Te [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG2_de {
+            get {
+                return ResourceManager.GetString("text_ItemsG2_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (None)
         ///Master Ball
         ///Ultra Ball
@@ -11766,6 +11875,59 @@ namespace PKHeX.Core.Properties {
         internal static string text_ItemsG2_zh {
             get {
                 return ResourceManager.GetString("text_ItemsG2_zh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Keins)
+        ///Meisterball
+        ///Hyperball
+        ///Superball
+        ///Pokéball
+        ///Safariball
+        ///Netzball
+        ///Tauchball
+        ///Nestball
+        ///Wiederball
+        ///Timerball
+        ///Luxusball
+        ///Premierball
+        ///Trank
+        ///Gegengift
+        ///Feuerheiler
+        ///Eisheiler
+        ///Aufwecker
+        ///Para-Heiler
+        ///Top-Genesung
+        ///Top-Trank
+        ///Hypertrank
+        ///Supertrank
+        ///Hyperheiler
+        ///Beleber
+        ///Top-Beleber
+        ///Tafelwasser
+        ///Sprudel
+        ///Limonade
+        ///Kuhmuh-Milch
+        ///Energiestaub
+        ///Kraftwurzel
+        ///Heilpuder
+        ///Vitalkraut
+        ///Äther
+        ///Top-Äther
+        ///Elixier
+        ///Top-Elixier
+        ///Lavakeks
+        ///Blaue Flöte
+        ///Gelbe Flöte
+        ///Rote Flöte
+        ///Schwarze Flöte
+        ///Weiße Flöte
+        ///Beere [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string text_ItemsG3_de {
+            get {
+                return ResourceManager.GetString("text_ItemsG3_de", resourceCulture);
             }
         }
         
