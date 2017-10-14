@@ -437,22 +437,42 @@ namespace PKHeX.Core
         public int M
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x02);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x02);
+            set
+            {
+                var val = BitConverter.GetBytes((ushort)value);
+                val.CopyTo(Data, Trainer1 + 0x02);
+                val.CopyTo(Data, Trainer1 + 0x02 + 0xF4);
+            }
         }
         public float X
         {
             get => BitConverter.ToSingle(Data, Trainer1 + 0x10) / 18;
-            set => BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x10);
+            set
+            {
+                var val = BitConverter.GetBytes(value * 18);
+                val.CopyTo(Data, Trainer1 + 0x10);
+                val.CopyTo(Data, Trainer1 + 0x10 + 0xF4);
+            }
         }
         public float Z
         {
             get => BitConverter.ToSingle(Data, Trainer1 + 0x14);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x14);
+            set
+            {
+                var val = BitConverter.GetBytes(value * 18);
+                val.CopyTo(Data, Trainer1 + 0x14);
+                val.CopyTo(Data, Trainer1 + 0x14 + 0xF4);
+            }
         }
         public float Y
         {
             get => BitConverter.ToSingle(Data, Trainer1 + 0x18) / 18;
-            set => BitConverter.GetBytes(value * 18).CopyTo(Data, Trainer1 + 0x18);
+            set
+            {
+                var val = BitConverter.GetBytes(value * 18);
+                val.CopyTo(Data, Trainer1 + 0x18);
+                val.CopyTo(Data, Trainer1 + 0x18 + 0xF4);
+            }
         }
         public int Style
         {
