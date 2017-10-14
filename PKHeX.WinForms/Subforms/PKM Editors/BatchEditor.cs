@@ -203,7 +203,7 @@ namespace PKHeX.WinForms
             {
                 ctr /= sets.Length;
                 len /= sets.Length;
-                string maybe = sets.Length == 0 ? string.Empty : "~";
+                string maybe = sets.Length == 1 ? string.Empty : "~";
                 string result = $"Modified {maybe}{ctr}/{len} files.";
                 if (err > 0)
                     result += Environment.NewLine + $"{maybe}{err} files ignored due to an internal error.";
@@ -531,6 +531,9 @@ namespace PKHeX.WinForms
         {
             switch (cmd.PropertyName)
             {
+                case nameof(PKM.HyperTrainFlags):
+                    PKM.HyperTrainFlags = GetSuggestedHyperTrainingStatus(PKM);
+                    return true;
                 case nameof(PKM.RelearnMoves):
                     PKM.RelearnMoves = info.SuggestedRelearn;
                     return true;
@@ -560,6 +563,28 @@ namespace PKHeX.WinForms
                     return false;
             }
         }
+
+        private static int GetSuggestedHyperTrainingStatus(PKM pkm)
+        {
+            if (pkm.Format < 7 || pkm.CurrentLevel != 100)
+                return 0;
+
+            int val = 0;
+            if (pkm.IV_HP != 31)
+                val |= 1 << 0;
+            if (pkm.IV_ATK < 31 && pkm.IV_ATK > 1)
+                val |= 1 << 1;
+            if (pkm.IV_DEF != 31)
+                val |= 1 << 2;
+            if (pkm.IV_SPE < 31 && pkm.IV_SPE > 1)
+                val |= 1 << 3;
+            if (pkm.IV_SPA != 31)
+                val |= 1 << 4;
+            if (pkm.IV_SPD != 31)
+                val |= 1 << 5;
+            return val;
+        }
+
         private static bool SetByteArrayProperty(PKM PKM, StringInstruction cmd)
         {
             switch (cmd.PropertyName)
