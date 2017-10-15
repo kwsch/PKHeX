@@ -211,7 +211,7 @@ namespace PKHeX.Core
                 /* 08 */ Fused          = 0x03E00;  // [104]    UnionPokemon 
                 /* 09 */ Misc           = 0x04000;  // [200]    Misc
                 /* 10 */ Trainer2       = 0x04200;  // [020]    FieldMenu
-                /* 11 */            //  = 0x04400;  // [004]    ConfigSave
+                /* 11 */ ConfigSave     = 0x04400;  // [004]    ConfigSave
                 /* 12 */ AdventureInfo  = 0x04600;  // [058]    GameTime
                 /* 13 */ PCLayout       = 0x04800;  // [5E6]    BOX
                 /* 14 */ Box            = 0x04E00;  // [36600]  BoxPokemon
@@ -229,7 +229,7 @@ namespace PKHeX.Core
                 /* 26 */ PokeFinderSave = 0x65000;  // [B60]    PokeFinderSave
                 /* 27 */ WondercardFlags= 0x65C00; // [3F50]   MysteryGiftSave
                 /* 28 */ Record         = 0x69C00;  // [358]    Record
-                /* 29 */            //  = 0x6A000;  // [728]    Data Block
+                /* 29 */            //  = 0x6A000;  // [728]    ValidationSave
                 /* 30 */            //  = 0x6A800;  // [200]    GameSyncSave
                 /* 31 */            //  = 0x6AA00;  // [718]    PokeDiarySave
                 /* 32 */ BattleTree     = 0x6B200;  // [1FC]    BattleInstSave
@@ -285,6 +285,7 @@ namespace PKHeX.Core
         private int BattleTree { get; set; } = int.MinValue;
         private int BattleBoxFlags { get; set; } = int.MinValue;
         private int TeamCount { get; set; } = int.MinValue;
+        private int ConfigSave { get; set; } = int.MinValue;
 
         // Accessible as SAV7
         private int TrainerCard { get; set; } = 0x14000;
@@ -431,12 +432,17 @@ namespace PKHeX.Core
             get => (Data[TrainerCard + 0x54] >> 2) & 7;
             set => Data[TrainerCard + 0x54] = (byte)((Data[TrainerCard + 0x54] & ~(7 << 2)) | (value << 2));
         }
+        public override int MultiplayerSpriteID
+        {
+            get => Data[TrainerCard + 0x58];
+            set => Data[TrainerCard + 0x58] = (byte)value;
+        }
         public int BallThrowType
         {
             get => Data[TrainerCard + 0x7A];
             set => Data[TrainerCard + 0x7A] = (byte)(value > 8 ? 0 : value);
         }
-        public int M
+        public int M // "StartLocation"
         {
             get => BitConverter.ToUInt16(Data, Trainer1 + 0x00);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x00);
@@ -476,6 +482,70 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x20);
                 BitConverter.GetBytes(value).CopyTo(Data, Overworld + 0x20);
             }
+        }
+        public int SpecialLocation
+        {
+            get => Data[Trainer1 + 0x24];
+            set => Data[Trainer1 + 0x24] = (byte)value;
+        }
+        public int WarpContinueRequest
+        {
+            get => Data[Trainer1 + 0x6E];
+            set => Data[Trainer1 + 0x6E] = (byte)value;
+        }
+        public int StepCountEgg
+        {
+            get => BitConverter.ToInt32(Data, Trainer1 + 0x70);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer1 + 0x70);
+        }
+        public int LastZoneID
+        {
+            get => BitConverter.ToUInt16(Data, Trainer1 + 0x74);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x74);
+        }
+        public int StepCountFriendship
+        {
+            get => BitConverter.ToUInt16(Data, Trainer1 + 0x76);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x76);
+        }
+        public int StepCountAffection // Kawaigari
+        {
+            get => BitConverter.ToUInt16(Data, Trainer1 + 0x78);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Trainer1 + 0x78);
+        }
+
+        public int ConfigValue
+        {
+            get => BitConverter.ToInt32(Data, ConfigSave);
+            set => BitConverter.GetBytes(value).CopyTo(Data, ConfigSave);
+        }
+        public int TalkingSpeed
+        {
+            get => ConfigValue & 3;
+            set => ConfigValue = ConfigValue & ~3 | (value & 3);
+        }
+        public int BattleAnimation
+        {
+            // Effects OFF = 1, Effects ON = 0
+            get => (ConfigValue >> 2) & 1;
+            set => ConfigValue = ConfigValue & ~(1<<2) | (value << 2);
+        }
+        public int BattleStyle
+        {
+            // SET = 1, SWITCH = 0
+            get => (ConfigValue >> 3) & 1;
+            set => ConfigValue = ConfigValue & ~(1 << 3) | (value << 3);
+        }
+        public int ButtonMode
+        {
+            get => (ConfigValue >> 13) & 3;
+            set => ConfigValue = ConfigValue & ~(1 << 13) | (value << 13);
+        }
+        public int BoxStatus
+        {
+            // MANUAL = 1, AUTOMATIC = 0
+            get => (ConfigValue >> 15) & 1;
+            set => ConfigValue = ConfigValue & ~(1 << 15) | (value << 15);
         }
 
         public override uint Money
@@ -1041,6 +1111,16 @@ namespace PKHeX.Core
             // Set the Display flag if none are set
             Data[ofs + (4 + shift) * brSize + bd] |= (byte)(1 << bm);
         }
+        public bool NationalDex
+        {
+            get => (Data[PokeDex + 4] & 1) == 1;
+            set => Data[PokeDex + 4] = (byte)((Data[PokeDex + 4] & 0xFE) | (value ? 1 : 0));
+        }
+
+        /// <summary>
+        /// Gets the last viewed dex entry in the Pokedex (by National Dex ID), internally called DefaultMons
+        /// </summary>
+        public uint CurrentViewedDex => BitConverter.ToUInt32(Data, PokeDex + 4) >> 9 & 0x3FF;
 
         public override bool GetCaught(int species)
         {
