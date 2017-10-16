@@ -354,3 +354,4 @@ V609 = Generation 2 Safari Zone fishing encounter. Unreachable zone.
 V610 = {0} origin cannot exist in the currently loaded ({1}) savegame.
 V611 = Korean
 V612 = Non-Korean
+V106 = OT Name too short.

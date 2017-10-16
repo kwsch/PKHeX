@@ -501,6 +501,10 @@ namespace PKHeX.Core
             if (EncounterMatch is EncounterStatic s && s.NSparkle)
                 return; // Already checked by VerifyMisc
 
+            var ot = pkm.OT_Name;
+            if (ot.Length == 0)
+                AddLine(Severity.Invalid, V106, CheckIdentifier.Trainer);
+
             if (pkm.TID == 0 && pkm.SID == 0)
                 AddLine(Severity.Fishy, V33, CheckIdentifier.Trainer);
             else if (pkm.VC)
@@ -514,7 +518,7 @@ namespace PKHeX.Core
                 AddLine(Severity.Fishy, V36, CheckIdentifier.Trainer);
             else if (pkm.SID == 0)
                 AddLine(Severity.Fishy, V37, CheckIdentifier.Trainer);
-            else if (pkm.TID == 12345 && pkm.SID == 54321 || pkm.OT_Name.StartsWith("PKHeX"))
+            else if (pkm.TID == 12345 && pkm.SID == 54321 || ot.StartsWith("PKHeX"))
                 AddLine(Severity.Fishy, V417, CheckIdentifier.Trainer);
 
             if (pkm.VC)
@@ -522,7 +526,7 @@ namespace PKHeX.Core
 
             if (Legal.CheckWordFilter)
             {
-                if (WordFilter.IsFiltered(pkm.OT_Name, out string bad))
+                if (WordFilter.IsFiltered(ot, out string bad))
                     AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);
                 if (WordFilter.IsFiltered(pkm.HT_Name, out bad))
                     AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);

@@ -139,6 +139,7 @@ namespace PKHeX.Core
         public static string V29 {get; set;} = "Friend Safari captures should have at least 2 IVs = 31."; // Invalid
         public static string V30 {get; set;} = "IVs do not match Mystery Gift Data."; // Invalid
 
+        public static string V106 {get; set;} = "OT Name too short."; // Invalid
         public static string V38 {get; set;} = "OT Name too long."; // Invalid
         public static string V39 {get; set;} = "Incorrect RBY event OT Name."; // Invalid
         public static string V34 {get; set;} = "SID should be 0."; // Invalid

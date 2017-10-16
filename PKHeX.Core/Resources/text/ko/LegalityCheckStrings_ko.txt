@@ -354,3 +354,4 @@ V609 = 2세대 사파리존의 낚시 인카운터입니다. 접근할 수 없�
 V610 = {0} origin cannot exist in the currently loaded ({1}) savegame.
 V611 = Korean
 V612 = Non-Korean
+V106 = OT Name too short.
