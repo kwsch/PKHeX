@@ -94,6 +94,8 @@ namespace PKHeX.Core
             if (TradebackPreevo)
                 NonTradebackLvlMoves = Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray();
             var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm);
+            if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
+                Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
             bool volt = (info.Generation > 3 || e.Game == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             var Special = volt && EventEggMoves.Length == 0 ? new[] { 344 } : new int[0]; // Volt Tackle for bred Pichu line
@@ -200,13 +202,8 @@ namespace PKHeX.Core
             };
 
             if (info.EncounterMatch is EncounterEgg e)
-            {
                 source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm);
-                bool TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151 && pkm.InhabitedGeneration(1);
-                if (TradebackPreevo)
-                    source.NonTradeBackLevelUpMoves = Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game)
-                    .Where(m => m > Legal.MaxMoveID_1).ToArray();
-            }
+
             CheckMoveResult[] res = ParseMoves(pkm, source, info);
 
             int[] RelearnMoves = pkm.RelearnMoves;
