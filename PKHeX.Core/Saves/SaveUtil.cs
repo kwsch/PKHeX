@@ -148,9 +148,9 @@ namespace PKHeX.Core
         /// <returns>True if a valid international save, False otherwise.</returns>
         private static GameVersion GetIsG2SAVU(byte[] data)
         {
-            if (IsG12ListValid(data, 0x288A, 30) && IsG12ListValid(data, 0x2D6C, 30))
+            if (IsG12ListValid(data, 0x288A, 20) && IsG12ListValid(data, 0x2D6C, 20))
                 return GameVersion.GS;
-            if (IsG12ListValid(data, 0x2865, 30) && IsG12ListValid(data, 0x2D10, 30))
+            if (IsG12ListValid(data, 0x2865, 20) && IsG12ListValid(data, 0x2D10, 20))
                 return GameVersion.C;
             return GameVersion.Invalid;
         }
@@ -159,11 +159,11 @@ namespace PKHeX.Core
         /// <returns>True if a valid Japanese save, False otherwise.</returns>
         internal static GameVersion GetIsG2SAVJ(byte[] data)
         {
-            if (!IsG12ListValid(data, 0x2D10, 20))
+            if (!IsG12ListValid(data, 0x2D10, 30))
                 return GameVersion.Invalid;
-            if (IsG12ListValid(data, 0x283E, 20))
+            if (IsG12ListValid(data, 0x283E, 30))
                 return GameVersion.GS;
-            if (IsG12ListValid(data, 0x281A, 20))
+            if (IsG12ListValid(data, 0x281A, 30))
                 return GameVersion.C;
             return GameVersion.Invalid;
         }
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         /// <returns>True if a valid Korean save, False otherwise.</returns>
         internal static GameVersion GetIsG2SAVK(byte[] data)
         {
-            if (IsG12ListValid(data, 0x2DAE, 30) && IsG12ListValid(data, 0x28CC, 30))
+            if (IsG12ListValid(data, 0x2DAE, 20) && IsG12ListValid(data, 0x28CC, 20))
                 return GameVersion.GS;
             return GameVersion.Invalid;
         }
