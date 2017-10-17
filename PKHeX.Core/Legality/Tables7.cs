@@ -303,6 +303,25 @@ namespace PKHeX.Core
         {
             029, 030, 031, 032, 033, 034, // Nidos
             313, 314, // Volbeat/Illumise
+            
+            081, // Magnemite
+            100, // Voltorb
+            115, // Kangaskhan
+            128, // Tauros
+            132, // Ditto
+            241, // Miltank
+            374, // Beldum
+            436, // Bronzor
+            440, // Happiny
+            
+            // others not possible
+            236, // Tyrogue (100% Male)
+            120, // Staryu
+            337, // Lunatone
+            338, // Solrock
+            479, // Rotom
+            599, // Klink
+            622, // Golett
         };
 
         internal static readonly int[] ZygardeMoves =
