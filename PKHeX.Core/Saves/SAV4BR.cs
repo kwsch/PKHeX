@@ -102,17 +102,16 @@ namespace PKHeX.Core
             SetChecksum(Data, 0x1C0000, 0x100, 0x1C0008);
             SetChecksum(Data, 0x1C0000, 0x1C0000, 0x1BFF80 + 0x1C0000);
         }
-        public override bool ChecksumsValid
-        {
-            get {
-                bool valid = VerifyChecksum(Data, 0, 0x1C0000, 0x1BFF80);
-                valid &= VerifyChecksum(Data, 0, 0x100, 8);
-                valid &= VerifyChecksum(Data, 0x1C0000, 0x1C0000, 0x1BFF80 + 0x1C0000);
-                valid &= VerifyChecksum(Data, 0x1C0000, 0x100, 0x1C0008);
-                return valid;
-            }
-        }
+        public override bool ChecksumsValid => IsChecksumsValid(Data);
         public override string ChecksumInfo => $"Checksums valid: {ChecksumsValid}.";
+
+        public static bool IsChecksumsValid(byte[] sav)
+        {
+            return VerifyChecksum(sav, 0x000000, 0x1C0000, 0x1BFF80)
+                && VerifyChecksum(sav, 0x000000, 0x000100, 0x000008)
+                && VerifyChecksum(sav, 0x1C0000, 0x1C0000, 0x1BFF80 + 0x1C0000)
+                && VerifyChecksum(sav, 0x1C0000, 0x000100, 0x1C0008);
+        }
 
         // Trainer Info
         public override GameVersion Version { get => GameVersion.BATREV; protected set { } }

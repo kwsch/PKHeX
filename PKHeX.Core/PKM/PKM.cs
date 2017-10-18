@@ -229,13 +229,8 @@ namespace PKHeX.Core
             {
                 // Check to see if date is valid
                 if (!Util.IsDateValid(2000 + Egg_Year, Egg_Month, Egg_Day))
-                {
                     return null;
-                }
-                else
-                {
-                    return new DateTime(2000 + Egg_Year, Egg_Month, Egg_Day);
-                }
+                return new DateTime(2000 + Egg_Year, Egg_Month, Egg_Day);
             }
             set
             {
@@ -634,10 +629,10 @@ namespace PKHeX.Core
         {
             ReorderMoves();
 
-            if (Move1 == 0) { Move1_PP = 0; Move1_PPUps = 0; }
-            if (Move2 == 0) { Move2_PP = 0; Move2_PPUps = 0; }
-            if (Move3 == 0) { Move3_PP = 0; Move3_PPUps = 0; }
-            if (Move4 == 0) { Move4_PP = 0; Move4_PPUps = 0; }
+            if (Move1 == 0) Move1_PP = Move1_PPUps = 0;
+            if (Move2 == 0) Move2_PP = Move2_PPUps = 0;
+            if (Move3 == 0) Move3_PP = Move3_PPUps = 0;
+            if (Move4 == 0) Move4_PP = Move4_PPUps = 0;
         }
 
         /// <summary>

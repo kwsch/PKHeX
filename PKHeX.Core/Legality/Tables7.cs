@@ -110,6 +110,7 @@ namespace PKHeX.Core
             .Zip(Pouch_ZCrystalHeld_SM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
+        internal static readonly ushort[] HeldItems_USUM = HeldItems_SM; // todo
 
         private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -346,6 +347,7 @@ namespace PKHeX.Core
         };
         internal static readonly HashSet<int> ValidMet_USUM = new HashSet<int>
         {
+            // todo
         };
 
         private static readonly int[] TMHM_SM =
@@ -491,6 +493,6 @@ namespace PKHeX.Core
             715, // Fairy Gem
         };
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_USUM+1).Select(i => HeldItems_SM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_USUM+1).Select(i => HeldItems_USUM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
     }
 }
