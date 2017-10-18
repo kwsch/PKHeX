@@ -1,7 +1,37 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/09/22 - New Update:
+17/10/17 - New Update:
+ - Legality:
+ - - Fixed: Gen4 Cute Charm PIDIV detection for species that change gender ratios upon evolution (Combee etc).
+ - - Fixed: Gen6/7 Traded eggs change the origin version to the hatcher's version when hatched. Updated affected logic.
+ - - Changed: Gen2->Gen7 and Gen2->Gen1->Gen7 transfer detection & checking improved.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Gen1 Stationary Encounter rebattle editor.
+ - Added: Gen2 RTC Reset Key can now be calculated by clicking the RTC Save Editor button.
+ - Added: Gen3 Roamer editor. Thanks BlackShark!
+ - Added: Gen1-3 Japanese item translation. Thanks smileynation!
+ - Added: Gen1-3 German main series Item translation. Thanks Korados!
+ - Added: Batch Editor can now use $suggest for HyperTrainFlags.
+ - Added: Checkpoint (homebrew/cfw save reading) app auto-detection (like JKSV). Thanks sora10pls!
+ - Added: Can now toggle all mystery gifts in save file Used/Unused in the Mystery Gift save editor.
+ - Fixed: Gen1/2 Japanese Nicknames/OTs are no longer incorrectly recognized as Korean.
+ - Fixed: Gen1/2 50/50 gender detection for IV_ATK = 7. Thanks StarFisherX!
+ - Fixed: Gen1/2 character encoding issues. Thanks wwwwwwzx & theSlayer & Afepoke & smileynation!
+ - Fixed: Gen2 TM/HM pouch now loads/saves correctly. Thanks fattard!
+ - Fixed: Gen2 G/S Korean Save Files can now be saved.
+ - Fixed: Gen2 Unown alt-form now transfers correctly ->7.
+ - Fixed: Gen3 GC languages are now interpreted correctly.
+ - Fixed: Gen4 transferred eggs from HGSS special locations no longer reset to Faraway Place.
+ - Fixed: Current Poketch app now reads from  the correct offset. Thanks sora10pls!
+ - Changed: Increased form loading speed (translation now translates controls faster).
+ - Changed: Folder browser now prioritizes available folders (sorting them to the top).
+ - Changed: Internal refactoring for pkm loading to tabs to standardize loading routines.
+ - Changed: PCD now caches the gift PKM for increased speed (Mystery Gift database or legality checks).
+ - Changed: Gen1/2 save file version detection improved (can now differentiate RB from Y, and VC from emu).
+ - Changed: Optimized crc method for faster save detection & saving.
+
+17/09/22 - New Update: (36505) [734332]
  - Added: Gen2 G/S Korean Save File/PKM editing support.
  - Added: Gen2 transporter code for pk2->pk7 (hypothetical).
  - Changed: Gen1 Shininess correlation changed to match the updated (correct) IV relationship.
