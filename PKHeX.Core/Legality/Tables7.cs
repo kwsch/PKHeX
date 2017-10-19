@@ -464,6 +464,7 @@ namespace PKHeX.Core
             262, // Pink Scarf
             263, // Green Scarf
             264, // Yellow Scarf
+            499, // Sport Ball
             548, // Fire Gem
             549, // Water Gem
             550, // Electric Gem
