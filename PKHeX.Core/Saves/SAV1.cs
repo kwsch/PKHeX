@@ -462,37 +462,25 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            
-            if (seen)
-                Data[PokedexSeenOffset + ofs] |= bitval;
-            else
-                Data[PokedexSeenOffset + ofs] &= (byte)~bitval;
+            SetFlag(PokedexSeenOffset + ofs, bit & 7, seen);
         }
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-
-            if (caught)
-                Data[PokedexCaughtOffset + ofs] |= bitval;
-            else
-                Data[PokedexCaughtOffset + ofs] &= (byte)~bitval;
+            SetFlag(PokedexCaughtOffset + ofs, bit & 7, caught);
         }
         public override bool GetSeen(int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            return (Data[PokedexSeenOffset + ofs] & bitval) != 0;
+            return GetFlag(PokedexSeenOffset + ofs, bit & 7);
         }
         public override bool GetCaught(int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            return (Data[PokedexCaughtOffset + ofs] & bitval) != 0;
+            return GetFlag(PokedexCaughtOffset + ofs, bit & 7);
         }
 
         private const int SpawnFlagCount = 0xF0;

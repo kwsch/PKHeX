@@ -535,50 +535,31 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte) (1 << (bit&7));
-
             int caughtOffset = BlockOfs[0] + 0x28 + ofs;
-
-            return (Data[caughtOffset] & bitval) != 0;
+            return GetFlag(caughtOffset + ofs, bit & 7);
         }
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
             int ofs = bit / 8;
-            int bitval = 1 << (bit&7);
             int caughtOffset = BlockOfs[0] + 0x28 + ofs;
-
-            if (caught)
-                Data[caughtOffset] |= (byte)bitval;
-            else
-                Data[caughtOffset] &= (byte)~bitval;
+            SetFlag(caughtOffset + ofs, bit & 7, caught);
         }
 
         public override bool GetSeen(int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit&7));
-
             int seenOffset = BlockOfs[0] + 0x5C + ofs;
-            return (Data[seenOffset] & bitval) != 0;
+            return GetFlag(seenOffset + ofs, bit & 7);
         }
         public override void SetSeen(int species, bool seen)
         {
             int bit = species - 1;
             int ofs = bit / 8;
-            int bitval = 1 << (bit&7);
 
-            if (seen)
-            {
-                foreach (int o in SeenFlagOffsets)
-                    Data[o + ofs] |= (byte)bitval;
-            }
-            else
-            {
-                foreach (int o in SeenFlagOffsets)
-                    Data[o + ofs] &= (byte)~bitval;
-            }
+            foreach (int o in SeenFlagOffsets)
+                SetFlag(o + ofs, bit & 7, seen);
         }
 
         public bool NationalDex

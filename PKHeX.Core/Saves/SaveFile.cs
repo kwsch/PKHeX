@@ -298,14 +298,29 @@ namespace PKHeX.Core
                 throw new ArgumentException($"Event Flag to set ({flagNumber}) is greater than max ({EventFlagMax}).");
             SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
         }
-        public bool GetFlag(int ofs, int n)
+        /// <summary>
+        /// Gets the <see cref="bool"/> status of the Flag at the specified offset and index.
+        /// </summary>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="bitIndex">Bit index to read</param>
+        /// <returns>Flag is Set (true) or not Set (false)</returns>
+        public bool GetFlag(int offset, int bitIndex)
         {
-            return (Data[ofs] >> n & 1) != 0;
+            bitIndex &= 7; // ensure bit access is 0-7
+            return (Data[offset] >> bitIndex & 1) != 0;
         }
-        public void SetFlag(int ofs, int n, bool value)
+        /// <summary>
+        /// Sets the <see cref="bool"/> status of the Flag at the specified offset and index.
+        /// </summary>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="bitIndex">Bit index to read</param>
+        /// <param name="value">Flag status to set</param>
+        /// <remarks>Flag is Set (true) or not Set (false)</remarks>
+        public void SetFlag(int offset, int bitIndex, bool value)
         {
-            Data[ofs] &= (byte)~(1 << (n & 7));
-            Data[ofs] |= (byte)((value ? 1 : 0) << n);
+            bitIndex &= 7; // ensure bit access is 0-7
+            Data[offset] &= (byte)~(1 << bitIndex);
+            Data[offset] |= (byte)((value ? 1 : 0) << bitIndex);
         }
 
         // Inventory

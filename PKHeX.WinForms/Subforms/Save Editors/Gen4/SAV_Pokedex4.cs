@@ -92,7 +92,7 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < LangCount; i++)
                 {
                     CL[i].Enabled = true;
-                    CL[i].Checked = (SAV.Data[l_ofs] & (byte)(1 << i)) != 0;
+                    CL[i].Checked = SAV.GetFlag(l_ofs, i);
                 }
             }
             else
@@ -203,12 +203,7 @@ namespace PKHeX.WinForms
             {
                 l_ofs += PokeDexLanguageFlags;
                 for (int i = 0; i < LangCount; i++)
-                {
-                    if (CL[i].Checked)
-                        SAV.Data[l_ofs] |= (byte)(1 << i);
-                    else
-                        SAV.Data[l_ofs] &= (byte)~(1 << i);
-                }
+                    SAV.SetFlag(l_ofs, i, CL[i].Checked);
             }
 
             var forms = SAV.GetForms(species);

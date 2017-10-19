@@ -479,29 +479,14 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-
-            if (seen)
-                Data[Offsets.PokedexSeen + ofs] |= bitval;
-            else
-                Data[Offsets.PokedexSeen + ofs] &= (byte)~bitval;
+            SetFlag(Offsets.PokedexSeen + ofs, bit & 7, seen);
         }
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-
-            if (!caught)
-            {
-                // Clear the Captured Flag
-                Data[Offsets.PokedexCaught + ofs] &= (byte)~bitval;
-                return;
-            }
-
-            // Set the Captured Flag
-            Data[Offsets.PokedexCaught + ofs] |= bitval;
-            if (species == 201)
+            SetFlag(Offsets.PokedexCaught + ofs, bit & 7, caught);
+            if (caught && species == 201)
                 SetUnownFormFlags();
         }
         private void SetUnownFormFlags()
@@ -514,17 +499,13 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            // Get the Seen Flag
-            return (Data[Offsets.PokedexSeen + ofs] & bitval) != 0;
+            return GetFlag(Offsets.PokedexSeen + ofs, bit & 7);
         }
         public override bool GetCaught(int species)
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            byte bitval = (byte)(1 << (bit & 7));
-            // Get the Caught Flag
-            return (Data[Offsets.PokedexCaught + ofs] & bitval) != 0;
+            return GetFlag(Offsets.PokedexCaught + ofs, bit & 7);
         }
 
         // Misc
