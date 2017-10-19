@@ -833,7 +833,7 @@ namespace PKHeX.Core
             // Route 22
             new EncounterSlot{ Species = 279, LevelMin = 40, LevelMax = 45, }, // Peplipper
             new EncounterSlot{ Species = 591, LevelMin = 40, LevelMax = 45, }, // Amoonguss
-            new EncounterSlot{ Species = 619, LevelMin = 50, LevelMax = 55, }, // Mienfoo
+            new EncounterSlot{ Species = 619, LevelMin = 40, LevelMax = 45, }, // Mienfoo
             // Route 23
             new EncounterSlot{ Species = 055, LevelMin = 50, LevelMax = 55, }, // Golduck
             new EncounterSlot{ Species = 207, LevelMin = 50, LevelMax = 55, }, // Gligar
