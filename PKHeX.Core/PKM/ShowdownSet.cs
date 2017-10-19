@@ -392,6 +392,8 @@ namespace PKHeX.Core
                     return "Poké Ball";
 
                 // Zygarde
+                case 718 when string.IsNullOrWhiteSpace(form) && ability == 211:
+                    return "50%-C";
                 case 718 when string.IsNullOrWhiteSpace(form):
                     return "50%";
                 case 718 when form == "Complete":
