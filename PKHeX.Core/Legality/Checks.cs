@@ -527,9 +527,9 @@ namespace PKHeX.Core
             if (Legal.CheckWordFilter)
             {
                 if (WordFilter.IsFiltered(ot, out string bad))
-                    AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);
+                    AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Trainer);
                 if (WordFilter.IsFiltered(pkm.HT_Name, out bad))
-                    AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Nickname);
+                    AddLine(Severity.Invalid, $"Wordfilter: {bad}", CheckIdentifier.Trainer);
             }
         }
         private void VerifyG1OT()
@@ -2125,7 +2125,11 @@ namespace PKHeX.Core
                         // else, ensure fateful is active (via below)
                     }
                     VerifyFatefulIngameActive();
+                    VerifyWC3Shiny(w);
                     return;
+                case WC3 w:
+                    VerifyWC3Shiny(w);
+                    break;
                 case MysteryGift g when g.Format != 3: // WC3
                     VerifyFatefulMysteryGift(g);
                     return;
@@ -2161,28 +2165,16 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, V411, CheckIdentifier.PID);
             }
 
-            bool fatefulValid = false;
-            if (g.Format == 3)
-            {
-                // obedience flag in gen3 is the fateful flag; met location stores the fateful info until transfer
-                bool required = g.Species == 151 || g.Species == 386;
-                required |= pkm.Format != 3 && !g.IsEgg;
-                fatefulValid = !(required ^ pkm.FatefulEncounter);
-
-                var g3 = (WC3)g; // shiny locked gifts
-                if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
-                    AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
-            }
-            else
-            {
-                if (pkm.FatefulEncounter)
-                    fatefulValid = true;
-            }
-
-            if (fatefulValid)
+            if (pkm.FatefulEncounter)
                 AddLine(Severity.Valid, V321, CheckIdentifier.Fateful);
             else
                 AddLine(Severity.Invalid, V322, CheckIdentifier.Fateful);
+        }
+        private void VerifyWC3Shiny(WC3 g3)
+        {
+            // check for shiny locked gifts
+            if (g3.Shiny != null && g3.Shiny != pkm.IsShiny)
+                AddLine(Severity.Invalid, V409, CheckIdentifier.Fateful);
         }
         private void VerifyFatefulIngameActive()
         {
