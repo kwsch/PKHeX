@@ -199,9 +199,9 @@ namespace PKHeX.Core
         public static string GetSpeciesName(int species, int lang)
         {
             if (lang < 0 || SpeciesLang.Length <= lang)
-                return "";
+                return string.Empty;
             if (species < 0 || SpeciesLang[0].Length <= species)
-                return "";
+                return string.Empty;
 
             return SpeciesLang[lang][species];
         }
@@ -227,7 +227,7 @@ namespace PKHeX.Core
                     nick = StringConverter.StripDiacriticsFR4(nick); // strips accents on E and I
             }
             if (generation < 3)
-                nick = nick.Replace(" ", "");
+                nick = nick.Replace(" ", string.Empty);
             return nick;
         }
 
@@ -240,15 +240,17 @@ namespace PKHeX.Core
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
         public static bool IsNicknamedAnyLanguage(int species, string nick, int generation)
         {
-            IEnumerable<int> len;
+            var langs = GetAvailableGameLanguages(generation);
+            return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
+        }
+        private static IEnumerable<int> GetAvailableGameLanguages(int generation)
+        {
             if (generation < 3)
-                len = new[] {1,2,8}; // check Korean for the VC case, never possible to match string outside of this case
-            else if (generation < 7)
-                len = Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
-            else
-                len = Enumerable.Range(1, SpeciesLang.Length - 1);
+                return new[] { 1, 2, 8 }; // check Korean for the VC case, never possible to match string outside of this case
+            if (generation < 7)
+                return Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
 
-            return len.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
+            return Enumerable.Range(1, SpeciesLang.Length - 1);
         }
 
         /// <summary>
@@ -744,7 +746,7 @@ namespace PKHeX.Core
 
             byte[] xorkey = BitConverter.GetBytes(seed);
             for (int i = 32; i < 80; i++)
-                ekm[i] ^= xorkey[i % 4];
+                ekm[i] ^= xorkey[i & 4];
             return ShuffleArray3(ekm, PID%24);
         }
 
@@ -787,7 +789,7 @@ namespace PKHeX.Core
             byte[] ekm = ShuffleArray3(pkm, blockPositionInvert[PID%24]);
             byte[] xorkey = BitConverter.GetBytes(seed);
             for (int i = 32; i < 80; i++)
-                ekm[i] ^= xorkey[i % 4];
+                ekm[i] ^= xorkey[i & 3];
             return ekm;
         }
 

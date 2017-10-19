@@ -541,8 +541,8 @@ namespace PKHeX.Core
         /// <returns>Decoded value (unicode).</returns>
         private static ushort ConvertValue2CharG4(ushort val)
         {
-            int index = Array.IndexOf(G4Values, val);
-            return index > -1 ? G4Chars[index] : (ushort)0xFFFF;
+            return G4ValueId.TryGetValue(val, out int index)
+                ? G4Chars[index] : ushort.MaxValue;
         }
 
         /// <summary>
@@ -552,8 +552,8 @@ namespace PKHeX.Core
         /// <returns>Encoded value.</returns>
         private static ushort ConvertChar2ValueG4(ushort chr)
         {
-            int index = Array.IndexOf(G4Chars, chr);
-            return index > -1 ? G4Values[index] : (ushort)0xFFFF;
+            return G4CharId.TryGetValue(chr, out int index) 
+                ? G4Values[index] : ushort.MaxValue;
         }
 
         /// <summary>
@@ -1909,6 +1909,14 @@ namespace PKHeX.Core
             452, 355, 373, 379, 387, 405, 411                                               // F
         };
         #endregion
+
+        private static readonly Dictionary<ushort, int> G4ValueId = G4Values
+            .Select((value, index) => new {value, index})
+            .ToDictionary(pair => pair.value, pair => pair.index);
+        private static readonly Dictionary<ushort, int> G4CharId = G4Chars
+            .Select((value, index) => new {value, index})
+            .GroupBy(z => z.value).Select(z => z.First()) // 65370 & 9327-9341 are in there twice?
+            .ToDictionary(pair => pair.value, pair => pair.index);
 
         #region Gen 7 Chinese Character Tables
         private static readonly char[] Gen7_CHS = Util.GetStringList("Char", "zh")[0].ToCharArray();
