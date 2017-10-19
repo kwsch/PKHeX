@@ -1078,9 +1078,14 @@ namespace PKHeX.Core
                 if (!GetIsMatchWC6(pkm, wc, vs))
                     continue;
 
-                if (wc.CardID == 0525 && wc.IV_HP == 0xFE) // 3IV collision, yield the non 3IV first
-                    deferred.Add(wc);
-                else if (wc.Species == pkm.Species) // best match
+                switch (wc.CardID)
+                {
+                    case 0525 when wc.IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
+                    case 0504 when wc.RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // magmar with/without classic
+                        deferred.Add(wc);
+                        continue;
+                }
+                if (wc.Species == pkm.Species) // best match
                     yield return wc;
                 else
                     deferred.Add(wc);
