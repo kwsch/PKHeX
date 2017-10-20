@@ -26,6 +26,15 @@ namespace PKHeX.Core
                 if (gv > 63 && pkm.Gender == 1) // evolved from azurill after transferring to keep gender
                     genderValid = true;
             }
+            else if (3 <= Info.Generation && Info.Generation <= 5)
+            {
+                // check for mixed->fixed gender incompatibility by checking the gender of the original species
+                if (Legal.FixedGenderFromBiGender.Contains(EncounterMatch.Species) && pkm.Gender != 2) // shedinja
+                {
+                    var gender = PKX.GetGenderFromPID(EncounterMatch.Species, pkm.EncryptionConstant);
+                    genderValid &= gender == pkm.Gender; // gender must not be different from original
+                }
+            }
 
             if (genderValid)
                 AddLine(Severity.Valid, V250, CheckIdentifier.Gender);

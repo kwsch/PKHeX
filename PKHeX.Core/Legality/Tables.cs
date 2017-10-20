@@ -375,6 +375,9 @@ namespace PKHeX.Core
             280, // Ralts
             475, // Gallade (M)
 
+            361, // Snorunt
+            478, // Froslass (F)
+
             677, // Espurr
             678, // Meowstic (M/F) forme specific
         };
