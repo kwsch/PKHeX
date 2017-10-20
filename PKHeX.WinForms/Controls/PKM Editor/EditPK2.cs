@@ -18,9 +18,9 @@ namespace PKHeX.WinForms.Controls
 
             // Attempt to detect language
             if (pk2.Japanese)
-                CB_Language.SelectedIndex = 0;
+                CB_Language.SelectedValue = 1;
             else if (pk2.Korean)
-                CB_Language.SelectedIndex = 8;
+                CB_Language.SelectedValue = 8;
             else
             {
                 int lang = PKX.GetSpeciesNameLanguage(pk2.Species, pk2.Nickname, 2);
