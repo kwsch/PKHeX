@@ -190,7 +190,7 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg4(PKM pkm)
         {
             if (pkm.Format == 4)
-                return VerifyEncounterEggLevelLoc(pkm, 0, Legal.Met_HGSS_0);
+                return VerifyEncounterEggLevelLoc(pkm, 0, Legal.Met_HGSS_Hatch);
             if (pkm.IsEgg)
                 return new CheckResult(Severity.Invalid, V57, CheckIdentifier.Encounter);
             // transferred
