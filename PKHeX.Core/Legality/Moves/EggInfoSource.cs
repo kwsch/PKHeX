@@ -16,7 +16,7 @@ namespace PKHeX.Core
             bool AllowLevelUp = Legal.GetCanInheritMoves(pkm, e);
             Base = Legal.GetBaseEggMoves(pkm, e.Species, e.Game, e.LevelMin).ToList();
 
-            Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm).ToList();
+            Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game).ToList();
             LevelUp = AllowLevelUp
                 ? Legal.GetBaseEggMoves(pkm, e.Species, e.Game, 100).Where(x => !Base.Contains(x)).ToList()
                 : new List<int>();

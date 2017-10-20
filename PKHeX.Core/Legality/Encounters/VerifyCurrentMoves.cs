@@ -93,7 +93,7 @@ namespace PKHeX.Core
             var NonTradebackLvlMoves = new int[0];
             if (TradebackPreevo)
                 NonTradebackLvlMoves = Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Game).Where(m => m > Legal.MaxMoveID_1).ToArray();
-            var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm);
+            var Egg = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
@@ -202,7 +202,7 @@ namespace PKHeX.Core
             };
 
             if (info.EncounterMatch is EncounterEgg e)
-                source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm);
+                source.EggMoveSource = Legal.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Game);
 
             CheckMoveResult[] res = ParseMoves(pkm, source, info);
 

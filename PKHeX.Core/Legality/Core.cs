@@ -431,7 +431,7 @@ namespace PKHeX.Core
             if (pkm.Format == 6 && pkm.Species != 678)
                 form = 0;
 
-            r.AddRange(GetEggMoves(pkm, species, form));
+            r.AddRange(GetEggMoves(pkm, species, form, version));
             if (inheritlvlmoves)
                 r.AddRange(GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm, version));
             return r.Distinct();
@@ -1960,31 +1960,28 @@ namespace PKHeX.Core
             return r;
         }
 
-        internal static int[] GetEggMoves(PKM pkm, int species, int formnum)
+        internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
         {
             if (!pkm.InhabitedGeneration(pkm.GenNumber, species) || pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species))
                 return new int[0];
-
-            switch (pkm.GenNumber)
+            if (version == GameVersion.Any)
+                version = (GameVersion)pkm.Version;
+            return GetEggMoves(pkm.GenNumber, species, formnum, version);
+        }
+        private static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
+        {
+            switch (gen)
             {
                 case 1:
                 case 2:
-                    if (!AllowGen2Crystal(pkm))
-                        return EggMovesGS[species].Moves;
-                    if (pkm.Format != 2)
-                        return EggMovesC[species].Moves;
-                    if (pkm.HasOriginalMetLocation)
-                        return EggMovesC[species].Moves;
-                    if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
-                        return EggMovesGS[species].Moves;
-                    return EggMovesC[species].Moves;
+                    return (version == GameVersion.C ? EggMovesC : EggMovesGS)[species].Moves;
                 case 3:
                     return EggMovesRS[species].Moves;
                 case 4:
-                    switch (pkm.Version)
+                    switch (version)
                     {
-                        case (int)GameVersion.HG:
-                        case (int)GameVersion.SS:
+                        case GameVersion.HG:
+                        case GameVersion.SS:
                             return EggMovesHGSS[species].Moves;
                         default:
                             return EggMovesDPPt[species].Moves;
@@ -1992,10 +1989,10 @@ namespace PKHeX.Core
                 case 5:
                     return EggMovesBW[species].Moves;
                 case 6: // entries per species
-                    switch (pkm.Version)
+                    switch (version)
                     {
-                        case (int)GameVersion.OR:
-                        case (int)GameVersion.AS:
+                        case GameVersion.OR:
+                        case GameVersion.AS:
                             return EggMovesAO[species].Moves;
                         default:
                             return EggMovesXY[species].Moves;
@@ -2003,10 +2000,10 @@ namespace PKHeX.Core
 
                 case 7: // entries per form if required
                     EggMoves[] table;
-                    switch (pkm.Version)
+                    switch (version)
                     {
-                        case (int)GameVersion.US:
-                        case (int)GameVersion.UM:
+                        case GameVersion.US:
+                        case GameVersion.UM:
                             table = EggMovesUSUM;
                             break;
                         default:
@@ -2023,6 +2020,7 @@ namespace PKHeX.Core
                     return new int[0];
             }
         }
+
         internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion Version = GameVersion.Any, bool RemoveTransferHM = true)
         {
             List<int> moves = new List<int>();
