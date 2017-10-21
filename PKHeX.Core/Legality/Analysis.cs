@@ -233,14 +233,6 @@ namespace PKHeX.Core
         }
         private void UpdateTypeInfo()
         {
-            if (pkm.Format >= 7)
-            {
-                if (pkm.VC1)
-                    Info.EncounterMatch = EncounterGenerator.GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
-                else if (pkm.VC2)
-                    Info.EncounterMatch = EncounterGenerator.GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
-            }
-
             if (pkm.GenNumber <= 2 && pkm.TradebackStatus == TradebackType.Any && (EncounterMatch as GBEncounterData)?.Generation != pkm.GenNumber)
                 // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
                 pkm.TradebackStatus = TradebackType.WasTradeback;
