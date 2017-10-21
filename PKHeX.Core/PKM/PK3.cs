@@ -169,7 +169,7 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_3;
         public override int MaxGameID => 5;
         public override int MaxIV => 31;
-        public override int MaxEV => 252;
+        public override int MaxEV => 255;
         public override int OTLength => 7;
         public override int NickLength => 10;
 
