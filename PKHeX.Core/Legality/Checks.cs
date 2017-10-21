@@ -934,7 +934,7 @@ namespace PKHeX.Core
             if (3 <= pkm.Format && pkm.Format <= 5 && abilities[0] != abilities[1]) // 3-5 and have 2 distinct ability now
                 AbilityUnchanged = VerifyAbilityPreCapsule(abilities, abilval);
 
-            if (EncounterMatch != null)
+            if (Encounter.Valid)
             {
                 // Check Ability Mismatches
                 int? EncounterAbility = (EncounterMatch as EncounterStatic)?.Ability ??
@@ -972,7 +972,7 @@ namespace PKHeX.Core
 
             if (EncounterMatch is EncounterTrade z && EncounterAbility == 1 << abilval && z.Species == pkm.Species) // Edge case (Static PID?)
                 AddLine(Severity.Valid, V115, CheckIdentifier.Ability);
-            else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4) // Ability Capsule
+            else if (pkm.Format >= 6 && abilities[0] != abilities[1] && pkm.AbilityNumber < 4 && EncounterAbility != 4) // Ability Capsule can change between 1/2
                 AddLine(Severity.Valid, V109, CheckIdentifier.Ability);
             else
                 AddLine(Severity.Invalid, V223, CheckIdentifier.Ability);
