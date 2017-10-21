@@ -1821,6 +1821,7 @@ namespace PKHeX.WinForms.Controls
             FLP_MetDate.Visible = gen >= 4;
             FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
+            FLP_EncounterType.Visible = gen >= 4 && gen <= 6;
             FLP_TimeOfDay.Visible = gen == 2;
 
             // Stats

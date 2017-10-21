@@ -112,7 +112,6 @@
             this.CHK_Shadow = new System.Windows.Forms.CheckBox();
             this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
             this.L_ShinyLeaf = new System.Windows.Forms.Label();
-            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -148,7 +147,6 @@
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.FLP_Stats = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_StatHeader = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
@@ -274,6 +272,8 @@
             this.Label_SID = new System.Windows.Forms.Label();
             this.Label_TID = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
+            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
+            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -1394,15 +1394,6 @@
             this.L_ShinyLeaf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_ShinyLeaf.Click += new System.EventHandler(this.ClickShinyLeaf);
             // 
-            // ShinyLeaf
-            // 
-            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
-            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
-            this.ShinyLeaf.Name = "ShinyLeaf";
-            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
-            this.ShinyLeaf.TabIndex = 116;
-            this.ShinyLeaf.Value = 0;
-            // 
             // Tab_Met
             // 
             this.Tab_Met.AllowDrop = true;
@@ -1778,12 +1769,10 @@
             this.L_MetTimeOfDay.TabIndex = 10;
             this.L_MetTimeOfDay.Text = "Time of Day:";
             this.L_MetTimeOfDay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_MetTimeOfDay.Visible = false;
             // 
             // CB_MetTimeOfDay
             // 
-            this.CB_MetTimeOfDay.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_MetTimeOfDay.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_MetTimeOfDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_MetTimeOfDay.DropDownWidth = 150;
             this.CB_MetTimeOfDay.FormattingEnabled = true;
             this.CB_MetTimeOfDay.Items.AddRange(new object[] {
@@ -1796,9 +1785,6 @@
             this.CB_MetTimeOfDay.Name = "CB_MetTimeOfDay";
             this.CB_MetTimeOfDay.Size = new System.Drawing.Size(126, 21);
             this.CB_MetTimeOfDay.TabIndex = 11;
-            this.CB_MetTimeOfDay.Visible = false;
-            this.CB_MetTimeOfDay.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
-            this.CB_MetTimeOfDay.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // Tab_Stats
             // 
@@ -1814,20 +1800,6 @@
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
-            // 
-            // Contest
-            // 
-            this.Contest.Beauty = 0;
-            this.Contest.Cool = 0;
-            this.Contest.Cute = 0;
-            this.Contest.Location = new System.Drawing.Point(21, 247);
-            this.Contest.Margin = new System.Windows.Forms.Padding(0);
-            this.Contest.Name = "Contest";
-            this.Contest.Sheen = 0;
-            this.Contest.Size = new System.Drawing.Size(230, 50);
-            this.Contest.Smart = 0;
-            this.Contest.TabIndex = 117;
-            this.Contest.Tough = 0;
             // 
             // FLP_Stats
             // 
@@ -3354,6 +3326,29 @@
             this.Label_EncryptionConstant.TabIndex = 1;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // ShinyLeaf
+            // 
+            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
+            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.ShinyLeaf.Name = "ShinyLeaf";
+            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.TabIndex = 116;
+            this.ShinyLeaf.Value = 0;
+            // 
+            // Contest
+            // 
+            this.Contest.Beauty = 0;
+            this.Contest.Cool = 0;
+            this.Contest.Cute = 0;
+            this.Contest.Location = new System.Drawing.Point(21, 247);
+            this.Contest.Margin = new System.Windows.Forms.Padding(0);
+            this.Contest.Name = "Contest";
+            this.Contest.Sheen = 0;
+            this.Contest.Size = new System.Drawing.Size(230, 50);
+            this.Contest.Smart = 0;
+            this.Contest.TabIndex = 117;
+            this.Contest.Tough = 0;
             // 
             // PKMEditor
             // 
