@@ -195,11 +195,12 @@ namespace PKHeX.Core
         private void UpdateVCTransferInfo()
         {
             EncounterOriginalGB = EncounterMatch;
-            if (pkm.VC1)
-                Info.EncounterMatch = EncounterGenerator.GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
-            else if (pkm.VC2)
-                Info.EncounterMatch = EncounterGenerator.GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
-            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB.Species, EncounterOriginalGB as GBEncounterData, Info.EncounterMatch as EncounterStatic))
+            Info.EncounterMatch = EncounterGenerator.GetVCStaticTransferEncounter(pkm);
+            EncounterStatic s = Info.EncounterMatch as EncounterStatic;
+            if (s == null || !EncounterGenerator.IsVCStaticTransferEncounterValid(pkm, s))
+            { AddLine(Severity.Invalid, V80, CheckIdentifier.Encounter); return; }
+
+            foreach (var z in VerifyVCEncounter(pkm, EncounterOriginalGB.Species, EncounterOriginalGB as GBEncounterData, s))
                 AddLine(z);
         }
         private void UpdateInfo()

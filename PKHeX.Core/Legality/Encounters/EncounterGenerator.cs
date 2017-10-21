@@ -1438,7 +1438,19 @@ namespace PKHeX.Core
                     return GetStatic(pkm, table, lvl: 100, skip: true).FirstOrDefault();
             }
         }
-        internal static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
+        internal static bool IsVCStaticTransferEncounterValid(PKM pkm, EncounterStatic e)
+        {
+            return pkm.Met_Location == e.Location && pkm.Egg_Location == e.EggLocation;
+        }
+        internal static IEncounterable GetVCStaticTransferEncounter(PKM pkm)
+        {
+            if (pkm.VC1)
+                return GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
+            if (pkm.VC2)
+                return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
+            return new EncounterInvalid(pkm);
+        }
+        private static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
             return new EncounterStatic
             {
@@ -1454,7 +1466,7 @@ namespace PKHeX.Core
                 Version = GameVersion.RBY
             };
         }
-        internal static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
+        private static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
         {
             return new EncounterStatic
             {

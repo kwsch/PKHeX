@@ -135,13 +135,13 @@ namespace PKHeX.Core
             088, // Grimer
             089, // Muk
         };
-        internal static readonly HashSet<int> AlolanVariantEvolutions = new HashSet<int>
+        internal static readonly HashSet<int> AlolanVariantEvolutions12 = new HashSet<int>
         {
             026, // Raichu
             103, // Exeggutor
             105, // Marowak
         };
-        internal static readonly HashSet<int> EvolveToAlolanForms = new HashSet<int>(AlolanVariantEvolutions.Concat(AlolanOriginForms));
+        internal static readonly HashSet<int> EvolveToAlolanForms = new HashSet<int>(AlolanVariantEvolutions12.Concat(AlolanOriginForms));
 
         public static readonly HashSet<int> PastGenAlolanNatives = new HashSet<int>
         {
