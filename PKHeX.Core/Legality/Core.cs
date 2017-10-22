@@ -2149,6 +2149,8 @@ namespace PKHeX.Core
                         moves.Add(57);
                     break;
                 case 2:
+                    if (!AllowGen2Crystal(pkm))
+                        break;
                     info = PersonalTable.C[species];
                     moves.AddRange(Tutors_GSC.Where((t, i) => info.TMHM[57 + i]));
                     goto case 1;
