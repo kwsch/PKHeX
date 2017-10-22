@@ -84,13 +84,13 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GetEncounters4(PKM pkm, LegalInfo info)
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
-            var deferredPID = new List<IEncounterable>();
+            var deferredPIDIV = new List<IEncounterable>();
             var deferredEType = new List<IEncounterable>();
 
             foreach (var z in GenerateRawEncounters4(pkm))
             {
                 if (!info.PIDIV.Type.IsCompatible4(z, pkm))
-                    deferredPID.Add(z);
+                    deferredPIDIV.Add(z);
                 else if (!IsEncounterTypeMatch(z, pkm.EncounterType))
                     deferredEType.Add(z);
                 else
@@ -100,11 +100,11 @@ namespace PKHeX.Core
             foreach (var z in deferredEType)
                 yield return z;
 
-            if (deferredPID.Count == 0)
+            if (deferredPIDIV.Count == 0)
                 yield break;
 
             info.PIDIVMatches = false;
-            foreach (var z in deferredPID)
+            foreach (var z in deferredPIDIV)
                 yield return z;
         }
         private static IEnumerable<GBEncounterData> GenerateRawEncounters12(PKM pkm, GameVersion game)
