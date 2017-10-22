@@ -1125,6 +1125,20 @@ namespace PKHeX.Core
             {"8", 0xFE},
             {"9", 0xFF}
         };
+
+        /// <summary>
+        /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
+        /// </summary>
+        /// <param name="data">Raw string bytes</param>
+        /// <returns>Indication if the data is from a definitely-german string</returns>
+        public static bool IsG12German(IEnumerable<byte> data) => data.Any(z => z >= 0xC0 && z <= 0xC6);
+        /// <summary>
+        /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
+        /// </summary>
+        /// <param name="data">Input string</param>
+        /// <returns>Indication if the data is from a definitely-german string</returns>
+        public static bool IsG12German(string data) => IsG12German(SetString1(data, data.Length, false));
+
         #endregion
 
         #region Gen 2 Korean Character Tables

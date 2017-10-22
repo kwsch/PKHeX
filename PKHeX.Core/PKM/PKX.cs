@@ -246,7 +246,7 @@ namespace PKHeX.Core
         private static IEnumerable<int> GetAvailableGameLanguages(int generation)
         {
             if (generation < 3)
-                return new[] { 1, 2, 8 }; // check Korean for the VC case, never possible to match string outside of this case
+                return new[] { 1, 2, 3, 5, 8 }; // check Korean for the VC case, never possible to match string outside of this case
             if (generation < 7)
                 return Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
 
@@ -262,15 +262,11 @@ namespace PKHeX.Core
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
         public static int GetSpeciesNameLanguage(int species, string nick, int generation)
         {
-            int len = SpeciesLang.Length;
-            if (generation < 3)
-                len = 3;
-            else if (generation < 7)
-                len = 8;
+            var langs = GetAvailableGameLanguages(generation);
 
-            for (int i = 0; i < len; i++)
-                if (GetSpeciesNameGeneration(species, i, generation) == nick)
-                    return i;
+            foreach (var lang in langs)
+                if (GetSpeciesNameGeneration(species, lang, generation) == nick)
+                    return lang;
             return -1;
         }
 
