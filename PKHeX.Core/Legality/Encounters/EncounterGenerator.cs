@@ -84,19 +84,27 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GetEncounters4(PKM pkm, LegalInfo info)
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
-            var deferred = new List<IEncounterable>();
+            var deferredPID = new List<IEncounterable>();
+            var deferredEType = new List<IEncounterable>();
+
             foreach (var z in GenerateRawEncounters4(pkm))
             {
-                if (info.PIDIV.Type.IsCompatible4(z, pkm))
-                    yield return z;
+                if (!info.PIDIV.Type.IsCompatible4(z, pkm))
+                    deferredPID.Add(z);
+                else if (!IsEncounterTypeMatch(z, pkm.EncounterType))
+                    deferredEType.Add(z);
                 else
-                    deferred.Add(z);
+                    yield return z;
             }
-            if (deferred.Count == 0)
+
+            foreach (var z in deferredEType)
+                yield return z;
+
+            if (deferredPID.Count == 0)
                 yield break;
 
             info.PIDIVMatches = false;
-            foreach (var z in deferred)
+            foreach (var z in deferredPID)
                 yield return z;
         }
         private static IEnumerable<GBEncounterData> GenerateRawEncounters12(PKM pkm, GameVersion game)
@@ -329,10 +337,6 @@ namespace PKHeX.Core
         }
 
         // EncounterStatic
-        private static bool IsEncounterTypeMatch(IEncounterable e, int type)
-        {
-            return e is EncounterStaticTyped t ? t.TypeEncounter.Contains(type) : type == 0;
-        }
         private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
         {
             var catch_rate = pk1.Catch_Rate;
@@ -376,31 +380,9 @@ namespace PKHeX.Core
                 yield break;
 
             // Back Check against pkm
-            var enc = GetMatchingStaticEncounters(pkm, poss, lvl).ToList();
-
-            // Filter for encounter types; type is cleared on 6->7 transfer
-            if (!pkm.Gen4 || pkm.Format >= 7)
-            {
-                foreach (var e in enc)
-                    yield return e;
-                yield break;
-            }
-
-            // Yield out if type matches, else defer to end if no matches were yielded
-            int ctr = 0;
-            int type = pkm.EncounterType;
-            var pass = new List<EncounterStatic>();
-            foreach (var e in enc)
-            {
-                if (IsEncounterTypeMatch(e, type))
-                { yield return e; ++ctr; }
-                else pass.Add(e);
-            }
-            if (ctr != 0)
-                yield break;
-
-            foreach (var e in pass)
-                yield return e;
+            var enc = GetMatchingStaticEncounters(pkm, poss, lvl);
+            foreach (var z in enc)
+                yield return z;
         }
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
         {
@@ -545,9 +527,7 @@ namespace PKHeX.Core
             bool IsSafariBall = pkm.Ball == 5;
             bool IsSportsBall = pkm.Ball == 0x18;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
-            int gen = pkm.GenNumber;
             int species = pkm.Species;
-            bool CheckEncounterType = gen == 4 && pkm.Format != 7;
 
             var deferred = new List<EncounterSlot>();
             foreach (EncounterSlot slot in s)
@@ -558,7 +538,6 @@ namespace PKHeX.Core
                 else if (IsHidden ^ IsHiddenAbilitySlot(slot)) { } // ability mismatch
                 else if (IsSafariBall ^ IsSafariSlot(slot.Type)) { } // Safari Zone only ball
                 else if (IsSportsBall ^ slot.Type == SlotType.BugContest) { } // BCC only ball
-                else if (CheckEncounterType && !slot.TypeEncounter.Contains(pkm.EncounterType)) { } // incorrect encounter type
                 else
                 {
                     yield return slot;
@@ -1413,6 +1392,18 @@ namespace PKHeX.Core
             IEnumerable<EncounterArea> locs = GetDexNavAreas(pkm);
             var d_areas = locs.Select(loc => GetValidEncounterSlots(pkm, loc, DexNav: true));
             return d_areas.Any(slots => slots.Any(slot => slot.Permissions.AllowDexNav && slot.Permissions.DexNav));
+        }
+        private static bool IsEncounterTypeMatch(IEncounterable e, int type)
+        {
+            switch (e)
+            {
+                case EncounterStaticTyped t:
+                    return t.TypeEncounter.Contains(type);
+                case EncounterSlot w:
+                    return w.TypeEncounter.Contains(type);
+                default:
+                    return type == 0;
+            }
         }
         internal static EncounterArea GetCaptureLocation(PKM pkm)
         {
