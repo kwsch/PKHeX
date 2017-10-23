@@ -187,18 +187,9 @@ namespace PKHeX.Core
             var deferred = new List<GBEncounterData>();
             while (g2i.PeekIsNext() || g1i.PeekIsNext())
             {
-                PeekEnumerator<GBEncounterData> move;
-                if (g1i.PeekIsNext())
-                {
-                    if (g2i.PeekIsNext())
-                        move = g1i.Peek().Type > g2i.Peek().Type ? g1i : g2i;
-                    else
-                        move = g1i;
-                }
-                else
-                    move = g2i;
-
+                var move = GetPreferredGBIterator(g1i, g2i);
                 var obj = move.Peek();
+
                 if (obj.Generation == 1 && obj.Encounter is EncounterTrade && !IsEncounterTrade1Valid(pkm))
                     deferred.Add(obj);
                 else
@@ -222,6 +213,21 @@ namespace PKHeX.Core
                         yield return z;
             }
         }
+        /// <summary>
+        /// Gets the preferred iterator from a pair of <see cref="GBEncounterData"/> iterators based on the highest value <see cref="GBEncounterData.Type"/>.
+        /// </summary>
+        /// <param name="g1i">Generation 1 Iterator</param>
+        /// <param name="g2i">Generation 2 Iterator</param>
+        /// <returns>Preferred iterator </returns>
+        private static PeekEnumerator<GBEncounterData> GetPreferredGBIterator(PeekEnumerator<GBEncounterData> g1i, PeekEnumerator<GBEncounterData> g2i)
+        {
+            if (!g1i.PeekIsNext())
+                return g2i;
+            if (!g2i.PeekIsNext())
+                return g1i;
+            return g1i.Peek().Type > g2i.Peek().Type ? g1i : g2i;
+        }
+
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
         {
             int ctr = 0;

@@ -240,7 +240,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
+        private static void MarkDPPtEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, ICollection<int> SpecialEncounterFiles, EncounterType NormalEncounterType)
         {
             var numfile = 0;
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
@@ -269,7 +269,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int[] SpecialEncounterFiles, EncounterType NormalEncounterType)
+        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, ICollection<int> SpecialEncounterFiles, EncounterType NormalEncounterType)
         {
             var HeadbuttType = GetHeadbuttEncounterType(Location);
             var numfile = 0;
@@ -334,7 +334,7 @@ namespace PKHeX.Core
         }
 
         #region Encounter Types
-        private static readonly int[] DPPt_CaveLocations =
+        private static readonly HashSet<int> DPPt_CaveLocations = new HashSet<int>
         {
             46, // Oreburgh Mine
             50, // Mt. Coronet
@@ -351,17 +351,21 @@ namespace PKHeX.Core
             69, // Iron Island
             84, // Stark Mountain
         };
-        private static readonly int[] DPPt_MixInteriorExteriorLocations =
+        private static readonly HashSet<int> DPPt_MixInteriorExteriorLocations = new HashSet<int>
         {
             24, // Route 209 (Lost Tower)
             50, // Mt Coronet
             84, // Stark Mountain
         };
-        private static readonly int[] DPPt_MtCoronetExteriorEncounters =
+        private static readonly HashSet<int> DPPt_MtCoronetExteriorEncounters = new HashSet<int>
         {
             4, 5, 70
         };
-        private static readonly int[] HGSS_CaveLocations =
+
+        /// <summary>
+        /// Locations with headbutt trees accessible from Cave tiles
+        /// </summary>
+        private static readonly HashSet<int> HGSS_CaveLocations = new HashSet<int>
         {
             197, // DIGLETT's Cave
             198, // Mt. Moon
@@ -386,7 +390,11 @@ namespace PKHeX.Core
             228, // Cliff Cave
             234, // Cliff Edge Gate
         };
-        private static readonly int[] HGSS_CityLocations =
+
+        /// <summary>
+        /// Locations with headbutt trees accessible from city tiles
+        /// </summary>
+        private static readonly HashSet<int> HGSS_CityLocations = new HashSet<int>
         {
             126, // New Bark Town
             127, // Cherrygrove City
@@ -411,8 +419,12 @@ namespace PKHeX.Core
             148, // Saffron City
             227, // Safari Zone Gate
         };
-        private static readonly int[] HGSS_SurfingHeadbutt_Locations =
-        {   // Locations with headbutt trees adjacent to water tiles
+
+        /// <summary>
+        /// Locations with headbutt trees accessible from water tiles
+        /// </summary>
+        private static readonly HashSet<int> HGSS_SurfingHeadbutt_Locations = new HashSet<int>
+        {   
             126, // New Bark Town 
             127, // Cherrygrove City
             128, // Violet City 
@@ -436,8 +448,11 @@ namespace PKHeX.Core
             192, // Route 44 
             214, // Ilex Forest 
         };
-        private static readonly int[] HGSS_GrassHeadbutt_Locations =
-        {   // Locations with headbutt trees adjacent to tall grass tiles
+        /// <summary>
+        /// Locations with headbutt trees accessible from tall grass tiles
+        /// </summary>
+        private static readonly HashSet<int> HGSS_GrassHeadbutt_Locations = new HashSet<int>
+        {   
             137, // Mt. Silver 
             149, // Route 1
             150, // Route 2
@@ -474,11 +489,11 @@ namespace PKHeX.Core
             219, // Mt. Silver Cave
             224, // Viridian Forest
         };
-        private static readonly int[] HGSS_MtSilverCaveExteriorEncounters =
+        private static readonly HashSet<int> HGSS_MtSilverCaveExteriorEncounters = new HashSet<int>
         {
             2, 3
         };
-        private static readonly int[] HGSS_MixInteriorExteriorLocations =
+        private static readonly HashSet<int> HGSS_MixInteriorExteriorLocations = new HashSet<int>
         {
             209, // Ruins of Alph
             219, // Mt. Silver Cave

@@ -85,7 +85,7 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
         }
-        private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot1 encounter)
+        private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot encounter)
         {
             switch (encounter.Type)
             {
@@ -108,7 +108,7 @@ namespace PKHeX.Core
 
             return new CheckResult(Severity.Valid, V68, CheckIdentifier.Encounter);
         }
-        private static CheckResult VerifyWildEncounterCrystalHeadbutt(PKM pkm, EncounterSlot1 encounter)
+        private static CheckResult VerifyWildEncounterCrystalHeadbutt(PKM pkm, EncounterSlot encounter)
         {
             var Area = Legal.GetCrystalTreeArea(encounter);
             if (Area == null)  // Failsafe, every area with headbutt encounters has a tree area
@@ -300,7 +300,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, V383, CheckIdentifier.Encounter);
                     if (pkm.Species == 492 && s.Location == 063 && !pkm.Pt) // DP Shaymin
                         return new CheckResult(Severity.Invalid, V354, CheckIdentifier.Encounter);
-                    if (s.Location == 193 && (s as EncounterStaticTyped)?.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfin in Johto Route 45
+                    if (s.Location == 193 && (s as EncounterStaticTyped)?.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, V384, CheckIdentifier.Encounter);
                     break;
                 case 7:
@@ -365,7 +365,7 @@ namespace PKHeX.Core
             }
 
             // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.
-            return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.CardHeader, ""), CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, string.Format(V21, MatchedGift.CardHeader, string.Empty), CheckIdentifier.Encounter);
         }
     }
 }

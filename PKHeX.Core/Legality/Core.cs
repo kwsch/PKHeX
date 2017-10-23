@@ -1172,7 +1172,7 @@ namespace PKHeX.Core
 
             var table = EvolutionTree.GetEvolutionTree(pkm.Format);
             var lineage = table.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks:true);
-            return lineage.Any(evolution => EvolutionMethod.TradeMethods.Any(method => method == evolution.Flag)); // Trade Evolutions
+            return lineage.Any(evolution => EvolutionMethod.TradeMethods.Contains(evolution.Flag)); // Trade Evolutions
         }
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1)
         {

@@ -221,13 +221,13 @@ namespace PKHeX.Core
                     359, 385, 386 }
         };
 
-        internal static readonly int[] ValidEggMet_RSE =
+        internal static readonly HashSet<int> ValidEggMet_RSE = new HashSet<int>
         {
             32, //Route 117 
             253, //Ingame egg gift
             255 // event/pokemon box
         };
-        internal static readonly int[] ValidEggMet_FRLG =
+        internal static readonly HashSet<int> ValidEggMet_FRLG = new HashSet<int>
         {
             146, //Four Island
             253, //Ingame egg gift

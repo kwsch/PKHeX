@@ -57,17 +57,12 @@ namespace PKHeX.Core
 
             return peek;
         }
-        public T PeekOrDefault()
-        {
-            return !TryFetchPeek() ? default(T) : peek;
-        }
+        public T PeekOrDefault() => !TryFetchPeek() ? default(T) : peek;
+
         /// <summary>
         /// Checks if a Next element exists
         /// </summary>
         /// <returns>True/False that a Next element exists</returns>
-        public bool PeekIsNext()
-        {
-            return TryFetchPeek();
-        }
+        public bool PeekIsNext() => TryFetchPeek();
     }
 }
