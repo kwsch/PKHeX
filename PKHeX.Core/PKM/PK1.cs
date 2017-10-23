@@ -161,7 +161,7 @@ namespace PKHeX.Core
                 Data[0] = (byte)SpeciesConverter.SetG1Species(value);
 
                 // Before updating catch rate, check if non-standard
-                if (TradebackStatus != TradebackType.WasTradeback && !CatchRateIsItem)
+                if (TradebackStatus != TradebackType.WasTradeback && !CatchRateIsItem && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
                 {
                     int baseSpecies = Legal.GetBaseSpecies(this);
                     int Rate = Catch_Rate;

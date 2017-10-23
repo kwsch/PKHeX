@@ -2212,7 +2212,7 @@ namespace PKHeX.Core
                 return false;
             if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
-            var IsYellow = Savegame_Version == GameVersion.Y;
+            var IsYellow = Savegame_Version == GameVersion.YW;
             if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
                 // If catch rate is Abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra

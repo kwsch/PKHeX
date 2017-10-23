@@ -28,7 +28,7 @@ namespace PKHeX.Core
             if (Version == GameVersion.Invalid)
                 return;
             if (Starter != 0)
-                Version = Yellow ? GameVersion.Y : GameVersion.RB;
+                Version = Yellow ? GameVersion.YW : GameVersion.RB;
 
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
