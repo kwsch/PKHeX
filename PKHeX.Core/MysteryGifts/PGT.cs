@@ -3,11 +3,15 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    /* Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was referenced.
-     * http://projectpokemon.org/forums/member.php?829-Grovyle91
-     * http://projectpokemon.org/forums/showthread.php?6524
-     * See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
-     */
+    /// <summary>
+    /// Generation 4 Mystery Gift Template File
+    /// </summary>
+    /// <remarks>
+    /// Big thanks to Grovyle91's Pokémon Mystery Gift Editor, from which the structure was referenced.
+    /// http://projectpokemon.org/forums/member.php?829-Grovyle91
+    /// http://projectpokemon.org/forums/showthread.php?6524
+    /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
+    /// </remarks>
     public sealed class PCD : MysteryGift
     {
         public const int Size = 0x358; // 856
@@ -106,6 +110,10 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
     }
+
+    /// <summary>
+    /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
+    /// </summary>
     public sealed class PGT : MysteryGift
     {
         public const int Size = 0x104; // 260

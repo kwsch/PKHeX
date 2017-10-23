@@ -4,6 +4,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 6 Mystery Gift Template File
+    /// </summary>
     public sealed class WC6 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0x108;

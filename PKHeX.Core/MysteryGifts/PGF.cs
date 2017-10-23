@@ -3,6 +3,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 Mystery Gift Template File
+    /// </summary>
     public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0xCC;
