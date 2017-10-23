@@ -989,28 +989,17 @@ namespace PKHeX.WinForms
         private void ImportQRToTabs(string url)
         {
             // Fetch data from QR code...
-            byte[] ekx = QR.GetQRData(url);
-            if (ekx == null)
+            byte[] input = QR.GetQRData(url);
+            if (input == null)
                 return;
 
-            PKM pk = PKMConverter.GetPKMfromBytes(ekx, prefer: C_SAV.SAV.Generation);
-            if (pk == null)
-            {
-                WinFormsUtil.Alert("Decoded data not a valid PKM.", $"QR Data Size: {ekx.Length}");
+            var sav = C_SAV.SAV;
+            if (TryLoadPKM(input, url, sav.Generation.ToString(), sav))
                 return;
-            }
-            if (!pk.Valid || pk.Species <= 0)
-            {
-                WinFormsUtil.Alert("Invalid data detected.");
+            if (TryLoadMysteryGift(input, url, null))
                 return;
-            }
-            PKM pkz = PKMConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
-            if (pkz == null)
-            {
-                WinFormsUtil.Alert(c);
-                return;
-            }
-            PKME_Tabs.PopulateFields(pkz);
+
+            WinFormsUtil.Alert("Decoded data not a valid PKM/Gift.", $"QR Data Size: {input.Length}");
         }
         private void ExportQRFromTabs()
         {
