@@ -649,7 +649,7 @@ namespace PKHeX.Core
                         var LevelTable = ver == GameVersion.YW ? LevelUpY : LevelUpRB;
                         int index = PersonalTable.RB.GetFormeIndex(species, 0);
                         if (index == 0)
-                            return new int[0];
+                            return Enumerable.Empty<int>();
                         LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
                         diff = 4 - LevelUpMoves.Count(z => z != 0);
                         if (diff == 0)
@@ -668,7 +668,7 @@ namespace PKHeX.Core
                         var LevelTable = ver == GameVersion.C ? LevelUpC : LevelUpGS;
                         int index = PersonalTable.C.GetFormeIndex(species, 0);
                         if (index == 0)
-                            return new int[0];
+                            return Enumerable.Empty<int>();
                         LevelUpMoves = LevelTable[species].GetEncounterMoves(lvl);
                         diff = 4 - LevelUpMoves.Count(z => z != 0);
                         if (diff == 0)
@@ -678,7 +678,7 @@ namespace PKHeX.Core
                         break;
                     }
                 default:
-                    return new int[0];
+                    return Enumerable.Empty<int>();
             }
             // Initial Moves could be duplicated in the level up table
             // level up table moves have preference
@@ -1100,7 +1100,7 @@ namespace PKHeX.Core
                 case 3: return FutureEvolutionsGen3;
                 case 4: return FutureEvolutionsGen4;
                 case 5: return FutureEvolutionsGen5;
-                default: return new int[0];
+                default: return Enumerable.Empty<int>();
             }
         }
 
@@ -1603,7 +1603,7 @@ namespace PKHeX.Core
                 case GameVersion.US: case GameVersion.UM:
                     return getMoves(LevelUpUSUM, PersonalTable.USUM);
             }
-            return new int[0];
+            return Enumerable.Empty<int>();
 
             int[] getMoves(Learnset[] moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
         }

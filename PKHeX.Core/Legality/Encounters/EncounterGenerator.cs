@@ -779,7 +779,7 @@ namespace PKHeX.Core
                 case 6:
                     return Encounters6.LinkGifts6.Where(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
-                    return new EncounterLink[0];
+                    return Enumerable.Empty<EncounterLink>();
             }
         }
 
@@ -976,7 +976,7 @@ namespace PKHeX.Core
                 case 7:
                     return GetMatchingWC7(pkm, MGDB_G7);
                 default:
-                    return new List<MysteryGift>();
+                    return Enumerable.Empty<MysteryGift>();
             }
         }
         private static IEnumerable<MysteryGift> GetMatchingWC3(PKM pkm, IEnumerable<MysteryGift> DB)
