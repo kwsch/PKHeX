@@ -7,20 +7,17 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Roamer3 : Form
     {
-        private readonly SaveFile Origin;
-        private readonly SAV3 SAV;
         private readonly Roamer3 Reader;
 
         public SAV_Roamer3(SaveFile sav)
         {
-            SAV = (SAV3)(Origin = sav).Clone();
-            Reader = new Roamer3(SAV);
+            Reader = new Roamer3((SAV3)sav);
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
             CB_Species.DisplayMember = "Text";
             CB_Species.ValueMember = "Value";
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
 
             LoadData();
         }
