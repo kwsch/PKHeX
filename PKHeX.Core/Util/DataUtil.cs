@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -72,7 +73,7 @@ namespace PKHeX.Core
 
         public static string[] GetStringList(string f)
         {
-            var txt = Properties.Resources.ResourceManager.GetString(f); // Fetch File, \n to list.
+            var txt = GetStringResource(f); // Fetch File, \n to list.
             if (txt == null) return new string[0];
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
@@ -104,7 +105,19 @@ namespace PKHeX.Core
                 var buffer = new byte[resource.Length];
                 resource.Read(buffer, 0, (int)resource.Length);
                 return buffer;
-            }               
+            }
+        }
+
+        public static string GetStringResource(string name)
+        {
+            var resourceName = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceNames()
+                                .Where(x => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith(name + ".txt", StringComparison.OrdinalIgnoreCase))
+                                .FirstOrDefault();
+            using (var resource = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceStream(resourceName))
+            using (var reader = new StreamReader(resource))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         #region Non-Form Translation
