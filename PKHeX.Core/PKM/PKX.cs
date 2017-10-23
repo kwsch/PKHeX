@@ -223,7 +223,7 @@ namespace PKHeX.Core
             if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
             {
                 nick = nick.ToUpper();
-                if (lang == 3)
+                if (lang == (int)LanguageID.French)
                     nick = StringConverter.StripDiacriticsFR4(nick); // strips accents on E and I
             }
             if (generation < 3)
@@ -246,7 +246,11 @@ namespace PKHeX.Core
         private static IEnumerable<int> GetAvailableGameLanguages(int generation)
         {
             if (generation < 3)
-                return new[] { 1, 2, 3, 5, 8 }; // check Korean for the VC case, never possible to match string outside of this case
+                return new[]
+                {
+                    (int) LanguageID.Japanese, (int) LanguageID.English, (int) LanguageID.French, (int) LanguageID.German,
+                    (int) LanguageID.Korean // check Korean for the VC case, never possible to match string outside of this case
+                };
             if (generation < 7)
                 return Enumerable.Range(1, 9 - 1); // chinese (CHS/CHT) introduced in Gen7
 
@@ -798,15 +802,15 @@ namespace PKHeX.Core
         {
             if (value <= 2 || value > 7)
                 return value;
-            return GCtoMainSeries[value];
+            return (byte)GCtoMainSeries[(LanguageGC)value];
         }
-        private static readonly Dictionary<byte, byte> GCtoMainSeries = new Dictionary<byte, byte>
+        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new Dictionary<LanguageGC, LanguageID>
         {
-            {3, 5}, // German
-            {4, 3}, // French
-            {5, 4}, // Italian
-            {6, 7}, // Spanish
-            {7, 6}, // Korean (Unused)
+            {LanguageGC.German, LanguageID.German},
+            {LanguageGC.French, LanguageID.French},
+            {LanguageGC.Italian, LanguageID.Italian},
+            {LanguageGC.Spanish, LanguageID.Spanish},
+            {LanguageGC.UNUSED_6, LanguageID.UNUSED_6},
         };
 
         /// <summary>
@@ -818,15 +822,15 @@ namespace PKHeX.Core
         {
             if (value <= 2 || value > 7)
                 return value;
-            return MainSeriesToGC[value];
+            return (byte)MainSeriesToGC[(LanguageID)value];
         }
-        private static readonly Dictionary<byte, byte> MainSeriesToGC = new Dictionary<byte, byte>
+        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new Dictionary<LanguageID, LanguageGC>
         {
-            {5, 3}, // German
-            {3, 4}, // French
-            {4, 5}, // Italian
-            {7, 6}, // Spanish
-            {6, 7}, // Korean (Unused)
+            {LanguageID.German, LanguageGC.German},
+            {LanguageID.French, LanguageGC.French},
+            {LanguageID.Italian, LanguageGC.Italian},
+            {LanguageID.Spanish, LanguageGC.Spanish},
+            {LanguageID.UNUSED_6, LanguageGC.UNUSED_6},
         };
 
         /// <summary>

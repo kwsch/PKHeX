@@ -131,9 +131,9 @@ namespace PKHeX.Core
             get
             {
                 if (Japanese)
-                    return 1;
+                    return (int)LanguageID.Japanese;
                 if (StringConverter.IsG12German(otname))
-                    return 5; // german
+                    return (int)LanguageID.German;
                 int lang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
                 if (lang > 0)
                     return lang;
@@ -141,14 +141,14 @@ namespace PKHeX.Core
             }
             set { }
         }
-        private int GuessedLanguage(int fallback = 2)
+        private int GuessedLanguage(int fallback = (int)LanguageID.English)
         {
             int lang = Language;
             if (lang > 0)
                 return lang;
-            if (fallback == 3 /*FR*/ || fallback == 5 /*DE*/) // only other permitted besides EN
+            if (fallback == (int)LanguageID.French || fallback == (int)LanguageID.German) // only other permitted besides English
                 return fallback;
-            return 2; // EN
+            return (int)LanguageID.English;
         }
 
 

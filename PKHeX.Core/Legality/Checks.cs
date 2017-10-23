@@ -168,17 +168,19 @@ namespace PKHeX.Core
             int maxLanguageID = Legal.GetMaxLanguageID(Info.Generation);
 
             // Language ID 6 is unused; flag if an impossible language is used
-            if (pkm.Language == 6 || pkm.Language > maxLanguageID)
+            if (pkm.Language == (int)LanguageID.UNUSED_6 || pkm.Language > maxLanguageID)
             {
                 AddLine(Severity.Invalid, string.Format(V5, $"<={maxLanguageID}", pkm.Language), CheckIdentifier.Language);
                 return false;
             }
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
-            if (pkm.Format == 4 && pkm.Gen4 && pkm.Language == 8 != (Legal.SavegameLanguage == 8))
+            if (pkm.Format == 4 && pkm.Gen4 && 
+                (pkm.Language == (int)LanguageID.Korean) ^ (Legal.SavegameLanguage == (int)LanguageID.Korean))
             {
-                var currentpkm = pkm.Language == 8 ? V611 : V612;
-                var currentsav = pkm.Language == 8 ? V612 : V611;
+                bool kor = pkm.Language == (int) LanguageID.Korean;
+                var currentpkm = kor ? V611 : V612;
+                var currentsav = kor ? V612 : V611;
                 AddLine(Severity.Invalid, string.Format(V610, currentpkm, currentsav), CheckIdentifier.Language);
                 return false;
             }
@@ -379,8 +381,8 @@ namespace PKHeX.Core
             else if (3 <= Info.Generation && Info.Generation <= 5)
             {
                 // Trades for JPN games have language ID of 0, not 1.
-                if (pkm.BW && pkm.Format == 5 && pkm.Language == 1)
-                    AddLine(Severity.Invalid, string.Format(V5, 0, 1), CheckIdentifier.Language);
+                if (pkm.BW && pkm.Format == 5 && pkm.Language == (int)LanguageID.Japanese)
+                    AddLine(Severity.Invalid, string.Format(V5, 0, (int)LanguageID.Japanese), CheckIdentifier.Language);
 
                 // Suppressing temporarily
                 return;
@@ -599,7 +601,7 @@ namespace PKHeX.Core
         }
         private void VerifyG1OTStadium(string tr)
         {
-            bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != 2;
+            bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != (int)LanguageID.English;
             bool valid = GetIsStadiumOTIDValid(jp, tr);
             if (!valid)
                 AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
@@ -2227,7 +2229,7 @@ namespace PKHeX.Core
             if (pkm.TID != 00002 || pkm.SID != 00000)
                 return false;
 
-            var OT = pkm.Language == 1 ? "Ｎ" : "N";
+            var OT = pkm.Language == (int)LanguageID.Japanese ? "Ｎ" : "N";
             return OT == pkm.OT_Name;
         }
         private void VerifyVersionEvolution()

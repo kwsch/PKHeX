@@ -195,7 +195,7 @@ namespace PKHeX.Core
         // Generated Attributes
         public override int PSV => (int)((PID >> 16 ^ PID & 0xFFFF) >> 3);
         public override int TSV => (TID ^ SID) >> 3;
-        public override bool Japanese => Language == 1;
+        public override bool Japanese => Language == (int)LanguageID.Japanese;
 
         protected override byte[] Encrypt()
         {

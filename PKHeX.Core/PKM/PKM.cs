@@ -139,9 +139,9 @@ namespace PKHeX.Core
         public abstract int Met_Location { get; set; }
         public abstract int Egg_Location { get; set; }
         public abstract int OT_Friendship { get; set; }
-        public virtual bool Japanese => Language == 1;
-        public virtual bool Korean => Language == 8;
-        public virtual bool Chinese => Language == 9 || Language == 10;
+        public virtual bool Japanese => Language == (int)LanguageID.Japanese;
+        public virtual bool Korean => Language == (int)LanguageID.Korean;
+        public virtual bool Chinese => Language == (int)LanguageID.ChineseS || Language == (int)LanguageID.ChineseT;
 
         // Future Properties
         public virtual int Met_Year { get => 0; set { } }

@@ -461,7 +461,7 @@ namespace PKHeX.Core
             // Secondary Properties may not be used but can be filled in as template.
             SAV.TID = 12345;
             SAV.SID = 54321;
-            SAV.Language = 2; // English
+            SAV.Language = (int)LanguageID.English; // English
             SAV.Country = 49; // USA
             SAV.SubRegion = 7; // CA
             SAV.ConsoleRegion = 1; // Americas

@@ -86,7 +86,7 @@ namespace PKHeX.Core
             bool hatchedEgg = IsEgg && SAV.Generation != 3;
             if (hatchedEgg) // ugly workaround for character table interactions
             {
-                pk.Language = 2;
+                pk.Language = (int)LanguageID.English;
                 pk.OT_Name = "PKHeX";
                 pk.OT_Gender = SAV.Gender;
                 pk.TID = SAV.TID;
@@ -100,7 +100,7 @@ namespace PKHeX.Core
                 {
                     pk.IsEgg = true;
                     pk.IsNicknamed = true;
-                    pk.Language = 1; // JPN
+                    pk.Language = (int)LanguageID.Japanese; // JPN
                     if (SID >= 0)
                         pk.SID = SID;
                     if (TID >= 0)
@@ -114,9 +114,9 @@ namespace PKHeX.Core
                 {
                     // Try again (only happens for eggs)
                     pk.IsEgg = false;
-                    pk.Language = 2;
+                    pk.Language = (int)LanguageID.English;
                     pk.OT_Name = SAV.OT;
-                    pk.Language = 1;
+                    pk.Language = (int)LanguageID.Japanese; // as egg is Japanese until hatched
                     pk.IsEgg = true;
                 }
                 pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : SAV.Gender;

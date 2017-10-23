@@ -1800,7 +1800,6 @@ namespace PKHeX.WinForms.Controls
             CB_Ability.Visible = !DEV_Ability.Enabled && gen >= 3;
             FLP_Nature.Visible = gen >= 3;
             FLP_Ability.Visible = gen >= 3;
-            // FLP_Language.Visible = gen >= 3; // not directly used by gen1/2, useful for providing species names for another language
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
             GB_Markings.Visible = gen >= 3;
             BTN_Ribbons.Visible = gen >= 3;
@@ -2077,7 +2076,7 @@ namespace PKHeX.WinForms.Controls
 
             var languages = Util.GetUnsortedCBList("languages");
             if (pkm.Format < 7)
-                languages = languages.Where(l => l.Value <= 8).ToList(); // Korean
+                languages = languages.Where(l => l.Value <= (int)LanguageID.Korean).ToList();
             CB_Language.DataSource = languages;
 
             CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= pkm.MaxBallID).ToList(), null);

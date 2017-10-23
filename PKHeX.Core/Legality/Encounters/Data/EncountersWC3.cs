@@ -6,32 +6,32 @@ namespace PKHeX.Core
     {
         internal static readonly MysteryGift[] Encounter_Event3 =
         {
-            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "アゲト", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = 1 },
-            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = 1 },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "アゲト", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Japanese },
+            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Japanese },
 
-            new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Method = PIDType.BACD_R, Language = 2 },
-            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = 2, NotDistributed = true  },
-            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = 2, NotDistributed = true },
+            new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Method = PIDType.BACD_R, Language = (int)LanguageID.English },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.English, NotDistributed = true  },
+            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.English, NotDistributed = true },
 
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "バトルやま", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 1 }, // JPN
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MATTLE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 2 }, // ENG
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MT BATA", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 3 }, // FRE
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "DUELLBE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 5 }, // GER
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MONTE L", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 4 }, // ITA
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "ERNESTO", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = 7 }, // SPA
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "バトルやま", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Japanese }, // JPN
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MATTLE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.English }, // ENG
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MT BATA", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.French }, // FRE
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "DUELLBE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.German }, // GER
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MONTE L", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Italian }, // ITA
+            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "ERNESTO", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Spanish }, // SPA
 
             // CXD
-            new WC3 { Species = 239, Level = 20, Language = 2, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "HORDEL", CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
-            new WC3 { Species = 307, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
-            new WC3 { Species = 213, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
-            new WC3 { Species = 246, Level = 20, Language = 2, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
-            new WC3 { Species = 311, Level = 13, Language = 2, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
+            new WC3 { Species = 239, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "HORDEL", CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
+            new WC3 { Species = 307, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
+            new WC3 { Species = 213, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
+            new WC3 { Species = 246, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
+            new WC3 { Species = 311, Level = 13, Language = (int)LanguageID.English, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
 
-            new WC3 { Species = 239, Level = 20, Language = 1, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "ダニー",   CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
-            new WC3 { Species = 307, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
-            new WC3 { Species = 213, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
-            new WC3 { Species = 246, Level = 20, Language = 1, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
-            new WC3 { Species = 311, Level = 13, Language = 1, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
+            new WC3 { Species = 239, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "ダニー",   CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
+            new WC3 { Species = 307, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
+            new WC3 { Species = 213, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
+            new WC3 { Species = 246, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
+            new WC3 { Species = 311, Level = 13, Language = (int)LanguageID.Japanese, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_FRLG =
@@ -83,137 +83,137 @@ namespace PKHeX.Core
             new WC3 { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = (int)GameVersion.R, Method = PIDType.BACD_R, Moves = new[]{273} }, // Bagon with Wish
             
             // Negai Boshi Jirachi
-            new WC3 { Species = 385, Level = 05, TID = 30719, OT_Gender = 0, OT_Name = "ネガイボシ", Method = PIDType.BACD_R, Language = 1, Shiny = false },
+            new WC3 { Species = 385, Level = 05, TID = 30719, OT_Gender = 0, OT_Name = "ネガイボシ", Method = PIDType.BACD_R, Language = (int)LanguageID.Japanese, Shiny = false },
 
             // Berry Glitch Fix
             // PCJP - (December 29, 2003 to March 31, 2004)
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 1, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1, Shiny = true },
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 1, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", OT_Gender = 0, Shiny = true },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.Japanese, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "ルビー", OT_Gender = 1, Shiny = true },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.Japanese, Method = PIDType.BACD_R_S, TID = 21121, OT_Name = "サファイア", OT_Gender = 0, Shiny = true },
             
             // EBGames/GameStop (March 1, 2004 to April 22, 2007), also via multi-game discs
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 2, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", OT_Gender = 1 },
-            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = 2, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", OT_Gender = 0 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.English, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "RUBY", OT_Gender = 1 },
+            new WC3 { Species = 263, Level = 5, Version = (int)GameVersion.S, Language = (int)LanguageID.English, Method = PIDType.BACD_R_S, TID = 30317, OT_Name = "SAPHIRE", OT_Gender = 0 },
 
             // Channel Jirachi
             new WC3 { Species = 385, Level = 5, Version = (int)GameVersion.RS, Method = PIDType.Channel, TID = 40122, OT_Gender = 3,SID = -1, OT_Name = "CHANNEL", CardTitle = "Channel Jirachi", Met_Level = 0 },
 
             // Aura Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 3, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 4, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 5, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 7, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.French,  Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.German,  Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 20078, OT_Name = "Aura", Fateful = true }, // Mew
 
             // English Events
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Charizard
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Pikachu
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Articuno
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Suicune
-            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Lugia
-            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Ho-Oh
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 2, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latios
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Charizard
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Pikachu
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Articuno
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Suicune
+            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Lugia
+            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Ho-Oh
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latios
 
             // French
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Charizard
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Pikachu
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Articuno
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Suicune
-            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Lugia
-            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Ho-Oh
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 3, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latios
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Charizard
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Pikachu
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Articuno
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Suicune
+            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Lugia
+            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Ho-Oh
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.French, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNIV", Shiny = false }, // Latios
 
             // Italian
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Charizard
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Pikachu
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Articuno
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Suicune
-            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Lugia
-            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Ho-Oh
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 4, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Latios
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Charizard
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Pikachu
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Articuno
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Suicune
+            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Lugia
+            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Ho-Oh
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.Italian, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANNI", Shiny = false }, // Latios
             
             // German
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Charizard
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Pikachu
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Articuno
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Suicune
-            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Lugia
-            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Ho-Oh
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 5, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Latios
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Charizard
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Pikachu
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Articuno
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Suicune
+            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Lugia
+            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Ho-Oh
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.German, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10JAHRE", Shiny = false }, // Latios
 
             // Spanish
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Charizard
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Pikachu
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Articuno
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Suicune
-            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Lugia
-            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Ho-Oh
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 7, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Latios
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Charizard
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Pikachu
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Articuno
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Suicune
+            new WC3 { Species = 249, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,056,240,129}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Lugia
+            new WC3 { Species = 250, Level = 70, Version = (int)GameVersion.R, Moves = new[] {105,126,241,129}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Ho-Oh
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.Spanish, Method = PIDType.BACD_R, TID = 06227, OT_Name = "10ANIV", Shiny = false }, // Latios
 
-            new WC3 { Species = 375, Level = 30, Version = (int)GameVersion.R, Moves = new[] {036,093,232,287}, Language = 2, Method = PIDType.BACD_R, TID = 02005, OT_Name = "ROCKS", OT_Gender = 0, RibbonNational = true, Shiny = false }, // Metang
-            new WC3 { Species = 386, Level = 70, Version = (int)GameVersion.R, Moves = new[] {322,105,354,063}, Language = 2, Method = PIDType.BACD_R, TID = 28606, OT_Name = "DOEL", Fateful = true, Shiny = false }, // Deoxys
-            new WC3 { Species = 386, Level = 70, Version = (int)GameVersion.R, Moves = new[] {322,105,354,063}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "SPACE C", Fateful = true, Shiny = false }, // Deoxys
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_U, TID = 06930, OT_Name = "MYSTRY", Fateful = true, Shiny = false }, // Mew
-            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = 2, Method = PIDType.BACD_R, TID = 06930, OT_Name = "MYSTRY", Fateful = true, Shiny = false }, // Mew
+            new WC3 { Species = 375, Level = 30, Version = (int)GameVersion.R, Moves = new[] {036,093,232,287}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 02005, OT_Name = "ROCKS", OT_Gender = 0, RibbonNational = true, Shiny = false }, // Metang
+            new WC3 { Species = 386, Level = 70, Version = (int)GameVersion.R, Moves = new[] {322,105,354,063}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 28606, OT_Name = "DOEL", Fateful = true, Shiny = false }, // Deoxys
+            new WC3 { Species = 386, Level = 70, Version = (int)GameVersion.R, Moves = new[] {322,105,354,063}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "SPACE C", Fateful = true, Shiny = false }, // Deoxys
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.English, Method = PIDType.BACD_U, TID = 06930, OT_Name = "MYSTRY", Fateful = true, Shiny = false }, // Mew
+            new WC3 { Species = 151, Level = 10, Version = (int)GameVersion.R, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06930, OT_Name = "MYSTRY", Fateful = true, Shiny = false }, // Mew
 
             // Party of the Decade
-            new WC3 { Species = 001, Level = 70, Version = (int)GameVersion.R, Moves = new[] {230,074,076,235}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Bulbasaur
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Charizard
-            new WC3 { Species = 009, Level = 70, Version = (int)GameVersion.R, Moves = new[] {182,240,130,056}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Blastoise
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,087,113,019}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 202, Shiny = false }, // Pikachu (Fly)
-            new WC3 { Species = 065, Level = 70, Version = (int)GameVersion.R, Moves = new[] {248,347,094,271}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Alakazam
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Articuno
-            new WC3 { Species = 145, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,197,065,268}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Zapdos
-            new WC3 { Species = 146, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,203,053,219}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Moltres
-            new WC3 { Species = 149, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,219,017,200}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Dragonite
-            new WC3 { Species = 157, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,172,129,053}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Typhlosion
-            new WC3 { Species = 196, Level = 70, Version = (int)GameVersion.R, Moves = new[] {060,244,094,234}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Espeon
-            new WC3 { Species = 197, Level = 70, Version = (int)GameVersion.R, Moves = new[] {185,212,103,236}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Umbreon
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Suicune
-            new WC3 { Species = 248, Level = 70, Version = (int)GameVersion.R, Moves = new[] {037,184,242,089}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Tyranitar
-            new WC3 { Species = 257, Level = 70, Version = (int)GameVersion.R, Moves = new[] {299,163,119,327}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Blaziken
-            new WC3 { Species = 359, Level = 70, Version = (int)GameVersion.R, Moves = new[] {104,163,248,195}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Absol
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 2, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latios
+            new WC3 { Species = 001, Level = 70, Version = (int)GameVersion.R, Moves = new[] {230,074,076,235}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Bulbasaur
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Charizard
+            new WC3 { Species = 009, Level = 70, Version = (int)GameVersion.R, Moves = new[] {182,240,130,056}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Blastoise
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,087,113,019}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 202, Shiny = false }, // Pikachu (Fly)
+            new WC3 { Species = 065, Level = 70, Version = (int)GameVersion.R, Moves = new[] {248,347,094,271}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Alakazam
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Articuno
+            new WC3 { Species = 145, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,197,065,268}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Zapdos
+            new WC3 { Species = 146, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,203,053,219}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Moltres
+            new WC3 { Species = 149, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,219,017,200}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Dragonite
+            new WC3 { Species = 157, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,172,129,053}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Typhlosion
+            new WC3 { Species = 196, Level = 70, Version = (int)GameVersion.R, Moves = new[] {060,244,094,234}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Espeon
+            new WC3 { Species = 197, Level = 70, Version = (int)GameVersion.R, Moves = new[] {185,212,103,236}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Umbreon
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Suicune
+            new WC3 { Species = 248, Level = 70, Version = (int)GameVersion.R, Moves = new[] {037,184,242,089}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Tyranitar
+            new WC3 { Species = 257, Level = 70, Version = (int)GameVersion.R, Moves = new[] {299,163,119,327}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Blaziken
+            new WC3 { Species = 359, Level = 70, Version = (int)GameVersion.R, Moves = new[] {104,163,248,195}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", Shiny = false }, // Absol
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 06808, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latios
             
             // Journey Across America
-            new WC3 { Species = 001, Level = 70, Version = (int)GameVersion.R, Moves = new[] {230,074,076,235}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Bulbasaur
-            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Charizard
-            new WC3 { Species = 009, Level = 70, Version = (int)GameVersion.R, Moves = new[] {182,240,130,056}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Blastoise
-            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 202, Shiny = false }, // Pikachu (No Fly)
-            new WC3 { Species = 065, Level = 70, Version = (int)GameVersion.R, Moves = new[] {248,347,094,271}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Alakazam
-            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Articuno
-            new WC3 { Species = 145, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,197,065,268}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Zapdos
-            new WC3 { Species = 146, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,203,053,219}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Moltres
-            new WC3 { Species = 149, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,219,017,200}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Dragonite
-            new WC3 { Species = 157, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,172,129,053}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Typhlosion
-            new WC3 { Species = 196, Level = 70, Version = (int)GameVersion.R, Moves = new[] {060,244,094,234}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Espeon
-            new WC3 { Species = 197, Level = 70, Version = (int)GameVersion.R, Moves = new[] {185,212,103,236}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Umbreon
-            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Raikou
-            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Entei
-            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Suicune
-            new WC3 { Species = 248, Level = 70, Version = (int)GameVersion.R, Moves = new[] {037,184,242,089}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Tyranitar
-            new WC3 { Species = 251, Level = 70, Version = (int)GameVersion.R, Moves = new[] {246,248,226,195}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Celebi
-            new WC3 { Species = 257, Level = 70, Version = (int)GameVersion.R, Moves = new[] {299,163,119,327}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Blaziken
-            new WC3 { Species = 359, Level = 70, Version = (int)GameVersion.R, Moves = new[] {104,163,248,195}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Absol
-            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latias
-            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = 2, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latios
+            new WC3 { Species = 001, Level = 70, Version = (int)GameVersion.R, Moves = new[] {230,074,076,235}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Bulbasaur
+            new WC3 { Species = 006, Level = 70, Version = (int)GameVersion.R, Moves = new[] {017,163,082,083}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Charizard
+            new WC3 { Species = 009, Level = 70, Version = (int)GameVersion.R, Moves = new[] {182,240,130,056}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Blastoise
+            new WC3 { Species = 025, Level = 70, Version = (int)GameVersion.R, Moves = new[] {085,097,087,113}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 202, Shiny = false }, // Pikachu (No Fly)
+            new WC3 { Species = 065, Level = 70, Version = (int)GameVersion.R, Moves = new[] {248,347,094,271}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Alakazam
+            new WC3 { Species = 144, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,170,058,115}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Articuno
+            new WC3 { Species = 145, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,197,065,268}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Zapdos
+            new WC3 { Species = 146, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,203,053,219}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Moltres
+            new WC3 { Species = 149, Level = 70, Version = (int)GameVersion.R, Moves = new[] {097,219,017,200}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Dragonite
+            new WC3 { Species = 157, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,172,129,053}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Typhlosion
+            new WC3 { Species = 196, Level = 70, Version = (int)GameVersion.R, Moves = new[] {060,244,094,234}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Espeon
+            new WC3 { Species = 197, Level = 70, Version = (int)GameVersion.R, Moves = new[] {185,212,103,236}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Umbreon
+            new WC3 { Species = 243, Level = 70, Version = (int)GameVersion.R, Moves = new[] {098,209,115,242}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Raikou
+            new WC3 { Species = 244, Level = 70, Version = (int)GameVersion.R, Moves = new[] {083,023,053,207}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Entei
+            new WC3 { Species = 245, Level = 70, Version = (int)GameVersion.R, Moves = new[] {016,062,054,243}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Suicune
+            new WC3 { Species = 248, Level = 70, Version = (int)GameVersion.R, Moves = new[] {037,184,242,089}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Tyranitar
+            new WC3 { Species = 251, Level = 70, Version = (int)GameVersion.R, Moves = new[] {246,248,226,195}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Celebi
+            new WC3 { Species = 257, Level = 70, Version = (int)GameVersion.R, Moves = new[] {299,163,119,327}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Blaziken
+            new WC3 { Species = 359, Level = 70, Version = (int)GameVersion.R, Moves = new[] {104,163,248,195}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", Shiny = false }, // Absol
+            new WC3 { Species = 380, Level = 70, Version = (int)GameVersion.R, Moves = new[] {296,094,105,204}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latias
+            new WC3 { Species = 381, Level = 70, Version = (int)GameVersion.R, Moves = new[] {295,094,105,349}, Language = (int)LanguageID.English, Method = PIDType.BACD_R, TID = 00010, OT_Name = "10 ANIV", HeldItem = 191, Shiny = false }, // Latios
         };
 
         internal static readonly MysteryGift[] Encounter_Event3_Common =

@@ -217,7 +217,7 @@ namespace PKHeX.Core
                 pk4.FatefulEncounter = true;
                 pk4.Ball = 4;
                 pk4.Version = 10; // Diamond
-                pk4.Language = 2; // English
+                pk4.Language = (int)LanguageID.English; // English
                 pk4.Nickname = "MANAPHY";
                 pk4.Egg_Location = 1; // Ranger (will be +3000 later)
                 pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);

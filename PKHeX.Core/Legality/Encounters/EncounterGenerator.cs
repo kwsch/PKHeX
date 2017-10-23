@@ -878,9 +878,9 @@ namespace PKHeX.Core
             }
 
             int lang = pkm.Language;
-            if (lang == 6) // invalid language
+            if (lang == (int)LanguageID.UNUSED_6) // invalid language
                 yield break;
-            if (lang == 0 && (pkm.Format != 5 || !pkm.BW)) // Japanese trades in BW have no language ID
+            if (lang == (int)LanguageID.Hacked && (pkm.Format != 5 || !pkm.BW)) // Japanese trades in BW have no language ID
                 yield break;
 
             int lvl = GetMinLevelEncounter(pkm);
@@ -1001,7 +1001,7 @@ namespace PKHeX.Core
 
             if (IsRangerManaphy(pkm))
             {
-                if (pkm.Language != 8) // never korean
+                if (pkm.Language != (int)LanguageID.Korean) // never korean
                     yield return new PGT { Data = { [0] = 7, [8] = 1 } };
                 yield break;
             }
