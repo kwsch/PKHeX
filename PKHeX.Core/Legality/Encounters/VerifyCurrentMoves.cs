@@ -6,6 +6,9 @@ using static PKHeX.Core.LegalityAnalysis;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic to verify the current <see cref="PKM.Moves"/>.
+    /// </summary>
     public static class VerifyCurrentMoves
     {
         public static CheckMoveResult[] VerifyMoves(PKM pkm, LegalInfo info, GameVersion game = GameVersion.Any)

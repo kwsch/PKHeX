@@ -3,6 +3,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Legality Check Message Strings to indicate why certain <see cref="PKM"/> <see cref="LegalInfo"/> values are flagged.
+    /// </summary>
     public static class LegalityCheckStrings
     {
 

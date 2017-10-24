@@ -5,6 +5,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 <see cref="SaveFile"/> object for Pokémon Battle Revolution saves.
+    /// </summary>
     public sealed class SAV4BR : SaveFile
     {
         public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";

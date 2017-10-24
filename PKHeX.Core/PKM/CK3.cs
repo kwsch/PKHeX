@@ -2,6 +2,7 @@
 
 namespace PKHeX.Core
 {
+    /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
     public class CK3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IShadowPKM
     {
         public static readonly byte[] ExtraBytes =

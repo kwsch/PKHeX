@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
     public class PK6 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6
     {
         public static readonly byte[] ExtraBytes =

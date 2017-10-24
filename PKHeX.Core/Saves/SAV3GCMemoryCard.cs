@@ -8,6 +8,9 @@ namespace PKHeX.Core
      * https://github.com/dolphin-emu/dolphin/
      */
 
+    /// <summary>
+    /// Flags for indicating what data is present in the Memory Card
+    /// </summary>
     public enum GCMemoryCardState
     {
         Invalid,
@@ -21,6 +24,9 @@ namespace PKHeX.Core
         DuplicateRSBOX,
     }
 
+    /// <summary>
+    /// GameCube save container which may or may not contain Generation 3 <see cref="SaveFile"/> objects.
+    /// </summary>
     public sealed class SAV3GCMemoryCard
     {
         private const int BLOCK_SIZE = 0x2000;

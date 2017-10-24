@@ -5,6 +5,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for converting a <see cref="string"/> between the various generation specific encoding formats.
+    /// </summary>
     public static class StringConverter
     {
         /// <summary>

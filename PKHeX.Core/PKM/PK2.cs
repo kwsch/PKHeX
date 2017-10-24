@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
     public class PK2 : PKM
     {
         // Internal use only

@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Nature ID values for the corresponding English nature name.
+    /// </summary>
     public enum Nature
     {
         Random = -1,

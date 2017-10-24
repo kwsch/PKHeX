@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for converting a <see cref="PKM"/> from one generation specific format to another.
+    /// </summary>
     public static class PKMConverter
     {
         public static int Country { get; private set; } = 49;

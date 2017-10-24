@@ -2,6 +2,13 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 <see cref="WC3"/> Gifts
+    /// </summary>
+    /// <remarks>
+    /// Generation 3 has a wide range of PIDIV types and other restrictions, and was never consistently stored in raw bytes.
+    /// Normally we'd just load the data from a binary, but without raw data... hard-code everything by hand.
+    /// </remarks>
     internal static class EncountersWC3
     {
         internal static readonly MysteryGift[] Encounter_Event3 =

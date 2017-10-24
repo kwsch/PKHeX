@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
+    /// </summary>
     public class PersonalInfoG2 : PersonalInfo
     {
         protected PersonalInfoG2() { }

@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation specific Evolution Tree data.
+    /// </summary>
+    /// <remarks>
+    /// Used to determine if a <see cref="PKM.Species"/> can evolve from prior steps in its evolution branch.
+    /// </remarks>
     public class EvolutionTree
     {
         private static readonly EvolutionTree Evolves1;
@@ -207,10 +213,16 @@ namespace PKHeX.Core
         }
     }
 
+    /// <summary>
+    /// Table of Evolution Branch Entries
+    /// </summary>
     public abstract class EvolutionSet
     {
         public EvolutionMethod[] PossibleEvolutions;
     }
+    /// <summary>
+    /// Generation 1 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet1 : EvolutionSet
     {
         private static EvolutionMethod GetMethod(byte[] data, ref int offset)
@@ -263,6 +275,9 @@ namespace PKHeX.Core
             return evos;
         }
     }
+    /// <summary>
+    /// Generation 2 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet2 : EvolutionSet
     {
         private static EvolutionMethod GetMethod(byte[] data, ref int offset)
@@ -299,6 +314,9 @@ namespace PKHeX.Core
             return evos;
         }
     }
+    /// <summary>
+    /// Generation 3 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet3 : EvolutionSet
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
@@ -358,6 +376,9 @@ namespace PKHeX.Core
             return evos.ToList();
         }
     }
+    /// <summary>
+    /// Generation 4 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet4 : EvolutionSet
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
@@ -410,6 +431,9 @@ namespace PKHeX.Core
             return evos;
         }
     }
+    /// <summary>
+    /// Generation 5 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet5 : EvolutionSet
     {
         private static EvolutionMethod GetMethod(byte[] data, int offset)
@@ -457,6 +481,9 @@ namespace PKHeX.Core
             return evos;
         }
     }
+    /// <summary>
+    /// Generation 6 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet6 : EvolutionSet
     {
         private static readonly HashSet<int> argEvos = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29, 30, 32, 33, 34};
@@ -484,6 +511,9 @@ namespace PKHeX.Core
             }
         }
     }
+    /// <summary>
+    /// Generation 7 Evolution Branch Entries
+    /// </summary>
     public class EvolutionSet7 : EvolutionSet
     {
         private const int SIZE = 8;
@@ -503,6 +533,10 @@ namespace PKHeX.Core
             }
         }
     }
+
+    /// <summary>
+    /// Criteria for evolving to this branch in the <see cref="EvolutionTree"/>
+    /// </summary>
     public class EvolutionMethod
     {
         public int Method;
@@ -624,7 +658,9 @@ namespace PKHeX.Core
         }
     }
 
-    // Informatics
+    /// <summary>
+    /// Informatics pertaining to a <see cref="PKM"/>'s evolution lineage.
+    /// </summary>
     public class EvolutionLineage
     {
         public readonly List<EvolutionStage> Chain = new List<EvolutionStage>();
@@ -720,6 +756,9 @@ namespace PKHeX.Core
             last.RequiresLvlUp = evo.RequiresLevelUp;
         }
     }
+    /// <summary>
+    /// Evolution Stage Entries
+    /// </summary>
     public struct EvolutionStage
     {
         public List<EvolutionMethod> StageEntryMethods;

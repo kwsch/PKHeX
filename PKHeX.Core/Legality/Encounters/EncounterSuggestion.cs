@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for providing suggested property values with respect to the input data.
+    /// </summary>
     internal static class EncounterSuggestion
     {
         public static EncounterStatic GetSuggestedMetInfo(PKM pkm)

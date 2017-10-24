@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 <see cref="SaveFile"/> object.
+    /// </summary>
     public sealed class SAV4 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";

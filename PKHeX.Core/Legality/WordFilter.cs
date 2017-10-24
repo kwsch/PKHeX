@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Bad-word Filter class containing logic to check against unsavory regular expressions.
+    /// </summary>
     public static class WordFilter
     {
         /// <summary>

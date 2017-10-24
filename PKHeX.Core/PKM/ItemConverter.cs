@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for converting Item IDs between the generation specific value sets.
+    /// </summary>
     internal static class ItemConverter
     {
         /// <summary>Unused item ID, placeholder for item/sprite finding</summary>

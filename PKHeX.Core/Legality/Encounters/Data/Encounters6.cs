@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 6 Encounters
+    /// </summary>
     internal static class Encounters6
     {
         internal static readonly EncounterArea[] SlotsX, SlotsY, SlotsA, SlotsO;

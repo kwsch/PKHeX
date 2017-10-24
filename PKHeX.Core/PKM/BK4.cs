@@ -3,7 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class BK4 : PKM // Big Endian 4th Generation PKM File
+    /// <summary> Generation 4 <see cref="PKM"/> format, exclusively for Pokémon Battle Revolution. </summary>
+    /// <remarks> Values are stored in Big Endian format rather than Little Endian. Beware. </remarks>
+    public class BK4 : PKM
     {
         public static readonly byte[] ExtraBytes =
         {

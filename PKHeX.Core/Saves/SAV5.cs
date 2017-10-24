@@ -6,6 +6,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 <see cref="SaveFile"/> object.
+    /// </summary>
     public sealed class SAV5 : SaveFile
     {
         // Save Data Attributes

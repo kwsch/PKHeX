@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> table (array).
+    /// </summary>
+    /// <remarks>
+    /// Serves as the main object that is accessed for stat data in a particular generation/game format.
+    /// </remarks>
     public class PersonalTable
     {
         public static readonly PersonalTable USUM = GetTable("sm", GameVersion.USUM);
@@ -151,14 +157,12 @@ namespace PKHeX.Core
 
         public int[] GetAbilities(int species, int forme)
         {
-            if (species >= Table.Length)
-            { species = 0; Debug.WriteLine("Requested out of bounds SpeciesID"); }
-            return this[GetFormeIndex(species, forme)].Abilities;
+            return GetFormeEntry(species, forme).Abilities;
         }
         public int GetFormeIndex(int species, int forme)
         {
             if (species >= Table.Length)
-            { species = 0; Debug.WriteLine("Requested out of bounds SpeciesID"); }
+            { species = 0; Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={Table.Length-1}"); }
             return this[species].FormeIndex(species, forme);
         }
         public PersonalInfo GetFormeEntry(int species, int forme)

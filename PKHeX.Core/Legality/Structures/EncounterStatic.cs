@@ -1,5 +1,11 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Static Encounter Data
+    /// </summary>
+    /// <remarks>
+    /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
+    /// </remarks>
     public class EncounterStatic : IEncounterable, IMoveset, IGeneration
     {
         public int Species { get; set; }

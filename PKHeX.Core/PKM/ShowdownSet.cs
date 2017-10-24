@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for exporting and importing <see cref="PKM"/> data in Pokémon Showdown's text format.
+    /// </summary>
     public class ShowdownSet
     {
         // String to Values
@@ -285,7 +288,7 @@ namespace PKHeX.Core
             {
                 n1 = line.Substring(0, index - 1);
                 n2 = line.Substring(index).Trim();
-                ReplaceAll(ref n2, "", "[", "]", "(", ")"); // Trim out excess data
+                n2 = ReplaceAll(n2, string.Empty, "[", "]", "(", ")"); // Trim out excess data
             }
             else // nickname first (manually created set, incorrect)
             {
@@ -308,7 +311,7 @@ namespace PKHeX.Core
             if (moveString.Length > 13)
             {
                 string type = moveString.Remove(0, 13);
-                ReplaceAll(ref type, "", "[", "]", "(", ")"); // Trim out excess data
+                type = ReplaceAll(type, string.Empty, "[", "]", "(", ")"); // Trim out excess data
                 int hpVal = Array.IndexOf(hptypes, type); // Get HP Type
                 if (hpVal >= 0)
                     IVs = PKX.SetHPIVs(hpVal, IVs); // Get IVs
@@ -418,9 +421,9 @@ namespace PKHeX.Core
                 .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
                 .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(new[] { " / ", " " }, StringSplitOptions.None);
         }
-        private static void ReplaceAll(ref string rv, string o, params string[] i)
+        private static string ReplaceAll(string original, string to, params string[] toBeReplaced)
         {
-            rv = i.Aggregate(rv, (current, v) => current.Replace(v, o));
+            return toBeReplaced.Aggregate(original, (current, v) => current.Replace(v, to));
         }
     }
 }

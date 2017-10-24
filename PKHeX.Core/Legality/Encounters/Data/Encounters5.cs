@@ -4,6 +4,9 @@ using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 Encounters
+    /// </summary>
     internal static class Encounters5
     {
         internal static readonly EncounterArea[] SlotsB, SlotsW, SlotsB2, SlotsW2;

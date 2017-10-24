@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Common Encounter Properties base interface.
+    /// </summary>
     public interface IEncounterable
     {
         int Species { get; }
@@ -17,15 +20,13 @@
         }
         public static bool IsWithinRange(this IEncounterable encounter, PKM pkm)
         {
-            if (pkm.HasOriginalMetLocation)
-            {
-                if (encounter.EggEncounter)
-                    return pkm.CurrentLevel == Legal.GetEggHatchLevel(pkm);
-                if (encounter is MysteryGift g)
-                    return pkm.CurrentLevel == g.Level;
-                return pkm.CurrentLevel == pkm.Met_Level;
-            }
-            return encounter.IsWithinRange(pkm.CurrentLevel);
+            if (!pkm.HasOriginalMetLocation)
+                return encounter.IsWithinRange(pkm.CurrentLevel);
+            if (encounter.EggEncounter)
+                return pkm.CurrentLevel == Legal.GetEggHatchLevel(pkm);
+            if (encounter is MysteryGift g)
+                return pkm.CurrentLevel == g.Level;
+            return pkm.CurrentLevel == pkm.Met_Level;
         }
         internal static string GetEncounterTypeName(this IEncounterable Encounter) => Encounter?.Name ?? "Unknown";
     }

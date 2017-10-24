@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public enum GBEncounterType
+    /// <summary>
+    /// Generation 1/2 Encounter Data type, which serves as a 'best match' priority rating when returning from a list.
+    /// </summary>
+    internal enum GBEncounterType
     {
         EggEncounter,
         WildEncounter,
@@ -12,12 +15,15 @@ namespace PKHeX.Core
         TradeEncounterG2,
     }
 
+    /// <summary>
+    /// Generation 1/2 Encounter Data wrapper for storing supplemental information about the encounter.
+    /// </summary>
     public class GBEncounterData : IEncounterable
     {
-        public readonly int Level;
+        private readonly int Level;
         public readonly GameVersion Game;
         public readonly int Generation;
-        public readonly GBEncounterType Type;
+        internal readonly GBEncounterType Type;
         public readonly IEncounterable Encounter;
 
         public int Species => Encounter.Species;

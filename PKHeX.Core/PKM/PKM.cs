@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Object representing a <see cref="PKM"/>'s data and derived properties.
+    /// </summary>
     public abstract class PKM
     {
         public static readonly string[] Extensions = PKX.GetPKMExtensions();

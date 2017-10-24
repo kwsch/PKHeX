@@ -586,14 +586,14 @@ namespace PKHeX.WinForms
             if (pk == null)
             {
                 WinFormsUtil.Alert("Conversion failed.", c);
-                return false;
+                return true;
             }
-            if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
+            if (SAV.Generation < 3 && pk.Japanese != SAV.Japanese)
             {
                 var strs = new[] { "International", "Japanese" };
                 var val = SAV.Japanese ? 0 : 1;
                 WinFormsUtil.Alert($"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.");
-                return false;
+                return true;
             }
             
             PKME_Tabs.PopulateFields(pk);
@@ -607,7 +607,7 @@ namespace PKHeX.WinForms
             if (!C_SAV.OpenPCBoxBin(input, out string c))
             {
                 WinFormsUtil.Alert("Binary is not compatible with save file.", c);
-                return false;
+                return true;
             }
 
             WinFormsUtil.Alert(c);

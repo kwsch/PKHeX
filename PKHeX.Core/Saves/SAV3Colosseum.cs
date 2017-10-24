@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 <see cref="SaveFile"/> object for Pokémon Colosseum saves.
+    /// </summary>
     public sealed class SAV3Colosseum : SaveFile, IDisposable
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";

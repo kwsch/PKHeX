@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
+    /// </summary>
     public sealed class SAV3XD : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) #{SaveCount:0000}].bak";

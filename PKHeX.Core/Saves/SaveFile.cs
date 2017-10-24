@@ -5,7 +5,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    // Base Class for Save Files
+    /// <summary>
+    /// Base Class for Save Files
+    /// </summary>
     public abstract class SaveFile
     {
         public static bool SetUpdateDex { protected get; set; } = true;
@@ -198,9 +200,8 @@ namespace PKHeX.Core
                 if (value[0].Species == 0)
                     Debug.WriteLine($"Empty first slot, received {value.Count}.");
 
-                PKM[] newParty = value.Where(pk => pk.Species != 0).ToArray();
-
-                Array.Resize(ref newParty, 6);
+                PKM[] newParty = new PKM[6];
+                value.Where(pk => pk.Species != 0).CopyTo(newParty);
 
                 for (int i = PartyCount; i < newParty.Length; i++)
                     newParty[i] = BlankPKM;

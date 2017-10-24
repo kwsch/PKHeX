@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for converting a National Pokédex Species ID to/from generation specific values.
+    /// </summary>
+    /// <remarks>Generation 4+ always use the national dex ID. Prior generations do not.</remarks>
     internal static class SpeciesConverter
     {
         /// <summary>

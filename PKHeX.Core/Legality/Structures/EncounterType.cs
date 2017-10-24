@@ -1,5 +1,13 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Tile type the <see cref="PKM"/> was encountered from.
+    /// </summary>
+    /// <remarks>
+    /// Used in Generation 4 games, this value is set depending on what type of overworld tile the player is standing on when the <see cref="PKM"/> is obtained.
+    /// Some locations have multiple tile types, requiring multiple values possible.
+    /// May be worthwhile to convert this and associated to bitflags for supporting 3+ tile types (or the ability to not be specific for combinations permitted).
+    /// </remarks>
     public enum EncounterType
     {
         Headbutt_Grass = -1, // None or TallGrass

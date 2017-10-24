@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Result of a Legality Check
+    /// </summary>
     public class CheckResult
     {
         internal readonly Severity Judgement = Severity.Valid;

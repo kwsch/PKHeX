@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Object which stores information useful for analyzing a moveset relative to the encounter data.
+    /// </summary>
     public class ValidEncounterMoves
     {
         public int EncounterSpecies { get; }

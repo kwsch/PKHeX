@@ -1,6 +1,9 @@
 ﻿namespace PKHeX.Core
 {
-    public enum EncounterTime
+    /// <summary>
+    /// Generation 2 Time of Encounter enum
+    /// </summary>
+    internal enum EncounterTime
     {
         Any = -1,
         MorningDay = -2,
@@ -9,9 +12,9 @@
         Night = 3
     }
 
-    public static class EncounterTimeExtension
+    internal static class EncounterTimeExtension
     {
-        public static bool Contains(this EncounterTime t1, int t2) => t1.Contains((EncounterTime)t2);
+        internal static bool Contains(this EncounterTime t1, int t2) => t1.Contains((EncounterTime)t2);
         private static bool Contains(this EncounterTime t1, EncounterTime t2)
         {
             if (t1 == t2 || t1 == EncounterTime.Any || t2 == EncounterTime.Any)
