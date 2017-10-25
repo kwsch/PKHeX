@@ -165,7 +165,7 @@ namespace PKHeX.Core
                 if (Japanese)
                     return (int)LanguageID.Japanese;
                 if (Korean)
-                    return (int)LanguageID.English;
+                    return (int)LanguageID.Korean;
                 if (StringConverter.IsG12German(otname))
                     return (int)LanguageID.German; // german
                 int lang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
