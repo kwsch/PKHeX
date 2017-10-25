@@ -225,8 +225,8 @@ namespace PKHeX.Core
         public override int MaxIV => 15;
         public override int Generation => 2;
         protected override int GiftCountMax => 0;
-        public override int OTLength => Japanese ? 5 : 7;
-        public override int NickLength => Japanese ? 5 : 10;
+        public override int OTLength => Japanese || Korean ? 5 : 7;
+        public override int NickLength => Japanese || Korean ? 5 : 10;
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
@@ -259,8 +259,8 @@ namespace PKHeX.Core
 
         public override string OT
         {
-            get => GetString(Offsets.Trainer1 + 2, OTLength);
-            set => SetString(value, OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
+            get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
+            set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
         }
         public override int Gender
         {
