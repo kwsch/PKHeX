@@ -623,7 +623,7 @@ namespace PKHeX.WinForms
             else if (cmd.Random)
                 ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, cmd.RandomValue);
             else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && cmd.PropertyValue.ToLower() == "false")
-            { PKM.IsNicknamed = false; PKM.Nickname = PKX.GetSpeciesName(PKM.Species, PKM.Language); }
+            { PKM.IsNicknamed = false; PKM.Nickname = PKX.GetSpeciesNameGeneration(PKM.Species, PKM.Language, PKM.Format); }
             else
                 ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, cmd.PropertyValue);
         }

@@ -196,6 +196,7 @@ namespace PKHeX.Core
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="lang">Language ID of the Pokémon</param>
         /// <returns>The Species name if within expected range, else an empty string.</returns>
+        /// <remarks>Should only be used externally for message displays; for accurate in-game names use <see cref="GetSpeciesNameGeneration"/>.</remarks>
         public static string GetSpeciesName(int species, int lang)
         {
             if (lang < 0 || SpeciesLang.Length <= lang)
