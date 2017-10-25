@@ -242,7 +242,7 @@ namespace PKHeX.Core
                     {
                         if (pk.Species > 151)
                         {
-                            comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, ((PK2)pkm).Japanese ? 1 : 2)} to {PKMType.Name}";
+                            comment = $"Cannot convert a {PKX.GetSpeciesName(pkm.Species, pkm.Japanese ? 1 : 2)} to {PKMType.Name}";
                             return null;
                         }
                         pkm = ((PK2)pk).ConvertToPK1();

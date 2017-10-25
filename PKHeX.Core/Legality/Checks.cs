@@ -548,7 +548,7 @@ namespace PKHeX.Core
             string tr = pkm.OT_Name;
 
             VerifyG1OTWithinBounds(tr);
-            if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
+            if (EncounterMatch is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
                 VerifyG1OTStadium(tr);
 
             if (pkm.Species == 151)
@@ -601,7 +601,7 @@ namespace PKHeX.Core
         }
         private void VerifyG1OTStadium(string tr)
         {
-            bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != (int)LanguageID.English;
+            bool jp = pkm.Japanese;
             bool valid = GetIsStadiumOTIDValid(jp, tr);
             if (!valid)
                 AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
@@ -612,7 +612,7 @@ namespace PKHeX.Core
         {
             if (jp)
                 return tr == "スタジアム" && pkm.TID == 1999;
-            return tr == "STADIUM" && pkm.TID == 2000;
+            return tr == (Info.Generation == 1 ? "STADIUM" : "Stadium") && pkm.TID == 2000;
         }
         #endregion
         private void VerifyHyperTraining()

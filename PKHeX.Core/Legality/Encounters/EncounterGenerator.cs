@@ -139,8 +139,7 @@ namespace PKHeX.Core
                 if (s.Version == GameVersion.EventsGBGen2 && s.Species != 251)
                 {
                     // no Gen2 events outside of Japan besides Celebi
-                    var jp = (pkm as PK2)?.Japanese ?? (pkm as PK1)?.Japanese;
-                    if (jp == true)
+                    if (pkm.Japanese)
                         deferred.Add(s);
                     continue;
                 }

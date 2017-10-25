@@ -99,9 +99,7 @@ namespace PKHeX.WinForms
             showChangelog = false;
             BAKprompt = false;
 
-            // Set up Language Selection
-            foreach (var cbItem in main_langlist)
-                CB_MainLanguage.Items.Add(cbItem);
+            CB_MainLanguage.Items.AddRange(main_langlist);
             C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase));
             PB_Legal.Visible = !HaX;
 
