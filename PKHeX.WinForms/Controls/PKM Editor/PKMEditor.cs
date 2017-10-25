@@ -2070,22 +2070,22 @@ namespace PKHeX.WinForms.Controls
         }
         private void PopulateFilteredDataSources(SaveFile SAV)
         {
-            GameInfo.SetItemDataSource(HaX, pkm.MaxItemID, SAV.HeldItems, pkm.Format, SAV.Version, GameInfo.Strings);
-            if (pkm.Format > 1)
-                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= pkm.MaxItemID).ToList(), null);
+            GameInfo.SetItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings);
+            if (SAV.Generation > 1)
+                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
             var languages = Util.GetUnsortedCBList("languages");
-            if (pkm.Format < 7)
+            if (SAV.Generation < 7)
                 languages = languages.Where(l => l.Value <= (int)LanguageID.Korean).ToList();
             CB_Language.DataSource = languages;
 
-            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= pkm.MaxBallID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= pkm.MaxSpeciesID).ToList(), null);
-            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= pkm.MaxAbilityID).ToList(), null);
-            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= pkm.MaxGameID || pkm.Format >= 3 && g.Value == 15).ToList(), null);
+            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
+            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= pkm.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";
