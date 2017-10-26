@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -11,7 +12,7 @@ namespace PKHeX.Core
     /// </remarks>
     internal static class EncountersWC3
     {
-        internal static readonly MysteryGift[] Encounter_Event3 =
+        internal static readonly MysteryGift[] Encounter_Event3_Special =
         {
             new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "アゲト", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Japanese },
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Japanese },
@@ -19,27 +20,30 @@ namespace PKHeX.Core
             new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Method = PIDType.BACD_R, Language = (int)LanguageID.English },
             new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.English, NotDistributed = true  },
             new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.English, NotDistributed = true },
-
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "バトルやま", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Japanese }, // JPN
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MATTLE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.English }, // ENG
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MT BATA", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.French }, // FRE
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "DUELLBE", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.German }, // GER
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "MONTE L", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Italian }, // ITA
-            new WC3 { Species = 250, Level = 70, TID = 10048, OT_Gender = 0, OT_Name = "ERNESTO", CardTitle = "Mt. Battle Ho-oh", Method = PIDType.CXD, Shiny = false, Language = (int)LanguageID.Spanish }, // SPA
-
-            // CXD
-            new WC3 { Species = 239, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "HORDEL", CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
-            new WC3 { Species = 307, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
-            new WC3 { Species = 213, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
-            new WC3 { Species = 246, Level = 20, Language = (int)LanguageID.English, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
-            new WC3 { Species = 311, Level = 13, Language = (int)LanguageID.English, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "DUKING", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
-
-            new WC3 { Species = 239, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = "ダニー",   CardTitle = "Trade Togepi", Method = PIDType.CXD, Moves = new[] {8,7,9,238} }, // Elekid @ Snagem Hideout
-            new WC3 { Species = 307, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Trapinch", Method = PIDType.CXD, Moves = new[] {223,93,247,197} }, // Meditite @ Pyrite Town
-            new WC3 { Species = 213, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Surskit", Method = PIDType.CXD, Moves = new[] {92,164,188,277} }, // Shuckle @ Pyrite Town
-            new WC3 { Species = 246, Level = 20, Language = (int)LanguageID.Japanese, Fateful = true,  Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Trade Wooper", Method = PIDType.CXD, Moves = new[] {201,349,44,200} }, // Larvitar @ Pyrite Town
-            new WC3 { Species = 311, Level = 13, Language = (int)LanguageID.Japanese, Fateful = false, Met_Location = 254, TID = 37149, OT_Gender = 0, OT_Name = "ギンザル", CardTitle = "Gift", Method = PIDType.CXD }, // Plusle @ Ingame Trade
         };
+        private static IEnumerable<MysteryGift> GetIngameCXDData()
+        {
+            var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
+            var h = new[] {null, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", null, "HORDEL"};
+            var d = new[] {null, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", null, "GERMÁN"};
+            var m = new[] {null, "バトルやま", "MATTLE", "MT BATA", "MONTE L", "DUELLBE", null, "ERNESTO"};
+
+            return langs.SelectMany(l => GetIngame((int)l));
+            IEnumerable<WC3> GetIngame(int l)
+            {
+                var id = (LanguageID) l;
+                return new[]
+                {
+                    new WC3 { Species = 239, Level = 20, Language = l, Fateful = true, Met_Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = h[l], CardTitle = $"Trade Togepi ({id})",     Method = PIDType.CXD, Moves = new[] { 008, 007, 009, 238 } }, // Elekid @ Snagem Hideout
+                    new WC3 { Species = 307, Level = 20, Language = l, Fateful = true, Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], CardTitle = $"Trade Trapinch ({id})",   Method = PIDType.CXD, Moves = new[] { 223, 093, 247, 197 } }, // Meditite @ Pyrite Town
+                    new WC3 { Species = 213, Level = 20, Language = l, Fateful = true, Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Moves = new[] { 092, 164, 188, 277 } }, // Shuckle @ Pyrite Town
+                    new WC3 { Species = 246, Level = 20, Language = l, Fateful = true, Met_Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Moves = new[] { 201, 349, 044, 200 } }, // Larvitar @ Pyrite Town
+                    new WC3 { Species = 311, Level = 13, Language = l, Fateful = false, Met_Location = 254, TID = 37149, SID = 0, OT_Gender = 0, OT_Name = d[l], CardTitle = $"Special Gift ({id})",      Method = PIDType.CXD }, // Plusle @ Ingame Trade
+                    new WC3 { Species = 250, Level = 70, Language = l, Fateful = false, /*loc already set*/ TID = 10048, SID = 0, OT_Gender = 0, OT_Name = m[l], CardTitle = $"Mt. Battle Ho-oh ({id})", Method = PIDType.CXD, Shiny = false } // Ho-oh @ Mt. Battle
+                };
+            }
+        }
+        internal static readonly MysteryGift[] Encounter_Event3 = Encounter_Event3_Special.Concat(GetIngameCXDData()).ToArray();
 
         internal static readonly MysteryGift[] Encounter_Event3_FRLG =
         {
@@ -250,6 +254,5 @@ namespace PKHeX.Core
         };
 
         internal static readonly MysteryGift[] Encounter_WC3 = Encounter_Event3.Concat(Encounter_Event3_RS).Concat(Encounter_Event3_FRLG.Concat(Encounter_Event3_Common)).ToArray();
-
     }
 }
