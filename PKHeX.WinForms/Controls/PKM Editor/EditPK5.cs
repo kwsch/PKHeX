@@ -14,6 +14,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc3(pk5);
             LoadMisc4(pk5);
             CB_EncounterType.SelectedValue = pk5.Gen4 ? pk5.EncounterType : 0;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
             CHK_NSparkle.Checked = pk5.NPokémon;
 
             if (HaX)

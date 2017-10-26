@@ -16,6 +16,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc4(pk4);
 
             CB_EncounterType.SelectedValue = pk4.Gen4 ? pk4.EncounterType : 0;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk4.Ability;

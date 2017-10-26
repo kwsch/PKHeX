@@ -62,10 +62,15 @@ namespace PKHeX.WinForms.Controls
         public bool PKMIsUnsaved => fieldsInitialized && fieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(PreparePKM().Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
+        private bool forceValidation;
         public PKM PreparePKM(bool click = true)
         {
             if (click)
+            {
+                forceValidation = true;
                 ValidateChildren();
+                forceValidation = false;
+            }
             PKM pk = GetPKMfromFields();
             return pk?.Clone();
         }
@@ -102,9 +107,6 @@ namespace PKHeX.WinForms.Controls
         {
             // Now that the ComboBoxes are ready, load the data.
             fieldsInitialized = true;
-            pkm.RefreshChecksum();
-
-            // Load Data
             PopulateFields(pkm);
         }
 
@@ -173,34 +175,17 @@ namespace PKHeX.WinForms.Controls
         public void PopulateFields(PKM pk, bool focus = true)
         {
             if (pk == null) { WinFormsUtil.Error("Attempted to load a null file."); return; }
-
-            if (!PKMConverter.IsConvertibleToFormat(pk, pkm.Format))
-            { WinFormsUtil.Alert($"Can't load Gen{pk.Format} to Gen{pkm.Format} games."); return; }
-
-            bool oldInit = fieldsInitialized;
-            fieldsInitialized = fieldsLoaded = false;
             if (focus)
                 Tab_Main.Focus();
 
-            if (fieldsInitialized & !pkm.ChecksumValid)
-                WinFormsUtil.Alert("PKM File has an invalid checksum.");
+            bool oldInit = fieldsInitialized;
+            fieldsInitialized = fieldsLoaded = false;
 
-            if (pk.Format != pkm.Format) // past gen format
-            {
-                pkm = PKMConverter.ConvertToType(pk.Clone(), pkm.GetType(), out string _);
-                if (pkm == null)
-                    pkm = pk.Clone();
-                else if (pk.Format != pkm.Format && focus) // converted
-                    WinFormsUtil.Alert("Converted File.");
-            }
-            else
-                pkm = pk.Clone();
+            pkm = pk.Clone();
 
             try { GetFieldsfromPKM(); }
-            catch { fieldsInitialized = oldInit; throw; }
+            finally { fieldsInitialized = oldInit; }
 
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4 && pkm.Format < 7;
-            fieldsInitialized = oldInit;
             UpdateIVs(null, null);
             UpdatePKRSInfected(null, null);
             UpdatePKRSCured(null, null);
@@ -221,9 +206,6 @@ namespace PKHeX.WinForms.Controls
                 }
             }
             fieldsLoaded = true;
-
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked && pkm.Format > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && pkm.Format > 1;
 
             SetMarkings();
             UpdateLegality();
@@ -293,7 +275,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateSprite()
         {
-            if (fieldsLoaded && fieldsInitialized)
+            if (fieldsLoaded && fieldsInitialized && !forceValidation)
                 UpdatePreviewSprite?.Invoke(this, null);
         }
 

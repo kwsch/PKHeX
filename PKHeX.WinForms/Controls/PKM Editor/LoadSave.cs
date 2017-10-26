@@ -251,6 +251,9 @@ namespace PKHeX.WinForms.Controls
             CB_HeldItem.SelectedValue = pk.HeldItem;
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
+
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && pkm.Format > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && pkm.Format > 1;
         }
         private void SaveMisc2(PKM pk)
         {
