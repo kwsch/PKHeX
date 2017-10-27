@@ -147,8 +147,10 @@ namespace PKHeX.Core
         {
             var name = PKX.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
             var bytes = SetString(name, StringLength);
-            return bytes.Concat(Enumerable.Repeat((byte)0x50, nick.Length - bytes.Length))
-                .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
+            var data = bytes.Concat(Enumerable.Repeat((byte) 0x50, nick.Length - bytes.Length));
+            if (!Korean)
+                data = data.Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
+            return data;
         }
         public bool IsNicknamedBank
         {
