@@ -220,6 +220,8 @@ namespace PKHeX.Core
                 return "タマゴ";
 
             string nick = GetSpeciesName(species, lang);
+            if (generation == 2 && lang == (int)LanguageID.Korean)
+                return StringConverter.LocalizeKOR2(nick);
 
             if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
             {

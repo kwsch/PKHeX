@@ -2040,5 +2040,22 @@ namespace PKHeX.Core
             { 'Ê', 'E' },
             { 'Ï', 'I' },
         };
+
+        /// <summary>
+        /// Localizes a Gen4+ Korean species name to the localization used in Generation 2 Gold/Silver
+        /// </summary>
+        /// <param name="nick">Generation 4 Species Name</param>
+        /// <returns>Localized Name for Generation 2</returns>
+        public static string LocalizeKOR2(string nick)
+        {
+            if (KorG2Localized.TryGetValue(nick, out string localized))
+                return localized;
+            return nick;
+        }
+        private static readonly Dictionary<string, string> KorG2Localized = new Dictionary<string, string>
+        {
+            { "덩쿠리", "덩구리" }, // Tangela
+            { "슈륙챙이", "수륙챙이" }, // Poliwhirl
+        };
     }
 }
