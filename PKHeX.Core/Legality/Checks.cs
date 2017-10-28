@@ -320,74 +320,93 @@ namespace PKHeX.Core
         }
         private void VerifyNicknameTrade()
         {
-            string[] validOT = new string[0];
-            int index = -1;
-            if (pkm.XY)
+            switch (Info.Generation)
             {
-                validOT = Encounters6.TradeXY[pkm.Language];
-                index = Array.IndexOf(Encounters6.TradeGift_XY, EncounterMatch);
+                case 1:
+                case 2: VerifyTrade12(); return;
+                case 3: return; // todo
+                case 4: VerifyTrade4(); return;
+                case 5: VerifyTrade5(); return; // todo
+                case 6: VerifyTrade6(); return;
+                case 7: VerifyTrade7(); return;
             }
-            else if (pkm.AO)
-            {
-                validOT = Encounters6.TradeAO[pkm.Language];
-                index = Array.IndexOf(Encounters6.TradeGift_AO, EncounterMatch);
-            }
-            else if (pkm.SM)
-            {
-                // TODO
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
-                return;
-            }
-            else if (pkm.USUM)
-            {
-                // TODO
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
-                return;
-            }
-            else if (pkm.Gen4)
-            {
-                if (pkm.TID != 1000)
-                    return; // only care about Ranch atm
+        }
+        private void VerifyTrade12()
+        {
+            var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
+            if (et?.TID != 0) // Gen2 Trade
+                return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
 
-                string[] OTs = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
-                int lang = pkm.Language;
-                if (OTs.Length <= lang)
-                {
-                    AddLine(Severity.Valid, V8, CheckIdentifier.Trainer);
-                    return;
-                }
-                if (pkm.IsNicknamed)
-                    AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
-                else if (OTs[lang] != pkm.OT_Name)
-                    AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
-                else
-                    AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+            if (!EncounterGenerator.IsEncounterTrade1Valid(pkm))
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+        }
+        private void VerifyTrade4()
+        {
+            if (pkm.TID == 1000)
+            {
+                VerifyTrade4Ranch();
                 return;
             }
-            else if (pkm.Format <= 2 || pkm.VC)
+            // TODO
+            if (pkm.HGSS)
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+            else
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+        }
+        private void VerifyTrade4Ranch()
+        {
+            int lang = pkm.Language;
+            if (Encounters4.RanchOTNames.Length <= lang)
             {
-                var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
-                if (et?.TID == 0) // Gen1 Trade
-                {
-                    if (!EncounterGenerator.IsEncounterTrade1Valid(pkm))
-                        AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
-                }
-                else // Gen2
-                {
-                    return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
-                }
+                AddLine(Severity.Valid, V8, CheckIdentifier.Trainer);
                 return;
             }
-            else if (3 <= Info.Generation && Info.Generation <= 5)
+            if (pkm.IsNicknamed)
+                AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
+            else if (Encounters4.RanchOTNames[lang] != pkm.OT_Name)
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+            else
+                AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+        }
+        private void VerifyTrade5()
+        {
+            // Trades for JPN games have language ID of 0, not 1.
+            if (pkm.BW)
             {
-                // Trades for JPN games have language ID of 0, not 1.
-                if (pkm.BW && pkm.Format == 5 && pkm.Language == (int)LanguageID.Japanese)
+                if (pkm.Format == 5 && pkm.Language == (int)LanguageID.Japanese)
                     AddLine(Severity.Invalid, string.Format(V5, 0, (int)LanguageID.Japanese), CheckIdentifier.Language);
 
-                // Suppressing temporarily
-                return;
+                // todo
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
             }
+            else // B2W2
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+        }
+        private void VerifyTrade6()
+        {
+            if (pkm.XY)
+                VerifyTradeTable(Encounters6.TradeXY, Encounters6.TradeGift_XY);
+            else if (pkm.AO)
+                VerifyTradeTable(Encounters6.TradeAO, Encounters6.TradeGift_AO);
+        }
+        private void VerifyTrade7()
+        {
+            // TODO
+            if (pkm.SM)
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+            else if (pkm.USUM)
+                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+        }
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table)
+        {
+            int lang = pkm.Language;
+            var validOT = lang >= ots.Length ? ots[0] : ots[pkm.Language];
+            var index = Array.IndexOf(table, EncounterMatch);
+            VerifyTradeOTNick(validOT, index);
+        }
 
+        private void VerifyTradeOTNick(string[] validOT, int index)
+        {
             if (validOT.Length == 0)
             {
                 AddLine(Severity.Indeterminate, V7, CheckIdentifier.Trainer);
