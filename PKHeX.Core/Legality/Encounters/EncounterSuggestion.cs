@@ -98,6 +98,8 @@ namespace PKHeX.Core
 
                 case GameVersion.B:
                 case GameVersion.W:
+                case GameVersion.B2:
+                case GameVersion.W2:
                     return 16; // Route 3
 
                 case GameVersion.X:
