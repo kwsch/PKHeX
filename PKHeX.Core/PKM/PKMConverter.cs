@@ -200,7 +200,7 @@ namespace PKHeX.Core
         /// <returns>Converted PKM</returns>
         public static PKM ConvertToType(PKM pk, Type PKMType, out string comment)
         {
-            if (pk == null || pk.Species == 0)
+            if (pk == null)
             {
                 comment = $"Bad {nameof(pk)} input. Aborting.";
                 return null;
@@ -390,6 +390,35 @@ namespace PKHeX.Core
                 default:
                     return; // bad!
             }
+        }
+
+        /// <summary>
+        /// Checks if the input <see cref="PKM"/> is compatible with the target <see cref="PKM"/>.
+        /// </summary>
+        /// <param name="pk">Input to check -> update/sanitize</param>
+        /// <param name="target">Target type PKM with misc properties accessible for checking.</param>
+        /// <param name="c">Comment output</param>
+        /// <param name="pkm">Output compatible PKM</param>
+        /// <returns>Indication if the input is (now) compatible with the target.</returns>
+        public static bool TryMakePKMCompatible(PKM pk, PKM target, out string c, out PKM pkm)
+        {
+            if (!IsConvertibleToFormat(pk, target.Format))
+            {
+                pkm = null;
+                c = $"Can't load {pk.GetType().Name}s to Gen{target.Format} saves.";
+                return false;
+            }
+            if (target.Format < 3 && pk.Japanese != target.Japanese)
+            {
+                pkm = null;
+                var strs = new[] { "International", "Japanese" };
+                var val = target.Japanese ? 0 : 1;
+                c = $"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.";
+                return false;
+            }
+            pkm = ConvertToType(pk, target.GetType(), out c);
+            Debug.WriteLine(c);
+            return pkm != null;
         }
 
         /// <summary>

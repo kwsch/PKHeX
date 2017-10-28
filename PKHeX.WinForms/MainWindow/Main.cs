@@ -575,27 +575,11 @@ namespace PKHeX.WinForms
         }
         private bool TryLoadPKM(byte[] input, string path, string ext, SaveFile SAV)
         {
-            var temp = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
-            if (temp == null)
-                return false;
-
-            var type = PKME_Tabs.CurrentPKM.GetType();
-            PKM pk = PKMConverter.ConvertToType(temp, type, out string c);
+            var pk = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
             if (pk == null)
-            {
-                WinFormsUtil.Alert("Conversion failed.", c);
-                return true;
-            }
-            if (SAV.Generation < 3 && pk.Japanese != SAV.Japanese)
-            {
-                var strs = new[] { "International", "Japanese" };
-                var val = SAV.Japanese ? 0 : 1;
-                WinFormsUtil.Alert($"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.");
-                return true;
-            }
+                return false;
             
             PKME_Tabs.PopulateFields(pk);
-            Debug.WriteLine(c);
             return true;
         }
         private bool TryLoadPCBoxBin(byte[] input)

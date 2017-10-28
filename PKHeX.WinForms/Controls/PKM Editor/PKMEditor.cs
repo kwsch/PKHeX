@@ -172,11 +172,15 @@ namespace PKHeX.WinForms.Controls
             if (GB_ExtraBytes.Enabled)
                 CB_ExtraBytes.SelectedIndex = 0;
         }
-        public void PopulateFields(PKM pk, bool focus = true)
+        public void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false) => LoadFieldsFromPKM(pk, focus, skipConversionCheck);
+        private void LoadFieldsFromPKM(PKM pk, bool focus = true, bool skipConversionCheck = true)
         {
             if (pk == null) { WinFormsUtil.Error("Attempted to load a null file."); return; }
             if (focus)
                 Tab_Main.Focus();
+
+            if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, CurrentPKM, out string c, out pk))
+            { WinFormsUtil.Alert(c); return; }
 
             bool oldInit = fieldsInitialized;
             fieldsInitialized = fieldsLoaded = false;
