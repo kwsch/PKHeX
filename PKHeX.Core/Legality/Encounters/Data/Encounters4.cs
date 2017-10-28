@@ -307,18 +307,26 @@ namespace PKHeX.Core
             var allowsurf = HGSS_SurfingHeadbutt_Locations.Contains(Location);
             // Cities
             if (HGSS_CityLocations.Contains(Location))
-                return allowsurf ? EncounterType.Headbutt_CitySurf : EncounterType.Building_EnigmaStone;
+                return allowsurf
+                    ? EncounterType.Building_EnigmaStone | EncounterType.Surfing_Fishing
+                    : EncounterType.Building_EnigmaStone;
             // Caves with no exterior zones
             if (!HGSS_MixInteriorExteriorLocations.Contains(Location) && HGSS_CaveLocations.Contains(Location))
-                return allowsurf ? EncounterType.Headbutt_CaveSurf : EncounterType.Cave_HallOfOrigin;
+                return allowsurf
+                    ? EncounterType.Cave_HallOfOrigin | EncounterType.Surfing_Fishing
+                    : EncounterType.Cave_HallOfOrigin;
 
             // Routes and exterior areas
             // Routes with trees adjacent to grass tiles
             var allowgrass = HGSS_GrassHeadbutt_Locations.Contains(Location);
-            return allowgrass && allowsurf ? EncounterType.Headbutt_GrassSurf :
-                allowgrass ? EncounterType.Headbutt_Grass :
-                    allowsurf ? EncounterType.Headbutt_Surf :
-                        EncounterType.None;
+            if (allowgrass)
+                return allowsurf 
+                    ? EncounterType.TallGrass | EncounterType.Surfing_Fishing 
+                    : EncounterType.TallGrass;
+
+            return allowsurf
+                ? EncounterType.Surfing_Fishing
+                : EncounterType.None;
         }
 
         private static void MarkHGSSEncounterTypeSlots(ref EncounterArea[] Areas)

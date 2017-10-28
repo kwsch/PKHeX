@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Tile type the <see cref="PKM"/> was encountered from.
@@ -6,51 +8,29 @@
     /// <remarks>
     /// Used in Generation 4 games, this value is set depending on what type of overworld tile the player is standing on when the <see cref="PKM"/> is obtained.
     /// Some locations have multiple tile types, requiring multiple values possible.
-    /// May be worthwhile to convert this and associated to bitflags for supporting 3+ tile types (or the ability to not be specific for combinations permitted).
     /// </remarks>
+    [Flags]
     public enum EncounterType
     {
-        Headbutt_Grass = -1, // None or TallGrass
-        Headbutt_Surf = -2, // None or Surfing_Fishing
-        Headbutt_GrassSurf = -3, // None, TallGrass or Surfing_Fishing
-        Headbutt_CitySurf = -4, // Building_EnigmaStone or Surfing_Fishing
-        Headbutt_CaveSurf = -5, // Cave_HallOfOrigin or Surfing_Fishing
-        None = 0,
-        RockSmash = 1,
-        TallGrass = 2,
-        DialgaPalkia = 4,
-        Cave_HallOfOrigin = 5,
-        Surfing_Fishing = 7,
-        Building_EnigmaStone = 9,
-        MarshSafari = 10,
-        Starter_Fossil_Gift_DP = 12,
-        DistortionWorld_Pt = 23,
-        Starter_Fossil_Gift_Pt_DPTrio = 24,
+        None                          = 1 << 00,
+        RockSmash                     = 1 << 01,
+        TallGrass                     = 1 << 02,
+        DialgaPalkia                  = 1 << 04,
+        Cave_HallOfOrigin             = 1 << 05,
+        Surfing_Fishing               = 1 << 07,
+        Building_EnigmaStone          = 1 << 09,
+        MarshSafari                   = 1 << 10,
+        Starter_Fossil_Gift_DP        = 1 << 12,
+        DistortionWorld_Pt            = 1 << 23,
+        Starter_Fossil_Gift_Pt_DPTrio = 1 << 24,
     }
 
     public static class EncounterTypeExtension
     {
         public static bool Contains(this EncounterType g1, int g2)
         {
-            return g1.Contains((EncounterType)g2);
-        }
-        private static bool Contains(this EncounterType g1, EncounterType g2)
-        {
-            switch (g1)
-            {
-                case EncounterType.Headbutt_Grass:
-                    return g2 == EncounterType.None || g2 == EncounterType.TallGrass;
-                case EncounterType.Headbutt_Surf:
-                    return g2 == EncounterType.None || g2 == EncounterType.Surfing_Fishing;
-                case EncounterType.Headbutt_GrassSurf:
-                    return EncounterType.Headbutt_Grass.Contains(g2) || g2 == EncounterType.Surfing_Fishing;
-                case EncounterType.Headbutt_CitySurf:
-                    return g2 == EncounterType.Building_EnigmaStone || g2 == EncounterType.Surfing_Fishing;
-                case EncounterType.Headbutt_CaveSurf:
-                    return g2 == EncounterType.Cave_HallOfOrigin || g2 == EncounterType.Surfing_Fishing;
-            }
-
-            return g1 == g2;
+            var type = (EncounterType)(1 << g2);
+            return (g1 & type) != 0;
         }
     }
 }
