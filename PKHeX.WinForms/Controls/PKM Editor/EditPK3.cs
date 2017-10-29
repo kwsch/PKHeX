@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc3(ck3);
 
             int abil = ck3.AbilityNumber >> 1;
-            CB_Ability.SelectedIndex = abil > CB_Ability.Items.Count ? 0 : abil;
+            CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             LoadShadow3(ck3);
 
             LoadPartyStats(ck3);
@@ -44,7 +44,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc3(xk3);
 
             int abil = xk3.AbilityNumber >> 1;
-            CB_Ability.SelectedIndex = abil > CB_Ability.Items.Count ? 0 : abil;
+            CB_Ability.SelectedIndex = abil >= CB_Ability.Items.Count ? 0 : abil;
             LoadShadow3(xk3);
 
             LoadPartyStats(xk3);
