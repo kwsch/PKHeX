@@ -17142,6 +17142,314 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Yuriko
+        ///Shosuke
+        ///Hilbert
+        ///Maru
+        ///Lilo
+        ///Ursina
+        ///Ursina
+        ///Lilpe
+        ///Wolli
+        ///Brockoloss
+        ///Fluffi
+        ///Zapp
+        ///Pompom
+        ///Schnäuzi.
+        /// </summary>
+        internal static string text_tradeb2w2_de {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calla
+        ///Cotton
+        ///Manny
+        ///Slick
+        ///Lillian
+        ///Diana
+        ///Diana
+        ///Petulia
+        ///Fluffee
+        ///Gigalith
+        ///Tangles
+        ///Bucky
+        ///Ambidexter
+        ///Beardy.
+        /// </summary>
+        internal static string text_tradeb2w2_en {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lilly
+        ///Cotton
+        ///Manny
+        ///Slick
+        ///Lillian
+        ///Corina
+        ///Corina
+        ///Pettulip
+        ///Cotona
+        ///Gigalith
+        ///Tangles
+        ///Bucky
+        ///Ambidexter
+        ///Beardy.
+        /// </summary>
+        internal static string text_tradeb2w2_es {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yuriko
+        ///Shosuke
+        ///Hilbert
+        ///Maru
+        ///Lilo
+        ///Ursina
+        ///Ursina
+        ///Tulipette
+        ///Jersey
+        ///Gigalithe
+        ///Toutouffe
+        ///GITS
+        ///Caudal
+        ///Stachemou.
+        /// </summary>
+        internal static string text_tradeb2w2_fr {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tulippa
+        ///Scotty
+        ///Urano
+        ///Zucco
+        ///Rolly
+        ///Nenè
+        ///Nenè
+        ///Petillin
+        ///Scoscò
+        ///Gigalith
+        ///Grogrò
+        ///Zapp
+        ///Pompom
+        ///Barbello.
+        /// </summary>
+        internal static string text_tradeb2w2_it {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ユリコ
+        ///ショウスケ
+        ///ゲンゾウ
+        ///ツルマル
+        ///ユイ
+        ///ハツネ
+        ///ハツネ
+        ///チュりっぺ
+        ///メンメン
+        ///ギガイアス
+        ///フサフサ
+        ///バッキー
+        ///シッポ
+        ///おヒゲ.
+        /// </summary>
+        internal static string text_tradeb2w2_ja {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 율리크
+        ///수천
+        ///건상
+        ///실마르
+        ///유이
+        ///초희
+        ///초희
+        ///치릴뿌잉
+        ///면면
+        ///기가이어스
+        ///북실북실
+        ///바킹
+        ///꼬리
+        ///수여미.
+        /// </summary>
+        internal static string text_tradeb2w2_ko {
+            get {
+                return ResourceManager.GetString("text_tradeb2w2_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lilili
+        ///Bauschi
+        ///Senilax
+        ///Grimli
+        ///Flumau
+        ///Rotoro
+        ///Papsat
+        ///Denise
+        ///Denise
+        ///Chester
+        ///Chester
+        ///Hilbert
+        ///Lilo
+        ///Hajo.
+        /// </summary>
+        internal static string text_tradebw_de {
+            get {
+                return ResourceManager.GetString("text_tradebw_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lillil
+        ///Fluffee
+        ///Redeye
+        ///Blueeye
+        ///Minipete
+        ///Eeks
+        ///Gorge
+        ///Dye
+        ///Dye
+        ///Kyle
+        ///Kyle
+        ///Manny
+        ///Lillian
+        ///Ander.
+        /// </summary>
+        internal static string text_tradebw_en {
+            get {
+                return ResourceManager.GetString("text_tradebw_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Florina
+        ///Cotona
+        ///Mordiscos
+        ///Colmi
+        ///Saltirón
+        ///Tecno
+        ///Tripón
+        ///Geles
+        ///Geles
+        ///Bertín
+        ///Bertín
+        ///Dani
+        ///Juno
+        ///Nico.
+        /// </summary>
+        internal static string text_tradebw_es {
+            get {
+                return ResourceManager.GetString("text_tradebw_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bulbébé
+        ///Cotontige
+        ///Siaboua
+        ///Siaméto
+        ///Patacrêpe
+        ///Triphaset
+        ///Grobidon
+        ///Denise
+        ///Denise
+        ///Chester
+        ///Chester
+        ///Hilbert
+        ///Lilo
+        ///Hajo.
+        /// </summary>
+        internal static string text_tradebw_fr {
+            get {
+                return ResourceManager.GetString("text_tradebw_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flò
+        ///Fiocco
+        ///Rossino
+        ///Bluetto
+        ///Ufino
+        ///Cric
+        ///Satollo
+        ///Bettina
+        ///Bettina
+        ///Aldo
+        ///Aldo
+        ///Urano
+        ///Luna
+        ///Tiziano.
+        /// </summary>
+        internal static string text_tradebw_it {
+            get {
+                return ResourceManager.GetString("text_tradebw_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to チュりん
+        ///モンモン
+        ///アカメ
+        ///アオメ
+        ///トビマル
+        ///ドッキー
+        ///まんぷく
+        ///アヤ
+        ///アヤ
+        ///ナオキ
+        ///ナオキ
+        ///ゲンゾウ
+        ///ユイ
+        ///フトシ.
+        /// </summary>
+        internal static string text_tradebw_ja {
+            get {
+                return ResourceManager.GetString("text_tradebw_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 추링
+        ///솜솜
+        ///빨강눈
+        ///파랑눈
+        ///날돌이
+        ///독키
+        ///배빵빵
+        ///소영
+        ///소영
+        ///청수
+        ///청수
+        ///건상
+        ///유이
+        ///태사.
+        /// </summary>
+        internal static string text_tradebw_ko {
+            get {
+                return ResourceManager.GetString("text_tradebw_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Salla
         ///Plaupa
         ///Pollo

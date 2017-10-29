@@ -359,46 +359,37 @@ namespace PKHeX.Core
             else
             {
                 if (EncounterMatch.Species == 129) // Magikarp
-                    VerifyTradeTableFromNickname(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
+                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, pkm.Nickname);
                 else
                     VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
             }
-        }
-        private void VerifyTrade4Ranch()
-        {
-            int lang = pkm.Language;
-            if (Encounters4.RanchOTNames.Length <= lang)
-            {
-                AddLine(Severity.Valid, V8, CheckIdentifier.Trainer);
-                return;
-            }
-            if (pkm.IsNicknamed)
-                AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
-            else if (Encounters4.RanchOTNames[lang] != pkm.OT_Name)
-                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
-            else
-                AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
         }
         private void VerifyTrade5()
         {
             // Trades for JPN games have language ID of 0, not 1.
             if (pkm.BW)
             {
-                if (pkm.Format == 5 && pkm.Language == (int)LanguageID.Japanese)
+                int lang = pkm.Language;
+                if (pkm.Format == 5 && lang == (int)LanguageID.Japanese)
                     AddLine(Severity.Invalid, string.Format(V5, 0, (int)LanguageID.Japanese), CheckIdentifier.Language);
 
-                // todo
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+                lang = Math.Max(lang, 1);
+                VerifyTradeTable(Encounters5.TradeBW, Encounters5.TradeGift_BW, lang);
             }
             else // B2W2
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+            {
+                if (Encounters5.TradeGift_B2W2_YancyCurtis.Contains(EncounterMatch))
+                    VerifyTradeOTOnly(pkm.OT_Gender == 0 ? Encounters5.TradeOT_B2W2_M : Encounters5.TradeOT_B2W2_F);
+                else
+                    VerifyTradeTable(Encounters5.TradeB2W2, Encounters5.TradeGift_B2W2);
+            }
         }
         private void VerifyTrade6()
         {
             if (pkm.XY)
-                VerifyTradeTable(Encounters6.TradeXY, Encounters6.TradeGift_XY);
+                VerifyTradeTable(Encounters6.TradeXY, Encounters6.TradeGift_XY, pkm.Language);
             else if (pkm.AO)
-                VerifyTradeTable(Encounters6.TradeAO, Encounters6.TradeGift_AO);
+                VerifyTradeTable(Encounters6.TradeAO, Encounters6.TradeGift_AO, pkm.Language);
         }
         private void VerifyTrade7()
         {
@@ -408,22 +399,34 @@ namespace PKHeX.Core
             else if (pkm.USUM)
                 AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
         }
-        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table)
+        private void VerifyTrade4Ranch() => VerifyTradeOTOnly(Encounters4.RanchOTNames);
+
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table) => VerifyTradeTable(ots, table, pkm.Language);
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, int language)
         {
-            int lang = pkm.Language;
-            var validOT = lang >= ots.Length ? ots[0] : ots[pkm.Language];
+            var validOT = language >= ots.Length ? ots[0] : ots[pkm.Language];
             var index = Array.IndexOf(table, EncounterMatch);
             VerifyTradeOTNick(validOT, index);
         }
-        private void VerifyTradeTableFromNickname(string[][] ots, EncounterTrade[] table)
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, string nickname)
         {
             // edge case method for Foppa (DPPt Magikarp Trade)
-            var nick = pkm.Nickname;
             var index = Array.IndexOf(table, EncounterMatch);
-            var validOT = ots.FirstOrDefault(z => index < z.Length && z[index] == nick);
+            var validOT = ots.FirstOrDefault(z => index < z.Length && z[index] == nickname);
             VerifyTradeOTNick(validOT, index);
         }
-
+        private void VerifyTradeOTOnly(string[] validOT)
+        {
+            if (pkm.IsNicknamed)
+                AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
+            int lang = pkm.Language;
+            if (validOT.Length >= lang)
+                AddLine(Severity.Invalid, V8, CheckIdentifier.Trainer);
+            else if (validOT[lang] != pkm.OT_Name)
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+            else
+                AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+        }
         private void VerifyTradeOTNick(string[] validOT, int index)
         {
             if (validOT.Length == 0)
@@ -441,7 +444,7 @@ namespace PKHeX.Core
             string OT = validOT[validOT.Length / 2 + index];
 
             if (nick != pkm.Nickname)
-                AddLine(Severity.Fishy, V9, CheckIdentifier.Nickname);
+                AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
             else
                 AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
 
