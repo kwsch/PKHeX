@@ -347,11 +347,15 @@ namespace PKHeX.Core
                 VerifyTrade4Ranch();
                 return;
             }
-            // TODO
             if (pkm.HGSS)
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+                VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS);
             else
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+            {
+                if (EncounterMatch.Species == 129) // Magikarp
+                    VerifyTradeTableFromNickname(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
+                else
+                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
+            }
         }
         private void VerifyTrade4Ranch()
         {
@@ -404,6 +408,14 @@ namespace PKHeX.Core
             var index = Array.IndexOf(table, EncounterMatch);
             VerifyTradeOTNick(validOT, index);
         }
+        private void VerifyTradeTableFromNickname(string[][] ots, EncounterTrade[] table)
+        {
+            // edge case method for Foppa (DPPt Magikarp Trade)
+            var nick = pkm.Nickname;
+            var index = Array.IndexOf(table, EncounterMatch);
+            var validOT = ots.FirstOrDefault(z => index < z.Length && z[index] == nick);
+            VerifyTradeOTNick(validOT, index);
+        }
 
         private void VerifyTradeOTNick(string[] validOT, int index)
         {
@@ -423,10 +435,11 @@ namespace PKHeX.Core
 
             if (nick != pkm.Nickname)
                 AddLine(Severity.Fishy, V9, CheckIdentifier.Nickname);
-            else if (OT != pkm.OT_Name)
-                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
             else
                 AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+
+            if (OT != pkm.OT_Name)
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
         }
         #endregion
         private void VerifyEVs()

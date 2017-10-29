@@ -920,7 +920,7 @@ namespace PKHeX.Core
             Encounter_HGSS_Regular).ToArray();
         #endregion
         #region Trade Tables
-        internal static string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
+        internal static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
         private static readonly EncounterTrade[] RanchGifts =
         {
             new EncounterTradePID { Species = 025, Level = 18, Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, Version = GameVersion.D, Location = 0068, Gender = 0, PID = 323975838, CurrentLevel = 20, }, // Pikachu
@@ -968,6 +968,30 @@ namespace PKHeX.Core
             //Gift
             new EncounterTradePID { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, PID = 0x00006B5E, Level = 20, Location = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
             new EncounterTradePID { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, PID = 0x000214D7, Level = 20, Location = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
+        };
+        internal static readonly string[][] TradeDPPt =
+        {
+            new string[0],                         // 0 - None
+            Util.GetStringList("tradedppt", "ja"), // 1
+            Util.GetStringList("tradedppt", "en"), // 2
+            Util.GetStringList("tradedppt", "fr"), // 3
+            Util.GetStringList("tradedppt", "it"), // 4
+            Util.GetStringList("tradedppt", "de"), // 5
+            new string[0],                         // 6 - None
+            Util.GetStringList("tradedppt", "es"), // 7
+            Util.GetStringList("tradedppt", "ko"), // 8
+        };
+        internal static readonly string[][] TradeHGSS =
+        {
+            new string[0],                         // 0 - None
+            Util.GetStringList("tradehgss", "ja"), // 1
+            Util.GetStringList("tradehgss", "en"), // 2
+            Util.GetStringList("tradehgss", "fr"), // 3
+            Util.GetStringList("tradehgss", "it"), // 4
+            Util.GetStringList("tradehgss", "de"), // 5
+            new string[0],                         // 6 - None
+            Util.GetStringList("tradehgss", "es"), // 7
+            Util.GetStringList("tradehgss", "ko"), // 8
         };
         #endregion
 

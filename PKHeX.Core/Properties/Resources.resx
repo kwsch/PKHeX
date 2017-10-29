@@ -1585,4 +1585,46 @@
   <data name="text_ItemsG3_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\text\gen3\text_ItemsG3_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="text_tradedppt_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_tradedppt_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradedppt_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_tradedppt_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradedppt_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_tradedppt_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradedppt_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_tradedppt_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradedppt_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_tradedppt_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradedppt_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_tradedppt_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradedppt_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_tradedppt_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_de" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\de\text_tradehgss_de.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_en" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\en\text_tradehgss_en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_es" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\es\text_tradehgss_es.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_fr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\fr\text_tradehgss_fr.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_it" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\it\text_tradehgss_it.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_ja" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ja\text_tradehgss_ja.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="text_tradehgss_ko" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\text\ko\text_tradehgss_ko.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>
