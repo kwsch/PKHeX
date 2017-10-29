@@ -170,6 +170,24 @@ namespace PKHeX.Core
         {
 
         };
+        internal static readonly string[][] TradeSM =
+        {
+            new string[0],                       // 0 - None
+            Util.GetStringList("tradesm", "ja"), // 1
+            Util.GetStringList("tradesm", "en"), // 2
+            Util.GetStringList("tradesm", "fr"), // 3
+            Util.GetStringList("tradesm", "it"), // 4
+            Util.GetStringList("tradesm", "de"), // 5
+            new string[0],                       // 6 - None
+            Util.GetStringList("tradesm", "es"), // 7
+            Util.GetStringList("tradesm", "ko"), // 8
+            Util.GetStringList("tradesm", "zh"), // 9
+            Util.GetStringList("tradesm", "zh"), // 10
+        };
+        internal static readonly string[][] TradeUSUM =
+        {
+            // todo
+        };
 
         private static readonly EncounterArea[] Encounter_Pelago_SM =
         {

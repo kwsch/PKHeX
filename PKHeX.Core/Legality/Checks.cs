@@ -393,11 +393,10 @@ namespace PKHeX.Core
         }
         private void VerifyTrade7()
         {
-            // TODO
             if (pkm.SM)
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+                VerifyTradeTable(Encounters7.TradeSM, Encounters7.TradeGift_SM, pkm.Language);
             else if (pkm.USUM)
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
+                VerifyTradeTable(Encounters7.TradeUSUM, Encounters7.TradeGift_USUM, pkm.Language);
         }
         private void VerifyTrade4Ranch() => VerifyTradeOTOnly(Encounters4.RanchOTNames);
 

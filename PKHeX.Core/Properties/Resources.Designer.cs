@@ -17142,20 +17142,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yuriko
-        ///Shosuke
-        ///Hilbert
-        ///Maru
-        ///Lilo
-        ///Ursina
-        ///Ursina
-        ///Lilpe
+        ///   Looks up a localized string similar to Lilpe
         ///Wolli
         ///Brockoloss
         ///Fluffi
         ///Zapp
         ///Pompom
-        ///Schnäuzi.
+        ///Schnäuzi
+        ///Yuriko
+        ///Shosuke
+        ///Hilbert
+        ///Maru
+        ///Lilo
+        ///Ursina
+        ///Ursina.
         /// </summary>
         internal static string text_tradeb2w2_de {
             get {
@@ -17164,20 +17164,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calla
-        ///Cotton
-        ///Manny
-        ///Slick
-        ///Lillian
-        ///Diana
-        ///Diana
-        ///Petulia
+        ///   Looks up a localized string similar to Petulia
         ///Fluffee
         ///Gigalith
         ///Tangles
         ///Bucky
         ///Ambidexter
-        ///Beardy.
+        ///Beardy
+        ///Calla
+        ///Cotton
+        ///Manny
+        ///Slick
+        ///Lillian
+        ///Diana
+        ///Diana.
         /// </summary>
         internal static string text_tradeb2w2_en {
             get {
@@ -17186,20 +17186,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lilly
-        ///Cotton
-        ///Manny
-        ///Slick
-        ///Lillian
-        ///Corina
-        ///Corina
-        ///Pettulip
+        ///   Looks up a localized string similar to Pettulip
         ///Cotona
         ///Gigalith
         ///Tangles
         ///Bucky
         ///Ambidexter
-        ///Beardy.
+        ///Beardy
+        ///Lilly
+        ///Cotton
+        ///Manny
+        ///Slick
+        ///Lillian
+        ///Corina
+        ///Corina.
         /// </summary>
         internal static string text_tradeb2w2_es {
             get {
@@ -17208,20 +17208,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Yuriko
-        ///Shosuke
-        ///Hilbert
-        ///Maru
-        ///Lilo
-        ///Ursina
-        ///Ursina
-        ///Tulipette
+        ///   Looks up a localized string similar to Tulipette
         ///Jersey
         ///Gigalithe
         ///Toutouffe
         ///GITS
         ///Caudal
-        ///Stachemou.
+        ///Stachemou
+        ///Yuriko
+        ///Shosuke
+        ///Hilbert
+        ///Maru
+        ///Lilo
+        ///Ursina
+        ///Ursina.
         /// </summary>
         internal static string text_tradeb2w2_fr {
             get {
@@ -17230,20 +17230,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tulippa
-        ///Scotty
-        ///Urano
-        ///Zucco
-        ///Rolly
-        ///Nenè
-        ///Nenè
-        ///Petillin
+        ///   Looks up a localized string similar to Petillin
         ///Scoscò
         ///Gigalith
         ///Grogrò
         ///Zapp
         ///Pompom
-        ///Barbello.
+        ///Barbello
+        ///Tulippa
+        ///Scotty
+        ///Urano
+        ///Zucco
+        ///Rolly
+        ///Nenè
+        ///Nenè.
         /// </summary>
         internal static string text_tradeb2w2_it {
             get {
@@ -17252,20 +17252,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ユリコ
-        ///ショウスケ
-        ///ゲンゾウ
-        ///ツルマル
-        ///ユイ
-        ///ハツネ
-        ///ハツネ
-        ///チュりっぺ
+        ///   Looks up a localized string similar to チュりっぺ
         ///メンメン
         ///ギガイアス
         ///フサフサ
         ///バッキー
         ///シッポ
-        ///おヒゲ.
+        ///おヒゲ
+        ///ユリコ
+        ///ショウスケ
+        ///ゲンゾウ
+        ///ツルマル
+        ///ユイ
+        ///ハツネ
+        ///ハツネ.
         /// </summary>
         internal static string text_tradeb2w2_ja {
             get {
@@ -17274,20 +17274,20 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 율리크
-        ///수천
-        ///건상
-        ///실마르
-        ///유이
-        ///초희
-        ///초희
-        ///치릴뿌잉
+        ///   Looks up a localized string similar to 치릴뿌잉
         ///면면
         ///기가이어스
         ///북실북실
         ///바킹
         ///꼬리
-        ///수여미.
+        ///수여미
+        ///율리크
+        ///수천
+        ///건상
+        ///실마르
+        ///유이
+        ///초희
+        ///초희.
         /// </summary>
         internal static string text_tradeb2w2_ko {
             get {
@@ -18101,6 +18101,182 @@ namespace PKHeX.Core.Properties {
         internal static string text_traderse_ja {
             get {
                 return ResourceManager.GetString("text_traderse_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Machocho
+        ///Frubbi
+        ///Quaputzel
+        ///Wonni
+        ///Geoneo
+        ///Bailala
+        ///Fia
+        ///Hilahila
+        ///Kihe
+        ///Laule&apos;a
+        ///Moemoe
+        ///Hepa
+        ///Kumu
+        ///Huhu.
+        /// </summary>
+        internal static string text_tradesm_de {
+            get {
+                return ResourceManager.GetString("text_tradesm_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Macho
+        ///Bouncee
+        ///Whirly
+        ///Happini
+        ///Veler
+        ///Stena
+        ///Talo
+        ///Hila
+        ///Kihei
+        ///Laule&apos;a
+        ///Momoe
+        ///Sill
+        ///Kumu
+        ///Anga.
+        /// </summary>
+        internal static string text_tradesm_en {
+            get {
+                return ResourceManager.GetString("text_tradesm_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Machote
+        ///Suiti
+        ///Tracia
+        ///Feli
+        ///Sr. Pómez
+        ///Tina
+        ///Gavi
+        ///Hila
+        ///Kike
+        ///Lau
+        ///Moe
+        ///Epi
+        ///Kumu
+        ///Tito.
+        /// </summary>
+        internal static string text_tradesm_es {
+            get {
+                return ResourceManager.GetString("text_tradesm_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MasterSensei
+        ///Bella
+        ///Spiralia
+        ///Trocontent
+        ///Graboum
+        ///Miam-miam
+        ///Gérard
+        ///Hilahila
+        ///Kihe
+        ///Laule&apos;a
+        ///Moemoe
+        ///Hepa
+        ///Kumu
+        ///Inaina.
+        /// </summary>
+        internal static string text_tradesm_fr {
+            get {
+                return ResourceManager.GetString("text_tradesm_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chops
+        ///Par
+        ///Poli-Poli
+        ///Nippy
+        ///Gravus
+        ///Neenee
+        ///Flame
+        ///Hilahila
+        ///Kihe
+        ///Laule&apos;a
+        ///Moemoe
+        ///Hepa
+        ///Kumu
+        ///Huhu.
+        /// </summary>
+        internal static string text_tradesm_it {
+            get {
+                return ResourceManager.GetString("text_tradesm_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to シトサン
+        ///タリーヨ
+        ///ヤンヤン
+        ///うゆゆ
+        ///シヨッカ
+        ///ノッキリア
+        ///ツノリー
+        ///ヒラヒラ
+        ///キヘ
+        ///ラウレア
+        ///モエモエ
+        ///ヘパ
+        ///クム
+        ///フフー.
+        /// </summary>
+        internal static string text_tradesm_ja {
+            get {
+                return ResourceManager.GetString("text_tradesm_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 튼삼
+        ///몰리요
+        ///얍얍
+        ///우융융
+        ///해보공
+        ///노키리아
+        ///뿌링뿌링
+        ///히라히라
+        ///키헤
+        ///라우레아
+        ///모에모에
+        ///헤파
+        ///쿠무
+        ///후후.
+        /// </summary>
+        internal static string text_tradesm_ko {
+            get {
+                return ResourceManager.GetString("text_tradesm_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ＰＯＷ・Ｌｉ
+        ///Ｓｗｅｅｔ
+        ///Ｓｐｉｒ◎ｌ
+        ///Ｐｉｎｋｙ
+        ///Ｇｕｌｕ
+        ///Ｊｕｉｃｙ
+        ///Ａｒｒｏｗ
+        ///Ｈｉｌａ
+        ///Ｋｉｈｅｉ
+        ///Ｌａｕｌｅａ
+        ///Ｍｏｍｏｅ
+        ///Ｈｅｐａ
+        ///Ｋｕｍｕ
+        ///Ｈｕｈｕ.
+        /// </summary>
+        internal static string text_tradesm_zh {
+            get {
+                return ResourceManager.GetString("text_tradesm_zh", resourceCulture);
             }
         }
         
