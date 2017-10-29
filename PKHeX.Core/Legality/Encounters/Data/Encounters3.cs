@@ -245,6 +245,28 @@ namespace PKHeX.Core
             new EncounterTradePID { Species = 086, Ability = 1, TID = 09853, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {24,15,22,16,23,22}, PID = 0x482CAC89, Contest = TradeContest_Tough, }, // Seel *
             //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
         };
+        internal static readonly string[][] TradeRSE =
+        {
+            new string[0],                        // 0 - None
+            Util.GetStringList("traderse", "ja"), // 1
+            Util.GetStringList("traderse", "en"), // 2
+            Util.GetStringList("traderse", "fr"), // 3
+            Util.GetStringList("traderse", "it"), // 4
+            Util.GetStringList("traderse", "de"), // 5
+            new string[0],                        // 6 - None
+            Util.GetStringList("traderse", "es"), // 7
+        };
+        internal static readonly string[][] TradeFRLG =
+        {
+            new string[0],                         // 0 - None
+            Util.GetStringList("tradefrlg", "ja"), // 1
+            Util.GetStringList("tradefrlg", "en"), // 2
+            Util.GetStringList("tradefrlg", "fr"), // 3
+            Util.GetStringList("tradefrlg", "it"), // 4
+            Util.GetStringList("tradefrlg", "de"), // 5
+            new string[0],                         // 6 - None
+            Util.GetStringList("tradefrlg", "es"), // 7
+        };
 
         #region AltSlots
         private static readonly int[] SafariZoneLocation_3 =

@@ -324,7 +324,7 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2: VerifyTrade12(); return;
-                case 3: return; // todo
+                case 3: VerifyTrade3(); return; // todo
                 case 4: VerifyTrade4(); return;
                 case 5: VerifyTrade5(); return; // todo
                 case 6: VerifyTrade6(); return;
@@ -339,6 +339,13 @@ namespace PKHeX.Core
 
             if (!EncounterGenerator.IsEncounterTrade1Valid(pkm))
                 AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+        }
+        private void VerifyTrade3()
+        {
+            if (pkm.FRLG)
+                VerifyTradeTable(Encounters3.TradeFRLG, Encounters3.TradeGift_FRLG);
+            else
+                VerifyTradeTable(Encounters3.TradeRSE, Encounters3.TradeGift_RSE);
         }
         private void VerifyTrade4()
         {

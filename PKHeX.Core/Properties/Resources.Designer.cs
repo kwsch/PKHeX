@@ -17261,6 +17261,186 @@ namespace PKHeX.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MIMOSE
+        ///NIEDOMAN
+        ///NIEDOMAN
+        ///RIDONINO
+        ///RIDONINO
+        ///MARK
+        ///SCHMUSI
+        ///POLENTE
+        ///LECKIBAL
+        ///SPAJETTIE
+        ///EUROPE
+        ///RICHARD
+        ///WALTRAUD
+        ///WALTRAUD
+        ///THOMAS
+        ///THOMAS
+        ///HELMUTH
+        ///DANTE
+        ///ELISA
+        ///FRANZ
+        ///NORMA
+        ///GUSTAV.
+        /// </summary>
+        internal static string text_tradefrlg_de {
+            get {
+                return ResourceManager.GetString("text_tradefrlg_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIMIEN
+        ///MS. NIDO
+        ///MR. NIDO
+        ///NINA
+        ///NINO
+        ///MARC
+        ///ZYNX
+        ///CH&apos;DING
+        ///ESPHERE
+        ///TANGENY
+        ///SEELOR
+        ///REYLEY
+        ///SAIGE
+        ///SAIGE
+        ///TURNER
+        ///TURNER
+        ///HADEN
+        ///DONTAE
+        ///ELYSSA
+        ///CLIFTON
+        ///NORMA
+        ///GARETT.
+        /// </summary>
+        internal static string text_tradefrlg_en {
+            get {
+                return ResourceManager.GetString("text_tradefrlg_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIMI
+        ///NIDRANA
+        ///NIDRÁN
+        ///NIDRINA
+        ///NIDRINO
+        ///LICKITITO
+        ///ZYNX
+        ///FARFI
+        ///BOLICHI
+        ///TANGELITO
+        ///SEELÍN
+        ///RÚTEO
+        ///QUICA
+        ///QUICA
+        ///ONZANO
+        ///ONZANO
+        ///DIOCHO
+        ///CELESTO
+        ///CARMELA
+        ///CANEL
+        ///DULCE
+        ///GOYO.
+        /// </summary>
+        internal static string text_tradefrlg_es {
+            get {
+                return ResourceManager.GetString("text_tradefrlg_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MARCI
+        ///MS. NIDO
+        ///MR. NIDO
+        ///NINO
+        ///NINO
+        ///GLAVIOTE
+        ///LIPOUTI
+        ///PTICHO
+        ///RODY
+        ///TISSAC
+        ///OBAMI
+        ///NASSIM
+        ///FLORA
+        ///FLORA
+        ///ELIOTT
+        ///ELIOTT
+        ///ISMAEL
+        ///JOHAN
+        ///ADELINE
+        ///ALBAN
+        ///PERRINE
+        ///FELIX.
+        /// </summary>
+        internal static string text_tradefrlg_fr {
+            get {
+                return ResourceManager.GetString("text_tradefrlg_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIMIEN
+        ///MS. NIDO
+        ///MR. NIDO
+        ///NINA
+        ///NINO
+        ///MARC
+        ///ZYNX
+        ///CH&apos;DING
+        ///ESPHERE
+        ///TANGENY
+        ///SEELOR
+        ///REYLEY
+        ///SAIGE
+        ///SAIGE
+        ///TURNER
+        ///TURNER
+        ///HADEN
+        ///RINO
+        ///ELYSSA
+        ///CLIFTON
+        ///NORMA
+        ///GARETT.
+        /// </summary>
+        internal static string text_tradefrlg_it {
+            get {
+                return ResourceManager.GetString("text_tradefrlg_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to バリヤン
+        ///ニドちゃん
+        ///ニドくん
+        ///ニーナ
+        ///ニーノ
+        ///なめぞう
+        ///コリンダ
+        ///じんすけ
+        ///デンマル
+        ///じゃじゃお
+        ///ぱたろー
+        ///ひとまろ
+        ///めぐっぺ
+        ///めぐっぺ
+        ///とーたん
+        ///とーたん
+        ///みちはる
+        ///もりべー
+        ///みどりん
+        ///タナーカ
+        ///なっつん
+        ///よしもつ.
+        /// </summary>
+        internal static string text_tradefrlg_ja {
+            get {
+                return ResourceManager.GetString("text_tradefrlg_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aaron
         ///Herakles
         ///Kugo
@@ -17273,19 +17453,18 @@ namespace PKHeX.Core.Properties {
         ///Beißer
         ///Sirin
         ///Nessie
-        ///Gontran
-        ///Devon
-        ///Austin
-        ///Aglaé
-        ///Quantin
-        ///Médi
-        ///Mjr Bob
-        ///Rochard
-        ///Pierre
-        ///Jasmine
-        ///Vijay
-        ///Otto
-        ///.
+        ///Tobi
+        ///Chester
+        ///Cedric
+        ///Filipa
+        ///Waldo
+        ///Mondo
+        ///Maj.Bob
+        ///Troy
+        ///Rocko
+        ///Jasmin
+        ///Norman
+        ///Ronald.
         /// </summary>
         internal static string text_tradehgss_de {
             get {
@@ -17306,19 +17485,18 @@ namespace PKHeX.Core.Properties {
         ///Rusty
         ///Kenya
         ///Shuckie
-        ///Konta
-        ///Naoki
-        ///Jin
-        ///Misako
-        ///Morio
+        ///Rudy
+        ///Jose
+        ///Richard
+        ///Ayana
+        ///Lorenzo
         ///Mondo
-        ///Matis
-        ///Daigo
-        ///Takeshi
-        ///Mikan
-        ///Yūji
-        ///Seiji
-        ///.
+        ///Surge
+        ///Steven
+        ///Brock
+        ///Jasmine
+        ///Webster
+        ///Kirk.
         /// </summary>
         internal static string text_tradehgss_en {
             get {
@@ -17339,19 +17517,18 @@ namespace PKHeX.Core.Properties {
         ///Pétreo
         ///Alerón
         ///Caparazz
-        ///Quentin
-        ///Arnaldo
-        ///Maurice
-        ///Missy
-        ///Massimo
-        ///Monteo
+        ///Nero
+        ///Bertín
+        ///Rafael
+        ///Anahí
+        ///Lucio
+        ///Pavel
         ///Surge
-        ///Rocco
+        ///Máximo
         ///Brock
-        ///Jasmine
-        ///Mark
-        ///Cosimo
-        ///.
+        ///Yasmina
+        ///Quintín
+        ///Klaus.
         /// </summary>
         internal static string text_tradehgss_es {
             get {
@@ -17372,19 +17549,18 @@ namespace PKHeX.Core.Properties {
         ///Métallo
         ///Piou Piou
         ///Nessie
-        ///Rudy
-        ///Jose
-        ///Richard
-        ///Ayana
-        ///Lorenzo
-        ///Mondo
-        ///Surge
-        ///Steven
-        ///Brock
+        ///Gontran
+        ///Devon
+        ///Austin
+        ///Aglaé
+        ///Quantin
+        ///Médi
+        ///Mjr Bob
+        ///Rochard
+        ///Pierre
         ///Jasmine
-        ///Webster
-        ///Kirk
-        ///.
+        ///Vijay
+        ///Otto.
         /// </summary>
         internal static string text_tradehgss_fr {
             get {
@@ -17405,19 +17581,18 @@ namespace PKHeX.Core.Properties {
         ///Acciarock
         ///Sparvy
         ///Caratroc
-        ///Tobi
-        ///Chester
-        ///Cedric
-        ///Filipa
-        ///Waldo
-        ///Mondo
-        ///Maj.Bob
-        ///Troy
-        ///Rocko
-        ///Jasmin
-        ///Norman
-        ///Ronald
-        ///.
+        ///Quentin
+        ///Arnaldo
+        ///Maurice
+        ///Missy
+        ///Massimo
+        ///Monteo
+        ///Surge
+        ///Rocco
+        ///Brock
+        ///Jasmine
+        ///Mark
+        ///Cosimo.
         /// </summary>
         internal static string text_tradehgss_it {
             get {
@@ -17449,8 +17624,7 @@ namespace PKHeX.Core.Properties {
         ///タケシ
         ///ミカン
         ///ユウジ
-        ///セイジ
-        ///.
+        ///セイジ.
         /// </summary>
         internal static string text_tradehgss_ja {
             get {
@@ -17482,12 +17656,143 @@ namespace PKHeX.Core.Properties {
         ///웅
         ///규리
         ///유랑
-        ///태훈
-        ///.
+        ///태훈.
         /// </summary>
         internal static string text_tradehgss_ko {
             get {
                 return ResourceManager.GetString("text_tradehgss_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MAKIT
+        ///CONEC
+        ///CORASO
+        ///MURZELLO
+        ///PLUSPO
+        ///SEEPOM
+        ///MIEZMIEZ
+        ///MAIK
+        ///MADINA
+        ///LIANA
+        ///FABIAN
+        ///RÜDIGER
+        ///TORSTEN
+        ///TABITHA.
+        /// </summary>
+        internal static string text_traderse_de {
+            get {
+                return ResourceManager.GetString("text_traderse_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MAKIT
+        ///SKITIT
+        ///COROSO
+        ///DOTS
+        ///PLUSES
+        ///SEASOR
+        ///MEOWOW
+        ///ELYSSA
+        ///DARRELL
+        ///LANE
+        ///KOBE
+        ///ROMAN
+        ///SKYLAR
+        ///ISIS.
+        /// </summary>
+        internal static string text_traderse_en {
+            get {
+                return ResourceManager.GetString("text_traderse_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MAKIT
+        ///SKITIT
+        ///COROSO
+        ///SITOT
+        ///PUSLE
+        ///HORSI
+        ///MEOWOW
+        ///EVELIO
+        ///DALILA
+        ///LAILA
+        ///QUICO
+        ///RENATO
+        ///SERGIO
+        ///ISA.
+        /// </summary>
+        internal static string text_traderse_es {
+            get {
+                return ResourceManager.GetString("text_traderse_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MAKIT
+        ///SKITIT
+        ///COCO
+        ///PIPIO
+        ///SIPO
+        ///HYPY
+        ///GNAGNAA
+        ///NELSON
+        ///ELYSA
+        ///LANA
+        ///KOBE
+        ///ALBAN
+        ///LUDOVIC
+        ///ISIS.
+        /// </summary>
+        internal static string text_traderse_fr {
+            get {
+                return ResourceManager.GetString("text_traderse_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AGATA
+        ///SKITIT
+        ///COROSO
+        ///DOTS
+        ///PLUSES
+        ///SEASOR
+        ///MEOWOW
+        ///LEANDRO
+        ///LOLA
+        ///BETTA
+        ///KIKO
+        ///ROMAN
+        ///SERGINO
+        ///ISIS.
+        /// </summary>
+        internal static string text_traderse_it {
+            get {
+                return ResourceManager.GetString("text_traderse_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ポテマル
+        ///ベル
+        ///モモちゃん
+        ///セブン
+        ///プラプラ
+        ///ゴロー
+        ///チー
+        ///モーリン
+        ///ユキポン
+        ///サトチン
+        ///マッチャン
+        ///アッキー
+        ///ソガチン
+        ///マリッペ.
+        /// </summary>
+        internal static string text_traderse_ja {
+            get {
+                return ResourceManager.GetString("text_traderse_ja", resourceCulture);
             }
         }
         
