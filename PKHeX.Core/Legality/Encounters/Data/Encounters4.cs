@@ -129,11 +129,11 @@ namespace PKHeX.Core
             MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
             MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
             const int RuinsOfAlph = 209;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, RuinsOfAlph, 1, EncounterType.Cave_HallOfOrigin);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, RuinsOfAlph, 1, EncounterType.Cave_HallOfOrigin);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
             const int MtSilver = 219;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
         }
 
         private static void MarkG4PokeWalker(EncounterStatic[] t)
@@ -221,8 +221,10 @@ namespace PKHeX.Core
                 case SlotType.Old_Rod_Safari:
                 case SlotType.Good_Rod_Safari:
                 case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
+
                 case SlotType.Rock_Smash:
                 case SlotType.Rock_Smash_Safari: return EncounterType.RockSmash;
+
                 case SlotType.Headbutt: return HeadbuttType;
                 case SlotType.Headbutt_Special: return EncounterType.None;
             }
@@ -256,7 +258,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
+        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFile)
         {
             // Area with two different encounter type for grass encounters
             // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
@@ -265,21 +267,7 @@ namespace PKHeX.Core
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
                 numfile++;
-                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
-                }
-            }
-        }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, ICollection<int> SpecialEncounterFiles, EncounterType NormalEncounterType)
-        {
-            var HeadbuttType = GetHeadbuttEncounterType(Location);
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
+                var GrassType = SpecialEncounterFile.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
                     Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
@@ -500,11 +488,11 @@ namespace PKHeX.Core
             219, // Mt. Silver Cave
             224, // Viridian Forest
         };
-        private static readonly HashSet<int> HGSS_MtSilverCaveExteriorEncounters = new HashSet<int>
+        private static readonly int[] HGSS_MtSilverCaveExteriorEncounters =
         {
             2, 3
         };
-        private static readonly HashSet<int> HGSS_MixInteriorExteriorLocations = new HashSet<int>
+        private static readonly int[] HGSS_MixInteriorExteriorLocations =
         {
             209, // Ruins of Alph
             219, // Mt. Silver Cave
