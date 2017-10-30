@@ -213,6 +213,7 @@ namespace PKHeX.Core
                 case SlotType.Grass:
                 case SlotType.Grass_Safari:
                 case SlotType.BugContest: return GrassType;
+
                 case SlotType.Surf:
                 case SlotType.Old_Rod:
                 case SlotType.Good_Rod:
@@ -229,8 +230,9 @@ namespace PKHeX.Core
                         return GrassType;
                     return EncounterType.None;
 
-                case SlotType.Headbutt: return HeadbuttType;
-                case SlotType.Headbutt_Special: return EncounterType.None;
+                case SlotType.Headbutt_Special:
+                case SlotType.Headbutt: return HeadbuttType | EncounterType.None; 
+                    // not sure on if "None" should always be allowed, but this is so uncommon it shouldn't matter (gen7 doesn't keep this value anyway).
             }
             return EncounterType.None;
         }
