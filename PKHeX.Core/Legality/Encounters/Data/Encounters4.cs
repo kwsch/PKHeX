@@ -223,7 +223,11 @@ namespace PKHeX.Core
                 case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
 
                 case SlotType.Rock_Smash:
-                case SlotType.Rock_Smash_Safari: return EncounterType.RockSmash;
+                    if (HeadbuttType == EncounterType.Building_EnigmaStone)
+                        return HeadbuttType;
+                    if (GrassType == EncounterType.Cave_HallOfOrigin)
+                        return GrassType;
+                    return EncounterType.None;
 
                 case SlotType.Headbutt: return HeadbuttType;
                 case SlotType.Headbutt_Special: return EncounterType.None;
