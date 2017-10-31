@@ -50,6 +50,13 @@ namespace PKHeX.Core
 
         #endregion
 
+        internal static readonly int[][] Tutors_USUM =
+        {
+            new int[0], // todo
+            new int[0], // todo
+            new int[0], // todo
+            new int[0], // todo
+        };
         internal static readonly ushort[] Pouch_Regular_SM = // 00
         {
             068, 069, 070, 071, 072, 073, 074, 075, 076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087,
@@ -83,6 +90,9 @@ namespace PKHeX.Core
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
+        internal static readonly ushort[] Pouch_Key_USUM = {
+            // todo
+        };
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345,
             346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363,
@@ -106,8 +116,14 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_ZCrystalHeld_SM = { // Piece
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
-        public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_SM
-            .Zip(Pouch_ZCrystalHeld_SM, (k, v) => new { Key = (int)k, Value = (int)v })
+        internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
+            // todo
+        }).ToArray();
+        internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
+            // todo
+        }).ToArray();
+        public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
+            .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
         internal static readonly ushort[] HeldItems_USUM = HeldItems_SM; // todo

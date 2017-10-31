@@ -185,7 +185,7 @@ namespace PKHeX.Core
                 itemlist[842] += " (SM)"; // Fishing Rod
 
                 // Append Z-Crystal flagging
-                foreach (var i in Legal.Pouch_ZCrystal_SM)
+                foreach (var i in Legal.Pouch_ZCrystal_USUM)
                     itemlist[i] += " [Z]";
             }
             private void SanitizeMetLocations()

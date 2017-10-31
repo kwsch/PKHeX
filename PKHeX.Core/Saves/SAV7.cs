@@ -24,18 +24,18 @@ namespace PKHeX.Core
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G7SM] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !Data.All(z => z == 0);
 
             // Load Info
             GetBlockInfo();
             GetSAVOffsets();
 
-            HeldItems = Legal.HeldItems_SM;
+            HeldItems = USUM ? Legal.HeldItems_USUM : Legal.HeldItems_SM;
             Personal = USUM ? PersonalTable.USUM : PersonalTable.SM;
             if (!Exportable)
                 ClearBoxes();
 
-            var demo = new byte[0x4C4].SequenceEqual(Data.Skip(PCLayout).Take(0x4C4)); // up to Battle Box values
+            var demo = !USUM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
             if (demo || !Exportable)
             {
                 PokeDex = -1; // Disabled
@@ -44,28 +44,10 @@ namespace PKHeX.Core
             }
             else // Valid slot locking info present
             {
-                int lockedCount = 0, teamCount = 0;
-                for (int i = 0; i < TeamCount; i++)
-                {
-                    bool locked = Data[PCBackgrounds - TeamCount - i] == 1;
-                    for (int j = 0; j < 6; j++)
-                    {
-                        short val = BitConverter.ToInt16(Data, BattleBoxFlags + (i*6 + j) * 2);
-                        if (val < 0)
-                            continue;
-
-                        var slotVal = (BoxSlotCount*(val >> 8) + (val & 0xFF)) & 0xFFFF;
-
-                        if (locked)
-                            LockedSlots[lockedCount++] = slotVal;
-                        else TeamSlots[teamCount++] = slotVal;
-                    }
-                }
-                Array.Resize(ref LockedSlots, lockedCount);
-                Array.Resize(ref TeamSlots, teamCount);
+                LoadLockedSlots();
             }
         }
-
+        
         // Configuration
         public override SaveFile Clone() { return new SAV7(Data); }
         
@@ -822,8 +804,8 @@ namespace PKHeX.Core
                     new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
                     new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
                     new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch(InventoryType.KeyItems, USUM ? Legal.Pouch_Key_USUM : Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch(InventoryType.ZCrystals, USUM ? Legal.Pouch_ZCrystal_USUM : Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
                 };
                 foreach (var p in pouch)
                     p.GetPouch7(ref Data);
@@ -1177,6 +1159,28 @@ namespace PKHeX.Core
 
             int slotIndex = slot + BoxSlotCount * box;
             return TeamSlots.Any(s => s == slotIndex);
+        }
+        private void LoadLockedSlots()
+        {
+            int lockedCount = 0, teamCount = 0;
+            for (int i = 0; i < TeamCount; i++)
+            {
+                bool locked = Data[PCBackgrounds - TeamCount - i] == 1;
+                for (int j = 0; j < 6; j++)
+                {
+                    short val = BitConverter.ToInt16(Data, BattleBoxFlags + (i * 6 + j) * 2);
+                    if (val < 0)
+                        continue;
+
+                    var slotVal = (BoxSlotCount * (val >> 8) + (val & 0xFF)) & 0xFFFF;
+
+                    if (locked)
+                        LockedSlots[lockedCount++] = slotVal;
+                    else TeamSlots[teamCount++] = slotVal;
+                }
+            }
+            Array.Resize(ref LockedSlots, lockedCount);
+            Array.Resize(ref TeamSlots, teamCount);
         }
 
         public override int DaycareSeedSize => 32; // 128 bits

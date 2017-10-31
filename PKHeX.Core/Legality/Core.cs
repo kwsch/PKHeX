@@ -2178,33 +2178,31 @@ namespace PKHeX.Core
                     info = PersonalTable.B2W2[species];
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(5) && specialTutors)
-                    {
-                        PersonalInfo pi = PersonalTable.B2W2.GetFormeEntry(species, form);
-                        for (int i = 0; i < Tutors_B2W2.Length; i++)
-                            for (int b = 0; b < Tutors_B2W2[i].Length; b++)
-                                if (pi.SpecialTutors[i][b])
-                                    moves.Add(Tutors_B2W2[i][b]);
-                    }
+                        moves.AddRange(GetTutors(PersonalTable.B2W2, Tutors_B2W2));
                     break;
                 case 6:
                     info = PersonalTable.AO[species];
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
                     if (pkm.InhabitedGeneration(6) && specialTutors && (pkm.AO || !pkm.IsUntraded))
-                    {
-                        PersonalInfo pi = PersonalTable.AO.GetFormeEntry(species, form);
-                        for (int i = 0; i < Tutors_AO.Length; i++)
-                            for (int b = 0; b < Tutors_AO[i].Length; b++)
-                                if (pi.SpecialTutors[i][b])
-                                    moves.Add(Tutors_AO[i][b]);
-                    }
+                        moves.AddRange(GetTutors(PersonalTable.AO, Tutors_AO));
                     break;
                 case 7:
                     info = PersonalTable.USUM.GetFormeEntry(species, form);
                     moves.AddRange(TypeTutor6.Where((t, i) => info.TypeTutors[i]));
-                    // No special tutors in G7
+                    if (pkm.InhabitedGeneration(7) && specialTutors && (pkm.USUM || !pkm.IsUntraded))
+                        moves.AddRange(GetTutors(PersonalTable.USUM, Tutors_USUM));
                     break;
             }
             return moves.Distinct();
+
+            IEnumerable<int> GetTutors(PersonalTable t, IReadOnlyList<int[]> tutors)
+            {
+                var pi = t.GetFormeEntry(species, form);
+                for (int i = 0; i < tutors.Count; i++)
+                for (int b = 0; b < tutors[i].Length; b++)
+                    if (pi.SpecialTutors[i][b])
+                        yield return tutors[i][b];
+            }
         }
         internal static bool IsTradedKadabraG1(PKM pkm)
         {

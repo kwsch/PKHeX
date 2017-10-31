@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Static Encounter Data
@@ -78,15 +80,13 @@
             };
         }
 
-        public EncounterStatic[] DreamRadarClone()
+        public IEnumerable<EncounterStatic> DreamRadarClone()
         {
-            EncounterStatic[] Encounters = new EncounterStatic[8];
             for (int i = 0; i < 8; i++)
-                Encounters[i] = DreamRadarClone(5 * i + 5);  //Level from 5->40 depends on the number of badage
-            return Encounters;
+                yield return DreamRadarClone(5 * i + 5);  //Level from 5->40 depends on the number of badges
         }
 
-        public EncounterStatic DreamRadarClone(int level)
+        private EncounterStatic DreamRadarClone(int level)
         {
             return new EncounterStatic
             {

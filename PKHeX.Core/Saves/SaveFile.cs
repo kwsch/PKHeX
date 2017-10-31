@@ -659,8 +659,10 @@ namespace PKHeX.Core
         public virtual void SetSeen(int species, bool seen) { }
         public virtual bool GetCaught(int species) => false;
         public virtual void SetCaught(int species, bool caught) { }
-        public int SeenCount => HasPokeDex ? new bool[MaxSpeciesID].Where((b, i) => GetSeen(i+1)).Count() : 0;
-        public int CaughtCount => HasPokeDex ? new bool[MaxSpeciesID].Where((b, i) => GetCaught(i+1)).Count() : 0;
+        public int SeenCount => HasPokeDex ? Enumerable.Range(1, MaxSpeciesID).Count(GetSeen) : 0;
+        public int CaughtCount => HasPokeDex ? Enumerable.Range(1, MaxSpeciesID).Count(GetCaught) : 0;
+        public decimal PercentSeen => (decimal) SeenCount / MaxSpeciesID;
+        public decimal PercentCaught => (decimal)CaughtCount / MaxSpeciesID;
 
         public byte[] GetData(int Offset, int Length)
         {
