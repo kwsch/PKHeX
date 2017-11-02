@@ -49,6 +49,7 @@ namespace PKHeX.Core
                     Daycare = 0x20E00;
                     PokeDex = 0x21600;
                     PokeDexLanguageFlags = PokeDex + 0x320;
+                    BattleSubway = 0x21D00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52000;
 
@@ -74,6 +75,7 @@ namespace PKHeX.Core
                     Daycare = 0x20D00;
                     PokeDex = 0x21400;
                     PokeDexLanguageFlags = PokeDex + 0x328; // forme flags size is + 8 from bw with new formes (therians)
+                    BattleSubway = 0x21B00;
                     CGearInfoOffset = 0x1C000;
                     CGearDataOffset = 0x52800;
 
@@ -191,7 +193,7 @@ namespace PKHeX.Core
                         new BlockInfo(0x21600, 0x04D4, 0x21AD6, 0x23F6E), // Pokedex
                         new BlockInfo(0x21B00, 0x0034, 0x21B36, 0x23F70), // Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
                         new BlockInfo(0x21C00, 0x003C, 0x21C3E, 0x23F72), // ???
-                        new BlockInfo(0x21D00, 0x01AC, 0x21EAE, 0x23F74), // ???
+                        new BlockInfo(0x21D00, 0x01AC, 0x21EAE, 0x23F74), // Battle Subway
                         new BlockInfo(0x21F00, 0x0B90, 0x22A92, 0x23F76), // ???
                         new BlockInfo(0x22B00, 0x009C, 0x22B9E, 0x23F78), // Online Records
                         new BlockInfo(0x22C00, 0x0850, 0x23452, 0x23F7A), // Entralink Forest pokémon data
@@ -266,7 +268,7 @@ namespace PKHeX.Core
                         new BlockInfo(0x21400, 0x04dc, 0x218DE, 0x25F6C), // Pokedex
                         new BlockInfo(0x21900, 0x0034, 0x21936, 0x25F6E), // Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type
                         new BlockInfo(0x21A00, 0x003c, 0x21A3E, 0x25F70), // ???
-                        new BlockInfo(0x21B00, 0x01ac, 0x21CAE, 0x25F72), // ???
+                        new BlockInfo(0x21B00, 0x01ac, 0x21CAE, 0x25F72), // Battle Subway
                         new BlockInfo(0x21D00, 0x0b90, 0x22892, 0x25F74), // ???
                         new BlockInfo(0x22900, 0x00ac, 0x229AE, 0x25F76), // Online Records
                         new BlockInfo(0x22A00, 0x0850, 0x23252, 0x25F78), // Entralink Forest pokémon data (60d)
@@ -360,7 +362,7 @@ namespace PKHeX.Core
         private const int wcSeed = 0x1D290;
 
         public readonly int CGearInfoOffset, CGearDataOffset;
-        private readonly int Trainer2, AdventureInfo;
+        private readonly int Trainer2, AdventureInfo, BattleSubway;
         public readonly int PokeDexLanguageFlags;
         public override bool HasBoxWallpapers => false;
 
@@ -604,6 +606,12 @@ namespace PKHeX.Core
         }
         public override int SecondsToStart { get => BitConverter.ToInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override int SecondsToFame { get => BitConverter.ToInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
+
+        public int BP
+        {
+            get => BitConverter.ToUInt16(Data, BattleSubway);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, BattleSubway);
+        }
 
         protected override void SetDex(PKM pkm)
         {

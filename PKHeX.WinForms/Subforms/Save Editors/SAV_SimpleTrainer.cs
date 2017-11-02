@@ -126,6 +126,16 @@ namespace PKHeX.WinForms
             }
             else if (SAV is SAV5 s)
             {
+                foreach (var control in new Control[] {L_Coins, B_MaxCoins, MT_Coins})
+                {
+                    var pos = control.Location;
+                    GB_Badges.Controls.Add(control);
+                    control.Location = pos;
+                    control.Visible = true;
+                }
+                L_Coins.Text = "BP"; // no translation boo
+                MT_Coins.Text = s.BP.ToString();
+
                 NUD_M.Value = s.M;
                 NUD_X.Value = s.X;
                 NUD_Z.Value = s.Z;
@@ -235,6 +245,7 @@ namespace PKHeX.WinForms
                     s.Y = (int)NUD_Y.Value;
                 }
                 s.Badges = badgeval & 0xFF;
+                s.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
             SAV.SecondsToStart = GetSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
