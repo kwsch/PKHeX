@@ -391,8 +391,9 @@ namespace PKHeX.Core
         #region Colosseum
         internal static readonly EncounterStatic[] Encounter_Colo =
         {
-            new EncounterStatic { Gift = true, Species = 196, Level = 25, Location = 254 }, // Espeon
-            new EncounterStatic { Gift = true, Species = 197, Level = 26, Location = 254, Moves = new[] {044} }, // Umbreon (Bite)
+            // Colosseum Starters: Gender locked to male
+            new EncounterStatic { Gift = true, Species = 196, Level = 25, Location = 254, Gender = 0 }, // Espeon
+            new EncounterStatic { Gift = true, Species = 197, Level = 26, Location = 254, Gender = 0, Moves = new[] {044} }, // Umbreon (Bite)
 
             new EncounterStaticShadow { Species = 296, Level = 30, Gauge = 03000, Moves = new[] {193,116,233,238}, Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
 

@@ -932,30 +932,18 @@ namespace PKHeX.Core
             if (pidiv.Type != PIDType.CXD)
                 return;
 
-            var spec = EncounterMatch.Species;
-            int rev; // pidiv reversed 2x yields SID, 3x yields TID. shift by 7 if another PKM is generated prior
-            switch (spec)
+            bool valid;
+            switch (EncounterMatch.Species)
             {
-                // XD
-                case 133: // Eevee
-                    rev = 2;
-                    break;
-                
-                // Colosseum
-                case 197: // Umbreon (generated before Espeon)
-                    rev = 2;
-                    break;
-                case 196: // Espeon (generated after Umbreon)
-                    rev = 2+7;
-                    break;
+                case 133:
+                    valid = LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID); break;
+                case 196: case 197:
+                    valid = pidiv.Type == PIDType.CXD_ColoStarter; break;
                 default:
                     return;
             }
-            var seed = pidiv.OriginSeed;
-            var SIDf = pidiv.RNG.Reverse(seed, rev);
-            var TIDf = pidiv.RNG.Prev(SIDf);
-            if (SIDf >> 16 != pkm.SID || TIDf >> 16 != pkm.TID)
-                AddLine(Severity.Invalid, V400 + $" {TIDf>>16}/{SIDf>>16}", CheckIdentifier.PID);
+            if (!valid)
+                AddLine(Severity.Invalid, V400, CheckIdentifier.PID);
         }
 
         private void VerifyAbility()

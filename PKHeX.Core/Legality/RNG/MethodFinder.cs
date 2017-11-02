@@ -34,6 +34,8 @@ namespace PKHeX.Core
                 return pidiv;
             if (pk.Species == 201 && GetLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
                 return pidiv;
+            if (GetColoStarterMatch(pk, top, bot, IVs, out pidiv))
+                return pidiv;
             if (GetXDRNGMatch(top, bot, IVs, out pidiv))
                 return pidiv;
 
@@ -448,6 +450,25 @@ namespace PKHeX.Core
             pidiv = new PIDIV {NoSeed = true, RNG = RNG.LCRNG, Type = PIDType.Pokewalker};
             return true;
         }
+        private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        {
+            if (pk.Version != 15 || pk.Species != 196 && pk.Species != 197)
+                return GetNonMatch(out pidiv);
+
+            var iv1 = GetIVChunk(IVs, 0);
+            var iv2 = GetIVChunk(IVs, 3);
+            var xdc = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
+            foreach (var seed in xdc)
+            {
+                uint origin = seed;
+                if (!LockFinder.IsColoStarterValid(pk.Species, ref origin, pk.TID, pk.SID, pk.PID, iv1, iv2))
+                    continue;
+
+                pidiv = new PIDIV { OriginSeed = origin, RNG = RNG.XDRNG, Type = PIDType.CXD_ColoStarter };
+                return true;
+            }
+            return GetNonMatch(out pidiv);
+        }
 
         /// <summary>
         /// Returns false and no <see cref="PIDIV"/>.
@@ -660,7 +681,7 @@ namespace PKHeX.Core
                 case EncounterStatic s:
                     switch (pkm.Version)
                     {
-                        case (int)GameVersion.CXD: return val == PIDType.CXD;
+                        case (int)GameVersion.CXD: return val == PIDType.CXD || val == PIDType.CXD_ColoStarter;
                         case (int)GameVersion.E: return val == PIDType.Method_1; // no roamer glitch
 
                         case (int)GameVersion.FR:

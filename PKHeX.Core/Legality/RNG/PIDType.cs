@@ -64,6 +64,7 @@
 
         // XDRNG Based
         CXD,
+        CXD_ColoStarter,
         Channel,
         PokeSpot,
 

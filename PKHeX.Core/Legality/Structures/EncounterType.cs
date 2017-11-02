@@ -27,10 +27,6 @@ namespace PKHeX.Core
 
     public static class EncounterTypeExtension
     {
-        public static bool Contains(this EncounterType g1, int g2)
-        {
-            var type = (EncounterType)(1 << g2);
-            return (g1 & type) != 0;
-        }
+        public static bool Contains(this EncounterType g1, int g2) => g1.HasFlag((EncounterType)(1 << g2));
     }
 }
