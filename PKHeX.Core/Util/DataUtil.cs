@@ -122,6 +122,11 @@ namespace PKHeX.Core
             var resourceName = manifestResourceNames
                                 .Where(x => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith(name + ".txt", StringComparison.OrdinalIgnoreCase))
                                 .FirstOrDefault();
+
+            if (resourceName == null) {
+                return null;
+            }
+
             using (var resource = thisAssembly.GetManifestResourceStream(resourceName))
             using (var reader = new StreamReader(resource))
             {
