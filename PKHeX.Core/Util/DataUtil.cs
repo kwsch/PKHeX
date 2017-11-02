@@ -13,6 +13,7 @@ namespace PKHeX.Core
         private const string TranslationSplitter = " = ";
         private static Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
         private static string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
+        private static Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
         private static Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
 
@@ -119,15 +120,18 @@ namespace PKHeX.Core
 
         public static string GetStringResource(string name)
         {
-            var resourceName = manifestResourceNames
+            if (!resourceNameMap.ContainsKey(name))
+            {
+                resourceNameMap.Add(name, manifestResourceNames
                                 .Where(x => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith(name + ".txt", StringComparison.OrdinalIgnoreCase))
-                                .FirstOrDefault();
+                                .FirstOrDefault());
+            }
 
-            if (resourceName == null) {
+            if (resourceNameMap[name] == null) {
                 return null;
             }
 
-            using (var resource = thisAssembly.GetManifestResourceStream(resourceName))
+            using (var resource = thisAssembly.GetManifestResourceStream(resourceNameMap[name]))
             using (var reader = new StreamReader(resource))
             {
                 return reader.ReadToEnd();
