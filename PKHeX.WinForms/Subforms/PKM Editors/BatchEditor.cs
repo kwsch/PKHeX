@@ -629,22 +629,13 @@ namespace PKHeX.WinForms
         }
         private static void SetRandomIVs(PKM PKM, StringInstruction cmd)
         {
-            int MaxIV = PKM.Format <= 2 ? 15 : 31;
-            if (cmd.PropertyName == "IVs")
+            if (cmd.PropertyName == nameof(PKM.IVs))
             {
-                int[] IVs = new int[6];
-
-                for (int i = 0; i < 6; i++)
-                    IVs[i] = (int)(Util.Rand32() & MaxIV);
-                if (Legal.Legends.Contains(PKM.Species) || Legal.SubLegends.Contains(PKM.Species))
-                    for (int i = 0; i < 3; i++)
-                        IVs[i] = MaxIV;
-
-                Util.Shuffle(IVs);
-                PKM.IVs = IVs;
+                PKM.SetRandomIVs();
+                return;
             }
-            else
-                ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, Util.Rand32() & MaxIV);
+            int MaxIV = PKM.Format <= 2 ? 15 : 31;
+            ReflectFrameworkUtil.SetValue(PKM, cmd.PropertyName, Util.Rand32() & MaxIV);
         }
     }
 

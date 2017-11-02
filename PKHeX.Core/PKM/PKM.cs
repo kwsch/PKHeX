@@ -874,17 +874,31 @@ namespace PKHeX.Core
             for (int i = 0; i < 6; i++)
                 ivs[i] = (int)(Util.Rand32() & MaxIV);
 
-            bool IV3 = GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species));
-            if (IV3)
+            int count = GetFlawlessIVCount();
+            if (count != 0)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < count; i++)
                     ivs[i] = MaxIV;
                 Util.Shuffle(ivs); // Randomize IV order
             }
+
             IVs = ivs;
             return ivs;
         }
-        
+
+        /// <summary>
+        /// Gets the amount of flawless IVs that the <see cref="PKM"/> should have.
+        /// </summary>
+        /// <returns>Count of IVs that should be max.</returns>
+        public int GetFlawlessIVCount()
+        {
+            if (GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species)))
+                return 3;
+            if (VC)
+                return Species == 151 || Species == 251 ? 5 : 3;
+            return 0;
+        }
+
         /// <summary>
         /// Converts a <see cref="XK3"/> or <see cref="PK3"/> to <see cref="CK3"/>.
         /// </summary>
