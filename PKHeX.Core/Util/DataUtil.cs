@@ -13,7 +13,7 @@ namespace PKHeX.Core
         private const string TranslationSplitter = " = ";
         private static Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
         private static string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
-        private static ConcurrentDictionary<string, string[]> stringListCache = new ConcurrentDictionary<string, string[]>();
+        private static Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
 
         #region String Lists        
@@ -86,7 +86,7 @@ namespace PKHeX.Core
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
-            stringListCache[f] = rawlist;
+            stringListCache.Add(f, rawlist);
             return rawlist;
         }
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
