@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for providing suggested property values with respect to the input data.
+    /// </summary>
     internal static class EncounterSuggestion
     {
         public static EncounterStatic GetSuggestedMetInfo(PKM pkm)
@@ -95,6 +98,8 @@ namespace PKHeX.Core
 
                 case GameVersion.B:
                 case GameVersion.W:
+                case GameVersion.B2:
+                case GameVersion.W2:
                     return 16; // Route 3
 
                 case GameVersion.X:

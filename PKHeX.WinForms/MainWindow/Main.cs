@@ -99,9 +99,7 @@ namespace PKHeX.WinForms
             showChangelog = false;
             BAKprompt = false;
 
-            // Set up Language Selection
-            foreach (var cbItem in main_langlist)
-                CB_MainLanguage.Items.Add(cbItem);
+            CB_MainLanguage.Items.AddRange(main_langlist);
             C_SAV.HaX = PKME_Tabs.HaX = HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase));
             PB_Legal.Visible = !HaX;
 
@@ -577,27 +575,11 @@ namespace PKHeX.WinForms
         }
         private bool TryLoadPKM(byte[] input, string path, string ext, SaveFile SAV)
         {
-            var temp = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
-            if (temp == null)
-                return false;
-
-            var type = PKME_Tabs.CurrentPKM.GetType();
-            PKM pk = PKMConverter.ConvertToType(temp, type, out string c);
+            var pk = PKMConverter.GetPKMfromBytes(input, prefer: ext.Length > 0 ? (ext.Last() - '0') & 0xF : C_SAV.SAV.Generation);
             if (pk == null)
-            {
-                WinFormsUtil.Alert("Conversion failed.", c);
                 return false;
-            }
-            if (SAV.Generation < 3 && ((pk as PK1)?.Japanese ?? ((PK2)pk).Japanese) != SAV.Japanese)
-            {
-                var strs = new[] { "International", "Japanese" };
-                var val = SAV.Japanese ? 0 : 1;
-                WinFormsUtil.Alert($"Cannot load {strs[val]} {pk.GetType().Name}s to {strs[val ^ 1]} saves.");
-                return false;
-            }
             
             PKME_Tabs.PopulateFields(pk);
-            Debug.WriteLine(c);
             return true;
         }
         private bool TryLoadPCBoxBin(byte[] input)
@@ -607,7 +589,7 @@ namespace PKHeX.WinForms
             if (!C_SAV.OpenPCBoxBin(input, out string c))
             {
                 WinFormsUtil.Alert("Binary is not compatible with save file.", c);
-                return false;
+                return true;
             }
 
             WinFormsUtil.Alert(c);
@@ -989,28 +971,17 @@ namespace PKHeX.WinForms
         private void ImportQRToTabs(string url)
         {
             // Fetch data from QR code...
-            byte[] ekx = QR.GetQRData(url);
-            if (ekx == null)
+            byte[] input = QR.GetQRData(url);
+            if (input == null)
                 return;
 
-            PKM pk = PKMConverter.GetPKMfromBytes(ekx, prefer: C_SAV.SAV.Generation);
-            if (pk == null)
-            {
-                WinFormsUtil.Alert("Decoded data not a valid PKM.", $"QR Data Size: {ekx.Length}");
+            var sav = C_SAV.SAV;
+            if (TryLoadPKM(input, url, sav.Generation.ToString(), sav))
                 return;
-            }
-            if (!pk.Valid || pk.Species <= 0)
-            {
-                WinFormsUtil.Alert("Invalid data detected.");
+            if (TryLoadMysteryGift(input, url, null))
                 return;
-            }
-            PKM pkz = PKMConverter.ConvertToType(pk, C_SAV.SAV.PKMType, out string c);
-            if (pkz == null)
-            {
-                WinFormsUtil.Alert(c);
-                return;
-            }
-            PKME_Tabs.PopulateFields(pkz);
+
+            WinFormsUtil.Alert("Decoded data not a valid PKM/Gift.", $"QR Data Size: {input.Length}");
         }
         private void ExportQRFromTabs()
         {

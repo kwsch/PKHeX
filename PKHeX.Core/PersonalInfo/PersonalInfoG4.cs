@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from Generation 4 games.
+    /// </summary>
     public class PersonalInfoG4 : PersonalInfoG3
     {
         public new const int SIZE = 0x2C;

@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 1 <see cref="SaveFile"/> object.
+    /// </summary>
     public sealed class SAV1 : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) - {PlayTimeString}].bak";
@@ -18,7 +21,7 @@ namespace PKHeX.Core
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G1RAW] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !Data.All(z => z == 0);
 
             if (data == null)
                 Version = GameVersion.RBY;

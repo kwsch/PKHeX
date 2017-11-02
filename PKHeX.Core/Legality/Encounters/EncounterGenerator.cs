@@ -139,8 +139,7 @@ namespace PKHeX.Core
                 if (s.Version == GameVersion.EventsGBGen2 && s.Species != 251)
                 {
                     // no Gen2 events outside of Japan besides Celebi
-                    var jp = (pkm as PK2)?.Japanese ?? (pkm as PK1)?.Japanese;
-                    if (jp == true)
+                    if (pkm.Japanese)
                         deferred.Add(s);
                     continue;
                 }
@@ -266,10 +265,10 @@ namespace PKHeX.Core
         }
         private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm)
         {
-            int ctr = 0;
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg; // egg events?
             if (wasEvent)
             {
+                int ctr = 0;
                 foreach (var z in GetValidGifts(pkm))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
@@ -277,7 +276,7 @@ namespace PKHeX.Core
             if (pkm.WasEgg)
             {
                 foreach (var z in GenerateEggs(pkm))
-                { yield return z; ++ctr; }
+                    yield return z;
             }
 
             var deferred = new List<IEncounterable>();
@@ -288,17 +287,12 @@ namespace PKHeX.Core
                 if (z.Gift && pkm.Ball != 4)
                     deferred.Add(z);
                 else
-                {
-                    yield return z; ++ctr;
-                } 
+                    yield return z;
             }
-            // if (ctr != 0) yield break;
-            foreach (var z in GetValidWildEncounters(pkm))
-            { yield return z; ++ctr; }
-            if (ctr != 0 && pkm.HasOriginalMetLocation && pkm.TID != 1000) yield break; // EncounterTrade abra/gengar will match wild slots
             foreach (var z in GetValidEncounterTrades(pkm))
-            { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
+                yield return z;
+            foreach (var z in GetValidWildEncounters(pkm))
+                yield return z;
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safariSport)
@@ -327,17 +321,14 @@ namespace PKHeX.Core
             foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
+            if (pkm.Version != 15) // no eggs in C/XD
+            foreach (var z in GenerateEggs(pkm))
+                yield return z;
+
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safari)
             foreach (var z in GetValidStaticEncounter(pkm))
                 yield return z;
-
-            if (pkm.Version == 15)
-                yield break; // no eggs in C/XD
-
-            foreach (var z in GenerateEggs(pkm))
-                yield return z;
-
             foreach (var z in deferred)
                 yield return z;
         }
@@ -779,7 +770,7 @@ namespace PKHeX.Core
                 case 6:
                     return Encounters6.LinkGifts6.Where(g => g.Species == pkm.Species && g.Level == pkm.Met_Level);
                 default:
-                    return new EncounterLink[0];
+                    return Enumerable.Empty<EncounterLink>();
             }
         }
 
@@ -976,7 +967,7 @@ namespace PKHeX.Core
                 case 7:
                     return GetMatchingWC7(pkm, MGDB_G7);
                 default:
-                    return new List<MysteryGift>();
+                    return Enumerable.Empty<MysteryGift>();
             }
         }
         private static IEnumerable<MysteryGift> GetMatchingWC3(PKM pkm, IEnumerable<MysteryGift> DB)

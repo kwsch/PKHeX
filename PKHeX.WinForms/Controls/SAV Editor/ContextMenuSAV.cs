@@ -33,7 +33,7 @@ namespace PKHeX.WinForms.Controls
             if ((sender as PictureBox)?.Image == null)
             { System.Media.SystemSounds.Asterisk.Play(); return; }
 
-            m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false);
+            m.SE.PKME_Tabs.PopulateFields(m.GetPKM(info), false, true);
             m.SetColor(info.Box, info.Slot, Resources.slotView);
         }
         private static void ClickSet(object sender, EventArgs e)

@@ -6,6 +6,9 @@ using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for <see cref="SaveFile"/> data loading and manipulation.
+    /// </summary>
     public static class SaveUtil
     {
         public const int BEEF = 0x42454546;

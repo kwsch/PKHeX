@@ -1,5 +1,10 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Wild Encounter data <see cref="EncounterSlot"/> Type
+    /// </summary>
+    /// <remarks>
+    /// Different from <see cref="EncounterType"/>, this corresponds to the method that the <see cref="IEncounterable"/> may be encountered.</remarks>
     public enum SlotType
     {
         Any,

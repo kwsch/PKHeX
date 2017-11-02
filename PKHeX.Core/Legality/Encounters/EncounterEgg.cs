@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Egg Encounter Data
+    /// </summary>
     public class EncounterEgg : IEncounterable
     {
         public int Species { get; set; }

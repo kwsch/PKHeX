@@ -1,5 +1,11 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Trade Encounter data
+    /// </summary>
+    /// <remarks>
+    /// Trade data is fixed level in all cases except for the first few generations of games.
+    /// </remarks>
     public class EncounterTrade : IEncounterable, IMoveset, IGeneration
     {
         public int Species { get; set; }
@@ -36,11 +42,20 @@
         };
     }
 
+    /// <summary>
+    /// Trade Encounter data with a fixed PID.
+    /// </summary>
     public class EncounterTradePID : EncounterTrade
     {
         public uint PID;
     }
 
+    /// <summary>
+    /// Trade Encounter data with a fixed Catch Rate
+    /// </summary>
+    /// <remarks>
+    /// Generation 1 specific value used in detecting unmodified/untraded Generation 1 Trade Encounter data.
+    /// </remarks>
     public class EncounterTradeCatchRate : EncounterTrade
     {
         public uint Catch_Rate;

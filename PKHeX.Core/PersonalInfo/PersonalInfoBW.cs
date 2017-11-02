@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from the Black & White games.
+    /// </summary>
     public class PersonalInfoBW : PersonalInfo
     {
         protected PersonalInfoBW() { }

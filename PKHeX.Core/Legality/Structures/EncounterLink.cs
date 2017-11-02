@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Pokémon Link Encounter Data
+    /// </summary>
     public class EncounterLink : IEncounterable, IRibbonSetEvent4, IMoveset
     {
         public int Species { get; set; }

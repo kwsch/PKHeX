@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// <see cref="PersonalInfo"/> class with values from the X & Y games.
+    /// </summary>
     public class PersonalInfoXY : PersonalInfoBW
     {
         protected PersonalInfoXY() { } // For ORAS

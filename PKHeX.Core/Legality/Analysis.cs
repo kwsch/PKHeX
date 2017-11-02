@@ -8,6 +8,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Legality Check object containing the <see cref="CheckResult"/> data and overview values from the parse.
+    /// </summary>
     public partial class LegalityAnalysis
     {
         private PKM pkm;
@@ -53,6 +56,10 @@ namespace PKHeX.Core
         private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;
         public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
 
+        /// <summary>
+        /// Checks the input <see cref="PKM"/> data for legality.
+        /// </summary>
+        /// <param name="pk">Input data to check</param>
         public LegalityAnalysis(PKM pk)
         {
 #if SUPPRESS

@@ -4,7 +4,14 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public class PL6 //: PokemonLink
+    /// <summary>
+    /// Pokemon Link Data Storage
+    /// </summary>
+    /// <remarks>
+    /// This Template object is very similar to the <see cref="PCD"/> structure in that it stores more data than just the gift.
+    /// This template object is only present in Generation 6 save files.
+    /// </remarks>
+    public class PL6
     {
         public const int Size = 0xA47;
         public const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
@@ -14,13 +21,17 @@ namespace PKHeX.Core
         {
             Data = (byte[])(data?.Clone() ?? new byte[Size]);
         }
-        // Pokémon Link Flag 
+        /// <summary>
+        /// Pokémon Link Flag 
+        /// </summary>
         public byte PL_Flag {
             get => Data[0x00]; set => Data[0x00] = value;
         }
         public bool PL_enabled { get => PL_Flag != 0; set => PL_Flag = (byte)(value ? 1 << 7 : 0); }
-        
-        //Name of data source
+
+        /// <summary>
+        /// Name of data source
+        /// </summary>
         public string Origin_app {
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x01, 0x6E));
             set => Encoding.Unicode.GetBytes(value.PadRight(54 + 1, '\0')).CopyTo(Data, 0x01);
@@ -171,9 +182,15 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A3); }
     }
 
-    public class PL6_PKM : IEncounterable
+    /// <summary>
+    /// Pokemon Link Gift Template
+    /// </summary>
+    /// <remarks>
+    /// This Template object is very similar to the <see cref="WC6"/> structure and similar objects, in that the structure offsets are ordered the same.
+    /// This template object is only present in Generation 6 save files.
+    /// </remarks>
+    public class PL6_PKM : IEncounterable, IRibbonSetEvent3, IRibbonSetEvent4
     {
-
         internal const int Size = 0xA0;
 
         public readonly byte[] Data;
@@ -289,22 +306,22 @@ namespace PKHeX.Core
         public int OT_Feeling { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
 
         private byte RIB0 { get => Data[0x0C]; set => Data[0x0C] = value; }
-        public bool RIB0_0 { get => (RIB0 & (1 << 0)) == 1 << 0; set => RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } // Battle Champ Ribbon
-        public bool RIB0_1 { get => (RIB0 & (1 << 1)) == 1 << 1; set => RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } // Regional Champ Ribbon
-        public bool RIB0_2 { get => (RIB0 & (1 << 2)) == 1 << 2; set => RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } // National Champ Ribbon
-        public bool RIB0_3 { get => (RIB0 & (1 << 3)) == 1 << 3; set => RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } // Country Ribbon
-        public bool RIB0_4 { get => (RIB0 & (1 << 4)) == 1 << 4; set => RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // National Ribbon
-        public bool RIB0_5 { get => (RIB0 & (1 << 5)) == 1 << 5; set => RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Earth Ribbon
-        public bool RIB0_6 { get => (RIB0 & (1 << 6)) == 1 << 6; set => RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // World Ribbon
-        public bool RIB0_7 { get => (RIB0 & (1 << 7)) == 1 << 7; set => RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Event Ribbon
+        public bool RibbonChampionBattle { get => (RIB0 & (1 << 0)) == 1 << 0; set => RIB0 = (byte)(RIB0 & ~(1 << 0) | (value ? 1 << 0 : 0)); } // Battle Champ Ribbon
+        public bool RibbonChampionRegional { get => (RIB0 & (1 << 1)) == 1 << 1; set => RIB0 = (byte)(RIB0 & ~(1 << 1) | (value ? 1 << 1 : 0)); } // Regional Champ Ribbon
+        public bool RibbonChampionNational { get => (RIB0 & (1 << 2)) == 1 << 2; set => RIB0 = (byte)(RIB0 & ~(1 << 2) | (value ? 1 << 2 : 0)); } // National Champ Ribbon
+        public bool RibbonCountry { get => (RIB0 & (1 << 3)) == 1 << 3; set => RIB0 = (byte)(RIB0 & ~(1 << 3) | (value ? 1 << 3 : 0)); } // Country Ribbon
+        public bool RibbonNational { get => (RIB0 & (1 << 4)) == 1 << 4; set => RIB0 = (byte)(RIB0 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // National Ribbon
+        public bool RibbonEarth { get => (RIB0 & (1 << 5)) == 1 << 5; set => RIB0 = (byte)(RIB0 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Earth Ribbon
+        public bool RibbonWorld { get => (RIB0 & (1 << 6)) == 1 << 6; set => RIB0 = (byte)(RIB0 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // World Ribbon
+        public bool RibbonEvent { get => (RIB0 & (1 << 7)) == 1 << 7; set => RIB0 = (byte)(RIB0 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Event Ribbon
         private byte RIB1 { get => Data[0x0D]; set => Data[0x0D] = value; }
-        public bool RIB1_0 { get => (RIB1 & (1 << 0)) == 1 << 0; set => RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } // World Champ Ribbon
-        public bool RIB1_1 { get => (RIB1 & (1 << 1)) == 1 << 1; set => RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } // Birthday Ribbon
-        public bool RIB1_2 { get => (RIB1 & (1 << 2)) == 1 << 2; set => RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } // Special Ribbon
-        public bool RIB1_3 { get => (RIB1 & (1 << 3)) == 1 << 3; set => RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } // Souvenir Ribbon
-        public bool RIB1_4 { get => (RIB1 & (1 << 4)) == 1 << 4; set => RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // Wishing Ribbon
-        public bool RIB1_5 { get => (RIB1 & (1 << 5)) == 1 << 5; set => RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Classic Ribbon
-        public bool RIB1_6 { get => (RIB1 & (1 << 6)) == 1 << 6; set => RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // Premier Ribbon
+        public bool RibbonChampionWorld { get => (RIB1 & (1 << 0)) == 1 << 0; set => RIB1 = (byte)(RIB1 & ~(1 << 0) | (value ? 1 << 0 : 0)); } // World Champ Ribbon
+        public bool RibbonBirthday { get => (RIB1 & (1 << 1)) == 1 << 1; set => RIB1 = (byte)(RIB1 & ~(1 << 1) | (value ? 1 << 1 : 0)); } // Birthday Ribbon
+        public bool RibbonSpecial { get => (RIB1 & (1 << 2)) == 1 << 2; set => RIB1 = (byte)(RIB1 & ~(1 << 2) | (value ? 1 << 2 : 0)); } // Special Ribbon
+        public bool RibbonSouvenir { get => (RIB1 & (1 << 3)) == 1 << 3; set => RIB1 = (byte)(RIB1 & ~(1 << 3) | (value ? 1 << 3 : 0)); } // Souvenir Ribbon
+        public bool RibbonWishing { get => (RIB1 & (1 << 4)) == 1 << 4; set => RIB1 = (byte)(RIB1 & ~(1 << 4) | (value ? 1 << 4 : 0)); } // Wishing Ribbon
+        public bool RibbonClassic { get => (RIB1 & (1 << 5)) == 1 << 5; set => RIB1 = (byte)(RIB1 & ~(1 << 5) | (value ? 1 << 5 : 0)); } // Classic Ribbon
+        public bool RibbonPremier { get => (RIB1 & (1 << 6)) == 1 << 6; set => RIB1 = (byte)(RIB1 & ~(1 << 6) | (value ? 1 << 6 : 0)); } // Premier Ribbon
         public bool RIB1_7 { get => (RIB1 & (1 << 7)) == 1 << 7; set => RIB1 = (byte)(RIB1 & ~(1 << 7) | (value ? 1 << 7 : 0)); } // Empty
 
         public int[] Moves

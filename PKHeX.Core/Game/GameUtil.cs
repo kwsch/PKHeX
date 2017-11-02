@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Utility class for <see cref="GameVersion"/> logic.
+    /// </summary>
     public static class GameUtil
     {
         /// <summary>Determines the Version Grouping of an input Version ID</summary>

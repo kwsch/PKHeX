@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 <see cref="SaveFile"/> object for Pokémon XD saves.
+    /// </summary>
     public sealed class SAV3XD : SaveFile
     {
         public override string BAKName => $"{FileName} [{OT} ({Version}) #{SaveCount:0000}].bak";
@@ -37,7 +40,7 @@ namespace PKHeX.Core
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3XD] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
+            Exportable = !Data.All(z => z == 0);
 
             if (SaveUtil.GetIsG3XDSAV(Data) != GameVersion.XD)
                 return;

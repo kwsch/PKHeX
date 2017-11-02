@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Game Version ID enum shared between actual Version IDs and lumped version groupings.
+    /// </summary>
     public enum GameVersion
     {
         // Indicators

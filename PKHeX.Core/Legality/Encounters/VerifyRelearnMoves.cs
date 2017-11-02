@@ -6,6 +6,9 @@ using static PKHeX.Core.LegalityAnalysis;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic to verify the current <see cref="PKM.RelearnMoves"/>.
+    /// </summary>
     public static class VerifyRelearnMoves
     {
         public static CheckResult[] VerifyRelearn(PKM pkm, LegalInfo info)

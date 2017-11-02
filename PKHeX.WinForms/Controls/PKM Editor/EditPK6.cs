@@ -16,6 +16,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc6(pk6);
 
             CB_EncounterType.SelectedValue = pk6.Gen4 ? pk6.EncounterType : 0;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
 
             LoadPartyStats(pk6);
             UpdateStats();

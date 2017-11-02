@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Invalid Encounter Data
+    /// </summary>
     public class EncounterInvalid : IEncounterable
     {
         public int Species { get; }

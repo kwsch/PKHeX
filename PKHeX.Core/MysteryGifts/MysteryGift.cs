@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Mystery Gift Template File
+    /// </summary>
     public abstract class MysteryGift : IEncounterable, IMoveset
     {
 
@@ -25,27 +28,25 @@ namespace PKHeX.Core
         /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
         public static MysteryGift GetMysteryGift(byte[] data, string ext)
         {
-            // Generation 7
-            if (data.Length == WC7.SizeFull && ext == ".wc7full")
-                return new WC7(data);
-            if (data.Length == WC7.Size && ext == ".wc7")
-                return new WC7(data);
+            if (ext == null)
+                return GetMysteryGift(data);
 
-            // Generation 6
-            if (data.Length == WC6.SizeFull && ext == ".wc6full")
-                return new WC6(data);
-            if (data.Length == WC6.Size && ext == ".wc6")
-                return new WC6(data);
+            switch (data.Length)
+            {
+                case WC7.SizeFull when ext == ".wc7full":
+                case WC7.Size when ext == ".wc7":
+                    return new WC7(data);
+                case WC6.SizeFull when ext == ".wc6full":
+                case WC6.Size when ext == ".wc6":
+                    return new WC6(data);
 
-            // Generation 5
-            if (data.Length == PGF.Size && ext == ".pgf")
-                return new PGF(data);
-
-            // Generation 4
-            if (data.Length == PGT.Size && ext == ".pgt")
-                return new PGT(data);
-            if (data.Length == PCD.Size && ext == ".pcd")
-                return new PCD(data);
+                case PGF.Size when ext == ".pgf":
+                    return new PGF(data);
+                case PGT.Size when ext == ".pgt":
+                    return new PGT(data);
+                case PCD.Size when ext == ".pcd":
+                    return new PCD(data);
+            }
 
             return null;
         }
@@ -69,14 +70,11 @@ namespace PKHeX.Core
                     if (BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000)
                         return new WC7(data);
                     return new WC6(data);
-                case PGF.Size:
-                    return new PGF(data);
-                case PGT.Size:
-                    return new PGT(data);
-                case PCD.Size:
-                    return new PCD(data);
-                default:
-                    return null;
+
+                case PGF.Size: return new PGF(data);
+                case PGT.Size: return new PGT(data);
+                case PCD.Size: return new PCD(data);
+                default: return null;
             }
         }
 

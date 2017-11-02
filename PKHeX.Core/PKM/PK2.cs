@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
     public class PK2 : PKM
     {
         // Internal use only
@@ -146,8 +147,10 @@ namespace PKHeX.Core
         {
             var name = PKX.GetSpeciesNameGeneration(Species, GuessedLanguage(), Format);
             var bytes = SetString(name, StringLength);
-            return bytes.Concat(Enumerable.Repeat((byte)0x50, nick.Length - bytes.Length))
-                .Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
+            var data = bytes.Concat(Enumerable.Repeat((byte) 0x50, nick.Length - bytes.Length));
+            if (!Korean)
+                data = data.Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
+            return data;
         }
         public bool IsNicknamedBank
         {
@@ -164,7 +167,7 @@ namespace PKHeX.Core
                 if (Japanese)
                     return (int)LanguageID.Japanese;
                 if (Korean)
-                    return (int)LanguageID.English;
+                    return (int)LanguageID.Korean;
                 if (StringConverter.IsG12German(otname))
                     return (int)LanguageID.German; // german
                 int lang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);

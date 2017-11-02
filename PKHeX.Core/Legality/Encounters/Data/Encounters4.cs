@@ -5,6 +5,9 @@ using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 Encounters
+    /// </summary>
     internal static class Encounters4
     {
         internal static readonly EncounterArea[] SlotsD, SlotsP, SlotsPt, SlotsHG, SlotsSS;
@@ -126,11 +129,11 @@ namespace PKHeX.Core
             MarkDPPtEncounterTypeSlots_MultipleTypes(ref P_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
             MarkDPPtEncounterTypeSlots_MultipleTypes(ref Pt_Slots, MtCoronet, DPPt_MtCoronetExteriorEncounters, EncounterType.Cave_HallOfOrigin);
             const int RuinsOfAlph = 209;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, RuinsOfAlph, 1, EncounterType.Cave_HallOfOrigin);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, RuinsOfAlph, 1, EncounterType.Cave_HallOfOrigin);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, RuinsOfAlph, EncounterType.Cave_HallOfOrigin, 1);
             const int MtSilver = 219;
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
-            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, HGSS_MtSilverCaveExteriorEncounters, EncounterType.Cave_HallOfOrigin);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
         }
 
         private static void MarkG4PokeWalker(EncounterStatic[] t)
@@ -210,6 +213,7 @@ namespace PKHeX.Core
                 case SlotType.Grass:
                 case SlotType.Grass_Safari:
                 case SlotType.BugContest: return GrassType;
+
                 case SlotType.Surf:
                 case SlotType.Old_Rod:
                 case SlotType.Good_Rod:
@@ -218,10 +222,17 @@ namespace PKHeX.Core
                 case SlotType.Old_Rod_Safari:
                 case SlotType.Good_Rod_Safari:
                 case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
+
                 case SlotType.Rock_Smash:
-                case SlotType.Rock_Smash_Safari: return EncounterType.RockSmash;
-                case SlotType.Headbutt: return HeadbuttType;
-                case SlotType.Headbutt_Special: return EncounterType.None;
+                    if (HeadbuttType == EncounterType.Building_EnigmaStone)
+                        return HeadbuttType;
+                    if (GrassType == EncounterType.Cave_HallOfOrigin)
+                        return GrassType;
+                    return EncounterType.None;
+
+                case SlotType.Headbutt_Special:
+                case SlotType.Headbutt: return HeadbuttType | EncounterType.None; 
+                    // not sure on if "None" should always be allowed, but this is so uncommon it shouldn't matter (gen7 doesn't keep this value anyway).
             }
             return EncounterType.None;
         }
@@ -253,7 +264,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, int SpecialEncounterFile, EncounterType NormalEncounterType)
+        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, EncounterType NormalEncounterType, params int[] SpecialEncounterFile)
         {
             // Area with two different encounter type for grass encounters
             // SpecialEncounterFile is taall grass encounter type, the other files have the normal encounter type for this location
@@ -262,21 +273,7 @@ namespace PKHeX.Core
             foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
             {
                 numfile++;
-                var GrassType = numfile == SpecialEncounterFile ? EncounterType.TallGrass : NormalEncounterType;
-                foreach (EncounterSlot Slot in Area.Slots)
-                {
-                    Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
-                }
-            }
-        }
-        private static void MarkHGSSEncounterTypeSlots_MultipleTypes(ref EncounterArea[] Areas, int Location, ICollection<int> SpecialEncounterFiles, EncounterType NormalEncounterType)
-        {
-            var HeadbuttType = GetHeadbuttEncounterType(Location);
-            var numfile = 0;
-            foreach (EncounterArea Area in Areas.Where(x => x.Location == Location))
-            {
-                numfile++;
-                var GrassType = SpecialEncounterFiles.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
+                var GrassType = SpecialEncounterFile.Contains(numfile) ? EncounterType.TallGrass : NormalEncounterType;
                 foreach (EncounterSlot Slot in Area.Slots)
                 {
                     Slot.TypeEncounter = GetEncounterTypeBySlotHGSS(Slot.Type, GrassType, HeadbuttType);
@@ -304,18 +301,26 @@ namespace PKHeX.Core
             var allowsurf = HGSS_SurfingHeadbutt_Locations.Contains(Location);
             // Cities
             if (HGSS_CityLocations.Contains(Location))
-                return allowsurf ? EncounterType.Headbutt_CitySurf : EncounterType.Building_EnigmaStone;
+                return allowsurf
+                    ? EncounterType.Building_EnigmaStone | EncounterType.Surfing_Fishing
+                    : EncounterType.Building_EnigmaStone;
             // Caves with no exterior zones
             if (!HGSS_MixInteriorExteriorLocations.Contains(Location) && HGSS_CaveLocations.Contains(Location))
-                return allowsurf ? EncounterType.Headbutt_CaveSurf : EncounterType.Cave_HallOfOrigin;
+                return allowsurf
+                    ? EncounterType.Cave_HallOfOrigin | EncounterType.Surfing_Fishing
+                    : EncounterType.Cave_HallOfOrigin;
 
             // Routes and exterior areas
             // Routes with trees adjacent to grass tiles
             var allowgrass = HGSS_GrassHeadbutt_Locations.Contains(Location);
-            return allowgrass && allowsurf ? EncounterType.Headbutt_GrassSurf :
-                allowgrass ? EncounterType.Headbutt_Grass :
-                    allowsurf ? EncounterType.Headbutt_Surf :
-                        EncounterType.None;
+            if (allowgrass)
+                return allowsurf 
+                    ? EncounterType.TallGrass | EncounterType.Surfing_Fishing 
+                    : EncounterType.TallGrass;
+
+            return allowsurf
+                ? EncounterType.Surfing_Fishing
+                : EncounterType.None;
         }
 
         private static void MarkHGSSEncounterTypeSlots(ref EncounterArea[] Areas)
@@ -489,11 +494,11 @@ namespace PKHeX.Core
             219, // Mt. Silver Cave
             224, // Viridian Forest
         };
-        private static readonly HashSet<int> HGSS_MtSilverCaveExteriorEncounters = new HashSet<int>
+        private static readonly int[] HGSS_MtSilverCaveExteriorEncounters =
         {
             2, 3
         };
-        private static readonly HashSet<int> HGSS_MixInteriorExteriorLocations = new HashSet<int>
+        private static readonly int[] HGSS_MixInteriorExteriorLocations =
         {
             209, // Ruins of Alph
             219, // Mt. Silver Cave
@@ -909,6 +914,7 @@ namespace PKHeX.Core
             Encounter_HGSS_Regular).ToArray();
         #endregion
         #region Trade Tables
+        internal static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
         private static readonly EncounterTrade[] RanchGifts =
         {
             new EncounterTradePID { Species = 025, Level = 18, Moves = new[] {447,085,148,104}, TID = 1000, SID = 19840, OTGender = 1, Version = GameVersion.D, Location = 0068, Gender = 0, PID = 323975838, CurrentLevel = 20, }, // Pikachu
@@ -936,26 +942,50 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterTrade[] TradeGift_DPPt = new[]
         {
-            new EncounterTrade { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25}, Nature = Nature.Quiet,}, // Abra
-            new EncounterTrade { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Lonely, Contest = new[] {20,20,20,20,20,0} }, // Chatot
-            new EncounterTrade { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, Nature = Nature.Hasty,}, // Haunter
-            new EncounterTrade { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15}, Nature = Nature.Mild}, // Magikarp
+            new EncounterTradePID { Species = 063, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25}, PID = 0x0000008E }, // Abra
+            new EncounterTradePID { Species = 441, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, PID = 0x00000867, Contest = new[] {20,20,20,20,20,0} }, // Chatot
+            new EncounterTradePID { Species = 093, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15}, PID = 0x00000088 }, // Haunter
+            new EncounterTradePID { Species = 129, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15}, PID = 0x0000045C }, // Magikarp
         }.Concat(RanchGifts).ToArray();
         internal static readonly EncounterTrade[] TradeGift_HGSS =
         {
-            new EncounterTrade { Species = 095, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15}, Nature = Nature.Hasty,}, // Onix
-            new EncounterTrade { Species = 066, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15}, Nature = Nature.Lonely,}, // Machop
-            new EncounterTrade { Species = 100, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15}, Nature = Nature.Hardy,}, // Voltorb
-            new EncounterTrade { Species = 085, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15}, Nature = Nature.Impish,}, // Dodrio
-            new EncounterTrade { Species = 082, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20}, Nature = Nature.Impish,}, // Magneton
-            new EncounterTrade { Species = 178, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, Nature = Nature.Modest,}, // Xatu
-            new EncounterTrade { Species = 025, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13}, Nature = Nature.Jolly,}, // Pikachu
-            new EncounterTrade { Species = 374, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,23,24,25}, Nature = Nature.Brave,}, // Beldum
-            new EncounterTrade { Species = 111, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,00,22,09}, Nature = Nature.Relaxed, Moves= new[]{422} }, // Rhyhorn
-            new EncounterTrade { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}, Nature = Nature.Brave,}, // Steelix
+            new EncounterTradePID { Species = 095, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15}, PID = 0x000025EF }, // Onix
+            new EncounterTradePID { Species = 066, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15}, PID = 0x00002310 }, // Machop
+            new EncounterTradePID { Species = 100, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15}, PID = 0x000001DB }, // Voltorb
+            new EncounterTradePID { Species = 085, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15}, PID = 0x0001FC0A }, // Dodrio
+            new EncounterTradePID { Species = 082, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20}, PID = 0x0000D136 }, // Magneton
+            new EncounterTradePID { Species = 178, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, PID = 0x000034E4 }, // Xatu
+            new EncounterTradePID { Species = 025, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13}, PID = 0x00485876 }, // Pikachu
+            new EncounterTradePID { Species = 374, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,23,24,25}, PID = 0x0012B6D4 }, // Beldum
+            new EncounterTradePID { Species = 111, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,00,22,09}, PID = 0x0012971C, Moves = new[]{422} }, // Rhyhorn
+            new EncounterTradePID { Species = 208, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}, PID = 0x00101596}, // Steelix
             //Gift
-            new EncounterTrade { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, Nature = Nature.Hasty,   Level = 20, Location = 183, Moves= new[]{043,031,228,332}},//Webster's Spearow
-            new EncounterTrade { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, Nature = Nature.Relaxed, Level = 20, Location = 130, Moves= new[]{132,117,227,219}},//Kirk's Shuckle
+            new EncounterTradePID { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, PID = 0x00006B5E, Level = 20, Location = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
+            new EncounterTradePID { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, PID = 0x000214D7, Level = 20, Location = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
+        };
+        internal static readonly string[][] TradeDPPt =
+        {
+            new string[0],                         // 0 - None
+            Util.GetStringList("tradedppt", "ja"), // 1
+            Util.GetStringList("tradedppt", "en"), // 2
+            Util.GetStringList("tradedppt", "fr"), // 3
+            Util.GetStringList("tradedppt", "it"), // 4
+            Util.GetStringList("tradedppt", "de"), // 5
+            new string[0],                         // 6 - None
+            Util.GetStringList("tradedppt", "es"), // 7
+            Util.GetStringList("tradedppt", "ko"), // 8
+        };
+        internal static readonly string[][] TradeHGSS =
+        {
+            new string[0],                         // 0 - None
+            Util.GetStringList("tradehgss", "ja"), // 1
+            Util.GetStringList("tradehgss", "en"), // 2
+            Util.GetStringList("tradehgss", "fr"), // 3
+            Util.GetStringList("tradehgss", "it"), // 4
+            Util.GetStringList("tradehgss", "de"), // 5
+            new string[0],                         // 6 - None
+            Util.GetStringList("tradehgss", "es"), // 7
+            Util.GetStringList("tradehgss", "ko"), // 8
         };
         #endregion
 

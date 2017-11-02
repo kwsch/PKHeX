@@ -242,18 +242,26 @@ namespace PKHeX.Core
             },
         };
 
-        public static bool CheckVivillonPattern(int form, int pkmcountry, int pkmregion)
+        /// <summary>
+        /// Compares the Vivillon pattern against its country and region to determine if the pattern is able to be obtained legally.
+        /// </summary>
+        /// <param name="form">Alternate Forme Pattern</param>
+        /// <param name="country">Country ID</param>
+        /// <param name="region">Console Region ID</param>
+        /// <returns></returns>
+        public static bool CheckVivillonPattern(int form, int country, int region)
         {
-            if (!VivillonCountryTable[form].Contains(pkmcountry))
+            if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
-            if (RegionFormTable.All(c => c.countryID != pkmcountry))
+
+            CountryTable ct = RegionFormTable.Where(t => t.countryID == country).FirstOrDefault();
+            if (ct.otherforms == null) // empty struct = no forms referenced
                 return true; // No subregion table
 
-            CountryTable ct = RegionFormTable.Where(t => t.countryID == pkmcountry).ToArray()[0];
             if (ct.mainform == form)
-                return !ct.otherforms.SelectMany(e => e.region).Contains(pkmregion); //true if Mainform not in other specific region
+                return !ct.otherforms.Any(e => e.region.Contains(region)); //true if Mainform not in other specific region
 
-            return ct.otherforms.Any(e => e.form == form && e.region.Contains(pkmregion));
+            return ct.otherforms.Any(e => e.form == form && e.region.Contains(region));
         }
     }
 }

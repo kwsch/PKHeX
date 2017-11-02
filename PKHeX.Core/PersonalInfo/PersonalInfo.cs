@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Stat/misc data for individual species or their associated alternate forme data.
+    /// </summary>
     public abstract class PersonalInfo
     {
         protected byte[] Data;
@@ -59,8 +62,15 @@
             return data;
         }
 
-        public void AddTMHM(byte[] data) => TMHM = GetBits(data);
-        public void AddTypeTutors(byte[] data) => TypeTutors = GetBits(data);
+        /// <summary>
+        /// Injects supplementary TM/HM compatibility which is not present in the generation specific PersonalInfo format.
+        /// </summary>
+        /// <param name="data"></param>
+        internal void AddTMHM(byte[] data) => TMHM = GetBits(data);
+        /// <summary>
+        /// Injects supplementary Type Tutor compatibility which is not present in the generation specific PersonalInfo format.
+        /// </summary>
+        internal void AddTypeTutors(byte[] data) => TypeTutors = GetBits(data);
 
         // Data Manipulation
         public int FormeIndex(int species, int forme)
@@ -87,7 +97,7 @@
                     case 0: // Male
                         return 0;
                     default:
-                        return (int)(Util.Rand32() % 2);
+                        return (int)(Util.Rand32() & 1);
                 }
             }
         }

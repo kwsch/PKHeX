@@ -2,6 +2,13 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 Mystery Gift Template File
+    /// </summary>
+    /// <remarks>
+    /// This is fabricated data built to emulate the future generation Mystery Gift objects.
+    /// Data here is not stored in any save file and cannot be naturally exported.
+    /// </remarks>
     public class WC3 : MysteryGift, IRibbonSetEvent3
     {
         // Template Properties

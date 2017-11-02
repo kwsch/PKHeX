@@ -62,10 +62,15 @@ namespace PKHeX.WinForms.Controls
         public bool PKMIsUnsaved => fieldsInitialized && fieldsLoaded && LastData != null && LastData.Any(b => b != 0) && !LastData.SequenceEqual(PreparePKM().Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
+        private bool forceValidation;
         public PKM PreparePKM(bool click = true)
         {
             if (click)
+            {
+                forceValidation = true;
                 ValidateChildren();
+                forceValidation = false;
+            }
             PKM pk = GetPKMfromFields();
             return pk?.Clone();
         }
@@ -102,9 +107,6 @@ namespace PKHeX.WinForms.Controls
         {
             // Now that the ComboBoxes are ready, load the data.
             fieldsInitialized = true;
-            pkm.RefreshChecksum();
-
-            // Load Data
             PopulateFields(pkm);
         }
 
@@ -170,37 +172,24 @@ namespace PKHeX.WinForms.Controls
             if (GB_ExtraBytes.Enabled)
                 CB_ExtraBytes.SelectedIndex = 0;
         }
-        public void PopulateFields(PKM pk, bool focus = true)
+        public void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false) => LoadFieldsFromPKM(pk, focus, skipConversionCheck);
+        private void LoadFieldsFromPKM(PKM pk, bool focus = true, bool skipConversionCheck = true)
         {
             if (pk == null) { WinFormsUtil.Error("Attempted to load a null file."); return; }
-
-            if (!PKMConverter.IsConvertibleToFormat(pk, pkm.Format))
-            { WinFormsUtil.Alert($"Can't load Gen{pk.Format} to Gen{pkm.Format} games."); return; }
-
-            bool oldInit = fieldsInitialized;
-            fieldsInitialized = fieldsLoaded = false;
             if (focus)
                 Tab_Main.Focus();
 
-            if (fieldsInitialized & !pkm.ChecksumValid)
-                WinFormsUtil.Alert("PKM File has an invalid checksum.");
+            if (!skipConversionCheck && !PKMConverter.TryMakePKMCompatible(pk, CurrentPKM, out string c, out pk))
+            { WinFormsUtil.Alert(c); return; }
 
-            if (pk.Format != pkm.Format) // past gen format
-            {
-                pkm = PKMConverter.ConvertToType(pk.Clone(), pkm.GetType(), out string _);
-                if (pkm == null)
-                    pkm = pk.Clone();
-                else if (pk.Format != pkm.Format && focus) // converted
-                    WinFormsUtil.Alert("Converted File.");
-            }
-            else
-                pkm = pk.Clone();
+            bool oldInit = fieldsInitialized;
+            fieldsInitialized = fieldsLoaded = false;
+
+            pkm = pk.Clone();
 
             try { GetFieldsfromPKM(); }
-            catch { fieldsInitialized = oldInit; throw; }
+            finally { fieldsInitialized = oldInit; }
 
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4 && pkm.Format < 7;
-            fieldsInitialized = oldInit;
             UpdateIVs(null, null);
             UpdatePKRSInfected(null, null);
             UpdatePKRSCured(null, null);
@@ -221,9 +210,6 @@ namespace PKHeX.WinForms.Controls
                 }
             }
             fieldsLoaded = true;
-
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked && pkm.Format > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && pkm.Format > 1;
 
             SetMarkings();
             UpdateLegality();
@@ -293,7 +279,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void UpdateSprite()
         {
-            if (fieldsLoaded && fieldsInitialized)
+            if (fieldsLoaded && fieldsInitialized && !forceValidation)
                 UpdatePreviewSprite?.Invoke(this, null);
         }
 
@@ -2070,22 +2056,22 @@ namespace PKHeX.WinForms.Controls
         }
         private void PopulateFilteredDataSources(SaveFile SAV)
         {
-            GameInfo.SetItemDataSource(HaX, pkm.MaxItemID, SAV.HeldItems, pkm.Format, SAV.Version, GameInfo.Strings);
-            if (pkm.Format > 1)
-                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= pkm.MaxItemID).ToList(), null);
+            GameInfo.SetItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings);
+            if (SAV.Generation > 1)
+                CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
             var languages = Util.GetUnsortedCBList("languages");
-            if (pkm.Format < 7)
+            if (SAV.Generation < 7)
                 languages = languages.Where(l => l.Value <= (int)LanguageID.Korean).ToList();
             CB_Language.DataSource = languages;
 
-            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= pkm.MaxBallID).ToList(), null);
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= pkm.MaxSpeciesID).ToList(), null);
-            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= pkm.MaxAbilityID).ToList(), null);
-            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= pkm.MaxGameID || pkm.Format >= 3 && g.Value == 15).ToList(), null);
+            CB_Ball.DataSource = new BindingSource(GameInfo.BallDataSource.Where(b => b.Value <= SAV.MaxBallID).ToList(), null);
+            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(s => s.Value <= SAV.MaxSpeciesID).ToList(), null);
+            DEV_Ability.DataSource = new BindingSource(GameInfo.AbilityDataSource.Where(a => a.Value <= SAV.MaxAbilityID).ToList(), null);
+            CB_GameOrigin.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(g => g.Value <= SAV.MaxGameID || SAV.Generation >= 3 && g.Value == 15).ToList(), null);
 
             // Set the Move ComboBoxes too..
-            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= pkm.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
+            GameInfo.MoveDataSource = (HaX ? GameInfo.HaXMoveDataSource : GameInfo.LegalMoveDataSource).Where(m => m.Value <= SAV.MaxMoveID).ToList(); // Filter Z-Moves if appropriate
             foreach (ComboBox cb in new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4, CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 })
             {
                 cb.DisplayMember = "Text"; cb.ValueMember = "Value";

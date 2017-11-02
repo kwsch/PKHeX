@@ -320,74 +320,114 @@ namespace PKHeX.Core
         }
         private void VerifyNicknameTrade()
         {
-            string[] validOT = new string[0];
-            int index = -1;
-            if (pkm.XY)
+            switch (Info.Generation)
             {
-                validOT = Encounters6.TradeXY[pkm.Language];
-                index = Array.IndexOf(Encounters6.TradeGift_XY, EncounterMatch);
+                case 1:
+                case 2: VerifyTrade12(); return;
+                case 3: VerifyTrade3(); return; // todo
+                case 4: VerifyTrade4(); return;
+                case 5: VerifyTrade5(); return; // todo
+                case 6: VerifyTrade6(); return;
+                case 7: VerifyTrade7(); return;
             }
-            else if (pkm.AO)
-            {
-                validOT = Encounters6.TradeAO[pkm.Language];
-                index = Array.IndexOf(Encounters6.TradeGift_AO, EncounterMatch);
-            }
-            else if (pkm.SM)
-            {
-                // TODO
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
-                return;
-            }
-            else if (pkm.USUM)
-            {
-                // TODO
-                AddLine(Severity.Valid, V194, CheckIdentifier.Nickname);
-                return;
-            }
-            else if (pkm.Gen4)
-            {
-                if (pkm.TID != 1000)
-                    return; // only care about Ranch atm
+        }
+        private void VerifyTrade12()
+        {
+            var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
+            if (et?.TID != 0) // Gen2 Trade
+                return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
 
-                string[] OTs = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", "Eulalia" };
-                int lang = pkm.Language;
-                if (OTs.Length <= lang)
-                {
-                    AddLine(Severity.Valid, V8, CheckIdentifier.Trainer);
-                    return;
-                }
-                if (pkm.IsNicknamed)
-                    AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
-                else if (OTs[lang] != pkm.OT_Name)
-                    AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+            if (!EncounterGenerator.IsEncounterTrade1Valid(pkm))
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+        }
+        private void VerifyTrade3()
+        {
+            if (pkm.FRLG)
+                VerifyTradeTable(Encounters3.TradeFRLG, Encounters3.TradeGift_FRLG);
+            else
+                VerifyTradeTable(Encounters3.TradeRSE, Encounters3.TradeGift_RSE);
+        }
+        private void VerifyTrade4()
+        {
+            if (pkm.TID == 1000)
+            {
+                VerifyTrade4Ranch();
+                return;
+            }
+            if (pkm.HGSS)
+                VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS);
+            else
+            {
+                if (EncounterMatch.Species == 129) // Magikarp
+                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, pkm.Nickname);
                 else
-                    AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
-                return;
+                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
             }
-            else if (pkm.Format <= 2 || pkm.VC)
+        }
+        private void VerifyTrade5()
+        {
+            // Trades for JPN games have language ID of 0, not 1.
+            if (pkm.BW)
             {
-                var et = (EncounterOriginalGB ?? EncounterMatch) as EncounterTrade;
-                if (et?.TID == 0) // Gen1 Trade
-                {
-                    if (!EncounterGenerator.IsEncounterTrade1Valid(pkm))
-                        AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
-                }
-                else // Gen2
-                {
-                    return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
-                }
-                return;
-            }
-            else if (3 <= Info.Generation && Info.Generation <= 5)
-            {
-                // Trades for JPN games have language ID of 0, not 1.
-                if (pkm.BW && pkm.Format == 5 && pkm.Language == (int)LanguageID.Japanese)
+                int lang = pkm.Language;
+                if (pkm.Format == 5 && lang == (int)LanguageID.Japanese)
                     AddLine(Severity.Invalid, string.Format(V5, 0, (int)LanguageID.Japanese), CheckIdentifier.Language);
 
-                // Suppressing temporarily
-                return;
+                lang = Math.Max(lang, 1);
+                VerifyTradeTable(Encounters5.TradeBW, Encounters5.TradeGift_BW, lang);
             }
+            else // B2W2
+            {
+                if (Encounters5.TradeGift_B2W2_YancyCurtis.Contains(EncounterMatch))
+                    VerifyTradeOTOnly(pkm.OT_Gender == 0 ? Encounters5.TradeOT_B2W2_M : Encounters5.TradeOT_B2W2_F);
+                else
+                    VerifyTradeTable(Encounters5.TradeB2W2, Encounters5.TradeGift_B2W2);
+            }
+        }
+        private void VerifyTrade6()
+        {
+            if (pkm.XY)
+                VerifyTradeTable(Encounters6.TradeXY, Encounters6.TradeGift_XY, pkm.Language);
+            else if (pkm.AO)
+                VerifyTradeTable(Encounters6.TradeAO, Encounters6.TradeGift_AO, pkm.Language);
+        }
+        private void VerifyTrade7()
+        {
+            if (pkm.SM)
+                VerifyTradeTable(Encounters7.TradeSM, Encounters7.TradeGift_SM, pkm.Language);
+            else if (pkm.USUM)
+                VerifyTradeTable(Encounters7.TradeUSUM, Encounters7.TradeGift_USUM, pkm.Language);
+        }
+        private void VerifyTrade4Ranch() => VerifyTradeOTOnly(Encounters4.RanchOTNames);
 
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table) => VerifyTradeTable(ots, table, pkm.Language);
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, int language)
+        {
+            var validOT = language >= ots.Length ? ots[0] : ots[pkm.Language];
+            var index = Array.IndexOf(table, EncounterMatch);
+            VerifyTradeOTNick(validOT, index);
+        }
+        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, string nickname)
+        {
+            // edge case method for Foppa (DPPt Magikarp Trade)
+            var index = Array.IndexOf(table, EncounterMatch);
+            var validOT = ots.FirstOrDefault(z => index < z.Length && z[index] == nickname);
+            VerifyTradeOTNick(validOT, index);
+        }
+        private void VerifyTradeOTOnly(string[] validOT)
+        {
+            if (pkm.IsNicknamed)
+                AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
+            int lang = pkm.Language;
+            if (validOT.Length >= lang)
+                AddLine(Severity.Invalid, V8, CheckIdentifier.Trainer);
+            else if (validOT[lang] != pkm.OT_Name)
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+            else
+                AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+        }
+        private void VerifyTradeOTNick(string[] validOT, int index)
+        {
             if (validOT.Length == 0)
             {
                 AddLine(Severity.Indeterminate, V7, CheckIdentifier.Trainer);
@@ -403,11 +443,12 @@ namespace PKHeX.Core
             string OT = validOT[validOT.Length / 2 + index];
 
             if (nick != pkm.Nickname)
-                AddLine(Severity.Fishy, V9, CheckIdentifier.Nickname);
-            else if (OT != pkm.OT_Name)
-                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
+                AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
             else
                 AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
+
+            if (OT != pkm.OT_Name)
+                AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
         }
         #endregion
         private void VerifyEVs()
@@ -548,7 +589,7 @@ namespace PKHeX.Core
             string tr = pkm.OT_Name;
 
             VerifyG1OTWithinBounds(tr);
-            if ((EncounterMatch as EncounterStatic)?.Version == GameVersion.Stadium)
+            if (EncounterMatch is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
                 VerifyG1OTStadium(tr);
 
             if (pkm.Species == 151)
@@ -601,7 +642,7 @@ namespace PKHeX.Core
         }
         private void VerifyG1OTStadium(string tr)
         {
-            bool jp = (pkm as PK1)?.Japanese ?? (pkm as PK2)?.Japanese ?? pkm.Language != (int)LanguageID.English;
+            bool jp = pkm.Japanese;
             bool valid = GetIsStadiumOTIDValid(jp, tr);
             if (!valid)
                 AddLine(Severity.Invalid, V402, CheckIdentifier.Trainer);
@@ -612,7 +653,7 @@ namespace PKHeX.Core
         {
             if (jp)
                 return tr == "スタジアム" && pkm.TID == 1999;
-            return tr == "STADIUM" && pkm.TID == 2000;
+            return tr == (Info.Generation == 1 ? "STADIUM" : "Stadium") && pkm.TID == 2000;
         }
         #endregion
         private void VerifyHyperTraining()

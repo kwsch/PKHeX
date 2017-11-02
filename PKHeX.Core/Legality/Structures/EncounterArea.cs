@@ -4,12 +4,26 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="EncounterSlot"/> data.
+    /// </summary>
     public class EncounterArea
     {
         public int Location;
         public EncounterSlot[] Slots;
+
+        /// <summary>
+        /// Creates an empty encounter area ready for initialization. 
+        /// </summary>
         public EncounterArea() { }
 
+        /// <summary>
+        /// Creates an array of encounter data with a specified location ID.
+        /// </summary>
+        /// <param name="data">Encounter data</param>
+        /// <remarks>
+        /// Encounter Data is stored in the following format: (u16 Location, n*[u16 Species/Form, u8 Min, u8 Max])
+        /// </remarks>
         private EncounterArea(byte[] data)
         {
             Location = BitConverter.ToUInt16(data, 0);
@@ -49,10 +63,10 @@ namespace PKHeX.Core
             return Areas;
         }
 
-        private static EncounterSlot1[] GetSlots1_GW(byte[] data, ref int ofs, SlotType t)
+        private static IEnumerable<EncounterSlot1> GetSlots1_GW(byte[] data, ref int ofs, SlotType t)
         {
             int rate = data[ofs++];
-            return rate == 0 ? new EncounterSlot1[0] : ReadSlots(data, ref ofs, 10, t, rate);
+            return rate == 0 ? Enumerable.Empty<EncounterSlot1>() : ReadSlots(data, ref ofs, 10, t, rate);
         }
         private static EncounterSlot1[] GetSlots1_F(byte[] data, ref int ofs)
         {
@@ -85,7 +99,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot1[] GetSlots2_F(byte[] data, ref int ofs, SlotType t)
+        private static List<EncounterSlot1> GetSlots2_F(byte[] data, ref int ofs, SlotType t)
         {
             // slot set ends in 0xFF 0x** 0x**
             var slots = new List<EncounterSlot1>();
@@ -109,7 +123,7 @@ namespace PKHeX.Core
                 if (rate == 0xFF)
                     break;
             }
-            return slots.ToArray();
+            return slots;
         }
         private static EncounterSlot1[] GetSlots2_H(byte[] data, ref int ofs, SlotType t)
         {
@@ -916,6 +930,11 @@ namespace PKHeX.Core
             return new[] { new EncounterArea { Location = location, Slots = l.ToArray() } };
         }
 
+        /// <summary>
+        /// Gets an array of areas from an array of raw area data
+        /// </summary>
+        /// <param name="entries">Simplified raw format of an Area</param>
+        /// <returns>Array of areas</returns>
         public static EncounterArea[] GetArray(byte[][] entries)
         {
             if (entries == null)

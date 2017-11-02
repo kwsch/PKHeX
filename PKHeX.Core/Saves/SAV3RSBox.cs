@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 <see cref="SaveFile"/> object for Pokémon Ruby Sapphire Box saves.
+    /// </summary>
     public sealed class SAV3RSBox : SaveFile
     {
         public override string BAKName => $"{FileName} [{Version} #{SaveCount:0000}].bak";
@@ -23,8 +26,8 @@ namespace PKHeX.Core
         {
             Data = data == null ? new byte[SaveUtil.SIZE_G3BOX] : (byte[])data.Clone();
             BAK = (byte[])Data.Clone();
-            Exportable = !Data.SequenceEqual(new byte[Data.Length]);
-            
+            Exportable = !Data.All(z => z == 0);
+
             if (SaveUtil.GetIsG3BOXSAV(Data) != GameVersion.RSBOX)
                 return;
             
