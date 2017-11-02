@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,6 +11,10 @@ namespace PKHeX.Core
     public partial class Util
     {
         private const string TranslationSplitter = " = ";
+        private static Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
+        private static string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
+        private static ConcurrentDictionary<string, string[]> stringListCache = new ConcurrentDictionary<string, string[]>();
+
 
         #region String Lists        
 
@@ -73,11 +78,15 @@ namespace PKHeX.Core
 
         public static string[] GetStringList(string f)
         {
+            if (stringListCache.ContainsKey(f))
+                return stringListCache[f];
+
             var txt = GetStringResource(f); // Fetch File, \n to list.
             if (txt == null) return new string[0];
             string[] rawlist = txt.Split('\n');
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
+            stringListCache[f] = rawlist;
             return rawlist;
         }
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
@@ -99,7 +108,7 @@ namespace PKHeX.Core
 
         public static byte[] GetBinaryResource(string name)
         {
-            using (var resource = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceStream(
+            using (var resource = thisAssembly.GetManifestResourceStream(
                 $"PKHeX.Core.Resources.byte.{name}"))
             {
                 var buffer = new byte[resource.Length];
@@ -110,10 +119,10 @@ namespace PKHeX.Core
 
         public static string GetStringResource(string name)
         {
-            var resourceName = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceNames()
+            var resourceName = manifestResourceNames
                                 .Where(x => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith(name + ".txt", StringComparison.OrdinalIgnoreCase))
                                 .FirstOrDefault();
-            using (var resource = typeof(Util).GetTypeInfo().Assembly.GetManifestResourceStream(resourceName))
+            using (var resource = thisAssembly.GetManifestResourceStream(resourceName))
             using (var reader = new StreamReader(resource))
             {
                 return reader.ReadToEnd();
