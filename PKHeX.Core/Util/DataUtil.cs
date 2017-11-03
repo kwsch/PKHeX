@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,11 +10,10 @@ namespace PKHeX.Core
     public partial class Util
     {
         private const string TranslationSplitter = " = ";
-        private static Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
-        private static string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
-        private static Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
-        private static Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
-
+        private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
+        private static readonly string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
+        private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
 
         #region String Lists        
 
@@ -121,21 +119,16 @@ namespace PKHeX.Core
         public static string GetStringResource(string name)
         {
             if (!resourceNameMap.ContainsKey(name))
-            {
-                resourceNameMap.Add(name, manifestResourceNames
-                                .Where(x => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith(name + ".txt", StringComparison.OrdinalIgnoreCase))
-                                .FirstOrDefault());
-            }
+                resourceNameMap.Add(name, manifestResourceNames.FirstOrDefault(x =>
+                    x.StartsWith("PKHeX.Core.Resources.text.") &&
+                    x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase)));
 
-            if (resourceNameMap[name] == null) {
+            if (resourceNameMap[name] == null)
                 return null;
-            }
 
             using (var resource = thisAssembly.GetManifestResourceStream(resourceNameMap[name]))
             using (var reader = new StreamReader(resource))
-            {
                 return reader.ReadToEnd();
-            }
         }
 
         #region Non-Form Translation

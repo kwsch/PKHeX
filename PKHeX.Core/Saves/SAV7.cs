@@ -212,7 +212,7 @@ namespace PKHeX.Core
                 /* 24 */            //  = 0x54600;  // [10528]  LiveMatchData
                 /* 25 */            //  = 0x64C00;  // [204]    BattleSpotData
                 /* 26 */ PokeFinderSave = 0x65000;  // [B60]    PokeFinderSave
-                /* 27 */ WondercardFlags= 0x65C00; // [3F50]   MysteryGiftSave
+                /* 27 */ WondercardFlags= 0x65C00;  // [3F50]   MysteryGiftSave
                 /* 28 */ Record         = 0x69C00;  // [358]    Record
                 /* 29 */            //  = 0x6A000;  // [728]    ValidationSave
                 /* 30 */            //  = 0x6A800;  // [200]    GameSyncSave

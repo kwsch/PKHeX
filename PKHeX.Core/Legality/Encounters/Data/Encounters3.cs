@@ -198,7 +198,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 101, Level = 34, Location = 142, }, // Electrode @ Power Plant
             new EncounterStatic { Species = 097, Level = 30, Location = 176, }, // Hypno @ Berry Forest
 
-            // Stationary Lengerdary
+            // Stationary Legendary
             new EncounterStatic { Species = 144, Level = 50, Location = 139, }, // Articuno @ Seafoam Islands
             new EncounterStatic { Species = 145, Level = 50, Location = 142, }, // Zapdos @ Power Plant
             new EncounterStatic { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember. 

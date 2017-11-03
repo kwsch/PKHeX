@@ -577,6 +577,7 @@ namespace PKHeX.Core
             //Stationary
             new EncounterStatic { Species = 590, Level = 29, Location = 19, }, // Foongus @ Route 6
             new EncounterStatic { Species = 591, Level = 43, Location = 24, }, // Amoonguss @ Route 11
+            new EncounterStatic { Species = 591, Level = 47, Location = 127, }, // Amoonguss @ Route 22
             new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.B2, Gender = 0,}, // HA Jellicent @ Undella Bay Mon Only
             new EncounterStatic { Species = 593, Level = 40, Location = 71, Ability = 4, Version = GameVersion.W2, Gender = 1,}, // HA Jellicent @ Undella Bay Thurs Only
             new EncounterStatic { Species = 628, Level = 25, Location = 17, Ability = 4, Version = GameVersion.W2, Gender = 0,}, // HA Braviary @ Route 4 Mon Only
@@ -585,7 +586,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 637, Level = 65, Location = 35, }, // Volcarona @ Relic Castle
             new EncounterStatic { Species = 558, Level = 42, Location = 141, }, // Crustle @ Seaside Cave
             new EncounterStatic { Species = 612, Level = 60, Location = 147, Shiny = true}, // Haxorus @ Nature Preserve
-            //Stationary Lengerdary
+            //Stationary Legendary
             new EncounterStatic { Species = 377, Level = 65, Location = 150,}, //Regirock @ Rock Peak Chamber
             new EncounterStatic { Species = 378, Level = 65, Location = 151,}, //Regice @ Iceberg Chamber
             new EncounterStatic { Species = 379, Level = 65, Location = 152,}, //Registeel @ Iron Chamber
