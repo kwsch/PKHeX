@@ -1377,9 +1377,7 @@ namespace PKHeX.Core
         }
         internal static bool IsSafariSlot(SlotType t)
         {
-            return t == SlotType.Grass_Safari || t == SlotType.Surf_Safari ||
-                   t == SlotType.Rock_Smash_Safari || t == SlotType.Pokeradar_Safari ||
-                   t == SlotType.Old_Rod_Safari || t == SlotType.Good_Rod_Safari || t == SlotType.Super_Rod_Safari;
+            return t.HasFlag(SlotType.Safari);
         }
         internal static bool IsDexNavValid(PKM pkm)
         {

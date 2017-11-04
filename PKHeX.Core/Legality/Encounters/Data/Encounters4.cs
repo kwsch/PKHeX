@@ -148,7 +148,7 @@ namespace PKHeX.Core
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
             foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Type = Slot.Type.GetSafariSlotType4();
+                Slot.Type |= SlotType.Safari;
         }
         private static void MarkG4SwarmSlots(ref EncounterArea[] Areas, EncounterArea[] SwarmAreas)
         {

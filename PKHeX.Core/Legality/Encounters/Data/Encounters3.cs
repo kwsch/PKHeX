@@ -79,7 +79,7 @@ namespace PKHeX.Core
         {
             foreach (EncounterArea Area in Areas.Where(a => a.Location == location))
             foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Type = Slot.Type.GetSafariSlotType3();
+                Slot.Type |= SlotType.Safari;
         }
 
         private static readonly int[] Roaming_MetLocation_FRLG =
