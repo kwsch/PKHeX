@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return gen == 1 || (3 <= gen && gen <= 7);
+            return gen <= 7;
         }).ToArray();
 
         public SAV7(byte[] data = null)
@@ -110,23 +110,31 @@ namespace PKHeX.Core
             }
             // Fix Final Array Lengths
             Array.Resize(ref Blocks, count);
+
+            // clear memecrypto sig if present
+            if (Blocks.Length > MemeCryptoBlock)
+                new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
+        }
+
+        private const int MemeCryptoBlock = 36; // todo
+        private bool CanReadChecksums()
+        {
+            if (Blocks.Length < MemeCryptoBlock)
+            { Debug.WriteLine($"Not enough blocks ({Blocks.Length}), aborting SetChecksums"); return false; }
+            return true;
         }
         protected override void SetChecksums()
         {
-            // Check for invalid block lengths
-            if (Blocks.Length < 3) // arbitrary...
-            {
-                Debug.WriteLine("Not enough blocks ({0}), aborting SetChecksums", Blocks.Length);
+            if (!CanReadChecksums())
                 return;
-            }
             // Apply checksums
             for (int i = 0; i < Blocks.Length; i++)
             {
                 if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
-                { Debug.WriteLine("Block {0} has invalid offset/length value.", i); return; }
-                byte[] array = new byte[Blocks[i].Length];
-                Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                BitConverter.GetBytes(SaveUtil.CRC16_7(array, Blocks[i].ID)).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
+                { Debug.WriteLine($"Block {i} has invalid offset/length value."); return; }
+
+                ushort chk = SaveUtil.CRC16(Data, Blocks[i].Offset, Blocks[i].Length);
+                BitConverter.GetBytes(chk).CopyTo(Data, BlockInfoOffset + 6 + i * 8);
             }
             
             Data = SaveUtil.Resign7(Data);
@@ -135,13 +143,14 @@ namespace PKHeX.Core
         {
             get
             {
+                if (!CanReadChecksums())
+                    return false;
                 for (int i = 0; i < Blocks.Length; i++)
                 {
                     if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
                         return false;
-                    byte[] array = new byte[Blocks[i].Length];
-                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                    if (SaveUtil.CRC16_7(array, Blocks[i].ID) != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
+                    ushort chk = SaveUtil.CRC16(Data, Blocks[i].Offset, Blocks[i].Length);
+                    if (chk != BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
                         return false;
                 }
                 return true;
@@ -151,23 +160,25 @@ namespace PKHeX.Core
         {
             get
             {
+                if (!CanReadChecksums())
+                    return string.Empty;
+
                 int invalid = 0;
-                string rv = "";
+                var sb = new StringBuilder();
                 for (int i = 0; i < Blocks.Length; i++)
                 {
                     if (Blocks[i].Length + Blocks[i].Offset > Data.Length)
                         return $"Block {i} Invalid Offset/Length.";
-                    byte[] array = new byte[Blocks[i].Length];
-                    Array.Copy(Data, Blocks[i].Offset, array, 0, array.Length);
-                    if (SaveUtil.CRC16_7(array, Blocks[i].ID) == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
+                    ushort chk = SaveUtil.CRC16(Data, Blocks[i].Offset, Blocks[i].Length);
+                    if (chk == BitConverter.ToUInt16(Data, BlockInfoOffset + 6 + i * 8))
                         continue;
 
                     invalid++;
-                    rv += $"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}" + Environment.NewLine;
+                    sb.AppendLine($"Invalid: {i:X2} @ Region {Blocks[i].Offset:X5}");
                 }
                 // Return Outputs
-                rv += $"SAV: {Blocks.Length - invalid}/{Blocks.Length + Environment.NewLine}";
-                return rv;
+                sb.AppendLine($"SAV: {Blocks.Length - invalid}/{Blocks.Length}");
+                return sb.ToString();
             }
         }
         public override ulong? Secure1
@@ -248,6 +259,13 @@ namespace PKHeX.Core
                 LockedSlots = new int[6*TeamCount];
                 TeamSlots = new int[6*TeamCount];
             }
+            else if (USUM)
+            {
+                // todo
+                TeamCount = 6;
+                LockedSlots = new int[6*TeamCount];
+                TeamSlots = new int[6*TeamCount];
+            }
             else // Empty input
             {
                 Party = 0x0;
@@ -276,11 +294,7 @@ namespace PKHeX.Core
         private int TrainerCard { get; set; } = 0x14000;
         private int Resort { get; set; }
         private int PCFlags { get; set; } = int.MinValue;
-        public int PSSStats { get; private set; } = int.MinValue;
-        public int MaisonStats { get; private set; } = int.MinValue;
         private int PCBackgrounds { get; set; } = int.MinValue;
-        public int Contest { get; private set; } = int.MinValue;
-        public int Accessories { get; private set; } = int.MinValue;
         public int PokeDexLanguageFlags { get; private set; } = int.MinValue;
         public int Fashion { get; set; } = int.MinValue;
         public int FashionLength { get; set; } = int.MinValue;

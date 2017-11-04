@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
             pk7.EncryptedPartyData.CopyTo(data, 0x30); // Copy in pokemon data
             GetRawQR(pk7.Species, pk7.AltForm, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
-            BitConverter.GetBytes(SaveUtil.CRC16_7(data.Take(0x1A0).ToArray(), 0)).CopyTo(data, 0x1A0);
+            BitConverter.GetBytes(SaveUtil.CRC16(data, 0, 0x1A0)).CopyTo(data, 0x1A0);
             return data;
         }
     }

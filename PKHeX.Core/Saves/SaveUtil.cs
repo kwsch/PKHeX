@@ -636,18 +636,15 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="blockID">Block ID to checksum</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16_7(byte[] data, int blockID, ushort initial = 0)
+        public static ushort CRC16(byte[] data, int start, int length, ushort initial = 0)
         {
-            if (blockID == 36)
-                new byte[0x80].CopyTo(data, 0x100);
-
             ushort chk = (ushort)~initial;
-            foreach (byte b in data)
-                chk = (ushort) (crc16[(b ^ chk) & 0xFF] ^ chk >> 8);
-
+            for (var i = start; i < start + length; i++)
+                chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
             return (ushort)~chk;
         }
         public static byte[] Resign7(byte[] sav7)
