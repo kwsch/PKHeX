@@ -310,7 +310,7 @@ namespace PKHeX.WinForms
             string sStr = CB_Gender.Items[skin].ToString();
 
             if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex && 
-                (SAV.Gender == skin || DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:\nGender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
+                (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
