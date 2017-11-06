@@ -423,7 +423,6 @@
     <None Remove="Resources\text\ko\text_sm_40000_ko.txt" />
     <None Remove="Resources\text\ko\text_sm_60000_ko.txt" />
     <None Remove="Resources\text\ko\text_Species_ko.txt" />
-    <None Remove="Resources\text\ko\text_Species_zh.txt" />
     <None Remove="Resources\text\ko\text_SuperTraining_ko.txt" />
     <None Remove="Resources\text\ko\text_tradeao_ko.txt" />
     <None Remove="Resources\text\ko\text_tradeb2w2_ko.txt" />
@@ -1055,7 +1054,6 @@
     <EmbeddedResource Include="Resources\text\ko\text_sm_40000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_sm_60000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Species_ko.txt" />
-    <EmbeddedResource Include="Resources\text\ko\text_Species_zh.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_SuperTraining_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_tradeao_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_tradeb2w2_ko.txt" />
