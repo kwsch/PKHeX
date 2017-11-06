@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
-using PKHeX.Core;
 
 namespace PKHeX.Core
 {
@@ -72,7 +71,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Performs Aes Decryption
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         internal byte[] AesDecrypt(byte[] input)
         {
@@ -122,7 +121,7 @@ namespace PKHeX.Core
             {
                 var curblock = new byte[0x10];
                 Array.Copy(outdata, i * 0x10, curblock, 0, 0x10);
-                ByteArrayExtensions.Xor(AesEcbDecrypt(key, curblock), temp).CopyTo(outdata, i * 0x10);
+                AesEcbDecrypt(key, curblock).Xor(temp).CopyTo(outdata, i * 0x10);
                 curblock.CopyTo(temp, 0);
             }
 
@@ -135,7 +134,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Perform Aes Encryption
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         internal byte[] AesEncrypt(byte[] input)
         {
@@ -172,7 +171,7 @@ namespace PKHeX.Core
                 var curblock = new byte[0x10];
                 Array.Copy(outdata, (data.Length / 0x10 - 1 - i) * 0x10, curblock, 0, 0x10);
                 byte[] temp2 = curblock.Xor(subkey);
-                Array.Copy(ByteArrayExtensions.Xor(AesEcbEncrypt(key, temp2), temp), 0, outdata, (data.Length / 0x10 - 1 - i) * 0x10, 0x10);
+                Array.Copy(AesEcbEncrypt(key, temp2).Xor(temp), 0, outdata, (data.Length / 0x10 - 1 - i) * 0x10, 0x10);
                 temp2.CopyTo(temp, 0);
             }
 
@@ -357,5 +356,29 @@ namespace PKHeX.Core
 
         private static readonly byte[] D_3 = "00775455668FFF3CBA3026C2D0B26B8085895958341157AEB03B6B0495EE57803E2186EB6CB2EB62A71DF18A3C9C6579077670961B3A6102DABE5A194AB58C3250AED597FC78978A326DB1D7B28DCCCB2A3E014EDBD397AD33B8F28CD525054251".ToByteArray();
         #endregion
+    }
+
+    public static class StringExtentions
+    {
+        public static byte[] ToByteArray(this string toTransform)
+        {
+            return Enumerable
+                .Range(0, toTransform.Length / 2)
+                .Select(i => Convert.ToByte(toTransform.Substring(i * 2, 2), 16))
+                .ToArray();
+        }
+    }
+
+    public static class ByteArrayExtensions
+    {
+        public static byte[] Xor(this byte[] b1, byte[] b2)
+        {
+            if (b1.Length != b2.Length)
+                throw new ArgumentException("Cannot xor two arrays of uneven length!");
+            var x = new byte[b1.Length];
+            for (var i = 0; i < b1.Length; i++)
+                x[i] = (byte)(b1[i] ^ b2[i]);
+            return x;
+        }
     }
 }

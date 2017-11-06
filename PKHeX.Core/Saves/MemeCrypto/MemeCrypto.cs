@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Cryptography;
 
 namespace PKHeX.Core
@@ -177,29 +176,5 @@ namespace PKHeX.Core
             return outSav;
         }
 
-    }
-
-    public static class StringExtentions
-    {
-        public static byte[] ToByteArray(this string toTransform)
-        {
-            return Enumerable
-                .Range(0, toTransform.Length / 2)
-                .Select(i => Convert.ToByte(toTransform.Substring(i * 2, 2), 16))
-                .ToArray();
-        }
-    }
-
-    public static class ByteArrayExtensions
-    {
-        public static byte[] Xor(this byte[] b1, byte[] b2)
-        {
-            if (b1.Length != b2.Length)
-                throw new ArgumentException("Cannot xor two arrays of uneven length!");
-            var x = new byte[b1.Length];
-            for (var i = 0; i < b1.Length; i++)
-                x[i] = (byte)(b1[i] ^ b2[i]);
-            return x;
-        }
     }
 }
