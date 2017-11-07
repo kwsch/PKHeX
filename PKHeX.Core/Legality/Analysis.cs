@@ -20,7 +20,7 @@ namespace PKHeX.Core
         private IEncounterable EncounterOriginalGB;
         private IEncounterable EncounterMatch => Info.EncounterMatch;
         private Type Type; // Parent class when applicable (EncounterStatic / MysteryGift)
-        private string EncounterName => $"{(EncounterOriginalGB ?? EncounterMatch).GetEncounterTypeName()} ({SpeciesStrings[EncounterMatch.Species]})";
+
         private CheckResult Encounter, History;
 
         public readonly bool Parsed;
@@ -55,6 +55,14 @@ namespace PKHeX.Core
         }
         private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;
         public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
+        private string EncounterName
+        {
+            get
+            {
+                var enc = EncounterOriginalGB ?? EncounterMatch;
+                return $"{enc.GetEncounterTypeName()} ({SpeciesStrings[enc.Species]})";
+            }
+        }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
