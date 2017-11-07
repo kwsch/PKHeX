@@ -8,7 +8,6 @@ namespace PKHeX.Core
     /// </summary>
     public abstract class MysteryGift : IEncounterable, IMoveset
     {
-
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.
         /// </summary>
@@ -84,12 +83,22 @@ namespace PKHeX.Core
         public abstract PKM ConvertToPKM(SaveFile SAV);
         public abstract int Format { get; }
 
+        /// <summary>
+        /// Creates a deep copy of the <see cref="MysteryGift"/> object data.
+        /// </summary>
+        /// <returns></returns>
         public MysteryGift Clone()
         {
             byte[] data = (byte[])Data.Clone();
             return GetMysteryGift(data);
         }
+        /// <summary>
+        /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type.
+        /// </summary>
         public string Type => GetType().Name;
+        /// <summary>
+        /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.
+        /// </summary>
         public string Name => $"Event Gift ({Type})";
 
         // Properties
