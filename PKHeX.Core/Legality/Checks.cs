@@ -1853,7 +1853,7 @@ namespace PKHeX.Core
                 return; // no forms exist
 
             int count = PersonalInfo.FormeCount;
-            if (count == 1 && pkm.AltForm == 0)
+            if (count <= 1 && pkm.AltForm == 0)
                 return; // no forms to check
 
             if (pkm.AltForm >= count && !IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
