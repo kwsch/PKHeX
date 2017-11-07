@@ -1883,6 +1883,9 @@ namespace PKHeX.Core
                         }
                     }
                     break;
+                case 201 when Info.Generation == 2 && pkm.AltForm >= 26:
+                    AddLine(Severity.Invalid, string.Format(V304, "Z", pkm.AltForm == 26 ? "!" : "?"), CheckIdentifier.Form);
+                    break;
                 case 487: // Giratina
                     if (pkm.AltForm == 1 ^ pkm.HeldItem == 112) // Origin form only with Griseous Orb
                     {
