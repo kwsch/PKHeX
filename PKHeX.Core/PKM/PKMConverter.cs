@@ -213,6 +213,9 @@ namespace PKHeX.Core
                 return pk;
             }
 
+            if (IsNotTransferrable(pk, out comment))
+                return null;
+
             Debug.WriteLine($"Trying to convert {fromType.Name} to {PKMType.Name}.");
 
             int fromFormat = int.Parse(fromType.Name.Last().ToString());
@@ -279,11 +282,6 @@ namespace PKHeX.Core
                         pkm = ((PK4) pkm).ConvertToBK4();
                         break;
                     }
-                    if (pkm.Species == 172 && pkm.AltForm != 0)
-                    {
-                        comment = "Cannot transfer Spiky-Eared Pichu forward.";
-                        return null;
-                    }
                     pkm = ((PK4) pkm).ConvertToPK5();
                     if (toFormat == 5)
                         break;
@@ -312,6 +310,28 @@ namespace PKHeX.Core
                 : $"Converted from {fromType.Name} to {PKMType.Name}.";
 
             return pkm;
+        }
+
+        /// <summary>
+        /// Checks to see if a PKM is transferrable relative to in-game restrictions and <see cref="PKM.AltForm"/>.
+        /// </summary>
+        /// <param name="pk">PKM to convert</param>
+        /// <param name="comment">Comment indicating why the <see cref="PKM"/> is not transferrable.</param>
+        /// <returns>Indication if Not Transferrable</returns>
+        private static bool IsNotTransferrable(PKM pk, out string comment)
+        {
+            switch (pk.Species)
+            {
+                default:
+                    comment = null;
+                    return false;
+                case 025 when pk.AltForm != 0 && pk.GenNumber == 6: // Cosplay Pikachu
+                    comment = "Cannot transfer Cosplay Pikachu forward.";
+                    return true;
+                case 172 when pk.AltForm != 0 && pk.GenNumber == 4: // Spiky Eared Pichu
+                    comment = "Cannot transfer Spiky-Eared Pichu forward.";
+                    return true;
+            }
         }
 
         /// <summary>
