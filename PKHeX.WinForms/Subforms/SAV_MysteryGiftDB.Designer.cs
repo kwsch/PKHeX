@@ -1412,6 +1412,7 @@
             // 
             this.CB_Format.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Format.DropDownWidth = 100;
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",

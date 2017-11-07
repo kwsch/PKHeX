@@ -170,8 +170,7 @@ namespace PKHeX.Core
                     return _pk;
                 byte[] ekdata = new byte[PKX.SIZE_4PARTY];
                 Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
-                bool empty = ekdata.SequenceEqual(new byte[ekdata.Length]);
-                return _pk = new PK4(empty || BitConverter.ToUInt32(ekdata, 0x64) == 0 ? ekdata : PKX.DecryptArray45(ekdata));
+                return _pk = new PK4(ekdata);
             }
             set
             {
