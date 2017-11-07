@@ -44,7 +44,7 @@ namespace PKHeX.Core
                     return new PGF(data);
                 case PGT.Size when ext == ".pgt":
                     return new PGT(data);
-                case PCD.Size when ext == ".pcd":
+                case PCD.Size when ext == ".pcd" || ext == ".wc4":
                     return new PCD(data);
             }
 

@@ -429,7 +429,7 @@ namespace PKHeX.WinForms
             switch (Format)
             {
                 case 4:
-                    return "Gen4 Mystery Gift|*.pgt;*.pcd|All Files|*.*";
+                    return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4|All Files|*.*";
                 case 5:
                     return "Gen5 Mystery Gift|*.pgf|All Files|*.*";
                 case 6:
