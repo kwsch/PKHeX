@@ -1563,16 +1563,23 @@ namespace PKHeX.Core
             var last = vs.Last();
             if (last.MinLevel > 1) // Last entry from vs is removed, turn next entry into the wild/hatched pokemon
             {
-                last.MinLevel = 1;
+                last.MinLevel = Encounter.LevelMin;
                 last.RequiresLvlUp = false;
                 var first = vs.First();
-                if (first.MinLevel == 2 && !first.RequiresLvlUp)
+                if (!first.RequiresLvlUp)
                 {
-                    // Example Raichu in gen 2 or later, 
-                    // because Pichu requires level up Minimum level of Raichu would be 2
-                    // but after removing Pichu because the origin species is Pikachu, Raichu min level should be 1
-                    first.MinLevel = 1;
-                    first.RequiresLvlUp = false;
+                    if (first.MinLevel == 2)
+                    {
+                        // Example Raichu in gen 2 or later, 
+                        // because Pichu requires level up Minimum level of Raichu would be 2
+                        // but after removing Pichu because the origin species is Pikachu, Raichu min level should be 1
+                        first.MinLevel = 1;
+                        first.RequiresLvlUp = false;
+                    }
+                    else // ingame trade / stone can evolve immediately
+                    {
+                        first.MinLevel = last.MinLevel;
+                    }
                 }
             }
             // Maxspec is used to remove future gen evolutions, to gather evolution chain of a pokemon in previous generations
