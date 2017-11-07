@@ -221,7 +221,7 @@ namespace PKHeX.WinForms.Controls
             if (!fieldsLoaded)
                 return;
 
-            Legality = la ?? new LegalityAnalysis(pkm);
+            Legality = la ?? new LegalityAnalysis(pkm, RequestSaveFile.Personal);
             if (!Legality.Parsed || HaX || pkm.Species == 0)
             {
                 PB_WarnMove1.Visible = PB_WarnMove2.Visible = PB_WarnMove3.Visible = PB_WarnMove4.Visible =

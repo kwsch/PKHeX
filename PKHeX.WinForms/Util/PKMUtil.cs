@@ -145,7 +145,7 @@ namespace PKHeX.WinForms
             {
                 if (slot < 30)
                     pkm.Box = box;
-                var la = new LegalityAnalysis(pkm);
+                var la = new LegalityAnalysis(pkm, SAV.Personal);
                 if (la.Parsed && !la.Valid && pkm.Species != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
             }

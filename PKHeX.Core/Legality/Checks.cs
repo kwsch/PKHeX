@@ -1852,11 +1852,11 @@ namespace PKHeX.Core
             if (pkm.Format < 4)
                 return; // no forms exist
 
-            int count = pkm.PersonalInfo.FormeCount;
+            int count = PersonalInfo.FormeCount;
             if (count == 1 && pkm.AltForm == 0)
                 return; // no forms to check
 
-            if (pkm.AltForm > count && !IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
+            if (pkm.AltForm >= count && !IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
             {
                 AddLine(Severity.Invalid, string.Format(V304, count, pkm.AltForm), CheckIdentifier.Form);
                 return;

@@ -1010,7 +1010,7 @@ namespace PKHeX.WinForms
                 return;
 
             var sprite = dragout.Image;
-            var la = new LegalityAnalysis(pkx);
+            var la = new LegalityAnalysis(pkx, C_SAV.SAV.Personal);
             if (la.Parsed && pkx.Species != 0)
             {
                 var img = la.Valid ? Resources.valid : Resources.warn;
@@ -1036,7 +1036,7 @@ namespace PKHeX.WinForms
         }
         private void ShowLegality(object sender, EventArgs e, PKM pk)
         {
-            LegalityAnalysis la = new LegalityAnalysis(pk);
+            LegalityAnalysis la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);
             if (pk.Slot < 0)
                 PKME_Tabs.UpdateLegality(la);
             bool verbose = ModifierKeys == Keys.Control;

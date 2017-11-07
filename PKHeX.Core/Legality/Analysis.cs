@@ -25,6 +25,7 @@ namespace PKHeX.Core
 
         public readonly bool Parsed;
         public readonly bool Valid;
+        private readonly PersonalInfo PersonalInfo;
         public LegalInfo Info { get; private set; }
         public bool ParsedValid => Parsed && Valid;
         public bool ParsedInvalid => Parsed && !Valid;
@@ -68,12 +69,14 @@ namespace PKHeX.Core
         /// Checks the input <see cref="PKM"/> data for legality.
         /// </summary>
         /// <param name="pk">Input data to check</param>
-        public LegalityAnalysis(PKM pk)
+        /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
+        public LegalityAnalysis(PKM pk, PersonalTable table = null)
         {
 #if SUPPRESS
             try
 #endif
             {
+                PersonalInfo = table?.GetFormeEntry(pk.Species, pk.AltForm) ?? pk.PersonalInfo;
                 switch (pk.Format) // prior to storing GameVersion
                 {
                     case 1: ParsePK1(pk); break;
