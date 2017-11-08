@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PKHeX.Core;
 
@@ -11,7 +7,7 @@ namespace PKHeX.Tests.Saves
     [TestClass]
     public class MemeCryptoTests
     {
-        const string TestCategory = "MemeCrypto Tests";
+        private const string TestCategory = "MemeCrypto Tests";
 
         [TestMethod]
         [TestCategory(TestCategory)]
@@ -20,7 +16,7 @@ namespace PKHeX.Tests.Saves
             var savebuffer =
                 "58EA53A7133F34DA9F2BEC12F1560354E8BDF8A484ADE4E2954D3C48673118EB67E2D52ED0196E54DC5D93013E9F3B00C8A43B556AEE8C2F763EA9DC125988C6B5F2D3C74CA2C58026BB024B403D09BC5950C54CEB6F21E45D0B66B68791BCBB6D7E67C2F7E4A7F4A517FC50B4FEED9A65BF901ABEB0FFAC44AE07237BE5DD2D"
                     .ToByteArray();
-            Assert.IsTrue(MemeCrypto.VerifyMemeData(savebuffer, out var memebuffer));
+            Assert.IsTrue(MemeCrypto.VerifyMemeData(savebuffer, out var _));
         }
 
         [TestMethod]
@@ -90,8 +86,8 @@ namespace PKHeX.Tests.Saves
                 "A96E2D8D9B99DBFB934939C097E3AC101C7D48CEC52FCA717B14B19890208592045C430035DD09A31446142E9EA33CF3E6B6E69484B6D2EED500B8389048013491602403DBE7B814EA069667CFADAFE74895217D78037B4A456FAB2CAFD71E690000504F4B4509000000000000"
                     .ToByteArray();
 
-            Assert.IsTrue(MemeCrypto.VerifyMemePOKE(vector, out var output));
-            Assert.IsTrue(MemeCrypto.VerifyMemePOKE(vector2, out var output2));
+            Assert.IsTrue(MemeCrypto.VerifyMemePOKE(vector, out var _));
+            Assert.IsTrue(MemeCrypto.VerifyMemePOKE(vector2, out var _));
 
         }
 
@@ -123,7 +119,7 @@ namespace PKHeX.Tests.Saves
             {
                 if (vectors[keyIndex] != null)
                 {
-                    Assert.IsTrue(MemeCrypto.VerifyMemeData(vectors[keyIndex], out var signed, keyIndex), $"Failed to verify test vector for MemeKey {keyIndex}!");
+                    Assert.IsTrue(MemeCrypto.VerifyMemeData(vectors[keyIndex], out var _, keyIndex), $"Failed to verify test vector for MemeKey {keyIndex}!");
                 }
             }
         }
