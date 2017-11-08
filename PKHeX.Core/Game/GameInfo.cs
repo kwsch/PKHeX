@@ -317,7 +317,7 @@ namespace PKHeX.Core
             SpeciesDataSource = Util.GetCBList(s.specieslist, null);
             NatureDataSource = Util.GetCBList(s.natures, null);
             AbilityDataSource = Util.GetCBList(s.abilitylist, null);
-            VersionDataSource = Util.GetCBList(s.gamelist, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
+            VersionDataSource = Util.GetCBList(s.gamelist, Legal.Games_7usum, Legal.Games_7sm, Legal.Games_6oras, Legal.Games_6xy, Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r, Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
             VersionDataSource.AddRange(Util.GetCBList(s.gamelist, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
             VersionDataSource.AddRange(Util.GetCBList(s.gamelist, Legal.Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
             VersionDataSource.AddRange(Util.GetCBList(s.gamelist, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
@@ -474,7 +474,7 @@ namespace PKHeX.Core
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
-                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Outer Cape
+                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 234)).ToList(); // Dividing Peak Tunnel
             }
 
             // Currently on a future game, return corresponding list for generation

@@ -386,6 +386,7 @@ namespace PKHeX.Core
         public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
         public static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Green, Blue, Yellow
         public static readonly int[] Games_7go = { 34 };
+        public static readonly int[] Games_7usum = { 32, 33 };
         public static readonly int[] Games_7sm = { 30, 31 };
         public static readonly int[] Games_6xy = { 24, 25 };
         public static readonly int[] Games_6oras = { 26, 27 };
