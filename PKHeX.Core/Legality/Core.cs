@@ -2202,10 +2202,10 @@ namespace PKHeX.Core
             }
             return moves.Distinct();
 
-            IEnumerable<int> GetTutors(PersonalTable t, IReadOnlyList<int[]> tutors)
+            IEnumerable<int> GetTutors(PersonalTable t, params int[][] tutors)
             {
                 var pi = t.GetFormeEntry(species, form);
-                for (int i = 0; i < tutors.Count; i++)
+                for (int i = 0; i < tutors.Length; i++)
                 for (int b = 0; b < tutors[i].Length; b++)
                     if (pi.SpecialTutors[i][b])
                         yield return tutors[i][b];

@@ -51,12 +51,14 @@ namespace PKHeX.Core
 
         #endregion
 
-        internal static readonly int[][] Tutors_USUM =
+        internal static readonly int[] Tutors_USUM =
         {
-            new int[0], // todo
-            new int[0], // todo
-            new int[0], // todo
-            new int[0], // todo
+            450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
+            277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
+            020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
+            380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
+
+            477, 502, 432, 710, 707, 675, 673
         };
         internal static readonly ushort[] Pouch_Regular_SM = // 00
         {
