@@ -194,82 +194,94 @@ namespace PKHeX.Core
 
         private void GetSAVOffsets()
         {
-            if (SM)
-            {
-                /* 00 */ Bag            = 0x00000;  // [DE0]    MyItem
-                /* 01 */ Trainer1       = 0x00E00;  // [07C]    Situation
-                /* 02 */            //  = 0x01000;  // [014]    RandomGroup
-                /* 03 */ TrainerCard    = 0x01200;  // [0C0]    MyStatus
-                /* 04 */ Party          = 0x01400;  // [61C]    PokePartySave
-                /* 05 */ EventConst     = 0x01C00;  // [E00]    EventWork
-                /* 06 */ PokeDex        = 0x02A00;  // [F78]    ZukanData
-                /* 07 */ GTS            = 0x03A00;  // [228]    GtsData
-                /* 08 */ Fused          = 0x03E00;  // [104]    UnionPokemon 
-                /* 09 */ Misc           = 0x04000;  // [200]    Misc
-                /* 10 */ Trainer2       = 0x04200;  // [020]    FieldMenu
-                /* 11 */ ConfigSave     = 0x04400;  // [004]    ConfigSave
-                /* 12 */ AdventureInfo  = 0x04600;  // [058]    GameTime
-                /* 13 */ PCLayout       = 0x04800;  // [5E6]    BOX
-                /* 14 */ Box            = 0x04E00;  // [36600]  BoxPokemon
-                /* 15 */ Resort         = 0x3B400;  // [572C]   ResortSave
-                /* 16 */ PlayTime       = 0x40C00;  // [008]    PlayTime
-                /* 17 */ Overworld      = 0x40E00;  // [1080]   FieldMoveModelSave
-                /* 18 */ Fashion        = 0x42000;  // [1A08]   Fashion
-                /* 19 */            //  = 0x43C00;  // [6408]   JoinFestaPersonalSave
-                /* 20 */            //  = 0x4A200;  // [6408]   JoinFestaPersonalSave
-                /* 21 */ JoinFestaData  = 0x50800;  // [3998]   JoinFestaDataSave
-                /* 22 */            //  = 0x54200;  // [100]    BerrySpot
-                /* 23 */            //  = 0x54400;  // [100]    FishingSpot
-                /* 24 */            //  = 0x54600;  // [10528]  LiveMatchData
-                /* 25 */            //  = 0x64C00;  // [204]    BattleSpotData
-                /* 26 */ PokeFinderSave = 0x65000;  // [B60]    PokeFinderSave
-                /* 27 */ WondercardFlags= 0x65C00;  // [3F50]   MysteryGiftSave
-                /* 28 */ Record         = 0x69C00;  // [358]    Record
-                /* 29 */            //  = 0x6A000;  // [728]    ValidationSave
-                /* 30 */            //  = 0x6A800;  // [200]    GameSyncSave
-                /* 31 */            //  = 0x6AA00;  // [718]    PokeDiarySave
-                /* 32 */ BattleTree     = 0x6B200;  // [1FC]    BattleInstSave
-                /* 33 */ Daycare        = 0x6B400;  // [200]    Sodateya
-                /* 34 */            //  = 0x6B600;  // [120]    WeatherSave
-                /* 35 */ QRSaveData     = 0x6B800;  // [1C8]    QRReaderSaveData
-                /* 36 */            //  = 0x6BA00;  // [200]    TurtleSalmonSave
-
-                EventFlag = EventConst + 0x7D0;
-
-                OFS_PouchHeldItem =     Bag + 0; // 430 (Case 0)
-                OFS_PouchKeyItem =      Bag + 0x6B8; // 184 (Case 4)
-                OFS_PouchTMHM =         Bag + 0x998; // 108 (Case 2)
-                OFS_PouchMedicine =     Bag + 0xB48; // 64 (Case 1)
-                OFS_PouchBerry =        Bag + 0xC48; // 72 (Case 3)
-                OFS_PouchZCrystals =    Bag + 0xD68; // 30 (Case 5)
-
-                PokeDexLanguageFlags =  PokeDex + 0x550;
-                WondercardData = WondercardFlags + 0x100;
-
-                BattleBoxFlags =        PCLayout + 0x4C4;
-                PCBackgrounds =         PCLayout + 0x5C0;
-                LastViewedBox =         PCLayout + 0x5E3;
-                PCFlags =               PCLayout + 0x5E0;
-
-                HoF = 0x25C0; // Inside EventWork (const/flag) block
-
-                FashionLength = 0x1A08;
-
-                TeamCount = 6;
-                LockedSlots = new int[6*TeamCount];
-                TeamSlots = new int[6*TeamCount];
-            }
-            else if (USUM)
-            {
-                // todo
-                TeamCount = 6;
-                LockedSlots = new int[6*TeamCount];
-                TeamSlots = new int[6*TeamCount];
-            }
-            else // Empty input
+            if (!Exportable) // Empty input
             {
                 Party = 0x0;
                 Box = Party + SIZE_PARTY * 6 + 0x1000;
+
+                PCLayout = Party + SIZE_PARTY * 6;
+                BattleBoxFlags = PCLayout + 0x4C4;
+                PCBackgrounds = PCLayout + 0x5C0;
+                LastViewedBox = PCLayout + 0x5E3;
+                PCFlags = PCLayout + 0x5E0;
+                return;
+            }
+
+            /* 00 */ Bag            = Blocks[00].Offset; // 0x00000  // [DE0]    MyItem
+            /* 01 */ Trainer1       = Blocks[01].Offset; // 0x00E00  // [07C]    Situation
+            /* 02 */            //  = Blocks[02].Offset; // 0x01000  // [014]    RandomGroup
+            /* 03 */ TrainerCard    = Blocks[03].Offset; // 0x01200  // [0C0]    MyStatus
+            /* 04 */ Party          = Blocks[04].Offset; // 0x01400  // [61C]    PokePartySave
+            /* 05 */ EventConst     = Blocks[05].Offset; // 0x01C00  // [E00]    EventWork
+            /* 06 */ PokeDex        = Blocks[06].Offset; // 0x02A00  // [F78]    ZukanData
+            /* 07 */ GTS            = Blocks[07].Offset; // 0x03A00  // [228]    GtsData
+            /* 08 */ Fused          = Blocks[08].Offset; // 0x03E00  // [104]    UnionPokemon 
+            /* 09 */ Misc           = Blocks[09].Offset; // 0x04000  // [200]    Misc
+            /* 10 */ Trainer2       = Blocks[10].Offset; // 0x04200  // [020]    FieldMenu
+            /* 11 */ ConfigSave     = Blocks[11].Offset; // 0x04400  // [004]    ConfigSave
+            /* 12 */ AdventureInfo  = Blocks[12].Offset; // 0x04600  // [058]    GameTime
+            /* 13 */ PCLayout       = Blocks[13].Offset; // 0x04800  // [5E6]    BOX
+            /* 14 */ Box            = Blocks[14].Offset; // 0x04E00  // [36600]  BoxPokemon
+            /* 15 */ Resort         = Blocks[15].Offset; // 0x3B400  // [572C]   ResortSave
+            /* 16 */ PlayTime       = Blocks[16].Offset; // 0x40C00  // [008]    PlayTime
+            /* 17 */ Overworld      = Blocks[17].Offset; // 0x40E00  // [1080]   FieldMoveModelSave
+            /* 18 */ Fashion        = Blocks[18].Offset; // 0x42000  // [1A08]   Fashion
+            /* 19 */            //  = Blocks[19].Offset; // 0x43C00  // [6408]   JoinFestaPersonalSave
+            /* 20 */            //  = Blocks[20].Offset; // 0x4A200  // [6408]   JoinFestaPersonalSave
+            /* 21 */ JoinFestaData  = Blocks[21].Offset; // 0x50800  // [3998]   JoinFestaDataSave
+            /* 22 */            //  = Blocks[22].Offset; // 0x54200  // [100]    BerrySpot
+            /* 23 */            //  = Blocks[23].Offset; // 0x54400  // [100]    FishingSpot
+            /* 24 */            //  = Blocks[24].Offset; // 0x54600  // [10528]  LiveMatchData
+            /* 25 */            //  = Blocks[25].Offset; // 0x64C00  // [204]    BattleSpotData
+            /* 26 */ PokeFinderSave = Blocks[26].Offset; // 0x65000  // [B60]    PokeFinderSave
+            /* 27 */ WondercardFlags= Blocks[27].Offset; // 0x65C00  // [3F50]   MysteryGiftSave
+            /* 28 */ Record         = Blocks[28].Offset; // 0x69C00  // [358]    Record
+            /* 29 */            //  = Blocks[29].Offset; // 0x6A000  // [728]    ValidationSave
+            /* 30 */            //  = Blocks[30].Offset; // 0x6A800  // [200]    GameSyncSave
+            /* 31 */            //  = Blocks[31].Offset; // 0x6AA00  // [718]    PokeDiarySave
+            /* 32 */ BattleTree     = Blocks[32].Offset; // 0x6B200  // [1FC]    BattleInstSave
+            /* 33 */ Daycare        = Blocks[33].Offset; // 0x6B400  // [200]    Sodateya
+            /* 34 */            //  = Blocks[34].Offset; // 0x6B600  // [120]    WeatherSave
+            /* 35 */ QRSaveData     = Blocks[35].Offset; // 0x6B800  // [1C8]    QRReaderSaveData
+            /* 36 */            //  = Blocks[36].Offset; // 0x6BA00  // [200]    TurtleSalmonSave
+
+            EventFlag = EventConst + 0x7D0;
+
+            OFS_PouchHeldItem =     Bag + 0; // 430 (Case 0)
+            OFS_PouchKeyItem =      Bag + 0x6B8; // 184 (Case 4)
+            OFS_PouchTMHM =         Bag + 0x998; // 108 (Case 2)
+            OFS_PouchMedicine =     Bag + 0xB48; // 64 (Case 1)
+            OFS_PouchBerry =        Bag + 0xC48; // 72 (Case 3)
+            OFS_PouchZCrystals =    Bag + 0xD68; // 30 (Case 5)
+
+            PokeDexLanguageFlags =  PokeDex + 0x550;
+            WondercardData = WondercardFlags + 0x100;
+
+            BattleBoxFlags =        PCLayout + 0x4C4;
+            PCBackgrounds =         PCLayout + 0x5C0;
+            LastViewedBox =         PCLayout + 0x5E3;
+            PCFlags =               PCLayout + 0x5E0;
+
+            HoF = 0x25C0; // Inside EventWork (const/flag) block
+
+            FashionLength = 0x1A08;
+
+            TeamCount = 6;
+            LockedSlots = new int[6*TeamCount];
+            TeamSlots = new int[6*TeamCount];
+            if (USUM)
+            {
+                // slight differences
+                /* 37 */            //  = Blocks[37].Offset;   BattleFesSave
+                /* 38 */            //  = Blocks[38].Offset;   FinderStudioSave
+
+                OFS_PouchHeldItem =     Bag + 0; // 427 (Case 0)
+                OFS_PouchKeyItem = OFS_PouchHeldItem + 4*427; // 198 (Case 4)
+                OFS_PouchTMHM = OFS_PouchKeyItem + 4*198; // 108 (Case 2)
+                OFS_PouchMedicine = OFS_PouchTMHM + 4*108; // 60 (Case 1)
+                OFS_PouchBerry = OFS_PouchMedicine + 4*60; // 67 (Case 3)
+                OFS_PouchZCrystals = OFS_PouchBerry + 4*67; // 35 (Case 5)
+                OFS_BattleItems = OFS_PouchZCrystals + 4*35; // 11 (Case 6)
             }
         }
 
@@ -331,6 +343,8 @@ namespace PKHeX.Core
                 {
                     case 30: return GameVersion.SN;
                     case 31: return GameVersion.MN;
+                    case 32: return GameVersion.US;
+                    case 33: return GameVersion.UM;
                 }
                 return GameVersion.Unknown;
             }
@@ -812,14 +826,27 @@ namespace PKHeX.Core
         {
             get
             {
-                InventoryPouch[] pouch =
+                InventoryPouch[] pouch;
+                if (SM)
+                pouch = new[]
                 {
                     new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
                     new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
                     new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
                     new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
-                    new InventoryPouch(InventoryType.KeyItems, USUM ? Legal.Pouch_Key_USUM : Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
-                    new InventoryPouch(InventoryType.ZCrystals, USUM ? Legal.Pouch_ZCrystal_USUM : Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, OFS_PouchZCrystals),
+                };
+                else // USUM
+                pouch = new[]
+                {
+                    new InventoryPouch(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, OFS_PouchMedicine),
+                    new InventoryPouch(InventoryType.Items, Legal.Pouch_Items_SM, 999, OFS_PouchHeldItem),
+                    new InventoryPouch(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, OFS_PouchTMHM),
+                    new InventoryPouch(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, OFS_PouchBerry),
+                    new InventoryPouch(InventoryType.KeyItems,  Legal.Pouch_Key_USUM, 1, OFS_PouchKeyItem),
+                    new InventoryPouch(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_USUM, 1, OFS_PouchZCrystals),
+                    new InventoryPouch(InventoryType.BattleItems, Legal.Pouch_Roto_USUM, 999, OFS_BattleItems),
                 };
                 foreach (var p in pouch)
                     p.GetPouch7(ref Data);

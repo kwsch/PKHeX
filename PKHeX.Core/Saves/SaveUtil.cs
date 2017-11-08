@@ -13,7 +13,7 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
-        public const int SIZE_G7USUM = 999_999_999;
+        public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
         public const int SIZE_G6XY = 0x65600;
         public const int SIZE_G6ORAS = 0x76000;

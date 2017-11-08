@@ -93,6 +93,9 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Key_USUM = {
             // todo
         };
+        internal static readonly ushort[] Pouch_Roto_USUM = {
+            //949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
+        };
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345,
             346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363,
@@ -117,10 +120,10 @@ namespace PKHeX.Core
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
         internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
-            // todo
+            //927, 928, 929, 930, 931, 932
         }).ToArray();
         internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
-            // todo
+            //921, 922, 923, 924, 925, 926
         }).ToArray();
         public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
