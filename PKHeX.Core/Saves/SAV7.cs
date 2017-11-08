@@ -67,9 +67,9 @@ namespace PKHeX.Core
         public override int NickLength => 12;
 
         public override int MaxMoveID => SM ? Legal.MaxMoveID_7 : Legal.MaxMoveID_7_USUM;
-        public override int MaxSpeciesID => SM ? Legal.MaxSpeciesID_7 : Legal.MaxMoveID_7_USUM;
+        public override int MaxSpeciesID => SM ? Legal.MaxSpeciesID_7 : Legal.MaxSpeciesID_7_USUM;
         public override int MaxItemID => SM ? Legal.MaxItemID_7 : Legal.MaxItemID_7_USUM;
-        public override int MaxAbilityID => Legal.MaxAbilityID_7;
+        public override int MaxAbilityID => SM ? Legal.MaxAbilityID_7 : Legal.MaxAbilityID_7_USUM;
         public override int MaxBallID => Legal.MaxBallID_7; // 26
         public override int MaxGameID => Legal.MaxGameID_7;
 

@@ -12,9 +12,10 @@ namespace PKHeX.Core
         internal const int MaxBallID_7 = 0x1A; // 26
         internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
-        internal const int MaxSpeciesID_7_USUM = 802;
-        internal const int MaxMoveID_7_USUM = 720;
-        internal const int MaxItemID_7_USUM = 920;
+        internal const int MaxSpeciesID_7_USUM = 802; // 807 todo
+        internal const int MaxMoveID_7_USUM = 720; // 728 todo
+        internal const int MaxItemID_7_USUM = 920; // 959 todo
+        internal const int MaxAbilityID_7_USUM = 232; // 233 todo
 
         #region Met Locations
 
