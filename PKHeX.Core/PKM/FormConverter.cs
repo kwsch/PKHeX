@@ -387,6 +387,7 @@ namespace PKHeX.Core
                     {
                         forms[745], // Midday
                         forms[1024], // Midnight
+                        forms[1064], // Dusk
                     };
 
                 case 746: // Wishiwashi
@@ -423,6 +424,15 @@ namespace PKHeX.Core
                     {
                         forms[778], // Disguised
                         forms[1058], // Busted
+                    };
+
+                case 800:
+                    return new[]
+                    {
+                        types[000], // Normal
+                        forms[1065], // Dusk Mane
+                        forms[1066], // Dawn Wings
+                        forms[1067], // Ultra Necrozma
                     };
 
                 case 801: // Magearna
@@ -497,6 +507,7 @@ namespace PKHeX.Core
                         forms[816], // Unova
                         forms[817], // Kalos
                         forms[818], // Alola
+                        forms[1063] // Partner
                     };
             }
         }

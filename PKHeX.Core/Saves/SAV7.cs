@@ -114,6 +114,7 @@ namespace PKHeX.Core
             // clear memecrypto sig
             if (Blocks.Length > MemeCryptoBlock)
                 new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
+
         }
 
         private const int MemeCryptoBlock = 36; // todo
@@ -971,6 +972,9 @@ namespace PKHeX.Core
             if (pkm.Species == 0 || pkm.Species > MaxSpeciesID) // out of range
                 return;
             if (pkm.IsEgg) // do not add
+                return;
+
+            if (USUM) // TODO: IMPLEMENT POKEDEX EDITING FOR USUM
                 return;
 
             int bit = pkm.Species - 1;

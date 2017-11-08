@@ -2333,6 +2333,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _25_7 {
+            get {
+                object obj = ResourceManager.GetObject("_25_7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _250 {
             get {
                 object obj = ResourceManager.GetObject("_250", resourceCulture);
@@ -9303,6 +9313,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _744_1 {
+            get {
+                object obj = ResourceManager.GetObject("_744_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _745 {
             get {
                 object obj = ResourceManager.GetObject("_745", resourceCulture);
@@ -9316,6 +9336,16 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap _745_1 {
             get {
                 object obj = ResourceManager.GetObject("_745_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _745_2 {
+            get {
+                object obj = ResourceManager.GetObject("_745_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -10113,6 +10143,36 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _800_1 {
+            get {
+                object obj = ResourceManager.GetObject("_800_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _800_2 {
+            get {
+                object obj = ResourceManager.GetObject("_800_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _800_3 {
+            get {
+                object obj = ResourceManager.GetObject("_800_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _801 {
             get {
                 object obj = ResourceManager.GetObject("_801", resourceCulture);
@@ -10136,6 +10196,56 @@ namespace PKHeX.WinForms.Properties {
         internal static System.Drawing.Bitmap _802 {
             get {
                 object obj = ResourceManager.GetObject("_802", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _803 {
+            get {
+                object obj = ResourceManager.GetObject("_803", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _804 {
+            get {
+                object obj = ResourceManager.GetObject("_804", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _805 {
+            get {
+                object obj = ResourceManager.GetObject("_805", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _806 {
+            get {
+                object obj = ResourceManager.GetObject("_806", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _807 {
+            get {
+                object obj = ResourceManager.GetObject("_807", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -12334,15 +12444,13 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex
         ///
-        ///17/05/30 - New Update:
-        /// - Program Internals:
-        /// - - PKHeX now uses C# 7 language features.
-        /// - - PKHeX.Core is now a .NET Standard class library.
+        ///17/10/17 - New Update:
         /// - Legality:
-        /// - - Changed: Refactored internals to better handle matching of encounters and future plans.
-        /// - - Added: PIDIV method detection. For now, the only legality flagging present is for Cosseum/XD starters.
-        /// - - Added: More legality check flagging. Thanks javierhimura &amp; wwwwwwzx!
-        /// - Main Window:        /// [rest of string was truncated]&quot;;.
+        /// - - Fixed: Gen4 Cute Charm PIDIV detection for species that change gender ratios upon evolution (Combee etc).
+        /// - - Fixed: Gen6/7 Traded eggs change the origin version to the hatcher&apos;s version when hatched. Updated affected logic.
+        /// - - Changed: Gen2-&gt;Gen7 and Gen2-&gt;Gen1-&gt;Gen7 transfer detection &amp; checking improved.
+        /// - - Changed: Another round of legality check updates. Thanks (so many different users)!
+        /// - Adde [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string changelog {
             get {
@@ -17381,7 +17489,7 @@ namespace PKHeX.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20170530.
+        ///   Looks up a localized string similar to 20171017.
         /// </summary>
         internal static string ProgramVersion {
             get {

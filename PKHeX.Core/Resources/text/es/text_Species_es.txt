@@ -27,10 +27,10 @@ Pikachu
 Raichu
 Sandshrew
 Sandslash
-Nidoran♀
+Nidoran
 Nidorina
 Nidoqueen
-Nidoran♂
+Nidoran
 Nidorino
 Nidoking
 Clefairy
@@ -801,3 +801,8 @@ Guzzlord
 Necrozma
 Magearna
 Marshadow
+Poipole
+Naganadel
+Stakataka
+Blacephalon
+Zeraora

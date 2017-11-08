@@ -734,6 +734,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\img\Pokemon Sprites\25-7.png" />
+    <None Include="Resources\img\Pokemon Sprites\744-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\745-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-1.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-2.png" />
+    <None Include="Resources\img\Pokemon Sprites\800-3.png" />
+    <Content Include="Resources\img\Pokemon Sprites\803.png" />
+    <Content Include="Resources\img\Pokemon Sprites\804.png" />
+    <Content Include="Resources\img\Pokemon Sprites\805.png" />
+    <Content Include="Resources\img\Pokemon Sprites\806.png" />
+    <Content Include="Resources\img\Pokemon Sprites\807.png" />
     <None Include="Resources\img\Pokemon Sprites\490-e.png" />
     <None Include="Resources\img\misc\leaf.png" />
     <None Include="Resources\img\misc\crown.png" />
