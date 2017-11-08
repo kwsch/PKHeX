@@ -78,7 +78,7 @@ namespace PKHeX.Core
         public static string[] GetStringList(string f)
         {
             if (stringListCache.ContainsKey(f))
-                return stringListCache[f];
+                return (string[])stringListCache[f].Clone();
 
             var txt = GetStringResource(f); // Fetch File, \n to list.
             if (txt == null) return new string[0];
@@ -86,7 +86,7 @@ namespace PKHeX.Core
             for (int i = 0; i < rawlist.Length; i++)
                 rawlist[i] = rawlist[i].Trim();
             stringListCache.Add(f, rawlist);
-            return rawlist;
+            return (string[])rawlist.Clone();
         }
         public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
         public static string[] GetNulledStringArray(string[] SimpleStringList)
