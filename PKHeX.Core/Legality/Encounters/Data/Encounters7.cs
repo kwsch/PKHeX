@@ -31,10 +31,12 @@ namespace PKHeX.Core
 
             var REG_US = GetEncounterTables(GameVersion.US);
             var REG_UM = GetEncounterTables(GameVersion.UM);
+            var SOS_US = GetEncounterTables("uu", "us_sos");
+            var SOS_UM = GetEncounterTables("uu", "um_sos");
             MarkG7REGSlots(ref REG_US);
             MarkG7REGSlots(ref REG_UM);
-            SlotsUS = AddExtraTableSlots(REG_US);
-            SlotsUM = AddExtraTableSlots(REG_UM);
+            SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_SM, Encounter_Pelago_SN);
+            SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_SM, Encounter_Pelago_MN);
         }
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {
@@ -168,7 +170,14 @@ namespace PKHeX.Core
         };
         internal static readonly EncounterTrade[] TradeGift_USUM =
         {
-
+            // Trades - 4.bin
+            new EncounterTrade { Species = 701, Form = 0, Level = 08, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Hawlucha
+            new EncounterTrade { Species = 714, Form = 0, Level = 19, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 0, Gender = 1, Nature = Nature.Modest, }, // Noibat
+            new EncounterTrade { Species = 339, Form = 0, Level = 21, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Naughty, }, // Barboach
+            new EncounterTrade { Species = 024, Form = 0, Level = 22, Ability = 1, TID = 10913, SID = 00000, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Impish, }, // Arbok
+            new EncounterTrade { Species = 708, Form = 0, Level = 33, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
+            new EncounterTrade { Species = 422, Form = 0, Level = 44, Ability = 2, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet, }, // Shellos
+            new EncounterTrade { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
         };
         internal static readonly string[][] TradeSM =
         {
@@ -186,7 +195,17 @@ namespace PKHeX.Core
         };
         internal static readonly string[][] TradeUSUM =
         {
-            // todo
+            new string[0],                         // 0 - None
+            Util.GetStringList("tradeusum", "ja"), // 1
+            Util.GetStringList("tradeusum", "en"), // 2
+            Util.GetStringList("tradeusum", "fr"), // 3
+            Util.GetStringList("tradeusum", "it"), // 4
+            Util.GetStringList("tradeusum", "de"), // 5
+            new string[0],                         // 6 - None
+            Util.GetStringList("tradeusum", "es"), // 7
+            Util.GetStringList("tradeusum", "ko"), // 8
+            Util.GetStringList("tradeusum", "zh"), // 9
+            Util.GetStringList("tradeusum", "zh"), // 10
         };
 
         private static readonly EncounterArea[] Encounter_Pelago_SM =

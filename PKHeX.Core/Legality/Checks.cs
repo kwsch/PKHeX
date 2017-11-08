@@ -324,9 +324,9 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2: VerifyTrade12(); return;
-                case 3: VerifyTrade3(); return; // todo
+                case 3: VerifyTrade3(); return;
                 case 4: VerifyTrade4(); return;
-                case 5: VerifyTrade5(); return; // todo
+                case 5: VerifyTrade5(); return;
                 case 6: VerifyTrade6(); return;
                 case 7: VerifyTrade7(); return;
             }

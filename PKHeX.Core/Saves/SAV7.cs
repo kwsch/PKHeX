@@ -117,7 +117,7 @@ namespace PKHeX.Core
 
         }
 
-        private const int MemeCryptoBlock = 36; // todo
+        private const int MemeCryptoBlock = 36;
         private bool CanReadChecksums()
         {
             if (Blocks.Length < MemeCryptoBlock)
