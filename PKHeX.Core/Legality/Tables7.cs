@@ -12,10 +12,10 @@ namespace PKHeX.Core
         internal const int MaxBallID_7 = 0x1A; // 26
         internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
-        internal const int MaxSpeciesID_7_USUM = 807; // 807 todo
-        internal const int MaxMoveID_7_USUM = 728; // 728 todo
-        internal const int MaxItemID_7_USUM = 959; // 959 todo
-        internal const int MaxAbilityID_7_USUM = 233; // 233 todo
+        internal const int MaxSpeciesID_7_USUM = 807;
+        internal const int MaxMoveID_7_USUM = 728;
+        internal const int MaxItemID_7_USUM = 959;
+        internal const int MaxAbilityID_7_USUM = 233;
 
         #region Met Locations
 
@@ -93,11 +93,11 @@ namespace PKHeX.Core
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
-        internal static readonly ushort[] Pouch_Key_USUM = {
-            // todo
-        };
+        internal static readonly ushort[] Pouch_Key_USUM = Pouch_Key_SM.Concat(new ushort[] {
+            933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948
+        }).ToArray();
         internal static readonly ushort[] Pouch_Roto_USUM = {
-            //949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
+            949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
         };
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345,
@@ -123,16 +123,16 @@ namespace PKHeX.Core
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
         internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
-            //927, 928, 929, 930, 931, 932
+            927, 928, 929, 930, 931, 932
         }).ToArray();
         internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
-            //921, 922, 923, 924, 925, 926
+            921, 922, 923, 924, 925, 926
         }).ToArray();
         public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        internal static readonly ushort[] HeldItems_USUM = HeldItems_SM; // todo
+        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
 
         private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
