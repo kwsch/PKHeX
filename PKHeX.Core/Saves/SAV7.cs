@@ -111,16 +111,9 @@ namespace PKHeX.Core
             // Fix Final Array Lengths
             Array.Resize(ref Blocks, count);
 
-            // clear memecrypto sig if invalid
+            // clear memecrypto sig
             if (Blocks.Length > MemeCryptoBlock)
-            {
-                if (!MemeCrypto.VerifyMemeData(Data, out var currentSignature, Blocks[MemeCryptoBlock].Offset + 0x100,
-                    0x80, MemeKeyIndex.PokedexAndSaveFile))
-                {
-                    new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
-                }
-            }
-                
+                new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
         }
 
         private const int MemeCryptoBlock = 36; // todo
