@@ -27,10 +27,10 @@ Pikachu
 Raichu
 Sabelette
 Sablaireau
-Nidoran♀
+Nidoran
 Nidorina
 Nidoqueen
-Nidoran♂
+Nidoran
 Nidorino
 Nidoking
 Mélofée
@@ -801,3 +801,8 @@ Engloutyran
 Necrozma
 Magearna
 Marshadow
+Vémini
+Mandrillon
+Ama-Ama
+Pierroteknik
+Zeraora

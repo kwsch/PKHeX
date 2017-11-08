@@ -15,7 +15,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.USUM"/>.
         /// </summary>
-        public static readonly PersonalTable USUM = GetTable("sm", GameVersion.USUM);
+        public static readonly PersonalTable USUM = GetTable("uu", GameVersion.USUM);
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.SM"/>.
         /// </summary>

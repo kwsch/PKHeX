@@ -919,3 +919,42 @@ ROM Ghiaccio
 ROM Drago
 ROM Buio
 ROM Folletto
+Solgaleium Z
+Lunalium Z
+Ultranecrozium Z
+Mimikyum Z
+Lycanrochium Z
+Kommonium Z
+Solgaleium Z
+Lunalium Z
+Ultranecrozium Z
+Mimikyum Z
+Lycanrochium Z
+Kommonium Z
+Supercerchio Z
+Petalo rosa
+Petalo arancione
+Petalo azzurro
+Petalo rosso
+Petalo verde
+Petalo giallo
+Petalo violetto
+Fiore arcobaleno
+Medaglia Tonante
+Necrosolix
+Necrolunix
+Necrosolix
+Necrolunix
+Normium Z Liam
+Poké Ball altrui
+Cova’n’roll
+Sconto’n’roll
+Soldi’n’roll
+Esp’n’roll
+Affetto’n’roll
+Incontra’n’roll
+Repelle’n’roll
+PS’n’roll
+PP’n’roll
+Stat’n’roll
+Acchiappa’n’roll

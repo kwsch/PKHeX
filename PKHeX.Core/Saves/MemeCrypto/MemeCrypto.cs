@@ -147,9 +147,10 @@ namespace PKHeX.Core
                 return null;
 
             // Save Chunks are 0x200 bytes each; Memecrypto signature is 0x100 bytes into the 2nd to last chunk.
-            int ChecksumTableOffset = sav7.Length - 0x200;
-            int MemeCryptoOffset = ChecksumTableOffset - 0x100;
-            const int ChecksumSignatureLength = 0x140;
+            var isUSUM = sav7.Length == SaveUtil.SIZE_G7USUM;
+            var ChecksumTableOffset = sav7.Length - 0x200;
+            var MemeCryptoOffset = isUSUM ? 0x6C100 : 0x6BB00;
+            var ChecksumSignatureLength = isUSUM ? 0x150 : 0x140;
             const int MemeCryptoSignatureLength = 0x80;
 
             var outSav = (byte[])sav7.Clone();

@@ -108,7 +108,7 @@ Ruta 10
 
 Ruta 11
 
-Playa Menor
+Playa de Ula-Ula
 
 Ruta 13
 
@@ -188,7 +188,46 @@ Isla Exeggutor
 
 Paraíso Æther
 
-Ultraespacio
+Ultraabismo
 
 Ciudad Malíe
 Cabo de las Afueras
+Melemele
+Akala
+Ula-Ula
+Poni
+Playa Big Wave
+
+Cueva Costera
+
+Playa de Kantai
+
+Playa de Poni
+
+Ultrópolis
+
+Torre Ultrópolis
+
+Ultragenerador
+
+Ultravalle
+
+Ultradesierto
+
+Ultrabosque
+
+Ultrajungla
+
+Ultraurbe
+
+Ultraespacio Cero
+
+Castillo Team Rocket
+
+Gruta de la Llanura
+
+Valle de los Pikachu
+
+Ruta 1
+Escuela Entrenadores
+Túnel del Volcán
