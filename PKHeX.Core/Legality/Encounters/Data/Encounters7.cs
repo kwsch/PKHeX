@@ -371,9 +371,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 019, Level = 03, Location = -01, Ability = 1, Shiny = false, Form = 1, }, // Rattata @ ???
             new EncounterStatic { Species = 736, Level = 04, Location = -01, Ability = 1, Shiny = false, }, // Grubbin @ ???
             new EncounterStatic { Species = 021, Level = 04, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {043,228,000,000}, }, // Spearow @ ???
-            new EncounterStatic { Species = 127, Level = 42, Location = -01, Shiny = false, }, // Pinsir @ ???
-            new EncounterStatic { Species = 127, Level = 43, Location = -01, Shiny = false, }, // Pinsir @ ???
-            new EncounterStatic { Species = 127, Level = 42, Location = -01, Shiny = false, }, // Pinsir @ ???
+            new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ ???
+            new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = false, }, // Pinsir @ ???
+            new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ ???
             new EncounterStatic { Species = 800, Level = 50, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {713,234,427,400}, }, // Necrozma @ ???
             new EncounterStatic { Species = 800, Level = 50, Location = -01, Ability = 1, Shiny = false, Form = 2, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {714,236,094,408}, }, // Necrozma @ ???
             new EncounterStatic { Species = 800, Level = 60, Location = -01, Ability = 1, Shiny = false, Form = 3, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {722,684,408,406}, }, // Necrozma @ ???
