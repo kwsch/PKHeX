@@ -399,6 +399,11 @@ namespace PKHeX.WinForms
         }
         private void B_Fashion_Click(object sender, EventArgs e)
         {
+            if (SAV.USUM)
+            {
+                WinFormsUtil.Alert("Temporarily disabled, needs research for permissible values.");
+                return;
+            }
             var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing data", "Continue?");
             if (DialogResult.Yes != prompt)
                 return;
