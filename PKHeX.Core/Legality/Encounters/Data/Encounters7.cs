@@ -166,20 +166,20 @@ namespace PKHeX.Core
         };
         private static readonly EncounterStatic[] Encounter_USUM =
         {
-            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, }, // Rowlet @ Route 1
-            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 8, }, // Litten @ Route 1
-            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, }, // Popplio @ Route 1
-            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte @ ???
-            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto @ ???
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl @ ???
-            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep @ ???
-            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith @ ???
-            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos @ ???
-            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = 58, }, // Shieldon @ ???
-            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = 58, }, // Tirtouga @ ???
-            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = 58, }, // Archen @ ???
-            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt @ ???
-            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura @ ???
+            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, },  // Rowlet
+            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 8, },  // Litten
+            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, },  // Popplio
+            new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
+            new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
+            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
+            new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
+            new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
+            new EncounterStatic { Gift = true, Species = 410, Level = 15, Location = 58, }, // Shieldon
+            new EncounterStatic { Gift = true, Species = 564, Level = 15, Location = 58, }, // Tirtouga
+            new EncounterStatic { Gift = true, Species = 566, Level = 15, Location = 58, }, // Archen
+            new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt
+            new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 01, EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -01, }, // Porygon @ ???
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = -01, }, // Type: Null @ ???
@@ -188,17 +188,20 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
             new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, HeldItem = 796, }, // Pikachu @ ???
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, }, // Poipole @ ???
-            new EncounterStatic { Gift = true, Species = 735, Level = 20, Location = 202, Form = 1, Shiny = false, }, // Totem Gumshoos
-            new EncounterStatic { Gift = true, Species = 020, Level = 20, Location = 202, Form = 2, Shiny = false, }, // Totem Raticate
-            new EncounterStatic { Gift = true, Species = 105, Level = 25, Location = 202, Form = 2, Shiny = false, }, // Totem Marowak
-            new EncounterStatic { Gift = true, Species = 752, Level = 25, Location = 202, Form = 1, Shiny = false, }, // Totem Araquanid
-            new EncounterStatic { Gift = true, Species = 754, Level = 30, Location = 202, Form = 1, Shiny = false, }, // Totem Lurantis
-            new EncounterStatic { Gift = true, Species = 758, Level = 30, Location = 202, Form = 1, Shiny = false, }, // Totem Salazzle
-            new EncounterStatic { Gift = true, Species = 738, Level = 35, Location = 202, Form = 1, Shiny = false, }, // Totem Vikavolt
-            new EncounterStatic { Gift = true, Species = 777, Level = 35, Location = 202, Form = 1, Shiny = false, }, // Totem Togedemaru
-            new EncounterStatic { Gift = true, Species = 778, Level = 40, Location = 202, Form = 2, Shiny = false, }, // Totem Mimikyu
-            new EncounterStatic { Gift = true, Species = 743, Level = 50, Location = 202, Form = 1, Shiny = false, }, // Totem Ribombee
-            new EncounterStatic { Gift = true, Species = 784, Level = 50, Location = 202, Form = 1, Shiny = false, }, // Totem Kommo-o
+
+            // Totem-Sized Gifts @ Heahea Beach
+            new EncounterStatic { Gift = true, Species = 735, Level = 20, Ability = 4, Location = 202, Form = 1, Shiny = false, Version = GameVersion.US }, // Gumshoos
+            new EncounterStatic { Gift = true, Species = 020, Level = 20, Ability = 4, Location = 202, Form = 2, Shiny = false, Version = GameVersion.UM }, // Raticate
+            new EncounterStatic { Gift = true, Species = 105, Level = 25, Ability = 4, Location = 202, Form = 2, Shiny = false, Version = GameVersion.US }, // Marowak
+            new EncounterStatic { Gift = true, Species = 752, Level = 25, Ability = 1, Location = 202, Form = 1, Shiny = false, Version = GameVersion.UM }, // Araquanid
+            new EncounterStatic { Gift = true, Species = 754, Level = 30, Ability = 4, Location = 202, Form = 1, Shiny = false, Version = GameVersion.US }, // Lurantis
+            new EncounterStatic { Gift = true, Species = 758, Level = 30, Ability = 1, Location = 202, Form = 1, Shiny = false, Version = GameVersion.UM }, // Salazzle
+            new EncounterStatic { Gift = true, Species = 738, Level = 35, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Vikavolt
+            new EncounterStatic { Gift = true, Species = 777, Level = 35, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Togedemaru
+            new EncounterStatic { Gift = true, Species = 778, Level = 40, Ability = 1, Location = 202, Form = 2, Shiny = false, },                          // Mimikyu
+            new EncounterStatic { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Ribombee
+            new EncounterStatic { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Kommo-o
+
             new EncounterStatic { Gift = true, Species = 718, Level = 63, Location = -01, Form = 1, Shiny = false, }, // Zygarde @ ???
             new EncounterStatic { Gift = true, Species = 025, Level = 21, Location = -01, Form = 7, Shiny = false, HeldItem = 571, }, // Pikachu @ ???
 
@@ -344,7 +347,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 786, Level = 60, Location = -01, Shiny = false, }, // Tapu Lele @ ???
             new EncounterStatic { Species = 787, Level = 60, Location = -01, Shiny = false, }, // Tapu Bulu @ ???
             new EncounterStatic { Species = 788, Level = 60, Location = -01, Shiny = false, }, // Tapu Fini @ ???
-            new EncounterStatic { Species = 023, Level = 10, Location = 012, }, // Ekans @ ???
+            new EncounterStatic { Species = 023, Level = 10, Location = 012, }, // Ekans @ Route 2
             new EncounterStatic { Species = 103, Level = 40, Location = -01, Form = 1, }, // Exeggutor @ ???
             new EncounterStatic { Species = 785, Level = 60, Location = -01, Shiny = false, }, // Tapu Koko @ ???
 
