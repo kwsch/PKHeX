@@ -166,9 +166,9 @@ namespace PKHeX.Core
         };
         private static readonly EncounterStatic[] Encounter_USUM =
         {
-            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 24, }, // Rowlet @ ???
-            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 24, }, // Litten @ ???
-            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 24, }, // Popplio @ ???
+            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, }, // Rowlet @ ???
+            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 8, }, // Litten @ ???
+            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, }, // Popplio @ ???
             new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte @ ???
             new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl @ ???
@@ -314,7 +314,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 256, Level = 20, Location = -01, }, // Combusken @ ???
             new EncounterStatic { Species = 679, Level = 24, Location = -01, }, // Honedge @ ???
             new EncounterStatic { Species = 015, Level = 14, Location = -01, }, // Beedrill @ ???
-            new EncounterStatic { Species = 253, Level = 16, Location = -01, }, // Grovyle @ ???
+            new EncounterStatic { Species = 253, Level = 16, Location = 052, }, // Grovyle @ ???
             new EncounterStatic { Species = 259, Level = 17, Location = -01, }, // Marshtomp @ ???
             new EncounterStatic { Species = 111, Level = 32, Location = -01, }, // Rhyhorn @ ???
             new EncounterStatic { Species = 220, Level = 33, Location = -01, }, // Swinub @ ???
@@ -335,7 +335,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 786, Level = 60, Location = -01, Shiny = false, }, // Tapu Lele @ ???
             new EncounterStatic { Species = 787, Level = 60, Location = -01, Shiny = false, }, // Tapu Bulu @ ???
             new EncounterStatic { Species = 788, Level = 60, Location = -01, Shiny = false, }, // Tapu Fini @ ???
-            new EncounterStatic { Species = 023, Level = 10, Location = -01, }, // Ekans @ ???
+            new EncounterStatic { Species = 023, Level = 10, Location = 012, }, // Ekans @ ???
             new EncounterStatic { Species = 103, Level = 40, Location = -01, Form = 1, }, // Exeggutor @ ???
             new EncounterStatic { Species = 785, Level = 60, Location = -01, Shiny = false, }, // Tapu Koko @ ???
 
@@ -443,7 +443,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 092, Level = 19, Location = -01, Shiny = false, }, // Gastly @ ???
             new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, }, // Drifloon @ ???
             new EncounterStatic { Species = 769, Level = 30, Location = -01, Shiny = false, }, // Sandygast @ ???
-            new EncounterStatic { Species = 592, Level = 34, Location = -01, Shiny = false, }, // Frillish @ ???
+            new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, }, // Frillish @ ???
             new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
             new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
             new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
