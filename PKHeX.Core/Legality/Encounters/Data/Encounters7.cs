@@ -183,10 +183,10 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 133, Level = 01, EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -01, }, // Porygon @ ???
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = -01, IV3 = true, }, // Type: Null @ ???
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true,Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
-            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, IV3 = true,Shiny = false, Ability = 2, }, // Cosmog @ ???
+            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true, Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
+            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, IV3 = true, Shiny = false, Ability = 2, }, // Cosmog @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
-            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, IV3 = true,HeldItem = 796, }, // Pikachu @ ???
+            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, IV3 = true, HeldItem = 796, }, // Pikachu @ ???
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, IV3 = true,}, // Poipole @ ???
 
             // Totem-Sized Gifts @ Heahea Beach
@@ -204,269 +204,270 @@ namespace PKHeX.Core
 
             new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = -01, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ ???
             new EncounterStatic { Gift = true, Species = 025, Level = 21, Ability = 1, Location = -01, Form = 7, Shiny = false, HeldItem = 571, Nature = Nature.Hardy }, // Pikachu @ ???
-
-            new EncounterStatic { Species = 731, Level = 03, Location = -01, Shiny = false, }, // Pikipek @ ???
-            new EncounterStatic { Species = 793, Level = 27, Location = -01, Shiny = false, }, // Nihilego @ ???
-            new EncounterStatic { Species = 791, Level = 60, Location = -01, Shiny = false, }, // Solgaleo @ ???
-            new EncounterStatic { Species = 792, Level = 60, Location = -01, Shiny = false, }, // Lunala @ ???
-            new EncounterStatic { Species = 735, Level = 12, Location = -01, Form = 1, Shiny = false, HeldItem = 151, }, // Gumshoos @ ???
-            new EncounterStatic { Species = 734, Level = 11, Location = -01, Shiny = false, }, // Yungoos @ ???
-            new EncounterStatic { Species = 735, Level = 11, Location = -01, Shiny = false, }, // Gumshoos @ ???
-            new EncounterStatic { Species = 734, Level = 11, Location = -01, Shiny = false, }, // Yungoos @ ???
-            new EncounterStatic { Species = 734, Level = 10, Location = -01, Shiny = false, }, // Yungoos @ ???
-            new EncounterStatic { Species = 020, Level = 12, Location = -01, Form = 2, Shiny = false, HeldItem = 151, }, // Raticate @ ???
-            new EncounterStatic { Species = 019, Level = 11, Location = -01, Form = 1, Shiny = false, }, // Rattata @ ???
-            new EncounterStatic { Species = 020, Level = 11, Location = -01, Form = 1, Shiny = false, }, // Raticate @ ???
-            new EncounterStatic { Species = 019, Level = 11, Location = -01, Form = 1, Shiny = false, }, // Rattata @ ???
-            new EncounterStatic { Species = 019, Level = 10, Location = -01, Form = 1, Shiny = false, }, // Rattata @ ???
-            new EncounterStatic { Species = 746, Level = 20, Location = -01, Form = 1, Shiny = false, HeldItem = 158, }, // Wishiwashi @ ???
-            new EncounterStatic { Species = 746, Level = 17, Location = -01, Shiny = false, }, // Wishiwashi @ ???
-            new EncounterStatic { Species = 746, Level = 18, Location = -01, Shiny = false, }, // Wishiwashi @ ???
-            new EncounterStatic { Species = 594, Level = 18, Location = -01, Shiny = false, }, // Alomomola @ ???
-            new EncounterStatic { Species = 746, Level = 18, Location = -01, Shiny = false, }, // Wishiwashi @ ???
-            new EncounterStatic { Species = 758, Level = 22, Location = -01, Form = 1, Shiny = false, HeldItem = 204, }, // Salazzle @ ???
-            new EncounterStatic { Species = 105, Level = 18, Location = -01, Form = 1, Shiny = false, }, // Marowak @ ???
-            new EncounterStatic { Species = 105, Level = 18, Location = -01, Form = 1, Shiny = false, }, // Marowak @ ???
-            new EncounterStatic { Species = 025, Level = 20, Location = -01, Shiny = false, }, // Pikachu @ ???
-            new EncounterStatic { Species = 757, Level = 20, Location = -01, Shiny = false, }, // Salandit @ ???
-            new EncounterStatic { Species = 754, Level = 24, Location = -01, Form = 1, Shiny = false, HeldItem = 271, }, // Lurantis @ ???
-            new EncounterStatic { Species = 047, Level = 22, Location = -01, Shiny = false, }, // Parasect @ ???
-            new EncounterStatic { Species = 756, Level = 22, Location = -01, Shiny = false, }, // Shiinotic @ ???
-            new EncounterStatic { Species = 753, Level = 23, Location = -01, Shiny = false, }, // Fomantis @ ???
-            new EncounterStatic { Species = 753, Level = 23, Location = -01, Shiny = false, }, // Fomantis @ ???
-            new EncounterStatic { Species = 753, Level = 23, Location = -01, Shiny = false, }, // Fomantis @ ???
-            new EncounterStatic { Species = 753, Level = 23, Location = -01, Shiny = false, }, // Fomantis @ ???
-            new EncounterStatic { Species = 764, Level = 22, Location = -01, Shiny = false, }, // Comfey @ ???
-            new EncounterStatic { Species = 352, Level = 22, Location = -01, Shiny = false, }, // Kecleon @ ???
-            new EncounterStatic { Species = 738, Level = 29, Location = -01, Form = 1, Shiny = false, HeldItem = 184, }, // Vikavolt @ ???
-            new EncounterStatic { Species = 736, Level = 27, Location = -01, Shiny = false, }, // Grubbin @ ???
-            new EncounterStatic { Species = 737, Level = 27, Location = -01, Shiny = false, }, // Charjabug @ ???
-            new EncounterStatic { Species = 737, Level = 27, Location = -01, Shiny = false, }, // Charjabug @ ???
-            new EncounterStatic { Species = 737, Level = 27, Location = -01, Shiny = false, }, // Charjabug @ ???
-            new EncounterStatic { Species = 737, Level = 28, Location = -01, Shiny = false, }, // Charjabug @ ???
-            new EncounterStatic { Species = 778, Level = 35, Location = -01, Form = 2, Shiny = false, HeldItem = 157, }, // Mimikyu @ ???
-            new EncounterStatic { Species = 092, Level = 30, Location = -01, Shiny = false, }, // Gastly @ ???
-            new EncounterStatic { Species = 093, Level = 30, Location = -01, Shiny = false, }, // Haunter @ ???
-            new EncounterStatic { Species = 094, Level = 30, Location = -01, Shiny = false, }, // Gengar @ ???
-            new EncounterStatic { Species = 354, Level = 32, Location = -01, Shiny = false, }, // Banette @ ???
-            new EncounterStatic { Species = 593, Level = 33, Location = -01, Shiny = false, }, // Jellicent @ ???
-            new EncounterStatic { Species = 784, Level = 49, Location = -01, Form = 1, Shiny = false, HeldItem = 686, }, // Kommo-o @ ???
-            new EncounterStatic { Species = 782, Level = 42, Location = -01, Shiny = false, }, // Jangmo-o @ ???
-            new EncounterStatic { Species = 783, Level = 44, Location = -01, Shiny = false, }, // Hakamo-o @ ???
-            new EncounterStatic { Species = 715, Level = 48, Location = -01, Shiny = false, }, // Noivern @ ???
-            new EncounterStatic { Species = 212, Level = 46, Location = -01, Shiny = false, }, // Scizor @ ???
-            new EncounterStatic { Species = 793, Level = 55, Location = -01, Shiny = false, }, // Nihilego @ ???
-            new EncounterStatic { Species = 793, Level = 55, Location = -01, Shiny = false, }, // Nihilego @ ???
-            new EncounterStatic { Species = 794, Level = 65, Location = -01, Shiny = false, }, // Buzzwole @ ???
-            new EncounterStatic { Species = 794, Level = 65, Location = -01, Shiny = false, }, // Buzzwole @ ???
-            new EncounterStatic { Species = 795, Level = 60, Location = -01, Shiny = false, }, // Pheromosa @ ???
-            new EncounterStatic { Species = 795, Level = 60, Location = -01, Shiny = false, }, // Pheromosa @ ???
-            new EncounterStatic { Species = 795, Level = 60, Location = -01, Shiny = false, }, // Pheromosa @ ???
-            new EncounterStatic { Species = 795, Level = 60, Location = -01, Shiny = false, }, // Pheromosa @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 796, Level = 65, Location = -01, Shiny = false, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, Shiny = false, }, // Kartana @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
-            new EncounterStatic { Species = 799, Level = 70, Location = -01, Shiny = false, }, // Guzzlord @ ???
-            new EncounterStatic { Species = 800, Level = 75, Location = -01, Shiny = false, }, // Necrozma @ ???
+            
+            new EncounterStatic { Species = 731, Level = 03, Location = -01, Ability = 1, Shiny = false, }, // Pikipek @ ???
+            new EncounterStatic { Species = 793, Level = 27, Location = -01, Ability = 1, Shiny = false, IVs = new[] {31,01,31,01,31,31}, }, // Nihilego @ ???
+            new EncounterStatic { Species = 791, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {713,322,242,428}, Version = GameVersion.SN }, // Solgaleo @ ???
+            new EncounterStatic { Species = 792, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {714,322,539,585}, Version = GameVersion.MN  }, // Lunala @ ???
+            new EncounterStatic { Species = 735, Level = 12, Location = -01, Ability = 4, Shiny = false, Form = 1, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {162,044,033,184}, HeldItem = 151, }, // Gumshoos @ ???
+            new EncounterStatic { Species = 734, Level = 11, Location = -01, Ability = 2, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {028,033,158,043}, }, // Yungoos @ ???
+            new EncounterStatic { Species = 735, Level = 11, Location = -01, Ability = 4, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {028,044,162,043}, }, // Gumshoos @ ???
+            new EncounterStatic { Species = 734, Level = 11, Location = -01, Ability = 2, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {028,033,162,043}, }, // Yungoos @ ???
+            new EncounterStatic { Species = 734, Level = 10, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {043,033,228,316}, }, // Yungoos @ ???
+            new EncounterStatic { Species = 020, Level = 12, Location = -01, Ability = 1, Shiny = false, Form = 2, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {162,044,154,184}, HeldItem = 151, }, // Raticate @ ???
+            new EncounterStatic { Species = 019, Level = 11, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {033,039,098,158}, }, // Rattata @ ???
+            new EncounterStatic { Species = 020, Level = 11, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {116,039,033,162}, }, // Raticate @ ???
+            new EncounterStatic { Species = 019, Level = 11, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {033,039,098,162}, }, // Rattata @ ???
+            new EncounterStatic { Species = 019, Level = 10, Location = -01, Ability = 2, Shiny = false, Form = 1, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {033,039,098,228}, }, // Rattata @ ???
+            new EncounterStatic { Species = 746, Level = 20, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {055,045,240,487}, HeldItem = 158, }, // Wishiwashi @ ???
+            new EncounterStatic { Species = 746, Level = 17, Location = -01, Ability = 1, Shiny = false, }, // Wishiwashi @ ???
+            new EncounterStatic { Species = 746, Level = 18, Location = -01, Ability = 1, Shiny = false, }, // Wishiwashi @ ???
+            new EncounterStatic { Species = 594, Level = 18, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {270,003,505,055}, }, // Alomomola @ ???
+            new EncounterStatic { Species = 746, Level = 18, Location = -01, Ability = 1, Shiny = false, }, // Wishiwashi @ ???
+            new EncounterStatic { Species = 758, Level = 22, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,01,15,01,15,01}, Relearn = new[] {259,599,092,481}, HeldItem = 204, }, // Salazzle @ ???
+            new EncounterStatic { Species = 105, Level = 18, Location = -01, Ability = 1, Shiny = false, Form = 1, Relearn = new[] {172,125,039,045}, }, // Marowak @ ???
+            new EncounterStatic { Species = 105, Level = 18, Location = -01, Ability = 1, Shiny = false, Form = 1, Relearn = new[] {172,125,039,045}, }, // Marowak @ ???
+            new EncounterStatic { Species = 025, Level = 20, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {486,086,098,589}, }, // Pikachu @ ???
+            new EncounterStatic { Species = 757, Level = 20, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {139,474,269,010}, }, // Salandit @ ???
+            new EncounterStatic { Species = 754, Level = 24, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,31,31,01,31,31}, Relearn = new[] {490,404,669,235}, HeldItem = 271, }, // Lurantis @ ???
+            new EncounterStatic { Species = 047, Level = 22, Location = -01, Ability = 2, Shiny = false, Relearn = new[] {440,141,210,147}, }, // Parasect @ ???
+            new EncounterStatic { Species = 756, Level = 22, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {310,275,072,079}, }, // Shiinotic @ ???
+            new EncounterStatic { Species = 753, Level = 23, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {075,670,210,074}, }, // Fomantis @ ???
+            new EncounterStatic { Species = 753, Level = 23, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {075,670,210,074}, }, // Fomantis @ ???
+            new EncounterStatic { Species = 753, Level = 23, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {670,210,275,075}, }, // Fomantis @ ???
+            new EncounterStatic { Species = 753, Level = 23, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {670,210,275,075}, }, // Fomantis @ ???
+            new EncounterStatic { Species = 764, Level = 22, Location = -01, Ability = 1, Shiny = false, IVs = new[] {30,30,30,30,30,30}, Relearn = new[] {241,666,579,345}, }, // Comfey @ ???
+            new EncounterStatic { Species = 352, Level = 22, Location = -01, Ability = 1, Shiny = false, IVs = new[] {30,10,30,10,30,10}, Relearn = new[] {241,246,146,103}, }, // Kecleon @ ???
+            new EncounterStatic { Species = 738, Level = 29, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,01,31,01,31,01}, Relearn = new[] {011,268,450,209}, HeldItem = 184, }, // Vikavolt @ ???
+            new EncounterStatic { Species = 736, Level = 27, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {011,081,044,450}, }, // Grubbin @ ???
+            new EncounterStatic { Species = 737, Level = 27, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {268,011,450,209}, }, // Charjabug @ ???
+            new EncounterStatic { Species = 737, Level = 27, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {268,189,512,209}, }, // Charjabug @ ???
+            new EncounterStatic { Species = 737, Level = 27, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {081,011,189,086}, }, // Charjabug @ ???
+            new EncounterStatic { Species = 737, Level = 28, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {044,086,189,209}, }, // Charjabug @ ???
+            new EncounterStatic { Species = 778, Level = 35, Location = -01, Ability = 1, Shiny = false, Form = 2, IVs = new[] {31,08,31,15,31,15}, Relearn = new[] {421,583,141,163}, HeldItem = 157, }, // Mimikyu @ ???
+            new EncounterStatic { Species = 092, Level = 30, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {174,109,212,095}, }, // Gastly @ ???
+            new EncounterStatic { Species = 093, Level = 30, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {122,101,389,095}, }, // Haunter @ ???
+            new EncounterStatic { Species = 094, Level = 30, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {101,325,247,095}, }, // Gengar @ ???
+            new EncounterStatic { Species = 354, Level = 32, Location = -01, Ability = 1, Shiny = false, IVs = new[] {31,15,31,15,31,15}, Relearn = new[] {103,261,185,174}, }, // Banette @ ???
+            new EncounterStatic { Species = 593, Level = 33, Location = -01, Ability = 2, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {352,173,180,101}, }, // Jellicent @ ???
+            new EncounterStatic { Species = 784, Level = 49, Location = -01, Ability = 2, Shiny = false, Form = 1, IVs = new[] {31,01,31,01,31,31}, Relearn = new[] {409,337,009,398}, HeldItem = 686, }, // Kommo-o @ ???
+            new EncounterStatic { Species = 782, Level = 42, Location = -01, Ability = 1, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {117,033,043,029}, }, // Jangmo-o @ ???
+            new EncounterStatic { Species = 783, Level = 44, Location = -01, Ability = 1, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {029,475,526,327}, }, // Hakamo-o @ ???
+            new EncounterStatic { Species = 715, Level = 48, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {586,103,406,403}, }, // Noivern @ ???
+            new EncounterStatic { Species = 212, Level = 46, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {113,228,418,404}, }, // Scizor @ ???
+            new EncounterStatic { Species = 793, Level = 55, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Nihilego @ ???
+            new EncounterStatic { Species = 793, Level = 55, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Nihilego @ ???
+            new EncounterStatic { Species = 794, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Buzzwole @ ???
+            new EncounterStatic { Species = 794, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Buzzwole @ ???
+            new EncounterStatic { Species = 795, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Pheromosa @ ???
+            new EncounterStatic { Species = 795, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Pheromosa @ ???
+            new EncounterStatic { Species = 795, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Pheromosa @ ???
+            new EncounterStatic { Species = 795, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Pheromosa @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 796, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 797, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 799, Level = 70, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Guzzlord @ ???
+            new EncounterStatic { Species = 800, Level = 75, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Necrozma @ ???
 
             // QR Scan: Su/M/Tu/W/Th/F/Sa
             // Melemele Island
-            new EncounterStatic { Species = 004, Level = 12, Location = 010, }, // Charmander @ Route 3
-            new EncounterStatic { Species = 007, Level = 12, Location = 042, }, // Squirtle @ Seaward Cave
-            new EncounterStatic { Species = 095, Level = 14, Location = 034, }, // Onix @ Ten Carat Hill
-            new EncounterStatic { Species = 116, Level = 18, Location = 014, }, // Horsea @ Kala'e Bay
-            new EncounterStatic { Species = 664, Level = 09, Location = 020, Form = 30, }, // Scatterbug @ Hau'oli City
-            new EncounterStatic { Species = 001, Level = 10, Location = 012, }, // Bulbasaur @ Route 2
-            new EncounterStatic { Species = 607, Level = 09, Location = 038, }, // Litwick @ Hau'oli Cemetery
+            new EncounterStatic { Species = 004, Level = 12, Location = 010, Relearn = new[] {068,108,052,010}, }, // Charmander @ Route 3
+            new EncounterStatic { Species = 007, Level = 12, Location = 042, Relearn = new[] {453,110,055,033}, }, // Squirtle @ Seaward Cave
+            new EncounterStatic { Species = 095, Level = 14, Location = 034, Relearn = new[] {563,099,317,088}, }, // Onix @ Ten Carat Hill
+            new EncounterStatic { Species = 116, Level = 18, Location = 014, Relearn = new[] {352,239,055,043}, }, // Horsea @ Kala'e Bay
+            new EncounterStatic { Species = 664, Level = 09, Location = 020, Relearn = new[] {476,081,078,033}, Form = 30, }, // Scatterbug @ Hau'oli City
+            new EncounterStatic { Species = 001, Level = 10, Location = 012, Relearn = new[] {580,022,045,033}, }, // Bulbasaur @ Route 2
+            new EncounterStatic { Species = 607, Level = 09, Location = 038, Relearn = new[] {203,052,083,123}, }, // Litwick @ Hau'oli Cemetery
 			
             // Akala Island
-            new EncounterStatic { Species = 280, Level = 17, Location = 054, }, // Ralts @ Route 6
-            new EncounterStatic { Species = 363, Level = 19, Location = 056, }, // Spheal @ Route 7
-            new EncounterStatic { Species = 256, Level = 20, Location = 058, }, // Combusken @ Route 8
-            new EncounterStatic { Species = 679, Level = 24, Location = 094, }, // Honedge @ Akala Outskirts
-            new EncounterStatic { Species = 015, Level = 14, Location = 050, }, // Beedrill @ Route 4
-            new EncounterStatic { Species = 253, Level = 16, Location = 052, }, // Grovyle @ Route 5
-            new EncounterStatic { Species = 259, Level = 17, Location = 086, }, // Marshtomp @ Brooklet Hill
+            new EncounterStatic { Species = 280, Level = 17, Location = 054, Relearn = new[] {581,345,381,574}, }, // Ralts @ Route 6
+            new EncounterStatic { Species = 363, Level = 19, Location = 056, Relearn = new[] {187,362,301,227}, }, // Spheal @ Route 7
+            new EncounterStatic { Species = 256, Level = 20, Location = 058, Relearn = new[] {067,488,064,028}, }, // Combusken @ Route 8
+            new EncounterStatic { Species = 679, Level = 24, Location = 094, Relearn = new[] {469,332,425,475}, }, // Honedge @ Akala Outskirts
+            new EncounterStatic { Species = 015, Level = 14, Location = 050, Relearn = new[] {099,031,041,000}, }, // Beedrill @ Route 4
+            new EncounterStatic { Species = 253, Level = 16, Location = 052, Relearn = new[] {580,072,098,071}, }, // Grovyle @ Route 5
+            new EncounterStatic { Species = 259, Level = 17, Location = 086, Relearn = new[] {068,193,189,055}, }, // Marshtomp @ Brooklet Hill
 			
             // Ula'ula Island
-            new EncounterStatic { Species = 111, Level = 32, Location = 138, }, // Rhyhorn @ Blush Mountain
-            new EncounterStatic { Species = 220, Level = 33, Location = 114, }, // Swinub @ Tapu Village
-            new EncounterStatic { Species = 394, Level = 35, Location = 118, }, // Prinplup @ Route 16
-            new EncounterStatic { Species = 388, Level = 36, Location = 128, }, // Grotle @ Ula'ula Meadow
-            new EncounterStatic { Species = 018, Level = 29, Location = 106, }, // Pidgeot @ Route 10
-            new EncounterStatic { Species = 391, Level = 29, Location = 108, }, // Monferno @ Route 11
-            new EncounterStatic { Species = 610, Level = 30, Location = 136, }, // Axew @ Mount Hokulani
+            new EncounterStatic { Species = 111, Level = 32, Location = 138, Relearn = new[] {470,350,498,523}, }, // Rhyhorn @ Blush Mountain
+            new EncounterStatic { Species = 220, Level = 33, Location = 114, Relearn = new[] {333,036,420,196}, }, // Swinub @ Tapu Village
+            new EncounterStatic { Species = 394, Level = 35, Location = 118, Relearn = new[] {681,362,031,117}, }, // Prinplup @ Route 16
+            new EncounterStatic { Species = 388, Level = 36, Location = 128, Relearn = new[] {484,073,072,044}, }, // Grotle @ Ula'ula Meadow
+            new EncounterStatic { Species = 388, Level = 36, Location = -01, Relearn = new[] {484,073,072,044}, }, // Grotle @ ???
+            new EncounterStatic { Species = 018, Level = 29, Location = 106, Relearn = new[] {211,297,239,098}, }, // Pidgeot @ Route 10
+            new EncounterStatic { Species = 391, Level = 29, Location = 108, Relearn = new[] {612,172,154,259}, }, // Monferno @ Route 11
+            new EncounterStatic { Species = 610, Level = 30, Location = 136, Relearn = new[] {068,337,206,163}, }, // Axew @ Mount Hokulani
 			
             // Poni Island
-            new EncounterStatic { Species = 604, Level = 55, Location = 164, }, // Eelektross @ Poni Grove
-            new EncounterStatic { Species = 306, Level = 57, Location = 166, }, // Aggron @ Poni Plains
-            new EncounterStatic { Species = 479, Level = 61, Location = 170, }, // Rotom @ Poni Gauntlet
-            new EncounterStatic { Species = 542, Level = 57, Location = 156, }, // Leavanny @ Poni Meadow
-            new EncounterStatic { Species = 652, Level = 45, Location = 184, }, // Chesnaught @ Exeggutor Island
-            new EncounterStatic { Species = 658, Level = 44, Location = 158, }, // Greninja @ Poni Wilds
-            new EncounterStatic { Species = 655, Level = 44, Location = 160, }, // Delphox @ Ancient Poni Path
+            new EncounterStatic { Species = 604, Level = 55, Location = 164, Relearn = new[] {242,435,029,306}, }, // Eelektross @ Poni Grove
+            new EncounterStatic { Species = 306, Level = 57, Location = 166, Relearn = new[] {179,484,038,334}, }, // Aggron @ Poni Plains
+            new EncounterStatic { Species = 479, Level = 61, Location = 170, Relearn = new[] {268,506,486,164}, }, // Rotom @ Poni Gauntlet
+            new EncounterStatic { Species = 542, Level = 57, Location = 156, Relearn = new[] {580,437,014,494}, }, // Leavanny @ Poni Meadow
+            new EncounterStatic { Species = 652, Level = 45, Location = 184, Relearn = new[] {191,341,402,596}, }, // Chesnaught @ Exeggutor Island
+            new EncounterStatic { Species = 658, Level = 44, Location = 158, Relearn = new[] {516,164,185,594}, }, // Greninja @ Poni Wilds
+            new EncounterStatic { Species = 655, Level = 44, Location = 160, Relearn = new[] {273,473,113,595}, }, // Delphox @ Ancient Poni Path
             
-            new EncounterStatic { Species = 785, Level = 60, Location = -01, Shiny = false, }, // Tapu Koko @ ???
-            new EncounterStatic { Species = 786, Level = 60, Location = -01, Shiny = false, }, // Tapu Lele @ ???
-            new EncounterStatic { Species = 787, Level = 60, Location = -01, Shiny = false, }, // Tapu Bulu @ ???
-            new EncounterStatic { Species = 788, Level = 60, Location = -01, Shiny = false, }, // Tapu Fini @ ???
-            new EncounterStatic { Species = 023, Level = 10, Location = 012, }, // Ekans @ Route 2
-            new EncounterStatic { Species = 103, Level = 40, Location = -01, Form = 1, }, // Exeggutor @ ???
-            new EncounterStatic { Species = 785, Level = 60, Location = -01, Shiny = false, }, // Tapu Koko @ ???
+            new EncounterStatic { Species = 785, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Tapu Koko @ ???
+            new EncounterStatic { Species = 786, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Tapu Lele @ ???
+            new EncounterStatic { Species = 787, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Tapu Bulu @ ???
+            new EncounterStatic { Species = 788, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Tapu Fini @ ???
+            new EncounterStatic { Species = 023, Level = 10, Location = -01, Ability = 1, }, // Ekans @ ???
+            new EncounterStatic { Species = 103, Level = 40, Location = -01, Ability = 1, Form = 1, }, // Exeggutor @ ???
+            new EncounterStatic { Species = 785, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, }, // Tapu Koko @ ???
 
-            new EncounterStatic { Species = 542, Level = 57, Location = -01, }, // Leavanny @ ???
-            new EncounterStatic { Species = 752, Level = 20, Location = -01, Form = 1, Shiny = false, HeldItem = 186, }, // Araquanid @ ???
-            new EncounterStatic { Species = 751, Level = 17, Location = -01, Shiny = false, }, // Dewpider @ ???
-            new EncounterStatic { Species = 751, Level = 18, Location = -01, Shiny = false, }, // Dewpider @ ???
-            new EncounterStatic { Species = 284, Level = 18, Location = -01, Shiny = false, }, // Masquerain @ ???
-            new EncounterStatic { Species = 751, Level = 18, Location = -01, Shiny = false, }, // Dewpider @ ???
-            new EncounterStatic { Species = 753, Level = 17, Location = -01, Shiny = false, }, // Fomantis @ ???
-            new EncounterStatic { Species = 764, Level = 21, Location = -01, Shiny = false, }, // Comfey @ ???
-            new EncounterStatic { Species = 753, Level = 21, Location = -01, Shiny = false, }, // Fomantis @ ???
-            new EncounterStatic { Species = 185, Level = 24, Location = -01, Shiny = false, }, // Sudowoodo @ ???
-            new EncounterStatic { Species = 777, Level = 33, Location = -01, Form = 1, Shiny = false, HeldItem = 158, }, // Togedemaru @ ???
-            new EncounterStatic { Species = 227, Level = 32, Location = -01, Shiny = false, }, // Skarmory @ ???
-            new EncounterStatic { Species = 702, Level = 31, Location = -01, Shiny = false, }, // Dedenne @ ???
-            new EncounterStatic { Species = 239, Level = 29, Location = -01, Shiny = false, }, // Elekid @ ???
-            new EncounterStatic { Species = 125, Level = 30, Location = -01, Shiny = false, }, // Electabuzz @ ???
-            new EncounterStatic { Species = 734, Level = 03, Location = -01, Shiny = false, }, // Yungoos @ ???
-            new EncounterStatic { Species = 019, Level = 03, Location = -01, Form = 1, Shiny = false, }, // Rattata @ ???
-            new EncounterStatic { Species = 736, Level = 04, Location = -01, Shiny = false, }, // Grubbin @ ???
-            new EncounterStatic { Species = 021, Level = 04, Location = -01, Shiny = false, }, // Spearow @ ???
+            new EncounterStatic { Species = 542, Level = 57, Location = -01, Relearn = new[] {580,437,014,494}, }, // Leavanny @ ???
+            new EncounterStatic { Species = 752, Level = 20, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,01,31,01,31,01}, Relearn = new[] {141,145,044,062}, HeldItem = 186, }, // Araquanid @ ???
+            new EncounterStatic { Species = 751, Level = 17, Location = -01, Ability = 1, Shiny = false, }, // Dewpider @ ???
+            new EncounterStatic { Species = 751, Level = 18, Location = -01, Ability = 1, Shiny = false, }, // Dewpider @ ???
+            new EncounterStatic { Species = 284, Level = 18, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {184,078,366,450}, }, // Masquerain @ ???
+            new EncounterStatic { Species = 751, Level = 18, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {564,240,450,145}, }, // Dewpider @ ???
+            new EncounterStatic { Species = 753, Level = 17, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {075,670,210,074}, }, // Fomantis @ ???
+            new EncounterStatic { Species = 764, Level = 21, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {022,577,186,073}, }, // Comfey @ ???
+            new EncounterStatic { Species = 753, Level = 21, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {075,210,275,074}, }, // Fomantis @ ???
+            new EncounterStatic { Species = 185, Level = 24, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {088,317,452,175}, }, // Sudowoodo @ ???
+            new EncounterStatic { Species = 777, Level = 33, Location = -01, Ability = 2, Shiny = false, Form = 1, IVs = new[] {31,15,31,01,31,31}, Relearn = new[] {716,596,442,340}, HeldItem = 158, }, // Togedemaru @ ???
+            new EncounterStatic { Species = 227, Level = 32, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {446,211,366,259}, }, // Skarmory @ ???
+            new EncounterStatic { Species = 702, Level = 31, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {162,598,204,435}, }, // Dedenne @ ???
+            new EncounterStatic { Species = 239, Level = 29, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {098,009,067,043}, }, // Elekid @ ???
+            new EncounterStatic { Species = 125, Level = 30, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {486,113,129,086}, }, // Electabuzz @ ???
+            new EncounterStatic { Species = 734, Level = 03, Location = -01, Ability = 1, Shiny = false, }, // Yungoos @ ???
+            new EncounterStatic { Species = 019, Level = 03, Location = -01, Ability = 1, Shiny = false, Form = 1, }, // Rattata @ ???
+            new EncounterStatic { Species = 736, Level = 04, Location = -01, Ability = 1, Shiny = false, }, // Grubbin @ ???
+            new EncounterStatic { Species = 021, Level = 04, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {043,228,000,000}, }, // Spearow @ ???
             new EncounterStatic { Species = 127, Level = 42, Location = -01, Shiny = false, }, // Pinsir @ ???
             new EncounterStatic { Species = 127, Level = 43, Location = -01, Shiny = false, }, // Pinsir @ ???
             new EncounterStatic { Species = 127, Level = 42, Location = -01, Shiny = false, }, // Pinsir @ ???
-            new EncounterStatic { Species = 800, Level = 50, Location = -01, Form = 1, Shiny = false, }, // Necrozma @ ???
-            new EncounterStatic { Species = 800, Level = 50, Location = -01, Form = 2, Shiny = false, }, // Necrozma @ ???
-            new EncounterStatic { Species = 800, Level = 60, Location = -01, Form = 3, Shiny = false, }, // Necrozma @ ???
-            new EncounterStatic { Species = 800, Level = 65, Location = -01, Shiny = false, HeldItem = 923, }, // Necrozma @ ???
-            new EncounterStatic { Species = 743, Level = 55, Location = -01, Form = 1, Shiny = false, HeldItem = 184, }, // Ribombee @ ???
-            new EncounterStatic { Species = 279, Level = 52, Location = -01, Shiny = false, }, // Pelipper @ ???
-            new EncounterStatic { Species = 242, Level = 53, Location = -01, Shiny = false, }, // Blissey @ ???
-            new EncounterStatic { Species = 144, Level = 60, Location = -01, }, // Articuno @ ???
-            new EncounterStatic { Species = 145, Level = 60, Location = -01, }, // Zapdos @ ???
-            new EncounterStatic { Species = 146, Level = 60, Location = -01, }, // Moltres @ ???
-            new EncounterStatic { Species = 250, Level = 60, Location = -01, HeldItem = 044, }, // Ho-Oh @ ???
-            new EncounterStatic { Species = 384, Level = 60, Location = -01, }, // Rayquaza @ ???
-            new EncounterStatic { Species = 488, Level = 60, Location = -01, }, // Cresselia @ ???
-            new EncounterStatic { Species = 641, Level = 60, Location = -01, }, // Tornadus @ ???
-            new EncounterStatic { Species = 642, Level = 60, Location = -01, }, // Thundurus @ ???
-            new EncounterStatic { Species = 645, Level = 60, Location = -01, }, // Landorus @ ???
-            new EncounterStatic { Species = 717, Level = 60, Location = -01, }, // Yveltal @ ???
-            new EncounterStatic { Species = 150, Level = 60, Location = -01, }, // Mewtwo @ ???
-            new EncounterStatic { Species = 243, Level = 60, Location = -01, }, // Raikou @ ???
-            new EncounterStatic { Species = 244, Level = 60, Location = -01, }, // Entei @ ???
-            new EncounterStatic { Species = 483, Level = 60, Location = -01, }, // Dialga @ ???
-            new EncounterStatic { Species = 638, Level = 60, Location = -01, }, // Cobalion @ ???
-            new EncounterStatic { Species = 639, Level = 60, Location = -01, }, // Terrakion @ ???
-            new EncounterStatic { Species = 640, Level = 60, Location = -01, }, // Virizion @ ???
-            new EncounterStatic { Species = 643, Level = 60, Location = -01, }, // Reshiram @ ???
-            new EncounterStatic { Species = 644, Level = 60, Location = -01, }, // Zekrom @ ???
-            new EncounterStatic { Species = 716, Level = 60, Location = -01, }, // Xerneas @ ???
-            new EncounterStatic { Species = 377, Level = 60, Location = -01, }, // Regirock @ ???
-            new EncounterStatic { Species = 378, Level = 60, Location = -01, }, // Regice @ ???
-            new EncounterStatic { Species = 379, Level = 60, Location = -01, }, // Registeel @ ???
-            new EncounterStatic { Species = 383, Level = 60, Location = -01, }, // Groudon @ ???
-            new EncounterStatic { Species = 485, Level = 60, Location = -01, }, // Heatran @ ???
-            new EncounterStatic { Species = 486, Level = 60, Location = -01, }, // Regigigas @ ???
-            new EncounterStatic { Species = 484, Level = 60, Location = -01, }, // Palkia @ ???
-            new EncounterStatic { Species = 487, Level = 60, Location = -01, }, // Giratina @ ???
-            new EncounterStatic { Species = 245, Level = 60, Location = -01, }, // Suicune @ ???
-            new EncounterStatic { Species = 249, Level = 60, Location = -01, }, // Lugia @ ???
-            new EncounterStatic { Species = 380, Level = 60, Location = -01, }, // Latias @ ???
-            new EncounterStatic { Species = 381, Level = 60, Location = -01, }, // Latios @ ???
-            new EncounterStatic { Species = 382, Level = 60, Location = -01, }, // Kyogre @ ???
-            new EncounterStatic { Species = 480, Level = 60, Location = -01, }, // Uxie @ ???
-            new EncounterStatic { Species = 481, Level = 60, Location = -01, }, // Mesprit @ ???
-            new EncounterStatic { Species = 482, Level = 60, Location = -01, }, // Azelf @ ???
-            new EncounterStatic { Species = 646, Level = 60, Location = -01, }, // Kyurem @ ???
-            new EncounterStatic { Species = 334, Level = 60, Location = -01, }, // Altaria @ ???
-            new EncounterStatic { Species = 469, Level = 60, Location = -01, }, // Yanmega @ ???
-            new EncounterStatic { Species = 561, Level = 60, Location = -01, }, // Sigilyph @ ???
-            new EncounterStatic { Species = 581, Level = 60, Location = -01, }, // Swanna @ ???
-            new EncounterStatic { Species = 277, Level = 60, Location = -01, }, // Swellow @ ???
-            new EncounterStatic { Species = 452, Level = 60, Location = -01, }, // Drapion @ ???
-            new EncounterStatic { Species = 531, Level = 60, Location = -01, }, // Audino @ ???
-            new EncounterStatic { Species = 695, Level = 60, Location = -01, }, // Heliolisk @ ???
-            new EncounterStatic { Species = 274, Level = 60, Location = -01, }, // Nuzleaf @ ???
-            new EncounterStatic { Species = 326, Level = 60, Location = -01, }, // Grumpig @ ???
-            new EncounterStatic { Species = 460, Level = 60, Location = -01, }, // Abomasnow @ ???
-            new EncounterStatic { Species = 308, Level = 60, Location = -01, }, // Medicham @ ???
-            new EncounterStatic { Species = 450, Level = 60, Location = -01, }, // Hippowdon @ ???
-            new EncounterStatic { Species = 558, Level = 60, Location = -01, }, // Crustle @ ???
-            new EncounterStatic { Species = 219, Level = 60, Location = -01, }, // Magcargo @ ???
-            new EncounterStatic { Species = 689, Level = 60, Location = -01, }, // Barbaracle @ ???
-            new EncounterStatic { Species = 271, Level = 60, Location = -01, }, // Lombre @ ???
-            new EncounterStatic { Species = 618, Level = 60, Location = -01, }, // Stunfisk @ ???
-            new EncounterStatic { Species = 419, Level = 60, Location = -01, }, // Floatzel @ ???
-            new EncounterStatic { Species = 195, Level = 60, Location = -01, }, // Quagsire @ ???
-            new EncounterStatic { Species = 793, Level = 60, Location = -01, }, // Nihilego @ ???
-            new EncounterStatic { Species = 794, Level = 60, Location = -01, }, // Buzzwole @ ???
-            new EncounterStatic { Species = 795, Level = 60, Location = -01, }, // Pheromosa @ ???
-            new EncounterStatic { Species = 796, Level = 60, Location = -01, }, // Xurkitree @ ???
-            new EncounterStatic { Species = 797, Level = 60, Location = -01, }, // Celesteela @ ???
-            new EncounterStatic { Species = 798, Level = 60, Location = -01, }, // Kartana @ ???
-            new EncounterStatic { Species = 799, Level = 60, Location = -01, }, // Guzzlord @ ???
-            new EncounterStatic { Species = 735, Level = 60, Location = -01, Form = 1, Shiny = false, HeldItem = 189, }, // Gumshoos @ ???
-            new EncounterStatic { Species = 734, Level = 58, Location = -01, Shiny = false, }, // Yungoos @ ???
-            new EncounterStatic { Species = 020, Level = 60, Location = -01, Form = 2, Shiny = false, HeldItem = 189, }, // Raticate @ ???
-            new EncounterStatic { Species = 019, Level = 58, Location = -01, Form = 1, Shiny = false, }, // Rattata @ ???
+            new EncounterStatic { Species = 800, Level = 50, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {713,234,427,400}, }, // Necrozma @ ???
+            new EncounterStatic { Species = 800, Level = 50, Location = -01, Ability = 1, Shiny = false, Form = 2, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {714,236,094,408}, }, // Necrozma @ ???
+            new EncounterStatic { Species = 800, Level = 60, Location = -01, Ability = 1, Shiny = false, Form = 3, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {722,684,408,406}, }, // Necrozma @ ???
+            new EncounterStatic { Species = 800, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ ???
+            new EncounterStatic { Species = 743, Level = 55, Location = -01, Ability = 2, Shiny = false, Form = 1, IVs = new[] {31,01,31,01,31,31}, Relearn = new[] {405,577,483,605}, HeldItem = 184, }, // Ribombee @ ???
+            new EncounterStatic { Species = 279, Level = 52, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,31,15,15,15,31}, Relearn = new[] {254,503,255,402}, }, // Pelipper @ ???
+            new EncounterStatic { Species = 242, Level = 53, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,00,00,00,00,00}, Relearn = new[] {505,113,270,605}, }, // Blissey @ ???
+            new EncounterStatic { Species = 144, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {246,573,115,258}, }, // Articuno @ ???
+            new EncounterStatic { Species = 145, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {246,435,365,240}, }, // Zapdos @ ???
+            new EncounterStatic { Species = 146, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {246,053,403,241}, }, // Moltres @ ???
+            new EncounterStatic { Species = 250, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {682,221,326,246}, HeldItem = 044, }, // Ho-Oh @ ???
+            new EncounterStatic { Species = 384, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Rayquaza @ ???
+            new EncounterStatic { Species = 488, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Cresselia @ ???
+            new EncounterStatic { Species = 641, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Tornadus @ ???
+            new EncounterStatic { Species = 642, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Thundurus @ ???
+            new EncounterStatic { Species = 645, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Landorus @ ???
+            new EncounterStatic { Species = 717, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {613,399,566,094}, }, // Yveltal @ ???
+            new EncounterStatic { Species = 150, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {094,105,129,427}, }, // Mewtwo @ ???
+            new EncounterStatic { Species = 243, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Raikou @ ???
+            new EncounterStatic { Species = 244, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {023,044,207,436}, }, // Entei @ ???
+            new EncounterStatic { Species = 483, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Dialga @ ???
+            new EncounterStatic { Species = 638, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {533,014,098,442}, }, // Cobalion @ ???
+            new EncounterStatic { Species = 639, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {533,014,157,444}, }, // Terrakion @ ???
+            new EncounterStatic { Species = 640, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {533,014,202,348}, }, // Virizion @ ???
+            new EncounterStatic { Species = 643, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Reshiram @ ???
+            new EncounterStatic { Species = 644, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Zekrom @ ???
+            new EncounterStatic { Species = 716, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {601,532,400,585}, }, // Xerneas @ ???
+            new EncounterStatic { Species = 377, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Regirock @ ???
+            new EncounterStatic { Species = 378, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Regice @ ???
+            new EncounterStatic { Species = 379, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Registeel @ ???
+            new EncounterStatic { Species = 383, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {089,619,339,076}, }, // Groudon @ ???
+            new EncounterStatic { Species = 485, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Heatran @ ???
+            new EncounterStatic { Species = 486, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {428,279,146,109}, }, // Regigigas @ ???
+            new EncounterStatic { Species = 484, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Palkia @ ???
+            new EncounterStatic { Species = 487, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {467,396,414,337}, }, // Giratina @ ???
+            new EncounterStatic { Species = 245, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {061,062,054,240}, }, // Suicune @ ???
+            new EncounterStatic { Species = 249, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {285,177,326,246}, }, // Lugia @ ???
+            new EncounterStatic { Species = 380, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {296,406,375,273}, }, // Latias @ ???
+            new EncounterStatic { Species = 381, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {295,406,375,225}, }, // Latios @ ???
+            new EncounterStatic { Species = 382, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {058,618,347,330}, }, // Kyogre @ ???
+            new EncounterStatic { Species = 480, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {326,281,133,129}, }, // Uxie @ ???
+            new EncounterStatic { Species = 481, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {326,204,248,129}, }, // Mesprit @ ???
+            new EncounterStatic { Species = 482, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {326,417,253,129}, }, // Azelf @ ???
+            new EncounterStatic { Species = 646, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Kyurem @ ???
+            new EncounterStatic { Species = 334, Level = 60, Location = -01, IV3 = true, }, // Altaria @ ???
+            new EncounterStatic { Species = 469, Level = 60, Location = -01, IV3 = true, }, // Yanmega @ ???
+            new EncounterStatic { Species = 561, Level = 60, Location = -01, IV3 = true, }, // Sigilyph @ ???
+            new EncounterStatic { Species = 581, Level = 60, Location = -01, IV3 = true, }, // Swanna @ ???
+            new EncounterStatic { Species = 277, Level = 60, Location = -01, IV3 = true, }, // Swellow @ ???
+            new EncounterStatic { Species = 452, Level = 60, Location = -01, IV3 = true, }, // Drapion @ ???
+            new EncounterStatic { Species = 531, Level = 60, Location = -01, IV3 = true, }, // Audino @ ???
+            new EncounterStatic { Species = 695, Level = 60, Location = -01, IV3 = true, }, // Heliolisk @ ???
+            new EncounterStatic { Species = 274, Level = 60, Location = -01, IV3 = true, }, // Nuzleaf @ ???
+            new EncounterStatic { Species = 326, Level = 60, Location = -01, IV3 = true, }, // Grumpig @ ???
+            new EncounterStatic { Species = 460, Level = 60, Location = -01, IV3 = true, }, // Abomasnow @ ???
+            new EncounterStatic { Species = 308, Level = 60, Location = -01, IV3 = true, }, // Medicham @ ???
+            new EncounterStatic { Species = 450, Level = 60, Location = -01, IV3 = true, }, // Hippowdon @ ???
+            new EncounterStatic { Species = 558, Level = 60, Location = -01, IV3 = true, }, // Crustle @ ???
+            new EncounterStatic { Species = 219, Level = 60, Location = -01, IV3 = true, }, // Magcargo @ ???
+            new EncounterStatic { Species = 689, Level = 60, Location = -01, IV3 = true, }, // Barbaracle @ ???
+            new EncounterStatic { Species = 271, Level = 60, Location = -01, IV3 = true, }, // Lombre @ ???
+            new EncounterStatic { Species = 618, Level = 60, Location = -01, IV3 = true, }, // Stunfisk @ ???
+            new EncounterStatic { Species = 419, Level = 60, Location = -01, IV3 = true, }, // Floatzel @ ???
+            new EncounterStatic { Species = 195, Level = 60, Location = -01, IV3 = true, }, // Quagsire @ ???
+            new EncounterStatic { Species = 793, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {408,491,446,243}, }, // Nihilego @ ???
+            new EncounterStatic { Species = 794, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Buzzwole @ ???
+            new EncounterStatic { Species = 795, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Pheromosa @ ???
+            new EncounterStatic { Species = 796, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Xurkitree @ ???
+            new EncounterStatic { Species = 797, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Celesteela @ ???
+            new EncounterStatic { Species = 798, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Kartana @ ???
+            new EncounterStatic { Species = 799, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Guzzlord @ ???
+            new EncounterStatic { Species = 735, Level = 60, Location = -01, Form = 1, IVs = new[] {31,29,31,31,31,31}, Relearn = new[] {158,423,182,242}, HeldItem = 189, }, // Gumshoos @ ???
+            new EncounterStatic { Species = 734, Level = 58, Location = -01, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {281,189,259,162}, }, // Yungoos @ ???
+            new EncounterStatic { Species = 020, Level = 60, Location = -01, Form = 2, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {158,675,182,104}, HeldItem = 189, }, // Raticate @ ???
+            new EncounterStatic { Species = 019, Level = 58, Location = -01, Form = 1, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {162,039,259,242}, }, // Rattata @ ???
             new EncounterStatic { Species = 760, Level = 28, Location = -01, Shiny = false, }, // Bewear @ ???
-            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, }, // Hypno @ ???
-            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, }, // Hypno @ ???
-            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, }, // Hypno @ ???
-            new EncounterStatic { Species = 092, Level = 19, Location = -01, Shiny = false, }, // Gastly @ ???
-            new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, }, // Drifloon @ ???
-            new EncounterStatic { Species = 769, Level = 30, Location = -01, Shiny = false, }, // Sandygast @ ???
+            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {095,171,139,029}, }, // Hypno @ ???
+            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {417,060,050,139}, }, // Hypno @ ???
+            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ ???
+            new EncounterStatic { Species = 092, Level = 19, Location = -01, Shiny = false, Relearn = new[] {174,109,122,101}, }, // Gastly @ ???
+            new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ ???
+            new EncounterStatic { Species = 769, Level = 30, Location = -01, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ ???
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, }, // Frillish @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, }, // Ditto @ ???
-            new EncounterStatic { Species = 718, Level = 60, Location = -01, Shiny = false, }, // Zygarde @ ???
-            new EncounterStatic { Species = 805, Level = 60, Location = -01, }, // Stakataka @ ???
-            new EncounterStatic { Species = 806, Level = 60, Location = -01, }, // Blacephalon @ ???
-            new EncounterStatic { Species = 105, Level = 22, Location = -01, Form = 2, Shiny = false, HeldItem = 258, }, // Marowak @ ???
-            new EncounterStatic { Species = 758, Level = 20, Location = -01, Shiny = false, }, // Salazzle @ ???
-            new EncounterStatic { Species = 101, Level = 60, Location = -01, Shiny = false, }, // Electrode @ ???
+            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,-1,31,30,-1,00}, }, // Ditto @ ???
+            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,-1,30,30,-1,31}, }, // Ditto @ ???
+            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,31,30,-1,-1,30}, }, // Ditto @ ???
+            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,00,-1,31,30,-1}, }, // Ditto @ ???
+            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,30,-1,-1,30,31}, }, // Ditto @ ???
+            new EncounterStatic { Species = 718, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {616,137,219,225}, }, // Zygarde @ ???
+            new EncounterStatic { Species = 805, Level = 60, Location = -01, Ability = 1, IV3 = true}, // Stakataka @ ???
+            new EncounterStatic { Species = 806, Level = 60, Location = -01, Ability = 1, IV3 = true }, // Blacephalon @ ???
+            new EncounterStatic { Species = 105, Level = 22, Location = -01, Ability = 1, Form = 2, Shiny = false, HeldItem = 258, }, // Marowak @ ???
+            new EncounterStatic { Species = 758, Level = 20, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,01,31,15,31,01}, Relearn = new[] {139,474,481,259}, }, // Salazzle @ ???
+            new EncounterStatic { Species = 101, Level = 60, Location = -01, Ability = 1, Shiny = false, }, // Electrode @ ???
         };
         internal static readonly EncounterTrade[] TradeGift_USUM =
         {
