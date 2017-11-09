@@ -1,4 +1,4 @@
-﻿#define SUPPRESS
+﻿//#define SUPPRESS
 
 using System;
 using System.Collections.Generic;
@@ -294,7 +294,7 @@ namespace PKHeX.Core
         }
         private string GetLegalityReport()
         {
-            if (!Parsed || pkm == null)
+            if (!Parsed || pkm == null || Info == null)
                 return V189;
             
             var lines = new List<string>();
@@ -323,7 +323,7 @@ namespace PKHeX.Core
         }
         private string GetVerboseLegalityReport()
         {
-            if (!Parsed || pkm == null)
+            if (!Parsed || pkm == null || Info == null)
                 return V189;
 
             const string separator = "===";

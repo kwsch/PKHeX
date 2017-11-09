@@ -444,7 +444,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static string[] GetFormsAlolan (int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
+        private static string[] GetFormsAlolan(int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
         {
             if (generation < 7)
                 return new[] { "" };
