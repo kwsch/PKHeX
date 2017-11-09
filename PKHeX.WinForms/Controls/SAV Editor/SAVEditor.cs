@@ -599,7 +599,7 @@ namespace PKHeX.WinForms.Controls
                         new SAV_PokedexXY(SAV).ShowDialog();
                     break;
                 case 7:
-                    if (SAV.SM)
+                    if (SAV.SM || SAV.USUM)
                         new SAV_PokedexSM(SAV).ShowDialog();
                     break;
             }
@@ -695,7 +695,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (SAV.Generation == 6)
                 new SAV_HallOfFame(SAV).ShowDialog();
-            else if (SAV.SM)
+            else if (SAV.Generation == 7)
                 new SAV_HallOfFame7(SAV).ShowDialog();
         }
         private void B_CGearSkin_Click(object sender, EventArgs e)

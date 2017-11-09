@@ -1977,13 +1977,6 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
-                case 718: // Zygarde
-                    if (pkm.AltForm >= 4)
-                    {
-                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
-                        return;
-                    }
-                    break;
                 case 773: // Silvally
                     {
                         int item = pkm.HeldItem;
@@ -1996,13 +1989,6 @@ namespace PKHeX.Core
                             AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                         break;
                     }
-                case 774: // Minior
-                    if (pkm.AltForm < 7)
-                    {
-                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
-                        return;
-                    }
-                    break;
 
                 // Party Only Forms
                 case 492: // Shaymin
@@ -2014,6 +2000,13 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+
+                // Battle only Forms with other legal forms allowed
+                case 718 when pkm.AltForm >= 4: // Zygarde Complete
+                case 774 when pkm.AltForm < 7: // Minior Shield
+                case 800 when pkm.AltForm == 3: // Ultra Necrozma
+                    AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
+                    return;
             }
 
             if (pkm.Format >= 7 && Info.Generation < 7 && pkm.AltForm != 0)

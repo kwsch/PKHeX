@@ -974,9 +974,6 @@ namespace PKHeX.Core
             if (pkm.IsEgg) // do not add
                 return;
 
-            if (USUM) // TODO: IMPLEMENT POKEDEX EDITING FOR USUM
-                return;
-
             int bit = pkm.Species - 1;
             int bd = bit >> 3; // div8
             int bm = bit & 7; // mod8
