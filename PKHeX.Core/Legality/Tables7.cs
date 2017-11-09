@@ -263,7 +263,15 @@ namespace PKHeX.Core
             731, 734, 736, 739, 741, 742, 744, 746, 747, 749,
             751, 753, 755, 757, 759, 761, 764, 765, 766, 767,
             769, 771, 774, 775, 776, 777, 778, 779, 780, 781,
-            782
+            782,
+
+            // USUM Additions
+            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
+            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
+            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
+            714
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>

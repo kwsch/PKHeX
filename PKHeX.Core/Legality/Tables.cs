@@ -54,6 +54,8 @@ namespace PKHeX.Core
             720, // Hoopa
             741, // Oricorio
             773, // Silvally
+
+            800, // Necrozma
         };
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
         {
@@ -153,6 +155,12 @@ namespace PKHeX.Core
             800, // Necrozma
             801, // Magearna
             802, // Marshadow
+
+            803, // Poipole
+            804, // Naganadel
+            805, // Stakataka
+            806, // Blacephalon
+            807, // Zeraora
         };
 
         public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
@@ -195,6 +203,7 @@ namespace PKHeX.Core
             800, // Necrozma
             801, // Magearna
             802, // Marshadow
+            807, // Zeraora
         };
 
         public static readonly HashSet<int> BattleForms = new HashSet<int>
@@ -223,7 +232,10 @@ namespace PKHeX.Core
             302,319,323,334,362,373,376,384,
             428,475,
             531,
-            719
+            719,
+
+            // USUM
+            800, // Ultra Necrozma
         };
         public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
 
@@ -232,6 +244,7 @@ namespace PKHeX.Core
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
             695, 696, 697, 698, 699, 700, 701, 702, 703,
             719,
+            723, 724, 725, 726, 727, 728
         };
         internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(new[] { 165, 448 }.Concat(Z_Moves)); // Struggle & Chatter
 
@@ -240,14 +253,14 @@ namespace PKHeX.Core
             150, 151, 249, 250, 251, 382, 383, 384, 385, 386, 483,
             484, 487, 489, 490, 491, 492, 493, 494, 643, 644, 646,
             647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
-            791, 792, 800, 801, 802
+            791, 792, 800, 801, 802, 807
         };
         public static readonly HashSet<int> SubLegends = new HashSet<int>
         {
             144, 145, 146, 243, 244, 245, 377, 378, 379, 380, 381,
             480, 481, 482, 485, 486, 488, 638, 639, 640, 641, 642,
             645, 772, 773, 787, 788, 785, 786, 793, 794, 795, 796,
-            797, 798, 799
+            797, 798, 799, 803, 804, 805, 806,
         };
 
         public static readonly int[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};
