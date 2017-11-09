@@ -614,7 +614,6 @@
     <None Remove="Resources\text\zh\text_bw2_60000_zh.txt" />
     <None Remove="Resources\text\zh\text_Character_zh.txt" />
     <None Remove="Resources\text\zh\text_Char_zh.txt" />
-    <None Remove="Resources\text\zh\text_Char_zh2.txt" />
     <None Remove="Resources\text\zh\text_EncounterType_zh.txt" />
     <None Remove="Resources\text\zh\text_Forms_zh.txt" />
     <None Remove="Resources\text\zh\text_Games_zh.txt" />
@@ -1255,7 +1254,6 @@
     <EmbeddedResource Include="Resources\text\zh\text_bw2_60000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Character_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Char_zh.txt" />
-    <EmbeddedResource Include="Resources\text\zh\text_Char_zh2.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_EncounterType_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Forms_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Games_zh.txt" />
