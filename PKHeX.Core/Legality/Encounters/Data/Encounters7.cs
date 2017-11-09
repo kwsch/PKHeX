@@ -186,7 +186,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, Shiny = false, HeldItem = 795, }, // Magearna @ ???
             new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, Shiny = false, }, // Cosmog @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ ???
-            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, HeldItem = 796, }, // Pikachu @ ???
+            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, HeldItem = 796, Moves = new[] {057} }, // Pikachu (Surf) @ ???
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, }, // Poipole @ ???
             new EncounterStatic { Gift = true, Species = 735, Level = 20, Location = -01, Form = 1, Shiny = false, }, // Gumshoos @ ???
             new EncounterStatic { Gift = true, Species = 020, Level = 20, Location = -01, Form = 2, Shiny = false, }, // Raticate @ ???
