@@ -166,9 +166,9 @@ namespace PKHeX.Core
         };
         private static readonly EncounterStatic[] Encounter_USUM =
         {
-            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, }, // Rowlet @ ???
-            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 8, }, // Litten @ ???
-            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, }, // Popplio @ ???
+            new EncounterStatic { Gift = true, Species = 722, Level = 05, Location = 8, }, // Rowlet @ Route 1
+            new EncounterStatic { Gift = true, Species = 725, Level = 05, Location = 8, }, // Litten @ Route 1
+            new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, }, // Popplio @ Route 1
             new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte @ ???
             new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl @ ???
@@ -185,20 +185,20 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = -01, }, // Type: Null @ ???
             new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, Shiny = false, HeldItem = 795, }, // Magearna @ ???
             new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, Shiny = false, }, // Cosmog @ ???
-            new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ ???
-            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, HeldItem = 796, Moves = new[] {057} }, // Pikachu (Surf) @ ???
+            new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
+            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, HeldItem = 796, }, // Pikachu @ ???
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, }, // Poipole @ ???
-            new EncounterStatic { Gift = true, Species = 735, Level = 20, Location = -01, Form = 1, Shiny = false, }, // Gumshoos @ ???
-            new EncounterStatic { Gift = true, Species = 020, Level = 20, Location = -01, Form = 2, Shiny = false, }, // Raticate @ ???
-            new EncounterStatic { Gift = true, Species = 105, Level = 25, Location = -01, Form = 2, Shiny = false, }, // Marowak @ ???
-            new EncounterStatic { Gift = true, Species = 752, Level = 25, Location = -01, Form = 1, Shiny = false, }, // Araquanid @ ???
-            new EncounterStatic { Gift = true, Species = 754, Level = 30, Location = -01, Form = 1, Shiny = false, }, // Lurantis @ ???
-            new EncounterStatic { Gift = true, Species = 758, Level = 30, Location = -01, Form = 1, Shiny = false, }, // Salazzle @ ???
-            new EncounterStatic { Gift = true, Species = 738, Level = 35, Location = -01, Form = 1, Shiny = false, }, // Vikavolt @ ???
-            new EncounterStatic { Gift = true, Species = 777, Level = 35, Location = -01, Form = 1, Shiny = false, }, // Togedemaru @ ???
-            new EncounterStatic { Gift = true, Species = 778, Level = 40, Location = -01, Form = 2, Shiny = false, }, // Mimikyu @ ???
-            new EncounterStatic { Gift = true, Species = 743, Level = 50, Location = -01, Form = 1, Shiny = false, }, // Ribombee @ ???
-            new EncounterStatic { Gift = true, Species = 784, Level = 50, Location = -01, Form = 1, Shiny = false, }, // Kommo-o @ ???
+            new EncounterStatic { Gift = true, Species = 735, Level = 20, Location = 202, Form = 1, Shiny = false, }, // Totem Gumshoos
+            new EncounterStatic { Gift = true, Species = 020, Level = 20, Location = 202, Form = 2, Shiny = false, }, // Totem Raticate
+            new EncounterStatic { Gift = true, Species = 105, Level = 25, Location = 202, Form = 2, Shiny = false, }, // Totem Marowak
+            new EncounterStatic { Gift = true, Species = 752, Level = 25, Location = 202, Form = 1, Shiny = false, }, // Totem Araquanid
+            new EncounterStatic { Gift = true, Species = 754, Level = 30, Location = 202, Form = 1, Shiny = false, }, // Totem Lurantis
+            new EncounterStatic { Gift = true, Species = 758, Level = 30, Location = 202, Form = 1, Shiny = false, }, // Totem Salazzle
+            new EncounterStatic { Gift = true, Species = 738, Level = 35, Location = 202, Form = 1, Shiny = false, }, // Totem Vikavolt
+            new EncounterStatic { Gift = true, Species = 777, Level = 35, Location = 202, Form = 1, Shiny = false, }, // Totem Togedemaru
+            new EncounterStatic { Gift = true, Species = 778, Level = 40, Location = 202, Form = 2, Shiny = false, }, // Totem Mimikyu
+            new EncounterStatic { Gift = true, Species = 743, Level = 50, Location = 202, Form = 1, Shiny = false, }, // Totem Ribombee
+            new EncounterStatic { Gift = true, Species = 784, Level = 50, Location = 202, Form = 1, Shiny = false, }, // Totem Kommo-o
             new EncounterStatic { Gift = true, Species = 718, Level = 63, Location = -01, Form = 1, Shiny = false, }, // Zygarde @ ???
             new EncounterStatic { Gift = true, Species = 025, Level = 21, Location = -01, Form = 7, Shiny = false, HeldItem = 571, }, // Pikachu @ ???
 
@@ -302,35 +302,44 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 797, Level = 65, Location = -01, Shiny = false, }, // Celesteela @ ???
             new EncounterStatic { Species = 799, Level = 70, Location = -01, Shiny = false, }, // Guzzlord @ ???
             new EncounterStatic { Species = 800, Level = 75, Location = -01, Shiny = false, }, // Necrozma @ ???
-            new EncounterStatic { Species = 004, Level = 12, Location = -01, }, // Charmander @ ???
-            new EncounterStatic { Species = 007, Level = 12, Location = -01, }, // Squirtle @ ???
-            new EncounterStatic { Species = 095, Level = 14, Location = -01, }, // Onix @ ???
-            new EncounterStatic { Species = 116, Level = 18, Location = -01, }, // Horsea @ ???
-            new EncounterStatic { Species = 664, Level = 09, Location = -01, Form = 30, }, // Scatterbug @ ???
-            new EncounterStatic { Species = 001, Level = 10, Location = -01, }, // Bulbasaur @ ???
-            new EncounterStatic { Species = 607, Level = 09, Location = -01, }, // Litwick @ ???
-            new EncounterStatic { Species = 280, Level = 17, Location = -01, }, // Ralts @ ???
-            new EncounterStatic { Species = 363, Level = 19, Location = -01, }, // Spheal @ ???
-            new EncounterStatic { Species = 256, Level = 20, Location = -01, }, // Combusken @ ???
-            new EncounterStatic { Species = 679, Level = 24, Location = -01, }, // Honedge @ ???
-            new EncounterStatic { Species = 015, Level = 14, Location = -01, }, // Beedrill @ ???
-            new EncounterStatic { Species = 253, Level = 16, Location = 052, }, // Grovyle @ ???
-            new EncounterStatic { Species = 259, Level = 17, Location = -01, }, // Marshtomp @ ???
-            new EncounterStatic { Species = 111, Level = 32, Location = -01, }, // Rhyhorn @ ???
-            new EncounterStatic { Species = 220, Level = 33, Location = -01, }, // Swinub @ ???
-            new EncounterStatic { Species = 394, Level = 35, Location = -01, }, // Prinplup @ ???
-            new EncounterStatic { Species = 388, Level = 36, Location = -01, }, // Grotle @ ???
-            new EncounterStatic { Species = 388, Level = 36, Location = -01, }, // Grotle @ ???
-            new EncounterStatic { Species = 018, Level = 29, Location = -01, }, // Pidgeot @ ???
-            new EncounterStatic { Species = 391, Level = 29, Location = -01, }, // Monferno @ ???
-            new EncounterStatic { Species = 610, Level = 30, Location = -01, }, // Axew @ ???
-            new EncounterStatic { Species = 604, Level = 55, Location = -01, }, // Eelektross @ ???
-            new EncounterStatic { Species = 306, Level = 57, Location = -01, }, // Aggron @ ???
-            new EncounterStatic { Species = 479, Level = 61, Location = -01, }, // Rotom @ ???
-            new EncounterStatic { Species = 542, Level = 57, Location = -01, }, // Leavanny @ ???
-            new EncounterStatic { Species = 652, Level = 45, Location = -01, }, // Chesnaught @ ???
-            new EncounterStatic { Species = 658, Level = 44, Location = -01, }, // Greninja @ ???
-            new EncounterStatic { Species = 655, Level = 44, Location = -01, }, // Delphox @ ???
+
+            // QR Scan: Su/M/Tu/W/Th/F/Sa
+            // Melemele Island
+            new EncounterStatic { Species = 004, Level = 12, Location = 010, }, // Charmander @ Route 3
+            new EncounterStatic { Species = 007, Level = 12, Location = 042, }, // Squirtle @ Seaward Cave
+            new EncounterStatic { Species = 095, Level = 14, Location = 034, }, // Onix @ Ten Carat Hill
+            new EncounterStatic { Species = 116, Level = 18, Location = 014, }, // Horsea @ Kala'e Bay
+            new EncounterStatic { Species = 664, Level = 09, Location = 020, Form = 30, }, // Scatterbug @ Hau'oli City
+            new EncounterStatic { Species = 001, Level = 10, Location = 012, }, // Bulbasaur @ Route 2
+            new EncounterStatic { Species = 607, Level = 09, Location = 038, }, // Litwick @ Hau'oli Cemetery
+			
+            // Akala Island
+            new EncounterStatic { Species = 280, Level = 17, Location = 054, }, // Ralts @ Route 6
+            new EncounterStatic { Species = 363, Level = 19, Location = 056, }, // Spheal @ Route 7
+            new EncounterStatic { Species = 256, Level = 20, Location = 058, }, // Combusken @ Route 8
+            new EncounterStatic { Species = 679, Level = 24, Location = 094, }, // Honedge @ Akala Outskirts
+            new EncounterStatic { Species = 015, Level = 14, Location = 050, }, // Beedrill @ Route 4
+            new EncounterStatic { Species = 253, Level = 16, Location = 052, }, // Grovyle @ Route 5
+            new EncounterStatic { Species = 259, Level = 17, Location = 086, }, // Marshtomp @ Brooklet Hill
+			
+            // Ula'ula Island
+            new EncounterStatic { Species = 111, Level = 32, Location = 138, }, // Rhyhorn @ Blush Mountain
+            new EncounterStatic { Species = 220, Level = 33, Location = 114, }, // Swinub @ Tapu Village
+            new EncounterStatic { Species = 394, Level = 35, Location = 118, }, // Prinplup @ Route 16
+            new EncounterStatic { Species = 388, Level = 36, Location = 128, }, // Grotle @ Ula'ula Meadow
+            new EncounterStatic { Species = 018, Level = 29, Location = 106, }, // Pidgeot @ Route 10
+            new EncounterStatic { Species = 391, Level = 29, Location = 108, }, // Monferno @ Route 11
+            new EncounterStatic { Species = 610, Level = 30, Location = 136, }, // Axew @ Mount Hokulani
+			
+            // Poni Island
+            new EncounterStatic { Species = 604, Level = 55, Location = 164, }, // Eelektross @ Poni Grove
+            new EncounterStatic { Species = 306, Level = 57, Location = 166, }, // Aggron @ Poni Plains
+            new EncounterStatic { Species = 479, Level = 61, Location = 170, }, // Rotom @ Poni Gauntlet
+            new EncounterStatic { Species = 542, Level = 57, Location = 156, }, // Leavanny @ Poni Meadow
+            new EncounterStatic { Species = 652, Level = 45, Location = 184, }, // Chesnaught @ Exeggutor Island
+            new EncounterStatic { Species = 658, Level = 44, Location = 158, }, // Greninja @ Poni Wilds
+            new EncounterStatic { Species = 655, Level = 44, Location = 160, }, // Delphox @ Ancient Poni Path
+            
             new EncounterStatic { Species = 785, Level = 60, Location = -01, Shiny = false, }, // Tapu Koko @ ???
             new EncounterStatic { Species = 786, Level = 60, Location = -01, Shiny = false, }, // Tapu Lele @ ???
             new EncounterStatic { Species = 787, Level = 60, Location = -01, Shiny = false, }, // Tapu Bulu @ ???
