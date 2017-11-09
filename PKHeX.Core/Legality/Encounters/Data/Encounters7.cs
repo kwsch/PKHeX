@@ -182,28 +182,28 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 01, EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -01, }, // Porygon @ ???
-            new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = -01, }, // Type: Null @ ???
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, Shiny = false, HeldItem = 795, }, // Magearna @ ???
-            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, Shiny = false, }, // Cosmog @ ???
+            new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = -01, IV3 = true, }, // Type: Null @ ???
+            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true,Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
+            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, IV3 = true,Shiny = false, Ability = 2, }, // Cosmog @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
-            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, HeldItem = 796, }, // Pikachu @ ???
-            new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, }, // Poipole @ ???
+            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, IV3 = true,HeldItem = 796, }, // Pikachu @ ???
+            new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, IV3 = true,}, // Poipole @ ???
 
             // Totem-Sized Gifts @ Heahea Beach
-            new EncounterStatic { Gift = true, Species = 735, Level = 20, Ability = 4, Location = 202, Form = 1, Shiny = false, Version = GameVersion.US }, // Gumshoos
-            new EncounterStatic { Gift = true, Species = 020, Level = 20, Ability = 4, Location = 202, Form = 2, Shiny = false, Version = GameVersion.UM }, // Raticate
-            new EncounterStatic { Gift = true, Species = 105, Level = 25, Ability = 4, Location = 202, Form = 2, Shiny = false, Version = GameVersion.US }, // Marowak
-            new EncounterStatic { Gift = true, Species = 752, Level = 25, Ability = 1, Location = 202, Form = 1, Shiny = false, Version = GameVersion.UM }, // Araquanid
-            new EncounterStatic { Gift = true, Species = 754, Level = 30, Ability = 4, Location = 202, Form = 1, Shiny = false, Version = GameVersion.US }, // Lurantis
-            new EncounterStatic { Gift = true, Species = 758, Level = 30, Ability = 1, Location = 202, Form = 1, Shiny = false, Version = GameVersion.UM }, // Salazzle
-            new EncounterStatic { Gift = true, Species = 738, Level = 35, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Vikavolt
-            new EncounterStatic { Gift = true, Species = 777, Level = 35, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Togedemaru
-            new EncounterStatic { Gift = true, Species = 778, Level = 40, Ability = 1, Location = 202, Form = 2, Shiny = false, },                          // Mimikyu
-            new EncounterStatic { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Ribombee
-            new EncounterStatic { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, },                          // Kommo-o
+            new EncounterStatic { Gift = true, Species = 735, Level = 20, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.US }, // Gumshoos
+            new EncounterStatic { Gift = true, Species = 020, Level = 20, Ability = 4, Location = 202, Form = 2, Shiny = false, IV3 = true, Version = GameVersion.UM }, // Raticate
+            new EncounterStatic { Gift = true, Species = 105, Level = 25, Ability = 4, Location = 202, Form = 2, Shiny = false, IV3 = true, Version = GameVersion.US }, // Marowak
+            new EncounterStatic { Gift = true, Species = 752, Level = 25, Ability = 1, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.UM }, // Araquanid
+            new EncounterStatic { Gift = true, Species = 754, Level = 30, Ability = 2, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.US }, // Lurantis
+            new EncounterStatic { Gift = true, Species = 758, Level = 30, Ability = 1, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.UM }, // Salazzle
+            new EncounterStatic { Gift = true, Species = 738, Level = 35, Ability = 1, Location = 202, Form = 1, Shiny = false, IV3 = true, },                          // Vikavolt
+            new EncounterStatic { Gift = true, Species = 777, Level = 35, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, },                          // Togedemaru
+            new EncounterStatic { Gift = true, Species = 778, Level = 40, Ability = 1, Location = 202, Form = 2, Shiny = false, IV3 = true, },                          // Mimikyu
+            new EncounterStatic { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, },                          // Ribombee
+            new EncounterStatic { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, },                          // Kommo-o
 
-            new EncounterStatic { Gift = true, Species = 718, Level = 63, Location = -01, Form = 1, Shiny = false, }, // Zygarde @ ???
-            new EncounterStatic { Gift = true, Species = 025, Level = 21, Location = -01, Form = 7, Shiny = false, HeldItem = 571, }, // Pikachu @ ???
+            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = -01, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ ???
+            new EncounterStatic { Gift = true, Species = 025, Level = 21, Ability = 1, Location = -01, Form = 7, Shiny = false, HeldItem = 571, Nature = Nature.Hardy }, // Pikachu @ ???
 
             new EncounterStatic { Species = 731, Level = 03, Location = -01, Shiny = false, }, // Pikipek @ ???
             new EncounterStatic { Species = 793, Level = 27, Location = -01, Shiny = false, }, // Nihilego @ ???
