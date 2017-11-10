@@ -180,7 +180,37 @@ namespace PKHeX.Core
             422, 423, 425, 426, 429, 430, 438, 440, 443, 444, 445, 446, 447, 448, 456, 457, 461, 462, 466, 467, 470, 471,
             474, 476, 478, 506, 507, 508, 524, 525, 526, 546, 547, 548, 549, 551, 552, 553, 564, 565, 566, 567, 568, 569,
             582, 583, 584, 587, 594, 627, 628, 629, 630, 661, 662, 663, 674, 675, 700, 703, 704, 705, 706, 707, 708, 709,
-            718
+            718,
+
+            // Regular
+            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
+            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
+            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
+            714,
+
+            // Wormhole
+            333, 334, // Altaria
+            193, 469, // Yanmega
+            561, // Sigilyph
+            580, 581, // Swanna
+            276, 277, // Swellow
+            451, 452, // Drapion
+            531, // Audino
+            695, // Heliolisk
+            273, 274, 275, // Nuzleaf
+            325, 326, // Gumpig
+            459, 460, // Abomasnow
+            307, 308, // Medicham
+            449, 450, // Hippowdon
+            557, 558, // Crustle
+            218, 219, // Magcargo
+            688, 689, // Barbaracle
+            270, 271, 272, // Lombre
+            618, // Stunfisk
+            418, 419, // Floatzel
+            194, 195, // Quagsire
         };
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
@@ -221,6 +251,26 @@ namespace PKHeX.Core
             532, // [534] Conkeldurr (Timburr)
             540, // [542] Leavanny (Sewaddle)
             602, // [604] Eelektross (Tynamo)
+
+            004, // Charmander
+            007, // Squirtle
+            095, // Onix
+            663, 664, // Scatterbug
+            001, // Bulbasaur
+            280, // Ralts
+            255, 256, // Combusken
+            013, 014, 015, // Beedrill
+            252, 253, // Grovyle
+            258, 259, // Marshtomp
+            393, 394, // Prinplup
+            387, 388, // Grotle
+            016, 017, 018, // Pidgeot
+            389, 390, 391, // Monferno
+            304, 305, 306, // Aggron
+            479, // Rotom
+            650, 651, 652, // Chesnaught
+            656, 657, 658, // Greninja
+            653, 654, 655, // Delphox
         };
         internal static readonly HashSet<int> Inherit_Apricorn6 = new HashSet<int>
         {
