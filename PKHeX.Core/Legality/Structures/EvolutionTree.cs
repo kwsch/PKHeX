@@ -565,6 +565,7 @@ namespace PKHeX.Core
             switch (Method)
             {
                 case 8: // Use Item
+                case 42:
                     return true;
                 case 17: // Male
                     return pkm.Gender == 0;
