@@ -114,6 +114,10 @@ namespace PKHeX.WinForms
                 case GameVersion.MN:
                     gamePrefix = "sm";
                     break;
+                case GameVersion.US:
+                case GameVersion.UM:
+                    gamePrefix = "usum";
+                    break;
                 case GameVersion.DP:
                     gamePrefix = "dp";
                     break;
