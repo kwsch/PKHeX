@@ -918,7 +918,7 @@ namespace PKHeX.Core
                 case GameVersion.US: return StaticUS;
                 case GameVersion.UM: return StaticUM;
 
-                default: return new EncounterStatic[0];
+                default: return Enumerable.Empty<EncounterStatic>();
             }
         }
         internal static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
@@ -969,7 +969,7 @@ namespace PKHeX.Core
                 case GameVersion.US: return SlotsUS;
                 case GameVersion.UM: return SlotsUM;
 
-                default: return new EncounterArea[0];
+                default: return Enumerable.Empty<EncounterArea>();
             }
         }
         private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
@@ -1014,7 +1014,7 @@ namespace PKHeX.Core
                 case (int)GameVersion.OR:
                     return SlotsO.Where(l => l.Location == pkm.Met_Location);
                 default:
-                    return new EncounterArea[0];
+                    return Enumerable.Empty<EncounterArea>();
             }
         }
 
