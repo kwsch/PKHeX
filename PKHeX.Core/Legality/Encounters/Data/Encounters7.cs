@@ -376,7 +376,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
-            new EncounterStatic { Species = 800, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ ???
+            new EncounterStatic { Species = 800, Level = 65, Location = 146, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ Mount Lanakila
             new EncounterStatic { Species = 743, Level = 55, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,01,31,01,31,31}, Relearn = new[] {405,577,483,605}, Form = 1, Gender = 1, HeldItem = 184, }, // Ribombee @ ???
             new EncounterStatic { Species = 279, Level = 52, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,31,15,15,15,31}, Relearn = new[] {254,503,255,402}, Gender = 1, }, // Pelipper @ ???
             new EncounterStatic { Species = 242, Level = 53, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,00,00,00,00,00}, Relearn = new[] {505,113,270,605}, Gender = 1, }, // Blissey @ ???
@@ -456,11 +456,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ ???
             new EncounterStatic { Species = 769, Level = 30, Location = -01, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ ???
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, Gender = 1, }, // Frillish @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,-1,31,30,-1,00}, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,-1,30,30,-1,31}, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,31,30,-1,-1,30}, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,00,-1,31,30,-1}, }, // Ditto @ ???
-            new EncounterStatic { Species = 132, Level = 29, Location = -01, IVs = new[] {-1,30,-1,-1,30,31}, }, // Ditto @ ???
+            new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,30,-1,00}, }, // Ditto @ Route 9
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,30,-1,31}, }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,31,30,-1,-1,30}, }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,00,-1,31,30,-1}, }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,30,-1,-1,30,31}, }, // Ditto @ Konikoni City
             new EncounterStatic { Species = 718, Level = 60, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {616,137,219,225}, }, // Zygarde @ ???
             new EncounterStatic { Species = 805, Level = 60, Location = -01, Ability = 1, IV3 = true}, // Stakataka @ ???
             new EncounterStatic { Species = 806, Level = 60, Location = -01, Ability = 1, IV3 = true }, // Blacephalon @ ???
