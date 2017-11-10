@@ -454,7 +454,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ ???
             new EncounterStatic { Species = 092, Level = 19, Location = -01, Shiny = false, Relearn = new[] {174,109,122,101}, }, // Gastly @ ???
             new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ ???
-            new EncounterStatic { Species = 769, Level = 30, Location = -01, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ ???
+            new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ Route 15
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, Gender = 1, }, // Frillish @ ???
             new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,30,-1,00}, }, // Ditto @ Route 9
             new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,30,-1,31}, }, // Ditto @ Konikoni City
