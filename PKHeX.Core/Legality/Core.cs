@@ -1157,7 +1157,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (pkm.Format >= 7 && EvolveToAlolanForms.Contains(pkm.Species))
+            if (pkm.Format >= 7 && AlolanVariantEvolutions12.Contains(pkm.Species))
                 return pkm.AltForm == 1;
             if (pkm.Species == 678 && pkm.Gender == 1)
                 return pkm.AltForm == 1;
@@ -1249,9 +1249,7 @@ namespace PKHeX.Core
             if (IsEvolvedFormChange(pkm))
                 return true;
             if (pkm.Species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm != 1)
-            {
                 return true;
-            }
             return false;
         }
         

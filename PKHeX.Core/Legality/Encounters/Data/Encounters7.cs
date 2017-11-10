@@ -35,6 +35,8 @@ namespace PKHeX.Core
             var SOS_UM = GetEncounterTables("uu", "um_sos");
             MarkG7REGSlots(ref REG_US);
             MarkG7REGSlots(ref REG_UM);
+            MarkG7SMSlots(ref SOS_US);
+            MarkG7SMSlots(ref SOS_UM);
             SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_SM, Encounter_Pelago_SN);
             SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_SM, Encounter_Pelago_MN);
         }
