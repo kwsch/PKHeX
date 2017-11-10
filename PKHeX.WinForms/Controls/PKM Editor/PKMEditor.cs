@@ -343,7 +343,8 @@ namespace PKHeX.WinForms.Controls
             if (!hasForms)
                 return;
 
-            var ds = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format).ToList();
+            var ds = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, pkm.Format)
+                .Take(RequestSaveFile?.Personal[species]?.FormeCount ?? 0).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
                 CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = false;
             else CB_Form.DataSource = ds;

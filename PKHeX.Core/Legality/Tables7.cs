@@ -418,6 +418,39 @@ namespace PKHeX.Core
             687, // Core Enforcer
         };
 
+        internal static readonly HashSet<int> Totem_Alolan = new HashSet<int>
+        {
+            020, // Raticate (Normal, Alolan, Totem)
+            105, // Marowak (Normal, Alolan, Totem)
+            778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
+        };
+        internal static readonly HashSet<int> Totem_SM = new HashSet<int>
+        {
+            020, // Raticate
+            735, // Gumshoos
+            746, // Wishiwashi
+            758, // Salazzle
+            754, // Lurantis
+            738, // Vikavolt
+            778, // Mimikyu
+            784, // Kommo-o
+        };
+        internal static readonly HashSet<int> Totem_USUM = new HashSet<int>
+        {
+            020, // Raticate
+            735, // Gumshoos
+            746, // Wishiwashi
+            758, // Salazzle
+            754, // Lurantis
+            738, // Vikavolt
+            778, // Mimikyu
+            784, // Kommo-o
+            105, // Marowak
+            752, // Araquanid
+            777, // Togedemaru
+            743, // Ribombee
+        };
+
         internal static readonly int[] EggLocations7 = {60002, 30002};
         internal static readonly HashSet<int> ValidMet_SM = new HashSet<int>
         {
