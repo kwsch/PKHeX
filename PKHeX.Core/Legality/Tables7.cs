@@ -428,7 +428,7 @@ namespace PKHeX.Core
         {
             020, // Raticate
             735, // Gumshoos
-            746, // Wishiwashi
+            //746, // Wishiwashi
             758, // Salazzle
             754, // Lurantis
             738, // Vikavolt
@@ -439,7 +439,7 @@ namespace PKHeX.Core
         {
             020, // Raticate
             735, // Gumshoos
-            746, // Wishiwashi
+            //746, // Wishiwashi
             758, // Salazzle
             754, // Lurantis
             738, // Vikavolt
