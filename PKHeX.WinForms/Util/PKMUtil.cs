@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
 
             // Redrawing logic
             Image baseImage = (Image)Resources.ResourceManager.GetObject(file);
-            if (baseImage == null && FormConverter.IsTotemForm(species, form))
+            if (FormConverter.IsTotemForm(species, form))
             {
                 form = FormConverter.GetTotemBaseForm(species, form);
                 file = PKX.GetResourceStringSprite(species, form, gender, generation);
