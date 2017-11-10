@@ -417,25 +417,25 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 481, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {326,204,248,129}, }, // Mesprit @ ???
             new EncounterStatic { Species = 482, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {326,417,253,129}, }, // Azelf @ ???
             new EncounterStatic { Species = 646, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Kyurem @ ???
-            new EncounterStatic { Species = 334, Level = 60, Location = -01, IV3 = true, }, // Altaria @ ???
-            new EncounterStatic { Species = 469, Level = 60, Location = -01, IV3 = true, }, // Yanmega @ ???
-            new EncounterStatic { Species = 561, Level = 60, Location = -01, IV3 = true, }, // Sigilyph @ ???
+            new EncounterStatic { Species = 334, Level = 60, Location = 222, IV3 = true, }, // Altaria @ Ultra Space Wilds
+            new EncounterStatic { Species = 469, Level = 60, Location = 222, IV3 = true, }, // Yanmega @ Ultra Space Wilds
+            new EncounterStatic { Species = 561, Level = 60, Location = 222, IV3 = true, }, // Sigilyph @ Ultra Space Wilds
             new EncounterStatic { Species = 581, Level = 60, Location = 222, IV3 = true, }, // Swanna @ Ultra Space Wilds
-            new EncounterStatic { Species = 277, Level = 60, Location = -01, IV3 = true, }, // Swellow @ ???
+            new EncounterStatic { Species = 277, Level = 60, Location = 222, IV3 = true, }, // Swellow @ Ultra Space Wilds
             new EncounterStatic { Species = 452, Level = 60, Location = 222, IV3 = true, }, // Drapion @ Ultra Space Wilds
             new EncounterStatic { Species = 531, Level = 60, Location = 222, IV3 = true, }, // Audino @ Ultra Space Wilds
-            new EncounterStatic { Species = 695, Level = 60, Location = -01, IV3 = true, }, // Heliolisk @ ???
-            new EncounterStatic { Species = 274, Level = 60, Location = -01, IV3 = true, }, // Nuzleaf @ ???
-            new EncounterStatic { Species = 326, Level = 60, Location = -01, IV3 = true, }, // Grumpig @ ???
-            new EncounterStatic { Species = 460, Level = 60, Location = -01, IV3 = true, }, // Abomasnow @ ???
+            new EncounterStatic { Species = 695, Level = 60, Location = 222, IV3 = true, }, // Heliolisk @ Ultra Space Wilds
+            new EncounterStatic { Species = 274, Level = 60, Location = 222, IV3 = true, }, // Nuzleaf @ Ultra Space Wilds
+            new EncounterStatic { Species = 326, Level = 60, Location = 222, IV3 = true, }, // Grumpig @ Ultra Space Wilds
+            new EncounterStatic { Species = 460, Level = 60, Location = 222, IV3 = true, }, // Abomasnow @ Ultra Space Wilds
             new EncounterStatic { Species = 308, Level = 60, Location = 222, IV3 = true, }, // Medicham @ Ultra Space Wilds
-            new EncounterStatic { Species = 450, Level = 60, Location = -01, IV3 = true, }, // Hippowdon @ ???
-            new EncounterStatic { Species = 558, Level = 60, Location = -01, IV3 = true, }, // Crustle @ ???
+            new EncounterStatic { Species = 450, Level = 60, Location = 222, IV3 = true, }, // Hippowdon @ Ultra Space Wilds
+            new EncounterStatic { Species = 558, Level = 60, Location = 222, IV3 = true, }, // Crustle @ Ultra Space Wilds
             new EncounterStatic { Species = 219, Level = 60, Location = 222, IV3 = true, }, // Magcargo @ Ultra Space Wilds
-            new EncounterStatic { Species = 689, Level = 60, Location = -01, IV3 = true, }, // Barbaracle @ ???
-            new EncounterStatic { Species = 271, Level = 60, Location = -01, IV3 = true, }, // Lombre @ ???
-            new EncounterStatic { Species = 618, Level = 60, Location = -01, IV3 = true, }, // Stunfisk @ ???
-            new EncounterStatic { Species = 419, Level = 60, Location = -01, IV3 = true, }, // Floatzel @ ???
+            new EncounterStatic { Species = 689, Level = 60, Location = 222, IV3 = true, }, // Barbaracle @ Ultra Space Wilds
+            new EncounterStatic { Species = 271, Level = 60, Location = 222, IV3 = true, }, // Lombre @ Ultra Space Wilds
+            new EncounterStatic { Species = 618, Level = 60, Location = 222, IV3 = true, }, // Stunfisk @ Ultra Space Wilds
+            new EncounterStatic { Species = 419, Level = 60, Location = 222, IV3 = true, }, // Floatzel @ Ultra Space Wilds
             new EncounterStatic { Species = 195, Level = 60, Location = 222, IV3 = true, }, // Quagsire @ Ultra Space Wilds
             new EncounterStatic { Species = 793, Level = 60, Location = -01, Ability = 1, IV3 = true, Relearn = new[] {408,491,446,243}, }, // Nihilego @ ???
             new EncounterStatic { Species = 794, Level = 60, Location = -01, Ability = 1, IV3 = true, }, // Buzzwole @ ???
