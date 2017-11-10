@@ -405,6 +405,12 @@ namespace PKHeX.Core
                         forms[1023], // "BLU" - Sensu
                     };
 
+                case 744: // Rockruff
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[1064], // Dusk
+                    };
                 case 745: // Lycanroc
                     return new[]
                     {

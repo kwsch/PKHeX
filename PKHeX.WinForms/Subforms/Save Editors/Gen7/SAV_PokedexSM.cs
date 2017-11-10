@@ -139,7 +139,7 @@ namespace PKHeX.WinForms
             bool hasForms = SAV.Personal[bspecies].HasFormes || new[] { 201, 664, 665, 414 }.Contains(bspecies);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
-            var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).Take(SAV.Personal[bspecies].FormeCount).ToList();
+            var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
             { 
                 // empty (Alolan Totems)
