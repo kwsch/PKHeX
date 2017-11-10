@@ -197,10 +197,12 @@ namespace PKHeX.Core
         {
             if (!Exportable) // Empty input
             {
-                Party = 0x0;
-                Box = Party + SIZE_PARTY * 6 + 0x1000;
-
-                PCLayout = Party + SIZE_PARTY * 6;
+                // Set bare minimum values for empty sav compatibility (based on S/M offsets)
+                Trainer1 = 0x00E00;
+                TrainerCard = 0x01200;
+                Party = 0x01400;
+                Box = 0x04E00;
+                PCLayout = 0x04800;
                 BattleBoxFlags = PCLayout + 0x4C4;
                 PCBackgrounds = PCLayout + 0x5C0;
                 LastViewedBox = PCLayout + 0x5E3;
