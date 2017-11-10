@@ -187,7 +187,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, IV3 = true, Shiny = false, Ability = 2, }, // Cosmog @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
             new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, IV3 = true, HeldItem = 796, }, // Pikachu @ ???
-            new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = -01, IV3 = true,}, // Poipole @ ???
+            new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = 208, IV3 = true,}, // Poipole @ Megalo Tower
 
             // Totem-Sized Gifts @ Heahea Beach
             new EncounterStatic { Gift = true, Species = 735, Level = 20, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.US }, // Gumshoos
@@ -371,12 +371,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 019, Level = 03, Location = -01, Ability = 1, Shiny = false, Form = 1, }, // Rattata @ ???
             new EncounterStatic { Species = 736, Level = 04, Location = -01, Ability = 1, Shiny = false, }, // Grubbin @ ???
             new EncounterStatic { Species = 021, Level = 04, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {043,228,000,000}, }, // Spearow @ ???
-            new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ ???
-            new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = false, }, // Pinsir @ ???
-            new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ ???
-            new EncounterStatic { Species = 800, Level = 50, Location = -01, Ability = 1, Shiny = false, Form = 1, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {713,234,427,400}, }, // Necrozma @ ???
-            new EncounterStatic { Species = 800, Level = 50, Location = -01, Ability = 1, Shiny = false, Form = 2, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {714,236,094,408}, }, // Necrozma @ ???
-            new EncounterStatic { Species = 800, Level = 60, Location = -01, Ability = 1, Shiny = false, Form = 3, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {722,684,408,406}, }, // Necrozma @ ???
+            new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
+            new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
+            new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 800, Level = 65, Location = -01, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ ???
             new EncounterStatic { Species = 743, Level = 55, Location = -01, Ability = 2, Shiny = false, Form = 1, IVs = new[] {31,01,31,01,31,31}, Relearn = new[] {405,577,483,605}, HeldItem = 184, }, // Ribombee @ ???
             new EncounterStatic { Species = 279, Level = 52, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,31,15,15,15,31}, Relearn = new[] {254,503,255,402}, }, // Pelipper @ ???
