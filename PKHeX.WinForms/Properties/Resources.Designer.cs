@@ -2333,9 +2333,9 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _25_7 {
+        internal static System.Drawing.Bitmap _25_7c {
             get {
-                object obj = ResourceManager.GetObject("_25_7", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_7c", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -93,7 +93,7 @@
                 return species;
             if (FormStatsIndex <= 0) // no formes present
                 return species;
-            if (forme > FormeCount) // beyond range of species' formes
+            if (forme >= FormeCount) // beyond range of species' formes
                 return species;
 
             return FormStatsIndex + forme - 1;
