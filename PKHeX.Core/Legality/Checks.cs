@@ -1170,7 +1170,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.Ball == 0x14 && pkm.Gen7) // Heavy Ball
+            if (pkm.Ball == 0x14 && !Info.EncounterMatch.EggEncounter && pkm.SM) // Heavy Ball
             {
                 var lineage = Legal.GetLineage(pkm);
                 if (lineage.Any(e => Legal.AlolanCaptureNoHeavyBall.Contains(e)))
