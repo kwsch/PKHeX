@@ -183,7 +183,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 696, Level = 15, Location = 58, }, // Tyrunt
             new EncounterStatic { Gift = true, Species = 698, Level = 15, Location = 58, }, // Amaura
             new EncounterStatic { Gift = true, Species = 133, Level = 01, EggLocation = 60002, }, // Eevee @ Nursery helpers
-            new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = -01, }, // Porygon @ ???
+            new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = 116, }, // Porygon @ Route 15
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 188, IV3 = true, }, // Type: Null @ Aether Paradise
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 160, IV3 = true, }, // Type: Null @ Ancient Poni Path
             new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true, Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
@@ -206,7 +206,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.US }, // Ribombee
             new EncounterStatic { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.UM }, // Kommo-o
 
-            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ ???
+            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ Route 16
             
             new EncounterStatic // Pikachu (Pikashunium Z), should probably be a fake mystery gift as it has OT details
             {
@@ -365,8 +365,8 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {095,171,139,029}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {417,060,050,139}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ Hau'oli City Police Station
-            new EncounterStatic { Species = 092, Level = 19, Location = -01, Shiny = false, Relearn = new[] {174,109,122,101}, }, // Gastly @ ???
-            new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ ???
+            new EncounterStatic { Species = 092, Level = 19, Location = 230, Shiny = false, Relearn = new[] {174,109,122,101}, }, // Gastly @ Route 1 (Trainers’ School)
+            new EncounterStatic { Species = 425, Level = 19, Location = 230, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ Route 1 (Trainers’ School)
             new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ Route 15
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, Gender = 1, }, // Frillish @ Route 14
             new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,30,-1,00}, }, // Ditto @ Route 9
