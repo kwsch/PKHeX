@@ -362,9 +362,9 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 020, Level = 60, Location = -01, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {158,675,182,104}, Form = 2, Gender = 0, HeldItem = 189, }, // Raticate @ ???
             new EncounterStatic { Species = 019, Level = 58, Location = -01, Shiny = false, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {162,039,259,242}, Form = 1, }, // Rattata @ ???
             new EncounterStatic { Species = 760, Level = 28, Location = -01, Shiny = false, }, // Bewear @ ???
-            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {095,171,139,029}, }, // Hypno @ ???
-            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {417,060,050,139}, }, // Hypno @ ???
-            new EncounterStatic { Species = 097, Level = 29, Location = -01, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ ???
+            new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {095,171,139,029}, }, // Hypno @ Hau'oli City Police Station
+            new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {417,060,050,139}, }, // Hypno @ Hau'oli City Police Station
+            new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 092, Level = 19, Location = -01, Shiny = false, Relearn = new[] {174,109,122,101}, }, // Gastly @ ???
             new EncounterStatic { Species = 425, Level = 19, Location = -01, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ ???
             new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ Route 15
