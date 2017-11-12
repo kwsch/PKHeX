@@ -71,8 +71,8 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 133, Level = 1,  EggLocation = 60002, }, // Eevee @ Nursery helpers
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = 116, }, // Porygon @ Route 15
             new EncounterStatic { Gift = true, Species = 772, Level = 40, Location = 188, IV3 = true, }, // Type: Null
-            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, IV3 = true, Version = GameVersion.SN}, // Cosmog                00 FF
-            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, IV3 = true, Version = GameVersion.MN}, // Cosmog                00 FF
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = false, Ability = 2, IV3 = true, Version = GameVersion.SN }, // Cosmog
+            new EncounterStatic { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = false, Ability = 2, IV3 = true, Version = GameVersion.MN }, // Cosmog
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
 
             new EncounterStatic { Gift = true, Species = 718, Form = 0, Level = 30, Shiny = false, Location = 118, IV3 = true, }, // Zygarde
@@ -87,7 +87,7 @@ namespace PKHeX.Core
             
             new EncounterStatic // Magearna (Bottle Cap) 00 FF
             {
-                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true,
+                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true, HeldItem = 795, Ability = 2,
                 Fateful = true, RibbonWishing = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
             },
 
@@ -186,12 +186,12 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 137, Level = 30, Location = 116, }, // Porygon @ Route 15
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 188, IV3 = true, }, // Type: Null @ Aether Paradise
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 160, IV3 = true, }, // Type: Null @ Ancient Poni Path
-            new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true, Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
             new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 142, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.US }, // Cosmog @ Lake of the Sunne
             new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 144, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.UM }, // Cosmog @ Lake of the Moone
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
             new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = 070, IV3 = true, HeldItem = 796, Relearn = new[] {57,0,0,0} }, // Pikachu @ Heahea City
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = 208, IV3 = true,}, // Poipole @ Megalo Tower
+            new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = 206, IV3 = true,}, // Poipole @ Ultra Megalopolis
 
             // Totem-Sized Gifts @ Heahea Beach
             new EncounterStatic { Gift = true, Species = 735, Level = 20, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.US }, // Gumshoos
@@ -208,12 +208,17 @@ namespace PKHeX.Core
 
             new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ Route 16
             
-            new EncounterStatic // Pikachu (Pikashunium Z), should probably be a fake mystery gift as it has OT details
+            new EncounterStatic // Magearna (Bottle Cap)
             {
-                Gift = true, Species = 25, Level = 21, Location = 40005, Shiny = false, Form = 7, HeldItem = 571, Nature = Nature.Hardy,
-                Ability = 1, Fateful = true, RibbonWishing = true, Relearn = new[] {85, 98, 87, 231},
+                Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = false, IV3 = true, HeldItem = 795, Ability = 2,
+                Fateful = true, RibbonWishing = true, Relearn = new [] {705, 430, 381, 270}, Ball = 0x10, // Cherish
             },
-            
+            new EncounterStatic // Pikachu (Pretty Wing), should probably be a fake mystery gift as it has OT details
+            {
+                Gift = true, Species = 25, Level = 21, Location = 40005, Shiny = false, Form = 7, HeldItem = 571, Ability = 1,
+                Fateful = true, RibbonWishing = true, Relearn = new[] {85, 98, 87, 231}, Nature = Nature.Hardy,
+            },
+
             new EncounterStatic { Species = 791, Level = 60, Location = 028, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {713,322,242,428}, Version = GameVersion.US }, // Solgaleo @ Mahalo Trail (Plank Bridge)
             new EncounterStatic { Species = 792, Level = 60, Location = 028, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {714,322,539,585}, Version = GameVersion.UM }, // Lunala @ Mahalo Trail (Plank Bridge)
 
