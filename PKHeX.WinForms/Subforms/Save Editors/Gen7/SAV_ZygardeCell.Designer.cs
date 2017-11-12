@@ -188,7 +188,7 @@
             this.MinimumSize = new System.Drawing.Size(440, 380);
             this.Name = "SAV_ZygardeCell";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Zygarde Cells";
+            this.Text = "Cells/Sticker Editor";
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Cells)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Collected)).EndInit();
