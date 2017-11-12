@@ -187,8 +187,8 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 188, IV3 = true, }, // Type: Null @ Aether Paradise
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 160, IV3 = true, }, // Type: Null @ Ancient Poni Path
             new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true, Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
-            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 142, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.US, }, // Cosmog @ ???
-            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 144, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.UM, }, // Cosmog @ ???
+            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 142, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.US }, // Cosmog @ Lake of the Sunne
+            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 144, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.UM }, // Cosmog @ Lake of the Moone
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
             new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = 070, IV3 = true, HeldItem = 796, Relearn = new[] {57,0,0,0} }, // Pikachu @ Heahea City
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = 208, IV3 = true,}, // Poipole @ Megalo Tower
@@ -214,8 +214,6 @@ namespace PKHeX.Core
                 Ability = 1, Fateful = true, RibbonWishing = true, Relearn = new[] {85, 98, 87, 231},
             },
             
-            new EncounterStatic { Species = 731, Level = 03, Location = -01, Ability = 1, Shiny = false, }, // Pikipek @ ???
-            new EncounterStatic { Species = 793, Level = 27, Location = -01, Ability = 1, Shiny = false, IVs = new[] {31,01,31,01,31,31}, }, // Nihilego @ ???
             new EncounterStatic { Species = 791, Level = 60, Location = 028, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {713,322,242,428}, Version = GameVersion.US }, // Solgaleo @ Mahalo Trail (Plank Bridge)
             new EncounterStatic { Species = 792, Level = 60, Location = 028, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {714,322,539,585}, Version = GameVersion.UM }, // Lunala @ Mahalo Trail (Plank Bridge)
 
@@ -262,31 +260,14 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 788, Level = 60, Location = 180, Ability = 1, Shiny = false, IV3 = true, }, // Tapu Fini @ Ruins of Hope
 
             new EncounterStatic { Species = 023, Level = 10, Location = 012, Ability = 1, }, // Ekans @ Route 2
-            new EncounterStatic { Species = 103, Level = 40, Location = -01, Ability = 1, Form = 1, }, // Exeggutor @ ???
 
             new EncounterStatic { Species = 542, Level = 57, Location = -01, Relearn = new[] {580,437,014,494}, }, // Leavanny @ ???
-            new EncounterStatic { Species = 752, Level = 20, Location = -01, Ability = 1, Shiny = false, IVs = new[] {31,01,31,01,31,01}, Relearn = new[] {141,145,044,062}, Form = 1, Gender = 0, HeldItem = 186, }, // Araquanid @ ???
-            new EncounterStatic { Species = 751, Level = 17, Location = -01, Ability = 1, Shiny = false, }, // Dewpider @ ???
-            new EncounterStatic { Species = 751, Level = 18, Location = -01, Ability = 1, Shiny = false, }, // Dewpider @ ???
-            new EncounterStatic { Species = 284, Level = 18, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {184,078,366,450}, }, // Masquerain @ ???
-            new EncounterStatic { Species = 751, Level = 18, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {564,240,450,145}, }, // Dewpider @ ???
-            new EncounterStatic { Species = 753, Level = 17, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {075,670,210,074}, }, // Fomantis @ ???
-            new EncounterStatic { Species = 764, Level = 21, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {022,577,186,073}, }, // Comfey @ ???
-            new EncounterStatic { Species = 753, Level = 21, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {075,210,275,074}, }, // Fomantis @ ???
-            new EncounterStatic { Species = 185, Level = 24, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {088,317,452,175}, }, // Sudowoodo @ ???
-            new EncounterStatic { Species = 777, Level = 33, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,15,31,01,31,31}, Relearn = new[] {716,596,442,340}, Form = 1, Gender = 0, HeldItem = 158, }, // Togedemaru @ ???
             new EncounterStatic { Species = 227, Level = 32, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {446,211,366,259}, }, // Skarmory @ ???
             new EncounterStatic { Species = 702, Level = 31, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {162,598,204,435}, }, // Dedenne @ ???
-            new EncounterStatic { Species = 239, Level = 29, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {098,009,067,043}, }, // Elekid @ ???
-            new EncounterStatic { Species = 125, Level = 30, Location = -01, Ability = 1, Shiny = false, IVs = new[] {00,00,00,00,00,00}, Relearn = new[] {486,113,129,086}, }, // Electabuzz @ ???
-            new EncounterStatic { Species = 734, Level = 03, Location = -01, Ability = 1, Shiny = false, }, // Yungoos @ ???
-            new EncounterStatic { Species = 019, Level = 03, Location = -01, Ability = 1, Shiny = false, Form = 1, }, // Rattata @ ???
-            new EncounterStatic { Species = 736, Level = 04, Location = -01, Ability = 1, Shiny = false, }, // Grubbin @ ???
-            new EncounterStatic { Species = 021, Level = 04, Location = -01, Ability = 1, Shiny = false, Relearn = new[] {043,228,000,000}, }, // Spearow @ ???
+            new EncounterStatic { Species = 736, Level = 04, Location = 008, Ability = 1, Shiny = false, }, // Grubbin @ Route 1
             new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 800, Level = 65, Location = 146, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ Mount Lanakila
-            new EncounterStatic { Species = 743, Level = 55, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,01,31,01,31,31}, Relearn = new[] {405,577,483,605}, Form = 1, Gender = 1, HeldItem = 184, }, // Ribombee @ ???
             new EncounterStatic { Species = 279, Level = 52, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,31,15,15,15,31}, Relearn = new[] {254,503,255,402}, Gender = 1, }, // Pelipper @ ???
             new EncounterStatic { Species = 242, Level = 53, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,00,00,00,00,00}, Relearn = new[] {505,113,270,605}, Gender = 1, }, // Blissey @ ???
 
@@ -351,10 +332,10 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 195, Level = 60, Location = 222, IV3 = true, }, // Quagsire @ Ultra Space Wilds
 
             new EncounterStatic { Species = 793, Level = 60, Location = 190, Ability = 1, IV3 = true, Relearn = new[] {408,491,446,243}, }, // Nihilego @ Ultra Deep Sea
-            new EncounterStatic { Species = 794, Level = 60, Location = 218, Ability = 1, IV3 = true, Version = GameVersion.US, }, // Buzzwole @ Ultra Jungle
-            new EncounterStatic { Species = 795, Level = 60, Location = 214, Ability = 1, IV3 = true, Version = GameVersion.UM , }, // Pheromosa @ Ultra Desert
+            new EncounterStatic { Species = 794, Level = 60, Location = 218, Ability = 1, IV3 = true, Version = GameVersion.US }, // Buzzwole @ Ultra Jungle
+            new EncounterStatic { Species = 795, Level = 60, Location = 214, Ability = 1, IV3 = true, Version = GameVersion.UM }, // Pheromosa @ Ultra Desert
             new EncounterStatic { Species = 796, Level = 60, Location = 210, Ability = 1, IV3 = true, }, // Xurkitree @ Ultra Plant
-            new EncounterStatic { Species = 797, Level = 60, Location = 212, Ability = 1, IV3 = true, Version = GameVersion.UM , }, // Celesteela @ Ultra Crater
+            new EncounterStatic { Species = 797, Level = 60, Location = 212, Ability = 1, IV3 = true, Version = GameVersion.UM }, // Celesteela @ Ultra Crater
             new EncounterStatic { Species = 798, Level = 60, Location = 216, Ability = 1, IV3 = true, Version = GameVersion.US }, // Kartana @ Ultra Forest
             new EncounterStatic { Species = 799, Level = 60, Location = 220, Ability = 1, IV3 = true, }, // Guzzlord @ Ultra Ruin
             new EncounterStatic { Species = 735, Level = 60, Location = -01, Shiny = false, IVs = new[] {31,29,31,31,31,31}, Relearn = new[] {158,423,182,242}, Form = 1, Gender = 0, HeldItem = 189, }, // Gumshoos @ ???
@@ -377,8 +358,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 718, Level = 60, Location = 182, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {616,137,219,225}, }, // Zygarde @ Resolution Cave
             new EncounterStatic { Species = 805, Level = 60, Location = 164, Ability = 1, IV3 = true, Version = GameVersion.UM }, // Stakataka @ Poni Grove
             new EncounterStatic { Species = 806, Level = 60, Location = 164, Ability = 1, IV3 = true, Version = GameVersion.US }, // Blacephalon @ Poni Grove
-            new EncounterStatic { Species = 105, Level = 22, Location = -01, Ability = 1, Shiny = false, Form = 2, Gender = 0, HeldItem = 258, }, // Marowak @ ???
-            new EncounterStatic { Species = 758, Level = 20, Location = -01, Ability = 1, Shiny = false, IVs = new[] {15,01,31,15,31,01}, Relearn = new[] {139,474,481,259}, Gender = 1, }, // Salazzle @ ???
             new EncounterStatic { Species = 101, Level = 60, Location = 224, Ability = 1, Shiny = false, }, // Electrode @ Team Rocket's Castle
         };
         internal static readonly EncounterTrade[] TradeGift_USUM =
