@@ -1692,12 +1692,22 @@ namespace PKHeX.Core
             if (pkm.Format <= 3)
                 return r.Distinct();
             if (LVL)
-            { 
-                if (species == 479 && Generation >= 4) // Rotom
-                    r.Add(RotomMoves[pkm.AltForm]);
-
-                if (species == 718 && Generation == 7) // Zygarde
-                    r.AddRange(ZygardeMoves);
+            {
+                switch (species)
+                {
+                    case 479 when Generation >= 4: // rotom
+                        r.Add(RotomMoves[pkm.AltForm]);
+                        break;
+                    case 718 when Generation == 7: // zygarde
+                        r.AddRange(ZygardeMoves);
+                        break;
+                    case 800 when pkm.AltForm == 1: // Sun Necrozma
+                        r.Add(713);
+                        break;
+                    case 800 when pkm.AltForm == 2: // Moon Necrozma
+                        r.Add(714);
+                        break;
+                }
             }
             if (Tutor)
             {
