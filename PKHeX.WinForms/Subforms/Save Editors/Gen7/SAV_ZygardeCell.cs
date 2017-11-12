@@ -247,7 +247,7 @@ namespace PKHeX.WinForms
             "Konikoni City Restaurant 1F",
             "Iki Town SouthWest",
             "Hau'oli City (Shopping) Ilima's House SwimPool",
-           "*** researching No.53",
+            "Wela Volcano Park (rocks behind sign)",
             "Route 5 South of PokemonCenter",
            "*** researching No.55",
             "Malie City (Outer) RecyclePlant Outside",
@@ -294,7 +294,7 @@ namespace PKHeX.WinForms
             "Ancient Poni Path Hapu's House Courtyard",
             "Ancient Poni Path Hapu's House Outside behind Well",
             "Ancient Poni Path NorthEast",
-           "*** researching No.100",
+            "Battle Tree Entrance",
         };
 
         #endregion
