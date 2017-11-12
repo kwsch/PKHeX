@@ -187,7 +187,8 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 188, IV3 = true, }, // Type: Null @ Aether Paradise
             new EncounterStatic { Gift = true, Species = 772, Level = 60, Location = 160, IV3 = true, }, // Type: Null @ Ancient Poni Path
             new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true, Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
-            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, IV3 = true, Shiny = false, Ability = 2, }, // Cosmog @ ???
+            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 142, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.US, }, // Cosmog @ ???
+            new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = 144, IV3 = true, Shiny = false, Ability = 2, Version = GameVersion.UM, }, // Cosmog @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
             new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = 070, IV3 = true, HeldItem = 796, Relearn = new[] {57,0,0,0} }, // Pikachu @ Heahea City
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = 208, IV3 = true,}, // Poipole @ Megalo Tower
@@ -205,7 +206,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 743, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.US }, // Ribombee
             new EncounterStatic { Gift = true, Species = 784, Level = 50, Ability = 4, Location = 202, Form = 1, Shiny = false, IV3 = true, Version = GameVersion.UM }, // Kommo-o
 
-            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = -01, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ ???
+            new EncounterStatic { Gift = true, Species = 718, Level = 63, Ability = 1, Location = 118, Form = 1, Shiny = false, IV3 = true, }, // Zygarde @ ???
             
             new EncounterStatic // Pikachu (Pikashunium Z), should probably be a fake mystery gift as it has OT details
             {
