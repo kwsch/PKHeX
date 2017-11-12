@@ -266,15 +266,10 @@ namespace PKHeX.Core
 
             new EncounterStatic { Species = 023, Level = 10, Location = 012, Ability = 1, }, // Ekans @ Route 2
 
-            new EncounterStatic { Species = 542, Level = 57, Location = -01, Relearn = new[] {580,437,014,494}, }, // Leavanny @ ???
-            new EncounterStatic { Species = 227, Level = 32, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,15,15,15,15,15}, Relearn = new[] {446,211,366,259}, }, // Skarmory @ ???
-            new EncounterStatic { Species = 702, Level = 31, Location = -01, Ability = 2, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {162,598,204,435}, }, // Dedenne @ ???
             new EncounterStatic { Species = 736, Level = 04, Location = 008, Ability = 1, Shiny = false, }, // Grubbin @ Route 1
             new EncounterStatic { Species = 127, Level = 42, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 127, Level = 43, Location = 184, Shiny = false, }, // Pinsir @ Exeggutor Island
             new EncounterStatic { Species = 800, Level = 65, Location = 146, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {722,334,408,400}, HeldItem = 923, }, // Necrozma @ Mount Lanakila
-            new EncounterStatic { Species = 279, Level = 52, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,31,15,15,15,31}, Relearn = new[] {254,503,255,402}, Gender = 1, }, // Pelipper @ ???
-            new EncounterStatic { Species = 242, Level = 53, Location = -01, Ability = 2, Shiny = false, IVs = new[] {15,00,00,00,00,00}, Relearn = new[] {505,113,270,605}, Gender = 1, }, // Blissey @ ???
 
             // Legendaries @ Ultra Space Wilds
             new EncounterStatic { Species = 144, Level = 60, Location = 222, Ability = 1, IV3 = true, Relearn = new[] {246,573,115,258}, }, // Articuno
@@ -343,10 +338,6 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 797, Level = 60, Location = 212, Ability = 1, IV3 = true, Version = GameVersion.UM }, // Celesteela @ Ultra Crater
             new EncounterStatic { Species = 798, Level = 60, Location = 216, Ability = 1, IV3 = true, Version = GameVersion.US }, // Kartana @ Ultra Forest
             new EncounterStatic { Species = 799, Level = 60, Location = 220, Ability = 1, IV3 = true, }, // Guzzlord @ Ultra Ruin
-            new EncounterStatic { Species = 735, Level = 60, Location = -01, Shiny = false, IVs = new[] {31,29,31,31,31,31}, Relearn = new[] {158,423,182,242}, Form = 1, Gender = 0, HeldItem = 189, }, // Gumshoos @ ???
-            new EncounterStatic { Species = 734, Level = 58, Location = -01, Shiny = false, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {281,189,259,162}, }, // Yungoos @ ???
-            new EncounterStatic { Species = 020, Level = 60, Location = -01, Shiny = false, IVs = new[] {31,31,31,31,31,31}, Relearn = new[] {158,675,182,104}, Form = 2, Gender = 0, HeldItem = 189, }, // Raticate @ ???
-            new EncounterStatic { Species = 019, Level = 58, Location = -01, Shiny = false, IVs = new[] {31,31,31,00,31,31}, Relearn = new[] {162,039,259,242}, Form = 1, }, // Rattata @ ???
             new EncounterStatic { Species = 760, Level = 28, Location = -01, Shiny = false, }, // Bewear @ ???
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {095,171,139,029}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {417,060,050,139}, }, // Hypno @ Hau'oli City Police Station
@@ -355,11 +346,11 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 425, Level = 19, Location = 230, Shiny = false, Relearn = new[] {310,132,016,371}, }, // Drifloon @ Route 1 (Trainers’ School)
             new EncounterStatic { Species = 769, Level = 30, Location = 116, Shiny = false, Relearn = new[] {310,523,072,328}, }, // Sandygast @ Route 15
             new EncounterStatic { Species = 592, Level = 34, Location = 126, Shiny = false, Gender = 1, }, // Frillish @ Route 14
-            new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,30,-1,00}, }, // Ditto @ Route 9
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,30,-1,31}, }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,31,30,-1,-1,30}, }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,00,-1,31,30,-1}, }, // Ditto @ Konikoni City
-            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,30,-1,-1,30,31}, }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 060, IVs = new[] {-1,-1,31,30,-1,00}, Nature = Nature.Bold }, // Ditto @ Route 9
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,-1,30,30,-1,31}, Nature = Nature.Jolly }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,31,30,-1,-1,30}, Nature = Nature.Adamant }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,00,-1,31,30,-1}, Nature = Nature.Modest }, // Ditto @ Konikoni City
+            new EncounterStatic { Species = 132, Level = 29, Location = 072, IVs = new[] {-1,30,-1,-1,30,31}, Nature = Nature.Timid }, // Ditto @ Konikoni City
             new EncounterStatic { Species = 718, Level = 60, Location = 182, Ability = 1, Shiny = false, IV3 = true, Relearn = new[] {616,137,219,225}, }, // Zygarde @ Resolution Cave
             new EncounterStatic { Species = 805, Level = 60, Location = 164, Ability = 1, IV3 = true, Version = GameVersion.UM }, // Stakataka @ Poni Grove
             new EncounterStatic { Species = 806, Level = 60, Location = 164, Ability = 1, IV3 = true, Version = GameVersion.US }, // Blacephalon @ Poni Grove
