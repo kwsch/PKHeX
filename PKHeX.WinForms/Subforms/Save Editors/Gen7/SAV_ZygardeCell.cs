@@ -247,9 +247,9 @@ namespace PKHeX.WinForms
             "Konikoni City Restaurant 1F",
             "Iki Town SouthWest",
             "Hau'oli City (Shopping) Ilima's House SwimPool",
-           "*** researching No.53",
+            "Wela Volcano Park (rocks behind sign)",
             "Route 5 South of PokemonCenter",
-           "*** researching No.55",
+            "Hano Beach (below Sandygast)",
             "Malie City (Outer) RecyclePlant Outside",
             "Malie City FerryTerminal Outside",
             "Malie City ApparelShop Outside",
@@ -269,7 +269,7 @@ namespace PKHeX.WinForms
             "Route 17 PoliceStation Outside",
             "Route 17 PoliceStation",
             "Po Town PokemonCenter Outside",
-           "*** researching No.75",
+            "Exeggutor Island (under rock)",
             "Po Town ShadyHouse Outside (East)",
             "Po Town PokemonCenter",
             "Po Town ShadyHouse 1F",
@@ -294,7 +294,7 @@ namespace PKHeX.WinForms
             "Ancient Poni Path Hapu's House Courtyard",
             "Ancient Poni Path Hapu's House Outside behind Well",
             "Ancient Poni Path NorthEast",
-           "*** researching No.100",
+            "Battle Tree Entrance",
         };
 
         #endregion
