@@ -189,7 +189,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 801, Level = 50, Location = -01, IV3 = true, Shiny = false, Ability = 2, HeldItem = 795, }, // Magearna @ ???
             new EncounterStatic { Gift = true, Species = 789, Level = 05, Location = -01, IV3 = true, Shiny = false, Ability = 2, }, // Cosmog @ ???
             new EncounterStatic { Gift = true, Species = 142, Level = 40, Location = 172, }, // Aerodactyl @ Seafolk Village
-            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = -01, IV3 = true, HeldItem = 796, }, // Pikachu @ ???
+            new EncounterStatic { Gift = true, Species = 025, Level = 40, Location = 070, IV3 = true, HeldItem = 796, Relearn = new[] {57,0,0,0} }, // Pikachu @ Heahea City
             new EncounterStatic { Gift = true, Species = 803, Level = 40, Location = 208, IV3 = true,}, // Poipole @ Megalo Tower
 
             // Totem-Sized Gifts @ Heahea Beach
