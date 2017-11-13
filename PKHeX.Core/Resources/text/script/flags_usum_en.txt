@@ -1,3 +1,5 @@
+0493	Received Gift Porygon
+0504	Received Gift Aerodactyl
 4420	Articuno Captured
 4421	Zapdos Captured
 4422	Moltres Captured
