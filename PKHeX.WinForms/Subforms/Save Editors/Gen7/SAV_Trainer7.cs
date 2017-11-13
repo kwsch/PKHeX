@@ -137,11 +137,13 @@ namespace PKHeX.WinForms
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
-            if (SAV.AlolaTime == 0)
-            {
-                SAV.AlolaTime = 24 * 60 * 60; // Patch up any bad times from previous program versions.
-            }
-            CB_AlolaTime.SelectedValue = (int)SAV.AlolaTime;
+            var time = SAV.AlolaTime;
+            if (time == 0)
+                time = 24 * 60 * 60; // Patch up any bad times from previous program versions.
+            if (time == 9_999_999)
+                CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
+            else
+                CB_AlolaTime.SelectedValue = (int)time;
             
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
