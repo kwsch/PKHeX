@@ -62,7 +62,7 @@ namespace PKHeX.Core
         protected override int GiftCountMax => 48;
         protected override int GiftFlagMax => 0x100 * 8;
         protected override int EventFlagMax => USUM ? 4928 : 3968;
-        protected override int EventConstMax => (EventFlag - EventConst) / 2;
+        protected override int EventConstMax => 1000;
         public override int OTLength => 12;
         public override int NickLength => 12;
 
@@ -248,7 +248,8 @@ namespace PKHeX.Core
             /* 35 */ QRSaveData     = Blocks[35].Offset; // 0x6B800  // [1C8]    QRReaderSaveData
             /* 36 */            //  = Blocks[36].Offset; // 0x6BA00  // [200]    TurtleSalmonSave
 
-            EventFlag = EventConst + 0x7D0;
+            EventFlag = EventConst + EventConstMax * 2; // After Event Const (u16)*n
+            HoF = EventFlag + EventFlagMax / 8; // After Event Flags (1b)*(1u8/8b)*n
 
             OFS_PouchHeldItem =     Bag + 0; // 430 (Case 0)
             OFS_PouchKeyItem =      Bag + 0x6B8; // 184 (Case 4)
@@ -265,7 +266,6 @@ namespace PKHeX.Core
             LastViewedBox =         PCLayout + 0x5E3;
             PCFlags =               PCLayout + 0x5E0;
 
-            HoF = 0x25C0; // Inside EventWork (const/flag) block
 
             FashionLength = 0x1A08;
 
@@ -1266,6 +1266,14 @@ namespace PKHeX.Core
             Array.Resize(ref TeamSlots, teamCount);
         }
 
+        private int FusedCount => USUM ? 3 : 1;
+        public int GetFusedSlotOffset(int slot)
+        {
+            if (Fused < 0 || slot < 0 || slot >= FusedCount)
+                return -1;
+            return Fused + SIZE_PARTY * slot; // 0x104*slot
+        }
+
         public override int DaycareSeedSize => 32; // 128 bits
         public override int GetDaycareSlotOffset(int loc, int slot)
         {
@@ -1445,31 +1453,16 @@ namespace PKHeX.Core
             return string.Join(Environment.NewLine,
                 Blocks.Select(b => $"{b.ID:00}: {b.Offset:X5}-{b.Offset + b.Length:X5}, {b.Length:X5}"));
         }
-        public byte BallThrowTypeUnlocked
-        {
-            get => (byte)(((BitConverter.ToUInt16(Data, 0x23F4) << 4) >> 10) << 2);
-            set
-            {
-                ushort flags = (ushort)(BitConverter.ToUInt16(Data, 0x23F4) & 0xF03F);
-                flags |= (ushort)((value & 0xFC) << 4);
-                BitConverter.GetBytes(flags).CopyTo(Data, 0x23F4);
-            }
-        }
-        public byte BallThrowTypeLearned
-        {
-            get => (byte)((Data[0x2583] & 0x7F) << 1);
-            set => Data[0x2583] = (byte)((Data[0x2583] & 0x80) | ((value & 0xFE) >> 1));
-        }
-        public byte BattleTreeSuperUnlocked
-        {
-            get => (byte)(Data[0x23F9] >> 5);
-            set => Data[0x23F9] = (byte)((Data[0x23F9] & 0x1F) | ((value & 0x07) << 5));
-        }
         public bool MegaUnlocked
         {
             get => (Data[TrainerCard + 0x78] & 0x01) != 0;
             set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & 0xFE) | (value ? 1 : 0)); // in battle
             // Data[0x1F22] = (byte)((Data[0x1F22] & 0xFE) | (value ? 1 : 0)); // event
+        }
+        public bool ZMoveUnlocked
+        {
+            get => (Data[TrainerCard + 0x78] & 2) != 0;
+            set => Data[TrainerCard + 0x78] = (byte)((Data[TrainerCard + 0x78] & ~2) | (value ? 2 : 0)); // in battle
         }
 
         public override string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);

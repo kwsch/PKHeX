@@ -107,7 +107,10 @@ namespace PKHeX.WinForms
             CB_Vivillon.ValueMember = "Value";
             CB_Vivillon.DataSource = PKX.GetFormList(666, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols).ToList();
 
-            foreach (string t in BattleStyles)
+            var styles = new List<string>(BattleStyles);
+            if (SAV.USUM)
+                styles.Add("Nihilist");
+            foreach (string t in styles)
             {
                 CB_BallThrowType.Items.Add(t);
                 LB_BallThrowTypeUnlocked.Items.Add(t);
@@ -211,29 +214,26 @@ namespace PKHeX.WinForms
             if (SAV.BallThrowType >= 0 && SAV.BallThrowType < CB_BallThrowType.Items.Count)
                 CB_BallThrowType.SelectedIndex = SAV.BallThrowType;
 
-            byte bttu = SAV.BallThrowTypeUnlocked;
             LB_BallThrowTypeUnlocked.SetSelected(0, true);
             LB_BallThrowTypeUnlocked.SetSelected(1, true);
             for (int i = 2; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
-                LB_BallThrowTypeUnlocked.SetSelected(i, (bttu & (1 << i)) != 0);
+                LB_BallThrowTypeUnlocked.SetSelected(i, SAV.GetEventFlag(292 + i));
 
-            byte bttl = SAV.BallThrowTypeLearned;
             LB_BallThrowTypeLearned.SetSelected(0, true);
             for (int i = 1; i < LB_BallThrowTypeLearned.Items.Count; i++)
-                LB_BallThrowTypeLearned.SetSelected(i, (bttl & (1 << i)) != 0);
-
+                LB_BallThrowTypeLearned.SetSelected(i, SAV.GetEventFlag(3479 + i));
             CB_BallThrowTypeListMode.SelectedIndex = 0;
 
             uint stampBits = SAV.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
                 LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
-            byte btsu = SAV.BattleTreeSuperUnlocked;
-            CHK_UnlockSuperSingles.Checked = (btsu & 1) != 0;
-            CHK_UnlockSuperDoubles.Checked = (btsu & (1 << 1)) != 0;
-            CHK_UnlockSuperMulti.Checked = (btsu & (1 << 2)) != 0;
+            CHK_UnlockSuperSingles.Checked = SAV.GetEventFlag(333);
+            CHK_UnlockSuperDoubles.Checked = SAV.GetEventFlag(334);
+            CHK_UnlockSuperMulti.Checked = SAV.GetEventFlag(335);
 
             CHK_UnlockMega.Checked = SAV.MegaUnlocked;
+            CHK_UnlockZMove.Checked = SAV.ZMoveUnlocked;
         }
         private void Save()
         {
@@ -247,6 +247,7 @@ namespace PKHeX.WinForms
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
+            if (CB_AlolaTime.Enabled)
             SAV.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
@@ -321,18 +322,23 @@ namespace PKHeX.WinForms
             if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
             
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
-            SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
-            SAV.BallThrowTypeUnlocked = (byte)GetBits(LB_BallThrowTypeUnlocked);
-            SAV.BallThrowTypeLearned = (byte)GetBits(LB_BallThrowTypeLearned);
+            if (CB_BallThrowType.SelectedIndex >= 0)
+                SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
+
+            for (int i = 2; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
+                SAV.SetEventFlag(292 + i, LB_BallThrowTypeUnlocked.GetSelected(i));
+
+            for (int i = 1; i < LB_BallThrowTypeLearned.Items.Count; i++)
+                SAV.SetEventFlag(3479 + i, LB_BallThrowTypeLearned.GetSelected(i));
+
             SAV.Stamps = GetBits(LB_Stamps);
 
-            byte btsu = 0;
-            if (CHK_UnlockSuperSingles.Checked) btsu |= 1;
-            if (CHK_UnlockSuperDoubles.Checked) btsu |= 1 << 1;
-            if (CHK_UnlockSuperMulti.Checked) btsu |= 1 << 2;
-            SAV.BattleTreeSuperUnlocked = btsu;
+            SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
+            SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
+            SAV.SetEventFlag(335, CHK_UnlockSuperMulti.Checked);
 
             SAV.MegaUnlocked = CHK_UnlockMega.Checked;
+            SAV.ZMoveUnlocked = CHK_UnlockZMove.Checked;
         }
         private static uint GetBits(ListBox listbox)
         {

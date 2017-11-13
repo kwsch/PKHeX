@@ -192,6 +192,7 @@ namespace PKHeX.WinForms
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
+            this.CHK_UnlockZMove = new System.Windows.Forms.CheckBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -1669,6 +1670,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.CHK_UnlockZMove);
             this.Tab_Misc.Controls.Add(this.CHK_UnlockMega);
             this.Tab_Misc.Controls.Add(this.L_BallThrowType);
             this.Tab_Misc.Controls.Add(this.CB_BallThrowType);
@@ -1990,6 +1992,16 @@ namespace PKHeX.WinForms
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
+            // CHK_UnlockZMove
+            // 
+            this.CHK_UnlockZMove.AutoSize = true;
+            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 273);
+            this.CHK_UnlockZMove.Name = "CHK_UnlockZMove";
+            this.CHK_UnlockZMove.Size = new System.Drawing.Size(105, 17);
+            this.CHK_UnlockZMove.TabIndex = 73;
+            this.CHK_UnlockZMove.Text = "Unlock Z Moves";
+            this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
+            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2214,5 +2226,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_UnlockSuperDoubles;
         private System.Windows.Forms.CheckBox CHK_UnlockSuperSingles;
         private System.Windows.Forms.CheckBox CHK_UnlockMega;
+        private System.Windows.Forms.CheckBox CHK_UnlockZMove;
     }
 }
