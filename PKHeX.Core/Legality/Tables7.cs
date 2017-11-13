@@ -97,7 +97,8 @@ namespace PKHeX.Core
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
         internal static readonly ushort[] Pouch_Key_USUM = Pouch_Key_SM.Concat(new ushort[] {
-            933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948
+            933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
+            440,
         }).ToArray();
         public static readonly ushort[] Pouch_Roto_USUM = {
             949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
