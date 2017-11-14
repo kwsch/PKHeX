@@ -48,6 +48,8 @@ namespace PKHeX.WinForms
 
         private static readonly string[] TrainerStampTitle = { "01:Official Pokemon Trainer", "02:Melemele Trial Completion", "03:Akala Trial Completion", "04:Ula'ula Trial Completion", "05:Poni Trial Completion", "06:Island Challenge Completion", "07:Melemele Pokedex Completion", "08:Akala Pokedex Completion", "09:Ula'ula Pokedex Completion", "10:Poni Pokedex Completion", "11:Alola Pokedex Completion", "12:50 Consecutive Single Battle Wins", "13:50 Consecutive Double Battle Wins", "14:50 Consecutive Multi Battle Wins", "15:Poke Finder Pro" };
         private static readonly string[] BattleStyles = { "Normal", "Elegant", "Girlish", "Reverent", "Smug", "Left-handed", "Passionate", "Idol" };
+        private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
+        private int skipFlag => SAV.USUM ? 4160 : 3200; // FlagMax - 768
 
         private void GetComboBoxes()
         {
@@ -234,6 +236,67 @@ namespace PKHeX.WinForms
 
             CHK_UnlockMega.Checked = SAV.MegaUnlocked;
             CHK_UnlockZMove.Checked = SAV.ZMoveUnlocked;
+
+            System.Collections.Generic.List<ComboItem> metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
+            int[] FlyDestNameIndex = new[] {
+                -1,24,34,8,20,38,12,46,40,30,//Melemele
+                70,68,78,86,74,104,82,58,90,72,76,92,62,//Akala
+                132,136,138,114,118,144,130,154,140,//Ula'ula
+                172,184,180,174,176,156,186,//Poni
+                188,-1,-1,
+                198,202,110,204,//Beach
+            };
+            if (SAV.Version == GameVersion.UM || SAV.Version == GameVersion.MN)
+            {
+                FlyDestNameIndex[28] = 142;
+                FlyDestNameIndex[36] = 178;
+            }
+            FlyDestFlagOfs = new[] {
+                44,43,45,40,41,49,42,47,46,48,
+                50,54,39,57,51,55,59,52,58,53,61,60,56,
+                62,66,67,64,65,273,270,37,38,
+                69,74,72,71,276,73,70,
+                75,332,334,
+                331,333,335,336,
+            };
+            string[] FlyDestAltName = { "My House", "Photo Club(Hau'oli)", "Photo Club(Konikoni)", };
+            CLB_FlyDest.Items.Clear();
+            for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV.USUM ? 0 : 6); i < m; i++)
+            {
+                CLB_FlyDest.Items.Add(
+                    FlyDestNameIndex[i] < 0
+                    ? FlyDestAltName[u++]
+                    : metLocationList.First(v => v.Value == FlyDestNameIndex[i]).Text
+                    , SAV.GetEventFlag(skipFlag + FlyDestFlagOfs[i])
+                );
+            }
+            int[] MapUnmaskNameIndex = new[] {
+                6,8,24,-1,18,-1,20,22,12,10,14,
+                70,50,68,52,74,54,56,58,60,72,62,64,
+                132,192,106,108,122,112,114,126,116,118,120,154,
+                172,158,160,162,164,166,168,170,
+                188,
+                198,202,110,204,
+            };
+            MapUnmaskFlagOfs = new[] {
+                5,76,82,91,79,84,80,81,77,78,83,
+                19,10,18,11,21,12,13,14,15,20,16,17,
+                33,34,30,31,98,92,93,94,95,96,97,141,
+                173,144,145,146,147,148,149,172,
+                181,
+                409,297,32,296,
+            };
+            string[] MapUnmaskAltName = { "Melemele Sea(East)", "Melemele Sea(West)", };
+            CLB_MapUnmask.Items.Clear();
+            for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV.USUM ? 0 : 4); i < m; i++)
+            {
+                CLB_MapUnmask.Items.Add(
+                    MapUnmaskNameIndex[i] < 0
+                    ? MapUnmaskAltName[u++]
+                    : metLocationList.First(v => v.Value == MapUnmaskNameIndex[i]).Text
+                    , SAV.GetEventFlag(skipFlag + MapUnmaskFlagOfs[i])
+                );
+            }
         }
         private void Save()
         {
@@ -339,6 +402,11 @@ namespace PKHeX.WinForms
 
             SAV.MegaUnlocked = CHK_UnlockMega.Checked;
             SAV.ZMoveUnlocked = CHK_UnlockZMove.Checked;
+
+            for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
+                SAV.SetEventFlag(skipFlag + FlyDestFlagOfs[i], CLB_FlyDest.GetItemChecked(i));
+            for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
+                SAV.SetEventFlag(skipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
         }
         private static uint GetBits(ListBox listbox)
         {
@@ -536,6 +604,16 @@ namespace PKHeX.WinForms
                 if (!LB_BallThrowTypeUnlocked.GetSelected(i))
                     LB_BallThrowTypeUnlocked.SetSelected(i, true);
             }
+        }
+        private void B_AllFlyDest_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
+                CLB_FlyDest.SetItemChecked(i, true);
+        }
+        private void B_AllMapUnmask_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
+                CLB_MapUnmask.SetItemChecked(i, true);
         }
 
         private void B_GenTID_Click(object sender, EventArgs e)
