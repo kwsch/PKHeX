@@ -111,17 +111,21 @@ namespace PKHeX.Core
             // Fix Final Array Lengths
             Array.Resize(ref Blocks, count);
 
-            // clear memecrypto sig
-            if (Blocks.Length > MemeCryptoBlock)
-                new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
-
+            if (Exportable)
+                CanReadChecksums();
         }
 
+        private bool IsMemeCryptoApplied = true;
         private const int MemeCryptoBlock = 36;
         private bool CanReadChecksums()
         {
-            if (Blocks.Length < MemeCryptoBlock)
-            { Debug.WriteLine($"Not enough blocks ({Blocks.Length}), aborting SetChecksums"); return false; }
+            if (Blocks.Length <= MemeCryptoBlock)
+            { Debug.WriteLine($"Not enough blocks ({Blocks.Length}), aborting {nameof(CanReadChecksums)}"); return false; }
+            if (!IsMemeCryptoApplied)
+                return true;
+            // clear memecrypto sig
+            new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
+            IsMemeCryptoApplied = false;
             return true;
         }
         protected override void SetChecksums()
@@ -139,6 +143,7 @@ namespace PKHeX.Core
             }
             
             Data = SaveUtil.Resign7(Data);
+            IsMemeCryptoApplied = true;
         }
         public override bool ChecksumsValid
         {
