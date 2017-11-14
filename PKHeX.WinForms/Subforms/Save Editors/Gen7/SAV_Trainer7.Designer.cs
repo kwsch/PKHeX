@@ -1,4 +1,4 @@
-namespace PKHeX.WinForms
+﻿namespace PKHeX.WinForms
 {
     partial class SAV_Trainer7
     {
@@ -193,6 +193,12 @@ namespace PKHeX.WinForms
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
             this.CHK_UnlockZMove = new System.Windows.Forms.CheckBox();
+            this.GB_FlyDest = new System.Windows.Forms.GroupBox();
+            this.B_AllFlyDest = new System.Windows.Forms.Button();
+            this.CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
+            this.GB_MapUnmask = new System.Windows.Forms.GroupBox();
+            this.B_AllMapUnmask = new System.Windows.Forms.Button();
+            this.CLB_MapUnmask = new System.Windows.Forms.CheckedListBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -227,6 +233,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
+            this.GB_FlyDest.SuspendLayout();
+            this.GB_MapUnmask.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -1150,6 +1158,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_BadgeMap
             // 
+            this.Tab_BadgeMap.Controls.Add(this.GB_MapUnmask);
+            this.Tab_BadgeMap.Controls.Add(this.GB_FlyDest);
             this.Tab_BadgeMap.Controls.Add(this.GB_Map);
             this.Tab_BadgeMap.Location = new System.Drawing.Point(4, 22);
             this.Tab_BadgeMap.Name = "Tab_BadgeMap";
@@ -1170,7 +1180,7 @@ namespace PKHeX.WinForms
             this.GB_Map.Controls.Add(this.L_CurrentMap);
             this.GB_Map.Controls.Add(this.L_Z);
             this.GB_Map.Controls.Add(this.L_X);
-            this.GB_Map.Location = new System.Drawing.Point(115, 64);
+            this.GB_Map.Location = new System.Drawing.Point(6, 6);
             this.GB_Map.Name = "GB_Map";
             this.GB_Map.Size = new System.Drawing.Size(203, 156);
             this.GB_Map.TabIndex = 58;
@@ -2002,6 +2012,66 @@ namespace PKHeX.WinForms
             this.CHK_UnlockZMove.Text = "Unlock Z Moves";
             this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
             // 
+            // GB_FlyDest
+            // 
+            this.GB_FlyDest.Controls.Add(this.B_AllFlyDest);
+            this.GB_FlyDest.Controls.Add(this.CLB_FlyDest);
+            this.GB_FlyDest.Location = new System.Drawing.Point(218, 6);
+            this.GB_FlyDest.Name = "GB_FlyDest";
+            this.GB_FlyDest.Size = new System.Drawing.Size(140, 138);
+            this.GB_FlyDest.TabIndex = 59;
+            this.GB_FlyDest.TabStop = false;
+            this.GB_FlyDest.Text = "Fly Destination";
+            // 
+            // B_AllFlyDest
+            // 
+            this.B_AllFlyDest.Location = new System.Drawing.Point(5, 21);
+            this.B_AllFlyDest.Name = "B_AllFlyDest";
+            this.B_AllFlyDest.Size = new System.Drawing.Size(75, 25);
+            this.B_AllFlyDest.TabIndex = 0;
+            this.B_AllFlyDest.Text = "Check All";
+            this.B_AllFlyDest.UseVisualStyleBackColor = true;
+            this.B_AllFlyDest.Click += new System.EventHandler(this.B_AllFlyDest_Click);
+            // 
+            // CLB_FlyDest
+            // 
+            this.CLB_FlyDest.CheckOnClick = true;
+            this.CLB_FlyDest.FormattingEnabled = true;
+            this.CLB_FlyDest.Location = new System.Drawing.Point(6, 54);
+            this.CLB_FlyDest.Name = "CLB_FlyDest";
+            this.CLB_FlyDest.Size = new System.Drawing.Size(128, 79);
+            this.CLB_FlyDest.TabIndex = 1;
+            // 
+            // GB_MapUnmask
+            // 
+            this.GB_MapUnmask.Controls.Add(this.B_AllMapUnmask);
+            this.GB_MapUnmask.Controls.Add(this.CLB_MapUnmask);
+            this.GB_MapUnmask.Location = new System.Drawing.Point(218, 150);
+            this.GB_MapUnmask.Name = "GB_MapUnmask";
+            this.GB_MapUnmask.Size = new System.Drawing.Size(140, 138);
+            this.GB_MapUnmask.TabIndex = 60;
+            this.GB_MapUnmask.TabStop = false;
+            this.GB_MapUnmask.Text = "Map Unmask";
+            // 
+            // B_AllMapUnmask
+            // 
+            this.B_AllMapUnmask.Location = new System.Drawing.Point(5, 21);
+            this.B_AllMapUnmask.Name = "B_AllMapUnmask";
+            this.B_AllMapUnmask.Size = new System.Drawing.Size(75, 25);
+            this.B_AllMapUnmask.TabIndex = 0;
+            this.B_AllMapUnmask.Text = "Check All";
+            this.B_AllMapUnmask.UseVisualStyleBackColor = true;
+            this.B_AllMapUnmask.Click += new System.EventHandler(this.B_AllMapUnmask_Click);
+            // 
+            // CLB_MapUnmask
+            // 
+            this.CLB_MapUnmask.CheckOnClick = true;
+            this.CLB_MapUnmask.FormattingEnabled = true;
+            this.CLB_MapUnmask.Location = new System.Drawing.Point(6, 54);
+            this.CLB_MapUnmask.Name = "CLB_MapUnmask";
+            this.CLB_MapUnmask.Size = new System.Drawing.Size(128, 79);
+            this.CLB_MapUnmask.TabIndex = 1;
+            // 
             // SAV_Trainer7
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2057,6 +2127,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
+            this.GB_FlyDest.ResumeLayout(false);
+            this.GB_MapUnmask.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2227,5 +2299,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_UnlockSuperSingles;
         private System.Windows.Forms.CheckBox CHK_UnlockMega;
         private System.Windows.Forms.CheckBox CHK_UnlockZMove;
+        private System.Windows.Forms.GroupBox GB_MapUnmask;
+        private System.Windows.Forms.Button B_AllMapUnmask;
+        private System.Windows.Forms.CheckedListBox CLB_MapUnmask;
+        private System.Windows.Forms.GroupBox GB_FlyDest;
+        private System.Windows.Forms.Button B_AllFlyDest;
+        private System.Windows.Forms.CheckedListBox CLB_FlyDest;
     }
 }
