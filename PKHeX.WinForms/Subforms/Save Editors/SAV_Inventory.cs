@@ -197,7 +197,9 @@ namespace PKHeX.WinForms
                 int c = 0;
                 string item = dgv.Rows[i].Cells[c++].Value.ToString();
                 int itemindex = Array.IndexOf(itemlist, item);
-                if (itemindex <= 0) // Compression of Empty Slots
+                bool roto = pouch.Type == InventoryType.BattleItems && Legal.Pouch_Roto_USUM.Contains((ushort) itemindex);
+
+                if (itemindex <= 0 && !roto) // Compression of Empty Slots
                     continue;
 
                 int.TryParse(dgv.Rows[i].Cells[c++].Value?.ToString(), out int itemcnt);
@@ -217,7 +219,7 @@ namespace PKHeX.WinForms
                     else
                         itemcnt = pouch.MaxCount; // Cap at pouch maximum
                 }   
-                else if (itemcnt <= 0)
+                else if (itemcnt <= 0 && !roto)
                     continue; // ignore item
 
                 pouch.Items[ctr] = new InventoryItem { Index = itemindex, Count = itemcnt };

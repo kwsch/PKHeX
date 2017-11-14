@@ -114,6 +114,10 @@ namespace PKHeX.WinForms
                 case GameVersion.MN:
                     gamePrefix = "sm";
                     break;
+                case GameVersion.US:
+                case GameVersion.UM:
+                    gamePrefix = "usum";
+                    break;
                 case GameVersion.DP:
                     gamePrefix = "dp";
                     break;
@@ -434,6 +438,8 @@ namespace PKHeX.WinForms
 
             SaveFile s1 = SaveUtil.GetVariantSAV(File.ReadAllBytes(TB_OldSAV.Text));
             SaveFile s2 = SaveUtil.GetVariantSAV(File.ReadAllBytes(TB_NewSAV.Text));
+            if (s1 == null) { WinFormsUtil.Alert("Save 1 file invalid."); return; }
+            if (s2 == null) { WinFormsUtil.Alert("Save 2 file invalid."); return; }
 
             if (s1.GetType() != s2.GetType()) { WinFormsUtil.Alert("Save types are different.", $"S1: {s1.GetType().Name}", $"S2: {s2.GetType().Name}"); return; }
             if (s1.Version != s2.Version) { WinFormsUtil.Alert("Save versions are different.", $"S1: {s1.Version}", $"S2: {s2.Version}"); return; }
@@ -451,9 +457,9 @@ namespace PKHeX.WinForms
                 {
                     if (oldBits[i] == newBits[i]) continue;
                     if (newBits[i])
-                        tbIsSet += i.ToString("0000") + ",";
+                        tbIsSet += $"{i:0000},";
                     else
-                        tbUnSet += i.ToString("0000") + ",";
+                        tbUnSet += $"{i:0000},";
                 }
             }
             catch (Exception e)

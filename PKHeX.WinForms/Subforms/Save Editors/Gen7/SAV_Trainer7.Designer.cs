@@ -104,6 +104,8 @@ namespace PKHeX.WinForms
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
+            this.L_Vivillon = new System.Windows.Forms.Label();
             this.B_GenTID = new System.Windows.Forms.Button();
             this.L_G7TID = new System.Windows.Forms.Label();
             this.MT_G7TID = new System.Windows.Forms.MaskedTextBox();
@@ -164,6 +166,18 @@ namespace PKHeX.WinForms
             this.NUD_RCStreak0 = new System.Windows.Forms.NumericUpDown();
             this.L_CStreak0 = new System.Windows.Forms.Label();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.CHK_UnlockMega = new System.Windows.Forms.CheckBox();
+            this.L_BallThrowType = new System.Windows.Forms.Label();
+            this.CB_BallThrowType = new System.Windows.Forms.ComboBox();
+            this.CB_BallThrowTypeListMode = new System.Windows.Forms.ComboBox();
+            this.LB_BallThrowTypeUnlocked = new System.Windows.Forms.ListBox();
+            this.LB_BallThrowTypeLearned = new System.Windows.Forms.ListBox();
+            this.L_Stamps = new System.Windows.Forms.Label();
+            this.LB_Stamps = new System.Windows.Forms.ListBox();
+            this.L_DaysFromRefreshed = new System.Windows.Forms.Label();
+            this.NUD_DaysFromRefreshed = new System.Windows.Forms.NumericUpDown();
+            this.L_PlazaName = new System.Windows.Forms.Label();
+            this.TB_PlazaName = new System.Windows.Forms.TextBox();
             this.CB_Fashion = new System.Windows.Forms.ComboBox();
             this.L_SkinColor = new System.Windows.Forms.Label();
             this.CB_SkinColor = new System.Windows.Forms.ComboBox();
@@ -178,20 +192,7 @@ namespace PKHeX.WinForms
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
-            this.TB_PlazaName = new System.Windows.Forms.TextBox();
-            this.L_PlazaName = new System.Windows.Forms.Label();
-            this.L_Vivillon = new System.Windows.Forms.Label();
-            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
-            this.L_DaysFromRefreshed = new System.Windows.Forms.Label();
-            this.NUD_DaysFromRefreshed = new System.Windows.Forms.NumericUpDown();
-            this.L_BallThrowType = new System.Windows.Forms.Label();
-            this.CB_BallThrowType = new System.Windows.Forms.ComboBox();
-            this.CB_BallThrowTypeListMode = new System.Windows.Forms.ComboBox();
-            this.LB_BallThrowTypeUnlocked = new System.Windows.Forms.ListBox();
-            this.LB_BallThrowTypeLearned = new System.Windows.Forms.ListBox();
-            this.L_Stamps = new System.Windows.Forms.Label();
-            this.LB_Stamps = new System.Windows.Forms.ListBox();
-            this.CHK_UnlockMega = new System.Windows.Forms.CheckBox();
+            this.CHK_UnlockZMove = new System.Windows.Forms.CheckBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -562,7 +563,9 @@ namespace PKHeX.WinForms
             this.CB_Game.FormattingEnabled = true;
             this.CB_Game.Items.AddRange(new object[] {
             "Sun",
-            "Moon"});
+            "Moon",
+            "US",
+            "UM"});
             this.CB_Game.Location = new System.Drawing.Point(141, 51);
             this.CB_Game.Name = "CB_Game";
             this.CB_Game.Size = new System.Drawing.Size(51, 21);
@@ -868,6 +871,24 @@ namespace PKHeX.WinForms
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // CB_Vivillon
+            // 
+            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Vivillon.FormattingEnabled = true;
+            this.CB_Vivillon.Location = new System.Drawing.Point(85, 98);
+            this.CB_Vivillon.Name = "CB_Vivillon";
+            this.CB_Vivillon.Size = new System.Drawing.Size(93, 21);
+            this.CB_Vivillon.TabIndex = 65;
+            // 
+            // L_Vivillon
+            // 
+            this.L_Vivillon.Location = new System.Drawing.Point(-1, 101);
+            this.L_Vivillon.Name = "L_Vivillon";
+            this.L_Vivillon.Size = new System.Drawing.Size(80, 12);
+            this.L_Vivillon.TabIndex = 64;
+            this.L_Vivillon.Text = "Vivillon:";
+            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_GenTID
             // 
@@ -1346,7 +1367,7 @@ namespace PKHeX.WinForms
             this.CHK_UnlockSuperMulti.AutoSize = true;
             this.CHK_UnlockSuperMulti.Location = new System.Drawing.Point(144, 18);
             this.CHK_UnlockSuperMulti.Name = "CHK_UnlockSuperMulti";
-            this.CHK_UnlockSuperMulti.Size = new System.Drawing.Size(49, 16);
+            this.CHK_UnlockSuperMulti.Size = new System.Drawing.Size(48, 17);
             this.CHK_UnlockSuperMulti.TabIndex = 2;
             this.CHK_UnlockSuperMulti.Text = "Multi";
             this.CHK_UnlockSuperMulti.UseVisualStyleBackColor = true;
@@ -1356,7 +1377,7 @@ namespace PKHeX.WinForms
             this.CHK_UnlockSuperDoubles.AutoSize = true;
             this.CHK_UnlockSuperDoubles.Location = new System.Drawing.Point(73, 18);
             this.CHK_UnlockSuperDoubles.Name = "CHK_UnlockSuperDoubles";
-            this.CHK_UnlockSuperDoubles.Size = new System.Drawing.Size(65, 16);
+            this.CHK_UnlockSuperDoubles.Size = new System.Drawing.Size(65, 17);
             this.CHK_UnlockSuperDoubles.TabIndex = 1;
             this.CHK_UnlockSuperDoubles.Text = "Doubles";
             this.CHK_UnlockSuperDoubles.UseVisualStyleBackColor = true;
@@ -1366,7 +1387,7 @@ namespace PKHeX.WinForms
             this.CHK_UnlockSuperSingles.AutoSize = true;
             this.CHK_UnlockSuperSingles.Location = new System.Drawing.Point(6, 18);
             this.CHK_UnlockSuperSingles.Name = "CHK_UnlockSuperSingles";
-            this.CHK_UnlockSuperSingles.Size = new System.Drawing.Size(61, 16);
+            this.CHK_UnlockSuperSingles.Size = new System.Drawing.Size(60, 17);
             this.CHK_UnlockSuperSingles.TabIndex = 0;
             this.CHK_UnlockSuperSingles.Text = "Singles";
             this.CHK_UnlockSuperSingles.UseVisualStyleBackColor = true;
@@ -1649,6 +1670,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_Misc
             // 
+            this.Tab_Misc.Controls.Add(this.CHK_UnlockZMove);
             this.Tab_Misc.Controls.Add(this.CHK_UnlockMega);
             this.Tab_Misc.Controls.Add(this.L_BallThrowType);
             this.Tab_Misc.Controls.Add(this.CB_BallThrowType);
@@ -1673,6 +1695,132 @@ namespace PKHeX.WinForms
             this.Tab_Misc.TabIndex = 4;
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
+            // 
+            // CHK_UnlockMega
+            // 
+            this.CHK_UnlockMega.AutoSize = true;
+            this.CHK_UnlockMega.Location = new System.Drawing.Point(6, 256);
+            this.CHK_UnlockMega.Name = "CHK_UnlockMega";
+            this.CHK_UnlockMega.Size = new System.Drawing.Size(90, 17);
+            this.CHK_UnlockMega.TabIndex = 72;
+            this.CHK_UnlockMega.Text = "Unlock Mega";
+            this.CHK_UnlockMega.UseVisualStyleBackColor = true;
+            // 
+            // L_BallThrowType
+            // 
+            this.L_BallThrowType.Location = new System.Drawing.Point(144, 50);
+            this.L_BallThrowType.Name = "L_BallThrowType";
+            this.L_BallThrowType.Size = new System.Drawing.Size(117, 20);
+            this.L_BallThrowType.TabIndex = 65;
+            this.L_BallThrowType.Text = "Ball Throw Type:";
+            this.L_BallThrowType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_BallThrowType
+            // 
+            this.CB_BallThrowType.FormattingEnabled = true;
+            this.CB_BallThrowType.Location = new System.Drawing.Point(267, 51);
+            this.CB_BallThrowType.Name = "CB_BallThrowType";
+            this.CB_BallThrowType.Size = new System.Drawing.Size(109, 21);
+            this.CB_BallThrowType.TabIndex = 66;
+            // 
+            // CB_BallThrowTypeListMode
+            // 
+            this.CB_BallThrowTypeListMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_BallThrowTypeListMode.FormattingEnabled = true;
+            this.CB_BallThrowTypeListMode.Items.AddRange(new object[] {
+            "unlocked list",
+            "learned list"});
+            this.CB_BallThrowTypeListMode.Location = new System.Drawing.Point(154, 76);
+            this.CB_BallThrowTypeListMode.Name = "CB_BallThrowTypeListMode";
+            this.CB_BallThrowTypeListMode.Size = new System.Drawing.Size(107, 21);
+            this.CB_BallThrowTypeListMode.TabIndex = 67;
+            this.CB_BallThrowTypeListMode.SelectedIndexChanged += new System.EventHandler(this.UpdateBattleStyle);
+            // 
+            // LB_BallThrowTypeUnlocked
+            // 
+            this.LB_BallThrowTypeUnlocked.FormattingEnabled = true;
+            this.LB_BallThrowTypeUnlocked.Location = new System.Drawing.Point(267, 74);
+            this.LB_BallThrowTypeUnlocked.Name = "LB_BallThrowTypeUnlocked";
+            this.LB_BallThrowTypeUnlocked.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.LB_BallThrowTypeUnlocked.Size = new System.Drawing.Size(109, 43);
+            this.LB_BallThrowTypeUnlocked.TabIndex = 68;
+            this.LB_BallThrowTypeUnlocked.SelectedIndexChanged += new System.EventHandler(this.UpdateBallThrowTypeUnlocked);
+            // 
+            // LB_BallThrowTypeLearned
+            // 
+            this.LB_BallThrowTypeLearned.FormattingEnabled = true;
+            this.LB_BallThrowTypeLearned.Location = new System.Drawing.Point(267, 74);
+            this.LB_BallThrowTypeLearned.Name = "LB_BallThrowTypeLearned";
+            this.LB_BallThrowTypeLearned.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.LB_BallThrowTypeLearned.Size = new System.Drawing.Size(109, 43);
+            this.LB_BallThrowTypeLearned.TabIndex = 69;
+            this.LB_BallThrowTypeLearned.Visible = false;
+            this.LB_BallThrowTypeLearned.SelectedIndexChanged += new System.EventHandler(this.UpdateBallThrowTypeLearned);
+            // 
+            // L_Stamps
+            // 
+            this.L_Stamps.AutoSize = true;
+            this.L_Stamps.Location = new System.Drawing.Point(214, 174);
+            this.L_Stamps.Name = "L_Stamps";
+            this.L_Stamps.Size = new System.Drawing.Size(45, 13);
+            this.L_Stamps.TabIndex = 70;
+            this.L_Stamps.Text = "Stamps:";
+            this.L_Stamps.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // LB_Stamps
+            // 
+            this.LB_Stamps.FormattingEnabled = true;
+            this.LB_Stamps.Location = new System.Drawing.Point(217, 194);
+            this.LB_Stamps.Name = "LB_Stamps";
+            this.LB_Stamps.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.LB_Stamps.Size = new System.Drawing.Size(159, 43);
+            this.LB_Stamps.TabIndex = 71;
+            // 
+            // L_DaysFromRefreshed
+            // 
+            this.L_DaysFromRefreshed.Location = new System.Drawing.Point(144, 28);
+            this.L_DaysFromRefreshed.Name = "L_DaysFromRefreshed";
+            this.L_DaysFromRefreshed.Size = new System.Drawing.Size(117, 18);
+            this.L_DaysFromRefreshed.TabIndex = 63;
+            this.L_DaysFromRefreshed.Text = "Days from Refreshed:";
+            this.L_DaysFromRefreshed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_DaysFromRefreshed
+            // 
+            this.NUD_DaysFromRefreshed.Location = new System.Drawing.Point(267, 30);
+            this.NUD_DaysFromRefreshed.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_DaysFromRefreshed.Name = "NUD_DaysFromRefreshed";
+            this.NUD_DaysFromRefreshed.Size = new System.Drawing.Size(42, 20);
+            this.NUD_DaysFromRefreshed.TabIndex = 64;
+            this.NUD_DaysFromRefreshed.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // L_PlazaName
+            // 
+            this.L_PlazaName.AutoSize = true;
+            this.L_PlazaName.Location = new System.Drawing.Point(214, 130);
+            this.L_PlazaName.Name = "L_PlazaName";
+            this.L_PlazaName.Size = new System.Drawing.Size(106, 13);
+            this.L_PlazaName.TabIndex = 62;
+            this.L_PlazaName.Text = "Festival Plaza Name:";
+            this.L_PlazaName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // TB_PlazaName
+            // 
+            this.TB_PlazaName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_PlazaName.Location = new System.Drawing.Point(217, 150);
+            this.TB_PlazaName.MaxLength = 20;
+            this.TB_PlazaName.Name = "TB_PlazaName";
+            this.TB_PlazaName.Size = new System.Drawing.Size(159, 20);
+            this.TB_PlazaName.TabIndex = 61;
+            this.TB_PlazaName.Text = "WWWWWWWWWWWWWWWWWWWW";
             // 
             // CB_Fashion
             // 
@@ -1844,152 +1992,15 @@ namespace PKHeX.WinForms
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
-            // TB_PlazaName
+            // CHK_UnlockZMove
             // 
-            this.TB_PlazaName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_PlazaName.Location = new System.Drawing.Point(217, 150);
-            this.TB_PlazaName.MaxLength = 20;
-            this.TB_PlazaName.Name = "TB_PlazaName";
-            this.TB_PlazaName.Size = new System.Drawing.Size(159, 20);
-            this.TB_PlazaName.TabIndex = 61;
-            this.TB_PlazaName.Text = "WWWWWWWWWWWWWWWWWWWW";
-            // 
-            // L_PlazaName
-            // 
-            this.L_PlazaName.AutoSize = true;
-            this.L_PlazaName.Location = new System.Drawing.Point(214, 130);
-            this.L_PlazaName.Name = "L_PlazaName";
-            this.L_PlazaName.Size = new System.Drawing.Size(106, 13);
-            this.L_PlazaName.TabIndex = 62;
-            this.L_PlazaName.Text = "Festival Plaza Name:";
-            this.L_PlazaName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // L_Vivillon
-            // 
-            this.L_Vivillon.Location = new System.Drawing.Point(-1, 101);
-            this.L_Vivillon.Name = "L_Vivillon";
-            this.L_Vivillon.Size = new System.Drawing.Size(80, 12);
-            this.L_Vivillon.TabIndex = 64;
-            this.L_Vivillon.Text = "Vivillon:";
-            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Vivillon
-            // 
-            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Vivillon.FormattingEnabled = true;
-            this.CB_Vivillon.Location = new System.Drawing.Point(85, 98);
-            this.CB_Vivillon.Name = "CB_Vivillon";
-            this.CB_Vivillon.Size = new System.Drawing.Size(93, 20);
-            this.CB_Vivillon.TabIndex = 65;
-            // 
-            // L_DaysFromRefreshed
-            // 
-            this.L_DaysFromRefreshed.Location = new System.Drawing.Point(144, 28);
-            this.L_DaysFromRefreshed.Name = "L_DaysFromRefreshed";
-            this.L_DaysFromRefreshed.Size = new System.Drawing.Size(117, 18);
-            this.L_DaysFromRefreshed.TabIndex = 63;
-            this.L_DaysFromRefreshed.Text = "Days from Refreshed:";
-            this.L_DaysFromRefreshed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_DaysFromRefreshed
-            // 
-            this.NUD_DaysFromRefreshed.Location = new System.Drawing.Point(267, 30);
-            this.NUD_DaysFromRefreshed.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_DaysFromRefreshed.Name = "NUD_DaysFromRefreshed";
-            this.NUD_DaysFromRefreshed.Size = new System.Drawing.Size(42, 19);
-            this.NUD_DaysFromRefreshed.TabIndex = 64;
-            this.NUD_DaysFromRefreshed.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // L_BallThrowType
-            // 
-            this.L_BallThrowType.Location = new System.Drawing.Point(144, 50);
-            this.L_BallThrowType.Name = "L_BallThrowType";
-            this.L_BallThrowType.Size = new System.Drawing.Size(117, 20);
-            this.L_BallThrowType.TabIndex = 65;
-            this.L_BallThrowType.Text = "Ball Throw Type:";
-            this.L_BallThrowType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_BallThrowType
-            // 
-            this.CB_BallThrowType.FormattingEnabled = true;
-            this.CB_BallThrowType.Location = new System.Drawing.Point(267, 51);
-            this.CB_BallThrowType.Name = "CB_BallThrowType";
-            this.CB_BallThrowType.Size = new System.Drawing.Size(109, 21);
-            this.CB_BallThrowType.TabIndex = 66;
-            // 
-            // CB_BallThrowTypeListMode
-            // 
-            this.CB_BallThrowTypeListMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_BallThrowTypeListMode.FormattingEnabled = true;
-            this.CB_BallThrowTypeListMode.Items.AddRange(new object[] {
-            "unlocked list",
-            "learned list"});
-            this.CB_BallThrowTypeListMode.Location = new System.Drawing.Point(154, 76);
-            this.CB_BallThrowTypeListMode.Name = "CB_BallThrowTypeListMode";
-            this.CB_BallThrowTypeListMode.Size = new System.Drawing.Size(107, 21);
-            this.CB_BallThrowTypeListMode.TabIndex = 67;
-            this.CB_BallThrowTypeListMode.SelectedIndexChanged += new System.EventHandler(this.UpdateBattleStyle);
-            // 
-            // LB_BallThrowTypeUnlocked
-            // 
-            this.LB_BallThrowTypeUnlocked.FormattingEnabled = true;
-            this.LB_BallThrowTypeUnlocked.ItemHeight = 12;
-            this.LB_BallThrowTypeUnlocked.Location = new System.Drawing.Point(267, 74);
-            this.LB_BallThrowTypeUnlocked.Name = "LB_BallThrowTypeUnlocked";
-            this.LB_BallThrowTypeUnlocked.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.LB_BallThrowTypeUnlocked.Size = new System.Drawing.Size(109, 52);
-            this.LB_BallThrowTypeUnlocked.TabIndex = 68;
-            this.LB_BallThrowTypeUnlocked.SelectedIndexChanged += new System.EventHandler(this.UpdateBallThrowTypeUnlocked);
-            // 
-            // LB_BallThrowTypeLearned
-            // 
-            this.LB_BallThrowTypeLearned.FormattingEnabled = true;
-            this.LB_BallThrowTypeLearned.ItemHeight = 12;
-            this.LB_BallThrowTypeLearned.Location = new System.Drawing.Point(267, 74);
-            this.LB_BallThrowTypeLearned.Name = "LB_BallThrowTypeLearned";
-            this.LB_BallThrowTypeLearned.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.LB_BallThrowTypeLearned.Size = new System.Drawing.Size(109, 52);
-            this.LB_BallThrowTypeLearned.TabIndex = 69;
-            this.LB_BallThrowTypeLearned.Visible = false;
-            this.LB_BallThrowTypeLearned.SelectedIndexChanged += new System.EventHandler(this.UpdateBallThrowTypeLearned);
-            // 
-            // L_Stamps
-            // 
-            this.L_Stamps.AutoSize = true;
-            this.L_Stamps.Location = new System.Drawing.Point(214, 174);
-            this.L_Stamps.Name = "L_Stamps";
-            this.L_Stamps.Size = new System.Drawing.Size(45, 13);
-            this.L_Stamps.TabIndex = 70;
-            this.L_Stamps.Text = "Stamps:";
-            this.L_Stamps.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LB_Stamps
-            // 
-            this.LB_Stamps.FormattingEnabled = true;
-            this.LB_Stamps.ItemHeight = 12;
-            this.LB_Stamps.Location = new System.Drawing.Point(217, 194);
-            this.LB_Stamps.Name = "LB_Stamps";
-            this.LB_Stamps.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.LB_Stamps.Size = new System.Drawing.Size(159, 52);
-            this.LB_Stamps.TabIndex = 71;
-            // 
-            // CHK_UnlockMega
-            // 
-            this.CHK_UnlockMega.AutoSize = true;
-            this.CHK_UnlockMega.Location = new System.Drawing.Point(6, 256);
-            this.CHK_UnlockMega.Name = "CHK_UnlockMega";
-            this.CHK_UnlockMega.Size = new System.Drawing.Size(90, 17);
-            this.CHK_UnlockMega.TabIndex = 72;
-            this.CHK_UnlockMega.Text = "Unlock Mega";
-            this.CHK_UnlockMega.UseVisualStyleBackColor = true;
+            this.CHK_UnlockZMove.AutoSize = true;
+            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 273);
+            this.CHK_UnlockZMove.Name = "CHK_UnlockZMove";
+            this.CHK_UnlockZMove.Size = new System.Drawing.Size(105, 17);
+            this.CHK_UnlockZMove.TabIndex = 73;
+            this.CHK_UnlockZMove.Text = "Unlock Z Moves";
+            this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
             // 
             // SAV_Trainer7
             // 
@@ -2215,5 +2226,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_UnlockSuperDoubles;
         private System.Windows.Forms.CheckBox CHK_UnlockSuperSingles;
         private System.Windows.Forms.CheckBox CHK_UnlockMega;
+        private System.Windows.Forms.CheckBox CHK_UnlockZMove;
     }
 }

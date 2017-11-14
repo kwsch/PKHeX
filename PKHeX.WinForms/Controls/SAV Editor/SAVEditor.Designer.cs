@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAVEditor));
             this.tabBoxMulti = new System.Windows.Forms.TabControl();
             this.Tab_Box = new System.Windows.Forms.TabPage();
+            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.Tab_PartyBattle = new System.Windows.Forms.TabPage();
             this.PAN_BattleBox = new System.Windows.Forms.Panel();
             this.PB_Locked = new System.Windows.Forms.PictureBox();
@@ -103,14 +104,13 @@
             this.B_OUTPasserby = new System.Windows.Forms.Button();
             this.B_CGearSkin = new System.Windows.Forms.Button();
             this.B_OpenPokeBeans = new System.Windows.Forms.Button();
-            this.B_OpenZygardeCells = new System.Windows.Forms.Button();
+            this.B_CellsStickers = new System.Windows.Forms.Button();
             this.B_OpenMiscEditor = new System.Windows.Forms.Button();
             this.B_OpenHoneyTreeEditor = new System.Windows.Forms.Button();
             this.B_OpenFriendSafari = new System.Windows.Forms.Button();
             this.B_OpenRTCEditor = new System.Windows.Forms.Button();
             this.B_OpenUGSEditor = new System.Windows.Forms.Button();
             this.B_Roamer = new System.Windows.Forms.Button();
-            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -174,6 +174,17 @@
             this.Tab_Box.TabIndex = 0;
             this.Tab_Box.Text = "Box";
             this.Tab_Box.UseVisualStyleBackColor = true;
+            // 
+            // Box
+            // 
+            this.Box.AllowDrop = true;
+            this.Box.CurrentBox = -1;
+            this.Box.FlagIllegal = false;
+            this.Box.Location = new System.Drawing.Point(26, 7);
+            this.Box.M = null;
+            this.Box.Name = "Box";
+            this.Box.Size = new System.Drawing.Size(251, 185);
+            this.Box.TabIndex = 1;
             // 
             // Tab_PartyBattle
             // 
@@ -766,7 +777,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OUTPasserby);
             this.FLP_SAVtools.Controls.Add(this.B_CGearSkin);
             this.FLP_SAVtools.Controls.Add(this.B_OpenPokeBeans);
-            this.FLP_SAVtools.Controls.Add(this.B_OpenZygardeCells);
+            this.FLP_SAVtools.Controls.Add(this.B_CellsStickers);
             this.FLP_SAVtools.Controls.Add(this.B_OpenMiscEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenHoneyTreeEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenFriendSafari);
@@ -951,15 +962,15 @@
             this.B_OpenPokeBeans.UseVisualStyleBackColor = true;
             this.B_OpenPokeBeans.Click += new System.EventHandler(this.B_OpenPokeBeans_Click);
             // 
-            // B_OpenZygardeCells
+            // B_CellsStickers
             // 
-            this.B_OpenZygardeCells.Location = new System.Drawing.Point(189, 148);
-            this.B_OpenZygardeCells.Name = "B_OpenZygardeCells";
-            this.B_OpenZygardeCells.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenZygardeCells.TabIndex = 26;
-            this.B_OpenZygardeCells.Text = "Zygarde Cells";
-            this.B_OpenZygardeCells.UseVisualStyleBackColor = true;
-            this.B_OpenZygardeCells.Click += new System.EventHandler(this.B_OpenZygardeCells_Click);
+            this.B_CellsStickers.Location = new System.Drawing.Point(189, 148);
+            this.B_CellsStickers.Name = "B_CellsStickers";
+            this.B_CellsStickers.Size = new System.Drawing.Size(87, 23);
+            this.B_CellsStickers.TabIndex = 26;
+            this.B_CellsStickers.Text = "Cells/Stickers";
+            this.B_CellsStickers.UseVisualStyleBackColor = true;
+            this.B_CellsStickers.Click += new System.EventHandler(this.B_CellsStickers_Click);
             // 
             // B_OpenMiscEditor
             // 
@@ -1020,17 +1031,6 @@
             this.B_Roamer.Text = "Roamer";
             this.B_Roamer.UseVisualStyleBackColor = true;
             this.B_Roamer.Click += new System.EventHandler(this.B_Roamer_Click);
-            // 
-            // Box
-            // 
-            this.Box.AllowDrop = true;
-            this.Box.CurrentBox = -1;
-            this.Box.FlagIllegal = false;
-            this.Box.Location = new System.Drawing.Point(26, 7);
-            this.Box.M = null;
-            this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(251, 185);
-            this.Box.TabIndex = 1;
             // 
             // SAVEditor
             // 
@@ -1160,7 +1160,7 @@
         private System.Windows.Forms.Button B_OUTPasserby;
         private System.Windows.Forms.Button B_CGearSkin;
         private System.Windows.Forms.Button B_OpenPokeBeans;
-        private System.Windows.Forms.Button B_OpenZygardeCells;
+        private System.Windows.Forms.Button B_CellsStickers;
         private System.Windows.Forms.Button B_OpenMiscEditor;
         private System.Windows.Forms.Button B_OpenHoneyTreeEditor;
         private System.Windows.Forms.Button B_OpenFriendSafari;

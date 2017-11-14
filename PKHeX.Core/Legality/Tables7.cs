@@ -12,9 +12,10 @@ namespace PKHeX.Core
         internal const int MaxBallID_7 = 0x1A; // 26
         internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
-        internal const int MaxSpeciesID_7_USUM = 802;
-        internal const int MaxMoveID_7_USUM = 720;
-        internal const int MaxItemID_7_USUM = 920;
+        internal const int MaxSpeciesID_7_USUM = 807;
+        internal const int MaxMoveID_7_USUM = 728;
+        internal const int MaxItemID_7_USUM = 959;
+        internal const int MaxAbilityID_7_USUM = 233;
 
         #region Met Locations
 
@@ -26,7 +27,10 @@ namespace PKHeX.Core
             006, 008, 010, 012, 014, 016, 018, 020, 022, 024, 026, 028, 030, 032, 034, 036, 038, 040, 042, 044, 046, 048,
             050, 052, 054, 056, 058, 060, 062, 064, 066, 068, 070, 072, 074, 076, 078, 082, 084, 086, 088, 090, 092, 094,
             100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
-            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192
+            150, 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192,
+
+            194, 196, 198,
+            200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
         internal static readonly int[] Met_SM_3 =
@@ -50,12 +54,14 @@ namespace PKHeX.Core
 
         #endregion
 
-        internal static readonly int[][] Tutors_USUM =
+        internal static readonly int[] Tutors_USUM =
         {
-            new int[0], // todo
-            new int[0], // todo
-            new int[0], // todo
-            new int[0], // todo
+            450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
+            277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
+            020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
+            380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
+
+            477, 502, 432, 710, 707, 675, 673
         };
         internal static readonly ushort[] Pouch_Regular_SM = // 00
         {
@@ -90,8 +96,12 @@ namespace PKHeX.Core
             705, 706, 765, 773, 797,
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
-        internal static readonly ushort[] Pouch_Key_USUM = {
-            // todo
+        internal static readonly ushort[] Pouch_Key_USUM = Pouch_Key_SM.Concat(new ushort[] {
+            933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
+            440,
+        }).ToArray();
+        public static readonly ushort[] Pouch_Roto_USUM = {
+            949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
         };
         internal static readonly ushort[] Pouch_TMHM_SM = { // 02
             328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345,
@@ -117,16 +127,16 @@ namespace PKHeX.Core
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
         internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
-            // todo
+            927, 928, 929, 930, 931, 932
         }).ToArray();
         internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
-            // todo
+            921, 922, 923, 924, 925, 926
         }).ToArray();
         public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new { Key = (int)k, Value = (int)v })
             .ToDictionary(x => x.Key, x => x.Value);
         internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        internal static readonly ushort[] HeldItems_USUM = HeldItems_SM; // todo
+        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).ToArray();
 
         private static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -171,7 +181,37 @@ namespace PKHeX.Core
             422, 423, 425, 426, 429, 430, 438, 440, 443, 444, 445, 446, 447, 448, 456, 457, 461, 462, 466, 467, 470, 471,
             474, 476, 478, 506, 507, 508, 524, 525, 526, 546, 547, 548, 549, 551, 552, 553, 564, 565, 566, 567, 568, 569,
             582, 583, 584, 587, 594, 627, 628, 629, 630, 661, 662, 663, 674, 675, 700, 703, 704, 705, 706, 707, 708, 709,
-            718
+            718,
+
+            // Regular
+            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
+            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
+            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
+            714,
+
+            // Wormhole
+            333, 334, // Altaria
+            193, 469, // Yanmega
+            561, // Sigilyph
+            580, 581, // Swanna
+            276, 277, // Swellow
+            451, 452, // Drapion
+            531, // Audino
+            695, // Heliolisk
+            273, 274, 275, // Nuzleaf
+            325, 326, // Gumpig
+            459, 460, // Abomasnow
+            307, 308, // Medicham
+            449, 450, // Hippowdon
+            557, 558, // Crustle
+            218, 219, // Magcargo
+            688, 689, // Barbaracle
+            270, 271, 272, // Lombre
+            618, // Stunfisk
+            418, 419, // Floatzel
+            194, 195, // Quagsire
         };
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
@@ -212,6 +252,26 @@ namespace PKHeX.Core
             532, // [534] Conkeldurr (Timburr)
             540, // [542] Leavanny (Sewaddle)
             602, // [604] Eelektross (Tynamo)
+
+            004, // Charmander
+            007, // Squirtle
+            095, // Onix
+            663, 664, // Scatterbug
+            001, // Bulbasaur
+            280, // Ralts
+            255, 256, // Combusken
+            013, 014, 015, // Beedrill
+            252, 253, // Grovyle
+            258, 259, // Marshtomp
+            393, 394, // Prinplup
+            387, 388, // Grotle
+            016, 017, 018, // Pidgeot
+            389, 390, 391, // Monferno
+            304, 305, 306, // Aggron
+            479, // Rotom
+            650, 651, 652, // Chesnaught
+            656, 657, 658, // Greninja
+            653, 654, 655, // Delphox
         };
         internal static readonly HashSet<int> Inherit_Apricorn6 = new HashSet<int>
         {
@@ -257,7 +317,15 @@ namespace PKHeX.Core
             731, 734, 736, 739, 741, 742, 744, 746, 747, 749,
             751, 753, 755, 757, 759, 761, 764, 765, 766, 767,
             769, 771, 774, 775, 776, 777, 778, 779, 780, 781,
-            782
+            782,
+
+            // USUM Additions
+            023, 086, 108, 138, 140, 163, 177, 179, 190, 204,
+            206, 214, 223, 228, 238, 246, 303, 309, 341, 343,
+            345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
+            559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
+            667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
+            714
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
@@ -351,6 +419,39 @@ namespace PKHeX.Core
             687, // Core Enforcer
         };
 
+        internal static readonly HashSet<int> Totem_Alolan = new HashSet<int>
+        {
+            020, // Raticate (Normal, Alolan, Totem)
+            105, // Marowak (Normal, Alolan, Totem)
+            778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
+        };
+        internal static readonly HashSet<int> Totem_SM = new HashSet<int>
+        {
+            020, // Raticate
+            735, // Gumshoos
+            //746, // Wishiwashi
+            758, // Salazzle
+            754, // Lurantis
+            738, // Vikavolt
+            778, // Mimikyu
+            784, // Kommo-o
+        };
+        internal static readonly HashSet<int> Totem_USUM = new HashSet<int>
+        {
+            020, // Raticate
+            735, // Gumshoos
+            //746, // Wishiwashi
+            758, // Salazzle
+            754, // Lurantis
+            738, // Vikavolt
+            778, // Mimikyu
+            784, // Kommo-o
+            105, // Marowak
+            752, // Araquanid
+            777, // Togedemaru
+            743, // Ribombee
+        };
+
         internal static readonly int[] EggLocations7 = {60002, 30002};
         internal static readonly HashSet<int> ValidMet_SM = new HashSet<int>
         {
@@ -361,9 +462,10 @@ namespace PKHeX.Core
 
             30016 // Poké Pelago
         };
-        internal static readonly HashSet<int> ValidMet_USUM = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_USUM = new HashSet<int>(ValidMet_SM)
         {
-            // todo
+            194, 196, 198,
+            200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232,
         };
 
         private static readonly int[] TMHM_SM =
@@ -399,7 +501,7 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05, 10, 10, 10, 10, 20, 25, 10, 20, 30, 25, 20, 20, 15, 20, 15, 20, 20, 10, 10, 10, 10, 10, 20, 10, 30, 15, 10, 10, 10, 20, 20, 05, 05, 05, 20, 10, 10, 20, 15, 20, 20,
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
-            01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01
+            01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01,
         };
 
         internal static readonly HashSet<int> Ban_NoHidden7 = new HashSet<int>

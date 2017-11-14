@@ -30,8 +30,8 @@ Omega Rubin
 
 Sonne
 Mond
-
-
+Ultrasonne
+Ultramond
 GO
 Rote
 Blaue [INT]/Grüne [JP]

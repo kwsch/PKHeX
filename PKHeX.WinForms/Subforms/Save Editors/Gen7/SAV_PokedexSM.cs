@@ -41,7 +41,7 @@ namespace PKHeX.WinForms
                 int c = SAV.Personal[i].FormeCount;
                 for (int j = 0; j < c; j++)
                 {
-                    int x = SaveUtil.GetDexFormIndexSM(i, c, j);
+                    int x = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(i, c, j) : SaveUtil.GetDexFormIndexSM(i, c, j);
                     if (x == -1 || j == 0)
                         continue;
                     baseSpecies.Add(i);
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
                 int fc = SAV.Personal[bspecies].FormeCount;
                 if (fc > 1) // actually has forms
                 {
-                    int f = SaveUtil.GetDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                    int f = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(bspecies, fc, SAV.MaxSpeciesID - 1) : SaveUtil.GetDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
                     if (f >= 0) // bit index valid
                         species = f + form + 1;
                     else
@@ -156,7 +156,7 @@ namespace PKHeX.WinForms
                 if (fc <= 1)
                     return true;
 
-                int f = SaveUtil.GetDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
+                int f = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(bspecies, fc, SAV.MaxSpeciesID - 1) : SaveUtil.GetDexFormIndexSM(bspecies, fc, SAV.MaxSpeciesID - 1);
                 if (f < 0)
                     return true; // bit index valid
 

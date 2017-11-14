@@ -572,69 +572,90 @@ namespace PKHeX.Core
             if (lvl < 0)
                 lvl = GetMinLevelEncounter(pkm);
             if (lvl <= 0)
-                yield break;
-
-            int gen = pkm.GenNumber;
-            int fluteBoost = gen < 3 ? 0 : 4;
-            const int dexnavBoost = 30;
-
-            int df = DexNav ? fluteBoost : 0;
-            int dn = DexNav ? fluteBoost + dexnavBoost : 0;
+                return Enumerable.Empty<EncounterSlot>();
 
             var maxspeciesorigin = -1;
             if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
             else if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
 
             // Get Valid levels
-            IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
+            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
             if (!FilterGBSlotsCatchRate(pkm, ref vs, out GameVersion Gen1Version, out bool RBDragonair))
-                yield break;
+                return Enumerable.Empty<EncounterSlot>();
+
+            int gen = pkm.GenNumber;
+            int fluteBoost = gen < 3 ? 0 : 4;
+            const int dexnavBoost = 30;
+            int df = DexNav ? fluteBoost : 0;
+            int dn = DexNav ? fluteBoost + dexnavBoost : 0;
 
             // Get slots where pokemon can exist with respect to the evolution chain
-            IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreLevel || evo.Level >= slot.LevelMin - df)));
+            var slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreLevel || evo.Level >= slot.LevelMin - df)));
+            // Get slots where pokemon can exist with respect to level constraints
+            var encounterSlots = GetSlotsFilterByLevel(pkm, lvl, ignoreLevel, slots, df, dn);
 
-            List<EncounterSlot> encounterSlots;
-            if (ignoreLevel)
-                encounterSlots = slots.ToList();
-            else if (pkm.HasOriginalMetLocation)
-                encounterSlots = slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.Permissions.AllowDexNav ? dn : df)).ToList();
-            else // check for any less than current level
-                encounterSlots = slots.Where(slot => slot.LevelMin <= lvl).ToList();
-
+            // Return enumerable of slots pkm might have originated from
             if (gen <= 2)
-            {
-                var gbslots = FilterGBSlots(pkm, gen, Gen1Version, encounterSlots, RBDragonair);
-                foreach (var s in gbslots.OrderBy(slot => slot.LevelMin))
-                    yield return s;
-                yield break;
-            }
+                return GetFilteredSlots12(pkm, gen, Gen1Version, encounterSlots, RBDragonair).OrderBy(slot => slot.LevelMin); // prefer lowest levels
+            if (gen <= 5)
+                return GetFilteredSlotsByForm(pkm, encounterSlots);
+            if (DexNav && gen == 6)
+                return GetFilteredSlots6DexNav(pkm, lvl, encounterSlots, fluteBoost);
+            return GetFilteredSlots67(pkm, encounterSlots);
+        }
+        private static List<EncounterSlot> GetSlotsFilterByLevel(PKM pkm, int lvl, bool ignoreLevel, IEnumerable<EncounterSlot> slots, int df, int dn)
+        {
+            if (ignoreLevel)
+                return slots.ToList();
+            if (pkm.HasOriginalMetLocation)
+                return slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.Permissions.AllowDexNav ? dn : df)).ToList();
+            // check for any less than current level
+            return slots.Where(slot => slot.LevelMin <= lvl).ToList();
+        }
+        private static IEnumerable<EncounterSlot> GetFilteredSlotsByForm(PKM pkm, IEnumerable<EncounterSlot> encounterSlots)
+        {
+            return WildForms.Contains(pkm.Species)
+                ? encounterSlots.Where(slot => slot.Form == pkm.AltForm)
+                : encounterSlots;
+        }
+        private static IEnumerable<EncounterSlot> GetFilteredSlots67(PKM pkm, IReadOnlyCollection<EncounterSlot> encounterSlots)
+        {
+            IEnumerable<EncounterSlot> slotdata;
+            int species = pkm.Species;
+            int form = pkm.AltForm;
 
+            if (AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
+                slotdata = encounterSlots.Where(slot => species == slot.Species ? slot.Form == form : slot.Form == 0);
+            else if (WildForms.Contains(species) || AlolanOriginForms.Contains(species)) // match slot form
+                slotdata = encounterSlots.Where(slot => slot.Form == form);
+            else
+                slotdata = encounterSlots; // no form checking
+
+            foreach (var z in slotdata)
+                yield return z;
+
+            // Filter for Form Specific
             // Pressure Slot
             EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
+            if (slotMax == null)
+                yield break; // yield break;
 
-            if (gen >= 6 && !DexNav)
+            if (AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
             {
-                var slotdata = WildForms.Contains(pkm.Species)
-                    ? encounterSlots.Where(slot => slot.Form == pkm.AltForm)
-                    : encounterSlots;
-
-                foreach (var z in slotdata)
-                    yield return z;
-
-                // Filter for Form Specific
-                if (slotMax != null)
-                    yield return getPressureSlot(slotMax);
-                yield break;
+                if (species == slotMax.Species ? slotMax.Form == form : slotMax.Form == 0)
+                    yield return GetPressureSlot(slotMax, pkm);
             }
-
-            IEnumerable<EncounterSlot> formMatchSlots = encounterSlots.Where(slot => !WildForms.Contains(pkm.Species) || slot.Form == pkm.AltForm);
-            if (gen <= 5)
+            else if (WildForms.Contains(species) || AlolanOriginForms.Contains(species)) // match slot form
             {
-                foreach (var z in formMatchSlots)
-                    yield return z;
-                yield break;
+                if (slotMax.Form == form)
+                    yield return GetPressureSlot(slotMax, pkm);
             }
-
+            else
+                yield return GetPressureSlot(slotMax, pkm);
+        }
+        private static IEnumerable<EncounterSlot> GetFilteredSlots6DexNav(PKM pkm, int lvl, IReadOnlyCollection<EncounterSlot> encounterSlots, int fluteBoost)
+        {
+            var formMatchSlots = GetFilteredSlotsByForm(pkm, encounterSlots);
             foreach (EncounterSlot s in formMatchSlots)
             {
                 bool nav = s.Permissions.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
@@ -649,17 +670,19 @@ namespace PKHeX.Core
                     slot.Permissions.DexNav = true;
                 yield return slot;
             }
+            // Pressure Slot
+            EncounterSlot slotMax = encounterSlots.OrderByDescending(slot => slot.LevelMax).FirstOrDefault();
             if (slotMax != null)
-                yield return getPressureSlot(slotMax);
-
-            EncounterSlot getPressureSlot(EncounterSlot s)
-            {
-                var max = s.Clone();
-                max.Permissions.Pressure = true;
-                max.Form = pkm.AltForm;
-                return max;
-            }
+                yield return GetPressureSlot(slotMax, pkm);
         }
+        private static EncounterSlot GetPressureSlot(EncounterSlot s, PKM pkm)
+        {
+            var max = s.Clone();
+            max.Permissions.Pressure = true;
+            max.Form = pkm.AltForm;
+            return max;
+        }
+
         private static bool FilterGBSlotsCatchRate(PKM pkm, ref IEnumerable<DexLevel> vs, out GameVersion Gen1Version, out bool RBDragonair)
         {
             RBDragonair = false;
@@ -710,7 +733,7 @@ namespace PKHeX.Core
                     return true;
             }
         }
-        private static IEnumerable<EncounterSlot> FilterGBSlots(PKM pkm, int gen, GameVersion Gen1Version, IEnumerable<EncounterSlot> slots, bool RBDragonair)
+        private static IEnumerable<EncounterSlot> GetFilteredSlots12(PKM pkm, int gen, GameVersion Gen1Version, IEnumerable<EncounterSlot> slots, bool RBDragonair)
         {
             switch (gen)
             {

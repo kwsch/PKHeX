@@ -496,17 +496,12 @@ namespace PKHeX.Core
 
             bool cht = lang == 10;
             // A string cannot contain a mix of CHS and CHT characters.
-            bool IsCHT = inputstr.Any(chr => Gen7_CHT.Contains(chr) && !Gen7_CHS.Contains(chr));
-            IsCHT |= cht && !inputstr.Any(chr => Gen7_CHT.Contains(chr) ^ Gen7_CHS.Contains(chr)); // CHS and CHT have the same display name
-            var table = IsCHT ? Gen7_CHT : Gen7_CHS;
-            ushort ofs = IsCHT ? Gen7_CHT_Ofs : Gen7_CHS_Ofs;
+            bool IsCHT = inputstr.Any(chr => G7_CHT.ContainsKey(chr) && !G7_CHS.ContainsKey(chr));
+            IsCHT |= cht && !inputstr.Any(chr => G7_CHT.ContainsKey(chr) ^ G7_CHS.ContainsKey(chr)); // CHS and CHT have the same display name
+            var table = IsCHT ? G7_CHT : G7_CHS;
 
             foreach (char chr in inputstr)
-            {
-                var index = Array.IndexOf(table, chr);
-                var val = index > -1 ? (char) (ofs + index) : chr;
-                str.Append(val);
-            }
+                str.Append(table.TryGetValue(chr, out int index) ? (char)(index + Gen7_ZH_Ofs) : chr);
             return str.ToString();
         }
 
@@ -524,16 +519,14 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Shifts a character from the CHS/CHT character tables
+        /// Shifts a character from the Chinese character tables
         /// </summary>
         /// <param name="val">Input value to shift</param>
         /// <returns>Shifted character</returns>
         private static ushort Getg7zhChar(ushort val)
         {
-            if (Gen7_CHS_Ofs <= val && val < Gen7_CHS_Ofs + Gen7_CHS.Length) // within CHS char table
-                return Gen7_CHS[val - Gen7_CHS_Ofs];
-            if (Gen7_CHT_Ofs <= val && val < Gen7_CHT_Ofs + Gen7_CHT.Length) // within CHT char table
-                return Gen7_CHT[val - Gen7_CHT_Ofs];
+            if (Gen7_ZH_Ofs <= val && val < Gen7_ZH_Ofs + Gen7_ZH.Length)
+                return Gen7_ZH[val - Gen7_ZH_Ofs];
             return val; // regular character
         }
 
@@ -1923,10 +1916,22 @@ namespace PKHeX.Core
             .ToDictionary(pair => pair.value, pair => pair.index);
 
         #region Gen 7 Chinese Character Tables
-        private static readonly char[] Gen7_CHS = Util.GetStringList("Char", "zh")[0].ToCharArray();
-        private const ushort Gen7_CHS_Ofs = 0xE800;
-        private static readonly char[] Gen7_CHT = Util.GetStringList("Char", "zh2")[0].ToCharArray();
-        private const ushort Gen7_CHT_Ofs = 0xEB0F;
+        private static readonly char[] Gen7_ZH = Util.GetStringList("Char", "zh")[0].ToCharArray();
+        private const ushort Gen7_ZH_Ofs = 0xE800;
+        private const ushort SM_ZHCharTable_Size = 0x30F;
+        private const ushort USUM_CHS_Size = 0x4;
+        private const ushort USUM_CHT_Size = 0x5;
+        private static bool getisG7CHSChar(int idx) => idx < SM_ZHCharTable_Size || SM_ZHCharTable_Size * 2 <= idx && idx < SM_ZHCharTable_Size * 2 + USUM_CHS_Size;
+
+        private static readonly Dictionary<char, int> G7_CHS = Gen7_ZH
+            .Select((value, index) => new { value, index })
+            .Where(pair => getisG7CHSChar(pair.index))
+            .ToDictionary(pair => pair.value, pair => pair.index);
+
+        private static readonly Dictionary<char, int> G7_CHT = Gen7_ZH
+            .Select((value, index) => new { value, index })
+            .Where(pair => !getisG7CHSChar(pair.index))
+            .ToDictionary(pair => pair.value, pair => pair.index);
         #endregion
 
         /// <summary>

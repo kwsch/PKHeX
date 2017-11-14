@@ -324,9 +324,9 @@ namespace PKHeX.Core
             {
                 case 1:
                 case 2: VerifyTrade12(); return;
-                case 3: VerifyTrade3(); return; // todo
+                case 3: VerifyTrade3(); return;
                 case 4: VerifyTrade4(); return;
-                case 5: VerifyTrade5(); return; // todo
+                case 5: VerifyTrade5(); return;
                 case 6: VerifyTrade6(); return;
                 case 7: VerifyTrade7(); return;
             }
@@ -1170,7 +1170,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.Ball == 0x14 && pkm.Gen7) // Heavy Ball
+            if (pkm.Ball == 0x14 && !Info.EncounterMatch.EggEncounter && pkm.SM) // Heavy Ball
             {
                 var lineage = Legal.GetLineage(pkm);
                 if (lineage.Any(e => Legal.AlolanCaptureNoHeavyBall.Contains(e)))
@@ -1977,13 +1977,6 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
-                case 718: // Zygarde
-                    if (pkm.AltForm >= 4)
-                    {
-                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
-                        return;
-                    }
-                    break;
                 case 773: // Silvally
                     {
                         int item = pkm.HeldItem;
@@ -1996,13 +1989,6 @@ namespace PKHeX.Core
                             AddLine(Severity.Valid, V309, CheckIdentifier.Form);
                         break;
                     }
-                case 774: // Minior
-                    if (pkm.AltForm < 7)
-                    {
-                        AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
-                        return;
-                    }
-                    break;
 
                 // Party Only Forms
                 case 492: // Shaymin
@@ -2014,6 +2000,17 @@ namespace PKHeX.Core
                         return;
                     }
                     break;
+
+                // Battle only Forms with other legal forms allowed
+                case 718 when pkm.AltForm >= 4: // Zygarde Complete
+                case 774 when pkm.AltForm < 7: // Minior Shield
+                case 800 when pkm.AltForm == 3: // Ultra Necrozma
+                    AddLine(Severity.Invalid, V310, CheckIdentifier.Form);
+                    return;
+                case 800 when pkm.AltForm < 3: // Necrozma Fused forms & default
+                case 778 when pkm.AltForm == 2: // Totem disguise Mimikyu
+                    AddLine(Severity.Valid, V315, CheckIdentifier.Form);
+                    return;
             }
 
             if (pkm.Format >= 7 && Info.Generation < 7 && pkm.AltForm != 0)

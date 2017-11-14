@@ -166,21 +166,18 @@ namespace PKHeX.Core
             }
             Lineage[711].Chain.RemoveRange(0, 3);
 
-            // Add past gen evolutions for other Marowak and Exeggutor
-            var raichu1 = Lineage[Personal.GetFormeIndex(26, 1)];
-            var evo1 = raichu1.Chain[0].StageEntryMethods[0].Copy();
-            Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo1 } });
-            var evo2 = raichu1.Chain[1].StageEntryMethods[0].Copy();
-            evo2.Form = -1; evo2.Banlist = EvolutionMethod.BanSM;
-            Lineage[26].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { evo2 } });
-
-            var exegg = Lineage[Personal.GetFormeIndex(103, 1)].Chain[0].StageEntryMethods[0].Copy();
-            exegg.Form = -1; exegg.Banlist = EvolutionMethod.BanSM; exegg.Method = 8; // No night required (doesn't matter)
-            Lineage[103].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { exegg } });
-
-            var marowak = Lineage[Personal.GetFormeIndex(105, 1)].Chain[0].StageEntryMethods[0].Copy();
-            marowak.Form = -1; marowak.Banlist = EvolutionMethod.BanSM;
-            Lineage[105].Chain.Add(new EvolutionStage { StageEntryMethods = new List<EvolutionMethod> { marowak } });
+            // Ban Raichu Evolution on SM
+            Lineage[Personal.GetFormeIndex(26, 0)]
+                .Chain[1].StageEntryMethods[0]
+                .Banlist = EvolutionMethod.BanSM;
+            // Ban Exeggutor Evolution on SM
+            Lineage[Personal.GetFormeIndex(103, 0)]
+                .Chain[0].StageEntryMethods[0]
+                .Banlist = EvolutionMethod.BanSM;
+            // Ban Marowak Evolution on SM
+            Lineage[Personal.GetFormeIndex(105, 0)]
+                .Chain[0].StageEntryMethods[0]
+                .Banlist = EvolutionMethod.BanSM;
         }
 
         private int GetIndex(PKM pkm)
@@ -549,7 +546,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> TradeMethods = new HashSet<int> {5, 6, 7};
         private static readonly IReadOnlyCollection<GameVersion> NoBanlist = new GameVersion[0];
-        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN, GameVersion.US, GameVersion.UM};
+        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
         internal IReadOnlyCollection<GameVersion> Banlist = NoBanlist;
 
         public bool Valid(PKM pkm, int lvl, bool skipChecks)
@@ -559,12 +556,13 @@ namespace PKHeX.Core
                 if (!skipChecks && pkm.AltForm != Form)
                     return false;
 
-            if (!skipChecks && Banlist.Contains((GameVersion)pkm.Version))
+            if (!skipChecks && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded) // sm lacks usum kantonian evos
                 return false;
 
             switch (Method)
             {
                 case 8: // Use Item
+                case 42:
                     return true;
                 case 17: // Male
                     return pkm.Gender == 0;

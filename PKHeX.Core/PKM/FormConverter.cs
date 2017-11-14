@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    internal static class FormConverter
+    public static class FormConverter
     {
         /// <summary>
         /// Gets a list of formes that the species can have.
@@ -22,6 +22,8 @@ namespace PKHeX.Core
                     types[000], // Normal
                     forms[804], // Mega
                 };
+            if (generation == 7 && Legal.Totem_USUM.Contains(species))
+                return GetFormsTotem(species, types, forms);
 
             if (species <= Legal.MaxSpeciesID_1)
                 return GetFormsGen1(species, types, forms, generation);
@@ -39,6 +41,27 @@ namespace PKHeX.Core
                 return GetFormsGen7(species, types, forms);
         }
 
+        public static bool IsTotemForm(int species, int form, int generation = 7)
+        {
+            if (generation != 7)
+                return false;
+            if (form == 0)
+                return false;
+            if (!Legal.Totem_USUM.Contains(species))
+                return false;
+            if (species == 778) // Mimikyu
+                return form == 2 || form == 3;
+            if (Legal.Totem_Alolan.Contains(species))
+                return form == 2;
+            return form == 1;
+        }
+        public static int GetTotemBaseForm(int species, int form)
+        {
+            if (species == 778) // Mimikyu
+                return form -2;
+            return form - 1;
+        }
+        
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch (species)
@@ -382,11 +405,18 @@ namespace PKHeX.Core
                         forms[1023], // "BLU" - Sensu
                     };
 
+                case 744: // Rockruff
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[1064], // Dusk
+                    };
                 case 745: // Lycanroc
                     return new[]
                     {
                         forms[745], // Midday
                         forms[1024], // Midnight
+                        forms[1064], // Dusk
                     };
 
                 case 746: // Wishiwashi
@@ -418,11 +448,13 @@ namespace PKHeX.Core
                         forms[1057], // "V-Core", // Core Violet
                     };
 
-                case 778: // Mimikyu
+                case 800:
                     return new[]
                     {
-                        forms[778], // Disguised
-                        forms[1058], // Busted
+                        types[000], // Normal
+                        forms[1065], // Dusk Mane
+                        forms[1066], // Dawn Wings
+                        forms[1067], // Ultra Necrozma
                     };
 
                 case 801: // Magearna
@@ -445,7 +477,6 @@ namespace PKHeX.Core
                     return new[] { "" };
 
                 case 19: // Rattata
-                case 20: // Raticate
                 case 26: // Raichu
                 case 27: // Sandshrew
                 case 28: // Sandslash
@@ -460,7 +491,6 @@ namespace PKHeX.Core
                 case 76: // Golem
                 case 88: // Grimer
                 case 89: // Muk
-                case 105: // Marowak
                 case 103: // Exeggutor
                     return new[]
                     {
@@ -497,6 +527,7 @@ namespace PKHeX.Core
                         forms[816], // Unova
                         forms[817], // Kalos
                         forms[818], // Alola
+                        forms[1063] // Partner
                     };
             }
         }
@@ -580,6 +611,29 @@ namespace PKHeX.Core
                         types[17],
                     };
             }
+        }
+        private static string[] GetFormsTotem  (int species,    IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            if (species == 778) // Mimikyu
+                return new[]
+                {
+                    forms[778], // Disguised
+                    forms[1058], // Busted
+                    forms[1007], // Large
+                    "*" + forms[1058], // Busted
+                };
+            if (Legal.Totem_Alolan.Contains(species))
+                return new[]
+                {
+                    types[0], // Normal
+                    forms[810], // Alolan
+                    forms[1007], // Large
+                };
+            return new[]
+            {
+                types[0], // Normal
+                forms[1007], // Large
+            };
         }
         private static string[] GetFormsUnown(int generation)
         {

@@ -515,7 +515,7 @@ namespace PKHeX.WinForms.Controls
         private void B_OpenPokeblocks_Click(object sender, EventArgs e) => new SAV_PokeBlockORAS(SAV).ShowDialog();
         private void B_OpenSuperTraining_Click(object sender, EventArgs e) => new SAV_SuperTrain(SAV).ShowDialog();
         private void B_OpenSecretBase_Click(object sender, EventArgs e) => new SAV_SecretBase(SAV).ShowDialog();
-        private void B_OpenZygardeCells_Click(object sender, EventArgs e) => new SAV_ZygardeCell(SAV).ShowDialog();
+        private void B_CellsStickers_Click(object sender, EventArgs e) => new SAV_ZygardeCell(SAV).ShowDialog();
         private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6(SAV).ShowDialog();
         private void B_Roamer_Click(object sender, EventArgs e) => new SAV_Roamer3(SAV).ShowDialog();
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
@@ -599,7 +599,7 @@ namespace PKHeX.WinForms.Controls
                         new SAV_PokedexXY(SAV).ShowDialog();
                     break;
                 case 7:
-                    if (SAV.SM)
+                    if (SAV.SM || SAV.USUM)
                         new SAV_PokedexSM(SAV).ShowDialog();
                     break;
             }
@@ -695,7 +695,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (SAV.Generation == 6)
                 new SAV_HallOfFame(SAV).ShowDialog();
-            else if (SAV.SM)
+            else if (SAV.Generation == 7)
                 new SAV_HallOfFame7(SAV).ShowDialog();
         }
         private void B_CGearSkin_Click(object sender, EventArgs e)
@@ -986,7 +986,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenSecretBase.Enabled = sav.HasSecretBase;
                 B_OpenPokepuffs.Enabled = sav.HasPuff;
                 B_OpenPokeBeans.Enabled = sav.Generation == 7;
-                B_OpenZygardeCells.Enabled = sav.Generation == 7;
+                B_CellsStickers.Enabled = sav.Generation == 7;
                 B_OUTPasserby.Enabled = sav.HasPSS;
                 B_OpenBoxLayout.Enabled = sav.HasBoxWallpapers;
                 B_OpenWondercards.Enabled = sav.HasWondercards;

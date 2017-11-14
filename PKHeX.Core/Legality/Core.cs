@@ -918,7 +918,7 @@ namespace PKHeX.Core
                 case GameVersion.US: return StaticUS;
                 case GameVersion.UM: return StaticUM;
 
-                default: return new EncounterStatic[0];
+                default: return Enumerable.Empty<EncounterStatic>();
             }
         }
         internal static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
@@ -969,7 +969,7 @@ namespace PKHeX.Core
                 case GameVersion.US: return SlotsUS;
                 case GameVersion.UM: return SlotsUM;
 
-                default: return new EncounterArea[0];
+                default: return Enumerable.Empty<EncounterArea>();
             }
         }
         private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
@@ -1014,7 +1014,7 @@ namespace PKHeX.Core
                 case (int)GameVersion.OR:
                     return SlotsO.Where(l => l.Location == pkm.Met_Location);
                 default:
-                    return new EncounterArea[0];
+                    return Enumerable.Empty<EncounterArea>();
             }
         }
 
@@ -1157,7 +1157,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (pkm.Format >= 7 && EvolveToAlolanForms.Contains(pkm.Species))
+            if (pkm.Format >= 7 && AlolanVariantEvolutions12.Contains(pkm.Species))
                 return pkm.AltForm == 1;
             if (pkm.Species == 678 && pkm.Gender == 1)
                 return pkm.AltForm == 1;
@@ -1249,9 +1249,7 @@ namespace PKHeX.Core
             if (IsEvolvedFormChange(pkm))
                 return true;
             if (pkm.Species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm != 1)
-            {
                 return true;
-            }
             return false;
         }
         
@@ -1694,12 +1692,22 @@ namespace PKHeX.Core
             if (pkm.Format <= 3)
                 return r.Distinct();
             if (LVL)
-            { 
-                if (species == 479 && Generation >= 4) // Rotom
-                    r.Add(RotomMoves[pkm.AltForm]);
-
-                if (species == 718 && Generation == 7) // Zygarde
-                    r.AddRange(ZygardeMoves);
+            {
+                switch (species)
+                {
+                    case 479 when Generation >= 4: // rotom
+                        r.Add(RotomMoves[pkm.AltForm]);
+                        break;
+                    case 718 when Generation == 7: // zygarde
+                        r.AddRange(ZygardeMoves);
+                        break;
+                    case 800 when pkm.AltForm == 1: // Sun Necrozma
+                        r.Add(713);
+                        break;
+                    case 800 when pkm.AltForm == 2: // Moon Necrozma
+                        r.Add(714);
+                        break;
+                }
             }
             if (Tutor)
             {
@@ -2202,10 +2210,10 @@ namespace PKHeX.Core
             }
             return moves.Distinct();
 
-            IEnumerable<int> GetTutors(PersonalTable t, IReadOnlyList<int[]> tutors)
+            IEnumerable<int> GetTutors(PersonalTable t, params int[][] tutors)
             {
                 var pi = t.GetFormeEntry(species, form);
-                for (int i = 0; i < tutors.Count; i++)
+                for (int i = 0; i < tutors.Length; i++)
                 for (int b = 0; b < tutors[i].Length; b++)
                     if (pi.SpecialTutors[i][b])
                         yield return tutors[i][b];

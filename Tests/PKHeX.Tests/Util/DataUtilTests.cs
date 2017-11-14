@@ -1,9 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PKHeX.Tests.Util
 {
@@ -17,7 +12,7 @@ namespace PKHeX.Tests.Util
         public void TestGetPokemonNames()
         {
             var names = PKHeX.Core.Util.GetSpeciesList("en");
-            Assert.AreEqual(803, names.Length);
+            Assert.AreEqual(808, names.Length);
         }
     }
 }

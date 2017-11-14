@@ -919,3 +919,42 @@ ROM Glace
 ROM Dragon
 ROM Ténèbres
 ROM Fée
+Solgazélite
+Lunazélite
+Ultranécrozélite
+Mimiquizélite
+Lougarozélite
+Ékaïzélite
+Solgazélite
+Lunazélite
+Ultranécrozélite
+Mimiquizélite
+Lougarozélite
+Ékaïzélite
+Super Bracelet Z
+Pétale Rose
+Pétale Orange
+Pétale Bleu
+Pétale Rouge
+Pétale Vert
+Pétale Jaune
+Pétale Violet
+Fleur 7 Couleurs
+Fulguro-Badge
+Necrosol
+Necroluna
+Necrosol
+Necroluna
+Cristal Z Althéo
+Poké Ball donnée
+Moti-Couveuse
+Moti-Promo
+Moti-Magot
+Moti-Exp
+Moti-Cœur
+Moti-Appât
+Moti-Camouflage
+Moti-Récup’ PV
+Moti-Récup’ PP
+Moti-Soutien
+Moti-Capture
