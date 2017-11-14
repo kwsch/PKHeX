@@ -734,6 +734,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\byte\fashion_f_uu" />
+    <None Include="Resources\byte\fashion_f_uu_illegal" />
+    <None Include="Resources\byte\fashion_m_uu" />
+    <None Include="Resources\byte\fashion_m_uu_illegal" />
     <None Include="Resources\img\Pokemon Sprites\25-7.png" />
     <None Include="Resources\img\Pokemon Sprites\744-1.png" />
     <None Include="Resources\img\Pokemon Sprites\745-2.png" />

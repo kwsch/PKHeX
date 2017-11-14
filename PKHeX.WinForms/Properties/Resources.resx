@@ -6007,4 +6007,16 @@
   <data name="item_926" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\item\item_926.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fashion_f_uu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\fashion_f_uu;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fashion_f_uu_illegal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\fashion_f_uu_illegal;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fashion_m_uu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\fashion_m_uu;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fashion_m_uu_illegal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\byte\fashion_m_uu_illegal;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

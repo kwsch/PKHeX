@@ -237,8 +237,12 @@ namespace PKHeX.WinForms
             CHK_UnlockMega.Checked = SAV.MegaUnlocked;
             CHK_UnlockZMove.Checked = SAV.ZMoveUnlocked;
 
-            System.Collections.Generic.List<ComboItem> metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
-            int[] FlyDestNameIndex = new[] {
+            LoadMapFlyToData();
+        }
+        private void LoadMapFlyToData()
+        {
+            List<ComboItem> metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
+            int[] FlyDestNameIndex = {
                 -1,24,34,8,20,38,12,46,40,30,//Melemele
                 70,68,78,86,74,104,82,58,90,72,76,92,62,//Akala
                 132,136,138,114,118,144,130,154,140,//Ula'ula
@@ -270,7 +274,7 @@ namespace PKHeX.WinForms
                     , SAV.GetEventFlag(skipFlag + FlyDestFlagOfs[i])
                 );
             }
-            int[] MapUnmaskNameIndex = new[] {
+            int[] MapUnmaskNameIndex = {
                 6,8,24,-1,18,-1,20,22,12,10,14,
                 70,50,68,52,74,54,56,58,60,72,62,64,
                 132,192,106,108,122,112,114,126,116,118,120,154,
@@ -475,11 +479,6 @@ namespace PKHeX.WinForms
         }
         private void B_Fashion_Click(object sender, EventArgs e)
         {
-            if (SAV.USUM)
-            {
-                WinFormsUtil.Alert("Temporarily disabled, needs research for permissible values.");
-                return;
-            }
             var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing data", "Continue?");
             if (DialogResult.Yes != prompt)
                 return;
@@ -493,34 +492,30 @@ namespace PKHeX.WinForms
             switch (CB_Fashion.SelectedIndex)
             {
                 case 0: // Base Fashion
-                    if (SAV.Gender == 0) // Male
-                    {
-                        SAV.Data[0x42000] = 3;
-                        SAV.Data[0x420FB] = 3;
-                        SAV.Data[0x42124] = 3;
-                        SAV.Data[0x4228F] = 3;
-                        SAV.Data[0x423B4] = 3;
-                        SAV.Data[0x42452] = 3;
-                        SAV.Data[0x42517] = 3;
-                    }
-                    else // Female
-                    {
-                        SAV.Data[0x42000] = 3;
-                        SAV.Data[0x42100] = 3;
-                        SAV.Data[0x42223] = 3;
-                        SAV.Data[0x42288] = 3;
-                        SAV.Data[0x423B4] = 3;
-                        SAV.Data[0x42452] = 3;
-                        SAV.Data[0x42517] = 3;
-                    }
+                {
+                    var list = SAV.USUM
+                        ? (SAV.Gender == 0 // already biased by +0x16
+                            ? new[] {0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584}   // M
+                            : new[] {0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8})  // F
+                        : (SAV.Gender == 0
+                            ? new[] {0x000, 0x0FB, 0x124, 0x28F, 0x3B4, 0x452, 0x517}   // M
+                            : new[] {0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517}); // F
+
+                    foreach (var ofs in list)
+                        SAV.Data[SAV.Fashion + ofs] = 3;
                     break;
+                }
                 case 1: // Full Legal
-                    byte[] data1 = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                    data1.CopyTo(SAV.Data, SAV.Fashion);
+                    byte[] data1 = SAV.USUM
+                        ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
+                        : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
+                    data1.CopyTo(SAV.Data, SAV.Fashion + (SAV.USUM ? 0x16 : 0));
                     break;
                 case 2: // Everything
-                    byte[] data2 = SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                    data2.CopyTo(SAV.Data, SAV.Fashion);
+                    byte[] data2 = SAV.USUM
+                        ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
+                        : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
+                    data2.CopyTo(SAV.Data, SAV.Fashion + (SAV.USUM ? 0x16 : 0));
                     break;
                 default:
                     return;
@@ -686,6 +681,9 @@ namespace PKHeX.WinForms
             {067, "Berry Piles (not full) Collected"},
             {068, "Berry Piles (full) Collected"},
             {069, "Items Reeled In"},
+            // USUM
+            {070, "Roto Lotos"},
+            {073, "Mantines Surfed"},
 
             {100, "Champion Title Defense"},
             {104, "Moves used with No Effect"},
@@ -737,6 +735,7 @@ namespace PKHeX.WinForms
             {157, "Sand Cloud Encounters"},
             {158, "Outfit Changes"},
             {159, "Battle Royal Dome Wins"},
+            {160, "Pelago Treasure Hunts"},
             {161, "Pelago Training Sessions"},
             {162, "Pelago Hot Spring Sessions"},
             {166, "Island Scans"},
@@ -761,6 +760,13 @@ namespace PKHeX.WinForms
             {185, "Try your luck!"},
             {186, "186 - Global Mission"},
             {187, "Catch a lot of Pokémon!"},
+
+            // USUM
+            {189, "Mantine Surf Plays"},
+            {190, "Photo Club Photos saved"},
+            {195, "Photo Club Sticker usage"},
+            {196, "Photo Club Photo Shoots"},
+            {198, "Highest Mantine Surf BP Earned"},
         };
     }
 }

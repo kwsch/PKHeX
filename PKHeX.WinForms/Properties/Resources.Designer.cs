@@ -12551,6 +12551,26 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] fashion_f_uu {
+            get {
+                object obj = ResourceManager.GetObject("fashion_f_uu", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_f_uu_illegal {
+            get {
+                object obj = ResourceManager.GetObject("fashion_f_uu_illegal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] fashion_m_sm {
             get {
                 object obj = ResourceManager.GetObject("fashion_m_sm", resourceCulture);
@@ -12564,6 +12584,26 @@ namespace PKHeX.WinForms.Properties {
         internal static byte[] fashion_m_sm_illegal {
             get {
                 object obj = ResourceManager.GetObject("fashion_m_sm_illegal", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_m_uu {
+            get {
+                object obj = ResourceManager.GetObject("fashion_m_uu", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fashion_m_uu_illegal {
+            get {
+                object obj = ResourceManager.GetObject("fashion_m_uu_illegal", resourceCulture);
                 return ((byte[])(obj));
             }
         }
