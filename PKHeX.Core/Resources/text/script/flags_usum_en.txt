@@ -1,5 +1,8 @@
+4563	Received Partner Cap Pikachu
 0493	Received Gift Porygon
 0504	Received Gift Aerodactyl
+1476	Received Gift Cosmog
+1469	Received Gift Magearna
 4420	Articuno Captured
 4421	Zapdos Captured
 4422	Moltres Captured
