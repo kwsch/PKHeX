@@ -626,7 +626,7 @@ namespace PKHeX.Core
 
             if (AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
                 slotdata = encounterSlots.Where(slot => species == slot.Species ? slot.Form == form : slot.Form == 0);
-            else if (WildForms.Contains(species) || AlolanOriginForms.Contains(species)) // match slot form
+            else if (ShouldMatchSlotForm()) // match slot form
                 slotdata = encounterSlots.Where(slot => slot.Form == form);
             else
                 slotdata = encounterSlots; // no form checking
@@ -645,13 +645,15 @@ namespace PKHeX.Core
                 if (species == slotMax.Species ? slotMax.Form == form : slotMax.Form == 0)
                     yield return GetPressureSlot(slotMax, pkm);
             }
-            else if (WildForms.Contains(species) || AlolanOriginForms.Contains(species)) // match slot form
+            else if (ShouldMatchSlotForm()) // match slot form
             {
                 if (slotMax.Form == form)
                     yield return GetPressureSlot(slotMax, pkm);
             }
             else
                 yield return GetPressureSlot(slotMax, pkm);
+
+            bool ShouldMatchSlotForm() => WildForms.Contains(species) || AlolanOriginForms.Contains(species) || FormConverter.IsTotemForm(species, form);
         }
         private static IEnumerable<EncounterSlot> GetFilteredSlots6DexNav(PKM pkm, int lvl, IReadOnlyCollection<EncounterSlot> encounterSlots, int fluteBoost)
         {
@@ -1351,6 +1353,8 @@ namespace PKHeX.Core
         {
             if (NoHatchFromEgg.Contains(pkm.Species))
                 yield break;
+            if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm, pkm.GenNumber))
+                yield break; // no totem eggs
 
             int gen = pkm.GenNumber;
             // version is a true indicator for all generation 3-5 origins
