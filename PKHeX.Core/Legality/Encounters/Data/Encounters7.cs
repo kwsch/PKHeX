@@ -343,7 +343,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 797, Level = 60, Location = 212, Ability = 1, IV3 = true, Version = GameVersion.UM }, // Celesteela @ Ultra Crater
             new EncounterStatic { Species = 798, Level = 60, Location = 216, Ability = 1, IV3 = true, Version = GameVersion.US }, // Kartana @ Ultra Forest
             new EncounterStatic { Species = 799, Level = 60, Location = 220, Ability = 1, IV3 = true, }, // Guzzlord @ Ultra Ruin
-            new EncounterStatic { Species = 760, Level = 28, Location = -01, Shiny = false, }, // Bewear @ ???
+            new EncounterStatic { Species = 760, Level = 28, Location = 020, Shiny = false, }, // Bewear @ Hau’oli City (Shopping District)
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {095,171,139,029}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {417,060,050,139}, }, // Hypno @ Hau'oli City Police Station
             new EncounterStatic { Species = 097, Level = 29, Location = 020, Shiny = false, Relearn = new[] {093,050,001,096}, }, // Hypno @ Hau'oli City Police Station
