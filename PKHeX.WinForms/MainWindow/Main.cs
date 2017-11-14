@@ -1018,7 +1018,13 @@ namespace PKHeX.WinForms
             }
 
             string[] r = pkx.QRText;
-            string refer = $"PKHeX ({Resources.ProgramVersion})";
+#if DEBUG
+            var d = File.GetLastWriteTime(System.Reflection.Assembly.GetEntryAssembly().Location);
+            string date = $"d-{d:yyyyMMdd}";
+#else
+            string date = Resources.ProgramVersion;
+#endif
+            string refer = $"PKHeX ({date})";
             new QR(qr, sprite, pkx, r[0], r[1], r[2], $"{refer} ({pkx.GetType().Name})").ShowDialog();
         }
 
