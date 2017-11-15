@@ -95,6 +95,7 @@
             this.CHK_Flag.TabIndex = 25;
             this.CHK_Flag.Text = "Flag";
             this.CHK_Flag.UseVisualStyleBackColor = true;
+            this.CHK_Flag.Visible = false;
             // 
             // NUD_Count
             // 
@@ -113,6 +114,7 @@
             0,
             0,
             0});
+            this.NUD_Count.Visible = false;
             // 
             // L_Count
             // 
@@ -123,6 +125,7 @@
             this.L_Count.TabIndex = 26;
             this.L_Count.Text = "Count:";
             this.L_Count.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_Count.Visible = false;
             // 
             // L_F1
             // 
