@@ -1129,10 +1129,8 @@ namespace PKHeX.Core
                     formEnd = 1;
                     return true;
 
-                case 774 when formIn > 6: // Minior
-                    // Cores forms are after Meteor forms, so the game iterator would give all meteor forms (NO!)
-                    // So the game so the game chooses to only award entries for Core forms after they appear in battle.
-                    break; // resets to 0/0 if an invalid request is made (non-form entry)
+                case 774 when formIn <= 6: // Minior
+                    break; // don't give meteor forms except the first
 
                 case 718 when formIn > 1:
                     break;
