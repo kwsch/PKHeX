@@ -1610,7 +1610,7 @@ namespace PKHeX.Core
             result = null;
             // Handling Trainer string is empty implying it has not been traded.
             // If it must be trade evolved, flag it.
-            if (!Legal.IsTradeEvolved(pkm))
+            if (Legal.IsTradeEvolved(pkm))
                 return false;
 
             if (pkm.Species == 350) // Milotic
