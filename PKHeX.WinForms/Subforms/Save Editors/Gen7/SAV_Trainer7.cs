@@ -494,7 +494,7 @@ namespace PKHeX.WinForms
                 case 0: // Base Fashion
                 {
                     var list = SAV.USUM
-                        ? (SAV.Gender == 0 // already biased by +0x16
+                        ? (SAV.Gender == 0
                             ? new[] {0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584}   // M
                             : new[] {0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8})  // F
                         : (SAV.Gender == 0
@@ -509,13 +509,13 @@ namespace PKHeX.WinForms
                     byte[] data1 = SAV.USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                    data1.CopyTo(SAV.Data, SAV.Fashion + (SAV.USUM ? 0x16 : 0));
+                    data1.CopyTo(SAV.Data, SAV.Fashion);
                     break;
                 case 2: // Everything
                     byte[] data2 = SAV.USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                    data2.CopyTo(SAV.Data, SAV.Fashion + (SAV.USUM ? 0x16 : 0));
+                    data2.CopyTo(SAV.Data, SAV.Fashion);
                     break;
                 default:
                     return;
@@ -683,7 +683,7 @@ namespace PKHeX.WinForms
             {069, "Items Reeled In"},
             // USUM
             {070, "Roto Lotos"},
-            {073, "Mantines Surfed"},
+            {073, "Mantine Surf BP Earned"},
 
             {100, "Champion Title Defense"},
             {104, "Moves used with No Effect"},
