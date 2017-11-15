@@ -1280,6 +1280,19 @@ namespace PKHeX.Core
             return Fused + SIZE_PARTY * slot; // 0x104*slot
         }
 
+        public int GetSurfScore(int recordID)
+        {
+            if (recordID < 0 || recordID > 4)
+                recordID = 0;
+            return BitConverter.ToInt32(Data, Misc + 0x138 + 4 * recordID);
+        }
+        public void SetSurfScore(int recordID, int score)
+        {
+            if (recordID < 0 || recordID > 4)
+                recordID = 0;
+            SetData(BitConverter.GetBytes(score), Misc + 0x138 + 4 * recordID);
+        }
+
         public override int DaycareSeedSize => 32; // 128 bits
         public override int GetDaycareSlotOffset(int loc, int slot)
         {

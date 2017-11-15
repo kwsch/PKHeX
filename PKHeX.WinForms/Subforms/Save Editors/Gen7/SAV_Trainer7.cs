@@ -39,8 +39,14 @@ namespace PKHeX.WinForms
             CB_Stats.SelectedIndex = RecordList.First().Key;
             CB_Fashion.SelectedIndex = 1;
 
+            if (SAV.USUM)
+                LoadUltraData();
+            else
+                TC_Editor.TabPages.Remove(Tab_Ultra);
+
             Loading = false;
         }
+
         private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip(), Tip3 = new ToolTip();
         private readonly bool Loading;
         private bool MapUpdated;
@@ -302,7 +308,32 @@ namespace PKHeX.WinForms
                 );
             }
         }
+        private void LoadUltraData()
+        {
+            NUD_Surf0.Value = SAV.GetSurfScore(0);
+            NUD_Surf1.Value = SAV.GetSurfScore(1);
+            NUD_Surf2.Value = SAV.GetSurfScore(2);
+            NUD_Surf3.Value = SAV.GetSurfScore(3);
+        }
         private void Save()
+        {
+            SaveTrainerInfo();
+            SavePokeFinder();
+            SaveBattleTree();
+            SaveTrainerAppearance();
+            SaveThrowType();
+
+            SAV.FestivalPlazaName = TB_PlazaName.Text;
+
+            // Vivillon
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
+
+            SaveFlags();
+
+            if (SAV.USUM)
+                SaveUltraData();
+        }
+        private void SaveTrainerInfo()
         {
             SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
@@ -349,16 +380,18 @@ namespace PKHeX.WinForms
 
             SAV.BP = (uint)NUD_BP.Value;
             SAV.FestaCoins = (uint)NUD_FC.Value;
-
-            // Poké Finder
+        }
+        private void SavePokeFinder()
+        {
             SAV.PokeFinderSnapCount = (uint)NUD_SnapCount.Value;
             SAV.PokeFinderThumbsTotalValue = (uint)NUD_ThumbsTotal.Value;
             SAV.PokeFinderThumbsHighValue = (uint)NUD_ThumbsRecord.Value;
 
             SAV.PokeFinderCameraVersion = (ushort)CB_CameraVersion.SelectedIndex;
             SAV.PokeFinderGyroFlag = CHK_Gyro.Checked;
-
-            // Battle Tree
+        }
+        private void SaveBattleTree()
+        {
             SAV.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
             SAV.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
             SAV.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
@@ -372,7 +405,9 @@ namespace PKHeX.WinForms
             SAV.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
             SAV.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
             SAV.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
-
+        }
+        private void SaveTrainerAppearance()
+        {
             // Skin changed && (gender matches || override)
             int gender = CB_Gender.SelectedIndex & 1;
             int skin = CB_SkinColor.SelectedIndex & 1;
@@ -382,12 +417,9 @@ namespace PKHeX.WinForms
             if (SAV.DressUpSkinColor != CB_SkinColor.SelectedIndex && 
                 (SAV.Gender == skin || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Gender-Skin mismatch:{Environment.NewLine}Gender: {gStr}, Skin: {sStr}", "Save selected Skin Color?")))
                     SAV.DressUpSkinColor = CB_SkinColor.SelectedIndex;
-
-            SAV.FestivalPlazaName = TB_PlazaName.Text;
-
-            // Vivillon
-            if (CB_Vivillon.SelectedIndex >= 0) SAV.Vivillon = CB_Vivillon.SelectedIndex;
-            
+        }
+        private void SaveThrowType()
+        {
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
@@ -397,7 +429,9 @@ namespace PKHeX.WinForms
 
             for (int i = 1; i < LB_BallThrowTypeLearned.Items.Count; i++)
                 SAV.SetEventFlag(3479 + i, LB_BallThrowTypeLearned.GetSelected(i));
-
+        }
+        private void SaveFlags()
+        {
             SAV.Stamps = GetBits(LB_Stamps);
 
             SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
@@ -412,6 +446,14 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CLB_MapUnmask.Items.Count; i++)
                 SAV.SetEventFlag(skipFlag + MapUnmaskFlagOfs[i], CLB_MapUnmask.GetItemChecked(i));
         }
+        private void SaveUltraData()
+        {
+            SAV.SetSurfScore(0, (int)NUD_Surf0.Value);
+            SAV.SetSurfScore(1, (int)NUD_Surf1.Value);
+            SAV.SetSurfScore(2, (int)NUD_Surf2.Value);
+            SAV.SetSurfScore(3, (int)NUD_Surf3.Value);
+        }
+
         private static uint GetBits(ListBox listbox)
         {
             uint bits = 0;

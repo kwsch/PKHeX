@@ -129,6 +129,12 @@
             this.CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
             this.CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             this.Tab_BadgeMap = new System.Windows.Forms.TabPage();
+            this.GB_MapUnmask = new System.Windows.Forms.GroupBox();
+            this.B_AllMapUnmask = new System.Windows.Forms.Button();
+            this.CLB_MapUnmask = new System.Windows.Forms.CheckedListBox();
+            this.GB_FlyDest = new System.Windows.Forms.GroupBox();
+            this.B_AllFlyDest = new System.Windows.Forms.Button();
+            this.CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
             this.GB_Map = new System.Windows.Forms.GroupBox();
             this.NUD_R = new System.Windows.Forms.NumericUpDown();
             this.L_R = new System.Windows.Forms.Label();
@@ -166,6 +172,7 @@
             this.NUD_RCStreak0 = new System.Windows.Forms.NumericUpDown();
             this.L_CStreak0 = new System.Windows.Forms.Label();
             this.Tab_Misc = new System.Windows.Forms.TabPage();
+            this.CHK_UnlockZMove = new System.Windows.Forms.CheckBox();
             this.CHK_UnlockMega = new System.Windows.Forms.CheckBox();
             this.L_BallThrowType = new System.Windows.Forms.Label();
             this.CB_BallThrowType = new System.Windows.Forms.ComboBox();
@@ -192,13 +199,16 @@
             this.NUD_ThumbsTotal = new System.Windows.Forms.NumericUpDown();
             this.L_ThumbsTotal = new System.Windows.Forms.Label();
             this.B_Fashion = new System.Windows.Forms.Button();
-            this.CHK_UnlockZMove = new System.Windows.Forms.CheckBox();
-            this.GB_FlyDest = new System.Windows.Forms.GroupBox();
-            this.B_AllFlyDest = new System.Windows.Forms.Button();
-            this.CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
-            this.GB_MapUnmask = new System.Windows.Forms.GroupBox();
-            this.B_AllMapUnmask = new System.Windows.Forms.Button();
-            this.CLB_MapUnmask = new System.Windows.Forms.CheckedListBox();
+            this.Tab_Ultra = new System.Windows.Forms.TabPage();
+            this.GB_Surf = new System.Windows.Forms.GroupBox();
+            this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf3 = new System.Windows.Forms.NumericUpDown();
+            this.L_Surf0 = new System.Windows.Forms.Label();
+            this.L_Surf1 = new System.Windows.Forms.Label();
+            this.L_Surf2 = new System.Windows.Forms.Label();
+            this.L_Surf3 = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -207,6 +217,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.GB_Adventure.SuspendLayout();
             this.Tab_BadgeMap.SuspendLayout();
+            this.GB_MapUnmask.SuspendLayout();
+            this.GB_FlyDest.SuspendLayout();
             this.GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_R)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).BeginInit();
@@ -233,8 +245,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
-            this.GB_FlyDest.SuspendLayout();
-            this.GB_MapUnmask.SuspendLayout();
+            this.Tab_Ultra.SuspendLayout();
+            this.GB_Surf.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -836,6 +852,7 @@
             this.TC_Editor.Controls.Add(this.Tab_BadgeMap);
             this.TC_Editor.Controls.Add(this.Tab_BattleTree);
             this.TC_Editor.Controls.Add(this.Tab_Misc);
+            this.TC_Editor.Controls.Add(this.Tab_Ultra);
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
@@ -1167,6 +1184,66 @@
             this.Tab_BadgeMap.TabIndex = 3;
             this.Tab_BadgeMap.Text = "Map";
             this.Tab_BadgeMap.UseVisualStyleBackColor = true;
+            // 
+            // GB_MapUnmask
+            // 
+            this.GB_MapUnmask.Controls.Add(this.B_AllMapUnmask);
+            this.GB_MapUnmask.Controls.Add(this.CLB_MapUnmask);
+            this.GB_MapUnmask.Location = new System.Drawing.Point(218, 150);
+            this.GB_MapUnmask.Name = "GB_MapUnmask";
+            this.GB_MapUnmask.Size = new System.Drawing.Size(140, 138);
+            this.GB_MapUnmask.TabIndex = 60;
+            this.GB_MapUnmask.TabStop = false;
+            this.GB_MapUnmask.Text = "Map Unmask";
+            // 
+            // B_AllMapUnmask
+            // 
+            this.B_AllMapUnmask.Location = new System.Drawing.Point(5, 21);
+            this.B_AllMapUnmask.Name = "B_AllMapUnmask";
+            this.B_AllMapUnmask.Size = new System.Drawing.Size(75, 25);
+            this.B_AllMapUnmask.TabIndex = 0;
+            this.B_AllMapUnmask.Text = "Check All";
+            this.B_AllMapUnmask.UseVisualStyleBackColor = true;
+            this.B_AllMapUnmask.Click += new System.EventHandler(this.B_AllMapUnmask_Click);
+            // 
+            // CLB_MapUnmask
+            // 
+            this.CLB_MapUnmask.CheckOnClick = true;
+            this.CLB_MapUnmask.FormattingEnabled = true;
+            this.CLB_MapUnmask.Location = new System.Drawing.Point(6, 54);
+            this.CLB_MapUnmask.Name = "CLB_MapUnmask";
+            this.CLB_MapUnmask.Size = new System.Drawing.Size(128, 79);
+            this.CLB_MapUnmask.TabIndex = 1;
+            // 
+            // GB_FlyDest
+            // 
+            this.GB_FlyDest.Controls.Add(this.B_AllFlyDest);
+            this.GB_FlyDest.Controls.Add(this.CLB_FlyDest);
+            this.GB_FlyDest.Location = new System.Drawing.Point(218, 6);
+            this.GB_FlyDest.Name = "GB_FlyDest";
+            this.GB_FlyDest.Size = new System.Drawing.Size(140, 138);
+            this.GB_FlyDest.TabIndex = 59;
+            this.GB_FlyDest.TabStop = false;
+            this.GB_FlyDest.Text = "Fly Destination";
+            // 
+            // B_AllFlyDest
+            // 
+            this.B_AllFlyDest.Location = new System.Drawing.Point(5, 21);
+            this.B_AllFlyDest.Name = "B_AllFlyDest";
+            this.B_AllFlyDest.Size = new System.Drawing.Size(75, 25);
+            this.B_AllFlyDest.TabIndex = 0;
+            this.B_AllFlyDest.Text = "Check All";
+            this.B_AllFlyDest.UseVisualStyleBackColor = true;
+            this.B_AllFlyDest.Click += new System.EventHandler(this.B_AllFlyDest_Click);
+            // 
+            // CLB_FlyDest
+            // 
+            this.CLB_FlyDest.CheckOnClick = true;
+            this.CLB_FlyDest.FormattingEnabled = true;
+            this.CLB_FlyDest.Location = new System.Drawing.Point(6, 54);
+            this.CLB_FlyDest.Name = "CLB_FlyDest";
+            this.CLB_FlyDest.Size = new System.Drawing.Size(128, 79);
+            this.CLB_FlyDest.TabIndex = 1;
             // 
             // GB_Map
             // 
@@ -1706,6 +1783,16 @@
             this.Tab_Misc.Text = "Misc";
             this.Tab_Misc.UseVisualStyleBackColor = true;
             // 
+            // CHK_UnlockZMove
+            // 
+            this.CHK_UnlockZMove.AutoSize = true;
+            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 273);
+            this.CHK_UnlockZMove.Name = "CHK_UnlockZMove";
+            this.CHK_UnlockZMove.Size = new System.Drawing.Size(105, 17);
+            this.CHK_UnlockZMove.TabIndex = 73;
+            this.CHK_UnlockZMove.Text = "Unlock Z Moves";
+            this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
+            // 
             // CHK_UnlockMega
             // 
             this.CHK_UnlockMega.AutoSize = true;
@@ -2002,75 +2089,134 @@
             this.B_Fashion.UseVisualStyleBackColor = true;
             this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
             // 
-            // CHK_UnlockZMove
+            // Tab_Ultra
             // 
-            this.CHK_UnlockZMove.AutoSize = true;
-            this.CHK_UnlockZMove.Location = new System.Drawing.Point(6, 273);
-            this.CHK_UnlockZMove.Name = "CHK_UnlockZMove";
-            this.CHK_UnlockZMove.Size = new System.Drawing.Size(105, 17);
-            this.CHK_UnlockZMove.TabIndex = 73;
-            this.CHK_UnlockZMove.Text = "Unlock Z Moves";
-            this.CHK_UnlockZMove.UseVisualStyleBackColor = true;
+            this.Tab_Ultra.Controls.Add(this.GB_Surf);
+            this.Tab_Ultra.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Ultra.Name = "Tab_Ultra";
+            this.Tab_Ultra.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Ultra.Size = new System.Drawing.Size(386, 290);
+            this.Tab_Ultra.TabIndex = 6;
+            this.Tab_Ultra.Text = "Ultra";
+            this.Tab_Ultra.UseVisualStyleBackColor = true;
             // 
-            // GB_FlyDest
+            // GB_Surf
             // 
-            this.GB_FlyDest.Controls.Add(this.B_AllFlyDest);
-            this.GB_FlyDest.Controls.Add(this.CLB_FlyDest);
-            this.GB_FlyDest.Location = new System.Drawing.Point(218, 6);
-            this.GB_FlyDest.Name = "GB_FlyDest";
-            this.GB_FlyDest.Size = new System.Drawing.Size(140, 138);
-            this.GB_FlyDest.TabIndex = 59;
-            this.GB_FlyDest.TabStop = false;
-            this.GB_FlyDest.Text = "Fly Destination";
+            this.GB_Surf.Controls.Add(this.L_Surf3);
+            this.GB_Surf.Controls.Add(this.L_Surf2);
+            this.GB_Surf.Controls.Add(this.L_Surf1);
+            this.GB_Surf.Controls.Add(this.L_Surf0);
+            this.GB_Surf.Controls.Add(this.NUD_Surf3);
+            this.GB_Surf.Controls.Add(this.NUD_Surf2);
+            this.GB_Surf.Controls.Add(this.NUD_Surf1);
+            this.GB_Surf.Controls.Add(this.NUD_Surf0);
+            this.GB_Surf.Location = new System.Drawing.Point(6, 6);
+            this.GB_Surf.Name = "GB_Surf";
+            this.GB_Surf.Size = new System.Drawing.Size(173, 105);
+            this.GB_Surf.TabIndex = 0;
+            this.GB_Surf.TabStop = false;
+            this.GB_Surf.Text = "Surf Scores";
             // 
-            // B_AllFlyDest
+            // NUD_Surf0
             // 
-            this.B_AllFlyDest.Location = new System.Drawing.Point(5, 21);
-            this.B_AllFlyDest.Name = "B_AllFlyDest";
-            this.B_AllFlyDest.Size = new System.Drawing.Size(75, 25);
-            this.B_AllFlyDest.TabIndex = 0;
-            this.B_AllFlyDest.Text = "Check All";
-            this.B_AllFlyDest.UseVisualStyleBackColor = true;
-            this.B_AllFlyDest.Click += new System.EventHandler(this.B_AllFlyDest_Click);
+            this.NUD_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf0.Location = new System.Drawing.Point(88, 15);
+            this.NUD_Surf0.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf0.Name = "NUD_Surf0";
+            this.NUD_Surf0.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf0.TabIndex = 0;
+            this.NUD_Surf0.Value = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
             // 
-            // CLB_FlyDest
+            // NUD_Surf1
             // 
-            this.CLB_FlyDest.CheckOnClick = true;
-            this.CLB_FlyDest.FormattingEnabled = true;
-            this.CLB_FlyDest.Location = new System.Drawing.Point(6, 54);
-            this.CLB_FlyDest.Name = "CLB_FlyDest";
-            this.CLB_FlyDest.Size = new System.Drawing.Size(128, 79);
-            this.CLB_FlyDest.TabIndex = 1;
+            this.NUD_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf1.Location = new System.Drawing.Point(88, 36);
+            this.NUD_Surf1.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf1.Name = "NUD_Surf1";
+            this.NUD_Surf1.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf1.TabIndex = 1;
             // 
-            // GB_MapUnmask
+            // NUD_Surf2
             // 
-            this.GB_MapUnmask.Controls.Add(this.B_AllMapUnmask);
-            this.GB_MapUnmask.Controls.Add(this.CLB_MapUnmask);
-            this.GB_MapUnmask.Location = new System.Drawing.Point(218, 150);
-            this.GB_MapUnmask.Name = "GB_MapUnmask";
-            this.GB_MapUnmask.Size = new System.Drawing.Size(140, 138);
-            this.GB_MapUnmask.TabIndex = 60;
-            this.GB_MapUnmask.TabStop = false;
-            this.GB_MapUnmask.Text = "Map Unmask";
+            this.NUD_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf2.Location = new System.Drawing.Point(88, 57);
+            this.NUD_Surf2.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf2.Name = "NUD_Surf2";
+            this.NUD_Surf2.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf2.TabIndex = 2;
             // 
-            // B_AllMapUnmask
+            // NUD_Surf3
             // 
-            this.B_AllMapUnmask.Location = new System.Drawing.Point(5, 21);
-            this.B_AllMapUnmask.Name = "B_AllMapUnmask";
-            this.B_AllMapUnmask.Size = new System.Drawing.Size(75, 25);
-            this.B_AllMapUnmask.TabIndex = 0;
-            this.B_AllMapUnmask.Text = "Check All";
-            this.B_AllMapUnmask.UseVisualStyleBackColor = true;
-            this.B_AllMapUnmask.Click += new System.EventHandler(this.B_AllMapUnmask_Click);
+            this.NUD_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf3.Location = new System.Drawing.Point(88, 78);
+            this.NUD_Surf3.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf3.Name = "NUD_Surf3";
+            this.NUD_Surf3.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf3.TabIndex = 3;
             // 
-            // CLB_MapUnmask
+            // L_Surf0
             // 
-            this.CLB_MapUnmask.CheckOnClick = true;
-            this.CLB_MapUnmask.FormattingEnabled = true;
-            this.CLB_MapUnmask.Location = new System.Drawing.Point(6, 54);
-            this.CLB_MapUnmask.Name = "CLB_MapUnmask";
-            this.CLB_MapUnmask.Size = new System.Drawing.Size(128, 79);
-            this.CLB_MapUnmask.TabIndex = 1;
+            this.L_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf0.Location = new System.Drawing.Point(6, 13);
+            this.L_Surf0.Name = "L_Surf0";
+            this.L_Surf0.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf0.TabIndex = 4;
+            this.L_Surf0.Text = "Melemele";
+            this.L_Surf0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf1
+            // 
+            this.L_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf1.Location = new System.Drawing.Point(6, 34);
+            this.L_Surf1.Name = "L_Surf1";
+            this.L_Surf1.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf1.TabIndex = 5;
+            this.L_Surf1.Text = "Akala";
+            this.L_Surf1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf2
+            // 
+            this.L_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf2.Location = new System.Drawing.Point(6, 55);
+            this.L_Surf2.Name = "L_Surf2";
+            this.L_Surf2.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf2.TabIndex = 6;
+            this.L_Surf2.Text = "Ula\'ula";
+            this.L_Surf2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf3
+            // 
+            this.L_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf3.Location = new System.Drawing.Point(6, 76);
+            this.L_Surf3.Name = "L_Surf3";
+            this.L_Surf3.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf3.TabIndex = 7;
+            this.L_Surf3.Text = "Poni";
+            this.L_Surf3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Trainer7
             // 
@@ -2098,6 +2244,8 @@
             this.GB_Adventure.ResumeLayout(false);
             this.GB_Adventure.PerformLayout();
             this.Tab_BadgeMap.ResumeLayout(false);
+            this.GB_MapUnmask.ResumeLayout(false);
+            this.GB_FlyDest.ResumeLayout(false);
             this.GB_Map.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_R)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Z)).EndInit();
@@ -2127,8 +2275,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SnapCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
-            this.GB_FlyDest.ResumeLayout(false);
-            this.GB_MapUnmask.ResumeLayout(false);
+            this.Tab_Ultra.ResumeLayout(false);
+            this.GB_Surf.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2305,5 +2457,15 @@
         private System.Windows.Forms.GroupBox GB_FlyDest;
         private System.Windows.Forms.Button B_AllFlyDest;
         private System.Windows.Forms.CheckedListBox CLB_FlyDest;
+        private System.Windows.Forms.TabPage Tab_Ultra;
+        private System.Windows.Forms.GroupBox GB_Surf;
+        private System.Windows.Forms.Label L_Surf3;
+        private System.Windows.Forms.Label L_Surf2;
+        private System.Windows.Forms.Label L_Surf1;
+        private System.Windows.Forms.Label L_Surf0;
+        private System.Windows.Forms.NumericUpDown NUD_Surf3;
+        private System.Windows.Forms.NumericUpDown NUD_Surf2;
+        private System.Windows.Forms.NumericUpDown NUD_Surf1;
+        private System.Windows.Forms.NumericUpDown NUD_Surf0;
     }
 }
