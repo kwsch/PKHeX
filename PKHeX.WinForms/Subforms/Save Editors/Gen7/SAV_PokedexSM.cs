@@ -142,7 +142,7 @@ namespace PKHeX.WinForms
             var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
             { 
-                // empty (Alolan Totems)
+                // empty
                 LB_Forms.Enabled = false;
                 return false;
             }
@@ -369,84 +369,45 @@ namespace PKHeX.WinForms
         {
             allModifying = true;
             LB_Forms.Enabled = LB_Forms.Visible = false;
-
+            bool USUM = SAV.USUM;
             int lang = SAV.Language;
             if (lang > 5) lang -= 1;
             lang -= 1;
-            int[] totem = { 811, 1018, 1019, 1025, 1026, 1058, 1059, 1060 };
-            // 1024 is used by Wishiwashi school form.
 
-            if (sender == mnuSeenNone || sender == mnuSeenAll || sender == mnuComplete)
-                for (int i = 0; i < LB_Species.Items.Count; i++)
-                {
-                    LB_Species.SelectedIndex = i;
-                    int gt = GetBaseSpeciesGender(LB_Species.SelectedIndex);
-                    foreach (CheckBox t in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
-                        t.Checked = mnuSeenNone != sender && t.Enabled;
-
-                    if (mnuSeenNone != sender && !totem.Contains(i+1))
-                    {
-                        // ensure at least one Displayed except for formes
-                        if (i >= CB_Species.Items.Count)
-                            continue;
-                        if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                            (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
-                    }
-                    else
-                    {
-                        foreach (CheckBox t in CP)
-                            t.Checked = false;
-                    }
-
-                    if (!CHK_P1.Checked)
-                        foreach (CheckBox t in CL)
-                            t.Checked = false;
-                }
-
-            if (sender == mnuCaughtNone || sender == mnuCaughtAll || sender == mnuComplete)
+            for (int i = 0; i < SAV.MaxSpeciesID; i++)
             {
-                for (int i = 0; i < LB_Species.Items.Count; i++)
+                int spec = i + 1;
+                var pi = SAV.Personal[spec];
+                var gt = pi.Gender;
+                var c = pi.FormeCount;
+
+                // Set base species flags
+                LB_Species.SelectedIndex = i;
+                SetSeen(sender, gt, false);
+                SetCaught(sender, gt, lang, false);
+
+                // Set forme flags
+                for (int j = 1; j < c; j++)
                 {
-                    int gt = GetBaseSpeciesGender(LB_Species.SelectedIndex);
-                    LB_Species.SelectedIndex = i;
-                    foreach (CheckBox t in new[] { CHK_P1 })
-                        t.Checked = mnuCaughtNone != sender;
-                    for (int j = 0; j < CL.Length; j++)
-                        CL[j].Checked = CL[j].Enabled && (sender == mnuComplete || (mnuCaughtNone != sender && j == lang));
-                    
-                    // Don't modify totem entries
-                    if (totem.Contains(i+1))
-                        continue;
-
-                    if (mnuCaughtNone == sender)
+                    int start = j;
+                    int end = j;
+                    if (SAV7.SanitizeFormsToIterate(spec, out int s, out int n, j, USUM))
                     {
-                        if (i >= CB_Species.Items.Count)
+                        start = s;
+                        end = n;
+                    }
+                    for (int f = start; f <= end; f++)
+                    {
+                        if (f == 0)
+                            continue; // already set
+                        int x = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(spec, c, f) : SaveUtil.GetDexFormIndexSM(spec, c, f);
+                        if (x < 0)
                             continue;
-                        if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
-                            if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
-                                (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
-
-                        continue;
+                        bool isForm = f != 0;
+                        LB_Species.SelectedIndex = SAV.MaxSpeciesID - 1 + x;
+                        SetSeen(sender, gt, isForm);
+                        SetCaught(sender, gt, lang, isForm);
                     }
-
-                    if (mnuComplete == sender)
-                    {
-                        // Seen All
-                        foreach (var chk in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
-                            chk.Checked = chk.Enabled;
-                    }
-                    else
-                    {
-                        // ensure at least one SEEN
-                        if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
-                            (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
-                    }
-
-                    // ensure at least one Displayed except for formes
-                    if (i >= CB_Species.Items.Count)
-                        continue;
-                    if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
-                        (gt != 254 ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
                 }
             }
 
@@ -457,6 +418,68 @@ namespace PKHeX.WinForms
             allModifying = false;
             LB_Forms.Enabled = LB_Forms.Visible = true;
             LB_Species.SelectedIndex = 0;
+        }
+
+        private void SetCaught(object sender, int gt, int lang, bool isForm)
+        {
+            foreach (CheckBox t in new[] {CHK_P1})
+                t.Checked = mnuCaughtNone != sender;
+            for (int j = 0; j < CL.Length; j++)
+                CL[j].Checked = CL[j].Enabled && (sender == mnuComplete || (mnuCaughtNone != sender && j == lang));
+
+            if (mnuCaughtNone == sender)
+            {
+                if (isForm)
+                    return;
+                if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked)) // if seen
+                    if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked)) // not displayed
+                        (gt != 254 ? CHK_P6 : CHK_P7).Checked = true; // check one
+
+                return;
+            }
+
+            if (mnuComplete == sender)
+            {
+                // Seen All
+                foreach (var chk in new[] {CHK_P2, CHK_P3, CHK_P4, CHK_P5})
+                    chk.Checked = chk.Enabled;
+            }
+            else
+            {
+                // ensure at least one SEEN
+                if (!(CHK_P2.Checked || CHK_P3.Checked || CHK_P4.Checked || CHK_P5.Checked))
+                    (gt != 254 ? CHK_P2 : CHK_P3).Checked = true;
+            }
+
+            // ensure at least one Displayed except for formes
+            if (isForm)
+                return;
+            if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
+                (gt != 254 ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
+        }
+
+        private void SetSeen(object sender, int gt, bool isForm)
+        {
+            foreach (CheckBox t in new[] {CHK_P2, CHK_P3, CHK_P4, CHK_P5})
+                t.Checked = mnuSeenNone != sender && t.Enabled;
+
+            if (mnuSeenNone != sender)
+            {
+                // ensure at least one Displayed except for formes
+                if (isForm)
+                    return;
+                if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
+                    (gt != 254 ? CHK_P6 : CHK_P7).Checked = true;
+            }
+            else
+            {
+                foreach (CheckBox t in CP)
+                    t.Checked = false;
+            }
+
+            if (!CHK_P1.Checked)
+                foreach (CheckBox t in CL)
+                    t.Checked = false;
         }
     }
 }

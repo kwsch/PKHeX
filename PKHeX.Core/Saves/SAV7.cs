@@ -1037,7 +1037,7 @@ namespace PKHeX.Core
 
             int formstart = pkm.AltForm;
             int formend = pkm.AltForm;
-            bool reset = SanitizeFormsToIterate(pkm.Species, out int fs, out int fe, formstart);
+            bool reset = SanitizeFormsToIterate(pkm.Species, out int fs, out int fe, formstart, USUM);
             if (reset)
             {
                 formstart = fs;
@@ -1092,57 +1092,58 @@ namespace PKHeX.Core
 
             ((PK7)pkm).FormDuration = duration;
         }
-        private bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
+        public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn, bool USUM)
         {
             // 004AA370 in Moon
             // Simplified in terms of usage -- only overrides to give all the battle forms for a pkm
-            formStart = 0;
-            formEnd = 0;
             switch (species)
             {
                 case 351: // Castform
-                case 778 when USUM: // Mimikyu
                     formStart = 0;
                     formEnd = 3;
                     return true;
 
                 case 020: // Raticate
-                case 105 when USUM: // Marowak
+                case 105: // Marowak
                     formStart = 0;
-                    formEnd = 2;
+                    formEnd = 1;
                     return true;
+
+                case 735: // Gumshoos
+                case 758: // Salazzle
+                case 754: // Lurantis
+                case 738: // Vikavolt
+                case 784: // Kommo-o
+                case 752: // Araquanid
+                case 777: // Togedemaru
+                case 743: // Ribombee
+                case 744: // Rockruff
+                    break;
 
                 case 421: // Cherrim
                 case 555: // Darmanitan
                 case 648: // Meloetta
                 case 746: // Wishiwashi
                 case 778: // Mimikyu
-                case 743 when USUM: // Ribombee
-                case 744 when USUM: // Rockruff
-                case 752 when USUM: // Araquanid
-                case 777 when USUM: // Togedemaru
                     formStart = 0;
                     formEnd = 1;
                     return true;
 
-                case 774: // Minior
+                case 774 when formIn > 6: // Minior
                     // Cores forms are after Meteor forms, so the game iterator would give all meteor forms (NO!)
                     // So the game so the game chooses to only award entries for Core forms after they appear in battle.
-                    return formIn > 6; // resets to 0/0 if an invalid request is made (non-form entry)
-                    
-                case 718:
-                    if (formIn == 3) // complete
-                        return true; // 0/0
-                    if (formIn != 2) // give
-                        return false;
+                    break; // resets to 0/0 if an invalid request is made (non-form entry)
 
-                    // Apparently form 2 is invalid (50% core-ability), set to 10%'s form
-                    formStart = 1; 
-                    formEnd = 1;
-                    return true;
+                case 718 when formIn > 1:
+                    break;
                 default:
-                    return false;
+                    int count = USUM ? SaveUtil.GetDexFormCountUSUM(species) : SaveUtil.GetDexFormCountSM(species);
+                    formStart = formEnd = 0;
+                    return count < formIn;
             }
+            formStart = 0;
+            formEnd = 0;
+            return true;
         }
         private void SetDexFlags(int index, int gender, int shiny, int baseSpecies)
         {

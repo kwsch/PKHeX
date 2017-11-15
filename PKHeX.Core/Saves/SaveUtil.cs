@@ -777,6 +777,13 @@ namespace PKHeX.Core
                 return -1;
             return formindex;
         }
+        private static int GetDexFormCount(int species, IReadOnlyList<ushort> formtable)
+        {
+            for (int i = 0; i < formtable.Count; i += 2)
+                if (formtable[i] == species)
+                    return formtable[i + 1];
+            return 0;
+        }
         public static int GetDexFormIndexBW(int species, int formct)
         {
             if (formct < 1 || species < 0)
@@ -897,6 +904,8 @@ namespace PKHeX.Core
         }
         public static int GetDexFormIndexSM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_SM);
         public static int GetDexFormIndexUSUM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_USUM);
+        public static int GetDexFormCountSM(int species) => GetDexFormCount(species, formtable_SM);
+        public static int GetDexFormCountUSUM(int species) => GetDexFormCount(species, formtable_USUM);
 
         public static int GetCXDVersionID(int gen3version)
         {
