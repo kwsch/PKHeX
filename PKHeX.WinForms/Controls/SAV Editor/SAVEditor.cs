@@ -41,7 +41,7 @@ namespace PKHeX.WinForms.Controls
 
         public SAVEditor(SaveFile sav = null)
         {
-            var z = Task.Run(() => sav ?? SaveUtil.GetBlankSAV(GameVersion.SN, "PKHeX"));
+            var z = Task.Run(() => sav ?? SaveUtil.GetBlankSAV(GameVersion.US, "PKHeX"));
             InitializeComponent();
             var SupplementarySlots = new[]
             {
