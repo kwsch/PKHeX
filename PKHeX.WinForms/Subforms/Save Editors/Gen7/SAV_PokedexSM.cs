@@ -65,11 +65,17 @@ namespace PKHeX.WinForms
         private readonly List<int> baseSpecies;
         private int GetBaseSpeciesGender(int index)
         {
-            if (index <= SAV.MaxSpeciesID)
+            // meowstic special handling
+            const int meow = 678;
+            if (index == meow - 1 || index >= SAV.MaxSpeciesID && baseSpecies[index - SAV.MaxSpeciesID] == meow)
+                return index < SAV.MaxSpeciesID ? 0 : 254; // M : F
+
+            if (index < SAV.MaxSpeciesID)
                 return SAV.Personal[index + 1].Gender;
 
             index -= SAV.MaxSpeciesID;
-            return SAV.Personal[baseSpecies[index]].Gender;
+            int spec = baseSpecies[index];
+            return SAV.Personal[spec].Gender;
         }
 
         private void ChangeCBSpecies(object sender, EventArgs e)
@@ -377,9 +383,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < SAV.MaxSpeciesID; i++)
             {
                 int spec = i + 1;
-                var pi = SAV.Personal[spec];
-                var gt = pi.Gender;
-                var c = pi.FormeCount;
+                var gt = GetBaseSpeciesGender(i);
+                var c = SAV.Personal[spec].FormeCount;
 
                 // Set base species flags
                 LB_Species.SelectedIndex = i;
