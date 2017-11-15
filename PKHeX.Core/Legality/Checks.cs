@@ -1610,21 +1610,22 @@ namespace PKHeX.Core
             result = null;
             // Handling Trainer string is empty implying it has not been traded.
             // If it must be trade evolved, flag it.
-            if (Legal.IsTradeEvolved(pkm))
-                return false;
 
             if (pkm.Species == 350) // Milotic
             {
+                if (Legal.IsTradeEvolved(pkm))
+                    return false;
                 if (pkm.CNT_Beauty < 170) // Beauty Contest Stat Requirement
                     result = new CheckResult(Severity.Invalid, V143, CheckIdentifier.History);
                 else if (pkm.CurrentLevel == 1)
                     result = new CheckResult(Severity.Invalid, V144, CheckIdentifier.History);
                 else
                     return false;
+                return true;
             }
-            else
-                result = new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
-
+            if (!Legal.IsTradeEvolved(pkm))
+                return false;
+            result = new CheckResult(Severity.Invalid, V142, CheckIdentifier.History);
             return true;
         }
         private CheckResult VerifyCommonMemory(int handler)
