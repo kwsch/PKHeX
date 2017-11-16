@@ -1857,9 +1857,9 @@ namespace PKHeX.Core
             if (count <= 1 && pkm.AltForm == 0)
                 return; // no forms to check
 
-            if (pkm.AltForm >= count && !IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
+            if (pkm.AltForm >= count && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
             {
-                AddLine(Severity.Invalid, string.Format(V304, count, pkm.AltForm), CheckIdentifier.Form);
+                AddLine(Severity.Invalid, string.Format(V304, count-1, pkm.AltForm), CheckIdentifier.Form);
                 return;
             }
 
@@ -2028,20 +2028,6 @@ namespace PKHeX.Core
             { AddLine(Severity.Invalid, V310, CheckIdentifier.Form); return; }
 
             AddLine(Severity.Valid, V318, CheckIdentifier.Form);
-        }
-        private static bool IsValidOutOfBoundsForme(int species, int form, int generation)
-        {
-            switch (species)
-            {
-                case 201: // Unown
-                    return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
-                case 414: // Wormadam base form is kept
-                    return form < 3;
-                case 664: case 665: // Vivillon Pre-evolutions
-                    return form < 18;
-                default:
-                    return false;
-            }
         }
         private void VerifyMiscG1()
         {

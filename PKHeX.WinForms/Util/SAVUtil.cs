@@ -165,6 +165,10 @@ namespace PKHeX.WinForms
                     errata.Add($"Game can't hold item: {GameInfo.Strings.itemlist[held]}");
             }
 
+            int count = SAV.Personal[pkm.Species].FormeCount;
+            if (pkm.AltForm >= SAV.Personal[pkm.Species].FormeCount && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
+                errata.Add(string.Format(LegalityCheckStrings.V304, count-1, pkm.AltForm));
+
             if (pkm.Species > GameInfo.Strings.specieslist.Length)
                 errata.Add($"Species Index beyond range: {pkm.Species}");
             else if (SAV.MaxSpeciesID < pkm.Species)

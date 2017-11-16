@@ -61,7 +61,22 @@ namespace PKHeX.Core
                 return form -2;
             return form - 1;
         }
-        
+        public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
+        {
+            switch (species)
+            {
+                case 201: // Unown
+                    return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
+                case 414: // Wormadam base form is kept
+                    return form < 3;
+                case 664:
+                case 665: // Vivillon Pre-evolutions
+                    return form < 18;
+                default:
+                    return false;
+            }
+        }
+
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch (species)
