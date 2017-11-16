@@ -595,7 +595,8 @@ namespace PKHeX.Core
                 case 36: // Any Time on Version
                 case 37: // Daytime on Version
                 case 38: // Nighttime on Version
-                    if (pkm.Version != Argument && pkm.IsUntraded || skipChecks)
+                    // Version checks come in pairs, check for any pair match
+                    if ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded || skipChecks)
                         return skipChecks;
                     goto default;
 
