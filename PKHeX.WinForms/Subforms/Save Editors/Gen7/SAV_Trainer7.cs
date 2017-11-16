@@ -135,7 +135,7 @@ namespace PKHeX.WinForms
 
             CB_Game.SelectedIndex = SAV.Game - 30;
             CB_Gender.SelectedIndex = SAV.Gender;
-            
+
             // Display Data
             TB_OTName.Text = OT_NAME;
 
@@ -143,7 +143,7 @@ namespace PKHeX.WinForms
             MT_SID.Text = SAV.SID.ToString("00000");
             MT_G7TID.Text = SAV.TrainerID7.ToString("000000");
             MT_Money.Text = SAV.Money.ToString();
-            
+
             CB_Country.SelectedValue = SAV.Country;
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
@@ -155,7 +155,7 @@ namespace PKHeX.WinForms
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
                 CB_AlolaTime.SelectedValue = (int)time;
-            
+
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
             try
@@ -171,7 +171,7 @@ namespace PKHeX.WinForms
             MT_Hours.Text = SAV.PlayedHours.ToString();
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
-            
+
             if (SAV.LastSavedDate.HasValue)
             {
                 CAL_LastSavedDate.Value = SAV.LastSavedDate.Value;
@@ -181,7 +181,7 @@ namespace PKHeX.WinForms
             {
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
-                
+
             CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
             CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
             CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
@@ -222,15 +222,11 @@ namespace PKHeX.WinForms
             if (SAV.BallThrowType >= 0 && SAV.BallThrowType < CB_BallThrowType.Items.Count)
                 CB_BallThrowType.SelectedIndex = SAV.BallThrowType;
 
-            LB_BallThrowTypeUnlocked.SetSelected(0, true);
-            LB_BallThrowTypeUnlocked.SetSelected(1, true);
-            for (int i = 2; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
-                LB_BallThrowTypeUnlocked.SetSelected(i, SAV.GetEventFlag(292 + i));
-
-            LB_BallThrowTypeLearned.SetSelected(0, true);
-            for (int i = 1; i < LB_BallThrowTypeLearned.Items.Count; i++)
-                LB_BallThrowTypeLearned.SetSelected(i, SAV.GetEventFlag(3479 + i));
-            CB_BallThrowTypeListMode.SelectedIndex = 0;
+            if (SAV.SM)
+                LoadThrowTypeLists();
+            else
+                CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible =
+                    LB_BallThrowTypeUnlocked.Visible = false;
 
             uint stampBits = SAV.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
@@ -245,6 +241,23 @@ namespace PKHeX.WinForms
 
             LoadMapFlyToData();
         }
+
+        private void LoadThrowTypeLists()
+        {
+            const int unlockStart = 292;
+            const int learnedStart = 3479;
+            LB_BallThrowTypeUnlocked.SetSelected(0, true);
+            LB_BallThrowTypeUnlocked.SetSelected(1, true);
+            for (int i = 2; i < BattleStyles.Length; i++)
+                LB_BallThrowTypeUnlocked.SetSelected(i, SAV.GetEventFlag(unlockStart + i));
+
+            LB_BallThrowTypeLearned.SetSelected(0, true);
+            for (int i = 1; i < BattleStyles.Length; i++)
+                LB_BallThrowTypeLearned.SetSelected(i, SAV.GetEventFlag(learnedStart + i));
+
+            CB_BallThrowTypeListMode.SelectedIndex = 0;
+        }
+
         private void LoadMapFlyToData()
         {
             List<ComboItem> metLocationList = GameInfo.GetLocationList(GameVersion.US, 7, false);
@@ -321,7 +334,9 @@ namespace PKHeX.WinForms
             SavePokeFinder();
             SaveBattleTree();
             SaveTrainerAppearance();
-            SaveThrowType();
+            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
+            if (SAV.SM)
+                SaveThrowType();
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
 
@@ -420,15 +435,15 @@ namespace PKHeX.WinForms
         }
         private void SaveThrowType()
         {
-            SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
 
-            for (int i = 2; i < LB_BallThrowTypeUnlocked.Items.Count; i++)
-                SAV.SetEventFlag(292 + i, LB_BallThrowTypeUnlocked.GetSelected(i));
-
-            for (int i = 1; i < LB_BallThrowTypeLearned.Items.Count; i++)
-                SAV.SetEventFlag(3479 + i, LB_BallThrowTypeLearned.GetSelected(i));
+            const int unlockStart = 292;
+            const int learnedStart = 3479;
+            for (int i = 2; i < BattleStyles.Length; i++)
+                SAV.SetEventFlag(unlockStart + i, LB_BallThrowTypeUnlocked.GetSelected(i));
+            for (int i = 1; i < BattleStyles.Length; i++)
+                SAV.SetEventFlag(learnedStart + i, LB_BallThrowTypeLearned.GetSelected(i));
         }
         private void SaveFlags()
         {
