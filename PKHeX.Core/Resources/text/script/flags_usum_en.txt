@@ -48,3 +48,4 @@
 4546	Unlocked Primarina Twist
 4547	Unlocked Starmie 720
 4548	Unlocked Over-the-Gyarados
+4490	SlidePad to control UltraWarpRide
