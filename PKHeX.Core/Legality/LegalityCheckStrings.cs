@@ -324,7 +324,7 @@ namespace PKHeX.Core
         public static string V314 {get; set;} = "Invalid Eternal Flower encounter.";
         public static string V315 {get; set;} = "Valid Eternal Flower encounter.";
         public static string V316 {get; set;} = "Form cannot exist outside of Party.";
-        public static string V317 {get; set;} = "Form cannot be obtained for pre-Alola Generation games.";
+        public static string V317 {get; set;} = "Form cannot be obtained in origin game.";
 
         public static string V319 {get; set;} = "Cannot apply PP Ups to an Egg.";
         public static string V320 {get; set;} = "Cannot increase Contest Stats of an Egg.";

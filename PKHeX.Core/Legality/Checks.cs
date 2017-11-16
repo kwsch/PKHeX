@@ -1991,6 +1991,11 @@ namespace PKHeX.Core
                         break;
                     }
 
+                case 744 when Info.EncounterMatch.EggEncounter && pkm.AltForm == 1 && pkm.SM:
+                case 745 when Info.EncounterMatch.EggEncounter && pkm.AltForm == 2 && pkm.SM:
+                    AddLine(Severity.Invalid, V317, CheckIdentifier.Form);
+                    return;
+
                 // Party Only Forms
                 case 492: // Shaymin
                 case 676: // Furfrou
