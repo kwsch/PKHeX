@@ -44,8 +44,11 @@
 4282	Kyurem Captured
 4424	(US) Xerneas Captured
 4425	(UM) Yveltal Captured
+1627	(UM)Lunala Captured
+1552	Necrozma Captured
+4370	(UM)Stakataka Appearable
 4545	Unlocked Lanturn 360
 4546	Unlocked Primarina Twist
 4547	Unlocked Starmie 720
 4548	Unlocked Over-the-Gyarados
-4490	SlidePad to control UltraWarpRide
+4490	Circle Pad Controls for Ultra Warp Ride
