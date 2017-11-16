@@ -636,5 +636,41 @@ namespace PKHeX.Core
         public override int MaxEV => 252;
         public override int OTLength => 12;
         public override int NickLength => 12;
+
+        // Miscellaneous Helper Methods
+        public bool IsSMCompatible()
+        {
+            // The following code is a reimplementation of official game code at PokeRegulation::CheckNijiCompatible.
+
+            if (Species > 802) // Official game code manually compares to 803-807.
+                return false;
+            if (Species == 800 && AltForm > 0) // Official game code manually compares forme to 1, 2, 3.
+                return false;
+            switch (Species)
+            {
+                case 25: // Pikachu, Partner Cap
+                    if (AltForm >= 7) // Official game code does ==.
+                        return false;
+                    break;
+                case 105: // Alolan Marowak, Totem
+                case 745: // Lycanroc, Dusk
+                    if (AltForm >= 2) // Official game code does ==.
+                        return false;
+                    break;
+                case 743: // Ribombee, Totem
+                case 744: // Rockruff, Dusk
+                case 752: // Araquanid, Totem
+                    if (AltForm >= 1) // Official game code does ==.
+                        return false;
+                    break;
+            }
+
+            foreach (var move in Moves)
+            {
+                if (move >= 0x2D0) // Check if > 10,000,000 Volt Thunderbolt
+                    return false;
+            }
+            return HeldItem <= 0x398; // <= Fairy Memory
+        }
     }
 }
