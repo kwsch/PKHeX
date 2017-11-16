@@ -816,6 +816,8 @@ namespace PKHeX.Core
         }
         private static int[] GetGenMovesOrder(int start, int end)
         {
+            if (start <= end)
+                return new[] {start};
             var order = new int[start - end + 1];
             for (int i = 0; i < order.Length; i++)
                 order[i] = start - i;
