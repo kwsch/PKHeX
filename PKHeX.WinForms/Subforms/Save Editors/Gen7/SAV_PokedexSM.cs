@@ -380,11 +380,41 @@ namespace PKHeX.WinForms
             if (lang > 5) lang -= 1;
             lang -= 1;
 
+            if (sender == mnuSeenAll || sender == mnuCaughtAll || sender == mnuComplete)
+                SetAll(sender, USUM, lang);
+            else
+                ClearAll(sender);
+
+            SetEntry();
+            // Turn off zh2 Petilil
+            Dex.LanguageFlags[548 * 9 + 8] = false;
+            GetEntry();
+            allModifying = false;
+            LB_Forms.Enabled = LB_Forms.Visible = true;
+            LB_Species.SelectedIndex = 0;
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+        private void ClearAll(object sender)
+        {
+            for (int i = 0; i < LB_Species.Items.Count; i++)
+            {
+                LB_Species.SelectedIndex = i;
+                foreach (CheckBox chk in CL)
+                    chk.Checked = false;
+                CHK_P1.Checked = false; // not caught
+                if (sender == mnuCaughtNone)
+                    continue;
+                // remove seen/displayed
+                CHK_P2.Checked = CHK_P4.Checked = CHK_P3.Checked = CHK_P5.Checked = false;
+                CHK_P6.Checked = CHK_P7.Checked = CHK_P8.Checked = CHK_P9.Checked = false;
+            }
+        }
+        private void SetAll(object sender, bool USUM, int lang)
+        {
             for (int i = 0; i < SAV.MaxSpeciesID; i++)
             {
                 int spec = i + 1;
                 var gt = GetBaseSpeciesGender(i);
-                var c = SAV.Personal[spec].FormeCount;
 
                 // Set base species flags
                 LB_Species.SelectedIndex = i;
@@ -392,43 +422,40 @@ namespace PKHeX.WinForms
                 SetCaught(sender, gt, lang, false);
 
                 // Set forme flags
-                for (int j = 1; j < c; j++)
+                var entries = GetAllFormEntries(spec, USUM).Where(z => z >= SAV.MaxSpeciesID).Distinct();
+                foreach (var f in entries)
                 {
-                    int start = j;
-                    int end = j;
-                    if (SAV7.SanitizeFormsToIterate(spec, out int s, out int n, j, USUM))
-                    {
-                        start = s;
-                        end = n;
-                    }
-                    for (int f = start; f <= end; f++)
-                    {
-                        if (f == 0)
-                            continue; // already set
-                        int x = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(spec, c, f) : SaveUtil.GetDexFormIndexSM(spec, c, f);
-                        if (x < 0)
-                            continue;
-                        bool isForm = f != 0;
-                        LB_Species.SelectedIndex = SAV.MaxSpeciesID - 1 + x;
-                        SetSeen(sender, gt, isForm);
-                        SetCaught(sender, gt, lang, isForm);
-                    }
+                    LB_Species.SelectedIndex = f;
+                    SetSeen(sender, gt, true);
+                    SetCaught(sender, gt, lang, true);
                 }
             }
-
-            SetEntry();
-            // Turn off zh2 Petilil
-            Dex.LanguageFlags[548*9 + 8] = false;
-            GetEntry();
-            allModifying = false;
-            LB_Forms.Enabled = LB_Forms.Visible = true;
-            LB_Species.SelectedIndex = 0;
+        }
+        private IEnumerable<int> GetAllFormEntries(int spec, bool USUM)
+        {
+            var fc = SAV.Personal[spec].FormeCount;
+            for (int j = 1; j < fc; j++)
+            {
+                int start = j;
+                int end = j;
+                if (SAV7.SanitizeFormsToIterate(spec, out int s, out int n, j, USUM))
+                {
+                    start = s;
+                    end = n;
+                }
+                start = Math.Max(1, start);
+                for (int f = start; f <= end; f++)
+                {
+                    int x = SAV.USUM ? SaveUtil.GetDexFormIndexUSUM(spec, fc, f) : SaveUtil.GetDexFormIndexSM(spec, fc, f);
+                    if (x >= 0)
+                        yield return SAV.MaxSpeciesID - 1 + x;
+                }
+            }
         }
 
         private void SetCaught(object sender, int gt, int lang, bool isForm)
         {
-            foreach (CheckBox t in new[] {CHK_P1})
-                t.Checked = mnuCaughtNone != sender;
+            CHK_P1.Checked = mnuCaughtNone != sender;
             for (int j = 0; j < CL.Length; j++)
                 CL[j].Checked = CL[j].Enabled && (sender == mnuComplete || (mnuCaughtNone != sender && j == lang));
 
