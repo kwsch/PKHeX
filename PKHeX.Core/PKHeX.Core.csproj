@@ -85,7 +85,7 @@
     <None Remove="Resources\byte\lvlmove_uu.pkl" />
     <None Remove="Resources\byte\lvlmove_xy.pkl" />
     <None Remove="Resources\byte\lvlmove_y.pkl" />
-    <None Remove="Resources\byte\pcd.pkl" />
+    <None Remove="Resources\byte\wc4.pkl" />
     <None Remove="Resources\byte\personal_ao" />
     <None Remove="Resources\byte\personal_b2w2" />
     <None Remove="Resources\byte\personal_bw" />
@@ -727,7 +727,7 @@
     <EmbeddedResource Include="Resources\byte\lvlmove_uu.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_xy.pkl" />
     <EmbeddedResource Include="Resources\byte\lvlmove_y.pkl" />
-    <EmbeddedResource Include="Resources\byte\pcd.pkl" />
+    <EmbeddedResource Include="Resources\byte\wc4.pkl" />
     <EmbeddedResource Include="Resources\byte\personal_ao" />
     <EmbeddedResource Include="Resources\byte\personal_b2w2" />
     <EmbeddedResource Include="Resources\byte\personal_bw" />
