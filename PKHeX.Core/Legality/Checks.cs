@@ -419,7 +419,7 @@ namespace PKHeX.Core
             if (pkm.IsNicknamed)
                 AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
             int lang = pkm.Language;
-            if (validOT.Length >= lang)
+            if (validOT.Length <= lang)
                 AddLine(Severity.Invalid, V8, CheckIdentifier.Trainer);
             else if (validOT[lang] != pkm.OT_Name)
                 AddLine(Severity.Invalid, V10, CheckIdentifier.Trainer);
