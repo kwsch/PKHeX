@@ -1,7 +1,42 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/10/17 - New Update:
+17/11/17 - New Update:
+ - Added: Ultra Sun & Ultra Moon Support
+ - - Legality: Complete detection & validation.
+ - - Added: Added all new US/UM content (Species, Moves, etc). Thanks SciresM & wwwwwwzx!
+ - - Changed: All existing Sun & Moon editors work with US/UM.
+ - Added: Complete sticker location listing. Thanks pokecal & ReignOfComputer!
+ - Added: >50 respawn/settings event flags for US/UM. Thanks sora10pls & pokecal!
+ - Added: Fashion Unlock cheats for US/UM to unlock all accessories. Thanks Holla!
+ - Added: US/UM specific Trainer Stat Records. Thanks Holla!
+ - Added: Map FlyTo location unlocking for Generation 7 saves. Thanks pokecal!
+ - Added: Mantine Surf score editing via Trainer Info editor. Thanks sora10pls!
+ - Added: Early Z-Move unlock flag next to the existing Early Mega Evolution unlock.
+ - Fixed: Pokédex seen/captured flags for Generation 7 saves now correctly mimic the games. Thanks sora10pls!
+ - Legality:
+ - - Added: US/UM wild encounter and static encounter data. Thanks to all who identified the locations!
+ - - Changed: Updated internal logic to handle US/UM content & oddities like Kantonian evolution methods.
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - - Added: Ingame Trade OT/Nickname checks. Thanks sora10pls!
+ - - Added: Ingame Trade PID checks. Thanks sora10pls!
+ - - Fixed: Gen4 EncounterType detection reworked for cleanliness and accuracy.
+ - - Fixed: Colosseum Starter PIDIV checks now detect gender lock skipping (no more false flags).
+ - - Fixed: Added more Colosseum/XD ingame snag locations.
+ - - Fixed: Gen1/2 -> Gen7 transfers are now checked for met locations.
+ - Added: Misc safeguards for setting PKM data not obtainable in the save file's origin game. Thanks sora10pls!
+ - Added: Gen5 BP editing. Thanks sora10pls!
+ - Added: Can now load Mystery Gift pkm QR images to the Main Window tabs (same as importing PKM QRs).
+ - Changed: Internal string resource fetch mechanism speed improved. Thanks evandixon!
+ - Changed: Gen1/2 -> Gen7 transfer language detection improved for special characters in certain languages (German).
+ - Fixed: Zygarde 50%-C showdown set importing. Thanks architdate!
+ - Fixed: Gen1 Pikachu starter now saves correctly (doesn't remove Light Ball). Thanks Dunsparce!
+ - Fixed: Gen2 TimeOfDay values now are editable in the PKMEditor (nobody noticed for so long!)
+ - Fixed: Gen2 Korean encoding documentation errors fixed; strings now decode correctly. Thanks host1126!
+ - Fixed: Gen3 Roamer edits now save correctly. Thanks TheRealAlphA!
+ - - ~6 commits per day average over the last month. Big thanks to all who have contributed & provided feedback!
+
+17/10/17 - New Update: (46159) [780491]
  - Legality:
  - - Fixed: Gen4 Cute Charm PIDIV detection for species that change gender ratios upon evolution (Combee etc).
  - - Fixed: Gen6/7 Traded eggs change the origin version to the hatcher's version when hatched. Updated affected logic.
