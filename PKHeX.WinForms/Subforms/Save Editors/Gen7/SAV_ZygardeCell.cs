@@ -285,7 +285,7 @@ namespace PKHeX.WinForms
             "Seafolk Village - Southwest Huntail (Outside)",
             "Seafolk Village - Southeast Whiscash (Mina's Ship)",
             "Seafolk Village - West Wailord (Restaurant)",
-            "Seafolk Village - East Gyarados",
+            "Seafolk Village - East Steelix",
             "Poni Wilds - Southeast",
             "Ancient Poni Path - Hapu's House (Kitchen)",
             "Seafolk Village - Northeast",
