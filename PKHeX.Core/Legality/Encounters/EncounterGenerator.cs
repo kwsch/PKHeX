@@ -1313,7 +1313,15 @@ namespace PKHeX.Core
                 if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
                 if (wc.Language != 0 && wc.Language != pkm.Language) return false;
             }
-            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species))) return false;
+            if (wc.Form != pkm.AltForm && vs.All(dl => !IsFormChangeable(pkm, dl.Species)))
+            {
+                if (wc.Species == 744 && wc.Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
+                {
+                    // Rockruff gift edge case; has altform 1 then evolves to altform 2
+                }
+                else
+                    return false;
+            }
 
             if (wc.IsEgg)
             {
