@@ -1,3 +1,5 @@
+4060	Is Alolan Champion/Can Receive Magearna Gift
+4562	Been to Akala Island/Can Receive Partner Cap Pikachu
 4563	Received Partner Cap Pikachu
 0518	Received Surfing Pikachu
 0493	Received Gift Porygon
@@ -5,7 +7,7 @@
 0654	Received Gift Type: Null (1)
 1101	Received Gift Type: Null (2)
 1476	Received Gift Cosmog
-1469	Received Gift Magearna
+4447	Received Gift Magearna
 0269	Received Gift Poipole
 4420	Articuno Captured
 4421	Zapdos Captured
