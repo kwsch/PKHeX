@@ -158,7 +158,7 @@ namespace PKHeX.Core
         }
         public static void RefreshMGDB(string localDbPath)
         {
-            var g4 = GetPCDDB(Util.GetBinaryResource("pcd.pkl"));
+            var g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
             var g5 = GetPGFDB(Util.GetBinaryResource("pgf.pkl"));
             var g6 = GetWC6DB(Util.GetBinaryResource("wc6.pkl"), Util.GetBinaryResource("wc6full.pkl"));
             var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
