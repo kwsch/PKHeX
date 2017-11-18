@@ -224,6 +224,7 @@ namespace PKHeX.WinForms
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
         private readonly PictureBox[] pba;
+        private bool MapUpdated;
 
         private void GetComboBoxes()
         {
@@ -506,7 +507,7 @@ namespace PKHeX.WinForms
                     SAV.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
 
             // Copy Position
-            if (GB_Map.Enabled)
+            if (GB_Map.Enabled && MapUpdated)
             {
                 SAV.M = (int)NUD_M.Value;
                 SAV.X = (float)NUD_X.Value;
@@ -670,6 +671,11 @@ namespace PKHeX.WinForms
         private void ToggleBadge(object sender, EventArgs e)
         {
             cba[Array.IndexOf(pba, sender)].Checked ^= true;
+        }
+        private void ChangeMapValue(object sender, EventArgs e)
+        {
+            if (!editing)
+                MapUpdated = true;
         }
 
         private void CB_Multi_SelectedIndexChanged(object sender, EventArgs e)

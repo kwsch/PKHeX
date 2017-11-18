@@ -200,11 +200,11 @@ namespace PKHeX.WinForms
             this.L_X = new System.Windows.Forms.Label();
             this.CHK_Badge6 = new System.Windows.Forms.CheckBox();
             this.Tab_Multiplayer = new System.Windows.Forms.TabPage();
+            this.CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
             this.Tab_Maison = new System.Windows.Forms.TabPage();
             this.Tab_Appearance = new System.Windows.Forms.TabPage();
             this.L_TRNick = new System.Windows.Forms.Label();
             this.TB_TRNick = new System.Windows.Forms.TextBox();
-            this.CHK_MegaUnlocked = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Badge4)).BeginInit();
@@ -1983,6 +1983,7 @@ namespace PKHeX.WinForms
             this.NUD_Z.Name = "NUD_Z";
             this.NUD_Z.Size = new System.Drawing.Size(50, 20);
             this.NUD_Z.TabIndex = 53;
+            this.NUD_Z.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_M
             // 
@@ -1995,6 +1996,7 @@ namespace PKHeX.WinForms
             this.NUD_M.Name = "NUD_M";
             this.NUD_M.Size = new System.Drawing.Size(50, 20);
             this.NUD_M.TabIndex = 52;
+            this.NUD_M.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_Y
             // 
@@ -2008,6 +2010,7 @@ namespace PKHeX.WinForms
             this.NUD_Y.Name = "NUD_Y";
             this.NUD_Y.Size = new System.Drawing.Size(50, 20);
             this.NUD_Y.TabIndex = 51;
+            this.NUD_Y.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // NUD_X
             // 
@@ -2021,6 +2024,7 @@ namespace PKHeX.WinForms
             this.NUD_X.Name = "NUD_X";
             this.NUD_X.Size = new System.Drawing.Size(50, 20);
             this.NUD_X.TabIndex = 50;
+            this.NUD_X.ValueChanged += new System.EventHandler(this.ChangeMapValue);
             // 
             // L_Y
             // 
@@ -2084,6 +2088,16 @@ namespace PKHeX.WinForms
             this.Tab_Multiplayer.TabIndex = 1;
             this.Tab_Multiplayer.Text = "Multiplayer";
             this.Tab_Multiplayer.UseVisualStyleBackColor = true;
+            // 
+            // CHK_MegaUnlocked
+            // 
+            this.CHK_MegaUnlocked.AutoSize = true;
+            this.CHK_MegaUnlocked.Location = new System.Drawing.Point(123, 216);
+            this.CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
+            this.CHK_MegaUnlocked.Size = new System.Drawing.Size(149, 17);
+            this.CHK_MegaUnlocked.TabIndex = 76;
+            this.CHK_MegaUnlocked.Text = "Mega Evolution Unlocked";
+            this.CHK_MegaUnlocked.UseVisualStyleBackColor = true;
             // 
             // Tab_Maison
             // 
@@ -2168,16 +2182,6 @@ namespace PKHeX.WinForms
             this.TB_TRNick.TabIndex = 73;
             this.TB_TRNick.Text = "WWWWWWWWWWWW";
             this.TB_TRNick.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // CHK_MegaUnlocked
-            // 
-            this.CHK_MegaUnlocked.AutoSize = true;
-            this.CHK_MegaUnlocked.Location = new System.Drawing.Point(123, 216);
-            this.CHK_MegaUnlocked.Name = "CHK_MegaUnlocked";
-            this.CHK_MegaUnlocked.Size = new System.Drawing.Size(149, 17);
-            this.CHK_MegaUnlocked.TabIndex = 76;
-            this.CHK_MegaUnlocked.Text = "Mega Evolution Unlocked";
-            this.CHK_MegaUnlocked.UseVisualStyleBackColor = true;
             // 
             // SAV_Trainer
             // 
