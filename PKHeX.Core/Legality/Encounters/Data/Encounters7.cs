@@ -37,8 +37,8 @@ namespace PKHeX.Core
             MarkG7REGSlots(ref REG_UM);
             MarkG7SMSlots(ref SOS_US);
             MarkG7SMSlots(ref SOS_UM);
-            SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_SM, Encounter_Pelago_SN);
-            SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_SM, Encounter_Pelago_MN);
+            SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_UU, Encounter_Pelago_US);
+            SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_UU, Encounter_Pelago_UM);
         }
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {
@@ -439,7 +439,48 @@ namespace PKHeX.Core
                 },
             }
         };
-        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 627, LevelMin = 1, LevelMax = 55 }, /* Rufflet SUN  */ } } };
-        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 629, LevelMin = 1, LevelMax = 55 }, /* Vullaby MOON */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_SN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 627, LevelMin = 37, LevelMax = 55 }, /* Rufflet SUN  */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_MN = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 629, LevelMin = 37, LevelMax = 55 }, /* Vullaby MOON */ } } };
+
+        private static readonly EncounterArea[] Encounter_Pelago_UU =
+        {
+            new EncounterArea
+            {
+                Location = 30016, // Poké Pelago
+                Slots = new[]
+                {
+                    new EncounterSlot {Species = 731, LevelMin = 01, LevelMax = 55}, // Pikipek
+                    new EncounterSlot {Species = 278, LevelMin = 01, LevelMax = 55}, // Wingull
+                    new EncounterSlot {Species = 041, LevelMin = 01, LevelMax = 55}, // Zubat
+                    new EncounterSlot {Species = 742, LevelMin = 01, LevelMax = 55}, // Cutiefly
+                    new EncounterSlot {Species = 086, LevelMin = 01, LevelMax = 55}, // Seel
+
+                    new EncounterSlot {Species = 079, LevelMin = 11, LevelMax = 55}, // Slowpoke
+                    new EncounterSlot {Species = 120, LevelMin = 11, LevelMax = 55}, // Staryu
+                    new EncounterSlot {Species = 222, LevelMin = 11, LevelMax = 55}, // Corsola
+                    new EncounterSlot {Species = 122, LevelMin = 11, LevelMax = 55}, // Mr. Mime
+                    new EncounterSlot {Species = 180, LevelMin = 11, LevelMax = 55}, // Flaaffy
+                    new EncounterSlot {Species = 124, LevelMin = 11, LevelMax = 55}, // Jynx
+
+                    new EncounterSlot {Species = 127, LevelMin = 21, LevelMax = 55}, // Pinsir
+                    new EncounterSlot {Species = 177, LevelMin = 21, LevelMax = 55}, // Natu
+                    new EncounterSlot {Species = 764, LevelMin = 21, LevelMax = 55}, // Comfey
+                    new EncounterSlot {Species = 163, LevelMin = 21, LevelMax = 55}, // Hoothoot
+                    new EncounterSlot {Species = 771, LevelMin = 21, LevelMax = 55}, // Pyukumuku
+                    new EncounterSlot {Species = 701, LevelMin = 21, LevelMax = 55}, // Hawlucha
+
+                    new EncounterSlot {Species = 131, LevelMin = 37, LevelMax = 55}, // Lapras
+                    new EncounterSlot {Species = 354, LevelMin = 37, LevelMax = 55}, // Banette
+                    new EncounterSlot {Species = 200, LevelMin = 37, LevelMax = 55}, // Misdreavus
+
+                    new EncounterSlot {Species = 209, LevelMin = 49, LevelMax = 55}, // Snubbull
+                    new EncounterSlot {Species = 667, LevelMin = 49, LevelMax = 55}, // Litleo
+                    new EncounterSlot {Species = 357, LevelMin = 49, LevelMax = 55}, // Tropius
+                    new EncounterSlot {Species = 430, LevelMin = 49, LevelMax = 55}, // Honchkrow
+                },
+            }
+        };
+        private static readonly EncounterArea[] Encounter_Pelago_US = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 228, LevelMin = 37, LevelMax = 55 }, /* Houndour US  */ } } };
+        private static readonly EncounterArea[] Encounter_Pelago_UM = { new EncounterArea { Location = 30016, Slots = new[] { new EncounterSlot { Species = 309, LevelMin = 37, LevelMax = 55 }, /* Electrike UM */ } } };
     }
 }
