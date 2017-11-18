@@ -21,7 +21,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="dex_id">National Dex ID.</param>
         /// <returns>Generation 1 species ID.</returns>
-        public static int SetG1Species(int dex_id) => table1_Internal[dex_id];
+        public static int SetG1Species(int dex_id) => dex_id >= table1_Internal.Length ? 0 : table1_Internal[dex_id];
 
         /// <summary>
         /// Converts a National Dex ID to Generation 3 species ID.
