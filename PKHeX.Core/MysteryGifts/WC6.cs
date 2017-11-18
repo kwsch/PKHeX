@@ -104,10 +104,10 @@ namespace PKHeX.Core
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == 0; set { if (value) CardType = 0; } }
         public override bool IsShiny => PIDType == 2;
-        public int TID {
+        public override int TID {
             get => BitConverter.ToUInt16(Data, 0x68);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x68); }
-        public int SID {
+        public override int SID {
             get => BitConverter.ToUInt16(Data, 0x6A);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x6A); }
         public int OriginGame {
@@ -137,7 +137,7 @@ namespace PKHeX.Core
         public override int Species {
             get => BitConverter.ToUInt16(Data, 0x82);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x82); }
-        public int Form {
+        public override int Form {
             get => Data[0x84];
             set => Data[0x84] = (byte)value; }
         public int Language {
@@ -149,7 +149,7 @@ namespace PKHeX.Core
         public int Nature {
             get => Data[0xA0];
             set => Data[0xA0] = (byte)value; }
-        public int Gender {
+        public override int Gender {
             get => Data[0xA1];
             set => Data[0xA1] = (byte)value; }
         public int AbilityType {
@@ -180,7 +180,7 @@ namespace PKHeX.Core
         public int IV_SPD { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
 
         public int OTGender { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
-        public string OT {
+        public override string OT_Name {
             get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xB6, 0x1A)); set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0xB6);
         }
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
@@ -313,11 +313,11 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                OT_Name = OT.Length > 0 ? OT : SAV.OT,
+                OT_Name = OT_Name.Length > 0 ? OT_Name : SAV.OT,
                 OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
-                HT_Name = OT.Length > 0 ? SAV.OT : "",
-                HT_Gender = OT.Length > 0 ? SAV.Gender : 0,
-                CurrentHandler = OT.Length > 0 ? 1 : 0,
+                HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
+                HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
+                CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
                 
                 EXP = PKX.GetEXP(Level, Species),
 

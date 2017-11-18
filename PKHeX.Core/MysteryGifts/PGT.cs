@@ -85,6 +85,11 @@ namespace PKHeX.Core
         public override int HeldItem { get => Gift.HeldItem; set => Gift.HeldItem = value; }
         public override bool IsShiny => Gift.IsShiny;
         public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
+        public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
+        public override int Form { get => Gift.Form; set => Gift.Form = value; }
+        public override int TID { get => Gift.TID; set => Gift.TID = value; }
+        public override int SID { get => Gift.SID; set => Gift.SID = value; }
+        public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
 
         public bool GiftEquals(PGT pgt)
         {
@@ -197,6 +202,11 @@ namespace PKHeX.Core
         public override int[] Moves { get => PK.Moves; set => PK.Moves = value; }
         public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
         public override bool IsShiny => PK.IsShiny;
+        public override int Gender { get => PK.Gender; set => PK.Gender = value; }
+        public override int Form { get => PK.AltForm; set => PK.AltForm = value; }
+        public override int TID { get => (ushort)PK.TID; set => PK.TID = value; }
+        public override int SID { get => (ushort)PK.SID; set => PK.SID = value; }
+        public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
 
         public override PKM ConvertToPKM(SaveFile SAV)
         {

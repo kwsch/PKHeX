@@ -137,6 +137,11 @@ namespace PKHeX.Core
         public virtual bool IsEgg { get => false; set { } }
         public virtual int HeldItem { get => -1; set { } }
         public virtual object Content => this;
+        public abstract int Gender { get; set; }
+        public abstract int Form { get; set; }
+        public abstract int TID { get; set; }
+        public abstract int SID { get; set; }
+        public abstract string OT_Name { get; set; }
 
         public abstract int Level { get; set; }
         public int LevelMin => Level;

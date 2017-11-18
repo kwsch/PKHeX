@@ -233,7 +233,7 @@ namespace PKHeX.Core
         public int GetFormeIndex(int species, int forme)
         {
             if (species >= Table.Length)
-            { species = 0; Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={Table.Length-1}"); }
+            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={Table.Length-1})"); species = 0; }
             return this[species].FormeIndex(species, forme);
         }
 

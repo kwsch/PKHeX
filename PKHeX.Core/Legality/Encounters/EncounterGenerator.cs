@@ -1226,7 +1226,7 @@ namespace PKHeX.Core
             {
                 if (wc.SID != pkm.SID) return false;
                 if (wc.TID != pkm.TID) return false;
-                if (wc.OT != pkm.OT_Name) return false;
+                if (wc.OT_Name != pkm.OT_Name) return false;
                 if (wc.OTGender < 3 && wc.OTGender != pkm.OT_Gender) return false;
                 if (wc.PID != 0 && pkm.PID != wc.PID) return false;
                 if (wc.PIDType == 0 && pkm.IsShiny) return false;
@@ -1267,7 +1267,7 @@ namespace PKHeX.Core
             {
                 if (wc.CardID != pkm.SID) return false;
                 if (wc.TID != pkm.TID) return false;
-                if (wc.OT != pkm.OT_Name) return false;
+                if (wc.OT_Name != pkm.OT_Name) return false;
                 if (wc.OTGender != pkm.OT_Gender) return false;
                 if (wc.PIDType == 0 && pkm.PID != wc.PID) return false;
                 if (wc.PIDType == 2 && !pkm.IsShiny) return false;
@@ -1316,7 +1316,7 @@ namespace PKHeX.Core
                     if (wc.TID != pkm.TID) return false;
                     if (wc.OTGender != pkm.OT_Gender) return false;
                 }
-                if (!string.IsNullOrEmpty(wc.OT) && wc.OT != pkm.OT_Name) return false;
+                if (!string.IsNullOrEmpty(wc.OT_Name) && wc.OT_Name != pkm.OT_Name) return false;
                 if (wc.OriginGame != 0 && wc.OriginGame != pkm.Version) return false;
                 if (wc.EncryptionConstant != 0 && wc.EncryptionConstant != pkm.EncryptionConstant) return false;
                 if (wc.Language != 0 && wc.Language != pkm.Language) return false;

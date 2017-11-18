@@ -99,7 +99,7 @@ namespace PKHeX.WinForms
             return Resources.ResourceManager.GetObject($"type_icon_{type:00}") as Image;
         }
 
-        private static Image GetSprite(MysteryGift gift, SaveFile SAV)
+        private static Image GetSprite(MysteryGift gift)
         {
             if (gift.Empty)
                 return null;
@@ -108,7 +108,7 @@ namespace PKHeX.WinForms
             if (gift.IsEgg && gift.Species == 490) // Manaphy Egg
                 img = (Image)(Resources.ResourceManager.GetObject("_490_e") ?? Resources.unknown);
             else if (gift.IsPokémon)
-                img = GetSprite(gift.ConvertToPKM(SAV));
+                img = GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
             else if (gift.IsItem)
             {
                 int item = gift.ItemID;
@@ -171,7 +171,7 @@ namespace PKHeX.WinForms
 
         // Extension Methods
         public static Image WallpaperImage(this SaveFile SAV, int box) => GetWallpaper(SAV, box);
-        public static Image Sprite(this MysteryGift gift, SaveFile SAV) => GetSprite(gift, SAV);
+        public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
         public static Image Sprite(this SaveFile SAV) => GetSprite(SAV);
         public static Image Sprite(this PKM pkm, bool isBoxBGRed = false) => GetSprite(pkm, isBoxBGRed);
         public static Image Sprite(this PKM pkm, SaveFile SAV, int box, int slot, bool flagIllegal = false)

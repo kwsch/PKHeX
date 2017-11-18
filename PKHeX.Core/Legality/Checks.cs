@@ -1458,7 +1458,7 @@ namespace PKHeX.Core
             if (pkm.HT_Gender > 1)
                 return new CheckResult(Severity.Invalid, string.Format(V131, pkm.HT_Gender), CheckIdentifier.History);
             
-            if (EncounterMatch is WC6 wc6 && wc6.OT.Length > 0)
+            if (EncounterMatch is WC6 wc6 && wc6.OT_Name.Length > 0)
             {
                 if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);
@@ -1467,7 +1467,7 @@ namespace PKHeX.Core
                 if (pkm.CurrentHandler != 1)
                     return new CheckResult(Severity.Invalid, V134, CheckIdentifier.History);
             }
-            else if (EncounterMatch is WC7 wc7 && wc7.OT.Length > 0)
+            else if (EncounterMatch is WC7 wc7 && wc7.OT_Name.Length > 0)
             {
                 if (pkm.OT_Friendship != PersonalTable.USUM[EncounterMatch.Species].BaseFriendship)
                     return new CheckResult(Severity.Invalid, V132, CheckIdentifier.History);

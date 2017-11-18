@@ -72,7 +72,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < mga.Gifts.Length; i++)
             {
                 MysteryGift m = mga.Gifts[i];
-                pba[i].Image = m.Sprite(SAV);
+                pba[i].Image = m.Sprite();
             }
         }
         private void ViewGiftData(MysteryGift g)
@@ -86,8 +86,8 @@ namespace PKHeX.WinForms
                             "Do you want to remove the USED flag so that it is UNUSED?"))
                     g.GiftUsed = false;
 
-                RTB.Lines = GetDescription(g, SAV).ToArray();
-                PB_Preview.Image = g.Sprite(SAV);
+                RTB.Lines = GetDescription(g).ToArray();
+                PB_Preview.Image = g.Sprite();
                 mg = g;
             }
             catch (Exception e)
@@ -170,8 +170,8 @@ namespace PKHeX.WinForms
             if (lastUnfilled > -1 && lastUnfilled < index)
                 index = lastUnfilled;
 
-            if (mg is PCD && mga.Gifts[index] is PGT)
-                mg = (mg as PCD).Gift;
+            if (mg is PCD pcd && mga.Gifts[index] is PGT)
+                mg = pcd.Gift;
             else if (mg.Type != mga.Gifts[index].Type)
             {
                 WinFormsUtil.Alert("Can't set slot here.", $"{mg.Type} != {mga.Gifts[index].Type}");
@@ -324,7 +324,7 @@ namespace PKHeX.WinForms
             if (qr == null)
                 return;
 
-            string desc = $"({mg.Type}) {GetDescription(mg, SAV)}";
+            string desc = $"({mg.Type}) {GetDescription(mg)}";
 
             new QR(qr, PB_Preview.Image, null, desc + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
         }
@@ -468,7 +468,7 @@ namespace PKHeX.WinForms
                 e.Effect = DragDropEffects.Move;
         }
         private int wc_slot = -1;
-        private static IEnumerable<string> GetDescription(MysteryGift gift, SaveFile SAV)
+        private static IEnumerable<string> GetDescription(MysteryGift gift)
         {
             if (gift.Empty)
                 return new[] {"Empty Slot. No data!"};
@@ -489,15 +489,13 @@ namespace PKHeX.WinForms
             }
             else if (gift.IsPokémon)
             {
-                PKM pk = gift.ConvertToPKM(SAV);
-
                 try
                 {
                     var first =
-                        $"{GameInfo.Strings.specieslist[pk.Species]} @ {GameInfo.Strings.itemlist[pk.HeldItem]}  --- "
-                        + (pk.IsEgg ? GameInfo.Strings.eggname : $"{pk.OT_Name} - {pk.TID:00000}/{pk.SID:00000}");
+                        $"{GameInfo.Strings.specieslist[gift.Species]} @ {GameInfo.Strings.itemlist[gift.HeldItem]}  --- "
+                        + (gift.IsEgg ? GameInfo.Strings.eggname : $"{gift.OT_Name} - {gift.TID:00000}/{gift.SID:00000}");
                     result.Add(first);
-                    result.Add(string.Join(" / ", pk.Moves.Select(z => GameInfo.Strings.movelist[z])));
+                    result.Add(string.Join(" / ", gift.Moves.Select(z => GameInfo.Strings.movelist[z])));
                     
                     if (gift is WC7 wc7)
                     {
@@ -534,7 +532,7 @@ namespace PKHeX.WinForms
 
             // Row 1
             var f1 = GetFlowLayoutPanel();
-            f1.Controls.Add(GetLabel("PGT 1-6"));
+            f1.Controls.Add(GetLabel($"{nameof(PGT)} 1-6"));
             for (int i = 0; i < 6; i++)
             {
                 var p = GetPictureBox();
@@ -543,7 +541,7 @@ namespace PKHeX.WinForms
             }
             // Row 2
             var f2 = GetFlowLayoutPanel();
-            f2.Controls.Add(GetLabel("PGT 7-8"));
+            f2.Controls.Add(GetLabel($"{nameof(PGT)} 7-8"));
             for (int i = 6; i < 8; i++)
             {
                 var p = GetPictureBox();
@@ -553,7 +551,7 @@ namespace PKHeX.WinForms
             // Row 3
             var f3 = GetFlowLayoutPanel();
             f3.Margin = new Padding(0, f3.Height, 0, 0);
-            f3.Controls.Add(GetLabel("PCD 1-3"));
+            f3.Controls.Add(GetLabel($"{nameof(PCD)} 1-3"));
             for (int i = 8; i < 11; i++)
             {
                 var p = GetPictureBox();

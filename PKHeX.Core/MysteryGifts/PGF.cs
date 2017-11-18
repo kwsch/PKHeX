@@ -18,8 +18,8 @@ namespace PKHeX.Core
             else Data = (byte[])data.Clone();
         }
 
-        public ushort TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes(value).CopyTo(Data, 0x00); }
-        public ushort SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes(value).CopyTo(Data, 0x02); }
+        public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
+        public override int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
         public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
         // Unused 0x05 0x06, 0x07
         public uint PID { get => BitConverter.ToUInt32(Data, 0x08); set => BitConverter.GetBytes(value).CopyTo(Data, 0x08); }
@@ -50,7 +50,7 @@ namespace PKHeX.Core
         public int Move3 { get => BitConverter.ToUInt16(Data, 0x16); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x16); }
         public int Move4 { get => BitConverter.ToUInt16(Data, 0x18); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x18); }
         public override int Species { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1A); }
-        public int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+        public override int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
         public string Nickname
         {
@@ -58,7 +58,7 @@ namespace PKHeX.Core
             set => Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E);
         }
         public int Nature { get => Data[0x34]; set => Data[0x34] = (byte)value; }
-        public int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
+        public override int Gender { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public int AbilityType { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public int PIDType { get => Data[0x37]; set => Data[0x37] = (byte)value; }
         public ushort EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes(value).CopyTo(Data, 0x38); }
@@ -77,7 +77,7 @@ namespace PKHeX.Core
         public int IV_SPA { get => Data[0x47]; set => Data[0x47] = (byte)value; }
         public int IV_SPD { get => Data[0x48]; set => Data[0x48] = (byte)value; }
         // Unused 0x49
-        public string OT {
+        public override string OT_Name {
             get => StringConverter.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
             set => Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); }
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
@@ -227,7 +227,7 @@ namespace PKHeX.Core
             {
                 pk.TID = TID;
                 pk.SID = SID;
-                pk.OT_Name = OT;
+                pk.OT_Name = OT_Name;
                 pk.OT_Gender = (OTGender == 3 ? SAV.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
             }
             pk.IsNicknamed = IsNicknamed;

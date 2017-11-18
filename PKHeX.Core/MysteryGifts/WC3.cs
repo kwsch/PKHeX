@@ -18,10 +18,10 @@ namespace PKHeX.Core
         /// </summary>
         public PIDType Method;
 
-        public string OT_Name { get; set; }
+        public override string OT_Name { get; set; }
         public int OT_Gender { get; set; } = 3;
-        public int TID { get; set; }
-        public int SID { get; set; }
+        public override int TID { get; set; }
+        public override int SID { get; set; }
         public int Met_Location { get; internal set; } = 255;
         public int Version { get; set; }
         public int Language { get; set; } = -1;
@@ -48,6 +48,8 @@ namespace PKHeX.Core
         public override int ItemID { get; set; }
         public override bool IsPokémon { get; set; } = true;
         public override bool Empty => false;
+        public override int Gender { get; set; }
+        public override int Form { get; set; }
 
         // Synthetic
         private int? _metLevel;
