@@ -325,10 +325,10 @@ namespace PKHeX.Core
                 default:
                     comment = null;
                     return false;
-                case 025 when pk.AltForm != 0 && pk.GenNumber == 6: // Cosplay Pikachu
+                case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
                     comment = "Cannot transfer Cosplay Pikachu forward.";
                     return true;
-                case 172 when pk.AltForm != 0 && pk.GenNumber == 4: // Spiky Eared Pichu
+                case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
                     comment = "Cannot transfer Spiky-Eared Pichu forward.";
                     return true;
             }

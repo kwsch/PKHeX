@@ -406,7 +406,7 @@ namespace PKHeX.Core
                 
                 if (Version == (int) GameVersion.CXD)
                     return Array.IndexOf(PersonalInfo.Abilities, Ability);
-                return (int)((GenNumber == 5 ? PID >> 16 : PID) & 1);
+                return (int)((Gen5 ? PID >> 16 : PID) & 1);
             }
         }
 
@@ -490,13 +490,14 @@ namespace PKHeX.Core
                 {
                     case 4: return Legal.GiftEggLocation4.Contains(Egg_Location) || (Egg_Location == 3002 && HGSS); // faraway
                     case 5: return Egg_Location == 60003;
-                    case 6: return Egg_Location == 60004;
+                    case 6:
+                    case 7: return Egg_Location == 60004;
                 }
                 return false;
             }
         }
         public virtual bool WasEvent => Met_Location > 40000 && Met_Location < 50000 || FatefulEncounter;
-        public virtual bool WasEventEgg => GenNumber == 4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
+        public virtual bool WasEventEgg => Gen4 ? WasEgg && Species == 490 : ((Egg_Location > 40000 && Egg_Location < 50000) || (FatefulEncounter && Egg_Location > 0)) && Met_Level == 1;
         public bool WasTradedEgg
         {
             get
@@ -512,7 +513,7 @@ namespace PKHeX.Core
                 }
             }
         }
-        public virtual bool WasIngameTrade => Met_Location == 30001 || GenNumber == 4 && Egg_Location == 2001;
+        public virtual bool WasIngameTrade => Met_Location == 30001 || Gen4 && Egg_Location == 2001;
         public virtual bool IsUntraded => Format >= 6 && string.IsNullOrWhiteSpace(HT_Name) && GenNumber == Format;
         public virtual bool IsNative => GenNumber == Format;
         public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);

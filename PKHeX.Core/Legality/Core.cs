@@ -1206,8 +1206,7 @@ namespace PKHeX.Core
 
             // Check also if the current encounter include the evolve move as an special move
             // That means the pokemon have the move from the encounter level
-            int[] SpecialMoves = (info.EncounterMatch as IMoveset)?.Moves ?? new int[0];
-            if (SpecialMoves.Any(m => moves.Contains(m)))
+            if (info.EncounterMatch is IMoveset s && s.Moves != null && s.Moves.Any(m => moves.Contains(m)))
                 LearnLevel = Math.Min(LearnLevel, info.EncounterMatch.LevelMin);
 
             // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
@@ -1392,7 +1391,7 @@ namespace PKHeX.Core
             if (pkm.Format == 3 && pkm.WasEgg)
                 // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
                 return 5;
-            if (pkm.Format == 4 && pkm.GenNumber == 4 && pkm.WasEgg)
+            if (pkm.Format == 4 && pkm.Gen4 && pkm.WasEgg)
                 // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
                 return 1;
             return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);

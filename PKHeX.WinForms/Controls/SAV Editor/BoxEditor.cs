@@ -47,6 +47,11 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
+        public bool ControlsVisible
+        {
+            get => CB_BoxSelect.Enabled;
+            set => CB_BoxSelect.Enabled = CB_BoxSelect.Visible = B_BoxLeft.Visible = B_BoxRight.Visible = value;
+        }
         public int CurrentBox
         {
             get => CB_BoxSelect.SelectedIndex;
@@ -91,21 +96,29 @@ namespace PKHeX.WinForms.Controls
         {
             if (!SAV.HasBox)
                 return;
-            // Build ComboBox Dropdown Items
-            try
+            if (!SAV.Exportable)
+                getBoxNamesDefault();
+            else
+            {
+                try { getBoxNamesFromSave(); }
+                catch { getBoxNamesDefault(); }
+            }
+
+            if (SAV.CurrentBox < CB_BoxSelect.Items.Count)
+                CurrentBox = SAV.CurrentBox; // restore selected box
+
+            void getBoxNamesFromSave()
             {
                 CB_BoxSelect.Items.Clear();
                 for (int i = 0; i < SAV.BoxCount; i++)
                     CB_BoxSelect.Items.Add(SAV.GetBoxName(i));
             }
-            catch
+            void getBoxNamesDefault()
             {
                 CB_BoxSelect.Items.Clear();
-                for (int i = 1; i <= SAV.BoxCount; i++)
-                    CB_BoxSelect.Items.Add($"BOX {i}");
+                for (int i = 0; i <= SAV.BoxCount; i++)
+                    CB_BoxSelect.Items.Add($"Box {i+1}");
             }
-            if (SAV.CurrentBox < CB_BoxSelect.Items.Count)
-                CurrentBox = SAV.CurrentBox; // restore selected box
         }
         public void ResetSlots()
         {

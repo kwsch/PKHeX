@@ -83,6 +83,8 @@ namespace PKHeX.WinForms
 
                 // Redraw
                 int x = 22 + (15 - itemimg.Width)/2;
+                if (x + itemimg.Width > baseImage.Width)
+                    x = baseImage.Width - itemimg.Width;
                 int y = 15 + (15 - itemimg.Height);
                 baseImage = ImageUtil.LayerImage(baseImage, itemimg, x, y, 1);
             }
@@ -153,7 +155,7 @@ namespace PKHeX.WinForms
                 if (slot < 30)
                     pkm.Box = box;
                 var la = new LegalityAnalysis(pkm, SAV.Personal);
-                if (la.Parsed && !la.Valid && pkm.Species != 0)
+                if (la.ParsedInvalid && pkm.Species != 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, 14, 1);
             }
             if (inBox) // in box

@@ -43,6 +43,7 @@ namespace PKHeX.WinForms
 
             Reader.PID = Util.GetHexValue(TB_PID.Text);
             Reader.Species = WinFormsUtil.GetIndex(CB_Species);
+            Reader.IVs = IVs;
         }
         private void B_Save_Click(object sender, EventArgs e)
         {

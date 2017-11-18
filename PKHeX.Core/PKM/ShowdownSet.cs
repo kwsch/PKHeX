@@ -20,7 +20,7 @@ namespace PKHeX.Core
         private static readonly string[] moves = Util.GetMovesList(Language);
         private static readonly string[] abilities = Util.GetAbilitiesList(Language);
         private static readonly string[] hptypes = types.Skip(1).ToArray();
-        private const int MAX_SPECIES = Legal.MaxSpeciesID_7_USUM;
+        private int MAX_SPECIES => species.Length-1;
 
         // Default Set Data
         public string Nickname { get; set; }
@@ -54,7 +54,8 @@ namespace PKHeX.Core
 
             lines = lines.Where(line => line.Length > 2).ToArray();
 
-            if (lines.Length < 3) return;
+            if (lines.Length < 3)
+                return;
 
             // Seek for start of set
             int start = Array.FindIndex(lines, line => line.Contains(" @ "));
@@ -89,7 +90,7 @@ namespace PKHeX.Core
 
                 string[] brokenline = line.Split(new[] { ": " }, StringSplitOptions.None);
                 if (brokenline.Length == 1)
-                    brokenline = new[] {brokenline[0], ""};
+                    brokenline = new[] {brokenline[0], string.Empty};
                 switch (brokenline[0])
                 {
                     case "Trait":
@@ -152,7 +153,7 @@ namespace PKHeX.Core
         private string GetText()
         {
             if (Species == 0 || Species > MAX_SPECIES)
-                return "";
+                return string.Empty;
 
             var result = new List<string>();
 
@@ -227,7 +228,8 @@ namespace PKHeX.Core
 
         public static string GetShowdownText(PKM pkm)
         {
-            if (pkm.Species == 0) return "";
+            if (pkm.Species == 0)
+                return string.Empty;
 
             string[] Forms = PKX.GetFormList(pkm.Species, types, forms, new[] {"", "F", ""}, pkm.Format);
             ShowdownSet Set = new ShowdownSet
@@ -244,11 +246,11 @@ namespace PKHeX.Core
                 Friendship = pkm.CurrentFriendship,
                 Level = PKX.GetLevel(pkm.Species, pkm.EXP),
                 Shiny = pkm.IsShiny,
-                Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : "",
+                Form = pkm.AltForm > 0 && pkm.AltForm < Forms.Length ? Forms[pkm.AltForm] : string.Empty,
             };
 
             if (Set.Form == "F")
-                Set.Gender = "";
+                Set.Gender = string.Empty;
 
             return Set.Text;
         }
@@ -297,7 +299,7 @@ namespace PKHeX.Core
                 n1 = line.Substring(end + 2);
             }
 
-            bool inverted = Array.IndexOf(species, n2.Replace(" ", "")) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
+            bool inverted = Array.IndexOf(species, n2.Replace(" ", string.Empty)) > -1 || (Species = Array.IndexOf(species, n2.Split('-')[0])) > 0;
             line = inverted ? n2 : n1;
             Nickname = inverted ? n1 : n2;
         }

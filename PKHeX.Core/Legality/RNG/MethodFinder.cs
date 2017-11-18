@@ -73,7 +73,7 @@ namespace PKHeX.Core
         }
         private static bool GetModified8BitMatch(PKM pk, uint pid, out PIDIV pidiv)
         {
-            return pk.GenNumber == 4
+            return pk.Gen4
                 ? pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv) || GetG5MGShinyMatch(pk, pid, out pidiv)
                 : GetG5MGShinyMatch(pk, pid, out pidiv) || pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv);
         }
