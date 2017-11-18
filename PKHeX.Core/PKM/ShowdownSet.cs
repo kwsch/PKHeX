@@ -20,7 +20,7 @@ namespace PKHeX.Core
         private static readonly string[] moves = Util.GetMovesList(Language);
         private static readonly string[] abilities = Util.GetAbilitiesList(Language);
         private static readonly string[] hptypes = types.Skip(1).ToArray();
-        private const int MAX_SPECIES = 802;
+        private const int MAX_SPECIES = Legal.MaxSpeciesID_7_USUM;
 
         // Default Set Data
         public string Nickname { get; set; }
@@ -366,20 +366,26 @@ namespace PKHeX.Core
                     return "Blue Striped";
                 case 666 when form == "Poké Ball":
                     return "Pokeball"; // Vivillon
-                case 676:
-                    return ""; // Furfrou
-                case 658: // Greninja
-                    return "";
                 case 718: // Zygarde
-                    form = form.Replace("-C", "");
-                    form = form.Replace("50%", "");
+                    form = form.Replace("-C", string.Empty);
+                    form = form.Replace("50%", string.Empty);
                     return form.Replace("100%", "Complete");
                 case 774: // Minior
                     if (form.StartsWith("M-"))
                         return "Meteor";
-                    return form.Replace("C-", "");
+                    return form.Replace("C-", string.Empty);
+                case 800 when form == "Dusk": // Necrozma
+                    return $"{form}-Mane";
+                case 800 when form == "Dawn": // Necrozma
+                    return $"{form}-Wings";
 
+                case 676: // Furfrou
+                case 658: // Greninja
+                case 744: // Rockruff
+                    return string.Empty;
                 default:
+                    if (Legal.Totem_USUM.Contains(spec) && form == "Large")
+                        return Legal.Totem_Alolan.Contains(spec) ? "Alola" : string.Empty;
                     return form;
             }
         }
@@ -404,9 +410,18 @@ namespace PKHeX.Core
                 case 718 when ability == 211:
                     return "-C"; // Power Construct
 
+                case 744 when ability == 020: // Rockruff-1
+                    return "Dusk";
+
                 // Minior
                 case 774 when !string.IsNullOrWhiteSpace(form) && form != "Meteor":
                     return $"C-{form}";
+
+                // Necrozma
+                case 800 when form == "Dusk Mane":
+                    return "Dusk";
+                case 800 when form == "Dawn Wings":
+                    return "Dawn";
 
                 default:
                     return form;
