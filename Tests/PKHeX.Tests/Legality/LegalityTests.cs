@@ -32,6 +32,7 @@ namespace PKHeX.Tests.Legality
 
             folder = Path.Combine(folder, "Legality");
             VerifyAll(folder, "Legal", true);
+            VerifyAll(folder, "Illegal", false);
         }
 
         // ReSharper disable once UnusedParameter.Local

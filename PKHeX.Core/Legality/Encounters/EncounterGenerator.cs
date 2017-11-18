@@ -624,6 +624,14 @@ namespace PKHeX.Core
             int species = pkm.Species;
             int form = pkm.AltForm;
 
+            // Edge Case Handling
+            switch (species)
+            {
+                case 744 when form == 1:
+                case 745 when form == 2:
+                    yield break;
+            }
+
             if (AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
                 slotdata = encounterSlots.Where(slot => species == slot.Species ? slot.Form == form : slot.Form == 0);
             else if (ShouldMatchSlotForm()) // match slot form
