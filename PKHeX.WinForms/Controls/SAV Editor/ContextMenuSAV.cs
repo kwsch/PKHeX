@@ -49,6 +49,9 @@ namespace PKHeX.WinForms.Controls
             if (m.SE.SAV.IsSlotLocked(info.Box, info.Slot))
             { WinFormsUtil.Alert("Can't set to locked slot."); return; }
 
+            if (!editor.VerifiedPKM())
+                return;
+
             PKM pk = editor.PreparePKM();
 
             string[] errata = sav.IsPKMCompatible(pk);
