@@ -385,7 +385,7 @@ namespace PKHeX.Core
                     return string.Empty;
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
-                        return Legal.Totem_Alolan.Contains(spec) ? "Alola" : string.Empty;
+                        return Legal.Totem_Alolan.Contains(spec) ? "Alola-Totem" : "Totem";
                     return form;
             }
         }
@@ -424,6 +424,8 @@ namespace PKHeX.Core
                     return "Dawn";
 
                 default:
+                    if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
+                        return "Large";
                     return form;
             }
         }
