@@ -514,7 +514,8 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
             else if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
 
-            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, DexNav: pkm.AO, lvl: lvl, maxspeciesorigin: maxspeciesorigin));
+            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
+            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, lvl: lvl));
         }
         private static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -571,38 +572,52 @@ namespace PKHeX.Core
                 };
             }
         }
-        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, int lvl = -1, bool ignoreLevel = false, int maxspeciesorigin = -1)
+        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, bool DexNav = false, int lvl = -1, bool ignoreLevel = false)
         {
             if (lvl < 0)
                 lvl = GetMinLevelEncounter(pkm);
             if (lvl <= 0)
                 return Enumerable.Empty<EncounterSlot>();
 
-            // Get Valid levels
-            var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
-            if (!FilterGBSlotsCatchRate(pkm, ref vs, out GameVersion Gen1Version, out bool RBDragonair))
-                return Enumerable.Empty<EncounterSlot>();
-
             int gen = pkm.GenNumber;
-            int fluteBoost = gen < 3 ? 0 : 4;
+            if (gen < 3)
+                return GetValidEncounterSlots12(pkm, loc, vs, lvl, ignoreLevel);
+
+            const int fluteBoost = 4;
             const int dexnavBoost = 30;
             int df = DexNav ? fluteBoost : 0;
             int dn = DexNav ? fluteBoost + dexnavBoost : 0;
 
+            // Get Valid levels
             var encounterSlots = GetValidEncounterSlotsByEvoLevel(pkm, loc.Slots, lvl, ignoreLevel, vs, df, dn);
             if (encounterSlots.Count == 0)
                 return Enumerable.Empty<EncounterSlot>();
 
             // Return enumerable of slots pkm might have originated from
-            if (gen <= 2)
-                return GetFilteredSlots12(pkm, gen, Gen1Version, encounterSlots, RBDragonair).OrderBy(slot => slot.LevelMin); // prefer lowest levels
             if (gen <= 5)
                 return GetFilteredSlotsByForm(pkm, encounterSlots);
             if (DexNav && gen == 6)
                 return GetFilteredSlots6DexNav(pkm, lvl, encounterSlots, fluteBoost);
             return GetFilteredSlots67(pkm, encounterSlots);
         }
-        private static List<EncounterSlot> GetValidEncounterSlotsByEvoLevel(PKM pkm, IEnumerable<EncounterSlot> slots, int lvl, bool ignoreLevel, IEnumerable<DexLevel> vs, int df, int dn)
+        private static IEnumerable<EncounterSlot> GetValidEncounterSlots12(PKM pkm, EncounterArea loc, IEnumerable<DexLevel> vs, int lvl = -1, bool ignoreLevel = false)
+        {
+            if (lvl < 0)
+                lvl = GetMinLevelEncounter(pkm);
+            if (lvl <= 0)
+                return Enumerable.Empty<EncounterSlot>();
+
+            var Gen1Version = GameVersion.RBY;
+            bool RBDragonair = false;
+            if (!ignoreLevel && !FilterGBSlotsCatchRate(pkm, ref vs, ref Gen1Version, ref RBDragonair))
+                return Enumerable.Empty<EncounterSlot>();
+
+            var encounterSlots = GetValidEncounterSlotsByEvoLevel(pkm, loc.Slots, lvl, ignoreLevel, vs);
+            if (encounterSlots.Count == 0)
+                return Enumerable.Empty<EncounterSlot>();
+            return GetFilteredSlots12(pkm, pkm.GenNumber, Gen1Version, encounterSlots, RBDragonair).OrderBy(slot => slot.LevelMin); // prefer lowest levels
+        }
+        private static List<EncounterSlot> GetValidEncounterSlotsByEvoLevel(PKM pkm, IEnumerable<EncounterSlot> slots, int lvl, bool ignoreLevel, IEnumerable<DexLevel> vs, int df = 0, int dn = 0)
         {
             // Get slots where pokemon can exist with respect to the evolution chain
             if (ignoreLevel)
@@ -696,10 +711,8 @@ namespace PKHeX.Core
             return max;
         }
 
-        private static bool FilterGBSlotsCatchRate(PKM pkm, ref IEnumerable<DexLevel> vs, out GameVersion Gen1Version, out bool RBDragonair)
+        private static bool FilterGBSlotsCatchRate(PKM pkm, ref IEnumerable<DexLevel> vs, ref GameVersion Gen1Version, ref bool RBDragonair)
         {
-            RBDragonair = false;
-            Gen1Version = GameVersion.RBY;
             if (!(pkm is PK1 pk1) || !pkm.Gen1_NotTradeback)
                 return true;
 
@@ -1429,8 +1442,9 @@ namespace PKHeX.Core
             if (!pkm.AO || !pkm.InhabitedGeneration(6))
                 return false;
 
+            var vs = GetValidPreEvolutions(pkm);
             IEnumerable<EncounterArea> locs = GetDexNavAreas(pkm);
-            var d_areas = locs.Select(loc => GetValidEncounterSlots(pkm, loc, DexNav: true));
+            var d_areas = locs.Select(loc => GetValidEncounterSlots(pkm, loc, vs, DexNav: true));
             return d_areas.Any(slots => slots.Any(slot => slot.Permissions.AllowDexNav && slot.Permissions.DexNav));
         }
         private static bool IsEncounterTypeMatch(IEncounterable e, int type)
@@ -1447,8 +1461,9 @@ namespace PKHeX.Core
         }
         internal static EncounterArea GetCaptureLocation(PKM pkm)
         {
+            var vs = GetValidPreEvolutions(pkm);
             return (from area in GetEncounterSlots(pkm)
-                let slots = GetValidEncounterSlots(pkm, area, pkm.AO, ignoreLevel: true).ToArray()
+                let slots = GetValidEncounterSlots(pkm, area, vs, DexNav: pkm.AO, ignoreLevel: true).ToArray()
                 where slots.Any()
                 select new EncounterArea
                 {
