@@ -426,6 +426,8 @@ namespace PKHeX.Core
                     return "Dawn";
 
                 default:
+                    if (form == null)
+                        return form;
                     if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
                         return "Large";
                     return form;
