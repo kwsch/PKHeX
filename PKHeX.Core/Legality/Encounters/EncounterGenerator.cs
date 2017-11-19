@@ -1360,6 +1360,17 @@ namespace PKHeX.Core
             if (wc.PIDType == 2 && !pkm.IsShiny) return false;
             if (wc.PIDType == 3 && pkm.IsShiny) return false;
 
+            if (wc.CardID == 1624)
+            {
+                if (pkm.Species == 745 && pkm.AltForm != 2)
+                    return false;
+                if (pkm.Version == (int)GameVersion.US)
+                    return wc.Move3 == 424; // Fire Fang
+                if (pkm.Version == (int)GameVersion.UM)
+                    return wc.Move3 == 422; // Thunder Fang
+                return false;
+            }
+
             return true;
         }
 
