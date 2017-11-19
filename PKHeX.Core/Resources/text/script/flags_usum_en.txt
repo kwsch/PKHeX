@@ -55,3 +55,11 @@
 4547	Unlocked Starmie 720
 4548	Unlocked Over-the-Gyarados
 4490	Circle Pad Controls for Ultra Warp Ride
+4440	Battle Style Learned: Elegant 
+4441	Battle Style Learned: Girlish 
+4442	Battle Style Learned: Reverent 
+4443	Battle Style Learned: Smug 
+4444	Battle Style Learned: Left-Handed 
+4445	Battle Style Learned: Passionate 
+4446	Battle Style Learned: Idol 
+4447	Battle Style Learned: Nihilist
