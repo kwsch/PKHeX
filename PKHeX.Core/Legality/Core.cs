@@ -367,7 +367,6 @@ namespace PKHeX.Core
                 case 7:
                     switch (ver)
                     {
-                        case GameVersion.Any:
                         case GameVersion.SN:
                         case GameVersion.MN:
                         case GameVersion.SM:
@@ -376,10 +375,9 @@ namespace PKHeX.Core
                                     break;
                                 int index = PersonalTable.SM.GetFormeIndex(species, form);
                                 r.AddRange(LevelUpSM[index].GetMoves(lvl));
-                                if (ver == GameVersion.Any) // Fall Through
-                                    goto case GameVersion.USUM;
                                 break;
                             }
+                        case GameVersion.Any:
                         case GameVersion.US:
                         case GameVersion.UM:
                         case GameVersion.USUM:
@@ -388,6 +386,8 @@ namespace PKHeX.Core
                             if (index == 0)
                                 return r;
                             r.AddRange(LevelUpUSUM[index].GetMoves(lvl));
+                            if (ver == GameVersion.Any) // Fall Through
+                                goto case GameVersion.SM;
                             break;
                         }
                     }
@@ -1937,7 +1937,6 @@ namespace PKHeX.Core
                 case 7:
                     switch (ver)
                     {
-                        case GameVersion.Any:
                         case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
                         {
                             if (species > MaxSpeciesID_7)
@@ -1955,10 +1954,9 @@ namespace PKHeX.Core
                                 PersonalInfo pi = PersonalTable.SM.GetFormeEntry(species, form);
                                 r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
                             }
-                            if (ver == GameVersion.Any) // Fall Through
-                                goto case GameVersion.USUM;
                             break;
                         }
+                        case GameVersion.Any:
                         case GameVersion.US: case GameVersion.UM: case GameVersion.USUM:
                         {
                             int index = PersonalTable.USUM.GetFormeIndex(species, form);
@@ -1974,6 +1972,8 @@ namespace PKHeX.Core
                                 PersonalInfo pi = PersonalTable.USUM.GetFormeEntry(species, form);
                                 r.AddRange(TMHM_SM.Where((t, m) => pi.TMHM[m]));
                             }
+                            if (ver == GameVersion.Any) // Fall Through
+                                goto case GameVersion.SM;
                             break;
                         }
                     }
