@@ -203,6 +203,7 @@
     <None Remove="Resources\text\en\text_xy_40000_en.txt" />
     <None Remove="Resources\text\en\text_xy_60000_en.txt" />
     <None Remove="Resources\text\es\lang_es.txt" />
+    <None Remove="Resources\text\es\LegalityCheckStrings_es.txt" />
     <None Remove="Resources\text\es\text_Abilities_es.txt" />
     <None Remove="Resources\text\es\text_bw2_00000_es.txt" />
     <None Remove="Resources\text\es\text_bw2_30000_es.txt" />
@@ -845,6 +846,7 @@
     <EmbeddedResource Include="Resources\text\en\text_xy_40000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_xy_60000_en.txt" />
     <EmbeddedResource Include="Resources\text\es\lang_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\LegalityCheckStrings_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Abilities_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_bw2_00000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_bw2_30000_es.txt" />
