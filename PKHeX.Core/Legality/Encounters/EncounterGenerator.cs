@@ -510,7 +510,11 @@ namespace PKHeX.Core
         // EncounterSlot
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, GameVersion gameSource = GameVersion.Any)
         {
-            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, DexNav: pkm.AO, lvl: lvl, gameSource: gameSource));
+            int maxspeciesorigin = -1;
+            if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
+            else if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
+
+            return GetEncounterAreas(pkm, gameSource).SelectMany(area => GetValidEncounterSlots(pkm, area, DexNav: pkm.AO, lvl: lvl, maxspeciesorigin: maxspeciesorigin));
         }
         private static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -567,16 +571,12 @@ namespace PKHeX.Core
                 };
             }
         }
-        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, int lvl = -1, bool ignoreLevel = false, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, bool DexNav, int lvl = -1, bool ignoreLevel = false, int maxspeciesorigin = -1)
         {
             if (lvl < 0)
                 lvl = GetMinLevelEncounter(pkm);
             if (lvl <= 0)
                 return Enumerable.Empty<EncounterSlot>();
-
-            var maxspeciesorigin = -1;
-            if (gameSource == GameVersion.RBY) maxspeciesorigin = MaxSpeciesID_1;
-            else if (GameVersion.GSC.Contains(gameSource)) maxspeciesorigin = MaxSpeciesID_2;
 
             // Get Valid levels
             var vs = GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin, lvl: ignoreLevel ? 100 : -1, skipChecks: ignoreLevel);
@@ -589,10 +589,9 @@ namespace PKHeX.Core
             int df = DexNav ? fluteBoost : 0;
             int dn = DexNav ? fluteBoost + dexnavBoost : 0;
 
-            // Get slots where pokemon can exist with respect to the evolution chain
-            var slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && (ignoreLevel || evo.Level >= slot.LevelMin - df)));
-            // Get slots where pokemon can exist with respect to level constraints
-            var encounterSlots = GetSlotsFilterByLevel(pkm, lvl, ignoreLevel, slots, df, dn);
+            var encounterSlots = GetValidEncounterSlotsByEvoLevel(pkm, loc.Slots, lvl, ignoreLevel, vs, df, dn);
+            if (encounterSlots.Count == 0)
+                return Enumerable.Empty<EncounterSlot>();
 
             // Return enumerable of slots pkm might have originated from
             if (gen <= 2)
@@ -603,10 +602,14 @@ namespace PKHeX.Core
                 return GetFilteredSlots6DexNav(pkm, lvl, encounterSlots, fluteBoost);
             return GetFilteredSlots67(pkm, encounterSlots);
         }
-        private static List<EncounterSlot> GetSlotsFilterByLevel(PKM pkm, int lvl, bool ignoreLevel, IEnumerable<EncounterSlot> slots, int df, int dn)
+        private static List<EncounterSlot> GetValidEncounterSlotsByEvoLevel(PKM pkm, IEnumerable<EncounterSlot> slots, int lvl, bool ignoreLevel, IEnumerable<DexLevel> vs, int df, int dn)
         {
+            // Get slots where pokemon can exist with respect to the evolution chain
             if (ignoreLevel)
-                return slots.ToList();
+                return slots.Where(slot => vs.Any(evo => evo.Species == slot.Species)).ToList();
+
+            slots = slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin - df));
+            // Get slots where pokemon can exist with respect to level constraints
             if (pkm.HasOriginalMetLocation)
                 return slots.Where(slot => slot.LevelMin - df <= lvl && lvl <= slot.LevelMax + (slot.Permissions.AllowDexNav ? dn : df)).ToList();
             // check for any less than current level
@@ -766,12 +769,12 @@ namespace PKHeX.Core
                     return slots;
             }
         }
-        private static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, int lvl = -1, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            return GetSlots(pkm, GetEncounterTable(pkm, gameSource), lvl);
+            return GetEncounterTable(pkm, gameSource);
         }
         private static IEnumerable<EncounterArea> GetEncounterAreas(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -781,18 +784,6 @@ namespace PKHeX.Core
             var slots = GetEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation || pkm.Format == 2 && gameSource != GameVersion.C;
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
-        }
-        private static IEnumerable<EncounterArea> GetSlots(PKM pkm, IEnumerable<EncounterArea> tables, int lvl = -1)
-        {
-            IEnumerable<DexLevel> vs = GetValidPreEvolutions(pkm, lvl: lvl);
-            foreach (var loc in tables)
-            {
-                IEnumerable<EncounterSlot> slots = loc.Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species));
-
-                EncounterSlot[] es = slots.ToArray();
-                if (es.Length > 0)
-                    yield return new EncounterArea { Location = loc.Location, Slots = es };
-            }
         }
 
         // EncounterLink
@@ -1456,7 +1447,7 @@ namespace PKHeX.Core
         }
         internal static EncounterArea GetCaptureLocation(PKM pkm)
         {
-            return (from area in GetEncounterSlots(pkm, 100)
+            return (from area in GetEncounterSlots(pkm)
                 let slots = GetValidEncounterSlots(pkm, area, pkm.AO, ignoreLevel: true).ToArray()
                 where slots.Any()
                 select new EncounterArea
