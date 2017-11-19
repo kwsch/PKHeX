@@ -201,14 +201,16 @@
             this.B_Fashion = new System.Windows.Forms.Button();
             this.Tab_Ultra = new System.Windows.Forms.TabPage();
             this.GB_Surf = new System.Windows.Forms.GroupBox();
-            this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Surf3 = new System.Windows.Forms.NumericUpDown();
-            this.L_Surf0 = new System.Windows.Forms.Label();
-            this.L_Surf1 = new System.Windows.Forms.Label();
-            this.L_Surf2 = new System.Windows.Forms.Label();
             this.L_Surf3 = new System.Windows.Forms.Label();
+            this.L_Surf2 = new System.Windows.Forms.Label();
+            this.L_Surf1 = new System.Windows.Forms.Label();
+            this.L_Surf0 = new System.Windows.Forms.Label();
+            this.NUD_Surf3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Surf0 = new System.Windows.Forms.NumericUpDown();
+            this.TB_RotomOT = new System.Windows.Forms.TextBox();
+            this.L_RotomOT = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -247,10 +249,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).BeginInit();
             this.Tab_Ultra.SuspendLayout();
             this.GB_Surf.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -2091,6 +2093,8 @@
             // 
             // Tab_Ultra
             // 
+            this.Tab_Ultra.Controls.Add(this.TB_RotomOT);
+            this.Tab_Ultra.Controls.Add(this.L_RotomOT);
             this.Tab_Ultra.Controls.Add(this.GB_Surf);
             this.Tab_Ultra.Location = new System.Drawing.Point(4, 22);
             this.Tab_Ultra.Name = "Tab_Ultra";
@@ -2117,6 +2121,89 @@
             this.GB_Surf.TabStop = false;
             this.GB_Surf.Text = "Surf Scores";
             // 
+            // L_Surf3
+            // 
+            this.L_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf3.Location = new System.Drawing.Point(6, 76);
+            this.L_Surf3.Name = "L_Surf3";
+            this.L_Surf3.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf3.TabIndex = 7;
+            this.L_Surf3.Text = "Poni";
+            this.L_Surf3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf2
+            // 
+            this.L_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf2.Location = new System.Drawing.Point(6, 55);
+            this.L_Surf2.Name = "L_Surf2";
+            this.L_Surf2.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf2.TabIndex = 6;
+            this.L_Surf2.Text = "Ula\'ula";
+            this.L_Surf2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf1
+            // 
+            this.L_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf1.Location = new System.Drawing.Point(6, 34);
+            this.L_Surf1.Name = "L_Surf1";
+            this.L_Surf1.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf1.TabIndex = 5;
+            this.L_Surf1.Text = "Akala";
+            this.L_Surf1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_Surf0
+            // 
+            this.L_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Surf0.Location = new System.Drawing.Point(6, 13);
+            this.L_Surf0.Name = "L_Surf0";
+            this.L_Surf0.Size = new System.Drawing.Size(76, 20);
+            this.L_Surf0.TabIndex = 4;
+            this.L_Surf0.Text = "Melemele";
+            this.L_Surf0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Surf3
+            // 
+            this.NUD_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf3.Location = new System.Drawing.Point(88, 78);
+            this.NUD_Surf3.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf3.Name = "NUD_Surf3";
+            this.NUD_Surf3.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf3.TabIndex = 3;
+            // 
+            // NUD_Surf2
+            // 
+            this.NUD_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf2.Location = new System.Drawing.Point(88, 57);
+            this.NUD_Surf2.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf2.Name = "NUD_Surf2";
+            this.NUD_Surf2.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf2.TabIndex = 2;
+            // 
+            // NUD_Surf1
+            // 
+            this.NUD_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Surf1.Location = new System.Drawing.Point(88, 36);
+            this.NUD_Surf1.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.NUD_Surf1.Name = "NUD_Surf1";
+            this.NUD_Surf1.Size = new System.Drawing.Size(79, 20);
+            this.NUD_Surf1.TabIndex = 1;
+            // 
             // NUD_Surf0
             // 
             this.NUD_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2135,88 +2222,25 @@
             0,
             0});
             // 
-            // NUD_Surf1
+            // TB_RotomOT
             // 
-            this.NUD_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Surf1.Location = new System.Drawing.Point(88, 36);
-            this.NUD_Surf1.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Surf1.Name = "NUD_Surf1";
-            this.NUD_Surf1.Size = new System.Drawing.Size(79, 20);
-            this.NUD_Surf1.TabIndex = 1;
+            this.TB_RotomOT.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_RotomOT.Location = new System.Drawing.Point(85, 117);
+            this.TB_RotomOT.MaxLength = 12;
+            this.TB_RotomOT.Name = "TB_RotomOT";
+            this.TB_RotomOT.Size = new System.Drawing.Size(93, 20);
+            this.TB_RotomOT.TabIndex = 4;
+            this.TB_RotomOT.Text = "WWWWWWWWWWWW";
+            this.TB_RotomOT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // NUD_Surf2
+            // L_RotomOT
             // 
-            this.NUD_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Surf2.Location = new System.Drawing.Point(88, 57);
-            this.NUD_Surf2.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Surf2.Name = "NUD_Surf2";
-            this.NUD_Surf2.Size = new System.Drawing.Size(79, 20);
-            this.NUD_Surf2.TabIndex = 2;
-            // 
-            // NUD_Surf3
-            // 
-            this.NUD_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_Surf3.Location = new System.Drawing.Point(88, 78);
-            this.NUD_Surf3.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Surf3.Name = "NUD_Surf3";
-            this.NUD_Surf3.Size = new System.Drawing.Size(79, 20);
-            this.NUD_Surf3.TabIndex = 3;
-            // 
-            // L_Surf0
-            // 
-            this.L_Surf0.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf0.Location = new System.Drawing.Point(6, 13);
-            this.L_Surf0.Name = "L_Surf0";
-            this.L_Surf0.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf0.TabIndex = 4;
-            this.L_Surf0.Text = "Melemele";
-            this.L_Surf0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Surf1
-            // 
-            this.L_Surf1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf1.Location = new System.Drawing.Point(6, 34);
-            this.L_Surf1.Name = "L_Surf1";
-            this.L_Surf1.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf1.TabIndex = 5;
-            this.L_Surf1.Text = "Akala";
-            this.L_Surf1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Surf2
-            // 
-            this.L_Surf2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf2.Location = new System.Drawing.Point(6, 55);
-            this.L_Surf2.Name = "L_Surf2";
-            this.L_Surf2.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf2.TabIndex = 6;
-            this.L_Surf2.Text = "Ula\'ula";
-            this.L_Surf2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Surf3
-            // 
-            this.L_Surf3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Surf3.Location = new System.Drawing.Point(6, 76);
-            this.L_Surf3.Name = "L_Surf3";
-            this.L_Surf3.Size = new System.Drawing.Size(76, 20);
-            this.L_Surf3.TabIndex = 7;
-            this.L_Surf3.Text = "Poni";
-            this.L_Surf3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_RotomOT.Location = new System.Drawing.Point(12, 114);
+            this.L_RotomOT.Name = "L_RotomOT";
+            this.L_RotomOT.Size = new System.Drawing.Size(67, 32);
+            this.L_RotomOT.TabIndex = 5;
+            this.L_RotomOT.Text = "Rotom OT Name:";
+            this.L_RotomOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Trainer7
             // 
@@ -2276,11 +2300,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ThumbsTotal)).EndInit();
             this.Tab_Ultra.ResumeLayout(false);
+            this.Tab_Ultra.PerformLayout();
             this.GB_Surf.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Surf0)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2467,5 +2492,7 @@
         private System.Windows.Forms.NumericUpDown NUD_Surf2;
         private System.Windows.Forms.NumericUpDown NUD_Surf1;
         private System.Windows.Forms.NumericUpDown NUD_Surf0;
+        private System.Windows.Forms.TextBox TB_RotomOT;
+        private System.Windows.Forms.Label L_RotomOT;
     }
 }

@@ -327,6 +327,8 @@ namespace PKHeX.WinForms
             NUD_Surf1.Value = SAV.GetSurfScore(1);
             NUD_Surf2.Value = SAV.GetSurfScore(2);
             NUD_Surf3.Value = SAV.GetSurfScore(3);
+            TB_RotomOT.Font = TB_OTName.Font;
+            TB_RotomOT.Text = SAV.RotomOT;
         }
         private void Save()
         {
@@ -467,6 +469,11 @@ namespace PKHeX.WinForms
             SAV.SetSurfScore(1, (int)NUD_Surf1.Value);
             SAV.SetSurfScore(2, (int)NUD_Surf2.Value);
             SAV.SetSurfScore(3, (int)NUD_Surf3.Value);
+            if (TB_RotomOT.Text != TB_OTName.Text && DialogResult.Yes == 
+                WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Rotom OT does not match OT name. Update Rotom OT name with OT name?"))
+                SAV.RotomOT = TB_OTName.Text;
+            else
+                SAV.RotomOT = TB_RotomOT.Text;
         }
 
         private static uint GetBits(ListBox listbox)

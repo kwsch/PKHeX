@@ -1290,6 +1290,11 @@ namespace PKHeX.Core
                 recordID = 0;
             SetData(BitConverter.GetBytes(score), Misc + 0x138 + 4 * recordID);
         }
+        public string RotomOT
+        {
+            get => GetString(Trainer2 + 0x30, 0x1A);
+            set => SetString(value, OTLength).CopyTo(Data, Trainer2 + 0x30);
+        }
 
         public override int DaycareSeedSize => 32; // 128 bits
         public override int GetDaycareSlotOffset(int loc, int slot)
