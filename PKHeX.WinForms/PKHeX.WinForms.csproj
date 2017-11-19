@@ -432,6 +432,12 @@
     <Compile Include="Subforms\Save Editors\Gen6\SAV_Trainer.Designer.cs">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.Designer.cs">
+      <DependentUpon>SAV_FestivalPlaza.cs</DependentUpon>
+    </Compile>
     <Compile Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -675,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen6\SAV_Trainer.resx">
       <DependentUpon>SAV_Trainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.resx">
+      <DependentUpon>SAV_FestivalPlaza.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Subforms\Save Editors\Gen7\SAV_HallOfFame7.resx">
       <DependentUpon>SAV_HallOfFame7.cs</DependentUpon>

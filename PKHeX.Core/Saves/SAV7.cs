@@ -423,6 +423,16 @@ namespace PKHeX.Core
                      .ToArray().CopyTo(Data, TrainerCard + 0x18);
             }
         }
+        public byte[] FestaID // 12byte
+        {
+            get => Data.Skip(TrainerCard + 0x28).Take(4).Concat(Data.Skip(TrainerCard + 0x18).Take(8)).ToArray();
+            set
+            {
+                if ((value?.Length ?? 0) != 12) return;
+                Array.Copy(value, 0, Data, TrainerCard + 0x28, 4);
+                Array.Copy(value, 4, Data, TrainerCard + 0x18, 8);
+            }
+        }
         public override int SubRegion
         {
             get => Data[TrainerCard + 0x2E];
@@ -609,11 +619,11 @@ namespace PKHeX.Core
         }
         public uint UsedFestaCoins
         {
-            get => BitConverter.ToUInt32(Data, 0x69C98);
+            get => BitConverter.ToUInt32(Data, Record + (38 << 2)); //Record[038]
             set
             {
                 if (value > 9999999) value = 9999999;
-                BitConverter.GetBytes(value).CopyTo(Data, 0x69C98);
+                BitConverter.GetBytes(value).CopyTo(Data, Record + (38 << 2));
             }
         }
         public uint FestaCoins
@@ -644,6 +654,41 @@ namespace PKHeX.Core
                 const int max = 20;
                 if (value.Length > max) value = value.Substring(0, max);
                 Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, JoinFestaData + 0x510);
+            }
+        }
+        public ushort FestaRank { get => BitConverter.ToUInt16(Data, JoinFestaData + 0x53A); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x53A); }
+        public ushort getFestaMessage(int index) => Data[JoinFestaData + (index << 1)];
+        public void setFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + (index << 1));
+        public bool getFestaPhraseUnlocked(int index) => Data[JoinFestaData + 0x2A50 + index] != 0; //index: 0 to 105:commonPhrases, 106:Lv100!
+        public void setFestaPhraseUnlocked(int index, bool value)
+        {
+            if (getFestaPhraseUnlocked(index) != value) Data[JoinFestaData + 0x2A50 + index] = (byte)(value ? 1 : 0);
+        }
+        public byte getFestPrizeReceived(int index) => Data[JoinFestaData + 0x53C + index];
+        public void setFestaPrizeReceived(int index, byte value) => Data[JoinFestaData + 0x53C + index] = value;
+        private int FestaYear { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F0); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F0); }
+        private int FestaMonth { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F4); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F4); }
+        private int FestaDay { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F8); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F8); }
+        private int FestaHour { get => BitConverter.ToInt32(Data, JoinFestaData + 0x300); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x300); }
+        private int FestaMinute { get => BitConverter.ToInt32(Data, JoinFestaData + 0x304); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x304); }
+        private int FestaSecond { get => BitConverter.ToInt32(Data, JoinFestaData + 0x308); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x308); }
+        public DateTime? FestaDate
+        {
+            get => FestaYear >= 0 && FestaMonth > 0 && FestaDay > 0 && FestaHour >= 0 && FestaMinute >= 0 && FestaSecond >= 0 && Util.IsDateValid(FestaYear, FestaMonth, FestaDay)
+                ? new DateTime(FestaYear, FestaMonth, FestaDay, FestaHour, FestaMinute, FestaSecond)
+                : (DateTime?)null;
+            set
+            {
+                if (value.HasValue)
+                {
+                    DateTime dt = value.Value;
+                    FestaYear = dt.Year;
+                    FestaMonth = dt.Month;
+                    FestaDay = dt.Day;
+                    FestaHour = dt.Hour;
+                    FestaMinute = dt.Minute;
+                    FestaSecond = dt.Second;
+                }
             }
         }
         public sealed class FashionItem

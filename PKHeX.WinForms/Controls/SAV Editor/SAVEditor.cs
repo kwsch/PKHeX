@@ -1009,6 +1009,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenHoneyTreeEditor.Enabled = sav.DP || sav.Pt;
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
+                B_FestivalPlaza.Enabled = sav.Generation == 7;
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1139,6 +1140,11 @@ namespace PKHeX.WinForms.Controls
                 case GameVersion.Pt:
                     new SAV_Underground(SAV).ShowDialog(); break;
             }
+        }
+        private void B_FestivalPlaza_Click(object sender, EventArgs e)
+        {
+            if (SAV.Generation == 7)
+                new SAV_FestivalPlaza(SAV).ShowDialog();
         }
     }
 }
