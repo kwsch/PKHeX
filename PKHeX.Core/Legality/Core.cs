@@ -372,6 +372,8 @@ namespace PKHeX.Core
                         case GameVersion.MN:
                         case GameVersion.SM:
                             {
+                                if (species > MaxSpeciesID_7)
+                                    break;
                                 int index = PersonalTable.SM.GetFormeIndex(species, form);
                                 r.AddRange(LevelUpSM[index].GetMoves(lvl));
                                 if (ver == GameVersion.Any) // Fall Through
@@ -550,6 +552,8 @@ namespace PKHeX.Core
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.SM:
+                    if (species > MaxSpeciesID_7)
+                        break;
                     if (pkm.InhabitedGeneration(7))
                     {
                         int index = PersonalTable.SM.GetFormeIndex(species, pkm.AltForm);
@@ -1603,6 +1607,8 @@ namespace PKHeX.Core
                     return getMoves(LevelUpAO, PersonalTable.AO);
 
                 case GameVersion.SN: case GameVersion.MN:
+                    if (species > MaxSpeciesID_7)
+                        break;
                     return getMoves(LevelUpSM, PersonalTable.SM);
                 case GameVersion.US: case GameVersion.UM:
                     return getMoves(LevelUpUSUM, PersonalTable.USUM);
@@ -1934,6 +1940,8 @@ namespace PKHeX.Core
                         case GameVersion.Any:
                         case GameVersion.SN: case GameVersion.MN: case GameVersion.SM:
                         {
+                            if (species > MaxSpeciesID_7)
+                                break;
                             int index = PersonalTable.SM.GetFormeIndex(species, form);
                             if (MoveReminder)
                                 lvl = 100; // Move reminder can teach any level in movepool now!
