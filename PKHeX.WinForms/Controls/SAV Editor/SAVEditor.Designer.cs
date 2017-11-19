@@ -111,6 +111,7 @@
             this.B_OpenRTCEditor = new System.Windows.Forms.Button();
             this.B_OpenUGSEditor = new System.Windows.Forms.Button();
             this.B_Roamer = new System.Windows.Forms.Button();
+            this.B_FestivalPlaza = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -784,6 +785,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenRTCEditor);
             this.FLP_SAVtools.Controls.Add(this.B_OpenUGSEditor);
             this.FLP_SAVtools.Controls.Add(this.B_Roamer);
+            this.FLP_SAVtools.Controls.Add(this.B_FestivalPlaza);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 88);
@@ -1032,6 +1034,16 @@
             this.B_Roamer.UseVisualStyleBackColor = true;
             this.B_Roamer.Click += new System.EventHandler(this.B_Roamer_Click);
             // 
+            // B_FestivalPlaza
+            // 
+            this.B_FestivalPlaza.Location = new System.Drawing.Point(3, 235);
+            this.B_FestivalPlaza.Name = "B_FestivalPlaza";
+            this.B_FestivalPlaza.Size = new System.Drawing.Size(87, 23);
+            this.B_FestivalPlaza.TabIndex = 31;
+            this.B_FestivalPlaza.Text = "Festival Plaza";
+            this.B_FestivalPlaza.UseVisualStyleBackColor = true;
+            this.B_FestivalPlaza.Click += new System.EventHandler(this.B_FestivalPlaza_Click);
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1168,5 +1180,6 @@
         public BoxEditor Box;
         private System.Windows.Forms.Button B_OpenUGSEditor;
         private System.Windows.Forms.Button B_Roamer;
+        private System.Windows.Forms.Button B_FestivalPlaza;
     }
 }
