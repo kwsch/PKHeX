@@ -43,8 +43,11 @@
             this.B_AllPhrases = new System.Windows.Forms.Button();
             this.TB_OTName = new System.Windows.Forms.TextBox();
             this.GB_Facility = new System.Windows.Forms.GroupBox();
+            this.L_Exchangable = new System.Windows.Forms.Label();
+            this.NUD_Exchangable = new System.Windows.Forms.NumericUpDown();
+            this.LB_FacilityIndex = new System.Windows.Forms.ListBox();
             this.L_FacilityColorV = new System.Windows.Forms.Label();
-            this.L_VisitorMisc = new System.Windows.Forms.Label();
+            this.L_OtherValue = new System.Windows.Forms.Label();
             this.TB_FacilityID = new System.Windows.Forms.TextBox();
             this.CB_FacilityID = new System.Windows.Forms.ComboBox();
             this.GB_FacilityMessage = new System.Windows.Forms.GroupBox();
@@ -56,10 +59,8 @@
             this.NUD_FacilityColor = new System.Windows.Forms.NumericUpDown();
             this.L_FacilityColor = new System.Windows.Forms.Label();
             this.L_FacilityType = new System.Windows.Forms.Label();
-            this.L_FacilityIndex = new System.Windows.Forms.Label();
             this.CB_FacilityNPC = new System.Windows.Forms.ComboBox();
             this.CB_FacilityType = new System.Windows.Forms.ComboBox();
-            this.NUD_FacilityIndex = new System.Windows.Forms.NumericUpDown();
             this.CAL_FestaStartDate = new System.Windows.Forms.DateTimePicker();
             this.CAL_FestaStartTime = new System.Windows.Forms.DateTimePicker();
             this.GB_FestaStartTime = new System.Windows.Forms.GroupBox();
@@ -78,10 +79,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).BeginInit();
             this.GB_Phrase.SuspendLayout();
             this.GB_Facility.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Exchangable)).BeginInit();
             this.GB_FacilityMessage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityMessage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityColor)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityIndex)).BeginInit();
             this.GB_FestaStartTime.SuspendLayout();
             this.GB_Reward.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Rank)).BeginInit();
@@ -248,8 +249,11 @@
             // 
             // GB_Facility
             // 
+            this.GB_Facility.Controls.Add(this.L_Exchangable);
+            this.GB_Facility.Controls.Add(this.NUD_Exchangable);
+            this.GB_Facility.Controls.Add(this.LB_FacilityIndex);
             this.GB_Facility.Controls.Add(this.L_FacilityColorV);
-            this.GB_Facility.Controls.Add(this.L_VisitorMisc);
+            this.GB_Facility.Controls.Add(this.L_OtherValue);
             this.GB_Facility.Controls.Add(this.TB_FacilityID);
             this.GB_Facility.Controls.Add(this.CB_FacilityID);
             this.GB_Facility.Controls.Add(this.GB_FacilityMessage);
@@ -259,10 +263,8 @@
             this.GB_Facility.Controls.Add(this.NUD_FacilityColor);
             this.GB_Facility.Controls.Add(this.L_FacilityColor);
             this.GB_Facility.Controls.Add(this.L_FacilityType);
-            this.GB_Facility.Controls.Add(this.L_FacilityIndex);
             this.GB_Facility.Controls.Add(this.CB_FacilityNPC);
             this.GB_Facility.Controls.Add(this.CB_FacilityType);
-            this.GB_Facility.Controls.Add(this.NUD_FacilityIndex);
             this.GB_Facility.Controls.Add(this.TB_OTName);
             this.GB_Facility.Location = new System.Drawing.Point(12, 269);
             this.GB_Facility.Name = "GB_Facility";
@@ -271,43 +273,89 @@
             this.GB_Facility.TabStop = false;
             this.GB_Facility.Text = "Facilities";
             // 
+            // L_Exchangable
+            // 
+            this.L_Exchangable.Location = new System.Drawing.Point(44, 137);
+            this.L_Exchangable.Name = "L_Exchangable";
+            this.L_Exchangable.Size = new System.Drawing.Size(123, 18);
+            this.L_Exchangable.TabIndex = 63;
+            this.L_Exchangable.Text = "exchange left count:";
+            this.L_Exchangable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Exchangable
+            // 
+            this.NUD_Exchangable.Location = new System.Drawing.Point(173, 138);
+            this.NUD_Exchangable.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.NUD_Exchangable.Name = "NUD_Exchangable";
+            this.NUD_Exchangable.Size = new System.Drawing.Size(41, 19);
+            this.NUD_Exchangable.TabIndex = 62;
+            this.NUD_Exchangable.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // LB_FacilityIndex
+            // 
+            this.LB_FacilityIndex.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.LB_FacilityIndex.FormattingEnabled = true;
+            this.LB_FacilityIndex.ItemHeight = 19;
+            this.LB_FacilityIndex.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
+            this.LB_FacilityIndex.Location = new System.Drawing.Point(9, 19);
+            this.LB_FacilityIndex.Name = "LB_FacilityIndex";
+            this.LB_FacilityIndex.Size = new System.Drawing.Size(26, 137);
+            this.LB_FacilityIndex.TabIndex = 61;
+            this.LB_FacilityIndex.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.LB_FacilityIndex_DrawItem);
+            this.LB_FacilityIndex.SelectedIndexChanged += new System.EventHandler(this.LB_FacilityIndex_SelectedIndexChanged);
+            // 
             // L_FacilityColorV
             // 
-            this.L_FacilityColorV.Location = new System.Drawing.Point(122, 77);
+            this.L_FacilityColorV.Location = new System.Drawing.Point(141, 73);
             this.L_FacilityColorV.Name = "L_FacilityColorV";
             this.L_FacilityColorV.Size = new System.Drawing.Size(100, 18);
             this.L_FacilityColorV.TabIndex = 60;
             this.L_FacilityColorV.Text = "colorvalue";
             this.L_FacilityColorV.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // L_VisitorMisc
+            // L_OtherValue
             // 
-            this.L_VisitorMisc.Location = new System.Drawing.Point(282, 108);
-            this.L_VisitorMisc.Name = "L_VisitorMisc";
-            this.L_VisitorMisc.Size = new System.Drawing.Size(82, 18);
-            this.L_VisitorMisc.TabIndex = 59;
-            this.L_VisitorMisc.Text = "visitor misc:";
-            this.L_VisitorMisc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_OtherValue.Location = new System.Drawing.Point(251, 108);
+            this.L_OtherValue.Name = "L_OtherValue";
+            this.L_OtherValue.Size = new System.Drawing.Size(82, 18);
+            this.L_OtherValue.TabIndex = 59;
+            this.L_OtherValue.Text = "other value:";
+            this.L_OtherValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_FacilityID
             // 
-            this.TB_FacilityID.Location = new System.Drawing.Point(169, 137);
-            this.TB_FacilityID.MaxLength = 32;
+            this.TB_FacilityID.Location = new System.Drawing.Point(243, 137);
+            this.TB_FacilityID.MaxLength = 24;
             this.TB_FacilityID.Name = "TB_FacilityID";
-            this.TB_FacilityID.Size = new System.Drawing.Size(277, 19);
+            this.TB_FacilityID.Size = new System.Drawing.Size(203, 19);
             this.TB_FacilityID.TabIndex = 0;
-            this.TB_FacilityID.Text = "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
+            this.TB_FacilityID.Text = "CCCCCCCCCCCCCCCCCCCCCCCC";
             this.TB_FacilityID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.TB_FacilityID.TextChanged += new System.EventHandler(this.TB_FacilityID_TextChanged);
             // 
             // CB_FacilityID
             // 
             this.CB_FacilityID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FacilityID.DropDownWidth = 76;
+            this.CB_FacilityID.DropDownWidth = 180;
             this.CB_FacilityID.FormattingEnabled = true;
-            this.CB_FacilityID.Location = new System.Drawing.Point(370, 108);
+            this.CB_FacilityID.Location = new System.Drawing.Point(339, 108);
             this.CB_FacilityID.Name = "CB_FacilityID";
-            this.CB_FacilityID.Size = new System.Drawing.Size(76, 20);
+            this.CB_FacilityID.Size = new System.Drawing.Size(107, 20);
             this.CB_FacilityID.TabIndex = 1;
             this.CB_FacilityID.SelectedIndexChanged += new System.EventHandler(this.CB_FacilityID_SelectedIndexChanged);
             // 
@@ -380,7 +428,7 @@
             // 
             // L_FacilityNPC
             // 
-            this.L_FacilityNPC.Location = new System.Drawing.Point(27, 103);
+            this.L_FacilityNPC.Location = new System.Drawing.Point(46, 99);
             this.L_FacilityNPC.Name = "L_FacilityNPC";
             this.L_FacilityNPC.Size = new System.Drawing.Size(45, 18);
             this.L_FacilityNPC.TabIndex = 8;
@@ -389,7 +437,7 @@
             // 
             // NUD_FacilityColor
             // 
-            this.NUD_FacilityColor.Location = new System.Drawing.Point(78, 78);
+            this.NUD_FacilityColor.Location = new System.Drawing.Point(97, 74);
             this.NUD_FacilityColor.Maximum = new decimal(new int[] {
             7,
             0,
@@ -407,7 +455,7 @@
             // 
             // L_FacilityColor
             // 
-            this.L_FacilityColor.Location = new System.Drawing.Point(25, 77);
+            this.L_FacilityColor.Location = new System.Drawing.Point(44, 73);
             this.L_FacilityColor.Name = "L_FacilityColor";
             this.L_FacilityColor.Size = new System.Drawing.Size(47, 18);
             this.L_FacilityColor.TabIndex = 6;
@@ -416,28 +464,19 @@
             // 
             // L_FacilityType
             // 
-            this.L_FacilityType.Location = new System.Drawing.Point(28, 52);
+            this.L_FacilityType.Location = new System.Drawing.Point(47, 48);
             this.L_FacilityType.Name = "L_FacilityType";
             this.L_FacilityType.Size = new System.Drawing.Size(44, 18);
             this.L_FacilityType.TabIndex = 5;
             this.L_FacilityType.Text = "type:";
             this.L_FacilityType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_FacilityIndex
-            // 
-            this.L_FacilityIndex.Location = new System.Drawing.Point(9, 20);
-            this.L_FacilityIndex.Name = "L_FacilityIndex";
-            this.L_FacilityIndex.Size = new System.Drawing.Size(49, 18);
-            this.L_FacilityIndex.TabIndex = 3;
-            this.L_FacilityIndex.Text = "index:";
-            this.L_FacilityIndex.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // CB_FacilityNPC
             // 
             this.CB_FacilityNPC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FacilityNPC.DropDownWidth = 120;
             this.CB_FacilityNPC.FormattingEnabled = true;
-            this.CB_FacilityNPC.Location = new System.Drawing.Point(78, 103);
+            this.CB_FacilityNPC.Location = new System.Drawing.Point(97, 99);
             this.CB_FacilityNPC.Name = "CB_FacilityNPC";
             this.CB_FacilityNPC.Size = new System.Drawing.Size(123, 20);
             this.CB_FacilityNPC.TabIndex = 2;
@@ -447,29 +486,11 @@
             this.CB_FacilityType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FacilityType.DropDownWidth = 180;
             this.CB_FacilityType.FormattingEnabled = true;
-            this.CB_FacilityType.Location = new System.Drawing.Point(78, 52);
+            this.CB_FacilityType.Location = new System.Drawing.Point(97, 48);
             this.CB_FacilityType.Name = "CB_FacilityType";
             this.CB_FacilityType.Size = new System.Drawing.Size(124, 20);
             this.CB_FacilityType.TabIndex = 1;
             this.CB_FacilityType.SelectedIndexChanged += new System.EventHandler(this.CB_FacilityType_SelectedIndexChanged);
-            // 
-            // NUD_FacilityIndex
-            // 
-            this.NUD_FacilityIndex.Location = new System.Drawing.Point(64, 21);
-            this.NUD_FacilityIndex.Maximum = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-            this.NUD_FacilityIndex.Name = "NUD_FacilityIndex";
-            this.NUD_FacilityIndex.Size = new System.Drawing.Size(35, 19);
-            this.NUD_FacilityIndex.TabIndex = 0;
-            this.NUD_FacilityIndex.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-            this.NUD_FacilityIndex.ValueChanged += new System.EventHandler(this.NUD_FacilityIndex_ValueChanged);
             // 
             // CAL_FestaStartDate
             // 
@@ -662,10 +683,10 @@
             this.GB_Phrase.ResumeLayout(false);
             this.GB_Facility.ResumeLayout(false);
             this.GB_Facility.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Exchangable)).EndInit();
             this.GB_FacilityMessage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityMessage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityColor)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityIndex)).EndInit();
             this.GB_FestaStartTime.ResumeLayout(false);
             this.GB_Reward.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Rank)).EndInit();
@@ -698,13 +719,11 @@
         private System.Windows.Forms.CheckedListBox CLB_Reward;
         private System.Windows.Forms.Button B_AllReceiveReward;
         private System.Windows.Forms.Button B_AllReadyReward;
-        private System.Windows.Forms.NumericUpDown NUD_FacilityIndex;
         private System.Windows.Forms.CheckBox CHK_FacilityIntroduced;
         private System.Windows.Forms.Label L_FacilityNPC;
         private System.Windows.Forms.NumericUpDown NUD_FacilityColor;
         private System.Windows.Forms.Label L_FacilityColor;
         private System.Windows.Forms.Label L_FacilityType;
-        private System.Windows.Forms.Label L_FacilityIndex;
         private System.Windows.Forms.ComboBox CB_FacilityNPC;
         private System.Windows.Forms.ComboBox CB_FacilityType;
         private System.Windows.Forms.Label Label_OTGender;
@@ -715,11 +734,14 @@
         private System.Windows.Forms.TextBox TB_FacilityID;
         private System.Windows.Forms.NumericUpDown NUD_Rank;
         private System.Windows.Forms.Label L_Rank;
-        private System.Windows.Forms.Label L_VisitorMisc;
+        private System.Windows.Forms.Label L_OtherValue;
         private System.Windows.Forms.GroupBox GB_MyMessage;
         private System.Windows.Forms.NumericUpDown NUD_MyMessage;
         private System.Windows.Forms.ComboBox CB_MyMessage;
         private System.Windows.Forms.Label L_FacilityColorV;
         private System.Windows.Forms.Label L_Note;
+        private System.Windows.Forms.ListBox LB_FacilityIndex;
+        private System.Windows.Forms.NumericUpDown NUD_Exchangable;
+        private System.Windows.Forms.Label L_Exchangable;
     }
 }
