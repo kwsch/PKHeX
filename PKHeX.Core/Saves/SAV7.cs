@@ -657,15 +657,15 @@ namespace PKHeX.Core
             }
         }
         public ushort FestaRank { get => BitConverter.ToUInt16(Data, JoinFestaData + 0x53A); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x53A); }
-        public ushort getFestaMessage(int index) => Data[JoinFestaData + (index << 1)];
-        public void setFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + (index << 1));
-        public bool getFestaPhraseUnlocked(int index) => Data[JoinFestaData + 0x2A50 + index] != 0; //index: 0 to 105:commonPhrases, 106:Lv100!
-        public void setFestaPhraseUnlocked(int index, bool value)
+        public ushort GetFestaMessage(int index) => Data[JoinFestaData + (index << 1)];
+        public void SetFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + (index << 1));
+        public bool GetFestaPhraseUnlocked(int index) => Data[JoinFestaData + 0x2A50 + index] != 0; //index: 0 to 105:commonPhrases, 106:Lv100!
+        public void SetFestaPhraseUnlocked(int index, bool value)
         {
-            if (getFestaPhraseUnlocked(index) != value) Data[JoinFestaData + 0x2A50 + index] = (byte)(value ? 1 : 0);
+            if (GetFestaPhraseUnlocked(index) != value) Data[JoinFestaData + 0x2A50 + index] = (byte)(value ? 1 : 0);
         }
-        public byte getFestPrizeReceived(int index) => Data[JoinFestaData + 0x53C + index];
-        public void setFestaPrizeReceived(int index, byte value) => Data[JoinFestaData + 0x53C + index] = value;
+        public byte GetFestPrizeReceived(int index) => Data[JoinFestaData + 0x53C + index];
+        public void SetFestaPrizeReceived(int index, byte value) => Data[JoinFestaData + 0x53C + index] = value;
         private int FestaYear { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F0); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F0); }
         private int FestaMonth { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F4); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F4); }
         private int FestaDay { get => BitConverter.ToInt32(Data, JoinFestaData + 0x2F8); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x2F8); }

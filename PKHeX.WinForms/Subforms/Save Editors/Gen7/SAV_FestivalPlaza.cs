@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
             switch (Main.CurrentLanguage)
             {
                 case "ja":
-                    res = new string[107] {
+                    res = new[] {
                         "おじさんの きんのたま だからね！","かがくの ちからって すげー","1 2の …… ポカン！","おーす！ みらいの チャンピオン！","おお！ あんたか！","みんな げんきに なりましたよ！","とっても 幸せそう！","なんでも ないです","いあいぎりで きりますか？","レポートを かきこんでいます",
                         "…… ぼくも もう いかなきゃ！","ボンジュール！","バイビー！","ばか はずれです……","やけどなおしの よういは いいか！","ウー！ ハーッ！","ポケモンは たたかわせるものさ","ヤドランは そっぽを むいた！","マサラは まっしろ はじまりのいろ","10000こうねん はやいんだよ！","おーい！ まてー！ まつんじゃあ！","こんちわ！ ぼく ポケモン……！","っだと こらあ！","ぐ ぐーッ！ そんな ばかなーッ！","みゅう！","タチサレ…… タチサレ……",
                         "カイリュー はかいこうせん","どっちか 遊んでくれないか？","ぬいぐるみ かっておいたわよ","ひとのこと じろじろ みてんなよ","なんのことだか わかんない","みんな ポケモン やってるやん","きょうから 24時間 とっくんだ！","あたいが ホンモノ！","でんげきで いちころ……","スイクンを おいかけて 10ねん","かんどうが よみがえるよ！","われわれ ついに やりましたよー！","ヤドンのシッポを うるなんて……","ショオーッ!!","ギャーアアス!!","だいいっぽを ふみだした！",
@@ -40,11 +40,10 @@ namespace PKHeX.WinForms
                         "フェスサークル ランク 100！",
                     };
                     break;
-                case "en":
                 default:
                     string musical8note = char.ConvertFromUtf32(0x266A);
                     string linedP = char.ConvertFromUtf32(0x20BD);//currency Ruble
-                    res = new string[107] { //source:UltraMoon
+                    res = new[] { //source:UltraMoon
                         /* (SM)Pokémon House */"There's nothing funny about Nuggets.","The Power of science is awesome.","1, 2, and... Ta-da!","How's the future Champ today?","Why, you!","There! All happy and healthy!","Your Pokémon seems to be very happy!","No thanks!","Would you like to use Cut?","Saving...",
                         /* (SM)Kanto Tent */"Well, I better get going!","Bonjour!","Smell ya later!","Sorry! Bad call!","You better have Burn Heal!","Hoo hah!","Pokémon are for battling!","Slowbro took a snooze...","Shades of your journey await!","You're 10,000 light-years from facing Brock!","Hey! Wait! Don't go out!","Hiya! I'm a Pokémon...","What do you want?","WHAT! This can't be!","Mew!","Be gone... Intruders...",
                         /* (SM)Joht Tent */"Dragonite, Hymer Beam.","Spread the fun around.","I bought an adorable doll with your money.","What are you staring at?","I just don't understand.","Everyone is into Pokémon.","I'm going to train 24 hours a day!","I'm the real deal!","With a jolt of electricity...","For 10 years I chased Suicune.","I am just so deeply moved!","We have finally made it!","...But selling Slowpoke Tails?","Shaoooh!","Gyaaas!","you've taken your first step!",
@@ -57,19 +56,19 @@ namespace PKHeX.WinForms
                     break;
             }
             CLB_Phrases.Items.Clear();
-            CLB_Phrases.Items.Add(res.Last(), SAV.getFestaPhraseUnlocked(106)); //add Lv100 before TentPhrases
+            CLB_Phrases.Items.Add(res.Last(), SAV.GetFestaPhraseUnlocked(106)); //add Lv100 before TentPhrases
             for (int i = 0; i < res.Length - 1; i++)
-                CLB_Phrases.Items.Add(res[i], SAV.getFestaPhraseUnlocked(i));
+                CLB_Phrases.Items.Add(res[i], SAV.GetFestaPhraseUnlocked(i));
 
             DateTime dt = SAV.FestaDate ?? new DateTime(2000, 1, 1);
             CAL_FestaStartDate.Value = dt;
             CAL_FestaStartTime.Value = dt;
 
-            string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: facion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
+            string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
             CLB_Reward.Items.Clear();
-            CLB_Reward.Items.Add(res2.Last(), (CheckState)r[SAV.getFestPrizeReceived(10)]); //add CurrentRank before const-rewards
+            CLB_Reward.Items.Add(res2.Last(), (CheckState)r[SAV.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
             for (int i = 0; i < res2.Length - 1; i++)
-                CLB_Reward.Items.Add(res2[i], (CheckState)r[SAV.getFestPrizeReceived(i)]);
+                CLB_Reward.Items.Add(res2[i], (CheckState)r[SAV.GetFestPrizeReceived(i)]);
 
             for (int i = 0; i < 7; i++)
                 f[i] = new FestaFacility(SAV, i);
@@ -101,14 +100,14 @@ namespace PKHeX.WinForms
             }
             string[] res6 = { "Lottery", "Haunted", "Goody", "Food", "Bouncy", "Fortune", "Dye","Exchange" };
             string[][] res7 = {
-                new string[]{"BigDream","GoldRush","TreasureHunt"},
-                new string[]{"GhostsDen","TrickRoom","ConfuseRay"},
-                new string[]{"Ball","General","Battle","SoftDrink","Pharmacy"},
-                new string[]{"Rare","Battle", "FriendshipCafé", "FriendshipParlor"},
-                new string[]{"Thump","Clink","Stomp"},
-                new string[]{"Kanto","Johto","Hoenn","Sinnoh","Unova","Kalos","Pokémon"},
-                new string[]{"Red","Yellow","Green","Blue","Orange","NavyBlue","Purple","Pink"},
-                new string[]{"Switcheroo"}
+                new[]{"BigDream","GoldRush","TreasureHunt"},
+                new[]{"GhostsDen","TrickRoom","ConfuseRay"},
+                new[]{"Ball","General","Battle","SoftDrink","Pharmacy"},
+                new[]{"Rare","Battle", "FriendshipCafé", "FriendshipParlor"},
+                new[]{"Thump","Clink","Stomp"},
+                new[]{"Kanto","Johto","Hoenn","Sinnoh","Unova","Kalos","Pokémon"},
+                new[]{"Red","Yellow","Green","Blue","Orange","NavyBlue","Purple","Pink"},
+                new[]{"Switcheroo"}
             };
             CB_FacilityType.Items.Clear();
             for (int k = 0; k < RES_FacilityLevelType.Length - (SAV.USUM ? 0 : 1); k++) //Exchange is USUM only
@@ -137,9 +136,9 @@ namespace PKHeX.WinForms
         private bool editing;
         private readonly byte[] r = { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
         private readonly int typeMAX;
-        private FestaFacility[] f = new FestaFacility[7];
-        private string[] RES_Color = { "Red", "Blue", "Gold", "Black", "Purple", "Yellow", "Brown", "Green", "Orange", "NavyBlue", "Pink", "White" };
-        private byte[][] RES_FacilityColor = //facility appearance
+        private readonly FestaFacility[] f = new FestaFacility[7];
+        private readonly string[] RES_Color = { "Red", "Blue", "Gold", "Black", "Purple", "Yellow", "Brown", "Green", "Orange", "NavyBlue", "Pink", "White" };
+        private readonly byte[][] RES_FacilityColor = //facility appearance
         {
             new byte[]{0,1,2,3},//Lottery
             new byte[]{4,0,5,3},//Haunted
@@ -150,7 +149,7 @@ namespace PKHeX.WinForms
             new byte[]{0,7,8,4,5,2,9,10},//Dye
             new byte[]{11,1,5,3},//Exchange
         };
-        private byte[][] RES_FacilityLevelType = //3:123 4:135 5:12345
+        private readonly byte[][] RES_FacilityLevelType = //3:123 4:135 5:12345
         {
             new byte[]{5,5,5},
             new byte[]{5,5,5},
@@ -164,14 +163,14 @@ namespace PKHeX.WinForms
         private int typeIndexToType(int typeIndex)
         {
             if (typeIndex < 0 || typeIndex > typeMAX) return -1;
-            else if (typeIndex < 0x0F) return 0;
-            else if (typeIndex < 0x1E) return 1;
-            else if (typeIndex < 0x2F) return 2;
-            else if (typeIndex < 0x41) return 3;
-            else if (typeIndex < 0x50) return 4;
-            else if (typeIndex < 0x65) return 5;
-            else if (typeIndex < 0x7D) return 6;
-            else return 7;
+            if (typeIndex < 0x0F) return 0;
+            if (typeIndex < 0x1E) return 1;
+            if (typeIndex < 0x2F) return 2;
+            if (typeIndex < 0x41) return 3;
+            if (typeIndex < 0x50) return 4;
+            if (typeIndex < 0x65) return 5;
+            if (typeIndex < 0x7D) return 6;
+            return 7;
         }
         private int getColorCount(int i) =>
                 i >= 0 && i < RES_FacilityColor.Length - (SAV.USUM ? 0 : 1)
@@ -201,20 +200,20 @@ namespace PKHeX.WinForms
         }
         private void Save()
         {
-            SAV.setFestaPhraseUnlocked(106, CLB_Phrases.GetItemChecked(0));
+            SAV.SetFestaPhraseUnlocked(106, CLB_Phrases.GetItemChecked(0));
             for (int i = 1; i < CLB_Phrases.Items.Count; i++)
-                SAV.setFestaPhraseUnlocked(i - 1, CLB_Phrases.GetItemChecked(i));
+                SAV.SetFestaPhraseUnlocked(i - 1, CLB_Phrases.GetItemChecked(i));
 
             SAV.UsedFestaCoins = (uint)NUD_FC_Used.Value;
             SAV.FestaCoins = (uint)NUD_FC_Current.Value;
             SAV.FestaDate = new DateTime(CAL_FestaStartDate.Value.Year, CAL_FestaStartDate.Value.Month, CAL_FestaStartDate.Value.Day, CAL_FestaStartTime.Value.Hour, CAL_FestaStartTime.Value.Minute, CAL_FestaStartTime.Value.Second);
 
-            SAV.setFestaPrizeReceived(10, r[(int)CLB_Reward.GetItemCheckState(0)]);
+            SAV.SetFestaPrizeReceived(10, r[(int)CLB_Reward.GetItemCheckState(0)]);
             for (int i = 1; i < CLB_Reward.Items.Count; i++)
-                SAV.setFestaPrizeReceived(i - 1, r[(int)CLB_Reward.GetItemCheckState(i)]);
+                SAV.SetFestaPrizeReceived(i - 1, r[(int)CLB_Reward.GetItemCheckState(i)]);
 
-            for (int i = 0; i < f.Length; i++)
-                f[i].CopyTo(SAV);
+            foreach (FestaFacility facility in f)
+                facility.CopyTo(SAV);
         }
         private void NUD_FC_ValueChanged(object sender, EventArgs e)
         {
@@ -342,7 +341,7 @@ namespace PKHeX.WinForms
                 case 1: f[fIndex].misc2 = Convert.ToUInt32(t, 16); break;
                 case 2:
                     int w = 0;
-                    for (int j = 0, k = t.Length - 2; k + 1 >= 0; j++, k -= 2)
+                    for (int k = t.Length - 2; k + 1 >= 0; k -= 2)
                         f[fIndex].trainerFesID[w++] = Convert.ToByte(k < 0 ? t.Substring(0, 1) : t.Substring(k, 2), 16);
                     for (int j = w; j < f[fIndex].trainerFesID.Length; j++)
                         f[fIndex].trainerFesID[j] = 0;
@@ -392,7 +391,7 @@ namespace PKHeX.WinForms
             if (editing) return;
             SAV.FestaRank = (ushort)NUD_Rank.Value;
         }
-        private void loadMMessage(int mmIndex) => NUD_MyMessage.Value = SAV.getFestaMessage(mmIndex);
+        private void loadMMessage(int mmIndex) => NUD_MyMessage.Value = SAV.GetFestaMessage(mmIndex);
         private void CB_MyMessage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (editing) return;
@@ -408,7 +407,7 @@ namespace PKHeX.WinForms
             if (editing) return;
             int mmIndex = CB_MyMessage.SelectedIndex;
             if (mmIndex < 0) return;
-            SAV.setFestaMessage(mmIndex, (ushort)NUD_MyMessage.Value);
+            SAV.SetFestaMessage(mmIndex, (ushort)NUD_MyMessage.Value);
         }
 
         private void CHK_FacilityIntroduced_CheckedChanged(object sender, EventArgs e)
@@ -443,9 +442,9 @@ namespace PKHeX.WinForms
         public string trainerName;
         private ushort messageMeet, messagePart, messageMoved, messageDisappointed;
         public uint misc1, misc2;
-        public int npc;
-        public byte[] trainerFesID;
-        private int ofs;
+        public readonly int npc;
+        public readonly byte[] trainerFesID;
+        private readonly int ofs;
         public FestaFacility(SAV7 sav, int facilityIndex)
         {
             ofs = facilityIndex * 0x48 + (sav.USUM ? 0x51110 : 0x50B10);
