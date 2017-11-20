@@ -1521,7 +1521,7 @@ namespace PKHeX.Core
                 Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
                 Shiny = species == 151 || species == 251 ? (bool?)false : null,
                 Fateful = species == 151 || species == 251,
-                Location = 30004, // todo
+                Location = 30017,
                 EggLocation = 0,
                 IV3 = true,
                 Level = pkmMetLevel,
