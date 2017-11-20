@@ -34,7 +34,7 @@
         public abstract int[] EggGroups { get; set; }
         public abstract int [] Abilities { get; set; }
         public abstract int EscapeRate { get; set; }
-        public virtual int FormeCount { get; set; }
+        public virtual int FormeCount { get; set; } = 1;
         protected internal virtual int FormStatsIndex { get; set; }
         public virtual int FormeSprite { get; set; }
         public abstract int BaseEXP { get; set; }
