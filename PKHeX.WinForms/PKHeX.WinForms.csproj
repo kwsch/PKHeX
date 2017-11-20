@@ -259,7 +259,7 @@
     <Compile Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.designer.cs">
+    <Compile Include="Subforms\Save Editors\Gen7\SAV_FestivalPlaza.Designer.cs">
       <DependentUpon>SAV_FestivalPlaza.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />

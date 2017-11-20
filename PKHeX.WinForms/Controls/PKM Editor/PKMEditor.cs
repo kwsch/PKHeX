@@ -779,6 +779,11 @@ namespace PKHeX.WinForms.Controls
             if (minlvl < level)
                 minlvl = level;
 
+            if (pkm.VC1)
+                location = 30013;
+            else if (pkm.VC2)
+                location = 30017;
+
             if (!silent)
             {
                 var suggestion = new List<string> { "Suggested:" };
