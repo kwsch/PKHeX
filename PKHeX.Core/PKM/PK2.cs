@@ -426,7 +426,7 @@ namespace PKHeX.Core
                 Move2_PP = Move2_PP,
                 Move3_PP = Move3_PP,
                 Move4_PP = Move4_PP,
-                Met_Location = 30004,
+                Met_Location = 30017,
                 Gender = Gender,
                 IsNicknamed = false,
                 AltForm = AltForm,

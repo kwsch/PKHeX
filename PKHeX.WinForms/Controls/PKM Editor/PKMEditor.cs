@@ -1256,6 +1256,8 @@ namespace PKHeX.WinForms.Controls
 
             // check if differs
             GameVersion newTrack = GameUtil.GetMetLocationVersionGroup(Version);
+            if (pkm.Format < 3)
+                newTrack = GameVersion.GSC;
             if (newTrack != origintrack)
             {
                 var met_list = GameInfo.GetLocationList(Version, pkm.Format, egg: false);
@@ -1266,11 +1268,12 @@ namespace PKHeX.WinForms.Controls
                 if (fieldsLoaded)
                 {
                     int metLoc = 0; // transporter or pal park for past gen pkm
+                    if (pkm.Format >= 7) // check transfer scenarios
                     switch (newTrack)
                     {
                         case GameVersion.GO: metLoc = 30012; break;
                         case GameVersion.RBY: metLoc = 30013; break;
-                        case GameVersion.GSC: metLoc = 30004; break;
+                        case GameVersion.GSC: metLoc = 30017; break;
                     }
                     if (metLoc != 0)
                         CB_MetLocation.SelectedValue = metLoc;
