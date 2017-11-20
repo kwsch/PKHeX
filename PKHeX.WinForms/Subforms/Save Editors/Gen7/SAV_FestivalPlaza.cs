@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -126,12 +125,14 @@ namespace PKHeX.WinForms
 
             NUD_Rank.Value = SAV.FestaRank;
             CB_MyMessage.SelectedIndex = 0;
-            loadMMessage(0);
+            LoadMyMessage(0);
             NUD_FacilityIndex.Value = 0;
             CB_FacilityMessage.SelectedIndex = 0;
             CB_FacilityID.SelectedIndex = 0;
             editing = false;
-            loadFacility(0);
+
+            entry = 0;
+            LoadFacility();
         }
         private bool editing;
         private readonly byte[] r = { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
@@ -160,7 +161,7 @@ namespace PKHeX.WinForms
             new byte[]{4,4,4,4,4,4,4,4},
             new byte[]{3}
         };
-        private int typeIndexToType(int typeIndex)
+        private int TypeIndexToType(int typeIndex)
         {
             if (typeIndex < 0 || typeIndex > typeMAX) return -1;
             if (typeIndex < 0x0F) return 0;
@@ -176,26 +177,29 @@ namespace PKHeX.WinForms
                 i >= 0 && i < RES_FacilityColor.Length - (SAV.USUM ? 0 : 1)
                 ? RES_FacilityColor[i].Length - 1
                 : 3;
-        private void loadFacility(int index)
+
+        private int entry = -1;
+        private void LoadFacility()
         {
             editing = true;
+            var facility = f[entry];
             CB_FacilityType.SelectedIndex =
-                CB_FacilityType.Items.Count > f[index].type
-                ? f[index].type
+                CB_FacilityType.Items.Count > facility.Type
+                ? facility.Type
                 : -1;
-            int type = typeIndexToType(CB_FacilityType.SelectedIndex);
+            int type = TypeIndexToType(CB_FacilityType.SelectedIndex);
             NUD_FacilityColor.Maximum = getColorCount(type);
-            NUD_FacilityColor.Value = Math.Min(f[index].color, NUD_FacilityColor.Maximum);
-            if (type >= 0) loadColorLabel(type);
+            NUD_FacilityColor.Value = Math.Min(facility.Color, NUD_FacilityColor.Maximum);
+            if (type >= 0) LoadColorLabel(type);
             CB_FacilityNPC.SelectedIndex =
-                CB_FacilityNPC.Items.Count > f[index].npc
-                ? f[index].npc
+                CB_FacilityNPC.Items.Count > facility.NPC
+                ? facility.NPC
                 : 0;
-            CHK_FacilityIntroduced.Checked = f[index].introduced;
-            TB_OTName.Text = f[index].trainerName;
-            loadOTlabel(f[index].trainerGender);
-            if (CB_FacilityMessage.SelectedIndex >= 0) loadFMessage(CB_FacilityMessage.SelectedIndex);
-            if (CB_FacilityID.SelectedIndex >= 0) loadFestID(CB_FacilityID.SelectedIndex);
+            CHK_FacilityIntroduced.Checked = facility.IsIntroduced;
+            TB_OTName.Text = facility.OT_Name;
+            LoadOTlabel(facility.Gender);
+            if (CB_FacilityMessage.SelectedIndex >= 0) LoadFMessage(CB_FacilityMessage.SelectedIndex);
+            if (CB_FacilityID.SelectedIndex >= 0) LoadFestID(CB_FacilityID.SelectedIndex);
             editing = false;
         }
         private void Save()
@@ -263,27 +267,27 @@ namespace PKHeX.WinForms
             tb.Text = d.FinalString;
         }
         private readonly string[] gendersymbols = { "♂", "♀" };
-        private void loadOTlabel(bool b)
+        private void LoadOTlabel(int b)
         {
-            Label_OTGender.Text = gendersymbols[b ? 1 : 0];
-            Label_OTGender.ForeColor = b ? Color.Red : Color.Blue;
+            Label_OTGender.Text = gendersymbols[b & 1];
+            Label_OTGender.ForeColor = b == 1 ? Color.Red : Color.Blue;
         }
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
             int fIndex = (int)NUD_FacilityIndex.Value;
-            bool b = f[fIndex].trainerGender;
-            b = !b;
-            f[fIndex].trainerGender = b;
-            loadOTlabel(b);
+            var b = f[fIndex].Gender;
+            b ^= 1;
+            f[fIndex].Gender = b;
+            LoadOTlabel(b);
         }
-        private void loadFMessage(int fmIndex) => NUD_FacilityMessage.Value = f[(int)NUD_FacilityIndex.Value].GetMessage(fmIndex);
+        private void LoadFMessage(int fmIndex) => NUD_FacilityMessage.Value = f[(int)NUD_FacilityIndex.Value].GetMessage(fmIndex);
         private void CB_FacilityMessage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (editing) return;
             int fmIndex = CB_FacilityMessage.SelectedIndex;
             if (fmIndex < 0) return;
             editing = true;
-            loadFMessage(fmIndex);
+            LoadFMessage(fmIndex);
             editing = false;
         }
 
@@ -294,18 +298,17 @@ namespace PKHeX.WinForms
             if (fmIndex < 0) return;
             f[(int)NUD_FacilityIndex.Value].SetMessage(fmIndex, (ushort)NUD_FacilityMessage.Value);
         }
-        private void loadFestID(int m)
+        private void LoadFestID(int m)
         {
             int fIndex = (int)NUD_FacilityIndex.Value;
             switch (m)
             {
-                case 0: TB_FacilityID.Text = f[fIndex].misc1.ToString("X8"); break;
-                case 1: TB_FacilityID.Text = f[fIndex].misc2.ToString("X8"); break;
+                case 0: TB_FacilityID.Text = f[fIndex].Misc1.ToString("X8"); break;
+                case 1: TB_FacilityID.Text = f[fIndex].Misc2.ToString("X8"); break;
                 case 2:
-                    StringBuilder stringBuilder = new StringBuilder(f[fIndex].trainerFesID.Length << 1);
-                    for (int j = f[fIndex].trainerFesID.Length - 1; j >= 0; j--)
-                        stringBuilder.Append(f[fIndex].trainerFesID[j].ToString("X2"));
-                    TB_FacilityID.Text = stringBuilder.ToString();
+                    var bytes = f[fIndex].TrainerFesID;
+                    var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
+                    TB_FacilityID.Text = str;
                     break;
             }
 
@@ -316,7 +319,7 @@ namespace PKHeX.WinForms
             int fiIndex = CB_FacilityID.SelectedIndex;
             if (fiIndex < 0) return;
             editing = true;
-            loadFestID(fiIndex);
+            LoadFestID(fiIndex);
             editing = false;
         }
 
@@ -325,7 +328,7 @@ namespace PKHeX.WinForms
             if (editing) return;
             int fIndex = (int)NUD_FacilityIndex.Value;
             int fiIndex = CB_FacilityID.SelectedIndex;
-            string t = System.Text.RegularExpressions.Regex.Replace(TB_FacilityID.Text, "[^A-Fa-f0-9]", "0");
+            string t = Util.GetOnlyHex(TB_FacilityID.Text);
             int maxlen = fiIndex == 2 ? 12 << 1 : 4 << 1;
             if (t.Length > maxlen)
             {
@@ -337,26 +340,26 @@ namespace PKHeX.WinForms
             }
             switch (fiIndex)
             {
-                case 0: f[fIndex].misc1 = Convert.ToUInt32(t, 16); break;
-                case 1: f[fIndex].misc2 = Convert.ToUInt32(t, 16); break;
+                case 0: f[fIndex].Misc1 = Convert.ToUInt32(t, 16); break;
+                case 1: f[fIndex].Misc2 = Convert.ToUInt32(t, 16); break;
                 case 2:
-                    int w = 0;
-                    for (int k = t.Length - 2; k + 1 >= 0; k -= 2)
-                        f[fIndex].trainerFesID[w++] = Convert.ToByte(k < 0 ? t.Substring(0, 1) : t.Substring(k, 2), 16);
-                    for (int j = w; j < f[fIndex].trainerFesID.Length; j++)
-                        f[fIndex].trainerFesID[j] = 0;
+                    if (t.Length != 12 * 2)
+                        t = t.PadLeft(24, '0');
+                    var bytes = t.ToByteArray();
+                    Array.Resize(ref bytes, 12);
+                    f[fIndex].TrainerFesID = bytes;
                     break;
             }
         }
-        private void loadColorLabel(int type) => L_FacilityColorV.Text = RES_Color[RES_FacilityColor[type][(int)NUD_FacilityColor.Value]];
+        private void LoadColorLabel(int type) => L_FacilityColorV.Text = RES_Color[RES_FacilityColor[type][(int)NUD_FacilityColor.Value]];
         private void NUD_FacilityColor_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            f[(int)NUD_FacilityIndex.Value].type = (byte)NUD_FacilityColor.Value;
-            int type = typeIndexToType(CB_FacilityType.SelectedIndex);
+            f[(int)NUD_FacilityIndex.Value].Color = (byte)NUD_FacilityColor.Value;
+            int type = TypeIndexToType(CB_FacilityType.SelectedIndex);
             if (type < 0) return;
             editing = true;
-            loadColorLabel(type);
+            LoadColorLabel(type);
             editing = false;
         }
 
@@ -366,24 +369,37 @@ namespace PKHeX.WinForms
             int fIndex = (int)NUD_FacilityIndex.Value;
             int typeIndex = CB_FacilityType.SelectedIndex;
             if (typeIndex < 0) return;
-            f[fIndex].type = (byte)typeIndex;
-            int type = typeIndexToType(typeIndex);
+            f[fIndex].Type = (byte)typeIndex;
+            int type = TypeIndexToType(typeIndex);
             int colorCount = getColorCount(type);
             editing = true;
             if (colorCount < NUD_FacilityColor.Value)
             {
                 NUD_FacilityColor.Value = colorCount;
-                f[fIndex].color = (byte)colorCount;
+                f[fIndex].Color = (byte)colorCount;
             }
             NUD_FacilityColor.Maximum = colorCount;
-            loadColorLabel(type);
+            LoadColorLabel(type);
             editing = false;
         }
 
         private void NUD_FacilityIndex_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            loadFacility((int)NUD_FacilityIndex.Value);
+            SaveFacility();
+            entry = (int) NUD_FacilityIndex.Value;
+            LoadFacility();
+        }
+        private void SaveFacility()
+        {
+            if (entry < 0)
+                return;
+            var facility = f[entry];
+            facility.Type = CB_FacilityType.SelectedIndex;
+            facility.Color = (int)NUD_FacilityColor.Value;
+            facility.OT_Name = TB_OTName.Text;
+            facility.NPC = CB_FacilityNPC.SelectedIndex;
+            facility.IsIntroduced = CHK_FacilityIntroduced.Checked;
         }
 
         private void NUD_Rank_ValueChanged(object sender, EventArgs e)
@@ -391,14 +407,14 @@ namespace PKHeX.WinForms
             if (editing) return;
             SAV.FestaRank = (ushort)NUD_Rank.Value;
         }
-        private void loadMMessage(int mmIndex) => NUD_MyMessage.Value = SAV.GetFestaMessage(mmIndex);
+        private void LoadMyMessage(int mmIndex) => NUD_MyMessage.Value = SAV.GetFestaMessage(mmIndex);
         private void CB_MyMessage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (editing) return;
             int mmIndex = CB_MyMessage.SelectedIndex;
             if (mmIndex < 0) return;
             editing = true;
-            loadMMessage(mmIndex);
+            LoadMyMessage(mmIndex);
             editing = false;
         }
 
@@ -414,100 +430,84 @@ namespace PKHeX.WinForms
         {
             if (editing) return;
             int fIndex = (int)NUD_FacilityIndex.Value;
-            f[fIndex].introduced = CHK_FacilityIntroduced.Checked;
-            if (!L_Note.Visible && !f[fIndex].introduced && (
-                f[fIndex].trainerName.Length > 0
+            f[fIndex].IsIntroduced = CHK_FacilityIntroduced.Checked;
+            if (!L_Note.Visible && !f[fIndex].IsIntroduced && (
+                f[fIndex].OT_Name.Length > 0
                 || f[fIndex].GetMessage(0) != 0
                 || f[fIndex].GetMessage(1) != 0
                 || f[fIndex].GetMessage(2) != 0
                 || f[fIndex].GetMessage(3) != 0
-                || f[fIndex].misc1 != 0
-                || f[fIndex].misc2 != 0
-                || f[fIndex].trainerFesID.Any(v => v != 0)
+                || f[fIndex].Misc1 != 0
+                || f[fIndex].Misc2 != 0
+                || f[fIndex].TrainerFesID.Any(v => v != 0)
                 )) L_Note.Visible = true;
         }
 
         private void TB_OTName_TextChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            f[(int)NUD_FacilityIndex.Value].trainerName = TB_OTName.Text;
+            f[(int)NUD_FacilityIndex.Value].OT_Name = TB_OTName.Text;
         }
     }
     public class FestaFacility
     {
-        public byte type;
-        public byte color;
-        public bool introduced;
-        public bool trainerGender;
-        public string trainerName;
-        private ushort messageMeet, messagePart, messageMoved, messageDisappointed;
-        public uint misc1, misc2;
-        public readonly int npc;
-        public readonly byte[] trainerFesID;
+        private readonly byte[] Data;
+        private readonly int Language;
+        private const int SIZE = 0x48;
+
+        public int Type { get => Data[0x00]; set => Data[0x00] = (byte)value; }
+        public int Color { get => Data[0x01]; set => Data[0x01] = (byte)value; }
+        public bool IsIntroduced { get => Data[0x02] != 0; set => Data[0x02] = (byte)(value ? 1 : 0); }
+        public int Gender { get => Data[0x03]; set => Data[0x03] = (byte)value; }
+        public string OT_Name { get => StringConverter.GetString7(Data, 0x04, 0x1A); set => StringConverter.SetString7(value, 12, Language).CopyTo(Data, 0x04); }
+
+        private int MessageMeet { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); }
+        private int MessagePart { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
+        private int MessageMoved { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
+        private int MessageDisappointed { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
+
+        public uint Misc1 { get => BitConverter.ToUInt32(Data, 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, 0x28); }
+        public uint Misc2 { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
+
+        public int NPC { get => Math.Max(0, BitConverter.ToInt32(Data, 0x30)); set => BitConverter.GetBytes(Math.Max(0, value)).CopyTo(Data, 0x30); }
+        public byte[] TrainerFesID { get => Data.Skip(0x34).Take(12).ToArray(); set => value.CopyTo(Data, 0x34); }
         private readonly int ofs;
-        public FestaFacility(SAV7 sav, int facilityIndex)
+        public FestaFacility(SAV7 sav, int index)
         {
-            ofs = facilityIndex * 0x48 + (sav.USUM ? 0x51110 : 0x50B10);
-            type = sav.Data[ofs];
-            color = sav.Data[ofs + 1];
-            introduced = sav.Data[ofs + 2] != 0;
-            trainerGender = sav.Data[ofs + 3] != 0;
-            trainerName = sav.GetString(ofs + 4, 12 << 1);
-            messageMeet = messageFilter(BitConverter.ToUInt16(sav.Data, ofs + 0x1E));
-            messagePart = messageFilter(BitConverter.ToUInt16(sav.Data, ofs + 0x20));
-            messageMoved = messageFilter(BitConverter.ToUInt16(sav.Data, ofs + 0x22));
-            messageDisappointed = messageFilter(BitConverter.ToUInt16(sav.Data, ofs + 0x24));
-            misc1 = BitConverter.ToUInt32(sav.Data, ofs + 0x28);
-            misc2 = BitConverter.ToUInt32(sav.Data, ofs + 0x2C);
-            npc = Math.Max(0, BitConverter.ToInt32(sav.Data, ofs + 0x30));
-            trainerFesID = sav.Data.Skip(ofs + 0x34).Take(12).ToArray();
+            ofs = index * SIZE + sav.JoinFestaData + 0x310;
+            Data = sav.GetData(ofs, SIZE);
+            Language = sav.Language;
         }
-        private ushort messageFilter(ushort inp) => Math.Min(inp, (ushort)0xFFF);
         public void CopyTo(SAV7 sav)
         {
-            sav.Data[ofs] = type;
-            sav.Data[ofs + 1] = color;
-            if (introduced)
+            if (!IsIntroduced)
             {
-                sav.Data[ofs + 2] = Convert.ToByte(introduced);
-                sav.Data[ofs + 3] = Convert.ToByte(trainerGender);
-                sav.SetString(trainerName, 12).CopyTo(sav.Data, ofs + 4);
-                BitConverter.GetBytes(messageMeet).CopyTo(sav.Data, ofs + 0x1E);
-                BitConverter.GetBytes(messagePart).CopyTo(sav.Data, ofs + 0x20);
-                BitConverter.GetBytes(messageMoved).CopyTo(sav.Data, ofs + 0x22);
-                BitConverter.GetBytes(messageDisappointed).CopyTo(sav.Data, ofs + 0x24);
-                BitConverter.GetBytes(misc1).CopyTo(sav.Data, ofs + 0x28);
-                BitConverter.GetBytes(misc2).CopyTo(sav.Data, ofs + 0x2C);
-                BitConverter.GetBytes(npc).CopyTo(sav.Data, ofs + 0x30);
-                trainerFesID.CopyTo(sav.Data, ofs + 0x34);
-            }
-            else
-            {
+                // clear
                 byte[] fid = new byte[0x40 - 2];
-                BitConverter.GetBytes(npc).CopyTo(fid, 0x2E);
-                fid.CopyTo(sav.Data, ofs + 2);
+                BitConverter.GetBytes(NPC).CopyTo(fid, 0x30);
+                fid.CopyTo(Data, 2);
             }
+            sav.SetData(Data, ofs);
         }
-        public ushort GetMessage(int index)
+        public int GetMessage(int index)
         {
             switch (index)
             {
-                case 0: return messageMeet;
-                case 1: return messagePart;
-                case 2: return messageMoved;
-                case 3: return messageDisappointed;
+                case 0: return MessageMeet;
+                case 1: return MessagePart;
+                case 2: return MessageMoved;
+                case 3: return MessageDisappointed;
                 default: return 0;
             }
         }
         public void SetMessage(int index, ushort value)
         {
-            value = messageFilter(value);
             switch (index)
             {
-                case 0: messageMeet = value; break;
-                case 1: messagePart = value; break;
-                case 2: messageMoved = value; break;
-                case 3: messageDisappointed = value; break;
+                case 0: MessageMeet = value; break;
+                case 1: MessagePart = value; break;
+                case 2: MessageMoved = value; break;
+                case 3: MessageDisappointed = value; break;
                 default: return;
             }
         }

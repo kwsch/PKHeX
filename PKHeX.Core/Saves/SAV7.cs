@@ -303,7 +303,7 @@ namespace PKHeX.Core
         private int PlayTime { get; set; } = int.MinValue;
         private int ItemInfo { get; set; } = int.MinValue;
         private int Overworld { get; set; } = int.MinValue;
-        private int JoinFestaData { get; set; } = int.MinValue;
+        public int JoinFestaData { get; set; } = int.MinValue;
         private int PokeFinderSave { get; set; } = int.MinValue;
         private int BattleTree { get; set; } = int.MinValue;
         private int BattleBoxFlags { get; set; } = int.MinValue;
