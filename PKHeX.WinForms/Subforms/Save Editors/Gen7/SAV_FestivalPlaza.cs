@@ -77,9 +77,6 @@ namespace PKHeX.WinForms
             CB_FacilityMessage.Items.AddRange(res3);
             CB_MyMessage.Items.Clear();
             CB_MyMessage.Items.AddRange(res3);
-            string[] res4 = { "Used Flags", "Used Stat (Random Value)", "FestaID" };
-            CB_FacilityID.Items.Clear();
-            CB_FacilityID.Items.AddRange(res4);
             string[] res5 = { "Ace Trainer", "Ace Trainer", "Veteran", "Veteran", "Office Worker", "Office Worker", "Punk Guy", "Punk Girl", "Breeder", "Breeder", "Youngster", "Lass" };
             CB_FacilityNPC.Items.Clear();
             for(int i = 0; i < res5.Length; i++)
@@ -128,7 +125,6 @@ namespace PKHeX.WinForms
             LoadMyMessage(0);
             LB_FacilityIndex.SelectedIndex = 0;
             CB_FacilityMessage.SelectedIndex = 0;
-            CB_FacilityID.SelectedIndex = 0;
             editing = false;
 
             entry = 0;
@@ -201,7 +197,11 @@ namespace PKHeX.WinForms
             TB_OTName.Text = facility.OT_Name;
             LoadOTlabel(facility.Gender);
             if (CB_FacilityMessage.SelectedIndex >= 0) LoadFMessage(CB_FacilityMessage.SelectedIndex);
-            if (CB_FacilityID.SelectedIndex >= 0) LoadFestID(CB_FacilityID.SelectedIndex);
+            TB_UsedFlags.Text = f[entry].UsedFlags.ToString("X8");
+            TB_UsedStats.Text = f[entry].UsedRandStat.ToString("X8");
+            var bytes = f[entry].TrainerFesID;
+            var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
+            TB_FacilityID.Text = str;
             editing = false;
         }
         private void Save()
@@ -302,57 +302,32 @@ namespace PKHeX.WinForms
             if (entry < 0) return;
             f[entry].SetMessage(fmIndex, (ushort)NUD_FacilityMessage.Value);
         }
-        private void LoadFestID(int m)
-        {
-            if (entry < 0) return;
-            switch (m)
-            {
-                case 0: TB_FacilityID.Text = f[entry].UsedFlags.ToString("X8"); break;
-                case 1: TB_FacilityID.Text = f[entry].UsedRandStat.ToString("X8"); break;
-                case 2:
-                    var bytes = f[entry].TrainerFesID;
-                    var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
-                    TB_FacilityID.Text = str;
-                    break;
-            }
 
-        }
-        private void CB_FacilityID_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (editing) return;
-            int fiIndex = CB_FacilityID.SelectedIndex;
-            if (fiIndex < 0) return;
-            editing = true;
-            LoadFestID(fiIndex);
-            editing = false;
-        }
-
-        private void TB_FacilityID_TextChanged(object sender, EventArgs e)
+        private void HexTextBox_TextChanged(object sender, EventArgs e)
         {
             if (editing) return;
             if (entry < 0) return;
-            int fiIndex = CB_FacilityID.SelectedIndex;
-            string t = Util.GetOnlyHex(TB_FacilityID.Text);
-            int maxlen = fiIndex == 2 ? 12 << 1 : 4 << 1;
+            string t = Util.GetOnlyHex(((TextBox)sender).Text);
+            int maxlen = sender == TB_FacilityID ? 12 << 1 : 4 << 1;
             if (t.Length > maxlen)
             {
                 t = t.Substring(0, maxlen);
                 editing = true;
-                TB_FacilityID.Text = t;
+                ((TextBox)sender).Text = t;
                 editing = false;
                 System.Media.SystemSounds.Beep.Play();
             }
-            switch (fiIndex)
+            if (sender == TB_UsedFlags)
+                f[entry].UsedFlags = Convert.ToUInt32(t, 16);
+            else if (sender == TB_UsedStats)
+                f[entry].UsedRandStat = Convert.ToUInt32(t, 16);
+            else if (sender == TB_FacilityID)
             {
-                case 0: f[entry].UsedFlags = Convert.ToUInt32(t, 16); break;
-                case 1: f[entry].UsedRandStat = Convert.ToUInt32(t, 16); break;
-                case 2:
-                    if (t.Length != 12 * 2)
-                        t = t.PadLeft(24, '0');
-                    var bytes = t.ToByteArray();
-                    Array.Resize(ref bytes, 12);
-                    f[entry].TrainerFesID = bytes;
-                    break;
+                if (t.Length != 12 * 2)
+                    t = t.PadLeft(24, '0');
+                var bytes = t.ToByteArray();
+                Array.Resize(ref bytes, 12);
+                f[entry].TrainerFesID = bytes;
             }
         }
         private void LoadColorLabel(int type) => L_FacilityColorV.Text = RES_Color[RES_FacilityColor[type][(int)NUD_FacilityColor.Value]];
@@ -432,16 +407,6 @@ namespace PKHeX.WinForms
             if (editing) return;
             if (entry < 0) return;
             f[entry].IsIntroduced = CHK_FacilityIntroduced.Checked;
-            if (!L_Note.Visible && !f[entry].IsIntroduced && (
-                f[entry].OT_Name.Length > 0
-                || f[entry].GetMessage(0) != 0
-                || f[entry].GetMessage(1) != 0
-                || f[entry].GetMessage(2) != 0
-                || f[entry].GetMessage(3) != 0
-                || f[entry].UsedFlags != 0
-                || f[entry].UsedRandStat != 0
-                || f[entry].TrainerFesID.Any(v => v != 0)
-                )) L_Note.Visible = true;
         }
 
         private void TB_OTName_TextChanged(object sender, EventArgs e)
@@ -465,6 +430,21 @@ namespace PKHeX.WinForms
             e.DrawBackground();
             e.Graphics.DrawString(((ListBox)sender).Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), new RectangleF(e.Bounds.X, e.Bounds.Y + (e.Bounds.Height - 12 >> 1), e.Bounds.Width, 12));
             e.DrawFocusRectangle();
+        }
+
+        private void B_DelVisitor_Click(object sender, EventArgs e)
+        {
+            if (entry < 0) return;
+            var facility = f[entry];
+            // there is a unknown value when not introduced
+            if (facility.IsIntroduced)
+                facility.TrainerFesID = new byte[12];
+            facility.IsIntroduced = false;
+            facility.OT_Name = "";
+            facility.Gender = 0;
+            for (int i = 0; i < 4; i++)
+                facility.SetMessage(i, 0);
+            LoadFacility();
         }
     }
     public class FestaFacility
@@ -497,15 +477,7 @@ namespace PKHeX.WinForms
             Data = sav.GetData(ofs, SIZE);
             Language = sav.Language;
         }
-        public void CopyTo(SAV7 sav)
-        {
-            if (!IsIntroduced)
-            {
-                // clear
-                new byte[36].CopyTo(Data, 2);
-            }
-            sav.SetData(Data, ofs);
-        }
+        public void CopyTo(SAV7 sav) => sav.SetData(Data, ofs);
         public int GetMessage(int index)
         {
             switch (index)
