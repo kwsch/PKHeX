@@ -77,7 +77,7 @@ namespace PKHeX.WinForms
             CB_FacilityMessage.Items.AddRange(res3);
             CB_MyMessage.Items.Clear();
             CB_MyMessage.Items.AddRange(res3);
-            string[] res4 = { "misc1", "misc2", "FestaID" };
+            string[] res4 = { "Used Flags", "Used Stat (Random Value)", "FestaID" };
             CB_FacilityID.Items.Clear();
             CB_FacilityID.Items.AddRange(res4);
             string[] res5 = { "Ace Trainer", "Ace Trainer", "Veteran", "Veteran", "Office Worker", "Office Worker", "Punk Guy", "Punk Girl", "Breeder", "Breeder", "Youngster", "Lass" };
@@ -126,7 +126,7 @@ namespace PKHeX.WinForms
             NUD_Rank.Value = SAV.FestaRank;
             CB_MyMessage.SelectedIndex = 0;
             LoadMyMessage(0);
-            NUD_FacilityIndex.Value = 0;
+            LB_FacilityIndex.SelectedIndex = 0;
             CB_FacilityMessage.SelectedIndex = 0;
             CB_FacilityID.SelectedIndex = 0;
             editing = false;
@@ -147,7 +147,7 @@ namespace PKHeX.WinForms
             new byte[]{6,7,0,3},//Food
             new byte[]{4,5,8,3},//Bouncy
             new byte[]{0,1,2,3},//Fortune
-            new byte[]{0,7,8,4,5,2,9,10},//Dye
+            new byte[]{0,7,8,4,5,1,9,10},//Dye
             new byte[]{11,1,5,3},//Exchange
         };
         private readonly byte[][] RES_FacilityLevelType = //3:123 4:135 5:12345
@@ -191,6 +191,8 @@ namespace PKHeX.WinForms
             NUD_FacilityColor.Maximum = getColorCount(type);
             NUD_FacilityColor.Value = Math.Min(facility.Color, NUD_FacilityColor.Maximum);
             if (type >= 0) LoadColorLabel(type);
+            NUD_Exchangable.Enabled = NUD_Exchangable.Visible = L_Exchangable.Visible = type == 7;
+            if (type == 7) NUD_Exchangable.Value = facility.ExchangeLeftCount;
             CB_FacilityNPC.SelectedIndex =
                 CB_FacilityNPC.Items.Count > facility.NPC
                 ? facility.NPC
@@ -274,18 +276,19 @@ namespace PKHeX.WinForms
         }
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
-            int fIndex = (int)NUD_FacilityIndex.Value;
-            var b = f[fIndex].Gender;
+            if (entry < 0) return;
+            var b = f[entry].Gender;
             b ^= 1;
-            f[fIndex].Gender = b;
+            f[entry].Gender = b;
             LoadOTlabel(b);
         }
-        private void LoadFMessage(int fmIndex) => NUD_FacilityMessage.Value = f[(int)NUD_FacilityIndex.Value].GetMessage(fmIndex);
+        private void LoadFMessage(int fmIndex) => NUD_FacilityMessage.Value = f[entry].GetMessage(fmIndex);
         private void CB_FacilityMessage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (editing) return;
             int fmIndex = CB_FacilityMessage.SelectedIndex;
             if (fmIndex < 0) return;
+            if (entry < 0) return;
             editing = true;
             LoadFMessage(fmIndex);
             editing = false;
@@ -296,17 +299,18 @@ namespace PKHeX.WinForms
             if (editing) return;
             int fmIndex = CB_FacilityMessage.SelectedIndex;
             if (fmIndex < 0) return;
-            f[(int)NUD_FacilityIndex.Value].SetMessage(fmIndex, (ushort)NUD_FacilityMessage.Value);
+            if (entry < 0) return;
+            f[entry].SetMessage(fmIndex, (ushort)NUD_FacilityMessage.Value);
         }
         private void LoadFestID(int m)
         {
-            int fIndex = (int)NUD_FacilityIndex.Value;
+            if (entry < 0) return;
             switch (m)
             {
-                case 0: TB_FacilityID.Text = f[fIndex].Misc1.ToString("X8"); break;
-                case 1: TB_FacilityID.Text = f[fIndex].Misc2.ToString("X8"); break;
+                case 0: TB_FacilityID.Text = f[entry].UsedFlags.ToString("X8"); break;
+                case 1: TB_FacilityID.Text = f[entry].UsedRandStat.ToString("X8"); break;
                 case 2:
-                    var bytes = f[fIndex].TrainerFesID;
+                    var bytes = f[entry].TrainerFesID;
                     var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
                     TB_FacilityID.Text = str;
                     break;
@@ -326,7 +330,7 @@ namespace PKHeX.WinForms
         private void TB_FacilityID_TextChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            int fIndex = (int)NUD_FacilityIndex.Value;
+            if (entry < 0) return;
             int fiIndex = CB_FacilityID.SelectedIndex;
             string t = Util.GetOnlyHex(TB_FacilityID.Text);
             int maxlen = fiIndex == 2 ? 12 << 1 : 4 << 1;
@@ -340,14 +344,14 @@ namespace PKHeX.WinForms
             }
             switch (fiIndex)
             {
-                case 0: f[fIndex].Misc1 = Convert.ToUInt32(t, 16); break;
-                case 1: f[fIndex].Misc2 = Convert.ToUInt32(t, 16); break;
+                case 0: f[entry].UsedFlags = Convert.ToUInt32(t, 16); break;
+                case 1: f[entry].UsedRandStat = Convert.ToUInt32(t, 16); break;
                 case 2:
                     if (t.Length != 12 * 2)
                         t = t.PadLeft(24, '0');
                     var bytes = t.ToByteArray();
                     Array.Resize(ref bytes, 12);
-                    f[fIndex].TrainerFesID = bytes;
+                    f[entry].TrainerFesID = bytes;
                     break;
             }
         }
@@ -355,7 +359,8 @@ namespace PKHeX.WinForms
         private void NUD_FacilityColor_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            f[(int)NUD_FacilityIndex.Value].Color = (byte)NUD_FacilityColor.Value;
+            if (entry < 0) return;
+            f[entry].Color = (byte)NUD_FacilityColor.Value;
             int type = TypeIndexToType(CB_FacilityType.SelectedIndex);
             if (type < 0) return;
             editing = true;
@@ -366,30 +371,25 @@ namespace PKHeX.WinForms
         private void CB_FacilityType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            int fIndex = (int)NUD_FacilityIndex.Value;
+            if (entry < 0) return;
             int typeIndex = CB_FacilityType.SelectedIndex;
             if (typeIndex < 0) return;
-            f[fIndex].Type = (byte)typeIndex;
+            f[entry].Type = (byte)typeIndex;
             int type = TypeIndexToType(typeIndex);
             int colorCount = getColorCount(type);
             editing = true;
             if (colorCount < NUD_FacilityColor.Value)
             {
                 NUD_FacilityColor.Value = colorCount;
-                f[fIndex].Color = (byte)colorCount;
+                f[entry].Color = (byte)colorCount;
             }
             NUD_FacilityColor.Maximum = colorCount;
             LoadColorLabel(type);
+            NUD_Exchangable.Enabled = NUD_Exchangable.Visible = L_Exchangable.Visible = type == 7;
+            if (type == 7) NUD_Exchangable.Value = f[entry].ExchangeLeftCount;
             editing = false;
         }
 
-        private void NUD_FacilityIndex_ValueChanged(object sender, EventArgs e)
-        {
-            if (editing) return;
-            SaveFacility();
-            entry = (int) NUD_FacilityIndex.Value;
-            LoadFacility();
-        }
         private void SaveFacility()
         {
             if (entry < 0)
@@ -400,6 +400,7 @@ namespace PKHeX.WinForms
             facility.OT_Name = TB_OTName.Text;
             facility.NPC = CB_FacilityNPC.SelectedIndex;
             facility.IsIntroduced = CHK_FacilityIntroduced.Checked;
+            facility.ExchangeLeftCount = (byte)(TypeIndexToType(facility.Type) == 7 ? NUD_Exchangable.Value : 0);
         }
 
         private void NUD_Rank_ValueChanged(object sender, EventArgs e)
@@ -429,24 +430,41 @@ namespace PKHeX.WinForms
         private void CHK_FacilityIntroduced_CheckedChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            int fIndex = (int)NUD_FacilityIndex.Value;
-            f[fIndex].IsIntroduced = CHK_FacilityIntroduced.Checked;
-            if (!L_Note.Visible && !f[fIndex].IsIntroduced && (
-                f[fIndex].OT_Name.Length > 0
-                || f[fIndex].GetMessage(0) != 0
-                || f[fIndex].GetMessage(1) != 0
-                || f[fIndex].GetMessage(2) != 0
-                || f[fIndex].GetMessage(3) != 0
-                || f[fIndex].Misc1 != 0
-                || f[fIndex].Misc2 != 0
-                || f[fIndex].TrainerFesID.Any(v => v != 0)
+            if (entry < 0) return;
+            f[entry].IsIntroduced = CHK_FacilityIntroduced.Checked;
+            if (!L_Note.Visible && !f[entry].IsIntroduced && (
+                f[entry].OT_Name.Length > 0
+                || f[entry].GetMessage(0) != 0
+                || f[entry].GetMessage(1) != 0
+                || f[entry].GetMessage(2) != 0
+                || f[entry].GetMessage(3) != 0
+                || f[entry].UsedFlags != 0
+                || f[entry].UsedRandStat != 0
+                || f[entry].TrainerFesID.Any(v => v != 0)
                 )) L_Note.Visible = true;
         }
 
         private void TB_OTName_TextChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            f[(int)NUD_FacilityIndex.Value].OT_Name = TB_OTName.Text;
+            if (entry < 0) return;
+            f[entry].OT_Name = TB_OTName.Text;
+        }
+
+        private void LB_FacilityIndex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (editing) return;
+            SaveFacility();
+            entry = LB_FacilityIndex.SelectedIndex;
+            if (entry < 0) return;
+            LoadFacility();
+        }
+
+        private void LB_FacilityIndex_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            e.Graphics.DrawString(((ListBox)sender).Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), new RectangleF(e.Bounds.X, e.Bounds.Y + (e.Bounds.Height - 12 >> 1), e.Bounds.Width, 12));
+            e.DrawFocusRectangle();
         }
     }
     public class FestaFacility
@@ -466,11 +484,12 @@ namespace PKHeX.WinForms
         private int MessageMoved { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
         private int MessageDisappointed { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
 
-        public uint Misc1 { get => BitConverter.ToUInt32(Data, 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, 0x28); }
-        public uint Misc2 { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
+        public uint UsedFlags { get => BitConverter.ToUInt32(Data, 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, 0x28); }
+        public uint UsedRandStat { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
 
         public int NPC { get => Math.Max(0, BitConverter.ToInt32(Data, 0x30)); set => BitConverter.GetBytes(Math.Max(0, value)).CopyTo(Data, 0x30); }
         public byte[] TrainerFesID { get => Data.Skip(0x34).Take(12).ToArray(); set => value.CopyTo(Data, 0x34); }
+        public byte ExchangeLeftCount { get => Data[0x40]; set => Data[0x40] = value; } //over 9 shows "?"
         private readonly int ofs;
         public FestaFacility(SAV7 sav, int index)
         {
@@ -483,9 +502,7 @@ namespace PKHeX.WinForms
             if (!IsIntroduced)
             {
                 // clear
-                byte[] fid = new byte[0x40 - 2];
-                BitConverter.GetBytes(NPC).CopyTo(fid, 0x30);
-                fid.CopyTo(Data, 2);
+                new byte[36].CopyTo(Data, 2);
             }
             sav.SetData(Data, ofs);
         }
