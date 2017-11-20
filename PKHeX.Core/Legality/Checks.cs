@@ -442,7 +442,7 @@ namespace PKHeX.Core
             string nick = validOT[index];
             string OT = validOT[validOT.Length / 2 + index];
 
-            if (nick != pkm.Nickname)
+            if (nick != pkm.Nickname && !(nick == "Quacklin’" && pkm.Nickname == "Quacklin'")) // apostrophe
                 AddLine(Severity.Invalid, V9, CheckIdentifier.Nickname);
             else
                 AddLine(Severity.Valid, V11, CheckIdentifier.Nickname);
