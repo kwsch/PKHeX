@@ -43,13 +43,18 @@
             this.B_AllPhrases = new System.Windows.Forms.Button();
             this.TB_OTName = new System.Windows.Forms.TextBox();
             this.GB_Facility = new System.Windows.Forms.GroupBox();
+            this.L_VisitorName = new System.Windows.Forms.Label();
+            this.L_UsedStats = new System.Windows.Forms.Label();
+            this.L_UsedFlags = new System.Windows.Forms.Label();
+            this.TB_UsedStats = new System.Windows.Forms.TextBox();
+            this.B_DelVisitor = new System.Windows.Forms.Button();
+            this.TB_UsedFlags = new System.Windows.Forms.TextBox();
             this.L_Exchangable = new System.Windows.Forms.Label();
             this.NUD_Exchangable = new System.Windows.Forms.NumericUpDown();
             this.LB_FacilityIndex = new System.Windows.Forms.ListBox();
             this.L_FacilityColorV = new System.Windows.Forms.Label();
-            this.L_OtherValue = new System.Windows.Forms.Label();
+            this.L_FestaID = new System.Windows.Forms.Label();
             this.TB_FacilityID = new System.Windows.Forms.TextBox();
-            this.CB_FacilityID = new System.Windows.Forms.ComboBox();
             this.GB_FacilityMessage = new System.Windows.Forms.GroupBox();
             this.NUD_FacilityMessage = new System.Windows.Forms.NumericUpDown();
             this.CB_FacilityMessage = new System.Windows.Forms.ComboBox();
@@ -73,7 +78,6 @@
             this.GB_MyMessage = new System.Windows.Forms.GroupBox();
             this.NUD_MyMessage = new System.Windows.Forms.NumericUpDown();
             this.CB_MyMessage = new System.Windows.Forms.ComboBox();
-            this.L_Note = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Current)).BeginInit();
             this.GB_FC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).BeginInit();
@@ -180,7 +184,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(398, 446);
+            this.B_Save.Location = new System.Drawing.Point(398, 485);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 21);
             this.B_Save.TabIndex = 1;
@@ -191,7 +195,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(317, 446);
+            this.B_Cancel.Location = new System.Drawing.Point(317, 485);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 21);
             this.B_Cancel.TabIndex = 0;
@@ -237,7 +241,7 @@
             // 
             this.TB_OTName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_OTName.Location = new System.Drawing.Point(327, 21);
+            this.TB_OTName.Location = new System.Drawing.Point(327, 89);
             this.TB_OTName.MaxLength = 12;
             this.TB_OTName.Name = "TB_OTName";
             this.TB_OTName.Size = new System.Drawing.Size(93, 20);
@@ -249,13 +253,18 @@
             // 
             // GB_Facility
             // 
+            this.GB_Facility.Controls.Add(this.L_VisitorName);
+            this.GB_Facility.Controls.Add(this.L_UsedStats);
+            this.GB_Facility.Controls.Add(this.L_UsedFlags);
+            this.GB_Facility.Controls.Add(this.TB_UsedStats);
+            this.GB_Facility.Controls.Add(this.B_DelVisitor);
+            this.GB_Facility.Controls.Add(this.TB_UsedFlags);
             this.GB_Facility.Controls.Add(this.L_Exchangable);
             this.GB_Facility.Controls.Add(this.NUD_Exchangable);
             this.GB_Facility.Controls.Add(this.LB_FacilityIndex);
             this.GB_Facility.Controls.Add(this.L_FacilityColorV);
-            this.GB_Facility.Controls.Add(this.L_OtherValue);
+            this.GB_Facility.Controls.Add(this.L_FestaID);
             this.GB_Facility.Controls.Add(this.TB_FacilityID);
-            this.GB_Facility.Controls.Add(this.CB_FacilityID);
             this.GB_Facility.Controls.Add(this.GB_FacilityMessage);
             this.GB_Facility.Controls.Add(this.Label_OTGender);
             this.GB_Facility.Controls.Add(this.CHK_FacilityIntroduced);
@@ -268,14 +277,73 @@
             this.GB_Facility.Controls.Add(this.TB_OTName);
             this.GB_Facility.Location = new System.Drawing.Point(12, 269);
             this.GB_Facility.Name = "GB_Facility";
-            this.GB_Facility.Size = new System.Drawing.Size(455, 165);
+            this.GB_Facility.Size = new System.Drawing.Size(455, 204);
             this.GB_Facility.TabIndex = 5;
             this.GB_Facility.TabStop = false;
             this.GB_Facility.Text = "Facilities";
             // 
+            // L_VisitorName
+            // 
+            this.L_VisitorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_VisitorName.Location = new System.Drawing.Point(232, 91);
+            this.L_VisitorName.Name = "L_VisitorName";
+            this.L_VisitorName.Size = new System.Drawing.Size(89, 18);
+            this.L_VisitorName.TabIndex = 69;
+            this.L_VisitorName.Text = "Visitor Name:";
+            this.L_VisitorName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_UsedStats
+            // 
+            this.L_UsedStats.Location = new System.Drawing.Point(49, 126);
+            this.L_UsedStats.Name = "L_UsedStats";
+            this.L_UsedStats.Size = new System.Drawing.Size(79, 18);
+            this.L_UsedStats.TabIndex = 68;
+            this.L_UsedStats.Text = "Used Stats:";
+            this.L_UsedStats.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_UsedFlags
+            // 
+            this.L_UsedFlags.Location = new System.Drawing.Point(48, 101);
+            this.L_UsedFlags.Name = "L_UsedFlags";
+            this.L_UsedFlags.Size = new System.Drawing.Size(80, 18);
+            this.L_UsedFlags.TabIndex = 67;
+            this.L_UsedFlags.Text = "Used Flags:";
+            this.L_UsedFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_UsedStats
+            // 
+            this.TB_UsedStats.Location = new System.Drawing.Point(134, 126);
+            this.TB_UsedStats.MaxLength = 8;
+            this.TB_UsedStats.Name = "TB_UsedStats";
+            this.TB_UsedStats.Size = new System.Drawing.Size(83, 19);
+            this.TB_UsedStats.TabIndex = 66;
+            this.TB_UsedStats.Text = "CCCCCCCCC";
+            this.TB_UsedStats.TextChanged += new System.EventHandler(this.HexTextBox_TextChanged);
+            // 
+            // B_DelVisitor
+            // 
+            this.B_DelVisitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_DelVisitor.Location = new System.Drawing.Point(317, 21);
+            this.B_DelVisitor.Name = "B_DelVisitor";
+            this.B_DelVisitor.Size = new System.Drawing.Size(129, 23);
+            this.B_DelVisitor.TabIndex = 65;
+            this.B_DelVisitor.Text = "Delete Visitor Data";
+            this.B_DelVisitor.UseVisualStyleBackColor = true;
+            this.B_DelVisitor.Click += new System.EventHandler(this.B_DelVisitor_Click);
+            // 
+            // TB_UsedFlags
+            // 
+            this.TB_UsedFlags.Location = new System.Drawing.Point(134, 101);
+            this.TB_UsedFlags.MaxLength = 8;
+            this.TB_UsedFlags.Name = "TB_UsedFlags";
+            this.TB_UsedFlags.Size = new System.Drawing.Size(83, 19);
+            this.TB_UsedFlags.TabIndex = 64;
+            this.TB_UsedFlags.Text = "CCCCCCCCC";
+            this.TB_UsedFlags.TextChanged += new System.EventHandler(this.HexTextBox_TextChanged);
+            // 
             // L_Exchangable
             // 
-            this.L_Exchangable.Location = new System.Drawing.Point(44, 137);
+            this.L_Exchangable.Location = new System.Drawing.Point(47, 150);
             this.L_Exchangable.Name = "L_Exchangable";
             this.L_Exchangable.Size = new System.Drawing.Size(123, 18);
             this.L_Exchangable.TabIndex = 63;
@@ -284,7 +352,7 @@
             // 
             // NUD_Exchangable
             // 
-            this.NUD_Exchangable.Location = new System.Drawing.Point(173, 138);
+            this.NUD_Exchangable.Location = new System.Drawing.Point(176, 151);
             this.NUD_Exchangable.Maximum = new decimal(new int[] {
             255,
             0,
@@ -303,7 +371,7 @@
             // 
             this.LB_FacilityIndex.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.LB_FacilityIndex.FormattingEnabled = true;
-            this.LB_FacilityIndex.ItemHeight = 19;
+            this.LB_FacilityIndex.ItemHeight = 24;
             this.LB_FacilityIndex.Items.AddRange(new object[] {
             "1",
             "2",
@@ -312,64 +380,55 @@
             "5",
             "6",
             "7"});
-            this.LB_FacilityIndex.Location = new System.Drawing.Point(9, 19);
+            this.LB_FacilityIndex.Location = new System.Drawing.Point(9, 21);
             this.LB_FacilityIndex.Name = "LB_FacilityIndex";
-            this.LB_FacilityIndex.Size = new System.Drawing.Size(26, 137);
+            this.LB_FacilityIndex.Size = new System.Drawing.Size(26, 172);
             this.LB_FacilityIndex.TabIndex = 61;
             this.LB_FacilityIndex.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.LB_FacilityIndex_DrawItem);
             this.LB_FacilityIndex.SelectedIndexChanged += new System.EventHandler(this.LB_FacilityIndex_SelectedIndexChanged);
             // 
             // L_FacilityColorV
             // 
-            this.L_FacilityColorV.Location = new System.Drawing.Point(141, 73);
+            this.L_FacilityColorV.Location = new System.Drawing.Point(141, 49);
             this.L_FacilityColorV.Name = "L_FacilityColorV";
-            this.L_FacilityColorV.Size = new System.Drawing.Size(100, 18);
+            this.L_FacilityColorV.Size = new System.Drawing.Size(76, 18);
             this.L_FacilityColorV.TabIndex = 60;
             this.L_FacilityColorV.Text = "colorvalue";
             this.L_FacilityColorV.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // L_OtherValue
+            // L_FestaID
             // 
-            this.L_OtherValue.Location = new System.Drawing.Point(251, 108);
-            this.L_OtherValue.Name = "L_OtherValue";
-            this.L_OtherValue.Size = new System.Drawing.Size(82, 18);
-            this.L_OtherValue.TabIndex = 59;
-            this.L_OtherValue.Text = "other value:";
-            this.L_OtherValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_FestaID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_FestaID.Location = new System.Drawing.Point(56, 176);
+            this.L_FestaID.Name = "L_FestaID";
+            this.L_FestaID.Size = new System.Drawing.Size(181, 18);
+            this.L_FestaID.TabIndex = 59;
+            this.L_FestaID.Text = "Unknown value / Visitor FesID:";
+            this.L_FestaID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_FacilityID
             // 
-            this.TB_FacilityID.Location = new System.Drawing.Point(243, 137);
+            this.TB_FacilityID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TB_FacilityID.Location = new System.Drawing.Point(243, 176);
             this.TB_FacilityID.MaxLength = 24;
             this.TB_FacilityID.Name = "TB_FacilityID";
             this.TB_FacilityID.Size = new System.Drawing.Size(203, 19);
             this.TB_FacilityID.TabIndex = 0;
             this.TB_FacilityID.Text = "CCCCCCCCCCCCCCCCCCCCCCCC";
             this.TB_FacilityID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.TB_FacilityID.TextChanged += new System.EventHandler(this.TB_FacilityID_TextChanged);
-            // 
-            // CB_FacilityID
-            // 
-            this.CB_FacilityID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FacilityID.DropDownWidth = 180;
-            this.CB_FacilityID.FormattingEnabled = true;
-            this.CB_FacilityID.Location = new System.Drawing.Point(339, 108);
-            this.CB_FacilityID.Name = "CB_FacilityID";
-            this.CB_FacilityID.Size = new System.Drawing.Size(107, 20);
-            this.CB_FacilityID.TabIndex = 1;
-            this.CB_FacilityID.SelectedIndexChanged += new System.EventHandler(this.CB_FacilityID_SelectedIndexChanged);
+            this.TB_FacilityID.TextChanged += new System.EventHandler(this.HexTextBox_TextChanged);
             // 
             // GB_FacilityMessage
             // 
             this.GB_FacilityMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_FacilityMessage.Controls.Add(this.NUD_FacilityMessage);
             this.GB_FacilityMessage.Controls.Add(this.CB_FacilityMessage);
-            this.GB_FacilityMessage.Location = new System.Drawing.Point(292, 50);
+            this.GB_FacilityMessage.Location = new System.Drawing.Point(292, 118);
             this.GB_FacilityMessage.Name = "GB_FacilityMessage";
             this.GB_FacilityMessage.Size = new System.Drawing.Size(154, 49);
             this.GB_FacilityMessage.TabIndex = 58;
             this.GB_FacilityMessage.TabStop = false;
-            this.GB_FacilityMessage.Text = "visitor message";
+            this.GB_FacilityMessage.Text = "Visitor message";
             // 
             // NUD_FacilityMessage
             // 
@@ -407,7 +466,7 @@
             // 
             this.Label_OTGender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_OTGender.Location = new System.Drawing.Point(426, 21);
+            this.Label_OTGender.Location = new System.Drawing.Point(426, 89);
             this.Label_OTGender.Name = "Label_OTGender";
             this.Label_OTGender.Size = new System.Drawing.Size(20, 20);
             this.Label_OTGender.TabIndex = 57;
@@ -418,17 +477,17 @@
             // CHK_FacilityIntroduced
             // 
             this.CHK_FacilityIntroduced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CHK_FacilityIntroduced.Location = new System.Drawing.Point(193, 18);
+            this.CHK_FacilityIntroduced.Location = new System.Drawing.Point(236, 56);
             this.CHK_FacilityIntroduced.Name = "CHK_FacilityIntroduced";
-            this.CHK_FacilityIntroduced.Size = new System.Drawing.Size(128, 24);
+            this.CHK_FacilityIntroduced.Size = new System.Drawing.Size(192, 24);
             this.CHK_FacilityIntroduced.TabIndex = 9;
-            this.CHK_FacilityIntroduced.Text = "visitor introduced";
+            this.CHK_FacilityIntroduced.Text = "Visitor introduced this facility";
             this.CHK_FacilityIntroduced.UseVisualStyleBackColor = true;
             this.CHK_FacilityIntroduced.CheckedChanged += new System.EventHandler(this.CHK_FacilityIntroduced_CheckedChanged);
             // 
             // L_FacilityNPC
             // 
-            this.L_FacilityNPC.Location = new System.Drawing.Point(46, 99);
+            this.L_FacilityNPC.Location = new System.Drawing.Point(46, 75);
             this.L_FacilityNPC.Name = "L_FacilityNPC";
             this.L_FacilityNPC.Size = new System.Drawing.Size(45, 18);
             this.L_FacilityNPC.TabIndex = 8;
@@ -437,7 +496,7 @@
             // 
             // NUD_FacilityColor
             // 
-            this.NUD_FacilityColor.Location = new System.Drawing.Point(97, 74);
+            this.NUD_FacilityColor.Location = new System.Drawing.Point(97, 50);
             this.NUD_FacilityColor.Maximum = new decimal(new int[] {
             7,
             0,
@@ -455,7 +514,7 @@
             // 
             // L_FacilityColor
             // 
-            this.L_FacilityColor.Location = new System.Drawing.Point(44, 73);
+            this.L_FacilityColor.Location = new System.Drawing.Point(44, 49);
             this.L_FacilityColor.Name = "L_FacilityColor";
             this.L_FacilityColor.Size = new System.Drawing.Size(47, 18);
             this.L_FacilityColor.TabIndex = 6;
@@ -464,7 +523,7 @@
             // 
             // L_FacilityType
             // 
-            this.L_FacilityType.Location = new System.Drawing.Point(47, 48);
+            this.L_FacilityType.Location = new System.Drawing.Point(47, 24);
             this.L_FacilityType.Name = "L_FacilityType";
             this.L_FacilityType.Size = new System.Drawing.Size(44, 18);
             this.L_FacilityType.TabIndex = 5;
@@ -474,11 +533,10 @@
             // CB_FacilityNPC
             // 
             this.CB_FacilityNPC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FacilityNPC.DropDownWidth = 120;
             this.CB_FacilityNPC.FormattingEnabled = true;
-            this.CB_FacilityNPC.Location = new System.Drawing.Point(97, 99);
+            this.CB_FacilityNPC.Location = new System.Drawing.Point(97, 75);
             this.CB_FacilityNPC.Name = "CB_FacilityNPC";
-            this.CB_FacilityNPC.Size = new System.Drawing.Size(123, 20);
+            this.CB_FacilityNPC.Size = new System.Drawing.Size(120, 20);
             this.CB_FacilityNPC.TabIndex = 2;
             // 
             // CB_FacilityType
@@ -486,9 +544,9 @@
             this.CB_FacilityType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FacilityType.DropDownWidth = 180;
             this.CB_FacilityType.FormattingEnabled = true;
-            this.CB_FacilityType.Location = new System.Drawing.Point(97, 48);
+            this.CB_FacilityType.Location = new System.Drawing.Point(97, 24);
             this.CB_FacilityType.Name = "CB_FacilityType";
-            this.CB_FacilityType.Size = new System.Drawing.Size(124, 20);
+            this.CB_FacilityType.Size = new System.Drawing.Size(120, 20);
             this.CB_FacilityType.TabIndex = 1;
             this.CB_FacilityType.SelectedIndexChanged += new System.EventHandler(this.CB_FacilityType_SelectedIndexChanged);
             // 
@@ -644,22 +702,11 @@
             this.CB_MyMessage.TabIndex = 0;
             this.CB_MyMessage.SelectedIndexChanged += new System.EventHandler(this.CB_MyMessage_SelectedIndexChanged);
             // 
-            // L_Note
-            // 
-            this.L_Note.Location = new System.Drawing.Point(12, 437);
-            this.L_Note.Name = "L_Note";
-            this.L_Note.Size = new System.Drawing.Size(299, 33);
-            this.L_Note.TabIndex = 60;
-            this.L_Note.Text = "note: If facility is NOT introduced by visitor,\r\n this form delete all of visitor" +
-    "s data of the facility.";
-            this.L_Note.Visible = false;
-            // 
             // SAV_FestivalPlaza
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(485, 479);
-            this.Controls.Add(this.L_Note);
+            this.ClientSize = new System.Drawing.Size(485, 518);
             this.Controls.Add(this.GB_MyMessage);
             this.Controls.Add(this.L_Rank);
             this.Controls.Add(this.NUD_Rank);
@@ -730,18 +777,22 @@
         private System.Windows.Forms.GroupBox GB_FacilityMessage;
         private System.Windows.Forms.ComboBox CB_FacilityMessage;
         private System.Windows.Forms.NumericUpDown NUD_FacilityMessage;
-        private System.Windows.Forms.ComboBox CB_FacilityID;
         private System.Windows.Forms.TextBox TB_FacilityID;
         private System.Windows.Forms.NumericUpDown NUD_Rank;
         private System.Windows.Forms.Label L_Rank;
-        private System.Windows.Forms.Label L_OtherValue;
+        private System.Windows.Forms.Label L_FestaID;
         private System.Windows.Forms.GroupBox GB_MyMessage;
         private System.Windows.Forms.NumericUpDown NUD_MyMessage;
         private System.Windows.Forms.ComboBox CB_MyMessage;
         private System.Windows.Forms.Label L_FacilityColorV;
-        private System.Windows.Forms.Label L_Note;
         private System.Windows.Forms.ListBox LB_FacilityIndex;
         private System.Windows.Forms.NumericUpDown NUD_Exchangable;
         private System.Windows.Forms.Label L_Exchangable;
+        private System.Windows.Forms.TextBox TB_UsedFlags;
+        private System.Windows.Forms.Button B_DelVisitor;
+        private System.Windows.Forms.Label L_VisitorName;
+        private System.Windows.Forms.Label L_UsedStats;
+        private System.Windows.Forms.Label L_UsedFlags;
+        private System.Windows.Forms.TextBox TB_UsedStats;
     }
 }
