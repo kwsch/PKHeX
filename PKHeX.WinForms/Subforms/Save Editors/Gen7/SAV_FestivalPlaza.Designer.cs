@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_FestivalPlaza));
             this.NUD_FC_Current = new System.Windows.Forms.NumericUpDown();
             this.L_FC_Current = new System.Windows.Forms.Label();
@@ -42,7 +43,6 @@
             this.CLB_Phrases = new System.Windows.Forms.CheckedListBox();
             this.B_AllPhrases = new System.Windows.Forms.Button();
             this.TB_OTName = new System.Windows.Forms.TextBox();
-            this.GB_Facility = new System.Windows.Forms.GroupBox();
             this.L_VisitorName = new System.Windows.Forms.Label();
             this.L_UsedStats = new System.Windows.Forms.Label();
             this.L_UsedFlags = new System.Windows.Forms.Label();
@@ -76,13 +76,38 @@
             this.NUD_Rank = new System.Windows.Forms.NumericUpDown();
             this.L_Rank = new System.Windows.Forms.Label();
             this.GB_MyMessage = new System.Windows.Forms.GroupBox();
-            this.NUD_MyMessage = new System.Windows.Forms.NumericUpDown();
-            this.CB_MyMessage = new System.Windows.Forms.ComboBox();
+            this.L_MyMessageDisappointed = new System.Windows.Forms.Label();
+            this.L_MyMessageMoved = new System.Windows.Forms.Label();
+            this.L_MyMessagePart = new System.Windows.Forms.Label();
+            this.L_MyMessageMeet = new System.Windows.Forms.Label();
+            this.NUD_MyMessageDissapointed = new System.Windows.Forms.NumericUpDown();
+            this.NUD_MyMessageMoved = new System.Windows.Forms.NumericUpDown();
+            this.NUD_MyMessagePart = new System.Windows.Forms.NumericUpDown();
+            this.NUD_MyMessageMeet = new System.Windows.Forms.NumericUpDown();
+            this.TC_Editor = new System.Windows.Forms.TabControl();
+            this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.L_RankFC = new System.Windows.Forms.Label();
+            this.Tab_Unlock = new System.Windows.Forms.TabPage();
+            this.Tab_Facility = new System.Windows.Forms.TabPage();
+            this.Tab_BattleAgency = new System.Windows.Forms.TabPage();
+            this.L_Defeated = new System.Windows.Forms.Label();
+            this.NUD_Defeated = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Grade = new System.Windows.Forms.NumericUpDown();
+            this.CHK_TrainerInvited = new System.Windows.Forms.CheckBox();
+            this.CHK_Choosed = new System.Windows.Forms.CheckBox();
+            this.ppkx1 = new System.Windows.Forms.PictureBox();
+            this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.L_Grade = new System.Windows.Forms.Label();
+            this.B_ImportParty = new System.Windows.Forms.Button();
+            this.GB_Others = new System.Windows.Forms.GroupBox();
+            this.ppkx3 = new System.Windows.Forms.PictureBox();
+            this.ppkx2 = new System.Windows.Forms.PictureBox();
+            this.L_Note = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Current)).BeginInit();
             this.GB_FC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).BeginInit();
             this.GB_Phrase.SuspendLayout();
-            this.GB_Facility.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Exchangable)).BeginInit();
             this.GB_FacilityMessage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityMessage)).BeginInit();
@@ -91,7 +116,22 @@
             this.GB_Reward.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Rank)).BeginInit();
             this.GB_MyMessage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageDissapointed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageMoved)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessagePart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageMeet)).BeginInit();
+            this.TC_Editor.SuspendLayout();
+            this.Tab_Overview.SuspendLayout();
+            this.Tab_Unlock.SuspendLayout();
+            this.Tab_Facility.SuspendLayout();
+            this.Tab_BattleAgency.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Defeated)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Grade)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ppkx1)).BeginInit();
+            this.mnu.SuspendLayout();
+            this.GB_Others.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ppkx3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ppkx2)).BeginInit();
             this.SuspendLayout();
             // 
             // NUD_FC_Current
@@ -129,7 +169,7 @@
             this.GB_FC.Controls.Add(this.L_FC_Used);
             this.GB_FC.Controls.Add(this.NUD_FC_Current);
             this.GB_FC.Controls.Add(this.L_FC_Current);
-            this.GB_FC.Location = new System.Drawing.Point(12, 12);
+            this.GB_FC.Location = new System.Drawing.Point(9, 9);
             this.GB_FC.Name = "GB_FC";
             this.GB_FC.Size = new System.Drawing.Size(157, 96);
             this.GB_FC.TabIndex = 2;
@@ -184,7 +224,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(398, 485);
+            this.B_Save.Location = new System.Drawing.Point(388, 236);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 21);
             this.B_Save.TabIndex = 1;
@@ -195,7 +235,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(317, 485);
+            this.B_Cancel.Location = new System.Drawing.Point(307, 236);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 21);
             this.B_Cancel.TabIndex = 0;
@@ -207,9 +247,9 @@
             // 
             this.GB_Phrase.Controls.Add(this.CLB_Phrases);
             this.GB_Phrase.Controls.Add(this.B_AllPhrases);
-            this.GB_Phrase.Location = new System.Drawing.Point(12, 117);
+            this.GB_Phrase.Location = new System.Drawing.Point(9, 9);
             this.GB_Phrase.Name = "GB_Phrase";
-            this.GB_Phrase.Size = new System.Drawing.Size(246, 146);
+            this.GB_Phrase.Size = new System.Drawing.Size(216, 171);
             this.GB_Phrase.TabIndex = 3;
             this.GB_Phrase.TabStop = false;
             this.GB_Phrase.Text = "Common Phrases+";
@@ -224,7 +264,7 @@
             this.CLB_Phrases.IntegralHeight = false;
             this.CLB_Phrases.Location = new System.Drawing.Point(9, 53);
             this.CLB_Phrases.Name = "CLB_Phrases";
-            this.CLB_Phrases.Size = new System.Drawing.Size(228, 84);
+            this.CLB_Phrases.Size = new System.Drawing.Size(198, 109);
             this.CLB_Phrases.TabIndex = 1;
             // 
             // B_AllPhrases
@@ -239,9 +279,8 @@
             // 
             // TB_OTName
             // 
-            this.TB_OTName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_OTName.Location = new System.Drawing.Point(327, 89);
+            this.TB_OTName.Location = new System.Drawing.Point(315, 74);
             this.TB_OTName.MaxLength = 12;
             this.TB_OTName.Name = "TB_OTName";
             this.TB_OTName.Size = new System.Drawing.Size(93, 20);
@@ -251,41 +290,9 @@
             this.TB_OTName.TextChanged += new System.EventHandler(this.TB_OTName_TextChanged);
             this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TB_OTName_MouseDown);
             // 
-            // GB_Facility
-            // 
-            this.GB_Facility.Controls.Add(this.L_VisitorName);
-            this.GB_Facility.Controls.Add(this.L_UsedStats);
-            this.GB_Facility.Controls.Add(this.L_UsedFlags);
-            this.GB_Facility.Controls.Add(this.TB_UsedStats);
-            this.GB_Facility.Controls.Add(this.B_DelVisitor);
-            this.GB_Facility.Controls.Add(this.TB_UsedFlags);
-            this.GB_Facility.Controls.Add(this.L_Exchangable);
-            this.GB_Facility.Controls.Add(this.NUD_Exchangable);
-            this.GB_Facility.Controls.Add(this.LB_FacilityIndex);
-            this.GB_Facility.Controls.Add(this.L_FacilityColorV);
-            this.GB_Facility.Controls.Add(this.L_FestaID);
-            this.GB_Facility.Controls.Add(this.TB_FacilityID);
-            this.GB_Facility.Controls.Add(this.GB_FacilityMessage);
-            this.GB_Facility.Controls.Add(this.Label_OTGender);
-            this.GB_Facility.Controls.Add(this.CHK_FacilityIntroduced);
-            this.GB_Facility.Controls.Add(this.L_FacilityNPC);
-            this.GB_Facility.Controls.Add(this.NUD_FacilityColor);
-            this.GB_Facility.Controls.Add(this.L_FacilityColor);
-            this.GB_Facility.Controls.Add(this.L_FacilityType);
-            this.GB_Facility.Controls.Add(this.CB_FacilityNPC);
-            this.GB_Facility.Controls.Add(this.CB_FacilityType);
-            this.GB_Facility.Controls.Add(this.TB_OTName);
-            this.GB_Facility.Location = new System.Drawing.Point(12, 269);
-            this.GB_Facility.Name = "GB_Facility";
-            this.GB_Facility.Size = new System.Drawing.Size(455, 204);
-            this.GB_Facility.TabIndex = 5;
-            this.GB_Facility.TabStop = false;
-            this.GB_Facility.Text = "Facilities";
-            // 
             // L_VisitorName
             // 
-            this.L_VisitorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_VisitorName.Location = new System.Drawing.Point(232, 91);
+            this.L_VisitorName.Location = new System.Drawing.Point(220, 76);
             this.L_VisitorName.Name = "L_VisitorName";
             this.L_VisitorName.Size = new System.Drawing.Size(89, 18);
             this.L_VisitorName.TabIndex = 69;
@@ -294,7 +301,7 @@
             // 
             // L_UsedStats
             // 
-            this.L_UsedStats.Location = new System.Drawing.Point(49, 126);
+            this.L_UsedStats.Location = new System.Drawing.Point(46, 111);
             this.L_UsedStats.Name = "L_UsedStats";
             this.L_UsedStats.Size = new System.Drawing.Size(79, 18);
             this.L_UsedStats.TabIndex = 68;
@@ -303,7 +310,7 @@
             // 
             // L_UsedFlags
             // 
-            this.L_UsedFlags.Location = new System.Drawing.Point(48, 101);
+            this.L_UsedFlags.Location = new System.Drawing.Point(45, 86);
             this.L_UsedFlags.Name = "L_UsedFlags";
             this.L_UsedFlags.Size = new System.Drawing.Size(80, 18);
             this.L_UsedFlags.TabIndex = 67;
@@ -312,7 +319,7 @@
             // 
             // TB_UsedStats
             // 
-            this.TB_UsedStats.Location = new System.Drawing.Point(134, 126);
+            this.TB_UsedStats.Location = new System.Drawing.Point(131, 111);
             this.TB_UsedStats.MaxLength = 8;
             this.TB_UsedStats.Name = "TB_UsedStats";
             this.TB_UsedStats.Size = new System.Drawing.Size(83, 19);
@@ -322,8 +329,7 @@
             // 
             // B_DelVisitor
             // 
-            this.B_DelVisitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_DelVisitor.Location = new System.Drawing.Point(317, 21);
+            this.B_DelVisitor.Location = new System.Drawing.Point(305, 9);
             this.B_DelVisitor.Name = "B_DelVisitor";
             this.B_DelVisitor.Size = new System.Drawing.Size(129, 23);
             this.B_DelVisitor.TabIndex = 65;
@@ -333,7 +339,7 @@
             // 
             // TB_UsedFlags
             // 
-            this.TB_UsedFlags.Location = new System.Drawing.Point(134, 101);
+            this.TB_UsedFlags.Location = new System.Drawing.Point(131, 86);
             this.TB_UsedFlags.MaxLength = 8;
             this.TB_UsedFlags.Name = "TB_UsedFlags";
             this.TB_UsedFlags.Size = new System.Drawing.Size(83, 19);
@@ -343,7 +349,7 @@
             // 
             // L_Exchangable
             // 
-            this.L_Exchangable.Location = new System.Drawing.Point(47, 150);
+            this.L_Exchangable.Location = new System.Drawing.Point(44, 135);
             this.L_Exchangable.Name = "L_Exchangable";
             this.L_Exchangable.Size = new System.Drawing.Size(123, 18);
             this.L_Exchangable.TabIndex = 63;
@@ -352,7 +358,7 @@
             // 
             // NUD_Exchangable
             // 
-            this.NUD_Exchangable.Location = new System.Drawing.Point(176, 151);
+            this.NUD_Exchangable.Location = new System.Drawing.Point(173, 136);
             this.NUD_Exchangable.Maximum = new decimal(new int[] {
             255,
             0,
@@ -380,16 +386,16 @@
             "5",
             "6",
             "7"});
-            this.LB_FacilityIndex.Location = new System.Drawing.Point(9, 21);
+            this.LB_FacilityIndex.Location = new System.Drawing.Point(6, 6);
             this.LB_FacilityIndex.Name = "LB_FacilityIndex";
-            this.LB_FacilityIndex.Size = new System.Drawing.Size(26, 172);
+            this.LB_FacilityIndex.Size = new System.Drawing.Size(29, 172);
             this.LB_FacilityIndex.TabIndex = 61;
             this.LB_FacilityIndex.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.LB_FacilityIndex_DrawItem);
             this.LB_FacilityIndex.SelectedIndexChanged += new System.EventHandler(this.LB_FacilityIndex_SelectedIndexChanged);
             // 
             // L_FacilityColorV
             // 
-            this.L_FacilityColorV.Location = new System.Drawing.Point(141, 49);
+            this.L_FacilityColorV.Location = new System.Drawing.Point(138, 34);
             this.L_FacilityColorV.Name = "L_FacilityColorV";
             this.L_FacilityColorV.Size = new System.Drawing.Size(76, 18);
             this.L_FacilityColorV.TabIndex = 60;
@@ -398,8 +404,7 @@
             // 
             // L_FestaID
             // 
-            this.L_FestaID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_FestaID.Location = new System.Drawing.Point(56, 176);
+            this.L_FestaID.Location = new System.Drawing.Point(44, 161);
             this.L_FestaID.Name = "L_FestaID";
             this.L_FestaID.Size = new System.Drawing.Size(181, 18);
             this.L_FestaID.TabIndex = 59;
@@ -408,8 +413,7 @@
             // 
             // TB_FacilityID
             // 
-            this.TB_FacilityID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_FacilityID.Location = new System.Drawing.Point(243, 176);
+            this.TB_FacilityID.Location = new System.Drawing.Point(231, 161);
             this.TB_FacilityID.MaxLength = 24;
             this.TB_FacilityID.Name = "TB_FacilityID";
             this.TB_FacilityID.Size = new System.Drawing.Size(203, 19);
@@ -420,10 +424,9 @@
             // 
             // GB_FacilityMessage
             // 
-            this.GB_FacilityMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_FacilityMessage.Controls.Add(this.NUD_FacilityMessage);
             this.GB_FacilityMessage.Controls.Add(this.CB_FacilityMessage);
-            this.GB_FacilityMessage.Location = new System.Drawing.Point(292, 118);
+            this.GB_FacilityMessage.Location = new System.Drawing.Point(280, 103);
             this.GB_FacilityMessage.Name = "GB_FacilityMessage";
             this.GB_FacilityMessage.Size = new System.Drawing.Size(154, 49);
             this.GB_FacilityMessage.TabIndex = 58;
@@ -464,9 +467,8 @@
             // 
             // Label_OTGender
             // 
-            this.Label_OTGender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_OTGender.Location = new System.Drawing.Point(426, 89);
+            this.Label_OTGender.Location = new System.Drawing.Point(414, 74);
             this.Label_OTGender.Name = "Label_OTGender";
             this.Label_OTGender.Size = new System.Drawing.Size(20, 20);
             this.Label_OTGender.TabIndex = 57;
@@ -476,8 +478,7 @@
             // 
             // CHK_FacilityIntroduced
             // 
-            this.CHK_FacilityIntroduced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CHK_FacilityIntroduced.Location = new System.Drawing.Point(236, 56);
+            this.CHK_FacilityIntroduced.Location = new System.Drawing.Point(227, 41);
             this.CHK_FacilityIntroduced.Name = "CHK_FacilityIntroduced";
             this.CHK_FacilityIntroduced.Size = new System.Drawing.Size(192, 24);
             this.CHK_FacilityIntroduced.TabIndex = 9;
@@ -487,7 +488,7 @@
             // 
             // L_FacilityNPC
             // 
-            this.L_FacilityNPC.Location = new System.Drawing.Point(46, 75);
+            this.L_FacilityNPC.Location = new System.Drawing.Point(43, 60);
             this.L_FacilityNPC.Name = "L_FacilityNPC";
             this.L_FacilityNPC.Size = new System.Drawing.Size(45, 18);
             this.L_FacilityNPC.TabIndex = 8;
@@ -496,7 +497,7 @@
             // 
             // NUD_FacilityColor
             // 
-            this.NUD_FacilityColor.Location = new System.Drawing.Point(97, 50);
+            this.NUD_FacilityColor.Location = new System.Drawing.Point(94, 35);
             this.NUD_FacilityColor.Maximum = new decimal(new int[] {
             7,
             0,
@@ -514,7 +515,7 @@
             // 
             // L_FacilityColor
             // 
-            this.L_FacilityColor.Location = new System.Drawing.Point(44, 49);
+            this.L_FacilityColor.Location = new System.Drawing.Point(41, 34);
             this.L_FacilityColor.Name = "L_FacilityColor";
             this.L_FacilityColor.Size = new System.Drawing.Size(47, 18);
             this.L_FacilityColor.TabIndex = 6;
@@ -523,7 +524,7 @@
             // 
             // L_FacilityType
             // 
-            this.L_FacilityType.Location = new System.Drawing.Point(47, 24);
+            this.L_FacilityType.Location = new System.Drawing.Point(44, 9);
             this.L_FacilityType.Name = "L_FacilityType";
             this.L_FacilityType.Size = new System.Drawing.Size(44, 18);
             this.L_FacilityType.TabIndex = 5;
@@ -534,7 +535,7 @@
             // 
             this.CB_FacilityNPC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FacilityNPC.FormattingEnabled = true;
-            this.CB_FacilityNPC.Location = new System.Drawing.Point(97, 75);
+            this.CB_FacilityNPC.Location = new System.Drawing.Point(94, 60);
             this.CB_FacilityNPC.Name = "CB_FacilityNPC";
             this.CB_FacilityNPC.Size = new System.Drawing.Size(120, 20);
             this.CB_FacilityNPC.TabIndex = 2;
@@ -544,7 +545,7 @@
             this.CB_FacilityType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FacilityType.DropDownWidth = 180;
             this.CB_FacilityType.FormattingEnabled = true;
-            this.CB_FacilityType.Location = new System.Drawing.Point(97, 24);
+            this.CB_FacilityType.Location = new System.Drawing.Point(94, 9);
             this.CB_FacilityType.Name = "CB_FacilityType";
             this.CB_FacilityType.Size = new System.Drawing.Size(120, 20);
             this.CB_FacilityType.TabIndex = 1;
@@ -578,7 +579,7 @@
             // 
             this.GB_FestaStartTime.Controls.Add(this.CAL_FestaStartDate);
             this.GB_FestaStartTime.Controls.Add(this.CAL_FestaStartTime);
-            this.GB_FestaStartTime.Location = new System.Drawing.Point(178, 12);
+            this.GB_FestaStartTime.Location = new System.Drawing.Point(175, 9);
             this.GB_FestaStartTime.Name = "GB_FestaStartTime";
             this.GB_FestaStartTime.Size = new System.Drawing.Size(117, 74);
             this.GB_FestaStartTime.TabIndex = 38;
@@ -590,9 +591,9 @@
             this.GB_Reward.Controls.Add(this.B_AllReadyReward);
             this.GB_Reward.Controls.Add(this.CLB_Reward);
             this.GB_Reward.Controls.Add(this.B_AllReceiveReward);
-            this.GB_Reward.Location = new System.Drawing.Point(267, 95);
+            this.GB_Reward.Location = new System.Drawing.Point(234, 9);
             this.GB_Reward.Name = "GB_Reward";
-            this.GB_Reward.Size = new System.Drawing.Size(200, 168);
+            this.GB_Reward.Size = new System.Drawing.Size(200, 171);
             this.GB_Reward.TabIndex = 39;
             this.GB_Reward.TabStop = false;
             this.GB_Reward.Text = "RankUP rewards";
@@ -617,7 +618,7 @@
             this.CLB_Reward.IntegralHeight = false;
             this.CLB_Reward.Location = new System.Drawing.Point(9, 82);
             this.CLB_Reward.Name = "CLB_Reward";
-            this.CLB_Reward.Size = new System.Drawing.Size(182, 77);
+            this.CLB_Reward.Size = new System.Drawing.Size(182, 80);
             this.CLB_Reward.TabIndex = 1;
             this.CLB_Reward.ThreeDCheckBoxes = true;
             // 
@@ -633,7 +634,7 @@
             // 
             // NUD_Rank
             // 
-            this.NUD_Rank.Location = new System.Drawing.Point(353, 13);
+            this.NUD_Rank.Location = new System.Drawing.Point(64, 114);
             this.NUD_Rank.Maximum = new decimal(new int[] {
             999,
             0,
@@ -651,7 +652,7 @@
             // 
             // L_Rank
             // 
-            this.L_Rank.Location = new System.Drawing.Point(301, 12);
+            this.L_Rank.Location = new System.Drawing.Point(12, 113);
             this.L_Rank.Name = "L_Rank";
             this.L_Rank.Size = new System.Drawing.Size(46, 18);
             this.L_Rank.TabIndex = 41;
@@ -660,63 +661,392 @@
             // 
             // GB_MyMessage
             // 
-            this.GB_MyMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_MyMessage.Controls.Add(this.NUD_MyMessage);
-            this.GB_MyMessage.Controls.Add(this.CB_MyMessage);
-            this.GB_MyMessage.Location = new System.Drawing.Point(304, 37);
+            this.GB_MyMessage.Controls.Add(this.L_MyMessageDisappointed);
+            this.GB_MyMessage.Controls.Add(this.L_MyMessageMoved);
+            this.GB_MyMessage.Controls.Add(this.L_MyMessagePart);
+            this.GB_MyMessage.Controls.Add(this.L_MyMessageMeet);
+            this.GB_MyMessage.Controls.Add(this.NUD_MyMessageDissapointed);
+            this.GB_MyMessage.Controls.Add(this.NUD_MyMessageMoved);
+            this.GB_MyMessage.Controls.Add(this.NUD_MyMessagePart);
+            this.GB_MyMessage.Controls.Add(this.NUD_MyMessageMeet);
+            this.GB_MyMessage.Location = new System.Drawing.Point(301, 9);
             this.GB_MyMessage.Name = "GB_MyMessage";
-            this.GB_MyMessage.Size = new System.Drawing.Size(154, 49);
+            this.GB_MyMessage.Size = new System.Drawing.Size(133, 144);
             this.GB_MyMessage.TabIndex = 59;
             this.GB_MyMessage.TabStop = false;
-            this.GB_MyMessage.Text = "my message";
+            this.GB_MyMessage.Text = "Message Settings";
             // 
-            // NUD_MyMessage
+            // L_MyMessageDisappointed
             // 
-            this.NUD_MyMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.NUD_MyMessage.Location = new System.Drawing.Point(98, 21);
-            this.NUD_MyMessage.Maximum = new decimal(new int[] {
+            this.L_MyMessageDisappointed.Location = new System.Drawing.Point(6, 95);
+            this.L_MyMessageDisappointed.Name = "L_MyMessageDisappointed";
+            this.L_MyMessageDisappointed.Size = new System.Drawing.Size(88, 18);
+            this.L_MyMessageDisappointed.TabIndex = 8;
+            this.L_MyMessageDisappointed.Text = "Disappointed:";
+            this.L_MyMessageDisappointed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_MyMessageMoved
+            // 
+            this.L_MyMessageMoved.Location = new System.Drawing.Point(16, 70);
+            this.L_MyMessageMoved.Name = "L_MyMessageMoved";
+            this.L_MyMessageMoved.Size = new System.Drawing.Size(55, 18);
+            this.L_MyMessageMoved.TabIndex = 7;
+            this.L_MyMessageMoved.Text = "Moved:";
+            this.L_MyMessageMoved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_MyMessagePart
+            // 
+            this.L_MyMessagePart.Location = new System.Drawing.Point(28, 45);
+            this.L_MyMessagePart.Name = "L_MyMessagePart";
+            this.L_MyMessagePart.Size = new System.Drawing.Size(43, 18);
+            this.L_MyMessagePart.TabIndex = 6;
+            this.L_MyMessagePart.Text = "Part:";
+            this.L_MyMessagePart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_MyMessageMeet
+            // 
+            this.L_MyMessageMeet.Location = new System.Drawing.Point(24, 20);
+            this.L_MyMessageMeet.Name = "L_MyMessageMeet";
+            this.L_MyMessageMeet.Size = new System.Drawing.Size(47, 18);
+            this.L_MyMessageMeet.TabIndex = 5;
+            this.L_MyMessageMeet.Text = "Meet:";
+            this.L_MyMessageMeet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_MyMessageDissapointed
+            // 
+            this.NUD_MyMessageDissapointed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_MyMessageDissapointed.Location = new System.Drawing.Point(77, 116);
+            this.NUD_MyMessageDissapointed.Maximum = new decimal(new int[] {
             9999,
             0,
             0,
             0});
-            this.NUD_MyMessage.Name = "NUD_MyMessage";
-            this.NUD_MyMessage.Size = new System.Drawing.Size(47, 19);
-            this.NUD_MyMessage.TabIndex = 1;
-            this.NUD_MyMessage.Value = new decimal(new int[] {
+            this.NUD_MyMessageDissapointed.Name = "NUD_MyMessageDissapointed";
+            this.NUD_MyMessageDissapointed.Size = new System.Drawing.Size(47, 19);
+            this.NUD_MyMessageDissapointed.TabIndex = 4;
+            this.NUD_MyMessageDissapointed.Value = new decimal(new int[] {
             9999,
             0,
             0,
             0});
-            this.NUD_MyMessage.ValueChanged += new System.EventHandler(this.NUD_MyMessage_ValueChanged);
+            this.NUD_MyMessageDissapointed.ValueChanged += new System.EventHandler(this.NUD_MyMessage_ValueChanged);
             // 
-            // CB_MyMessage
+            // NUD_MyMessageMoved
             // 
-            this.CB_MyMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.NUD_MyMessageMoved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_MyMessageMoved.Location = new System.Drawing.Point(77, 71);
+            this.NUD_MyMessageMoved.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_MyMessageMoved.Name = "NUD_MyMessageMoved";
+            this.NUD_MyMessageMoved.Size = new System.Drawing.Size(47, 19);
+            this.NUD_MyMessageMoved.TabIndex = 3;
+            this.NUD_MyMessageMoved.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_MyMessageMoved.ValueChanged += new System.EventHandler(this.NUD_MyMessage_ValueChanged);
+            // 
+            // NUD_MyMessagePart
+            // 
+            this.NUD_MyMessagePart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_MyMessagePart.Location = new System.Drawing.Point(77, 46);
+            this.NUD_MyMessagePart.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_MyMessagePart.Name = "NUD_MyMessagePart";
+            this.NUD_MyMessagePart.Size = new System.Drawing.Size(47, 19);
+            this.NUD_MyMessagePart.TabIndex = 2;
+            this.NUD_MyMessagePart.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_MyMessagePart.ValueChanged += new System.EventHandler(this.NUD_MyMessage_ValueChanged);
+            // 
+            // NUD_MyMessageMeet
+            // 
+            this.NUD_MyMessageMeet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_MyMessageMeet.Location = new System.Drawing.Point(77, 21);
+            this.NUD_MyMessageMeet.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_MyMessageMeet.Name = "NUD_MyMessageMeet";
+            this.NUD_MyMessageMeet.Size = new System.Drawing.Size(47, 19);
+            this.NUD_MyMessageMeet.TabIndex = 1;
+            this.NUD_MyMessageMeet.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_MyMessageMeet.ValueChanged += new System.EventHandler(this.NUD_MyMessage_ValueChanged);
+            // 
+            // TC_Editor
+            // 
+            this.TC_Editor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_MyMessage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_MyMessage.DropDownWidth = 102;
-            this.CB_MyMessage.FormattingEnabled = true;
-            this.CB_MyMessage.Location = new System.Drawing.Point(9, 21);
-            this.CB_MyMessage.Name = "CB_MyMessage";
-            this.CB_MyMessage.Size = new System.Drawing.Size(83, 20);
-            this.CB_MyMessage.TabIndex = 0;
-            this.CB_MyMessage.SelectedIndexChanged += new System.EventHandler(this.CB_MyMessage_SelectedIndexChanged);
+            this.TC_Editor.Controls.Add(this.Tab_Overview);
+            this.TC_Editor.Controls.Add(this.Tab_Unlock);
+            this.TC_Editor.Controls.Add(this.Tab_Facility);
+            this.TC_Editor.Controls.Add(this.Tab_BattleAgency);
+            this.TC_Editor.Location = new System.Drawing.Point(12, 12);
+            this.TC_Editor.Name = "TC_Editor";
+            this.TC_Editor.SelectedIndex = 0;
+            this.TC_Editor.Size = new System.Drawing.Size(451, 215);
+            this.TC_Editor.TabIndex = 60;
+            // 
+            // Tab_Overview
+            // 
+            this.Tab_Overview.Controls.Add(this.L_RankFC);
+            this.Tab_Overview.Controls.Add(this.GB_FC);
+            this.Tab_Overview.Controls.Add(this.GB_MyMessage);
+            this.Tab_Overview.Controls.Add(this.GB_FestaStartTime);
+            this.Tab_Overview.Controls.Add(this.L_Rank);
+            this.Tab_Overview.Controls.Add(this.NUD_Rank);
+            this.Tab_Overview.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Overview.Name = "Tab_Overview";
+            this.Tab_Overview.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Overview.Size = new System.Drawing.Size(443, 189);
+            this.Tab_Overview.TabIndex = 0;
+            this.Tab_Overview.Text = "Overview";
+            this.Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // L_RankFC
+            // 
+            this.L_RankFC.Location = new System.Drawing.Point(117, 111);
+            this.L_RankFC.Name = "L_RankFC";
+            this.L_RankFC.Size = new System.Drawing.Size(118, 23);
+            this.L_RankFC.TabIndex = 60;
+            this.L_RankFC.Text = "9999999 - 9999999";
+            this.L_RankFC.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Tab_Unlock
+            // 
+            this.Tab_Unlock.Controls.Add(this.GB_Phrase);
+            this.Tab_Unlock.Controls.Add(this.GB_Reward);
+            this.Tab_Unlock.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Unlock.Name = "Tab_Unlock";
+            this.Tab_Unlock.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Unlock.Size = new System.Drawing.Size(443, 189);
+            this.Tab_Unlock.TabIndex = 1;
+            this.Tab_Unlock.Text = "Unlock";
+            this.Tab_Unlock.UseVisualStyleBackColor = true;
+            // 
+            // Tab_Facility
+            // 
+            this.Tab_Facility.Controls.Add(this.L_VisitorName);
+            this.Tab_Facility.Controls.Add(this.L_FestaID);
+            this.Tab_Facility.Controls.Add(this.B_DelVisitor);
+            this.Tab_Facility.Controls.Add(this.TB_FacilityID);
+            this.Tab_Facility.Controls.Add(this.GB_FacilityMessage);
+            this.Tab_Facility.Controls.Add(this.L_UsedStats);
+            this.Tab_Facility.Controls.Add(this.Label_OTGender);
+            this.Tab_Facility.Controls.Add(this.LB_FacilityIndex);
+            this.Tab_Facility.Controls.Add(this.CHK_FacilityIntroduced);
+            this.Tab_Facility.Controls.Add(this.L_UsedFlags);
+            this.Tab_Facility.Controls.Add(this.TB_OTName);
+            this.Tab_Facility.Controls.Add(this.L_FacilityType);
+            this.Tab_Facility.Controls.Add(this.TB_UsedStats);
+            this.Tab_Facility.Controls.Add(this.CB_FacilityType);
+            this.Tab_Facility.Controls.Add(this.CB_FacilityNPC);
+            this.Tab_Facility.Controls.Add(this.TB_UsedFlags);
+            this.Tab_Facility.Controls.Add(this.L_FacilityColor);
+            this.Tab_Facility.Controls.Add(this.L_Exchangable);
+            this.Tab_Facility.Controls.Add(this.NUD_FacilityColor);
+            this.Tab_Facility.Controls.Add(this.NUD_Exchangable);
+            this.Tab_Facility.Controls.Add(this.L_FacilityNPC);
+            this.Tab_Facility.Controls.Add(this.L_FacilityColorV);
+            this.Tab_Facility.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Facility.Name = "Tab_Facility";
+            this.Tab_Facility.Size = new System.Drawing.Size(443, 189);
+            this.Tab_Facility.TabIndex = 2;
+            this.Tab_Facility.Text = "Facility";
+            this.Tab_Facility.UseVisualStyleBackColor = true;
+            // 
+            // Tab_BattleAgency
+            // 
+            this.Tab_BattleAgency.Controls.Add(this.L_Note);
+            this.Tab_BattleAgency.Controls.Add(this.L_Defeated);
+            this.Tab_BattleAgency.Controls.Add(this.NUD_Defeated);
+            this.Tab_BattleAgency.Controls.Add(this.NUD_Grade);
+            this.Tab_BattleAgency.Controls.Add(this.CHK_TrainerInvited);
+            this.Tab_BattleAgency.Controls.Add(this.CHK_Choosed);
+            this.Tab_BattleAgency.Controls.Add(this.ppkx1);
+            this.Tab_BattleAgency.Controls.Add(this.L_Grade);
+            this.Tab_BattleAgency.Controls.Add(this.B_ImportParty);
+            this.Tab_BattleAgency.Controls.Add(this.GB_Others);
+            this.Tab_BattleAgency.Location = new System.Drawing.Point(4, 22);
+            this.Tab_BattleAgency.Name = "Tab_BattleAgency";
+            this.Tab_BattleAgency.Size = new System.Drawing.Size(443, 189);
+            this.Tab_BattleAgency.TabIndex = 3;
+            this.Tab_BattleAgency.Text = "BattleAgency";
+            this.Tab_BattleAgency.UseVisualStyleBackColor = true;
+            // 
+            // L_Defeated
+            // 
+            this.L_Defeated.Location = new System.Drawing.Point(203, 36);
+            this.L_Defeated.Name = "L_Defeated";
+            this.L_Defeated.Size = new System.Drawing.Size(184, 18);
+            this.L_Defeated.TabIndex = 12;
+            this.L_Defeated.Text = "Current Defeated Trainer Count:";
+            this.L_Defeated.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Defeated
+            // 
+            this.NUD_Defeated.Increment = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUD_Defeated.Location = new System.Drawing.Point(393, 37);
+            this.NUD_Defeated.Maximum = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+            this.NUD_Defeated.Name = "NUD_Defeated";
+            this.NUD_Defeated.Size = new System.Drawing.Size(41, 19);
+            this.NUD_Defeated.TabIndex = 11;
+            // 
+            // NUD_Grade
+            // 
+            this.NUD_Grade.Location = new System.Drawing.Point(393, 9);
+            this.NUD_Grade.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.NUD_Grade.Name = "NUD_Grade";
+            this.NUD_Grade.Size = new System.Drawing.Size(41, 19);
+            this.NUD_Grade.TabIndex = 10;
+            this.NUD_Grade.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.NUD_Grade.ValueChanged += new System.EventHandler(this.NUD_Grade_ValueChanged);
+            // 
+            // CHK_TrainerInvited
+            // 
+            this.CHK_TrainerInvited.Location = new System.Drawing.Point(76, 42);
+            this.CHK_TrainerInvited.Name = "CHK_TrainerInvited";
+            this.CHK_TrainerInvited.Size = new System.Drawing.Size(73, 24);
+            this.CHK_TrainerInvited.TabIndex = 9;
+            this.CHK_TrainerInvited.Text = "Invited";
+            this.CHK_TrainerInvited.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Choosed
+            // 
+            this.CHK_Choosed.Location = new System.Drawing.Point(76, 12);
+            this.CHK_Choosed.Name = "CHK_Choosed";
+            this.CHK_Choosed.Size = new System.Drawing.Size(83, 24);
+            this.CHK_Choosed.TabIndex = 8;
+            this.CHK_Choosed.Text = "Choosed";
+            this.CHK_Choosed.UseVisualStyleBackColor = true;
+            // 
+            // ppkx1
+            // 
+            this.ppkx1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ppkx1.ContextMenuStrip = this.mnu;
+            this.ppkx1.Location = new System.Drawing.Point(18, 9);
+            this.ppkx1.Name = "ppkx1";
+            this.ppkx1.Size = new System.Drawing.Size(40, 30);
+            this.ppkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ppkx1.TabIndex = 3;
+            this.ppkx1.TabStop = false;
+            // 
+            // mnu
+            // 
+            this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSave});
+            this.mnu.Name = "mnu";
+            this.mnu.Size = new System.Drawing.Size(123, 26);
+            // 
+            // mnuSave
+            // 
+            this.mnuSave.Name = "mnuSave";
+            this.mnuSave.Size = new System.Drawing.Size(122, 22);
+            this.mnuSave.Text = "Save PKM";
+            this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
+            // 
+            // L_Grade
+            // 
+            this.L_Grade.Location = new System.Drawing.Point(335, 8);
+            this.L_Grade.Name = "L_Grade";
+            this.L_Grade.Size = new System.Drawing.Size(52, 18);
+            this.L_Grade.TabIndex = 7;
+            this.L_Grade.Text = "Grade:";
+            this.L_Grade.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // B_ImportParty
+            // 
+            this.B_ImportParty.Location = new System.Drawing.Point(76, 92);
+            this.B_ImportParty.Name = "B_ImportParty";
+            this.B_ImportParty.Size = new System.Drawing.Size(122, 23);
+            this.B_ImportParty.TabIndex = 7;
+            this.B_ImportParty.Text = "Import from Party";
+            this.B_ImportParty.UseVisualStyleBackColor = true;
+            this.B_ImportParty.Click += new System.EventHandler(this.B_ImportParty_Click);
+            // 
+            // GB_Others
+            // 
+            this.GB_Others.Controls.Add(this.ppkx3);
+            this.GB_Others.Controls.Add(this.ppkx2);
+            this.GB_Others.Location = new System.Drawing.Point(9, 48);
+            this.GB_Others.Name = "GB_Others";
+            this.GB_Others.Size = new System.Drawing.Size(58, 99);
+            this.GB_Others.TabIndex = 6;
+            this.GB_Others.TabStop = false;
+            this.GB_Others.Text = "Others";
+            // 
+            // ppkx3
+            // 
+            this.ppkx3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ppkx3.ContextMenuStrip = this.mnu;
+            this.ppkx3.Location = new System.Drawing.Point(9, 60);
+            this.ppkx3.Name = "ppkx3";
+            this.ppkx3.Size = new System.Drawing.Size(40, 30);
+            this.ppkx3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ppkx3.TabIndex = 5;
+            this.ppkx3.TabStop = false;
+            // 
+            // ppkx2
+            // 
+            this.ppkx2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ppkx2.ContextMenuStrip = this.mnu;
+            this.ppkx2.Location = new System.Drawing.Point(9, 21);
+            this.ppkx2.Name = "ppkx2";
+            this.ppkx2.Size = new System.Drawing.Size(40, 30);
+            this.ppkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ppkx2.TabIndex = 4;
+            this.ppkx2.TabStop = false;
+            // 
+            // L_Note
+            // 
+            this.L_Note.Location = new System.Drawing.Point(162, 147);
+            this.L_Note.Name = "L_Note";
+            this.L_Note.Size = new System.Drawing.Size(275, 36);
+            this.L_Note.TabIndex = 13;
+            this.L_Note.Text = "NOTE: If you edit the Grade from <50 to 50,\r\n it is recommended that the Defeated" +
+    " Count = 0";
+            this.L_Note.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SAV_FestivalPlaza
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(485, 518);
-            this.Controls.Add(this.GB_MyMessage);
-            this.Controls.Add(this.L_Rank);
-            this.Controls.Add(this.NUD_Rank);
-            this.Controls.Add(this.GB_Reward);
-            this.Controls.Add(this.GB_FestaStartTime);
-            this.Controls.Add(this.GB_Facility);
-            this.Controls.Add(this.GB_Phrase);
+            this.ClientSize = new System.Drawing.Size(475, 269);
+            this.Controls.Add(this.TC_Editor);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.GB_FC);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -728,8 +1058,6 @@
             this.GB_FC.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).EndInit();
             this.GB_Phrase.ResumeLayout(false);
-            this.GB_Facility.ResumeLayout(false);
-            this.GB_Facility.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Exchangable)).EndInit();
             this.GB_FacilityMessage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FacilityMessage)).EndInit();
@@ -738,7 +1066,25 @@
             this.GB_Reward.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Rank)).EndInit();
             this.GB_MyMessage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageDissapointed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageMoved)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessagePart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageMeet)).EndInit();
+            this.TC_Editor.ResumeLayout(false);
+            this.Tab_Overview.ResumeLayout(false);
+            this.Tab_Unlock.ResumeLayout(false);
+            this.Tab_Facility.ResumeLayout(false);
+            this.Tab_Facility.PerformLayout();
+            this.Tab_BattleAgency.ResumeLayout(false);
+            this.Tab_BattleAgency.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Defeated)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Grade)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ppkx1)).EndInit();
+            this.mnu.ResumeLayout(false);
+            this.GB_Others.ResumeLayout(false);
+            this.GB_Others.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ppkx3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ppkx2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -758,7 +1104,6 @@
         private System.Windows.Forms.Button B_AllPhrases;
         private System.Windows.Forms.CheckedListBox CLB_Phrases;
         private System.Windows.Forms.TextBox TB_OTName;
-        private System.Windows.Forms.GroupBox GB_Facility;
         private System.Windows.Forms.DateTimePicker CAL_FestaStartDate;
         private System.Windows.Forms.DateTimePicker CAL_FestaStartTime;
         private System.Windows.Forms.GroupBox GB_FestaStartTime;
@@ -782,8 +1127,7 @@
         private System.Windows.Forms.Label L_Rank;
         private System.Windows.Forms.Label L_FestaID;
         private System.Windows.Forms.GroupBox GB_MyMessage;
-        private System.Windows.Forms.NumericUpDown NUD_MyMessage;
-        private System.Windows.Forms.ComboBox CB_MyMessage;
+        private System.Windows.Forms.NumericUpDown NUD_MyMessageMeet;
         private System.Windows.Forms.Label L_FacilityColorV;
         private System.Windows.Forms.ListBox LB_FacilityIndex;
         private System.Windows.Forms.NumericUpDown NUD_Exchangable;
@@ -794,5 +1138,32 @@
         private System.Windows.Forms.Label L_UsedStats;
         private System.Windows.Forms.Label L_UsedFlags;
         private System.Windows.Forms.TextBox TB_UsedStats;
+        private System.Windows.Forms.TabControl TC_Editor;
+        private System.Windows.Forms.TabPage Tab_Overview;
+        private System.Windows.Forms.TabPage Tab_Unlock;
+        private System.Windows.Forms.TabPage Tab_Facility;
+        private System.Windows.Forms.Label L_MyMessagePart;
+        private System.Windows.Forms.Label L_MyMessageMeet;
+        private System.Windows.Forms.NumericUpDown NUD_MyMessageDissapointed;
+        private System.Windows.Forms.NumericUpDown NUD_MyMessageMoved;
+        private System.Windows.Forms.NumericUpDown NUD_MyMessagePart;
+        private System.Windows.Forms.Label L_RankFC;
+        private System.Windows.Forms.Label L_MyMessageDisappointed;
+        private System.Windows.Forms.Label L_MyMessageMoved;
+        private System.Windows.Forms.TabPage Tab_BattleAgency;
+        private System.Windows.Forms.PictureBox ppkx1;
+        private System.Windows.Forms.PictureBox ppkx2;
+        private System.Windows.Forms.PictureBox ppkx3;
+        private System.Windows.Forms.CheckBox CHK_Choosed;
+        private System.Windows.Forms.Label L_Grade;
+        private System.Windows.Forms.Button B_ImportParty;
+        private System.Windows.Forms.GroupBox GB_Others;
+        private System.Windows.Forms.CheckBox CHK_TrainerInvited;
+        private System.Windows.Forms.ContextMenuStrip mnu;
+        private System.Windows.Forms.ToolStripMenuItem mnuSave;
+        private System.Windows.Forms.NumericUpDown NUD_Grade;
+        private System.Windows.Forms.Label L_Defeated;
+        private System.Windows.Forms.NumericUpDown NUD_Defeated;
+        private System.Windows.Forms.Label L_Note;
     }
 }

@@ -16,6 +16,13 @@ namespace PKHeX.WinForms
             editing = true;
             InitializeComponent();
             typeMAX = SAV.USUM ? 0x7F : 0x7C;
+            if (SAV.USUM)
+            {
+                PBs = new PictureBox[3] { ppkx1, ppkx2, ppkx3 };
+                LoadBattleAgency();
+            }
+            else
+                TC_Editor.TabPages.Remove(Tab_BattleAgency);
             if (Main.Unicode)
                 try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
                 catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
@@ -75,8 +82,6 @@ namespace PKHeX.WinForms
             string[] res3 = { "Meet", "Part", "Moved", "Disappointed" };
             CB_FacilityMessage.Items.Clear();
             CB_FacilityMessage.Items.AddRange(res3);
-            CB_MyMessage.Items.Clear();
-            CB_MyMessage.Items.AddRange(res3);
             string[] res5 = { "Ace Trainer", "Ace Trainer", "Veteran", "Veteran", "Office Worker", "Office Worker", "Punk Guy", "Punk Girl", "Breeder", "Breeder", "Youngster", "Lass" };
             CB_FacilityNPC.Items.Clear();
             for(int i = 0; i < res5.Length; i++)
@@ -121,8 +126,11 @@ namespace PKHeX.WinForms
                 }
 
             NUD_Rank.Value = SAV.FestaRank;
-            CB_MyMessage.SelectedIndex = 0;
-            LoadMyMessage(0);
+            LoadRankLabel(SAV.FestaRank);
+            NUDs = new NumericUpDown[4] { NUD_MyMessageMeet, NUD_MyMessagePart, NUD_MyMessageMoved, NUD_MyMessageDissapointed };
+            for (int i = 0; i < NUDs.Length; i++)
+                NUDs[i].Value = SAV.GetFestaMessage(i);
+
             LB_FacilityIndex.SelectedIndex = 0;
             CB_FacilityMessage.SelectedIndex = 0;
             editing = false;
@@ -220,6 +228,44 @@ namespace PKHeX.WinForms
 
             foreach (FestaFacility facility in f)
                 facility.CopyTo(SAV);
+
+            if (SAV.USUM)
+                SaveBattleAgency();
+        }
+        private void LoadBattleAgency()
+        {
+            p[0] = SAV.GetPKM(SAV.DecryptPKM(SAV.GetData(0x6C200, 0xE8)));
+            p[1] = SAV.GetPKM(SAV.DecryptPKM(SAV.GetData(0x6C2E8, 0x104)));
+            p[2] = SAV.GetPKM(SAV.DecryptPKM(SAV.GetData(0x6C420, 0x104)));
+            LoadPictureBox();
+            B_ImportParty.Visible = SAV.HasParty;
+            CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);
+            CHK_TrainerInvited.Checked = BitConverter.ToUInt16(SAV.GetData(0x6C3EE, 2), 0) == 0x7FFF && BitConverter.ToUInt16(SAV.GetData(0x6C526, 2), 0) == 0x7FFF;
+            ushort valus = BitConverter.ToUInt16(SAV.GetData(0x6C55C, 2), 0);
+            int grade = valus >> 6 & 0x3F;
+            NUD_Grade.Value = grade;
+            int max = Math.Min(49, grade) / 10 * 3 + 2;
+            int defeated = valus >> 12;
+            NUD_Defeated.Value = defeated > max ? max : defeated;
+            NUD_Defeated.Maximum = max;
+        }
+        private void LoadPictureBox()
+        {
+            for (int i = 0; i < 3; i++)
+                PBs[i].Image = p[i].Sprite(SAV, -1, -1, false);
+        }
+        private readonly PKM[] p = new PKM[3];
+        private readonly PictureBox[] PBs = new PictureBox[3];
+        private void SaveBattleAgency()
+        {
+            SAV.SetFlag(0x6C55E, 1, CHK_Choosed.Checked);
+            byte[] TrainerInvited = BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? 0x7FFF : 0));
+            SAV.SetData(TrainerInvited, 0x6C3EE);
+            SAV.SetData(TrainerInvited, 0x6C526);
+            SAV.SetData(p[0].EncryptedBoxData, 0x6C200);
+            SAV.SetData(p[1].EncryptedPartyData, 0x6C2E8);
+            SAV.SetData(p[2].EncryptedPartyData, 0x6C420);
+            SAV.SetData(BitConverter.GetBytes((ushort)(((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6)), 0x6C55C);
         }
         private void NUD_FC_ValueChanged(object sender, EventArgs e)
         {
@@ -377,29 +423,56 @@ namespace PKHeX.WinForms
             facility.IsIntroduced = CHK_FacilityIntroduced.Checked;
             facility.ExchangeLeftCount = (byte)(TypeIndexToType(facility.Type) == 7 ? NUD_Exchangable.Value : 0);
         }
-
+        private void LoadRankLabel(int rank)
+        {
+            int i, j;
+            if (rank < 1) L_RankFC.Text = "";
+            else if (rank == 1) L_RankFC.Text = "0 - 5";
+            else if (rank == 2) L_RankFC.Text = "6 - 15";
+            else if (rank == 3) L_RankFC.Text = "16 - 30";
+            else if (rank <= 10)
+            {
+                i = (rank - 1) * (rank - 2) * 5 + 1;
+                L_RankFC.Text = i.ToString() + " - " + (i + (rank - 1) * 10 - 1).ToString();
+            }
+            else if (rank <= 20)
+            {
+                i = rank * 100 - 649;
+                L_RankFC.Text = i.ToString() + " - " + (i + 99).ToString();
+            }
+            else if (rank <= 70)
+            {
+                j = (rank - 1) / 10;
+                i = rank * (j * 30 + 60) - (j * j * 150 + j * 180 + 109);
+                L_RankFC.Text = i.ToString() + " - " + (i + j * 30 + 59).ToString();
+            }
+            else if (rank <= 100)
+            {
+                i = rank * 270 - 8719;
+                L_RankFC.Text = i.ToString() + " - " + (i + 269).ToString();
+            }
+            else if (rank <= 998)
+            {
+                i = rank * 300 - 11749;
+                L_RankFC.Text = i.ToString() + " - " + (i + 299).ToString();
+            }
+            else if (rank == 999) L_RankFC.Text = "287951 - ";
+            else L_RankFC.Text = "";
+        }
         private void NUD_Rank_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            SAV.FestaRank = (ushort)NUD_Rank.Value;
+            int rank = (int)NUD_Rank.Value;
+            SAV.FestaRank = (ushort)rank;
+            LoadRankLabel(rank);
         }
-        private void LoadMyMessage(int mmIndex) => NUD_MyMessage.Value = SAV.GetFestaMessage(mmIndex);
-        private void CB_MyMessage_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (editing) return;
-            int mmIndex = CB_MyMessage.SelectedIndex;
-            if (mmIndex < 0) return;
-            editing = true;
-            LoadMyMessage(mmIndex);
-            editing = false;
-        }
-
+        private readonly NumericUpDown[] NUDs;
         private void NUD_MyMessage_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            int mmIndex = CB_MyMessage.SelectedIndex;
+            int mmIndex = Array.IndexOf(NUDs, (NumericUpDown)sender);
             if (mmIndex < 0) return;
-            SAV.SetFestaMessage(mmIndex, (ushort)NUD_MyMessage.Value);
+            SAV.SetFestaMessage(mmIndex, (ushort)((NumericUpDown)sender).Value);
         }
 
         private void CHK_FacilityIntroduced_CheckedChanged(object sender, EventArgs e)
@@ -436,7 +509,7 @@ namespace PKHeX.WinForms
         {
             if (entry < 0) return;
             var facility = f[entry];
-            // there is a unknown value when not introduced
+            // there is a unknown value when not introduced...no reproducibility, just mistake?
             if (facility.IsIntroduced)
                 facility.TrainerFesID = new byte[12];
             facility.IsIntroduced = false;
@@ -445,6 +518,44 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 4; i++)
                 facility.SetMessage(i, 0);
             LoadFacility();
+        }
+        private string GetSpeciesNameFromPKM(PKM pkm) => PKX.GetSpeciesName(pkm.Species, SAV.Language);
+        private void B_ImportParty_Click(object sender, EventArgs e)
+        {
+            if (!SAV.HasParty) return;
+            var party = SAV.PartyData;
+            string msg = "";
+            for(int i = 0; i < 3; i++)
+            {
+                if (i < party.Count)
+                    msg += Environment.NewLine + GetSpeciesNameFromPKM(p[i]) + " -> " + GetSpeciesNameFromPKM(party[i]);
+                else
+                    msg += Environment.NewLine + "not replace: " + GetSpeciesNameFromPKM(p[i]);
+            }
+            if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Replace PKM?", msg))
+            {
+                for (int i = 0, min = Math.Min(3, party.Count); i < min; i++)
+                    p[i] = party[i];
+                LoadPictureBox();
+            }
+        }
+
+        private void mnuSave_Click(object sender, EventArgs e)
+        {
+            int i = Array.IndexOf(PBs, ((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl ?? sender as PictureBox);
+            if (i < 0) return;
+            WinFormsUtil.SavePKMDialog(p[i]);
+        }
+
+        private void NUD_Grade_ValueChanged(object sender, EventArgs e)
+        {
+            if (editing) return;
+            int max = Math.Min(49, (int)NUD_Grade.Value) / 10 * 3 + 2;
+            editing = true;
+            if (NUD_Defeated.Value > max)
+                NUD_Defeated.Value = max;
+            NUD_Defeated.Maximum = max;
+            editing = false;
         }
     }
     public class FestaFacility
