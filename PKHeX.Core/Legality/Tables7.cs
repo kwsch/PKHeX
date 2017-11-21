@@ -325,7 +325,11 @@ namespace PKHeX.Core
             345, 347, 352, 353, 357, 366, 427, 439, 458, 550,
             559, 570, 572, 592, 605, 619, 621, 622, 624, 636,
             667, 669, 676, 686, 690, 692, 696, 698, 701, 702,
-            714
+            714,
+
+            // Wormhole
+            333, 468, 561, 580, 276, 451, 531, 694, 273, 325,
+            459, 307, 449, 557, 218, 688, 270, 618, 418, 194,
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
         internal static readonly HashSet<int> Inherit_ApricornMale7 = new HashSet<int>
