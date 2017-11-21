@@ -32,7 +32,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 200; i++)
             {
                 if (!RecordList.TryGetValue(i, out string name))
-                    name = i.ToString("D3");
+                    name = $"{i:D3}";
 
                 CB_Stats.Items.Add(name);
             }
@@ -543,7 +543,7 @@ namespace PKHeX.WinForms
         }
         private void B_Fashion_Click(object sender, EventArgs e)
         {
-            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing data", "Continue?");
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Modifying Fashion Items will clear existing fashion unlock data.", "Continue?");
             if (DialogResult.Yes != prompt)
                 return;
 
