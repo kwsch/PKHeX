@@ -53,8 +53,6 @@ namespace PKHeX.Core
             MarkG4SwarmSlots(ref HG_Slots, SlotsHG_Swarm);
             MarkG4SwarmSlots(ref SS_Slots, SlotsSS_Swarm);
 
-            MarkEncounterTypeData(ref D_Slots, ref P_Slots, ref Pt_Slots, ref HG_Slots, ref SS_Slots);
-
             ReduceAreasSize(ref D_Slots);
             ReduceAreasSize(ref P_Slots);
             ReduceAreasSize(ref Pt_Slots);
@@ -78,6 +76,8 @@ namespace PKHeX.Core
             MarkDPPtEncounterTypeSlots(ref SlotsPt);
             MarkHGSSEncounterTypeSlots(ref SlotsHG);
             MarkHGSSEncounterTypeSlots(ref SlotsSS);
+
+            MarkEncounterTypeData(ref D_Slots, ref P_Slots, ref Pt_Slots, ref HG_Slots, ref SS_Slots);
 
             MarkSlotLocation(ref SlotsD);
             MarkSlotLocation(ref SlotsP);
@@ -134,6 +134,9 @@ namespace PKHeX.Core
             const int MtSilver = 219;
             MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
             MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, MtSilver, EncounterType.Cave_HallOfOrigin, HGSS_MtSilverCaveExteriorEncounters);
+            const int Cianwood = 130;
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref HG_Slots, Cianwood, EncounterType.RockSmash);
+            MarkHGSSEncounterTypeSlots_MultipleTypes(ref SS_Slots, Cianwood, EncounterType.RockSmash);
         }
 
         private static void MarkG4PokeWalker(EncounterStatic[] t)
@@ -224,6 +227,8 @@ namespace PKHeX.Core
                 case SlotType.Super_Rod_Safari: return EncounterType.Surfing_Fishing;
 
                 case SlotType.Rock_Smash:
+                    if (GrassType == EncounterType.RockSmash)
+                        return EncounterType.RockSmash | EncounterType.Building_EnigmaStone;
                     if (HeadbuttType == EncounterType.Building_EnigmaStone)
                         return HeadbuttType;
                     if (GrassType == EncounterType.Cave_HallOfOrigin)
