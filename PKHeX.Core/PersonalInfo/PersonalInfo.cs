@@ -117,5 +117,12 @@
         }
         public bool HasFormes => FormeCount > 1;
         public int BST => HP + ATK + DEF + SPE + SPA + SPD;
+
+        public bool IsFormeWithinRange(int forme)
+        {
+            if (forme == 0)
+                return true;
+            return forme < FormeCount;
+        }
     }
 }

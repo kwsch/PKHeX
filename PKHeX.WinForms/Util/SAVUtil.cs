@@ -170,9 +170,8 @@ namespace PKHeX.WinForms
             else if (SAV.MaxSpeciesID < pkm.Species)
                 errata.Add($"Game can't obtain species: {GameInfo.Strings.specieslist[pkm.Species]}");
 
-            int count = SAV.Personal[pkm.Species].FormeCount;
-            if (pkm.AltForm >= SAV.Personal[pkm.Species].FormeCount && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
-                errata.Add(string.Format(LegalityCheckStrings.V304, count - 1, pkm.AltForm));
+            if (!SAV.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
+                errata.Add(string.Format(LegalityCheckStrings.V304, Math.Max(0, SAV.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
 
             if (pkm.Moves.Any(m => m > GameInfo.Strings.movelist.Length))
                 errata.Add($"Item Index beyond range: {string.Join(", ", pkm.Moves.Where(m => m > GameInfo.Strings.movelist.Length).Select(m => m.ToString()))}");

@@ -1857,7 +1857,7 @@ namespace PKHeX.Core
             if (count <= 1 && pkm.AltForm == 0)
                 return; // no forms to check
 
-            if (pkm.AltForm >= count && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
+            if (!PersonalInfo.IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
             {
                 AddLine(Severity.Invalid, string.Format(V304, count-1, pkm.AltForm), CheckIdentifier.Form);
                 return;
