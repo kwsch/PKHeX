@@ -325,7 +325,14 @@ namespace PKHeX.WinForms.Controls
             int o = slot.Offset;
             if (o < 0)
                 return slot.PKM;
-            return slot.IsParty ? SAV.GetPartySlot(o) : SAV.GetStoredSlot(o);
+
+            if (slot.IsParty)
+                return SAV.GetPartySlot(o);
+
+            var pk = SAV.GetStoredSlot(o);
+            pk.Slot = slot.Slot;
+            pk.Box = slot.Box;
+            return pk;
         }
         private void SetPKM(PKM pk, bool src, Image img) => SetPKM(pk, src ? DragInfo.Source : DragInfo.Destination, src, img);
         public void SetPKM(PKM pk, SlotChange slot, bool src, Image img)
