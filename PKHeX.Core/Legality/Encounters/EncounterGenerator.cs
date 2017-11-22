@@ -1364,17 +1364,19 @@ namespace PKHeX.Core
             if (wc.PIDType == 2 && !pkm.IsShiny) return false;
             if (wc.PIDType == 3 && pkm.IsShiny) return false;
 
-            if (wc.CardID == 1624)
+            switch (wc.CardID)
             {
-                if (pkm.Species == 745 && pkm.AltForm != 2)
+                case 1624: // Rockruff
+                    if (pkm.Species == 745 && pkm.AltForm != 2)
+                        return false;
+                    if (pkm.Version == (int)GameVersion.US)
+                        return wc.Move3 == 424; // Fire Fang
+                    if (pkm.Version == (int)GameVersion.UM)
+                        return wc.Move3 == 422; // Thunder Fang
                     return false;
-                if (pkm.Version == (int)GameVersion.US)
-                    return wc.Move3 == 424; // Fire Fang
-                if (pkm.Version == (int)GameVersion.UM)
-                    return wc.Move3 == 422; // Thunder Fang
-                return false;
+                case 2046: // Ash Greninja
+                    return pkm.SM; // not USUM
             }
-
             return true;
         }
 
