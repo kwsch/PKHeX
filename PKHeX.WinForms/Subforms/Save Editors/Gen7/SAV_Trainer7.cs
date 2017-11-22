@@ -830,6 +830,7 @@ namespace PKHeX.WinForms
             {190, "Photo Club Photos saved"},
             {195, "Photo Club Sticker usage"},
             {196, "Photo Club Photo Shoots"},
+            {197, "Highest Wormhole Travel Distance"},
             {198, "Highest Mantine Surf BP Earned"},
         };
     }
