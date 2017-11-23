@@ -19,6 +19,7 @@ namespace PKHeX.WinForms
             if (SAV.USUM)
             {
                 PBs = new[] { ppkx1, ppkx2, ppkx3 };
+                NUD_Trainers = new[] { NUD_Trainer1, NUD_Trainer2, NUD_Trainer3 };
                 LoadBattleAgency();
             }
             else
@@ -127,9 +128,9 @@ namespace PKHeX.WinForms
 
             NUD_Rank.Value = SAV.FestaRank;
             LoadRankLabel(SAV.FestaRank);
-            NUDs = new[] { NUD_MyMessageMeet, NUD_MyMessagePart, NUD_MyMessageMoved, NUD_MyMessageDissapointed };
-            for (int i = 0; i < NUDs.Length; i++)
-                NUDs[i].Value = SAV.GetFestaMessage(i);
+            NUD_Messages = new[] { NUD_MyMessageMeet, NUD_MyMessagePart, NUD_MyMessageMoved, NUD_MyMessageDissapointed };
+            for (int i = 0; i < NUD_Messages.Length; i++)
+                NUD_Messages[i].Value = SAV.GetFestaMessage(i);
 
             LB_FacilityIndex.SelectedIndex = 0;
             CB_FacilityMessage.SelectedIndex = 0;
@@ -240,7 +241,7 @@ namespace PKHeX.WinForms
             LoadPictureBox();
             B_ImportParty.Visible = SAV.HasParty;
             CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);
-            CHK_TrainerInvited.Checked = BitConverter.ToUInt16(SAV.GetData(0x6C3EE, 2), 0) == 0x7FFF && BitConverter.ToUInt16(SAV.GetData(0x6C526, 2), 0) == 0x7FFF;
+            CHK_TrainerInvited.Checked = IsTrainerInvited();
             ushort valus = BitConverter.ToUInt16(SAV.GetData(0x6C55C, 2), 0);
             int grade = valus >> 6 & 0x3F;
             NUD_Grade.Value = grade;
@@ -248,24 +249,42 @@ namespace PKHeX.WinForms
             int defeated = valus >> 12;
             NUD_Defeated.Value = defeated > max ? max : defeated;
             NUD_Defeated.Maximum = max;
+            NUD_DefeatMon.Value = BitConverter.ToUInt16(SAV.GetData(0x6C558, 2), 0);
+            for (int i = 0, j, m; i < NUD_Trainers.Length; i++)
+            {
+                j = GetSavData16(0x6C56C + 0x14 * i);
+                m = (int)NUD_Trainers[i].Maximum;
+                NUD_Trainers[i].Value = j < 0 || j > m ? m : j;
+            }
+            TB_PlazaName.Text = SAV.FestivalPlazaName;
         }
         private void LoadPictureBox()
         {
             for (int i = 0; i < 3; i++)
                 PBs[i].Image = p[i].Sprite(SAV, -1, -1, flagIllegal: true);
         }
+        private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];
+        private ushort GetSavData16(int Offset) => BitConverter.ToUInt16(SAV.GetData(Offset, 2), 0);
+        private readonly ushort InvitedValue = 0x7DFF;
         private readonly PKM[] p = new PKM[3];
         private readonly PictureBox[] PBs = new PictureBox[3];
+        private bool IsTrainerInvited() => (GetSavData16(0x6C3EE) & InvitedValue) == InvitedValue && (GetSavData16(0x6C526) & InvitedValue) == InvitedValue;
         private void SaveBattleAgency()
         {
             SAV.SetFlag(0x6C55E, 1, CHK_Choosed.Checked);
-            byte[] TrainerInvited = BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? 0x7FFF : 0));
-            SAV.SetData(TrainerInvited, 0x6C3EE);
-            SAV.SetData(TrainerInvited, 0x6C526);
+            if (IsTrainerInvited() ^ CHK_TrainerInvited.Checked)
+            {
+                SAV.SetData(BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C3EE) | InvitedValue : 0)), 0x6C3EE);
+                SAV.SetData(BitConverter.GetBytes((ushort)(CHK_TrainerInvited.Checked ? GetSavData16(0x6C526) | InvitedValue : 0)), 0x6C526);
+            }
             SAV.SetData(p[0].EncryptedBoxData, 0x6C200);
             SAV.SetData(p[1].EncryptedPartyData, 0x6C2E8);
             SAV.SetData(p[2].EncryptedPartyData, 0x6C420);
-            SAV.SetData(BitConverter.GetBytes((ushort)(((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6)), 0x6C55C);
+            SAV.SetData(BitConverter.GetBytes((ushort)(((int)NUD_Defeated.Value & 0xF) << 12 | ((int)NUD_Grade.Value & 0x3F) << 6 | SAV.Data[0x6C55C] & 0x3F)), 0x6C55C);
+            SAV.SetData(BitConverter.GetBytes((ushort)NUD_DefeatMon.Value), 0x6C558);
+            for (int i = 0; i < NUD_Trainers.Length; i++)
+                SAV.SetData(BitConverter.GetBytes((ushort)NUD_Trainers[i].Value), 0x6C56C + 0x14 * i);
+            SAV.FestivalPlazaName = TB_PlazaName.Text;
         }
         private void NUD_FC_ValueChanged(object sender, EventArgs e)
         {
@@ -469,11 +488,11 @@ namespace PKHeX.WinForms
             SAV.FestaRank = (ushort)rank;
             LoadRankLabel(rank);
         }
-        private readonly NumericUpDown[] NUDs;
+        private readonly NumericUpDown[] NUD_Messages;
         private void NUD_MyMessage_ValueChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            int mmIndex = Array.IndexOf(NUDs, (NumericUpDown)sender);
+            int mmIndex = Array.IndexOf(NUD_Messages, (NumericUpDown)sender);
             if (mmIndex < 0) return;
             SAV.SetFestaMessage(mmIndex, (ushort)((NumericUpDown)sender).Value);
         }
