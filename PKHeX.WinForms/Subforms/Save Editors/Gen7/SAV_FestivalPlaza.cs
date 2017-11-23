@@ -48,8 +48,8 @@ namespace PKHeX.WinForms
                     };
                     break;
                 default:
-                    string musical8note = char.ConvertFromUtf32(0x266A);
-                    string linedP = char.ConvertFromUtf32(0x20BD);//currency Ruble
+                    string musical8note = "♪";
+                    string linedP = "₽"; //currency Ruble
                     res = new[] { //source:UltraMoon
                         /* (SM)Pokémon House */"There's nothing funny about Nuggets.","The Power of science is awesome.","1, 2, and... Ta-da!","How's the future Champ today?","Why, you!","There! All happy and healthy!","Your Pokémon seems to be very happy!","No thanks!","Would you like to use Cut?","Saving...",
                         /* (SM)Kanto Tent */"Well, I better get going!","Bonjour!","Smell ya later!","Sorry! Bad call!","You better have Burn Heal!","Hoo hah!","Pokémon are for battling!","Slowbro took a snooze...","Shades of your journey await!","You're 10,000 light-years from facing Brock!","Hey! Wait! Don't go out!","Hiya! I'm a Pokémon...","What do you want?","WHAT! This can't be!","Mew!","Be gone... Intruders...",
@@ -68,8 +68,7 @@ namespace PKHeX.WinForms
                 CLB_Phrases.Items.Add(res[i], SAV.GetFestaPhraseUnlocked(i));
 
             DateTime dt = SAV.FestaDate ?? new DateTime(2000, 1, 1);
-            CAL_FestaStartDate.Value = dt;
-            CAL_FestaStartTime.Value = dt;
+            CAL_FestaStartDate.Value = CAL_FestaStartTime.Value = dt;
 
             string[] res2 = { "Rank 4: missions","Rank 8: facility","Rank 10: fashion","Rank 20: rename","Rank 30: special menu","Rank 40: BGM","Rank 50: theme Glitz","Rank 60: theme Fairy","Rank 70: theme Tone","Rank 100: phrase","Current Rank", };
             CLB_Reward.Items.Clear();
@@ -100,7 +99,7 @@ namespace PKHeX.WinForms
             };
             CB_FacilityNPC.Items.Clear();
             CB_FacilityNPC.Items.AddRange(res5);
-            string[] res6 = { "Lottery", "Haunted", "Goody", "Food", "Bouncy", "Fortune", "Dye","Exchange" };
+            string[] res6 = { "Lottery", "Haunted", "Goody", "Food", "Bouncy", "Fortune", "Dye", "Exchange" };
             string[][] res7 = {
                 new[]{"BigDream","GoldRush","TreasureHunt"},
                 new[]{"GhostsDen","TrickRoom","ConfuseRay"},
@@ -178,7 +177,7 @@ namespace PKHeX.WinForms
             if (typeIndex < 0x7D) return 6;
             return 7;
         }
-        private int getColorCount(int i) =>
+        private int GetColorCount(int i) =>
                 i >= 0 && i < RES_FacilityColor.Length - (SAV.USUM ? 0 : 1)
                 ? RES_FacilityColor[i].Length - 1
                 : 3;
@@ -193,7 +192,7 @@ namespace PKHeX.WinForms
                 ? facility.Type
                 : -1;
             int type = TypeIndexToType(CB_FacilityType.SelectedIndex);
-            NUD_FacilityColor.Maximum = getColorCount(type);
+            NUD_FacilityColor.Maximum = GetColorCount(type);
             NUD_FacilityColor.Value = Math.Min(facility.Color, NUD_FacilityColor.Maximum);
             if (type >= 0) LoadColorLabel(type);
             NUD_Exchangable.Enabled = NUD_Exchangable.Visible = L_Exchangable.Visible = type == 7;
@@ -250,10 +249,10 @@ namespace PKHeX.WinForms
             NUD_Defeated.Value = defeated > max ? max : defeated;
             NUD_Defeated.Maximum = max;
             NUD_DefeatMon.Value = BitConverter.ToUInt16(SAV.GetData(0x6C558, 2), 0);
-            for (int i = 0, j, m; i < NUD_Trainers.Length; i++)
+            for (int i = 0; i < NUD_Trainers.Length; i++)
             {
-                j = GetSavData16(0x6C56C + 0x14 * i);
-                m = (int)NUD_Trainers[i].Maximum;
+                int j = GetSavData16(0x6C56C + 0x14 * i);
+                var m = (int)NUD_Trainers[i].Maximum;
                 NUD_Trainers[i].Value = j < 0 || j > m ? m : j;
             }
             TB_PlazaName.Text = SAV.FestivalPlazaName;
@@ -416,7 +415,7 @@ namespace PKHeX.WinForms
             if (typeIndex < 0) return;
             f[entry].Type = (byte)typeIndex;
             int type = TypeIndexToType(typeIndex);
-            int colorCount = getColorCount(type);
+            int colorCount = GetColorCount(type);
             editing = true;
             if (colorCount < NUD_FacilityColor.Value)
             {
