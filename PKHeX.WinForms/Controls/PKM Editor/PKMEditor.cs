@@ -2064,7 +2064,7 @@ namespace PKHeX.WinForms.Controls
         }
         private void PopulateFilteredDataSources(SaveFile SAV)
         {
-            GameInfo.SetItemDataSource(HaX, SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings);
+            GameInfo.SetItemDataSource(SAV.MaxItemID, SAV.HeldItems, SAV.Generation, SAV.Version, GameInfo.Strings, HaX);
             if (SAV.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(i => i.Value <= SAV.MaxItemID).ToList(), null);
 
