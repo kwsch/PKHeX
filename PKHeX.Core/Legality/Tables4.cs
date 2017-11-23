@@ -5,8 +5,6 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        internal const int MaxSpeciesIndex_4_DP = 500;
-        internal const int MaxSpeciesIndex_4_HGSSPt = 507;
         internal const int MaxSpeciesID_4 = 493;
         internal const int MaxMoveID_4 = 467;
         internal const int MaxItemID_4_DP = 464;
@@ -14,6 +12,16 @@ namespace PKHeX.Core
         internal const int MaxItemID_4_HGSS = 536;
         internal const int MaxAbilityID_4 = 123;
         internal const int MaxBallID_4 = 0x18;
+        /// <summary> Generation 4 -> Generation 5 Transfer Location (Poké Transporter) </summary>
+        public const int Transfer4 = 30001;
+        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Celebi - Event not activated in Gen 5) </summary>
+        public const int Transfer4_CelebiUnused = 30010;
+        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Celebi - Event activated in Gen 5) </summary>
+        public const int Transfer4_CelebiUsed = 30011;
+        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event not activated in Gen 5) </summary>
+        public const int Transfer4_CrownUnused = 30012;
+        /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event activated in Gen 5) </summary>
+        public const int Transfer4_CrownUsed = 30013;
 
         internal static readonly int[] Met_HGSS_0 =
         {
@@ -178,7 +186,7 @@ namespace PKHeX.Core
             500, // Park Ball
         };
         internal static readonly bool[] ReleasedHeldItems_4 = Enumerable.Range(0, MaxItemID_4_HGSS+1).Select(i => HeldItems_HGSS.Contains((ushort)i) && !UnreleasedItems_4.Contains(i)).ToArray();
-        internal static readonly HashSet<int> CrownBeasts = new HashSet<int> { 251, 243, 244, 245};
+        internal static readonly HashSet<int> CrownBeasts = new HashSet<int> { 251, 243, 244, 245 };
 
         internal static readonly int[] Tutors_4 =
         {

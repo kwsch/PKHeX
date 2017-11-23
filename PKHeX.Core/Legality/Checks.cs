@@ -732,9 +732,9 @@ namespace PKHeX.Core
 
         private void VerifyTransferLegalityG3()
         {
-            if (pkm.Format == 4 && pkm.Met_Location != 0x37) // Pal Park
+            if (pkm.Format == 4 && pkm.Met_Location != Legal.Transfer3) // Pal Park
                 AddLine(Severity.Invalid, V60, CheckIdentifier.Encounter);
-            if (pkm.Format != 4 && pkm.Met_Location != 30001)
+            if (pkm.Format != 4 && pkm.Met_Location != Legal.Transfer4)
                 AddLine(Severity.Invalid, V61, CheckIdentifier.Encounter);
         }
         private void VerifyTransferLegalityG4()
@@ -747,13 +747,13 @@ namespace PKHeX.Core
                 switch (pkm.Species)
                 {
                     case 251: // Celebi
-                        if (loc != 30010 && loc != 30011) // unused || used
+                        if (loc != Legal.Transfer4_CelebiUnused && loc != Legal.Transfer4_CelebiUsed)
                             AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
                         break;
                     case 243: // Raikou
                     case 244: // Entei
                     case 245: // Suicune
-                        if (loc != 30012 && loc != 30013) // unused || used
+                        if (loc != Legal.Transfer4_CrownUnused && loc != Legal.Transfer4_CrownUsed)
                             AddLine(Severity.Invalid, V351, CheckIdentifier.Encounter);
                         break;
                     default:

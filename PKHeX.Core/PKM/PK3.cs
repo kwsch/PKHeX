@@ -226,7 +226,7 @@ namespace PKHeX.Core
                 PKRS_Days = PKRS_Days,
                 OT_Gender = OT_Gender,
                 MetDate = moment,
-                Met_Location = 0x37, // Pal Park
+                Met_Location = Legal.Transfer3, // Pal Park
 
                 RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
                 RibbonWinning     = RibbonWinning,

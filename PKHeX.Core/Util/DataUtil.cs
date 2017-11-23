@@ -273,7 +273,7 @@ namespace PKHeX.Core
                 newlist.Add(new ComboItem { Text = inStrings[i], Value = i });
 
             newlist.AddRange(stringNum
-                .Select((z, i) => new ComboItem{ Text = inStrings[z], Value = stringVal[i]})
+                .Select((z, i) => new ComboItem { Text = inStrings[z], Value = stringVal[i] })
                 .OrderBy(z => z.Text));
             return newlist;
         }

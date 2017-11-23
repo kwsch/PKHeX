@@ -748,6 +748,7 @@ namespace PKHeX.WinForms
             // USUM
             {070, "Roto Lotos"},
             {073, "Mantine Surf BP Earned"},
+            {074, "Battle Agency Wins"},
 
             {100, "Champion Title Defense"},
             {104, "Moves used with No Effect"},
@@ -828,6 +829,7 @@ namespace PKHeX.WinForms
             // USUM
             {189, "Mantine Surf Plays"},
             {190, "Photo Club Photos saved"},
+            {191, "Battle Agency Battles"},
             {195, "Photo Club Sticker usage"},
             {196, "Photo Club Photo Shoots"},
             {197, "Highest Wormhole Travel Distance"},

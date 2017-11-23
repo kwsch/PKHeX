@@ -431,8 +431,8 @@ namespace PKHeX.Core
 
             // Met / Crown Data Detection
             pk5.Met_Location = pk5.Gen4 && pk5.FatefulEncounter && Legal.CrownBeasts.Contains(pk5.Species)
-                ? (pk5.Species == 251 ? 30010 : 30012) // Celebi : Beast
-                : 30001; // Pokétransfer (not Crown)
+                ? (pk5.Species == 251 ? Legal.Transfer4_CelebiUnused : Legal.Transfer4_CrownUnused) // Celebi : Beast
+                : Legal.Transfer4; // Pokétransfer (not Crown)
             pk5.Egg_Location = Egg_Location;
             
             // Delete HGSS Data

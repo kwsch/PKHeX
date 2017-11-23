@@ -780,9 +780,9 @@ namespace PKHeX.WinForms.Controls
                 minlvl = level;
 
             if (pkm.VC1)
-                location = 30013;
+                location = Legal.Transfer1;
             else if (pkm.VC2)
-                location = 30017;
+                location = Legal.Transfer2;
 
             if (!silent)
             {
@@ -1272,8 +1272,8 @@ namespace PKHeX.WinForms.Controls
                     switch (newTrack)
                     {
                         case GameVersion.GO: metLoc = 30012; break;
-                        case GameVersion.RBY: metLoc = 30013; break;
-                        case GameVersion.GSC: metLoc = 30017; break;
+                        case GameVersion.RBY: metLoc = Legal.Transfer1; break;
+                        case GameVersion.GSC: metLoc = Legal.Transfer2; break;
                     }
                     if (metLoc != 0)
                         CB_MetLocation.SelectedValue = metLoc;

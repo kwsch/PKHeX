@@ -64,8 +64,6 @@ namespace PKHeX.Core
             int strLen = jp ? STRLEN_J : STRLEN_U;
             otname = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
             nick = Enumerable.Repeat((byte) 0x50, strLen).ToArray();
-
-            IsEgg = false; // Egg data stored in Pokemon List.
         }
 
         public override PKM Clone()
@@ -413,7 +411,7 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
-                Version = (int)GameVersion.SV,
+                Version = Met_Location != 0 ? (int)GameVersion.C : (int)GameVersion.SV,
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,
@@ -458,7 +456,6 @@ namespace PKHeX.Core
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
-            // Really? :(
             if (IsShiny)
                 pk7.SetShinyPID();
 
@@ -477,6 +474,7 @@ namespace PKHeX.Core
             }
             pk7.OT_Name = Korean ? OT_Name
                 : StringConverter.GetG1ConvertedString(otname, Japanese);
+            pk7.OT_Gender = OT_Gender; // Crystal
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
 
