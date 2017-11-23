@@ -86,10 +86,18 @@
             this.NUD_MyMessageMeet = new System.Windows.Forms.NumericUpDown();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.L_PlazaName = new System.Windows.Forms.Label();
+            this.TB_PlazaName = new System.Windows.Forms.TextBox();
             this.L_RankFC = new System.Windows.Forms.Label();
             this.Tab_Unlock = new System.Windows.Forms.TabPage();
             this.Tab_Facility = new System.Windows.Forms.TabPage();
             this.Tab_BattleAgency = new System.Windows.Forms.TabPage();
+            this.NUD_Trainer3 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Trainer2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Trainer1 = new System.Windows.Forms.NumericUpDown();
+            this.L_DefeatMon = new System.Windows.Forms.Label();
+            this.NUD_DefeatMon = new System.Windows.Forms.NumericUpDown();
+            this.L_Note = new System.Windows.Forms.Label();
             this.L_Defeated = new System.Windows.Forms.Label();
             this.NUD_Defeated = new System.Windows.Forms.NumericUpDown();
             this.NUD_Grade = new System.Windows.Forms.NumericUpDown();
@@ -103,7 +111,6 @@
             this.GB_Others = new System.Windows.Forms.GroupBox();
             this.ppkx3 = new System.Windows.Forms.PictureBox();
             this.ppkx2 = new System.Windows.Forms.PictureBox();
-            this.L_Note = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Current)).BeginInit();
             this.GB_FC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).BeginInit();
@@ -125,6 +132,10 @@
             this.Tab_Unlock.SuspendLayout();
             this.Tab_Facility.SuspendLayout();
             this.Tab_BattleAgency.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Trainer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Trainer2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Trainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DefeatMon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Defeated)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Grade)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx1)).BeginInit();
@@ -805,6 +816,8 @@
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.L_PlazaName);
+            this.Tab_Overview.Controls.Add(this.TB_PlazaName);
             this.Tab_Overview.Controls.Add(this.L_RankFC);
             this.Tab_Overview.Controls.Add(this.GB_FC);
             this.Tab_Overview.Controls.Add(this.GB_MyMessage);
@@ -818,6 +831,26 @@
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // L_PlazaName
+            // 
+            this.L_PlazaName.AutoSize = true;
+            this.L_PlazaName.Location = new System.Drawing.Point(9, 142);
+            this.L_PlazaName.Name = "L_PlazaName";
+            this.L_PlazaName.Size = new System.Drawing.Size(112, 12);
+            this.L_PlazaName.TabIndex = 64;
+            this.L_PlazaName.Text = "Festival Plaza Name:";
+            this.L_PlazaName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // TB_PlazaName
+            // 
+            this.TB_PlazaName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_PlazaName.Location = new System.Drawing.Point(12, 160);
+            this.TB_PlazaName.MaxLength = 20;
+            this.TB_PlazaName.Name = "TB_PlazaName";
+            this.TB_PlazaName.Size = new System.Drawing.Size(159, 20);
+            this.TB_PlazaName.TabIndex = 63;
+            this.TB_PlazaName.Text = "WWWWWWWWWWWWWWWWWWWW";
             // 
             // L_RankFC
             // 
@@ -873,6 +906,11 @@
             // 
             // Tab_BattleAgency
             // 
+            this.Tab_BattleAgency.Controls.Add(this.NUD_Trainer3);
+            this.Tab_BattleAgency.Controls.Add(this.NUD_Trainer2);
+            this.Tab_BattleAgency.Controls.Add(this.NUD_Trainer1);
+            this.Tab_BattleAgency.Controls.Add(this.L_DefeatMon);
+            this.Tab_BattleAgency.Controls.Add(this.NUD_DefeatMon);
             this.Tab_BattleAgency.Controls.Add(this.L_Note);
             this.Tab_BattleAgency.Controls.Add(this.L_Defeated);
             this.Tab_BattleAgency.Controls.Add(this.NUD_Defeated);
@@ -890,13 +928,99 @@
             this.Tab_BattleAgency.Text = "BattleAgency";
             this.Tab_BattleAgency.UseVisualStyleBackColor = true;
             // 
+            // NUD_Trainer3
+            // 
+            this.NUD_Trainer3.Location = new System.Drawing.Point(391, 93);
+            this.NUD_Trainer3.Maximum = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
+            this.NUD_Trainer3.Name = "NUD_Trainer3";
+            this.NUD_Trainer3.Size = new System.Drawing.Size(43, 19);
+            this.NUD_Trainer3.TabIndex = 18;
+            this.NUD_Trainer3.Value = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
+            // 
+            // NUD_Trainer2
+            // 
+            this.NUD_Trainer2.Location = new System.Drawing.Point(342, 93);
+            this.NUD_Trainer2.Maximum = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
+            this.NUD_Trainer2.Name = "NUD_Trainer2";
+            this.NUD_Trainer2.Size = new System.Drawing.Size(43, 19);
+            this.NUD_Trainer2.TabIndex = 17;
+            this.NUD_Trainer2.Value = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
+            // 
+            // NUD_Trainer1
+            // 
+            this.NUD_Trainer1.Location = new System.Drawing.Point(293, 93);
+            this.NUD_Trainer1.Maximum = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
+            this.NUD_Trainer1.Name = "NUD_Trainer1";
+            this.NUD_Trainer1.Size = new System.Drawing.Size(43, 19);
+            this.NUD_Trainer1.TabIndex = 16;
+            this.NUD_Trainer1.Value = new decimal(new int[] {
+            210,
+            0,
+            0,
+            0});
+            // 
+            // L_DefeatMon
+            // 
+            this.L_DefeatMon.Location = new System.Drawing.Point(179, 64);
+            this.L_DefeatMon.Name = "L_DefeatMon";
+            this.L_DefeatMon.Size = new System.Drawing.Size(195, 18);
+            this.L_DefeatMon.TabIndex = 15;
+            this.L_DefeatMon.Text = "Today\'s Defeated Pokemon Count:";
+            this.L_DefeatMon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_DefeatMon
+            // 
+            this.NUD_DefeatMon.Location = new System.Drawing.Point(380, 65);
+            this.NUD_DefeatMon.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_DefeatMon.Name = "NUD_DefeatMon";
+            this.NUD_DefeatMon.Size = new System.Drawing.Size(54, 19);
+            this.NUD_DefeatMon.TabIndex = 14;
+            this.NUD_DefeatMon.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // L_Note
+            // 
+            this.L_Note.Location = new System.Drawing.Point(159, 92);
+            this.L_Note.Name = "L_Note";
+            this.L_Note.Size = new System.Drawing.Size(128, 36);
+            this.L_Note.TabIndex = 13;
+            this.L_Note.Text = "Upcoming 3 Trainers:\r\n(210: unset) ";
+            this.L_Note.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // L_Defeated
             // 
-            this.L_Defeated.Location = new System.Drawing.Point(203, 36);
+            this.L_Defeated.Location = new System.Drawing.Point(165, 36);
             this.L_Defeated.Name = "L_Defeated";
-            this.L_Defeated.Size = new System.Drawing.Size(184, 18);
+            this.L_Defeated.Size = new System.Drawing.Size(222, 18);
             this.L_Defeated.TabIndex = 12;
-            this.L_Defeated.Text = "Current Defeated Trainer Count:";
+            this.L_Defeated.Text = "Defeated Trainer Count for Next Grade:";
             this.L_Defeated.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Defeated
@@ -988,7 +1112,7 @@
             // 
             // B_ImportParty
             // 
-            this.B_ImportParty.Location = new System.Drawing.Point(76, 92);
+            this.B_ImportParty.Location = new System.Drawing.Point(76, 134);
             this.B_ImportParty.Name = "B_ImportParty";
             this.B_ImportParty.Size = new System.Drawing.Size(122, 23);
             this.B_ImportParty.TabIndex = 7;
@@ -1029,16 +1153,6 @@
             this.ppkx2.TabIndex = 4;
             this.ppkx2.TabStop = false;
             // 
-            // L_Note
-            // 
-            this.L_Note.Location = new System.Drawing.Point(162, 147);
-            this.L_Note.Name = "L_Note";
-            this.L_Note.Size = new System.Drawing.Size(275, 36);
-            this.L_Note.TabIndex = 13;
-            this.L_Note.Text = "NOTE: If you edit the Grade from <50 to 50,\r\n it is recommended that the Defeated" +
-    " Count = 0";
-            this.L_Note.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // SAV_FestivalPlaza
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1072,11 +1186,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MyMessageMeet)).EndInit();
             this.TC_Editor.ResumeLayout(false);
             this.Tab_Overview.ResumeLayout(false);
+            this.Tab_Overview.PerformLayout();
             this.Tab_Unlock.ResumeLayout(false);
             this.Tab_Facility.ResumeLayout(false);
             this.Tab_Facility.PerformLayout();
             this.Tab_BattleAgency.ResumeLayout(false);
             this.Tab_BattleAgency.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Trainer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Trainer2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Trainer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_DefeatMon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Defeated)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Grade)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ppkx1)).EndInit();
@@ -1165,5 +1284,12 @@
         private System.Windows.Forms.Label L_Defeated;
         private System.Windows.Forms.NumericUpDown NUD_Defeated;
         private System.Windows.Forms.Label L_Note;
+        private System.Windows.Forms.Label L_DefeatMon;
+        private System.Windows.Forms.NumericUpDown NUD_DefeatMon;
+        private System.Windows.Forms.NumericUpDown NUD_Trainer3;
+        private System.Windows.Forms.NumericUpDown NUD_Trainer2;
+        private System.Windows.Forms.NumericUpDown NUD_Trainer1;
+        private System.Windows.Forms.Label L_PlazaName;
+        private System.Windows.Forms.TextBox TB_PlazaName;
     }
 }
