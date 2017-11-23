@@ -7,7 +7,7 @@
 0654	Received Gift Type: Null (1)
 1101	Received Gift Type: Null (2)
 0503	Received Gift Cosmog
-0276	Received Gift Magearna
+4447	Received Gift Magearna
 0269	Received Gift Poipole
 4420	Articuno Captured
 4421	Zapdos Captured
@@ -62,4 +62,4 @@
 4444	Battle Style Learned: Left-Handed 
 4445	Battle Style Learned: Passionate 
 4446	Battle Style Learned: Idol 
-4447	Battle Style Learned: Nihilist
+4453	Battle Style Learned: Nihilist
