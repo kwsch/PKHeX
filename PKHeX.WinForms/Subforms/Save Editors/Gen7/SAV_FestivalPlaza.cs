@@ -124,6 +124,13 @@ namespace PKHeX.WinForms
                         CB_FacilityType.Items.Add($"{res6[k]} {res7[k][j]} 5");
                     }
                 }
+            string[] res8 = { "GTS", "Wonder Trade", "Battle Spot", "Festival Plaza", "mission", "lottery shop", "haunted house" };
+            string[] res9 = { "+", "++", "+++" };
+            CB_LuckyResult.Items.Clear();
+            CB_LuckyResult.Items.Add("none");
+            for (int i = 0; i < res8.Length; i++)
+                for (int j = 0; j < res9.Length; j++)
+                    CB_LuckyResult.Items.Add($"{res9[j]} {res8[i]}");
 
             NUD_Rank.Value = SAV.FestaRank;
             LoadRankLabel(SAV.FestaRank);
@@ -195,8 +202,19 @@ namespace PKHeX.WinForms
             NUD_FacilityColor.Maximum = GetColorCount(type);
             NUD_FacilityColor.Value = Math.Min(facility.Color, NUD_FacilityColor.Maximum);
             if (type >= 0) LoadColorLabel(type);
+            CB_LuckyResult.Enabled = CB_LuckyResult.Visible = L_LuckyResult.Visible = type == 5;
             NUD_Exchangable.Enabled = NUD_Exchangable.Visible = L_Exchangable.Visible = type == 7;
-            if (type == 7) NUD_Exchangable.Value = facility.ExchangeLeftCount;
+            switch (type)
+            {
+                case 5:
+                    int lucky = facility.UsedLuckyPlace * 3 + facility.UsedLuckyRank - 3;
+                    if (lucky < 0 || lucky >= CB_LuckyResult.Items.Count) lucky = 0;
+                    CB_LuckyResult.SelectedIndex = lucky;
+                    break;
+                case 7:
+                    NUD_Exchangable.Value = facility.ExchangeLeftCount;
+                    break;
+            }
             CB_FacilityNPC.SelectedIndex =
                 CB_FacilityNPC.Items.Count > facility.NPC
                 ? facility.NPC
@@ -413,19 +431,33 @@ namespace PKHeX.WinForms
             if (entry < 0) return;
             int typeIndex = CB_FacilityType.SelectedIndex;
             if (typeIndex < 0) return;
-            f[entry].Type = (byte)typeIndex;
+            var facility = f[entry];
+            facility.Type = typeIndex;
+            // reset color
             int type = TypeIndexToType(typeIndex);
             int colorCount = GetColorCount(type);
             editing = true;
             if (colorCount < NUD_FacilityColor.Value)
             {
                 NUD_FacilityColor.Value = colorCount;
-                f[entry].Color = (byte)colorCount;
+                facility.Color = colorCount;
             }
             NUD_FacilityColor.Maximum = colorCount;
             LoadColorLabel(type);
+            // reset forms
+            CB_LuckyResult.Enabled = CB_LuckyResult.Visible = L_LuckyResult.Visible = type == 5;
             NUD_Exchangable.Enabled = NUD_Exchangable.Visible = L_Exchangable.Visible = type == 7;
-            if (type == 7) NUD_Exchangable.Value = f[entry].ExchangeLeftCount;
+            switch (type)
+            {
+                case 5:
+                    int lucky = facility.UsedLuckyPlace * 3 + facility.UsedLuckyRank - 3;
+                    if (lucky < 0 || lucky >= CB_LuckyResult.Items.Count) lucky = 0;
+                    CB_LuckyResult.SelectedIndex = lucky;
+                    break;
+                case 7:
+                    NUD_Exchangable.Value = facility.ExchangeLeftCount;
+                    break;
+            }
             editing = false;
         }
 
@@ -434,12 +466,19 @@ namespace PKHeX.WinForms
             if (entry < 0)
                 return;
             var facility = f[entry];
-            facility.Type = CB_FacilityType.SelectedIndex;
-            facility.Color = (int)NUD_FacilityColor.Value;
+            if (CB_FacilityType.SelectedIndex >= 0)
+                facility.Type = CB_FacilityType.SelectedIndex;
+            facility.Color = (byte)NUD_FacilityColor.Value;
             facility.OT_Name = TB_OTName.Text;
-            facility.NPC = CB_FacilityNPC.SelectedIndex;
+            if (CB_FacilityNPC.SelectedIndex >= 0)
+                facility.NPC = CB_FacilityNPC.SelectedIndex;
             facility.IsIntroduced = CHK_FacilityIntroduced.Checked;
-            facility.ExchangeLeftCount = (byte)(TypeIndexToType(facility.Type) == 7 ? NUD_Exchangable.Value : 0);
+            int type = TypeIndexToType(facility.Type);
+            facility.ExchangeLeftCount = type == 7 ? (byte)NUD_Exchangable.Value : 0;
+            int lucky = CB_LuckyResult.SelectedIndex - 1;
+            bool writeLucky = type == 5 && lucky >= 0;
+            facility.UsedLuckyRank = writeLucky ? lucky % 3 + 1 : 0;
+            facility.UsedLuckyPlace = writeLucky ? lucky / 3 + 1 : 0;
         }
         private void LoadRankLabel(int rank) => L_RankFC.Text = GetRankText(rank);
 
@@ -462,7 +501,7 @@ namespace PKHeX.WinForms
             if (rank <= 70)
             {
                 int j = (rank - 1) / 10;
-                int i = rank * (j * 30 + 60) - (j * j * 150 + j * 180 + 109);
+                int i = rank * (j * 30 + 60) - (j * j * 150 + j * 180 + 109); // 30 * (rank - 5 * j + 4) * (j + 2) - 349;
                 return $"{i} - {i + j * 30 + 59}";
             }
             if (rank <= 100)
@@ -578,6 +617,24 @@ namespace PKHeX.WinForms
             NUD_Defeated.Maximum = max;
             editing = false;
         }
+
+        private void NUD_Exchangable_ValueChanged(object sender, EventArgs e)
+        {
+            if (editing) return;
+            if (entry < 0) return;
+            f[entry].ExchangeLeftCount = (byte)NUD_Exchangable.Value;
+        }
+
+        private void CB_LuckyResult_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (editing) return;
+            if (entry < 0) return;
+            int lucky = CB_LuckyResult.SelectedIndex;
+            if (lucky-- < 0) return;
+            // both 0 if "none"
+            f[entry].UsedLuckyRank = lucky < 0 ? 0 : lucky % 3 + 1;
+            f[entry].UsedLuckyPlace = lucky < 0 ? 0 : lucky / 3 + 1;
+        }
     }
     public class FestaFacility
     {
@@ -595,13 +652,14 @@ namespace PKHeX.WinForms
         private int MessagePart { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
         private int MessageMoved { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
         private int MessageDisappointed { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
-
+        public int UsedLuckyRank { get => Data[0x26]; set => Data[0x26] = (byte)value; } // 1:a bit, 2:a whole lot, 3:a whole ton
+        public int UsedLuckyPlace { get => Data[0x27]; set => Data[0x27] = (byte)value; } // 1:GTS, ... 7:haunted house
         public uint UsedFlags { get => BitConverter.ToUInt32(Data, 0x28); set => BitConverter.GetBytes(value).CopyTo(Data, 0x28); }
         public uint UsedRandStat { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
 
         public int NPC { get => Math.Max(0, BitConverter.ToInt32(Data, 0x30)); set => BitConverter.GetBytes(Math.Max(0, value)).CopyTo(Data, 0x30); }
         public byte[] TrainerFesID { get => Data.Skip(0x34).Take(12).ToArray(); set => value.CopyTo(Data, 0x34); }
-        public byte ExchangeLeftCount { get => Data[0x40]; set => Data[0x40] = value; } //over 9 shows "?"
+        public int ExchangeLeftCount { get => Data[0x40]; set => Data[0x40] = (byte)value; } // used when Type=Exchange
         private readonly int ofs;
         public FestaFacility(SAV7 sav, int index)
         {
