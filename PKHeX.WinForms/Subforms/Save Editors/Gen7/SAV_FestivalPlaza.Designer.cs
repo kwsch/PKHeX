@@ -111,6 +111,8 @@
             this.GB_Others = new System.Windows.Forms.GroupBox();
             this.ppkx3 = new System.Windows.Forms.PictureBox();
             this.ppkx2 = new System.Windows.Forms.PictureBox();
+            this.CB_LuckyResult = new System.Windows.Forms.ComboBox();
+            this.L_LuckyResult = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Current)).BeginInit();
             this.GB_FC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).BeginInit();
@@ -383,6 +385,7 @@
             0,
             0,
             0});
+            this.NUD_Exchangable.ValueChanged += new System.EventHandler(this.NUD_Exchangable_ValueChanged);
             // 
             // LB_FacilityIndex
             // 
@@ -875,6 +878,8 @@
             // 
             // Tab_Facility
             // 
+            this.Tab_Facility.Controls.Add(this.L_LuckyResult);
+            this.Tab_Facility.Controls.Add(this.CB_LuckyResult);
             this.Tab_Facility.Controls.Add(this.L_VisitorName);
             this.Tab_Facility.Controls.Add(this.L_FestaID);
             this.Tab_Facility.Controls.Add(this.B_DelVisitor);
@@ -1153,6 +1158,26 @@
             this.ppkx2.TabIndex = 4;
             this.ppkx2.TabStop = false;
             // 
+            // CB_LuckyResult
+            // 
+            this.CB_LuckyResult.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_LuckyResult.DropDownWidth = 120;
+            this.CB_LuckyResult.FormattingEnabled = true;
+            this.CB_LuckyResult.Location = new System.Drawing.Point(105, 135);
+            this.CB_LuckyResult.Name = "CB_LuckyResult";
+            this.CB_LuckyResult.Size = new System.Drawing.Size(109, 20);
+            this.CB_LuckyResult.TabIndex = 70;
+            this.CB_LuckyResult.SelectedIndexChanged += new System.EventHandler(this.CB_LuckyResult_SelectedIndexChanged);
+            // 
+            // L_LuckyResult
+            // 
+            this.L_LuckyResult.Location = new System.Drawing.Point(44, 135);
+            this.L_LuckyResult.Name = "L_LuckyResult";
+            this.L_LuckyResult.Size = new System.Drawing.Size(55, 18);
+            this.L_LuckyResult.TabIndex = 71;
+            this.L_LuckyResult.Text = "Result:";
+            this.L_LuckyResult.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_FestivalPlaza
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1291,5 +1316,7 @@
         private System.Windows.Forms.NumericUpDown NUD_Trainer1;
         private System.Windows.Forms.Label L_PlazaName;
         private System.Windows.Forms.TextBox TB_PlazaName;
+        private System.Windows.Forms.Label L_LuckyResult;
+        private System.Windows.Forms.ComboBox CB_LuckyResult;
     }
 }
