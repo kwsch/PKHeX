@@ -1,10 +1,11 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
+#if !DEBUG
+using System.IO;
+using System.Threading;
+#endif
 
 namespace PKHeX.WinForms
 {
@@ -26,67 +27,40 @@ namespace PKHeX.WinForms
             // Add the event handler for handling non-UI thread exceptions to the event. 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-
-            try
-            {
-                if (IsOnWindows())
-                {
-                    if (GetFrameworkVersion() >= 393295)
-                    {
-                        StartPKHeX();
-                    }
-                    else
-                    {
-                        // Todo: make this translatable
-                        MessageBox.Show(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        Process.Start(@"https://www.microsoft.com/download/details.aspx?id=48130");
-                    }
-                }
-                else
-                {
-                    //CLR Version 4.0.30319.42000 is equivalent to .NET Framework version 4.6
-                    if ((Environment.Version.CompareTo(Version.Parse("4.0.30319.42000"))) >= 0)
-                    {
-                        StartPKHeX();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.",
-                                        "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                }
-                
-            }
-            catch (FileNotFoundException ex)
-            {
-                // Check whether or not the exception was from missing PKHeX.Core, rather than something else in the constructor of Main
-                if (ex.TargetSite == typeof(Program).GetMethod(nameof(StartPKHeX), BindingFlags.Static | BindingFlags.NonPublic))
-                {
-                    // Exception came from StartPKHeX and (probably) corresponds to missing PKHeX.Core
-                    MessageBox.Show("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return;
-                }
-
-                // Exception came from Main
-                throw;
-            }
-        }
-
-        private static void StartPKHeX()
-        {
+            if (!CheckNETFramework())
+                return;
             // Run the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
         }
 
+        private static bool CheckNETFramework()
+        {
+            if (IsOnWindows())
+            {
+                #if MONO 
+                Error("Mono version should not be used on a Windows system.");
+                #endif
+                if (GetFrameworkVersion() >= 393295)
+                    return true;
+                Error(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.");
+                Process.Start(@"https://www.microsoft.com/download/details.aspx?id=48130");
+                return false;
+            }
+
+            //CLR Version 4.0.30319.42000 is equivalent to .NET Framework version 4.6
+            if (Environment.Version.CompareTo(Version.Parse("4.0.30319.42000")) >= 0)
+                return true;
+            Error("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.");
+            return false;
+        }
         private static bool IsOnWindows()
         {
             // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
             int p = (int)Environment.OSVersion.Platform;
             return p != 4 && p != 6 && p != 128;
         }
-
         private static int GetFrameworkVersion()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
@@ -98,28 +72,20 @@ namespace PKHeX.WinForms
                 return releaseKey;
             }
         }
+        private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
+#if !DEBUG
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
             DialogResult result = DialogResult.Cancel;
             try
             {
-                // Todo: make this translatable
-                ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
+                result = ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
             }
             catch (Exception reportingException)
             {
-                try
-                {
-                    // Todo: make this translatable
-                    MessageBox.Show("A fatal error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    EmergencyErrorLog(t.Exception, reportingException);
-                }
-                finally
-                {
-                    Application.Exit();
-                }
+                HandleReportingException(t.Exception, reportingException);
             }
 
             // Exits the program when the user clicks Abort.
@@ -138,26 +104,34 @@ namespace PKHeX.WinForms
             {
                 if (ex != null)
                 {
-                    // Todo: make this translatable
                     ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
                 }
                 else
                 {
-                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    Error("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.");
                 }
             }
             catch (Exception reportingException)
             {
-                try
-                {
-                    // Todo: make this translatable
-                    MessageBox.Show("A fatal non-UI error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.", "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    EmergencyErrorLog(ex, reportingException);
-                }
-                finally
-                {
-                    Application.Exit();
-                }
+                HandleReportingException(ex, reportingException);
+            }
+        }
+
+        private static void HandleReportingException(Exception ex, Exception reportingException)
+        {
+            if (reportingException is FileNotFoundException x && x.FileName.StartsWith("PKHeX.Core"))
+            {
+                Error("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.");
+                return;
+            }
+            try
+            {
+                Error("A fatal non-UI error has occurred in PKHeX, and there was a problem displaying the details.  Please report this to the author.");
+                EmergencyErrorLog(ex, reportingException);
+            }
+            finally
+            {
+                Application.Exit();
             }
         }
 
@@ -181,5 +155,6 @@ namespace PKHeX.WinForms
             }
             return true;
         }
+#endif
     }
 }
