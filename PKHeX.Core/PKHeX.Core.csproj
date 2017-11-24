@@ -307,6 +307,8 @@
     <None Remove="Resources\text\gen3\text_ItemsG2_zh.txt" />
     <None Remove="Resources\text\gen3\text_ItemsG3Colosseum_en.txt" />
     <None Remove="Resources\text\gen3\text_ItemsG3XD_en.txt" />
+    <None Remove="Resources\text\gen3\text_ItemsG3Colosseum_es.txt" />
+    <None Remove="Resources\text\gen3\text_ItemsG3XD_es.txt" />
     <None Remove="Resources\text\gen3\text_ItemsG3_de.txt" />
     <None Remove="Resources\text\gen3\text_ItemsG3_en.txt" />
     <None Remove="Resources\text\gen3\text_ItemsG3_es.txt" />
@@ -950,6 +952,8 @@
     <EmbeddedResource Include="Resources\text\gen3\text_ItemsG2_zh.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3Colosseum_en.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3XD_en.txt" />
+    <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3Colosseum_es.txt" />
+    <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3XD_es.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3_de.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3_en.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_ItemsG3_es.txt" />
