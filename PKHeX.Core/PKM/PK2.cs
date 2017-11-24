@@ -424,7 +424,7 @@ namespace PKHeX.Core
                 Move2_PP = Move2_PP,
                 Move3_PP = Move3_PP,
                 Move4_PP = Move4_PP,
-                Met_Location = 30017,
+                Met_Location = Legal.Transfer2, // "Johto region", hardcoded.
                 Gender = Gender,
                 IsNicknamed = false,
                 AltForm = AltForm,

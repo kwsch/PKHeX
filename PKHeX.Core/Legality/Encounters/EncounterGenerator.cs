@@ -180,7 +180,7 @@ namespace PKHeX.Core
         }
         private static IEnumerable<GBEncounterData> GenerateFilteredEncounters(PKM pkm)
         {
-            bool crystal = pkm.Format == 2 && pkm.Met_Location != 0;
+            bool crystal = pkm.Format == 2 && pkm.Met_Location != 0 || pkm.Format >= 7 && pkm.OT_Gender == 1;
             var g1i = new PeekEnumerator<GBEncounterData>(get1().GetEnumerator());
             var g2i = new PeekEnumerator<GBEncounterData>(get2().GetEnumerator());
             var deferred = new List<GBEncounterData>();
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             }
             IEnumerable<GBEncounterData> get2()
             {
-                if (!pkm.Gen1_NotTradeback && AllowGen2VCTransfer)
+                if (!pkm.Gen1_NotTradeback)
                     foreach (var z in GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC))
                         yield return z;
             }
