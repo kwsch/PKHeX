@@ -411,7 +411,7 @@ namespace PKHeX.Core
                 PID = Util.Rand32(),
                 Ball = 4,
                 MetDate = DateTime.Now,
-                Version = OT_Gender != 0 ? (int)GameVersion.C : (int)GameVersion.SV,
+                Version = CaughtData != 0 ? (int)GameVersion.C : (int)GameVersion.SV,
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,
