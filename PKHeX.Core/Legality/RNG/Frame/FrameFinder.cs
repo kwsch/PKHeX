@@ -12,6 +12,8 @@ namespace PKHeX.Core
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
+            if (pidiv.RNG == null)
+                yield break;
             FrameGenerator info = new FrameGenerator(pidiv, pk);
             if (info.FrameType == FrameType.None)
                 yield break;

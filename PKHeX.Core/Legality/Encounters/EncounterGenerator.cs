@@ -65,7 +65,7 @@ namespace PKHeX.Core
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
             var deferred = new List<IEncounterable>();
-            foreach (var z in GenerateRawEncounters3(pkm))
+            foreach (var z in GenerateRawEncounters3(pkm, info))
             {
                 if (z is EncounterSlot w && pkm.Version == 15)
                     info.PIDIV = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault() ?? info.PIDIV; 
@@ -87,7 +87,7 @@ namespace PKHeX.Core
             var deferredPIDIV = new List<IEncounterable>();
             var deferredEType = new List<IEncounterable>();
 
-            foreach (var z in GenerateRawEncounters4(pkm))
+            foreach (var z in GenerateRawEncounters4(pkm, info))
             {
                 if (!info.PIDIV.Type.IsCompatible4(z, pkm))
                     deferredPIDIV.Add(z);
@@ -263,7 +263,7 @@ namespace PKHeX.Core
             { yield return z; ++ctr; }
             // if (ctr != 0) yield break;
         }
-        private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm)
+        private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)
         {
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg; // egg events?
             if (wasEvent)
@@ -278,6 +278,8 @@ namespace PKHeX.Core
                 foreach (var z in GenerateEggs(pkm))
                     yield return z;
             }
+            foreach (var z in GetValidEncounterTrades(pkm))
+                yield return z;
 
             var deferred = new List<IEncounterable>();
             bool safariSport = pkm.Ball == 0x05 || pkm.Ball == 0x18; // never static encounters
@@ -289,10 +291,13 @@ namespace PKHeX.Core
                 else
                     yield return z;
             }
-            foreach (var z in GetValidEncounterTrades(pkm))
-                yield return z;
+            
+            var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
-                yield return z;
+            {
+                if (slots.Any(s => s.EncounterSlot(z.Type) == z.SlotNumber))
+                    yield return z;
+            }
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safariSport)
@@ -301,9 +306,11 @@ namespace PKHeX.Core
             foreach (var z in deferred)
                 yield return z;
         }
-        private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm)
+        private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
         {
             foreach (var z in GetValidGifts(pkm))
+                yield return z;
+            foreach (var z in GetValidEncounterTrades(pkm))
                 yield return z;
 
             var deferred = new List<IEncounterable>();
@@ -316,10 +323,12 @@ namespace PKHeX.Core
                 else
                     yield return z;
             }
+            var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
-                yield return z;
-            foreach (var z in GetValidEncounterTrades(pkm))
-                yield return z;
+            {
+                if (slots.Any(s => s.EncounterSlot(z.Type) == z.SlotNumber))
+                    yield return z;
+            }
 
             if (pkm.Version != 15) // no eggs in C/XD
             foreach (var z in GenerateEggs(pkm))

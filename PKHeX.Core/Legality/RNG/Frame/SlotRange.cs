@@ -81,6 +81,8 @@
                 case SlotType.Good_Rod:
                 case SlotType.Super_Rod:
                     return CalcSlot(ESV, J_SuperRod);
+                case SlotType.HoneyTree:
+                    return 0;
                 default:
                     return CalcSlot(ESV, H_Regular);
             }
