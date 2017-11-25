@@ -91,7 +91,7 @@ namespace PKHeX.Core
             {
                 if (!info.PIDIV.Type.IsCompatible4(z, pkm))
                     deferredPIDIV.Add(z);
-                else if (!IsEncounterTypeMatch(z, pkm.EncounterType))
+                else if (pkm.Format <= 6 && !IsEncounterTypeMatch(z, pkm.EncounterType))
                     deferredEType.Add(z);
                 else
                     yield return z;
