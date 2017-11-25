@@ -550,10 +550,6 @@ namespace PKHeX.Core
             069, // White Flute
             070, // Shoal Salt
             071, // Shoal Shell
-            099, // Root Fossil
-            100, // Claw Fossil
-            101, // Helix Fossil
-            102, // Dome Fossil
             103, // Old Amber
             111, // Odd Keystone
             164, // Razz Berry
@@ -604,8 +600,6 @@ namespace PKHeX.Core
             588, // Relic Band
             589, // Relic Statue
             590, // Relic Crown
-            710, // Jaw Fossil
-            711, // Sail Fossil
             715, // Fairy Gem
         };
         #endregion
