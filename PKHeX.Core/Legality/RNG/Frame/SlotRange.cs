@@ -62,7 +62,7 @@
                 case SlotType.Good_Rod_Safari:
                 case SlotType.Super_Rod_Safari:
                 case SlotType.Rock_Smash_Safari:
-                    return (int)(rand % 10);
+                    return 0; // (int)(rand % 10); /* Block Slot Priority not implemented */
                 case SlotType.Headbutt:
                 case SlotType.Headbutt_Special:
                     return CalcSlot(ESV, K_Headbutt);
