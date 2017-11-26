@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Linq;
+
+namespace PKHeX.Core
 {
     public static class SlotRange
     {
@@ -9,10 +11,10 @@
         private static readonly Range[] H_Regular = GetRanges(20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1);
 
         private static readonly Range[] J_SuperRod = GetRanges(40, 40, 15, 4, 1);
-        private static readonly Range[] K_BCC = Reverse(H_Regular);
+        private static readonly Range[] K_BCC = GetRanges(5,5,5,5, 10,10,10,10, 20,20).Reverse().ToArray();
         private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
 
-        public static int GetSlot(SlotType type, uint rand, FrameType t)
+        public static int GetSlot(SlotType type, uint rand, FrameType t, uint seed)
         {
             switch (t)
             {
@@ -21,7 +23,7 @@
                 case FrameType.MethodJ:
                     return JSlot(type, rand);
                 case FrameType.MethodK:
-                    return KSlot(type, rand);
+                    return KSlot(type, rand, seed);
             }
             return -1;
         }
@@ -43,7 +45,7 @@
                     return CalcSlot(ESV, H_Regular);
             }
         }
-        private static int KSlot(SlotType type, uint rand)
+        private static int KSlot(SlotType type, uint rand, uint seed)
         {
             var ESV = rand % 100;
             switch (type)

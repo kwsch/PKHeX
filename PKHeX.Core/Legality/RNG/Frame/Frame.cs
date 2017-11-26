@@ -9,7 +9,7 @@
         private readonly RNG RNG;
 
         public uint ESV { get; set; }
-        public int EncounterSlot(SlotType t) => SlotRange.GetSlot(t, ESV, FrameType);
+        public int EncounterSlot(SlotType t) => SlotRange.GetSlot(t, ESV, FrameType, Seed);
         public void SetOriginSeed(int Offset) => OriginSeed = RNG.Reverse(Seed, Offset);
         public bool LevelSlotModified => Lead > LeadRequired.SynchronizeFail;
 
