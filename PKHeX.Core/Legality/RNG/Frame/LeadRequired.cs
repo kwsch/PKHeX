@@ -4,15 +4,18 @@
     {
         None,
         CuteCharm,
+        CuteCharmFail,
         Synchronize,
         SynchronizeFail,
 
         // Slot Modifiers
-        MagnetPull,
+        StaticMagnet,
         Static,
 
         // Level Modifiers
-        Intimidate, // Keen Eye
-        VitalSpirit
+        IntimidateKeenEye, // Keen Eye
+        PressureHustleSpirit,
+        PressureHustleSpiritFail,
+        StaticMagnetFail
     }
 }

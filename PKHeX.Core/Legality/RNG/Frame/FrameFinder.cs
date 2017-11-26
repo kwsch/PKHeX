@@ -41,6 +41,10 @@ namespace PKHeX.Core
 
         private static IEnumerable<Frame> RefineFrames3(IEnumerable<Frame> frames, FrameGenerator info)
         {
+            // ESV
+            // Level
+            // Nature
+            // Current Seed of the frame is the Level Calc (frame before nature)
             var list = new List<Frame>();
             foreach (var f in frames)
             {
@@ -58,24 +62,64 @@ namespace PKHeX.Core
                 // Generate frames for other slots after the regular slots
                 list.Add(f);
             }
+
+            // Check leads -- none in list if leads are not allowed
+            // Certain leads inject a RNG call
+            // 3 different rand places
             foreach (var f in list)
             {
-                // Level Modifiers between ESV and Nature
-                var prev = info.RNG.Prev(f.Seed); // Level
-                prev = info.RNG.Prev(prev); // Level Proc
-                var p16 = prev >> 16;
+                LeadRequired lead;
+                var prev0 = f.Seed; // 0
+                var prev1 = info.RNG.Prev(f.Seed); // -1 
+                var prev2 = info.RNG.Prev(prev1); // -2
 
-                yield return info.GetFrame(prev, LeadRequired.Intimidate, p16);
-                yield return info.GetFrame(prev, LeadRequired.VitalSpirit, p16);
+                // Modify Call values 
+                var p0 = prev0 >> 16;
+                var p1 = prev1 >> 16;
+                var p2 = prev2 >> 16;
 
-                // Slot Modifiers before ESV
-                var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
-                if (!force)
-                    continue;
+                // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
+                // -2 ESV
+                // -1 Level
+                //  0 LevelMax proc (Random() & 1)
+                //  1 Nature
+                bool max = p0 % 2 == 1;
+                lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
+                yield return info.GetFrame(prev2, lead, p2);
 
-                var rand = f.Seed >> 16;
-                yield return info.GetFrame(prev, LeadRequired.Static, rand);
-                yield return info.GetFrame(prev, LeadRequired.MagnetPull, rand);
+                // Keen Eye, Intimidate
+                // -2 ESV
+                // -1 Level
+                //  0 Level Adequate Check !(Random() % 2 == 1) rejects --  rand%2==1 is adequate
+                //  1 Nature
+                // Note: if this check fails, the encounter generation routine is aborted.
+                if (max) // same result as above, no need to recalculate
+                {
+                    lead = LeadRequired.IntimidateKeenEye;
+                    yield return info.GetFrame(prev2, lead, p2);
+                }
+
+                // Cute Charm
+                // -2 ESV
+                // -1 CC Proc (Random() % 3 != 0)
+                //  0 Level
+                //  1 Nature
+                bool cc = p1 % 3 != 0;
+                lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
+                yield return info.GetFrame(prev2, lead, p2);
+
+                // Static or Magnet Pull
+                // -2 SlotProc (Random % 2 == 0)
+                // -1 ESV (select slot)
+                //  0 Level
+                //  1 Nature
+                bool force = p2 % 2 == 0;
+                if (force)
+                {
+                    // Since a failed proc is indistinguishable from the default frame calls, only generate if it succeeds.
+                    lead = LeadRequired.StaticMagnet;
+                    yield return info.GetFrame(prev2, lead, p1);
+                }
             }
         }
         private static IEnumerable<Frame> RefineFrames4(IEnumerable<Frame> frames, FrameGenerator info)
@@ -102,8 +146,8 @@ namespace PKHeX.Core
                 var prev = info.RNG.Prev(f.Seed);
                 var p16 = prev >> 16;
 
-                yield return info.GetFrame(prev, LeadRequired.Intimidate, p16);
-                yield return info.GetFrame(prev, LeadRequired.VitalSpirit, p16);
+                yield return info.GetFrame(prev, LeadRequired.IntimidateKeenEye, p16);
+                yield return info.GetFrame(prev, LeadRequired.PressureHustleSpirit, p16);
 
                 // Slot Modifiers before ESV
                 var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
@@ -111,8 +155,7 @@ namespace PKHeX.Core
                     continue;
 
                 var rand = f.Seed >> 16;
-                yield return info.GetFrame(prev, LeadRequired.Static, rand);
-                yield return info.GetFrame(prev, LeadRequired.MagnetPull, rand);
+                yield return info.GetFrame(prev, LeadRequired.StaticMagnet, rand);
             }
         }
 
@@ -173,7 +216,7 @@ namespace PKHeX.Core
 
                 var prev = pidiv.RNG.Prev(s);
                 var proc = prev >> 16;
-                bool charmProc = (info.DPPt ? proc / 0x5556 : proc % 3) == 0;
+                bool charmProc = (info.DPPt ? proc / 0x5556 : proc % 3) != 0; // 2/3 odds
                 if (!charmProc)
                     continue;
 
