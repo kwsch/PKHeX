@@ -538,14 +538,14 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int caughtOffset = BlockOfs[0] + 0x28 + ofs;
+            int caughtOffset = BlockOfs[0] + 0x28;
             return GetFlag(caughtOffset + ofs, bit & 7);
         }
         public override void SetCaught(int species, bool caught)
         {
             int bit = species - 1;
-            int ofs = bit / 8;
-            int caughtOffset = BlockOfs[0] + 0x28 + ofs;
+            int ofs = bit >> 3;
+            int caughtOffset = BlockOfs[0] + 0x28;
             SetFlag(caughtOffset + ofs, bit & 7, caught);
         }
 
@@ -553,13 +553,13 @@ namespace PKHeX.Core
         {
             int bit = species - 1;
             int ofs = bit >> 3;
-            int seenOffset = BlockOfs[0] + 0x5C + ofs;
+            int seenOffset = BlockOfs[0] + 0x5C;
             return GetFlag(seenOffset + ofs, bit & 7);
         }
         public override void SetSeen(int species, bool seen)
         {
             int bit = species - 1;
-            int ofs = bit / 8;
+            int ofs = bit >> 3;
 
             foreach (int o in SeenFlagOffsets)
                 SetFlag(o + ofs, bit & 7, seen);
