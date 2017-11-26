@@ -19,7 +19,6 @@
     /// </summary>
     public class EncounterSlot : IEncounterable, IGeneration
     {
-        public int Location { get; set; } = -1;
         public int Species { get; set; }
         public int Form { get; set; }
         public int LevelMin { get; set; }
@@ -32,18 +31,9 @@
         internal EncounterSlotPermissions _perm;
         public EncounterSlotPermissions Permissions => _perm ?? (_perm = new EncounterSlotPermissions());
 
-        public virtual EncounterSlot Clone()
-        {
-            return new EncounterSlot
-            {
-                Species = Species,
-                LevelMax = LevelMax,
-                LevelMin = LevelMin,
-                Type = Type,
-                SlotNumber = SlotNumber,
-                _perm = _perm
-            };
-        }
+        internal EncounterArea Area { get; set; }
+        public int Location => Area.Location;
+        public EncounterSlot Clone() => (EncounterSlot)MemberwiseClone();
 
         public string Name
         {
@@ -69,20 +59,5 @@
         public int Rate;
         internal EncounterTime Time = EncounterTime.Any;
         public GameVersion Version = GameVersion.Any;
-        public override EncounterSlot Clone()
-        {
-            return new EncounterSlot1
-            {
-                Species = Species,
-                LevelMax = LevelMax,
-                LevelMin = LevelMin,
-                Type = Type,
-                SlotNumber = SlotNumber,
-                _perm = _perm,
-                Rate = Rate,
-                Time = Time,
-                Generation = Generation,
-            };
-        }
     }
 }

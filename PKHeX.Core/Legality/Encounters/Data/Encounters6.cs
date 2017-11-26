@@ -21,6 +21,7 @@ namespace PKHeX.Core
             var YSlots = GetEncounterTables(GameVersion.Y);
             MarkG6XYSlots(ref XSlots);
             MarkG6XYSlots(ref YSlots);
+            MarkEncounterAreaArray(SlotsXYAlt);
             SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
             SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
 

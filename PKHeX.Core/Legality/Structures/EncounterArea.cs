@@ -39,20 +39,23 @@ namespace PKHeX.Core
                     LevelMax = data[5 + i * 4],
                 };
             }
+            foreach (var slot in Slots)
+                slot.Area = this;
         }
 
         public EncounterArea Clone(int location)
         {
-            EncounterArea Areas = new EncounterArea
+            EncounterArea Area = new EncounterArea
             {
                 Location = location,
                 Slots = new EncounterSlot[Slots.Length]
             };
             for (int i = 0; i < Slots.Length; i++)
             {
-                Areas.Slots[i] = Slots[i].Clone();
+                Area.Slots[i] = Slots[i].Clone();
+                Area.Slots[i].Area = Area;
             }
-            return Areas;
+            return Area;
         }
 
         public EncounterArea[] Clone(int[] locations)
@@ -162,11 +165,16 @@ namespace PKHeX.Core
             var areas = new List<EncounterArea>();
             while (data[ofs] != 0xFF) // end
             {
-                areas.Add(new EncounterArea
+                var location = data[ofs++] << 8 | data[ofs++];
+                var slots = GetSlots2_GW(data, ref ofs, t, slotSets, slotCount);
+                var area = new EncounterArea
                 {
-                    Location = data[ofs++] << 8 | data[ofs++],
-                    Slots = GetSlots2_GW(data, ref ofs, t, slotSets, slotCount),
-                });
+                    Location = location,
+                    Slots = slots,
+                };
+                foreach (var slot in slots)
+                    slot.Area = area;
+                areas.Add(area);
             }
             ofs++;
             return areas;
@@ -450,12 +458,6 @@ namespace PKHeX.Core
 
         private static EncounterArea GetArea3(byte[] data)
         {
-            EncounterArea Area3 = new EncounterArea();
-
-            if (data.Length < 6)
-            { Area3.Location = 0; Area3.Slots = new EncounterSlot[0]; return Area3; }
-
-            Area3.Location = data[0];
             var HaveGrassSlots = data[1] == 1;
             var HaveSurfSlots = data[2] == 1;
             var HaveRockSmashSlots = data[3] == 1;
@@ -471,18 +473,21 @@ namespace PKHeX.Core
                 slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Rock_Smash));
             if (HaveFishingSlots)
                 slots.AddRange(GetSlots3_F(data, ref offset, 10));
-            Area3.Slots = slots.ToArray();
+
+            EncounterArea Area3 = new EncounterArea
+            {
+                Location = data[0],
+                Slots = slots.ToArray()
+            };
+            foreach (var slot in Area3.Slots)
+                slot.Area = Area3;
+
             return Area3;
         }
 
         private static EncounterArea GetArea4DPPt(byte[] data)
         {
-            EncounterArea Area4 = new EncounterArea();
-            if (data.Length != 0x1AA) // 426 Bytes
-            { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
-
             var Slots = new List<EncounterSlot>();
-            Area4.Location = BitConverter.ToUInt16(data, 0x00);
 
             var GrassRatio = BitConverter.ToInt32(data, 0x02);
             if (GrassRatio > 0)
@@ -524,18 +529,20 @@ namespace PKHeX.Core
             if (SuperRodRatio > 0)
                 Slots.AddRange(GetSlots4DPPt_WFR(data, 0x182, 5, SlotType.Super_Rod));
 
-            Area4.Slots = Slots.ToArray();
+            EncounterArea Area4 = new EncounterArea
+            {
+                Location = BitConverter.ToUInt16(data, 0x00),
+                Slots = Slots.ToArray()
+            };
+            foreach (var slot in Area4.Slots)
+                slot.Area = Area4;
+
             return Area4;
         }
 
         private static EncounterArea GetArea4HGSS(byte[] data)
         {
-            EncounterArea Area4 = new EncounterArea();
-            if (data.Length != 0xC6)
-            { Area4.Location = 0; Area4.Slots = new EncounterSlot[0]; return Area4; }
-
             var Slots = new List<EncounterSlot>();
-            Area4.Location = BitConverter.ToUInt16(data, 0x00);
 
             var GrassRatio = data[0x02];
             var SurfRatio = data[0x03];
@@ -577,7 +584,13 @@ namespace PKHeX.Core
             if (data[0xC2] == 120) // Location = 182, 127, 130, 132, 167, 188, 210
                 Slots.AddRange(SlotsHGSS_Staryu);
 
-            Area4.Slots = Slots.ToArray();
+            EncounterArea Area4 = new EncounterArea
+            {
+                Location = BitConverter.ToUInt16(data, 0x00),
+                Slots = Slots.ToArray()
+            };
+            foreach (var slot in Area4.Slots)
+                slot.Area = Area4;
             return Area4;
         }
         private static readonly EncounterSlot[] SlotsHGSS_Staryu =
@@ -611,11 +624,14 @@ namespace PKHeX.Core
                 });
             }
 
-            return new EncounterArea
+            var Area = new EncounterArea
             {
                 Location = BitConverter.ToUInt16(data, 0),
                 Slots = Slots.ToArray()
             };
+            foreach (var slot in Area.Slots)
+                slot.Area = Area;
+            return Area;
         }
 
         /// <summary>
@@ -849,7 +865,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4DPPt(byte[][] entries)
         {
-            return entries?.Select(GetArea4DPPt).Where(Area => Area.Slots.Any()).ToArray();
+            return entries?.Select(GetArea4DPPt).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -859,7 +875,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4HGSS(byte[][] entries)
         {
-            return entries?.Select(GetArea4HGSS).Where(Area => Area.Slots.Any()).ToArray();
+            return entries?.Select(GetArea4HGSS).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -869,7 +885,7 @@ namespace PKHeX.Core
         /// <returns>Array of encounter areas.</returns>
         public static EncounterArea[] GetArray4HGSS_Headbutt(byte[][] entries)
         {
-            return entries?.Select(GetArea4HGSS_Headbutt).Where(Area => Area.Slots.Any()).ToArray();
+            return entries?.Select(GetArea4HGSS_Headbutt).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>

@@ -79,8 +79,8 @@ namespace PKHeX.Core
         /// <param name="t">Personal data for use with a given species' type</param>
         internal static void MarkEncountersStaticMagnetPull(ref EncounterArea[] Areas, PersonalTable t)
         {
-            const int steel = 8;
-            const int electric = 12;
+            const int steel = (int)MoveType.Steel;
+            const int electric = (int)MoveType.Electric;
             foreach (EncounterArea Area in Areas)
             {
                 var s = new List<EncounterSlot>(); // Static
@@ -158,16 +158,18 @@ namespace PKHeX.Core
             }).ToArray();
         }
 
-        /// <summary>
-        /// Sets the <see cref="EncounterArea.Location"/> to the <see cref="EncounterSlot.Location"/> for identifying where the slot is encountered.
-        /// </summary>
-        /// <remarks>Some games / transferred <see cref="PKM"/> data do not contain original encounter location IDs; is mainly for info purposes.</remarks>
-        /// <param name="Areas">Ingame encounter data</param>
-        internal static void MarkSlotLocation(ref EncounterArea[] Areas)
+        internal static T[] ConcatAll<T>(params T[][] arr) => arr.SelectMany(z => z).ToArray();
+
+        internal static void MarkEncounterAreaArray(params EncounterArea[][] areas)
         {
-            foreach (EncounterArea Area in Areas)
-            foreach (EncounterSlot Slot in Area.Slots)
-                Slot.Location = Area.Location;
+            foreach (var area in areas)
+                MarkEncounterAreas(area);
+        }
+        internal static void MarkEncounterAreas(params EncounterArea[] areas)
+        {
+            foreach (var area in areas)
+            foreach (var slot in area.Slots)
+                slot.Area = area;
         }
     }
 }

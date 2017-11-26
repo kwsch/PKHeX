@@ -33,6 +33,8 @@ namespace PKHeX.Core
             var FR_Slots = get("fr", "fr");
             var LG_Slots = get("lg", "lg");
 
+            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGAlt);
+
             ReduceAreasSize(ref R_Slots);
             ReduceAreasSize(ref S_Slots);
             ReduceAreasSize(ref E_Slots);
@@ -56,12 +58,6 @@ namespace PKHeX.Core
             SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
             SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGAlt);
             SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGAlt);
-
-            MarkSlotLocation(ref SlotsR);
-            MarkSlotLocation(ref SlotsS);
-            MarkSlotLocation(ref SlotsE);
-            MarkSlotLocation(ref SlotsFR);
-            MarkSlotLocation(ref SlotsLG);
         }
 
         private static void MarkG3Slots_FRLG(ref EncounterArea[] Areas)

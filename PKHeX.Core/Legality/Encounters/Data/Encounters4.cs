@@ -67,6 +67,10 @@ namespace PKHeX.Core
             MarkG4SlotsGreatMarsh(ref P_Slots, 52);
             MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
+            MarkEncounterAreaArray(D_HoneyTrees_Slots, P_HoneyTrees_Slots, Pt_HoneyTrees_Slots,
+                DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas, Pt_Trophy, Pt_Feebas,
+                HG_Headbutt_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
+
             SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
             SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
             SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, DPPt_Unown, Pt_Trophy, Pt_Feebas);
@@ -78,12 +82,6 @@ namespace PKHeX.Core
             MarkDPPtEncounterTypeSlots(ref SlotsPt);
             MarkHGSSEncounterTypeSlots(ref SlotsHG);
             MarkHGSSEncounterTypeSlots(ref SlotsSS);
-
-            MarkSlotLocation(ref SlotsD);
-            MarkSlotLocation(ref SlotsP);
-            MarkSlotLocation(ref SlotsPt);
-            MarkSlotLocation(ref SlotsHG);
-            MarkSlotLocation(ref SlotsSS);
         }
 
         private static EncounterArea[] GetFeebasArea(EncounterArea template)
@@ -180,12 +178,8 @@ namespace PKHeX.Core
         private static void MarkG4AltFormSlots(ref EncounterArea[] Areas, int Species, int form, int[] Locations)
         {
             foreach (EncounterArea Area in Areas.Where(a => Locations.Contains(a.Location)))
-            {
-                foreach (EncounterSlot Slot in Area.Slots.Where(s => s.Species == Species))
-                {
-                    Slot.Form = form;
-                }
-            }
+            foreach (EncounterSlot Slot in Area.Slots.Where(s => s.Species == Species))
+                Slot.Form = form;
         }
         private static EncounterType GetEncounterTypeBySlotDPPt(SlotType Type, EncounterType GrassType)
         {
@@ -1380,7 +1374,6 @@ namespace PKHeX.Core
             new EncounterSlot { Species = 418, LevelMin = 44, LevelMax = 45, Type = SlotType.Grass_Safari }, // Buizel
         };
 
-        private static EncounterSlot[] ConcatAll(params EncounterSlot[][] arr) => arr.SelectMany(z => z).ToArray();
         private static readonly EncounterArea SlotsHGSS_SafariZone = new EncounterArea
         {
             // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon

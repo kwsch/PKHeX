@@ -39,6 +39,7 @@ namespace PKHeX.Core
             MarkG7SMSlots(ref SOS_UM);
             SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_UU, Encounter_Pelago_US);
             SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_UU, Encounter_Pelago_UM);
+            MarkEncounterAreaArray(SOS_SN, SOS_MN, SOS_US, SOS_UM, Encounter_Pelago_SN, Encounter_Pelago_MN, Encounter_Pelago_US, Encounter_Pelago_UM);
         }
         private static void MarkG7REGSlots(ref EncounterArea[] Areas)
         {
