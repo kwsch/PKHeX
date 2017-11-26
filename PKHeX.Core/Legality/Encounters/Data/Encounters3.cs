@@ -265,47 +265,44 @@ namespace PKHeX.Core
         };
 
         #region AltSlots
-        private static readonly int[] SafariZoneLocation_3 =
-        {
-            57, 136
-        };
         private static readonly EncounterArea[] SlotsRSEAlt =
         {
             // Swarm can be passed from R/S<->E via mixing records
+            // Encounter Percent is a 50% call
             new EncounterArea {
                 Location = 17, // Route 102
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm}, // Seedot (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm, Moves = new[] {117, 106, 073} /* Bide, Harden, Leech Seed */ }, // Seedot (E)
                 },},
             new EncounterArea {
                 Location = 29, // Route 114
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Nuzleaf (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {106, 074, 267, 073} /* Harden, Growth, Nature Power, Leech Seed */ }, // Nuzleaf (E)
                 },},
             new EncounterArea {
                 Location = 31, // Route 116
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Skitty (R/S)
-                    new EncounterSlot { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm}, // Skitty (E)
+                    new EncounterSlotMoves { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {045, 033} /* Growl, Tackle */ }, // Skitty (R/S)
+                    new EncounterSlotMoves { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm, Moves = new[] {045, 033, 039, 213} /* Growl, Tackle, Tail Whip, Attract */ }, // Skitty (E)
                 },},
             new EncounterArea {
                 Location = 32, // Route 117
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm}, // Seedot (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm, Moves = new[] {106, 074, 267, 073} /* Harden, Growth, Nature Power, Leech Seed */ }, // Seedot (E)
                 },},
             new EncounterArea {
                 Location = 35, // Route 120
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Swarm}, // Surskit (R/S)
-                    new EncounterSlot { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Swarm}, // Seedot (E)
+                    new EncounterSlotMoves { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Swarm, Moves = new[] {145, 098} /* Bubble, Quick Attack */ }, // Surskit (R/S)
+                    new EncounterSlotMoves { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Swarm, Moves = new[] {202, 218, 076, 073} /* Giga Drain, Frustration, Solar Beam, Leech Seed */ }, // Seedot (E)
                 },},
 
             // Feebas fishing spot

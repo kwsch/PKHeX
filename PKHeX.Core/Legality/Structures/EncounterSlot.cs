@@ -60,4 +60,8 @@
         internal EncounterTime Time = EncounterTime.Any;
         public GameVersion Version = GameVersion.Any;
     }
+    public class EncounterSlotMoves : EncounterSlot, IMoveset
+    {
+        public int[] Moves { get; set; }
+    }
 }
