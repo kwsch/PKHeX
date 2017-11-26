@@ -113,6 +113,7 @@
             this.ppkx2 = new System.Windows.Forms.PictureBox();
             this.CB_LuckyResult = new System.Windows.Forms.ComboBox();
             this.L_LuckyResult = new System.Windows.Forms.Label();
+            this.B_AgentGlass = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Current)).BeginInit();
             this.GB_FC.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FC_Used)).BeginInit();
@@ -911,6 +912,7 @@
             // 
             // Tab_BattleAgency
             // 
+            this.Tab_BattleAgency.Controls.Add(this.B_AgentGlass);
             this.Tab_BattleAgency.Controls.Add(this.NUD_Trainer3);
             this.Tab_BattleAgency.Controls.Add(this.NUD_Trainer2);
             this.Tab_BattleAgency.Controls.Add(this.NUD_Trainer1);
@@ -932,6 +934,16 @@
             this.Tab_BattleAgency.TabIndex = 3;
             this.Tab_BattleAgency.Text = "BattleAgency";
             this.Tab_BattleAgency.UseVisualStyleBackColor = true;
+            // 
+            // B_AgentGlass
+            // 
+            this.B_AgentGlass.Location = new System.Drawing.Point(287, 134);
+            this.B_AgentGlass.Name = "B_AgentGlass";
+            this.B_AgentGlass.Size = new System.Drawing.Size(147, 23);
+            this.B_AgentGlass.TabIndex = 19;
+            this.B_AgentGlass.Text = "Give Agent Sunglasses";
+            this.B_AgentGlass.UseVisualStyleBackColor = true;
+            this.B_AgentGlass.Click += new System.EventHandler(this.B_AgentGlass_Click);
             // 
             // NUD_Trainer3
             // 
@@ -1318,5 +1330,6 @@
         private System.Windows.Forms.TextBox TB_PlazaName;
         private System.Windows.Forms.Label L_LuckyResult;
         private System.Windows.Forms.ComboBox CB_LuckyResult;
+        private System.Windows.Forms.Button B_AgentGlass;
     }
 }
