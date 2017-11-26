@@ -274,6 +274,7 @@ namespace PKHeX.WinForms
                 NUD_Trainers[i].Value = j < 0 || j > m ? m : j;
             }
             TB_PlazaName.Text = SAV.FestivalPlazaName;
+            B_AgentGlass.Enabled = (SAV.GetData(SAV.Fashion + 0xD0, 1)[0] & 1) == 0;
         }
         private void LoadPictureBox()
         {
@@ -634,6 +635,15 @@ namespace PKHeX.WinForms
             // both 0 if "none"
             f[entry].UsedLuckyRank = lucky < 0 ? 0 : lucky % 3 + 1;
             f[entry].UsedLuckyPlace = lucky < 0 ? 0 : lucky / 3 + 1;
+        }
+
+        private void B_AgentGlass_Click(object sender, EventArgs e)
+        {
+            if (NUD_Grade.Value < 30 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Agent Sunglasses is reward of Grade 30.", "Continue?"))
+                return;
+            SAV.SetData(new byte[] { 3 }, SAV.Fashion + 0xD0);
+            B_AgentGlass.Enabled = false;
+            System.Media.SystemSounds.Asterisk.Play();
         }
     }
     public class FestaFacility
