@@ -216,7 +216,12 @@ namespace PKHeX.Core
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
             142, // Aerodacyl
-            137, 233, 474 // Porygon++
+            137, 233, 474, // Porygon++
+            138, 139, 140, 141,  // Gen1 Fossils
+            345, 346, 347, 348,  // Gen3 Fossils
+            408, 409, 410, 411,  // Gen4 Fossils
+            564, 565, 566, 567,  // Gen5 Fossils
+            696, 697, 698, 699,  // Gen6 Fossils
         };
 
         internal static readonly HashSet<int> PastGenAlolanScans = new HashSet<int>
