@@ -10,12 +10,10 @@
 
         // Slot Modifiers
         StaticMagnet,
-        Static,
 
         // Level Modifiers
         IntimidateKeenEye, // Keen Eye
         PressureHustleSpirit,
         PressureHustleSpiritFail,
-        StaticMagnetFail
     }
 }

@@ -295,7 +295,7 @@ namespace PKHeX.Core
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
             {
-                if (slots.Any(s => s.EncounterSlot(z.Type) == z.SlotNumber))
+                if (slots.Any(s => s.EncounterSlot(z.Type, z) == z.SlotNumber))
                     yield return z;
             }
 
@@ -326,7 +326,7 @@ namespace PKHeX.Core
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters(pkm))
             {
-                if (slots.Any(s => s.EncounterSlot(z.Type) == z.SlotNumber))
+                if (slots.Any(s => s.EncounterSlot(z.Type, z) == z.SlotNumber))
                     yield return z;
             }
 

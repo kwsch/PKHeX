@@ -93,14 +93,16 @@ namespace PKHeX.Core
                     if (types[0] == electric || types[1] == electric)
                         s.Add(Slot);
                 }
-                foreach (var slot in s)
+                for (var i = 0; i < s.Count; i++)
                 {
-                    slot.Permissions.Static = true;
+                    var slot = s[i];
+                    slot.Permissions.StaticIndex = i;
                     slot.Permissions.StaticCount = s.Count;
                 }
-                foreach (var slot in m)
+                for (var i = 0; i < m.Count; i++)
                 {
-                    slot.Permissions.MagnetPull = true;
+                    var slot = m[i];
+                    slot.Permissions.MagnetPullIndex = i;
                     slot.Permissions.MagnetPullCount = s.Count;
                 }
             }

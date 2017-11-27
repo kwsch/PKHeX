@@ -48,80 +48,94 @@ namespace PKHeX.Core
             var list = new List<Frame>();
             foreach (var f in frames)
             {
-                // Current Seed of the frame is the Level Calc
-                var prev = info.RNG.Prev(f.Seed); // ESV
-                var rand = prev >> 16;
-                {
-                    f.ESV = rand;
-                    yield return f;
-                }
-
-                if (f.Lead != LeadRequired.None || !info.AllowLeads) // Emerald
+                bool noLead = !info.AllowLeads && f.Lead != LeadRequired.None;
+                if (noLead)
                     continue;
 
-                // Generate frames for other slots after the regular slots
-                list.Add(f);
-            }
+                var prev = info.RNG.Prev(f.Seed); // ESV
+                var rand = prev >> 16;
+                f.ESV = rand;
+                yield return f;
 
+                // Generate frames for other slots after the regular slots
+                if (info.AllowLeads && (f.Lead == LeadRequired.CuteCharm || f.Lead == LeadRequired.None))
+                    list.Add(f);
+            }
+            foreach (var f in list)
+            {
+                var leadframes = GenerateLeadSpecificFrames3(f, info);
+                foreach (var frame in leadframes)
+                    yield return frame;
+            }
+        }
+        private static IEnumerable<Frame> GenerateLeadSpecificFrames3(Frame f, FrameGenerator info)
+        {
             // Check leads -- none in list if leads are not allowed
             // Certain leads inject a RNG call
             // 3 different rand places
-            foreach (var f in list)
+            LeadRequired lead;
+            var prev0 = f.Seed; // 0
+            var prev1 = info.RNG.Prev(f.Seed); // -1 
+            var prev2 = info.RNG.Prev(prev1); // -2
+
+            // Rand call raw values
+            var p0 = prev0 >> 16;
+            var p1 = prev1 >> 16;
+            var p2 = prev2 >> 16;
+
+            // Cute Charm
+            // -2 ESV
+            // -1 Level
+            //  0 CC Proc (Random() % 3 != 0)
+            //  1 Nature
+            if (info.Gendered)
             {
-                LeadRequired lead;
-                var prev0 = f.Seed; // 0
-                var prev1 = info.RNG.Prev(f.Seed); // -1 
-                var prev2 = info.RNG.Prev(prev1); // -2
-
-                // Modify Call values 
-                var p0 = prev0 >> 16;
-                var p1 = prev1 >> 16;
-                var p2 = prev2 >> 16;
-
-                // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
-                // -2 ESV
-                // -1 Level
-                //  0 LevelMax proc (Random() & 1)
-                //  1 Nature
-                bool max = p0 % 2 == 1;
-                lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
-                yield return info.GetFrame(prev2, lead, p2);
-
-                // Keen Eye, Intimidate
-                // -2 ESV
-                // -1 Level
-                //  0 Level Adequate Check !(Random() % 2 == 1) rejects --  rand%2==1 is adequate
-                //  1 Nature
-                // Note: if this check fails, the encounter generation routine is aborted.
-                if (max) // same result as above, no need to recalculate
+                bool cc = p0 % 3 != 0;
+                if (f.Lead == LeadRequired.CuteCharm) // 100% required for frame base
                 {
-                    lead = LeadRequired.IntimidateKeenEye;
-                    yield return info.GetFrame(prev2, lead, p2);
+                    if (cc)
+                        yield return info.GetFrame(prev2, LeadRequired.CuteCharm, p2);
+                    yield break;
                 }
-
-                // Cute Charm
-                // -2 ESV
-                // -1 CC Proc (Random() % 3 != 0)
-                //  0 Level
-                //  1 Nature
-                bool cc = p1 % 3 != 0;
                 lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
                 yield return info.GetFrame(prev2, lead, p2);
+            }
 
-                // Static or Magnet Pull
-                // -2 SlotProc (Random % 2 == 0)
-                // -1 ESV (select slot)
-                //  0 Level
-                //  1 Nature
-                bool force = p2 % 2 == 0;
-                if (force)
-                {
-                    // Since a failed proc is indistinguishable from the default frame calls, only generate if it succeeds.
-                    lead = LeadRequired.StaticMagnet;
-                    yield return info.GetFrame(prev2, lead, p1);
-                }
+            // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
+            // -2 ESV
+            // -1 Level
+            //  0 LevelMax proc (Random() & 1)
+            //  1 Nature
+            bool max = p0 % 2 == 1;
+            lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
+            yield return info.GetFrame(prev2, lead, p2);
+
+            // Keen Eye, Intimidate
+            // -2 ESV
+            // -1 Level
+            //  0 Level Adequate Check !(Random() % 2 == 1) rejects --  rand%2==1 is adequate
+            //  1 Nature
+            // Note: if this check fails, the encounter generation routine is aborted.
+            if (max) // same result as above, no need to recalculate
+            {
+                lead = LeadRequired.IntimidateKeenEye;
+                yield return info.GetFrame(prev2, lead, p2);
+            }
+
+            // Static or Magnet Pull
+            // -2 SlotProc (Random % 2 == 0)
+            // -1 ESV (select slot)
+            //  0 Level
+            //  1 Nature
+            bool force = p2 % 2 == 0;
+            if (force)
+            {
+                // Since a failed proc is indistinguishable from the default frame calls, only generate if it succeeds.
+                lead = LeadRequired.StaticMagnet;
+                yield return info.GetFrame(prev2, lead, p1);
             }
         }
+
         private static IEnumerable<Frame> RefineFrames4(IEnumerable<Frame> frames, FrameGenerator info)
         {
             var list = new List<Frame>();
