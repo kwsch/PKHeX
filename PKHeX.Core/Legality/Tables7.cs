@@ -212,11 +212,6 @@ namespace PKHeX.Core
             618, // Stunfisk
             418, 419, // Floatzel
             194, 195, // Quagsire
-
-            // USUM Fossils
-            138, 139, 140, 141,
-            345, 346, 347, 348,
-            696, 697, 698, 699,
         };
         public static readonly HashSet<int> PastGenAlolanNativesUncapturable = new HashSet<int>
         {
