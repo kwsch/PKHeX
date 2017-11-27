@@ -1913,7 +1913,7 @@ namespace PKHeX.Core
                     break;
                 case 647: // Keldeo
                     {
-                        if (pkm.Format == 5) // can mismatch in gen5 via BW tutor
+                        if (pkm.Gen5) // can mismatch in gen5 via BW tutor and transfer up
                             break;
                         int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                         bool noSword = index < 0;
