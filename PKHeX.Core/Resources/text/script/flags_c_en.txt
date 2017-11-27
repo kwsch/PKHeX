@@ -1,0 +1,3 @@
+0190	Kurt checkable GS ball
+0191	Kurt ready to return GS ball (Combine with avove check)
+0192	Putable GS ball in Ilex Forest Shrine
