@@ -185,6 +185,18 @@ namespace PKHeX.Core
             foreach (var seed in seeds)
             {
                 var s = seed.Seed;
+
+                if (info.Safari3)
+                {
+                    // successful pokeblock activation
+                    bool result = IsValidPokeBlockNature(s, info.Nature, out uint blockSeed);
+                    if (result)
+                        yield return info.GetFrame(blockSeed, seed.Charm3 ? LeadRequired.CuteCharm : LeadRequired.None);
+
+                    // if no pokeblocks present (or failed call), fall out of the safari specific code and generate via the other scenarios
+                    s = info.RNG.Prev(s); // wasted RNG call
+                }
+
                 var rand = s >> 16;
                 bool sync = info.AllowLeads && !seed.Charm3 && (info.DPPt ? rand >> 15 : rand & 1) == 0;
                 bool reg = (info.DPPt ? rand / 0xA3E : rand % 25) == info.Nature;
@@ -208,6 +220,60 @@ namespace PKHeX.Core
                         yield return info.GetFrame(prev, LeadRequired.None);
                 }
             }
+        }
+        private static bool IsValidPokeBlockNature(uint seed, uint nature, out uint natureOrigin)
+        {
+            if (nature % 6 == 0) // neutral
+            {
+                natureOrigin = 0;
+                return false;
+            }
+
+            // unroll the RNG to a stack of seeds
+            var stack = new Stack<uint>();
+            for (uint i = 0; i < 25; i++)
+            for (uint j = 1 + i; j < 25; j++)
+                stack.Push(seed = RNG.LCRNG.Prev(seed));
+
+            natureOrigin = RNG.LCRNG.Prev(stack.Peek());
+            if (natureOrigin >> 16 % 100 >= 80) // failed proc
+                return false;
+
+            // init natures
+            uint[] natures = new uint[25];
+            for (uint i = 0; i < 25; i++)
+                natures[i] = i;
+
+            // shuffle nature list
+            for (uint i = 0; i < 25; i++)
+            for (uint j = 1 + i; j < 25; j++)
+            {
+                var s = stack.Pop();
+                if ((s >> 16 & 1) == 0)
+                    continue; // only swap if 1
+
+                var temp = natures[i];
+                natures[i] = natures[j];
+                natures[j] = temp;
+            }
+            
+            var likes = Pokeblock.GetLikedBlockFlavor(nature);
+            // best case scenario is a perfect flavored pokeblock for the nature.
+            // has liked flavor, and all other non-disliked flavors are present.
+            // is it possible to skip this step?
+            for (int i = 0; i < 25; i++)
+            {
+                var n = natures[i];
+                if (n == nature)
+                    break;
+
+                var nl = Pokeblock.GetLikedBlockFlavor(natures[i]);
+                if (nl == likes) // next random nature likes the same block as the desired nature
+                    return false; // current nature is chosen instead, fail!
+            }
+            // unroll once more to hit the level calc (origin with respect for beginning the nature calcs)
+            natureOrigin = RNG.LCRNG.Prev(natureOrigin);
+            return true;
         }
 
         /// <summary>

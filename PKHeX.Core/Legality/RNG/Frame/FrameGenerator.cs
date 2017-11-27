@@ -10,6 +10,8 @@
         public readonly bool AllowLeads;
         public readonly FrameType FrameType = FrameType.None;
         public readonly RNG RNG;
+        public readonly bool Safari3;
+
         public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, RNG, lead);
         public Frame GetFrame(uint seed, LeadRequired lead, uint esv) => new Frame(seed, FrameType, RNG, lead) {ESV = esv};
 
@@ -33,6 +35,7 @@
                     DPPt = false;
                     FrameType = FrameType.MethodH;
                     RNG = pidiv.RNG;
+                    Safari3 = pk.Ball == 5;
 
                     if (ver != GameVersion.E)
                         return;
