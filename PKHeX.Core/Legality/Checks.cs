@@ -1867,6 +1867,14 @@ namespace PKHeX.Core
 
             if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
                 VerifyFormFriendSafari();
+            else if (EncounterMatch is EncounterEgg)
+            {
+                if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm))
+                {
+                    AddLine(Severity.Invalid, V317, CheckIdentifier.Form);
+                    return;
+                }
+            }
 
             switch (pkm.Species)
             {
