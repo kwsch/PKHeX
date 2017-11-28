@@ -10,9 +10,9 @@
 0782	Suicune (Back to Burned Tower) Disappeared
 0579	Lugia Disappeared
 0578	Ho-Oh Disappeared
-0781	Lati@s (Pewter City) Disappeared
+0781	Latias/Latios (Pewter City) Disappeared
 0721	Kyogre/Groudon Disappeared
 0722	Rayquaza Disappeared
 2404	Entered Hall of Fame (Trainer Card Upgrade)
 0388	Obtained 1 Shiny Crown (Trainer Card Upgrade)
-0241	Beat Pokéathlon Records (Trainer Card Upgrade)
+0241	Beat Pokeathlon Records (Trainer Card Upgrade)
