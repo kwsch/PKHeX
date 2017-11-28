@@ -114,13 +114,10 @@ namespace PKHeX.Core
 
             // Enable Pokedex editing
             PokeDex = 0;
+            EventFlag = Offsets.EventFlag;
 
             if (!Exportable)
                 ClearBoxes();
-
-            if (Version == GameVersion.C){
-                EventFlag = Japanese || Korean ? 0x1800 : 0x2600;
-            }
         }
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data
