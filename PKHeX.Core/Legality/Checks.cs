@@ -355,7 +355,12 @@ namespace PKHeX.Core
                 return;
             }
             if (pkm.HGSS)
-                VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS);
+            {
+                int lang = pkm.Language;
+                if (EncounterMatch.Species == 25 && (lang == 2 || lang == 3)) // EN & FR
+                    lang ^= 1; // toggle for Volty
+                VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
+            }
             else
             {
                 if (EncounterMatch.Species == 129) // Magikarp
@@ -403,7 +408,7 @@ namespace PKHeX.Core
         private void VerifyTradeTable(string[][] ots, EncounterTrade[] table) => VerifyTradeTable(ots, table, pkm.Language);
         private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, int language)
         {
-            var validOT = language >= ots.Length ? ots[0] : ots[pkm.Language];
+            var validOT = language >= ots.Length ? ots[0] : ots[language];
             var index = Array.IndexOf(table, EncounterMatch);
             VerifyTradeOTNick(validOT, index);
         }
