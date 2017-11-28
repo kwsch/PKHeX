@@ -1,30 +1,30 @@
-0481	Uxie disappeared
-0479	Mesprit(Verity Cavern) disappeared
-0480	Azelf disappeared
-0208	Dialga captured
-0209	Palkia captured
-0591	Cresselia(FullmoonIs.) disappeared
-0476	Charon(Mt.Stark) disappeared
+0481	Uxie Disappeared
+0479	Mesprit (Verity Cavern) Disappeared
+0480	Azelf Disappeared
+0208	Dialga Captured
+0209	Palkia Captured
+0591	Cresselia (Fullmoon Island) Disappeared
+0476	Charon (Stark Mountain) Disappeared
 0293	Heatran Battleable
 0288	Heatran Disappeared
-0579	Regigigas disappeared
-0306	EventObj(SpearPillar) Appeared
-0461	Cynthia(SpearPillar) Disappeared
-0672	Cynthia(SendoffSpring) Disappeared
-0592	Giratina disappeared
-0344	Darkrai disappeared
-0301	Oak(R224)#1 disappeared
-0594	Oak(R224)#2 disappeared
-0714	Marley(R224) disappeared
-0604	Shaymin(R224 MapObj) disappeared
-0291	Shaymin(FlowerParadise) disappeared
-0286	Arceus disappeared
-0307	Ferry FullmoonIs. accessable
-0316	Ferry NewmoonIs. accessable
-0578	Oak(EternaCity) disappeared
-0281	Legendary birds roamed#1
-0153	Legendary birds roamed#2
-2404	HOF(TrainerCard Upgrade)
+0579	Regigigas Disappeared
+0306	Hall of Origin (Spear Pillar) Appeared
+0461	Cynthia (Spear Pillar) Disappeared
+0672	Cynthia (Sendoff Spring) Disappeared
+0592	Giratina Disappeared
+0344	Darkrai Disappeared
+0301	Professor Oak (Route 224) #1 Disappeared
+0594	Professor Oak (Route 224) #2 Disappeared
+0714	Marley (Route 224) Disappeared
+0604	Seabreak Path Appeared
+0291	Shaymin (Flower Paradise) Disappeared
+0286	Arceus Disappeared
+0307	Fullmoon Island Ferry Accessable
+0316	Newmoon Island Ferry Accessable
+0578	Professor Oak (Eterna City) Disappeared
+0281	Articuno/Zapdos/Moltres Roamed (1)
+0153	Articuno/Zapdos/Moltres Roamed (2)
+2404	Entered Hall of Fame (Trainer Card Upgrade)
 2408	Cool Contest Master
 2409	Beauty Contest Master
 2410	Cute Contest Master
