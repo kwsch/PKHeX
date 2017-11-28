@@ -1,6 +1,3 @@
-2237	2237
-2238	2238
-2239	2239
 0963	Mewtwo Defeated
 0115	Mewtwo Captured
 0114	Zygarde Captured
@@ -15,5 +12,5 @@
 0292	Super Triples Unlocked
 0293	Super Rotation Unlocked
 0294	Super Multi Unlocked
-0675	50: Beat Chatelaine
+0675	50 Streak: Beat Chatelaine
 2546	Pokédex Obtained

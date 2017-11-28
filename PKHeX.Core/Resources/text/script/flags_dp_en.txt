@@ -1,19 +1,19 @@
-0511	Uxie disappeared
-0509	Mesprit(Verity Cavern) disappeared
-0510	Azelf disappeared
-0621	Cresselia(FullmoonIs.) disappeared
-0288	Heatran disappeared
-0609	Regigigas disappeared
-0622	Giratina disappeared
-0606	Darkrai disappeared
-0623	Shaymin(FlowerParadise) disappeared
-0620	Arceus disappeared
-0286	Arceus(MapObj) disappeared
-0307	Ferry FullmoonIs. accessable
-0316	Ferry NewmoonIs. accessable
-0301	Oak(R224) disappeared
-0634	Shaymin(R224 MapObj) disappeared
-2404	HOF(TrainerCard Upgrade)
+0511	Uxie Disappeared
+0509	Mesprit (Verity Cavern) Disappeared
+0510	Azelf Disappeared
+0621	Cresselia(Fullmoon Island) Disappeared
+0288	Heatran Disappeared
+0609	Regigigas Disappeared
+0622	Giratina Disappeared
+0606	Darkrai Disappeared
+0623	Shaymin (Flower Paradise) Disappeared
+0620	Arceus Disappeared
+0286	Hall of Origin Disappeared
+0307	Fullmoon Island Ferry Accessable
+0316	Newmoon Island Ferry Accessable
+0301	Professor Oak (Route 224) Disappeared
+0634	Shaymin Disappeared
+2404	Entered Hall of Fame (Trainer Card Upgrade)
 2408	Cool Contest Master
 2409	Beauty Contest Master
 2410	Cute Contest Master
