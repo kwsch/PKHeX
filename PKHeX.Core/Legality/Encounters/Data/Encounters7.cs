@@ -60,7 +60,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 728, Level = 5,  Location = 24, }, // Popplio
             new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            // new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
             new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
             new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
             new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
@@ -174,7 +174,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 728, Level = 05, Location = 8, },  // Popplio
             new EncounterStatic { Gift = true, Species = 138, Level = 15, Location = 58, }, // Omanyte
             new EncounterStatic { Gift = true, Species = 140, Level = 15, Location = 58, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
+            // new EncounterStatic { Gift = true, Species = 142, Level = 15, Location = 58, }, // Aerodactyl
             new EncounterStatic { Gift = true, Species = 345, Level = 15, Location = 58, }, // Lileep
             new EncounterStatic { Gift = true, Species = 347, Level = 15, Location = 58, }, // Anorith
             new EncounterStatic { Gift = true, Species = 408, Level = 15, Location = 58, }, // Cranidos
