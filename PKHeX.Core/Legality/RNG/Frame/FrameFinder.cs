@@ -194,7 +194,6 @@ namespace PKHeX.Core
                         yield return info.GetFrame(blockSeed, seed.Charm3 ? LeadRequired.CuteCharm : LeadRequired.None);
 
                     // if no pokeblocks present (or failed call), fall out of the safari specific code and generate via the other scenarios
-                    s = info.RNG.Prev(s); // wasted RNG call
                 }
 
                 var rand = s >> 16;
@@ -217,7 +216,11 @@ namespace PKHeX.Core
                     if (seed.Charm3)
                         yield return info.GetFrame(prev, LeadRequired.CuteCharm);
                     else
+                    {
+                        if (info.Safari3)
+                            prev = pidiv.RNG.Prev(prev); // wasted RNG call
                         yield return info.GetFrame(prev, LeadRequired.None);
+                    }
                 }
             }
         }

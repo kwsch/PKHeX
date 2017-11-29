@@ -6,11 +6,12 @@ namespace PKHeX.Core
     {
         private static readonly Range[] H_OldRod = GetRanges(70, 30);
         private static readonly Range[] H_GoodRod = GetRanges(60, 20, 20);
-        private static readonly Range[] H_SuperRod = GetRanges(40, 30, 15, 10, 5);
+        private static readonly Range[] H_SuperRod = GetRanges(40, 40, 15, 4, 1);
         private static readonly Range[] H_Surf = GetRanges(60, 30, 5, 4, 1);
         private static readonly Range[] H_Regular = GetRanges(20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1);
 
         private static readonly Range[] J_SuperRod = GetRanges(40, 40, 15, 4, 1);
+        private static readonly Range[] K_SuperRod = GetRanges(40, 30, 15, 10, 5);
         private static readonly Range[] K_BCC = GetRanges(5,5,5,5, 10,10,10,10, 20,20).Reverse().ToArray();
         private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
 
@@ -34,11 +35,16 @@ namespace PKHeX.Core
             switch (type)
             {
                 case SlotType.Old_Rod:
+                case SlotType.Old_Rod_Safari:
                     return CalcSlot(ESV, H_OldRod);
                 case SlotType.Good_Rod:
+                case SlotType.Good_Rod_Safari:
                     return CalcSlot(ESV, H_GoodRod);
                 case SlotType.Super_Rod:
+                case SlotType.Super_Rod_Safari:
                     return CalcSlot(ESV, H_SuperRod);
+
+                case SlotType.Rock_Smash:
                 case SlotType.Surf:
                     return CalcSlot(ESV, H_Surf);
                 case SlotType.Swarm:
@@ -57,7 +63,7 @@ namespace PKHeX.Core
                 case SlotType.Super_Rod:
                 case SlotType.Good_Rod:
                 case SlotType.Old_Rod:
-                    return CalcSlot(ESV, H_SuperRod);
+                    return CalcSlot(ESV, K_SuperRod);
                 case SlotType.BugContest:
                     return CalcSlot(ESV, K_BCC);
                 case SlotType.Grass_Safari:

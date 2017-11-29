@@ -35,7 +35,7 @@
                     DPPt = false;
                     FrameType = FrameType.MethodH;
                     RNG = pidiv.RNG;
-                    Safari3 = pk.Ball == 5;
+                    Safari3 = pk.Ball == 5 && !pk.FRLG;
 
                     if (ver != GameVersion.E)
                         return;
