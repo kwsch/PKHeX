@@ -21,8 +21,7 @@ namespace PKHeX.Core
         }
         public override byte[] Write()
         {
-            SetBits(TMHM).CopyTo(Data, 0x28);
-            // setBits(TypeTutors).CopyTo(Data, 0x38);
+            SetBits(TMHM).CopyTo(Data, 0x1C);
             return Data;
         }
 
