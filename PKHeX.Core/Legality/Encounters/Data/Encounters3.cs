@@ -310,7 +310,7 @@ namespace PKHeX.Core
                 Location = 34, // Route 119
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Super_Rod } // Feebas
+                    new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
                 },},
         };
         private static readonly EncounterArea[] SlotsFRLGAlt =
