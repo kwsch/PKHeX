@@ -244,6 +244,7 @@ namespace PKHeX.WinForms
             for (int i = 1; i < CLB_Reward.Items.Count; i++)
                 SAV.SetFestaPrizeReceived(i - 1, r[(int)CLB_Reward.GetItemCheckState(i)]);
 
+            SaveFacility();
             foreach (FestaFacility facility in f)
                 facility.CopyTo(SAV);
 
