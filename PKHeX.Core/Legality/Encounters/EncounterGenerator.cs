@@ -297,7 +297,10 @@ namespace PKHeX.Core
             {
                 if (slots.Any(s => s.EncounterSlot(z.Type, z) == z.SlotNumber))
                     yield return z;
+                else
+                    deferred.Add(z);
             }
+            info.FrameMatches = false;
 
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (safariSport)
@@ -328,7 +331,10 @@ namespace PKHeX.Core
             {
                 if (slots.Any(s => s.EncounterSlot(z.Type, z) == z.SlotNumber))
                     yield return z;
+                else
+                    deferred.Add(z);
             }
+            info.FrameMatches = false;
 
             if (pkm.Version != 15) // no eggs in C/XD
             foreach (var z in GenerateEggs(pkm))
