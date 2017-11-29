@@ -357,17 +357,63 @@ namespace PKHeX.Core
             if (pkm.HGSS)
             {
                 int lang = pkm.Language;
-                if (EncounterMatch.Species == 25 && (lang == 2 || lang == 3)) // EN & FR
-                    lang ^= 1; // toggle for Volty
+                if (EncounterMatch.Species == 25) // Pikachu
+                    lang = DetectTradeLanguageG4SurgePikachu(pkm, lang);
                 VerifyTradeTable(Encounters4.TradeHGSS, Encounters4.TradeGift_HGSS, lang);
             }
-            else
+            else // DPPt
             {
+                int lang = pkm.Language;
                 if (EncounterMatch.Species == 129) // Magikarp
-                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, pkm.Nickname);
-                else
-                    VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt);
+                    lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
+                VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, lang);
             }
+        }
+        private static int DetectTradeLanguageG4MeisterMagikarp(PKM pkm, int lang)
+        {
+            if (lang == (int)LanguageID.English)
+                return (int)LanguageID.German;
+
+            // All have German, regardless of origin version.
+            // Detect which language they originated from... roughly.
+            var table = Encounters4.TradeDPPt;
+            for (int i = 0; i < table.Length; i++)
+            {
+                if (table.Length == 0)
+                    continue;
+                // Nick @ 3, OT @ 7
+                if (table[i][7] != pkm.OT_Name)
+                    continue;
+                lang = i;
+                break;
+            }
+            if (lang == 2) // possible collision with EN/ES/IT. Check nickname
+                return pkm.Nickname == table[4][3] ? (int)LanguageID.Italian : (int)LanguageID.Spanish; // Spanish is same as English
+
+            return lang;
+        }
+        private static int DetectTradeLanguageG4SurgePikachu(PKM pkm, int lang)
+        {
+            if (lang == (int)LanguageID.French)
+                return (int)LanguageID.English;
+            
+            // All have English, regardless of origin version.
+            // Detect which language they originated from... roughly.
+            var table = Encounters4.TradeHGSS;
+            for (int i = 0; i < table.Length; i++)
+            {
+                if (table.Length == 0)
+                    continue;
+                // Nick @ 6, OT @ 18
+                if (table[i][18] != pkm.OT_Name)
+                    continue;
+                lang = i;
+                break;
+            }
+            if (lang == 2) // possible collision with ES/IT. Check nickname
+                return pkm.Nickname == table[4][6] ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
+
+            return lang;
         }
         private void VerifyTrade5()
         {
@@ -410,13 +456,6 @@ namespace PKHeX.Core
         {
             var validOT = language >= ots.Length ? ots[0] : ots[language];
             var index = Array.IndexOf(table, EncounterMatch);
-            VerifyTradeOTNick(validOT, index);
-        }
-        private void VerifyTradeTable(string[][] ots, EncounterTrade[] table, string nickname)
-        {
-            // edge case method for Foppa (DPPt Magikarp Trade)
-            var index = Array.IndexOf(table, EncounterMatch);
-            var validOT = ots.FirstOrDefault(z => index < z.Length && z[index] == nickname);
             VerifyTradeOTNick(validOT, index);
         }
         private void VerifyTradeOTOnly(string[] validOT)
