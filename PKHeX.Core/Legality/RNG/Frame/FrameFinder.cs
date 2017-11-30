@@ -57,6 +57,7 @@ namespace PKHeX.Core
                 var prev = info.RNG.Prev(f.Seed); // ESV
                 var rand = prev >> 16;
                 f.ESV = rand;
+                f.RandLevel = f.Seed >> 16;
                 yield return f;
 
                 // Generate frames for other slots after the regular slots
@@ -147,6 +148,7 @@ namespace PKHeX.Core
                 var rand = f.Seed >> 16;
                 {
                     f.ESV = rand;
+                    f.RandLevel = rand;
                     yield return f;
                 }
 
@@ -171,7 +173,7 @@ namespace PKHeX.Core
                     continue;
 
                 var rand = f.Seed >> 16;
-                yield return info.GetFrame(prev, LeadRequired.StaticMagnet, rand, p16);
+                yield return info.GetFrame(prev, LeadRequired.StaticMagnet, rand, rand);
             }
         }
 

@@ -22,7 +22,7 @@ namespace PKHeX.Core
                 case FrameType.MethodH:
                     return HSlot(type, rand);
                 case FrameType.MethodJ:
-                    return JSlot(type, rand);
+                    return JSlot(type, rand, seed);
                 case FrameType.MethodK:
                     return KSlot(type, rand, seed);
             }
@@ -56,16 +56,18 @@ namespace PKHeX.Core
         private static int KSlot(SlotType type, uint rand, uint seed)
         {
             var ESV = rand % 100;
+            uint prev() => (RNG.LCRNG.Prev(seed) >> 16) % 100;
             switch (type)
             {
+                case SlotType.Rock_Smash:
                 case SlotType.Surf:
-                    return CalcSlot(ESV, H_Surf);
+                    return CalcSlot(prev(), H_Surf);
                 case SlotType.Super_Rod:
                 case SlotType.Good_Rod:
                 case SlotType.Old_Rod:
-                    return CalcSlot(ESV, K_SuperRod);
+                    return CalcSlot(prev(), K_SuperRod);
                 case SlotType.BugContest:
-                    return CalcSlot(ESV, K_BCC);
+                    return CalcSlot(prev(), K_BCC);
                 case SlotType.Grass_Safari:
                 case SlotType.Surf_Safari:
                 case SlotType.Old_Rod_Safari:
@@ -75,22 +77,24 @@ namespace PKHeX.Core
                     return 0; // (int)(rand % 10); /* Block Slot Priority not implemented */
                 case SlotType.Headbutt:
                 case SlotType.Headbutt_Special:
-                    return CalcSlot(ESV, K_Headbutt);
+                    return CalcSlot(prev(), K_Headbutt);
                 default:
                     return CalcSlot(ESV, H_Regular);
             }
         }
-        private static int JSlot(SlotType type, uint rand)
+        private static int JSlot(SlotType type, uint rand, uint seed)
         {
             uint ESV = rand / 656;
+            uint prev() => (RNG.LCRNG.Prev(seed) >> 16) / 656;
             switch (type)
             {
                 case SlotType.Old_Rod:
+                case SlotType.Rock_Smash:
                 case SlotType.Surf:
-                    return CalcSlot(ESV, H_Surf);
+                    return CalcSlot(prev(), H_Surf);
                 case SlotType.Good_Rod:
                 case SlotType.Super_Rod:
-                    return CalcSlot(ESV, J_SuperRod);
+                    return CalcSlot(prev(), J_SuperRod);
                 case SlotType.HoneyTree:
                     return 0;
                 default:
@@ -129,21 +133,54 @@ namespace PKHeX.Core
             return -1;
         }
 
-        public static int GetLevel(EncounterSlot slot, FrameType frameType, LeadRequired seed, uint lvlrand)
+        public static int GetLevel(EncounterSlot slot, LeadRequired lead, uint lvlrand)
         {
-            if (seed == LeadRequired.PressureHustleSpirit)
+            if (lead == LeadRequired.PressureHustleSpirit)
                 return slot.LevelMax;
             if (slot.LevelMin == slot.LevelMax)
                 return slot.LevelMin;
             int delta = slot.LevelMax - slot.LevelMin + 1;
             var adjust = (int)(lvlrand % delta);
 
-            var lvl = slot.LevelMin + adjust;
-            return -1; // lvl; todo
+            return slot.LevelMin + adjust;
         }
-        public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType)
+        public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
+            if (slot.Type.IsSweetScentType())
+                return true;
             return true; // todo
+            return GetCanEncounter(slot, frameType, rand, lead);
+        }
+        private static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+        {
+            int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
+            if (slot.Type.HasFlag(SlotType.Rock_Smash))
+                return proc < 60;
+            if (frameType == FrameType.MethodH)
+                return true; // fishing encounters are disjointed by the hooked message.
+
+            // fishing
+            if (slot.Type.HasFlag(SlotType.Old_Rod))
+            {
+                if (proc < 25)
+                    return true;
+                if (proc < 50)
+                    return lead == LeadRequired.None;
+            }
+            else if (slot.Type.HasFlag(SlotType.Good_Rod))
+            {
+                if (proc < 50)
+                    return true;
+                if (proc < 75 && lead == LeadRequired.None)
+                    return lead == LeadRequired.None;
+            }
+            else if (slot.Type.HasFlag(SlotType.Super_Rod))
+            {
+                if (proc < 75)
+                    return true;
+                return lead == LeadRequired.None; // < 100 always true
+            }
+            return false; // shouldn't hit here
         }
     }
 }

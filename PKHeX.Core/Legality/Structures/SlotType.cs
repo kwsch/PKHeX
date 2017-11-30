@@ -106,5 +106,9 @@ namespace PKHeX.Core
         {
             return t.HasFlag(SlotType.Old_Rod) || t.HasFlag(SlotType.Good_Rod) || t.HasFlag(SlotType.Super_Rod);
         }
+        internal static bool IsSweetScentType(this SlotType t)
+        {
+            return !(t.IsFishingRodType() || t.HasFlag(SlotType.Rock_Smash));
+        }
     }
 }

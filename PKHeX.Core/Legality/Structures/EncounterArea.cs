@@ -408,6 +408,7 @@ namespace PKHeX.Core
                 var slot = baseSlot.Clone();
                 slot.Species = species;
                 slot.Type = t;
+                slot.SlotNumber = i;
                 slots.Add(slot);
             }
             return slots;
@@ -428,6 +429,7 @@ namespace PKHeX.Core
                     LevelMax = data[ofs + 0 + i * 8],
                     LevelMin = data[ofs + 1 + i * 8],
                     Species = Species,
+                    SlotNumber = i,
                     Type = t
                 });
             }
@@ -450,6 +452,7 @@ namespace PKHeX.Core
                     LevelMin = data[ofs + 0 + i * 4],
                     LevelMax = data[ofs + 1 + i * 4],
                     Species = Species,
+                    SlotNumber = i,
                     Type = t
                 });
             }

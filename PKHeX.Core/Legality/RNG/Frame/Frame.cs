@@ -35,7 +35,7 @@
                 return false;
 
             // Check Level Now
-            int lvl = SlotRange.GetLevel(slot, FrameType, Lead, RandLevel);
+            int lvl = SlotRange.GetLevel(slot, Lead, RandLevel);
             if (lvl < 0) { } // todo
             else if (pkm.HasOriginalMetLocation)
             {
@@ -49,7 +49,7 @@
             }
 
             // Check if the slot is actually encounterable (considering Sweet Scent)
-            bool encounterable = SlotRange.GetIsEncounterable(slot, FrameType);
+            bool encounterable = SlotRange.GetIsEncounterable(slot, FrameType, 0, Lead);
             return encounterable;
         }
 
