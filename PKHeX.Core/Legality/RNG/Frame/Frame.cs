@@ -8,11 +8,10 @@
         private readonly FrameType FrameType;
         private readonly RNG RNG;
 
+        public uint RandLevel { get; set; }
         public uint ESV { get; set; }
-        public void SetOriginSeed(int Offset) => OriginSeed = RNG.Reverse(Seed, Offset);
-        public bool LevelSlotModified => Lead > LeadRequired.SynchronizeFail;
 
-        public uint OriginSeed;
+        public bool LevelSlotModified => Lead > LeadRequired.SynchronizeFail;
 
         public Frame(uint seed, FrameType type, RNG rng, LeadRequired lead)
         {
@@ -22,30 +21,78 @@
             RNG = rng;
         }
 
-        public int EncounterSlot(SlotType t, EncounterSlot slot)
+        /// <summary>
+        /// Checks the Encounter Slot for RNG calls before the Nature loop.
+        /// </summary>
+        /// <param name="slot">Slot Data</param>
+        /// <param name="pkm">Ancillary pkm data for determining how to check level.</param>
+        /// <returns>Slot number for this frame & lead value.</returns>
+        public bool IsSlotCompatibile(EncounterSlot slot, PKM pkm)
         {
-            if (Lead == LeadRequired.StaticMagnet)
-            {
-                if (slot.Permissions.MagnetPullIndex >= 0)
-                {
-                    var index = ESV % slot.Permissions.MagnetPullCount;
-                    return index == slot.Permissions.MagnetPullIndex ? slot.SlotNumber : -1;
-                }
+            // Level is before Nature, but usually isn't varied. Check ESV calc first.
+            int s = GetSlot(slot);
+            if (s != slot.SlotNumber)
+                return false;
 
-                if (slot.Permissions.StaticIndex >= 0)
-                {
-                    var index = ESV % slot.Permissions.StaticCount;
-                    return index == slot.Permissions.StaticIndex ? slot.SlotNumber : -1;
-                }
-                return -1;
+            // Check Level Now
+            int lvl = SlotRange.GetLevel(slot, FrameType, Lead, RandLevel);
+            if (lvl < 0) { } // todo
+            else if (pkm.HasOriginalMetLocation)
+            {
+                if (lvl != pkm.Met_Level)
+                    return false;
             }
-            return EncounterSlot(t);
+            else
+            {
+                if (lvl < pkm.Met_Level)
+                    return false;
+            }
+
+            // Check if the slot is actually encounterable (considering Sweet Scent)
+            bool encounterable = SlotRange.GetIsEncounterable(slot, FrameType);
+            return encounterable;
         }
+
+        /// <summary>
+        /// Gets the slot value for the input slot.
+        /// </summary>
+        /// <param name="slot">Slot Data</param>
+        /// <returns>Slot number for this frame & lead value.</returns>
+        private int GetSlot(EncounterSlot slot)
+        {
+            // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
+            return Lead != LeadRequired.StaticMagnet 
+                ? GetSlot(slot.Type) 
+                : GetSlotStaticMagnet(slot);
+        }
+
+        /// <summary>
+        /// Checks both Static and Magnet Pull ability type selection encounters to see if the encounter can be selected.
+        /// </summary>
+        /// <param name="slot">Slot Data</param>
+        /// <returns>Slot number from the slot data if the slot is selected on this frame, else an invalid slot value.</returns>
+        private int GetSlotStaticMagnet(EncounterSlot slot)
+        {
+            if (slot.Permissions.StaticIndex >= 0)
+            {
+                var index = ESV % slot.Permissions.StaticCount;
+                if (index == slot.Permissions.StaticIndex)
+                    return slot.SlotNumber;
+            }
+            if (slot.Permissions.MagnetPullIndex >= 0)
+            {
+                var index = ESV % slot.Permissions.MagnetPullCount;
+                if (index == slot.Permissions.MagnetPullIndex)
+                    return slot.SlotNumber;
+            }
+            return -1;
+        }
+
         /// <summary>
         /// Only use this for test methods.
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public int EncounterSlot(SlotType t) => SlotRange.GetSlot(t, ESV, FrameType, Seed);
+        public int GetSlot(SlotType t) => SlotRange.GetSlot(t, ESV, FrameType, Seed);
     }
 }

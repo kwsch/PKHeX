@@ -129,12 +129,21 @@ namespace PKHeX.Core
             return -1;
         }
 
-        private static Range[] Reverse(Range[] r)
+        public static int GetLevel(EncounterSlot slot, FrameType frameType, LeadRequired seed, uint lvlrand)
         {
-            var arr = new Range[r.Length];
-            for (int i = 0; i < arr.Length; ++i)
-                arr[i] = r[r.Length - 1 - i];
-            return arr;
+            if (seed == LeadRequired.PressureHustleSpirit)
+                return slot.LevelMax;
+            if (slot.LevelMin == slot.LevelMax)
+                return slot.LevelMin;
+            int delta = slot.LevelMax - slot.LevelMin + 1;
+            var adjust = (int)(lvlrand % delta);
+
+            var lvl = slot.LevelMin + adjust;
+            return -1; // lvl; todo
+        }
+        public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType)
+        {
+            return true; // todo
         }
     }
 }
