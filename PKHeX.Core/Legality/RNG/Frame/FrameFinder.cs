@@ -21,7 +21,9 @@ namespace PKHeX.Core
             info.Nature = pk.EncryptionConstant % 25;
 
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
-            IEnumerable<SeedInfo> seeds = SeedInfo.GetSeedsUntilNature(pidiv, info);
+            var seeds = pk.Species == 201 && pk.FRLG // reversed await case
+                ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.AltForm)
+                : SeedInfo.GetSeedsUntilNature(pidiv, info);
 
             var frames = pidiv.Type == PIDType.CuteCharm 
                 ? FilterCuteCharm(seeds, pidiv, info) 
