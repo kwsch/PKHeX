@@ -747,6 +747,7 @@ namespace PKHeX.WinForms
             {069, "Items Reeled In"},
             // USUM
             {070, "Roto Lotos"},
+            {072, "Stickers Collected"},
             {073, "Mantine Surf BP Earned"},
             {074, "Battle Agency Wins"},
 

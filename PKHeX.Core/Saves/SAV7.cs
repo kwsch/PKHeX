@@ -612,6 +612,11 @@ namespace PKHeX.Core
             get => Data[Misc + 0x130] & 0x1F;
             set => Data[Misc + 0x130] = (byte)((Data[Misc + 0x130] & ~0x1F) | (value & 0x1F));
         }
+        public uint StarterEncryptionConstant
+        {
+            get => BitConverter.ToUInt32(Data, Misc + 0x148);
+            set => SetData(BitConverter.GetBytes(value), Misc + 0x148);
+        }
         public int DaysFromRefreshed
         {
             get => Data[Misc + 0x123];
