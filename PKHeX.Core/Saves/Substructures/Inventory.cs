@@ -246,30 +246,27 @@ namespace PKHeX.Core
 
         public void SortByCount(bool reverse = false)
         {
-            if (reverse)
-                Items = Items.Where(item => item.Index != 0).OrderBy(item => item.Count)
-                        .Concat(Items.Where(item => item.Index == 0)).ToArray();
-            else
-                Items = Items.Where(item => item.Index != 0).OrderByDescending(item => item.Count)
-                        .Concat(Items.Where(item => item.Index == 0)).ToArray();
+            var list = Items.Where(item => item.Index != 0).OrderBy(item => item.Count == 0);
+            list = reverse
+                ? list.ThenByDescending(item => item.Count)
+                : list.ThenBy(item => item.Count);
+            Items = list.Concat(Items.Where(item => item.Index == 0)).ToArray();
         }
         public void SortByIndex(bool reverse = false)
         {
-            if (reverse)
-                Items = Items.Where(item => item.Index != 0).OrderByDescending(item => item.Index)
-                    .Concat(Items.Where(item => item.Index == 0)).ToArray();
-            else
-                Items = Items.Where(item => item.Index != 0).OrderBy(item => item.Index)
-                    .Concat(Items.Where(item => item.Index == 0)).ToArray();
+            var list = Items.Where(item => item.Index != 0).OrderBy(item => item.Count == 0);
+            list = reverse
+                ? list.ThenByDescending(item => item.Index)
+                : list.ThenBy(item => item.Index);
+            Items = list.Concat(Items.Where(item => item.Index == 0)).ToArray();
         }
         public void SortByName(string[] names, bool reverse = false)
         {
-            if (reverse)
-                Items = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderByDescending(item => names[item.Index])
-                        .Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
-            else
-                Items = Items.Where(item => item.Index != 0).OrderBy(item => names[item.Index])
-                        .Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
+            var list = Items.Where(item => item.Index != 0 && item.Index < names.Length).OrderBy(item => item.Count == 0);
+            list = reverse 
+                ? list.ThenByDescending(item => names[item.Index]) 
+                : list.ThenBy(item => names[item.Index]);
+            Items = list.Concat(Items.Where(item => item.Index == 0 || item.Index >= names.Length)).ToArray();
         }
 
         public void Sanitize(bool HaX, int MaxItemID)
