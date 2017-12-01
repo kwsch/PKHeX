@@ -48,11 +48,7 @@ namespace PKHeX.Core
             MarkG3SlotsSafariZones(ref FR_Slots, SafariLocation_FRLG);
             MarkG3SlotsSafariZones(ref LG_Slots, SafariLocation_FRLG);
 
-            MarkEncountersStaticMagnetPull(ref R_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref S_Slots, PersonalTable.SM);
             MarkEncountersStaticMagnetPull(ref E_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref FR_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref LG_Slots, PersonalTable.SM);
 
             SlotsR = AddExtraTableSlots(R_Slots, SlotsRSEAlt);
             SlotsS = AddExtraTableSlots(S_Slots, SlotsRSEAlt);

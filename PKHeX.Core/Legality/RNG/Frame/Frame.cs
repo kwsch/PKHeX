@@ -36,8 +36,7 @@
 
             // Check Level Now
             int lvl = SlotRange.GetLevel(slot, Lead, RandLevel);
-            if (lvl < 0) { } // todo
-            else if (pkm.HasOriginalMetLocation)
+            if (pkm.HasOriginalMetLocation)
             {
                 if (lvl != pkm.Met_Level)
                     return false;

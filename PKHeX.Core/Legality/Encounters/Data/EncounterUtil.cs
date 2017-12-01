@@ -82,10 +82,11 @@ namespace PKHeX.Core
             const int steel = (int)MoveType.Steel;
             const int electric = (int)MoveType.Electric;
             foreach (EncounterArea Area in Areas)
+            foreach (var grp in Area.Slots.GroupBy(z => z.Type))
             {
                 var s = new List<EncounterSlot>(); // Static
                 var m = new List<EncounterSlot>(); // Magnet Pull
-                foreach (EncounterSlot Slot in Area.Slots)
+                foreach (EncounterSlot Slot in grp)
                 {
                     var types = t[Slot.Species].Types;
                     if (types[0] == steel || types[1] == steel)
