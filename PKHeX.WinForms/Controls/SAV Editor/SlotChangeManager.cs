@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -48,7 +47,7 @@ namespace PKHeX.WinForms.Controls
             if (pb.Image == null)
                 return;
             OriginalBackground = pb.BackgroundImage;
-            pb.BackgroundImage = CurrentBackground = Resources.slotHover;
+            pb.BackgroundImage = CurrentBackground = pb.BackgroundImage == null ? Resources.slotHover : ImageUtil.LayerImage(pb.BackgroundImage, Resources.slotHover, 0, 0, 1);
             if (!DragActive)
                 SetCursor(Cursors.Hand, sender);
         }
