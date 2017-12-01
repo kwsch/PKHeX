@@ -551,9 +551,10 @@ namespace PKHeX.Core
                     return;
                 }
             }
-            if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
+            if (EncounterMatch is EncounterSlot w)
             {
-                if (pkm.IVs.Count(iv => iv == 31) < 2)
+                bool force2 = w.Type == SlotType.FriendSafari || pkm.Gen7 && pkm.AbilityNumber == 4;
+                if (force2 && pkm.IVs.Count(iv => iv == 31) < 2)
                 {
                     AddLine(Severity.Invalid, V29, CheckIdentifier.IVs);
                     return;
