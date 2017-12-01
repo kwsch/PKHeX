@@ -169,11 +169,8 @@ namespace PKHeX.Core
 
                 // Slot Modifiers before ESV
                 var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
-                if (!force)
-                    continue;
-
                 var rand = f.Seed >> 16;
-                yield return info.GetFrame(prev, LeadRequired.StaticMagnet, rand, rand);
+                yield return info.GetFrame(prev, force ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail, rand, rand);
             }
         }
 

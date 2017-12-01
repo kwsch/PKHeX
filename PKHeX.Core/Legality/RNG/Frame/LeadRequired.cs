@@ -10,6 +10,7 @@
 
         // Slot Modifiers
         StaticMagnet,
+        StaticMagnetFail,
 
         // Level Modifiers
         IntimidateKeenEye, // Keen Eye
