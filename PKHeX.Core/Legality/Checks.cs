@@ -366,6 +366,12 @@ namespace PKHeX.Core
                 int lang = pkm.Language;
                 if (EncounterMatch.Species == 129) // Magikarp
                     lang = DetectTradeLanguageG4MeisterMagikarp(pkm, lang);
+                else if (!pkm.Pt && lang == 1) // DP English origin are Japanese lang
+                {
+                    int index = Array.IndexOf(Encounters4.TradeGift_DPPt, EncounterMatch);
+                    if (Encounters4.TradeDPPt[1][index] != pkm.Nickname) // not japanese
+                        lang = 2; // English
+                }
                 VerifyTradeTable(Encounters4.TradeDPPt, Encounters4.TradeGift_DPPt, lang);
             }
         }
@@ -379,7 +385,7 @@ namespace PKHeX.Core
             var table = Encounters4.TradeDPPt;
             for (int i = 0; i < table.Length; i++)
             {
-                if (table.Length == 0)
+                if (table[i].Length == 0)
                     continue;
                 // Nick @ 3, OT @ 7
                 if (table[i][7] != pkm.OT_Name)
@@ -402,7 +408,7 @@ namespace PKHeX.Core
             var table = Encounters4.TradeHGSS;
             for (int i = 0; i < table.Length; i++)
             {
-                if (table.Length == 0)
+                if (table[i].Length == 0)
                     continue;
                 // Nick @ 6, OT @ 18
                 if (table[i][18] != pkm.OT_Name)
