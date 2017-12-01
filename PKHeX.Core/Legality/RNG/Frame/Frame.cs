@@ -43,7 +43,7 @@
             }
             else
             {
-                if (lvl < pkm.Met_Level)
+                if (lvl > pkm.Met_Level)
                     return false;
             }
 
