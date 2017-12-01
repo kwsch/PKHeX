@@ -45,8 +45,11 @@ namespace PKHeX.Core
                     return CalcSlot(ESV, H_SuperRod);
 
                 case SlotType.Rock_Smash:
+                case SlotType.Rock_Smash_Safari:
                 case SlotType.Surf:
+                case SlotType.Surf_Safari:
                     return CalcSlot(ESV, H_Surf);
+
                 case SlotType.Swarm:
                     return ESV < 50 ? 0 : -1;
                 default:
