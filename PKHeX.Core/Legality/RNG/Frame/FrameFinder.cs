@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -13,10 +14,10 @@ namespace PKHeX.Core
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
             if (pidiv.RNG == null)
-                yield break;
+                return Enumerable.Empty<Frame>();
             FrameGenerator info = new FrameGenerator(pidiv, pk);
             if (info.FrameType == FrameType.None)
-                yield break;
+                return Enumerable.Empty<Frame>();
 
             info.Nature = pk.EncryptionConstant % 25;
 
@@ -30,8 +31,9 @@ namespace PKHeX.Core
                 : FilterNatureSync(seeds, pidiv, info);
 
             var refined = RefineFrames(frames, info);
-            foreach (var z in refined)
-                yield return z;
+            if (pk.Gen4 && pidiv.Type == PIDType.CuteCharm) // only permit cute charm successful frames
+                return refined.Where(z => (z.Lead & ~LeadRequired.UsesLevelCall) == LeadRequired.CuteCharm);
+            return refined;
         }
 
         private static IEnumerable<Frame> RefineFrames(IEnumerable<Frame> frames, FrameGenerator info)
@@ -105,6 +107,8 @@ namespace PKHeX.Core
                 lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
                 yield return info.GetFrame(prev2, lead, p2, p1, prev3);
             }
+            if (f.Lead == LeadRequired.CuteCharm)
+                yield break;
 
             // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
             // -2 ESV
@@ -149,9 +153,15 @@ namespace PKHeX.Core
                 // Current Seed of the frame is the ESV.
                 var rand = f.Seed >> 16;
                 f.RandESV = rand;
-                f.RandLevel = rand;
+                f.RandLevel = rand; // unused
                 f.OriginSeed = info.RNG.Prev(f.Seed);
                 yield return f;
+
+                // Create a copy for level; shift ESV and origin back
+                var esv = f.OriginSeed;
+                var origin = info.RNG.Prev(f.OriginSeed);
+                var withLevel = info.GetFrame(f.Seed, f.Lead | LeadRequired.UsesLevelCall, esv, f.RandLevel, origin);
+                yield return withLevel;
 
                 if (f.Lead != LeadRequired.None)
                     continue;
@@ -161,19 +171,81 @@ namespace PKHeX.Core
             }
             foreach (var f in list)
             {
-                // Level Modifiers between ESV and Nature
-                var prev = info.RNG.Prev(f.Seed);
-                var p3 = info.RNG.Prev(prev);
-                var p16 = prev >> 16;
-
-                yield return info.GetFrame(prev, LeadRequired.IntimidateKeenEye, p16, p3);
-                yield return info.GetFrame(prev, LeadRequired.PressureHustleSpirit, p16, p3);
-
-                // Slot Modifiers before ESV
-                var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
-                var rand = f.Seed >> 16;
-                yield return info.GetFrame(prev, force ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail, rand, p3);
+                var leadframes = GenerateLeadSpecificFrames4(f, info);
+                foreach (var frame in leadframes)
+                    yield return frame;
             }
+        }
+        private static IEnumerable<Frame> GenerateLeadSpecificFrames4(Frame f, FrameGenerator info)
+        {
+            LeadRequired lead;
+            var prev0 = f.Seed; // 0
+            var prev1 = info.RNG.Prev(f.Seed); // -1 
+            var prev2 = info.RNG.Prev(prev1); // -2
+            var prev3 = info.RNG.Prev(prev2); // -3
+
+            // Rand call raw values
+            var p0 = prev0 >> 16;
+            var p1 = prev1 >> 16;
+            var p2 = prev2 >> 16;
+
+            // Cute Charm
+            // -2 ESV
+            // -1 Level (Optional)
+            //  0 CC Proc (Random() % 3 != 0)
+            //  1 Nature
+            if (info.Gendered)
+            {
+                bool cc = p0 % 3 != 0;
+                if (f.Lead == LeadRequired.CuteCharm) // 100% required for frame base
+                {
+                    if (!cc) yield break;
+                    yield return info.GetFrame(prev2, LeadRequired.CuteCharm, p1, p1, prev2);
+                    yield return info.GetFrame(prev2, LeadRequired.CuteCharm | LeadRequired.UsesLevelCall, p2, p1, prev3);
+                    yield break;
+                }
+                lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
+                yield return info.GetFrame(prev2, lead, p1, p1, prev2);
+                yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
+            }
+            if (f.Lead == LeadRequired.CuteCharm)
+                yield break;
+
+            // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
+            // -2 ESV
+            // -1 Level (Optional)
+            //  0 LevelMax proc (Random() & 1)
+            //  1 Nature
+            bool max = p0 % 2 == 1;
+            lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
+            yield return info.GetFrame(prev2, lead, p1, p1, prev2);
+            yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
+
+            // Keen Eye, Intimidate
+            // -2 ESV
+            // -1 Level (Optional)
+            //  0 Level Adequate Check !(Random() % 2 == 1) rejects --  rand%2==1 is adequate
+            //  1 Nature
+            // Note: if this check fails, the encounter generation routine is aborted.
+            if (max) // same result as above, no need to recalculate
+            {
+                lead = LeadRequired.IntimidateKeenEye;
+                yield return info.GetFrame(prev2, lead, p1, p1, prev2);
+                yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
+            }
+
+            // Static or Magnet Pull
+            // -2 SlotProc (Random % 2 == 0)
+            // -1 ESV (select slot)
+            //  0 Level (Optional)
+            //  1 Nature
+            var force1 = (info.DPPt ? p1 >> 15 : p1 & 1) == 1;
+            lead = force1 ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail;
+            yield return info.GetFrame(prev2, lead, p0, p0, prev3);
+
+            var force2 = (info.DPPt ? p2 >> 15 : p2 & 1) == 1;
+            lead = (force2 ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail) | LeadRequired.UsesLevelCall;
+            yield return info.GetFrame(prev2, lead, p1, p0, prev3);
         }
 
         /// <summary>

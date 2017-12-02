@@ -17,7 +17,8 @@ namespace PKHeX.Core
         PressureHustleSpirit = 1 << 4,
         SuctionCups = 1 << 5,
 
-        NoLevelCall = 1 << 6,
+        // Compatibility Flags
+        UsesLevelCall = 1 << 6,
         Fail = 1 << 7,
 
         CuteCharmFail = CuteCharm | Fail,
@@ -25,7 +26,7 @@ namespace PKHeX.Core
         StaticMagnetFail = StaticMagnet | Fail,
         PressureHustleSpiritFail = PressureHustleSpirit | Fail,
 
-        AllFlags = NoLevelCall | Fail,
+        AllFlags = UsesLevelCall | Fail,
         NoFlags = ~AllFlags,
     }
 

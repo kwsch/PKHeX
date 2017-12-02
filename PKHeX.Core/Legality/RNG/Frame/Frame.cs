@@ -2,15 +2,28 @@
 {
     public class Frame
     {
+        /// <summary>
+        /// Ending seed value for the frame (prior to nature call).
+        /// </summary>
         public readonly uint Seed;
         public readonly LeadRequired Lead;
 
         private readonly FrameType FrameType;
         private readonly RNG RNG;
 
-        public uint RandLevel { get; set; }
-        public uint RandESV { get; set; }
+        /// <summary>
+        /// Starting seed for the frame (to generate the frame).
+        /// </summary>
         public uint OriginSeed { get; set; }
+
+        /// <summary>
+        /// RNG Call Value for the Level Calc
+        /// </summary>
+        public uint RandLevel { get; set; }
+        /// <summary>
+        /// RNG Call Value for the Encounter Slot Calc
+        /// </summary>
+        public uint RandESV { get; set; }
 
         public bool LevelSlotModified => Lead.IsLevelOrSlotModified();
 
@@ -30,6 +43,13 @@
         /// <returns>Slot number for this frame & lead value.</returns>
         public bool IsSlotCompatibile(EncounterSlot slot, PKM pkm)
         {
+            bool usesLevel = !slot.FixedLevel;
+            if (FrameType != FrameType.MethodH)
+            {
+                if (Lead.HasFlag(LeadRequired.UsesLevelCall) != usesLevel)
+                    return false;
+            }
+
             // Level is before Nature, but usually isn't varied. Check ESV calc first.
             int s = GetSlot(slot);
             if (s != slot.SlotNumber)
