@@ -75,18 +75,18 @@ Label_SubRegion = 地域:
 Label_3DSRegion = 3DS地域:
 ---------------------Met Tab Data-----------------------
 Tab_Met = 出会い
-Label_OriginGame = 出身地
+Label_OriginGame = バージョン
 Label_MetLocation = 場所
 Label_Ball = ボール
 Label_MetLevel = レベル
-Label_MetDate = 日
-Label_EncounterType = 種類
+Label_MetDate = 出会った日
+Label_EncounterType = 出会いの種類
 CHK_Fateful = うんめいてきなであい
 ---------------------Egg Met Data-----------------------
-CHK_AsEgg = タマゴとして
-GB_EggConditions = タマゴの孵化条件
+CHK_AsEgg = タマゴとして孵った
+GB_EggConditions = タマゴのデータ
 Label_EggLocation = 貰った場所
-Label_EggDate = 孵化した日
+Label_EggDate = 貰った日
 --------------------Stats Tab Data----------------------
 Tab_Stats = 統計
 Label_IVs = 個体値
@@ -113,10 +113,10 @@ Label_Tough = たくましさ
 Label_Sheen = けづや
 -------------------Attacks Tab Data---------------------
 Tab_Attacks = わざ
-GB_CurrentMoves = わざ
+GB_CurrentMoves = 覚えているわざ
 Label_CurPP = PP
 Label_PPups = PU回数
-GB_RelearnMoves = 学び直すわざ
+GB_RelearnMoves = 遺伝わざ
 -------------------OT/Misc Tab Data---------------------
 Tab_OTMisc = 親など
 GB_OT = トレーナー情報
@@ -129,7 +129,7 @@ GB_ExtraBytes = 余分なバイト
 GB_Markings = マーキング
 BTN_Ribbons = リボン
 BTN_Medals = スーパートレーニング
-BTN_History = メモリ
+BTN_History = メモリー
 Label_EncryptionConstant = 暗号化定数
 BTN_RerollEC = 新規
 -----------------Save Data Interface--------------------
@@ -138,6 +138,7 @@ Tab_PartyBattle = 手持ちポケモン
 Tab_Other = その他
 Tab_SAV = SAV
 B_OpenPokePuffs = ‎ポフレ
+B_OpenPokeBeans = ポケマメ
 B_OpenItemPouch = アイテム
 B_OpenTrainerInfo = トレーナー情報
 B_OpenBoxLayout = ボックス
@@ -147,21 +148,35 @@ B_OpenOPowers =  Oパワー
 B_OpenEventFlags = イベントフラグ
 B_OpenPokedex = ポケモン図鑑
 B_OpenSuperTraining = スパトレ
+B_OpenPokeBlocks = ポロック
+B_OpenLinkInfo = ポケモンリンク
+B_FestivalPlaza = フェスサークル
+B_CellsStickers = ヌシール/セル
 --
-B_OpenSecretBase = Secret Base
+B_OpenSecretBase = ひみつきち
+B_CGearSkin = Cギア スキン
+B_OpenFriendSafari = フレンドサファリ
+B_OpenHoneyTreeEditor = ミツの木
+B_OpenRTCEditor = 時刻
+B_Roamer = 徘徊ポケモン
+--
+L_ShinyLeaf = かがやくはっぱ
+L_MetTimeOfDay = 出会った時間
+B_OpenMiscEditor = その他
 --------------------Tab Internals-----------------------
 L_Party = 手持ちポケモン
 L_BattleBox = バトルボックス
+L_ReadOnlyPBB = 読み取り専用
 GB_Daycare = 育て屋 
 GB_GTS = GTS
-GB_Fused = ヒューズ
-GB_SUBE = オールド·マン
+GB_Fused = Fused
+GB_SUBE = OldMan
 DayCare_HasEgg = タマゴがある状態
 L_DaycareSeed = シード値
 L_ReadOnlyOther = このタブは読み取り専用です
 B_JPEG = PGL 画像保存
 B_OpenHallofFame = 殿堂入り
-B_OUTPasserby = 通りすがり
+B_OUTPasserby = すれちがい
 B_VerifyCHK = チェックサム
 B_SaveBoxBin = ボックスの書き出し
 L_GameSync = ゲームシンク ID:
@@ -173,8 +188,8 @@ L_Secure2 = Secure Value 2:
 ! RibbonEditor = Ribbon Editor
 - Change stuff below this line, not above.
 ----------------------Buttons--------------------------
-BTN_All = すべてを許可する
-BTN_None = すべての取り外し
+BTN_All = 全て取得
+BTN_None = 全て消去
 BTN_Cancel = キャンセル
 BTN_Save = 保存
 ! -----------------------------------------------------
@@ -230,20 +245,20 @@ L_Hits = Hits Remaining:
 ---------------------Bottom UI-------------------------
 BTN_Cancel = キャンセル
 BTN_Save = 保存
-L_Handler = 現在のハンドラ
+L_Handler = 現在のおや
 L_Fullness = 豊かさ
 L_Enjoyment = 楽しみ
 -
 Tab_OTMemory = 現在の思い出
 L_OT_Friendship = なつき度
 L_OT_Affection = 仲の良さ
-L_OT_TextLine = メモリタイプ
-L_OT_Quality = 強度
-L_OT_Feeling = 気持ち
+L_OT_TextLine = 思い出のタイプ
+L_OT_Quality = 気持ちの強さ
+L_OT_Feeling = 気持ち2
 Tab_CTMemory = 以前の思い出
 L_CT_Friendship = なつき度
-L_cT_Affection = あい
-L_CT_TextLine = メモリータイプ
+L_CT_Affection = 愛情
+L_CT_TextLine = 思い出のタイプ
 L_CT_Quality = 気持ちの強さ
 L_CT_Feeling = 気持ち
 Tab_Residence = ロケーション
@@ -256,7 +271,7 @@ L_Geo4 = 履歴 4
 L_Region = 地域
 L_Country = 国
 --
-L_Arguments = 使用禁止 ; 左はありませんでした ; OT ; 前回のゲーム ; との思い出 ; ポケモン ; エリア ; 項目 ; わざ ; 場所 ;
+L_Arguments = 使用禁止 ; 左はありませんでした ; OT ; 前回のゲーム ; おもいで ; ポケモン ; エリア ; 項目 ; わざ ; 場所 ;
 ! End
 ! -----------------------------------------------------
 - DO NOT CHANGE THIS SECTION.
@@ -264,7 +279,7 @@ L_Arguments = 使用禁止 ; 左はありませんでした ; OT ; 前回のゲ�
 - Change stuff below this line, not above.
 -------------------------------------------------------
 L_ProvideInfo = Please provide this information when reporting this error: 
-B_CopyToClipboard = Copy to Clipboard
-B_Continue = Continue
-B_Abort = Abort
+B_CopyToClipboard = クリップボードにコピー
+B_Continue = 続ける
+B_Abort = キャンセル
 ! End

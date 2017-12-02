@@ -294,6 +294,7 @@
     <None Remove="Resources\text\fr\text_xy_40000_fr.txt" />
     <None Remove="Resources\text\fr\text_xy_60000_fr.txt" />
     <None Remove="Resources\text\gen3\text_cxd_00000_en.txt" />
+    <None Remove="Resources\text\gen3\text_cxd_00000_es.txt" />
     <None Remove="Resources\text\gen3\text_gsc_00000_en.txt" />
     <None Remove="Resources\text\gen3\text_gsc_00000_es.txt" />
     <None Remove="Resources\text\gen3\text_gsc_00000_zh.txt" />
@@ -598,6 +599,7 @@
     <None Remove="Resources\text\script\const_rs_en.txt" />
     <None Remove="Resources\text\script\const_sm_en.txt" />
     <None Remove="Resources\text\script\const_usum_en.txt" />
+    <None Remove="Resources\text\script\const_usum_ja.txt" />
     <None Remove="Resources\text\script\flags_b2w2_en.txt" />
     <None Remove="Resources\text\script\flags_bw_en.txt" />
     <None Remove="Resources\text\script\flags_dp_en.txt" />
@@ -608,9 +610,12 @@
     <None Remove="Resources\text\script\flags_pt_en.txt" />
     <None Remove="Resources\text\script\flags_rs_en.txt" />
     <None Remove="Resources\text\script\flags_sm_en.txt" />
+    <None Remove="Resources\text\script\flags_sm_ja.txt" />
     <None Remove="Resources\text\script\flags_usum_en.txt" />
+    <None Remove="Resources\text\script\flags_usum_ja.txt" />
     <None Remove="Resources\text\script\flags_xy_en.txt" />
     <None Remove="Resources\text\script\flags_c_en.txt" />
+    <None Remove="Resources\text\script\flags_c_ja.txt" />
     <None Remove="Resources\text\zh\lang_zh.txt" />
     <None Remove="Resources\text\zh\LegalityCheckStrings_zh.txt" />
     <None Remove="Resources\text\zh\text_Abilities_zh.txt" />
@@ -940,6 +945,7 @@
     <EmbeddedResource Include="Resources\text\fr\text_xy_40000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_xy_60000_fr.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_cxd_00000_en.txt" />
+    <EmbeddedResource Include="Resources\text\gen3\text_cxd_00000_es.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_gsc_00000_en.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_gsc_00000_es.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_gsc_00000_zh.txt" />
@@ -1244,6 +1250,7 @@
     <EmbeddedResource Include="Resources\text\script\const_rs_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_sm_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_usum_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_bw_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_dp_en.txt" />
@@ -1254,9 +1261,12 @@
     <EmbeddedResource Include="Resources\text\script\flags_pt_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_rs_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_sm_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_sm_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_usum_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_usum_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_xy_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_c_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_c_ja.txt" />
     <EmbeddedResource Include="Resources\text\zh\lang_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\LegalityCheckStrings_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Abilities_zh.txt" />
