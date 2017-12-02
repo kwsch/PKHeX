@@ -119,7 +119,7 @@ namespace PKHeX.Core
             lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
             yield return info.GetFrame(prev2, lead, p2, p1, prev3);
 
-            // Keen Eye, Intimidate
+            // Keen Eye, Intimidate (Not compatible with Sweet Scent)
             // -2 ESV
             // -1 Level
             //  0 Level Adequate Check !(Random() % 2 == 1) rejects --  rand%2==1 is adequate
@@ -196,7 +196,7 @@ namespace PKHeX.Core
             //  1 Nature
             if (info.Gendered)
             {
-                bool cc = p0 % 3 != 0;
+                bool cc = (info.DPPt ? p0 / 0x5556 : p0 % 3) != 0;
                 if (f.Lead == LeadRequired.CuteCharm) // 100% required for frame base
                 {
                     if (!cc) yield break;
@@ -216,12 +216,12 @@ namespace PKHeX.Core
             // -1 Level (Optional)
             //  0 LevelMax proc (Random() & 1)
             //  1 Nature
-            bool max = p0 % 2 == 1;
+            bool max = (info.DPPt ? p0 >> 15 : p0 & 1) == 1;
             lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
             yield return info.GetFrame(prev2, lead, p1, p1, prev2);
             yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
 
-            // Keen Eye, Intimidate
+            // Keen Eye, Intimidate (Not compatible with Sweet Scent)
             // -2 ESV
             // -1 Level (Optional)
             //  0 Level Adequate Check !(Random() % 2 == 1) rejects --  rand%2==1 is adequate
