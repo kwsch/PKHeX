@@ -35,6 +35,7 @@
         internal EncounterArea Area { get; set; }
         public int Location => Area.Location;
         public EncounterSlot Clone() => (EncounterSlot)MemberwiseClone();
+        public bool FixedLevel => LevelMin == LevelMax;
 
         public string Name
         {

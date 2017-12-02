@@ -56,7 +56,7 @@ namespace PKHeX.Core
 
                 var prev = info.RNG.Prev(f.Seed); // ESV
                 var rand = prev >> 16;
-                f.ESV = rand;
+                f.RandESV = rand;
                 f.RandLevel = f.Seed >> 16;
                 yield return f;
 
@@ -80,6 +80,7 @@ namespace PKHeX.Core
             var prev0 = f.Seed; // 0
             var prev1 = info.RNG.Prev(f.Seed); // -1 
             var prev2 = info.RNG.Prev(prev1); // -2
+            var prev3 = info.RNG.Prev(prev2); // -3
 
             // Rand call raw values
             var p0 = prev0 >> 16;
@@ -97,11 +98,11 @@ namespace PKHeX.Core
                 if (f.Lead == LeadRequired.CuteCharm) // 100% required for frame base
                 {
                     if (cc)
-                        yield return info.GetFrame(prev2, LeadRequired.CuteCharm, p2, p1);
+                        yield return info.GetFrame(prev2, LeadRequired.CuteCharm, p2, p1, prev3);
                     yield break;
                 }
                 lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
-                yield return info.GetFrame(prev2, lead, p2, p1);
+                yield return info.GetFrame(prev2, lead, p2, p1, prev3);
             }
 
             // Pressure, Hustle, Vital Spirit = Force Maximum Level from slot
@@ -111,7 +112,7 @@ namespace PKHeX.Core
             //  1 Nature
             bool max = p0 % 2 == 1;
             lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
-            yield return info.GetFrame(prev2, lead, p2, p1);
+            yield return info.GetFrame(prev2, lead, p2, p1, prev3);
 
             // Keen Eye, Intimidate
             // -2 ESV
@@ -122,7 +123,7 @@ namespace PKHeX.Core
             if (max) // same result as above, no need to recalculate
             {
                 lead = LeadRequired.IntimidateKeenEye;
-                yield return info.GetFrame(prev2, lead, p2, p1);
+                yield return info.GetFrame(prev2, lead, p2, p1, prev3);
             }
 
             // Static or Magnet Pull
@@ -135,7 +136,7 @@ namespace PKHeX.Core
             {
                 // Since a failed proc is indistinguishable from the default frame calls, only generate if it succeeds.
                 lead = LeadRequired.StaticMagnet;
-                yield return info.GetFrame(prev2, lead, p1, p0);
+                yield return info.GetFrame(prev2, lead, p1, p0, prev3);
             }
         }
 
@@ -146,11 +147,10 @@ namespace PKHeX.Core
             {
                 // Current Seed of the frame is the ESV.
                 var rand = f.Seed >> 16;
-                {
-                    f.ESV = rand;
-                    f.RandLevel = rand;
-                    yield return f;
-                }
+                f.RandESV = rand;
+                f.RandLevel = rand;
+                f.OriginSeed = info.RNG.Prev(f.Seed);
+                yield return f;
 
                 if (f.Lead != LeadRequired.None)
                     continue;
@@ -162,15 +162,16 @@ namespace PKHeX.Core
             {
                 // Level Modifiers between ESV and Nature
                 var prev = info.RNG.Prev(f.Seed);
+                var p3 = info.RNG.Prev(prev);
                 var p16 = prev >> 16;
 
-                yield return info.GetFrame(prev, LeadRequired.IntimidateKeenEye, p16, p16);
-                yield return info.GetFrame(prev, LeadRequired.PressureHustleSpirit, p16, p16);
+                yield return info.GetFrame(prev, LeadRequired.IntimidateKeenEye, p16, p3);
+                yield return info.GetFrame(prev, LeadRequired.PressureHustleSpirit, p16, p3);
 
                 // Slot Modifiers before ESV
                 var force = (info.DPPt ? p16 >> 15 : p16 & 1) == 1;
                 var rand = f.Seed >> 16;
-                yield return info.GetFrame(prev, force ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail, rand, rand);
+                yield return info.GetFrame(prev, force ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail, rand, p3);
             }
         }
 

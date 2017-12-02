@@ -9,7 +9,8 @@
         private readonly RNG RNG;
 
         public uint RandLevel { get; set; }
-        public uint ESV { get; set; }
+        public uint RandESV { get; set; }
+        public uint OriginSeed { get; set; }
 
         public bool LevelSlotModified => Lead > LeadRequired.SynchronizeFail;
 
@@ -59,32 +60,14 @@
         /// <returns>Slot number for this frame & lead value.</returns>
         private int GetSlot(EncounterSlot slot)
         {
+            uint esv = RandESV;
+            if (FrameType != FrameType.MethodH && !slot.FixedLevel)
+                esv = RNG.Prev(RandLevel) >> 16;
+
             // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
             return Lead != LeadRequired.StaticMagnet 
-                ? GetSlot(slot.Type) 
-                : GetSlotStaticMagnet(slot);
-        }
-
-        /// <summary>
-        /// Checks both Static and Magnet Pull ability type selection encounters to see if the encounter can be selected.
-        /// </summary>
-        /// <param name="slot">Slot Data</param>
-        /// <returns>Slot number from the slot data if the slot is selected on this frame, else an invalid slot value.</returns>
-        private int GetSlotStaticMagnet(EncounterSlot slot)
-        {
-            if (slot.Permissions.StaticIndex >= 0)
-            {
-                var index = ESV % slot.Permissions.StaticCount;
-                if (index == slot.Permissions.StaticIndex)
-                    return slot.SlotNumber;
-            }
-            if (slot.Permissions.MagnetPullIndex >= 0)
-            {
-                var index = ESV % slot.Permissions.MagnetPullCount;
-                if (index == slot.Permissions.MagnetPullIndex)
-                    return slot.SlotNumber;
-            }
-            return -1;
+                ? SlotRange.GetSlot(slot.Type, esv, FrameType) 
+                : SlotRange.GetSlotStaticMagnet(slot, esv);
         }
 
         /// <summary>
@@ -92,6 +75,6 @@
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public int GetSlot(SlotType t) => SlotRange.GetSlot(t, ESV, FrameType, Seed);
+        public int GetSlot(SlotType t) => SlotRange.GetSlot(t, RandESV, FrameType);
     }
 }

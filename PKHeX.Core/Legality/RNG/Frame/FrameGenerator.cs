@@ -13,7 +13,13 @@
         public readonly bool Safari3;
 
         public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, RNG, lead);
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl) => new Frame(seed, FrameType, RNG, lead) {ESV = esv, RandLevel = lvl};
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, RNG, lead)
+        {
+            RandESV = esv,
+            RandLevel = lvl,
+            OriginSeed = origin,
+        };
 
         /// <summary>
         /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects.
