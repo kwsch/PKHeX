@@ -12,7 +12,7 @@
         public uint RandESV { get; set; }
         public uint OriginSeed { get; set; }
 
-        public bool LevelSlotModified => Lead > LeadRequired.SynchronizeFail;
+        public bool LevelSlotModified => Lead.IsLevelOrSlotModified();
 
         public Frame(uint seed, FrameType type, RNG rng, LeadRequired lead)
         {

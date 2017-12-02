@@ -58,7 +58,8 @@ namespace PKHeX.Core
                 var rand = prev >> 16;
                 f.RandESV = rand;
                 f.RandLevel = f.Seed >> 16;
-                yield return f;
+                if (f.Lead != LeadRequired.CuteCharm) // needs proc checking
+                    yield return f;
 
                 // Generate frames for other slots after the regular slots
                 if (info.AllowLeads && (f.Lead == LeadRequired.CuteCharm || f.Lead == LeadRequired.None))
