@@ -134,7 +134,7 @@ Label_EncryptionConstant = Valeur de cryptage :
 BTN_RerollEC = Edit.
 -----------------Save Data Interface--------------------
 Tab_Box = Boîtes PC
-Tab_PartyBattle = Partie
+Tab_PartyBattle = Équipe
 Tab_Other = Autres
 Tab_SAV = SAV
 B_OpenPokePuffs = Pofiteroles
