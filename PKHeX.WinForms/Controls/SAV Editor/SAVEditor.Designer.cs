@@ -112,6 +112,7 @@
             this.B_OpenUGSEditor = new System.Windows.Forms.Button();
             this.B_Roamer = new System.Windows.Forms.Button();
             this.B_FestivalPlaza = new System.Windows.Forms.Button();
+            this.B_MailBox = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -786,6 +787,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenUGSEditor);
             this.FLP_SAVtools.Controls.Add(this.B_Roamer);
             this.FLP_SAVtools.Controls.Add(this.B_FestivalPlaza);
+            this.FLP_SAVtools.Controls.Add(this.B_MailBox);
             this.FLP_SAVtools.Location = new System.Drawing.Point(6, 10);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
             this.FLP_SAVtools.Size = new System.Drawing.Size(297, 88);
@@ -1044,6 +1046,16 @@
             this.B_FestivalPlaza.UseVisualStyleBackColor = true;
             this.B_FestivalPlaza.Click += new System.EventHandler(this.B_FestivalPlaza_Click);
             // 
+            // B_MailBox
+            // 
+            this.B_MailBox.Location = new System.Drawing.Point(96, 235);
+            this.B_MailBox.Name = "B_MailBox";
+            this.B_MailBox.Size = new System.Drawing.Size(87, 23);
+            this.B_MailBox.TabIndex = 32;
+            this.B_MailBox.Text = "Mail Box";
+            this.B_MailBox.UseVisualStyleBackColor = true;
+            this.B_MailBox.Click += new System.EventHandler(this.B_MailBox_Click);
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1181,5 +1193,6 @@
         private System.Windows.Forms.Button B_OpenUGSEditor;
         private System.Windows.Forms.Button B_Roamer;
         private System.Windows.Forms.Button B_FestivalPlaza;
+        private System.Windows.Forms.Button B_MailBox;
     }
 }
