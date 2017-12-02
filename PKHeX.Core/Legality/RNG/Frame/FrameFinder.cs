@@ -158,7 +158,7 @@ namespace PKHeX.Core
                 yield return f;
 
                 // Create a copy for level; shift ESV and origin back
-                var esv = f.OriginSeed;
+                var esv = f.OriginSeed >> 16;
                 var origin = info.RNG.Prev(f.OriginSeed);
                 var withLevel = info.GetFrame(f.Seed, f.Lead | LeadRequired.UsesLevelCall, esv, f.RandLevel, origin);
                 yield return withLevel;

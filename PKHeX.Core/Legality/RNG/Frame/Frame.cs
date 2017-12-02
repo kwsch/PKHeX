@@ -25,7 +25,7 @@
         /// </summary>
         public uint RandESV { get; set; }
 
-        public bool LevelSlotModified => Lead.IsLevelOrSlotModified();
+        public bool LevelSlotModified => Lead.IsLevelOrSlotModified() || Lead.HasFlag(LeadRequired.UsesLevelCall);
 
         public Frame(uint seed, FrameType type, RNG rng, LeadRequired lead)
         {
@@ -69,7 +69,7 @@
             }
 
             // Check if the slot is actually encounterable (considering Sweet Scent)
-            bool encounterable = SlotRange.GetIsEncounterable(slot, FrameType, 0, Lead);
+            bool encounterable = SlotRange.GetIsEncounterable(slot, FrameType, (int)(OriginSeed >> 16), Lead);
             return encounterable;
         }
 
