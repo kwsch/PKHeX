@@ -388,7 +388,7 @@ namespace PKHeX.Core
 
             return slots;
         }
-        private static IEnumerable<EncounterSlot> GetSlots4_G_Replace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
+        private static List<EncounterSlot> GetSlots4_G_Replace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
             //Special slots like GBA Dual Slot. Those slot only contain the info of species id, the level is copied from one of the first grass slots
             //for dppt slotSize = 4, for hgss slotSize = 2
@@ -433,6 +433,7 @@ namespace PKHeX.Core
                     Type = t
                 });
             }
+            EncounterUtil.MarkEncountersStaticMagnetPull(slots, PersonalTable.HGSS);
             return slots;
         }
         private static IEnumerable<EncounterSlot> GetSlots4HGSS_WFR(byte[] data, int ofs, int numslots, SlotType t)
@@ -456,6 +457,7 @@ namespace PKHeX.Core
                     Type = t
                 });
             }
+            EncounterUtil.MarkEncountersStaticMagnetPull(slots, PersonalTable.HGSS);
             return slots;
         }
 
@@ -488,30 +490,84 @@ namespace PKHeX.Core
             return Area3;
         }
 
-        private static EncounterArea GetArea4DPPt(byte[] data)
+        private static EncounterArea GetArea4DPPt(byte[] data, bool pt = false)
         {
             var Slots = new List<EncounterSlot>();
 
+            int location = BitConverter.ToUInt16(data, 0x00);
             var GrassRatio = BitConverter.ToInt32(data, 0x02);
             if (GrassRatio > 0)
             {
                 EncounterSlot[] GrassSlots = GetSlots4_DPPt_G(data, 0x06, 12, SlotType.Grass);
-                Slots.AddRange(GrassSlots);
                 //Swarming slots replace slots 0 and 1
-                Slots.AddRange(GetSlots4_G_Replace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm));
+                var swarm = GetSlots4_G_Replace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm);
                 //Morning and Night slots replace slots 2 and 3
-                Slots.AddRange(GetSlots4_G_Replace(data, 0x6E, 4, GrassSlots, Legal.Slot4_Time)); // Morning
-                Slots.AddRange(GetSlots4_G_Replace(data, 0x76, 4, GrassSlots, Legal.Slot4_Time)); // Night
+                var morning = GetSlots4_G_Replace(data, 0x6E, 4, GrassSlots, Legal.Slot4_Time); // Morning
+                var night = GetSlots4_G_Replace(data, 0x76, 4, GrassSlots, Legal.Slot4_Time); // Night
                 //Pokéradar slots replace slots 4,5,10 and 11
                 //Pokéradar is marked with different slot type because it have different PID-IV generationn
-                Slots.AddRange(GetSlots4_G_Replace(data, 0x7E, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar));
+                var radar = GetSlots4_G_Replace(data, 0x7E, 4, GrassSlots, Legal.Slot4_Radar, SlotType.Pokeradar);
+
                 //24 bytes padding
+
                 //Dual Slots replace slots 8 and 9
-                Slots.AddRange(GetSlots4_G_Replace(data, 0xA6, 4, GrassSlots, Legal.Slot4_Dual)); // Ruby
-                Slots.AddRange(GetSlots4_G_Replace(data, 0xAE, 4, GrassSlots, Legal.Slot4_Dual)); // Sapphire
-                Slots.AddRange(GetSlots4_G_Replace(data, 0xB6, 4, GrassSlots, Legal.Slot4_Dual)); // Emerald
-                Slots.AddRange(GetSlots4_G_Replace(data, 0xBE, 4, GrassSlots, Legal.Slot4_Dual)); // FireRed
-                Slots.AddRange(GetSlots4_G_Replace(data, 0xC6, 4, GrassSlots, Legal.Slot4_Dual)); // LeafGreen
+                var ruby = GetSlots4_G_Replace(data, 0xA6, 4, GrassSlots, Legal.Slot4_Dual); // Ruby
+                var sapphire = GetSlots4_G_Replace(data, 0xAE, 4, GrassSlots, Legal.Slot4_Dual); // Sapphire
+                var emerald = GetSlots4_G_Replace(data, 0xB6, 4, GrassSlots, Legal.Slot4_Dual); // Emerald
+                var firered = GetSlots4_G_Replace(data, 0xBE, 4, GrassSlots, Legal.Slot4_Dual); // FireRed
+                var leafgreen = GetSlots4_G_Replace(data, 0xC6, 4, GrassSlots, Legal.Slot4_Dual); // LeafGreen
+
+                Slots.AddRange(GrassSlots);
+                Slots.AddRange(swarm);
+                Slots.AddRange(morning);
+                Slots.AddRange(night);
+                Slots.AddRange(radar);
+                Slots.AddRange(ruby);
+                Slots.AddRange(sapphire);
+                Slots.AddRange(emerald);
+                Slots.AddRange(firered);
+                Slots.AddRange(leafgreen);
+
+                // Permute Static-Magnet Pull combinations
+                // [None/Swarm]-[None/Morning/Night]-[None/Radar]-[None/R/S/E/F/L] [None/TrophyGarden]
+                // 2 * 3 * 2 * 6 = 72 different combinations of slots (more with trophy garden)
+                var regular = new List<List<EncounterSlot>> {GrassSlots.Where(z => z.SlotNumber == 6 || z.SlotNumber == 7).ToList()}; // every other slot is in the product
+                var pair0 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Swarm.Contains(z.SlotNumber)).ToList()};
+                var pair1 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Time.Contains(z.SlotNumber)).ToList()};
+                var pair2 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Radar.Contains(z.SlotNumber)).ToList()};
+                var pair3 = new List<List<EncounterSlot>> {GrassSlots.Where(z => Legal.Slot4_Dual.Contains(z.SlotNumber)).ToList()};
+                if (swarm.Count != 0) pair0.Add(swarm);
+                if (morning.Count != 0) pair1.Add(morning); if (night.Count != 0) pair1.Add(night);
+                if (radar.Count != 0) pair2.Add(radar);
+                if (ruby.Count != 0) pair3.Add(ruby); if (sapphire.Count != 0) pair3.Add(sapphire); if (emerald.Count != 0) pair3.Add(emerald);
+                if (firered.Count != 0) pair3.Add(firered); if (leafgreen.Count != 0) pair3.Add(leafgreen);
+                if (location == 68) // Trophy Garden
+                {
+                    // Occupy Slots 6 & 7
+                    var species = pt ? Encounters4.TrophyPt : Encounters4.TrophyDP;
+                    var slots = new List<EncounterSlot>();
+                    foreach (var s in species)
+                    {
+                        var slot = regular[0][0].Clone();
+                        slot.Species = s;
+                        slots.Add(slot);
+
+                        slot = regular[0][1].Clone();
+                        slot.Species = s;
+                        slots.Add(slot);
+                    }
+                    Slots.AddRange(slots);
+                    // get all permutations of trophy inhabitants
+                    var trophy = regular[0].Concat(slots).ToArray();
+                    for (int i = 0; i < trophy.Length; i++)
+                    for (int j = i + 1; j < trophy.Length; j++)
+                        regular.Add(new List<EncounterSlot>{trophy[i], trophy[j]});
+                }
+
+                var set = new[] { regular, pair0, pair1, pair2, pair3 };
+                var product = set.CartesianProduct();
+                var extra = MarkStaticMagnetExtras(product);
+                Slots.AddRange(extra);
             }
 
             var SurfRatio = BitConverter.ToInt32(data, 0xCE);
@@ -534,13 +590,24 @@ namespace PKHeX.Core
 
             EncounterArea Area4 = new EncounterArea
             {
-                Location = BitConverter.ToUInt16(data, 0x00),
+                Location = location,
                 Slots = Slots.ToArray()
             };
             foreach (var slot in Area4.Slots)
                 slot.Area = Area4;
 
             return Area4;
+        }
+        private static IEnumerable<EncounterSlot> MarkStaticMagnetExtras(IEnumerable<IEnumerable<List<EncounterSlot>>> product)
+        {
+            var trackPermute = new List<EncounterSlot>();
+            foreach (var p in product)
+                MarkStaticMagnetPermute(p.SelectMany(z => z), trackPermute);
+            return trackPermute;
+        }
+        private static void MarkStaticMagnetPermute(IEnumerable<EncounterSlot> grp, List<EncounterSlot> trackPermute)
+        {
+            EncounterUtil.MarkEncountersStaticMagnetPullPermutation(grp, PersonalTable.HGSS, trackPermute);
         }
 
         private static EncounterArea GetArea4HGSS(byte[] data)
@@ -560,12 +627,34 @@ namespace PKHeX.Core
                 // First 36 slots are morning, day and night grass slots
                 // The order is 12 level values, 12 morning species, 12 day species and 12 night species
                 var GrassSlots = GetSlots4_HGSS_G(data, 0x0A, 12, SlotType.Grass);
-                //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after add swarms
-                Slots.AddRange(GrassSlots);
+                //Grass slots with species = 0 are added too, it is needed for the swarm encounters, it will be deleted after swarms are added
 
                 // Hoenn Sound and Sinnoh Sound replace slots 4 and 5
-                Slots.AddRange(GetSlots4_G_Replace(data, 0x5E, 2, GrassSlots, Legal.Slot4_Sound)); // Hoenn
-                Slots.AddRange(GetSlots4_G_Replace(data, 0x62, 2, GrassSlots, Legal.Slot4_Sound)); // Sinnoh
+                var hoenn = GetSlots4_G_Replace(data, 0x5E, 2, GrassSlots, Legal.Slot4_Sound); // Hoenn
+                var sinnoh = GetSlots4_G_Replace(data, 0x62, 2, GrassSlots, Legal.Slot4_Sound); // Sinnoh
+
+                Slots.AddRange(GrassSlots);
+                Slots.AddRange(hoenn);
+                Slots.AddRange(sinnoh);
+
+                // Static / Magnet Pull
+                var grass1 = GrassSlots.Take(12).ToList();
+                var grass2 = GrassSlots.Skip(12).Take(12).ToList();
+                var grass3 = GrassSlots.Skip(24).ToList();
+                // Swarm slots do not displace electric/steel types, with exception of SoulSilver Mawile (which doesn't displace) -- handle separately
+
+                foreach (var time in new[] {grass1, grass2, grass3})
+                {
+                    // non radio
+                    var regular = time.Where(z => !Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList(); // every other slot is in the product
+                    var radio = new List<List<EncounterSlot>> {time.Where(z => Legal.Slot4_Sound.Contains(z.SlotNumber)).ToList()};
+                    if (hoenn.Count > 0) radio.Add(hoenn); if (sinnoh.Count > 0) radio.Add(sinnoh);
+
+                    var extra = new List<EncounterSlot>();
+                    foreach (var t in radio)
+                        MarkStaticMagnetPermute(regular.Concat(t), extra);
+                    Slots.AddRange(extra);
+                }
             }
 
             if (SurfRatio > 0)
@@ -865,10 +954,11 @@ namespace PKHeX.Core
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 4 Diamond, Pearl and Platinum data.
         /// </summary>
         /// <param name="entries">Raw data, one byte array per encounter area</param>
+        /// <param name="pt">Platinum flag (for Trophy Garden slot insertion)</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea[] GetArray4DPPt(byte[][] entries)
+        public static EncounterArea[] GetArray4DPPt(byte[][] entries, bool pt = false)
         {
-            return entries?.Select(GetArea4DPPt).Where(Area => Area.Slots.Length != 0).ToArray();
+            return entries?.Select(z => GetArea4DPPt(z, pt)).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
         /// <summary>
@@ -889,33 +979,6 @@ namespace PKHeX.Core
         public static EncounterArea[] GetArray4HGSS_Headbutt(byte[][] entries)
         {
             return entries?.Select(GetArea4HGSS_Headbutt).Where(Area => Area.Slots.Length != 0).ToArray();
-        }
-
-        /// <summary>
-        /// Gets the encounter areas for the Trophy Garden
-        /// </summary>
-        /// <param name="species">List of special species that can exist in the garden.</param>
-        /// <param name="lvls">Levels of the two encounter slots they can replace. <see cref="GameVersion.DP"/> differs from <see cref="GameVersion.Pt"/></param>
-        /// <returns></returns>
-        public static EncounterArea[] GetTrophyArea(IEnumerable<int> species, int[] lvls)
-        {
-            int[] slotnums = {6, 7};
-            var l = new List<EncounterSlot>();
-            foreach (var s in species)
-            {
-                for (int i = 0; i < 2; i++)
-                {
-                    l.Add(new EncounterSlot
-                    {
-                        LevelMax = lvls[i],
-                        LevelMin = lvls[i],
-                        Species = s,
-                        SlotNumber = slotnums[i],
-                        Type = SlotType.Grass
-                    });
-                }
-            }
-            return new[] { new EncounterArea { Location = 68, Slots = l.ToArray() } };
         }
 
         /// <summary>
@@ -963,6 +1026,20 @@ namespace PKHeX.Core
             for (int i = 0; i < data.Length; i++)
                 data[i] = new EncounterArea(entries[i]);
             return data;
+        }
+    }
+
+    public partial class Extensions
+    {
+        public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences)
+        {
+            IEnumerable<IEnumerable<T>> emptyProduct = new[] { Enumerable.Empty<T>() };
+            return sequences.Aggregate(
+                emptyProduct,
+                (accumulator, sequence) =>
+                    from accseq in accumulator
+                    from item in sequence
+                    select accseq.Concat(new[] { item }));
         }
     }
 }

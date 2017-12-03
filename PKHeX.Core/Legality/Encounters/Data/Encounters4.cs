@@ -28,21 +28,12 @@ namespace PKHeX.Core
 
             var D_Slots = EncounterArea.GetArray4DPPt(get("d", "da"));
             var P_Slots = EncounterArea.GetArray4DPPt(get("p", "pe"));
-            var Pt_Slots = EncounterArea.GetArray4DPPt(get("pt", "pt"));
+            var Pt_Slots = EncounterArea.GetArray4DPPt(get("pt", "pt"), true);
             var HG_Slots = EncounterArea.GetArray4HGSS(get("hg", "hg"));
             var SS_Slots = EncounterArea.GetArray4HGSS(get("ss", "ss"));
 
             var DP_Feebas = GetFeebasArea(D_Slots[10]);
             var Pt_Feebas = GetFeebasArea(Pt_Slots[10]);
-
-            MarkEncountersStaticMagnetPull(ref D_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref P_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref Pt_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref HG_Slots, PersonalTable.SM);
-            MarkEncountersStaticMagnetPull(ref SS_Slots, PersonalTable.SM);
-
-            var DP_Trophy = EncounterArea.GetTrophyArea(TrophyDP, new[] { 16, 18 });
-            var Pt_Trophy = EncounterArea.GetTrophyArea(TrophyPt, new[] { 22, 22 });
             var HG_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(get("hb_hg", "hg"));
             var SS_Headbutt_Slots = EncounterArea.GetArray4HGSS_Headbutt(get("hb_ss", "ss"));
 
@@ -68,12 +59,12 @@ namespace PKHeX.Core
             MarkG4SlotsGreatMarsh(ref Pt_Slots, 52);
 
             MarkEncounterAreaArray(D_HoneyTrees_Slots, P_HoneyTrees_Slots, Pt_HoneyTrees_Slots,
-                DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas, Pt_Trophy, Pt_Feebas,
+                DP_GreatMarshAlt, Pt_GreatMarshAlt, DPPt_Unown, DP_Feebas, Pt_Feebas,
                 HG_Headbutt_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
-            SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
-            SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Trophy, DP_Feebas);
-            SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, DPPt_Unown, Pt_Trophy, Pt_Feebas);
+            SlotsD = AddExtraTableSlots(D_Slots, D_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Feebas);
+            SlotsP = AddExtraTableSlots(P_Slots, P_HoneyTrees_Slots, DP_GreatMarshAlt, DPPt_Unown, DP_Feebas);
+            SlotsPt = AddExtraTableSlots(Pt_Slots, Pt_HoneyTrees_Slots, Pt_GreatMarshAlt, DPPt_Unown, Pt_Feebas);
             SlotsHG = AddExtraTableSlots(HG_Slots, HG_Headbutt_Slots, SlotsHGSSAlt);
             SlotsSS = AddExtraTableSlots(SS_Slots, SS_Headbutt_Slots, SlotsHGSSAlt);
 
@@ -167,6 +158,11 @@ namespace PKHeX.Core
                     foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(slotsnum).Select(slot => slot.Clone()))
                     {
                         swarmSlot.Species = SwarmSlot.Species;
+                        if (swarmSlot.Species == 303) // edge case, mawile is only swarm subject to magnet pull (no other steel types in area)
+                        {
+                            swarmSlot.Permissions.MagnetPullIndex = swarmSlot.SlotNumber;
+                            swarmSlot.Permissions.MagnetPullCount = 2;
+                        }
                         OutputSlots.Add(swarmSlot);
                     }
                 }
@@ -1438,8 +1434,8 @@ namespace PKHeX.Core
             }).ToArray()
         };
 
-        private static readonly int[] TrophyDP = { 035, 039, 052, 113, 133, 137, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Porygon
-        private static readonly int[] TrophyPt = { 035, 039, 052, 113, 133, 132, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Ditto
+        internal static readonly int[] TrophyDP = { 035, 039, 052, 113, 133, 137, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Porygon
+        internal static readonly int[] TrophyPt = { 035, 039, 052, 113, 133, 132, 173, 174, 183, 298, 311, 312, 351, 438, 439, 440 }; // Ditto
 
         private static readonly int[] DP_GreatMarshAlt_Species =
         {

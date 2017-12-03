@@ -77,35 +77,79 @@ namespace PKHeX.Core
         /// <remarks>Magnet Pull attracts Steel type slots, and Static attracts Electric</remarks>
         /// <param name="Areas">Encounter Area array for game</param>
         /// <param name="t">Personal data for use with a given species' type</param>
-        internal static void MarkEncountersStaticMagnetPull(ref EncounterArea[] Areas, PersonalTable t)
+        internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterArea> Areas, PersonalTable t)
         {
-            const int steel = (int)MoveType.Steel;
-            const int electric = (int)MoveType.Electric;
             foreach (EncounterArea Area in Areas)
             foreach (var grp in Area.Slots.GroupBy(z => z.Type))
+                MarkEncountersStaticMagnetPull(grp, t);
+        }
+        internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterSlot> grp, PersonalTable t)
+        {
+            GetStaticMagnet(t, grp, out List<EncounterSlot> s, out List<EncounterSlot> m);
+            for (var i = 0; i < s.Count; i++)
             {
-                var s = new List<EncounterSlot>(); // Static
-                var m = new List<EncounterSlot>(); // Magnet Pull
-                foreach (EncounterSlot Slot in grp)
+                var slot = s[i];
+                slot.Permissions.StaticIndex = i;
+                slot.Permissions.StaticCount = s.Count;
+            }
+            for (var i = 0; i < m.Count; i++)
+            {
+                var slot = m[i];
+                slot.Permissions.MagnetPullIndex = i;
+                slot.Permissions.MagnetPullCount = s.Count;
+            }
+        }
+        internal static void MarkEncountersStaticMagnetPullPermutation(IEnumerable<EncounterSlot> grp, PersonalTable t, List<EncounterSlot> permuted)
+        {
+            GetStaticMagnet(t, grp, out List<EncounterSlot> s, out List<EncounterSlot> m);
+
+            // Apply static/magnet values; if any permutation has a unique slot combination, add it to the slot list.
+            for (int i = 0; i < s.Count; i++)
+            {
+                var slot = s[i];
+                if (slot.Permissions.StaticIndex >= 0) // already has unique data
                 {
-                    var types = t[Slot.Species].Types;
-                    if (types[0] == steel || types[1] == steel)
-                        m.Add(Slot);
-                    if (types[0] == electric || types[1] == electric)
-                        s.Add(Slot);
+                    if (slot.IsMatchStatic(i, s.Count))
+                        continue; // same values, no permutation
+                    if (permuted.Any(z => z.SlotNumber == slot.SlotNumber && z.IsMatchStatic(i, s.Count) && z.Species == slot.Species))
+                        continue; // same values, previously permuted
+
+                    s[i] = slot = slot.Clone();
+                    permuted.Add(slot);
                 }
-                for (var i = 0; i < s.Count; i++)
+                slot.Permissions.StaticIndex = i;
+                slot.Permissions.StaticCount = s.Count;
+            }
+            for (int i = 0; i < m.Count; i++)
+            {
+                var slot = m[i];
+                if (slot.Permissions.MagnetPullIndex >= 0) // already has unique data
                 {
-                    var slot = s[i];
-                    slot.Permissions.StaticIndex = i;
-                    slot.Permissions.StaticCount = s.Count;
+                    if (slot.IsMatchStatic(i, m.Count))
+                        continue; // same values, no permutation
+                    if (permuted.Any(z => z.SlotNumber == slot.SlotNumber && z.IsMatchMagnet(i, m.Count) && z.Species == slot.Species))
+                        continue; // same values, previously permuted
+
+                    m[i] = slot = slot.Clone();
+                    permuted.Add(slot);
                 }
-                for (var i = 0; i < m.Count; i++)
-                {
-                    var slot = m[i];
-                    slot.Permissions.MagnetPullIndex = i;
-                    slot.Permissions.MagnetPullCount = s.Count;
-                }
+                slot.Permissions.MagnetPullIndex = i;
+                slot.Permissions.MagnetPullCount = m.Count;
+            }
+        }
+        private static void GetStaticMagnet(PersonalTable t, IEnumerable<EncounterSlot> grp, out List<EncounterSlot> s, out List<EncounterSlot> m)
+        {
+            const int steel = (int)MoveType.Steel;
+            const int electric = (int)MoveType.Electric + 1; // offset by 1 in gen3/4 for the ??? type
+            s = new List<EncounterSlot>();
+            m = new List<EncounterSlot>();
+            foreach (EncounterSlot Slot in grp)
+            {
+                var types = t[Slot.Species].Types;
+                if (types[0] == steel || types[1] == steel)
+                    m.Add(Slot);
+                if (types[0] == electric || types[1] == electric)
+                    s.Add(Slot);
             }
         }
 

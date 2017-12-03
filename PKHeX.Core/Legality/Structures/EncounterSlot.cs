@@ -14,6 +14,7 @@
         public bool BlackFlute { get; set; }
         public bool IsNormalLead => !(WhiteFlute || BlackFlute || DexNav);
         public bool IsDexNav => AllowDexNav && DexNav;
+        public EncounterSlotPermissions Clone() => (EncounterSlotPermissions)MemberwiseClone();
     }
     /// <summary>
     /// Wild Encounter Slot data
@@ -34,8 +35,18 @@
 
         internal EncounterArea Area { get; set; }
         public int Location => Area.Location;
-        public EncounterSlot Clone() => (EncounterSlot)MemberwiseClone();
+        public EncounterSlot Clone()
+        {
+            var slot = (EncounterSlot) MemberwiseClone();
+            if (_perm != null)
+                slot._perm = Permissions.Clone();
+            return slot;
+        }
+
         public bool FixedLevel => LevelMin == LevelMax;
+
+        public bool IsMatchStatic(int index, int count) => index == Permissions.StaticIndex && count == Permissions.StaticCount;
+        public bool IsMatchMagnet(int index, int count) => index == Permissions.MagnetPullIndex && count == Permissions.MagnetPullCount;
 
         public string Name
         {
