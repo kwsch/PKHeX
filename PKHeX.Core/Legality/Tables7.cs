@@ -199,7 +199,7 @@ namespace PKHeX.Core
             276, 277, // Swellow
             451, 452, // Drapion
             531, // Audino
-            695, // Heliolisk
+            694, 695, // Heliolisk
             273, 274, 275, // Nuzleaf
             325, 326, // Gumpig
             459, 460, // Abomasnow
@@ -333,7 +333,7 @@ namespace PKHeX.Core
             714,
 
             // Wormhole
-            333, 468, 561, 580, 276, 451, 531, 694, 273, 325,
+            333, 193, 561, 580, 276, 451, 531, 694, 273, 325,
             459, 307, 449, 557, 218, 688, 270, 618, 418, 194,
         };
         internal static readonly HashSet<int> AlolanCaptureNoHeavyBall = new HashSet<int> { 374, 785, 786, 787, 788}; // Beldum & Tapus
