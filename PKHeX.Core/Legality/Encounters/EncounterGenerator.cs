@@ -296,7 +296,7 @@ namespace PKHeX.Core
             foreach (var z in GetValidWildEncounters(pkm))
             {
                 var frame = slots.FirstOrDefault(s => s.IsSlotCompatibile(z, pkm));
-                if (frame != null)
+                if (frame != null || pkm.Species == 201) // Unown -- don't really care to figure this out
                     yield return z;
                 else
                     deferred.Add(z);
