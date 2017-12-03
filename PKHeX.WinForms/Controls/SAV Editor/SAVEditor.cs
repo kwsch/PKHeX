@@ -1010,6 +1010,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
                 B_FestivalPlaza.Enabled = sav.Generation == 7;
+                B_MailBox.Enabled = sav.Generation >= 2 && sav.Generation <= 4;
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
@@ -1145,6 +1146,11 @@ namespace PKHeX.WinForms.Controls
         {
             if (SAV.Generation == 7)
                 new SAV_FestivalPlaza(SAV).ShowDialog();
+        }
+        private void B_MailBox_Click(object sender, EventArgs e)
+        {
+            new SAV_MailBox(SAV).ShowDialog();
+            ResetParty();
         }
     }
 }
