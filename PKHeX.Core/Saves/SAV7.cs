@@ -662,8 +662,8 @@ namespace PKHeX.Core
             }
         }
         public ushort FestaRank { get => BitConverter.ToUInt16(Data, JoinFestaData + 0x53A); set => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + 0x53A); }
-        public ushort GetFestaMessage(int index) => Data[JoinFestaData + (index << 1)];
-        public void SetFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + (index << 1));
+        public ushort GetFestaMessage(int index) => BitConverter.ToUInt16(Data, JoinFestaData + index * 2);
+        public void SetFestaMessage(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, JoinFestaData + index * 2);
         public bool GetFestaPhraseUnlocked(int index) => Data[JoinFestaData + 0x2A50 + index] != 0; //index: 0 to 105:commonPhrases, 106:Lv100!
         public void SetFestaPhraseUnlocked(int index, bool value)
         {

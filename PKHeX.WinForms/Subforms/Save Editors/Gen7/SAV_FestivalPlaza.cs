@@ -16,6 +16,7 @@ namespace PKHeX.WinForms
             editing = true;
             InitializeComponent();
             typeMAX = SAV.USUM ? 0x7F : 0x7C;
+            TB_PlazaName.Text = SAV.FestivalPlazaName;
             if (SAV.USUM)
             {
                 PBs = new[] { ppkx1, ppkx2, ppkx3 };
@@ -274,7 +275,6 @@ namespace PKHeX.WinForms
                 var m = (int)NUD_Trainers[i].Maximum;
                 NUD_Trainers[i].Value = j < 0 || j > m ? m : j;
             }
-            TB_PlazaName.Text = SAV.FestivalPlazaName;
             B_AgentGlass.Enabled = (SAV.GetData(SAV.Fashion + 0xD0, 1)[0] & 1) == 0;
         }
         private void LoadPictureBox()
