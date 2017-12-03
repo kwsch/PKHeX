@@ -29,16 +29,22 @@ namespace PKHeX.WinForms
             PKMHeldItems = new[] { L_HeldItem1, L_HeldItem2, L_HeldItem3, L_HeldItem4, L_HeldItem5, L_HeldItem6 };
             PKMNUDs = new[] { NUD_MailID1, NUD_MailID2, NUD_MailID3, NUD_MailID4, NUD_MailID5, NUD_MailID6 };
             AppearPKMs = new[] { CB_AppearPKM1, CB_AppearPKM2, CB_AppearPKM3 };
+            Miscs = new[] { NUD_Misc1, NUD_Misc2, NUD_Misc3 };
 
             NUD_BoxSize.Visible = L_BoxSize.Visible = Gen == 2;
             GB_MessageTB.Visible = Gen == 2;
             GB_MessageNUD.Visible = Gen != 2;
-            Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen == 4;
+            Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen == 4 || Gen == 5;
             NUD_AuthorSID.Visible = Gen != 2;
-            Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = AppearPKMs[1].Visible = AppearPKMs[2].Visible = Gen == 4;
+            Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Gen == 4 || Gen == 5;
+            L_AppearPKM.Visible = AppearPKMs[0].Visible = Gen != 5;
+            AppearPKMs[1].Visible = AppearPKMs[2].Visible = Gen == 4;
+            NUD_MessageEnding.Visible = Gen == 5;
+            L_MiscValue.Visible = NUD_Misc1.Visible = NUD_Misc2.Visible = NUD_Misc3.Visible = Gen == 5;
+
             for (int i = p.Count; i < 6; i++)
                 PKMNUDs[i].Visible = PKMLabels[i].Visible = PKMHeldItems[i].Visible = false;
-            if (Gen == 2 || Gen == 4)
+            if (Gen != 3)
             {
                 for (int i = 0; i < PKMNUDs.Length; i++)
                 {
@@ -55,8 +61,6 @@ namespace PKHeX.WinForms
                         m[i] = new Mail2(sav2, i);
 
                     NUD_BoxSize.Value = SAV.Data[0x834];
-                    MakePartyList();
-                    MakePCList();
                     MailItemID = new[] { 0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD };
                     break;
                 case SAV3 sav3:
@@ -64,8 +68,6 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < m.Length; i++)
                         m[i] = new Mail3(sav3, i);
 
-                    MakePartyList();
-                    MakePCList();
                     MailItemID = Enumerable.Range(0x79, 12).ToArray();
                     break;
                 case SAV4 sav4:
@@ -74,12 +76,25 @@ namespace PKHeX.WinForms
                         m[i] = new Mail4((p[i] as PK4).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                         m[i] = new Mail4(sav4, j);
-
-                    MakePartyList();
-                    MakePCList();
+                    var l4 = m.Last() as Mail4;
+                    ResetVer = l4.AuthorVersion;
+                    ResetLang = l4.AuthorLanguage;
+                    MailItemID = Enumerable.Range(0x89, 12).ToArray();
+                    break;
+                case SAV5 sav5:
+                    m = new Mail5[p.Count + 20];
+                    for (int i = 0; i < p.Count; i++)
+                        m[i] = new Mail5((p[i] as PK5).HeldMailData);
+                    for (int i = p.Count, j = 0; i < m.Length; i++, j++)
+                        m[i] = new Mail5(sav5, j);
+                    var l5 = m.Last() as Mail5;
+                    ResetVer = l5.AuthorVersion;
+                    ResetLang = l5.AuthorLanguage;
                     MailItemID = Enumerable.Range(0x89, 12).ToArray();
                     break;
             }
+            MakePartyList();
+            MakePCList();
 
             if (Gen == 2 || Gen == 3)
             {
@@ -88,10 +103,10 @@ namespace PKHeX.WinForms
                 CB_AppearPKM1.ValueMember = "Value";
                 CB_AppearPKM1.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
             }
-            else if (Gen == 4)
+            else if (Gen == 4 || Gen == 5)
             {
                 var species = GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList();
-                foreach(ComboBox a in AppearPKMs)
+                foreach (ComboBox a in AppearPKMs)
                 {
                     a.Items.Clear();
                     a.DisplayMember = "Text";
@@ -102,22 +117,33 @@ namespace PKHeX.WinForms
                 CB_AuthorVersion.Items.Clear();
                 CB_AuthorVersion.DisplayMember = "Text";
                 CB_AuthorVersion.ValueMember = "Value";
-                CB_AuthorVersion.DataSource = new BindingSource(new[] {
-                    new ComboItem { Text = "Diamond", Value = (int)GameVersion.D },
-                    new ComboItem { Text = "Pearl", Value = (int)GameVersion.P },
-                    new ComboItem { Text = "Platinum", Value = (int)GameVersion.Pt },
-                    new ComboItem { Text = "HeartGold", Value = (int)GameVersion.HG },
-                    new ComboItem { Text = "SoulSilver", Value = (int)GameVersion.P },
-                }.ToList(), null);
+                CB_AuthorVersion.DataSource = new BindingSource(Gen == 4
+                    ? new[] {
+                        new ComboItem { Text = "Diamond", Value = (int)GameVersion.D },
+                        new ComboItem { Text = "Pearl", Value = (int)GameVersion.P },
+                        new ComboItem { Text = "Platinum", Value = (int)GameVersion.Pt },
+                        new ComboItem { Text = "HeartGold", Value = (int)GameVersion.HG },
+                        new ComboItem { Text = "SoulSilver", Value = (int)GameVersion.SS },
+                    }.ToList()
+                    : new[] {
+                        new ComboItem { Text = "Black", Value = (int)GameVersion.B },
+                        new ComboItem { Text = "White", Value = (int)GameVersion.W },
+                        new ComboItem { Text = "Black2", Value = (int)GameVersion.B2 },
+                        new ComboItem { Text = "White2", Value = (int)GameVersion.W2 },
+                    }.ToList(), null);
 
                 CB_AuthorLang.Items.Clear();
                 CB_AuthorLang.DisplayMember = "Text";
                 CB_AuthorLang.ValueMember = "Value";
                 CB_AuthorLang.DataSource = new BindingSource(new[] {
                     // not sure
-                    new ComboItem { Text = "JP", Value = 1 },
-                    new ComboItem { Text = "US", Value = 2 },
-                    new ComboItem { Text = "KOR", Value = 3 },
+                    new ComboItem { Text = "JPN", Value = 1 },
+                    new ComboItem { Text = "ENG", Value = 2 },
+                    new ComboItem { Text = "FRE", Value = 3 },
+                    new ComboItem { Text = "ITA", Value = 4 },
+                    new ComboItem { Text = "GER", Value = 5 },
+                    new ComboItem { Text = "ESP", Value = 7 },
+                    new ComboItem { Text = "KOR", Value = 8 },
                 }.ToList(), null);
             }
 
@@ -151,7 +177,7 @@ namespace PKHeX.WinForms
             LB_PartyHeld.BeginUpdate();
             int s = LB_PartyHeld.SelectedIndex;
             LB_PartyHeld.Items.Clear();
-            for (int i = 0, j = Gen == 4 ? p.Count : 6; i < j; i++)
+            for (int i = 0, j = Gen >= 4 ? p.Count : 6; i < j; i++)
                 LB_PartyHeld.Items.Add($"{i}: {m[i].AuthorName}");
             if (s != LB_PartyHeld.SelectedIndex && s < LB_PartyHeld.Items.Count)
                 LB_PartyHeld.SelectedIndex = s;
@@ -173,13 +199,14 @@ namespace PKHeX.WinForms
                 case 3:
                     for (int i = 6; i < m.Length; i++)
                     {
-                        LB_PCBOX.Items.Add(m[i].MailType != 0 ? $"{i}: {m[i].AuthorName}" : "x");
+                        LB_PCBOX.Items.Add(m[i].IsEmpty != true ? $"{i}: {m[i].AuthorName}" : "x");
                     }
                     break;
                 case 4:
+                case 5:
                     for (int i = p.Count; i < m.Length; i++)
                     {
-                        LB_PCBOX.Items.Add(m[i].MailType <= 11 ? $"{i}: {m[i].AuthorName}" : "x");
+                        LB_PCBOX.Items.Add(m[i].IsEmpty != true ? $"{i}: {m[i].AuthorName}" : "x");
                     }
                     break;
             }
@@ -206,10 +233,11 @@ namespace PKHeX.WinForms
         private bool editing;
         private int entry;
         private readonly NumericUpDown[][] Messages;
-        private readonly NumericUpDown[] PKMNUDs;
+        private readonly NumericUpDown[] PKMNUDs, Miscs;
         private readonly Label[] PKMLabels, PKMHeldItems;
         private readonly ComboBox[] AppearPKMs;
         private readonly int Gen;
+        private readonly byte ResetVer, ResetLang;
         private void Save()
         {
             switch (Gen)
@@ -236,6 +264,12 @@ namespace PKHeX.WinForms
                     for (int i = p.Count; i < m.Length; i++)
                         m[i].CopyTo(SAV);
                     break;
+                case 5:
+                    for (int i = 0; i < p.Count; i++)
+                        m[i].CopyTo(p[i] as PK5);
+                    for (int i = p.Count; i < m.Length; i++)
+                        m[i].CopyTo(SAV);
+                    break;
             }
             SAV.PartyData = p;
         }
@@ -256,8 +290,8 @@ namespace PKHeX.WinForms
                     m3.AuthorTID = (ushort)NUD_AuthorTID.Value;
                     m3.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
 
-                    for (int y = 0; y < 2; y++)
-                        for (int x = 0; x < 2; x++)
+                    for (int y = 0; y < 3; y++)
+                        for (int x = 0; x < 3; x++)
                             m3.SetMessage(y, x, (ushort)Messages[y][x].Value);
                     m3.AuthorSID = (ushort)NUD_AuthorSID.Value;
                     int v = CB_AppearPKM1.SelectedValue as int? ?? 0;
@@ -269,14 +303,32 @@ namespace PKHeX.WinForms
                     v = CB_MailType.SelectedIndex;
                     m4.MailType = v > 0 ? v - 1 : 0xFF;
 
-                    for (int y = 0; y < 2; y++)
-                        for (int x = 0; x < 3; x++)
+                    for (int y = 0; y < 3; y++)
+                        for (int x = 0; x < 4; x++)
                             m4.SetMessage(y, x, (ushort)Messages[y][x].Value);
                     m4.AuthorSID = (ushort)NUD_AuthorSID.Value;
                     for (int i = 0; i < AppearPKMs.Length; i++)
                         m4.SetAppearPKM(i, (AppearPKMs[i].SelectedValue as int?) + 7 ?? 0);
-                    m4.AuthorVersion = CB_AuthorVersion.SelectedValue as byte? ?? 0;
-                    m4.AuthorLanguage = CB_AuthorLang.SelectedValue as byte? ?? 0;
+                    if (CB_AuthorVersion.SelectedValue != null)
+                        m4.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
+                    if (CB_AuthorLang.SelectedValue != null)
+                        m4.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
+                    break;
+                case Mail5 m5:
+                    m5.AuthorName = TB_AuthorName.Text;
+                    m5.AuthorTID = (ushort)NUD_AuthorTID.Value;
+                    v = CB_MailType.SelectedIndex;
+                    m5.MailType = v > 0 ? v - 1 : 0xFF;
+
+                    for (int y = 0; y < 3; y++)
+                        for (int x = 0; x < 4; x++)
+                            m5.SetMessage(y, x, (ushort)Messages[y][x].Value);
+                    m5.AuthorSID = (ushort)NUD_AuthorSID.Value;
+                    for (int i = 0; i < Miscs.Length; i++)
+                        m5.SetMisc(i, (ushort)Miscs[i].Value);
+                    m5.MessageEnding = (ushort)NUD_MessageEnding.Value;
+                    m5.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
+                    m5.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
                     break;
             }
         }
@@ -330,6 +382,20 @@ namespace PKHeX.WinForms
                         ret += $"{Environment.NewLine}MailID{i} MailType mismatch";
                 }
             }
+            // Gen5
+            // P
+            // gen5, move mail to pc will not erase mail data, still remains, duplicates.
+            else if (Gen == 5)
+            {
+                for (int i = 0; i < p.Count; i++)
+                {
+                    if (ItemIsMail(p[i].HeldItem))
+                    {
+                        if (m[i].IsEmpty == true) //P
+                            ret += $"{Environment.NewLine}MailID{i} MailType mismatch";
+                    }
+                }
+            }
             // Gen*
             // Z: mail type is illegal
             for (int i = 0; i < m.Length; i++)
@@ -365,7 +431,6 @@ namespace PKHeX.WinForms
         private DialogResult ModifyHeldItem()
         {
             DialogResult ret = DialogResult.Abort;
-            if (entry >= p.Count) return ret;
             PKM s = p[entry];
             if (!ItemIsMail(s.HeldItem)) return ret;
             System.Media.SystemSounds.Question.Play();
@@ -379,13 +444,18 @@ namespace PKHeX.WinForms
         private void B_Delete_Click(object sender, EventArgs e)
         {
             if (entry < 0) return;
-            if (entry < 6)
+            if (entry < p.Count)
             {
                  DialogResult ret= ModifyHeldItem();
                 if (ret == DialogResult.Cancel) return;
             }
+            switch (m[entry])
+            {
+                case Mail4 m4: m4.SetBlank(ResetLang, ResetVer); break;
+                case Mail5 m5: m5.SetBlank(ResetLang, ResetVer); break;
+                default: m[entry].SetBlank(); break;
+            }
             editing = true;
-            m[entry].SetBlank();
             LoadList();
             LoadMail();
             editing = false;
@@ -414,7 +484,7 @@ namespace PKHeX.WinForms
             if (partyIndex >= 0)
                 entry = partyIndex;
             else if (pcIndex >= 0)
-                entry = 6 + pcIndex;
+                entry = (Gen >= 4 ? p.Count : 6) + pcIndex;
             else entry = -1;
             if (entry >= 0) LoadMail();
             editing = false;
@@ -447,8 +517,7 @@ namespace PKHeX.WinForms
                 case Mail4 m4:
                     TB_AuthorName.Text = m4.AuthorName;
                     NUD_AuthorTID.Value = m4.AuthorTID;
-                    v = m4.MailType;
-                    CB_MailType.SelectedIndex = v <= 11 ? v + 1 : 0;
+                    CB_MailType.SelectedIndex = m4.IsEmpty == false ? m4.MailType + 1 : 0;
 
                     for (int y = 0; y < 3; y++)
                         for (int x = 0; x < 4; x++)
@@ -459,6 +528,22 @@ namespace PKHeX.WinForms
                     LoadOTlabel(m4.AuthorGender);
                     CB_AuthorVersion.SelectedValue = (int)m4.AuthorVersion;
                     CB_AuthorLang.SelectedValue = (int)m4.AuthorLanguage;
+                    break;
+                case Mail5 m5:
+                    TB_AuthorName.Text = m5.AuthorName;
+                    NUD_AuthorTID.Value = m5.AuthorTID;
+                    CB_MailType.SelectedIndex = m5.IsEmpty == false ? m5.MailType + 1 : 0;
+
+                    for (int y = 0; y < 3; y++)
+                        for (int x = 0; x < 4; x++)
+                            Messages[y][x].Value = m5.GetMessage(y, x);
+                    NUD_AuthorSID.Value = m5.AuthorSID;
+                    for (int i = 0; i < Miscs.Length; i++)
+                        Miscs[i].Value = m5.GetMisc(i);
+                    NUD_MessageEnding.Value = m5.MessageEnding;
+                    LoadOTlabel(m5.AuthorGender);
+                    CB_AuthorVersion.SelectedValue = (int)m5.AuthorVersion;
+                    CB_AuthorLang.SelectedValue = (int)m5.AuthorLanguage;
                     break;
             }
         }
@@ -472,8 +557,8 @@ namespace PKHeX.WinForms
         private void Label_OTGender_Click(object sender, EventArgs e)
         {
             if (entry < 0) return;
-            if (Gen != 4) return;
-            var mail = m[entry] as Mail4;
+            if (Gen < 4) return;
+            var mail = m[entry];
             var b = mail.AuthorGender;
             b ^= 1;
             mail.AuthorGender = b;
