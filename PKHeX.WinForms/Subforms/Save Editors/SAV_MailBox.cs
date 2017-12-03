@@ -19,7 +19,8 @@ namespace PKHeX.WinForms
             editing = true;
             InitializeComponent();
 
-            Messages = new NumericUpDown[][] {
+            Messages = new[]
+            {
                 new[] { NUD_Message00, NUD_Message01, NUD_Message02, NUD_Message03 },
                 new[] { NUD_Message10, NUD_Message11, NUD_Message12, NUD_Message13 },
                 new[] { NUD_Message20, NUD_Message21, NUD_Message22, NUD_Message23 }
@@ -101,7 +102,7 @@ namespace PKHeX.WinForms
                 CB_AuthorVersion.Items.Clear();
                 CB_AuthorVersion.DisplayMember = "Text";
                 CB_AuthorVersion.ValueMember = "Value";
-                CB_AuthorVersion.DataSource = new BindingSource(new ComboItem[] {
+                CB_AuthorVersion.DataSource = new BindingSource(new[] {
                     new ComboItem { Text = "Diamond", Value = (int)GameVersion.D },
                     new ComboItem { Text = "Pearl", Value = (int)GameVersion.P },
                     new ComboItem { Text = "Platinum", Value = (int)GameVersion.Pt },
@@ -112,7 +113,7 @@ namespace PKHeX.WinForms
                 CB_AuthorLang.Items.Clear();
                 CB_AuthorLang.DisplayMember = "Text";
                 CB_AuthorLang.ValueMember = "Value";
-                CB_AuthorLang.DataSource = new BindingSource(new ComboItem[] {
+                CB_AuthorLang.DataSource = new BindingSource(new[] {
                     // not sure
                     new ComboItem { Text = "JP", Value = 1 },
                     new ComboItem { Text = "US", Value = 2 },
@@ -123,8 +124,8 @@ namespace PKHeX.WinForms
             string[] ItemList = GameInfo.Strings.GetItemStrings(Gen, SAV.Version);
             CB_MailType.Items.Clear();
             CB_MailType.Items.Add(ItemList[0]);
-            for (int i = 0; i < MailItemID.Length; i++)
-                CB_MailType.Items.Add(ItemList[MailItemID[i]]);
+            foreach (int item in MailItemID)
+                CB_MailType.Items.Add(ItemList[item]);
 
             LoadPKM(true);
             entry = -1;
@@ -164,21 +165,21 @@ namespace PKHeX.WinForms
             switch (Gen)
             {
                 case 2:
-                    for (int i = 6, j = 0, boxsize = (int)NUD_BoxSize.Value; i < m.Length; i++, j++) {
-                        if (j < boxsize) LB_PCBOX.Items.Add($"{i}: {m[i].AuthorName}");
-                        else LB_PCBOX.Items.Add("x");
+                    for (int i = 6, j = 0, boxsize = (int)NUD_BoxSize.Value; i < m.Length; i++, j++)
+                    {
+                        LB_PCBOX.Items.Add(j < boxsize ? $"{i}: {m[i].AuthorName}" : "x");
                     }
                     break;
                 case 3:
-                    for (int i = 6; i < m.Length; i++) {
-                        if (m[i].MailType != 0) LB_PCBOX.Items.Add($"{i}: {m[i].AuthorName}");
-                        else LB_PCBOX.Items.Add("x");
+                    for (int i = 6; i < m.Length; i++)
+                    {
+                        LB_PCBOX.Items.Add(m[i].MailType != 0 ? $"{i}: {m[i].AuthorName}" : "x");
                     }
                     break;
                 case 4:
-                    for (int i = p.Count; i < m.Length; i++) {
-                        if (m[i].MailType <= 11) LB_PCBOX.Items.Add($"{i}: {m[i].AuthorName}");
-                        else LB_PCBOX.Items.Add("x");
+                    for (int i = p.Count; i < m.Length; i++)
+                    {
+                        LB_PCBOX.Items.Add(m[i].MailType <= 11 ? $"{i}: {m[i].AuthorName}" : "x");
                     }
                     break;
             }
@@ -188,18 +189,17 @@ namespace PKHeX.WinForms
         }
         private void LoadPKM(bool isInit)
         {
-            for (int i = 0, j, k; i < p.Count; i++)
+            for (int i = 0; i < p.Count; i++)
             {
                 if (isInit)
                     PKMLabels[i].Text = GetSpeciesNameFromCB(p[i].Species);
-                j = MailTypeToCBIndex(p[i].HeldItem);
+                var j = MailTypeToCBIndex(p[i].HeldItem);
                 PKMHeldItems[i].Text = j <= 0 ? "(not Mail)" : CB_MailType.Items[j].ToString();
                 PKMHeldItems[i].TextAlign = j <= 0 ? ContentAlignment.TopLeft : ContentAlignment.TopRight;
-                if (Gen == 3)
-                {
-                    k = (p[i] as PK3).HeldMailID;
-                    PKMNUDs[i].Value = k >= -1 && k <= 5 ? k : -1;
-                }
+                if (Gen != 3)
+                    continue;
+                int k = ((PK3)p[i]).HeldMailID;
+                PKMNUDs[i].Value = k >= -1 && k <= 5 ? k : -1;
             }
         }
         private readonly Mail[] m;
@@ -292,9 +292,9 @@ namespace PKHeX.WinForms
             if (Gen == 3)
             {
                 int[] heldMailIDs = new int[p.Count];
-                for (int i = 0, h; i < p.Count; i++)
+                for (int i = 0; i < p.Count; i++)
                 {
-                    h = (p[i] as PK3).HeldMailID;
+                    int h = ((PK3) p[i]).HeldMailID;
                     heldMailIDs[i] = h;
                     if (ItemIsMail(p[i].HeldItem))
                     {
@@ -346,17 +346,16 @@ namespace PKHeX.WinForms
             if (entry >= 0) TempSave();
             Save();
             string Err = CheckValid();
-            if (Err.Length == 0 || DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Validation Error. Save?{Environment.NewLine}{Err}"))
-            {
-                Origin.SetData(SAV.Data, 0);
-                Close();
-            }
+            if (Err.Length != 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Validation Error. Save?{Environment.NewLine}{Err}"))
+                return;
+            Origin.SetData(SAV.Data, 0);
+            Close();
         }
         private bool ItemIsMail(int itemID) => Array.IndexOf(MailItemID, itemID) >= 0;
         private int MailTypeToCBIndex(int mailtype) => 1 + Array.IndexOf(MailItemID, mailtype);
         private int CBIndexToMailType(int cbindex) => cbindex <= 0 ? 0 : cbindex <= MailItemID.Length ? MailItemID[cbindex - 1] : MailItemID[0];
-        private int[] MailItemID;
-        private IList<PKM> p;
+        private readonly int[] MailItemID;
+        private readonly IList<PKM> p;
         private string GetSpeciesNameFromCB(int index)
         {
             foreach (ComboItem i in CB_AppearPKM1.Items)
@@ -370,10 +369,10 @@ namespace PKHeX.WinForms
             PKM s = p[entry];
             if (!ItemIsMail(s.HeldItem)) return ret;
             System.Media.SystemSounds.Question.Play();
-            ret = MessageBox.Show($"Modify {PKMLabels[entry].Text}'s HeldItem?{Environment.NewLine}{Environment.NewLine} {PKMHeldItems[entry].Text} -> {CB_MailType.Items[0].ToString()}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail", "Prompt", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button3);
+            ret = MessageBox.Show($"Modify {PKMLabels[entry].Text}'s HeldItem?{Environment.NewLine}{Environment.NewLine} {PKMHeldItems[entry].Text} -> {CB_MailType.Items[0]}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail", "Prompt", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button3);
             if (ret != DialogResult.Yes) return ret;
             s.HeldItem = 0;
-            if (Gen == 3) (s as PK3).HeldMailID = -1;
+            if (Gen == 3) ((PK3) s).HeldMailID = -1;
             LoadPKM(false);
             return ret;
         }
@@ -488,184 +487,5 @@ namespace PKHeX.WinForms
             MakePCList();
             editing = false;
         }
-    }
-    public class Mail2 : Mail
-    {
-        private bool US;
-        public Mail2(SAV2 sav, int index)
-        {
-            US = !sav.Japanese && !sav.Korean;
-            DataOffset = index < 6 ? index * 0x2F + 0x600 : (index - 6) * 0x2F + 0x835;
-            Data = sav.GetData(DataOffset, 0x2F);
-        }
-        public override string GetMessage(bool isLastLine) => US ? StringConverter.GetString1(Data, isLastLine ? 0x11 : 0, 0x10, false) : string.Empty;
-        public override void SetMessage(string line1, string line2)
-        {
-            if (US)
-            {
-                StringConverter.SetString1(line2, 0x10, false, 0x10, 0x50).CopyTo(Data, 0x11);
-                StringConverter.SetString1(line1, 0x10, false, 0x10, (ushort)(Data.Skip(0x11).Take(0x10).All(v => v == 0x50) ? 0x50 : 0x7F)).CopyTo(Data, 0);
-                Data[0x10] = 0x4E;
-            }
-        }
-        public override string AuthorName
-        {
-            get => US ? StringConverter.GetString1(Data, 0x21, 7, false) : string.Empty;
-            set
-            {
-                if (US)
-                {
-                    StringConverter.SetString1(value, 7, false, 8, 0x50).CopyTo(Data, 0x21);
-                    Data[0x29] = Data[0x2A] = 0;
-                }
-            }
-        }
-        public override ushort AuthorTID
-        {
-            get => (ushort)(Data[0x2B] << 8 | Data[0x2C]);
-            set
-            {
-                Data[0x2B] = (byte)(value >> 8);
-                Data[0x2C] = (byte)(value & 0xFF);
-            }
-        }
-        public override int AppearPKM { get => Data[0x2D]; set => Data[0x2D] = (byte)value; }
-        public override int MailType { get => Data[0x2E]; set => Data[0x2E] = (byte)value; }
-        public override bool? IsEmpty
-        {
-            get
-            {
-                if (MailType == 0) return true;
-                else if (MailType == 0x9E || (MailType >= 0xB5 && MailType <= 0xBD)) return false;
-                else return null;
-            }
-        }
-        public override void SetBlank() => (new byte[0x2F]).CopyTo(Data, 0);
-    }
-    public class Mail3 : Mail
-    {
-        public Mail3(SAV3 sav, int index)
-        {
-            DataOffset = index * 0x24 + sav.GetBlockOffset(3) + 0xCE0;
-            Data = sav.GetData(DataOffset, 0x24);
-        }
-        public Mail3()
-        {
-            Data = new byte[0x24];
-            DataOffset = -1;
-            for (int y = 0; y < 3; y++)
-                for (int x = 0; x < 3; x++)
-                    SetMessage(y, x, 0xFFFF);
-            AuthorName = "";
-            AuthorTID = 0;
-            AuthorTID = 0;
-            AppearPKM = 1;
-            MailType = 0;
-        }
-        public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, (index1 * 3 + index2) * 2);
-        public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, (index1 * 3 + index2) * 2);
-        public override string AuthorName
-        {
-            get => StringConverter.GetString3(Data, 0x12, 7, false);
-            set
-            {
-                if (value.Length == 0)
-                    Enumerable.Repeat<byte>(0xFF, 8).ToArray().CopyTo(Data, 0x12);
-                else
-                {
-                    Data[0x18] = Data[0x19] = 0xFF;
-                    StringConverter.SetString3(value, 7, false, 6, 0).CopyTo(Data, 0x12);
-                }
-            }
-        }
-        public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0x1A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A); }
-        public ushort AuthorSID { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1C); }
-        public override int AppearPKM { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)(value == 0 ? 1 : value)).CopyTo(Data, 0x1E); }
-        public override int MailType { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
-        public override bool? IsEmpty
-        {
-            get
-            {
-                if (MailType == 0) return true;
-                else if (MailType >= 0x79 && MailType <= 0x84) return false;
-                else return null;
-            }
-        }
-        public override void SetBlank() => (new Mail3()).Data.CopyTo(Data, 0);
-    }
-    public class Mail4 : Mail
-    {
-        public Mail4(SAV4 sav, int index)
-        {
-            switch (sav.Version)
-            {
-                case GameVersion.DP: DataOffset = index * 0x38 + 0x4BEC + sav.GetGBO; break;
-                case GameVersion.Pt: DataOffset = index * 0x38 + 0x4E80 + sav.GetGBO; break;
-                case GameVersion.HGSS: DataOffset = index * 0x38 + 0x3FA8 + sav.GetGBO; break;
-            }
-            Data = sav.GetData(DataOffset, 0x38);
-        }
-        public Mail4(byte[] data)
-        {
-            Data = data;
-            DataOffset = -1;
-        }
-        public Mail4(byte? lang = null, byte? ver = null)
-        {
-            Data = new byte[0x38];
-            DataOffset = -1;
-            AuthorTID = 0;
-            AuthorSID = 0;
-            AuthorGender = 0;
-            if (lang != null) AuthorLanguage = (byte)lang;
-            if (ver != null) AuthorVersion = (byte)ver;
-            MailType = 0xFF;
-            AuthorName = "";
-            for (int i = 0; i < 3; i++)
-                SetAppearPKM(i, 0xFFFF);
-            for (int y = 0; y < 3; y++)
-                for (int x = 0; x < 4; x++)
-                    SetMessage(y, x, (ushort)(x == 1 ? 0 : 0xFFFF));
-        }
-        public override void CopyTo(PK4 pk4) => pk4.HeldMailData = Data;
-        public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
-        public ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
-        public byte AuthorGender { get => Data[4]; set => Data[4] = value; }
-        public byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
-        public byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
-        public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
-        public override string AuthorName { get => StringConverter.GetString4(Data, 8, 0x10); set => StringConverter.SetString4(value, 7, 8, 0xFFFF).CopyTo(Data, 8); }
-        public int GetAppearPKM(int index) => BitConverter.ToUInt16(Data, 0x1C - index * 2);
-        public void SetAppearPKM(int index, int value) => BitConverter.GetBytes((ushort)(value == 0 ? 0xFFFF : value)).CopyTo(Data, 0x1C - index * 2);
-        public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, 0x20 + (index1 * 4 + index2) * 2);
-        public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, 0x20 + (index1 * 4 + index2) * 2);
-        public override bool? IsEmpty
-        {
-            get
-            {
-                if (MailType == 0xFF) return true;
-                else if (MailType <= 11) return false;
-                else return null;
-            }
-        }
-        public override void SetBlank() => SetBlank();
-        public void SetBlank(byte? lang = null, byte? ver = null) => (new Mail4(lang: lang, ver: ver)).Data.CopyTo(Data, 0);
-    }
-    public class Mail
-    {
-        protected byte[] Data;
-        protected int DataOffset;
-        public void CopyTo(SaveFile sav) => sav.SetData(Data, DataOffset);
-        public virtual void CopyTo(PK4 pk4) { }
-        public virtual string GetMessage(bool isLastLine) => null;
-        public virtual ushort GetMessage(int index1, int index2) => 0;
-        public virtual void SetMessage(string line1, string line2) { }
-        public virtual void SetMessage(int index1, int index2, ushort value) { }
-        public virtual string AuthorName { get; set; }
-        public virtual ushort AuthorTID { get; set; }
-        public virtual int AppearPKM { get; set; }
-        public virtual int MailType { get; set; }
-        public virtual bool? IsEmpty { get; } // true: empty, false: legal mail, null: illegal mail
-        public virtual void SetBlank() { }
     }
 }

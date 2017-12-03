@@ -1314,6 +1314,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Saves\Substructures\Mail\" />
   </ItemGroup>
 
 </Project>
