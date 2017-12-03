@@ -462,7 +462,7 @@ namespace PKHeX.Core
             get => BitConverter.ToSingle(Data, Trainer1 + 0x14);
             set
             {
-                var val = BitConverter.GetBytes(value * 18);
+                var val = BitConverter.GetBytes(value);
                 val.CopyTo(Data, Trainer1 + 0x14);
                 val.CopyTo(Data, Trainer1 + 0x14 + 0xF4);
             }
