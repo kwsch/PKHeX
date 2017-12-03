@@ -556,7 +556,7 @@ namespace PKHeX.Core
                 bool force2 = w.Type == SlotType.FriendSafari || pkm.Gen7 && pkm.AbilityNumber == 4;
                 if (force2 && pkm.IVs.Count(iv => iv == 31) < 2)
                 {
-                    AddLine(Severity.Invalid, V29, CheckIdentifier.IVs);
+                    AddLine(Severity.Invalid, w.Type == SlotType.FriendSafari ? V29 : string.Format(V28, 2), CheckIdentifier.IVs);
                     return;
                 }
             }
