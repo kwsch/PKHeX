@@ -80,14 +80,10 @@
         /// <returns>Slot number for this frame & lead value.</returns>
         private int GetSlot(EncounterSlot slot)
         {
-            uint esv = RandESV;
-            if (FrameType != FrameType.MethodH && !slot.FixedLevel)
-                esv = RNG.Prev(RandLevel) >> 16;
-
             // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
             return Lead != LeadRequired.StaticMagnet 
-                ? SlotRange.GetSlot(slot.Type, esv, FrameType) 
-                : SlotRange.GetSlotStaticMagnet(slot, esv);
+                ? SlotRange.GetSlot(slot.Type, RandESV, FrameType) 
+                : SlotRange.GetSlotStaticMagnet(slot, RandESV);
         }
 
         /// <summary>
