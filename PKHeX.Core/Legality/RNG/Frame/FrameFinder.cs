@@ -60,6 +60,7 @@ namespace PKHeX.Core
                 var rand = prev >> 16;
                 f.RandESV = rand;
                 f.RandLevel = f.Seed >> 16;
+                f.OriginSeed = info.RNG.Prev(prev);
                 if (f.Lead != LeadRequired.CuteCharm) // needs proc checking
                     yield return f;
 
