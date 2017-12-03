@@ -387,6 +387,10 @@ namespace PKHeX.Core
                 bk4.Data[0x68 + 2*i] = Data[0x68 + 2*i + 1];
                 bk4.Data[0x68 + 2*i + 1] = Data[0x68 + 2*i];
             }
+            if (AltForm != 0 && !PersonalTable.DP[Species].HasFormes)
+                bk4.AltForm = 0;
+            if (HeldItem > Legal.MaxItemID_4_DP)
+                bk4.HeldItem = 0;
             bk4.Sanity = 0x4000;
             bk4.RefreshChecksum();
             return bk4;
