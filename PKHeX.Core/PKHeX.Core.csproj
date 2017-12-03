@@ -599,8 +599,10 @@
     <None Remove="Resources\text\script\const_pt_en.txt" />
     <None Remove="Resources\text\script\const_rs_en.txt" />
     <None Remove="Resources\text\script\const_sm_en.txt" />
+    <None Remove="Resources\text\script\const_sm_zh.txt" />
     <None Remove="Resources\text\script\const_usum_en.txt" />
     <None Remove="Resources\text\script\const_usum_ja.txt" />
+    <None Remove="Resources\text\script\const_usum_zh.txt" />
     <None Remove="Resources\text\script\flags_b2w2_en.txt" />
     <None Remove="Resources\text\script\flags_bw_en.txt" />
     <None Remove="Resources\text\script\flags_dp_en.txt" />
@@ -612,8 +614,10 @@
     <None Remove="Resources\text\script\flags_rs_en.txt" />
     <None Remove="Resources\text\script\flags_sm_en.txt" />
     <None Remove="Resources\text\script\flags_sm_ja.txt" />
+    <None Remove="Resources\text\script\flags_sm_zh.txt" />
     <None Remove="Resources\text\script\flags_usum_en.txt" />
     <None Remove="Resources\text\script\flags_usum_ja.txt" />
+    <None Remove="Resources\text\script\flags_usum_zh.txt" />
     <None Remove="Resources\text\script\flags_xy_en.txt" />
     <None Remove="Resources\text\script\flags_c_en.txt" />
     <None Remove="Resources\text\script\flags_c_ja.txt" />
@@ -1251,8 +1255,10 @@
     <EmbeddedResource Include="Resources\text\script\const_pt_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_rs_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_sm_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_sm_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_en.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_ja.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_usum_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_bw_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_dp_en.txt" />
@@ -1264,8 +1270,10 @@
     <EmbeddedResource Include="Resources\text\script\flags_rs_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_sm_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_sm_ja.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_sm_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_usum_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_usum_ja.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_usum_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_xy_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_c_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_c_ja.txt" />
