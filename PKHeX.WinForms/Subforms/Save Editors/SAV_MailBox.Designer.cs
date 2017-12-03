@@ -45,6 +45,7 @@
             this.NUD_BoxSize = new System.Windows.Forms.NumericUpDown();
             this.GB_MessageTB = new System.Windows.Forms.GroupBox();
             this.GB_MessageNUD = new System.Windows.Forms.GroupBox();
+            this.NUD_MessageEnding = new System.Windows.Forms.NumericUpDown();
             this.NUD_Message23 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Message13 = new System.Windows.Forms.NumericUpDown();
             this.NUD_Message03 = new System.Windows.Forms.NumericUpDown();
@@ -86,11 +87,16 @@
             this.L_PCBOX = new System.Windows.Forms.Label();
             this.CB_AppearPKM2 = new System.Windows.Forms.ComboBox();
             this.CB_AppearPKM3 = new System.Windows.Forms.ComboBox();
+            this.L_MiscValue = new System.Windows.Forms.Label();
+            this.NUD_Misc1 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Misc2 = new System.Windows.Forms.NumericUpDown();
+            this.NUD_Misc3 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AuthorTID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_AuthorSID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BoxSize)).BeginInit();
             this.GB_MessageTB.SuspendLayout();
             this.GB_MessageNUD.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MessageEnding)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Message23)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Message13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Message03)).BeginInit();
@@ -111,6 +117,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MailID3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MailID2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MailID1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Misc1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Misc2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Misc3)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -227,7 +236,7 @@
             // 
             this.CB_AppearPKM1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_AppearPKM1.FormattingEnabled = true;
-            this.CB_AppearPKM1.Location = new System.Drawing.Point(235, 276);
+            this.CB_AppearPKM1.Location = new System.Drawing.Point(235, 304);
             this.CB_AppearPKM1.Name = "CB_AppearPKM1";
             this.CB_AppearPKM1.Size = new System.Drawing.Size(107, 20);
             this.CB_AppearPKM1.TabIndex = 11;
@@ -236,7 +245,7 @@
             // 
             this.CB_MailType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_MailType.FormattingEnabled = true;
-            this.CB_MailType.Location = new System.Drawing.Point(235, 247);
+            this.CB_MailType.Location = new System.Drawing.Point(235, 275);
             this.CB_MailType.Name = "CB_MailType";
             this.CB_MailType.Size = new System.Drawing.Size(107, 20);
             this.CB_MailType.TabIndex = 12;
@@ -290,6 +299,7 @@
             // 
             // GB_MessageNUD
             // 
+            this.GB_MessageNUD.Controls.Add(this.NUD_MessageEnding);
             this.GB_MessageNUD.Controls.Add(this.NUD_Message23);
             this.GB_MessageNUD.Controls.Add(this.NUD_Message13);
             this.GB_MessageNUD.Controls.Add(this.NUD_Message03);
@@ -304,10 +314,27 @@
             this.GB_MessageNUD.Controls.Add(this.NUD_Message00);
             this.GB_MessageNUD.Location = new System.Drawing.Point(144, 47);
             this.GB_MessageNUD.Name = "GB_MessageNUD";
-            this.GB_MessageNUD.Size = new System.Drawing.Size(261, 105);
+            this.GB_MessageNUD.Size = new System.Drawing.Size(261, 133);
             this.GB_MessageNUD.TabIndex = 16;
             this.GB_MessageNUD.TabStop = false;
             this.GB_MessageNUD.Text = "Message";
+            // 
+            // NUD_MessageEnding
+            // 
+            this.NUD_MessageEnding.Location = new System.Drawing.Point(9, 105);
+            this.NUD_MessageEnding.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_MessageEnding.Name = "NUD_MessageEnding";
+            this.NUD_MessageEnding.Size = new System.Drawing.Size(54, 19);
+            this.NUD_MessageEnding.TabIndex = 12;
+            this.NUD_MessageEnding.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             // 
             // NUD_Message23
             // 
@@ -521,7 +548,7 @@
             this.GB_Author.Controls.Add(this.TB_AuthorName);
             this.GB_Author.Controls.Add(this.NUD_AuthorTID);
             this.GB_Author.Controls.Add(this.NUD_AuthorSID);
-            this.GB_Author.Location = new System.Drawing.Point(144, 161);
+            this.GB_Author.Location = new System.Drawing.Point(144, 189);
             this.GB_Author.Name = "GB_Author";
             this.GB_Author.Size = new System.Drawing.Size(261, 77);
             this.GB_Author.TabIndex = 17;
@@ -530,6 +557,7 @@
             // 
             // CB_AuthorVersion
             // 
+            this.CB_AuthorVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_AuthorVersion.FormattingEnabled = true;
             this.CB_AuthorVersion.Location = new System.Drawing.Point(135, 48);
             this.CB_AuthorVersion.Name = "CB_AuthorVersion";
@@ -538,6 +566,7 @@
             // 
             // CB_AuthorLang
             // 
+            this.CB_AuthorLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_AuthorLang.FormattingEnabled = true;
             this.CB_AuthorLang.Location = new System.Drawing.Point(135, 19);
             this.CB_AuthorLang.Name = "CB_AuthorLang";
@@ -557,7 +586,7 @@
             // 
             // L_MailType
             // 
-            this.L_MailType.Location = new System.Drawing.Point(157, 247);
+            this.L_MailType.Location = new System.Drawing.Point(157, 275);
             this.L_MailType.Name = "L_MailType";
             this.L_MailType.Size = new System.Drawing.Size(72, 18);
             this.L_MailType.TabIndex = 18;
@@ -566,7 +595,7 @@
             // 
             // L_AppearPKM
             // 
-            this.L_AppearPKM.Location = new System.Drawing.Point(144, 276);
+            this.L_AppearPKM.Location = new System.Drawing.Point(144, 304);
             this.L_AppearPKM.Name = "L_AppearPKM";
             this.L_AppearPKM.Size = new System.Drawing.Size(85, 18);
             this.L_AppearPKM.TabIndex = 19;
@@ -863,7 +892,7 @@
             // 
             this.CB_AppearPKM2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_AppearPKM2.FormattingEnabled = true;
-            this.CB_AppearPKM2.Location = new System.Drawing.Point(351, 276);
+            this.CB_AppearPKM2.Location = new System.Drawing.Point(351, 304);
             this.CB_AppearPKM2.Name = "CB_AppearPKM2";
             this.CB_AppearPKM2.Size = new System.Drawing.Size(107, 20);
             this.CB_AppearPKM2.TabIndex = 23;
@@ -872,16 +901,80 @@
             // 
             this.CB_AppearPKM3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_AppearPKM3.FormattingEnabled = true;
-            this.CB_AppearPKM3.Location = new System.Drawing.Point(467, 276);
+            this.CB_AppearPKM3.Location = new System.Drawing.Point(464, 304);
             this.CB_AppearPKM3.Name = "CB_AppearPKM3";
             this.CB_AppearPKM3.Size = new System.Drawing.Size(107, 20);
             this.CB_AppearPKM3.TabIndex = 24;
+            // 
+            // L_MiscValue
+            // 
+            this.L_MiscValue.Location = new System.Drawing.Point(183, 304);
+            this.L_MiscValue.Name = "L_MiscValue";
+            this.L_MiscValue.Size = new System.Drawing.Size(46, 18);
+            this.L_MiscValue.TabIndex = 25;
+            this.L_MiscValue.Text = "Misc:";
+            this.L_MiscValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Misc1
+            // 
+            this.NUD_Misc1.Location = new System.Drawing.Point(235, 305);
+            this.NUD_Misc1.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Misc1.Name = "NUD_Misc1";
+            this.NUD_Misc1.Size = new System.Drawing.Size(54, 19);
+            this.NUD_Misc1.TabIndex = 26;
+            this.NUD_Misc1.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // NUD_Misc2
+            // 
+            this.NUD_Misc2.Location = new System.Drawing.Point(298, 305);
+            this.NUD_Misc2.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Misc2.Name = "NUD_Misc2";
+            this.NUD_Misc2.Size = new System.Drawing.Size(54, 19);
+            this.NUD_Misc2.TabIndex = 27;
+            this.NUD_Misc2.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            // 
+            // NUD_Misc3
+            // 
+            this.NUD_Misc3.Location = new System.Drawing.Point(361, 305);
+            this.NUD_Misc3.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.NUD_Misc3.Name = "NUD_Misc3";
+            this.NUD_Misc3.Size = new System.Drawing.Size(54, 19);
+            this.NUD_Misc3.TabIndex = 28;
+            this.NUD_Misc3.Value = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
             // 
             // SAV_MailBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(599, 409);
+            this.Controls.Add(this.NUD_Misc3);
+            this.Controls.Add(this.NUD_Misc2);
+            this.Controls.Add(this.NUD_Misc1);
+            this.Controls.Add(this.L_MiscValue);
             this.Controls.Add(this.CB_AppearPKM3);
             this.Controls.Add(this.CB_AppearPKM2);
             this.Controls.Add(this.L_PCBOX);
@@ -911,6 +1004,7 @@
             this.GB_MessageTB.ResumeLayout(false);
             this.GB_MessageTB.PerformLayout();
             this.GB_MessageNUD.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_MessageEnding)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Message23)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Message13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Message03)).EndInit();
@@ -932,6 +1026,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MailID3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MailID2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_MailID1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Misc1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Misc2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Misc3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -995,5 +1092,10 @@
         private System.Windows.Forms.ComboBox CB_AuthorVersion;
         private System.Windows.Forms.ComboBox CB_AuthorLang;
         private System.Windows.Forms.Label Label_OTGender;
+        private System.Windows.Forms.NumericUpDown NUD_MessageEnding;
+        private System.Windows.Forms.Label L_MiscValue;
+        private System.Windows.Forms.NumericUpDown NUD_Misc1;
+        private System.Windows.Forms.NumericUpDown NUD_Misc2;
+        private System.Windows.Forms.NumericUpDown NUD_Misc3;
     }
 }

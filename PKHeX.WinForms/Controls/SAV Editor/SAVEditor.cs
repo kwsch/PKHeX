@@ -1010,7 +1010,7 @@ namespace PKHeX.WinForms.Controls
                 B_OpenRTCEditor.Enabled = sav.RS || sav.E || sav.Generation == 2;
                 B_OpenUGSEditor.Enabled = sav.DP || sav.Pt;
                 B_FestivalPlaza.Enabled = sav.Generation == 7;
-                B_MailBox.Enabled = sav.Generation >= 2 && sav.Generation <= 4;
+                B_MailBox.Enabled = sav.Generation >= 2 && sav.Generation <= 5;
             }
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.Cast<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.Cast<Control>())
