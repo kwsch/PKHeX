@@ -204,7 +204,13 @@ namespace PKHeX.Core
                 var A = RNG.XDRNG.Prev(B);
 
                 if (!GetIVs(A >> 16, B >> 16).SequenceEqual(IVs))
-                    continue;
+                {
+                    // check for antishiny (once), unroll 2x
+                    B = RNG.XDRNG.Prev(A);
+                    A = RNG.XDRNG.Prev(B);
+                    if (!GetIVs(A >> 16, B >> 16).SequenceEqual(IVs))
+                        continue;
+                }
 
                 pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(A), RNG = RNG.XDRNG, Type = PIDType.CXD};
                 return true;

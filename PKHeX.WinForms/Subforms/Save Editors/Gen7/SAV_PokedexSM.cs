@@ -419,7 +419,8 @@ namespace PKHeX.WinForms
                 // Set base species flags
                 LB_Species.SelectedIndex = i;
                 SetSeen(sender, gt, false);
-                SetCaught(sender, gt, lang, false);
+                if (sender != mnuSeenAll)
+                    SetCaught(sender, gt, lang, false);
 
                 // Set forme flags
                 var entries = GetAllFormEntries(spec, USUM).Where(z => z >= SAV.MaxSpeciesID).Distinct();
@@ -427,7 +428,8 @@ namespace PKHeX.WinForms
                 {
                     LB_Species.SelectedIndex = f;
                     SetSeen(sender, gt, true);
-                    SetCaught(sender, gt, lang, true);
+                    if (sender != mnuSeenAll)
+                        SetCaught(sender, gt, lang, true);
                 }
             }
         }
