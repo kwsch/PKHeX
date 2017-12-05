@@ -132,9 +132,8 @@ namespace PKHeX.Core
         private int storageBlock = -1; // Big Block
         private int hofBlock = -1; // Hall of Fame Block
         private int SBO => 0x40000 * storageBlock;
-        private int GBO => 0x40000 * generalBlock;
+        public int GBO => 0x40000 * generalBlock;
         private int HBO => 0x40000 * hofBlock;
-        public int GetGBO => GBO;
         private void GetActiveGeneralBlock()
         {
             if (Version < 0)

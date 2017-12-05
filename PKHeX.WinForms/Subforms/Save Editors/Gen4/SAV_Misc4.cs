@@ -18,7 +18,7 @@ namespace PKHeX.WinForms
             SAV = (SAV4)(Origin = sav).Clone();
             InitializeComponent();
 
-            int GBO = SAV.GetGBO;
+            int GBO = SAV.GBO;
             switch (SAV.Version)
             {
                 case GameVersion.D:
@@ -573,8 +573,8 @@ namespace PKHeX.WinForms
             int Facility = CB_Stats1.SelectedIndex;
             int BattleType = CB_Stats2.SelectedIndex;
             int RBi = StatRBA[1].Checked ? 1 : 0;
-            int addrVal = SAV.GetGBO + BFF[Facility][2] + BFF[Facility][3] * BattleType + (RBi << 3);
-            int addrFlag = SAV.GetGBO + BFF[Facility][4];
+            int addrVal = SAV.GBO + BFF[Facility][2] + BFF[Facility][3] * BattleType + (RBi << 3);
+            int addrFlag = SAV.GBO + BFF[Facility][4];
             byte maskFlag = (byte)(1 << BattleType + (RBi << 2));
             int TowerContinueCountOfs = SAV.DP ? 3 : 1;
 
@@ -657,7 +657,7 @@ namespace PKHeX.WinForms
         }
         private void GetCastleStat()
         {
-            int ofs = SAV.GetGBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A;
+            int ofs = SAV.GBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A;
             NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
             for (int i = 0; i < na.Length; i++)
             {
@@ -671,11 +671,11 @@ namespace PKHeX.WinForms
             NumericUpDown[] na = new[] { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
             int i = Array.IndexOf(na, sender);
             if (i < 0) return;
-            BitConverter.GetBytes((int)na[i].Value).CopyTo(SAV.Data, SAV.GetGBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A + (i << 1));
+            BitConverter.GetBytes((int)na[i].Value).CopyTo(SAV.Data, SAV.GBO + BFF[3][2] + BFF[3][3] * CB_Stats2.SelectedIndex + 0x0A + (i << 1));
         }
         private void GetHallStat()
         {
-            int ofscur = SAV.GetGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex;
+            int ofscur = SAV.GBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex;
             int curspe = BitConverter.ToInt16(SAV.Data, ofscur + 4);
             bool c = curspe == species;
             CHK_HallCurrent.Checked = c;
@@ -703,7 +703,7 @@ namespace PKHeX.WinForms
         private void CHK_HallCurrent_CheckedChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            BitConverter.GetBytes((ushort)(CHK_HallCurrent.Checked ? species : 0)).CopyTo(SAV.Data, SAV.GetGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 4);
+            BitConverter.GetBytes((ushort)(CHK_HallCurrent.Checked ? species : 0)).CopyTo(SAV.Data, SAV.GBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 4);
             editing = true;
             GetHallStat();
             editing = false;
@@ -714,7 +714,7 @@ namespace PKHeX.WinForms
             if (editing) return;
             int i = Array.IndexOf(HallNUDA, sender);
             if (i < 0) return;
-            int ofs = SAV.GetGBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 6 + (i >> 1 << 1);
+            int ofs = SAV.GBO + BFF[2][2] + BFF[2][3] * CB_Stats2.SelectedIndex + 6 + (i >> 1 << 1);
             SAV.Data[ofs] = (byte)(SAV.Data[ofs] & ~(0xF << ((i & 1) << 2)) | (int)HallNUDA[i].Value << ((i & 1) << 2));
             L_SumHall.Text = HallNUDA.Sum(x => x.Value).ToString();
         }

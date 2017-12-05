@@ -647,7 +647,7 @@ namespace PKHeX.Core
                 chk = (ushort) (crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
             return (ushort)~chk;
         }
-        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
+        /// <summary>Calculates the 16bit checksum over an input byte array. Used in Gen7 save files.</summary>
         /// <param name="data">Input byte array</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>

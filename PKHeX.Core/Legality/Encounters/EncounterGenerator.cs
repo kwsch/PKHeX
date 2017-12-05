@@ -1397,7 +1397,6 @@ namespace PKHeX.Core
             return true;
         }
 
-
         // EncounterEgg
         private static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm)
         {

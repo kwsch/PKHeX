@@ -10,12 +10,16 @@ namespace PKHeX.Core
         public Mail3(SAV3 sav, int index)
         {
             DataOffset = index * SIZE + sav.GetBlockOffset(3) + 0xCE0;
-            Data = sav.GetData(DataOffset, 0x24);
+            Data = sav.GetData(DataOffset, SIZE);
         }
         public Mail3()
         {
-            Data = new byte[0x24];
+            Data = new byte[SIZE];
             DataOffset = -1;
+            ResetData();
+        }
+        private void ResetData()
+        {
             for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
                 SetMessage(y, x, 0xFFFF);
@@ -37,7 +41,7 @@ namespace PKHeX.Core
                 else
                 {
                     Data[0x18] = Data[0x19] = 0xFF;
-                    StringConverter.SetString3(value, 7, false, 6, 0).CopyTo(Data, 0x12);
+                    StringConverter.SetString3(value, 7, false, 6).CopyTo(Data, 0x12);
                 }
             }
         }
