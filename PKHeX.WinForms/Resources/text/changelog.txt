@@ -1,7 +1,25 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex
 
-17/11/25 - New Update:
+17/12/05 - New Update:
+ - Legality:
+ - - Added: RNG Frame checking for Gen3/4 Wild Captures (hold ctrl to see if it doesn't pass)
+ - - Added: French Legality translation data. Thanks @Ntonio36!
+ - - Changed: Another round of legality check updates. Thanks (so many different users)!
+ - Added: Event flag editing for Crystal/GS. Thanks @pokecal!
+ - Added: US/UM Starter Encryption Constant editing (for Pokemon League cutscene) in HoF editor. Thanks @FeralFalcon!
+ - Added: WIP Mail viewer/editor for Gen3/4/5. Thanks @pokecal!
+ - Fixed: Gen3 Pokedex now behaves correctly (r/w for correct bitflag offset).
+ - Fixed: Gen4 Battle Revolution IV read order is now correct. Thanks @sora10pls & @Remiccino!
+ - Fixed: Gen6 Trainer Info editor no longer glitches out Z coordinates.
+ - Fixed: Hovering over a slot 'frost' effect now has a pixel in the top right corner. Thanks @sora10pls!
+ - Changed: Throw type can now be saved for US/UM.
+ - Changed: PK4->BK4 transfer now clears PtHGSS forms and items for compatibility. Legality not guaranteed.
+ - Changed: Inventory empty slots are now no longer cleared for Gen7. Thanks @SadisticMystic!
+ - Changed: Festival Plaza editor bugfixes/additions. Thanks @pokecal!
+ - Changed: Translation files updated. Thanks @wwwwwwzx, @smileynation, & JoseAbad!
+
+17/11/25 - New Update: (46799) [884024]
  - Legality:
  - - Added: Gen2->Gen7 legality checking.
  - - Added: US/UM Poké Pelago encounters.
