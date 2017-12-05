@@ -155,6 +155,8 @@ namespace PKHeX.WinForms
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
                 CB_AlolaTime.SelectedValue = (int)time;
+            if (CB_AlolaTime.SelectedValue == null)
+                CB_AlolaTime.Enabled = false;
 
             NUD_M.Value = SAV.M;
             // Sanity Check Map Coordinates
@@ -337,8 +339,7 @@ namespace PKHeX.WinForms
             SaveBattleTree();
             SaveTrainerAppearance();
             SAV.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
-            if (SAV.SM)
-                SaveThrowType();
+            SaveThrowType();
 
             SAV.FestivalPlazaName = TB_PlazaName.Text;
 
@@ -439,6 +440,9 @@ namespace PKHeX.WinForms
         {
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.BallThrowType = CB_BallThrowType.SelectedIndex;
+
+            if (!SAV.SM) // unlock flags are in flag editor instead
+                return;
 
             const int unlockStart = 292;
             const int learnedStart = 3479;
